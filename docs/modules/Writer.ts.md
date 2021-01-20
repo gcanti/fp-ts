@@ -23,7 +23,6 @@ Added in v3.0.0
   - [tell](#tell)
 - [instances](#instances)
   - [Functor](#functor-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -128,22 +127,12 @@ export declare const Functor: Functor2<'Writer'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Writer'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Writer'
 ```
 
 Added in v3.0.0

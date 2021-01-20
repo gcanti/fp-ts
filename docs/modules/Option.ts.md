@@ -97,7 +97,6 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
   - [getEq](#geteq)
@@ -1024,22 +1023,12 @@ export declare const Traversable: Traversable1<'Option'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Option'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Option'
 ```
 
 Added in v3.0.0

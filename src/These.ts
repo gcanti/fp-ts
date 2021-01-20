@@ -287,17 +287,11 @@ export const of: Pointed2<URI>['of'] = right
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'These'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'These'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: These<E, A>
+    readonly These: These<E, A>
   }
 }
 
@@ -356,7 +350,6 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -365,7 +358,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -375,7 +367,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
-  URI,
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -404,7 +395,6 @@ export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
 export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
   const A = getApply(S)
   return {
-    URI,
     map,
     ap: A.ap,
     of
@@ -432,7 +422,6 @@ export const getMonad = <E>(SE: Semigroup<E>): Monad2C<URI, E> => {
   }
 
   return {
-    URI,
     map,
     of,
     chain
@@ -444,7 +433,6 @@ export const getMonad = <E>(SE: Semigroup<E>): Monad2C<URI, E> => {
  * @since 3.0.0
  */
 export const FromEither: FromEither2<URI> = {
-  URI,
   fromEither: identity
 }
 
@@ -473,7 +461,6 @@ export const fromPredicate =
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -483,7 +470,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const Foldable: Foldable2<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -494,7 +480,6 @@ export const Foldable: Foldable2<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
-  URI,
   map,
   traverse,
   sequence

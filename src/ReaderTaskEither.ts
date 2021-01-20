@@ -418,17 +418,11 @@ export const altW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReaderTaskEither'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReaderTaskEither'
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
-    readonly [URI]: ReaderTaskEither<R, E, A>
+    readonly ReaderTaskEither: ReaderTaskEither<R, E, A>
   }
 }
 
@@ -437,7 +431,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> => ({
-  URI,
   map,
   ap: ap_(R.Apply, TE.getApplicativeTaskValidation(A, S)),
   of
@@ -449,7 +442,6 @@ export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semig
  */
 export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
   return {
-    URI,
     map,
     alt: ET.altValidation_(RT.Monad, S)
   }
@@ -460,7 +452,6 @@ export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> =>
  * @since 3.0.0
  */
 export const Functor: Functor3<URI> = {
-  URI,
   map
 }
 
@@ -469,7 +460,6 @@ export const Functor: Functor3<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed3<URI> = {
-  URI,
   map,
   of
 }
@@ -479,7 +469,6 @@ export const Pointed: Pointed3<URI> = {
  * @since 3.0.0
  */
 export const ApplyPar: Apply3<URI> = {
-  URI,
   map,
   ap
 }
@@ -513,7 +502,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const ApplicativePar: Applicative3<URI> = {
-  URI,
   map,
   ap,
   of
@@ -526,7 +514,6 @@ const apSeq: Apply3<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  * @since 3.0.0
  */
 export const ApplySeq: Apply3<URI> = {
-  URI,
   map,
   ap: apSeq
 }
@@ -536,7 +523,6 @@ export const ApplySeq: Apply3<URI> = {
  * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative3<URI> = {
-  URI,
   map,
   ap: apSeq,
   of
@@ -547,7 +533,6 @@ export const ApplicativeSeq: Applicative3<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad3<URI> = {
-  URI,
   map,
   of,
   chain
@@ -581,7 +566,6 @@ export const chainFirstW: <A, R2, E2, B>(
  * @since 3.0.0
  */
 export const FromIO: FromIO3<URI> = {
-  URI,
   fromIO
 }
 
@@ -590,7 +574,6 @@ export const FromIO: FromIO3<URI> = {
  * @since 3.0.0
  */
 export const FromTask: FromTask3<URI> = {
-  URI,
   fromIO,
   fromTask
 }
@@ -600,7 +583,6 @@ export const FromTask: FromTask3<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither3<URI> = {
-  URI,
   fromEither
 }
 
@@ -630,8 +612,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_({
-    URI,
+  filterOrElse_<URI>({
     map,
     of,
     chain,
@@ -658,7 +639,6 @@ export const filterOrElseW: {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor3<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -668,7 +648,6 @@ export const Bifunctor: Bifunctor3<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt3<URI> = {
-  URI,
   map,
   alt
 }

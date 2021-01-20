@@ -44,7 +44,6 @@ Added in v3.0.0
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -338,22 +337,12 @@ export declare const Pointed: Pointed2<'TaskThese'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskThese'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'TaskThese'
 ```
 
 Added in v3.0.0

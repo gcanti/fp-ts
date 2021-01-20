@@ -91,7 +91,6 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
@@ -1032,22 +1031,12 @@ export declare const Traversable: Traversable2<'Either'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Either'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Either'
 ```
 
 Added in v3.0.0

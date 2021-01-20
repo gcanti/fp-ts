@@ -9,7 +9,7 @@ import { HKT, HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
  * @since 3.0.0
  */
 export interface Profunctor<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => <E>(fea: HKT2<F, E, A>) => HKT<F, B>
   readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: HKT2<F, E, A>) => HKT2<F, D, B>
 }

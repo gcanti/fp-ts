@@ -443,17 +443,11 @@ export const alt: Alt4<URI>['alt'] = altW
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'StateReaderTaskEither'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'StateReaderTaskEither'
 
 declare module './HKT' {
   interface URItoKind4<S, R, E, A> {
-    readonly [URI]: StateReaderTaskEither<S, R, E, A>
+    readonly StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>
   }
 }
 
@@ -462,7 +456,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor4<URI> = {
-  URI,
   map
 }
 
@@ -471,7 +464,6 @@ export const Functor: Functor4<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed4<URI> = {
-  URI,
   map,
   of
 }
@@ -481,7 +473,6 @@ export const Pointed: Pointed4<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply4<URI> = {
-  URI,
   map,
   ap
 }
@@ -515,7 +506,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative4<URI> = {
-  URI,
   map,
   ap,
   of
@@ -526,7 +516,6 @@ export const Applicative: Applicative4<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor4<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -536,7 +525,6 @@ export const Bifunctor: Bifunctor4<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt4<URI> = {
-  URI,
   map,
   alt
 }
@@ -546,7 +534,6 @@ export const Alt: Alt4<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad4<URI> = {
-  URI,
   map,
   of,
   chain
@@ -582,7 +569,6 @@ export const chainFirstW: <A, S, R2, E2, B>(
  * @since 3.0.0
  */
 export const FromIO: FromIO4<URI> = {
-  URI,
   fromIO
 }
 
@@ -591,7 +577,6 @@ export const FromIO: FromIO4<URI> = {
  * @since 3.0.0
  */
 export const FromTask: FromTask4<URI> = {
-  URI,
   fromIO,
   fromTask
 }
@@ -601,7 +586,6 @@ export const FromTask: FromTask4<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither4<URI> = {
-  URI,
   fromEither
 }
 
@@ -631,8 +615,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_({
-    URI,
+  filterOrElse_<URI>({
     map,
     of,
     chain,

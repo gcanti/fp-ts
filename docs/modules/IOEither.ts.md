@@ -72,7 +72,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
@@ -665,22 +664,12 @@ export declare const Pointed: Pointed2<'IOEither'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'IOEither'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'IOEither'
 ```
 
 Added in v3.0.0

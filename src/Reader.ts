@@ -143,17 +143,11 @@ export const id: Category2<URI>['id'] = () => identity
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Reader'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Reader'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Reader<E, A>
+    readonly Reader: Reader<E, A>
   }
 }
 
@@ -162,7 +156,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -171,7 +164,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -181,7 +173,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply2<URI> = {
-  URI,
   map,
   ap
 }
@@ -215,7 +206,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative2<URI> = {
-  URI,
   map,
   ap,
   of
@@ -226,7 +216,6 @@ export const Applicative: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
-  URI,
   map,
   of,
   chain
@@ -250,7 +239,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const Profunctor: Profunctor2<URI> = {
-  URI,
   map,
   promap
 }
@@ -260,7 +248,6 @@ export const Profunctor: Profunctor2<URI> = {
  * @since 3.0.0
  */
 export const Category: Category2<URI> = {
-  URI,
   compose,
   id
 }

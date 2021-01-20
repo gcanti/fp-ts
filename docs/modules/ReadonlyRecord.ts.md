@@ -66,7 +66,6 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
   - [getEq](#geteq)
@@ -737,22 +736,12 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyRecord'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReadonlyRecord'
 ```
 
 Added in v3.0.0

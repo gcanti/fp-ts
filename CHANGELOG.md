@@ -46,7 +46,8 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
-  - make `readonly _E: E` optional in type class members
+  - make `readonly _E` optional in type classes
+  - make `readonly URI` optional in type classes
   - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex` (@gcanti)
   - rename `traverseArray` to `traverseReadonlyArray` (@gcanti)
   - rename `sequenceArray` to `sequenceReadonlyArray` (@gcanti)

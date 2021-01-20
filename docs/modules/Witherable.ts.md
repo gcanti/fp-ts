@@ -42,7 +42,7 @@ Added in v3.0.0
 
 ```ts
 export interface Witherable<T> {
-  readonly URI: T
+  readonly URI?: T
   readonly wilt: Wilt<T>
   readonly wither: Wither<T>
 }
@@ -56,7 +56,7 @@ Added in v3.0.0
 
 ```ts
 export interface Witherable1<T extends URIS> {
-  readonly URI: T
+  readonly URI?: T
   readonly wilt: Wilt1<T>
   readonly wither: Wither1<T>
 }
@@ -70,7 +70,7 @@ Added in v3.0.0
 
 ```ts
 export interface Witherable2<T extends URIS2> {
-  readonly URI: T
+  readonly URI?: T
   readonly wilt: Wilt2<T>
   readonly wither: Wither2<T>
 }
@@ -84,7 +84,7 @@ Added in v3.0.0
 
 ```ts
 export interface Witherable2C<T extends URIS2, E> {
-  readonly URI: T
+  readonly URI?: T
   readonly _E?: E
   readonly wilt: Wilt2C<T, E>
   readonly wither: Wither2C<T, E>
@@ -99,7 +99,7 @@ Added in v3.0.0
 
 ```ts
 export interface Witherable3<T extends URIS3> {
-  readonly URI: T
+  readonly URI?: T
   readonly wilt: Wilt3<T>
   readonly wither: Wither3<T>
 }

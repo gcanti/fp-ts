@@ -22,7 +22,7 @@ export interface Separated<A, B> {
  * @since 3.0.0
  */
 export interface Compactable<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
   readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
 }
@@ -32,7 +32,7 @@ export interface Compactable<F> {
  * @since 3.0.0
  */
 export interface Compactable1<F extends URIS> {
-  readonly URI: F
+  readonly URI?: F
   readonly compact: <A>(fa: Kind<F, Option<A>>) => Kind<F, A>
   readonly separate: <A, B>(fa: Kind<F, Either<A, B>>) => Separated<Kind<F, A>, Kind<F, B>>
 }
@@ -42,7 +42,7 @@ export interface Compactable1<F extends URIS> {
  * @since 3.0.0
  */
 export interface Compactable2<F extends URIS2> {
-  readonly URI: F
+  readonly URI?: F
   readonly compact: <E, A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
   readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
@@ -52,7 +52,7 @@ export interface Compactable2<F extends URIS2> {
  * @since 3.0.0
  */
 export interface Compactable2C<F extends URIS2, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly compact: <A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
   readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
@@ -63,7 +63,7 @@ export interface Compactable2C<F extends URIS2, E> {
  * @since 3.0.0
  */
 export interface Compactable3<F extends URIS3> {
-  readonly URI: F
+  readonly URI?: F
   readonly compact: <R, E, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
   readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }
@@ -73,7 +73,7 @@ export interface Compactable3<F extends URIS3> {
  * @since 3.0.0
  */
 export interface Compactable3C<F extends URIS3, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly compact: <R, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
   readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
@@ -84,7 +84,7 @@ export interface Compactable3C<F extends URIS3, E> {
  * @since 3.0.0
  */
 export interface Compactable4<F extends URIS4> {
-  readonly URI: F
+  readonly URI?: F
   readonly compact: <S, R, E, A>(fa: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, A>
   readonly separate: <S, R, E, A, B>(
     fa: Kind4<F, S, R, E, Either<A, B>>

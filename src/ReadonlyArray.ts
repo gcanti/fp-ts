@@ -1595,17 +1595,11 @@ export const unfold: Unfoldable1<URI>['unfold'] = <B, A>(b: B, f: (b: B) => Opti
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReadonlyArray'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReadonlyArray'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: ReadonlyArray<A>
+    readonly ReadonlyArray: ReadonlyArray<A>
   }
 }
 
@@ -1693,7 +1687,6 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -1702,7 +1695,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -1712,7 +1704,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
-  URI,
   map,
   mapWithIndex
 }
@@ -1722,7 +1713,6 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Apply: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -1756,7 +1746,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -1767,7 +1756,6 @@ export const Applicative: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -1791,7 +1779,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const Unfoldable: Unfoldable1<URI> = {
-  URI,
   unfold
 }
 
@@ -1800,7 +1787,6 @@ export const Unfoldable: Unfoldable1<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
-  URI,
   map,
   alt
 }
@@ -1810,7 +1796,6 @@ export const Alt: Alt1<URI> = {
  * @since 3.0.0
  */
 export const Alternative: Alternative1<URI> = {
-  URI,
   map,
   alt,
   zero
@@ -1821,7 +1806,6 @@ export const Alternative: Alternative1<URI> = {
  * @since 3.0.0
  */
 export const Extend: Extend1<URI> = {
-  URI,
   map,
   extend
 }
@@ -1831,7 +1815,6 @@ export const Extend: Extend1<URI> = {
  * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
-  URI,
   compact,
   separate
 }
@@ -1841,7 +1824,6 @@ export const Compactable: Compactable1<URI> = {
  * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
-  URI,
   filter,
   filterMap,
   partition,
@@ -1853,7 +1835,6 @@ export const Filterable: Filterable1<URI> = {
  * @since 3.0.0
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
-  URI,
   partitionMapWithIndex,
   partitionWithIndex,
   filterMapWithIndex,
@@ -1865,7 +1846,6 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -1876,7 +1856,6 @@ export const Foldable: Foldable1<URI> = {
  * @since 3.0.0
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
-  URI,
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1887,7 +1866,6 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -1898,7 +1876,6 @@ export const Traversable: Traversable1<URI> = {
  * @since 3.0.0
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
-  URI,
   traverseWithIndex
 }
 
@@ -1907,7 +1884,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Witherable: Witherable1<URI> = {
-  URI,
   wither,
   wilt
 }

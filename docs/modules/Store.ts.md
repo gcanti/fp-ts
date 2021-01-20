@@ -23,7 +23,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [Store (interface)](#store-interface)
@@ -110,22 +109,12 @@ export declare const Functor: Functor2<'Store'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Store'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Store'
 ```
 
 Added in v3.0.0

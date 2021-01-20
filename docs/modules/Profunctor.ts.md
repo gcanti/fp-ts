@@ -30,7 +30,7 @@ Added in v3.0.0
 
 ```ts
 export interface Profunctor<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => <E>(fea: HKT2<F, E, A>) => HKT<F, B>
   readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: HKT2<F, E, A>) => HKT2<F, D, B>
 }

@@ -52,7 +52,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
   readonly partition: Partition<F>
   readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
@@ -68,7 +68,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable1<F extends URIS> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
   readonly partition: Partition1<F>
   readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Kind<F, A>) => Kind<F, B>
@@ -84,7 +84,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable2<F extends URIS2> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
@@ -102,7 +102,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable2C<F extends URIS2, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
@@ -121,7 +121,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable3<F extends URIS3> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
@@ -139,7 +139,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable3C<F extends URIS3, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
@@ -158,7 +158,7 @@ Added in v3.0.0
 
 ```ts
 export interface Filterable4<F extends URIS4> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>

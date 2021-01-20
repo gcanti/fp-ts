@@ -117,7 +117,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
@@ -1493,22 +1492,12 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyArray'
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyArray'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReadonlyArray'
 ```
 
 Added in v3.0.0

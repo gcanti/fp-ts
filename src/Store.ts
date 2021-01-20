@@ -69,17 +69,11 @@ export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Store'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Store'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Store<E, A>
+    readonly Store: Store<E, A>
   }
 }
 
@@ -88,7 +82,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -97,7 +90,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Comonad: Comonad2<URI> = {
-  URI,
   map,
   extend,
   extract

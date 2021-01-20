@@ -181,17 +181,11 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReaderTask'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReaderTask'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: ReaderTask<E, A>
+    readonly ReaderTask: ReaderTask<E, A>
   }
 }
 
@@ -200,7 +194,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -209,7 +202,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -219,7 +211,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const ApplyPar: Apply2<URI> = {
-  URI,
   map,
   ap
 }
@@ -253,7 +244,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const ApplicativePar: Applicative2<URI> = {
-  URI,
   map,
   ap,
   of
@@ -266,7 +256,6 @@ const apSeq: Apply2<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  * @since 3.0.0
  */
 export const ApplySeq: Applicative2<URI> = {
-  URI,
   map,
   ap: apSeq,
   of
@@ -277,7 +266,6 @@ export const ApplySeq: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative2<URI> = {
-  URI,
   map,
   ap: apSeq,
   of
@@ -288,7 +276,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
-  URI,
   map,
   of,
   chain
@@ -312,7 +299,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const FromIO: FromIO2<URI> = {
-  URI,
   fromIO
 }
 
@@ -321,7 +307,6 @@ export const FromIO: FromIO2<URI> = {
  * @since 3.0.0
  */
 export const FromTask: FromTask2<URI> = {
-  URI,
   fromIO,
   fromTask
 }

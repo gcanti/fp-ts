@@ -551,17 +551,11 @@ export const extract: Comonad1<URI>['extract'] = head
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReadonlyNonEmptyArray'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReadonlyNonEmptyArray'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: ReadonlyNonEmptyArray<A>
+    readonly ReadonlyNonEmptyArray: ReadonlyNonEmptyArray<A>
   }
 }
 
@@ -590,7 +584,6 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -599,7 +592,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -609,7 +601,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
-  URI,
   map,
   mapWithIndex
 }
@@ -619,7 +610,6 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Apply: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -653,7 +643,6 @@ export const apSecond: <B>(
  * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -664,7 +653,6 @@ export const Applicative: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -688,7 +676,6 @@ export const chainFirst: <A, B>(
  * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -699,7 +686,6 @@ export const Foldable: Foldable1<URI> = {
  * @since 3.0.0
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
-  URI,
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -710,7 +696,6 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -721,7 +706,6 @@ export const Traversable: Traversable1<URI> = {
  * @since 3.0.0
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
-  URI,
   traverseWithIndex
 }
 
@@ -730,7 +714,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
-  URI,
   map,
   alt
 }
@@ -740,7 +723,6 @@ export const Alt: Alt1<URI> = {
  * @since 3.0.0
  */
 export const Comonad: Comonad1<URI> = {
-  URI,
   map,
   extend,
   extract

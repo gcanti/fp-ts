@@ -734,17 +734,11 @@ export const separate: Compactable1<URI>['separate'] = <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReadonlyRecord'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReadonlyRecord'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: ReadonlyRecord<string, A>
+    readonly ReadonlyRecord: ReadonlyRecord<string, A>
   }
 }
 
@@ -814,7 +808,6 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -823,7 +816,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
-  URI,
   map,
   mapWithIndex
 }
@@ -833,7 +825,6 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -844,7 +835,6 @@ export const Foldable: Foldable1<URI> = {
  * @since 3.0.0
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
-  URI,
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -855,7 +845,6 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
  * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
-  URI,
   compact,
   separate
 }
@@ -865,7 +854,6 @@ export const Compactable: Compactable1<URI> = {
  * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
-  URI,
   filter,
   filterMap,
   partition,
@@ -877,7 +865,6 @@ export const Filterable: Filterable1<URI> = {
  * @since 3.0.0
  */
 export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
-  URI,
   filterMapWithIndex,
   filterWithIndex,
   partitionMapWithIndex,
@@ -889,7 +876,6 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -900,7 +886,6 @@ export const Traversable: Traversable1<URI> = {
  * @since 3.0.0
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
-  URI,
   traverseWithIndex
 }
 
@@ -909,7 +894,6 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
  * @since 3.0.0
  */
 export const Witherable: Witherable1<URI> = {
-  URI,
   wither,
   wilt
 }

@@ -46,7 +46,6 @@ Added in v3.0.0
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
@@ -352,22 +351,12 @@ export declare const Profunctor: Profunctor2<'Reader'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Reader'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Reader'
 ```
 
 Added in v3.0.0

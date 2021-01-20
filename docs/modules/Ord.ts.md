@@ -29,7 +29,6 @@ Added in v3.0.0
   - [fromCompare](#fromcompare)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [ordBigint](#ordbigint)
@@ -161,22 +160,12 @@ export declare const Contravariant: Contravariant1<'Ord'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Ord'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Ord'
 ```
 
 Added in v3.0.0

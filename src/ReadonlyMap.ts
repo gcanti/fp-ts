@@ -415,17 +415,11 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReadonlyMap'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReadonlyMap'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: ReadonlyMap<E, A>
+    readonly ReadonlyMap: ReadonlyMap<E, A>
   }
 }
 
@@ -495,7 +489,6 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -504,7 +497,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const getFunctorWithIndex = <K = never>(): FunctorWithIndex2C<URI, K, K> => ({
-  URI,
   map,
   mapWithIndex
 })
@@ -514,7 +506,6 @@ export const getFunctorWithIndex = <K = never>(): FunctorWithIndex2C<URI, K, K> 
  * @since 3.0.0
  */
 export const Compactable: Compactable2<URI> = {
-  URI,
   compact,
   separate
 }
@@ -524,7 +515,6 @@ export const Compactable: Compactable2<URI> = {
  * @since 3.0.0
  */
 export const Filterable: Filterable2<URI> = {
-  URI,
   partitionMap,
   partition,
   filterMap,
@@ -536,7 +526,6 @@ export const Filterable: Filterable2<URI> = {
  * @since 3.0.0
  */
 export const getFilterableWithIndex = <K = never>(): FilterableWithIndex2C<URI, K, K> => ({
-  URI,
   filterWithIndex,
   filterMapWithIndex,
   partitionWithIndex,
@@ -550,7 +539,6 @@ export const getFilterableWithIndex = <K = never>(): FilterableWithIndex2C<URI, 
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
   const FWI = getFoldableWithIndex(O)
   return {
-    URI,
     reduce: (b, f) => FWI.reduceWithIndex(b, (_, b, a) => f(b, a)),
     foldMap: (M) => {
       const foldMapWithIndexM = FWI.foldMapWithIndex(M)
@@ -601,7 +589,6 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
   }
 
   return {
-    URI,
     reduceWithIndex,
     foldMapWithIndex,
     reduceRightWithIndex
@@ -627,7 +614,6 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
   }
 
   return {
-    URI,
     map,
     traverse,
     sequence
@@ -658,7 +644,6 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
     return fm
   }
   return {
-    URI,
     traverseWithIndex
   }
 }
@@ -671,7 +656,6 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
   const T = getTraversable(O)
 
   return {
-    URI,
     wilt: <F>(
       F: Applicative<F>
     ): (<A, B, C>(

@@ -8,7 +8,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
  * @since 3.0.0
  */
 export interface TraversableWithIndex<T, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 
@@ -16,7 +16,7 @@ export interface TraversableWithIndex<T, I> {
  * @since 3.0.0
  */
 export interface TraversableWithIndex1<T extends URIS, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 
@@ -24,7 +24,7 @@ export interface TraversableWithIndex1<T extends URIS, I> {
  * @since 3.0.0
  */
 export interface TraversableWithIndex2<T extends URIS2, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 
@@ -32,7 +32,7 @@ export interface TraversableWithIndex2<T extends URIS2, I> {
  * @since 3.0.0
  */
 export interface TraversableWithIndex2C<T extends URIS2, I, E> {
-  readonly URI: T
+  readonly URI?: T
   readonly _E?: E
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, E>
 }

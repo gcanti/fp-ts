@@ -300,17 +300,11 @@ export const altW: <E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'IOEither'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'IOEither'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: IOEither<E, A>
+    readonly IOEither: IOEither<E, A>
   }
 }
 
@@ -319,7 +313,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
-  URI,
   map,
   ap: ap_(I.Apply, E.getApplicativeValidation(S)),
   of
@@ -331,7 +324,6 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<UR
  */
 export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
   return {
-    URI,
     map,
     alt: ET.altValidation_(I.Monad, S)
   }
@@ -344,7 +336,6 @@ export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
 export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
   const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
   return {
-    URI,
     compact: compact_(I.Functor, C),
     separate: separate_(I.Functor, C)
   }
@@ -357,7 +348,6 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
 export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
   const F = E.getFilterable(M)
   return {
-    URI,
     filter: filter_(I.Functor, F),
     filterMap: filterMap_(I.Functor, F),
     partition: partition_(I.Functor, F),
@@ -370,7 +360,6 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -379,7 +368,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -389,7 +377,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -399,7 +386,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const ApplyPar: Apply2<URI> = {
-  URI,
   map,
   ap
 }
@@ -433,7 +419,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const ApplicativePar: Applicative2<URI> = {
-  URI,
   map,
   ap,
   of
@@ -446,7 +431,6 @@ const apSeq: Apply2<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  * @since 3.0.0
  */
 export const ApplySeq: Apply2<URI> = {
-  URI,
   map,
   ap: apSeq
 }
@@ -456,7 +440,6 @@ export const ApplySeq: Apply2<URI> = {
  * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative2<URI> = {
-  URI,
   map,
   ap: apSeq,
   of
@@ -467,7 +450,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
-  URI,
   map,
   of,
   chain
@@ -501,7 +483,6 @@ export const chainFirstW: <A, E2, B>(
  * @since 3.0.0
  */
 export const Alt: Alt2<URI> = {
-  URI,
   map,
   alt
 }
@@ -511,7 +492,6 @@ export const Alt: Alt2<URI> = {
  * @since 3.0.0
  */
 export const FromIO: FromIO2<URI> = {
-  URI,
   fromIO: fromIO
 }
 
@@ -520,7 +500,6 @@ export const FromIO: FromIO2<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither2<URI> = {
-  URI,
   fromEither
 }
 
@@ -550,8 +529,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_({
-    URI,
+  filterOrElse_<URI>({
     map,
     of,
     chain,

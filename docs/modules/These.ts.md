@@ -65,7 +65,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -423,22 +422,12 @@ export declare const Traversable: Traversable2<'These'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'These'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'These'
 ```
 
 Added in v3.0.0

@@ -38,17 +38,11 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => (p) => f(fa(p))
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Traced'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Traced'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Traced<E, A>
+    readonly Traced: Traced<E, A>
   }
 }
 
@@ -57,7 +51,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -66,7 +59,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const getComonad = <P>(monoid: Monoid<P>): Comonad2C<URI, P> => ({
-  URI,
   map,
   extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
   extract: (wa) => wa(monoid.empty)

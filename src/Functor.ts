@@ -19,7 +19,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
  * @since 3.0.0
  */
 export interface Functor<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 }
 
@@ -28,7 +28,7 @@ export interface Functor<F> {
  * @since 3.0.0
  */
 export interface Functor1<F extends URIS> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 
@@ -37,7 +37,7 @@ export interface Functor1<F extends URIS> {
  * @since 3.0.0
  */
 export interface Functor2<F extends URIS2> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
@@ -46,7 +46,7 @@ export interface Functor2<F extends URIS2> {
  * @since 3.0.0
  */
 export interface Functor2C<F extends URIS2, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly map: <A, B>(f: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
@@ -56,7 +56,7 @@ export interface Functor2C<F extends URIS2, E> {
  * @since 3.0.0
  */
 export interface Functor3<F extends URIS3> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
@@ -65,7 +65,7 @@ export interface Functor3<F extends URIS3> {
  * @since 3.0.0
  */
 export interface Functor3C<F extends URIS3, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly map: <A, B>(f: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
@@ -75,7 +75,7 @@ export interface Functor3C<F extends URIS3, E> {
  * @since 3.0.0
  */
 export interface Functor4<F extends URIS4> {
-  readonly URI: F
+  readonly URI?: F
   readonly map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 

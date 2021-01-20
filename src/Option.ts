@@ -643,17 +643,11 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(F: ApplicativeHKT<F>) => <A, B
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Option'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Option'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: Option<A>
+    readonly Option: Option<A>
   }
 }
 
@@ -803,7 +797,6 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -812,7 +805,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -822,7 +814,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -856,7 +847,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -867,7 +857,6 @@ export const Applicative: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -891,7 +880,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -902,7 +890,6 @@ export const Foldable: Foldable1<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
-  URI,
   map,
   alt
 }
@@ -912,7 +899,6 @@ export const Alt: Alt1<URI> = {
  * @since 3.0.0
  */
 export const Alternative: Alternative1<URI> = {
-  URI,
   map,
   alt,
   zero
@@ -923,7 +909,6 @@ export const Alternative: Alternative1<URI> = {
  * @since 3.0.0
  */
 export const Extend: Extend1<URI> = {
-  URI,
   map,
   extend
 }
@@ -933,7 +918,6 @@ export const Extend: Extend1<URI> = {
  * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
-  URI,
   compact,
   separate
 }
@@ -943,7 +927,6 @@ export const Compactable: Compactable1<URI> = {
  * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
-  URI,
   filter,
   filterMap,
   partition,
@@ -955,7 +938,6 @@ export const Filterable: Filterable1<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -966,7 +948,6 @@ export const Traversable: Traversable1<URI> = {
  * @since 3.0.0
  */
 export const Witherable: Witherable1<URI> = {
-  URI,
   wither,
   wilt
 }
@@ -976,7 +957,6 @@ export const Witherable: Witherable1<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither1<URI> = {
-  URI,
   fromEither
 }
 

@@ -48,7 +48,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
@@ -401,22 +400,12 @@ export declare const Pointed: Pointed2<'ReaderTask'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReaderTask'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReaderTask'
 ```
 
 Added in v3.0.0

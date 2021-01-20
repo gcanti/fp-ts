@@ -274,17 +274,11 @@ export const altW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReaderEither'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReaderEither'
 
 declare module './HKT' {
   interface URItoKind3<R, E, A> {
-    readonly [URI]: ReaderEither<R, E, A>
+    readonly ReaderEither: ReaderEither<R, E, A>
   }
 }
 
@@ -293,7 +287,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3C<URI, E> => ({
-  URI,
   map,
   ap: ap_(R.Apply, E.getApplicativeValidation(S)),
   of
@@ -305,7 +298,6 @@ export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3
  */
 export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
   return {
-    URI,
     map,
     alt: ET.altValidation_(R.Monad, S)
   }
@@ -316,7 +308,6 @@ export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
  * @since 3.0.0
  */
 export const Functor: Functor3<URI> = {
-  URI,
   map
 }
 
@@ -325,7 +316,6 @@ export const Functor: Functor3<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed3<URI> = {
-  URI,
   map,
   of
 }
@@ -335,7 +325,6 @@ export const Pointed: Pointed3<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply3<URI> = {
-  URI,
   map,
   ap
 }
@@ -369,7 +358,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative3<URI> = {
-  URI,
   map,
   ap,
   of
@@ -380,7 +368,6 @@ export const Applicative: Applicative3<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad3<URI> = {
-  URI,
   map,
   of,
   chain
@@ -414,7 +401,6 @@ export const chainFirstW: <A, R2, E2, B>(
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor3<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -424,7 +410,6 @@ export const Bifunctor: Bifunctor3<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt3<URI> = {
-  URI,
   map,
   alt
 }
@@ -434,7 +419,6 @@ export const Alt: Alt3<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither3<URI> = {
-  URI,
   fromEither
 }
 
@@ -464,8 +448,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_({
-    URI,
+  filterOrElse_<URI>({
     map,
     of,
     chain,

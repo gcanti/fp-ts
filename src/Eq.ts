@@ -95,17 +95,11 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Eq'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Eq'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: Eq<A>
+    readonly Eq: Eq<A>
   }
 }
 
@@ -165,6 +159,5 @@ export const getMonoid = <A>(): Monoid<Eq<A>> => ({
  * @since 3.0.0
  */
 export const Contravariant: Contravariant1<URI> = {
-  URI,
   contramap
 }

@@ -41,7 +41,6 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
@@ -345,22 +344,12 @@ export declare const Functor: Functor2<'ReadonlyMap'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyMap'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReadonlyMap'
 ```
 
 Added in v3.0.0

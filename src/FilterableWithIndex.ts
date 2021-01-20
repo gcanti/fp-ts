@@ -39,7 +39,7 @@ export interface PartitionWithIndex<F, I> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex<F, I> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
@@ -71,7 +71,7 @@ export interface PartitionWithIndex1<F extends URIS, I> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex1<F extends URIS, I> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
@@ -105,7 +105,7 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex2<F extends URIS2, I> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
@@ -137,7 +137,7 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex2C<F extends URIS2, I, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
@@ -174,7 +174,7 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex3<F extends URIS3, I> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
@@ -212,7 +212,7 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
  * @since 3.0.0
  */
 export interface FilterableWithIndex4<F extends URIS4, I> {
-  readonly URI: F
+  readonly URI?: F
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
   ) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>

@@ -84,7 +84,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltTaskValidation](#getalttaskvalidation)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
@@ -842,22 +841,12 @@ export declare const Pointed: Pointed2<'TaskEither'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'TaskEither'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'TaskEither'
 ```
 
 Added in v3.0.0

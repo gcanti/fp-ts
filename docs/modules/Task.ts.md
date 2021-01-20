@@ -51,7 +51,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getRaceMonoid](#getracemonoid)
 - [model](#model)
@@ -347,22 +346,12 @@ export declare const Pointed: Pointed1<'Task'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Task'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Task'
 ```
 
 Added in v3.0.0

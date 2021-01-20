@@ -29,7 +29,6 @@ Added in v3.0.0
   - [fromEquals](#fromequals)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [eqBigint](#eqbigint)
   - [eqBoolean](#eqboolean)
@@ -115,22 +114,12 @@ export declare const Contravariant: Contravariant1<'Eq'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Eq'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Eq'
 ```
 
 Added in v3.0.0

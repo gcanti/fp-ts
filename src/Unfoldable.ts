@@ -11,7 +11,7 @@ import { Option } from './Option'
  * @since 3.0.0
  */
 export interface Unfoldable<F> {
-  readonly URI: F
+  readonly URI?: F
   readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => HKT<F, A>
 }
 
@@ -20,7 +20,7 @@ export interface Unfoldable<F> {
  * @since 3.0.0
  */
 export interface Unfoldable1<F extends URIS> {
-  readonly URI: F
+  readonly URI?: F
   readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind<F, A>
 }
 
@@ -29,7 +29,7 @@ export interface Unfoldable1<F extends URIS> {
  * @since 3.0.0
  */
 export interface Unfoldable2<F extends URIS2> {
-  readonly URI: F
+  readonly URI?: F
   readonly unfold: <B, A, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
 
@@ -38,7 +38,7 @@ export interface Unfoldable2<F extends URIS2> {
  * @since 3.0.0
  */
 export interface Unfoldable2C<F extends URIS2, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind2<F, E, A>
 }
@@ -48,7 +48,7 @@ export interface Unfoldable2C<F extends URIS2, E> {
  * @since 3.0.0
  */
 export interface Unfoldable3<F extends URIS3> {
-  readonly URI: F
+  readonly URI?: F
   readonly unfold: <B, A, R, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind3<F, R, E, A>
 }
 
@@ -57,7 +57,7 @@ export interface Unfoldable3<F extends URIS3> {
  * @since 3.0.0
  */
 export interface Unfoldable3C<F extends URIS3, E> {
-  readonly URI: F
+  readonly URI?: F
   readonly _E?: E
   readonly unfold: <B, A, R>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind3<F, R, E, A>
 }
@@ -67,6 +67,6 @@ export interface Unfoldable3C<F extends URIS3, E> {
  * @since 3.0.0
  */
 export interface Unfoldable4<F extends URIS4> {
-  readonly URI: F
+  readonly URI?: F
   readonly unfold: <B, A, S, R, E>(b: B, f: (b: B) => Option<readonly [A, B]>) => Kind4<F, S, R, E, A>
 }

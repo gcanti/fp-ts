@@ -32,7 +32,7 @@ Added in v3.0.0
 
 ```ts
 export interface TraversableWithIndex<T, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 ```
@@ -45,7 +45,7 @@ Added in v3.0.0
 
 ```ts
 export interface TraversableWithIndex1<T extends URIS, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 ```
@@ -58,7 +58,7 @@ Added in v3.0.0
 
 ```ts
 export interface TraversableWithIndex2<T extends URIS2, I> {
-  readonly URI: T
+  readonly URI?: T
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 ```
@@ -71,7 +71,7 @@ Added in v3.0.0
 
 ```ts
 export interface TraversableWithIndex2C<T extends URIS2, I, E> {
-  readonly URI: T
+  readonly URI?: T
   readonly _E?: E
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, E>
 }

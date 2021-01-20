@@ -119,17 +119,11 @@ export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'State'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'State'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: State<E, A>
+    readonly State: State<E, A>
   }
 }
 
@@ -138,7 +132,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -147,7 +140,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -157,7 +149,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply2<URI> = {
-  URI,
   map,
   ap
 }
@@ -191,7 +182,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative2<URI> = {
-  URI,
   map,
   ap,
   of
@@ -202,7 +192,6 @@ export const Applicative: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
-  URI,
   map,
   of,
   chain

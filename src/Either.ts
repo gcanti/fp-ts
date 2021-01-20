@@ -685,17 +685,11 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Either'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Either'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Either<E, A>
+    readonly Either: Either<E, A>
   }
 }
 
@@ -761,7 +755,6 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
       : { left: empty, right: right(ma.right.right) }
 
   return {
-    URI,
     compact,
     separate
   }
@@ -806,7 +799,6 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
     isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
 
   return {
-    URI,
     filter,
     filterMap,
     partition,
@@ -840,7 +832,6 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
   }
 
   return {
-    URI,
     wither,
     wilt
   }
@@ -851,7 +842,6 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
  * @since 3.0.0
  */
 export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
-  URI,
   map,
   ap: (fa) => (fab) =>
     isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
@@ -863,7 +853,6 @@ export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative2C<URI,
  * @since 3.0.0
  */
 export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
-  URI,
   map,
   alt: (second) => (first) => {
     if (isRight(first)) {
@@ -879,7 +868,6 @@ export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -888,7 +876,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -898,7 +885,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply2<URI> = {
-  URI,
   map,
   ap
 }
@@ -932,7 +918,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative2<URI> = {
-  URI,
   map,
   ap,
   of
@@ -943,7 +928,6 @@ export const Applicative: Applicative2<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
-  URI,
   map,
   of,
   chain
@@ -977,7 +961,6 @@ export const chainFirstW: <A, E2, B>(
  * @since 3.0.0
  */
 export const Foldable: Foldable2<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -988,7 +971,6 @@ export const Foldable: Foldable2<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -999,7 +981,6 @@ export const Traversable: Traversable2<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -1009,7 +990,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt2<URI> = {
-  URI,
   map,
   alt
 }
@@ -1019,7 +999,6 @@ export const Alt: Alt2<URI> = {
  * @since 3.0.0
  */
 export const Extend: Extend2<URI> = {
-  URI,
   map,
   extend
 }
@@ -1029,7 +1008,6 @@ export const Extend: Extend2<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither2<URI> = {
-  URI,
   fromEither: identity
 }
 

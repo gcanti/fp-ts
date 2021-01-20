@@ -38,7 +38,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Semigroupoid](#semigroupoid-1)
   - [Traversable](#traversable)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -200,7 +199,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'ReadonlyTuple'>
+export declare const Bifunctor: Bifunctor2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -210,7 +209,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad2<'ReadonlyTuple'>
+export declare const Comonad: Comonad2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -220,7 +219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable2<'ReadonlyTuple'>
+export declare const Foldable: Foldable2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -230,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'ReadonlyTuple'>
+export declare const Functor: Functor2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -240,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroupoid: Semigroupoid2<'ReadonlyTuple'>
+export declare const Semigroupoid: Semigroupoid2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -250,17 +249,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable2<'ReadonlyTuple'>
-```
-
-Added in v3.0.0
-
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyTuple'
+export declare const Traversable: Traversable2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -270,7 +259,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReadonlyTuple2'
 ```
 
 Added in v3.0.0
@@ -280,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'ReadonlyTuple', M>
+export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'ReadonlyTuple2', M>
 ```
 
 Added in v3.0.0
@@ -290,7 +279,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'ReadonlyTuple', S>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'ReadonlyTuple2', S>
 ```
 
 Added in v3.0.0
@@ -300,7 +289,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'ReadonlyTuple', M>
+export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'ReadonlyTuple2', M>
 ```
 
 Added in v3.0.0
@@ -310,7 +299,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <M>(M: Monoid<M>) => Pointed2C<'ReadonlyTuple', M>
+export declare const getPointed: <M>(M: Monoid<M>) => Pointed2C<'ReadonlyTuple2', M>
 ```
 
 Added in v3.0.0
@@ -342,7 +331,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: Sequence2<'ReadonlyTuple'>
+export declare const sequence: Sequence2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0
@@ -362,7 +351,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse2<'ReadonlyTuple'>
+export declare const traverse: Traverse2<'ReadonlyTuple2'>
 ```
 
 Added in v3.0.0

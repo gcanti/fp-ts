@@ -150,17 +150,11 @@ export const alt: Alt1<URI>['alt'] = altW
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Identity'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Identity'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: Identity<A>
+    readonly Identity: Identity<A>
   }
 }
 
@@ -181,7 +175,6 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -190,7 +183,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -200,7 +192,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -234,7 +225,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -245,7 +235,6 @@ export const Applicative: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -269,7 +258,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const Foldable: Foldable1<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -280,7 +268,6 @@ export const Foldable: Foldable1<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable1<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -291,7 +278,6 @@ export const Traversable: Traversable1<URI> = {
  * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
-  URI,
   map,
   alt
 }
@@ -301,7 +287,6 @@ export const Alt: Alt1<URI> = {
  * @since 3.0.0
  */
 export const Comonad: Comonad1<URI> = {
-  URI,
   map,
   extend,
   extract

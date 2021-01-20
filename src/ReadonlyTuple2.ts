@@ -155,17 +155,11 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'ReadonlyTuple'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'ReadonlyTuple2'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: ReadonlyTuple2<E, A>
+    readonly ReadonlyTuple2: ReadonlyTuple2<E, A>
   }
 }
 
@@ -174,7 +168,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -183,7 +176,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -193,7 +185,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const Semigroupoid: Semigroupoid2<URI> = {
-  URI,
   compose
 }
 
@@ -202,7 +193,6 @@ export const Semigroupoid: Semigroupoid2<URI> = {
  * @since 3.0.0
  */
 export const Comonad: Comonad2<URI> = {
-  URI,
   map,
   extend,
   extract
@@ -213,7 +203,6 @@ export const Comonad: Comonad2<URI> = {
  * @since 3.0.0
  */
 export const Foldable: Foldable2<URI> = {
-  URI,
   reduce,
   foldMap,
   reduceRight
@@ -224,7 +213,6 @@ export const Foldable: Foldable2<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
-  URI,
   map,
   traverse,
   sequence
@@ -235,7 +223,6 @@ export const Traversable: Traversable2<URI> = {
  * @since 3.0.0
  */
 export const getPointed = <M>(M: Monoid<M>): Pointed2C<URI, M> => ({
-  URI,
   map,
   of: (a) => [a, M.empty]
 })
@@ -245,7 +232,6 @@ export const getPointed = <M>(M: Monoid<M>): Pointed2C<URI, M> => ({
  * @since 3.0.0
  */
 export const getApply = <S>(S: Semigroup<S>): Apply2C<URI, S> => ({
-  URI,
   map,
   ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
 })
@@ -258,7 +244,6 @@ export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
-    URI,
     map,
     ap: A.ap,
     of: P.of
@@ -272,7 +257,6 @@ export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
 export const getMonad = <M>(M: Monoid<M>): Monad2C<URI, M> => {
   const P = getPointed(M)
   return {
-    URI,
     map,
     chain: (f) => (ma) => {
       const [b, s] = f(fst(ma))

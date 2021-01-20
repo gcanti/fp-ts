@@ -84,17 +84,11 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'IO'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'IO'
 
 declare module './HKT' {
   interface URItoKind<A> {
-    readonly [URI]: IO<A>
+    readonly IO: IO<A>
   }
 }
 
@@ -103,7 +97,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
 
@@ -112,7 +105,6 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -122,7 +114,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const Apply: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -156,7 +147,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const Applicative: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -167,7 +157,6 @@ export const Applicative: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -191,7 +180,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const FromIO: FromIO1<URI> = {
-  URI,
   fromIO: identity
 }
 

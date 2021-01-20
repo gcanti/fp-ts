@@ -87,17 +87,11 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Const'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Const'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Const<E, A>
+    readonly Const: Const<E, A>
   }
 }
 
@@ -168,7 +162,6 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -177,7 +170,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Contravariant: Contravariant2<URI> = {
-  URI,
   contramap
 }
 
@@ -186,7 +178,6 @@ export const Contravariant: Contravariant2<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -195,7 +186,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
-  URI,
   map,
   ap: (fa) => (fab) => make(S.concat(fa)(fab))
 })
@@ -207,7 +197,6 @@ export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
 export const getApplicative = <E>(M: Monoid<E>): Applicative2C<URI, E> => {
   const A = getApply(M)
   return {
-    URI,
     map: A.map,
     ap: A.ap,
     of: () => make(M.empty)

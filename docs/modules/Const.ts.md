@@ -31,7 +31,6 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Contravariant](#contravariant-1)
   - [Functor](#functor-1)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -147,22 +146,12 @@ export declare const Functor: Functor2<'Const'>
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'Const'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'Const'
 ```
 
 Added in v3.0.0

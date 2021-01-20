@@ -186,17 +186,11 @@ export const of: Pointed2<URI>['of'] = right
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'TaskThese'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'TaskThese'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: TaskThese<E, A>
+    readonly TaskThese: TaskThese<E, A>
   }
 }
 
@@ -205,7 +199,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => ({
-  URI,
   map,
   ap: TT.ap_(A, S)
 })
@@ -217,7 +210,6 @@ export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> 
 export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> => {
   const AS = getApply(A, S)
   return {
-    URI,
     map,
     ap: AS.ap,
     of
@@ -229,7 +221,6 @@ export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicativ
  * @since 3.0.0
  */
 export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => ({
-  URI,
   map,
   of,
   chain: TT.chain_(T.Monad, S)
@@ -240,7 +231,6 @@ export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => ({
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 
@@ -249,7 +239,6 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  URI,
   map,
   of
 }
@@ -259,7 +248,6 @@ export const Pointed: Pointed2<URI> = {
  * @since 3.0.0
  */
 export const Bifunctor: Bifunctor2<URI> = {
-  URI,
   bimap,
   mapLeft
 }
@@ -269,7 +257,6 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @since 3.0.0
  */
 export const FromEither: FromEither2<URI> = {
-  URI,
   fromEither
 }
 
@@ -298,7 +285,6 @@ export const fromPredicate =
  * @since 3.0.0
  */
 export const FromIO: FromIO2<URI> = {
-  URI,
   fromIO
 }
 
@@ -307,7 +293,6 @@ export const FromIO: FromIO2<URI> = {
  * @since 3.0.0
  */
 export const FromTask: FromTask2<URI> = {
-  URI,
   fromIO,
   fromTask
 }

@@ -107,17 +107,11 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => () => {
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Writer'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
+export type URI = 'Writer'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly [URI]: Writer<E, A>
+    readonly Writer: Writer<E, A>
   }
 }
 
@@ -126,7 +120,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
-  URI,
   map,
   of: (a) => () => [a, M.empty]
 })
@@ -136,7 +129,6 @@ export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
  * @since 3.0.0
  */
 export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
-  URI,
   map,
   ap: (fa) => (fab) => () => {
     const [f, w1] = fab()
@@ -153,7 +145,6 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
-    URI,
     map,
     ap: A.ap,
     of: P.of
@@ -167,7 +158,6 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
 export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   const P = getPointed(M)
   return {
-    URI,
     map,
     of: P.of,
     chain: (f) => (ma) => () => {
@@ -183,7 +173,6 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  URI,
   map
 }
 

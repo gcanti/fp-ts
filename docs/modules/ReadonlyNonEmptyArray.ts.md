@@ -78,7 +78,6 @@ Added in v3.0.0
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
-  - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
@@ -812,22 +811,12 @@ export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyNonEmp
 
 Added in v3.0.0
 
-## URI
-
-**Signature**
-
-```ts
-export declare const URI: 'ReadonlyNonEmptyArray'
-```
-
-Added in v3.0.0
-
 ## URI (type alias)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export type URI = 'ReadonlyNonEmptyArray'
 ```
 
 Added in v3.0.0
