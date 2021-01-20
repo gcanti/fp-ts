@@ -68,6 +68,8 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
@@ -653,6 +655,26 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative3C<'ReaderEither', E>
+```
+
+Added in v3.0.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderEither', E>
+```
+
+Added in v3.0.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable3C<'ReaderEither', E>
 ```
 
 Added in v3.0.0

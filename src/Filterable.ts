@@ -6,7 +6,7 @@
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { pipe, Predicate, Refinement } from './function'
-import { Functor, Functor1 } from './Functor'
+import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
@@ -229,6 +229,10 @@ export interface Filterable4<F extends URIS4> {
 /**
  * @since 3.0.0
  */
+export function filter_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
 export function filter_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -251,6 +255,10 @@ export function filter_<F, G>(
 /**
  * @since 3.0.0
  */
+export function filterMap_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, B>>
 export function filterMap_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -273,6 +281,12 @@ export function filterMap_<F, G>(
 /**
  * @since 3.0.0
  */
+export function partition_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
 export function partition_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -305,6 +319,12 @@ export function partition_<F, G>(
 /**
  * @since 3.0.0
  */
+export function partitionMap_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FE>(fa: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
 export function partitionMap_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>

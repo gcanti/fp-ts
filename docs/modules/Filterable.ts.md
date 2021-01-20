@@ -367,6 +367,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
+export declare function filterMap_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, B>>
 export declare function filterMap_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -388,6 +392,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
+export declare function filter_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
 export declare function filter_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -409,6 +417,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
+export declare function partitionMap_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FE>(fa: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
 export declare function partitionMap_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
@@ -434,6 +448,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
+export declare function partition_<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
 export declare function partition_<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>

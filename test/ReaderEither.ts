@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
-import { none, some } from '../src/Option'
+import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as A from '../src/ReadonlyArray'
@@ -74,14 +74,14 @@ describe('ReaderEither', () => {
     it('fromOption', () => {
       assert.deepStrictEqual(
         pipe(
-          none,
+          O.none,
           _.fromOption(() => 'none')
         )({}),
         E.left('none')
       )
       assert.deepStrictEqual(
         pipe(
-          some(1),
+          O.some(1),
           _.fromOption(() => 'none')
         )({}),
         E.right(1)
@@ -208,5 +208,41 @@ describe('ReaderEither', () => {
         E.right([0, 1, 2])
       )
     })
+  })
+
+  it('getCompactable', () => {
+    const C = _.getCompactable(monoidString)
+    assert.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
+  })
+
+  it('getFilterable', () => {
+    const F = _.getFilterable(monoidString)
+    const fa: _.ReaderEither<unknown, string, string> = _.of('a')
+    assert.deepStrictEqual(
+      pipe(
+        fa,
+        F.filter((s) => s.length > 0)
+      )({}),
+      E.right('a')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        fa,
+        F.filterMap((s) => (s.length > 0 ? O.some(s.length) : O.none))
+      )({}),
+      E.right(1)
+    )
+    const { left: left1, right: right1 } = pipe(
+      fa,
+      F.partition((s) => s.length > 0)
+    )
+    assert.deepStrictEqual(left1({}), E.left(''))
+    assert.deepStrictEqual(right1({}), E.right('a'))
+    const { left: left2, right: right2 } = pipe(
+      fa,
+      F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
+    )
+    assert.deepStrictEqual(left2({}), E.left(''))
+    assert.deepStrictEqual(right2({}), E.right(1))
   })
 })

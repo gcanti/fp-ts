@@ -89,6 +89,8 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
+  - [getCompactable](#getcompactable)
+  - [getFilterable](#getfilterable)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [utils](#utils)
@@ -913,6 +915,26 @@ export declare const getApplicativeReaderTaskValidation: <E>(
   A: Apply1<'Task'>,
   S: Semigroup<E>
 ) => Applicative3C<'ReaderTaskEither', E>
+```
+
+Added in v3.0.0
+
+## getCompactable
+
+**Signature**
+
+```ts
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderTaskEither', E>
+```
+
+Added in v3.0.0
+
+## getFilterable
+
+**Signature**
+
+```ts
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable3C<'ReaderTaskEither', E>
 ```
 
 Added in v3.0.0
