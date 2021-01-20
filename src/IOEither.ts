@@ -75,9 +75,7 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
+export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw.

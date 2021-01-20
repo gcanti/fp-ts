@@ -4,7 +4,6 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import * as E from './Either'
 import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
@@ -114,9 +113,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
  * @category constructors

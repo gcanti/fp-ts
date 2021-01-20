@@ -77,7 +77,7 @@ export const fromPredicate =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither =
+export const fromEither: FromEither1<URI>['fromEither'] =
   /*#__PURE__*/
   OT.fromEither_(T.Pointed)
 

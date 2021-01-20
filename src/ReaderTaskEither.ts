@@ -160,9 +160,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
+export const fromEither: FromEither3<URI>['fromEither'] = RT.of
 
 /**
  * @category constructors

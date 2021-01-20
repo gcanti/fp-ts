@@ -104,9 +104,7 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
