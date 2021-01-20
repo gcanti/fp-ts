@@ -374,9 +374,6 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  */
 export const empty: ReadonlySet<never> = new Set()
 
-/**
- * @internal
- */
 interface Next<A> {
   readonly done?: boolean
   readonly value: A

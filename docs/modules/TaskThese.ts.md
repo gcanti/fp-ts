@@ -138,7 +138,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskThese<E, A>
+export declare const fromEither: <E, A>(e: Either<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

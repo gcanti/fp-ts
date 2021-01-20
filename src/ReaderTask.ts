@@ -284,7 +284,8 @@ export const ApplicativeSeq: Applicative2<URI> = {
 }
 
 /**
- * @internal
+ * @category instances
+ * @since 3.0.0
  */
 export const Monad: Monad2<URI> = {
   URI,

@@ -46,6 +46,7 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -376,6 +377,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'ReaderTask'>
 ```
 
 Added in v3.0.0
