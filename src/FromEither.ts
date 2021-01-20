@@ -174,12 +174,8 @@ export function filterOrElse_<M>(
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
 } {
-  const fromPredicate_M = fromPredicate_(M)
-  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): ((ma: HKT2<M, E, A>) => HKT2<M, E, A>) => {
-    const f = fromPredicate_M(predicate, onFalse)
-    return (ma) => {
-      const out = M.chain(ma, f)
-      return out as HKT2<M, E, A>
-    }
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: HKT2<M, E, A>): HKT2<M, E, A> => {
+    const out = M.chain(ma, (a) => M.fromEither(predicate(a) ? E.right(a) : E.left(onFalse(a))))
+    return out as any
   }
 }

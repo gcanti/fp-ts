@@ -129,6 +129,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
     - add `FromIO` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `tryCatchK` combinator (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
     - add `chainFirst_` helper (@gcanti)
