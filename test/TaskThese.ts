@@ -39,11 +39,11 @@ describe('TaskThese', () => {
 
   describe('getApplicative', () => {
     it('Par', async () => {
-      await assertSeq(_.getApplicative(T.ApplicativeSeq, semigroupString), { fromTask: _.fromTask }, (fa) => fa())
+      await assertSeq(_.getApplicative(T.ApplicativeSeq, semigroupString), _.FromTask, (fa) => fa())
     })
 
     it('Seq', async () => {
-      await assertPar(_.getApplicative(T.ApplicativePar, semigroupString), { fromTask: _.fromTask }, (fa) => fa())
+      await assertPar(_.getApplicative(T.ApplicativePar, semigroupString), _.FromTask, (fa) => fa())
     })
   })
 

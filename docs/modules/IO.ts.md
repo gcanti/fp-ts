@@ -25,7 +25,7 @@ Added in v2.0.0
 - [Apply](#apply)
   - [ap](#ap)
 - [FromIO](#fromio)
-  - [fromIO](#fromio)
+  - [~~fromIO~~](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -80,7 +80,7 @@ Added in v2.0.0
 
 # FromIO
 
-## fromIO
+## ~~fromIO~~
 
 **Signature**
 
