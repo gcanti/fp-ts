@@ -540,7 +540,7 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => (isN
  */
 export const compact: Compactable1<URI>['compact'] = flatten
 
-const defaultSeparate = { left: none, right: none }
+const defaultSeparated = { left: none, right: none }
 
 /**
  * @category Compactable
@@ -554,7 +554,7 @@ export const separate: Compactable1<URI>['separate'] = (ma) => {
       right: getRight(e)
     }))
   )
-  return isNone(o) ? defaultSeparate : o.value
+  return isNone(o) ? defaultSeparated : o.value
 }
 
 /**

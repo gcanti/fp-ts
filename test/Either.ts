@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { separated } from '../src/Compactable'
 import * as _ from '../src/Either'
 import { eqNumber, eqString } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -363,7 +364,7 @@ describe('Either', () => {
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(C.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
+      assert.deepStrictEqual(C.separate(_.left('123')), separated(_.left('123'), _.left('123')))
       assert.deepStrictEqual(C.separate(_.right(_.left('123'))), {
         left: _.right('123'),
         right: _.left(monoidString.empty)

@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -89,7 +90,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partition', () => {
-      assert.deepStrictEqual(pipe({}, _.partition(p)), { left: {}, right: {} })
+      assert.deepStrictEqual(pipe({}, _.partition(p)), separated({}, {}))
       assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), {
         left: { a: 1 },
         right: { b: 3 }
@@ -98,7 +99,7 @@ describe('ReadonlyRecord', () => {
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(pipe({}, _.partitionMap(f)), { left: {}, right: {} })
+      assert.deepStrictEqual(pipe({}, _.partitionMap(f)), separated({}, {}))
       assert.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), {
         left: { a: 0 },
         right: { b: 4 }
@@ -221,8 +222,8 @@ describe('ReadonlyRecord', () => {
 
     it('wilt', async () => {
       const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
-      assert.deepStrictEqual(await pipe({}, wilt)(), { left: {}, right: {} })
-      assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), { left: { a: 0 }, right: { b: 4 } })
+      assert.deepStrictEqual(await pipe({}, wilt)(), separated({}, {}))
+      assert.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), separated({ a: 0 }, { b: 4 }))
     })
   })
 

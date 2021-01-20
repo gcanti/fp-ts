@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
+import { separated } from '../src/Compactable'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
@@ -65,8 +66,8 @@ describe('ReadonlyArray', () => {
 
     it('wilt', async () => {
       const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(n > 2 ? E.right(n + 1) : E.left(n - 1)))
-      assert.deepStrictEqual(await pipe([], wilt)(), { left: [], right: [] })
-      assert.deepStrictEqual(await pipe([1, 3], wilt)(), { left: [0], right: [4] })
+      assert.deepStrictEqual(await pipe([], wilt)(), separated([], []))
+      assert.deepStrictEqual(await pipe([1, 3], wilt)(), separated([0], [4]))
     })
 
     it('map', () => {
@@ -159,8 +160,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(_.separate([]), { left: [], right: [] })
-      assert.deepStrictEqual(_.separate([E.left(123), E.right('123')]), { left: [123], right: ['123'] })
+      assert.deepStrictEqual(_.separate([]), separated([], []))
+      assert.deepStrictEqual(_.separate([E.left(123), E.right('123')]), separated([123], ['123']))
     })
 
     it('filter', () => {
@@ -200,7 +201,7 @@ describe('ReadonlyArray', () => {
     })
 
     it('partitionMap', () => {
-      assert.deepStrictEqual(pipe([], _.partitionMap(identity)), { left: [], right: [] })
+      assert.deepStrictEqual(pipe([], _.partitionMap(identity)), separated([], []))
       assert.deepStrictEqual(pipe([E.right(1), E.left('foo'), E.right(2)], _.partitionMap(identity)), {
         left: ['foo'],
         right: [1, 2]
@@ -213,14 +214,14 @@ describe('ReadonlyArray', () => {
           [],
           _.partition((n) => n > 2)
         ),
-        { left: [], right: [] }
+        separated([], [])
       )
       assert.deepStrictEqual(
         pipe(
           [1, 3],
           _.partition((n) => n > 2)
         ),
-        { left: [1], right: [3] }
+        separated([1], [3])
       )
     })
 
@@ -230,7 +231,7 @@ describe('ReadonlyArray', () => {
           [],
           _.partitionMapWithIndex((_, a) => a)
         ),
-        { left: [], right: [] }
+        separated([], [])
       )
       assert.deepStrictEqual(
         pipe(
@@ -258,14 +259,14 @@ describe('ReadonlyArray', () => {
           [],
           _.partitionWithIndex((i, n) => i + n > 2)
         ),
-        { left: [], right: [] }
+        separated([], [])
       )
       assert.deepStrictEqual(
         pipe(
           [1, 2],
           _.partitionWithIndex((i, n) => i + n > 2)
         ),
-        { left: [1], right: [2] }
+        separated([1], [2])
       )
     })
 

@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -130,9 +131,9 @@ describe('Option', () => {
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(_.separate(_.none), { left: _.none, right: _.none })
-      assert.deepStrictEqual(_.separate(_.some(left('123'))), { left: _.some('123'), right: _.none })
-      assert.deepStrictEqual(_.separate(_.some(right('123'))), { left: _.none, right: _.some('123') })
+      assert.deepStrictEqual(_.separate(_.none), separated(_.none, _.none))
+      assert.deepStrictEqual(_.separate(_.some(left('123'))), separated(_.some('123'), _.none))
+      assert.deepStrictEqual(_.separate(_.some(right('123'))), separated(_.none, _.some('123')))
     })
 
     it('filter', () => {
@@ -150,16 +151,16 @@ describe('Option', () => {
     })
 
     it('partition', () => {
-      assert.deepStrictEqual(pipe(_.none, _.partition(p)), { left: _.none, right: _.none })
-      assert.deepStrictEqual(pipe(_.some(1), _.partition(p)), { left: _.some(1), right: _.none })
-      assert.deepStrictEqual(pipe(_.some(3), _.partition(p)), { left: _.none, right: _.some(3) })
+      assert.deepStrictEqual(pipe(_.none, _.partition(p)), separated(_.none, _.none))
+      assert.deepStrictEqual(pipe(_.some(1), _.partition(p)), separated(_.some(1), _.none))
+      assert.deepStrictEqual(pipe(_.some(3), _.partition(p)), separated(_.none, _.some(3)))
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(pipe(_.none, _.partitionMap(f)), { left: _.none, right: _.none })
-      assert.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), { left: _.some(0), right: _.none })
-      assert.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), { left: _.none, right: _.some(4) })
+      assert.deepStrictEqual(pipe(_.none, _.partitionMap(f)), separated(_.none, _.none))
+      assert.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), separated(_.some(0), _.none))
+      assert.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), separated(_.none, _.some(4)))
     })
 
     it('traverse', () => {
@@ -201,9 +202,9 @@ describe('Option', () => {
 
     it('wilt', async () => {
       const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
-      assert.deepStrictEqual(await pipe(_.none, wilt)(), { left: _.none, right: _.none })
-      assert.deepStrictEqual(await pipe(_.some(1), wilt)(), { left: _.some(0), right: _.none })
-      assert.deepStrictEqual(await pipe(_.some(3), wilt)(), { left: _.none, right: _.some(4) })
+      assert.deepStrictEqual(await pipe(_.none, wilt)(), separated(_.none, _.none))
+      assert.deepStrictEqual(await pipe(_.some(1), wilt)(), separated(_.some(0), _.none))
+      assert.deepStrictEqual(await pipe(_.some(3), wilt)(), separated(_.none, _.some(4)))
     })
   })
 

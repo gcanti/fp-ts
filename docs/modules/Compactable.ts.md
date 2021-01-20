@@ -6,7 +6,7 @@ parent: Modules
 
 ## Compactable overview
 
-`Compactable` represents data structures which can be _compacted_/_filtered_.
+`Compactable` represents data structures which can be _compacted_/_separated_.
 
 Added in v3.0.0
 
@@ -14,6 +14,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [separated](#separated)
 - [type classes](#type-classes)
   - [Compactable (interface)](#compactable-interface)
   - [Compactable1 (interface)](#compactable1-interface)
@@ -28,6 +30,18 @@ Added in v3.0.0
   - [separate\_](#separate_)
 
 ---
+
+# constructors
+
+## separated
+
+**Signature**
+
+```ts
+export declare const separated: <A, B>(left: A, right: B) => Separated<A, B>
+```
+
+Added in v3.0.0
 
 # type classes
 

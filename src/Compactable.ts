@@ -1,5 +1,5 @@
 /**
- * `Compactable` represents data structures which can be _compacted_/_filtered_.
+ * `Compactable` represents data structures which can be _compacted_/_separated_.
  *
  * @since 3.0.0
  */
@@ -16,6 +16,12 @@ export interface Separated<A, B> {
   readonly left: A
   readonly right: B
 }
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({ left, right })
 
 /**
  * @category type classes
@@ -144,9 +150,5 @@ export function separate_<F, G>(
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
   const compact = compact_(F, G)
   const map = map_(F, G)
-  return (fge) => {
-    const left = compact(pipe(fge, map(getLeft)))
-    const right = compact(pipe(fge, map(getRight)))
-    return { left, right }
-  }
+  return (fge) => separated(compact(pipe(fge, map(getLeft))), compact(pipe(fge, map(getRight))))
 }

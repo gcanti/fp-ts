@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { separated } from '../src/Compactable'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
@@ -118,7 +119,7 @@ describe('ReadonlyMap', () => {
   it('partitionMap', () => {
     const empty = new Map<string, number>()
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(pipe(empty, _.partitionMap(f)), { left: empty, right: empty })
+    assert.deepStrictEqual(pipe(empty, _.partitionMap(f)), separated(empty, empty))
     assert.deepStrictEqual(
       pipe(
         new Map<string, number>([
@@ -136,7 +137,7 @@ describe('ReadonlyMap', () => {
 
   it('partition', () => {
     const empty = new Map<string, number>()
-    assert.deepStrictEqual(pipe(empty, _.partition(p)), { left: empty, right: empty })
+    assert.deepStrictEqual(pipe(empty, _.partition(p)), separated(empty, empty))
     assert.deepStrictEqual(
       pipe(
         new Map<string, number>([
@@ -977,7 +978,7 @@ describe('ReadonlyMap', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(await pipe(_.empty, wilt(f))(), { left: _.empty, right: _.empty })
+      assert.deepStrictEqual(await pipe(_.empty, wilt(f))(), separated(_.empty, _.empty))
       assert.deepStrictEqual(
         await pipe(
           new Map([
@@ -986,7 +987,7 @@ describe('ReadonlyMap', () => {
           ]),
           wilt(f)
         )(),
-        { left: new Map([[{ id: 'a' }, 0]]), right: new Map([[{ id: 'b' }, 4]]) }
+        separated(new Map([[{ id: 'a' }, 0]]), new Map([[{ id: 'b' }, 4]]))
       )
     })
   })
@@ -1020,7 +1021,7 @@ describe('ReadonlyMap', () => {
       const a0 = new Map<string, number>([['a', 0]])
       const b4 = new Map<string, number>([['b', 4]])
       const f = (_: string, n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), { left: emptyMap, right: emptyMap })
+      assert.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), separated(emptyMap, emptyMap))
       assert.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), {
         left: a0,
         right: b4
@@ -1037,7 +1038,7 @@ describe('ReadonlyMap', () => {
       const a1 = new Map<string, number>([['a', 1]])
       const b3 = new Map<string, number>([['b', 3]])
       const f = (_: string, n: number) => p(n)
-      assert.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), { left: emptyMap, right: emptyMap })
+      assert.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), separated(emptyMap, emptyMap))
       assert.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), {
         left: a1,
         right: b3

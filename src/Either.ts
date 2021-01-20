@@ -17,7 +17,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
 import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, Separated } from './Compactable'
+import { Compactable2C, separated, Separated } from './Compactable'
 import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
@@ -749,10 +749,10 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
 
   const separate: Compactable2C<URI, E>['separate'] = (ma) =>
     isLeft(ma)
-      ? { left: ma, right: ma }
+      ? separated(ma, ma)
       : isLeft(ma.right)
-      ? { left: right(ma.right.left), right: empty }
-      : { left: empty, right: right(ma.right.right) }
+      ? separated(right(ma.right.left), empty)
+      : separated(empty, right(ma.right.right))
 
   return {
     compact,
@@ -773,18 +773,18 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
     ma: Either<E, A>
   ): Separated<Either<E, B>, Either<E, C>> => {
     if (isLeft(ma)) {
-      return { left: ma, right: ma }
+      return separated(ma, ma)
     }
     const e = f(ma.right)
-    return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) }
+    return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
   }
 
   const partition = <A>(p: Predicate<A>) => (ma: Either<E, A>): Separated<Either<E, A>, Either<E, A>> => {
     return isLeft(ma)
-      ? { left: ma, right: ma }
+      ? separated(ma, ma)
       : p(ma.right)
-      ? { left: empty, right: right(ma.right) }
-      : { left: right(ma.right), right: empty }
+      ? separated(empty, right(ma.right))
+      : separated(right(ma.right), empty)
   }
 
   const filterMap = <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>): Either<E, B> => {
