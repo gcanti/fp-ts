@@ -23,6 +23,7 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
+import { FromEither2 } from './FromEither'
 import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -222,8 +223,6 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
 }
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @example
  * import { fromOption, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -1168,7 +1167,16 @@ export const MonadThrow: MonadThrow2<URI> = {
   ap: _ap,
   of,
   chain: _chain,
-  throwError: throwError
+  throwError
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither: identity
 }
 
 // -------------------------------------------------------------------------------------

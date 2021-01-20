@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 93
+nav_order: 94
 parent: Modules
 ---
 
@@ -15,10 +15,6 @@ Added in v2.4.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -27,7 +23,10 @@ Added in v2.4.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromTask](#fromtask)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -38,8 +37,9 @@ Added in v2.4.0
   - [fold](#fold)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromEither](#fromeither)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -84,30 +84,6 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>)
 ```
 
 Added in v2.4.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
 
 # Functor
 
@@ -160,6 +136,26 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 
 Added in v2.4.0
 
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: Either<E, A>) => TaskThese<E, A>
+```
+
+Added in v2.10.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
+
 ## fromIOEither
 
 **Signature**
@@ -169,6 +165,16 @@ export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
+```
+
+Added in v2.7.0
 
 ## left
 
@@ -254,6 +260,16 @@ Added in v2.4.0
 
 ```ts
 export declare const Bifunctor: Bifunctor2<'TaskThese'>
+```
+
+Added in v2.10.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'TaskThese'>
 ```
 
 Added in v2.10.0

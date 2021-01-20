@@ -87,6 +87,7 @@ Added in v2.0.0
   - [ChainRec](#chainrec)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
@@ -643,8 +644,6 @@ Added in v2.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
@@ -1008,6 +1007,16 @@ export declare const Foldable: Foldable2<'Either'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither2<'Either'>
+```
+
+Added in v2.10.0
 
 ## Functor
 
