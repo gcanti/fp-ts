@@ -712,17 +712,6 @@ export const Alt: Alt4<URI> = {
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/* tslint:disable:readonly-array */
-/**
- * @since 2.0.0
- */
-/* istanbul ignore next */
-export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
-  return ma(s)(r)()
-}
-/* tslint:enable:readonly-array */
-
 /**
  * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
  *
@@ -918,3 +907,14 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
     fsa(s),
     RTE.map(([_, s]) => s)
   )
+
+/* tslint:disable:readonly-array */
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+/* istanbul ignore next */
+export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
+  return ma(s)(r)()
+}
+/* tslint:enable:readonly-array */

@@ -726,15 +726,6 @@ export const Alt: Alt3<URI> = {
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/**
- * @since 2.0.0
- */
-/* istanbul ignore next */
-export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
-  return ma(r)()
-}
-
 /**
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
@@ -990,4 +981,13 @@ export function getReaderTaskValidation<E>(
     fromTask,
     throwError
   }
+}
+
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+/* istanbul ignore next */
+export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
+  return ma(r)()
 }

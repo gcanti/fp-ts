@@ -338,15 +338,6 @@ export const chainFirst =
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/**
- * @since 2.4.0
- */
-/* istanbul ignore next */
-export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
-  return ma(r)()
-}
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -485,3 +476,12 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
 export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
   /*#__PURE__*/
   getApplicativeMonoid(ApplicativeSeq)
+
+/**
+ * @since 2.4.0
+ * @deprecated
+ */
+/* istanbul ignore next */
+export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
+  return ma(r)()
+}
