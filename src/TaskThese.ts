@@ -4,6 +4,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { FromEither2 } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, Lazy, pipe } from './function'
@@ -95,6 +96,24 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
   /*#__PURE__*/
   T.fromIO
 
+/**
+ * @category constructors
+ * @since 2.7.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 2.7.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -173,18 +192,6 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  * @since 2.7.0
  */
 export const of: Pointed2<URI>['of'] = right
-
-/**
- * @category FromIO
- * @since 2.7.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 2.7.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -283,6 +290,15 @@ export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
   mapLeft: _mapLeft
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither
 }
 
 /**

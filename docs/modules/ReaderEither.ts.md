@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -62,6 +62,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
@@ -440,37 +441,31 @@ Added in v2.0.0
 
 ## fromEither
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
 
 ## fromOption
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
 
 ## fromPredicate
 
-Derivable from `MonadThrow`.
-
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 }
 ```
@@ -599,6 +594,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderEither'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither3<'ReaderEither'>
+```
+
+Added in v2.10.0
 
 ## Functor
 

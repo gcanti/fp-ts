@@ -16,6 +16,7 @@ import { Compactable2C, compact_, separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -26,7 +27,6 @@ import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -103,34 +103,10 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
- * Derivable from `MonadThrow`.
- *
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  E.fold(left, (a) => right(a))
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * Derivable from `MonadThrow`.
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
@@ -154,6 +130,18 @@ export const fromPredicate: {
 export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
   return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
 }
+
+/**
+ * @category constructors
+ * @since 2.7.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category constructors
+ * @since 2.7.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -486,18 +474,6 @@ export const altW: <E2, B>(
 export const of: Pointed2<URI>['of'] = right
 
 /**
- * @category FromIO
- * @since 2.7.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
-
-/**
- * @category FromTask
- * @since 2.7.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
-
-/**
  * @category MonadTask
  * @since 2.7.0
  */
@@ -730,6 +706,31 @@ export const Alt: Alt2<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances

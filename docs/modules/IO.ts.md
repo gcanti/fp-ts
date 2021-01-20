@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 45
+nav_order: 46
 parent: Modules
 ---
 
@@ -24,8 +24,6 @@ Added in v2.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-- [FromIO](#fromio)
-  - [~~fromIO~~](#fromio)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -37,11 +35,13 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
+- [constructors](#constructors)
+  - [~~fromIO~~](#fromio)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [ChainRec](#chainrec)
-  - [FromIO](#fromio-1)
+  - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio)
@@ -77,18 +77,6 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 ```
 
 Added in v2.0.0
-
-# FromIO
-
-## ~~fromIO~~
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => IO<A>
-```
-
-Added in v2.7.0
 
 # Functor
 
@@ -187,6 +175,18 @@ export declare const flatten: <A>(mma: IO<IO<A>>) => IO<A>
 ```
 
 Added in v2.0.0
+
+# constructors
+
+## ~~fromIO~~
+
+**Signature**
+
+```ts
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
+```
+
+Added in v2.7.0
 
 # instances
 

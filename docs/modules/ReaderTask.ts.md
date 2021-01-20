@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 70
+nav_order: 71
 parent: Modules
 ---
 
@@ -15,10 +15,6 @@ Added in v2.3.0
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
-- [FromIO](#fromio)
-  - [fromIO](#fromio)
-- [FromTask](#fromtask)
-  - [fromTask](#fromtask)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -39,14 +35,16 @@ Added in v2.3.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [fromIO](#fromio)
   - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
-  - [FromIO](#fromio-1)
-  - [FromTask](#fromtask-1)
+  - [FromIO](#fromio)
+  - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -98,30 +96,6 @@ export declare const apW: <Q, A>(
 ```
 
 Added in v2.8.0
-
-# FromIO
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-# FromTask
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
 
 # Functor
 
@@ -313,12 +287,32 @@ export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v2.3.0
 
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
+```
+
+Added in v2.3.0
+
 ## fromReader
 
 **Signature**
 
 ```ts
 export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.3.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: <E, A>(fa: T.Task<A>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0

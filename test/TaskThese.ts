@@ -1,12 +1,12 @@
 import * as assert from 'assert'
+import { pipe } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { pipe } from '../src/function'
+import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
-import { assertSeq, assertPar } from './util'
-import { semigroupString } from '../src/Semigroup'
+import { assertPar, assertSeq } from './util'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
