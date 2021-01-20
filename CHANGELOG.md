@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.6
+# 3.0.0-alpha.7
 
 - **Breaking Change**
 
@@ -69,8 +69,6 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Chain` dependency (@gcanti)
   - `Compactable`
     - remove `getCompactableComposition` (@gcanti)
-  - `Const`
-    - remove `const_` (@gcanti)
   - `Contravariant`
     - make type class members pipeables (@gcanti)
   - `Either`
@@ -80,20 +78,14 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
     - make `parseJSON` pipeable (@gcanti)
     - make `stringifyJSON` pipeable (@gcanti)
-    - remove `either` (@gcanti)
     - make `elem` pipeable (@gcanti)
     - remove `toError` (@gcanti)
     - remove `onError` parameter in `tryCatch` (@gcanti)
     - remove `onError` parameter in `parseJSON` (@gcanti)
     - remove `onError` parameter in `stringifyJSON` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
-    - remove `getValidationSemigroup` (@gcanti)
-    - remove `getValidationMonoid` (@gcanti)
     - refactor `Json` type (@gcanti)
   - `Eq`
-    - remove `eq` (@gcanti)
     - make type class members pipeables (@gcanti)
   - `Extend`
     - make type class members pipeables (@gcanti)
@@ -108,6 +100,8 @@ high state of flux, you're at risk of it changing without notice.
   - `FilterableWithIndex`
     - drop `Filterable` dependency (@gcanti)
     - make type class members pipeables (@gcanti)
+  - `FromEither`
+    - remove `onFalse` parameter from `fromPredicate_` signature (@gcanti)
   - `Foldable`
     - make `intercalate` pipeable (@gcanti)
     - remove `getFoldableComposition` (@gcanti)
@@ -126,23 +120,12 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `HeytingAlgebra`
     - make type class members pipeables (@gcanti)
-  - `Identity`
-    - remove `identity` (@gcanti)
   - `Invariant`
     - make type class members pipeables (@gcanti)
-  - `IO`
-    - remove `io` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
-    - remove `getMonoid` (@gcanti)
-    - remove `fromIO` (@gcanti)
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
-    - remove `ioEither` (@gcanti)
     - remove `onError` parameter in `tryCatch` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
   - `JoinSemilattice`
     - make type class members pipeables (@gcanti)
   - `Magma`
@@ -155,12 +138,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
   - `Option`
-    - remove `option` (@gcanti)
     - make `elem` pipeable (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
   - `Ord`
-    - remove `ord` (@gcanti)
     - make type class members pipeables (@gcanti)
     - make `min` pipeable (@gcanti)
     - make `max` pipeable (@gcanti)
@@ -170,34 +149,19 @@ high state of flux, you're at risk of it changing without notice.
     - make `geq` pipeable (@gcanti)
   - `Profunctor`
     - make type class members pipeables (@gcanti)
-  - `Reader`
-    - remove `reader` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
-    - remove `getMonoid` (@gcanti)
   - `ReaderEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
-    - remove `readerEither` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
   - `ReaderTask`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `run` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
-    - remove `getMonoid` (@gcanti)
   - `ReaderTaskEither`
     - remove `local`, use `Reader`'s `local` instead (@gcanti)
-    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
+    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
       (@gcanti)
     - remove `run` (@gcanti)
-    - remove `readerTaskEither` (@gcanti)
-    - remove `readerTaskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
     - make `cons` pipeable (@gcanti)
@@ -214,7 +178,6 @@ high state of flux, you're at risk of it changing without notice.
     - remove `unsafeDeleteAt` (@gcanti)
     - remove `fromArray` (@gcanti)
     - remove `toArray` (@gcanti)
-    - remove `readonlyArray` (@gcanti)
   - `ReadonlyMap`
     - make `member` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
@@ -233,7 +196,6 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` pipeable (@gcanti)
     - rename `toReadonlyArray` to `toArray` (@gcanti)
     - rename `fromArray` (@gcanti)
-    - remove `readonlyNonEmptyArray` (@gcanti)
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has` (@gcanti)
     - make `isSubrecord` pipeable (@gcanti)
@@ -242,7 +204,6 @@ high state of flux, you're at risk of it changing without notice.
     - remove `fromRecord` (@gcanti)
     - remove `toRecord` (@gcanti)
     - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
-    - remove `readonlyRecord` (@gcanti)
   - `ReadonlySet`
     - make `isSubset` pipeable (@gcanti)
     - make `elem` pipeable (@gcanti)
@@ -254,7 +215,6 @@ high state of flux, you're at risk of it changing without notice.
     - remove `toSet` (@gcanti)
   - `ReadonlyTuple2`
     - remove `getChain` (@gcanti)
-    - remove `readonlyTuple` (@gcanti)
   - `Ring`
     - make type class members pipeables (@gcanti)
   - `Semigroup`
@@ -264,42 +224,19 @@ high state of flux, you're at risk of it changing without notice.
     - make type class members pipeables (@gcanti)
   - `Semiring`
     - make type class members pipeables (@gcanti)
-  - `State`
-    - remove `state` (@gcanti)
   - `StateReaderTaskEither`
-    - remove `run` (@gcanti)
-    - remove `stateReaderTaskEither` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-  - `Store`
-    - remove `store` (@gcanti)
-  - `Task`
-    - remove `task` (@gcanti)
-    - remove `taskSeq` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
-    - remove `getMonoid` (@gcanti)
-    - remove `fromTask` (@gcanti)
   - `TaskEither`
     - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
-    - remove `taskEither` (@gcanti)
-    - remove `taskEitherSeq` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
     - remove `onRejected` parameter in `tryCatch` (@gcanti)
-    - remove `getApplySemigroup` (@gcanti)
-    - remove `getApplyMonoid` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
   - `TaskThese`
-    - make `toTuple` lazy (@gcanti)
-    - remove `taskThese` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `getSemigroup` (@gcanti)
   - `These`
-    - make `toTuple` lazy (@gcanti)
     - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
-    - remove `these` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `Traced`
     - make `tracks` curried (@gcanti)
-    - remove `traced` (@gcanti)
   - `Traversable`
     - drop `Foldable` dependency (@gcanti)
     - remove `getTraversableComposition` (@gcanti)
@@ -311,105 +248,40 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` curried (@gcanti)
     - remove `unfoldTreeM` (@gcanti)
     - remove `unfoldForestM` (@gcanti)
-    - remove `tree` (@gcanti)
   - `Witherable`
     - drop `Traversable` and `Filterable` dependencies (@gcanti)
     - make type class members pipeables (@gcanti)
-  - `Writer`
-    - remove `writer` (@gcanti)
 
 - **New Feature**
-  - add `Pointed` type class (@gcanti)
-  - add `TaskOption` module (@gcanti)
-  - `Applicative`
-    - add `getApplicativeMonoid` (@gcanti)
+  - add pipeable sequence T to
+    - `Either`
+    - `Identity`
+    - `IO`
+    - `IOEither`
+      - `Option`
+    - `Reader`
+    - `ReaderEither`
+    - `ReaderTask`
+    - `ReaderTaskEither`
+    - `ReadonlyArray`
+    - `ReadonlyNonEmptyArray`
+    - `State`
+    - `StateReaderTaskEither`
+    - `Task`
+    - `TaskEither`
+    - `Tree`
   - `Apply`
-    - add `apFirst_` (@gcanti)
-    - add `apSecond_` (@gcanti)
-    - add `apS_` (@gcanti)
     - add `apT_` (@gcanti)
-    - add `ap_` (@gcanti)
-    - add `getApplySemigroup` (@gcanti)
-  - `Compactable`
-    - add `compact_` (@gcanti)
-    - add `separate_` (@gcanti)
-  - `Either`
-    - add `getCompactable` (@gcanti)
-    - add `getFilterable` (@gcanti)
-    - add pipeable sequence T (@gcanti)
-  - `Filterable`
-    - add `filter_` (@gcanti)
-    - add `filterMap_` (@gcanti)
-    - add `partition_` (@gcanti)
-    - add `partitionMap_` (@gcanti)
   - `Functor`
-    - add `bindTo_` (@gcanti)
-    - add `map_` (@gcanti)
     - add `tupled_` (@gcanti)
-  - `Identity`
-    - add pipeable sequence T (@gcanti)
-  - `IO`
-    - add pipeable sequence T (@gcanti)
-  - `IOEither`
-    - add `getCompactable` (@gcanti)
-    - add pipeable sequence T (@gcanti)
-  - `Monad`
-    - add `chainFirst_` (@gcanti)
-    - add `bind_` (@gcanti)
-  - `Option`
-    - add pipeable sequence T (@gcanti)
-  - `Reader`
-    - add pipeable sequence T (@gcanti)
-  - `ReaderEither`
-    - add pipeable sequence T (@gcanti)
   - `ReaderTask`
-    - add pipeable sequence T (@gcanti)
-    - add `FromIO` (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `ReaderTaskEither`
-    - add `Monad` (@gcanti)
-    - add pipeable sequence T (@gcanti)
-    - add `FromEither` (@gcanti)
-    - add `IO` (@gcanti)
-  - `ReadonlyArray`
-    - add pipeable sequence T (@gcanti)
-  - `ReadonlyMap`
-    - add `filterWithIndex` combinator (@gcanti)
-    - add `filterMapWithIndex` combinator (@gcanti)
-    - add `partitionWithIndex` combinator (@gcanti)
-    - add `partitionMapWithIndex` combinator (@gcanti)
-    - add `getFunctorWithIndex` (@gcanti)
-    - add `getFoldable` (@gcanti)
-    - add `getFoldableWithIndex` (@gcanti)
-    - add `getTraversable` (@gcanti)
-    - add `getTraversableWithIndex` (@gcanti)
-  - `ReadonlyNonEmptyArray`
-    - add pipeable sequence T (@gcanti)
-  - `State`
-    - add pipeable sequence T (@gcanti)
-  - `StateReaderTaskEither`
-    - add `Monad` (@gcanti)
-    - add `FromEither` (@gcanti)
-    - add `FromIO` (@gcanti)
-    - add pipeable sequence T (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `Task`
-    - add `Monad` (@gcanti)
-    - add pipeable sequence T (@gcanti)
+    - add `Monad` instance (@gcanti)
   - `TaskEither`
-    - add `getCompactable` (@gcanti)
-    - add `Monad` (@gcanti)
-    - add pipeable sequence T (@gcanti)
-  - `TaskThese`
-    - add `Functor` (@gcanti)
-    - add `Bifunctor` (@gcanti)
-    - add `FromEither` (@gcanti)
-    - add `FromIO` (@gcanti)
-  - `These`
-    - add `of` (@gcanti)
-    - add `FromEither` (@gcanti)
-  - `Tree`
-    - add pipeable sequence T (@gcanti)
-  - `Writer`
-    - add `getApplicative` (@gcanti)
+    - add `Monad` instance (@gcanti)
 
 # 2.9.3
 

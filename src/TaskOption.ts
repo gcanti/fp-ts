@@ -7,6 +7,7 @@ import { Applicative1 } from './Applicative'
 import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe } from './function'
@@ -415,6 +416,15 @@ export const Alternative: Alternative1<URI> = {
   map,
   alt,
   zero
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
 }
 
 /**

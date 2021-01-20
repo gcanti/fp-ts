@@ -22,6 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
+import { FromEither1 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
@@ -213,7 +214,7 @@ export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Lef
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither = getRight
+export const fromEither: FromEither1<URI>['fromEither'] = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -968,6 +969,15 @@ export const Witherable: Witherable1<URI> = {
   URI,
   wither,
   wilt
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
 }
 
 // -------------------------------------------------------------------------------------
