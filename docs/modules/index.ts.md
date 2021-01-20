@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 42
+nav_order: 43
 parent: Modules
 ---
 
@@ -47,6 +47,7 @@ Added in v2.0.0
   - [foldable](#foldable)
   - [foldableWithIndex](#foldablewithindex)
   - [fromIO](#fromio)
+  - [fromTask](#fromtask)
   - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
@@ -457,6 +458,16 @@ Added in v2.0.0
 
 ```ts
 export declare const fromIO: typeof fromIO
+```
+
+Added in v2.10.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: typeof fromTask
 ```
 
 Added in v2.10.0

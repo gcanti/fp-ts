@@ -8,6 +8,7 @@ import { apFirst_, Apply1, apSecond_ } from './Apply'
 import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromIO1 } from './FromIO'
+import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
 import { Functor1 } from './Functor'
 import { chainFirst_, Monad1 } from './Monad'
@@ -98,10 +99,10 @@ export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
 
 /**
- * @category constructors
+ * @category FromTask
  * @since 2.10.0
  */
-export const fromTask =
+export const fromTask: FromTask1<URI>['fromTask'] =
   /*#__PURE__*/
   OT.fromF_(T.Functor)
 
@@ -501,6 +502,16 @@ export const Filterable: Filterable1<URI> = {
 export const FromIO: FromIO1<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask1<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

@@ -13,6 +13,7 @@
 import { Applicative1, getApplicativeMonoid } from './Applicative'
 import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
 import { FromIO1 } from './FromIO'
+import { FromTask1 } from './FromTask'
 import { identity, pipe } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
@@ -161,10 +162,10 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   chain(identity)
 
 /**
- * @category MonadTask
+ * @category FromTask
  * @since 2.7.0
  */
-export const fromTask: MonadTask1<URI>['fromTask'] = identity
+export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -331,6 +332,16 @@ export const chainFirst =
 export const FromIO: FromIO1<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask1<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------

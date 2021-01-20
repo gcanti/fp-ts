@@ -5,12 +5,13 @@ import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { FromIO2 } from './FromIO'
+import { FromTask2 } from './FromTask'
 import { flow, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
-import { MonadTask2, MonadTask2C } from './MonadTask'
+import { MonadTask2C } from './MonadTask'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -180,10 +181,10 @@ export const of: Pointed2<URI>['of'] = right
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category MonadIO
+ * @category FromTask
  * @since 2.7.0
  */
-export const fromTask: MonadTask2<URI>['fromTask'] = rightTask
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -291,6 +292,16 @@ export const Bifunctor: Bifunctor2<URI> = {
 export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromTask: FromTask2<URI> = {
+  URI,
+  fromIO,
+  fromTask
 }
 
 // -------------------------------------------------------------------------------------
