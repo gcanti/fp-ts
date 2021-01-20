@@ -2,9 +2,9 @@
  * @since 3.0.0
  */
 
-import { Apply2, Apply1, Apply } from './Apply'
+import { Apply2, Apply1, Apply, ap_ as ap__ } from './Apply'
 import { flow, Lazy, pipe } from './function'
-import { Functor2, Functor1, Functor } from './Functor'
+import { Functor2, Functor1, Functor, map_ as map__ } from './Functor'
 import { URIS2, Kind2, URIS, Kind, HKT } from './HKT'
 import { Monad2, Monad1, Monad } from './Monad'
 import { Pointed2, Pointed1, Pointed } from './Pointed'
@@ -78,7 +78,7 @@ export function map_<F extends URIS>(
 ): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, These<E, A>>) => Kind<F, These<E, B>>
 export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, These<E, A>>) => HKT<F, These<E, B>>
 export function map_<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, These<E, A>>) => HKT<F, These<E, B>> {
-  return (f) => F.map(T.map(f))
+  return map__(F, T.Functor)
 }
 
 /**
@@ -100,12 +100,7 @@ export function ap_<F, E>(
   F: Apply<F>,
   S: Semigroup<E>
 ): <A>(fa: HKT<F, These<E, A>>) => <B>(fab: HKT<F, These<E, (a: A) => B>>) => HKT<F, These<E, B>> {
-  const A = T.getApply(S)
-  return <A>(fa: HKT<F, These<E, A>>): (<B>(fab: HKT<F, These<E, (a: A) => B>>) => HKT<F, These<E, B>>) =>
-    flow(
-      F.map((gab) => (ga: These<E, A>) => A.ap(ga)(gab)),
-      F.ap(fa)
-    )
+  return ap__(F, T.getApply(S))
 }
 
 /**
