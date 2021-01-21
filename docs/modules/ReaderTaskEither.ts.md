@@ -73,6 +73,7 @@ Added in v3.0.0
   - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -760,6 +761,16 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <E, R2, B>(
   onLeft: (e: E) => RT.ReaderTask<R2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <R, E, A>(ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, E | A>
 ```
 
 Added in v3.0.0

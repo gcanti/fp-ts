@@ -326,6 +326,12 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const toUnion = <E, A>(fa: Either<E, A>): E | A => pipe(fa, fold<E, E | A, A>(identity, identity))
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

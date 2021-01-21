@@ -115,6 +115,14 @@ export const getOrElseW: <E, R2, B>(
   onLeft: (e: E) => Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
 
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const toUnion =
+  /*#__PURE__*/
+  ET.toUnion_(R.Functor)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

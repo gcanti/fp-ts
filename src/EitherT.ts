@@ -261,3 +261,15 @@ export function altValidation_<M, E>(
   return (second) => (first) =>
     pipe(first, M.chain(E.fold((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), right_(M))))
 }
+
+/**
+ * @since 3.0.0
+ */
+export function toUnion_<F extends URIS2>(
+  F: Functor2<F>
+): <R, E, A>(ma: Kind2<F, R, Either<E, A>>) => Kind2<F, R, E | A>
+export function toUnion_<F extends URIS>(F: Functor1<F>): <E, A>(ma: Kind<F, Either<E, A>>) => Kind<F, E | A>
+export function toUnion_<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, E | A>
+export function toUnion_<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, E | A> {
+  return F.map(E.toUnion)
+}

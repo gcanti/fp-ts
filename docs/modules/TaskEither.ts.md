@@ -71,6 +71,7 @@ Added in v3.0.0
   - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -715,6 +716,16 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(ma: T.Task<E.Either<E, A>>) => T.Task<E | A>
 ```
 
 Added in v3.0.0

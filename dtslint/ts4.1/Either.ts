@@ -3,6 +3,13 @@ import { pipe, flow } from '../../src/function'
 import { monoidAll } from '../../src/Monoid'
 
 //
+// toUnion
+//
+
+// $ExpectType string | number
+_.toUnion(_.right<number, string>(1))
+
+//
 // getOrElseW
 //
 

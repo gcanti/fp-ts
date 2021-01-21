@@ -591,4 +591,9 @@ describe('Either', () => {
       assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5))), _.left(0))
     })
   })
+
+  it('toUnion', () => {
+    assert.deepStrictEqual(_.toUnion(_.right(1)), 1)
+    assert.deepStrictEqual(_.toUnion(_.left('a')), 'a')
+  })
 })

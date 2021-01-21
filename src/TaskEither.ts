@@ -169,6 +169,14 @@ export const getOrElseW: <E, B>(
   onLeft: (e: E) => Task<B>
 ) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
 
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const toUnion =
+  /*#__PURE__*/
+  ET.toUnion_(T.Functor)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
