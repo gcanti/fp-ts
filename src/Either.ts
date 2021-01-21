@@ -415,14 +415,21 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
 }
 
 /**
+ * Less strict version of [`orElse`](#orElse).
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
+  isLeft(ma) ? onLeft(ma.left) : ma
+
+/**
  * Useful for recovering from errors.
  *
  * @category combinators
  * @since 2.0.0
  */
-export function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
-  return (ma) => (isLeft(ma) ? onLeft(ma.left) : ma)
-}
+export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
