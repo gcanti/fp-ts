@@ -45,6 +45,7 @@ import {
   FoldableComposition11,
   getFoldableComposition
 } from './Foldable'
+import { pipe } from './function'
 import {
   Functor,
   Functor1,
@@ -375,21 +376,73 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   const FC = getFoldableComposition(F, G)
+  const traverse = traverse_(F, G)
+  const sequence = sequence_(F, G)
   return {
     map: getFunctorComposition(F, G).map,
     reduce: FC.reduce,
     foldMap: FC.foldMap,
     reduceRight: FC.reduceRight,
     traverse: (H) => {
-      const traverseF = F.traverse(H)
-      const traverseG = G.traverse(H)
-      return (fga, f) => traverseF(fga, (ga) => traverseG(ga, f))
+      const traverseH = traverse(H)
+      return (fga, f) => pipe(fga, traverseH(f))
     },
     sequence: (H) => {
-      const sequenceF = F.sequence(H)
-      const sequenceG = G.sequence(H)
-      return (fgha) => sequenceF(F.map(fgha, sequenceG))
+      const sequenceH = sequence(H)
+      return (fgha) => pipe(fgha, sequenceH)
     }
+  }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function traverse_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (a: A) => Kind<F, B>
+  ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
+}
+export function traverse_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
+export function traverse_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>> {
+  return (F) => {
+    const traverseT = T.traverse(F)
+    const traverseG = G.traverse(F)
+    return (f) => (fga) => traverseT(fga, (ga) => traverseG(ga, f))
+  }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function sequence_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
+  <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+}
+export function sequence_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+export function sequence_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>> {
+  return (F) => {
+    const sequenceT = T.sequence(F)
+    const sequenceG = G.sequence(F)
+    return (fgha) => sequenceT(T.map(fgha, sequenceG))
   }
 }
 
