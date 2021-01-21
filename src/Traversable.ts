@@ -23,6 +23,7 @@ import {
   Applicative3C,
   Applicative4
 } from './Applicative'
+import { flow } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -241,4 +242,48 @@ export interface Sequence3<T extends URIS3> {
   ) => Kind2<F, FE, Kind3<T, R, TE, A>>
   <F extends URIS>(F: Applicative1<F>): <R, E, A>(ta: Kind3<T, R, E, Kind<F, A>>) => Kind<F, Kind3<T, R, E, A>>
   <F>(F: Applicative<F>): <R, E, A>(ta: Kind3<T, R, E, HKT<F, A>>) => HKT<F, Kind3<T, R, E, A>>
+}
+
+/**
+ * @since 3.0.0
+ */
+export function traverse_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (a: A) => Kind<F, B>
+  ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
+}
+export function traverse_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
+export function traverse_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>> {
+  return (F) => flow(G.traverse(F), T.traverse(F))
+}
+
+/**
+ * @since 3.0.0
+ */
+export function sequence_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
+  <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+}
+export function sequence_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+export function sequence_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>> {
+  return (F) => flow(T.map(G.sequence(F)), T.sequence(F))
 }
