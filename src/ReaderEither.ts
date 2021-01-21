@@ -146,11 +146,21 @@ export const toUnion =
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, R, M, A>(
-  onLeft: (e: E) => ReaderEither<R, M, A>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A> =
+export const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderEither<R, E2, A>
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
   /*#__PURE__*/
   ET.orElse_(R.Monad)
+
+/**
+ * Less strict version of [`orElse`](#orElse).
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const orElseW: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R1, E2, B>
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
 
 /**
  * @category combinators

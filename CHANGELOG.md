@@ -118,6 +118,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromEither` instance (@gcanti)
     - add `toUnion`, closes #1362 (@gcanti)
     - add `foldW` (@gcanti)
+    - add `orElseW` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
@@ -137,6 +138,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` combinator (@gcanti)
     - add `toUnion` (@gcanti)
     - add `foldW` (@gcanti)
+    - add `orElseW` (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
     - add `chainFirst_` helper (@gcanti)
@@ -165,6 +167,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getFilterable` (@gcanti)
     - add `toUnion` (@gcanti)
     - add `foldW` (@gcanti)
+    - add `orElseW` (@gcanti)
   - `ReaderTask`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
@@ -182,6 +185,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getFilterable` (@gcanti)
     - add `toUnion` (@gcanti)
     - add `foldW` (@gcanti)
+    - add `orElseW` (@gcanti)
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -224,6 +228,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromEither` instance (@gcanti)
     - add `toUnion` (@gcanti)
     - add `foldW` (@gcanti)
+    - add `orElseW` (@gcanti)
   - `TaskOption`
     - add `FromIO` instance (@gcanti)
     - add `FromTask` instance (@gcanti)

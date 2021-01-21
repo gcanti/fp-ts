@@ -49,6 +49,7 @@ Added in v2.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [local](#local)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -526,12 +527,26 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <R, E, A, M>(
-  onLeft: (e: E) => ReaderTaskEither<R, M, A>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A>
+export declare const orElse: <R, E1, A, E2>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
+) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
 Added in v2.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R1, E2, B>
+) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
+```
+
+Added in v2.10.0
 
 ## swap
 
