@@ -61,6 +61,8 @@ Added in v2.0.0
   - [Traverse3 (interface)](#traverse3-interface)
   - [TraverseComposition11 (interface)](#traversecomposition11-interface)
   - [getTraversableComposition](#gettraversablecomposition)
+  - [sequence\_](#sequence_)
+  - [traverse\_](#traverse_)
 
 ---
 
@@ -534,3 +536,45 @@ assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
 ```
 
 Added in v2.0.0
+
+## sequence\_
+
+**Signature**
+
+```ts
+export declare function sequence_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
+  <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+}
+export declare function sequence_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+```
+
+Added in v2.10.0
+
+## traverse\_
+
+**Signature**
+
+```ts
+export declare function traverse_<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (a: A) => Kind<F, B>
+  ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
+}
+export declare function traverse_<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
+```
+
+Added in v2.10.0
