@@ -150,9 +150,19 @@ export const toUnion =
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> =
+export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
   /*#__PURE__*/
   ET.orElse_(I.Monad)
+
+/**
+ * Less strict version of [`orElse`](#orElse).
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = orElse as any
 
 /**
  * @category combinators

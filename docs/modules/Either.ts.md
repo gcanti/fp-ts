@@ -63,6 +63,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromNullable](#fromnullable)
@@ -616,10 +617,24 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare function orElse<E, A, M>(onLeft: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A>
+export declare const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A>
 ```
 
 Added in v2.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => Either<E2, B>
+) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v2.10.0
 
 ## swap
 
