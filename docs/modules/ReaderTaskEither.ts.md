@@ -785,10 +785,10 @@ Less strict version of [`fold`](#fold).
 **Signature**
 
 ```ts
-export declare const foldW: <E, R, B, A, C>(
-  onLeft: (e: E) => RT.ReaderTask<R, B>,
-  onRight: (a: A) => RT.ReaderTask<R, C>
-) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | C>
+export declare const foldW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>,
+  onRight: (a: A) => RT.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v2.10.0

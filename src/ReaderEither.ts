@@ -107,10 +107,10 @@ export const fold: <R, E, A, B>(
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <E, R, B, A, C>(
-  onLeft: (e: E) => Reader<R, B>,
-  onRight: (a: A) => Reader<R, C>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B | C> = fold as any
+export const foldW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => Reader<R2, B>,
+  onRight: (a: A) => Reader<R3, C>
+) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = fold as any
 
 /**
  * @category destructors
