@@ -232,9 +232,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainEitherKW = <E, A, B>(f: (a: A) => Either<E, B>) => <S, R, D>(
-  ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromEitherK(f)))
+export const chainEitherKW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<S, R, E2, A, B>(fromEitherK(f)))
 
 /**
  * @category combinators
@@ -260,9 +260,9 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainIOEitherKW = <E, A, B>(f: (a: A) => IOEither<E, B>) => <S, R, D>(
-  ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromIOEitherK(f)))
+export const chainIOEitherKW = <E2, A, B>(f: (a: A) => IOEither<E2, B>) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<S, R, E2, A, B>(fromIOEitherK(f)))
 
 /**
  * @category combinators
@@ -288,9 +288,9 @@ export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainTaskEitherKW = <E, A, B>(f: (a: A) => TaskEither<E, B>) => <S, R, D>(
-  ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromTaskEitherK(f)))
+export const chainTaskEitherKW = <E2, A, B>(f: (a: A) => TaskEither<E2, B>) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<S, R, E2, A, B>(fromTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -316,9 +316,9 @@ export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>
  * @category combinators
  * @since 2.6.1
  */
-export const chainReaderTaskEitherKW = <R, E, A, B>(f: (a: A) => ReaderTaskEither<R, E, B>) => <S, D>(
-  ma: StateReaderTaskEither<S, R, D, A>
-): StateReaderTaskEither<S, R, D | E, B> => pipe(ma, chainW<S, R, E, A, B>(fromReaderTaskEitherK(f)))
+export const chainReaderTaskEitherKW = <R, E2, A, B>(f: (a: A) => ReaderTaskEither<R, E2, B>) => <S, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<S, R, E2, A, B>(fromReaderTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -409,9 +409,9 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 2.8.0
  */
-export const apW = <S, Q, D, A>(fa: StateReaderTaskEither<S, Q, D, A>) => <R, E, B>(
-  fab: StateReaderTaskEither<S, R, E, (a: A) => B>
-): StateReaderTaskEither<S, Q & R, D | E, B> => (s1) =>
+export const apW = <S, R2, E2, A>(fa: StateReaderTaskEither<S, R2, E2, A>) => <R1, E1, B>(
+  fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>
+): StateReaderTaskEither<S, R1 & R2, E1 | E2, B> => (s1) =>
   pipe(
     fab(s1),
     RTE.chainW(([f, s2]) =>
@@ -444,9 +444,11 @@ export const of: Pointed4<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => <Q, D>(ma: StateReaderTaskEither<S, Q, D, A>) => StateReaderTaskEither<S, Q & R, D | E, B> = (f) => (ma) => (s1) =>
+export const chainW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = (f) => (
+  ma
+) => (s1) =>
   pipe(
     ma(s1),
     RTE.chainW(([a, s2]) => f(a)(s2))
@@ -626,9 +628,11 @@ export const chainFirst: <S, R, E, A, B>(
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <S, R, D, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, D, B>
-) => <Q, E>(ma: StateReaderTaskEither<S, Q, E, A>) => StateReaderTaskEither<S, Q & R, D | E, A> = chainFirst as any
+export const chainFirstW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  ma: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -771,12 +775,12 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, S, Q, D, B>(
+export const bindW: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -792,12 +796,12 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, S, Q, D, B>(
+export const apSW: <A, N extends string, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, Q, D, B>
-) => <R, E>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -176,9 +176,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <Q, D, A>(
-  fa: ReaderTaskEither<Q, D, A>
-) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<Q & R, D | E, B>
+export declare const apW: <R2, E2, A>(
+  fa: ReaderTaskEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderTaskEither<R1, E1, (a: A) => B>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v2.8.0
@@ -252,9 +252,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, B>
+export declare const chainW: <R2, E2, A, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v2.6.0
@@ -336,9 +336,9 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+export declare const chainEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
 Added in v2.6.1
@@ -369,9 +369,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => <Q, D>(ma: ReaderTaskEither<Q, D, A>) => ReaderTaskEither<Q & R, E | D, A>
+export declare const chainFirstW: <R2, E2, A, B>(
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -395,9 +395,9 @@ Less strict version of [`chainIOEitherK`](#chainIOEitherK).
 **Signature**
 
 ```ts
-export declare const chainIOEitherKW: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+export declare const chainIOEitherKW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
 Added in v2.6.1
@@ -421,9 +421,9 @@ Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
 **Signature**
 
 ```ts
-export declare const chainTaskEitherKW: <E, A, B>(
-  f: (a: A) => TE.TaskEither<E, B>
-) => <R, D>(ma: ReaderTaskEither<R, D, A>) => ReaderTaskEither<R, E | D, B>
+export declare const chainTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TE.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
 
 Added in v2.6.1
@@ -517,7 +517,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const local: <Q, R>(f: (f: Q) => R) => <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A>
+export declare const local: <R2, R1>(
+  f: (f: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A>
 ```
 
 Added in v2.0.0
@@ -812,9 +814,9 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => RT.ReaderTask<R, B>
-) => <Q, A>(ma: ReaderTaskEither<Q, E, A>) => RT.ReaderTask<Q & R, B | A>
+export declare const getOrElseW: <R2, E, B>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v2.6.0
@@ -1133,12 +1135,12 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, Q, D, B>(
+export declare const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTaskEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -1173,12 +1175,12 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, Q, D, B>(
+export declare const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTaskEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<Q & R, D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1 & R2, E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

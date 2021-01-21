@@ -85,7 +85,7 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  * @category combinators
  * @since 2.3.0
  */
-export const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A> = R.local
+export const local: <R2, R1>(f: (f: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
 
 /**
  * @category combinators
@@ -163,9 +163,9 @@ export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) =
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <Q, A>(
-  fa: ReaderTask<Q, A>
-) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B> = ap as any
+export const apW: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = ap as any
 
 /**
  * @category Pointed
@@ -191,9 +191,9 @@ export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<
  * @category Monad
  * @since 2.6.7
  */
-export const chainW: <R, A, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B> = chain as any
+export const chainW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -383,10 +383,12 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, Q, B>(
+export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<Q, B>
-) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(
+  fa: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -402,10 +404,12 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, Q, B>(
+export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTask<Q, B>
-) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: ReaderTask<R2, B>
+) => <R1>(
+  fa: ReaderTask<R1, A>
+) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils
