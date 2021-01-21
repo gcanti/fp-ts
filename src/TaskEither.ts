@@ -218,6 +218,16 @@ export const orElse =
   ET.orElse_(T.Monad)
 
 /**
+ * Less strict version of [`orElse`](#orElse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = orElse as any
+
+/**
  * @category combinators
  * @since 3.0.0
  */

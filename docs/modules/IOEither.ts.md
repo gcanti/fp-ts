@@ -39,6 +39,7 @@ Added in v3.0.0
   - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
@@ -330,6 +331,20 @@ Added in v3.0.0
 export declare const orElse: <E1, E2, A>(
   onLeft: (e: E1) => I.IO<E.Either<E2, A>>
 ) => (ma: I.IO<E.Either<E1, A>>) => I.IO<E.Either<E2, A>>
+```
+
+Added in v3.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0

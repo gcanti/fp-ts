@@ -42,6 +42,7 @@ Added in v3.0.0
   - [fromIOEitherK](#fromioeitherk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -437,6 +438,20 @@ Added in v3.0.0
 export declare const orElse: <E1, ME, E2, A>(
   onLeft: (e: E1) => RT.ReaderTask<ME, E.Either<E2, A>>
 ) => (ma: RT.ReaderTask<ME, E.Either<E1, A>>) => RT.ReaderTask<ME, E.Either<E2, A>>
+```
+
+Added in v3.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R1, E2, B>
+) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0

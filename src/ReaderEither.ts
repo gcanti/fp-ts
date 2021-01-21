@@ -147,6 +147,16 @@ export const orElse =
   ET.orElse_(R.Monad)
 
 /**
+ * Less strict version of [`orElse`](#orElse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseW: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R1, E2, B>
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
+
+/**
  * @category combinators
  * @since 3.0.0
  */

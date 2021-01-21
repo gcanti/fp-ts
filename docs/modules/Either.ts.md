@@ -56,6 +56,7 @@ Added in v3.0.0
   - [filterOrElseW](#filterorelsew)
   - [fromNullableK](#fromnullablek)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromNullable](#fromnullable)
@@ -518,7 +519,23 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A>
+export declare const orElse: <E1, E2, B>(
+  onLeft: (e: E1) => Either<E2, B>
+) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v3.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => Either<E2, B>
+) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0
