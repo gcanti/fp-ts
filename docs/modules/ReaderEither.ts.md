@@ -56,6 +56,7 @@ Added in v2.0.0
   - [rightReader](#rightreader)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -544,6 +545,21 @@ export declare const fold: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, R, B, A, C>(
+  onLeft: (e: E) => R.Reader<R, B>,
+  onRight: (a: A) => R.Reader<R, C>
+) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B | C>
+```
+
+Added in v2.10.0
 
 ## getOrElse
 

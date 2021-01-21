@@ -53,6 +53,7 @@ Added in v2.0.0
   - [rightOrBoth](#rightorboth)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
@@ -298,14 +299,30 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(
+export declare const fold: <E, A, B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-): (fa: These<E, A>) => B
+) => (fa: These<E, A>) => B
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
+```
+
+Added in v2.10.0
 
 ## getLeft
 

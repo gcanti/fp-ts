@@ -83,25 +83,33 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 }
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
+  fa: These<E, A>
+): B | C | D => {
+  switch (fa._tag) {
+    case 'Left':
+      return onLeft(fa.left)
+    case 'Right':
+      return onRight(fa.right)
+    case 'Both':
+      return onBoth(fa.left, fa.right)
+  }
+}
+
+/**
  * @category destructors
  * @since 2.0.0
  */
-export function fold<E, A, B>(
+export const fold: <E, A, B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-): (fa: These<E, A>) => B {
-  return (fa) => {
-    switch (fa._tag) {
-      case 'Left':
-        return onLeft(fa.left)
-      case 'Right':
-        return onRight(fa.right)
-      case 'Both':
-        return onBoth(fa.left, fa.right)
-    }
-  }
-}
+) => (fa: These<E, A>) => B = foldW
 
 /**
  * @category combinators

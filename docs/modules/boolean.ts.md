@@ -14,6 +14,7 @@ Added in v2.2.0
 
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
 
 ---
 
@@ -28,7 +29,7 @@ If `value` is false, `onFalse()` is returned, otherwise `onTrue()`.
 **Signature**
 
 ```ts
-export declare function fold<A>(onFalse: Lazy<A>, onTrue: Lazy<A>): (value: boolean) => A
+export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
 ```
 
 **Example**
@@ -53,3 +54,15 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.2.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+```
+
+Added in v2.10.0

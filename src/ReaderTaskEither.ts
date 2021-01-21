@@ -198,6 +198,17 @@ export const fold: <R, E, A, B>(
   ET.fold_(RT.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW: <E, R, B, A, C>(
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, C>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = fold as any
+
+/**
  * @category destructors
  * @since 2.0.0
  */

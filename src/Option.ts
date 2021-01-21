@@ -23,7 +23,7 @@ import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { FromEither1 } from './FromEither'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
@@ -228,6 +228,15 @@ export const fromEither: FromEither1<URI>['fromEither'] = getRight
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
+  isNone(ma) ? onNone() : onSome(ma.value)
+
+/**
  * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
@@ -254,9 +263,7 @@ export const fromEither: FromEither1<URI>['fromEither'] = getRight
  * @category destructors
  * @since 2.0.0
  */
-export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B {
-  return (ma) => (isNone(ma) ? onNone() : onSome(ma.value))
-}
+export const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = foldW
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
@@ -283,9 +290,9 @@ export function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>
  * @category destructors
  * @since 2.0.0
  */
-export function toNullable<A>(ma: Option<A>): A | null {
-  return isNone(ma) ? null : ma.value
-}
+export const toNullable: <A>(ma: Option<A>) => A | null =
+  /*#__PURE__*/
+  fold(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -312,9 +319,9 @@ export function toNullable<A>(ma: Option<A>): A | null {
  * @category destructors
  * @since 2.0.0
  */
-export function toUndefined<A>(ma: Option<A>): A | undefined {
-  return isNone(ma) ? undefined : ma.value
-}
+export const toUndefined: <A>(ma: Option<A>) => A | undefined =
+  /*#__PURE__*/
+  fold(constUndefined, identity)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
