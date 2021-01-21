@@ -102,6 +102,17 @@ export const fold: <R, E, A, B>(
   ET.fold_(R.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW: <E, R, B, A, C>(
+  onLeft: (e: E) => Reader<R, B>,
+  onRight: (a: A) => Reader<R, C>
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B | C> = fold as any
+
+/**
  * @category destructors
  * @since 2.0.0
  */

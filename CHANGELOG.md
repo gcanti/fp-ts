@@ -96,6 +96,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Array`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `boolean`
+    - add `foldW` (@gcanti)
   - `Compactable`
     - add `compact_` helper (@gcanti)
     - add `separate_` helper (@gcanti)
@@ -115,6 +117,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getFilterable` (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `toUnion`, closes #1362 (@gcanti)
+    - add `foldW` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
@@ -133,6 +136,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromEither` instance (@gcanti)
     - add `tryCatchK` combinator (@gcanti)
     - add `toUnion` (@gcanti)
+    - add `foldW` (@gcanti)
   - `Monad`
     - add `bind_` helper (@gcanti)
     - add `chainFirst_` helper (@gcanti)
@@ -143,6 +147,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `foldW` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
   - `Ord`
@@ -159,6 +164,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
     - add `toUnion` (@gcanti)
+    - add `foldW` (@gcanti)
   - `ReaderTask`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)
@@ -175,6 +181,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getCompactable` (@gcanti)
     - add `getFilterable` (@gcanti)
     - add `toUnion` (@gcanti)
+    - add `foldW` (@gcanti)
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -216,10 +223,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromTask` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `toUnion` (@gcanti)
+    - add `foldW` (@gcanti)
   - `TaskOption`
     - add `FromIO` instance (@gcanti)
     - add `FromTask` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `foldW` (@gcanti)
   - `TaskThese`
     - add `Functor` instance (@gcanti)
     - add `Pointed` instance (@gcanti)
@@ -230,6 +239,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromTask` instance (@gcanti)
     - add `fromEither` function (@gcanti)
     - add `FromEither` instance (@gcanti)
+    - add `foldW` (@gcanti)
   - `These`
     - add `Pointed` instance (@gcanti)
     - add `of` function (@gcanti)
@@ -237,6 +247,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `toReadonlyTuple2` (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `fromOption` constructor (@gcanti)
+    - add `foldW` (@gcanti)
   - `TheseT`
     - split `getTheseM` into separated functions (@gcanti)
   - `Tree`

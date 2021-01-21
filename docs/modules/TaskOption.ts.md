@@ -52,6 +52,7 @@ Added in v2.10.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
 - [instances](#instances)
@@ -416,6 +417,21 @@ export declare const fold: <B, A>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<B>
 ) => (ma: T.Task<O.Option<A>>) => T.Task<B>
+```
+
+Added in v2.10.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <B, C, A>(
+  onNone: () => T.Task<B>,
+  onSome: (a: A) => T.Task<C>
+) => (ma: TaskOption<A>) => T.Task<B | C>
 ```
 
 Added in v2.10.0
