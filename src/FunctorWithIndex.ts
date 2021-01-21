@@ -11,6 +11,7 @@
  *
  * @since 3.0.0
  */
+import { pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -68,4 +69,28 @@ export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, 
  */
 export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+}
+
+/**
+ * @since 3.0.0
+ */
+export function mapWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FunctorWithIndex1<F, I>,
+  G: FunctorWithIndex1<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export function mapWithIndex_<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+export function mapWithIndex_<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+  return (f) =>
+    F.mapWithIndex((i, ga) =>
+      pipe(
+        ga,
+        G.mapWithIndex((j, a) => f([i, j], a))
+      )
+    )
 }
