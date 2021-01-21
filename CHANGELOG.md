@@ -118,6 +118,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Functor`
     - add `map_` helper (@gcanti)
     - add `bindTo_` helper (@gcanti)
+  - `FunctorWithIndex`
+    - add `mapWithIndex_` helper (@gcanti)
   - `Either`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
