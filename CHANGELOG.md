@@ -265,6 +265,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `foldW` (@gcanti)
   - `TheseT`
     - split `getTheseM` into separated functions (@gcanti)
+  - `Traversable`
+    - add `traverse_` helper (@gcanti)
+    - add `sequence_` helper (@gcanti)
   - `Tree`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
