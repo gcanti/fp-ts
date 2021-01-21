@@ -45,6 +45,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
@@ -397,10 +398,24 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const orElse: <E, A, M>(onLeft: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A>
+export declare const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v2.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
+```
+
+Added in v2.10.0
 
 ## swap
 

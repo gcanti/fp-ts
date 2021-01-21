@@ -52,6 +52,7 @@ Added in v2.0.0
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [orElse](#orelse)
+  - [orElseW](#orelsew)
   - [swap](#swap)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
@@ -492,7 +493,9 @@ See also [alt](#alt).
 **Signature**
 
 ```ts
-export declare const orElse: <E, A, M>(onLeft: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A>
+export declare const orElse: <E1, A, E2>(
+  onLeft: (e: E1) => TaskEither<E2, A>
+) => (ma: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 **Example**
@@ -512,6 +515,20 @@ test()
 ```
 
 Added in v2.0.0
+
+## orElseW
+
+Less strict version of [`orElse`](#orElse).
+
+**Signature**
+
+```ts
+export declare const orElseW: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, B | A>
+```
+
+Added in v2.10.0
 
 ## swap
 
