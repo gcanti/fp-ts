@@ -107,6 +107,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `filterMap_` helper (@gcanti)
     - add `partition_` helper (@gcanti)
     - add `partitionMap_` helper (@gcanti)
+  - `Foldable`
+    - add `reduce_` helper (@gcanti)
+    - add `foldaMap_` helper (@gcanti)
+    - add `reduceRight_` helper (@gcanti)
+  - `FoldableWithIndex`
+    - add `reduceWithIndex_` helper (@gcanti)
+    - add `foldaMapWithIndex_` helper (@gcanti)
+    - add `reduceRightWithIndex_` helper (@gcanti)
   - `Functor`
     - add `map_` helper (@gcanti)
     - add `bindTo_` helper (@gcanti)
