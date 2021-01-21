@@ -545,10 +545,10 @@ Less strict version of [`fold`](#fold).
 **Signature**
 
 ```ts
-export declare const foldW: <E, R, B, A, C>(
-  onLeft: (e: E) => R.Reader<R, B>,
-  onRight: (a: A) => R.Reader<R, C>
-) => (ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, B | C>
+export declare const foldW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => R.Reader<R2, B>,
+  onRight: (a: A) => R.Reader<R3, C>
+) => <R1>(ma: R.Reader<R1, E.Either<E, A>>) => R.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
