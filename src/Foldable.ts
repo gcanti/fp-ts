@@ -216,15 +216,15 @@ export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
 export function reduce_<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Kind<F, Kind<G, A>>) => B
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
 export function reduce_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, HKT<G, A>>) => B
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
 export function reduce_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, HKT<G, A>>) => B {
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B {
   return (b, f) => F.reduce(b, (b, ga) => G.reduce(b, f)(ga))
 }
 
@@ -234,15 +234,15 @@ export function reduce_<F, G>(
 export function foldMap_<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind<F, Kind<G, A>>) => M
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
 export function foldMap_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, HKT<G, A>>) => M
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
 export function foldMap_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, HKT<G, A>>) => M {
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M {
   return (M) => flow(G.foldMap(M), F.foldMap(M))
 }
 
@@ -252,14 +252,14 @@ export function foldMap_<F, G>(
 export function reduceRight_<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
-): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Kind<F, Kind<G, A>>) => B
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
 export function reduceRight_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, HKT<G, A>>) => B
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
 export function reduceRight_<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
-): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, HKT<G, A>>) => B {
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {
   return (b, f) => F.reduceRight(b, (ga, b) => G.reduceRight(b, f)(ga))
 }

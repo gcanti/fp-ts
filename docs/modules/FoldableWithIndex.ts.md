@@ -30,6 +30,10 @@ Added in v3.0.0
   - [FoldableWithIndex3 (interface)](#foldablewithindex3-interface)
   - [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
   - [FoldableWithIndex4 (interface)](#foldablewithindex4-interface)
+- [utils](#utils)
+  - [foldMapWithIndex\_](#foldmapwithindex_)
+  - [reduceRightWithIndex\_](#reducerightwithindex_)
+  - [reduceWithIndex\_](#reducewithindex_)
 
 ---
 
@@ -138,6 +142,59 @@ export interface FoldableWithIndex4<F extends URIS4, I> {
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => M
   readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## foldMapWithIndex\_
+
+**Signature**
+
+```ts
+export declare function foldMapWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export declare function foldMapWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex\_
+
+**Signature**
+
+```ts
+export declare function reduceRightWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceRightWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex\_
+
+**Signature**
+
+```ts
+export declare function reduceWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
 ```
 
 Added in v3.0.0

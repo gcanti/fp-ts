@@ -6,10 +6,6 @@ import * as A from '../src/ReadonlyArray'
 import * as T from '../src/Tree'
 import { deepStrictEqual } from './util'
 
-export const ArrayOptionURI = 'ArrayOption'
-
-export type ArrayOptionURI = typeof ArrayOptionURI
-
 describe('Foldable', () => {
   it('intercalate', () => {
     deepStrictEqual(pipe(['a', 'b', 'c'], _.intercalate(monoidString, A.Foldable)(',')), 'a,b,c')
