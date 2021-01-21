@@ -75,6 +75,7 @@ Added in v2.0.0
   - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -786,6 +787,16 @@ export declare const getOrElseW: <R, E, B>(
 ```
 
 Added in v2.6.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <R, E, A>(fa: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, E | A>
+```
+
+Added in v2.10.0
 
 # instances
 
