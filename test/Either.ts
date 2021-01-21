@@ -689,4 +689,9 @@ describe('Either', () => {
       })
     })
   })
+
+  it('toUnion', () => {
+    assert.deepStrictEqual(_.toUnion(_.right(1)), 1)
+    assert.deepStrictEqual(_.toUnion(_.left('a')), 'a')
+  })
 })

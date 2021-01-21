@@ -515,4 +515,9 @@ describe('IOEither', () => {
     assert.deepStrictEqual(g(1)(), E.right(2))
     assert.deepStrictEqual(g(-1)(), E.left(new Error('negative')))
   })
+
+  it('toUnion', () => {
+    assert.deepStrictEqual(_.toUnion(_.right(1))(), 1)
+    assert.deepStrictEqual(_.toUnion(_.left('a'))(), 'a')
+  })
 })
