@@ -118,6 +118,17 @@ export const fold =
   OT.fold_(T.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const foldW: <B, A, C>(
+  onNone: () => T.Task<B>,
+  onSome: (a: A) => T.Task<C>
+) => (ma: T.Task<O.Option<A>>) => T.Task<B | C> = fold as any
+
+/**
  * @category destructors
  * @since 3.0.0
  */
@@ -420,7 +431,7 @@ export const Alternative: Alternative1<URI> = {
 
 /**
  * @category instances
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const FromEither: FromEither1<URI> = {
   URI,

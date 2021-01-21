@@ -125,6 +125,18 @@ export const fold =
   /*#__PURE__*/
   TT.fold_(T.Monad)
 
+/**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = fold as any
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

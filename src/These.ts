@@ -135,12 +135,14 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
  * @category destructors
  * @since 3.0.0
  */
-export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth: (e: E, a: A) => B) => (
+export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
   fa: These<E, A>
-): B => {
+): B | C | D => {
   switch (fa._tag) {
     case 'Left':
       return onLeft(fa.left)
@@ -150,6 +152,16 @@ export const fold = <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth:
       return onBoth(fa.left, fa.right)
   }
 }
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const fold: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (fa: These<E, A>) => B = foldW
 
 // -------------------------------------------------------------------------------------
 // combinators

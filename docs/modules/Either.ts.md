@@ -74,6 +74,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -844,6 +845,18 @@ const onRight = (value: number): string => `Ok: ${value}`
 
 assert.strictEqual(pipe(E.right(1), E.fold(onLeft, onRight)), 'Ok: 1')
 assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.fold(onLeft, onRight)), 'Errors: error 1, error 2')
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 Added in v3.0.0

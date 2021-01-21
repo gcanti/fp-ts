@@ -76,6 +76,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toNullable](#tonullable)
@@ -753,6 +754,18 @@ assert.strictEqual(
   ),
   'a none'
 )
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 Added in v3.0.0

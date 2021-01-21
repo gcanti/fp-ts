@@ -140,16 +140,16 @@ Added in v3.0.0
 ```ts
 export declare function fold_<M extends URIS2>(
   M: Monad2<M>
-): <E, ME, R, A>(
-  onLeft: (e: E) => Kind2<M, ME, R>,
-  onRight: (a: A) => Kind2<M, ME, R>
-) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, R>
+): <E, R, B, A>(
+  onLeft: (e: E) => Kind2<M, R, B>,
+  onRight: (a: A) => Kind2<M, R, B>
+) => (ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, B>
 export declare function fold_<M extends URIS>(
   M: Monad1<M>
-): <E, R, A>(onLeft: (e: E) => Kind<M, R>, onRight: (a: A) => Kind<M, R>) => (ma: Kind<M, Either<E, A>>) => Kind<M, R>
+): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
 export declare function fold_<M>(
   M: Monad<M>
-): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R>
+): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```
 
 Added in v3.0.0

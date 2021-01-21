@@ -14,6 +14,7 @@ Added in v3.0.0
 
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
 
 ---
 
@@ -50,6 +51,18 @@ assert.deepStrictEqual(
   ),
   some('true')
 )
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
 ```
 
 Added in v3.0.0

@@ -37,6 +37,7 @@ Added in v3.0.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -266,11 +267,27 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, R, A>(
-  onLeft: (e: E) => T.Task<R>,
-  onRight: (a: A) => T.Task<R>,
-  onBoth: (e: E, a: A) => T.Task<R>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<R>
+export declare const fold: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>,
+  onBoth: (e: E, a: A) => T.Task<B>
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B>
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
 ```
 
 Added in v3.0.0

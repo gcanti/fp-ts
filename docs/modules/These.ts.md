@@ -54,6 +54,7 @@ Added in v3.0.0
   - [rightOrBoth](#rightorboth)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -318,6 +319,22 @@ export declare const fold: <E, B, A>(
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
 ) => (fa: These<E, A>) => B
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
 ```
 
 Added in v3.0.0

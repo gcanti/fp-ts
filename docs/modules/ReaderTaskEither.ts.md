@@ -71,6 +71,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -731,10 +732,25 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, ME, R, A>(
-  onLeft: (e: E) => RT.ReaderTask<ME, R>,
-  onRight: (a: A) => RT.ReaderTask<ME, R>
-) => (ma: RT.ReaderTask<ME, E.Either<E, A>>) => RT.ReaderTask<ME, R>
+export declare const fold: <E, R, B, A>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, R, B, A, C>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, C>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0

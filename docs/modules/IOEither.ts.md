@@ -58,6 +58,7 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -523,10 +524,25 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fold: <E, R, A>(
-  onLeft: (e: E) => I.IO<R>,
-  onRight: (a: A) => I.IO<R>
-) => (ma: I.IO<E.Either<E, A>>) => I.IO<R>
+export declare const fold: <E, B, A>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<B>
+) => (ma: I.IO<E.Either<E, A>>) => I.IO<B>
+```
+
+Added in v3.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 
 Added in v3.0.0
