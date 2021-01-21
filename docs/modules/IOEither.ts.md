@@ -61,6 +61,7 @@ Added in v2.0.0
   - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -558,6 +559,16 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IO
 ```
 
 Added in v2.6.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: I.IO<E.Either<E, A>>) => I.IO<E | A>
+```
+
+Added in v2.10.0
 
 # instances
 
