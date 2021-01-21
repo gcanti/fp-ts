@@ -77,6 +77,7 @@ Added in v2.0.0
   - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [toUnion](#tounion)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -922,6 +923,16 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E
 ```
 
 Added in v2.6.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
+```
+
+Added in v2.10.0
 
 # guards
 

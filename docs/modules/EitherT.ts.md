@@ -36,6 +36,7 @@ Added in v2.0.0
   - [rightF\_](#rightf_)
   - [right\_](#right_)
   - [swap\_](#swap_)
+  - [toUnion\_](#tounion_)
 
 ---
 
@@ -420,6 +421,20 @@ export declare function swap_<F extends URIS>(
   F: Functor1<F>
 ): <E, A>(ma: Kind<F, Either<E, A>>) => Kind<F, Either<A, E>>
 export declare function swap_<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>>
+```
+
+Added in v2.10.0
+
+## toUnion\_
+
+**Signature**
+
+```ts
+export declare function toUnion_<F extends URIS2>(
+  F: Functor2<F>
+): <R, E, A>(fa: Kind2<F, R, Either<E, A>>) => Kind2<F, R, E | A>
+export declare function toUnion_<F extends URIS>(F: Functor1<F>): <E, A>(fa: Kind<F, Either<E, A>>) => Kind<F, E | A>
+export declare function toUnion_<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => HKT<F, E | A>
 ```
 
 Added in v2.10.0
