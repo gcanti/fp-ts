@@ -7,18 +7,19 @@ import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/Semigroup'
 import { showString } from '../src/Show'
+import { deepStrictEqual } from './util'
 
 describe('ReadonlyNonEmptyArray', () => {
   describe('pipeables', () => {
     it('traverse', () => {
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           [1, 2, 3],
           _.traverse(O.Applicative)((n) => (n >= 0 ? O.some(n) : O.none))
         ),
-        O.some([1, 2, 3])
+        O.some([1, 2, 3] as const)
       )
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           [1, 2, 3],
           _.traverse(O.Applicative)((n) => (n >= 2 ? O.some(n) : O.none))
@@ -29,19 +30,19 @@ describe('ReadonlyNonEmptyArray', () => {
 
     it('sequence', () => {
       const sequence = _.sequence(O.Applicative)
-      assert.deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3]))
-      assert.deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
+      deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3] as const))
+      deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
     })
 
     it('traverseWithIndex', () => {
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           ['a', 'bb'],
           _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
         ),
-        O.some(['a0', 'bb1'])
+        O.some(['a0', 'bb1'] as const)
       )
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           ['a', 'bb'],
           _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
@@ -52,15 +53,15 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('head', () => {
-    assert.deepStrictEqual(_.head([1, 2]), 1)
+    deepStrictEqual(_.head([1, 2]), 1)
   })
 
   it('tail', () => {
-    assert.deepStrictEqual(_.tail([1, 2]), [2])
+    deepStrictEqual(_.tail([1, 2]), [2])
   })
 
   it('map', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         [1, 2],
         _.map((n) => n * 2)
@@ -71,45 +72,45 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('mapWithIndex', () => {
     const add = (i: number, n: number) => n + i
-    assert.deepStrictEqual(pipe([1, 2], _.mapWithIndex(add)), [1, 3])
+    deepStrictEqual(pipe([1, 2], _.mapWithIndex(add)), [1, 3])
   })
 
   it('of', () => {
-    assert.deepStrictEqual(_.of(1), [1])
+    deepStrictEqual(_.of(1), [1])
   })
 
   it('ap', () => {
     const double = (n: number) => n * 2
     const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [double, double]
-    assert.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
+    deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
   it('chain', () => {
     const f = (a: number): _.ReadonlyNonEmptyArray<number> => [a, 4]
-    assert.deepStrictEqual(pipe([1, 2], _.chain(f)), [1, 4, 2, 4])
+    deepStrictEqual(pipe([1, 2], _.chain(f)), [1, 4, 2, 4])
   })
 
   it('extend', () => {
     const sum = M.fold(M.monoidSum)
-    assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
+    deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
   it('extract', () => {
-    assert.deepStrictEqual(_.extract([1, 2, 3]), 1)
+    deepStrictEqual(_.extract([1, 2, 3]), 1)
   })
 
   it('min', () => {
-    assert.deepStrictEqual(_.min(Ord.ordNumber)([2, 1, 3]), 1)
-    assert.deepStrictEqual(_.min(Ord.ordNumber)([3]), 3)
+    deepStrictEqual(_.min(Ord.ordNumber)([2, 1, 3]), 1)
+    deepStrictEqual(_.min(Ord.ordNumber)([3]), 3)
   })
 
   it('max', () => {
-    assert.deepStrictEqual(_.max(Ord.ordNumber)([1, 2, 3]), 3)
-    assert.deepStrictEqual(_.max(Ord.ordNumber)([1]), 1)
+    deepStrictEqual(_.max(Ord.ordNumber)([1, 2, 3]), 3)
+    deepStrictEqual(_.max(Ord.ordNumber)([1]), 1)
   })
 
   it('reduce', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         ['a', 'b'],
         _.reduce('', (b, a) => b + a)
@@ -119,80 +120,80 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(M.monoidString)(identity)), 'abc')
+    deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(M.monoidString)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
     const f = (a: string, acc: string) => acc + a
-    assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
+    deepStrictEqual(pipe(['a', 'b', 'c'], _.reduceRight('', f)), 'cba')
   })
 
   it('fromReadonlyArray', () => {
-    assert.deepStrictEqual(_.fromReadonlyArray([]), O.none)
-    assert.deepStrictEqual(_.fromReadonlyArray([1]), O.some([1]))
-    assert.deepStrictEqual(_.fromReadonlyArray([1, 2]), O.some([1, 2]))
+    deepStrictEqual(_.fromReadonlyArray([]), O.none)
+    deepStrictEqual(_.fromReadonlyArray([1]), O.some([1] as const))
+    deepStrictEqual(_.fromReadonlyArray([1, 2]), O.some([1, 2] as const))
   })
 
   it('getSemigroup', () => {
     const S = _.getSemigroup<number>()
-    assert.deepStrictEqual(pipe([1], S.concat([2])), [1, 2])
-    assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
+    deepStrictEqual(pipe([1], S.concat([2])), [1, 2])
+    deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
   })
 
   it('getEq', () => {
     const S = _.getEq(eqNumber)
-    assert.deepStrictEqual(S.equals([1])([1]), true)
-    assert.deepStrictEqual(S.equals([1])([1, 2]), false)
+    deepStrictEqual(S.equals([1])([1]), true)
+    deepStrictEqual(S.equals([1])([1, 2]), false)
   })
 
   it('group', () => {
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([]), [])
+    deepStrictEqual(_.group(Ord.ordNumber)([]), [])
 
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
-    assert.deepStrictEqual(_.groupSort(Ord.ordNumber)([]), [])
-    assert.deepStrictEqual(_.groupSort(Ord.ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+    deepStrictEqual(_.groupSort(Ord.ordNumber)([]), [])
+    deepStrictEqual(_.groupSort(Ord.ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('last', () => {
-    assert.deepStrictEqual(_.last([1, 2, 3]), 3)
-    assert.deepStrictEqual(_.last([1]), 1)
+    deepStrictEqual(_.last([1, 2, 3]), 3)
+    deepStrictEqual(_.last([1]), 1)
   })
 
   it('init', () => {
-    assert.deepStrictEqual(_.init([1, 2, 3]), [1, 2])
-    assert.deepStrictEqual(_.init([1]), [])
+    deepStrictEqual(_.init([1, 2, 3]), [1, 2])
+    deepStrictEqual(_.init([1]), [])
   })
 
   it('sort', () => {
-    assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
+    deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
   })
 
   it('prependToAll', () => {
-    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
-    assert.deepStrictEqual(_.prependToAll(0)([1]), [0, 1])
-    assert.deepStrictEqual(_.prependToAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
+    deepStrictEqual(_.prependToAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
+    deepStrictEqual(_.prependToAll(0)([1]), [0, 1])
+    deepStrictEqual(_.prependToAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
   })
 
   it('intersperse', () => {
-    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
-    assert.deepStrictEqual(_.intersperse(0)([1]), [1])
-    assert.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
-    assert.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
+    deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
+    deepStrictEqual(_.intersperse(0)([1]), [1])
+    deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
+    deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
   it('reverse', () => {
-    assert.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
+    deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
   it('groupBy', () => {
-    assert.deepStrictEqual(_.groupBy((_) => '')([]), {})
-    assert.deepStrictEqual(_.groupBy(String)([1]), { '1': [1] })
-    assert.deepStrictEqual(_.groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
+    deepStrictEqual(_.groupBy((_) => '')([]), {})
+    deepStrictEqual(_.groupBy(String)([1]), { '1': [1] })
+    deepStrictEqual(_.groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
       '3': ['foo', 'bar'],
       '6': ['foobar']
     })
@@ -204,11 +205,11 @@ describe('ReadonlyNonEmptyArray', () => {
     const a2 = make(1)
     const a3 = make(2)
     const a4 = make(3)
-    assert.deepStrictEqual(_.insertAt(0, a4)([a1, a2, a3]), O.some([a4, a1, a2, a3]))
-    assert.deepStrictEqual(_.insertAt(-1, a4)([a1, a2, a3]), O.none)
-    assert.deepStrictEqual(_.insertAt(3, a4)([a1, a2, a3]), O.some([a1, a2, a3, a4]))
-    assert.deepStrictEqual(_.insertAt(1, a4)([a1, a2, a3]), O.some([a1, a4, a2, a3]))
-    assert.deepStrictEqual(_.insertAt(4, a4)([a1, a2, a3]), O.none)
+    deepStrictEqual(_.insertAt(0, a4)([a1, a2, a3]), O.some([a4, a1, a2, a3] as const))
+    deepStrictEqual(_.insertAt(-1, a4)([a1, a2, a3]), O.none)
+    deepStrictEqual(_.insertAt(3, a4)([a1, a2, a3]), O.some([a1, a2, a3, a4] as const))
+    deepStrictEqual(_.insertAt(1, a4)([a1, a2, a3]), O.some([a1, a4, a2, a3] as const))
+    deepStrictEqual(_.insertAt(4, a4)([a1, a2, a3]), O.none)
   })
 
   it('updateAt', () => {
@@ -218,10 +219,10 @@ describe('ReadonlyNonEmptyArray', () => {
     const a3 = make2(2)
     const a4 = make2(3)
     const arr: _.ReadonlyNonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
-    assert.deepStrictEqual(_.updateAt(0, a4)(arr), O.some([a4, a2, a3]))
-    assert.deepStrictEqual(_.updateAt(-1, a4)(arr), O.none)
-    assert.deepStrictEqual(_.updateAt(3, a4)(arr), O.none)
-    assert.deepStrictEqual(_.updateAt(1, a4)(arr), O.some([a1, a4, a3]))
+    deepStrictEqual(_.updateAt(0, a4)(arr), O.some([a4, a2, a3] as const))
+    deepStrictEqual(_.updateAt(-1, a4)(arr), O.none)
+    deepStrictEqual(_.updateAt(3, a4)(arr), O.none)
+    deepStrictEqual(_.updateAt(1, a4)(arr), O.some([a1, a4, a3] as const))
     // should return the same reference if nothing changed
     const r1 = _.updateAt(0, a1)(arr)
     if (O.isSome(r1)) {
@@ -239,8 +240,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
-    assert.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
+    deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
+    deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4] as const))
   })
 
   it('filter', () => {
@@ -248,30 +249,30 @@ describe('ReadonlyNonEmptyArray', () => {
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
-    assert.deepStrictEqual(_.filter(({ x }) => x !== 1)([a1, a2, a3]), O.some([a3]))
-    assert.deepStrictEqual(_.filter(({ x }) => x !== 2)([a1, a2, a3]), O.some([a1, a2]))
-    assert.deepStrictEqual(
+    deepStrictEqual(_.filter(({ x }) => x !== 1)([a1, a2, a3]), O.some([a3] as const))
+    deepStrictEqual(_.filter(({ x }) => x !== 2)([a1, a2, a3]), O.some([a1, a2] as const))
+    deepStrictEqual(
       _.filter(({ x }) => {
         return !(x === 1 || x === 2)
       })([a1, a2, a3]),
       O.none
     )
-    assert.deepStrictEqual(_.filter(({ x }) => x !== 10)([a1, a2, a3]), O.some([a1, a2, a3]))
+    deepStrictEqual(_.filter(({ x }) => x !== 10)([a1, a2, a3]), O.some([a1, a2, a3] as const))
 
     // refinements
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
-    assert.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)]))
+    deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)] as const))
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
-    assert.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]))
+    deepStrictEqual(actual2, O.some([O.some(3), O.some(1)] as const))
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(_.filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), O.some([1, 3]))
-    assert.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
+    deepStrictEqual(_.filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), O.some([1, 3] as const))
+    deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 
   it('reduceWithIndex', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         ['a', 'b'],
         _.reduceWithIndex('', (i, b, a) => b + i + a)
@@ -281,7 +282,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMapWithIndex', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         ['a', 'b'],
         _.foldMapWithIndex(M.monoidString)((i, a) => i + a)
@@ -291,7 +292,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('reduceRightWithIndex', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         ['a', 'b'],
         _.reduceRightWithIndex('', (i, a, b) => b + i + a)
@@ -301,32 +302,32 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('cons', () => {
-    assert.deepStrictEqual(_.cons(1)([2, 3, 4]), [1, 2, 3, 4])
+    deepStrictEqual(_.cons(1)([2, 3, 4]), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
-    assert.deepStrictEqual(pipe([1, 2, 3], _.snoc(4)), [1, 2, 3, 4])
+    deepStrictEqual(pipe([1, 2, 3], _.snoc(4)), [1, 2, 3, 4])
   })
 
   it('uncons', () => {
-    assert.deepStrictEqual(_.uncons([0]), [0, []])
-    assert.deepStrictEqual(_.uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
+    deepStrictEqual(_.uncons([0]), [0, []])
+    deepStrictEqual(_.uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
   })
 
   it('unsnoc', () => {
-    assert.deepStrictEqual(_.unsnoc([0]), [[], 0])
-    assert.deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
+    deepStrictEqual(_.unsnoc([0]), [[], 0])
+    deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
   })
 
   it('getShow', () => {
     const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show(['a']), `["a"]`)
-    assert.deepStrictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
+    deepStrictEqual(S.show(['a']), `["a"]`)
+    deepStrictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
   it('alt / concat', () => {
-    assert.deepStrictEqual(_.concat(['a'], []), ['a'])
-    assert.deepStrictEqual(
+    deepStrictEqual(_.concat(['a'], []), ['a'])
+    deepStrictEqual(
       pipe(
         ['a'],
         _.alt(() => ['b'])
@@ -337,31 +338,31 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('foldMap', () => {
     const f = _.foldMap(S.semigroupSum)((s: string) => s.length)
-    assert.deepStrictEqual(f(['a']), 1)
-    assert.deepStrictEqual(f(['a', 'bb']), 3)
+    deepStrictEqual(f(['a']), 1)
+    deepStrictEqual(f(['a', 'bb']), 3)
   })
 
   it('foldMapWithIndex', () => {
     const f = _.foldMapWithIndex(S.semigroupSum)((i: number, s: string) => s.length + i)
-    assert.deepStrictEqual(f(['a']), 1)
-    assert.deepStrictEqual(f(['a', 'bb']), 4)
+    deepStrictEqual(f(['a']), 1)
+    deepStrictEqual(f(['a', 'bb']), 4)
   })
 
   it('fromReadonlyArray', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
     const bs = _.fromReadonlyArray(as)
-    assert.deepStrictEqual(bs, O.some(as))
+    deepStrictEqual(bs, O.some(as))
     assert.strictEqual((bs as any).value, as)
   })
 
   it('fold', () => {
     const f = _.fold(S.semigroupString)
-    assert.deepStrictEqual(f(['a']), 'a')
-    assert.deepStrictEqual(f(['a', 'bb']), 'abb')
+    deepStrictEqual(f(['a']), 'a')
+    deepStrictEqual(f(['a', 'bb']), 'abb')
   })
 
   it('do notation', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         _.of(1),
         _.bindTo('a'),
@@ -372,10 +373,10 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('apS', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), [{ a: 1, b: 'b' }])
+    deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), [{ a: 1, b: 'b' }])
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [[1, 'b']])
+    deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [[1, 'b']])
   })
 })

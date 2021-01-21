@@ -1,16 +1,16 @@
-import * as assert from 'assert'
 import * as B from '../src/boolean'
+import { deepStrictEqual } from './util'
 
 describe('boolean', () => {
   it('fold', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       B.fold(
         () => 'false',
         () => 'true'
       )(true),
       'true'
     )
-    assert.deepStrictEqual(
+    deepStrictEqual(
       B.fold(
         () => 'false',
         () => 'true'

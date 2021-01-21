@@ -111,6 +111,7 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [Json (type alias)](#json-type-alias)
+  - [JsonRecord (interface)](#jsonrecord-interface)
   - [apS](#aps)
   - [apSW](#apsw)
   - [apT](#apt)
@@ -1250,7 +1251,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Json = boolean | number | string | null | ReadonlyArray<Json> | Record<string, JSON>
+export type Json = boolean | number | string | null | ReadonlyArray<Json> | JsonRecord
+```
+
+Added in v3.0.0
+
+## JsonRecord (interface)
+
+**Signature**
+
+```ts
+export interface JsonRecord {
+  readonly [key: string]: Json
+}
 ```
 
 Added in v3.0.0

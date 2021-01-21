@@ -1,50 +1,50 @@
-import * as assert from 'assert'
 import { pipe } from '../src/function'
-import { sign, eqOrdering, monoidOrdering, invert } from '../src/Ordering'
+import { eqOrdering, invert, monoidOrdering, sign } from '../src/Ordering'
+import { deepStrictEqual } from './util'
 
 describe('Ordering', () => {
   it('sign', () => {
-    assert.deepStrictEqual(sign(10), 1)
-    assert.deepStrictEqual(sign(0), 0)
-    assert.deepStrictEqual(sign(-10), -1)
+    deepStrictEqual(sign(10), 1)
+    deepStrictEqual(sign(0), 0)
+    deepStrictEqual(sign(-10), -1)
   })
 
   it('eqOrdering', () => {
-    assert.deepStrictEqual(eqOrdering.equals(-1)(-1), true)
-    assert.deepStrictEqual(eqOrdering.equals(-1)(0), false)
-    assert.deepStrictEqual(eqOrdering.equals(-1)(1), false)
-    assert.deepStrictEqual(eqOrdering.equals(0)(-1), false)
-    assert.deepStrictEqual(eqOrdering.equals(0)(0), true)
-    assert.deepStrictEqual(eqOrdering.equals(0)(1), false)
-    assert.deepStrictEqual(eqOrdering.equals(1)(-1), false)
-    assert.deepStrictEqual(eqOrdering.equals(1)(0), false)
-    assert.deepStrictEqual(eqOrdering.equals(1)(1), true)
+    deepStrictEqual(eqOrdering.equals(-1)(-1), true)
+    deepStrictEqual(eqOrdering.equals(-1)(0), false)
+    deepStrictEqual(eqOrdering.equals(-1)(1), false)
+    deepStrictEqual(eqOrdering.equals(0)(-1), false)
+    deepStrictEqual(eqOrdering.equals(0)(0), true)
+    deepStrictEqual(eqOrdering.equals(0)(1), false)
+    deepStrictEqual(eqOrdering.equals(1)(-1), false)
+    deepStrictEqual(eqOrdering.equals(1)(0), false)
+    deepStrictEqual(eqOrdering.equals(1)(1), true)
   })
 
   it('monoidOrdering', () => {
     // concat
-    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(-1)), -1)
-    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(0)), -1)
-    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(1)), -1)
-    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(-1)), -1)
-    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(0)), 0)
-    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(1)), 1)
-    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(-1)), 1)
-    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(0)), 1)
-    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(1)), 1)
+    deepStrictEqual(pipe(-1, monoidOrdering.concat(-1)), -1)
+    deepStrictEqual(pipe(-1, monoidOrdering.concat(0)), -1)
+    deepStrictEqual(pipe(-1, monoidOrdering.concat(1)), -1)
+    deepStrictEqual(pipe(0, monoidOrdering.concat(-1)), -1)
+    deepStrictEqual(pipe(0, monoidOrdering.concat(0)), 0)
+    deepStrictEqual(pipe(0, monoidOrdering.concat(1)), 1)
+    deepStrictEqual(pipe(1, monoidOrdering.concat(-1)), 1)
+    deepStrictEqual(pipe(1, monoidOrdering.concat(0)), 1)
+    deepStrictEqual(pipe(1, monoidOrdering.concat(1)), 1)
 
     // empty
-    assert.deepStrictEqual(pipe(1, monoidOrdering.concat(monoidOrdering.empty)), 1)
-    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(1)), 1)
-    assert.deepStrictEqual(pipe(-1, monoidOrdering.concat(monoidOrdering.empty)), -1)
-    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(-1)), -1)
-    assert.deepStrictEqual(pipe(0, monoidOrdering.concat(monoidOrdering.empty)), 0)
-    assert.deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(0)), 0)
+    deepStrictEqual(pipe(1, monoidOrdering.concat(monoidOrdering.empty)), 1)
+    deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(1)), 1)
+    deepStrictEqual(pipe(-1, monoidOrdering.concat(monoidOrdering.empty)), -1)
+    deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(-1)), -1)
+    deepStrictEqual(pipe(0, monoidOrdering.concat(monoidOrdering.empty)), 0)
+    deepStrictEqual(pipe(monoidOrdering.empty, monoidOrdering.concat(0)), 0)
   })
 
   it('invert', () => {
-    assert.deepStrictEqual(invert(-1), 1)
-    assert.deepStrictEqual(invert(0), 0)
-    assert.deepStrictEqual(invert(1), -1)
+    deepStrictEqual(invert(-1), 1)
+    deepStrictEqual(invert(0), 0)
+    deepStrictEqual(invert(1), -1)
   })
 })

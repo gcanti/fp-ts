@@ -1,7 +1,7 @@
-import * as assert from 'assert'
-import * as _ from '../src/Store'
-import * as A from '../src/ReadonlyArray'
 import { pipe } from '../src/function'
+import * as A from '../src/ReadonlyArray'
+import * as _ from '../src/Store'
+import { deepStrictEqual } from './util'
 
 const len = (s: string): number => s.length
 
@@ -9,7 +9,7 @@ describe('Store', () => {
   describe('pipeables', () => {
     it('map', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(
+      deepStrictEqual(
         _.extract(
           pipe(
             wa,
@@ -22,7 +22,7 @@ describe('Store', () => {
 
     it('extend', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(
+      deepStrictEqual(
         _.extract(
           pipe(
             wa,
@@ -42,18 +42,18 @@ describe('Store', () => {
 
     it('duplicate', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(_.extract(_.extract(pipe(wa, _.duplicate))), 1)
+      deepStrictEqual(_.extract(_.extract(pipe(wa, _.duplicate))), 1)
     })
   })
 
   it('seek', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(_.extract(pipe(wa, _.seek('aa'))), 2)
+    deepStrictEqual(_.extract(pipe(wa, _.seek('aa'))), 2)
   })
 
   it('seeks', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.extract(
         pipe(
           wa,
@@ -66,7 +66,7 @@ describe('Store', () => {
 
   it('peeks', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         wa,
         _.peeks((s) => s + 'a')
@@ -77,7 +77,7 @@ describe('Store', () => {
 
   it('experiment', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         wa,
         _.experiment(A.Functor)((s) => [s, s + 'a'])

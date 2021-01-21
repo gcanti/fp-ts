@@ -1,12 +1,12 @@
-import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { ordNumber } from '../src/Ord'
-import * as _ from '../src/ReadonlySet'
 import * as Eq from '../src/Eq'
-import { none, some as optionSome } from '../src/Option'
-import { showString } from '../src/Show'
-import { getMonoid } from '../src/ReadonlyArray'
 import { pipe } from '../src/function'
+import { none, some as optionSome } from '../src/Option'
+import { ordNumber } from '../src/Ord'
+import { getMonoid } from '../src/ReadonlyArray'
+import * as _ from '../src/ReadonlySet'
+import { showString } from '../src/Show'
+import { deepStrictEqual } from './util'
 
 const gte2 = (n: number) => n >= 2
 
@@ -18,63 +18,63 @@ const fooEq: Eq.Eq<Foo> = Eq.fromEquals((second: Foo) => (first: Foo) => first.x
 
 describe('ReadonlySet', () => {
   it('toReadonlyArray', () => {
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set()), [])
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([3, 2, 1])), [1, 2, 3])
+    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set()), [])
+    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
+    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('getEq', () => {
     const S = _.getEq(Eq.eqNumber)
-    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
-    assert.deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
-    assert.deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
+    deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
+    deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
+    deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
   })
 
   it('some', () => {
-    assert.deepStrictEqual(_.some((s: string) => s.trim() === '')(new Set<string>()), false)
-    assert.deepStrictEqual(_.some(gte2)(new Set([1, 2, 3])), true)
-    assert.deepStrictEqual(_.some(gte2)(new Set([1])), false)
+    deepStrictEqual(_.some((s: string) => s.trim() === '')(new Set<string>()), false)
+    deepStrictEqual(_.some(gte2)(new Set([1, 2, 3])), true)
+    deepStrictEqual(_.some(gte2)(new Set([1])), false)
   })
 
   it('map', () => {
-    assert.deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([])), new Set([]))
-    assert.deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
-    assert.deepStrictEqual(_.map(Eq.eqString)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
+    deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([])), new Set([]))
+    deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
+    deepStrictEqual(_.map(Eq.eqString)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
   })
 
   it('every', () => {
-    assert.deepStrictEqual(_.every(gte2)(new Set([1, 2, 3])), false)
-    assert.deepStrictEqual(_.every(gte2)(new Set([2, 3])), true)
+    deepStrictEqual(_.every(gte2)(new Set([1, 2, 3])), false)
+    deepStrictEqual(_.every(gte2)(new Set([2, 3])), true)
   })
 
   it('chain', () => {
-    assert.deepStrictEqual(_.chain(Eq.eqString)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
-    assert.deepStrictEqual(_.chain(Eq.eqString)(() => new Set([]))(new Set([1, 2])), new Set([]))
-    assert.deepStrictEqual(
+    deepStrictEqual(_.chain(Eq.eqString)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
+    deepStrictEqual(_.chain(Eq.eqString)(() => new Set([]))(new Set([1, 2])), new Set([]))
+    deepStrictEqual(
       _.chain(Eq.eqString)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
       new Set(['1', '2', '3'])
     )
   })
 
   it('isSubset', () => {
-    assert.deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), true)
-    assert.deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), false)
+    deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), true)
+    deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), false)
   })
 
   it('filter', () => {
-    assert.deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3]))
+    deepStrictEqual(_.filter(gte2)(new Set([1, 2, 3])), new Set([2, 3]))
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = _.filter(isNumber)(new Set([1, 'a', 2]))
-    assert.deepStrictEqual(actual, new Set([1, 2]))
+    deepStrictEqual(actual, new Set([1, 2]))
   })
 
   it('partition', () => {
-    assert.deepStrictEqual(_.partition(() => true)(new Set([])), { right: new Set([]), left: new Set([]) })
-    assert.deepStrictEqual(_.partition(() => true)(new Set([1])), { right: new Set([1]), left: new Set([]) })
-    assert.deepStrictEqual(_.partition(() => false)(new Set([1])), { right: new Set([]), left: new Set([1]) })
-    assert.deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), {
+    deepStrictEqual(_.partition(() => true)(new Set([])), { right: new Set([]), left: new Set([]) })
+    deepStrictEqual(_.partition(() => true)(new Set([1])), { right: new Set([1]), left: new Set([]) })
+    deepStrictEqual(_.partition(() => false)(new Set([1])), { right: new Set([]), left: new Set([1]) })
+    deepStrictEqual(_.partition((n: number) => n % 2 === 0)(new Set([1, 2, 3, 4])), {
       right: new Set([2, 4]),
       left: new Set([1, 3])
     })
@@ -82,26 +82,26 @@ describe('ReadonlySet', () => {
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = _.partition(isNumber)(new Set([1, 'a', 2]))
-    assert.deepStrictEqual(actual, {
+    deepStrictEqual(actual, {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
   })
 
   it('union', () => {
-    assert.deepStrictEqual(pipe(new Set([1, 2]), _.union(Eq.eqNumber)(new Set([1, 3]))), new Set([1, 2, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.union(Eq.eqNumber)(new Set([1, 3]))), new Set([1, 2, 3]))
   })
 
   it('intersection', () => {
-    assert.deepStrictEqual(pipe(new Set([1, 2]), _.intersection(Eq.eqNumber)(new Set([1, 3]))), new Set([1]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.intersection(Eq.eqNumber)(new Set([1, 3]))), new Set([1]))
   })
 
   it('partitionMap', () => {
-    assert.deepStrictEqual(_.partitionMap(Eq.eqNumber, Eq.eqString)((n: number) => left(n))(new Set([])), {
+    deepStrictEqual(_.partitionMap(Eq.eqNumber, Eq.eqString)((n: number) => left(n))(new Set([])), {
       left: new Set([]),
       right: new Set([])
     })
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.partitionMap(Eq.eqNumber, Eq.eqString)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(
         new Set([1, 2, 3])
       ),
@@ -112,7 +112,7 @@ describe('ReadonlySet', () => {
     )
     const SL = Eq.getStructEq({ value: Eq.eqNumber })
     const SR = Eq.getStructEq({ value: Eq.eqString })
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.partitionMap(
         SL,
         SR
@@ -128,72 +128,72 @@ describe('ReadonlySet', () => {
 
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(Eq.eqNumber)
-    assert.deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([1, 2, 3]))
-    assert.deepStrictEqual(pipe(new Set([1, 2]), M.concat(M.empty)), new Set([1, 2]))
-    assert.deepStrictEqual(pipe(M.empty, M.concat(new Set([1, 3]))), new Set([1, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([1, 2, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), M.concat(M.empty)), new Set([1, 2]))
+    deepStrictEqual(pipe(M.empty, M.concat(new Set([1, 3]))), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
     const S = _.getIntersectionSemigroup(Eq.eqNumber)
-    assert.deepStrictEqual(pipe(new Set([1, 2]), S.concat(new Set([1, 3]))), new Set([1]))
-    assert.deepStrictEqual(pipe(new Set([1, 2]), S.concat(_.empty)), _.empty)
-    assert.deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
+    deepStrictEqual(pipe(new Set([1, 2]), S.concat(new Set([1, 3]))), new Set([1]))
+    deepStrictEqual(pipe(new Set([1, 2]), S.concat(_.empty)), _.empty)
+    deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
   })
 
   it('difference', () => {
-    assert.deepStrictEqual(pipe(new Set([1, 2]), _.difference(Eq.eqNumber)(new Set([1, 3]))), new Set([2]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.difference(Eq.eqNumber)(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {
-    assert.deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
-    assert.deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
+    deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
+    deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
   })
 
   it('foldMap', () => {
-    assert.deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
+    deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
+    deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('singleton', () => {
-    assert.deepStrictEqual(_.singleton(1), new Set([1]))
+    deepStrictEqual(_.singleton(1), new Set([1]))
   })
 
   it('insert', () => {
     const x = new Set([1, 2])
-    assert.deepStrictEqual(_.insert(Eq.eqNumber)(3)(x), new Set([1, 2, 3]))
+    deepStrictEqual(_.insert(Eq.eqNumber)(3)(x), new Set([1, 2, 3]))
     // should return the same ference if the element is already a member
-    assert.deepStrictEqual(_.insert(Eq.eqNumber)(2)(x), x)
+    deepStrictEqual(_.insert(Eq.eqNumber)(2)(x), x)
   })
 
   it('remove', () => {
-    assert.deepStrictEqual(_.remove(Eq.eqNumber)(3)(new Set([1, 2])), new Set([1, 2]))
-    assert.deepStrictEqual(_.remove(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
+    deepStrictEqual(_.remove(Eq.eqNumber)(3)(new Set([1, 2])), new Set([1, 2]))
+    deepStrictEqual(_.remove(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
   })
 
   it('fromReadonlyArray', () => {
-    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([]), new Set([]))
-    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1]), new Set([1]))
-    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 1]), new Set([1]))
-    assert.deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
+    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([]), new Set([]))
+    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1]), new Set([1]))
+    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 1]), new Set([1]))
+    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
 
-    assert.deepStrictEqual(_.fromReadonlyArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+    deepStrictEqual(_.fromReadonlyArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 
   it('compact', () => {
-    assert.deepStrictEqual(_.compact(Eq.eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
+    deepStrictEqual(_.compact(Eq.eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
     const S: Eq.Eq<R> = pipe(
       Eq.eqString,
       Eq.contramap((x) => x.id)
     )
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
     )
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(_.separate(Eq.eqString, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
+    deepStrictEqual(_.separate(Eq.eqString, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
@@ -207,7 +207,7 @@ describe('ReadonlySet', () => {
       Eq.eqString,
       Eq.contramap((x) => x.id)
     )
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.separate(
         SL,
         SR
@@ -220,7 +220,7 @@ describe('ReadonlySet', () => {
   })
 
   it('filterMap', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.filterMap(Eq.eqNumber)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(
         new Set(['a', 'bb', 'ccc'])
       ),
@@ -231,7 +231,7 @@ describe('ReadonlySet', () => {
       Eq.eqString,
       Eq.contramap((x) => x.id)
     )
-    assert.deepStrictEqual(
+    deepStrictEqual(
       _.filterMap(S)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])
     )
@@ -240,10 +240,10 @@ describe('ReadonlySet', () => {
   it('getShow', () => {
     const S = _.getShow(showString)
     const s1 = new Set<string>([])
-    assert.deepStrictEqual(S.show(s1), `new Set([])`)
+    deepStrictEqual(S.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
-    assert.deepStrictEqual(S.show(s2), `new Set(["a"])`)
+    deepStrictEqual(S.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['a', 'b'])
-    assert.deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
+    deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
   })
 })

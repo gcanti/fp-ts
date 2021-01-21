@@ -1,74 +1,74 @@
-import * as assert from 'assert'
-import * as RA from '../src/ReadonlyArray'
 import { pipe, tuple } from '../src/function'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/State'
+import { deepStrictEqual } from './util'
 
 describe('State', () => {
   describe('pipeables', () => {
     it('map', () => {
       const double = (n: number) => n * 2
       const x = (s: number) => tuple(s - 1, s + 1)
-      assert.deepStrictEqual(pipe(x, _.map(double))(0), [-2, 1])
+      deepStrictEqual(pipe(x, _.map(double))(0), [-2, 1])
     })
 
     it('ap', () => {
       const double = (n: number) => n * 2
-      assert.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(0), [2, 0])
+      deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(0), [2, 0])
     })
 
     it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))(0), ['a', 0])
+      deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))(0), ['a', 0])
     })
 
     it('apSecond', () => {
-      assert.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(0), ['b', 0])
+      deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))(0), ['b', 0])
     })
 
     it('chain', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
-      assert.deepStrictEqual(pipe(x, _.chain(f))(0), [0, 2])
+      deepStrictEqual(pipe(x, _.chain(f))(0), [0, 2])
     })
 
     it('chainFirst', () => {
       const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
       const x = (s: number) => tuple(s - 1, s + 1)
-      assert.deepStrictEqual(pipe(x, _.chainFirst(f))(0), [-1, 2])
+      deepStrictEqual(pipe(x, _.chainFirst(f))(0), [-1, 2])
     })
 
     it('flatten', () => {
-      assert.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)(0), ['a', 0])
+      deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)(0), ['a', 0])
     })
   })
 
   it('evaluate', () => {
-    assert.deepStrictEqual(pipe(_.of<string, number>('a'), _.evaluate(0)), 'a')
+    deepStrictEqual(pipe(_.of<string, number>('a'), _.evaluate(0)), 'a')
   })
 
   it('execute', () => {
-    assert.deepStrictEqual(pipe(_.of<string, number>('a'), _.execute(0)), 0)
+    deepStrictEqual(pipe(_.of<string, number>('a'), _.execute(0)), 0)
   })
 
   it('put', () => {
-    assert.deepStrictEqual(_.put(2)(1), [undefined, 2])
+    deepStrictEqual(_.put(2)(1), [undefined, 2])
   })
 
   it('get', () => {
-    assert.deepStrictEqual(_.get()(1), [1, 1])
+    deepStrictEqual(_.get()(1), [1, 1])
   })
 
   it('modify', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(_.modify(double)(1), [undefined, 2])
+    deepStrictEqual(_.modify(double)(1), [undefined, 2])
   })
 
   it('gets', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(_.gets(double)(1), [2, 1])
+    deepStrictEqual(_.gets(double)(1), [2, 1])
   })
 
   it('do notation', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         _.of(1),
         _.bindTo('a'),
@@ -79,32 +79,29 @@ describe('State', () => {
   })
 
   it('apS', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), [
-      { a: 1, b: 'b' },
-      undefined
-    ])
+    deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), [{ a: 1, b: 'b' }, undefined])
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [[1, 'b'], {}])
+    deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [[1, 'b'], {}])
   })
 
   describe('array utils', () => {
     it('sequenceReadonlyArray', () => {
       const add = (n: number) => (s: number) => tuple(n, n + s)
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, RA.map(add), _.sequenceReadonlyArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+      deepStrictEqual(pipe(arr, RA.map(add), _.sequenceReadonlyArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
     })
 
     it('traverseReadonlyArray', () => {
       const add = (n: number) => (s: number) => tuple(n, n + s)
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+      deepStrictEqual(pipe(arr, _.traverseReadonlyArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
     })
     it('traverseReadonlyArrayWithIndex', () => {
       const add = (n: number) => (s: number) => tuple(n, n + s)
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           arr,
           _.traverseReadonlyArrayWithIndex((_i, data) => add(data))

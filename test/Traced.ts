@@ -1,7 +1,7 @@
-import * as assert from 'assert'
-import { getStructMonoid, monoidAny, Monoid } from '../src/Monoid'
-import * as _ from '../src/Traced'
 import { pipe } from '../src/function'
+import { getStructMonoid, Monoid, monoidAny } from '../src/Monoid'
+import * as _ from '../src/Traced'
+import { deepStrictEqual } from './util'
 
 // Adapted from https://chshersh.github.io/posts/2019-03-25-comonadic-builders
 
@@ -54,7 +54,7 @@ describe('Traced', () => {
 
   it('map', () => {
     const wa = buildProject('myproject')
-    assert.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
+    deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
   })
 
   // -------------------------------------------------------------------------------------
@@ -63,13 +63,13 @@ describe('Traced', () => {
 
   it('getComonad', () => {
     const wa = buildProject('myproject')
-    assert.deepStrictEqual(C.extract(wa), {
+    deepStrictEqual(C.extract(wa), {
       projectName: 'myproject',
       projectHasLibrary: false,
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(pipe(wa, C.extend(hasLibraryB))), {
+    deepStrictEqual(C.extract(pipe(wa, C.extend(hasLibraryB))), {
       projectName: 'myproject',
       projectHasLibrary: true,
       projectGitHub: false,
@@ -83,13 +83,13 @@ describe('Traced', () => {
 
   it('tracks', () => {
     const travisB = _.tracks(M)((project: Project): Settings => ({ ...M.empty, settingsTravis: project.projectGitHub }))
-    assert.deepStrictEqual(C.extract(pipe(buildProject('travis'), C.extend(travisB))), {
+    deepStrictEqual(C.extract(pipe(buildProject('travis'), C.extend(travisB))), {
       projectName: 'travis',
       projectHasLibrary: false,
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(pipe(buildProject('github-travis'), C.extend(gitHubB), C.extend(travisB))), {
+    deepStrictEqual(C.extract(pipe(buildProject('github-travis'), C.extend(gitHubB), C.extend(travisB))), {
       projectName: 'github-travis',
       projectHasLibrary: false,
       projectGitHub: true,
@@ -98,7 +98,7 @@ describe('Traced', () => {
   })
 
   it('listen', () => {
-    assert.deepStrictEqual(C.extract(_.listen(buildProject('myproject'))), [
+    deepStrictEqual(C.extract(_.listen(buildProject('myproject'))), [
       {
         projectName: 'myproject',
         projectHasLibrary: false,
@@ -114,7 +114,7 @@ describe('Traced', () => {
   })
 
   it('listens', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       C.extract(
         pipe(
           buildProject('myproject'),
@@ -134,7 +134,7 @@ describe('Traced', () => {
   })
 
   it('censor', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       C.extract(
         pipe(
           buildProject('myproject'),

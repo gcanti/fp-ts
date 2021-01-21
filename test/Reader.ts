@@ -1,7 +1,7 @@
-import * as assert from 'assert'
 import { pipe } from '../src/function'
 import * as _ from '../src/Reader'
 import * as RA from '../src/ReadonlyArray'
+import { deepStrictEqual } from './util'
 
 interface Env {
   readonly count: number
@@ -11,40 +11,40 @@ describe('Reader', () => {
   describe('pipeables', () => {
     it('map', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(pipe(_.of(1), _.map(double))({}), 2)
+      deepStrictEqual(pipe(_.of(1), _.map(double))({}), 2)
     })
 
     it('ap', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))({}), 2)
+      deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))({}), 2)
     })
 
     it('apFirst', () => {
-      assert.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))({}), 'a')
+      deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))({}), 'a')
     })
 
     it('apSecond', () => {
-      assert.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))({}), 'b')
+      deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))({}), 'b')
     })
 
     it('chain', () => {
       const f = (s: string): _.Reader<object, number> => _.of(s.length)
-      assert.deepStrictEqual(pipe(_.of('foo'), _.chain(f))({}), 3)
+      deepStrictEqual(pipe(_.of('foo'), _.chain(f))({}), 3)
     })
 
     it('chainFirst', () => {
       const f = (s: string): _.Reader<object, number> => _.of(s.length)
-      assert.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
+      deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
     })
 
     it('chain', () => {
-      assert.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
+      deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
     })
 
     it('compose', () => {
       const double = (n: number) => n * 2
       const len = (s: string) => s.length
-      assert.deepStrictEqual(pipe(len, _.compose(double))('aaa'), 6)
+      deepStrictEqual(pipe(len, _.compose(double))('aaa'), 6)
     })
 
     it('promap', () => {
@@ -56,13 +56,13 @@ describe('Reader', () => {
           (n) => n >= 2
         )
       )
-      assert.deepStrictEqual(reader({ name: 'foo' }), true)
-      assert.deepStrictEqual(reader({ name: 'a' }), false)
+      deepStrictEqual(reader({ name: 'foo' }), true)
+      deepStrictEqual(reader({ name: 'a' }), false)
     })
   })
 
   it('of', () => {
-    assert.deepStrictEqual(_.of(1)({}), 1)
+    deepStrictEqual(_.of(1)({}), 1)
   })
 
   it('local', () => {
@@ -73,27 +73,27 @@ describe('Reader', () => {
       (s: string) => s.length,
       _.local((e: E) => e.name)
     )
-    assert.deepStrictEqual(x({ name: 'foo' }), 3)
+    deepStrictEqual(x({ name: 'foo' }), 3)
   })
 
   it('id', () => {
     const x = _.id<number>()
-    assert.deepStrictEqual(x(1), 1)
+    deepStrictEqual(x(1), 1)
   })
 
   it('ask', () => {
     const e: Env = { count: 0 }
-    assert.deepStrictEqual(_.ask<Env>()(e), e)
+    deepStrictEqual(_.ask<Env>()(e), e)
   })
 
   it('asks', () => {
     const e: Env = { count: 0 }
     const f = (e: Env) => e.count + 1
-    assert.deepStrictEqual(_.asks(f)(e), 1)
+    deepStrictEqual(_.asks(f)(e), 1)
   })
 
   it('do notation', () => {
-    assert.deepStrictEqual(
+    deepStrictEqual(
       pipe(
         _.of(1),
         _.bindTo('a'),
@@ -104,27 +104,27 @@ describe('Reader', () => {
   })
 
   it('apS', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), { a: 1, b: 'b' })
+    deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), { a: 1, b: 'b' })
   })
 
   it('apT', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [1, 'b'])
+    deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [1, 'b'])
   })
 
   describe('array utils', () => {
     it('sequenceReadonlyArray', () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceReadonlyArray)(undefined), arr)
+      deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceReadonlyArray)(undefined), arr)
     })
 
     it('traverseReadonlyArray', () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))(undefined), arr)
+      deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))(undefined), arr)
     })
 
     it('traverseReadonlyArrayWithIndex', () => {
       const arr = RA.range(0, 10)
-      assert.deepStrictEqual(
+      deepStrictEqual(
         pipe(
           arr,
           _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
