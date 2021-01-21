@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { pipe } from './function'
+import { flow, pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
@@ -208,4 +208,58 @@ export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
         return acc
       })
     )
+}
+
+/**
+ * @since 3.0.0
+ */
+export function reduce_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Kind<F, Kind<G, A>>) => B
+export function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, HKT<G, A>>) => B
+export function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, HKT<G, A>>) => B {
+  return (b, f) => F.reduce(b, (b, ga) => G.reduce(b, f)(ga))
+}
+
+/**
+ * @since 3.0.0
+ */
+export function foldMap_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind<F, Kind<G, A>>) => M
+export function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, HKT<G, A>>) => M
+export function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, HKT<G, A>>) => M {
+  return (M) => flow(G.foldMap(M), F.foldMap(M))
+}
+
+/**
+ * @since 3.0.0
+ */
+export function reduceRight_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Kind<F, Kind<G, A>>) => B
+export function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, HKT<G, A>>) => B
+export function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, HKT<G, A>>) => B {
+  return (b, f) => F.reduceRight(b, (ga, b) => G.reduceRight(b, f)(ga))
 }

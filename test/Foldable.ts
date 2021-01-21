@@ -1,5 +1,5 @@
 import * as _ from '../src/Foldable'
-import { pipe } from '../src/function'
+import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as A from '../src/ReadonlyArray'
@@ -50,6 +50,33 @@ describe('Foldable', () => {
         _.reduceM(O.Monad, A.Foldable)(1, (b, a) => O.some(b + a))
       ),
       O.some(3)
+    )
+  })
+
+  it('reduce_', () => {
+    const reduce = _.reduce_(A.Foldable, O.Foldable)
+    deepStrictEqual(
+      pipe(
+        [O.some('a'), O.none, O.some('b')],
+        reduce('c', (b, a) => b + a)
+      ),
+      'cab'
+    )
+  })
+
+  it('foldMap_', () => {
+    const foldMap = _.foldMap_(A.Foldable, O.Foldable)
+    deepStrictEqual(pipe([O.some('a'), O.none, O.some('b')], foldMap(monoidString)(identity)), 'ab')
+  })
+
+  it('reduceRight_', () => {
+    const reduceRight = _.reduceRight_(A.Foldable, O.Foldable)
+    deepStrictEqual(
+      pipe(
+        [O.some('a'), O.none, O.some('b')],
+        reduceRight('c', (b, a) => b + a)
+      ),
+      'abc'
     )
   })
 })

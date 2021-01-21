@@ -21,8 +21,11 @@ Added in v3.0.0
   - [Foldable3C (interface)](#foldable3c-interface)
   - [Foldable4 (interface)](#foldable4-interface)
 - [utils](#utils)
+  - [foldMap\_](#foldmap_)
   - [intercalate](#intercalate)
   - [reduceM](#reducem)
+  - [reduceRight\_](#reduceright_)
+  - [reduce\_](#reduce_)
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
@@ -138,6 +141,23 @@ Added in v3.0.0
 
 # utils
 
+## foldMap\_
+
+**Signature**
+
+```ts
+export declare function foldMap_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind<F, Kind<G, A>>) => M
+export declare function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v3.0.0
+
 ## intercalate
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
@@ -226,6 +246,40 @@ assert.deepStrictEqual(
   ),
   some(7)
 )
+```
+
+Added in v3.0.0
+
+## reduceRight\_
+
+**Signature**
+
+```ts
+export declare function reduceRight_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Kind<F, Kind<G, A>>) => B
+export declare function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v3.0.0
+
+## reduce\_
+
+**Signature**
+
+```ts
+export declare function reduce_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Kind<F, Kind<G, A>>) => B
+export declare function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, HKT<G, A>>) => B
 ```
 
 Added in v3.0.0
