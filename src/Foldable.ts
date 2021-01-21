@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
-import { constant } from './function'
+import { constant, pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
@@ -203,15 +203,75 @@ export function getFoldableComposition<F extends URIS, G extends URIS>(
 ): FoldableComposition11<F, G>
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
+  const reduce = reduce_(F, G)
+  const foldMap = foldMap_(F, G)
+  const reduceRight = reduceRight_(F, G)
   return {
-    reduce: (fga, b, f) => F.reduce(fga, b, (b, ga) => G.reduce(ga, b, f)),
+    reduce: (fga, b, f) => pipe(fga, reduce(b, f)),
     foldMap: (M) => {
-      const foldMapF = F.foldMap(M)
-      const foldMapG = G.foldMap(M)
-      return (fa, f) => foldMapF(fa, (ga) => foldMapG(ga, f))
+      const foldMapM = foldMap(M)
+      return (fga, f) => pipe(fga, foldMapM(f))
     },
-    reduceRight: (fa, b, f) => F.reduceRight(fa, b, (ga, b) => G.reduceRight(ga, b, f))
+    reduceRight: (fga, b, f) => pipe(fga, reduceRight(b, f))
   }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function reduce_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+export function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B {
+  return (b, f) => (fga) => F.reduce(fga, b, (b, ga) => G.reduce(ga, b, f))
+}
+
+/**
+ * @since 2.10.0
+ */
+export function foldMap_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+export function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M {
+  return (M) => {
+    const foldMapF = F.foldMap(M)
+    const foldMapG = G.foldMap(M)
+    return (f) => (fga) => foldMapF(fga, (ga) => foldMapG(ga, f))
+  }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function reduceRight_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+export function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {
+  return (b, f) => (fga) => F.reduceRight(fga, b, (ga, b) => G.reduceRight(ga, b, f))
 }
 
 /**
