@@ -562,8 +562,9 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B> = (fa) => (fab) =>
-  isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right))
+export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
+  fab
+) => (isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right)))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -585,7 +586,7 @@ export const of: Pointed2<URI>['of'] = right
  * @category Monad
  * @since 2.6.0
  */
-export const chainW = <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>): Either<D | E, B> =>
+export const chainW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
   isLeft(ma) ? ma : f(ma.right)
 
 /**
@@ -1105,9 +1106,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <D, A, B>(
-  f: (a: A) => Either<D, B>
-) => <E>(ma: Either<E, A>) => Either<D | E, A> = chainFirst as any
+export const chainFirstW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -1264,10 +1265,10 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, D, B>(
+export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1283,10 +1284,10 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, D, B>(
+export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

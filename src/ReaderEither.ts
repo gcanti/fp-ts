@@ -126,9 +126,9 @@ export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: Reader
  * @category destructors
  * @since 2.6.0
  */
-export const getOrElseW: <R, E, B>(
-  onLeft: (e: E) => Reader<R, B>
-) => <Q, A>(ma: ReaderEither<Q, E, A>) => Reader<Q & R, A | B> = getOrElse as any
+export const getOrElseW: <R2, E, B>(
+  onLeft: (e: E) => Reader<R2, B>
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
 
 /**
  * @category destructors
@@ -175,7 +175,7 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
  * @category combinators
  * @since 2.0.0
  */
-export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<Q, E, A> {
+export function local<R2, R1>(f: (f: R2) => R1): <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> {
   return (ma) => (q) => ma(f(q))
 }
 
@@ -195,9 +195,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <R, D>(ma: ReaderEither<R, D, A>) => ReaderEither<R, D | E, B> = (f) => chainW(fromEitherK(f))
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -280,9 +280,9 @@ export const ap: <R, E, A>(
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <Q, D, A>(
-  fa: ReaderEither<Q, D, A>
-) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<Q & R, D | E, B> = ap as any
+export const apW: <R2, E2, A>(
+  fa: ReaderEither<R2, E2, A>
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
 
 /**
  * @category Pointed
@@ -308,9 +308,9 @@ export const chain: <R, E, A, B>(
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => <Q, D>(ma: ReaderEither<Q, D, A>) => ReaderEither<Q & R, D | E, B> = chain as any
+export const chainW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -538,9 +538,9 @@ export const chainFirst: <R, E, A, B>(
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <R, D, A, B>(
-  f: (a: A) => ReaderEither<R, D, B>
-) => <Q, E>(ma: ReaderEither<Q, E, A>) => ReaderEither<Q & R, D | E, A> = chainFirst as any
+export const chainFirstW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -658,12 +658,12 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, Q, D, B>(
+export const bindW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, E | D, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -679,12 +679,12 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, Q, D, B>(
+export const apSW: <A, N extends string, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderEither<Q, D, B>
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<Q & R, D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

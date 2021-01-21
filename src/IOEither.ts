@@ -199,9 +199,9 @@ export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainEitherKW: <E, A, B>(f: (a: A) => Either<E, B>) => <D>(ma: IOEither<D, A>) => IOEither<D | E, B> = (
-  f
-) => chainW(fromEitherK(f))
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -284,7 +284,9 @@ export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B> = ap as any
+export const apW: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> = ap as any
 
 /**
  * @category Pointed
@@ -308,9 +310,9 @@ export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B> = chain as any
+export const chainW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -557,9 +559,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, A> = chainFirst as any
+export const chainFirstW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -719,10 +721,10 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, D, B>(
+export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -738,10 +740,10 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, D, B>(
+export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -90,9 +90,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <Q, A>(
-  fa: ReaderTask<Q, A>
-) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<Q & R, B>
+export declare const apW: <R2, A>(
+  fa: ReaderTask<R2, A>
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v2.8.0
@@ -133,9 +133,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <R, A, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => <Q>(ma: ReaderTask<Q, A>) => ReaderTask<Q & R, B>
+export declare const chainW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v2.6.7
@@ -260,7 +260,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const local: <Q, R>(f: (f: Q) => R) => <A>(ma: ReaderTask<R, A>) => ReaderTask<Q, A>
+export declare const local: <R2, R1>(f: (f: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
 ```
 
 Added in v2.3.0
@@ -511,10 +511,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, Q, B>(
+export declare const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTask<Q, B>
-) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderTask<R2, B>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -547,10 +547,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, Q, B>(
+export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<Q, B>
-) => <R>(fa: ReaderTask<R, A>) => ReaderTask<Q & R, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
