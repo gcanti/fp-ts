@@ -281,9 +281,9 @@ export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainEitherKW: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, B> = (f) => chainW(fromEitherK(f))
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => chainW(fromEitherK(f))
 
 /**
  * @category combinators
@@ -299,9 +299,9 @@ export const chainEitherK: <E, A, B>(
  * @category combinators
  * @since 2.6.1
  */
-export const chainIOEitherKW: <E, A, B>(
-  f: (a: A) => IOEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, B> = (f) => chainW(fromIOEitherK(f))
+export const chainIOEitherKW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
 
 /**
  * @category combinators
@@ -382,9 +382,9 @@ export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) =
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <D, A>(
-  fa: TaskEither<D, A>
-) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<D | E, B> = ap as any
+export const apW: <E2, A>(
+  fa: TaskEither<E2, A>
+) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = ap as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -402,9 +402,9 @@ export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, B> = chain as any
+export const chainW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -688,9 +688,9 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
  * @category combinators
  * @since 2.8.0
  */
-export const chainFirstW: <E, A, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <D>(ma: TaskEither<D, A>) => TaskEither<D | E, A> = chainFirst as any
+export const chainFirstW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirst as any
 
 /**
  * @category instances
@@ -898,10 +898,12 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, D, B>(
+export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => TaskEither<D, B>
-) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(
+  fa: TaskEither<E1, A>
+) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -917,10 +919,12 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, D, B>(
+export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: TaskEither<D, B>
-) => <E>(fa: TaskEither<E, A>) => TaskEither<D | E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: TaskEither<E2, B>
+) => <E1>(
+  fa: TaskEither<E1, A>
+) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

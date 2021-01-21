@@ -158,7 +158,9 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <D, A>(fa: IOEither<D, A>) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<D | E, B>
+export declare const apW: <E2, A>(
+  fa: IOEither<E2, A>
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.8.0
@@ -225,7 +227,9 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <D, A, B>(f: (a: A) => IOEither<D, B>) => <E>(ma: IOEither<E, A>) => IOEither<D | E, B>
+export declare const chainW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.6.0
@@ -301,9 +305,9 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => <D>(ma: IOEither<D, A>) => IOEither<E | D, B>
+export declare const chainEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.6.1
@@ -332,9 +336,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <D, A, B>(
-  f: (a: A) => IOEither<D, B>
-) => <E>(ma: IOEither<E, A>) => IOEither<D | E, A>
+export declare const chainFirstW: <E2, A, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -909,10 +913,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, D, B>(
+export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -945,10 +949,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, D, B>(
+export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => IOEither<D, B>
-) => <E>(fa: IOEither<E, A>) => IOEither<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

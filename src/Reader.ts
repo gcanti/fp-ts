@@ -58,7 +58,8 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  * @category combinators
  * @since 2.0.0
  */
-export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = (f) => (ma) => (q) => ma(f(q))
+export const local: <R2, R1>(f: (d: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (q) =>
+  ma(f(q))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -98,7 +99,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
  * @category Apply
  * @since 2.8.0
  */
-export const apW: <Q, A>(fa: Reader<Q, A>) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<Q & R, B> = (fa) => (
+export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
   fab
 ) => (r) => fab(r)(fa(r))
 
@@ -122,7 +123,7 @@ export const of: Pointed2<URI>['of'] = constant
  * @category Monad
  * @since 2.6.0
  */
-export const chainW: <R, A, B>(f: (a: A) => Reader<R, B>) => <Q>(ma: Reader<Q, A>) => Reader<Q & R, B> = (f) => (
+export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
   fa
 ) => (r) => f(fa(r))(r)
 
@@ -340,10 +341,10 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const bindW: <N extends string, A, Q, B>(
+export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<Q, B>
-) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+  f: (a: A) => Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -366,10 +367,10 @@ export const apS =
 /**
  * @since 2.8.0
  */
-export const apSW: <A, N extends string, Q, B>(
+export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<Q, B>
-) => <R>(fa: Reader<R, A>) => Reader<Q & R, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+  fb: Reader<R2, B>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

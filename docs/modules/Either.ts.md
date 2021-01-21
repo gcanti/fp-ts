@@ -184,7 +184,7 @@ Less strict version of [`ap`](#ap).
 **Signature**
 
 ```ts
-export declare const apW: <D, A>(fa: Either<D, A>) => <E, B>(fab: Either<E, (a: A) => B>) => Either<D | E, B>
+export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
 ```
 
 Added in v2.8.0
@@ -343,7 +343,7 @@ Less strict version of [`chain`](#chain).
 **Signature**
 
 ```ts
-export declare const chainW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, B>
+export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v2.6.0
@@ -477,7 +477,9 @@ Derivable from `Monad`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <D, A, B>(f: (a: A) => Either<D, B>) => <E>(ma: Either<E, A>) => Either<D | E, A>
+export declare const chainFirstW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v2.8.0
@@ -1448,10 +1450,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, D, B>(
+export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -1484,10 +1486,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindW: <N extends string, A, D, B>(
+export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<D, B>
-) => <E>(fa: Either<E, A>) => Either<D | E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: (a: A) => Either<E2, B>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
