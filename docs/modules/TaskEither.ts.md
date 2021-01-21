@@ -756,7 +756,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(ma: T.Task<E.Either<E, A>>) => T.Task<E | A>
+export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
 ```
 
 Added in v3.0.0

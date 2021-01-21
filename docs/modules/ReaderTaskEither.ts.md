@@ -801,7 +801,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, E | A>
+export declare const toUnion: <R, E, A>(fa: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, E | A>
 ```
 
 Added in v3.0.0

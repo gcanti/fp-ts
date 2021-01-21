@@ -584,7 +584,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, E | A>
+export declare const toUnion: <R, E, A>(fa: R.Reader<R, E.Either<E, A>>) => R.Reader<R, E | A>
 ```
 
 Added in v3.0.0

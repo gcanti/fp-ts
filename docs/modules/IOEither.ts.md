@@ -589,7 +589,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(ma: I.IO<E.Either<E, A>>) => I.IO<E | A>
+export declare const toUnion: <E, A>(fa: I.IO<E.Either<E, A>>) => I.IO<E | A>
 ```
 
 Added in v3.0.0
