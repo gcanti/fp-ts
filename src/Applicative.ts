@@ -17,7 +17,8 @@
  *
  * @since 2.0.0
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, getApplySemigroup } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, ap_, getApplySemigroup } from './Apply'
+import { pipe } from './function'
 import {
   FunctorComposition,
   FunctorComposition11,
@@ -241,14 +242,11 @@ export function getApplicativeComposition<F, G extends URIS>(
 ): ApplicativeCompositionHKT1<F, G>
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
+  const ap = ap_(F, G)
   return {
     map: getFunctorComposition(F, G).map,
     of: (a) => F.of(G.of(a)),
-    ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
-      F.ap(
-        F.map(fgab, (h) => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)),
-        fga
-      )
+    ap: (fgab, fga) => pipe(fgab, ap(fga))
   }
 }
 

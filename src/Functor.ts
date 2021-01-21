@@ -11,6 +11,7 @@
  *
  * @since 2.0.0
  */
+import { pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
@@ -206,8 +207,9 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
 ): FunctorComposition11<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
+  const map = map_(F, G)
   return {
-    map: (fa, f) => F.map(fa, (ga) => G.map(ga, f))
+    map: (fga, f) => pipe(fga, map(f))
   }
 }
 

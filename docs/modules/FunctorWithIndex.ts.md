@@ -40,6 +40,7 @@ Added in v2.0.0
   - [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
   - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
   - [getFunctorWithIndexComposition](#getfunctorwithindexcomposition)
+  - [mapWithIndex\_](#mapwithindex_)
 
 ---
 
@@ -280,3 +281,20 @@ export declare function getFunctorWithIndexComposition<F, FI, G, GI>(
 ```
 
 Added in v2.0.0
+
+## mapWithIndex\_
+
+**Signature**
+
+```ts
+export declare function mapWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FunctorWithIndex1<F, I>,
+  G: FunctorWithIndex1<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export declare function mapWithIndex_<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0

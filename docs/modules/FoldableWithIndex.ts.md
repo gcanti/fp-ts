@@ -38,7 +38,10 @@ Added in v2.0.0
   - [FoldableWithIndexComposition22 (interface)](#foldablewithindexcomposition22-interface)
   - [FoldableWithIndexComposition22C (interface)](#foldablewithindexcomposition22c-interface)
   - [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
+  - [foldMapWithIndex\_](#foldmapwithindex_)
   - [getFoldableWithIndexComposition](#getfoldablewithindexcomposition)
+  - [reduceRightWithIndex\_](#reducerightwithindex_)
+  - [reduceWithIndex\_](#reducewithindex_)
 
 ---
 
@@ -281,6 +284,23 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
 
 Added in v2.0.0
 
+## foldMapWithIndex\_
+
+**Signature**
+
+```ts
+export declare function foldMapWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export declare function foldMapWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v2.10.0
+
 ## getFoldableWithIndexComposition
 
 **Signature**
@@ -321,3 +341,37 @@ export declare function getFoldableWithIndexComposition<F, FI, G, GI>(
 ```
 
 Added in v2.0.0
+
+## reduceRightWithIndex\_
+
+**Signature**
+
+```ts
+export declare function reduceRightWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceRightWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
+
+## reduceWithIndex\_
+
+**Signature**
+
+```ts
+export declare function reduceWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FoldableWithIndex1<F, I>,
+  G: FoldableWithIndex1<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceWithIndex_<F, I, G, J>(
+  F: FoldableWithIndex<F, I>,
+  G: FoldableWithIndex<G, J>
+): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
