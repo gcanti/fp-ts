@@ -29,9 +29,12 @@ Added in v2.0.0
   - [FoldableComposition22 (interface)](#foldablecomposition22-interface)
   - [FoldableComposition22C (interface)](#foldablecomposition22c-interface)
   - [FoldableComposition2C1 (interface)](#foldablecomposition2c1-interface)
+  - [foldMap\_](#foldmap_)
   - [getFoldableComposition](#getfoldablecomposition)
   - [intercalate](#intercalate)
   - [reduceM](#reducem)
+  - [reduceRight\_](#reduceright_)
+  - [reduce\_](#reduce_)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse\_](#traverse_)
   - [~~foldM~~](#foldm)
@@ -262,6 +265,23 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, E> {
 
 Added in v2.0.0
 
+## foldMap\_
+
+**Signature**
+
+```ts
+export declare function foldMap_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export declare function foldMap_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v2.10.0
+
 ## getFoldableComposition
 
 Returns the composition of two foldables
@@ -405,6 +425,40 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.8.0
+
+## reduceRight\_
+
+**Signature**
+
+```ts
+export declare function reduceRight_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceRight_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
+
+## reduce\_
+
+**Signature**
+
+```ts
+export declare function reduce_<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduce_<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
 
 ## toReadonlyArray
 
