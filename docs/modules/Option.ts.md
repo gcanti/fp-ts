@@ -78,6 +78,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toNullable](#tonullable)
@@ -753,7 +754,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare function fold<A, B>(onNone: Lazy<B>, onSome: (a: A) => B): (ma: Option<A>) => B
+export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
 ```
 
 **Example**
@@ -786,6 +787,18 @@ assert.strictEqual(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+```
+
+Added in v2.10.0
 
 ## getOrElse
 
@@ -840,7 +853,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `null`.
 **Signature**
 
 ```ts
-export declare function toNullable<A>(ma: Option<A>): A | null
+export declare const toNullable: <A>(ma: Option<A>) => A
 ```
 
 **Example**
@@ -862,7 +875,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `undefi
 **Signature**
 
 ```ts
-export declare function toUndefined<A>(ma: Option<A>): A | undefined
+export declare const toUndefined: <A>(ma: Option<A>) => A
 ```
 
 **Example**

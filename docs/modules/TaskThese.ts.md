@@ -35,6 +35,7 @@ Added in v2.4.0
   - [rightTask](#righttask)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -251,6 +252,22 @@ export declare const fold: <E, B, A>(
 ```
 
 Added in v2.4.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
+```
+
+Added in v2.10.0
 
 # instances
 
