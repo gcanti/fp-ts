@@ -108,6 +108,17 @@ export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) 
   ET.fold_(I.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW: <E, B, A, C>(
+  onLeft: (e: E) => IO<B>,
+  onRight: (a: A) => IO<C>
+) => (ma: IOEither<E, A>) => IO<B | C> = fold as any
+
+/**
  * @category destructors
  * @since 2.0.0
  */

@@ -75,6 +75,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -855,7 +856,7 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B
+export declare const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
 ```
 
 **Example**
@@ -877,6 +878,18 @@ assert.strictEqual(pipe(left(['error 1', 'error 2']), fold(onLeft, onRight)), 'E
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
+```
+
+Added in v2.10.0
 
 ## getOrElse
 

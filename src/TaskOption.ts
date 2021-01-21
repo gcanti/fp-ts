@@ -120,6 +120,17 @@ export const fold =
   OT.fold_(T.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW: <B, C, A>(
+  onNone: () => Task<B>,
+  onSome: (a: A) => Task<C>
+) => (ma: TaskOption<A>) => Task<B | C> = fold as any
+
+/**
  * @category destructors
  * @since 2.10.0
  */

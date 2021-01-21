@@ -1,8 +1,20 @@
 /**
  * @since 2.2.0
  */
-
 import { Lazy } from './function'
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
+  value ? onTrue() : onFalse()
 
 /**
  * Defines the fold over a boolean value.
@@ -25,6 +37,4 @@ import { Lazy } from './function'
  * @category destructors
  * @since 2.2.0
  */
-export function fold<A>(onFalse: Lazy<A>, onTrue: Lazy<A>): (value: boolean) => A {
-  return (value) => (value ? onTrue() : onFalse())
-}
+export const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = foldW

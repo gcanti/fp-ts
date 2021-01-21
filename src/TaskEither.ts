@@ -159,6 +159,17 @@ export const fold: <E, A, B>(
   ET.fold_(T.Monad)
 
 /**
+ * Less strict version of [`fold`](#fold).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW: <E, B, A, C>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<C>
+) => (ma: TaskEither<E, A>) => Task<B | C> = fold as any
+
+/**
  * @category destructors
  * @since 2.0.0
  */

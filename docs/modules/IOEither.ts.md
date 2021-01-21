@@ -59,6 +59,7 @@ Added in v2.0.0
   - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [toUnion](#tounion)
@@ -537,6 +538,21 @@ export declare const fold: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## foldW
+
+Less strict version of [`fold`](#fold).
+
+**Signature**
+
+```ts
+export declare const foldW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
+```
+
+Added in v2.10.0
 
 ## getOrElse
 
