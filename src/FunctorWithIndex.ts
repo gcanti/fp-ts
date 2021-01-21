@@ -30,6 +30,7 @@ import {
   getFunctorComposition,
   Functor3C
 } from './Functor'
+import { pipe } from './function'
 
 /**
  * @category type classes
@@ -199,8 +200,27 @@ export function getFunctorWithIndexComposition<F, FI, G, GI>(
   F: FunctorWithIndex<F, FI>,
   G: FunctorWithIndex<G, GI>
 ): FunctorWithIndexComposition<F, FI, G, GI> {
+  const mapWithIndex = mapWithIndex_(F, G)
   return {
     map: getFunctorComposition(F, G).map,
-    mapWithIndex: (fga, f) => F.mapWithIndex(fga, (fi, ga) => G.mapWithIndex(ga, (gi, a) => f([fi, gi], a)))
+    mapWithIndex: (fga, f: any) => pipe(fga, mapWithIndex(f))
   }
+}
+
+/**
+ * @since 2.10.0
+ */
+export function mapWithIndex_<F extends URIS, I, G extends URIS, J>(
+  F: FunctorWithIndex1<F, I>,
+  G: FunctorWithIndex1<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export function mapWithIndex_<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+export function mapWithIndex_<F, I, G, J>(
+  F: FunctorWithIndex<F, I>,
+  G: FunctorWithIndex<G, J>
+): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+  return (f) => (fa) => F.mapWithIndex(fa, (i, ga) => G.mapWithIndex(ga, (j, a) => f([i, j], a)))
 }
