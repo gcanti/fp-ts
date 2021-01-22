@@ -10,6 +10,37 @@ import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { assertPar, assertSeq, deepStrictEqual } from './util'
 
+const assertOp = <E, A, B, C>(f: (a: _.TaskEither<E, A>, b: _.TaskEither<E, B>) => _.TaskEither<E, C>) => async (
+  a: _.TaskEither<E, A>,
+  b: _.TaskEither<E, B>,
+  expected: E.Either<E, C>,
+  expectedLog: ReadonlyArray<A | B>
+) => {
+  // tslint:disable-next-line: readonly-array
+  const log: Array<unknown> = []
+  const append: <A>(ma: _.TaskEither<E, A>) => _.TaskEither<E, A> = _.chainFirst((x) =>
+    _.fromIO(() => {
+      log.push(x)
+    })
+  )
+  const c = await pipe(f(pipe(a, append), pipe(b, append)))()
+  deepStrictEqual(c, expected)
+  deepStrictEqual(log, expectedLog as any)
+}
+
+const a: _.TaskEither<string, string> = pipe(_.of<string, string>('a'), T.delay(100))
+const b: _.TaskEither<string, string> = _.of('b')
+
+const assertParOp = async <C>(
+  f: (a: _.TaskEither<string, string>, b: _.TaskEither<string, string>) => _.TaskEither<string, C>,
+  expected: E.Either<string, C>
+) => assertOp(f)(a, b, expected, ['b', 'a'])
+
+const assertSeqOp = <C>(
+  f: (a: _.TaskEither<string, string>, b: _.TaskEither<string, string>) => _.TaskEither<string, C>,
+  expected: E.Either<string, C>
+) => assertOp(f)(a, b, expected, ['a', 'b'])
+
 describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
   // type class members
@@ -23,7 +54,7 @@ describe('TaskEither', () => {
     ) => {
       deepStrictEqual(
         await pipe(
-          T.delay(10)(a),
+          a,
           _.alt(() => b)
         )(),
         expected
@@ -36,62 +67,93 @@ describe('TaskEither', () => {
   })
 
   it('map', async () => {
-    const double = (n: number): number => n * 2
-    deepStrictEqual(await pipe(_.right(1), _.map(double))(), E.right(2))
+    const assertMap = async (a: _.TaskEither<string, number>, expected: E.Either<string, number>) => {
+      deepStrictEqual(
+        await pipe(
+          a,
+          _.map((n) => n * 2)
+        )(),
+        expected
+      )
+    }
+    await assertMap(_.right(1), E.right(2))
+    await assertMap(_.left('a'), E.left('a'))
   })
 
   it('ap', async () => {
-    const double = (n: number): number => n * 2
-    deepStrictEqual(await pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
+    await assertParOp(
+      (a, b) =>
+        pipe(
+          a,
+          _.map((a: string) => (b: string) => a + b),
+          _.ap(b)
+        ),
+      E.right('ab')
+    )
   })
 
   it('apFirst', async () => {
-    deepStrictEqual(await pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
+    await assertParOp((a, b) => pipe(a, _.apFirst(b)), E.right('a'))
   })
 
   it('apSecond', async () => {
-    deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+    await assertParOp((a, b) => pipe(a, _.apSecond(b)), E.right('b'))
   })
 
   it('chain', async () => {
-    deepStrictEqual(
-      await pipe(
-        _.right('foo'),
-        _.chain((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
-      )(),
-      E.right(3)
-    )
-    deepStrictEqual(
-      await pipe(
-        _.right('a'),
-        _.chain((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
-      )(),
-      E.left('foo')
-    )
+    const assertChain = async (
+      a: _.TaskEither<string, number>,
+      b: _.TaskEither<string, number>,
+      expected: E.Either<string, number>
+    ) => {
+      deepStrictEqual(
+        await pipe(
+          a,
+          _.chain(() => b)
+        )(),
+        expected
+      )
+    }
+
+    await assertChain(_.right(1), _.left('b'), E.left('b'))
+    await assertChain(_.left('a'), _.right(2), E.left('a'))
+    await assertChain(_.left('a'), _.left('b'), E.left('a'))
   })
 
   it('chainFirst', async () => {
-    deepStrictEqual(
-      await pipe(
-        _.right('foo'),
-        _.chainFirst((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
-      )(),
-      E.right('foo')
+    await assertSeqOp(
+      (a, b) =>
+        pipe(
+          a,
+          _.chainFirst((a) =>
+            pipe(
+              b,
+              _.map((b) => a + b)
+            )
+          )
+        ),
+      E.right('a')
     )
   })
 
   it('chainFirstW', async () => {
-    deepStrictEqual(
-      await pipe(
-        _.right<string, number>('foo'),
-        _.chainFirstW((a) => (a.length > 2 ? _.right(a.length) : _.left('foo')))
-      )(),
-      E.right('foo')
+    await assertSeqOp(
+      (a, b) =>
+        pipe(
+          a,
+          _.chainFirstW((a) =>
+            pipe(
+              b,
+              _.map((b) => a + b)
+            )
+          )
+        ),
+      E.right('a')
     )
   })
 
   it('flatten', async () => {
-    deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
+    deepStrictEqual(await pipe(_.right(_.right(1)), _.flatten)(), E.right(1))
   })
 
   it('bimap', async () => {
@@ -113,8 +175,15 @@ describe('TaskEither', () => {
 
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
-    const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
-    deepStrictEqual(await pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(), E.left('ab'))
+    await assertParOp(
+      (a, b) =>
+        pipe(
+          a,
+          _.map((a: string) => (b: string) => a + b),
+          A.ap(b)
+        ),
+      E.right('ab')
+    )
   })
 
   it('getAltTaskValidation', async () => {
