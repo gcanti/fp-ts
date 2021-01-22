@@ -13,6 +13,24 @@ const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
 
 const delay = <A>(millis: number, a: A): _.Task<A> => _.delay(millis)(_.of(a))
 
+const assertOp = <A, B, C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>) => async (
+  a: _.Task<A>,
+  b: _.Task<B>,
+  expected: C,
+  expectedLog: ReadonlyArray<A | B>
+) => {
+  // tslint:disable-next-line: readonly-array
+  const log: Array<unknown> = []
+  const append: <A>(ma: _.Task<A>) => _.Task<A> = _.chainFirst((x) =>
+    _.fromIO(() => {
+      log.push(x)
+    })
+  )
+  const c = await pipe(f(pipe(a, append), pipe(b, append)))()
+  assert.deepStrictEqual(c, expected)
+  assert.deepStrictEqual(log, expectedLog)
+}
+
 describe('Task', () => {
   // -------------------------------------------------------------------------------------
   // pipeables
@@ -24,16 +42,30 @@ describe('Task', () => {
   })
 
   it('ap', async () => {
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(await pipe(delay(1, double), _.ap(delay(0, 2)))(), 4)
+    const deepStrictEqual = assertOp<string, string, string>((a, b) =>
+      pipe(
+        _.of((a: string) => (b: string) => a + b),
+        _.ap(a),
+        _.ap(b)
+      )
+    )
+    const a = pipe(_.of('a'), _.delay(100))
+    const b = _.of('b')
+    await deepStrictEqual(a, b, 'ab', ['b', 'a'])
   })
 
   it('apFirst', async () => {
-    assert.deepStrictEqual(await pipe(_.of('a'), _.apFirst(_.of('b')))(), 'a')
+    const deepStrictEqual = assertOp((a, b) => pipe(a, _.apFirst(b)))
+    const a = pipe(_.of('a'), _.delay(100))
+    const b = _.of('b')
+    await deepStrictEqual(a, b, 'a', ['b', 'a'])
   })
 
   it('apSecond', async () => {
-    assert.deepStrictEqual(await pipe(_.of('a'), _.apSecond(_.of('b')))(), 'b')
+    const deepStrictEqual = assertOp((a, b) => pipe(a, _.apSecond(b)))
+    const a = pipe(_.of('a'), _.delay(100))
+    const b = _.of('b')
+    await deepStrictEqual(a, b, 'b', ['b', 'a'])
   })
 
   it('chain', async () => {
@@ -92,21 +124,15 @@ describe('Task', () => {
     })
   })
 
-  describe('getMonoid', () => {
+  it('getMonoid', async () => {
     // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidString)
-
-    it('concat', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 'a'), delay(10, 'b'))(), 'ab')
-    })
-
-    it('empty (right)', async () => {
-      assert.deepStrictEqual(await M.concat(delay(10, 'a'), M.empty)(), 'a')
-    })
-
-    it('empty (left)', async () => {
-      assert.deepStrictEqual(await M.concat(M.empty, delay(10, 'a'))(), 'a')
-    })
+    const deepStrictEqual = assertOp(M.concat)
+    const a = pipe(_.of('a'), _.delay(100))
+    const b = _.of('b')
+    await deepStrictEqual(a, b, 'ab', ['a', 'b'])
+    await deepStrictEqual(a, M.empty, 'a', ['a', ''])
+    await deepStrictEqual(M.empty, b, 'b', ['', 'b'])
   })
 
   // -------------------------------------------------------------------------------------
