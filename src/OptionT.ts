@@ -189,19 +189,22 @@ export function alt_<M>(
 }
 
 // -------------------------------------------------------------------------------------
-// unused
+// deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
   readonly alt: <A>(fa: OptionT<M, A>, that: Lazy<OptionT<M, A>>) => OptionT<M, A>
@@ -214,13 +217,14 @@ export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
   readonly alt: <A>(fa: OptionT1<M, A>, that: Lazy<OptionT1<M, A>>) => OptionT1<M, A>
@@ -233,13 +237,14 @@ export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O.URI> {
   readonly chain: <E, A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <E, A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
@@ -255,8 +260,8 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O
 
 /**
  * @since 2.2.0
+ * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, O.URI, E> {
   readonly chain: <A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
@@ -272,13 +277,17 @@ export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
+/** @deprecated */
 export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E>
+/** @deprecated */
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
+/** @deprecated */
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
+/** @deprecated */
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  // tslint:disable-next-line: deprecation
   const A = getApplicativeComposition(M, O.Applicative)
   const none = M.of(O.none)
 

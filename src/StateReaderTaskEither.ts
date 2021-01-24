@@ -853,6 +853,8 @@ export const sequenceArray: <S, R, E, A>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use small, specific instances instead.
  *
@@ -881,7 +883,7 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   URI,
   map: _map,

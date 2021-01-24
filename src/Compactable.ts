@@ -193,11 +193,13 @@ export function separate_<F, G>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
   readonly compact: <A>(fga: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
   readonly separate: <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
@@ -207,7 +209,7 @@ export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly compact: <A>(fga: Kind<F, Kind<G, Option<A>>>) => Kind<F, Kind<G, A>>
   readonly separate: <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
@@ -217,7 +219,7 @@ export interface CompactableComposition11<F extends URIS, G extends URIS> extend
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
   readonly compact: <E, A>(fga: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
   readonly separate: <E, A, B>(
@@ -229,7 +231,7 @@ export interface CompactableComposition12<F extends URIS, G extends URIS2> exten
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition12C<F extends URIS, G extends URIS2, E> extends FunctorComposition12C<F, G, E> {
   readonly compact: <A>(fga: Kind<F, Kind2<G, E, Option<A>>>) => Kind<F, Kind2<G, E, A>>
   readonly separate: <A, B>(
@@ -241,7 +243,7 @@ export interface CompactableComposition12C<F extends URIS, G extends URIS2, E> e
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
   readonly compact: <FE, A>(fga: Kind2<F, FE, Kind<G, Option<A>>>) => Kind2<F, FE, Kind<G, A>>
   readonly separate: <FE, A, B>(
@@ -253,7 +255,7 @@ export interface CompactableComposition21<F extends URIS2, G extends URIS> exten
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition2C1<F extends URIS2, G extends URIS, E> extends FunctorComposition2C1<F, G, E> {
   readonly compact: <A>(fga: Kind2<F, E, Kind<G, Option<A>>>) => Kind2<F, E, Kind<G, A>>
   readonly separate: <A, B>(
@@ -265,7 +267,7 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, E> e
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
   readonly compact: <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, Option<A>>>) => Kind2<F, FE, Kind2<G, GE, A>>
   readonly separate: <FE, GE, A, B>(
@@ -277,7 +279,7 @@ export interface CompactableComposition22<F extends URIS2, G extends URIS2> exte
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> extends FunctorComposition22C<F, G, E> {
   readonly compact: <FE, A>(fga: Kind2<F, FE, Kind2<G, E, Option<A>>>) => Kind2<F, FE, Kind2<G, E, A>>
   readonly separate: <FE, A, B>(
@@ -289,7 +291,7 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, E> 
  * @since 2.2.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition23<F extends URIS2, G extends URIS3> extends FunctorComposition23<F, G> {
   readonly compact: <R, FE, GE, A>(fga: Kind2<F, FE, Kind3<G, R, GE, Option<A>>>) => Kind2<F, FE, Kind3<G, R, GE, A>>
   readonly separate: <R, FE, GE, A, B>(
@@ -301,7 +303,7 @@ export interface CompactableComposition23<F extends URIS2, G extends URIS3> exte
  * @since 2.2.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> extends FunctorComposition23C<F, G, E> {
   readonly compact: <FE, R, A>(fga: Kind2<F, FE, Kind3<G, R, E, Option<A>>>) => Kind2<F, FE, Kind3<G, R, E, A>>
   readonly separate: <FE, R, A, B>(
@@ -316,63 +318,52 @@ export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> 
 export function getCompactableComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Compactable3C<G, E> & Functor3C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition23C<F, G, E>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition22C<F, G, E>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Compactable2<G> & Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition22<F, G>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition2C1<F, G, E>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition21<F, G>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition12<F, G>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Compactable2<G> & Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition12<F, G>
 /** @deprecated */
 export function getCompactableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition11<F, G>
 /** @deprecated */
 export function getCompactableComposition<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition<F, G>
 /** @deprecated */
 export function getCompactableComposition<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition<F, G> {
-  // tslint:disable-next-line: deprecation
   const map = getFunctorComposition(F, G).map
   return {
     map,
