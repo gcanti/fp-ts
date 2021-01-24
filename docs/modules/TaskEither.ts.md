@@ -686,6 +686,8 @@ Transforms a `Promise` that may reject to a `Promise` that never rejects and ret
 
 Note: `f` should never `throw` errors, they are not caught.
 
+See also [`tryCatchK`](#tryCatchK).
+
 **Signature**
 
 ```ts

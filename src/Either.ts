@@ -127,14 +127,15 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
   return <A>(a: A) => (a == null ? left(e) : right(a as NonNullable<A>))
 }
 
-// TODO: `onError => Lazy<A> => Either` in v3
 /**
  * Constructs a new `Either` from a function that might throw.
  *
- * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/Either'
+ * See also [`tryCatchK`](#tryCatchK).
  *
- * const unsafeHead = <A>(as: Array<A>): A => {
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
  *   if (as.length > 0) {
  *     return as[0]
  *   } else {
@@ -142,21 +143,20 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
  *   }
  * }
  *
- * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
- * }
+ * const head = <A>(as: ReadonlyArray<A>): E.Either<Error, A> =>
+ *   E.tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
  *
- * assert.deepStrictEqual(head([]), left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), right(1))
+ * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
  *
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> {
+export function tryCatch<E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A> {
   try {
     return right(f())
   } catch (e) {
-    return left(onError(e))
+    return left(onThrow(e))
   }
 }
 
@@ -413,6 +413,17 @@ export function chainNullableK<E>(
 export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
   return isLeft(ma) ? right(ma.left) : left(ma.right)
 }
+
+/**
+ * Converts a function that may throw to one returning a `Either`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+): ((...a: A) => Either<E, B>) => (...a) => tryCatch(() => f(...a), onThrow)
 
 /**
  * Less strict version of [`orElse`](#orElse).

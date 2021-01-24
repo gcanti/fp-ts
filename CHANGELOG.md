@@ -129,6 +129,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `toUnion`, closes #1362 (@gcanti)
     - add `foldW` (@gcanti)
     - add `orElseW` (@gcanti)
+    - add `tryCatchK` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
