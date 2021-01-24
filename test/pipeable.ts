@@ -8,6 +8,8 @@ import { pipeable } from '../src/pipeable'
 import * as R from '../src/Reader'
 import { pipe } from '../src/function'
 
+// tslint:disable: deprecation
+
 describe('pipeable', () => {
   it('{}', () => {
     const r = pipeable<'{}', {}>({ URI: '{}' })
@@ -148,5 +150,48 @@ describe('pipeable', () => {
   it('Semigroupoid', () => {
     const { compose } = pipeable(R.Category)
     assert.deepStrictEqual(compose((s: string) => s.length)((n) => n * 2)('aa'), 4)
+  })
+
+  it('MonadThrow', () => {
+    const { fromEither, fromOption, fromPredicate, filterOrElse } = pipeable(E.MonadThrow)
+    assert.deepStrictEqual(fromEither(E.right(1)), E.right(1))
+    assert.deepStrictEqual(fromEither(E.left('a')), E.left('a'))
+    assert.deepStrictEqual(fromOption(() => 'none')(O.none), E.left('none'))
+    assert.deepStrictEqual(fromOption(() => 'none')(O.some(1)), E.right(1))
+    const gt2 = fromPredicate(
+      (n: number) => n >= 2,
+      (n) => `Invalid number ${n}`
+    )
+    assert.deepStrictEqual(gt2(3), E.right(3))
+    assert.deepStrictEqual(gt2(1), E.left('Invalid number 1'))
+    const gt10 = (n: number): boolean => n > 10
+    assert.deepStrictEqual(
+      pipe(
+        E.right(12),
+        filterOrElse(gt10, () => -1)
+      ),
+      E.right(12)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        E.right(7),
+        filterOrElse(gt10, () => -1)
+      ),
+      E.left(-1)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        E.left(12),
+        filterOrElse(gt10, () => -1)
+      ),
+      E.left(12)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        E.right(7),
+        filterOrElse(gt10, (n) => `invalid ${n}`)
+      ),
+      E.left('invalid 7')
+    )
   })
 })

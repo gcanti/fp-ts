@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0
 
 - **Deprecations**
+  - deprecate `pipeable` module, use the specific helpers instead (@gcanti)
   - deprecate `ValidationT` module, use `EitherT` instead (@gcanti)
   - deprecate "mega instances", use small, specific instances instead (@gcanti)
   - deprecate the old monad transformers, use the specific helpers instead (@gcanti)
@@ -92,8 +93,6 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
   - `Traversable`
     - deprecate `getTraversableComposition`, use `traverse_`, `sequence_` helpers instead (@gcanti)
-  - `pipeable`
-    - deprecate `pipe` in favour of `function`'s `pipe` (@gcanti)
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - add `FromEither` type class (@gcanti)
