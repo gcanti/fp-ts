@@ -1372,7 +1372,7 @@ export const traverseArray: <E, A, B>(
  *
  * const arr = RA.range(0, 10)
  * assert.deepStrictEqual(pipe(arr, RA.map(right), sequenceArray), right(arr))
- * assert.deepStrictEqual(pipe(arr, RA.map(right), A.cons(left('Error')), sequenceArray), left('Error'))
+ * assert.deepStrictEqual(pipe(arr, RA.map(right), RA.cons(left('Error')), sequenceArray), left('Error'))
  *
  * @since 2.9.0
  */

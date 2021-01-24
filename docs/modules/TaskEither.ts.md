@@ -1139,7 +1139,7 @@ Added in v2.0.0
 
 ## sequenceArray
 
-this function has the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and performs better
+this function has the same behavior of `RA.sequence(TE.taskEither)` but it's stack safe and performs better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`_
 
@@ -1153,7 +1153,7 @@ export declare const sequenceArray: <A, E>(arr: readonly TaskEither<E, A>[]) => 
 
 ```ts
 import * as TE from 'fp-ts/TaskEither'
-import * as A from 'fp-ts/Array'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { right } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
@@ -1161,17 +1161,17 @@ const PostRepo = {
   findById: (id: number) => TE.of({ id, title: '' }),
 }
 
-const findAllPosts = (ids: number[]) => pipe(ids, A.map(PostRepo.findById), TE.sequenceArray)
+const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, RA.map(PostRepo.findById), TE.sequenceArray)
 
 async function test() {
-  const ids = A.range(0, 10)
+  const ids = RA.range(0, 10)
 
   assert.deepStrictEqual(
     await findAllPosts(ids)(),
     right(
       pipe(
         ids,
-        A.map((id) => ({ id, title: '' }))
+        RA.map((id) => ({ id, title: '' }))
       )
     )
   )
@@ -1184,7 +1184,7 @@ Added in v2.9.0
 
 ## sequenceSeqArray
 
-this function has the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
+this function has the same behavior of `RA.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`_
 
@@ -1250,7 +1250,7 @@ Added in v2.0.0
 
 ## traverseArray
 
-this function has the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and performs better
+this function has the same behavior of `RA.traverse(TE.taskEither)` but it's stack safe and performs better
 
 _this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`_
 
@@ -1266,7 +1266,7 @@ export declare const traverseArray: <A, B, E>(
 
 ```ts
 import * as TE from 'fp-ts/TaskEither'
-import * as A from 'fp-ts/Array'
+import * as RA from 'fp-ts/ReadonlyArray'
 import { right } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
@@ -1274,17 +1274,17 @@ const PostRepo = {
   findById: (id: number) => TE.of({ id, title: '' }),
 }
 
-const findAllPosts = (ids: number[]) => pipe(ids, TE.traverseArray(PostRepo.findById))
+const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, TE.traverseArray(PostRepo.findById))
 
 async function test() {
-  const ids = A.range(0, 10)
+  const ids = RA.range(0, 10)
 
   assert.deepStrictEqual(
     await findAllPosts(ids)(),
     right(
       pipe(
         ids,
-        A.map((id) => ({ id, title: '' }))
+        RA.map((id) => ({ id, title: '' }))
       )
     )
   )
@@ -1309,7 +1309,7 @@ Added in v2.9.0
 
 ## traverseSeqArray
 
-this function has the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
+this function has the same behavior of `RA.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
 
 _this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`_
 
