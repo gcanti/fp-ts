@@ -4,15 +4,15 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_ } from './Apply'
+import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
 import { Compactable1, compact_, separate_ } from './Compactable'
 import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
 import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
-import { Functor1 } from './Functor'
-import { chainFirst_, Monad1 } from './Monad'
+import { bindTo_, Functor1 } from './Functor'
+import { bind_, chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
@@ -336,7 +336,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.10.0
  */
-export const Funtor: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: _map
 }
@@ -550,6 +550,42 @@ export const FromTask: FromTask1<URI> = {
   fromIO,
   fromTask
 }
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const Do: TaskOption<{}> =
+  /*#__PURE__*/
+  of({})
+
+/**
+ * @since 3.0.0
+ */
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
+
+/**
+ * @since 3.0.0
+ */
+export const bind =
+  /*#__PURE__*/
+  bind_(Monad)
+
+// -------------------------------------------------------------------------------------
+// sequence S
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const apS =
+  /*#__PURE__*/
+  apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils
