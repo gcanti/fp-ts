@@ -290,116 +290,6 @@ export interface Sequence3<T extends URIS3> {
 }
 
 /**
- * @since 2.0.0
- */
-// tslint:disable-next-line: deprecation
-export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
-  readonly traverse: <H>(
-    H: Applicative<H>
-  ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
-  readonly sequence: <H>(H: Applicative<H>) => <A>(fga: HKT<F, HKT<G, HKT<H, A>>>) => HKT<H, HKT<F, HKT<G, A>>>
-}
-
-/**
- * @since 2.0.0
- */
-export interface TraverseComposition11<F extends URIS, G extends URIS> {
-  <H extends URIS3>(H: Applicative3<H>): <R, E, A, B>(
-    fga: Kind<F, Kind<G, A>>,
-    f: (a: A) => Kind3<H, R, E, B>
-  ) => Kind3<H, R, E, Kind<F, Kind<G, B>>>
-  <H extends URIS2>(H: Applicative2<H>): <E, A, B>(
-    fga: Kind<F, Kind<G, A>>,
-    f: (a: A) => Kind2<H, E, B>
-  ) => Kind2<H, E, Kind<F, Kind<G, B>>>
-  <H extends URIS2, E>(H: Applicative2C<H, E>): <A, B>(
-    fga: Kind<F, Kind<G, A>>,
-    f: (a: A) => Kind2<H, E, B>
-  ) => Kind2<H, E, Kind<F, Kind<G, B>>>
-  <H extends URIS>(H: Applicative1<H>): <A, B>(
-    fga: Kind<F, Kind<G, A>>,
-    f: (a: A) => Kind<H, B>
-  ) => Kind<H, Kind<F, Kind<G, B>>>
-  <H>(H: Applicative<H>): <A, B>(fga: Kind<F, Kind<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Kind<F, Kind<G, B>>>
-}
-
-/**
- * @since 2.0.0
- */
-export interface SequenceComposition11<F extends URIS, G extends URIS> {
-  <H extends URIS3>(H: Applicative3<H>): <R, E, A>(
-    fga: Kind<F, Kind<G, Kind3<H, R, E, A>>>
-  ) => Kind3<H, R, E, Kind<F, Kind<G, A>>>
-  <H extends URIS2>(H: Applicative2<H>): <E, A>(
-    fga: Kind<F, Kind<G, Kind2<H, E, A>>>
-  ) => Kind2<H, E, Kind<F, Kind<G, A>>>
-  <H extends URIS2, E>(H: Applicative2C<H, E>): <A>(
-    fga: Kind<F, Kind<G, Kind2<H, E, A>>>
-  ) => Kind2<H, E, Kind<F, Kind<G, A>>>
-  <H extends URIS>(H: Applicative1<H>): <A>(fga: Kind<F, Kind<G, Kind<H, A>>>) => Kind<H, Kind<F, Kind<G, A>>>
-  <H>(H: Applicative<H>): <A>(fga: Kind<F, Kind<G, HKT<H, A>>>) => HKT<H, Kind<F, Kind<G, A>>>
-}
-
-/**
- * @since 2.0.0
- */
-export interface TraversableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
-  extends FoldableComposition11<F, G>,
-    // tslint:disable-next-line: deprecation
-    FunctorComposition11<F, G> {
-  readonly traverse: TraverseComposition11<F, G>
-  readonly sequence: SequenceComposition11<F, G>
-}
-
-/**
- * Returns the composition of two traversables
- *
- * @example
- * import { array } from 'fp-ts/Array'
- * import { io } from 'fp-ts/IO'
- * import { none, option, some } from 'fp-ts/Option'
- * import { getTraversableComposition } from 'fp-ts/Traversable'
- *
- * const T = getTraversableComposition(array, option)
- * const state: Record<string, number | undefined> = {
- *   a: 1,
- *   b: 2
- * }
- * const read = (s: string) => () => state[s]
- * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
- * assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
- *
- * @since 2.0.0
- */
-export function getTraversableComposition<F extends URIS, G extends URIS>(
-  F: Traversable1<F>,
-  G: Traversable1<G>
-): TraversableComposition11<F, G>
-export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
-export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
-  // tslint:disable-next-line: deprecation
-  const map = getFunctorComposition(F, G).map
-  // tslint:disable-next-line: deprecation
-  const FC = getFoldableComposition(F, G)
-  const traverse = traverse_(F, G)
-  const sequence = sequence_(F, G)
-  return {
-    map,
-    reduce: FC.reduce,
-    foldMap: FC.foldMap,
-    reduceRight: FC.reduceRight,
-    traverse: (H) => {
-      const traverseH = traverse(H)
-      return (fga, f) => pipe(fga, traverseH(f))
-    },
-    sequence: (H) => {
-      const sequenceH = sequence(H)
-      return (fgha) => pipe(fgha, sequenceH)
-    }
-  }
-}
-
-/**
  * @since 2.10.0
  */
 export function traverse_<T extends URIS, G extends URIS>(
@@ -492,4 +382,130 @@ export interface PipeableTraverse2<T extends URIS2> {
     f: (a: A) => Kind<F, B>
   ) => <TE>(ta: Kind2<T, TE, A>) => Kind<F, Kind2<T, TE, B>>
   <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => <TE>(ta: Kind2<T, TE, A>) => HKT<F, Kind2<T, TE, B>>
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
+  readonly traverse: <H>(
+    H: Applicative<H>
+  ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
+  readonly sequence: <H>(H: Applicative<H>) => <A>(fga: HKT<F, HKT<G, HKT<H, A>>>) => HKT<H, HKT<F, HKT<G, A>>>
+}
+
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface TraverseComposition11<F extends URIS, G extends URIS> {
+  <H extends URIS3>(H: Applicative3<H>): <R, E, A, B>(
+    fga: Kind<F, Kind<G, A>>,
+    f: (a: A) => Kind3<H, R, E, B>
+  ) => Kind3<H, R, E, Kind<F, Kind<G, B>>>
+  <H extends URIS2>(H: Applicative2<H>): <E, A, B>(
+    fga: Kind<F, Kind<G, A>>,
+    f: (a: A) => Kind2<H, E, B>
+  ) => Kind2<H, E, Kind<F, Kind<G, B>>>
+  <H extends URIS2, E>(H: Applicative2C<H, E>): <A, B>(
+    fga: Kind<F, Kind<G, A>>,
+    f: (a: A) => Kind2<H, E, B>
+  ) => Kind2<H, E, Kind<F, Kind<G, B>>>
+  <H extends URIS>(H: Applicative1<H>): <A, B>(
+    fga: Kind<F, Kind<G, A>>,
+    f: (a: A) => Kind<H, B>
+  ) => Kind<H, Kind<F, Kind<G, B>>>
+  <H>(H: Applicative<H>): <A, B>(fga: Kind<F, Kind<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Kind<F, Kind<G, B>>>
+}
+
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface SequenceComposition11<F extends URIS, G extends URIS> {
+  <H extends URIS3>(H: Applicative3<H>): <R, E, A>(
+    fga: Kind<F, Kind<G, Kind3<H, R, E, A>>>
+  ) => Kind3<H, R, E, Kind<F, Kind<G, A>>>
+  <H extends URIS2>(H: Applicative2<H>): <E, A>(
+    fga: Kind<F, Kind<G, Kind2<H, E, A>>>
+  ) => Kind2<H, E, Kind<F, Kind<G, A>>>
+  <H extends URIS2, E>(H: Applicative2C<H, E>): <A>(
+    fga: Kind<F, Kind<G, Kind2<H, E, A>>>
+  ) => Kind2<H, E, Kind<F, Kind<G, A>>>
+  <H extends URIS>(H: Applicative1<H>): <A>(fga: Kind<F, Kind<G, Kind<H, A>>>) => Kind<H, Kind<F, Kind<G, A>>>
+  <H>(H: Applicative<H>): <A>(fga: Kind<F, Kind<G, HKT<H, A>>>) => HKT<H, Kind<F, Kind<G, A>>>
+}
+
+/**
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface TraversableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition11<F, G>,
+    // tslint:disable-next-line: deprecation
+    FunctorComposition11<F, G> {
+  // tslint:disable-next-line: deprecation
+  readonly traverse: TraverseComposition11<F, G>
+  // tslint:disable-next-line: deprecation
+  readonly sequence: SequenceComposition11<F, G>
+}
+
+/**
+ * Returns the composition of two traversables
+ *
+ * @example
+ * import { array } from 'fp-ts/Array'
+ * import { io } from 'fp-ts/IO'
+ * import { none, option, some } from 'fp-ts/Option'
+ * import { getTraversableComposition } from 'fp-ts/Traversable'
+ *
+ * const T = getTraversableComposition(array, option)
+ * const state: Record<string, number | undefined> = {
+ *   a: 1,
+ *   b: 2
+ * }
+ * const read = (s: string) => () => state[s]
+ * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
+ * assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getTraversableComposition<F extends URIS, G extends URIS>(
+  F: Traversable1<F>,
+  G: Traversable1<G>
+  // tslint:disable-next-line: deprecation
+): TraversableComposition11<F, G>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
+export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
+export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
+  // tslint:disable-next-line: deprecation
+  const map = getFunctorComposition(F, G).map
+  // tslint:disable-next-line: deprecation
+  const FC = getFoldableComposition(F, G)
+  const traverse = traverse_(F, G)
+  const sequence = sequence_(F, G)
+  return {
+    map,
+    reduce: FC.reduce,
+    foldMap: FC.foldMap,
+    reduceRight: FC.reduceRight,
+    traverse: (H) => {
+      const traverseH = traverse(H)
+      return (fga, f) => pipe(fga, traverseH(f))
+    },
+    sequence: (H) => {
+      const sequenceH = sequence(H)
+      return (fgha) => pipe(fgha, sequenceH)
+    }
+  }
 }

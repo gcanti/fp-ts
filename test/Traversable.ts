@@ -9,6 +9,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
+    // tslint:disable-next-line: deprecation
     const T = getTraversableComposition(A.Traversable, O.Traversable)
     assert.deepStrictEqual(
       T.map([O.some(1), O.some(2), O.none], (n) => n * 2),
