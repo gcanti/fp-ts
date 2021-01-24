@@ -4,6 +4,7 @@ import { getFunctorWithIndexComposition } from '../src/FunctorWithIndex'
 
 describe('FunctorWithIndex', () => {
   it('getFunctorComposition', () => {
+    // tslint:disable-next-line: deprecation
     const FWI = getFunctorWithIndexComposition(A.FunctorWithIndex, A.FunctorWithIndex)
     const f = ([i, j]: readonly [number, number], a: string) => a + i + j
     assert.deepStrictEqual(
