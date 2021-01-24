@@ -1,17 +1,16 @@
 /**
  * @since 2.0.0
  */
-import {
-  ApplicativeCompositionHKT2C,
-  ApplicativeComposition12C,
-  ApplicativeComposition22C,
-  getApplicativeComposition
-} from './Applicative'
-import { Either, getApplicativeValidation, isLeft, isRight, left, URI } from './Either'
+import { ApplicativeCompositionHKT2C, ApplicativeComposition12C, ApplicativeComposition22C } from './Applicative'
+import * as E from './Either'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
-import { Lazy } from './function'
+import { Lazy, pipe } from './function'
+import { ap_ } from './Apply'
+import { map_ } from './Functor'
+
+import Either = E.Either
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -27,7 +26,8 @@ export interface ValidationT<M, E, A> extends HKT<M, Either<E, A>> {}
  * @since 2.0.0
  * @deprecated
  */
-export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
+// tslint:disable-next-line: deprecation
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, E.URI, E> {
   // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
   // tslint:disable-next-line: deprecation
@@ -44,7 +44,8 @@ export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
  * @since 2.0.0
  * @deprecated
  */
-export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, URI, E> {
+// tslint:disable-next-line: deprecation
+export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, E.URI, E> {
   // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
   // tslint:disable-next-line: deprecation
@@ -61,7 +62,8 @@ export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
  * @since 2.0.0
  * @deprecated
  */
-export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, URI, E> {
+// tslint:disable-next-line: deprecation
+export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, E.URI, E> {
   readonly chain: <R, A, B>(
     // tslint:disable-next-line: deprecation
     ma: ValidationT2<M, R, E, A>,
@@ -90,16 +92,17 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
 /** @deprecated */
 // tslint:disable-next-line: deprecation
 export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E> {
-  const A = getApplicativeComposition(M, getApplicativeValidation(S))
+  const map = map_(M, E.Functor)
+  const ap = ap_(M, E.getApplicativeValidation(S))
 
   return {
-    map: A.map,
-    ap: A.ap,
-    of: A.of,
-    chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
+    map: (fa, f) => pipe(fa, map(f)),
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of: (a) => M.of(E.of(a)),
+    chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(E.left(e.left)) : f(e.right))),
     alt: (me, that) =>
       M.chain(me, (e1) =>
-        isRight(e1) ? M.of(e1) : M.map(that(), (e2) => (isLeft(e2) ? left(S.concat(e1.left, e2.left)) : e2))
+        E.isRight(e1) ? M.of(e1) : M.map(that(), (e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
       )
   }
 }

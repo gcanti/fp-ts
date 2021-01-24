@@ -5,17 +5,16 @@ import {
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
-  ApplicativeCompositionHKT1,
-  getApplicativeComposition
+  ApplicativeCompositionHKT1
 } from './Applicative'
 import { Apply, Apply1, ap_ as ap__ } from './Apply'
 import { Either } from './Either'
-import { flow, Lazy, Predicate, Refinement } from './function'
+import { flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor, Functor1, map_ as map__ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
-import { Pointed, Pointed1 } from './Pointed'
 import * as O from './Option'
+import { Pointed, Pointed1 } from './Pointed'
 
 import Option = O.Option
 
@@ -201,6 +200,7 @@ export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface OptionM<M> extends ApplicativeCompositionHKT1<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
   readonly alt: <A>(fa: OptionT<M, A>, that: Lazy<OptionT<M, A>>) => OptionT<M, A>
@@ -219,6 +219,7 @@ export type OptionT1<M extends URIS, A> = Kind<M, Option<A>>
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, O.URI> {
   readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
   readonly alt: <A>(fa: OptionT1<M, A>, that: Lazy<OptionT1<M, A>>) => OptionT1<M, A>
@@ -237,6 +238,7 @@ export type OptionT2<M extends URIS2, E, A> = Kind2<M, E, Option<A>>
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O.URI> {
   readonly chain: <E, A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <E, A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
@@ -253,6 +255,7 @@ export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, O
 /**
  * @since 2.2.0
  */
+// tslint:disable-next-line: deprecation
 export interface OptionM2C<M extends URIS2, E> extends ApplicativeComposition2C1<M, O.URI, E> {
   readonly chain: <A, B>(ma: OptionT2<M, E, A>, f: (a: A) => OptionT2<M, E, B>) => OptionT2<M, E, B>
   readonly alt: <A>(fa: OptionT2<M, E, A>, that: Lazy<OptionT2<M, E, A>>) => OptionT2<M, E, A>
@@ -274,17 +277,19 @@ export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  const A = getApplicativeComposition(M, O.Applicative)
-  const fnone = M.of(O.none)
+  const map = map_(M)
+  const ap = ap_(M)
+  const of = some_(M)
+  const none = M.of(O.none)
 
   return {
-    map: A.map,
-    ap: A.ap,
-    of: A.of,
+    map: (fa, f) => pipe(fa, map(f)),
+    ap: (fab, fa) => pipe(fab, ap(fa)),
+    of,
     chain: (ma, f) =>
       M.chain(
         ma,
-        O.fold(() => fnone, f)
+        O.fold(() => none, f)
       ),
     alt: (fa, that) =>
       M.chain(
@@ -294,6 +299,6 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
     fold: (ma, onNone, onSome) => M.chain(ma, O.fold(onNone, onSome)),
     getOrElse: (ma, onNone) => M.chain(ma, O.fold(onNone, M.of)),
     fromM: (ma) => M.map(ma, O.some),
-    none: () => fnone
+    none: () => none
   }
 }
