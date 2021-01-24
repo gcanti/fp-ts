@@ -27,6 +27,7 @@ import {
   FunctorComposition23,
   FunctorComposition23C,
   FunctorComposition2C1,
+  getFunctorComposition,
   map_
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -371,9 +372,10 @@ export function getCompactableComposition<F, G>(
   G: Compactable<G> & Functor<G>
   // tslint:disable-next-line: deprecation
 ): CompactableComposition<F, G> {
-  const map = map_(F, G)
+  // tslint:disable-next-line: deprecation
+  const map = getFunctorComposition(F, G).map
   return {
-    map: (fa, f) => pipe(fa, map(f)),
+    map,
     compact: compact_(F, G),
     separate: separate_(F, G)
   }
