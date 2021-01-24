@@ -1261,11 +1261,11 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
  *
  * @example
  *
- * import * as A from 'fp-ts/Array'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
- * const arr = A.range(0, 10)
+ * const arr = RA.range(0, 10)
  * assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
  * assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
  *
@@ -1282,13 +1282,13 @@ export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArra
  *
  * @example
  *
- * import * as A from 'fp-ts/Array'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
- * const arr = A.range(0, 10)
- * assert.deepStrictEqual(pipe(arr, A.map(some), sequenceArray), some(arr))
- * assert.deepStrictEqual(pipe(arr, A.map(fromPredicate(x => x > 8)), sequenceArray), none)
+ * const arr = RA.range(0, 10)
+ * assert.deepStrictEqual(pipe(arr, RA.map(some), sequenceArray), some(arr))
+ * assert.deepStrictEqual(pipe(arr, RA.map(fromPredicate(x => x > 8)), sequenceArray), none)
  *
  * @since 2.9.0
  */

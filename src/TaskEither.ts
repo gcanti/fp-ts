@@ -945,7 +945,7 @@ export const traverseArrayWithIndex: <A, B, E>(
  * @example
  *
  * import * as TE from 'fp-ts/TaskEither'
- * import * as A from 'fp-ts/Array'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import { right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
@@ -956,14 +956,14 @@ export const traverseArrayWithIndex: <A, B, E>(
  * const findAllPosts = (ids:number[]) => pipe(ids, TE.traverseArray(PostRepo.findById))
  *
  * async function test() {
- *   const ids = A.range(0, 10)
+ *   const ids = RA.range(0, 10)
  *
  *   assert.deepStrictEqual(
  *     await findAllPosts(ids)(),
  *     right(
  *       pipe(
  *         ids,
- *         A.map((id) => ({ id, title: ''}))
+ *         RA.map((id) => ({ id, title: ''}))
  *       )
  *     )
  *   )
@@ -985,7 +985,7 @@ export const traverseArray: <A, B, E>(
  * @example
  *
  * import * as TE from 'fp-ts/TaskEither'
- * import * as A from 'fp-ts/Array'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import { right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
@@ -993,10 +993,10 @@ export const traverseArray: <A, B, E>(
  *  findById : (id: number) => TE.of({id, title: ''})
  * }
  *
- * const findAllPosts = (ids:number[]) => pipe(ids, A.map(PostRepo.findById), TE.sequenceArray)
+ * const findAllPosts = (ids:number[]) => pipe(ids, RA.map(PostRepo.findById), TE.sequenceArray)
  *
  * async function test() {
- *   const ids = A.range(0, 10)
+ *   const ids = RA.range(0, 10)
  *
  *   assert.deepStrictEqual(
  *     await findAllPosts(ids)(),

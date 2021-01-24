@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -166,28 +166,28 @@ describe('Option', () => {
       assert.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(A.Applicative)(() => [])
+          _.traverse(RA.Applicative)(() => [])
         ),
         []
       )
       assert.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(A.Applicative)((s) => [s.length])
+          _.traverse(RA.Applicative)((s) => [s.length])
         ),
         [_.some(5)]
       )
       assert.deepStrictEqual(
         pipe(
           _.none,
-          _.traverse(A.Applicative)((s) => [s])
+          _.traverse(RA.Applicative)((s) => [s])
         ),
         [_.none]
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(A.Applicative)
+      const sequence = _.sequence(RA.Applicative)
       assert.deepStrictEqual(sequence(_.some([1, 2])), [_.some(1), _.some(2)])
       assert.deepStrictEqual(sequence(_.none), [_.none])
     })
@@ -477,20 +477,20 @@ describe('Option', () => {
   // -------------------------------------------------------------------------------------
 
   it('sequenceArray', () => {
-    const arr = A.range(0, 10)
-    assert.deepStrictEqual(pipe(arr, A.map(_.some), _.sequenceArray), _.some(arr))
+    const arr = RA.range(0, 10)
+    assert.deepStrictEqual(pipe(arr, RA.map(_.some), _.sequenceArray), _.some(arr))
 
-    assert.deepStrictEqual(pipe(arr, A.map(_.fromPredicate((x) => x > 5)), _.sequenceArray), _.none)
+    assert.deepStrictEqual(pipe(arr, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceArray), _.none)
   })
 
   it('traverseArray', () => {
-    const arr = A.range(0, 10)
+    const arr = RA.range(0, 10)
     assert.deepStrictEqual(pipe(arr, _.traverseArray(_.some)), _.some(arr))
     assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.none)
   })
 
   it('traverseArrayWithIndex', () => {
-    const arr = A.range(0, 10)
+    const arr = RA.range(0, 10)
     assert.deepStrictEqual(
       pipe(
         arr,
