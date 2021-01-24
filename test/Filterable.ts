@@ -7,6 +7,7 @@ import { increment } from '../src/function'
 
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
+    // tslint:disable-next-line: deprecation
     const F = getFilterableComposition(A.Functor, A.Filterable)
 
     assert.deepStrictEqual(F.map([[1]], increment), [[2]])

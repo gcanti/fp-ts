@@ -30,6 +30,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
+  - `Filterable`
+    - deprecate `getFilterableComposition`, use `filter_`, `filterMap_`, `partition_`, `partitionMap_` helpers instead (@gcanti)
   - `Foldable`
     - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
   - `Functor`
