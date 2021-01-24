@@ -129,9 +129,8 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> {
-  return () => f().then(E.right, (reason) => E.left(onRejected(reason)))
-}
+export const tryCatch = <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
+  f().then(E.right, (reason) => E.left(onRejected(reason)))
 
 /**
  * @category constructors
@@ -250,12 +249,10 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
  * @category combinators
  * @since 2.5.0
  */
-export function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+export const tryCatchK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => tryCatch(() => f(...a), onRejected)
-}
+): ((...a: A) => TaskEither<E, B>) => (...a) => tryCatch(() => f(...a), onRejected)
 
 /**
  * @category combinators
