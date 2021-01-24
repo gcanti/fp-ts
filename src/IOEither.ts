@@ -176,11 +176,11 @@ export const swap =
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B,
-  onError: (reason: unknown) => E
+  onThrow: (error: unknown) => E
 ): ((...a: A) => IOEither<E, B>) => (...a) =>
   pipe(
     tryCatch(() => f(...a)),
-    mapLeft(onError)
+    mapLeft(onThrow)
   )
 
 /**

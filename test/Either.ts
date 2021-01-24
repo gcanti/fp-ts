@@ -590,4 +590,16 @@ describe('Either', () => {
     U.deepStrictEqual(_.toUnion(_.right(1)), 1)
     U.deepStrictEqual(_.toUnion(_.left('a')), 'a')
   })
+
+  it('tryCatchK', () => {
+    const f = _.tryCatchK((s: string) => {
+      const len = s.length
+      if (len > 0) {
+        return len
+      }
+      throw new Error('empty string')
+    }, identity)
+    U.deepStrictEqual(f('a'), _.right(1))
+    U.deepStrictEqual(f(''), _.left(new Error('empty string')))
+  })
 })

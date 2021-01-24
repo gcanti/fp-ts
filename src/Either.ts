@@ -133,14 +133,14 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
  *   if (as.length > 0) {
  *     return as[0]
  *   } else {
- *     throw 'empty array'
+ *     throw new Error('empty array')
  *   }
  * }
  *
  * const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> =>
  *   E.tryCatch(() => unsafeHead(as))
  *
- * assert.deepStrictEqual(head([]), E.left('empty array'))
+ * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
  *
  * @category constructors
@@ -384,6 +384,21 @@ export const chainNullableK = <E>(
  * @since 3.0.0
  */
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
+
+/**
+ * Converts a function that may throw to one returning a `Either`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+): ((...a: A) => Either<E, B>) => (...a) =>
+  pipe(
+    tryCatch(() => f(...a)),
+    mapLeft(onThrow)
+  )
 
 /**
  * Less strict version of [`orElse`](#orElse).

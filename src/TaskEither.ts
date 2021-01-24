@@ -243,7 +243,7 @@ export const swap =
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
+  onRejected: (error: unknown) => E
 ): ((...a: A) => TaskEither<E, B>) => (...a) =>
   pipe(
     tryCatch(() => f(...a)),

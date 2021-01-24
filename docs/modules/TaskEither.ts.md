@@ -477,7 +477,7 @@ Converts a function returning a `Promise` that may reject to one returning a `Ta
 ```ts
 export declare const tryCatchK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
+  onRejected: (error: unknown) => E
 ) => (...a: A) => TaskEither<E, B>
 ```
 

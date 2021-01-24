@@ -58,6 +58,7 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -553,6 +554,21 @@ export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 
 Added in v3.0.0
 
+## tryCatchK
+
+Converts a function that may throw to one returning a `Either`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+) => (...a: A) => Either<E, B>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## fromNullable
@@ -745,13 +761,13 @@ const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   if (as.length > 0) {
     return as[0]
   } else {
-    throw 'empty array'
+    throw new Error('empty array')
   }
 }
 
 const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as))
 
-assert.deepStrictEqual(head([]), E.left('empty array'))
+assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 ```
 
