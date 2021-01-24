@@ -322,52 +322,42 @@ Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instan
 export declare function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
 export declare function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22<F, G>
 export declare function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
 export declare function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative2<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition21<F, G>
 export declare function getApplicativeComposition<F extends URIS, G extends URIS2>(
   F: Applicative1<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12<F, G>
 export declare function getApplicativeComposition<F extends URIS, G extends URIS2, E>(
   F: Applicative1<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12C<F, G, E>
 export declare function getApplicativeComposition<F extends URIS, G extends URIS>(
   F: Applicative1<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition11<F, G>
 export declare function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2<F, G>
 export declare function getApplicativeComposition<F, G extends URIS2, E>(
   F: Applicative<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2C<F, G, E>
 export declare function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT1<F, G>
 export declare function getApplicativeComposition<F, G>(
   F: Applicative<F>,

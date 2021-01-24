@@ -104,12 +104,15 @@ export function fromReader_<M>(M: Pointed<M>): <R, A>(ma: Reader<R, A>) => Reade
 }
 
 // -------------------------------------------------------------------------------------
-// unused
+// deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderT<M, R, A> {
   (r: R): HKT<M, A>
@@ -117,6 +120,7 @@ export interface ReaderT<M, R, A> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderM<M> {
   readonly map: <R, A, B>(ma: ReaderT<M, R, A>, f: (a: A) => B) => ReaderT<M, R, B>
@@ -133,6 +137,7 @@ export interface ReaderM<M> {
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderT1<M extends URIS, R, A> {
   (r: R): Kind<M, A>
@@ -140,6 +145,7 @@ export interface ReaderT1<M extends URIS, R, A> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderM1<M extends URIS> {
   readonly map: <R, A, B>(ma: ReaderT1<M, R, A>, f: (a: A) => B) => ReaderT1<M, R, B>
@@ -156,6 +162,7 @@ export interface ReaderM1<M extends URIS> {
 /**
  * @category model
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderT2<M extends URIS2, R, E, A> {
   (r: R): Kind2<M, E, A>
@@ -163,6 +170,7 @@ export interface ReaderT2<M extends URIS2, R, E, A> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderM2<M extends URIS2> {
   readonly map: <R, E, A, B>(ma: ReaderT2<M, R, E, A>, f: (a: A) => B) => ReaderT2<M, R, E, B>
@@ -178,6 +186,7 @@ export interface ReaderM2<M extends URIS2> {
 
 /**
  * @since 2.2.0
+ * @deprecated
  */
 export interface ReaderM2C<M extends URIS2, E> {
   readonly map: <R, A, B>(ma: ReaderT2<M, R, E, A>, f: (a: A) => B) => ReaderT2<M, R, E, B>
@@ -193,6 +202,7 @@ export interface ReaderM2C<M extends URIS2, E> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderT3<M extends URIS3, R, U, E, A> {
   (r: R): Kind3<M, U, E, A>
@@ -200,6 +210,7 @@ export interface ReaderT3<M extends URIS3, R, U, E, A> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export interface ReaderM3<M extends URIS3> {
   readonly map: <R, U, E, A, B>(ma: ReaderT3<M, R, U, E, A>, f: (a: A) => B) => ReaderT3<M, R, U, E, B>
@@ -221,13 +232,18 @@ export interface ReaderM3<M extends URIS3> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 export function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
+/** @deprecated */
 export function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
+/** @deprecated */
 export function getReaderM<M extends URIS2, E>(M: Monad2C<M, E>): ReaderM2C<M, E>
+/** @deprecated */
 export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
+/** @deprecated */
 export function getReaderM<M>(M: Monad<M>): ReaderM<M>
-/* istanbul ignore next */
+/** @deprecated */
 export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
   return {
     map: (ma, f) => (r) => M.map(ma(r), f),

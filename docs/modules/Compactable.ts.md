@@ -393,47 +393,38 @@ Added in v2.0.0
 export declare function getCompactableComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Compactable3C<G, E> & Functor3C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition23C<F, G, E>
 export declare function getCompactableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition22C<F, G, E>
 export declare function getCompactableComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Compactable2<G> & Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition22<F, G>
 export declare function getCompactableComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition2C1<F, G, E>
 export declare function getCompactableComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition21<F, G>
 export declare function getCompactableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition12<F, G>
 export declare function getCompactableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Compactable2<G> & Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition12<F, G>
 export declare function getCompactableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Compactable1<G> & Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition11<F, G>
 export declare function getCompactableComposition<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-  // tslint:disable-next-line: deprecation
 ): CompactableComposition<F, G>
 ```
 

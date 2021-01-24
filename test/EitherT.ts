@@ -3,6 +3,7 @@ import * as E from '../src/Either'
 import { getEitherM } from '../src/EitherT'
 import * as I from '../src/IO'
 
+// tslint:disable-next-line: deprecation
 const T = getEitherM(I.Monad)
 
 describe('EitherT', () => {

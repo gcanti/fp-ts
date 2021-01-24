@@ -535,37 +535,30 @@ Returns the composition of two foldables
 export declare function getFoldableComposition<F extends URIS2, G extends URIS2, E>(
   F: Foldable2<F>,
   G: Foldable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition22C<F, G, E>
 export declare function getFoldableComposition<F extends URIS2, G extends URIS2>(
   F: Foldable2<F>,
   G: Foldable2<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition22<F, G>
 export declare function getFoldableComposition<F extends URIS2, G extends URIS, E>(
   F: Foldable2C<F, E>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition2C1<F, G, E>
 export declare function getFoldableComposition<F extends URIS2, G extends URIS>(
   F: Foldable2<F>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition21<F, G>
 export declare function getFoldableComposition<F extends URIS, G extends URIS2, E>(
   F: Foldable1<F>,
   G: Foldable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition12C<F, G, E>
 export declare function getFoldableComposition<F extends URIS, G extends URIS2>(
   F: Foldable1<F>,
   G: Foldable2<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition12<F, G>
 export declare function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition11<F, G>
 export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 ```

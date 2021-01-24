@@ -85,8 +85,7 @@ declare module './HKT' {
  * @since 2.5.0
  */
 export const eqStrict: Eq<unknown> = {
-  // tslint:disable-next-line: deprecation
-  equals: strictEqual
+  equals: (a, b) => a === b
 }
 
 /**
@@ -191,9 +190,7 @@ export const Contravariant: Contravariant1<URI> = {
  * @since 2.0.0
  * @deprecated
  */
-export function strictEqual<A>(a: A, b: A): boolean {
-  return a === b
-}
+export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
 
 /**
  * Use small, specific instances instead.
