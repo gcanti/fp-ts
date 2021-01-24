@@ -694,4 +694,16 @@ describe('Either', () => {
     assert.deepStrictEqual(_.toUnion(_.right(1)), 1)
     assert.deepStrictEqual(_.toUnion(_.left('a')), 'a')
   })
+
+  it('tryCatchK', () => {
+    const f = _.tryCatchK((s: string) => {
+      const len = s.length
+      if (len > 0) {
+        return len
+      }
+      throw new Error('empty string')
+    }, identity)
+    assert.deepStrictEqual(f('a'), _.right(1))
+    assert.deepStrictEqual(f(''), _.left(new Error('empty string')))
+  })
 })
