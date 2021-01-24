@@ -300,6 +300,7 @@ export interface EitherT<M, E, A> extends HKT<M, Either<E, A>> {}
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface EitherM<M> extends ApplicativeCompositionHKT2<M, URI> {
   readonly chain: <E, A, B>(ma: EitherT<M, E, A>, f: (a: A) => EitherT<M, E, B>) => EitherT<M, E, B>
   readonly alt: <E, A>(fa: EitherT<M, E, A>, that: Lazy<EitherT<M, E, A>>) => EitherT<M, E, A>
@@ -323,6 +324,7 @@ export type EitherT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
   readonly chain: <E, A, B>(ma: EitherT1<M, E, A>, f: (a: A) => EitherT1<M, E, B>) => EitherT1<M, E, B>
   readonly alt: <E, A>(fa: EitherT1<M, E, A>, that: Lazy<EitherT1<M, E, A>>) => EitherT1<M, E, A>
@@ -350,6 +352,7 @@ export type EitherT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
   readonly chain: <R, E, A, B>(ma: EitherT2<M, R, E, A>, f: (a: A) => EitherT2<M, R, E, B>) => EitherT2<M, R, E, B>
   readonly alt: <R, E, A>(fa: EitherT2<M, R, E, A>, that: Lazy<EitherT2<M, R, E, A>>) => EitherT2<M, R, E, A>
