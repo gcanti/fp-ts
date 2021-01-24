@@ -1,6 +1,6 @@
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/Task'
 import * as U from './util'
 
@@ -131,10 +131,10 @@ describe('Task', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArray)(), range)
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), range)
     })
 
     it('traverseReadonlyArray', async () => {
@@ -152,7 +152,7 @@ describe('Task', () => {
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArraySeq)(), range)
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), range)
     })
 
     it('traverseReadonlyArraySeq', async () => {

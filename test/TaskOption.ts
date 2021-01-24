@@ -1,6 +1,6 @@
 import { pipe } from '../src/function'
 import * as O from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskOption'
 import { assertTask } from './Task'
@@ -144,7 +144,7 @@ describe('TaskOption', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('traverseReadonlyArray', async () => {
       U.deepStrictEqual(await pipe(range, _.traverseReadonlyArray(_.of))(), O.some(range))
@@ -157,13 +157,13 @@ describe('TaskOption', () => {
     })
 
     it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArray)(), O.some(range))
-      U.deepStrictEqual(await pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), O.none)
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), O.some(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), O.none)
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArraySeq)(), O.some(range))
-      U.deepStrictEqual(await pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(), O.none)
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), O.some(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(), O.none)
     })
   })
 

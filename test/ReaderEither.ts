@@ -4,7 +4,7 @@ import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 describe('ReaderEither', () => {
@@ -191,18 +191,17 @@ describe('ReaderEither', () => {
   })
 
   describe('array utils', () => {
+    const range = RA.range(1, 10)
     it('sequenceReadonlyArray', () => {
-      const arr = A.range(1, 10)
-      U.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceReadonlyArray)({}), E.right(arr))
+      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArray)({}), E.right(range))
     })
 
     it('traverseReadonlyArray', () => {
-      const arr = A.range(1, 10)
-      U.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))({}), E.right(arr))
+      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.of))({}), E.right(range))
     })
 
     it('traverseReadonlyArrayWithIndex', () => {
-      const arr = A.replicate(3, 1)
+      const arr = RA.replicate(3, 1)
       U.deepStrictEqual(
         pipe(
           arr,

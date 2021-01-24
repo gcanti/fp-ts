@@ -8,7 +8,7 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -369,13 +369,13 @@ describe('ReaderTaskEither', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
-    const replicate = A.replicate(3, 1)
+    const range = RA.range(0, 10)
+    const replicate = RA.replicate(3, 1)
 
     it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArray)(undefined)(), E.right(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(undefined)(), E.right(range))
       U.deepStrictEqual(
-        await pipe(range, A.map(_.fromPredicate((x) => x < 5)), _.sequenceReadonlyArray)(undefined)(),
+        await pipe(range, RA.map(_.fromPredicate((x) => x < 5)), _.sequenceReadonlyArray)(undefined)(),
         E.left(5)
       )
     })
@@ -411,9 +411,9 @@ describe('ReaderTaskEither', () => {
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArraySeq)(undefined)(), E.right(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(undefined)(), E.right(range))
       U.deepStrictEqual(
-        await pipe(range, A.map(_.fromPredicate((x) => x < 5)), _.sequenceReadonlyArraySeq)(undefined)(),
+        await pipe(range, RA.map(_.fromPredicate((x) => x < 5)), _.sequenceReadonlyArraySeq)(undefined)(),
         E.left(5)
       )
     })

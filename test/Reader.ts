@@ -1,6 +1,6 @@
 import { pipe } from '../src/function'
 import * as _ from '../src/Reader'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 interface Env {
@@ -109,10 +109,10 @@ describe('Reader', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, A.map(_.of), _.sequenceReadonlyArray)(undefined), range)
+      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(undefined), range)
     })
 
     it('traverseReadonlyArray', () => {

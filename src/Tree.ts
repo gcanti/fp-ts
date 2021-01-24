@@ -18,7 +18,7 @@ import { bindTo_, Functor1, tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind_, chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
-import * as A from './ReadonlyArray'
+import * as RA from './ReadonlyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 
@@ -49,7 +49,7 @@ export interface Tree<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const make = <A>(value: A, forest: Forest<A> = A.empty): Tree<A> => ({
+export const make = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
   value,
   forest
 })
@@ -142,7 +142,7 @@ export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  */
 export const chain: Monad1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
   const { value, forest } = f(ma.value)
-  const concat = A.getMonoid<Tree<B>>().concat
+  const concat = RA.getMonoid<Tree<B>>().concat
   return {
     value,
     forest: concat(ma.forest.map(chain(f)))(forest)
@@ -222,7 +222,7 @@ export const extract: Comonad1<URI>['extract'] = (wa) => wa.value
 export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
-  const traverseF = A.traverse(F)
+  const traverseF = RA.traverse(F)
   const out = <A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>): HKT<F, Tree<B>> =>
     pipe(
       f(ta.value),
@@ -248,7 +248,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  */
 export const of: Pointed1<URI>['of'] = (a) => ({
   value: a,
-  forest: A.empty
+  forest: RA.empty
 })
 
 // -------------------------------------------------------------------------------------
@@ -273,7 +273,7 @@ declare module './HKT' {
  */
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
-    return t.forest === A.empty || t.forest.length === 0
+    return t.forest === RA.empty || t.forest.length === 0
       ? `make(${S.show(t.value)})`
       : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
@@ -290,7 +290,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
   const R: Eq<Tree<A>> = fromEquals((second) => (first) =>
     E.equals(second.value)(first.value) && SA.equals(second.forest)(first.forest)
   )
-  const SA = A.getEq(R)
+  const SA = RA.getEq(R)
   return R
 }
 

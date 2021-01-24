@@ -5,7 +5,7 @@ import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
@@ -150,28 +150,28 @@ describe('Option', () => {
       U.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(A.Applicative)(() => [])
+          _.traverse(RA.Applicative)(() => [])
         ),
         []
       )
       U.deepStrictEqual(
         pipe(
           _.some('hello'),
-          _.traverse(A.Applicative)((s) => [s.length])
+          _.traverse(RA.Applicative)((s) => [s.length])
         ),
         [_.some(5)]
       )
       U.deepStrictEqual(
         pipe(
           _.none,
-          _.traverse(A.Applicative)((s) => [s])
+          _.traverse(RA.Applicative)((s) => [s])
         ),
         [_.none]
       )
     })
 
     it('sequence', () => {
-      const sequence = _.sequence(A.Applicative)
+      const sequence = _.sequence(RA.Applicative)
       U.deepStrictEqual(sequence(_.some([1, 2])), [_.some(1), _.some(2)])
       U.deepStrictEqual(sequence(_.none), [_.none])
     })
@@ -434,11 +434,11 @@ describe('Option', () => {
   // -------------------------------------------------------------------------------------
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, A.map(_.some), _.sequenceReadonlyArray), _.some(range))
-      U.deepStrictEqual(pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray), _.none)
+      U.deepStrictEqual(pipe(range, RA.map(_.some), _.sequenceReadonlyArray), _.some(range))
+      U.deepStrictEqual(pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray), _.none)
     })
 
     it('traverseReadonlyArray', () => {

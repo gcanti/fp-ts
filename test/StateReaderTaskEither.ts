@@ -6,7 +6,7 @@ import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as T from '../src/Task'
@@ -152,7 +152,7 @@ describe('StateReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequence = A.sequence(_.Applicative)
+    const sequence = RA.sequence(_.Applicative)
     U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}] as const))
     U.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
@@ -330,13 +330,13 @@ describe('StateReaderTaskEither', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', async () => {
       const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
 
       U.deepStrictEqual(
-        await pipe(range, A.map(add), _.sequenceReadonlyArray)(0)({})(),
+        await pipe(range, RA.map(add), _.sequenceReadonlyArray)(0)({})(),
         E.right([range, range.reduce((p, c) => p + c, 0)] as const)
       )
     })

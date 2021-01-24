@@ -1,13 +1,13 @@
 import * as _ from '../src/FoldableWithIndex'
 import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'
 import { deepStrictEqual } from './util'
 
 describe('FoldableWithIndex', () => {
   it('reduceWithIndex_', () => {
-    const reduce = _.reduceWithIndex_(R.FoldableWithIndex, A.FoldableWithIndex)
+    const reduce = _.reduceWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -18,7 +18,7 @@ describe('FoldableWithIndex', () => {
   })
 
   it('foldMapWithIndex_', () => {
-    const foldMap = _.foldMapWithIndex_(R.FoldableWithIndex, A.FoldableWithIndex)
+    const foldMap = _.foldMapWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -29,7 +29,7 @@ describe('FoldableWithIndex', () => {
   })
 
   it('reduceRightWithIndex_', () => {
-    const reduce = _.reduceRightWithIndex_(R.FoldableWithIndex, A.FoldableWithIndex)
+    const reduce = _.reduceRightWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

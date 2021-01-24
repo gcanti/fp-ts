@@ -1,5 +1,5 @@
 import { pipe } from '../src/function'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/Store'
 import { deepStrictEqual } from './util'
 
@@ -80,7 +80,7 @@ describe('Store', () => {
     deepStrictEqual(
       pipe(
         wa,
-        _.experiment(A.Functor)((s) => [s, s + 'a'])
+        _.experiment(RA.Functor)((s) => [s, s + 'a'])
       ),
       [1, 2]
     )

@@ -681,17 +681,17 @@ export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isL
  *
  * @example
  * import { pipe } from 'fp-ts/function'
- * import * as A from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import * as E from 'fp-ts/Either'
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(['a']), E.traverse(O.Applicative)(A.head)),
+ *   pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)),
  *   O.some(E.right('a')),
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right([]), E.traverse(O.Applicative)(A.head)),
+ *   pipe(E.right([]), E.traverse(O.Applicative)(RA.head)),
  *   O.none,
  * )
  *

@@ -1,5 +1,5 @@
 import { pipe, tuple } from '../src/function'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/State'
 import * as U from './util'
 
@@ -83,11 +83,11 @@ describe('State', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', () => {
       const add = (n: number) => (s: number) => tuple(n, n + s)
-      U.deepStrictEqual(pipe(range, A.map(add), _.sequenceReadonlyArray)(0), [range, range.reduce((p, c) => p + c, 0)])
+      U.deepStrictEqual(pipe(range, RA.map(add), _.sequenceReadonlyArray)(0), [range, range.reduce((p, c) => p + c, 0)])
     })
 
     it('traverseReadonlyArray', () => {

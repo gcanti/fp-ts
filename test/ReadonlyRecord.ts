@@ -6,7 +6,7 @@ import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -249,11 +249,11 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldable', () => {
     const First = getFirstSemigroup<number>()
-    U.deepStrictEqual(_.fromFoldable(First, A.Foldable)([['a', 1]]), { a: 1 })
+    U.deepStrictEqual(_.fromFoldable(First, RA.Foldable)([['a', 1]]), { a: 1 })
     U.deepStrictEqual(
       _.fromFoldable(
         First,
-        A.Foldable
+        RA.Foldable
       )([
         ['a', 1],
         ['a', 2]
@@ -266,7 +266,7 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(
       _.fromFoldable(
         Last,
-        A.Foldable
+        RA.Foldable
       )([
         ['a', 1],
         ['a', 2]
@@ -289,7 +289,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('toUnfoldable', () => {
-    U.deepStrictEqual(_.toUnfoldable(A.Unfoldable)({ a: 1 }), [['a', 1]])
+    U.deepStrictEqual(_.toUnfoldable(RA.Unfoldable)({ a: 1 }), [['a', 1]])
   })
 
   it('traverseWithIndex should sort the keys', () => {
@@ -396,7 +396,7 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): _.ReadonlyRecord<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(pipe(keys, A.zip(values)), identity)
+      _.fromFoldableMap(getLastSemigroup<A>(), RA.Foldable)(pipe(keys, RA.zip(values)), identity)
 
     U.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -412,7 +412,7 @@ describe('ReadonlyRecord', () => {
     ]
 
     U.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), A.Foldable)(users, (user) => [user.id, user]),
+      _.fromFoldableMap(getLastSemigroup<User>(), RA.Foldable)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

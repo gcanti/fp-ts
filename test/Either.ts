@@ -4,7 +4,7 @@ import { eqNumber, eqString } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
@@ -556,11 +556,11 @@ describe('Either', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, A.map(_.right), _.sequenceReadonlyArray), _.right(range))
-      U.deepStrictEqual(pipe(range, A.map(_.right), A.cons(_.left('a')), _.sequenceReadonlyArray), _.left('a'))
+      U.deepStrictEqual(pipe(range, RA.map(_.right), _.sequenceReadonlyArray), _.right(range))
+      U.deepStrictEqual(pipe(range, RA.map(_.right), RA.cons(_.left('a')), _.sequenceReadonlyArray), _.left('a'))
     })
 
     it('traverseReadonlyArrayWithIndex', () => {

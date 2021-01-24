@@ -1,13 +1,13 @@
 import { pipe } from '../src/function'
 import * as _ from '../src/Traversable'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'
 import * as O from '../src/Option'
 import { deepStrictEqual } from './util'
 
 describe('Traversable', () => {
   it('traverse_', () => {
-    const traverse = _.traverse_(R.Traversable, A.Traversable)
+    const traverse = _.traverse_(R.Traversable, RA.Traversable)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -25,7 +25,7 @@ describe('Traversable', () => {
   })
 
   it('sequence_', () => {
-    const sequence = _.sequence_(R.Traversable, A.Traversable)(O.Applicative)
+    const sequence = _.sequence_(R.Traversable, RA.Traversable)(O.Applicative)
     deepStrictEqual(pipe({ a: [O.some(1), O.some(2)], b: [O.some(3)] }, sequence), O.some({ a: [1, 2], b: [3] }))
     deepStrictEqual(pipe({ a: [O.some(1), O.none], b: [O.some(3)] }, sequence), O.none)
   })

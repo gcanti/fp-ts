@@ -4,7 +4,7 @@ import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
@@ -207,7 +207,7 @@ describe('TaskEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(A.getMonoid<string>())
+    const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', async () => {
       const { left, right } = pipe(
@@ -341,11 +341,11 @@ describe('TaskEither', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
-      U.deepStrictEqual(await pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), E.left(0))
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), E.left(0))
     })
 
     it('traverseReadonlyArray', async () => {
@@ -354,9 +354,9 @@ describe('TaskEither', () => {
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, A.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
+      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
       U.deepStrictEqual(
-        await pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(),
+        await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(),
         E.left(0)
       )
     })

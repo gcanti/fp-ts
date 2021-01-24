@@ -4,7 +4,7 @@ import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 describe('IOEither', () => {
@@ -289,7 +289,7 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(A.getMonoid<string>())
+    const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', () => {
       const { left, right } = pipe(
@@ -391,10 +391,10 @@ describe('IOEither', () => {
   })
 
   describe('array utils', () => {
-    const range = A.range(0, 10)
+    const range = RA.range(0, 10)
 
     it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, A.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
+      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
     })
 
     it('traverseReadonlyArray', () => {
@@ -404,7 +404,7 @@ describe('IOEither', () => {
     it('traverseReadonlyArrayWithIndex', () => {
       U.deepStrictEqual(
         pipe(
-          A.replicate(3, 1),
+          RA.replicate(3, 1),
           _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
         )(),
         E.right([0, 1, 2])
@@ -412,7 +412,7 @@ describe('IOEither', () => {
     })
 
     it('sequenceReadonlyArraySeq', () => {
-      U.deepStrictEqual(pipe(range, A.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
+      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
     })
 
     it('traverseReadonlyArraySeq', () => {
@@ -420,7 +420,7 @@ describe('IOEither', () => {
     })
 
     it('traverseReadonlyArrayWithIndexSeq', () => {
-      const arr = A.replicate(3, 1)
+      const arr = RA.replicate(3, 1)
       U.deepStrictEqual(
         pipe(
           arr,

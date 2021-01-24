@@ -1,7 +1,7 @@
 import { boundedNumber } from '../src/Bounded'
 import { pipe } from '../src/function'
 import * as _ from '../src/Monoid'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 describe('Monoid', () => {
@@ -23,11 +23,11 @@ describe('Monoid', () => {
     const isLessThan10 = (n: number) => n <= 10
     const isEven = (n: number) => n % 2 === 0
 
-    U.deepStrictEqual(pipe([1, 2, 3, 40], A.filter(_.fold(getPredicateMonoidAll<number>())([isLessThan10, isEven]))), [
+    U.deepStrictEqual(pipe([1, 2, 3, 40], RA.filter(_.fold(getPredicateMonoidAll<number>())([isLessThan10, isEven]))), [
       2
     ])
     U.deepStrictEqual(
-      pipe([1, 2, 3, 40, 41], A.filter(_.fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
+      pipe([1, 2, 3, 40, 41], RA.filter(_.fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
       [1, 2, 3, 40]
     )
   })
