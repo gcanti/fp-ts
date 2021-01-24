@@ -66,6 +66,7 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
+  - [tryCatchK](#trycatchk)
   - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -573,6 +574,18 @@ assert.deepStrictEqual(g('a'), none)
 
 Added in v2.9.0
 
+## tryCatchK
+
+Converts a function that may throw to one returning a `Option`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
+```
+
+Added in v2.10.0
+
 ## ~~mapNullable~~
 
 **Signature**
@@ -719,10 +732,12 @@ Added in v2.0.0
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
 `Some`.
 
+See also [`tryCatchK`](#tryCatchK).
+
 **Signature**
 
 ```ts
-export declare function tryCatch<A>(f: Lazy<A>): Option<A>
+export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
 ```
 
 **Example**

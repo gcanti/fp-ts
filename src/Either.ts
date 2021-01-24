@@ -152,7 +152,7 @@ export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A> {
+export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A> => {
   try {
     return right(f())
   } catch (e) {
