@@ -31,7 +31,7 @@ import {
   FunctorCompositionHKT1,
   FunctorCompositionHKT2,
   FunctorCompositionHKT2C,
-  map_
+  getFunctorComposition
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monoid } from './Monoid'
@@ -322,10 +322,11 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
 /** @deprecated */
 // tslint:disable-next-line: deprecation
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
+  // tslint:disable-next-line: deprecation
+  const map = getFunctorComposition(F, G).map
   const ap = ap_(F, G)
-  const map = map_(F, G)
   return {
-    map: (fa, f) => pipe(fa, map(f)),
+    map,
     of: (a) => F.of(G.of(a)),
     ap: (fgab, fga) => pipe(fgab, ap(fga))
   }
