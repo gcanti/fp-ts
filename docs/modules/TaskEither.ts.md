@@ -547,10 +547,10 @@ Converts a function returning a `Promise` to one returning a `TaskEither`.
 **Signature**
 
 ```ts
-export declare function tryCatchK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const tryCatchK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
-): (...a: A) => TaskEither<E, B>
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v2.5.0
@@ -691,7 +691,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A>
+export declare const tryCatch: <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
 ```
 
 **Example**

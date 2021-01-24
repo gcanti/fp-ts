@@ -87,9 +87,8 @@ export const fromEither: FromEither2<URI>['fromEither'] = I.of
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> {
-  return () => E.tryCatch(f, onThrow)
-}
+export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> => () =>
+  E.tryCatch(f, onThrow)
 
 /**
  * @category constructors

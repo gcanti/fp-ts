@@ -161,6 +161,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `foldW` (@gcanti)
+    - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
   - `Ord`
