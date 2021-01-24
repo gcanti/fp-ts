@@ -35,6 +35,7 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [fromOptionK](#fromoptionk)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -250,6 +251,20 @@ export declare const fromOptionK: <A extends readonly unknown[], B>(
 
 Added in v0.1.10
 
+## tryCatchK
+
+Converts a function returning a `Promise` to one returning a `TaskOption`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Promise<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v2.10.0
+
 # constructors
 
 ## fromEither
@@ -336,6 +351,12 @@ export declare const some: <A>(a: A) => TaskOption<A>
 Added in v3.0.0
 
 ## tryCatch
+
+Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+
+Note: `f` should never `throw` errors, they are not caught.
+
+See also [`tryCatchK`](#tryCatchK).
 
 **Signature**
 

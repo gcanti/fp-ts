@@ -166,4 +166,11 @@ describe('TaskOption', () => {
       U.deepStrictEqual(await pipe(range, A.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(), O.none)
     })
   })
+
+  it('tryCatchK', async () => {
+    const f = (n: number) => (n > 0 ? Promise.resolve(n) : Promise.reject(n))
+    const g = _.tryCatchK(f)
+    U.deepStrictEqual(await g(1)(), O.some(1))
+    U.deepStrictEqual(await g(-1)(), O.none)
+  })
 })

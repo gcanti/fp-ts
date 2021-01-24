@@ -80,6 +80,8 @@ export const fromEither: FromEither2<URI>['fromEither'] = I.of
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw.
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @category constructors
  * @since 3.0.0
  */
@@ -170,8 +172,6 @@ export const swap =
 
 /**
  * Converts a function that may throw to one returning a `IOEither`.
- *
- * See also [`tryCatchK`](#tryCatchK).
  *
  * @category combinators
  * @since 3.0.0

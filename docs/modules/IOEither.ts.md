@@ -363,8 +363,6 @@ Added in v3.0.0
 
 Converts a function that may throw to one returning a `IOEither`.
 
-See also [`tryCatchK`](#tryCatchK).
-
 **Signature**
 
 ```ts
@@ -468,6 +466,8 @@ Added in v3.0.0
 ## tryCatch
 
 Constructs a new `IOEither` from a function that performs a side effect and might throw.
+
+See also [`tryCatchK`](#tryCatchK).
 
 **Signature**
 

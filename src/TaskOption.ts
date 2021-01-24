@@ -82,10 +82,16 @@ export const fromEither: FromEither1<URI>['fromEither'] =
   OT.fromEither_(T.Pointed)
 
 /**
+ * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+ *
+ * Note: `f` should never `throw` errors, they are not caught.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @category constructors
  * @since 3.0.0
  */
-export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
   f().then(
     (a) => O.some(a),
     () => O.none
@@ -147,6 +153,16 @@ export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A |
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * Converts a function returning a `Promise` to one returning a `TaskOption`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Promise<B>
+): ((...a: A) => TaskOption<B>) => (...a) => tryCatch(() => f(...a))
 
 /**
  * @category combinators

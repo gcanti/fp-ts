@@ -489,8 +489,6 @@ Added in v3.0.0
 
 Converts a function that may throw to one returning a `Option`.
 
-See also [`tryCatchK`](#tryCatchK).
-
 **Signature**
 
 ```ts
@@ -634,6 +632,8 @@ Added in v3.0.0
 
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
 `Some`.
+
+See also [`tryCatchK`](#tryCatchK).
 
 **Signature**
 

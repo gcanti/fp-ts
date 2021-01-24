@@ -154,6 +154,8 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @example
  * import { none, some, tryCatch } from 'fp-ts/Option'
  *
@@ -357,8 +359,6 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 
 /**
  * Converts a function that may throw to one returning a `Option`.
- *
- * See also [`tryCatchK`](#tryCatchK).
  *
  * @category combinators
  * @since 3.0.0
