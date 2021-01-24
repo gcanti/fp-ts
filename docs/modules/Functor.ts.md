@@ -362,42 +362,34 @@ Added in v2.0.0
 export declare function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Functor3C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition23C<F, G, E>
 export declare function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition22C<F, G, E>
 export declare function getFunctorComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition22<F, G>
 export declare function getFunctorComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition2C1<F, G, E>
 export declare function getFunctorComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition21<F, G>
 export declare function getFunctorComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Functor2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition12C<F, G, E>
 export declare function getFunctorComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Functor2<G>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition12<F, G>
 export declare function getFunctorComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Functor1<G>
-  // tslint:disable-next-line: deprecation
 ): FunctorComposition11<F, G>
 export declare function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
 ```

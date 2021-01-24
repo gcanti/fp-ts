@@ -498,9 +498,8 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export interface FilterableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition11<F extends URIS, G extends URIS>
   extends FunctorComposition11<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition11<F, G> {
   readonly partitionMap: <A, B, C>(
     fa: Kind<F, Kind<G, A>>,
@@ -522,9 +521,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>
   extends FunctorComposition12C<F, G, E>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition12C<F, G, E> {
   readonly partitionMap: <A, B, C>(
     fa: Kind<F, Kind2<G, E, A>>,
@@ -546,9 +544,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition12<F extends URIS, G extends URIS2>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition12<F extends URIS, G extends URIS2>
   extends FunctorComposition12<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition12<F, G> {
   readonly partitionMap: <E, A, B, C>(
     fa: Kind<F, Kind2<G, E, A>>,
@@ -570,9 +567,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition21<F extends URIS2, G extends URIS>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition21<F extends URIS2, G extends URIS>
   extends FunctorComposition21<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition21<F, G> {
   readonly partitionMap: <E, A, B, C>(
     fa: Kind2<F, E, Kind<G, A>>,
@@ -594,9 +590,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>
   extends FunctorComposition22<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition22<F, G> {
   readonly partitionMap: <FE, A, B, C>(
     fa: Kind2<F, FE, Kind2<G, E, A>>,
@@ -621,9 +616,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition22<F extends URIS2, G extends URIS2>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition22<F extends URIS2, G extends URIS2>
   extends FunctorComposition22<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition22<F, G> {
   readonly partitionMap: <FE, GE, A, B, C>(
     fa: Kind2<F, FE, Kind2<G, GE, A>>,
@@ -651,9 +645,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
   extends FunctorComposition23<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition23<F, G> {
   readonly partitionMap: <R, FE, A, B, C>(
     fa: Kind2<F, FE, Kind3<G, R, E, A>>,
@@ -681,9 +674,8 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>  // tslint:disable-next-line: deprecation
+export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>
   extends FunctorComposition21<F, G>,
-    // tslint:disable-next-line: deprecation
     CompactableComposition21<F, G> {
   readonly partitionMap: <A, B, C>(
     fa: Kind2<F, E, Kind<G, A>>,
@@ -729,42 +721,34 @@ Added in v2.0.0
 export declare function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
   F: Functor2<F>,
   G: Filterable3C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition23C<F, G, E>
 export declare function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition22C<F, G, E>
 export declare function getFilterableComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Filterable2<G>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition22<F, G>
 export declare function getFilterableComposition<F extends URIS2, G extends URIS, E>(
   F: Functor2C<F, E>,
   G: Filterable1<G>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition2C1<F, G, E>
 export declare function getFilterableComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Filterable1<G>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition21<F, G>
 export declare function getFilterableComposition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition12C<F, G, E>
 export declare function getFilterableComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Filterable2<G>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition12<F, G>
 export declare function getFilterableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-  // tslint:disable-next-line: deprecation
 ): FilterableComposition11<F, G>
 export declare function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
 ```

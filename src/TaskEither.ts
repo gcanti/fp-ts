@@ -1062,6 +1062,8 @@ export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => T
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use small, specific instances instead.
  *
@@ -1090,7 +1092,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export const taskEitherSeq: typeof taskEither = {
   URI,
   bimap: _bimap,

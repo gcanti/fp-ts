@@ -489,13 +489,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface TraversableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
+export interface TraversableComposition11<F extends URIS, G extends URIS>
   extends FoldableComposition11<F, G>,
-    // tslint:disable-next-line: deprecation
     FunctorComposition11<F, G> {
-  // tslint:disable-next-line: deprecation
   readonly traverse: TraverseComposition11<F, G>
-  // tslint:disable-next-line: deprecation
   readonly sequence: SequenceComposition11<F, G>
 }
 ```
@@ -555,7 +552,6 @@ Returns the composition of two traversables
 export declare function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
   G: Traversable1<G>
-  // tslint:disable-next-line: deprecation
 ): TraversableComposition11<F, G>
 export declare function getTraversableComposition<F, G>(
   F: Traversable<F>,

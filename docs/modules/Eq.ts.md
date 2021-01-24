@@ -242,7 +242,7 @@ Use `eqStrict` instead
 **Signature**
 
 ```ts
-export declare function strictEqual<A>(a: A, b: A): boolean
+export declare const strictEqual: <A>(a: A, b: A) => boolean
 ```
 
 Added in v2.0.0

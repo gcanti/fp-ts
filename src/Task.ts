@@ -496,6 +496,8 @@ export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<Readonly
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use small, specific instances instead.
  *
@@ -520,7 +522,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export const taskSeq: typeof task = {
   URI,
   map: _map,

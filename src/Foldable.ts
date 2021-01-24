@@ -306,6 +306,8 @@ export function traverse_<M, F>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `reduceM` instead
  *
@@ -455,49 +457,40 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
 export function getFoldableComposition<F extends URIS2, G extends URIS2, E>(
   F: Foldable2<F>,
   G: Foldable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition22C<F, G, E>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS2, G extends URIS2>(
   F: Foldable2<F>,
   G: Foldable2<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition22<F, G>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS2, G extends URIS, E>(
   F: Foldable2C<F, E>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition2C1<F, G, E>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS2, G extends URIS>(
   F: Foldable2<F>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition21<F, G>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS, G extends URIS2, E>(
   F: Foldable1<F>,
   G: Foldable2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition12C<F, G, E>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS, G extends URIS2>(
   F: Foldable1<F>,
   G: Foldable2<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition12<F, G>
 /** @deprecated */
 export function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
-  // tslint:disable-next-line: deprecation
 ): FoldableComposition11<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
   const reduce = reduce_(F, G)
   const foldMap = foldMap_(F, G)

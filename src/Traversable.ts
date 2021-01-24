@@ -388,11 +388,12 @@ export interface PipeableTraverse2<T extends URIS2> {
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
   readonly traverse: <H>(
     H: Applicative<H>
@@ -446,13 +447,10 @@ export interface SequenceComposition11<F extends URIS, G extends URIS> {
  * @since 2.0.0
  * @deprecated
  */
-export interface TraversableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
+export interface TraversableComposition11<F extends URIS, G extends URIS>
   extends FoldableComposition11<F, G>,
-    // tslint:disable-next-line: deprecation
     FunctorComposition11<F, G> {
-  // tslint:disable-next-line: deprecation
   readonly traverse: TraverseComposition11<F, G>
-  // tslint:disable-next-line: deprecation
   readonly sequence: SequenceComposition11<F, G>
 }
 
@@ -480,17 +478,12 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>  // ts
 export function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
   G: Traversable1<G>
-  // tslint:disable-next-line: deprecation
 ): TraversableComposition11<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
-  // tslint:disable-next-line: deprecation
   const map = getFunctorComposition(F, G).map
-  // tslint:disable-next-line: deprecation
   const FC = getFoldableComposition(F, G)
   const traverse = traverse_(F, G)
   const sequence = sequence_(F, G)

@@ -961,6 +961,8 @@ export const sequenceSeqArray: <R, E, A>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use small, specific instances instead.
  *
@@ -989,7 +991,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
+
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   URI,
   map: _map,

@@ -239,17 +239,21 @@ export function toReadonlyTuple2_<F>(
 }
 
 // -------------------------------------------------------------------------------------
-// unused
+// deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * @category model
  * @since 2.4.0
+ * @deprecated
  */
 export interface TheseT<M, E, A> extends HKT<M, These<E, A>> {}
 
 /**
  * @since 2.4.0
+ * @deprecated
  */
 export interface TheseM<M> {
   readonly map: <E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B) => TheseT<M, E, B>
@@ -283,11 +287,13 @@ export interface TheseM<M> {
 /**
  * @category model
  * @since 2.4.0
+ * @deprecated
  */
 export type TheseT1<M extends URIS, E, A> = Kind<M, These<E, A>>
 
 /**
  * @since 2.4.0
+ * @deprecated
  */
 export interface TheseM1<M extends URIS> {
   readonly map: <E, A, B>(fa: TheseT1<M, E, A>, f: (a: A) => B) => TheseT1<M, E, B>
@@ -321,11 +327,13 @@ export interface TheseM1<M extends URIS> {
 /**
  * @category model
  * @since 2.4.0
+ * @deprecated
  */
 export type TheseT2<M extends URIS2, R, E, A> = Kind2<M, R, These<E, A>>
 
 /**
  * @since 2.4.0
+ * @deprecated
  */
 export interface TheseM2<M extends URIS2> {
   readonly map: <R, E, A, B>(fa: TheseT2<M, R, E, A>, f: (a: A) => B) => TheseT2<M, R, E, B>
@@ -358,11 +366,14 @@ export interface TheseM2<M extends URIS2> {
 
 /**
  * @since 2.4.0
+ * @deprecated
  */
 export function getTheseM<M extends URIS2>(M: Monad2<M>): TheseM2<M>
+/** @deprecated */
 export function getTheseM<M extends URIS>(M: Monad1<M>): TheseM1<M>
+/** @deprecated */
 export function getTheseM<M>(M: Monad<M>): TheseM<M>
-/* istanbul ignore next */
+/** @deprecated */
 export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   function mapT<E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> {
     return M.map(fa, T.map(f))
