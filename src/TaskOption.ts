@@ -4,15 +4,21 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
-import { Compactable1, compact_, separate_ } from './Compactable'
-import { Filterable1, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { Compactable1, compact as compact_, separate as separate_ } from './Compactable'
+import {
+  Filterable1,
+  filterMap as filterMap_,
+  filter as filter_,
+  partitionMap as partitionMap_,
+  partition as partition_
+} from './Filterable'
 import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
-import { bindTo_, Functor1 } from './Functor'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
@@ -43,7 +49,7 @@ export interface TaskOption<A> extends Task<Option<A>> {}
  */
 export const some: <A>(a: A) => TaskOption<A> =
   /*#__PURE__*/
-  OT.some_(T.Pointed)
+  OT.some(T.Pointed)
 
 /**
  * @category constructors
@@ -51,7 +57,7 @@ export const some: <A>(a: A) => TaskOption<A> =
  */
 export const none: TaskOption<never> =
   /*#__PURE__*/
-  OT.none_(T.Pointed)
+  OT.none(T.Pointed)
 
 /**
  * @category constructors
@@ -65,7 +71,7 @@ export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
  */
 export const fromNullable =
   /*#__PURE__*/
-  OT.fromNullable_(T.Pointed)
+  OT.fromNullable(T.Pointed)
 
 /**
  * @category constructors
@@ -73,7 +79,7 @@ export const fromNullable =
  */
 export const fromPredicate =
   /*#__PURE__*/
-  OT.fromPredicate_(T.Pointed)
+  OT.fromPredicate(T.Pointed)
 
 /**
  * @category constructors
@@ -81,7 +87,7 @@ export const fromPredicate =
  */
 export const fromEither =
   /*#__PURE__*/
-  OT.fromEither_(T.Pointed)
+  OT.fromEither(T.Pointed)
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
@@ -111,7 +117,7 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
  */
 export const fromTask: FromTask1<URI>['fromTask'] =
   /*#__PURE__*/
-  OT.fromF_(T.Functor)
+  OT.fromF(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -123,7 +129,7 @@ export const fromTask: FromTask1<URI>['fromTask'] =
  */
 export const fold =
   /*#__PURE__*/
-  OT.fold_(T.Monad)
+  OT.fold(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -142,7 +148,7 @@ export const foldW: <B, C, A>(
  */
 export const getOrElse =
   /*#__PURE__*/
-  OT.getOrElse_(T.Monad)
+  OT.getOrElse(T.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -187,7 +193,7 @@ export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const map =
   /*#__PURE__*/
-  OT.map_(T.Functor)
+  OT.map(T.Functor)
 
 /**
  * @category Apply
@@ -195,7 +201,7 @@ export const map =
  */
 export const ap =
   /*#__PURE__*/
-  OT.ap_(T.ApplyPar)
+  OT.ap(T.ApplyPar)
 
 /**
  * @category Pointed
@@ -209,7 +215,7 @@ export const of: Pointed1<URI>['of'] = some
  */
 export const chain =
   /*#__PURE__*/
-  OT.chain_(T.Monad)
+  OT.chain(T.Monad)
 
 /**
  * Derivable from `Monad`.
@@ -227,7 +233,7 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> =
  */
 export const alt =
   /*#__PURE__*/
-  OT.alt_(T.Monad)
+  OT.alt(T.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).

@@ -2,13 +2,13 @@
  * @since 2.0.0
  */
 import { Applicative2, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup } from './Apply'
+import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, getApplySemigroup } from './Apply'
 import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
 import { constant, flow, identity, pipe } from './function'
-import { bindTo_, Functor2 } from './Functor'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'

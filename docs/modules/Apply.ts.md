@@ -58,10 +58,10 @@ Added in v2.0.0
   - [Apply3C (interface)](#apply3c-interface)
   - [Apply4 (interface)](#apply4-interface)
 - [utils](#utils)
-  - [apFirst\_](#apfirst_)
-  - [apS\_](#aps_)
-  - [apSecond\_](#apsecond_)
-  - [ap\_](#ap_)
+  - [ap](#ap)
+  - [apFirst](#apfirst)
+  - [apS](#aps)
+  - [apSecond](#apsecond)
   - [getApplySemigroup](#getapplysemigroup)
   - [sequenceS](#sequences)
   - [sequenceT](#sequencet)
@@ -156,76 +156,111 @@ Added in v2.0.0
 
 # utils
 
-## apFirst\_
+## ap
 
 **Signature**
 
 ```ts
-export declare function apFirst_<F extends URIS4>(
-  A: Apply4<F>
-): <S, R, E, B>(second: Kind4<F, S, R, E, B>) => <A>(first: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
-export declare function apFirst_<F extends URIS3>(
-  A: Apply3<F>
-): <R, E, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-export declare function apFirst_<F extends URIS3, E>(
-  A: Apply3C<F, E>
-): <R, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-export declare function apFirst_<F extends URIS2>(
-  A: Apply2<F>
-): <E, B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, A>
-export declare function apFirst_<F extends URIS2, E>(
-  A: Apply2C<F, E>
-): <B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, A>
-export declare function apFirst_<F extends URIS>(
-  A: Apply1<F>
-): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, A>
-export declare function apFirst_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, A>
+export declare function ap<F extends URIS2, G extends URIS2, E>(
+  F: Apply2<F>,
+  G: Apply2C<G, E>
+): <FE, A>(
+  fa: Kind2<F, FE, Kind2<G, E, A>>
+) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+export declare function ap<F extends URIS, G extends URIS2, E>(
+  F: Apply1<F>,
+  G: Apply2C<G, E>
+): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
+export declare function ap<F, G extends URIS2>(
+  F: Apply<F>,
+  G: Apply2<G>
+): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export declare function ap<F, G extends URIS2, E>(
+  F: Apply<F>,
+  G: Apply2C<G, E>
+): <A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+export declare function ap<F, G extends URIS>(
+  F: Apply<F>,
+  G: Apply1<G>
+): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+export declare function ap<F, G>(
+  F: Apply<F>,
+  G: Apply<G>
+): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
 ```
 
 Added in v2.10.0
 
-## apS\_
+## apFirst
 
 **Signature**
 
 ```ts
-export declare function apS_<F extends URIS4>(
+export declare function apFirst<F extends URIS4>(
+  A: Apply4<F>
+): <S, R, E, B>(second: Kind4<F, S, R, E, B>) => <A>(first: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+export declare function apFirst<F extends URIS3>(
+  A: Apply3<F>
+): <R, E, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export declare function apFirst<F extends URIS3, E>(
+  A: Apply3C<F, E>
+): <R, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export declare function apFirst<F extends URIS2>(
+  A: Apply2<F>
+): <E, B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, A>
+export declare function apFirst<F extends URIS2, E>(
+  A: Apply2C<F, E>
+): <B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, A>
+export declare function apFirst<F extends URIS>(
+  A: Apply1<F>
+): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, A>
+export declare function apFirst<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, A>
+```
+
+Added in v2.10.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare function apS<F extends URIS4>(
   F: Apply4<F>
 ): <N extends string, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind4<F, S, R, E, B>
 ) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F extends URIS3>(
+export declare function apS<F extends URIS3>(
   F: Apply3<F>
 ): <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind3<F, R, E, B>
 ) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F extends URIS3, E>(
+export declare function apS<F extends URIS3, E>(
   F: Apply3C<F, E>
 ): <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   fb: Kind3<F, R, E, B>
 ) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F extends URIS2>(
+export declare function apS<F extends URIS2>(
   F: Apply2<F>
 ): <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind2<F, E, B>
 ) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F extends URIS2, E>(
+export declare function apS<F extends URIS2, E>(
   F: Apply2C<F, E>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Kind2<F, E, B>
 ) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F extends URIS>(
+export declare function apS<F extends URIS>(
   F: Apply1<F>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Kind<F, B>
 ) => (fa: Kind<F, A>) => Kind<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
-export declare function apS_<F>(
+export declare function apS<F>(
   F: Apply<F>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
@@ -235,65 +270,30 @@ export declare function apS_<F>(
 
 Added in v2.10.0
 
-## apSecond\_
+## apSecond
 
 **Signature**
 
 ```ts
-export declare function apSecond_<F extends URIS4>(
+export declare function apSecond<F extends URIS4>(
   A: Apply4<F>
 ): <S, R, E, B>(second: Kind4<F, S, R, E, B>) => <A>(first: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-export declare function apSecond_<F extends URIS3>(
+export declare function apSecond<F extends URIS3>(
   A: Apply3<F>
 ): <R, E, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-export declare function apSecond_<F extends URIS3, E>(
+export declare function apSecond<F extends URIS3, E>(
   A: Apply3C<F, E>
 ): <R, B>(second: Kind3<F, R, E, B>) => <A>(first: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-export declare function apSecond_<F extends URIS2>(
+export declare function apSecond<F extends URIS2>(
   A: Apply2<F>
 ): <E, B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, B>
-export declare function apSecond_<F extends URIS2, E>(
+export declare function apSecond<F extends URIS2, E>(
   A: Apply2C<F, E>
 ): <B>(second: Kind2<F, E, B>) => <A>(first: Kind2<F, E, A>) => Kind2<F, E, B>
-export declare function apSecond_<F extends URIS>(
+export declare function apSecond<F extends URIS>(
   A: Apply1<F>
 ): <B>(second: Kind<F, B>) => <A>(first: Kind<F, A>) => Kind<F, B>
-export declare function apSecond_<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
-```
-
-Added in v2.10.0
-
-## ap\_
-
-**Signature**
-
-```ts
-export declare function ap_<F extends URIS2, G extends URIS2, E>(
-  F: Apply2<F>,
-  G: Apply2C<G, E>
-): <FE, A>(
-  fa: Kind2<F, FE, Kind2<G, E, A>>
-) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
-export declare function ap_<F extends URIS, G extends URIS2, E>(
-  F: Apply1<F>,
-  G: Apply2C<G, E>
-): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
-export declare function ap_<F, G extends URIS2>(
-  F: Apply<F>,
-  G: Apply2<G>
-): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
-export declare function ap_<F, G extends URIS2, E>(
-  F: Apply<F>,
-  G: Apply2C<G, E>
-): <A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
-export declare function ap_<F, G extends URIS>(
-  F: Apply<F>,
-  G: Apply1<G>
-): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
-export declare function ap_<F, G>(
-  F: Apply<F>,
-  G: Apply<G>
-): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
+export declare function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HKT<F, A>) => HKT<F, B>
 ```
 
 Added in v2.10.0
