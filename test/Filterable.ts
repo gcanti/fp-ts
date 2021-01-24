@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { getFilterableComposition } from '../src/Filterable'
 import { some, none } from '../src/Option'
 import { right, left } from '../src/Either'
@@ -8,7 +8,7 @@ import { increment } from '../src/function'
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
     // tslint:disable-next-line: deprecation
-    const F = getFilterableComposition(A.Functor, A.Filterable)
+    const F = getFilterableComposition(RA.Functor, RA.Filterable)
 
     assert.deepStrictEqual(F.map([[1]], increment), [[2]])
 

@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { getCompactableComposition } from '../src/Compactable'
 import { none, some } from '../src/Option'
 import { left, right } from '../src/Either'
@@ -7,7 +7,7 @@ import { left, right } from '../src/Either'
 describe('Compactable', () => {
   it('getCompactableComposition', () => {
     // tslint:disable-next-line: deprecation
-    const C = getCompactableComposition(A.Functor, { ...A.Functor, ...A.Compactable })
+    const C = getCompactableComposition(RA.Functor, { ...RA.Functor, ...RA.Compactable })
     assert.deepStrictEqual(
       C.map([[1], [2]], (n) => n * 2),
       [[2], [4]]

@@ -1,11 +1,11 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { getFunctorWithIndexComposition } from '../src/FunctorWithIndex'
 
 describe('FunctorWithIndex', () => {
   it('getFunctorComposition', () => {
     // tslint:disable-next-line: deprecation
-    const FWI = getFunctorWithIndexComposition(A.FunctorWithIndex, A.FunctorWithIndex)
+    const FWI = getFunctorWithIndexComposition(RA.FunctorWithIndex, RA.FunctorWithIndex)
     const f = ([i, j]: readonly [number, number], a: string) => a + i + j
     assert.deepStrictEqual(
       FWI.map([[1], [2]], (n) => n * 2),

@@ -4,7 +4,7 @@ import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
@@ -357,7 +357,7 @@ describe('IOEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F_ = _.getFilterable(A.getMonoid<string>())
+    const F_ = _.getFilterable(RA.getMonoid<string>())
     // tslint:disable-next-line: deprecation
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
@@ -447,21 +447,21 @@ describe('IOEither', () => {
   })
 
   describe('array utils', () => {
+    const range = RA.range(0, 10)
+    const replicate = RA.replicate(3, 1)
+
     it('sequenceArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
+      assert.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceArray)(), E.right(range))
     })
 
     it('traverseArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(pipe(range, _.traverseArray(_.of))(), E.right(range))
     })
 
     it('traverseArrayWithIndex', () => {
-      const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         pipe(
-          arr,
+          replicate,
           _.traverseArrayWithIndex((index, _data) => _.of(index))
         )(),
         E.right([0, 1, 2])
@@ -469,20 +469,17 @@ describe('IOEither', () => {
     })
 
     it('sequenceSeqArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
+      assert.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceSeqArray)(), E.right(range))
     })
 
     it('traverseSeqArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
+      assert.deepStrictEqual(pipe(range, _.traverseSeqArray(_.of))(), E.right(range))
     })
 
     it('traverseSeqArrayWithIndex', () => {
-      const arr = A.replicate(3, 1)
       assert.deepStrictEqual(
         pipe(
-          arr,
+          replicate,
           _.traverseSeqArrayWithIndex((index, _data) =>
             pipe(
               index,
@@ -497,7 +494,7 @@ describe('IOEither', () => {
       )
       assert.deepStrictEqual(
         pipe(
-          arr,
+          replicate,
           _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
         )(),
         E.right([0, 1, 2])

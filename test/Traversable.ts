@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as O from '../src/Option'
 import { getTraversableComposition } from '../src/Traversable'
 
@@ -10,7 +10,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
     // tslint:disable-next-line: deprecation
-    const T = getTraversableComposition(A.Traversable, O.Traversable)
+    const T = getTraversableComposition(RA.Traversable, O.Traversable)
     assert.deepStrictEqual(
       T.map([O.some(1), O.some(2), O.none], (n) => n * 2),
       [O.some(2), O.some(4), O.none]
