@@ -292,7 +292,7 @@ export interface Sequence3<T extends URIS3> {
 /**
  * @since 2.10.0
  */
-export function traverse_<T extends URIS, G extends URIS>(
+export function traverse<T extends URIS, G extends URIS>(
   T: Traversable1<T>,
   G: Traversable1<G>
 ): {
@@ -301,11 +301,11 @@ export function traverse_<T extends URIS, G extends URIS>(
   ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
   <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
 }
-export function traverse_<T, G>(
+export function traverse<T, G>(
   T: Traversable<T>,
   G: Traversable<G>
 ): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
-export function traverse_<T, G>(
+export function traverse<T, G>(
   T: Traversable<T>,
   G: Traversable<G>
 ): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>> {
@@ -319,18 +319,18 @@ export function traverse_<T, G>(
 /**
  * @since 2.10.0
  */
-export function sequence_<T extends URIS, G extends URIS>(
+export function sequence<T extends URIS, G extends URIS>(
   T: Traversable1<T>,
   G: Traversable1<G>
 ): {
   <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
   <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
 }
-export function sequence_<T, G>(
+export function sequence<T, G>(
   T: Traversable<T>,
   G: Traversable<G>
 ): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
-export function sequence_<T, G>(
+export function sequence<T, G>(
   T: Traversable<T>,
   G: Traversable<G>
 ): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>> {
@@ -485,19 +485,19 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   const map = getFunctorComposition(F, G).map
   const FC = getFoldableComposition(F, G)
-  const traverse = traverse_(F, G)
-  const sequence = sequence_(F, G)
+  const _traverse = traverse(F, G)
+  const _sequence = sequence(F, G)
   return {
     map,
     reduce: FC.reduce,
     foldMap: FC.foldMap,
     reduceRight: FC.reduceRight,
     traverse: (H) => {
-      const traverseH = traverse(H)
+      const traverseH = _traverse(H)
       return (fga, f) => pipe(fga, traverseH(f))
     },
     sequence: (H) => {
-      const sequenceH = sequence(H)
+      const sequenceH = _sequence(H)
       return (fgha) => pipe(fgha, sequenceH)
     }
   }

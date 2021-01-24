@@ -8,16 +8,25 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { bind_, chainFirst_, Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import {
+  bind as bind_,
+  chainFirst as chainFirst_,
+  Monad as MonadHKT,
+  Monad1,
+  Monad2,
+  Monad2C,
+  Monad3,
+  Monad3C
+} from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Show } from './Show'

@@ -89,15 +89,15 @@ export interface Foldable4<F extends URIS4> {
 /**
  * @since 2.10.0
  */
-export function reduce_<F extends URIS, G extends URIS>(
+export function reduce<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduce_<F, G>(
+export function reduce<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduce_<F, G>(
+export function reduce<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B {
@@ -107,15 +107,15 @@ export function reduce_<F, G>(
 /**
  * @since 2.10.0
  */
-export function foldMap_<F extends URIS, G extends URIS>(
+export function foldMap<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export function foldMap_<F, G>(
+export function foldMap<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
-export function foldMap_<F, G>(
+export function foldMap<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M {
@@ -129,15 +129,15 @@ export function foldMap_<F, G>(
 /**
  * @since 2.10.0
  */
-export function reduceRight_<F extends URIS, G extends URIS>(
+export function reduceRight<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduceRight_<F, G>(
+export function reduceRight<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduceRight_<F, G>(
+export function reduceRight<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {
@@ -492,15 +492,15 @@ export function getFoldableComposition<F extends URIS, G extends URIS>(
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 /** @deprecated */
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
-  const reduce = reduce_(F, G)
-  const foldMap = foldMap_(F, G)
-  const reduceRight = reduceRight_(F, G)
+  const _reduce = reduce(F, G)
+  const _foldMap = foldMap(F, G)
+  const _reduceRight = reduceRight(F, G)
   return {
-    reduce: (fga, b, f) => pipe(fga, reduce(b, f)),
+    reduce: (fga, b, f) => pipe(fga, _reduce(b, f)),
     foldMap: (M) => {
-      const foldMapM = foldMap(M)
+      const foldMapM = _foldMap(M)
       return (fga, f) => pipe(fga, foldMapM(f))
     },
-    reduceRight: (fga, b, f) => pipe(fga, reduceRight(b, f))
+    reduceRight: (fga, b, f) => pipe(fga, _reduceRight(b, f))
   }
 }

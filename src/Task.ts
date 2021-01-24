@@ -11,13 +11,19 @@
  * @since 2.0.0
  */
 import { Applicative1, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply1,
+  apSecond as apSecond_,
+  apS as apS_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { identity, pipe } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'

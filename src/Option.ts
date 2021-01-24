@@ -15,7 +15,13 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply1,
+  apSecond as apSecond_,
+  apS as apS_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -24,9 +30,9 @@ import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { FromEither1 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'

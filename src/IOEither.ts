@@ -6,18 +6,36 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply2,
+  apSecond as apSecond_,
+  apS as apS_,
+  ap as ap_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, compact_, separate_ } from './Compactable'
+import { Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
-import { filterOrElse_, FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import {
+  Filterable2C,
+  filterMap as filterMap_,
+  filter as filter_,
+  partitionMap as partitionMap_,
+  partition as partition_
+} from './Filterable'
+import {
+  filterOrElse as filterOrElse_,
+  FromEither2,
+  fromOption as fromOption_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, Functor2 } from './Functor'
 import * as I from './IO'
-import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -47,7 +65,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
  */
 export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
   /*#__PURE__*/
-  ET.left_(I.Pointed)
+  ET.left(I.Pointed)
 
 /**
  * @category constructors
@@ -55,7 +73,7 @@ export const left: <E = never, A = never>(l: E) => IOEither<E, A> =
  */
 export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
   /*#__PURE__*/
-  ET.right_(I.Pointed)
+  ET.right(I.Pointed)
 
 /**
  * @category constructors
@@ -63,7 +81,7 @@ export const right: <E = never, A = never>(a: A) => IOEither<E, A> =
  */
 export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> =
   /*#__PURE__*/
-  ET.rightF_(I.Functor)
+  ET.rightF(I.Functor)
 
 /**
  * @category constructors
@@ -71,7 +89,7 @@ export const rightIO: <E = never, A = never>(ma: IO<A>) => IOEither<E, A> =
  */
 export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
   /*#__PURE__*/
-  ET.leftF_(I.Functor)
+  ET.leftF(I.Functor)
 
 /**
  * @category constructors
@@ -106,7 +124,7 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  */
 export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  ET.fold_(I.Monad)
+  ET.fold(I.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -125,7 +143,7 @@ export const foldW: <E, B, A, C>(
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
   /*#__PURE__*/
-  ET.getOrElse_(I.Monad)
+  ET.getOrElse(I.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -141,7 +159,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
  */
 export const toUnion =
   /*#__PURE__*/
-  ET.toUnion_(I.Functor)
+  ET.toUnion(I.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -153,7 +171,7 @@ export const toUnion =
  */
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
   /*#__PURE__*/
-  ET.orElse_(I.Monad)
+  ET.orElse(I.Monad)
 
 /**
  * Less strict version of [`orElse`](#orElse).
@@ -171,7 +189,7 @@ export const orElseW: <E1, E2, B>(
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   /*#__PURE__*/
-  ET.swap_(I.Functor)
+  ET.swap(I.Functor)
 
 /**
  * Converts a function that may throw to one returning a `IOEither`.
@@ -247,7 +265,7 @@ const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
  */
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/
-  ET.map_(I.Functor)
+  ET.map(I.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -257,7 +275,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<
  */
 export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B> =
   /*#__PURE__*/
-  ET.bimap_(I.Functor)
+  ET.bimap(I.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -267,7 +285,7 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEithe
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEither<G, A> =
   /*#__PURE__*/
-  ET.mapLeft_(I.Functor)
+  ET.mapLeft(I.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -277,7 +295,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: IOEither<E, A>) => IOEit
  */
 export const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> =
   /*#__PURE__*/
-  ET.ap_(I.Apply)
+  ET.ap(I.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -303,7 +321,7 @@ export const of: Pointed2<URI>['of'] = right
  */
 export const chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/
-  ET.chain_(I.Monad)
+  ET.chain(I.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -334,7 +352,7 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  */
 export const alt: <E, A>(that: Lazy<IOEither<E, A>>) => (fa: IOEither<E, A>) => IOEither<E, A> =
   /*#__PURE__*/
-  ET.alt_(I.Monad)
+  ET.alt(I.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -394,7 +412,7 @@ export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<UR
  * @since 2.7.0
  */
 export function getAltIOValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
-  const alt = ET.altValidation_(I.Monad, S)
+  const alt = ET.altValidation(I.Monad, S)
   return {
     URI,
     _E: undefined as any,
