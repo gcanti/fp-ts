@@ -386,6 +386,7 @@ export function getEitherM<M extends URIS>(M: Monad1<M>): EitherM1<M>
 /** @deprecated  */
 export function getEitherM<M>(M: Monad<M>): EitherM<M>
 /** @deprecated  */
+/* istanbul ignore next */
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
   const ap = <E, A>(fga: HKT<M, E.Either<E, A>>) => <B>(
     fgab: HKT<M, E.Either<E, (a: A) => B>>
