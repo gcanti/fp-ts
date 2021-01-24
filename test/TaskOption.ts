@@ -177,4 +177,11 @@ describe('TaskOption', () => {
       )
     })
   })
+
+  it('tryCatchK', async () => {
+    const f = (n: number) => (n > 0 ? Promise.resolve(n) : Promise.reject(n))
+    const g = _.tryCatchK(f)
+    assert.deepStrictEqual(await g(1)(), O.some(1))
+    assert.deepStrictEqual(await g(-1)(), O.none)
+  })
 })
