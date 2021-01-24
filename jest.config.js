@@ -2,14 +2,7 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   collectCoverage: true,
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/StateT.ts',
-    '!src/WriterT.ts',
-    '!src/EitherT.ts',
-    '!src/ReaderT.ts',
-    '!src/TheseT.ts'
-  ],
+  collectCoverageFrom: ['src/**/*.ts', '!src/WriterT.ts'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },

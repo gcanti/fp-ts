@@ -58,6 +58,7 @@ Added in v2.0.0
   - [fromPredicate](#frompredicate)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderTaskEither](#fromreadertaskeither)
+  - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
   - [get](#get)
@@ -616,6 +617,16 @@ export declare const fromReaderTaskEither: <S, R, E, A>(
 ```
 
 Added in v2.0.0
+
+## fromState
+
+**Signature**
+
+```ts
+export declare const fromState: <S, A, R, E>(sa: State<S, A>) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
+```
+
+Added in v2.10.0
 
 ## fromTask
 

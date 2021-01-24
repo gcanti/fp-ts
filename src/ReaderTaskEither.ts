@@ -701,7 +701,10 @@ export const ApplicativeSeq: Applicative3<URI> = {
   of
 }
 
-const Monad: Monad3<URI> = {
+/**
+ * @internal
+ */
+export const Monad: Monad3<URI> = {
   URI,
   map: _map,
   ap: _apPar,

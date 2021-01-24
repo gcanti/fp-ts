@@ -677,7 +677,7 @@ Added in v2.10.0
 export declare const Do: TaskOption<{}>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## apS
 
@@ -690,7 +690,7 @@ export declare const apS: <N, A, B>(
 ) => (fa: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## bind
 
@@ -703,7 +703,7 @@ export declare const bind: <N, A, B>(
 ) => (ma: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## bindTo
 
@@ -713,7 +713,7 @@ Added in v3.0.0
 export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ [K in N]: A }>
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## sequenceReadonlyArray
 

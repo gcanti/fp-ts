@@ -562,21 +562,21 @@ export const FromTask: FromTask1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const Do: TaskOption<{}> =
   /*#__PURE__*/
   of({})
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const bindTo =
   /*#__PURE__*/
   bindTo_(Functor)
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const bind =
   /*#__PURE__*/
@@ -587,7 +587,7 @@ export const bind =
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const apS =
   /*#__PURE__*/

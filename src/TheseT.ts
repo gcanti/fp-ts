@@ -374,6 +374,7 @@ export function getTheseM<M extends URIS>(M: Monad1<M>): TheseM1<M>
 /** @deprecated */
 export function getTheseM<M>(M: Monad<M>): TheseM<M>
 /** @deprecated */
+/* istanbul ignore next */
 export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   function mapT<E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> {
     return M.map(fa, T.map(f))

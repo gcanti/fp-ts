@@ -242,6 +242,7 @@ export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
 /** @deprecated */
 export function getReaderM<M>(M: Monad<M>): ReaderM<M>
 /** @deprecated */
+/* istanbul ignore next */
 export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
   return {
     map: (ma, f) => (r) => M.map(ma(r), f),
