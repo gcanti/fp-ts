@@ -31,22 +31,22 @@ Added in v2.0.0
   - [Functor3C (interface)](#functor3c-interface)
   - [Functor4 (interface)](#functor4-interface)
 - [utils](#utils)
-  - [FunctorComposition (interface)](#functorcomposition-interface)
-  - [FunctorComposition11 (interface)](#functorcomposition11-interface)
-  - [FunctorComposition12 (interface)](#functorcomposition12-interface)
-  - [FunctorComposition12C (interface)](#functorcomposition12c-interface)
-  - [FunctorComposition21 (interface)](#functorcomposition21-interface)
-  - [FunctorComposition22 (interface)](#functorcomposition22-interface)
-  - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
-  - [FunctorComposition23 (interface)](#functorcomposition23-interface)
-  - [FunctorComposition23C (interface)](#functorcomposition23c-interface)
-  - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
-  - [FunctorCompositionHKT1 (interface)](#functorcompositionhkt1-interface)
-  - [FunctorCompositionHKT2 (interface)](#functorcompositionhkt2-interface)
-  - [FunctorCompositionHKT2C (interface)](#functorcompositionhkt2c-interface)
   - [bindTo\_](#bindto_)
-  - [getFunctorComposition](#getfunctorcomposition)
   - [map\_](#map_)
+  - [~~FunctorComposition11~~ (interface)](#functorcomposition11-interface)
+  - [~~FunctorComposition12C~~ (interface)](#functorcomposition12c-interface)
+  - [~~FunctorComposition12~~ (interface)](#functorcomposition12-interface)
+  - [~~FunctorComposition21~~ (interface)](#functorcomposition21-interface)
+  - [~~FunctorComposition22C~~ (interface)](#functorcomposition22c-interface)
+  - [~~FunctorComposition22~~ (interface)](#functorcomposition22-interface)
+  - [~~FunctorComposition23C~~ (interface)](#functorcomposition23c-interface)
+  - [~~FunctorComposition23~~ (interface)](#functorcomposition23-interface)
+  - [~~FunctorComposition2C1~~ (interface)](#functorcomposition2c1-interface)
+  - [~~FunctorCompositionHKT1~~ (interface)](#functorcompositionhkt1-interface)
+  - [~~FunctorCompositionHKT2C~~ (interface)](#functorcompositionhkt2c-interface)
+  - [~~FunctorCompositionHKT2~~ (interface)](#functorcompositionhkt2-interface)
+  - [~~FunctorComposition~~ (interface)](#functorcomposition-interface)
+  - [~~getFunctorComposition~~](#getfunctorcomposition)
 
 ---
 
@@ -147,162 +147,6 @@ Added in v2.0.0
 
 # utils
 
-## FunctorComposition (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition<F, G> {
-  readonly map: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => B) => HKT<F, HKT<G, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition11 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition11<F extends URIS, G extends URIS> {
-  readonly map: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => B) => Kind<F, Kind<G, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition12 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition12<F extends URIS, G extends URIS2> {
-  readonly map: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition12C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
-  readonly map: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition21 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition21<F extends URIS2, G extends URIS> {
-  readonly map: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition22 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
-  readonly map: <FE, GE, A, B>(fa: Kind2<F, FE, Kind2<G, GE, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, GE, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition22C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
-  readonly map: <FE, A, B>(fa: Kind2<F, FE, Kind2<G, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, E, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorComposition23 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
-  readonly map: <FE, R, E, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
-}
-```
-
-Added in v2.2.0
-
-## FunctorComposition23C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
-  readonly map: <FE, R, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
-}
-```
-
-Added in v2.2.0
-
-## FunctorComposition2C1 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
-  readonly map: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorCompositionHKT1 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorCompositionHKT1<F, G extends URIS> {
-  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorCompositionHKT2 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorCompositionHKT2<F, G extends URIS2> {
-  readonly map: <E, A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
-}
-```
-
-Added in v2.0.0
-
-## FunctorCompositionHKT2C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
-  readonly map: <A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
-}
-```
-
-Added in v2.0.0
-
 ## bindTo\_
 
 **Signature**
@@ -333,48 +177,6 @@ export declare function bindTo_<F>(
 
 Added in v2.10.0
 
-## getFunctorComposition
-
-**Signature**
-
-```ts
-export declare function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
-  F: Functor2<F>,
-  G: Functor3C<G, E>
-): FunctorComposition23C<F, G, E>
-export declare function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Functor2C<G, E>
-): FunctorComposition22C<F, G, E>
-export declare function getFunctorComposition<F extends URIS2, G extends URIS2>(
-  F: Functor2<F>,
-  G: Functor2<G>
-): FunctorComposition22<F, G>
-export declare function getFunctorComposition<F extends URIS2, G extends URIS, E>(
-  F: Functor2C<F, E>,
-  G: Functor1<G>
-): FunctorComposition2C1<F, G, E>
-export declare function getFunctorComposition<F extends URIS2, G extends URIS>(
-  F: Functor2<F>,
-  G: Functor1<G>
-): FunctorComposition21<F, G>
-export declare function getFunctorComposition<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Functor2C<G, E>
-): FunctorComposition12C<F, G, E>
-export declare function getFunctorComposition<F extends URIS, G extends URIS2>(
-  F: Functor1<F>,
-  G: Functor2<G>
-): FunctorComposition12<F, G>
-export declare function getFunctorComposition<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Functor1<G>
-): FunctorComposition11<F, G>
-export declare function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
-```
-
-Added in v2.0.0
-
 ## map\_
 
 **Signature**
@@ -395,3 +197,209 @@ export declare function map_<F, G>(
 ```
 
 Added in v2.10.0
+
+## ~~FunctorComposition11~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition11<F extends URIS, G extends URIS> {
+  readonly map: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => B) => Kind<F, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition12C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition12C<F extends URIS, G extends URIS2, E> {
+  readonly map: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition12~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition12<F extends URIS, G extends URIS2> {
+  readonly map: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => B) => Kind<F, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition21~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition21<F extends URIS2, G extends URIS> {
+  readonly map: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition22C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition22C<F extends URIS2, G extends URIS2, E> {
+  readonly map: <FE, A, B>(fa: Kind2<F, FE, Kind2<G, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition22~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
+  readonly map: <FE, GE, A, B>(fa: Kind2<F, FE, Kind2<G, GE, A>>, f: (a: A) => B) => Kind2<F, FE, Kind2<G, GE, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition23C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
+  readonly map: <FE, R, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+```
+
+Added in v2.2.0
+
+## ~~FunctorComposition23~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition23<F extends URIS2, G extends URIS3> {
+  readonly map: <FE, R, E, A, B>(fa: Kind2<F, FE, Kind3<G, R, E, A>>, f: (a: A) => B) => Kind2<F, FE, Kind3<G, R, E, B>>
+}
+```
+
+Added in v2.2.0
+
+## ~~FunctorComposition2C1~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition2C1<F extends URIS2, G extends URIS, E> {
+  readonly map: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => B) => Kind2<F, E, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorCompositionHKT1~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT1<F, G extends URIS> {
+  readonly map: <A, B>(fa: HKT<F, Kind<G, A>>, f: (a: A) => B) => HKT<F, Kind<G, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorCompositionHKT2C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT2C<F, G extends URIS2, E> {
+  readonly map: <A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorCompositionHKT2~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorCompositionHKT2<F, G extends URIS2> {
+  readonly map: <E, A, B>(fa: HKT<F, Kind2<G, E, A>>, f: (a: A) => B) => HKT<F, Kind2<G, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FunctorComposition~~ (interface)
+
+**Signature**
+
+```ts
+export interface FunctorComposition<F, G> {
+  readonly map: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => B) => HKT<F, HKT<G, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~getFunctorComposition~~
+
+**Signature**
+
+```ts
+export declare function getFunctorComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Functor3C<G, E>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition23C<F, G, E>
+export declare function getFunctorComposition<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Functor2C<G, E>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition22C<F, G, E>
+export declare function getFunctorComposition<F extends URIS2, G extends URIS2>(
+  F: Functor2<F>,
+  G: Functor2<G>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition22<F, G>
+export declare function getFunctorComposition<F extends URIS2, G extends URIS, E>(
+  F: Functor2C<F, E>,
+  G: Functor1<G>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition2C1<F, G, E>
+export declare function getFunctorComposition<F extends URIS2, G extends URIS>(
+  F: Functor2<F>,
+  G: Functor1<G>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition21<F, G>
+export declare function getFunctorComposition<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Functor2C<G, E>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition12C<F, G, E>
+export declare function getFunctorComposition<F extends URIS, G extends URIS2>(
+  F: Functor1<F>,
+  G: Functor2<G>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition12<F, G>
+export declare function getFunctorComposition<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Functor1<G>
+  // tslint:disable-next-line: deprecation
+): FunctorComposition11<F, G>
+export declare function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
+```
+
+Added in v2.0.0

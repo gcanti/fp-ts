@@ -8,6 +8,10 @@ describe('Compactable', () => {
   it('getCompactableComposition', () => {
     const C = getCompactableComposition(A.Functor, { ...A.Functor, ...A.Compactable })
     assert.deepStrictEqual(
+      C.map([[1], [2]], (n) => n * 2),
+      [[2], [4]]
+    )
+    assert.deepStrictEqual(
       C.compact([
         [some(1), none],
         [none, some(2)]
