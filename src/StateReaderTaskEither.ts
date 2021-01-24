@@ -3,17 +3,22 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { apFirst_, Apply4, apSecond_, apS_ } from './Apply'
+import { apFirst as apFirst_, Apply4, apSecond as apSecond_, apS as apS_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
-import { filterOrElse_, FromEither4, fromOption_, fromPredicate_ } from './FromEither'
+import {
+  filterOrElse as filterOrElse_,
+  FromEither4,
+  fromOption as fromOption_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO4 } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor4 } from './Functor'
+import { bindTo as bindTo_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind_, chainFirst_, Monad4 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad4 } from './Monad'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Pointed4 } from './Pointed'

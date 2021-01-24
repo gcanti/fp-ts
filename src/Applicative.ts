@@ -17,7 +17,7 @@
  *
  * @since 2.0.0
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, ap_, getApplySemigroup } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4, ap, getApplySemigroup } from './Apply'
 import { pipe } from './function'
 import {
   FunctorComposition,
@@ -302,10 +302,10 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
 /** @deprecated */
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
   const map = getFunctorComposition(F, G).map
-  const ap = ap_(F, G)
+  const _ap = ap(F, G)
   return {
     map,
     of: (a) => F.of(G.of(a)),
-    ap: (fgab, fga) => pipe(fgab, ap(fga))
+    ap: (fgab, fga) => pipe(fgab, _ap(fga))
   }
 }

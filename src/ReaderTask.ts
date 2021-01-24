@@ -2,11 +2,17 @@
  * @since 2.3.0
  */
 import { Applicative2, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply2,
+  apSecond as apSecond_,
+  apS as apS_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { flow, identity, pipe } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, Functor2 } from './Functor'
 import { IO } from './IO'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
@@ -42,7 +48,7 @@ export interface ReaderTask<R, A> {
  */
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
-  RT.fromReader_(T.Pointed)
+  RT.fromReader(T.Pointed)
 
 /**
  * @category constructors
@@ -50,7 +56,7 @@ export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
  */
 export const ask: <R>() => ReaderTask<R, R> =
   /*#__PURE__*/
-  RT.ask_(T.Pointed)
+  RT.ask(T.Pointed)
 
 /**
  * @category constructors
@@ -58,7 +64,7 @@ export const ask: <R>() => ReaderTask<R, R> =
  */
 export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
   /*#__PURE__*/
-  RT.asks_(T.Pointed)
+  RT.asks(T.Pointed)
 
 /**
  * @category constructors
@@ -145,7 +151,7 @@ const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
  */
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  RT.map_(T.Functor)
+  RT.map(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -155,7 +161,7 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  */
 export const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  RT.ap_(T.ApplyPar)
+  RT.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -173,7 +179,7 @@ export const apW: <R2, A>(
  */
 export const of: Pointed2<URI>['of'] =
   /*#__PURE__*/
-  RT.of_(T.Pointed)
+  RT.of(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -183,7 +189,7 @@ export const of: Pointed2<URI>['of'] =
  */
 export const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  RT.chain_(T.Monad)
+  RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).

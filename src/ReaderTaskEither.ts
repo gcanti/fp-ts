@@ -3,20 +3,39 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply1, Apply3, apSecond_, apS_, ap_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply1,
+  Apply3,
+  apSecond as apSecond_,
+  apS as apS_,
+  ap as ap_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { Compactable3C, Compactable2C, compact_, separate_ } from './Compactable'
+import { Compactable3C, Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable3C, filter_, filterMap_, partition_, partitionMap_ } from './Filterable'
-import { filterOrElse_, FromEither3, fromOption_, fromPredicate_ } from './FromEither'
+import {
+  Filterable3C,
+  filterMap as filterMap_,
+  filter as filter_,
+  partitionMap as partitionMap_,
+  partition as partition_
+} from './Filterable'
+import {
+  filterOrElse as filterOrElse_,
+  FromEither3,
+  fromOption as fromOption_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO3 } from './FromIO'
 import { FromTask3 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2, Functor3 } from './Functor'
+import { bindTo as bindTo_, Functor2, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind_, chainFirst_, Monad3, Monad3C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -64,7 +83,7 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
  */
 export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.left_(RT.Pointed)
+  ET.left(RT.Pointed)
 
 /**
  * @category constructors
@@ -72,7 +91,7 @@ export const left: <R, E = never, A = never>(e: E) => ReaderTaskEither<R, E, A> 
  */
 export const right: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.right_(RT.Pointed)
+  ET.right(RT.Pointed)
 
 /**
  * @category constructors
@@ -110,7 +129,7 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderTa
  */
 export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.rightF_(RT.Functor)
+  ET.rightF(RT.Functor)
 
 /**
  * @category constructors
@@ -118,7 +137,7 @@ export const rightReaderTask: <R, E = never, A = never>(ma: ReaderTask<R, A>) =>
  */
 export const leftReaderTask: <R, E = never, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.leftF_(RT.Functor)
+  ET.leftF(RT.Functor)
 
 /**
  * @category constructors
@@ -195,7 +214,7 @@ export const fold: <R, E, A, B>(
   onRight: (a: A) => ReaderTask<R, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.fold_(RT.Monad)
+  ET.fold(RT.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -216,7 +235,7 @@ export const getOrElse: <R, E, A>(
   onLeft: (e: E) => ReaderTask<R, A>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
-  ET.getOrElse_(RT.Monad)
+  ET.getOrElse(RT.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -234,7 +253,7 @@ export const getOrElseW: <R2, E, B>(
  */
 export const toUnion =
   /*#__PURE__*/
-  ET.toUnion_(RT.Functor)
+  ET.toUnion(RT.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -248,7 +267,7 @@ export const orElse: <R, E1, A, E2>(
   onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
 ) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> =
   /*#__PURE__*/
-  ET.orElse_(RT.Monad)
+  ET.orElse(RT.Monad)
 
 /**
  * Less strict version of [`orElse`](#orElse).
@@ -266,7 +285,7 @@ export const orElseW: <E1, R1, E2, B>(
  */
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> =
   /*#__PURE__*/
-  ET.swap_(RT.Functor)
+  ET.swap(RT.Functor)
 
 // TODO: remove in v3
 /**
@@ -393,7 +412,7 @@ const _mapLeft: Bifunctor3<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
  */
 export const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
-  ET.map_(RT.Functor)
+  ET.map(RT.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -406,7 +425,7 @@ export const bimap: <E, G, A, B>(
   g: (a: A) => B
 ) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B> =
   /*#__PURE__*/
-  ET.bimap_(RT.Functor)
+  ET.bimap(RT.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -416,7 +435,7 @@ export const bimap: <E, G, A, B>(
  */
 export const mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A> =
   /*#__PURE__*/
-  ET.mapLeft_(RT.Functor)
+  ET.mapLeft(RT.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -428,7 +447,7 @@ export const ap: <R, E, A>(
   fa: ReaderTaskEither<R, E, A>
 ) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
-  ET.ap_(RT.ApplyPar)
+  ET.ap(RT.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -456,7 +475,7 @@ export const chain: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
-  ET.chain_(RT.Monad)
+  ET.chain(RT.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -489,7 +508,7 @@ export const alt: <R, E, A>(
   that: () => ReaderTaskEither<R, E, A>
 ) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.alt_(RT.Monad)
+  ET.alt(RT.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -588,7 +607,7 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semig
  * @since 2.7.0
  */
 export function getAltReaderTaskValidation<E>(S: Semigroup<E>): Alt3C<URI, E> {
-  const alt = ET.altValidation_(RT.Monad, S)
+  const alt = ET.altValidation(RT.Monad, S)
   return {
     URI,
     _E: undefined as any,

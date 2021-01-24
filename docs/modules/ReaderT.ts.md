@@ -17,13 +17,13 @@ Added in v2.0.0
   - [~~ReaderT2~~ (interface)](#readert2-interface)
   - [~~ReaderT~~ (interface)](#readert-interface)
 - [utils](#utils)
-  - [ap\_](#ap_)
-  - [ask\_](#ask_)
-  - [asks\_](#asks_)
-  - [chain\_](#chain_)
-  - [fromReader\_](#fromreader_)
-  - [map\_](#map_)
-  - [of\_](#of_)
+  - [ap](#ap)
+  - [ask](#ask)
+  - [asks](#asks)
+  - [chain](#chain)
+  - [fromReader](#fromreader)
+  - [map](#map)
+  - [of](#of)
   - [~~ReaderM1~~ (interface)](#readerm1-interface)
   - [~~ReaderM2C~~ (interface)](#readerm2c-interface)
   - [~~ReaderM2~~ (interface)](#readerm2-interface)
@@ -74,108 +74,108 @@ Added in v2.0.0
 
 # utils
 
-## ap\_
+## ap
 
 **Signature**
 
 ```ts
-export declare function ap_<F extends URIS2>(
+export declare function ap<F extends URIS2>(
   F: Apply2<F>
 ): <R, E, A>(
   fa: Reader<R, Kind2<F, E, A>>
 ) => <B>(fab: Reader<R, Kind2<F, E, (a: A) => B>>) => Reader<R, Kind2<F, E, B>>
-export declare function ap_<F extends URIS>(
+export declare function ap<F extends URIS>(
   F: Apply1<F>
 ): <R, A>(fa: Reader<R, Kind<F, A>>) => <B>(fab: Reader<R, Kind<F, (a: A) => B>>) => Reader<R, Kind<F, B>>
-export declare function ap_<F>(
+export declare function ap<F>(
   F: Apply<F>
 ): <R, A>(fa: Reader<R, HKT<F, A>>) => <B>(fab: Reader<R, HKT<F, (a: A) => B>>) => Reader<R, HKT<F, B>>
 ```
 
 Added in v2.10.0
 
-## ask\_
+## ask
 
 **Signature**
 
 ```ts
-export declare function ask_<F extends URIS2>(F: Pointed2<F>): <R, E>() => Reader<R, Kind2<F, E, R>>
-export declare function ask_<F extends URIS>(F: Pointed1<F>): <R>() => Reader<R, Kind<F, R>>
-export declare function ask_<F>(F: Pointed<F>): <R>() => Reader<R, HKT<F, R>>
+export declare function ask<F extends URIS2>(F: Pointed2<F>): <R, E>() => Reader<R, Kind2<F, E, R>>
+export declare function ask<F extends URIS>(F: Pointed1<F>): <R>() => Reader<R, Kind<F, R>>
+export declare function ask<F>(F: Pointed<F>): <R>() => Reader<R, HKT<F, R>>
 ```
 
 Added in v2.10.0
 
-## asks\_
+## asks
 
 **Signature**
 
 ```ts
-export declare function asks_<F extends URIS2>(F: Pointed2<F>): <R, A, E>(f: (r: R) => A) => Reader<R, Kind2<F, E, A>>
-export declare function asks_<F extends URIS>(F: Pointed1<F>): <R, A>(f: (r: R) => A) => Reader<R, Kind<F, A>>
-export declare function asks_<F>(F: Pointed<F>): <R, A>(f: (r: R) => A) => Reader<R, HKT<F, A>>
+export declare function asks<F extends URIS2>(F: Pointed2<F>): <R, A, E>(f: (r: R) => A) => Reader<R, Kind2<F, E, A>>
+export declare function asks<F extends URIS>(F: Pointed1<F>): <R, A>(f: (r: R) => A) => Reader<R, Kind<F, A>>
+export declare function asks<F>(F: Pointed<F>): <R, A>(f: (r: R) => A) => Reader<R, HKT<F, A>>
 ```
 
 Added in v2.10.0
 
-## chain\_
+## chain
 
 **Signature**
 
 ```ts
-export declare function chain_<M extends URIS2>(
+export declare function chain<M extends URIS2>(
   M: Monad2<M>
 ): <A, R, E, B>(f: (a: A) => Reader<R, Kind2<M, E, B>>) => (ma: Reader<R, Kind2<M, E, A>>) => Reader<R, Kind2<M, E, B>>
-export declare function chain_<M extends URIS>(
+export declare function chain<M extends URIS>(
   M: Monad1<M>
 ): <A, R, B>(f: (a: A) => Reader<R, Kind<M, B>>) => (ma: Reader<R, Kind<M, A>>) => Reader<R, Kind<M, B>>
-export declare function chain_<M>(
+export declare function chain<M>(
   M: Monad<M>
 ): <A, R, B>(f: (a: A) => Reader<R, HKT<M, B>>) => (ma: Reader<R, HKT<M, A>>) => Reader<R, HKT<M, B>>
 ```
 
 Added in v2.10.0
 
-## fromReader\_
+## fromReader
 
 **Signature**
 
 ```ts
-export declare function fromReader_<F extends URIS2>(
+export declare function fromReader<F extends URIS2>(
   F: Pointed2<F>
 ): <R, A, E>(ma: Reader<R, A>) => Reader<R, Kind2<F, E, A>>
-export declare function fromReader_<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R, A>) => Reader<R, Kind<F, A>>
-export declare function fromReader_<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
+export declare function fromReader<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R, A>) => Reader<R, Kind<F, A>>
+export declare function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
 ```
 
 Added in v2.10.0
 
-## map\_
+## map
 
 **Signature**
 
 ```ts
-export declare function map_<F extends URIS2>(
+export declare function map<F extends URIS2>(
   F: Functor2<F>
 ): <A, B>(f: (a: A) => B) => <R, FE>(fa: Reader<R, Kind2<F, FE, A>>) => Reader<R, Kind2<F, FE, B>>
-export declare function map_<F extends URIS>(
+export declare function map<F extends URIS>(
   F: Functor1<F>
 ): <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, Kind<F, A>>) => Reader<R, Kind<F, B>>
-export declare function map_<F>(
+export declare function map<F>(
   F: Functor<F>
 ): <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, HKT<F, A>>) => Reader<R, HKT<F, B>>
 ```
 
 Added in v2.10.0
 
-## of\_
+## of
 
 **Signature**
 
 ```ts
-export declare function of_<F extends URIS2>(F: Pointed2<F>): <A, R, ME>(a: A) => Reader<R, Kind2<F, ME, A>>
-export declare function of_<F extends URIS>(F: Pointed1<F>): <A, R>(a: A) => Reader<R, Kind<F, A>>
-export declare function of_<F>(F: Pointed<F>): <A, R>(a: A) => Reader<R, HKT<F, A>>
+export declare function of<F extends URIS2>(F: Pointed2<F>): <A, R, ME>(a: A) => Reader<R, Kind2<F, ME, A>>
+export declare function of<F extends URIS>(F: Pointed1<F>): <A, R>(a: A) => Reader<R, Kind<F, A>>
+export declare function of<F>(F: Pointed<F>): <A, R>(a: A) => Reader<R, HKT<F, A>>
 ```
 
 Added in v2.10.0
