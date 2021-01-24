@@ -1,14 +1,17 @@
 /**
  * @since 2.0.0
  */
-import { ApplicativeCompositionHKT2C, ApplicativeComposition12C, ApplicativeComposition22C } from './Applicative'
+import {
+  ApplicativeComposition12C,
+  ApplicativeComposition22C,
+  ApplicativeCompositionHKT2C,
+  getApplicativeComposition
+} from './Applicative'
 import * as E from './Either'
+import { Lazy } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
-import { Lazy, pipe } from './function'
-import { ap_ } from './Apply'
-import { map_ } from './Functor'
 
 import Either = E.Either
 
@@ -92,13 +95,13 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
 /** @deprecated */
 // tslint:disable-next-line: deprecation
 export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<M, E> {
-  const map = map_(M, E.Functor)
-  const ap = ap_(M, E.getApplicativeValidation(S))
+  // tslint:disable-next-line: deprecation
+  const A = getApplicativeComposition(M, E.getApplicativeValidation(S))
 
   return {
-    map: (fa, f) => pipe(fa, map(f)),
-    ap: (fab, fa) => pipe(fab, ap(fa)),
-    of: (a) => M.of(E.of(a)),
+    map: A.map,
+    ap: A.ap,
+    of: A.of,
     chain: /* istanbul ignore next */ (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(E.left(e.left)) : f(e.right))),
     alt: (me, that) =>
       M.chain(me, (e1) =>

@@ -5,11 +5,12 @@ import {
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
-  ApplicativeCompositionHKT1
+  ApplicativeCompositionHKT1,
+  getApplicativeComposition
 } from './Applicative'
 import { Apply, Apply1, ap_ as ap__ } from './Apply'
 import { Either } from './Either'
-import { flow, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, Lazy, Predicate, Refinement } from './function'
 import { Functor, Functor1, map_ as map__ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
@@ -277,15 +278,14 @@ export function getOptionM<M extends URIS2, E>(M: Monad2C<M, E>): OptionM2C<M, E
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  const map = map_(M)
-  const ap = ap_(M)
-  const of = some_(M)
+  // tslint:disable-next-line: deprecation
+  const A = getApplicativeComposition(M, O.Applicative)
   const none = M.of(O.none)
 
   return {
-    map: (fa, f) => pipe(fa, map(f)),
-    ap: (fab, fa) => pipe(fab, ap(fa)),
-    of,
+    map: A.map,
+    ap: A.ap,
+    of: A.of,
     chain: (ma, f) =>
       M.chain(
         ma,
