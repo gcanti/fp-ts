@@ -6,8 +6,8 @@ import * as R from '../src/ReadonlyRecord'
 import { deepStrictEqual } from './util'
 
 describe('FoldableWithIndex', () => {
-  it('reduceWithIndex_', () => {
-    const reduce = _.reduceWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
+  it('reduceWithIndex', () => {
+    const reduce = _.reduceWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -17,8 +17,8 @@ describe('FoldableWithIndex', () => {
     )
   })
 
-  it('foldMapWithIndex_', () => {
-    const foldMap = _.foldMapWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
+  it('foldMapWithIndex', () => {
+    const foldMap = _.foldMapWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -28,8 +28,8 @@ describe('FoldableWithIndex', () => {
     )
   })
 
-  it('reduceRightWithIndex_', () => {
-    const reduce = _.reduceRightWithIndex_(R.FoldableWithIndex, RA.FoldableWithIndex)
+  it('reduceRightWithIndex', () => {
+    const reduce = _.reduceRightWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

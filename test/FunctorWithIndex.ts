@@ -5,8 +5,8 @@ import * as R from '../src/ReadonlyRecord'
 import { deepStrictEqual } from './util'
 
 describe('FunctorWithIndex', () => {
-  it('mapWithIndex_', () => {
-    const mapWithIndex = _.mapWithIndex_(R.FunctorWithIndex, RA.FunctorWithIndex)
+  it('mapWithIndex', () => {
+    const mapWithIndex = _.mapWithIndex(R.FunctorWithIndex, RA.FunctorWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

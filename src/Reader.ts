@@ -2,11 +2,11 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Category2 } from './Category'
 import { constant, flow, identity } from './function'
-import { bindTo_, Functor2, tupled_ } from './Functor'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroupoid2 } from './Semigroupoid'

@@ -12,11 +12,11 @@
  * @since 3.0.0
  */
 import { Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
-import { bindTo_, Functor1, tupled_ } from './Functor'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 
 // -------------------------------------------------------------------------------------

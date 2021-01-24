@@ -10,20 +10,33 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply1, Apply2, apSecond_, apS_, apT_, ap_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply1,
+  Apply2,
+  apSecond as apSecond_,
+  apS as apS_,
+  apT as apT_,
+  ap as ap_
+} from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, compact_, separate_ } from './Compactable'
+import { Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable2C, filterMap_, filter_, partitionMap_, partition_ } from './Filterable'
-import { filterOrElse_, FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { Filterable2C, filterMap, filter, partitionMap, partition } from './Filterable'
+import {
+  filterOrElse as filterOrElse_,
+  FromEither2,
+  fromOption as fromOption_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -52,7 +65,7 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
  */
 export const left: <E, A = never>(e: E) => TaskEither<E, A> =
   /*#__PURE__*/
-  ET.left_(T.Pointed)
+  ET.left(T.Pointed)
 
 /**
  * @category constructors
@@ -60,7 +73,7 @@ export const left: <E, A = never>(e: E) => TaskEither<E, A> =
  */
 export const right: <A, E = never>(a: A) => TaskEither<E, A> =
   /*#__PURE__*/
-  ET.right_(T.Pointed)
+  ET.right(T.Pointed)
 
 /**
  * @category constructors
@@ -68,7 +81,7 @@ export const right: <A, E = never>(a: A) => TaskEither<E, A> =
  */
 export const rightTask: <A, E = never>(ma: Task<A>) => TaskEither<E, A> =
   /*#__PURE__*/
-  ET.rightF_(T.Functor)
+  ET.rightF(T.Functor)
 
 /**
  * @category constructors
@@ -76,7 +89,7 @@ export const rightTask: <A, E = never>(ma: Task<A>) => TaskEither<E, A> =
  */
 export const leftTask: <E, A = never>(me: Task<E>) => TaskEither<E, A> =
   /*#__PURE__*/
-  ET.leftF_(T.Functor)
+  ET.leftF(T.Functor)
 
 /**
  * @category constructors
@@ -151,7 +164,7 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
  */
 export const fold =
   /*#__PURE__*/
-  ET.fold_(T.Monad)
+  ET.fold(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -170,7 +183,7 @@ export const foldW: <E, B, A, C>(
  */
 export const getOrElse =
   /*#__PURE__*/
-  ET.getOrElse_(T.Monad)
+  ET.getOrElse(T.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -188,7 +201,7 @@ export const getOrElseW: <E, B>(
  */
 export const toUnion =
   /*#__PURE__*/
-  ET.toUnion_(T.Functor)
+  ET.toUnion(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -217,7 +230,7 @@ export const toUnion =
  */
 export const orElse =
   /*#__PURE__*/
-  ET.orElse_(T.Monad)
+  ET.orElse(T.Monad)
 
 /**
  * Less strict version of [`orElse`](#orElse).
@@ -235,7 +248,7 @@ export const orElseW: <E1, E2, B>(
  */
 export const swap =
   /*#__PURE__*/
-  ET.swap_(T.Functor)
+  ET.swap(T.Functor)
 
 /**
  * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
@@ -317,7 +330,7 @@ export const chainIOEitherK: <E, A, B>(
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  ET.map_(T.Functor)
+  ET.map(T.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -327,7 +340,7 @@ export const map: Functor2<URI>['map'] =
  */
 export const bimap: Bifunctor2<URI>['bimap'] =
   /*#__PURE__*/
-  ET.bimap_(T.Functor)
+  ET.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -337,7 +350,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] =
   /*#__PURE__*/
-  ET.mapLeft_(T.Functor)
+  ET.mapLeft(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -347,7 +360,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  */
 export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
-  ET.ap_(T.ApplyPar)
+  ET.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -367,7 +380,7 @@ export const apW: <E2, A>(
  */
 export const chain: Monad2<URI>['chain'] =
   /*#__PURE__*/
-  ET.chain_(T.Monad)
+  ET.chain(T.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -433,7 +446,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  */
 export const alt: Alt2<URI>['alt'] =
   /*#__PURE__*/
-  ET.alt_(T.Monad)
+  ET.alt(T.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -484,7 +497,7 @@ export const getApplicativeTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E
 export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
   return {
     map,
-    alt: ET.altValidation_(T.Monad, S)
+    alt: ET.altValidation(T.Monad, S)
   }
 }
 
@@ -507,10 +520,10 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
 export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
   const F = E.getFilterable(M)
   return {
-    filter: filter_(T.Functor, F),
-    filterMap: filterMap_(T.Functor, F),
-    partition: partition_(T.Functor, F),
-    partitionMap: partitionMap_(T.Functor, F)
+    filter: filter(T.Functor, F),
+    filterMap: filterMap(T.Functor, F),
+    partition: partition(T.Functor, F),
+    partitionMap: partitionMap(T.Functor, F)
   }
 }
 

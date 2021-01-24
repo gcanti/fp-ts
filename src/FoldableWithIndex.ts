@@ -97,15 +97,15 @@ export interface FoldableWithIndex4<F extends URIS4, I> {
 /**
  * @since 3.0.0
  */
-export function reduceWithIndex_<F extends URIS, I, G extends URIS, J>(
+export function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
   F: FoldableWithIndex1<F, I>,
   G: FoldableWithIndex1<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduceWithIndex_<F, I, G, J>(
+export function reduceWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduceWithIndex_<F, I, G, J>(
+export function reduceWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B {
@@ -121,15 +121,15 @@ export function reduceWithIndex_<F, I, G, J>(
 /**
  * @since 3.0.0
  */
-export function foldMapWithIndex_<F extends URIS, I, G extends URIS, J>(
+export function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
   F: FoldableWithIndex1<F, I>,
   G: FoldableWithIndex1<G, J>
 ): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export function foldMapWithIndex_<F, I, G, J>(
+export function foldMapWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
-export function foldMapWithIndex_<F, I, G, J>(
+export function foldMapWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <M>(M: Monoid<M>) => <A>(f: (ij: readonly [I, J], a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M {
@@ -149,15 +149,15 @@ export function foldMapWithIndex_<F, I, G, J>(
 /**
  * @since 3.0.0
  */
-export function reduceRightWithIndex_<F extends URIS, I, G extends URIS, J>(
+export function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(
   F: FoldableWithIndex1<F, I>,
   G: FoldableWithIndex1<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduceRightWithIndex_<F, I, G, J>(
+export function reduceRightWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduceRightWithIndex_<F, I, G, J>(
+export function reduceRightWithIndex<F, I, G, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
 ): <B, A>(b: B, f: (ij: readonly [I, J], a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {

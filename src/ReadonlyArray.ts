@@ -3,8 +3,8 @@
  */
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -14,10 +14,10 @@ import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor1, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
@@ -1501,7 +1501,7 @@ export const reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightW
  * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
@@ -1512,7 +1512,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @category Traversable
  * @since 3.0.0
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative_<F>) => <A>(
   ta: ReadonlyArray<HKT<F, A>>
 ): HKT<F, ReadonlyArray<A>> => {
   return pipe(
@@ -1532,7 +1532,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category TraversableWithIndex
  * @since 3.0.0
  */
-export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: ApplicativeHKT<F>) => <
+export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: Applicative_<F>) => <
   A,
   B
 >(
@@ -1551,7 +1551,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
  * @since 3.0.0
  */
 export const wither: Witherable1<URI>['wither'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseF = traverse(F)
   return (f) => flow(traverseF(f), F.map(compact))
@@ -1562,7 +1562,7 @@ export const wither: Witherable1<URI>['wither'] = <F>(
  * @since 3.0.0
  */
 export const wilt: Witherable1<URI>['wilt'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
 ) => (fa: ReadonlyArray<A>) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {

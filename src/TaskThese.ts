@@ -4,7 +4,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { FromEither2, fromOption_, fromPredicate_ } from './FromEither'
+import { FromEither2, fromOption as fromOption_, fromPredicate as fromPredicate_ } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow } from './function'
@@ -37,7 +37,7 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  */
 export const left: <E, A = never>(e: E) => TaskThese<E, A> =
   /*#__PURE__*/
-  TT.left_(T.Pointed)
+  TT.left(T.Pointed)
 
 /**
  * @category constructors
@@ -45,7 +45,7 @@ export const left: <E, A = never>(e: E) => TaskThese<E, A> =
  */
 export const right: <A, E = never>(a: A) => TaskThese<E, A> =
   /*#__PURE__*/
-  TT.right_(T.Pointed)
+  TT.right(T.Pointed)
 
 /**
  * @category constructors
@@ -53,7 +53,7 @@ export const right: <A, E = never>(a: A) => TaskThese<E, A> =
  */
 export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
   /*#__PURE__*/
-  TT.both_(T.Pointed)
+  TT.both(T.Pointed)
 
 /**
  * @category constructors
@@ -61,7 +61,7 @@ export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
  */
 export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> =
   /*#__PURE__*/
-  TT.rightF_(T.Functor)
+  TT.rightF(T.Functor)
 
 /**
  * @category constructors
@@ -69,7 +69,7 @@ export const rightTask: <A, E = never>(ma: Task<A>) => TaskThese<E, A> =
  */
 export const leftTask: <E, A = never>(me: Task<E>) => TaskThese<E, A> =
   /*#__PURE__*/
-  TT.leftF_(T.Functor)
+  TT.leftF(T.Functor)
 
 /**
  * @category constructors
@@ -123,7 +123,7 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
  */
 export const fold =
   /*#__PURE__*/
-  TT.fold_(T.Monad)
+  TT.fold(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -147,7 +147,7 @@ export const foldW: <E, B, A, C, D>(
  */
 export const swap =
   /*#__PURE__*/
-  TT.swap_(T.Functor)
+  TT.swap(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -162,7 +162,7 @@ export const swap =
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  TT.map_(T.Functor)
+  TT.map(T.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -172,7 +172,7 @@ export const map: Functor2<URI>['map'] =
  */
 export const bimap: Bifunctor2<URI>['bimap'] =
   /*#__PURE__*/
-  TT.bimap_(T.Functor)
+  TT.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -182,7 +182,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  */
 export const mapLeft: Bifunctor2<URI>['mapLeft'] =
   /*#__PURE__*/
-  TT.mapLeft_(T.Functor)
+  TT.mapLeft(T.Functor)
 
 /**
  * @category Pointed
@@ -212,7 +212,7 @@ declare module './HKT' {
  */
 export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => ({
   map,
-  ap: TT.ap_(A, S)
+  ap: TT.ap(A, S)
 })
 
 /**
@@ -235,7 +235,7 @@ export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicativ
 export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => ({
   map,
   of,
-  chain: TT.chain_(T.Monad, S)
+  chain: TT.chain(T.Monad, S)
 })
 
 /**
@@ -318,4 +318,4 @@ export const FromTask: FromTask2<URI> = {
  */
 export const toReadonlyTuple2 =
   /*#__PURE__*/
-  TT.toReadonlyTuple2_(T.Functor)
+  TT.toReadonlyTuple2(T.Functor)

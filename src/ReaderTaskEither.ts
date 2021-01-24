@@ -3,20 +3,33 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst_, Apply1, Apply3, apSecond_, apS_, apT_, ap_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply1,
+  Apply3,
+  apSecond as apSecond_,
+  apS as apS_,
+  apT as apT_,
+  ap as ap_
+} from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { Compactable3C, Compactable2C, compact_, separate_ } from './Compactable'
+import { Compactable3C, Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable3C, filter_, filterMap_, partition_, partitionMap_ } from './Filterable'
-import { filterOrElse_, FromEither3, fromOption_, fromPredicate_ } from './FromEither'
+import { Filterable3C, filter, filterMap, partition, partitionMap } from './Filterable'
+import {
+  filterOrElse as filterOrElse_,
+  FromEither3,
+  fromOption as fromOption_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO3 } from './FromIO'
 import { FromTask3 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2, Functor3, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor2, Functor3, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind_, chainFirst_, Monad3 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
@@ -62,7 +75,7 @@ export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither
  */
 export const left: <E, R, A = never>(e: E) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.left_(RT.Pointed)
+  ET.left(RT.Pointed)
 
 /**
  * @category constructors
@@ -70,7 +83,7 @@ export const left: <E, R, A = never>(e: E) => ReaderTaskEither<R, E, A> =
  */
 export const right: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.right_(RT.Pointed)
+  ET.right(RT.Pointed)
 
 /**
  * @category constructors
@@ -106,7 +119,7 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderTaskEither
  */
 export const rightReaderTask: <R, A, E = never>(ma: ReaderTask<R, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.rightF_(RT.Functor)
+  ET.rightF(RT.Functor)
 
 /**
  * @category constructors
@@ -114,7 +127,7 @@ export const rightReaderTask: <R, A, E = never>(ma: ReaderTask<R, A>) => ReaderT
  */
 export const leftReaderTask: <R, E, A = never>(me: ReaderTask<R, E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  ET.leftF_(RT.Functor)
+  ET.leftF(RT.Functor)
 
 /**
  * @category constructors
@@ -187,7 +200,7 @@ export const fromTask: FromTask3<URI>['fromTask'] = rightTask
  */
 export const fold =
   /*#__PURE__*/
-  ET.fold_(RT.Monad)
+  ET.fold(RT.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).
@@ -206,7 +219,7 @@ export const foldW: <E, R2, B, A, R3, C>(
  */
 export const getOrElse =
   /*#__PURE__*/
-  ET.getOrElse_(RT.Monad)
+  ET.getOrElse(RT.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -224,7 +237,7 @@ export const getOrElseW: <E, R2, B>(
  */
 export const toUnion =
   /*#__PURE__*/
-  ET.toUnion_(RT.Functor)
+  ET.toUnion(RT.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -236,7 +249,7 @@ export const toUnion =
  */
 export const orElse =
   /*#__PURE__*/
-  ET.orElse_(RT.Monad)
+  ET.orElse(RT.Monad)
 
 /**
  * Less strict version of [`orElse`](#orElse).
@@ -254,7 +267,7 @@ export const orElseW: <E1, R1, E2, B>(
  */
 export const swap =
   /*#__PURE__*/
-  ET.swap_(RT.Functor)
+  ET.swap(RT.Functor)
 
 /**
  * @category combinators
@@ -343,7 +356,7 @@ export const chainTaskEitherK: <E, A, B>(
  */
 export const map: Functor3<URI>['map'] =
   /*#__PURE__*/
-  ET.map_(RT.Functor)
+  ET.map(RT.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -353,7 +366,7 @@ export const map: Functor3<URI>['map'] =
  */
 export const bimap: Bifunctor3<URI>['bimap'] =
   /*#__PURE__*/
-  ET.bimap_(RT.Functor)
+  ET.bimap(RT.Functor)
 
 /**
  * Map a function over the second type argument of a bifunctor.
@@ -363,7 +376,7 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  */
 export const mapLeft: Bifunctor3<URI>['mapLeft'] =
   /*#__PURE__*/
-  ET.mapLeft_(RT.Functor)
+  ET.mapLeft(RT.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -373,7 +386,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  */
 export const ap: Apply3<URI>['ap'] =
   /*#__PURE__*/
-  ET.ap_(RT.ApplyPar)
+  ET.ap(RT.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -399,7 +412,7 @@ export const of: Pointed3<URI>['of'] = right
  */
 export const chain: Monad3<URI>['chain'] =
   /*#__PURE__*/
-  ET.chain_(RT.Monad)
+  ET.chain(RT.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -430,7 +443,7 @@ export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, 
  */
 export const alt: Alt3<URI>['alt'] =
   /*#__PURE__*/
-  ET.alt_(RT.Monad)
+  ET.alt(RT.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -475,7 +488,7 @@ export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semig
 export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
   return {
     map,
-    alt: ET.altValidation_(RT.Monad, S)
+    alt: ET.altValidation(RT.Monad, S)
   }
 }
 
@@ -498,10 +511,10 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
 export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
   const F = E.getFilterable(M)
   return {
-    filter: filter_(RT.Functor, F),
-    filterMap: filterMap_(RT.Functor, F),
-    partition: partition_(RT.Functor, F),
-    partitionMap: partitionMap_(RT.Functor, F)
+    filter: filter(RT.Functor, F),
+    filterMap: filterMap(RT.Functor, F),
+    partition: partition(RT.Functor, F),
+    partitionMap: partitionMap(RT.Functor, F)
   }
 }
 

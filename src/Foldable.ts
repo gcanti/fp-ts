@@ -213,15 +213,15 @@ export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
 /**
  * @since 3.0.0
  */
-export function reduce_<F extends URIS, G extends URIS>(
+export function reduce<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduce_<F, G>(
+export function reduce<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduce_<F, G>(
+export function reduce<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B {
@@ -231,15 +231,15 @@ export function reduce_<F, G>(
 /**
  * @since 3.0.0
  */
-export function foldMap_<F extends URIS, G extends URIS>(
+export function foldMap<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export function foldMap_<F, G>(
+export function foldMap<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
-export function foldMap_<F, G>(
+export function foldMap<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M {
@@ -249,15 +249,15 @@ export function foldMap_<F, G>(
 /**
  * @since 3.0.0
  */
-export function reduceRight_<F extends URIS, G extends URIS>(
+export function reduceRight<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export function reduceRight_<F, G>(
+export function reduceRight<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
-export function reduceRight_<F, G>(
+export function reduceRight<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {

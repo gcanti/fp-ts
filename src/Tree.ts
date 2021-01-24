@@ -7,16 +7,16 @@
  *
  * @since 3.0.0
  */
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
-import { bindTo_, Functor1, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
@@ -220,7 +220,7 @@ export const extract: Comonad1<URI>['extract'] = (wa) => wa.value
  * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
   const traverseF = RA.traverse(F)
   const out = <A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>): HKT<F, Tree<B>> =>
@@ -239,7 +239,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => traverse(F)(identity)
 
 /**

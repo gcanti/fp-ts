@@ -14,8 +14,8 @@
  */
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -24,9 +24,9 @@ import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { FromEither1 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor1, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -617,7 +617,7 @@ export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => flow(map(f)
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: Traversable1<URI>['traverse'] = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
+export const traverse: Traversable1<URI>['traverse'] = <F>(F: Applicative_<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (
   ta: Option<A>
 ): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
@@ -625,7 +625,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(F: ApplicativeHKT<F>)
  * @category Traversable
  * @since 3.0.0
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <A>(
+export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative_<F>) => <A>(
   ta: Option<HKT<F, A>>
 ): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : pipe(ta.value, F.map(some)))
 
@@ -633,15 +633,15 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category Witherable
  * @since 3.0.0
  */
-export const wither: Witherable1<URI>['wither'] = <F>(F: ApplicativeHKT<F>) => <A, B>(
-  f: (a: A) => HKT<F, Option<B>>
-) => (fa: Option<A>): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
+export const wither: Witherable1<URI>['wither'] = <F>(F: Applicative_<F>) => <A, B>(f: (a: A) => HKT<F, Option<B>>) => (
+  fa: Option<A>
+): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
-export const wilt: Witherable1<URI>['wilt'] = <F>(F: ApplicativeHKT<F>) => <A, B, C>(
+export const wilt: Witherable1<URI>['wilt'] = <F>(F: Applicative_<F>) => <A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
 ) => (fa: Option<A>): HKT<F, Separated<Option<B>, Option<C>>> => {
   return isNone(fa)

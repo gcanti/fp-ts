@@ -14,8 +14,8 @@
  * @since 3.0.0
  */
 import { Alt2, Alt2C } from './Alt'
-import { Applicative as ApplicativeHKT, Applicative2, Applicative2C } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
+import { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
+import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, separated, Separated } from './Compactable'
 import { Eq, fromEquals } from './Eq'
@@ -24,9 +24,9 @@ import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -698,9 +698,7 @@ export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isL
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: Traversable2<URI>['traverse'] = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <
-  E
->(
+export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative_<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
   ta: Either<E, A>
 ): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right)))
 
@@ -725,7 +723,7 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: ApplicativeHKT<F>)
  * @category Traversable
  * @since 3.0.0
  */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative_<F>) => <E, A>(
   ma: Either<E, HKT<F, A>>
 ): HKT<F, Either<E, A>> => (isLeft(ma) ? F.of(left(ma.left)) : pipe(ma.right, F.map(right)))
 
@@ -868,14 +866,14 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
   const C = getCompactable(M)
 
   const wither = <F>(
-    F: ApplicativeHKT<F>
+    F: Applicative_<F>
   ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ma: Either<E, A>) => HKT<F, Either<E, B>>) => {
     const traverseF = traverse(F)
     return (f) => flow(traverseF(f), F.map(C.compact))
   }
 
   const wilt = <F>(
-    F: ApplicativeHKT<F>
+    F: Applicative_<F>
   ): (<A, B, C>(
     f: (a: A) => HKT<F, Either<B, C>>
   ) => (ma: Either<E, A>) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {

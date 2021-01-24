@@ -49,8 +49,8 @@ describe('Foldable', () => {
     )
   })
 
-  it('reduce_', () => {
-    const reduce = _.reduce_(RA.Foldable, O.Foldable)
+  it('reduce', () => {
+    const reduce = _.reduce(RA.Foldable, O.Foldable)
     deepStrictEqual(
       pipe(
         [O.some('a'), O.none, O.some('b')],
@@ -60,13 +60,13 @@ describe('Foldable', () => {
     )
   })
 
-  it('foldMap_', () => {
-    const foldMap = _.foldMap_(RA.Foldable, O.Foldable)
+  it('foldMap', () => {
+    const foldMap = _.foldMap(RA.Foldable, O.Foldable)
     deepStrictEqual(pipe([O.some('a'), O.none, O.some('b')], foldMap(monoidString)(identity)), 'ab')
   })
 
-  it('reduceRight_', () => {
-    const reduceRight = _.reduceRight_(RA.Foldable, O.Foldable)
+  it('reduceRight', () => {
+    const reduceRight = _.reduceRight(RA.Foldable, O.Foldable)
     deepStrictEqual(
       pipe(
         [O.some('a'), O.none, O.some('b')],

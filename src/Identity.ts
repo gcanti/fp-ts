@@ -2,16 +2,16 @@
  * @since 3.0.0
  */
 import { Alt1 } from './Alt'
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, apT_ } from './Apply'
+import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { flow, identity as id } from './function'
-import { bindTo_, Functor1, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -115,14 +115,14 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => f(fa
  * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => flow(f, F.map(id))
 
 /**
  * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A>(ta: Identity<HKT<F, A>>) => HKT<F, Identity<A>>) => F.map(id)
 
 /**

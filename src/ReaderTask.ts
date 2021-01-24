@@ -2,13 +2,13 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, apT_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, pipe } from './function'
-import { bindTo_, Functor2, tupled_ } from './Functor'
+import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
@@ -44,7 +44,7 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  */
 export const fromReader =
   /*#__PURE__*/
-  RT.fromReader_(T.Pointed)
+  RT.fromReader(T.Pointed)
 
 /**
  * @category constructors
@@ -60,7 +60,7 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  */
 export const ask =
   /*#__PURE__*/
-  RT.ask_(T.Pointed)
+  RT.ask(T.Pointed)
 
 /**
  * @category constructors
@@ -68,7 +68,7 @@ export const ask =
  */
 export const asks =
   /*#__PURE__*/
-  RT.asks_(T.Pointed)
+  RT.asks(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -113,7 +113,7 @@ export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  RT.map_(T.Functor)
+  RT.map(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -123,7 +123,7 @@ export const map: Functor2<URI>['map'] =
  */
 export const ap: Apply2<URI>['ap'] =
   /*#__PURE__*/
-  RT.ap_(T.ApplyPar)
+  RT.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -141,7 +141,7 @@ export const apW: <R2, A>(
  */
 export const of: Pointed2<URI>['of'] =
   /*#__PURE__*/
-  RT.of_(T.Pointed)
+  RT.of(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -151,7 +151,7 @@ export const of: Pointed2<URI>['of'] =
  */
 export const chain: Monad2<URI>['chain'] =
   /*#__PURE__*/
-  RT.chain_(T.Monad)
+  RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).

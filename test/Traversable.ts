@@ -6,8 +6,8 @@ import * as O from '../src/Option'
 import { deepStrictEqual } from './util'
 
 describe('Traversable', () => {
-  it('traverse_', () => {
-    const traverse = _.traverse_(R.Traversable, RA.Traversable)
+  it('traverse', () => {
+    const traverse = _.traverse(R.Traversable, RA.Traversable)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -24,8 +24,8 @@ describe('Traversable', () => {
     )
   })
 
-  it('sequence_', () => {
-    const sequence = _.sequence_(R.Traversable, RA.Traversable)(O.Applicative)
+  it('sequence', () => {
+    const sequence = _.sequence(R.Traversable, RA.Traversable)(O.Applicative)
     deepStrictEqual(pipe({ a: [O.some(1), O.some(2)], b: [O.some(3)] }, sequence), O.some({ a: [1, 2], b: [3] }))
     deepStrictEqual(pipe({ a: [O.some(1), O.none], b: [O.some(3)] }, sequence), O.none)
   })
