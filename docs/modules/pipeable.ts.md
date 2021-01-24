@@ -13,134 +13,122 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [PipeableAlt (interface)](#pipeablealt-interface)
-  - [PipeableAlt1 (interface)](#pipeablealt1-interface)
-  - [PipeableAlt2 (interface)](#pipeablealt2-interface)
-  - [PipeableAlt2C (interface)](#pipeablealt2c-interface)
-  - [PipeableAlt3 (interface)](#pipeablealt3-interface)
-  - [PipeableAlt3C (interface)](#pipeablealt3c-interface)
-  - [PipeableAlt4 (interface)](#pipeablealt4-interface)
-  - [PipeableApply (interface)](#pipeableapply-interface)
-  - [PipeableApply1 (interface)](#pipeableapply1-interface)
-  - [PipeableApply2 (interface)](#pipeableapply2-interface)
-  - [PipeableApply2C (interface)](#pipeableapply2c-interface)
-  - [PipeableApply3 (interface)](#pipeableapply3-interface)
-  - [PipeableApply3C (interface)](#pipeableapply3c-interface)
-  - [PipeableApply4 (interface)](#pipeableapply4-interface)
-  - [PipeableBifunctor (interface)](#pipeablebifunctor-interface)
-  - [PipeableBifunctor2 (interface)](#pipeablebifunctor2-interface)
-  - [PipeableBifunctor3 (interface)](#pipeablebifunctor3-interface)
-  - [PipeableBifunctor3C (interface)](#pipeablebifunctor3c-interface)
-  - [PipeableBifunctor4 (interface)](#pipeablebifunctor4-interface)
-  - [PipeableChain (interface)](#pipeablechain-interface)
-  - [PipeableChain1 (interface)](#pipeablechain1-interface)
-  - [PipeableChain2 (interface)](#pipeablechain2-interface)
-  - [PipeableChain2C (interface)](#pipeablechain2c-interface)
-  - [PipeableChain3 (interface)](#pipeablechain3-interface)
-  - [PipeableChain3C (interface)](#pipeablechain3c-interface)
-  - [PipeableChain4 (interface)](#pipeablechain4-interface)
-  - [PipeableCompactable (interface)](#pipeablecompactable-interface)
-  - [PipeableCompactable1 (interface)](#pipeablecompactable1-interface)
-  - [PipeableCompactable2 (interface)](#pipeablecompactable2-interface)
-  - [PipeableCompactable2C (interface)](#pipeablecompactable2c-interface)
-  - [PipeableCompactable3 (interface)](#pipeablecompactable3-interface)
-  - [PipeableCompactable3C (interface)](#pipeablecompactable3c-interface)
-  - [PipeableCompactable4 (interface)](#pipeablecompactable4-interface)
-  - [PipeableContravariant (interface)](#pipeablecontravariant-interface)
-  - [PipeableContravariant1 (interface)](#pipeablecontravariant1-interface)
-  - [PipeableContravariant2 (interface)](#pipeablecontravariant2-interface)
-  - [PipeableContravariant2C (interface)](#pipeablecontravariant2c-interface)
-  - [PipeableContravariant3 (interface)](#pipeablecontravariant3-interface)
-  - [PipeableContravariant3C (interface)](#pipeablecontravariant3c-interface)
-  - [PipeableContravariant4 (interface)](#pipeablecontravariant4-interface)
-  - [PipeableExtend (interface)](#pipeableextend-interface)
-  - [PipeableExtend1 (interface)](#pipeableextend1-interface)
-  - [PipeableExtend2 (interface)](#pipeableextend2-interface)
-  - [PipeableExtend2C (interface)](#pipeableextend2c-interface)
-  - [PipeableExtend3 (interface)](#pipeableextend3-interface)
-  - [PipeableExtend3C (interface)](#pipeableextend3c-interface)
-  - [PipeableExtend4 (interface)](#pipeableextend4-interface)
-  - [PipeableFilterable (interface)](#pipeablefilterable-interface)
-  - [PipeableFilterable1 (interface)](#pipeablefilterable1-interface)
-  - [PipeableFilterable2 (interface)](#pipeablefilterable2-interface)
-  - [PipeableFilterable2C (interface)](#pipeablefilterable2c-interface)
-  - [PipeableFilterable3 (interface)](#pipeablefilterable3-interface)
-  - [PipeableFilterable3C (interface)](#pipeablefilterable3c-interface)
-  - [PipeableFilterable4 (interface)](#pipeablefilterable4-interface)
-  - [PipeableFilterableWithIndex (interface)](#pipeablefilterablewithindex-interface)
-  - [PipeableFilterableWithIndex1 (interface)](#pipeablefilterablewithindex1-interface)
-  - [PipeableFilterableWithIndex2 (interface)](#pipeablefilterablewithindex2-interface)
-  - [PipeableFilterableWithIndex2C (interface)](#pipeablefilterablewithindex2c-interface)
-  - [PipeableFilterableWithIndex3 (interface)](#pipeablefilterablewithindex3-interface)
-  - [PipeableFilterableWithIndex3C (interface)](#pipeablefilterablewithindex3c-interface)
-  - [PipeableFilterableWithIndex4 (interface)](#pipeablefilterablewithindex4-interface)
-  - [PipeableFoldable (interface)](#pipeablefoldable-interface)
-  - [PipeableFoldable1 (interface)](#pipeablefoldable1-interface)
-  - [PipeableFoldable2 (interface)](#pipeablefoldable2-interface)
-  - [PipeableFoldable2C (interface)](#pipeablefoldable2c-interface)
-  - [PipeableFoldable3 (interface)](#pipeablefoldable3-interface)
-  - [PipeableFoldable3C (interface)](#pipeablefoldable3c-interface)
-  - [PipeableFoldable4 (interface)](#pipeablefoldable4-interface)
-  - [PipeableFoldableWithIndex (interface)](#pipeablefoldablewithindex-interface)
-  - [PipeableFoldableWithIndex1 (interface)](#pipeablefoldablewithindex1-interface)
-  - [PipeableFoldableWithIndex2 (interface)](#pipeablefoldablewithindex2-interface)
-  - [PipeableFoldableWithIndex2C (interface)](#pipeablefoldablewithindex2c-interface)
-  - [PipeableFoldableWithIndex3 (interface)](#pipeablefoldablewithindex3-interface)
-  - [PipeableFoldableWithIndex3C (interface)](#pipeablefoldablewithindex3c-interface)
-  - [PipeableFoldableWithIndex4 (interface)](#pipeablefoldablewithindex4-interface)
-  - [PipeableFunctor (interface)](#pipeablefunctor-interface)
-  - [PipeableFunctor1 (interface)](#pipeablefunctor1-interface)
-  - [PipeableFunctor2 (interface)](#pipeablefunctor2-interface)
-  - [PipeableFunctor2C (interface)](#pipeablefunctor2c-interface)
-  - [PipeableFunctor3 (interface)](#pipeablefunctor3-interface)
-  - [PipeableFunctor3C (interface)](#pipeablefunctor3c-interface)
-  - [PipeableFunctor4 (interface)](#pipeablefunctor4-interface)
-  - [PipeableFunctorWithIndex (interface)](#pipeablefunctorwithindex-interface)
-  - [PipeableFunctorWithIndex1 (interface)](#pipeablefunctorwithindex1-interface)
-  - [PipeableFunctorWithIndex2 (interface)](#pipeablefunctorwithindex2-interface)
-  - [PipeableFunctorWithIndex2C (interface)](#pipeablefunctorwithindex2c-interface)
-  - [PipeableFunctorWithIndex3 (interface)](#pipeablefunctorwithindex3-interface)
-  - [PipeableFunctorWithIndex3C (interface)](#pipeablefunctorwithindex3c-interface)
-  - [PipeableFunctorWithIndex4 (interface)](#pipeablefunctorwithindex4-interface)
-  - [PipeableMonadThrow (interface)](#pipeablemonadthrow-interface)
-  - [PipeableMonadThrow1 (interface)](#pipeablemonadthrow1-interface)
-  - [PipeableMonadThrow2 (interface)](#pipeablemonadthrow2-interface)
-  - [PipeableMonadThrow2C (interface)](#pipeablemonadthrow2c-interface)
-  - [PipeableMonadThrow3 (interface)](#pipeablemonadthrow3-interface)
-  - [PipeableMonadThrow3C (interface)](#pipeablemonadthrow3c-interface)
-  - [PipeableMonadThrow4 (interface)](#pipeablemonadthrow4-interface)
-  - [PipeableProfunctor (interface)](#pipeableprofunctor-interface)
-  - [PipeableProfunctor2 (interface)](#pipeableprofunctor2-interface)
-  - [PipeableProfunctor2C (interface)](#pipeableprofunctor2c-interface)
-  - [PipeableProfunctor3 (interface)](#pipeableprofunctor3-interface)
-  - [PipeableProfunctor3C (interface)](#pipeableprofunctor3c-interface)
-  - [PipeableProfunctor4 (interface)](#pipeableprofunctor4-interface)
-  - [PipeableSemigroupoid (interface)](#pipeablesemigroupoid-interface)
-  - [PipeableSemigroupoid2 (interface)](#pipeablesemigroupoid2-interface)
-  - [PipeableSemigroupoid2C (interface)](#pipeablesemigroupoid2c-interface)
-  - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
-  - [PipeableSemigroupoid3C (interface)](#pipeablesemigroupoid3c-interface)
-  - [PipeableSemigroupoid4 (interface)](#pipeablesemigroupoid4-interface)
-  - [pipeable](#pipeable)
+  - [~~PipeableAlt1~~ (interface)](#pipeablealt1-interface)
+  - [~~PipeableAlt2C~~ (interface)](#pipeablealt2c-interface)
+  - [~~PipeableAlt2~~ (interface)](#pipeablealt2-interface)
+  - [~~PipeableAlt3C~~ (interface)](#pipeablealt3c-interface)
+  - [~~PipeableAlt3~~ (interface)](#pipeablealt3-interface)
+  - [~~PipeableAlt4~~ (interface)](#pipeablealt4-interface)
+  - [~~PipeableAlt~~ (interface)](#pipeablealt-interface)
+  - [~~PipeableApply1~~ (interface)](#pipeableapply1-interface)
+  - [~~PipeableApply2C~~ (interface)](#pipeableapply2c-interface)
+  - [~~PipeableApply2~~ (interface)](#pipeableapply2-interface)
+  - [~~PipeableApply3C~~ (interface)](#pipeableapply3c-interface)
+  - [~~PipeableApply3~~ (interface)](#pipeableapply3-interface)
+  - [~~PipeableApply4~~ (interface)](#pipeableapply4-interface)
+  - [~~PipeableApply~~ (interface)](#pipeableapply-interface)
+  - [~~PipeableBifunctor2~~ (interface)](#pipeablebifunctor2-interface)
+  - [~~PipeableBifunctor3C~~ (interface)](#pipeablebifunctor3c-interface)
+  - [~~PipeableBifunctor3~~ (interface)](#pipeablebifunctor3-interface)
+  - [~~PipeableBifunctor4~~ (interface)](#pipeablebifunctor4-interface)
+  - [~~PipeableBifunctor~~ (interface)](#pipeablebifunctor-interface)
+  - [~~PipeableChain1~~ (interface)](#pipeablechain1-interface)
+  - [~~PipeableChain2C~~ (interface)](#pipeablechain2c-interface)
+  - [~~PipeableChain2~~ (interface)](#pipeablechain2-interface)
+  - [~~PipeableChain3C~~ (interface)](#pipeablechain3c-interface)
+  - [~~PipeableChain3~~ (interface)](#pipeablechain3-interface)
+  - [~~PipeableChain4~~ (interface)](#pipeablechain4-interface)
+  - [~~PipeableChain~~ (interface)](#pipeablechain-interface)
+  - [~~PipeableCompactable1~~ (interface)](#pipeablecompactable1-interface)
+  - [~~PipeableCompactable2C~~ (interface)](#pipeablecompactable2c-interface)
+  - [~~PipeableCompactable2~~ (interface)](#pipeablecompactable2-interface)
+  - [~~PipeableCompactable3C~~ (interface)](#pipeablecompactable3c-interface)
+  - [~~PipeableCompactable3~~ (interface)](#pipeablecompactable3-interface)
+  - [~~PipeableCompactable4~~ (interface)](#pipeablecompactable4-interface)
+  - [~~PipeableCompactable~~ (interface)](#pipeablecompactable-interface)
+  - [~~PipeableContravariant1~~ (interface)](#pipeablecontravariant1-interface)
+  - [~~PipeableContravariant2C~~ (interface)](#pipeablecontravariant2c-interface)
+  - [~~PipeableContravariant2~~ (interface)](#pipeablecontravariant2-interface)
+  - [~~PipeableContravariant3C~~ (interface)](#pipeablecontravariant3c-interface)
+  - [~~PipeableContravariant3~~ (interface)](#pipeablecontravariant3-interface)
+  - [~~PipeableContravariant4~~ (interface)](#pipeablecontravariant4-interface)
+  - [~~PipeableContravariant~~ (interface)](#pipeablecontravariant-interface)
+  - [~~PipeableExtend1~~ (interface)](#pipeableextend1-interface)
+  - [~~PipeableExtend2C~~ (interface)](#pipeableextend2c-interface)
+  - [~~PipeableExtend2~~ (interface)](#pipeableextend2-interface)
+  - [~~PipeableExtend3C~~ (interface)](#pipeableextend3c-interface)
+  - [~~PipeableExtend3~~ (interface)](#pipeableextend3-interface)
+  - [~~PipeableExtend4~~ (interface)](#pipeableextend4-interface)
+  - [~~PipeableExtend~~ (interface)](#pipeableextend-interface)
+  - [~~PipeableFilterable1~~ (interface)](#pipeablefilterable1-interface)
+  - [~~PipeableFilterable2C~~ (interface)](#pipeablefilterable2c-interface)
+  - [~~PipeableFilterable2~~ (interface)](#pipeablefilterable2-interface)
+  - [~~PipeableFilterable3C~~ (interface)](#pipeablefilterable3c-interface)
+  - [~~PipeableFilterable3~~ (interface)](#pipeablefilterable3-interface)
+  - [~~PipeableFilterable4~~ (interface)](#pipeablefilterable4-interface)
+  - [~~PipeableFilterableWithIndex1~~ (interface)](#pipeablefilterablewithindex1-interface)
+  - [~~PipeableFilterableWithIndex2C~~ (interface)](#pipeablefilterablewithindex2c-interface)
+  - [~~PipeableFilterableWithIndex2~~ (interface)](#pipeablefilterablewithindex2-interface)
+  - [~~PipeableFilterableWithIndex3C~~ (interface)](#pipeablefilterablewithindex3c-interface)
+  - [~~PipeableFilterableWithIndex3~~ (interface)](#pipeablefilterablewithindex3-interface)
+  - [~~PipeableFilterableWithIndex4~~ (interface)](#pipeablefilterablewithindex4-interface)
+  - [~~PipeableFilterableWithIndex~~ (interface)](#pipeablefilterablewithindex-interface)
+  - [~~PipeableFilterable~~ (interface)](#pipeablefilterable-interface)
+  - [~~PipeableFoldable1~~ (interface)](#pipeablefoldable1-interface)
+  - [~~PipeableFoldable2C~~ (interface)](#pipeablefoldable2c-interface)
+  - [~~PipeableFoldable2~~ (interface)](#pipeablefoldable2-interface)
+  - [~~PipeableFoldable3C~~ (interface)](#pipeablefoldable3c-interface)
+  - [~~PipeableFoldable3~~ (interface)](#pipeablefoldable3-interface)
+  - [~~PipeableFoldable4~~ (interface)](#pipeablefoldable4-interface)
+  - [~~PipeableFoldableWithIndex1~~ (interface)](#pipeablefoldablewithindex1-interface)
+  - [~~PipeableFoldableWithIndex2C~~ (interface)](#pipeablefoldablewithindex2c-interface)
+  - [~~PipeableFoldableWithIndex2~~ (interface)](#pipeablefoldablewithindex2-interface)
+  - [~~PipeableFoldableWithIndex3C~~ (interface)](#pipeablefoldablewithindex3c-interface)
+  - [~~PipeableFoldableWithIndex3~~ (interface)](#pipeablefoldablewithindex3-interface)
+  - [~~PipeableFoldableWithIndex4~~ (interface)](#pipeablefoldablewithindex4-interface)
+  - [~~PipeableFoldableWithIndex~~ (interface)](#pipeablefoldablewithindex-interface)
+  - [~~PipeableFoldable~~ (interface)](#pipeablefoldable-interface)
+  - [~~PipeableFunctor1~~ (interface)](#pipeablefunctor1-interface)
+  - [~~PipeableFunctor2C~~ (interface)](#pipeablefunctor2c-interface)
+  - [~~PipeableFunctor2~~ (interface)](#pipeablefunctor2-interface)
+  - [~~PipeableFunctor3C~~ (interface)](#pipeablefunctor3c-interface)
+  - [~~PipeableFunctor3~~ (interface)](#pipeablefunctor3-interface)
+  - [~~PipeableFunctor4~~ (interface)](#pipeablefunctor4-interface)
+  - [~~PipeableFunctorWithIndex1~~ (interface)](#pipeablefunctorwithindex1-interface)
+  - [~~PipeableFunctorWithIndex2C~~ (interface)](#pipeablefunctorwithindex2c-interface)
+  - [~~PipeableFunctorWithIndex2~~ (interface)](#pipeablefunctorwithindex2-interface)
+  - [~~PipeableFunctorWithIndex3C~~ (interface)](#pipeablefunctorwithindex3c-interface)
+  - [~~PipeableFunctorWithIndex3~~ (interface)](#pipeablefunctorwithindex3-interface)
+  - [~~PipeableFunctorWithIndex4~~ (interface)](#pipeablefunctorwithindex4-interface)
+  - [~~PipeableFunctorWithIndex~~ (interface)](#pipeablefunctorwithindex-interface)
+  - [~~PipeableFunctor~~ (interface)](#pipeablefunctor-interface)
+  - [~~PipeableMonadThrow1~~ (interface)](#pipeablemonadthrow1-interface)
+  - [~~PipeableMonadThrow2C~~ (interface)](#pipeablemonadthrow2c-interface)
+  - [~~PipeableMonadThrow2~~ (interface)](#pipeablemonadthrow2-interface)
+  - [~~PipeableMonadThrow3C~~ (interface)](#pipeablemonadthrow3c-interface)
+  - [~~PipeableMonadThrow3~~ (interface)](#pipeablemonadthrow3-interface)
+  - [~~PipeableMonadThrow4~~ (interface)](#pipeablemonadthrow4-interface)
+  - [~~PipeableMonadThrow~~ (interface)](#pipeablemonadthrow-interface)
+  - [~~PipeableProfunctor2C~~ (interface)](#pipeableprofunctor2c-interface)
+  - [~~PipeableProfunctor2~~ (interface)](#pipeableprofunctor2-interface)
+  - [~~PipeableProfunctor3C~~ (interface)](#pipeableprofunctor3c-interface)
+  - [~~PipeableProfunctor3~~ (interface)](#pipeableprofunctor3-interface)
+  - [~~PipeableProfunctor4~~ (interface)](#pipeableprofunctor4-interface)
+  - [~~PipeableProfunctor~~ (interface)](#pipeableprofunctor-interface)
+  - [~~PipeableSemigroupoid2C~~ (interface)](#pipeablesemigroupoid2c-interface)
+  - [~~PipeableSemigroupoid2~~ (interface)](#pipeablesemigroupoid2-interface)
+  - [~~PipeableSemigroupoid3C~~ (interface)](#pipeablesemigroupoid3c-interface)
+  - [~~PipeableSemigroupoid3~~ (interface)](#pipeablesemigroupoid3-interface)
+  - [~~PipeableSemigroupoid4~~ (interface)](#pipeablesemigroupoid4-interface)
+  - [~~PipeableSemigroupoid~~ (interface)](#pipeablesemigroupoid-interface)
+  - [~~pipeable~~](#pipeable)
   - [~~pipe~~](#pipe)
 
 ---
 
 # utils
 
-## PipeableAlt (interface)
-
-**Signature**
-
-```ts
-export interface PipeableAlt<F> {
-  readonly alt: <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
-}
-```
-
-Added in v2.0.0
-
-## PipeableAlt1 (interface)
+## ~~PipeableAlt1~~ (interface)
 
 **Signature**
 
@@ -152,19 +140,7 @@ export interface PipeableAlt1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableAlt2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableAlt2<F extends URIS2> {
-  readonly alt: <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
-}
-```
-
-Added in v2.0.0
-
-## PipeableAlt2C (interface)
+## ~~PipeableAlt2C~~ (interface)
 
 **Signature**
 
@@ -176,19 +152,19 @@ export interface PipeableAlt2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableAlt3 (interface)
+## ~~PipeableAlt2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableAlt3<F extends URIS3> {
-  readonly alt: <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+export interface PipeableAlt2<F extends URIS2> {
+  readonly alt: <E, A>(that: Lazy<Kind2<F, E, A>>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableAlt3C (interface)
+## ~~PipeableAlt3C~~ (interface)
 
 **Signature**
 
@@ -200,7 +176,19 @@ export interface PipeableAlt3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableAlt4 (interface)
+## ~~PipeableAlt3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableAlt3<F extends URIS3> {
+  readonly alt: <R, E, A>(that: Lazy<Kind3<F, R, E, A>>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableAlt4~~ (interface)
 
 **Signature**
 
@@ -212,21 +200,19 @@ export interface PipeableAlt4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableApply (interface)
+## ~~PipeableAlt~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableApply<F> extends PipeableFunctor<F> {
-  readonly ap: <A>(fa: HKT<F, A>) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
-  readonly apFirst: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, A>
-  readonly apSecond: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, B>
+export interface PipeableAlt<F> {
+  readonly alt: <A>(that: Lazy<HKT<F, A>>) => (fa: HKT<F, A>) => HKT<F, A>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableApply1 (interface)
+## ~~PipeableApply1~~ (interface)
 
 **Signature**
 
@@ -240,21 +226,7 @@ export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
 
 Added in v2.0.0
 
-## PipeableApply2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly ap: <E, A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
-  readonly apFirst: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
-  readonly apSecond: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableApply2C (interface)
+## ~~PipeableApply2C~~ (interface)
 
 **Signature**
 
@@ -268,21 +240,21 @@ export interface PipeableApply2C<F extends URIS2, E> extends PipeableFunctor2C<F
 
 Added in v2.0.0
 
-## PipeableApply3 (interface)
+## ~~PipeableApply2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly ap: <R, E, A>(fa: Kind3<F, R, E, A>) => <B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
-  readonly apFirst: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-  readonly apSecond: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
+  readonly ap: <E, A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+  readonly apFirst: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly apSecond: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableApply3C (interface)
+## ~~PipeableApply3C~~ (interface)
 
 **Signature**
 
@@ -296,7 +268,21 @@ export interface PipeableApply3C<F extends URIS3, E> extends PipeableFunctor3C<F
 
 Added in v2.2.0
 
-## PipeableApply4 (interface)
+## ~~PipeableApply3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
+  readonly ap: <R, E, A>(fa: Kind3<F, R, E, A>) => <B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+  readonly apFirst: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly apSecond: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableApply4~~ (interface)
 
 **Signature**
 
@@ -312,20 +298,21 @@ export interface PipeableApply4<F extends URIS4> extends PipeableFunctor4<F> {
 
 Added in v2.0.0
 
-## PipeableBifunctor (interface)
+## ~~PipeableApply~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableBifunctor<F> {
-  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: HKT2<F, E, A>) => HKT2<F, G, B>
-  readonly mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: HKT2<F, E, A>) => HKT2<F, G, A>
+export interface PipeableApply<F> extends PipeableFunctor<F> {
+  readonly ap: <A>(fa: HKT<F, A>) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
+  readonly apFirst: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, A>
+  readonly apSecond: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableBifunctor2 (interface)
+## ~~PipeableBifunctor2~~ (interface)
 
 **Signature**
 
@@ -338,20 +325,7 @@ export interface PipeableBifunctor2<F extends URIS2> {
 
 Added in v2.0.0
 
-## PipeableBifunctor3 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableBifunctor3<F extends URIS3> {
-  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
-  readonly mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
-}
-```
-
-Added in v2.0.0
-
-## PipeableBifunctor3C (interface)
+## ~~PipeableBifunctor3C~~ (interface)
 
 **Signature**
 
@@ -364,7 +338,20 @@ export interface PipeableBifunctor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableBifunctor4 (interface)
+## ~~PipeableBifunctor3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableBifunctor3<F extends URIS3> {
+  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
+  readonly mapLeft: <E, G>(f: (e: E) => G) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableBifunctor4~~ (interface)
 
 **Signature**
 
@@ -380,21 +367,20 @@ export interface PipeableBifunctor4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableChain (interface)
+## ~~PipeableBifunctor~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableChain<F> extends PipeableApply<F> {
-  readonly chain: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, B>
-  readonly chainFirst: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, A>
-  readonly flatten: <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
+export interface PipeableBifunctor<F> {
+  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: HKT2<F, E, A>) => HKT2<F, G, B>
+  readonly mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: HKT2<F, E, A>) => HKT2<F, G, A>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableChain1 (interface)
+## ~~PipeableChain1~~ (interface)
 
 **Signature**
 
@@ -408,21 +394,7 @@ export interface PipeableChain1<F extends URIS> extends PipeableApply1<F> {
 
 Added in v2.0.0
 
-## PipeableChain2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
-  readonly chain: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
-  readonly chainFirst: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, A>
-  readonly flatten: <E, A>(mma: Kind2<F, E, Kind2<F, E, A>>) => Kind2<F, E, A>
-}
-```
-
-Added in v2.0.0
-
-## PipeableChain2C (interface)
+## ~~PipeableChain2C~~ (interface)
 
 **Signature**
 
@@ -436,21 +408,21 @@ export interface PipeableChain2C<F extends URIS2, E> extends PipeableApply2C<F, 
 
 Added in v2.0.0
 
-## PipeableChain3 (interface)
+## ~~PipeableChain2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
-  readonly chain: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  readonly chainFirst: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-  readonly flatten: <R, E, A>(mma: Kind3<F, R, E, Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
+  readonly chain: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly chainFirst: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly flatten: <E, A>(mma: Kind2<F, E, Kind2<F, E, A>>) => Kind2<F, E, A>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableChain3C (interface)
+## ~~PipeableChain3C~~ (interface)
 
 **Signature**
 
@@ -464,7 +436,21 @@ export interface PipeableChain3C<F extends URIS3, E> extends PipeableApply3C<F, 
 
 Added in v2.2.0
 
-## PipeableChain4 (interface)
+## ~~PipeableChain3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
+  readonly chain: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly chainFirst: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly flatten: <R, E, A>(mma: Kind3<F, R, E, Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableChain4~~ (interface)
 
 **Signature**
 
@@ -482,20 +468,21 @@ export interface PipeableChain4<F extends URIS4> extends PipeableApply4<F> {
 
 Added in v2.0.0
 
-## PipeableCompactable (interface)
+## ~~PipeableChain~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableCompactable<F> {
-  readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
-  readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
+export interface PipeableChain<F> extends PipeableApply<F> {
+  readonly chain: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, B>
+  readonly chainFirst: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, A>
+  readonly flatten: <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableCompactable1 (interface)
+## ~~PipeableCompactable1~~ (interface)
 
 **Signature**
 
@@ -508,20 +495,7 @@ export interface PipeableCompactable1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableCompactable2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableCompactable2<F extends URIS2> {
-  readonly compact: <E, A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
-  readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-}
-```
-
-Added in v2.0.0
-
-## PipeableCompactable2C (interface)
+## ~~PipeableCompactable2C~~ (interface)
 
 **Signature**
 
@@ -534,20 +508,20 @@ export interface PipeableCompactable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableCompactable3 (interface)
+## ~~PipeableCompactable2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableCompactable3<F extends URIS3> {
-  readonly compact: <R, E, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
-  readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+export interface PipeableCompactable2<F extends URIS2> {
+  readonly compact: <E, A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
+  readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableCompactable3C (interface)
+## ~~PipeableCompactable3C~~ (interface)
 
 **Signature**
 
@@ -560,7 +534,20 @@ export interface PipeableCompactable3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableCompactable4 (interface)
+## ~~PipeableCompactable3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableCompactable3<F extends URIS3> {
+  readonly compact: <R, E, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
+  readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableCompactable4~~ (interface)
 
 **Signature**
 
@@ -575,19 +562,20 @@ export interface PipeableCompactable4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableContravariant (interface)
+## ~~PipeableCompactable~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableContravariant<F> {
-  readonly contramap: <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+export interface PipeableCompactable<F> {
+  readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
+  readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableContravariant1 (interface)
+## ~~PipeableContravariant1~~ (interface)
 
 **Signature**
 
@@ -599,19 +587,7 @@ export interface PipeableContravariant1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableContravariant2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableContravariant2<F extends URIS2> {
-  readonly contramap: <A, B>(f: (b: B) => A) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableContravariant2C (interface)
+## ~~PipeableContravariant2C~~ (interface)
 
 **Signature**
 
@@ -623,19 +599,19 @@ export interface PipeableContravariant2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableContravariant3 (interface)
+## ~~PipeableContravariant2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableContravariant3<F extends URIS3> {
-  readonly contramap: <A, B>(f: (b: B) => A) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export interface PipeableContravariant2<F extends URIS2> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableContravariant3C (interface)
+## ~~PipeableContravariant3C~~ (interface)
 
 **Signature**
 
@@ -647,7 +623,19 @@ export interface PipeableContravariant3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableContravariant4 (interface)
+## ~~PipeableContravariant3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant3<F extends URIS3> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableContravariant4~~ (interface)
 
 **Signature**
 
@@ -659,20 +647,19 @@ export interface PipeableContravariant4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableExtend (interface)
+## ~~PipeableContravariant~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableExtend<F> extends PipeableFunctor<F> {
-  readonly extend: <A, B>(f: (wa: HKT<F, A>) => B) => (wa: HKT<F, A>) => HKT<F, B>
-  readonly duplicate: <A>(wa: HKT<F, A>) => HKT<F, HKT<F, A>>
+export interface PipeableContravariant<F> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableExtend1 (interface)
+## ~~PipeableExtend1~~ (interface)
 
 **Signature**
 
@@ -685,20 +672,7 @@ export interface PipeableExtend1<F extends URIS> extends PipeableFunctor1<F> {
 
 Added in v2.0.0
 
-## PipeableExtend2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly extend: <E, A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
-  readonly duplicate: <E, A>(wa: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
-}
-```
-
-Added in v2.0.0
-
-## PipeableExtend2C (interface)
+## ~~PipeableExtend2C~~ (interface)
 
 **Signature**
 
@@ -711,20 +685,20 @@ export interface PipeableExtend2C<F extends URIS2, E> extends PipeableFunctor2C<
 
 Added in v2.0.0
 
-## PipeableExtend3 (interface)
+## ~~PipeableExtend2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableExtend3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly extend: <R, E, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  readonly duplicate: <R, E, A>(wa: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
+export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
+  readonly extend: <E, A, B>(f: (wa: Kind2<F, E, A>) => B) => (wa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly duplicate: <E, A>(wa: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableExtend3C (interface)
+## ~~PipeableExtend3C~~ (interface)
 
 **Signature**
 
@@ -737,7 +711,20 @@ export interface PipeableExtend3C<F extends URIS3, E> extends PipeableFunctor3C<
 
 Added in v2.2.0
 
-## PipeableExtend4 (interface)
+## ~~PipeableExtend3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableExtend3<F extends URIS3> extends PipeableFunctor3<F> {
+  readonly extend: <R, E, A, B>(f: (wa: Kind3<F, R, E, A>) => B) => (wa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly duplicate: <R, E, A>(wa: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableExtend4~~ (interface)
 
 **Signature**
 
@@ -752,28 +739,20 @@ export interface PipeableExtend4<F extends URIS4> extends PipeableFunctor4<F> {
 
 Added in v2.0.0
 
-## PipeableFilterable (interface)
+## ~~PipeableExtend~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFilterable<F> extends PipeableCompactable<F> {
-  readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
-    <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
-  }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
-  readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
-    <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
-  }
-  readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
+export interface PipeableExtend<F> extends PipeableFunctor<F> {
+  readonly extend: <A, B>(f: (wa: HKT<F, A>) => B) => (wa: HKT<F, A>) => HKT<F, B>
+  readonly duplicate: <A>(wa: HKT<F, A>) => HKT<F, HKT<F, A>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFilterable1 (interface)
+## ~~PipeableFilterable1~~ (interface)
 
 **Signature**
 
@@ -794,30 +773,7 @@ export interface PipeableFilterable1<F extends URIS> extends PipeableCompactable
 
 Added in v2.0.0
 
-## PipeableFilterable2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactable2<F> {
-  readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
-  }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
-  }
-  readonly partitionMap: <A, B, C>(
-    f: (a: A) => Either<B, C>
-  ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
-}
-```
-
-Added in v2.0.0
-
-## PipeableFilterable2C (interface)
+## ~~PipeableFilterable2C~~ (interface)
 
 **Signature**
 
@@ -840,32 +796,30 @@ export interface PipeableFilterable2C<F extends URIS2, E> extends PipeableCompac
 
 Added in v2.0.0
 
-## PipeableFilterable3 (interface)
+## ~~PipeableFilterable2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFilterable3<F extends URIS3> extends PipeableCompactable3<F> {
+export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactable2<F> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
-      fa: Kind3<F, R, E, A>
-    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
   }
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
-  ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+  ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFilterable3C (interface)
+## ~~PipeableFilterable3C~~ (interface)
 
 **Signature**
 
@@ -890,7 +844,32 @@ export interface PipeableFilterable3C<F extends URIS3, E> extends PipeableCompac
 
 Added in v2.2.0
 
-## PipeableFilterable4 (interface)
+## ~~PipeableFilterable3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFilterable3<F extends URIS3> extends PipeableCompactable3<F> {
+  readonly filter: {
+    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  }
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly partition: {
+    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  }
+  readonly partitionMap: <A, B, C>(
+    f: (a: A) => Either<B, C>
+  ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFilterable4~~ (interface)
 
 **Signature**
 
@@ -917,32 +896,7 @@ export interface PipeableFilterable4<F extends URIS4> extends PipeableCompactabl
 
 Added in v2.0.0
 
-## PipeableFilterableWithIndex (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F> {
-  readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => HKT<F, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => HKT<F, A>
-  }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
-  readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
-      fa: HKT<F, A>
-    ) => Separated<HKT<F, A>, HKT<F, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
-  }
-  readonly partitionMapWithIndex: <A, B, C>(
-    f: (i: I, a: A) => Either<B, C>
-  ) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
-}
-```
-
-Added in v2.0.0
-
-## PipeableFilterableWithIndex1 (interface)
+## ~~PipeableFilterableWithIndex1~~ (interface)
 
 **Signature**
 
@@ -967,7 +921,32 @@ export interface PipeableFilterableWithIndex1<F extends URIS, I> extends Pipeabl
 
 Added in v2.0.0
 
-## PipeableFilterableWithIndex2 (interface)
+## ~~PipeableFilterableWithIndex2C~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFilterableWithIndex2C<F extends URIS2, I, E> extends PipeableFilterable2C<F, E> {
+  readonly filterWithIndex: {
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly partitionWithIndex: {
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
+      fa: Kind2<F, E, A>
+    ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  }
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFilterableWithIndex2~~ (interface)
 
 **Signature**
 
@@ -994,32 +973,34 @@ export interface PipeableFilterableWithIndex2<F extends URIS2, I> extends Pipeab
 
 Added in v2.0.0
 
-## PipeableFilterableWithIndex2C (interface)
+## ~~PipeableFilterableWithIndex3C~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFilterableWithIndex2C<F extends URIS2, I, E> extends PipeableFilterable2C<F, E> {
+export interface PipeableFilterableWithIndex3C<F extends URIS3, I, E> extends PipeableFilterable3C<F, E> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
-      fa: Kind2<F, E, A>
-    ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
   }
   readonly partitionMapWithIndex: <A, B, C>(
     f: (i: I, a: A) => Either<B, C>
-  ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+  ) => <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
 }
 ```
 
-Added in v2.0.0
+Added in v2.2.0
 
-## PipeableFilterableWithIndex3 (interface)
+## ~~PipeableFilterableWithIndex3~~ (interface)
 
 **Signature**
 
@@ -1050,34 +1031,7 @@ export interface PipeableFilterableWithIndex3<F extends URIS3, I> extends Pipeab
 
 Added in v2.0.0
 
-## PipeableFilterableWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFilterableWithIndex3C<F extends URIS3, I, E> extends PipeableFilterable3C<F, E> {
-  readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-  }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
-  readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R>(
-      fa: Kind3<F, R, E, A>
-    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R>(
-      fa: Kind3<F, R, E, A>
-    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
-  }
-  readonly partitionMapWithIndex: <A, B, C>(
-    f: (i: I, a: A) => Either<B, C>
-  ) => <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
-}
-```
-
-Added in v2.2.0
-
-## PipeableFilterableWithIndex4 (interface)
+## ~~PipeableFilterableWithIndex4~~ (interface)
 
 **Signature**
 
@@ -1108,21 +1062,53 @@ export interface PipeableFilterableWithIndex4<F extends URIS4, I> extends Pipeab
 
 Added in v2.0.0
 
-## PipeableFoldable (interface)
+## ~~PipeableFilterableWithIndex~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFoldable<F> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, A>) => B
+export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F> {
+  readonly filterWithIndex: {
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => HKT<F, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => HKT<F, A>
+  }
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
+  readonly partitionWithIndex: {
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
+      fa: HKT<F, A>
+    ) => Separated<HKT<F, A>, HKT<F, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+  }
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFoldable1 (interface)
+## ~~PipeableFilterable~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFilterable<F> extends PipeableCompactable<F> {
+  readonly filter: {
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
+    <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
+  }
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
+  readonly partition: {
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
+    <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+  }
+  readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFoldable1~~ (interface)
 
 **Signature**
 
@@ -1136,21 +1122,7 @@ export interface PipeableFoldable1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableFoldable2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFoldable2<F extends URIS2> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
-}
-```
-
-Added in v2.0.0
-
-## PipeableFoldable2C (interface)
+## ~~PipeableFoldable2C~~ (interface)
 
 **Signature**
 
@@ -1164,21 +1136,21 @@ export interface PipeableFoldable2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableFoldable3 (interface)
+## ~~PipeableFoldable2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFoldable3<F extends URIS3> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export interface PipeableFoldable2<F extends URIS2> {
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFoldable3C (interface)
+## ~~PipeableFoldable3C~~ (interface)
 
 **Signature**
 
@@ -1192,7 +1164,21 @@ export interface PipeableFoldable3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableFoldable4 (interface)
+## ~~PipeableFoldable3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFoldable3<F extends URIS3> {
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFoldable4~~ (interface)
 
 **Signature**
 
@@ -1206,21 +1192,7 @@ export interface PipeableFoldable4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableFoldableWithIndex (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: HKT<F, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: HKT<F, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: HKT<F, A>) => B
-}
-```
-
-Added in v2.0.0
-
-## PipeableFoldableWithIndex1 (interface)
+## ~~PipeableFoldableWithIndex1~~ (interface)
 
 **Signature**
 
@@ -1234,21 +1206,7 @@ export interface PipeableFoldableWithIndex1<F extends URIS, I> extends PipeableF
 
 Added in v2.0.0
 
-## PipeableFoldableWithIndex2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFoldableWithIndex2<F extends URIS2, I> extends PipeableFoldable2<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
-}
-```
-
-Added in v2.0.0
-
-## PipeableFoldableWithIndex2C (interface)
+## ~~PipeableFoldableWithIndex2C~~ (interface)
 
 **Signature**
 
@@ -1262,21 +1220,21 @@ export interface PipeableFoldableWithIndex2C<F extends URIS2, I, E> extends Pipe
 
 Added in v2.0.0
 
-## PipeableFoldableWithIndex3 (interface)
+## ~~PipeableFoldableWithIndex2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFoldableWithIndex3<F extends URIS3, I> extends PipeableFoldable3<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+export interface PipeableFoldableWithIndex2<F extends URIS2, I> extends PipeableFoldable2<F> {
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFoldableWithIndex3C (interface)
+## ~~PipeableFoldableWithIndex3C~~ (interface)
 
 **Signature**
 
@@ -1290,7 +1248,21 @@ export interface PipeableFoldableWithIndex3C<F extends URIS3, I, E> extends Pipe
 
 Added in v2.2.0
 
-## PipeableFoldableWithIndex4 (interface)
+## ~~PipeableFoldableWithIndex3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFoldableWithIndex3<F extends URIS3, I> extends PipeableFoldable3<F> {
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFoldableWithIndex4~~ (interface)
 
 **Signature**
 
@@ -1304,19 +1276,35 @@ export interface PipeableFoldableWithIndex4<F extends URIS4, I> extends Pipeable
 
 Added in v2.0.0
 
-## PipeableFunctor (interface)
+## ~~PipeableFoldableWithIndex~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFunctor<F> {
-  readonly map: <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: HKT<F, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: HKT<F, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: HKT<F, A>) => B
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFunctor1 (interface)
+## ~~PipeableFoldable~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFoldable<F> {
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: HKT<F, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: HKT<F, A>) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFunctor1~~ (interface)
 
 **Signature**
 
@@ -1328,19 +1316,7 @@ export interface PipeableFunctor1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableFunctor2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFunctor2<F extends URIS2> {
-  readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableFunctor2C (interface)
+## ~~PipeableFunctor2C~~ (interface)
 
 **Signature**
 
@@ -1352,19 +1328,19 @@ export interface PipeableFunctor2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableFunctor3 (interface)
+## ~~PipeableFunctor2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFunctor3<F extends URIS3> {
-  readonly map: <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export interface PipeableFunctor2<F extends URIS2> {
+  readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFunctor3C (interface)
+## ~~PipeableFunctor3C~~ (interface)
 
 **Signature**
 
@@ -1376,7 +1352,19 @@ export interface PipeableFunctor3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableFunctor4 (interface)
+## ~~PipeableFunctor3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFunctor3<F extends URIS3> {
+  readonly map: <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFunctor4~~ (interface)
 
 **Signature**
 
@@ -1388,19 +1376,7 @@ export interface PipeableFunctor4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableFunctorWithIndex (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableFunctorWithIndex1 (interface)
+## ~~PipeableFunctorWithIndex1~~ (interface)
 
 **Signature**
 
@@ -1412,19 +1388,7 @@ export interface PipeableFunctorWithIndex1<F extends URIS, I> extends PipeableFu
 
 Added in v2.0.0
 
-## PipeableFunctorWithIndex2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableFunctorWithIndex2<F extends URIS2, I> extends PipeableFunctor2<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableFunctorWithIndex2C (interface)
+## ~~PipeableFunctorWithIndex2C~~ (interface)
 
 **Signature**
 
@@ -1436,19 +1400,19 @@ export interface PipeableFunctorWithIndex2C<F extends URIS2, I, E> extends Pipea
 
 Added in v2.0.0
 
-## PipeableFunctorWithIndex3 (interface)
+## ~~PipeableFunctorWithIndex2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableFunctorWithIndex3<F extends URIS3, I> extends PipeableFunctor3<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export interface PipeableFunctorWithIndex2<F extends URIS2, I> extends PipeableFunctor2<F> {
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableFunctorWithIndex3C (interface)
+## ~~PipeableFunctorWithIndex3C~~ (interface)
 
 **Signature**
 
@@ -1460,7 +1424,19 @@ export interface PipeableFunctorWithIndex3C<F extends URIS3, I, E> extends Pipea
 
 Added in v2.2.0
 
-## PipeableFunctorWithIndex4 (interface)
+## ~~PipeableFunctorWithIndex3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFunctorWithIndex3<F extends URIS3, I> extends PipeableFunctor3<F> {
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableFunctorWithIndex4~~ (interface)
 
 **Signature**
 
@@ -1472,28 +1448,31 @@ export interface PipeableFunctorWithIndex4<F extends URIS4, I> extends PipeableF
 
 Added in v2.0.0
 
-## PipeableMonadThrow (interface)
+## ~~PipeableFunctorWithIndex~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableMonadThrow<F> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT<F, A>
-  readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
-  readonly fromPredicate: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>
-  }
-  readonly filterOrElse: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>
-  }
+export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableMonadThrow1 (interface)
+## ~~PipeableFunctor~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableFunctor<F> {
+  readonly map: <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableMonadThrow1~~ (interface)
 
 **Signature**
 
@@ -1514,28 +1493,7 @@ export interface PipeableMonadThrow1<F extends URIS> {
 
 Added in v2.0.0
 
-## PipeableMonadThrow2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableMonadThrow2<F extends URIS2> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
-  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
-  readonly fromPredicate: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
-  }
-  readonly filterOrElse: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
-  }
-}
-```
-
-Added in v2.0.0
-
-## PipeableMonadThrow2C (interface)
+## ~~PipeableMonadThrow2C~~ (interface)
 
 **Signature**
 
@@ -1556,30 +1514,28 @@ export interface PipeableMonadThrow2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableMonadThrow3 (interface)
+## ~~PipeableMonadThrow2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableMonadThrow3<F extends URIS3> {
-  readonly fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
-  readonly fromEither: <R, E, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
+export interface PipeableMonadThrow2<F extends URIS2> {
+  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
   readonly fromPredicate: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
   }
   readonly filterOrElse: {
-    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-      ma: Kind3<F, R, E, A>
-    ) => Kind3<F, R, E, B>
-    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
   }
 }
 ```
 
 Added in v2.0.0
 
-## PipeableMonadThrow3C (interface)
+## ~~PipeableMonadThrow3C~~ (interface)
 
 **Signature**
 
@@ -1602,7 +1558,30 @@ export interface PipeableMonadThrow3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableMonadThrow4 (interface)
+## ~~PipeableMonadThrow3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableMonadThrow3<F extends URIS3> {
+  readonly fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromEither: <R, E, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+      ma: Kind3<F, R, E, A>
+    ) => Kind3<F, R, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  }
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableMonadThrow4~~ (interface)
 
 **Signature**
 
@@ -1625,31 +1604,28 @@ export interface PipeableMonadThrow4<F extends URIS4> {
 
 Added in v2.0.0
 
-## PipeableProfunctor (interface)
+## ~~PipeableMonadThrow~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableProfunctor<F> {
-  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: HKT2<F, E, A>) => HKT2<F, D, B>
+export interface PipeableMonadThrow<F> {
+  readonly fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>
+  }
 }
 ```
 
 Added in v2.0.0
 
-## PipeableProfunctor2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableProfunctor2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableProfunctor2C (interface)
+## ~~PipeableProfunctor2C~~ (interface)
 
 **Signature**
 
@@ -1661,19 +1637,19 @@ export interface PipeableProfunctor2C<F extends URIS2, E> extends PipeableFuncto
 
 Added in v2.0.0
 
-## PipeableProfunctor3 (interface)
+## ~~PipeableProfunctor2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableProfunctor3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly promap: <R, E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+export interface PipeableProfunctor2<F extends URIS2> extends PipeableFunctor2<F> {
+  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableProfunctor3C (interface)
+## ~~PipeableProfunctor3C~~ (interface)
 
 **Signature**
 
@@ -1685,7 +1661,19 @@ export interface PipeableProfunctor3C<F extends URIS3, E> extends PipeableFuncto
 
 Added in v2.2.0
 
-## PipeableProfunctor4 (interface)
+## ~~PipeableProfunctor3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableProfunctor3<F extends URIS3> extends PipeableFunctor3<F> {
+  readonly promap: <R, E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableProfunctor4~~ (interface)
 
 **Signature**
 
@@ -1700,31 +1688,19 @@ export interface PipeableProfunctor4<F extends URIS4> extends PipeableFunctor4<F
 
 Added in v2.0.0
 
-## PipeableSemigroupoid (interface)
+## ~~PipeableProfunctor~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableSemigroupoid<F> {
-  readonly compose: <E, A>(la: HKT2<F, E, A>) => <B>(ab: HKT2<F, A, B>) => HKT2<F, E, B>
+export interface PipeableProfunctor<F> {
+  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: HKT2<F, E, A>) => HKT2<F, D, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableSemigroupoid2 (interface)
-
-**Signature**
-
-```ts
-export interface PipeableSemigroupoid2<F extends URIS2> {
-  readonly compose: <E, A>(la: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## PipeableSemigroupoid2C (interface)
+## ~~PipeableSemigroupoid2C~~ (interface)
 
 **Signature**
 
@@ -1736,19 +1712,19 @@ export interface PipeableSemigroupoid2C<F extends URIS2, E> {
 
 Added in v2.0.0
 
-## PipeableSemigroupoid3 (interface)
+## ~~PipeableSemigroupoid2~~ (interface)
 
 **Signature**
 
 ```ts
-export interface PipeableSemigroupoid3<F extends URIS3> {
-  readonly compose: <R, E, A>(la: Kind3<F, R, E, A>) => <B>(ab: Kind3<F, R, A, B>) => Kind3<F, R, E, B>
+export interface PipeableSemigroupoid2<F extends URIS2> {
+  readonly compose: <E, A>(la: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
 }
 ```
 
 Added in v2.0.0
 
-## PipeableSemigroupoid3C (interface)
+## ~~PipeableSemigroupoid3C~~ (interface)
 
 **Signature**
 
@@ -1760,7 +1736,19 @@ export interface PipeableSemigroupoid3C<F extends URIS3, E> {
 
 Added in v2.2.0
 
-## PipeableSemigroupoid4 (interface)
+## ~~PipeableSemigroupoid3~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableSemigroupoid3<F extends URIS3> {
+  readonly compose: <R, E, A>(la: Kind3<F, R, E, A>) => <B>(ab: Kind3<F, R, A, B>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~PipeableSemigroupoid4~~ (interface)
 
 **Signature**
 
@@ -1772,7 +1760,19 @@ export interface PipeableSemigroupoid4<F extends URIS4> {
 
 Added in v2.0.0
 
-## pipeable
+## ~~PipeableSemigroupoid~~ (interface)
+
+**Signature**
+
+```ts
+export interface PipeableSemigroupoid<F> {
+  readonly compose: <E, A>(la: HKT2<F, E, A>) => <B>(ab: HKT2<F, A, B>) => HKT2<F, E, B>
+}
+```
+
+Added in v2.0.0
+
+## ~~pipeable~~
 
 **Signature**
 
