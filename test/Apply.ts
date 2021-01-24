@@ -3,7 +3,7 @@ import { pipe } from '../src/function'
 import * as IE from '../src/IOEither'
 import { deepStrictEqual } from './util'
 
-it('apFirst_', () => {
+it('apFirst', () => {
   // tslint:disable-next-line: readonly-array
   const log: Array<string> = []
   const a = IE.rightIO<string, string>(() => {
