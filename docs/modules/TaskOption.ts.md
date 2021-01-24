@@ -68,7 +68,7 @@ Added in v2.10.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
-  - [Funtor](#funtor)
+  - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
@@ -77,6 +77,10 @@ Added in v2.10.0
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
 - [utils](#utils)
+  - [Do](#do)
+  - [apS](#aps)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
@@ -591,12 +595,12 @@ export declare const FromTask: FromTask1<'TaskOption'>
 
 Added in v2.10.0
 
-## Funtor
+## Functor
 
 **Signature**
 
 ```ts
-export declare const Funtor: Functor1<'TaskOption'>
+export declare const Functor: Functor1<'TaskOption'>
 ```
 
 Added in v2.10.0
@@ -664,6 +668,52 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 Added in v2.10.0
 
 # utils
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: TaskOption<{}>
+```
+
+Added in v3.0.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskOption<B>
+) => (fa: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskOption<B>
+) => (ma: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ [K in N]: A }>
+```
+
+Added in v3.0.0
 
 ## sequenceReadonlyArray
 

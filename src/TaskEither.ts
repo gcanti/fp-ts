@@ -938,7 +938,7 @@ export const traverseArrayWithIndex: <A, B, E>(
   pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * this function has the same behavior of `A.traverse(TE.taskEither)` but it's stack safe and performs better
+ * this function has the same behavior of `RA.traverse(TE.taskEither)` but it's stack safe and performs better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
  *
@@ -953,7 +953,7 @@ export const traverseArrayWithIndex: <A, B, E>(
  *  findById : (id: number) => TE.of({id, title: ''})
  * }
  *
- * const findAllPosts = (ids:number[]) => pipe(ids, TE.traverseArray(PostRepo.findById))
+ * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, TE.traverseArray(PostRepo.findById))
  *
  * async function test() {
  *   const ids = RA.range(0, 10)
@@ -978,7 +978,7 @@ export const traverseArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function has the same behavior of `A.sequence(TE.taskEither)` but it's stack safe and performs better
+ * this function has the same behavior of `RA.sequence(TE.taskEither)` but it's stack safe and performs better
  *
  * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
  *
@@ -993,7 +993,7 @@ export const traverseArray: <A, B, E>(
  *  findById : (id: number) => TE.of({id, title: ''})
  * }
  *
- * const findAllPosts = (ids:number[]) => pipe(ids, RA.map(PostRepo.findById), TE.sequenceArray)
+ * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, RA.map(PostRepo.findById), TE.sequenceArray)
  *
  * async function test() {
  *   const ids = RA.range(0, 10)
@@ -1003,7 +1003,7 @@ export const traverseArray: <A, B, E>(
  *     right(
  *       pipe(
  *         ids,
- *         A.map((id) => ({ id, title: ''}))
+ *         RA.map((id) => ({ id, title: ''}))
  *       )
  *     )
  *   )
@@ -1037,7 +1037,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
 }
 
 /**
- * this function has the same behavior of `A.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
+ * this function has the same behavior of `RA.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
  *
@@ -1048,7 +1048,7 @@ export const traverseSeqArray: <A, B, E>(
 ) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * this function has the same behavior of `A.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
+ * this function has the same behavior of `RA.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
  *
  * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
  *
