@@ -68,19 +68,26 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
-  - [Funtor](#funtor)
+  - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
 - [utils](#utils)
+  - [ApT](#apt)
+  - [Do](#do)
+  - [apS](#aps)
+  - [apT](#apt)
+  - [bind](#bind)
+  - [bindTo](#bindto)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [tupled](#tupled)
 
 ---
 
@@ -587,12 +594,12 @@ export declare const FromTask: FromTask1<'TaskOption'>
 
 Added in v3.0.0
 
-## Funtor
+## Functor
 
 **Signature**
 
 ```ts
-export declare const Funtor: Functor1<'TaskOption'>
+export declare const Functor: Functor1<'TaskOption'>
 ```
 
 Added in v3.0.0
@@ -640,6 +647,72 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 Added in v3.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskOption<readonly []>
+```
+
+Added in v3.0.0
+
+## Do
+
+**Signature**
+
+```ts
+export declare const Do: TaskOption<{}>
+```
+
+Added in v3.0.0
+
+## apS
+
+**Signature**
+
+```ts
+export declare const apS: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: TaskOption<B>
+) => (fa: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## apT
+
+**Signature**
+
+```ts
+export declare const apT: <B>(fb: TaskOption<B>) => <A>(fas: TaskOption<A>) => TaskOption<readonly [any, B]>
+```
+
+Added in v3.0.0
+
+## bind
+
+**Signature**
+
+```ts
+export declare const bind: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => TaskOption<B>
+) => (ma: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ [K in N]: A }>
+```
+
+Added in v3.0.0
 
 ## sequenceReadonlyArray
 
@@ -717,6 +790,16 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <A>(fa: TaskOption<A>) => TaskOption<readonly [A]>
 ```
 
 Added in v3.0.0
