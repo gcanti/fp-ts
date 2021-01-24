@@ -113,11 +113,12 @@ export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) =>
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   readonly of: <A>(a: A) => HKT<F, HKT<G, A>>
   readonly ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
@@ -127,7 +128,6 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCompositionHKT1<F, G> {
   readonly of: <A>(a: A) => HKT<F, Kind<G, A>>
   readonly ap: <A, B>(fgab: HKT<F, Kind<G, (a: A) => B>>, fga: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
@@ -137,7 +137,6 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorCompositionHKT2<F, G> {
   readonly of: <E, A>(a: A) => HKT<F, Kind2<G, E, A>>
   readonly ap: <E, A, B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>, fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
@@ -147,7 +146,6 @@ export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorC
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends FunctorCompositionHKT2C<F, G, E> {
   readonly of: <A>(a: A) => HKT<F, Kind2<G, E, A>>
   readonly ap: <A, B>(fgab: HKT<F, Kind2<G, E, (a: A) => B>>, fga: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
@@ -157,7 +155,6 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
   readonly of: <A>(a: A) => Kind<F, Kind<G, A>>
   readonly ap: <A, B>(fgab: Kind<F, Kind<G, (a: A) => B>>, fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
@@ -167,7 +164,6 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
   readonly of: <E, A>(a: A) => Kind<F, Kind2<G, E, A>>
   readonly ap: <E, A, B>(
@@ -180,7 +176,6 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> extends FunctorComposition12C<F, G, E> {
   readonly of: <A>(a: A) => Kind<F, Kind2<G, E, A>>
   readonly ap: <A, B>(fgab: Kind<F, Kind2<G, E, (a: A) => B>>, fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
@@ -190,7 +185,6 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> e
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
   readonly of: <E, A>(a: A) => Kind2<F, E, Kind<G, A>>
   readonly ap: <E, A, B>(
@@ -203,7 +197,6 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> extends FunctorComposition2C1<F, G, E> {
   readonly of: <A>(a: A) => Kind2<F, E, Kind<G, A>>
   readonly ap: <A, B>(fgab: Kind2<F, E, Kind<G, (a: A) => B>>, fga: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
@@ -213,7 +206,6 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> e
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
   readonly of: <FE, GE, A>(a: A) => Kind2<F, FE, Kind2<G, GE, A>>
   readonly ap: <FE, GE, A, B>(
@@ -226,7 +218,6 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> extends FunctorComposition22C<F, G, E> {
   readonly of: <FE, A>(a: A) => Kind2<F, FE, Kind2<G, E, A>>
   readonly ap: <FE, A, B>(
@@ -260,69 +251,56 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22<F, G>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative2<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition21<F, G>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS2>(
   F: Applicative1<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12<F, G>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS2, E>(
   F: Applicative1<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12C<F, G, E>
 /** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS>(
   F: Applicative1<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition11<F, G>
 /** @deprecated */
 export function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2<F, G>
 /** @deprecated */
 export function getApplicativeComposition<F, G extends URIS2, E>(
   F: Applicative<F>,
   G: Applicative2C<G, E>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2C<F, G, E>
 /** @deprecated */
 export function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>
-  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT1<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
 /** @deprecated */
-// tslint:disable-next-line: deprecation
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
-  // tslint:disable-next-line: deprecation
   const map = getFunctorComposition(F, G).map
   const ap = ap_(F, G)
   return {

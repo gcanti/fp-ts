@@ -31,9 +31,8 @@ Added in v2.0.0
 
 ```ts
 export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, E.URI, E> {
-  // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
-  // tslint:disable-next-line: deprecation
+
   readonly alt: <A>(fa: ValidationT1<M, E, A>, that: Lazy<ValidationT1<M, E, A>>) => ValidationT1<M, E, A>
 }
 ```
@@ -47,13 +46,11 @@ Added in v2.0.0
 ```ts
 export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, E.URI, E> {
   readonly chain: <R, A, B>(
-    // tslint:disable-next-line: deprecation
     ma: ValidationT2<M, R, E, A>,
-    // tslint:disable-next-line: deprecation
+
     f: (a: A) => ValidationT2<M, R, E, B>
-    // tslint:disable-next-line: deprecation
   ) => ValidationT2<M, R, E, B>
-  // tslint:disable-next-line: deprecation
+
   readonly alt: <R, A>(fa: ValidationT2<M, R, E, A>, that: Lazy<ValidationT2<M, R, E, A>>) => ValidationT2<M, R, E, A>
 }
 ```
@@ -66,9 +63,8 @@ Added in v2.0.0
 
 ```ts
 export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, E.URI, E> {
-  // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
-  // tslint:disable-next-line: deprecation
+
   readonly alt: <A>(fa: ValidationT<M, E, A>, that: Lazy<ValidationT<M, E, A>>) => ValidationT<M, E, A>
 }
 ```
