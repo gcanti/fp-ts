@@ -149,7 +149,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
+export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>  // tslint:disable-next-line: deprecation
   extends FunctorComposition11<F, G> {
   readonly mapWithIndex: <A, B>(fa: Kind<F, Kind<G, A>>, f: (i: [FI, GI], a: A) => B) => Kind<F, Kind<G, B>>
 }
@@ -162,7 +162,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
+export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>  // tslint:disable-next-line: deprecation
   extends FunctorComposition12<F, G> {
   readonly mapWithIndex: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => B) => Kind<F, Kind2<G, E, B>>
 }
@@ -175,7 +175,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>
+export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>  // tslint:disable-next-line: deprecation
   extends FunctorComposition12C<F, G, E> {
   readonly mapWithIndex: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => B) => Kind<F, Kind2<G, E, B>>
 }
@@ -188,7 +188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
+export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>  // tslint:disable-next-line: deprecation
   extends FunctorComposition21<F, G> {
   readonly mapWithIndex: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (i: [FI, GI], a: A) => B) => Kind2<F, E, Kind<G, B>>
 }
@@ -201,7 +201,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
+export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>  // tslint:disable-next-line: deprecation
   extends FunctorComposition22<F, G> {
   readonly mapWithIndex: <FE, GE, A, B>(
     fa: Kind2<F, FE, Kind2<G, GE, A>>,
@@ -217,7 +217,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>
+export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>  // tslint:disable-next-line: deprecation
   extends FunctorComposition22C<F, G, E> {
   readonly mapWithIndex: <FE, A, B>(
     fa: Kind2<F, FE, Kind2<G, E, A>>,
@@ -233,7 +233,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, E>
+export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, E>  // tslint:disable-next-line: deprecation
   extends FunctorComposition2C1<F, G, E> {
   readonly mapWithIndex: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (i: [FI, GI], a: A) => B) => Kind2<F, E, Kind<G, B>>
 }

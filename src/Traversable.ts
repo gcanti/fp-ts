@@ -54,7 +54,7 @@ import {
   Functor3,
   FunctorComposition,
   FunctorComposition11,
-  getFunctorComposition
+  map_
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -292,6 +292,7 @@ export interface Sequence3<T extends URIS3> {
 /**
  * @since 2.0.0
  */
+// tslint:disable-next-line: deprecation
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
   readonly traverse: <H>(
     H: Applicative<H>
@@ -344,6 +345,7 @@ export interface SequenceComposition11<F extends URIS, G extends URIS> {
  */
 export interface TraversableComposition11<F extends URIS, G extends URIS>
   extends FoldableComposition11<F, G>,
+    // tslint:disable-next-line: deprecation
     FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
   readonly sequence: SequenceComposition11<F, G>
@@ -375,11 +377,12 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
 ): TraversableComposition11<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
+  const map = map_(F, G)
   const FC = getFoldableComposition(F, G)
   const traverse = traverse_(F, G)
   const sequence = sequence_(F, G)
   return {
-    map: getFunctorComposition(F, G).map,
+    map: (fa, f) => pipe(fa, map(f)),
     reduce: FC.reduce,
     foldMap: FC.foldMap,
     reduceRight: FC.reduceRight,
