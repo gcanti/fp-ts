@@ -82,11 +82,13 @@ export const fromEither: FromEither2<URI>['fromEither'] = I.of
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> {
-  return () => E.tryCatch(f, onError)
+export function tryCatch<E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> {
+  return () => E.tryCatch(f, onThrow)
 }
 
 /**
@@ -180,8 +182,8 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B,
-  onError: (reason: unknown) => E
-): ((...a: A) => IOEither<unknown, B>) => (...a) => tryCatch(() => f(...a), onError)
+  onThrow: (reason: unknown) => E
+): ((...a: A) => IOEither<unknown, B>) => (...a) => tryCatch(() => f(...a), onThrow)
 
 /**
  * @category combinators

@@ -440,7 +440,7 @@ Converts a function that may throw to one returning a `IOEither`.
 ```ts
 export declare const tryCatchK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
-  onError: (reason: unknown) => E
+  onThrow: (reason: unknown) => E
 ) => (...a: A) => IOEither<unknown, B>
 ```
 
@@ -535,10 +535,12 @@ Added in v2.0.0
 
 Constructs a new `IOEither` from a function that performs a side effect and might throw
 
+See also [`tryCatchK`](#tryCatchK).
+
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A>
+export declare function tryCatch<E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A>
 ```
 
 Added in v2.0.0

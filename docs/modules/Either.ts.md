@@ -65,6 +65,7 @@ Added in v2.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
@@ -650,6 +651,21 @@ export declare function swap<E, A>(ma: Either<E, A>): Either<A, E>
 
 Added in v2.0.0
 
+## tryCatchK
+
+Converts a function that may throw to one returning a `Either`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+) => (...a: A) => Either<E, B>
+```
+
+Added in v2.10.0
+
 # constructors
 
 ## fromNullable
@@ -831,18 +847,20 @@ Added in v2.0.0
 
 Constructs a new `Either` from a function that might throw.
 
+See also [`tryCatchK`](#tryCatchK).
+
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A>
+export declare function tryCatch<E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A>
 ```
 
 **Example**
 
 ```ts
-import { Either, left, right, tryCatch } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 
-const unsafeHead = <A>(as: Array<A>): A => {
+const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
   if (as.length > 0) {
     return as[0]
   } else {
@@ -850,15 +868,14 @@ const unsafeHead = <A>(as: Array<A>): A => {
   }
 }
 
-const head = <A>(as: Array<A>): Either<Error, A> => {
-  return tryCatch(
+const head = <A>(as: ReadonlyArray<A>): E.Either<Error, A> =>
+  E.tryCatch(
     () => unsafeHead(as),
     (e) => (e instanceof Error ? e : new Error('unknown error'))
   )
-}
 
-assert.deepStrictEqual(head([]), left(new Error('empty array')))
-assert.deepStrictEqual(head([1, 2, 3]), right(1))
+assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 ```
 
 Added in v2.0.0
