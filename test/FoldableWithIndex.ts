@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { getFoldableWithIndexComposition } from '../src/FoldableWithIndex'
 import { monoidString } from '../src/Monoid'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
     // tslint:disable-next-line: deprecation
-    const arrayOfArray = getFoldableWithIndexComposition(A.FoldableWithIndex, A.FoldableWithIndex)
+    const arrayOfArray = getFoldableWithIndexComposition(RA.FoldableWithIndex, RA.FoldableWithIndex)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [
       ['a', 'b'],
       ['c', 'd']

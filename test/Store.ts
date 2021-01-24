@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as _ from '../src/Store'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import { pipe } from '../src/function'
 
 const len = (s: string): number => s.length
@@ -80,7 +80,7 @@ describe('Store', () => {
     assert.deepStrictEqual(
       pipe(
         wa,
-        _.experiment(A.Functor)((s) => [s, s + 'a'])
+        _.experiment(RA.Functor)((s) => [s, s + 'a'])
       ),
       [1, 2]
     )

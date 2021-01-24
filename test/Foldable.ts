@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as I from '../src/IO'
 import * as O from '../src/Option'
 import * as T from '../src/Tree'
@@ -14,7 +14,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 describe('Foldable', () => {
   it('getFoldableComposition', () => {
     // tslint:disable-next-line: deprecation
-    const F = _.getFoldableComposition(A.Foldable, O.Foldable)
+    const F = _.getFoldableComposition(RA.Foldable, O.Foldable)
     // reduce
     assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
     assert.deepStrictEqual(F.reduce([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
@@ -45,7 +45,7 @@ describe('Foldable', () => {
   })
 
   it('intercalate', () => {
-    assert.deepStrictEqual(_.intercalate(monoidString, A.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
+    assert.deepStrictEqual(_.intercalate(monoidString, RA.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
   })
 
   it('toReadonlyArray', () => {
@@ -62,24 +62,24 @@ describe('Foldable', () => {
   it('traverse_', () => {
     let log = ''
     const append = (s: String) => () => (log += s)
-    _.traverse_(I.Applicative, A.Foldable)(['a', 'b', 'c'], append)()
+    _.traverse_(I.Applicative, RA.Foldable)(['a', 'b', 'c'], append)()
     assert.deepStrictEqual(log, 'abc')
   })
 
   it('foldM', () => {
     assert.deepStrictEqual(
       // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([], 1, () => O.none),
+      _.foldM(O.Monad, RA.Foldable)([], 1, () => O.none),
       O.some(1)
     )
     assert.deepStrictEqual(
       // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([2], 1, () => O.none),
+      _.foldM(O.Monad, RA.Foldable)([2], 1, () => O.none),
       O.none
     )
     assert.deepStrictEqual(
       // tslint:disable-next-line: deprecation
-      _.foldM(O.Monad, A.Foldable)([2], 1, (b, a) => O.some(b + a)),
+      _.foldM(O.Monad, RA.Foldable)([2], 1, (b, a) => O.some(b + a)),
       O.some(3)
     )
   })
@@ -88,21 +88,21 @@ describe('Foldable', () => {
     assert.deepStrictEqual(
       pipe(
         [],
-        _.reduceM(O.Monad, A.Foldable)(1, () => O.none)
+        _.reduceM(O.Monad, RA.Foldable)(1, () => O.none)
       ),
       O.some(1)
     )
     assert.deepStrictEqual(
       pipe(
         [2],
-        _.reduceM(O.Monad, A.Foldable)(1, () => O.none)
+        _.reduceM(O.Monad, RA.Foldable)(1, () => O.none)
       ),
       O.none
     )
     assert.deepStrictEqual(
       pipe(
         [2],
-        _.reduceM(O.Monad, A.Foldable)(1, (b, a) => O.some(b + a))
+        _.reduceM(O.Monad, RA.Foldable)(1, (b, a) => O.some(b + a))
       ),
       O.some(3)
     )
