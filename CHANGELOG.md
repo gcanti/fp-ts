@@ -39,6 +39,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex_`, `foldMapWithIndex_`, `reduceRightWithIndex_` helpers instead (@gcanti)
   - `Functor`
     - deprecate `getFunctorComposition`, use `map_` helper instead (@gcanti)
+  - `FunctorWithIndex`
+    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex_` helper instead (@gcanti)
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
