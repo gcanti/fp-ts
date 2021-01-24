@@ -13,6 +13,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable', () => {
   it('getFoldableComposition', () => {
+    // tslint:disable-next-line: deprecation
     const F = _.getFoldableComposition(A.Foldable, O.Foldable)
     // reduce
     assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')

@@ -41,7 +41,7 @@ import {
   FunctorComposition21,
   FunctorComposition22,
   FunctorComposition23,
-  map_
+  getFunctorComposition
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
@@ -658,7 +658,8 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
 /** @deprecated */
 // tslint:disable-next-line: deprecation
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G> {
-  const map = map_(F, G)
+  // tslint:disable-next-line: deprecation
+  const map = getFunctorComposition(F, G).map
   const compact = compact_(F, G)
   const separate = separate_(F, G)
   const filter = filter_(F, G)
@@ -666,7 +667,7 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
   const partition = partition_(F, G)
   const partitionMap = partitionMap_(F, G)
   return {
-    map: (fa, f) => pipe(fa, map(f)),
+    map,
     compact,
     separate,
     filter: (fga, f) => pipe(fga, filter(f)),
