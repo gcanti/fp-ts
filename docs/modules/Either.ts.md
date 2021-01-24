@@ -852,7 +852,7 @@ See also [`tryCatchK`](#tryCatchK).
 **Signature**
 
 ```ts
-export declare function tryCatch<E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E, A>
+export declare const tryCatch: <E, A>(f: Lazy<A>, onThrow: (e: unknown) => E) => Either<E, A>
 ```
 
 **Example**

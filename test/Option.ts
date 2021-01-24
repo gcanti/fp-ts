@@ -500,4 +500,16 @@ describe('Option', () => {
     )
     assert.deepStrictEqual(pipe(arr, _.traverseArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
   })
+
+  it('tryCatchK', () => {
+    const f = _.tryCatchK((s: string) => {
+      const len = s.length
+      if (len > 0) {
+        return len
+      }
+      throw new Error('empty string')
+    })
+    assert.deepStrictEqual(f('a'), _.some(1))
+    assert.deepStrictEqual(f(''), _.none)
+  })
 })

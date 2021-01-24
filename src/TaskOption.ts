@@ -87,7 +87,7 @@ export const fromEither =
  * @category constructors
  * @since 2.10.0
  */
-export const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A> = (f) => () =>
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
   f().then(
     (a) => O.some(a),
     () => O.none

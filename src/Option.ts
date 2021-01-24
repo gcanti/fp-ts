@@ -157,6 +157,8 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @example
  * import { none, some, tryCatch } from 'fp-ts/Option'
  *
@@ -171,7 +173,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function tryCatch<A>(f: Lazy<A>): Option<A> {
+export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   try {
     return some(f())
   } catch (e) {
@@ -361,6 +363,15 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * Converts a function that may throw to one returning a `Option`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) => (...a) =>
+  tryCatch(() => f(...a))
 
 /**
  * Returns a *smart constructor* from a function that returns a nullable value.
