@@ -182,7 +182,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
   f: (...a: A) => B,
   onThrow: (reason: unknown) => E
-): ((...a: A) => IOEither<unknown, B>) => (...a) => tryCatch(() => f(...a), onThrow)
+): ((...a: A) => IOEither<E, B>) => (...a) => tryCatch(() => f(...a), onThrow)
 
 /**
  * @category combinators
