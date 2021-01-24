@@ -5,6 +5,7 @@ import * as option from '../src/Option'
 
 describe('Functor', () => {
   it('getFunctorComposition', () => {
+    // tslint:disable-next-line: deprecation
     const arrayOption = getFunctorComposition(A.Functor, option.Functor)
     const double = (a: number) => a * 2
     assert.deepStrictEqual(arrayOption.map([option.some(1)], double), [option.some(2)])
