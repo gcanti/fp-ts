@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
@@ -159,7 +159,7 @@ describe('TaskEither', () => {
   })
 
   describe('getFilterable', () => {
-    const F_ = _.getFilterable(A.getMonoid<string>())
+    const F_ = _.getFilterable(RA.getMonoid<string>())
     // tslint:disable-next-line: deprecation
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
@@ -505,12 +505,12 @@ describe('TaskEither', () => {
 
   describe('array utils', () => {
     it('sequenceArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(), E.right(arr))
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceArray)(), E.right(arr))
       assert.deepStrictEqual(
         await pipe(
           arr,
-          A.map(
+          RA.map(
             _.fromPredicate(
               (x) => x > 5,
               () => 'a'
@@ -523,7 +523,7 @@ describe('TaskEither', () => {
     })
 
     it('traverseArray', async () => {
-      const arr = A.range(0, 10)
+      const arr = RA.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), E.right(arr))
       assert.deepStrictEqual(
         await pipe(
@@ -540,12 +540,12 @@ describe('TaskEither', () => {
     })
 
     it('sequenceSeqArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceSeqArray)(), E.right(arr))
+      const arr = RA.range(0, 10)
+      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceSeqArray)(), E.right(arr))
       assert.deepStrictEqual(
         await pipe(
           arr,
-          A.map(
+          RA.map(
             _.fromPredicate(
               (x) => x > 5,
               () => 'a'
@@ -558,7 +558,7 @@ describe('TaskEither', () => {
     })
 
     it('traverseSeqArray', async () => {
-      const arr = A.range(0, 10)
+      const arr = RA.range(0, 10)
       assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
       assert.deepStrictEqual(
         await pipe(
