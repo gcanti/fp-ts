@@ -17,14 +17,26 @@ Added in v2.0.0
   - [StateT1 (interface)](#statet1-interface)
   - [StateT2 (interface)](#statet2-interface)
 - [utils](#utils)
-  - [StateM (interface)](#statem-interface)
-  - [StateM1 (interface)](#statem1-interface)
-  - [StateM2 (interface)](#statem2-interface)
-  - [StateM2C (interface)](#statem2c-interface)
-  - [StateM3 (interface)](#statem3-interface)
-  - [StateM3C (interface)](#statem3c-interface)
   - [StateT3 (interface)](#statet3-interface)
-  - [getStateM](#getstatem)
+  - [ap](#ap)
+  - [chain](#chain)
+  - [evaluate](#evaluate)
+  - [execute](#execute)
+  - [fromF](#fromf)
+  - [fromState](#fromstate)
+  - [get](#get)
+  - [gets](#gets)
+  - [map](#map)
+  - [modify](#modify)
+  - [of](#of)
+  - [put](#put)
+  - [~~StateM1~~ (interface)](#statem1-interface)
+  - [~~StateM2C~~ (interface)](#statem2c-interface)
+  - [~~StateM2~~ (interface)](#statem2-interface)
+  - [~~StateM3C~~ (interface)](#statem3c-interface)
+  - [~~StateM3~~ (interface)](#statem3-interface)
+  - [~~StateM~~ (interface)](#statem-interface)
+  - [~~getStateM~~](#getstatem)
 
 ---
 
@@ -68,30 +80,211 @@ Added in v2.0.0
 
 # utils
 
-## StateM (interface)
+## StateT3 (interface)
 
 **Signature**
 
 ```ts
-export interface StateM<M> {
-  readonly map: <S, A, B>(fa: StateT<M, S, A>, f: (a: A) => B) => StateT<M, S, B>
-  readonly of: <S, A>(a: A) => StateT<M, S, A>
-  readonly ap: <S, A, B>(fab: StateT<M, S, (a: A) => B>, fa: StateT<M, S, A>) => StateT<M, S, B>
-  readonly chain: <S, A, B>(fa: StateT<M, S, A>, f: (a: A) => StateT<M, S, B>) => StateT<M, S, B>
-  readonly get: <S>() => StateT<M, S, S>
-  readonly put: <S>(s: S) => StateT<M, S, void>
-  readonly modify: <S>(f: (s: S) => S) => StateT<M, S, void>
-  readonly gets: <S, A>(f: (s: S) => A) => StateT<M, S, A>
-  readonly fromState: <S, A>(fa: State<S, A>) => StateT<M, S, A>
-  readonly fromM: <S, A>(ma: HKT<M, A>) => StateT<M, S, A>
-  readonly evalState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, A>
-  readonly execState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, S>
+export interface StateT3<M extends URIS3, S, R, E, A> {
+  (s: S): Kind3<M, R, E, [A, S]>
 }
 ```
 
 Added in v2.0.0
 
-## StateM1 (interface)
+## ap
+
+**Signature**
+
+```ts
+export declare function ap<M extends URIS3>(
+  M: Monad3<M>
+): <S, R, E, A>(fa: StateT3<M, S, R, E, A>) => <B>(fab: StateT3<M, S, R, E, (a: A) => B>) => StateT3<M, S, R, E, B>
+export declare function ap<M extends URIS2>(
+  M: Monad2<M>
+): <S, E, A>(fa: StateT2<M, S, E, A>) => <B>(fab: StateT2<M, S, E, (a: A) => B>) => StateT2<M, S, E, B>
+export declare function ap<M extends URIS>(
+  M: Monad1<M>
+): <S, A>(fa: StateT1<M, S, A>) => <B>(fab: StateT1<M, S, (a: A) => B>) => StateT1<M, S, B>
+export declare function ap<M>(
+  M: Monad<M>
+): <S, A>(fa: StateT<M, S, A>) => <B>(fab: StateT<M, S, (a: A) => B>) => StateT<M, S, B>
+```
+
+Added in v2.10.0
+
+## chain
+
+**Signature**
+
+```ts
+export declare function chain<M extends URIS3>(
+  M: Monad3<M>
+): <A, S, R, E, B>(f: (a: A) => StateT3<M, S, R, E, B>) => (ma: StateT3<M, S, R, E, A>) => StateT3<M, S, R, E, B>
+export declare function chain<M extends URIS2>(
+  M: Monad2<M>
+): <A, S, E, B>(f: (a: A) => StateT2<M, S, E, B>) => (ma: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
+export declare function chain<M extends URIS>(
+  M: Monad1<M>
+): <A, S, B>(f: (a: A) => StateT1<M, S, B>) => (ma: StateT1<M, S, A>) => StateT1<M, S, B>
+export declare function chain<M>(
+  M: Monad<M>
+): <A, S, B>(f: (a: A) => StateT<M, S, B>) => (ma: StateT<M, S, A>) => StateT<M, S, B>
+```
+
+Added in v2.10.0
+
+## evaluate
+
+**Signature**
+
+```ts
+export declare function evaluate<F extends URIS3>(
+  F: Functor3<F>
+): <S>(s: S) => <R, E, A>(ma: StateT3<F, S, R, E, A>) => Kind3<F, R, E, A>
+export declare function evaluate<F extends URIS2>(
+  F: Functor2<F>
+): <S>(s: S) => <E, A>(ma: StateT2<F, S, E, A>) => Kind2<F, E, A>
+export declare function evaluate<F extends URIS>(F: Functor1<F>): <S>(s: S) => <A>(ma: StateT1<F, S, A>) => Kind<F, A>
+export declare function evaluate<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>) => HKT<F, A>
+```
+
+Added in v2.10.0
+
+## execute
+
+**Signature**
+
+```ts
+export declare function execute<F extends URIS3>(
+  F: Functor3<F>
+): <S>(s: S) => <R, E, A>(ma: StateT3<F, S, R, E, A>) => Kind3<F, R, E, S>
+export declare function execute<F extends URIS2>(
+  F: Functor2<F>
+): <S>(s: S) => <E, A>(ma: StateT2<F, S, E, A>) => Kind2<F, E, S>
+export declare function execute<F extends URIS>(F: Functor1<F>): <S>(s: S) => <A>(ma: StateT1<F, S, A>) => Kind<F, S>
+export declare function execute<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>) => HKT<F, S>
+```
+
+Added in v2.10.0
+
+## fromF
+
+**Signature**
+
+```ts
+export declare function fromF<F extends URIS3>(
+  F: Functor3<F>
+): <R, E, A, S>(ma: Kind3<F, R, E, A>) => StateT3<F, S, R, E, A>
+export declare function fromF<F extends URIS2>(F: Functor2<F>): <E, A, S>(ma: Kind2<F, E, A>) => StateT2<F, S, E, A>
+export declare function fromF<F extends URIS>(F: Functor1<F>): <A, S>(ma: Kind<F, A>) => StateT<F, S, A>
+export declare function fromF<F>(F: Functor<F>): <A, S>(ma: HKT<F, A>) => StateT<F, S, A>
+```
+
+Added in v2.10.0
+
+## fromState
+
+**Signature**
+
+```ts
+export declare function fromState<F extends URIS3>(
+  F: Pointed3<F>
+): <S, A, R, E>(sa: State<S, A>) => StateT3<F, S, R, E, A>
+export declare function fromState<F extends URIS2>(F: Pointed2<F>): <S, A, E>(sa: State<S, A>) => StateT2<F, S, E, A>
+export declare function fromState<F extends URIS>(F: Pointed1<F>): <S, A>(sa: State<S, A>) => StateT1<F, S, A>
+export declare function fromState<F>(F: Pointed<F>): <S, A>(sa: State<S, A>) => StateT<F, S, A>
+```
+
+Added in v2.10.0
+
+## get
+
+**Signature**
+
+```ts
+export declare function get<F extends URIS3>(F: Pointed3<F>): <S, R, E>() => StateT3<F, S, R, E, S>
+export declare function get<F extends URIS2>(F: Pointed2<F>): <S, E>() => StateT2<F, S, E, S>
+export declare function get<F extends URIS>(F: Pointed1<F>): <S>() => StateT1<F, S, S>
+export declare function get<F>(F: Pointed<F>): <S>() => StateT<F, S, S>
+```
+
+Added in v2.10.0
+
+## gets
+
+**Signature**
+
+```ts
+export declare function gets<F extends URIS3>(F: Pointed3<F>): <S, A, R, E>(f: (s: S) => A) => StateT3<F, S, R, E, A>
+export declare function gets<F extends URIS2>(F: Pointed2<F>): <S, A, E>(f: (s: S) => A) => StateT2<F, S, E, A>
+export declare function gets<F extends URIS>(F: Pointed1<F>): <S, A>(f: (s: S) => A) => StateT1<F, S, A>
+export declare function gets<F>(F: Pointed<F>): <S, A>(f: (s: S) => A) => StateT<F, S, A>
+```
+
+Added in v2.10.0
+
+## map
+
+**Signature**
+
+```ts
+export declare function map<F extends URIS3>(
+  F: Functor3<F>
+): <A, B>(f: (a: A) => B) => <S, R, E>(fa: StateT3<F, S, R, E, A>) => StateT3<F, S, R, E, B>
+export declare function map<F extends URIS2>(
+  F: Functor2<F>
+): <A, B>(f: (a: A) => B) => <S, E>(fa: StateT2<F, S, E, A>) => StateT2<F, S, E, B>
+export declare function map<F extends URIS>(
+  F: Functor1<F>
+): <A, B>(f: (a: A) => B) => <S>(fa: StateT1<F, S, A>) => StateT1<F, S, B>
+export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <S>(fa: StateT<F, S, A>) => StateT<F, S, B>
+```
+
+Added in v2.10.0
+
+## modify
+
+**Signature**
+
+```ts
+export declare function modify<F extends URIS3>(
+  F: Pointed3<F>
+): <S, R, E>(f: Endomorphism<S>) => StateT3<F, S, R, E, void>
+export declare function modify<F extends URIS2>(F: Pointed2<F>): <S, E>(f: Endomorphism<S>) => StateT2<F, S, E, void>
+export declare function modify<F extends URIS>(F: Pointed1<F>): <S>(f: Endomorphism<S>) => StateT1<F, S, void>
+export declare function modify<F>(F: Pointed<F>): <S>(f: Endomorphism<S>) => StateT<F, S, void>
+```
+
+Added in v2.10.0
+
+## of
+
+**Signature**
+
+```ts
+export declare function of<F extends URIS3>(F: Pointed3<F>): <A, S, R, E>(a: A) => StateT3<F, S, R, E, A>
+export declare function of<F extends URIS2>(F: Pointed2<F>): <A, S, E>(a: A) => StateT2<F, S, E, A>
+export declare function of<F extends URIS>(F: Pointed1<F>): <A, S>(a: A) => StateT1<F, S, A>
+export declare function of<F>(F: Pointed<F>): <A, S>(a: A) => StateT<F, S, A>
+```
+
+Added in v2.10.0
+
+## put
+
+**Signature**
+
+```ts
+export declare function put<F extends URIS3>(F: Pointed3<F>): <S, R, E>(s: S) => StateT3<F, S, R, E, void>
+export declare function put<F extends URIS2>(F: Pointed2<F>): <S, E>(s: S) => StateT2<F, S, E, void>
+export declare function put<F extends URIS>(F: Pointed1<F>): <S>(s: S) => StateT1<F, S, void>
+export declare function put<F>(F: Pointed<F>): <S>(s: S) => StateT<F, S, void>
+```
+
+Added in v2.10.0
+
+## ~~StateM1~~ (interface)
 
 **Signature**
 
@@ -114,30 +307,7 @@ export interface StateM1<M extends URIS> {
 
 Added in v2.0.0
 
-## StateM2 (interface)
-
-**Signature**
-
-```ts
-export interface StateM2<M extends URIS2> {
-  readonly map: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => B) => StateT2<M, S, E, B>
-  readonly of: <S, E, A>(a: A) => StateT2<M, S, E, A>
-  readonly ap: <S, E, A, B>(fab: StateT2<M, S, E, (a: A) => B>, fa: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
-  readonly chain: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => StateT2<M, S, E, B>) => StateT2<M, S, E, B>
-  readonly get: <E, S>() => StateT2<M, S, E, S>
-  readonly put: <E, S>(s: S) => StateT2<M, S, E, void>
-  readonly modify: <E, S>(f: (s: S) => S) => StateT2<M, S, E, void>
-  readonly gets: <S, E, A>(f: (s: S) => A) => StateT2<M, S, E, A>
-  readonly fromState: <S, E, A>(fa: State<S, A>) => StateT2<M, S, E, A>
-  readonly fromM: <S, E, A>(ma: Kind2<M, E, A>) => StateT2<M, S, E, A>
-  readonly evalState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, A>
-  readonly execState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
-}
-```
-
-Added in v2.0.0
-
-## StateM2C (interface)
+## ~~StateM2C~~ (interface)
 
 **Signature**
 
@@ -160,7 +330,56 @@ export interface StateM2C<M extends URIS2, E> {
 
 Added in v2.5.4
 
-## StateM3 (interface)
+## ~~StateM2~~ (interface)
+
+**Signature**
+
+```ts
+export interface StateM2<M extends URIS2> {
+  readonly map: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => B) => StateT2<M, S, E, B>
+  readonly of: <S, E, A>(a: A) => StateT2<M, S, E, A>
+  readonly ap: <S, E, A, B>(fab: StateT2<M, S, E, (a: A) => B>, fa: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
+  readonly chain: <S, E, A, B>(fa: StateT2<M, S, E, A>, f: (a: A) => StateT2<M, S, E, B>) => StateT2<M, S, E, B>
+  readonly get: <E, S>() => StateT2<M, S, E, S>
+  readonly put: <E, S>(s: S) => StateT2<M, S, E, void>
+  readonly modify: <E, S>(f: (s: S) => S) => StateT2<M, S, E, void>
+  readonly gets: <S, E, A>(f: (s: S) => A) => StateT2<M, S, E, A>
+  readonly fromState: <S, E, A>(fa: State<S, A>) => StateT2<M, S, E, A>
+  readonly fromM: <S, E, A>(ma: Kind2<M, E, A>) => StateT2<M, S, E, A>
+  readonly evalState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, A>
+  readonly execState: <S, E, A>(ma: StateT2<M, S, E, A>, s: S) => Kind2<M, E, S>
+}
+```
+
+Added in v2.0.0
+
+## ~~StateM3C~~ (interface)
+
+**Signature**
+
+```ts
+export interface StateM3C<M extends URIS3, E> {
+  readonly map: <S, R, A, B>(fa: StateT3<M, S, R, E, A>, f: (a: A) => B) => StateT3<M, S, R, E, B>
+  readonly of: <S, R, A>(a: A) => StateT3<M, S, R, E, A>
+  readonly ap: <S, R, A, B>(fab: StateT3<M, S, R, E, (a: A) => B>, fa: StateT3<M, S, R, E, A>) => StateT3<M, S, R, E, B>
+  readonly chain: <S, R, A, B>(
+    fa: StateT3<M, S, R, E, A>,
+    f: (a: A) => StateT3<M, S, R, E, B>
+  ) => StateT3<M, S, R, E, B>
+  readonly get: <R, S>() => StateT3<M, S, R, E, S>
+  readonly put: <R, S>(s: S) => StateT3<M, S, R, E, void>
+  readonly modify: <R, S>(f: (s: S) => S) => StateT3<M, S, R, E, void>
+  readonly gets: <S, R, A>(f: (s: S) => A) => StateT3<M, S, R, E, A>
+  readonly fromState: <S, R, A>(fa: State<S, A>) => StateT3<M, S, R, E, A>
+  readonly fromM: <S, R, A>(ma: Kind3<M, R, E, A>) => StateT3<M, S, R, E, A>
+  readonly evalState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, A>
+  readonly execState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, S>
+}
+```
+
+Added in v2.5.4
+
+## ~~StateM3~~ (interface)
 
 **Signature**
 
@@ -189,45 +408,30 @@ export interface StateM3<M extends URIS3> {
 
 Added in v2.0.0
 
-## StateM3C (interface)
+## ~~StateM~~ (interface)
 
 **Signature**
 
 ```ts
-export interface StateM3C<M extends URIS3, E> {
-  readonly map: <S, R, A, B>(fa: StateT3<M, S, R, E, A>, f: (a: A) => B) => StateT3<M, S, R, E, B>
-  readonly of: <S, R, A>(a: A) => StateT3<M, S, R, E, A>
-  readonly ap: <S, R, A, B>(fab: StateT3<M, S, R, E, (a: A) => B>, fa: StateT3<M, S, R, E, A>) => StateT3<M, S, R, E, B>
-  readonly chain: <S, R, A, B>(
-    fa: StateT3<M, S, R, E, A>,
-    f: (a: A) => StateT3<M, S, R, E, B>
-  ) => StateT3<M, S, R, E, B>
-  readonly get: <R, S>() => StateT3<M, S, R, E, S>
-  readonly put: <R, S>(s: S) => StateT3<M, S, R, E, void>
-  readonly modify: <R, S>(f: (s: S) => S) => StateT3<M, S, R, E, void>
-  readonly gets: <S, R, A>(f: (s: S) => A) => StateT3<M, S, R, E, A>
-  readonly fromState: <S, R, A>(fa: State<S, A>) => StateT3<M, S, R, E, A>
-  readonly fromM: <S, R, A>(ma: Kind3<M, R, E, A>) => StateT3<M, S, R, E, A>
-  readonly evalState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, A>
-  readonly execState: <S, R, A>(ma: StateT3<M, S, R, E, A>, s: S) => Kind3<M, R, E, S>
-}
-```
-
-Added in v2.5.4
-
-## StateT3 (interface)
-
-**Signature**
-
-```ts
-export interface StateT3<M extends URIS3, S, R, E, A> {
-  (s: S): Kind3<M, R, E, [A, S]>
+export interface StateM<M> {
+  readonly map: <S, A, B>(fa: StateT<M, S, A>, f: (a: A) => B) => StateT<M, S, B>
+  readonly of: <S, A>(a: A) => StateT<M, S, A>
+  readonly ap: <S, A, B>(fab: StateT<M, S, (a: A) => B>, fa: StateT<M, S, A>) => StateT<M, S, B>
+  readonly chain: <S, A, B>(fa: StateT<M, S, A>, f: (a: A) => StateT<M, S, B>) => StateT<M, S, B>
+  readonly get: <S>() => StateT<M, S, S>
+  readonly put: <S>(s: S) => StateT<M, S, void>
+  readonly modify: <S>(f: (s: S) => S) => StateT<M, S, void>
+  readonly gets: <S, A>(f: (s: S) => A) => StateT<M, S, A>
+  readonly fromState: <S, A>(fa: State<S, A>) => StateT<M, S, A>
+  readonly fromM: <S, A>(ma: HKT<M, A>) => StateT<M, S, A>
+  readonly evalState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, A>
+  readonly execState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, S>
 }
 ```
 
 Added in v2.0.0
 
-## getStateM
+## ~~getStateM~~
 
 **Signature**
 

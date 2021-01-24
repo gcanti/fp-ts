@@ -382,4 +382,10 @@ describe('StateReaderTaskEither', () => {
       )
     })
   })
+
+  it('fromState', async () => {
+    const s: State<unknown, number> = (s) => [1, s]
+    const e = await pipe(_.fromState(s), _.evaluate(state))({})()
+    assert.deepStrictEqual(e, E.right(1))
+  })
 })

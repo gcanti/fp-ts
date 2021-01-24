@@ -23,9 +23,9 @@ high state of flux, you're at risk of it changing without notice.
   - deprecate "mega instances", use small, specific instances instead (@gcanti)
   - deprecate the old monad transformers, use the specific helpers instead (@gcanti)
   - `Applicative`
-    - deprecate `getApplicativeComposition`, use `ap_` helper instead (@gcanti)
+    - deprecate `getApplicativeComposition`, use `ap` helper instead (@gcanti)
   - `Compactable`
-    - deprecate `getCompactableComposition`, use `compact_`, `separate_` helpers instead (@gcanti)
+    - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead (@gcanti)
   - `Either`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -33,16 +33,16 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
   - `Filterable`
-    - deprecate `getFilterableComposition`, use `filter_`, `filterMap_`, `partition_`, `partitionMap_` helpers instead (@gcanti)
+    - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
     - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
-    - deprecate `getFoldableComposition`, use `reduce_`, `foldMap_`, `reduceRight_` helpers instead (@gcanti)
+    - deprecate `getFoldableComposition`, use `reduce`, `foldMap`, `reduceRight` helpers instead (@gcanti)
   - `FoldableWithIndex`
-    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex_`, `foldMapWithIndex_`, `reduceRightWithIndex_` helpers instead (@gcanti)
+    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex`, `foldMapWithIndex`, `reduceRightWithIndex` helpers instead (@gcanti)
   - `Functor`
-    - deprecate `getFunctorComposition`, use `map_` helper instead (@gcanti)
+    - deprecate `getFunctorComposition`, use `map` helper instead (@gcanti)
   - `FunctorWithIndex`
-    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex_` helper instead (@gcanti)
+    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex` helper instead (@gcanti)
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -92,7 +92,7 @@ high state of flux, you're at risk of it changing without notice.
   - `These`
     - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
   - `Traversable`
-    - deprecate `getTraversableComposition`, use `traverse_`, `sequence_` helpers instead (@gcanti)
+    - deprecate `getTraversableComposition`, use `traverse`, `sequence` helpers instead (@gcanti)
 - **New Feature**
   - add `Pointed` type class (@gcanti)
   - add `FromEither` type class (@gcanti)
@@ -100,10 +100,10 @@ high state of flux, you're at risk of it changing without notice.
   - add `FromTask` type class (@gcanti)
   - add `TaskOption` module (@gcanti)
   - `Apply`
-    - add `ap_` helper (@gcanti)
-    - add `apS_` helper (@gcanti)
-    - add `apFirst_` helper (@gcanti)
-    - add `apSecond_` helper (@gcanti)
+    - add `ap` helper (@gcanti)
+    - add `apS` helper (@gcanti)
+    - add `apFirst` helper (@gcanti)
+    - add `apSecond` helper (@gcanti)
     - add `getApplySemigroup` (@gcanti)
   - `Applicative`
     - add `getApplicativeMonoid` (@gcanti)
@@ -113,27 +113,27 @@ high state of flux, you're at risk of it changing without notice.
   - `boolean`
     - add `foldW` (@gcanti)
   - `Compactable`
-    - add `compact_` helper (@gcanti)
-    - add `separate_` helper (@gcanti)
+    - add `compact` helper (@gcanti)
+    - add `separate` helper (@gcanti)
     - add `separated` constructor (@gcanti)
   - `Filterable`
-    - add `filter_` helper (@gcanti)
-    - add `filterMap_` helper (@gcanti)
-    - add `partition_` helper (@gcanti)
-    - add `partitionMap_` helper (@gcanti)
+    - add `filter` helper (@gcanti)
+    - add `filterMap` helper (@gcanti)
+    - add `partition` helper (@gcanti)
+    - add `partitionMap` helper (@gcanti)
   - `Foldable`
-    - add `reduce_` helper (@gcanti)
-    - add `foldaMap_` helper (@gcanti)
-    - add `reduceRight_` helper (@gcanti)
+    - add `reduce` helper (@gcanti)
+    - add `foldaMap` helper (@gcanti)
+    - add `reduceRight` helper (@gcanti)
   - `FoldableWithIndex`
-    - add `reduceWithIndex_` helper (@gcanti)
-    - add `foldaMapWithIndex_` helper (@gcanti)
-    - add `reduceRightWithIndex_` helper (@gcanti)
+    - add `reduceWithIndex` helper (@gcanti)
+    - add `foldaMapWithIndex` helper (@gcanti)
+    - add `reduceRightWithIndex` helper (@gcanti)
   - `Functor`
-    - add `map_` helper (@gcanti)
-    - add `bindTo_` helper (@gcanti)
+    - add `map` helper (@gcanti)
+    - add `bindTo` helper (@gcanti)
   - `FunctorWithIndex`
-    - add `mapWithIndex_` helper (@gcanti)
+    - add `mapWithIndex` helper (@gcanti)
   - `Either`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -165,8 +165,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `foldW` (@gcanti)
     - add `orElseW` (@gcanti)
   - `Monad`
-    - add `bind_` helper (@gcanti)
-    - add `chainFirst_` helper (@gcanti)
+    - add `bind` helper (@gcanti)
+    - add `chainFirst` helper (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -231,6 +231,8 @@ high state of flux, you're at risk of it changing without notice.
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `StateT`
+    - split `getStateM` into separated functions (@gcanti)
   - `StateReaderTaskEither`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -277,8 +279,8 @@ high state of flux, you're at risk of it changing without notice.
   - `TheseT`
     - split `getTheseM` into separated functions (@gcanti)
   - `Traversable`
-    - add `traverse_` helper (@gcanti)
-    - add `sequence_` helper (@gcanti)
+    - add `traverse` helper (@gcanti)
+    - add `sequence` helper (@gcanti)
   - `Tree`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

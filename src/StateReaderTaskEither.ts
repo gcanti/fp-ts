@@ -28,6 +28,7 @@ import * as RTE from './ReaderTaskEither'
 import { State } from './State'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
+import * as ST from './StateT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -60,8 +61,9 @@ export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S
  * @category constructors
  * @since 2.0.0
  */
-export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = (a) => (s) =>
-  RTE.right([a, s])
+export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  ST.of(RTE.Pointed)
 
 /**
  * @category constructors
@@ -154,13 +156,9 @@ export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateRe
  * @category constructors
  * @since 2.0.0
  */
-export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> = (
-  fa
-) => (s) =>
-  pipe(
-    fa,
-    RTE.map((a) => [a, s])
-  )
+export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  ST.fromF(RTE.Functor)
 
 /**
  * Get the current state
@@ -168,7 +166,9 @@ export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) =
  * @category constructors
  * @since 2.0.0
  */
-export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = () => (s) => RTE.right([s, s])
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
+  /*#__PURE__*/
+  ST.get(RTE.Pointed)
 
 /**
  * Set the state
@@ -176,8 +176,9 @@ export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = () 
  * @category constructors
  * @since 2.0.0
  */
-export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = (s) => () =>
-  RTE.right([undefined, s])
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  ST.put(RTE.Pointed)
 
 /**
  * Modify the state by applying a function to the current state
@@ -185,8 +186,9 @@ export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void
  * @category constructors
  * @since 2.0.0
  */
-export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> = (f) => (s) =>
-  RTE.right([undefined, f(s)])
+export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  ST.modify(RTE.Pointed)
 
 /**
  * Get a value which depends on the current state
@@ -194,8 +196,9 @@ export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<
  * @category constructors
  * @since 2.0.0
  */
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> = (f) => (s) =>
-  RTE.right([f(s), s])
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  ST.gets(RTE.Pointed)
 
 /**
  * @category constructors
@@ -216,6 +219,14 @@ export const fromIO: FromIO4<URI>['fromIO'] = rightIO
  * @since 2.7.0
  */
 export const fromTask: FromTask4<URI>['fromTask'] = rightTask
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromState =
+  /*#__PURE__*/
+  ST.fromState(RTE.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -379,11 +390,9 @@ const _mapLeft: <S, R, E, A, G>(
  */
 export const map: <A, B>(
   f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = (f) => (fa) => (s1) =>
-  pipe(
-    fa(s1),
-    RTE.map(([a, s2]) => [f(a), s2])
-  )
+) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  ST.map(RTE.Functor)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -409,25 +418,6 @@ export const mapLeft: <E, G>(
   _mapLeft(fa, f)
 
 /**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW = <S, R2, E2, A>(fa: StateReaderTaskEither<S, R2, E2, A>) => <R1, E1, B>(
-  fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>
-): StateReaderTaskEither<S, R1 & R2, E1 | E2, B> => (s1) =>
-  pipe(
-    fab(s1),
-    RTE.chainW(([f, s2]) =>
-      pipe(
-        fa(s2),
-        RTE.map(([a, s3]) => [f(a), s3])
-      )
-    )
-  )
-
-/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
@@ -435,29 +425,27 @@ export const apW = <S, R2, E2, A>(fa: StateReaderTaskEither<S, R2, E2, A>) => <R
  */
 export const ap: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = apW
+) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  ST.ap(RTE.Monad)
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category Apply
+ * @since 2.8.0
+ */
+export const apW: <S, R2, E2, A>(
+  fa: StateReaderTaskEither<S, R2, E2, A>
+) => <R1, E1, B>(
+  fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = ap as any
 
 /**
  * @category Pointed
  * @since 2.7.0
  */
 export const of: Pointed4<URI>['of'] = right
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Monad
- * @since 2.6.0
- */
-export const chainW: <S, R2, E2, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = (f) => (
-  ma
-) => (s1) =>
-  pipe(
-    ma(s1),
-    RTE.chainW(([a, s2]) => f(a)(s2))
-  )
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -467,7 +455,19 @@ export const chainW: <S, R2, E2, A, B>(
  */
 export const chain: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainW
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  ST.chain(RTE.Monad)
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category Monad
+ * @since 2.6.0
+ */
+export const chainW: <S, R2, E2, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = chain as any
 
 /**
  * Derivable from `Monad`.
@@ -742,22 +742,18 @@ export const FromTask: FromTask4<URI> = {
  *
  * @since 2.8.0
  */
-export const evaluate = <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>): ReaderTaskEither<R, E, A> =>
-  pipe(
-    ma(s),
-    RTE.map(([a]) => a)
-  )
+export const evaluate: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  ST.evaluate(RTE.Functor)
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
  * @since 2.8.0
  */
-export const execute = <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>): ReaderTaskEither<R, E, S> =>
-  pipe(
-    ma(s),
-    RTE.map(([_, s]) => s)
-  )
+export const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, S> =
+  /*#__PURE__*/
+  ST.execute(RTE.Functor)
 
 // -------------------------------------------------------------------------------------
 // do notation
