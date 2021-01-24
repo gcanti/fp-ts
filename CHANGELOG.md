@@ -35,6 +35,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Foldable`
     - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
     - deprecate `getFoldableComposition`, use `reduce_`, `foldMap_`, `reduceRight_` helpers instead (@gcanti)
+  - `FoldableWithIndex`
+    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex_`, `foldMapWithIndex_`, `reduceRightWithIndex_` helpers instead (@gcanti)
   - `Functor`
     - deprecate `getFunctorComposition`, use `map_` helper instead (@gcanti)
   - `IO`
