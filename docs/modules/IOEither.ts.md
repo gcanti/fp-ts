@@ -369,7 +369,7 @@ Converts a function that may throw to one returning a `IOEither`.
 export declare const tryCatchK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
   onError: (reason: unknown) => E
-) => (...a: A) => IOEither<unknown, B>
+) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
