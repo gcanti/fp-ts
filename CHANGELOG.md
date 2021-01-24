@@ -28,6 +28,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
   - `Foldable`
     - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
+  - `Functor`
+    - deprecate `getFunctorComposition`, use `map_` helper instead (@gcanti)
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)

@@ -328,6 +328,7 @@ Added in v2.0.0
 ```ts
 export interface TraversableComposition11<F extends URIS, G extends URIS>
   extends FoldableComposition11<F, G>,
+    // tslint:disable-next-line: deprecation
     FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
   readonly sequence: SequenceComposition11<F, G>
