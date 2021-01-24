@@ -15,7 +15,13 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative2, Applicative2C, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_, getApplySemigroup as getApplySemigroup_ } from './Apply'
+import {
+  apFirst as apFirst_,
+  Apply2,
+  apSecond as apSecond_,
+  apS as apS_,
+  getApplySemigroup as getApplySemigroup_
+} from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Compactable2C, separated, Separated } from './Compactable'
@@ -25,9 +31,9 @@ import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
 import { identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { bind_, chainFirst_, Monad2, Monad2C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -458,7 +464,7 @@ export const filterOrElseW: {
 
 /**
  * @example
- * import { filterOrElse, left, right } from 'fp-ts/Either'
+ * import { filterOrElse as filterOrElse, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
@@ -1489,8 +1495,8 @@ export function getValidation<E>(
   Extend2<URI> &
   ChainRec2C<URI, E> &
   MonadThrow2C<URI, E> {
-  const applicativeValidation = getApplicativeValidation(SE)
-  const altValidation = getAltValidation(SE)
+  const ap = getApplicativeValidation(SE).ap
+  const alt = getAltValidation(SE).alt
   return {
     URI,
     _E: undefined as any,
@@ -1507,7 +1513,7 @@ export function getValidation<E>(
     sequence,
     chainRec: _chainRec,
     throwError,
-    ap: applicativeValidation.ap,
-    alt: altValidation.alt
+    ap,
+    alt
   }
 }

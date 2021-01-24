@@ -2,10 +2,10 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst_, Apply2, apSecond_, apS_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_ } from './Apply'
 import { identity, pipe } from './function'
-import { bindTo_, Functor2 } from './Functor'
-import { bind_, chainFirst_, Monad2 } from './Monad'
+import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 
 // -------------------------------------------------------------------------------------

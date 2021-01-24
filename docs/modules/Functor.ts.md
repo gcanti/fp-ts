@@ -31,8 +31,8 @@ Added in v2.0.0
   - [Functor3C (interface)](#functor3c-interface)
   - [Functor4 (interface)](#functor4-interface)
 - [utils](#utils)
-  - [bindTo\_](#bindto_)
-  - [map\_](#map_)
+  - [bindTo](#bindto)
+  - [map](#map)
   - [~~FunctorComposition11~~ (interface)](#functorcomposition11-interface)
   - [~~FunctorComposition12C~~ (interface)](#functorcomposition12c-interface)
   - [~~FunctorComposition12~~ (interface)](#functorcomposition12-interface)
@@ -147,50 +147,50 @@ Added in v2.0.0
 
 # utils
 
-## bindTo\_
+## bindTo
 
 **Signature**
 
 ```ts
-export declare function bindTo_<F extends URIS4>(
+export declare function bindTo<F extends URIS4>(
   F: Functor4<F>
 ): <N extends string>(name: N) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in N]: A }>
-export declare function bindTo_<F extends URIS3>(
+export declare function bindTo<F extends URIS3>(
   F: Functor3<F>
 ): <N extends string>(name: N) => <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in N]: A }>
-export declare function bindTo_<F extends URIS3, E>(
+export declare function bindTo<F extends URIS3, E>(
   F: Functor3C<F, E>
 ): <N extends string>(name: N) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in N]: A }>
-export declare function bindTo_<F extends URIS2>(
+export declare function bindTo<F extends URIS2>(
   F: Functor2<F>
 ): <N extends string>(name: N) => <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, { [K in N]: A }>
-export declare function bindTo_<F extends URIS2, E>(
+export declare function bindTo<F extends URIS2, E>(
   F: Functor2C<F, E>
 ): <N extends string>(name: N) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, { [K in N]: A }>
-export declare function bindTo_<F extends URIS>(
+export declare function bindTo<F extends URIS>(
   F: Functor1<F>
 ): <N extends string>(name: N) => <A>(fa: Kind<F, A>) => Kind<F, { [K in N]: A }>
-export declare function bindTo_<F>(
+export declare function bindTo<F>(
   F: Functor<F>
 ): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { [K in N]: A }>
 ```
 
 Added in v2.10.0
 
-## map\_
+## map
 
 **Signature**
 
 ```ts
-export declare function map_<F, G extends URIS2>(
+export declare function map<F, G extends URIS2>(
   F: Functor<F>,
   G: Functor2<G>
 ): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
-export declare function map_<F, G extends URIS>(
+export declare function map<F, G extends URIS>(
   F: Functor<F>,
   G: Functor1<G>
 ): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
-export declare function map_<F, G>(
+export declare function map<F, G>(
   F: Functor<F>,
   G: Functor<G>
 ): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>

@@ -12,12 +12,12 @@
  * @since 2.0.0
  */
 import { Applicative1, getApplicativeMonoid } from './Applicative'
-import { apFirst_, Apply1, apSecond_, apS_, getApplySemigroup } from './Apply'
+import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, getApplySemigroup } from './Apply'
 import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
-import { bindTo_, Functor1 } from './Functor'
-import { bind_, chainFirst_, Monad1 } from './Monad'
+import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'

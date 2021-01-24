@@ -21,11 +21,11 @@ Added in v2.0.0
   - [Foldable3C (interface)](#foldable3c-interface)
   - [Foldable4 (interface)](#foldable4-interface)
 - [utils](#utils)
-  - [foldMap\_](#foldmap_)
+  - [foldMap](#foldmap)
   - [intercalate](#intercalate)
+  - [reduce](#reduce)
   - [reduceM](#reducem)
-  - [reduceRight\_](#reduceright_)
-  - [reduce\_](#reduce_)
+  - [reduceRight](#reduceright)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse\_](#traverse_)
   - [~~FoldableComposition11~~ (interface)](#foldablecomposition11-interface)
@@ -153,16 +153,16 @@ Added in v2.0.0
 
 # utils
 
-## foldMap\_
+## foldMap
 
 **Signature**
 
 ```ts
-export declare function foldMap_<F extends URIS, G extends URIS>(
+export declare function foldMap<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export declare function foldMap_<F, G>(
+export declare function foldMap<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
@@ -205,6 +205,23 @@ assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 ```
 
 Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare function reduce<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduce<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v2.10.0
 
 ## reduceM
 
@@ -261,36 +278,19 @@ assert.deepStrictEqual(
 
 Added in v2.8.0
 
-## reduceRight\_
+## reduceRight
 
 **Signature**
 
 ```ts
-export declare function reduceRight_<F extends URIS, G extends URIS>(
+export declare function reduceRight<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduceRight_<F, G>(
+export declare function reduceRight<F, G>(
   F: Foldable<F>,
   G: Foldable<G>
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
-```
-
-Added in v2.10.0
-
-## reduce\_
-
-**Signature**
-
-```ts
-export declare function reduce_<F extends URIS, G extends URIS>(
-  F: Foldable1<F>,
-  G: Foldable1<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduce_<F, G>(
-  F: Foldable<F>,
-  G: Foldable<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
 ```
 
 Added in v2.10.0

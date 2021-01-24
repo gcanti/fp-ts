@@ -91,15 +91,15 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 /**
  * @since 2.10.0
  */
-export function mapWithIndex_<F extends URIS, I, G extends URIS, J>(
+export function mapWithIndex<F extends URIS, I, G extends URIS, J>(
   F: FunctorWithIndex1<F, I>,
   G: FunctorWithIndex1<G, J>
 ): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export function mapWithIndex_<F, I, G, J>(
+export function mapWithIndex<F, I, G, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
 ): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-export function mapWithIndex_<F, I, G, J>(
+export function mapWithIndex<F, I, G, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
 ): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
@@ -241,9 +241,9 @@ export function getFunctorWithIndexComposition<F, FI, G, GI>(
   G: FunctorWithIndex<G, GI>
 ): FunctorWithIndexComposition<F, FI, G, GI> {
   const map = getFunctorComposition(F, G).map
-  const mapWithIndex = mapWithIndex_(F, G)
+  const _mapWithIndex = mapWithIndex(F, G)
   return {
     map,
-    mapWithIndex: (fga, f: any) => pipe(fga, mapWithIndex(f))
+    mapWithIndex: (fga, f: any) => pipe(fga, _mapWithIndex(f))
   }
 }
