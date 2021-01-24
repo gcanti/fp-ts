@@ -14,6 +14,18 @@ describe('OptionT', () => {
     })
   })
 
+  it('ap', async () => {
+    const a = MT.of('a')
+    const b = MT.of('b')
+    assert.deepStrictEqual(
+      await MT.ap(
+        MT.map(a, (a) => (b) => [a, b]),
+        b
+      )(),
+      O.some(['a', 'b'])
+    )
+  })
+
   it('chain', () => {
     const to1 = MT.chain(MT.of('foo'), (a) => MT.of(a.length))
     const to2 = MT.chain(T.of(O.none), (a: string) => MT.of(a.length))

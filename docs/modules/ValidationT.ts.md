@@ -30,7 +30,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, URI, E> {
+export interface ValidationM1<M extends URIS, E> extends ApplicativeComposition12C<M, E.URI, E> {
   // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT1<M, E, A>, f: (a: A) => ValidationT1<M, E, B>) => ValidationT1<M, E, B>
   // tslint:disable-next-line: deprecation
@@ -45,7 +45,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, URI, E> {
+export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, E.URI, E> {
   readonly chain: <R, A, B>(
     // tslint:disable-next-line: deprecation
     ma: ValidationT2<M, R, E, A>,
@@ -65,7 +65,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, E.URI, E> {
   // tslint:disable-next-line: deprecation
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
   // tslint:disable-next-line: deprecation
