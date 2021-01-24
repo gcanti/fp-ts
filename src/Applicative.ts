@@ -80,7 +80,42 @@ export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E>, Pointe
 export interface Applicative4<F extends URIS4> extends Apply4<F>, Pointed4<F> {}
 
 /**
+ * Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
+ *
+ * @since 2.10.0
+ */
+export function getApplicativeMonoid<F extends URIS4>(
+  F: Applicative4<F>
+): <A, S, R, E>(M: Monoid<A>) => Monoid<Kind4<F, S, R, E, A>>
+export function getApplicativeMonoid<F extends URIS3>(
+  F: Applicative3<F>
+): <A, R, E>(M: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export function getApplicativeMonoid<F extends URIS3, E>(
+  F: Applicative3C<F, E>
+): <A, R>(S: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
+export function getApplicativeMonoid<F extends URIS2>(
+  F: Applicative2<F>
+): <A, E>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export function getApplicativeMonoid<F extends URIS2, E>(
+  F: Applicative2C<F, E>
+): <A>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
+export function getApplicativeMonoid<F extends URIS>(F: Applicative1<F>): <A>(M: Monoid<A>) => Monoid<Kind<F, A>>
+export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>>
+export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>> {
+  const f = getApplySemigroup(F)
+  return <A>(M: Monoid<A>) => ({
+    concat: f(M).concat,
+    empty: F.of(M.empty)
+  })
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
@@ -90,6 +125,7 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCompositionHKT1<F, G> {
@@ -99,6 +135,7 @@ export interface ApplicativeCompositionHKT1<F, G extends URIS> extends FunctorCo
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorCompositionHKT2<F, G> {
@@ -108,6 +145,7 @@ export interface ApplicativeCompositionHKT2<F, G extends URIS2> extends FunctorC
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends FunctorCompositionHKT2C<F, G, E> {
@@ -117,6 +155,7 @@ export interface ApplicativeCompositionHKT2C<F, G extends URIS2, E> extends Func
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
@@ -126,6 +165,7 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
@@ -138,6 +178,7 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> extends FunctorComposition12C<F, G, E> {
@@ -147,6 +188,7 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, E> e
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
@@ -159,6 +201,7 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> extends FunctorComposition2C1<F, G, E> {
@@ -168,6 +211,7 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, E> e
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
@@ -180,6 +224,7 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 
 /**
  * @since 2.0.0
+ * @deprecated
  */
 // tslint:disable-next-line: deprecation
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> extends FunctorComposition22C<F, G, E> {
@@ -210,48 +255,72 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
  *   .then(result => assert.deepStrictEqual(result, some(3)))
  *
  * @since 2.0.0
+ * @deprecated
  */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22<F, G>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, E>(
   F: Applicative2<F>,
   G: Applicative2C<G, E>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition22C<F, G, E>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative2<F>,
   G: Applicative1<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition21<F, G>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS2>(
   F: Applicative1<F>,
   G: Applicative2<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12<F, G>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS2, E>(
   F: Applicative1<F>,
   G: Applicative2C<G, E>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition12C<F, G, E>
+/** @deprecated */
 export function getApplicativeComposition<F extends URIS, G extends URIS>(
   F: Applicative1<F>,
   G: Applicative1<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeComposition11<F, G>
+/** @deprecated */
 export function getApplicativeComposition<F, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative2<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2<F, G>
+/** @deprecated */
 export function getApplicativeComposition<F, G extends URIS2, E>(
   F: Applicative<F>,
   G: Applicative2C<G, E>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT2C<F, G, E>
+/** @deprecated */
 export function getApplicativeComposition<F, G extends URIS>(
   F: Applicative<F>,
   G: Applicative1<G>
+  // tslint:disable-next-line: deprecation
 ): ApplicativeCompositionHKT1<F, G>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
   const ap = ap_(F, G)
   const map = map_(F, G)
@@ -260,34 +329,4 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
     of: (a) => F.of(G.of(a)),
     ap: (fgab, fga) => pipe(fgab, ap(fga))
   }
-}
-
-/**
- * Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.
- *
- * @since 2.10.0
- */
-export function getApplicativeMonoid<F extends URIS4>(
-  F: Applicative4<F>
-): <A, S, R, E>(M: Monoid<A>) => Monoid<Kind4<F, S, R, E, A>>
-export function getApplicativeMonoid<F extends URIS3>(
-  F: Applicative3<F>
-): <A, R, E>(M: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
-export function getApplicativeMonoid<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <A, R>(S: Monoid<A>) => Monoid<Kind3<F, R, E, A>>
-export function getApplicativeMonoid<F extends URIS2>(
-  F: Applicative2<F>
-): <A, E>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
-export function getApplicativeMonoid<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <A>(M: Monoid<A>) => Monoid<Kind2<F, E, A>>
-export function getApplicativeMonoid<F extends URIS>(F: Applicative1<F>): <A>(M: Monoid<A>) => Monoid<Kind<F, A>>
-export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>>
-export function getApplicativeMonoid<F>(F: Applicative<F>): <A>(M: Monoid<A>) => Monoid<HKT<F, A>> {
-  const f = getApplySemigroup(F)
-  return <A>(M: Monoid<A>) => ({
-    concat: f(M).concat,
-    empty: F.of(M.empty)
-  })
 }

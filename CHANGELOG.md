@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecations**
   - deprecate `ValidationT` module, use `EitherT` instead (@gcanti)
   - deprecate "mega instances", use small, specific instances instead (@gcanti)
+  - `Applicative`
+    - deprecate `getApplicativeComposition`, use `ap_` helper instead (@gcanti)
   - `Either`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
