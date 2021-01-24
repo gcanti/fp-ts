@@ -6,6 +6,7 @@ import { left, right } from '../src/Either'
 
 describe('Compactable', () => {
   it('getCompactableComposition', () => {
+    // tslint:disable-next-line: deprecation
     const C = getCompactableComposition(A.Functor, { ...A.Functor, ...A.Compactable })
     assert.deepStrictEqual(
       C.map([[1], [2]], (n) => n * 2),
