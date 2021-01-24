@@ -32,15 +32,6 @@ Added in v2.0.0
   - [Filter3 (interface)](#filter3-interface)
   - [Filter3C (interface)](#filter3c-interface)
   - [Filter4 (interface)](#filter4-interface)
-  - [FilterableComposition (interface)](#filterablecomposition-interface)
-  - [FilterableComposition11 (interface)](#filterablecomposition11-interface)
-  - [FilterableComposition12 (interface)](#filterablecomposition12-interface)
-  - [FilterableComposition12C (interface)](#filterablecomposition12c-interface)
-  - [FilterableComposition21 (interface)](#filterablecomposition21-interface)
-  - [FilterableComposition22 (interface)](#filterablecomposition22-interface)
-  - [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
-  - [FilterableComposition23C (interface)](#filterablecomposition23c-interface)
-  - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
   - [Partition (interface)](#partition-interface)
   - [Partition1 (interface)](#partition1-interface)
   - [Partition2 (interface)](#partition2-interface)
@@ -50,9 +41,18 @@ Added in v2.0.0
   - [Partition4 (interface)](#partition4-interface)
   - [filterMap\_](#filtermap_)
   - [filter\_](#filter_)
-  - [getFilterableComposition](#getfilterablecomposition)
   - [partitionMap\_](#partitionmap_)
   - [partition\_](#partition_)
+  - [~~FilterableComposition11~~ (interface)](#filterablecomposition11-interface)
+  - [~~FilterableComposition12C~~ (interface)](#filterablecomposition12c-interface)
+  - [~~FilterableComposition12~~ (interface)](#filterablecomposition12-interface)
+  - [~~FilterableComposition21~~ (interface)](#filterablecomposition21-interface)
+  - [~~FilterableComposition22C~~ (interface)](#filterablecomposition22c-interface)
+  - [~~FilterableComposition22~~ (interface)](#filterablecomposition22-interface)
+  - [~~FilterableComposition23C~~ (interface)](#filterablecomposition23c-interface)
+  - [~~FilterableComposition2C1~~ (interface)](#filterablecomposition2c1-interface)
+  - [~~FilterableComposition~~ (interface)](#filterablecomposition-interface)
+  - [~~getFilterableComposition~~](#getfilterablecomposition)
 
 ---
 
@@ -283,226 +283,6 @@ export interface Filter4<F extends URIS4> {
 
 Added in v2.0.0
 
-## FilterableComposition (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
-  readonly partitionMap: <A, B, C>(
-    fa: HKT<F, HKT<G, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
-  readonly partition: <A>(
-    fa: HKT<F, HKT<G, A>>,
-    predicate: Predicate<A>
-  ) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
-  readonly filterMap: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => Option<B>) => HKT<F, HKT<G, B>>
-  readonly filter: <A>(fa: HKT<F, HKT<G, A>>, predicate: Predicate<A>) => HKT<F, HKT<G, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition11 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition11<F, G>,
-    CompactableComposition11<F, G> {
-  readonly partitionMap: <A, B, C>(
-    fa: Kind<F, Kind<G, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
-  readonly partition: <A>(
-    fa: Kind<F, Kind<G, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
-  readonly filterMap: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => Option<B>) => Kind<F, Kind<G, B>>
-  readonly filter: <A>(fa: Kind<F, Kind<G, A>>, predicate: Predicate<A>) => Kind<F, Kind<G, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition12 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition12<F extends URIS, G extends URIS2>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition12<F, G>,
-    CompactableComposition12<F, G> {
-  readonly partitionMap: <E, A, B, C>(
-    fa: Kind<F, Kind2<G, E, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
-  readonly partition: <E, A>(
-    fa: Kind<F, Kind2<G, E, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
-  readonly filterMap: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, E, B>>
-  readonly filter: <E, A>(fa: Kind<F, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, E, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition12C (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition12C<F, G, E>,
-    CompactableComposition12C<F, G, E> {
-  readonly partitionMap: <A, B, C>(
-    fa: Kind<F, Kind2<G, E, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
-  readonly partition: <A>(
-    fa: Kind<F, Kind2<G, E, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
-  readonly filterMap: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, E, B>>
-  readonly filter: <A>(fa: Kind<F, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, E, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition21 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition21<F extends URIS2, G extends URIS>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition21<F, G>,
-    CompactableComposition21<F, G> {
-  readonly partitionMap: <E, A, B, C>(
-    fa: Kind2<F, E, Kind<G, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind2<F, E, Kind<G, B>>, Kind2<F, E, Kind<G, C>>>
-  readonly partition: <E, A>(
-    fa: Kind2<F, E, Kind<G, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind2<F, E, Kind<G, A>>, Kind2<F, E, Kind<G, A>>>
-  readonly filterMap: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, E, Kind<G, B>>
-  readonly filter: <E, A>(fa: Kind2<F, E, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, E, Kind<G, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition22 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition22<F extends URIS2, G extends URIS2>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition22<F, G>,
-    CompactableComposition22<F, G> {
-  readonly partitionMap: <FE, GE, A, B, C>(
-    fa: Kind2<F, FE, Kind2<G, GE, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind2<F, FE, Kind2<G, GE, B>>, Kind2<F, FE, Kind2<G, GE, C>>>
-  readonly partition: <FE, GE, A>(
-    fa: Kind2<F, FE, Kind2<G, GE, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind2<F, FE, Kind2<G, GE, A>>, Kind2<F, FE, Kind2<G, GE, A>>>
-  readonly filterMap: <FE, GE, A, B>(
-    fa: Kind2<F, FE, Kind2<G, GE, A>>,
-    f: (a: A) => Option<B>
-  ) => Kind2<F, FE, Kind2<G, GE, B>>
-  readonly filter: <FE, GE, A>(
-    fa: Kind2<F, FE, Kind2<G, GE, A>>,
-    predicate: Predicate<A>
-  ) => Kind2<F, FE, Kind2<G, GE, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition22C (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition22<F, G>,
-    CompactableComposition22<F, G> {
-  readonly partitionMap: <FE, A, B, C>(
-    fa: Kind2<F, FE, Kind2<G, E, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
-  readonly partition: <FE, A>(
-    fa: Kind2<F, FE, Kind2<G, E, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
-  readonly filterMap: <FE, A, B>(
-    fa: Kind2<F, FE, Kind2<G, E, A>>,
-    f: (a: A) => Option<B>
-  ) => Kind2<F, FE, Kind2<G, E, B>>
-  readonly filter: <FE, A>(fa: Kind2<F, FE, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind2<F, FE, Kind2<G, E, A>>
-}
-```
-
-Added in v2.0.0
-
-## FilterableComposition23C (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition23<F, G>,
-    CompactableComposition23<F, G> {
-  readonly partitionMap: <R, FE, A, B, C>(
-    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind2<F, FE, Kind3<G, R, E, B>>, Kind2<F, FE, Kind3<G, R, E, C>>>
-  readonly partition: <R, FE, A>(
-    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, A>>>
-  readonly filterMap: <R, FE, A, B>(
-    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
-    f: (a: A) => Option<B>
-  ) => Kind2<F, FE, Kind3<G, R, E, B>>
-  readonly filter: <R, FE, A>(
-    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
-    predicate: Predicate<A>
-  ) => Kind2<F, FE, Kind3<G, R, E, A>>
-}
-```
-
-Added in v2.2.0
-
-## FilterableComposition2C1 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>  // tslint:disable-next-line: deprecation
-  extends FunctorComposition21<F, G>,
-    CompactableComposition21<F, G> {
-  readonly partitionMap: <A, B, C>(
-    fa: Kind2<F, E, Kind<G, A>>,
-    f: (a: A) => Either<B, C>
-  ) => Separated<Kind2<F, E, Kind<G, B>>, Kind2<F, E, Kind<G, C>>>
-  readonly partition: <A>(
-    fa: Kind2<F, E, Kind<G, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Kind2<F, E, Kind<G, A>>, Kind2<F, E, Kind<G, A>>>
-  readonly filterMap: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, E, Kind<G, B>>
-  readonly filter: <A>(fa: Kind2<F, E, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, E, Kind<G, A>>
-}
-```
-
-Added in v2.0.0
-
 ## Partition (interface)
 
 **Signature**
@@ -653,48 +433,6 @@ export declare function filter_<F, G>(
 
 Added in v2.10.0
 
-## getFilterableComposition
-
-**Signature**
-
-```ts
-export declare function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
-  F: Functor2<F>,
-  G: Filterable3C<G, E>
-): FilterableComposition23C<F, G, E>
-export declare function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Filterable2C<G, E>
-): FilterableComposition22C<F, G, E>
-export declare function getFilterableComposition<F extends URIS2, G extends URIS2>(
-  F: Functor2<F>,
-  G: Filterable2<G>
-): FilterableComposition22<F, G>
-export declare function getFilterableComposition<F extends URIS2, G extends URIS, E>(
-  F: Functor2C<F, E>,
-  G: Filterable1<G>
-): FilterableComposition2C1<F, G, E>
-export declare function getFilterableComposition<F extends URIS2, G extends URIS>(
-  F: Functor2<F>,
-  G: Filterable1<G>
-): FilterableComposition21<F, G>
-export declare function getFilterableComposition<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Filterable2C<G, E>
-): FilterableComposition12C<F, G, E>
-export declare function getFilterableComposition<F extends URIS, G extends URIS2>(
-  F: Functor1<F>,
-  G: Filterable2<G>
-): FilterableComposition12<F, G>
-export declare function getFilterableComposition<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Filterable1<G>
-): FilterableComposition11<F, G>
-export declare function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
-```
-
-Added in v2.0.0
-
 ## partitionMap\_
 
 **Signature**
@@ -754,3 +492,281 @@ export declare function partition_<F, G>(
 ```
 
 Added in v2.10.0
+
+## ~~FilterableComposition11~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition11<F extends URIS, G extends URIS>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition11<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition11<F, G> {
+  readonly partitionMap: <A, B, C>(
+    fa: Kind<F, Kind<G, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
+  readonly partition: <A>(
+    fa: Kind<F, Kind<G, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+  readonly filterMap: <A, B>(fa: Kind<F, Kind<G, A>>, f: (a: A) => Option<B>) => Kind<F, Kind<G, B>>
+  readonly filter: <A>(fa: Kind<F, Kind<G, A>>, predicate: Predicate<A>) => Kind<F, Kind<G, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition12C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition12C<F extends URIS, G extends URIS2, E>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition12C<F, G, E>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition12C<F, G, E> {
+  readonly partitionMap: <A, B, C>(
+    fa: Kind<F, Kind2<G, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+  readonly partition: <A>(
+    fa: Kind<F, Kind2<G, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+  readonly filterMap: <A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, E, B>>
+  readonly filter: <A>(fa: Kind<F, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, E, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition12~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition12<F extends URIS, G extends URIS2>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition12<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition12<F, G> {
+  readonly partitionMap: <E, A, B, C>(
+    fa: Kind<F, Kind2<G, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+  readonly partition: <E, A>(
+    fa: Kind<F, Kind2<G, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+  readonly filterMap: <E, A, B>(fa: Kind<F, Kind2<G, E, A>>, f: (a: A) => Option<B>) => Kind<F, Kind2<G, E, B>>
+  readonly filter: <E, A>(fa: Kind<F, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind<F, Kind2<G, E, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition21~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition21<F extends URIS2, G extends URIS>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition21<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition21<F, G> {
+  readonly partitionMap: <E, A, B, C>(
+    fa: Kind2<F, E, Kind<G, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, E, Kind<G, B>>, Kind2<F, E, Kind<G, C>>>
+  readonly partition: <E, A>(
+    fa: Kind2<F, E, Kind<G, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, E, Kind<G, A>>, Kind2<F, E, Kind<G, A>>>
+  readonly filterMap: <E, A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, E, Kind<G, B>>
+  readonly filter: <E, A>(fa: Kind2<F, E, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, E, Kind<G, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition22C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition22C<F extends URIS2, G extends URIS2, E>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition22<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition22<F, G> {
+  readonly partitionMap: <FE, A, B, C>(
+    fa: Kind2<F, FE, Kind2<G, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
+  readonly partition: <FE, A>(
+    fa: Kind2<F, FE, Kind2<G, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
+  readonly filterMap: <FE, A, B>(
+    fa: Kind2<F, FE, Kind2<G, E, A>>,
+    f: (a: A) => Option<B>
+  ) => Kind2<F, FE, Kind2<G, E, B>>
+  readonly filter: <FE, A>(fa: Kind2<F, FE, Kind2<G, E, A>>, predicate: Predicate<A>) => Kind2<F, FE, Kind2<G, E, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition22~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition22<F extends URIS2, G extends URIS2>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition22<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition22<F, G> {
+  readonly partitionMap: <FE, GE, A, B, C>(
+    fa: Kind2<F, FE, Kind2<G, GE, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, FE, Kind2<G, GE, B>>, Kind2<F, FE, Kind2<G, GE, C>>>
+  readonly partition: <FE, GE, A>(
+    fa: Kind2<F, FE, Kind2<G, GE, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, FE, Kind2<G, GE, A>>, Kind2<F, FE, Kind2<G, GE, A>>>
+  readonly filterMap: <FE, GE, A, B>(
+    fa: Kind2<F, FE, Kind2<G, GE, A>>,
+    f: (a: A) => Option<B>
+  ) => Kind2<F, FE, Kind2<G, GE, B>>
+  readonly filter: <FE, GE, A>(
+    fa: Kind2<F, FE, Kind2<G, GE, A>>,
+    predicate: Predicate<A>
+  ) => Kind2<F, FE, Kind2<G, GE, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition23C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition23<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition23<F, G> {
+  readonly partitionMap: <R, FE, A, B, C>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, B>>, Kind2<F, FE, Kind3<G, R, E, C>>>
+  readonly partition: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, FE, Kind3<G, R, E, A>>, Kind2<F, FE, Kind3<G, R, E, A>>>
+  readonly filterMap: <R, FE, A, B>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    f: (a: A) => Option<B>
+  ) => Kind2<F, FE, Kind3<G, R, E, B>>
+  readonly filter: <R, FE, A>(
+    fa: Kind2<F, FE, Kind3<G, R, E, A>>,
+    predicate: Predicate<A>
+  ) => Kind2<F, FE, Kind3<G, R, E, A>>
+}
+```
+
+Added in v2.2.0
+
+## ~~FilterableComposition2C1~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition2C1<F extends URIS2, G extends URIS, E>  // tslint:disable-next-line: deprecation
+  extends FunctorComposition21<F, G>,
+    // tslint:disable-next-line: deprecation
+    CompactableComposition21<F, G> {
+  readonly partitionMap: <A, B, C>(
+    fa: Kind2<F, E, Kind<G, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<Kind2<F, E, Kind<G, B>>, Kind2<F, E, Kind<G, C>>>
+  readonly partition: <A>(
+    fa: Kind2<F, E, Kind<G, A>>,
+    predicate: Predicate<A>
+  ) => Separated<Kind2<F, E, Kind<G, A>>, Kind2<F, E, Kind<G, A>>>
+  readonly filterMap: <A, B>(fa: Kind2<F, E, Kind<G, A>>, f: (a: A) => Option<B>) => Kind2<F, E, Kind<G, B>>
+  readonly filter: <A>(fa: Kind2<F, E, Kind<G, A>>, predicate: Predicate<A>) => Kind2<F, E, Kind<G, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~FilterableComposition~~ (interface)
+
+**Signature**
+
+```ts
+export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
+  readonly partitionMap: <A, B, C>(
+    fa: HKT<F, HKT<G, A>>,
+    f: (a: A) => Either<B, C>
+  ) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
+  readonly partition: <A>(
+    fa: HKT<F, HKT<G, A>>,
+    predicate: Predicate<A>
+  ) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+  readonly filterMap: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => Option<B>) => HKT<F, HKT<G, B>>
+  readonly filter: <A>(fa: HKT<F, HKT<G, A>>, predicate: Predicate<A>) => HKT<F, HKT<G, A>>
+}
+```
+
+Added in v2.0.0
+
+## ~~getFilterableComposition~~
+
+**Signature**
+
+```ts
+export declare function getFilterableComposition<F extends URIS2, G extends URIS3, E>(
+  F: Functor2<F>,
+  G: Filterable3C<G, E>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition23C<F, G, E>
+export declare function getFilterableComposition<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition22C<F, G, E>
+export declare function getFilterableComposition<F extends URIS2, G extends URIS2>(
+  F: Functor2<F>,
+  G: Filterable2<G>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition22<F, G>
+export declare function getFilterableComposition<F extends URIS2, G extends URIS, E>(
+  F: Functor2C<F, E>,
+  G: Filterable1<G>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition2C1<F, G, E>
+export declare function getFilterableComposition<F extends URIS2, G extends URIS>(
+  F: Functor2<F>,
+  G: Filterable1<G>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition21<F, G>
+export declare function getFilterableComposition<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition12C<F, G, E>
+export declare function getFilterableComposition<F extends URIS, G extends URIS2>(
+  F: Functor1<F>,
+  G: Filterable2<G>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition12<F, G>
+export declare function getFilterableComposition<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+  // tslint:disable-next-line: deprecation
+): FilterableComposition11<F, G>
+export declare function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
+```
+
+Added in v2.0.0

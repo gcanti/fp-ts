@@ -30,18 +30,18 @@ Added in v2.0.0
   - [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
   - [FoldableWithIndex4 (interface)](#foldablewithindex4-interface)
 - [utils](#utils)
-  - [FoldableWithIndexComposition (interface)](#foldablewithindexcomposition-interface)
-  - [FoldableWithIndexComposition11 (interface)](#foldablewithindexcomposition11-interface)
-  - [FoldableWithIndexComposition12 (interface)](#foldablewithindexcomposition12-interface)
-  - [FoldableWithIndexComposition12C (interface)](#foldablewithindexcomposition12c-interface)
-  - [FoldableWithIndexComposition21 (interface)](#foldablewithindexcomposition21-interface)
-  - [FoldableWithIndexComposition22 (interface)](#foldablewithindexcomposition22-interface)
-  - [FoldableWithIndexComposition22C (interface)](#foldablewithindexcomposition22c-interface)
-  - [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
   - [foldMapWithIndex\_](#foldmapwithindex_)
-  - [getFoldableWithIndexComposition](#getfoldablewithindexcomposition)
   - [reduceRightWithIndex\_](#reducerightwithindex_)
   - [reduceWithIndex\_](#reducewithindex_)
+  - [~~FoldableWithIndexComposition11~~ (interface)](#foldablewithindexcomposition11-interface)
+  - [~~FoldableWithIndexComposition12C~~ (interface)](#foldablewithindexcomposition12c-interface)
+  - [~~FoldableWithIndexComposition12~~ (interface)](#foldablewithindexcomposition12-interface)
+  - [~~FoldableWithIndexComposition21~~ (interface)](#foldablewithindexcomposition21-interface)
+  - [~~FoldableWithIndexComposition22C~~ (interface)](#foldablewithindexcomposition22c-interface)
+  - [~~FoldableWithIndexComposition22~~ (interface)](#foldablewithindexcomposition22-interface)
+  - [~~FoldableWithIndexComposition2C1~~ (interface)](#foldablewithindexcomposition2c1-interface)
+  - [~~FoldableWithIndexComposition~~ (interface)](#foldablewithindexcomposition-interface)
+  - [~~getFoldableWithIndexComposition~~](#getfoldablewithindexcomposition)
 
 ---
 
@@ -147,143 +147,6 @@ Added in v2.0.0
 
 # utils
 
-## FoldableWithIndexComposition (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComposition<F, G> {
-  readonly reduceWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition11 (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
-  extends FoldableComposition11<F, G> {
-  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition12 (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
-  extends FoldableComposition12<F, G> {
-  readonly reduceWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <E, A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition12C (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>
-  extends FoldableComposition12C<F, G, E> {
-  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition21 (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
-  extends FoldableComposition21<F, G> {
-  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(
-    M: Monoid<M>
-  ) => <FE, A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition22 (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
-  extends FoldableComposition22<F, G> {
-  readonly reduceWithIndex: <FE, GE, A, B>(
-    fga: Kind2<F, FE, Kind2<G, GE, A>>,
-    b: B,
-    f: (i: [FI, GI], b: B, a: A) => B
-  ) => B
-  readonly foldMapWithIndex: <M>(
-    M: Monoid<M>
-  ) => <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <FE, GE, A, B>(
-    fga: Kind2<F, FE, Kind2<G, GE, A>>,
-    b: B,
-    f: (i: [FI, GI], a: A, b: B) => B
-  ) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition22C (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>
-  extends FoldableComposition22C<F, G, E> {
-  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(
-    M: Monoid<M>
-  ) => <FE, A>(fga: Kind2<F, FE, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <FE, A, B>(
-    fga: Kind2<F, FE, Kind2<G, E, A>>,
-    b: B,
-    f: (i: [FI, GI], a: A, b: B) => B
-  ) => B
-}
-```
-
-Added in v2.0.0
-
-## FoldableWithIndexComposition2C1 (interface)
-
-**Signature**
-
-```ts
-export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, FE>
-  extends FoldableComposition2C1<F, G, FE> {
-  readonly reduceWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-```
-
-Added in v2.0.0
-
 ## foldMapWithIndex\_
 
 **Signature**
@@ -300,47 +163,6 @@ export declare function foldMapWithIndex_<F, I, G, J>(
 ```
 
 Added in v2.10.0
-
-## getFoldableWithIndexComposition
-
-**Signature**
-
-```ts
-export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
-  F: FoldableWithIndex2<F, FI>,
-  G: FoldableWithIndex2C<G, GI, E>
-): FoldableWithIndexComposition22C<F, FI, G, GI, E>
-export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
-  F: FoldableWithIndex2<F, FI>,
-  G: FoldableWithIndex2<G, GI>
-): FoldableWithIndexComposition22<F, FI, G, GI>
-export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
-  F: FoldableWithIndex2C<F, FI, E>,
-  G: FoldableWithIndex1<G, GI>
-): FoldableWithIndexComposition2C1<F, FI, G, GI, E>
-export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
-  F: FoldableWithIndex2<F, FI>,
-  G: FoldableWithIndex1<G, GI>
-): FoldableWithIndexComposition21<F, FI, G, GI>
-export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
-  F: FoldableWithIndex1<F, FI>,
-  G: FoldableWithIndex2<G, GI>
-): FoldableWithIndexComposition12<F, FI, G, GI>
-export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
-  F: FoldableWithIndex1<F, FI>,
-  G: FoldableWithIndex2<G, GI>
-): FoldableWithIndexComposition12<F, FI, G, GI>
-export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
-  F: FoldableWithIndex1<F, FI>,
-  G: FoldableWithIndex1<G, GI>
-): FoldableWithIndexComposition11<F, FI, G, GI>
-export declare function getFoldableWithIndexComposition<F, FI, G, GI>(
-  F: FoldableWithIndex<F, FI>,
-  G: FoldableWithIndex<G, GI>
-): FoldableWithIndexComposition<F, FI, G, GI>
-```
-
-Added in v2.0.0
 
 ## reduceRightWithIndex\_
 
@@ -375,3 +197,189 @@ export declare function reduceWithIndex_<F, I, G, J>(
 ```
 
 Added in v2.10.0
+
+## ~~FoldableWithIndexComposition11~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition11<F, G> {
+  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition12C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, E>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition12C<F, G, E> {
+  readonly reduceWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition12~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition12<F, G> {
+  readonly reduceWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <E, A>(fga: Kind<F, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <E, A, B>(fga: Kind<F, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition21~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition21<F, G> {
+  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <FE, A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition22C~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, E>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition22C<F, G, E> {
+  readonly reduceWithIndex: <FE, A, B>(fga: Kind2<F, FE, Kind2<G, E, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <FE, A>(fga: Kind2<F, FE, Kind2<G, E, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, E, A>>,
+    b: B,
+    f: (i: [FI, GI], a: A, b: B) => B
+  ) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition22~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition22<F, G> {
+  readonly reduceWithIndex: <FE, GE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, GE, A>>,
+    b: B,
+    f: (i: [FI, GI], b: B, a: A) => B
+  ) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <FE, GE, A>(fga: Kind2<F, FE, Kind2<G, GE, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <FE, GE, A, B>(
+    fga: Kind2<F, FE, Kind2<G, GE, A>>,
+    b: B,
+    f: (i: [FI, GI], a: A, b: B) => B
+  ) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition2C1~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, FE>  // tslint:disable-next-line: deprecation
+  extends FoldableComposition2C1<F, G, FE> {
+  readonly reduceWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Kind2<F, FE, Kind<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: Kind2<F, FE, Kind<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~FoldableWithIndexComposition~~ (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComposition<F, G> {
+  readonly reduceWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => M) => M
+  readonly reduceRightWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
+}
+```
+
+Added in v2.0.0
+
+## ~~getFoldableWithIndexComposition~~
+
+**Signature**
+
+```ts
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, E>(
+  F: FoldableWithIndex2<F, FI>,
+  G: FoldableWithIndex2C<G, GI, E>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition22C<F, FI, G, GI, E>
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
+  F: FoldableWithIndex2<F, FI>,
+  G: FoldableWithIndex2<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition22<F, FI, G, GI>
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, E>(
+  F: FoldableWithIndex2C<F, FI, E>,
+  G: FoldableWithIndex1<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition2C1<F, FI, G, GI, E>
+export declare function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
+  F: FoldableWithIndex2<F, FI>,
+  G: FoldableWithIndex1<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition21<F, FI, G, GI>
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
+  F: FoldableWithIndex1<F, FI>,
+  G: FoldableWithIndex2<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition12<F, FI, G, GI>
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
+  F: FoldableWithIndex1<F, FI>,
+  G: FoldableWithIndex2<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition12<F, FI, G, GI>
+export declare function getFoldableWithIndexComposition<F extends URIS, FI, G extends URIS, GI>(
+  F: FoldableWithIndex1<F, FI>,
+  G: FoldableWithIndex1<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition11<F, FI, G, GI>
+export declare function getFoldableWithIndexComposition<F, FI, G, GI>(
+  F: FoldableWithIndex<F, FI>,
+  G: FoldableWithIndex<G, GI>
+  // tslint:disable-next-line: deprecation
+): FoldableWithIndexComposition<F, FI, G, GI>
+```
+
+Added in v2.0.0
