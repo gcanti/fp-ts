@@ -317,45 +317,43 @@ describe('Either', () => {
     assert.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))
   })
 
-  describe('lifting functions', () => {
-    it('fromPredicate', () => {
-      const gt2 = _.fromPredicate(
-        (n: number) => n >= 2,
-        (n) => `Invalid number ${n}`
-      )
-      assert.deepStrictEqual(gt2(3), _.right(3))
-      assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
+  it('fromPredicate', () => {
+    const gt2 = _.fromPredicate(
+      (n: number) => n >= 2,
+      (n) => `Invalid number ${n}`
+    )
+    assert.deepStrictEqual(gt2(3), _.right(3))
+    assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
 
-      // refinements
-      type Color = 'red' | 'blue'
-      const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-      const from = _.fromPredicate(isColor, (s) => `invalid color ${s}`)
-      assert.deepStrictEqual(from('red'), _.right('red'))
-      assert.deepStrictEqual(from('foo'), _.left('invalid color foo'))
-    })
+    // refinements
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+    const from = _.fromPredicate(isColor, (s) => `invalid color ${s}`)
+    assert.deepStrictEqual(from('red'), _.right('red'))
+    assert.deepStrictEqual(from('foo'), _.left('invalid color foo'))
+  })
 
-    it('fromNullable', () => {
-      assert.deepStrictEqual(_.fromNullable('default')(null), _.left('default'))
-      assert.deepStrictEqual(_.fromNullable('default')(undefined), _.left('default'))
-      assert.deepStrictEqual(_.fromNullable('default')(1), _.right(1))
-    })
+  it('fromNullable', () => {
+    assert.deepStrictEqual(_.fromNullable('default')(null), _.left('default'))
+    assert.deepStrictEqual(_.fromNullable('default')(undefined), _.left('default'))
+    assert.deepStrictEqual(_.fromNullable('default')(1), _.right(1))
+  })
 
-    it('tryCatch', () => {
-      assert.deepStrictEqual(
-        _.tryCatch(() => {
-          return 1
-        }, _.toError),
-        _.right(1)
-      )
+  it('tryCatch', () => {
+    assert.deepStrictEqual(
+      _.tryCatch(() => {
+        return 1
+      }, _.toError),
+      _.right(1)
+    )
 
-      assert.deepStrictEqual(
-        _.tryCatch(() => {
-          // tslint:disable-next-line: no-string-throw
-          throw 'string error'
-        }, _.toError),
-        _.left(new Error('string error'))
-      )
-    })
+    assert.deepStrictEqual(
+      _.tryCatch(() => {
+        // tslint:disable-next-line: no-string-throw
+        throw 'string error'
+      }, _.toError),
+      _.left(new Error('string error'))
+    )
   })
 
   describe('getEq', () => {
