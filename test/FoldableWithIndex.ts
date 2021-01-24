@@ -5,6 +5,7 @@ import { monoidString } from '../src/Monoid'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
+    // tslint:disable-next-line: deprecation
     const arrayOfArray = getFoldableWithIndexComposition(A.FoldableWithIndex, A.FoldableWithIndex)
     const fa: ReadonlyArray<ReadonlyArray<string>> = [
       ['a', 'b'],
