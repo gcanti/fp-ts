@@ -698,7 +698,7 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
  */
 export const apS =
   /*#__PURE__*/
-  apS_(Applicative)
+  apS_(Apply)
 
 /**
  * Less strict version of [`apS`](#apS).
@@ -728,7 +728,7 @@ export const tupled =
  */
 export const apT =
   /*#__PURE__*/
-  apT_(Applicative)
+  apT_(Apply)
 
 /**
  * Less strict version of [`apT`](#apT).

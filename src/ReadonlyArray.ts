@@ -1965,7 +1965,7 @@ export const bind =
  */
 export const apS =
   /*#__PURE__*/
-  apS_(Applicative)
+  apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1988,4 +1988,4 @@ export const tupled =
  */
 export const apT =
   /*#__PURE__*/
-  apT_(Applicative)
+  apT_(Apply)

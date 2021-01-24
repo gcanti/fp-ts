@@ -348,7 +348,7 @@ export const bind =
  */
 export const apS =
   /*#__PURE__*/
-  apS_(ApplicativePar)
+  apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -371,7 +371,7 @@ export const tupled =
  */
 export const apT =
   /*#__PURE__*/
-  apT_(ApplicativePar)
+  apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

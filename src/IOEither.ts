@@ -689,7 +689,7 @@ export const tupled =
  */
 export const apT =
   /*#__PURE__*/
-  apT_(ApplicativePar)
+  apT_(ApplyPar)
 
 /**
  * Less strict version of [`apT`](#apT).
