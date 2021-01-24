@@ -3,10 +3,14 @@ import * as A from '../src/ReadonlyArray'
 import { getFilterableComposition } from '../src/Filterable'
 import { some, none } from '../src/Option'
 import { right, left } from '../src/Either'
+import { increment } from '../src/function'
 
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
     const F = getFilterableComposition(A.Functor, A.Filterable)
+
+    assert.deepStrictEqual(F.map([[1]], increment), [[2]])
+
     assert.deepStrictEqual(
       F.filter(
         [
