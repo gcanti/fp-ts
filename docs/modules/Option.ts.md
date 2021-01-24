@@ -59,6 +59,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
   - [fromNullableK](#fromnullablek)
+  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromNullable](#fromnullable)
@@ -480,6 +481,20 @@ const g = fromNullableK(f)
 
 assert.deepStrictEqual(g('1'), some(1))
 assert.deepStrictEqual(g('a'), none)
+```
+
+Added in v3.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `Option`.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0

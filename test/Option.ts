@@ -457,4 +457,16 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(range, _.traverseReadonlyArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
     })
   })
+
+  it('tryCatchK', () => {
+    const f = _.tryCatchK((s: string) => {
+      const len = s.length
+      if (len > 0) {
+        return len
+      }
+      throw new Error('empty string')
+    })
+    U.deepStrictEqual(f('a'), _.some(1))
+    U.deepStrictEqual(f(''), _.none)
+  })
 })

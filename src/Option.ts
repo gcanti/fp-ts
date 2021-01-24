@@ -356,6 +356,17 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
 // -------------------------------------------------------------------------------------
 
 /**
+ * Converts a function that may throw to one returning a `Option`.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) => (...a) =>
+  tryCatch(() => f(...a))
+
+/**
  * Returns a *smart constructor* from a function that returns a nullable value.
  *
  * @example

@@ -171,6 +171,8 @@ export const swap =
 /**
  * Converts a function that may throw to one returning a `IOEither`.
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @category combinators
  * @since 3.0.0
  */

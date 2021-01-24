@@ -472,6 +472,8 @@ Added in v3.0.0
 
 Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
 
+See also [`tryCatchK`](#tryCatchK).
+
 **Signature**
 
 ```ts

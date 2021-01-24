@@ -126,6 +126,8 @@ export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<
 /**
  * Constructs a new `Either` from a function that might throw.
  *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
  * @example
  * import * as E from 'fp-ts/Either'
  *
