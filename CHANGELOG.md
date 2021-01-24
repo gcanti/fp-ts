@@ -22,39 +22,39 @@ high state of flux, you're at risk of it changing without notice.
   - deprecate "mega instances", use small, specific instances instead (@gcanti)
   - `Either`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getValidationMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
   - `Foldable`
     - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
   - `IO`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `fromIO` (@gcanti)
   - `IOEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
   - `Reader`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
   - `ReaderEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
   - `ReaderTask`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `run` (@gcanti)
   - `ReaderTaskEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
     - deprecate `run` (@gcanti)
@@ -62,11 +62,11 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `run` (@gcanti)
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `fromTask` (@gcanti)
   - `TaskEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applyicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
   - `TaskThese`
