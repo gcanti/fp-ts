@@ -49,3 +49,13 @@ export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => a
 export const assertPar = assertParSeq(['b', 'a'])
 
 export const assertSeq = assertParSeq(['a', 'b'])
+
+export const double = (n: number): number => n * 2
+
+export const tuple2 = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
+
+export function add(a: number): (b: number) => number
+export function add(a: string): (b: string) => string
+export function add(a: any): (b: any) => any {
+  return (b) => a + b
+}

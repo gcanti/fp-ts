@@ -4,7 +4,7 @@ import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 
 describe('Tree', () => {
   // -------------------------------------------------------------------------------------
@@ -13,75 +13,73 @@ describe('Tree', () => {
 
   it('traverse', () => {
     const fa = _.make('a', [_.make('b'), _.make('c')])
-    deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))
+    U.deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))
   })
 
   it('sequence', () => {
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.sequence(O.Applicative)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
       O.some(_.make('a', [_.make('b'), _.make('c')]))
     )
   })
 
   it('map', () => {
-    const double = (n: number): number => n * 2
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
-    deepStrictEqual(pipe(fa, _.map(double)), expected)
+    U.deepStrictEqual(pipe(fa, _.map(U.double)), expected)
   })
 
   it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = _.of(double)
+    const fab = _.of(U.double)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
-    deepStrictEqual(pipe(fab, _.ap(fa)), expected)
+    U.deepStrictEqual(pipe(fab, _.ap(fa)), expected)
   })
 
   it('apFirst', () => {
-    deepStrictEqual(pipe(_.make('a'), _.apFirst(_.make('b'))), _.make('a'))
+    U.deepStrictEqual(pipe(_.make('a'), _.apFirst(_.make('b'))), _.make('a'))
   })
 
   it('apSecond', () => {
-    deepStrictEqual(pipe(_.make('a'), _.apSecond(_.make('b'))), _.make('b'))
+    U.deepStrictEqual(pipe(_.make('a'), _.apSecond(_.make('b'))), _.make('b'))
   })
 
   it('chain', () => {
     const f = (n: number) => _.of(n * 2)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
-    deepStrictEqual(pipe(fa, _.chain(f)), expected)
+    U.deepStrictEqual(pipe(fa, _.chain(f)), expected)
   })
 
   it('chainFirst', () => {
     const f = (n: number) => _.of(n * 2)
     const fa = _.make(1, [_.make(2), _.make(3)])
-    deepStrictEqual(pipe(fa, _.chainFirst(f)), fa)
+    U.deepStrictEqual(pipe(fa, _.chainFirst(f)), fa)
   })
 
   it('flatten', () => {
-    deepStrictEqual(pipe(_.make(_.make('a')), _.flatten), _.make('a'))
+    U.deepStrictEqual(pipe(_.make(_.make('a')), _.flatten), _.make('a'))
   })
 
   it('duplicate', () => {
-    deepStrictEqual(pipe(_.make('a'), _.duplicate), _.make(_.make('a')))
+    U.deepStrictEqual(pipe(_.make('a'), _.duplicate), _.make(_.make('a')))
   })
 
   it('extract', () => {
     const fa = _.make(1, [_.make(2), _.make(3)])
-    deepStrictEqual(pipe(fa, _.extract), 1)
+    U.deepStrictEqual(pipe(fa, _.extract), 1)
   })
 
   it('extend', () => {
     const fa = _.make('a', [_.make('foo'), _.make('b')])
     const f = (fa: _.Tree<string>) => fa.value.length + fa.forest.length
     const expected = _.make(3, [_.make(3), _.make(1)])
-    deepStrictEqual(pipe(fa, _.extend(f)), expected)
+    U.deepStrictEqual(pipe(fa, _.extend(f)), expected)
   })
 
   it('reduce', () => {
     const fa = _.make('a', [_.make('b'), _.make('c')])
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         fa,
         _.reduce('', (b, a) => b + a)
@@ -92,13 +90,13 @@ describe('Tree', () => {
 
   it('foldMap', () => {
     const x = _.make('a', [_.make('b'), _.make('c')])
-    deepStrictEqual(pipe(x, _.foldMap(monoidString)(identity)), 'abc')
+    U.deepStrictEqual(pipe(x, _.foldMap(monoidString)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
     const x = _.make('a', [_.make('b'), _.make('c')])
     const f = (a: string, acc: string) => acc + a
-    deepStrictEqual(pipe(x, _.reduceRight('', f)), 'cba')
+    U.deepStrictEqual(pipe(x, _.reduceRight('', f)), 'cba')
   })
 
   // -------------------------------------------------------------------------------------
@@ -108,7 +106,7 @@ describe('Tree', () => {
   it('unfoldTree', () => {
     const fa = _.unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
     const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
-    deepStrictEqual(fa, expected)
+    U.deepStrictEqual(fa, expected)
   })
 
   // -------------------------------------------------------------------------------------
@@ -120,17 +118,17 @@ describe('Tree', () => {
     const x = _.make(1, [_.make(2)])
     const y = _.make(2, [_.make(2)])
     const z = _.make(1, [_.make(1)])
-    deepStrictEqual(S.equals(x)(x), true)
-    deepStrictEqual(S.equals(x)(y), false)
-    deepStrictEqual(S.equals(x)(z), false)
+    U.deepStrictEqual(S.equals(x)(x), true)
+    U.deepStrictEqual(S.equals(x)(y), false)
+    U.deepStrictEqual(S.equals(x)(z), false)
   })
 
   it('getShow', () => {
     const S = _.getShow(showString)
     const t1 = _.make('a')
-    deepStrictEqual(S.show(t1), `make("a")`)
+    U.deepStrictEqual(S.show(t1), `make("a")`)
     const t2 = _.make('a', [_.make('b'), _.make('c')])
-    deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+    U.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
   })
 
   // -------------------------------------------------------------------------------------
@@ -139,7 +137,10 @@ describe('Tree', () => {
 
   it('fold', () => {
     const t = _.make(1, [_.make(2), _.make(3)])
-    deepStrictEqual(_.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t), 3)
+    U.deepStrictEqual(
+      _.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
+      3
+    )
   })
 
   // -------------------------------------------------------------------------------------
@@ -155,17 +156,17 @@ describe('Tree', () => {
       Eq.contramap((user: User) => user.id)
     )
     const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
-    deepStrictEqual(pipe(users, _.elem(S)({ id: 1 })), true)
-    deepStrictEqual(pipe(users, _.elem(S)({ id: 4 })), true)
-    deepStrictEqual(pipe(users, _.elem(S)({ id: 5 })), false)
+    U.deepStrictEqual(pipe(users, _.elem(S)({ id: 1 })), true)
+    U.deepStrictEqual(pipe(users, _.elem(S)({ id: 4 })), true)
+    U.deepStrictEqual(pipe(users, _.elem(S)({ id: 5 })), false)
   })
 
   it('drawTree', () => {
     const tree = _.make('a')
-    deepStrictEqual(_.drawTree(tree), 'a')
+    U.deepStrictEqual(_.drawTree(tree), 'a')
 
     const tree1 = _.make('a', [_.make('b'), _.make('c'), _.make('d', [_.make('e'), _.make('f')]), _.make('g')])
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.drawTree(tree1),
       `a
 ├─ b
@@ -177,7 +178,7 @@ describe('Tree', () => {
     )
 
     const tree2 = _.make('a', [_.make('b', [_.make('c')])])
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.drawTree(tree2),
       `a
 └─ b
@@ -185,7 +186,7 @@ describe('Tree', () => {
     )
 
     const tree3 = _.make('a', [_.make('b', [_.make('c')]), _.make('d', [_.make('e')])])
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.drawTree(tree3),
       `a
 ├─ b
@@ -195,7 +196,7 @@ describe('Tree', () => {
     )
 
     const tree4 = _.make('a', [_.make('b', [_.make('c', [_.make('d')]), _.make('e', [_.make('f')])]), _.make('e')])
-    deepStrictEqual(
+    U.deepStrictEqual(
       _.drawTree(tree4),
       `a
 ├─ b
@@ -208,7 +209,7 @@ describe('Tree', () => {
   })
 
   it('do notation', () => {
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         _.of(1),
         _.bindTo('a'),
@@ -219,10 +220,10 @@ describe('Tree', () => {
   })
 
   it('apS', () => {
-    deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
   })
 
   it('apT', () => {
-    deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), _.make([1, 'b'] as const))
+    U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), _.make([1, 'b'] as const))
   })
 })

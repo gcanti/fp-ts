@@ -5,7 +5,7 @@ import * as O from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as _ from '../src/These'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 
 describe('These', () => {
   // -------------------------------------------------------------------------------------
@@ -13,43 +13,41 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', () => {
-    const double = (n: number) => n * 2
-    deepStrictEqual(pipe(_.left(2), _.map(double)), _.left(2))
-    deepStrictEqual(pipe(_.right(2), _.map(double)), _.right(4))
-    deepStrictEqual(pipe(_.both(1, 2), _.map(double)), _.both(1, 4))
+    U.deepStrictEqual(pipe(_.left(2), _.map(U.double)), _.left(2))
+    U.deepStrictEqual(pipe(_.right(2), _.map(U.double)), _.right(4))
+    U.deepStrictEqual(pipe(_.both(1, 2), _.map(U.double)), _.both(1, 4))
   })
 
   it('bimap', () => {
     const len = (s: string): number => s.length
-    const double = (n: number): number => n * 2
-    deepStrictEqual(pipe(_.left('a'), _.bimap(len, double)), _.left(1))
-    deepStrictEqual(pipe(_.right(2), _.bimap(len, double)), _.right(4))
-    deepStrictEqual(pipe(_.both('foo', 1), _.bimap(len, double)), _.both(3, 2))
+    U.deepStrictEqual(pipe(_.left('a'), _.bimap(len, U.double)), _.left(1))
+    U.deepStrictEqual(pipe(_.right(2), _.bimap(len, U.double)), _.right(4))
+    U.deepStrictEqual(pipe(_.both('foo', 1), _.bimap(len, U.double)), _.both(3, 2))
   })
 
   it('mapLeft', () => {
     const len = (s: string): number => s.length
-    deepStrictEqual(pipe(_.left('a'), _.mapLeft(len)), _.left(1))
-    deepStrictEqual(pipe(_.right(2), _.mapLeft(len)), _.right(2))
-    deepStrictEqual(pipe(_.both('foo', 1), _.mapLeft(len)), _.both(3, 1))
+    U.deepStrictEqual(pipe(_.left('a'), _.mapLeft(len)), _.left(1))
+    U.deepStrictEqual(pipe(_.right(2), _.mapLeft(len)), _.right(2))
+    U.deepStrictEqual(pipe(_.both('foo', 1), _.mapLeft(len)), _.both(3, 1))
   })
 
   it('reduce', () => {
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         _.left('b'),
         _.reduce('a', (b, a) => b + a)
       ),
       'a'
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         _.right('b'),
         _.reduce('a', (b, a) => b + a)
       ),
       'ab'
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         _.both(1, 'b'),
         _.reduce('a', (b, a) => b + a)
@@ -59,25 +57,25 @@ describe('These', () => {
   })
 
   it('foldMap', () => {
-    deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
-    deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
-    deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(monoidString)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
+    U.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(monoidString)(identity)), 'a')
   })
 
   it('reduceRight', () => {
     const f = (a: string, acc: string) => acc + a
-    deepStrictEqual(pipe(_.right('a'), _.reduceRight('', f)), 'a')
-    deepStrictEqual(pipe(_.left(1), _.reduceRight('', f)), '')
-    deepStrictEqual(pipe(_.both(1, 'a'), _.reduceRight('', f)), 'a')
+    U.deepStrictEqual(pipe(_.right('a'), _.reduceRight('', f)), 'a')
+    U.deepStrictEqual(pipe(_.left(1), _.reduceRight('', f)), '')
+    U.deepStrictEqual(pipe(_.both(1, 'a'), _.reduceRight('', f)), 'a')
   })
 
   it('traverse', () => {
     const traverse = _.traverse(O.Applicative)((n: number) => (n > 1 ? O.some(n) : O.none))
-    deepStrictEqual(pipe(_.left('a'), traverse), O.some(_.left('a')))
-    deepStrictEqual(pipe(_.right(2), traverse), O.some(_.right(2)))
-    deepStrictEqual(pipe(_.right(1), traverse), O.none)
-    deepStrictEqual(pipe(_.both('a', 2), traverse), O.some(_.both('a', 2)))
-    deepStrictEqual(
+    U.deepStrictEqual(pipe(_.left('a'), traverse), O.some(_.left('a')))
+    U.deepStrictEqual(pipe(_.right(2), traverse), O.some(_.right(2)))
+    U.deepStrictEqual(pipe(_.right(1), traverse), O.none)
+    U.deepStrictEqual(pipe(_.both('a', 2), traverse), O.some(_.both('a', 2)))
+    U.deepStrictEqual(
       pipe(
         _.both('a', 1),
         _.traverse(O.Applicative)((n) => (n >= 2 ? O.some(n) : O.none))
@@ -88,11 +86,11 @@ describe('These', () => {
 
   it('sequence', () => {
     const sequence = _.sequence(O.Applicative)
-    deepStrictEqual(sequence(_.left('a')), O.some(_.left('a')))
-    deepStrictEqual(sequence(_.right(O.some(1))), O.some(_.right(1)))
-    deepStrictEqual(sequence(_.right(O.none)), O.none)
-    deepStrictEqual(sequence(_.both('a', O.some(1))), O.some(_.both('a', 1)))
-    deepStrictEqual(sequence(_.both('a', O.none)), O.none)
+    U.deepStrictEqual(sequence(_.left('a')), O.some(_.left('a')))
+    U.deepStrictEqual(sequence(_.right(O.some(1))), O.some(_.right(1)))
+    U.deepStrictEqual(sequence(_.right(O.none)), O.none)
+    U.deepStrictEqual(sequence(_.both('a', O.some(1))), O.some(_.both('a', 1)))
+    U.deepStrictEqual(sequence(_.both('a', O.none)), O.none)
   })
 
   // -------------------------------------------------------------------------------------
@@ -108,62 +106,62 @@ describe('These', () => {
         A.ap(fb)
       )
 
-    deepStrictEqual(f(_.right(1), _.right(2)), _.right([1, 2] as const))
-    deepStrictEqual(f(_.right(1), _.left('b')), _.left('b'))
-    deepStrictEqual(f(_.right(1), _.both('b', 2)), _.both('b', [1, 2] as const))
-    deepStrictEqual(f(_.left('a'), _.right(2)), _.left('a'))
-    deepStrictEqual(f(_.left('a'), _.left('b')), _.left('ab'))
-    deepStrictEqual(f(_.left('a'), _.both('b', 2)), _.left('ab'))
-    deepStrictEqual(f(_.both('a', 1), _.right(2)), _.both('a', [1, 2] as const))
-    deepStrictEqual(f(_.both('a', 1), _.left('b')), _.left('ab'))
-    deepStrictEqual(f(_.both('a', 1), _.both('b', 2)), _.both('ab', [1, 2] as const))
+    U.deepStrictEqual(f(_.right(1), _.right(2)), _.right([1, 2] as const))
+    U.deepStrictEqual(f(_.right(1), _.left('b')), _.left('b'))
+    U.deepStrictEqual(f(_.right(1), _.both('b', 2)), _.both('b', [1, 2] as const))
+    U.deepStrictEqual(f(_.left('a'), _.right(2)), _.left('a'))
+    U.deepStrictEqual(f(_.left('a'), _.left('b')), _.left('ab'))
+    U.deepStrictEqual(f(_.left('a'), _.both('b', 2)), _.left('ab'))
+    U.deepStrictEqual(f(_.both('a', 1), _.right(2)), _.both('a', [1, 2] as const))
+    U.deepStrictEqual(f(_.both('a', 1), _.left('b')), _.left('ab'))
+    U.deepStrictEqual(f(_.both('a', 1), _.both('b', 2)), _.both('ab', [1, 2] as const))
   })
 
   it('getMonad', () => {
     const M = _.getMonad(monoidString)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
-    deepStrictEqual(pipe(_.left('foo'), M.chain(f)), _.left('foo'))
-    deepStrictEqual(pipe(_.right(2), M.chain(f)), _.right(4))
-    deepStrictEqual(pipe(_.right(1), M.chain(f)), _.left('bar'))
-    deepStrictEqual(pipe(_.right(6), M.chain(f)), _.both('bar', 6))
-    deepStrictEqual(pipe(_.both('foo', 2), M.chain(f)), _.both('foo', 4))
-    deepStrictEqual(pipe(_.both('foo', 1), M.chain(f)), _.left('foobar'))
-    deepStrictEqual(pipe(_.both('foo', 6), M.chain(f)), _.both('foobar', 6))
+    U.deepStrictEqual(pipe(_.left('foo'), M.chain(f)), _.left('foo'))
+    U.deepStrictEqual(pipe(_.right(2), M.chain(f)), _.right(4))
+    U.deepStrictEqual(pipe(_.right(1), M.chain(f)), _.left('bar'))
+    U.deepStrictEqual(pipe(_.right(6), M.chain(f)), _.both('bar', 6))
+    U.deepStrictEqual(pipe(_.both('foo', 2), M.chain(f)), _.both('foo', 4))
+    U.deepStrictEqual(pipe(_.both('foo', 1), M.chain(f)), _.left('foobar'))
+    U.deepStrictEqual(pipe(_.both('foo', 6), M.chain(f)), _.both('foobar', 6))
   })
 
   it('getEq', () => {
     const { equals } = _.getEq(eqNumber, eqNumber)
-    deepStrictEqual(equals(_.left(2))(_.left(2)), true)
-    deepStrictEqual(equals(_.left(2))(_.left(3)), false)
-    deepStrictEqual(equals(_.left(3))(_.left(2)), false)
-    deepStrictEqual(equals(_.left(2))(_.right(2)), false)
-    deepStrictEqual(equals(_.left(2))(_.both(2, 2)), false)
-    deepStrictEqual(equals(_.right(2))(_.right(2)), true)
-    deepStrictEqual(equals(_.right(2))(_.right(3)), false)
-    deepStrictEqual(equals(_.right(3))(_.right(2)), false)
-    deepStrictEqual(equals(_.right(2))(_.both(2, 2)), false)
-    deepStrictEqual(equals(_.both(2, 2))(_.both(2, 2)), true)
-    deepStrictEqual(equals(_.both(2, 3))(_.both(3, 2)), false)
+    U.deepStrictEqual(equals(_.left(2))(_.left(2)), true)
+    U.deepStrictEqual(equals(_.left(2))(_.left(3)), false)
+    U.deepStrictEqual(equals(_.left(3))(_.left(2)), false)
+    U.deepStrictEqual(equals(_.left(2))(_.right(2)), false)
+    U.deepStrictEqual(equals(_.left(2))(_.both(2, 2)), false)
+    U.deepStrictEqual(equals(_.right(2))(_.right(2)), true)
+    U.deepStrictEqual(equals(_.right(2))(_.right(3)), false)
+    U.deepStrictEqual(equals(_.right(3))(_.right(2)), false)
+    U.deepStrictEqual(equals(_.right(2))(_.both(2, 2)), false)
+    U.deepStrictEqual(equals(_.both(2, 2))(_.both(2, 2)), true)
+    U.deepStrictEqual(equals(_.both(2, 3))(_.both(3, 2)), false)
   })
 
   it('getSemigroup', () => {
     const S = _.getSemigroup(monoidString, monoidSum)
-    deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('ab'))
-    deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.both('a', 2))
-    deepStrictEqual(pipe(_.right(2), S.concat(_.left('a'))), _.both('a', 2))
-    deepStrictEqual(pipe(_.left('a'), S.concat(_.both('b', 2))), _.both('ab', 2))
-    deepStrictEqual(pipe(_.both('b', 2), S.concat(_.left('a'))), _.both('ba', 2))
-    deepStrictEqual(pipe(_.right(3), S.concat(_.right(2))), _.right(5))
-    deepStrictEqual(pipe(_.right(3), S.concat(_.both('b', 2))), _.both('b', 5))
-    deepStrictEqual(pipe(_.both('b', 2), S.concat(_.right(3))), _.both('b', 5))
-    deepStrictEqual(pipe(_.both('a', 3), S.concat(_.both('b', 2))), _.both('ab', 5))
+    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('ab'))
+    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.right(2), S.concat(_.left('a'))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.both('b', 2))), _.both('ab', 2))
+    U.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.left('a'))), _.both('ba', 2))
+    U.deepStrictEqual(pipe(_.right(3), S.concat(_.right(2))), _.right(5))
+    U.deepStrictEqual(pipe(_.right(3), S.concat(_.both('b', 2))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.right(3))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('a', 3), S.concat(_.both('b', 2))), _.both('ab', 5))
   })
 
   it('getShow', () => {
     const S = _.getShow(showString, showString)
-    deepStrictEqual(S.show(_.left('a')), `left("a")`)
-    deepStrictEqual(S.show(_.right('a')), `right("a")`)
-    deepStrictEqual(S.show(_.both('a', 'b')), `both("a", "b")`)
+    U.deepStrictEqual(S.show(_.left('a')), `left("a")`)
+    U.deepStrictEqual(S.show(_.right('a')), `right("a")`)
+    U.deepStrictEqual(S.show(_.both('a', 'b')), `both("a", "b")`)
   })
 
   // -------------------------------------------------------------------------------------
@@ -171,20 +169,20 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('leftOrBoth', () => {
-    deepStrictEqual(_.leftOrBoth(() => 'a')(O.none), _.left('a'))
-    deepStrictEqual(_.leftOrBoth(() => 'a')(O.some(1)), _.both('a', 1))
+    U.deepStrictEqual(_.leftOrBoth(() => 'a')(O.none), _.left('a'))
+    U.deepStrictEqual(_.leftOrBoth(() => 'a')(O.some(1)), _.both('a', 1))
   })
 
   it('rightOrBoth', () => {
-    deepStrictEqual(_.rightOrBoth(() => 1)(O.none), _.right(1))
-    deepStrictEqual(_.rightOrBoth(() => 1)(O.some('a')), _.both('a', 1))
+    U.deepStrictEqual(_.rightOrBoth(() => 1)(O.none), _.right(1))
+    U.deepStrictEqual(_.rightOrBoth(() => 1)(O.some('a')), _.both('a', 1))
   })
 
   it('fromOptions', () => {
-    deepStrictEqual(_.fromOptions(O.none, O.none), O.none)
-    deepStrictEqual(_.fromOptions(O.some('a'), O.none), O.some(_.left('a')))
-    deepStrictEqual(_.fromOptions(O.none, O.some(1)), O.some(_.right(1)))
-    deepStrictEqual(_.fromOptions(O.some('a'), O.some(1)), O.some(_.both('a', 1)))
+    U.deepStrictEqual(_.fromOptions(O.none, O.none), O.none)
+    U.deepStrictEqual(_.fromOptions(O.some('a'), O.none), O.some(_.left('a')))
+    U.deepStrictEqual(_.fromOptions(O.none, O.some(1)), O.some(_.right(1)))
+    U.deepStrictEqual(_.fromOptions(O.some('a'), O.some(1)), O.some(_.both('a', 1)))
   })
 
   // -------------------------------------------------------------------------------------
@@ -192,13 +190,12 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('fold', () => {
-    const double = (n: number) => n * 2
     const len = (s: string) => s.length
-    const f = (s: string, n: number) => len(s) + double(n)
-    const fold = _.fold(len, double, f)
-    deepStrictEqual(fold(_.left('foo')), 3)
-    deepStrictEqual(fold(_.right(1)), 2)
-    deepStrictEqual(fold(_.both('foo', 1)), 5)
+    const f = (s: string, n: number) => len(s) + U.double(n)
+    const fold = _.fold(len, U.double, f)
+    U.deepStrictEqual(fold(_.left('foo')), 3)
+    U.deepStrictEqual(fold(_.right(1)), 2)
+    U.deepStrictEqual(fold(_.both('foo', 1)), 5)
   })
 
   // -------------------------------------------------------------------------------------
@@ -210,33 +207,33 @@ describe('These', () => {
       () => 'a',
       () => 1
     )
-    deepStrictEqual(pipe(_.left('b'), f), ['b', 1])
-    deepStrictEqual(pipe(_.right(2), f), ['a', 2])
-    deepStrictEqual(pipe(_.both('b', 2), f), ['b', 2])
+    U.deepStrictEqual(pipe(_.left('b'), f), ['b', 1])
+    U.deepStrictEqual(pipe(_.right(2), f), ['a', 2])
+    U.deepStrictEqual(pipe(_.both('b', 2), f), ['b', 2])
   })
 
   it('getLeft', () => {
-    deepStrictEqual(_.getLeft(_.left('a')), O.some('a'))
-    deepStrictEqual(_.getLeft(_.right(1)), O.none)
-    deepStrictEqual(_.getLeft(_.both('a', 1)), O.some('a'))
+    U.deepStrictEqual(_.getLeft(_.left('a')), O.some('a'))
+    U.deepStrictEqual(_.getLeft(_.right(1)), O.none)
+    U.deepStrictEqual(_.getLeft(_.both('a', 1)), O.some('a'))
   })
 
   it('getRight', () => {
-    deepStrictEqual(_.getRight(_.left('a')), O.none)
-    deepStrictEqual(_.getRight(_.right(1)), O.some(1))
-    deepStrictEqual(_.getRight(_.both('a', 1)), O.some(1))
+    U.deepStrictEqual(_.getRight(_.left('a')), O.none)
+    U.deepStrictEqual(_.getRight(_.right(1)), O.some(1))
+    U.deepStrictEqual(_.getRight(_.both('a', 1)), O.some(1))
   })
 
   it('getLeftOnly', () => {
-    deepStrictEqual(_.getLeftOnly(_.left('a')), O.some('a'))
-    deepStrictEqual(_.getLeftOnly(_.right(1)), O.none)
-    deepStrictEqual(_.getLeftOnly(_.both('a', 1)), O.none)
+    U.deepStrictEqual(_.getLeftOnly(_.left('a')), O.some('a'))
+    U.deepStrictEqual(_.getLeftOnly(_.right(1)), O.none)
+    U.deepStrictEqual(_.getLeftOnly(_.both('a', 1)), O.none)
   })
 
   it('getRightOnly', () => {
-    deepStrictEqual(_.getRightOnly(_.left('a')), O.none)
-    deepStrictEqual(_.getRightOnly(_.right(1)), O.some(1))
-    deepStrictEqual(_.getRightOnly(_.both('a', 1)), O.none)
+    U.deepStrictEqual(_.getRightOnly(_.left('a')), O.none)
+    U.deepStrictEqual(_.getRightOnly(_.right(1)), O.some(1))
+    U.deepStrictEqual(_.getRightOnly(_.both('a', 1)), O.none)
   })
 
   // -------------------------------------------------------------------------------------
@@ -244,21 +241,21 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('isLeft', () => {
-    deepStrictEqual(_.isLeft(_.left(1)), true)
-    deepStrictEqual(_.isLeft(_.right(1)), false)
-    deepStrictEqual(_.isLeft(_.both('1', 1)), false)
+    U.deepStrictEqual(_.isLeft(_.left(1)), true)
+    U.deepStrictEqual(_.isLeft(_.right(1)), false)
+    U.deepStrictEqual(_.isLeft(_.both('1', 1)), false)
   })
 
   it('isRight', () => {
-    deepStrictEqual(_.isRight(_.left(1)), false)
-    deepStrictEqual(_.isRight(_.right(1)), true)
-    deepStrictEqual(_.isRight(_.both('1', 1)), false)
+    U.deepStrictEqual(_.isRight(_.left(1)), false)
+    U.deepStrictEqual(_.isRight(_.right(1)), true)
+    U.deepStrictEqual(_.isRight(_.both('1', 1)), false)
   })
 
   it('isBoth', () => {
-    deepStrictEqual(_.isBoth(_.left(1)), false)
-    deepStrictEqual(_.isBoth(_.right(1)), false)
-    deepStrictEqual(_.isBoth(_.both('1', 1)), true)
+    U.deepStrictEqual(_.isBoth(_.left(1)), false)
+    U.deepStrictEqual(_.isBoth(_.right(1)), false)
+    U.deepStrictEqual(_.isBoth(_.both('1', 1)), true)
   })
 
   // -------------------------------------------------------------------------------------
@@ -266,8 +263,8 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', () => {
-    deepStrictEqual(_.swap(_.left('a')), _.right('a'))
-    deepStrictEqual(_.swap(_.right('a')), _.left('a'))
-    deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
+    U.deepStrictEqual(_.swap(_.left('a')), _.right('a'))
+    U.deepStrictEqual(_.swap(_.right('a')), _.left('a'))
+    U.deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
   })
 })

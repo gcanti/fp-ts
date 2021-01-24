@@ -1,7 +1,7 @@
 import { pipe, tuple } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as _ from '../src/Writer'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 
 describe('Writer', () => {
   // -------------------------------------------------------------------------------------
@@ -9,9 +9,8 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', () => {
-    const double = (n: number): number => n * 2
     const x: _.Writer<string, number> = () => [1, 'a']
-    deepStrictEqual(pipe(x, _.map(double))(), [2, 'a'])
+    U.deepStrictEqual(pipe(x, _.map(U.double))(), [2, 'a'])
   })
 
   // -------------------------------------------------------------------------------------
@@ -19,7 +18,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('tell', () => {
-    deepStrictEqual(_.tell(1)(), [undefined, 1])
+    U.deepStrictEqual(_.tell(1)(), [undefined, 1])
   })
 
   // -------------------------------------------------------------------------------------
@@ -27,16 +26,16 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('listen', () => {
-    deepStrictEqual(_.listen(() => [1, 'a'])(), [[1, 'a'], 'a'])
+    U.deepStrictEqual(_.listen(() => [1, 'a'])(), [[1, 'a'], 'a'])
   })
 
   it('pass', () => {
-    deepStrictEqual(_.pass(() => [tuple(1, (w: string) => w + 'b'), 'a'])(), [1, 'ab'])
+    U.deepStrictEqual(_.pass(() => [tuple(1, (w: string) => w + 'b'), 'a'])(), [1, 'ab'])
   })
 
   it('listens', () => {
     const fa: _.Writer<string, number> = () => [1, 'a']
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         fa,
         _.listens((w) => w.length)
@@ -47,7 +46,7 @@ describe('Writer', () => {
 
   it('censor', () => {
     const fa: _.Writer<ReadonlyArray<string>, number> = () => [1, ['a', 'b']]
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         fa,
         _.censor((w) => w.filter((a) => a !== 'a'))
@@ -63,21 +62,21 @@ describe('Writer', () => {
   it('getApplicative', () => {
     const M = _.getApplicative(monoidString)
 
-    deepStrictEqual(M.of(1)(), [1, ''])
+    U.deepStrictEqual(M.of(1)(), [1, ''])
 
     const fab: _.Writer<string, (n: number) => number> = () => [(n: number) => n * 2, 'a']
     const fa: _.Writer<string, number> = () => [1, 'b']
-    deepStrictEqual(pipe(fab, M.ap(fa))(), [2, 'ab'])
+    U.deepStrictEqual(pipe(fab, M.ap(fa))(), [2, 'ab'])
   })
 
   it('getMonad', () => {
     const M = _.getMonad(monoidString)
 
-    deepStrictEqual(M.of(1)(), [1, ''])
+    U.deepStrictEqual(M.of(1)(), [1, ''])
 
     const fa: _.Writer<string, number> = () => [1, 'a']
     const f = (n: number): _.Writer<string, number> => () => [n * 2, 'b']
-    deepStrictEqual(pipe(fa, M.chain(f))(), [2, 'ab'])
+    U.deepStrictEqual(pipe(fa, M.chain(f))(), [2, 'ab'])
   })
 
   // -------------------------------------------------------------------------------------
@@ -85,10 +84,10 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('evaluate', () => {
-    deepStrictEqual(pipe((() => [1, 'a']) as _.Writer<string, number>, _.evaluate), 1)
+    U.deepStrictEqual(pipe((() => [1, 'a']) as _.Writer<string, number>, _.evaluate), 1)
   })
 
   it('execute', () => {
-    deepStrictEqual(pipe((() => [1, 'a']) as _.Writer<string, number>, _.execute), 'a')
+    U.deepStrictEqual(pipe((() => [1, 'a']) as _.Writer<string, number>, _.execute), 'a')
   })
 })
