@@ -108,17 +108,11 @@ high state of flux, you're at risk of it changing without notice.
     - make `leq` pipeable (@gcanti)
     - make `geq` pipeable (@gcanti)
   - `ReaderEither`
-    - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-  - `ReaderTask`
-    - remove `local`, use `Reader`'s `local` instead (@gcanti)
-    - remove `run` (@gcanti)
   - `ReaderTaskEither`
-    - remove `local`, use `Reader`'s `local` instead (@gcanti)
     - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
       (@gcanti)
-    - remove `run` (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `ReadonlyArray`
     - make `lookup` pipeable (@gcanti)
