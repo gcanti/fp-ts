@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { Endomorphism } from './function'
+import { Endomorphism, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
@@ -353,18 +353,24 @@ export function getStateM<M>(M: Monad<M>): StateM<M>
 /** @deprecated */
 /* istanbul ignore next */
 export function getStateM<M>(M: Monad<M>): StateM<M> {
+  const _ap = ap(M)
+  const _map = map(M)
+  const _chain = chain(M)
+  const _evaluate = evaluate(M)
+  const _execute = execute(M)
+
   return {
-    map: (fa, f) => (s) => M.map(fa(s), ([a, s1]) => [f(a), s1]),
-    of: (a) => (s) => M.of([a, s]),
-    ap: (fab, fa) => (s) => M.chain(fab(s), ([f, s]) => M.map(fa(s), ([a, s]) => [f(a), s])),
-    chain: (fa, f) => (s) => M.chain(fa(s), ([a, s1]) => f(a)(s1)),
-    get: () => (s) => M.of([s, s]),
-    put: (s) => () => M.of([undefined, s]),
-    modify: (f) => (s) => M.of([undefined, f(s)]),
-    gets: (f) => (s) => M.of([f(s), s]),
-    fromState: (sa) => (s) => M.of(sa(s)),
-    fromM: (ma) => (s) => M.map(ma, (a) => [a, s]),
-    evalState: (ma, s) => M.map(ma(s), ([a]) => a),
-    execState: (ma, s) => M.map(ma(s), ([_, s]) => s)
+    map: (fa, f) => pipe(fa, _map(f)),
+    ap: (fab, fa) => pipe(fab, _ap(fa)),
+    of: of(M),
+    chain: (ma, f) => pipe(ma, _chain(f)),
+    get: get(M),
+    put: put(M),
+    modify: modify(M),
+    gets: gets(M),
+    fromState: fromState(M),
+    fromM: fromF(M),
+    evalState: (fa, s) => pipe(fa, _evaluate(s)),
+    execState: (fa, s) => pipe(fa, _execute(s))
   }
 }
