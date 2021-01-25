@@ -2,7 +2,7 @@
  * @since 2.4.0
  */
 import { Apply, Apply1, Apply2, ap as ap_ } from './Apply'
-import { flow, Lazy } from './function'
+import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
@@ -376,55 +376,47 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M>
 /** @deprecated */
 /* istanbul ignore next */
 export function getTheseM<M>(M: Monad<M>): TheseM<M> {
-  function mapT<E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> {
-    return M.map(fa, T.map(f))
-  }
+  const _map = map(M)
+  const _bimap = bimap(M)
+  const _mapLeft = mapLeft(M)
+  const _fold = fold(M)
+  const _toReadonlyTuple2: <E, A>(
+    e: Lazy<E>,
+    a: Lazy<A>
+    // tslint:disable-next-line: readonly-array
+  ) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toReadonlyTuple2(M) as any
+  const of = right(M)
 
-  function of<E, A>(a: A): TheseT<M, E, A> {
-    return M.of(T.right(a))
-  }
-
-  function leftT<E = never, A = never>(e: E): TheseT<M, E, A> {
-    return M.of(T.left(e))
-  }
+  const mapT = <E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> => pipe(fa, _map(f))
 
   return {
     map: mapT,
-    bimap: (fa, f, g) => M.map(fa, T.bimap(f, g)),
-    mapLeft: (fa, f) => M.map(fa, T.mapLeft(f)),
-    fold: (fa, onLeft, onRight, onBoth) => M.chain(fa, T.fold(onLeft, onRight, onBoth)),
-    swap: (fa) => M.map(fa, T.swap),
-    rightM: (ma) => M.map(ma, T.right),
-    leftM: (me) => M.map(me, T.left),
-    left: leftT,
-    right: of,
-    both: (e, a) => M.of(T.both(e, a)),
-    // tslint:disable-next-line: deprecation
-    toTuple: (fa, e, a) => M.map(fa, T.toTuple(e, a)),
-    getMonad: <E>(E: Semigroup<E>) => {
-      function chain<A, B>(fa: TheseT<M, E, A>, f: (a: A) => TheseT<M, E, B>): TheseT<M, E, B> {
-        return M.chain(
-          fa,
-          T.fold(leftT, f, (e1, a) =>
-            M.map(
-              f(a),
-              T.fold(
-                (e2) => T.left(E.concat(e1, e2)),
-                (b) => T.both(e1, b),
-                (e2, b) => T.both(E.concat(e1, e2), b)
-              )
-            )
-          )
+    bimap: (fea, f, g) => pipe(fea, _bimap(f, g)),
+    mapLeft: (fea, f) => pipe(fea, _mapLeft(f)),
+    fold: (fa, onLeft, onRight, onBoth) => pipe(fa, _fold(onLeft, onRight, onBoth)),
+    swap: swap(M),
+    rightM: rightF(M),
+    leftM: leftF(M),
+    left: left(M),
+    right: right(M),
+    both: both(M),
+    toTuple: (fa, e, a) =>
+      pipe(
+        fa,
+        _toReadonlyTuple2(
+          () => e,
+          () => a
         )
-      }
-
+      ),
+    getMonad: (S) => {
+      const _ap = ap(M, S)
+      const _chain = chain(M, S)
       return {
         _E: undefined as any,
         map: mapT,
         of,
-        ap: <A, B>(mab: TheseT<M, E, (a: A) => B>, ma: TheseT<M, E, A>): TheseT<M, E, B> =>
-          chain(mab, (f) => mapT(ma, f)),
-        chain
+        ap: (fab, fa) => pipe(fab, _ap(fa)),
+        chain: (ma, f) => pipe(ma, _chain(f))
       }
     }
   }

@@ -388,33 +388,30 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M>
 /** @deprecated  */
 /* istanbul ignore next */
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
-  const ap = <E, A>(fga: HKT<M, E.Either<E, A>>) => <B>(
-    fgab: HKT<M, E.Either<E, (a: A) => B>>
-  ): HKT<M, E.Either<E, B>> =>
-    M.ap(
-      M.map(fgab, (h) => (ga: E.Either<E, A>) => pipe(h, E.ap(ga))),
-      fga
-    )
-  const of = flow(E.right, M.of)
+  const _ap = ap(M)
+  const _map = map(M)
+  const _chain = chain(M)
+  const _alt = alt(M)
+  const _bimap = bimap(M)
+  const _mapLeft = mapLeft(M)
+  const _fold = fold(M)
+  const _getOrElse = getOrElse(M)
+  const _orElse = orElse(M)
 
   return {
-    map: (fa, f) => M.map(fa, E.map(f)),
-    ap: (fab, fa) => pipe(fab, ap(fa)),
-    of,
-    chain: (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(E.left(e.left)) : f(e.right))),
-    alt: (fa, that) => M.chain(fa, (e) => (E.isLeft(e) ? that() : of(e.right))),
-    bimap: (ma, f, g) => M.map(ma, (e) => pipe(e, E.bimap(f, g))),
-    mapLeft: (ma, f) => M.map(ma, (e) => pipe(e, E.mapLeft(f))),
-    fold: (ma, onLeft, onRight) => M.chain(ma, E.fold(onLeft, onRight)),
-    getOrElse: (ma, onLeft) => M.chain(ma, E.fold(onLeft, M.of)),
-    orElse: (ma, f) =>
-      M.chain(
-        ma,
-        E.fold(f, (a) => of(a))
-      ),
-    swap: (ma) => M.map(ma, E.swap),
-    rightM: (ma) => M.map(ma, E.right),
-    leftM: (ml) => M.map(ml, E.left),
-    left: (e) => M.of(E.left(e))
+    map: (fa, f) => pipe(fa, _map(f)),
+    ap: (fab, fa) => pipe(fab, _ap(fa)),
+    of: right(M),
+    chain: (ma, f) => pipe(ma, _chain(f)),
+    alt: (fa, that) => pipe(fa, _alt(that)),
+    bimap: (fea, f, g) => pipe(fea, _bimap(f, g)),
+    mapLeft: (fea, f) => pipe(fea, _mapLeft(f)),
+    fold: (fa, onLeft, onRight) => pipe(fa, _fold(onLeft, onRight)),
+    getOrElse: (fa, onLeft) => pipe(fa, _getOrElse(onLeft)),
+    orElse: (fa, f) => pipe(fa, _orElse(f)),
+    swap: swap(M),
+    rightM: rightF(M),
+    leftM: leftF(M),
+    left: left(M)
   }
 }

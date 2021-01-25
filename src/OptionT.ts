@@ -5,12 +5,11 @@ import {
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
-  ApplicativeCompositionHKT1,
-  getApplicativeComposition
+  ApplicativeCompositionHKT1
 } from './Applicative'
-import { Apply, Apply1, ap as ap_ } from './Apply'
+import { ap as ap_, Apply, Apply1 } from './Apply'
 import { Either } from './Either'
-import { flow, Lazy, Predicate, Refinement } from './function'
+import { flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor, Functor1, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
@@ -288,26 +287,23 @@ export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 /** @deprecated */
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  const A = getApplicativeComposition(M, O.Applicative)
-  const none = M.of(O.none)
+  const _ap = ap(M)
+  const _map = map(M)
+  const _chain = chain(M)
+  const _alt = alt(M)
+  const _fold = fold(M)
+  const _getOrElse = getOrElse(M)
+  const _none = none(M)
 
   return {
-    map: A.map,
-    ap: A.ap,
-    of: A.of,
-    chain: (ma, f) =>
-      M.chain(
-        ma,
-        O.fold(() => none, f)
-      ),
-    alt: (fa, that) =>
-      M.chain(
-        fa,
-        O.fold(that, (a) => M.of(O.some(a)))
-      ),
-    fold: (ma, onNone, onSome) => M.chain(ma, O.fold(onNone, onSome)),
-    getOrElse: (ma, onNone) => M.chain(ma, O.fold(onNone, M.of)),
-    fromM: (ma) => M.map(ma, O.some),
-    none: () => none
+    map: (fa, f) => pipe(fa, _map(f)),
+    ap: (fab, fa) => pipe(fab, _ap(fa)),
+    of: some(M),
+    chain: (ma, f) => pipe(ma, _chain(f)),
+    alt: (fa, that) => pipe(fa, _alt(that)),
+    fold: (fa, onNone, onSome) => pipe(fa, _fold(onNone, onSome)),
+    getOrElse: (fa, onNone) => pipe(fa, _getOrElse(onNone)),
+    fromM: fromF(M),
+    none: () => _none
   }
 }

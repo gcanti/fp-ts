@@ -219,7 +219,7 @@ describe('IOEither', () => {
       _.fold(
         () => I.of('left'),
         () => I.of('right')
-      )(_.left(1))(),
+      )(_.left('a'))(),
       'left'
     )
   })
