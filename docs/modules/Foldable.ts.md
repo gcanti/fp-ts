@@ -221,30 +221,35 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 **Signature**
 
 ```ts
-export declare function reduceM<M extends URIS3, F extends URIS>(
-  M: Monad3<M>,
+export declare function reduceM<F extends URIS>(
   F: Foldable1<F>
-): <B, A, R, E>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
-export declare function reduceM<M extends URIS3, F extends URIS, E>(
-  M: Monad3C<M, E>,
-  F: Foldable1<F>
-): <B, A, R>(b: B, f: (b: B, a: A) => Kind3<M, R, E, B>) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
-export declare function reduceM<M extends URIS2, F extends URIS>(
-  M: Monad2<M>,
-  F: Foldable1<F>
-): <B, A, E>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
-export declare function reduceM<M extends URIS2, F extends URIS, E>(
-  M: Monad2C<M, E>,
-  F: Foldable1<F>
-): <B, A>(b: B, f: (b: B, a: A) => Kind2<M, E, B>) => (fa: Kind<F, A>) => Kind2<M, E, B>
-export declare function reduceM<M extends URIS, F extends URIS>(
-  M: Monad1<M>,
-  F: Foldable1<F>
-): <B, A>(b: B, f: (b: B, a: A) => Kind<M, B>) => (fa: Kind<F, A>) => Kind<M, B>
-export declare function reduceM<M, F>(
-  M: Monad<M>,
+): {
+  <M extends URIS4>(M: Monad4<M>): <B, A, S, R, E>(
+    b: B,
+    f: (b: B, a: A) => Kind4<M, S, R, E, B>
+  ) => (fa: Kind<F, A>) => Kind4<M, S, R, E, B>
+  <M extends URIS3>(M: Monad3<M>): <B, A, R, E>(
+    b: B,
+    f: (b: B, a: A) => Kind3<M, R, E, B>
+  ) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+  <M extends URIS3, E>(M: Monad3C<M, E>): <B, A, R>(
+    b: B,
+    f: (b: B, a: A) => Kind3<M, R, E, B>
+  ) => (fa: Kind<F, A>) => Kind3<M, R, E, B>
+  <M extends URIS2>(M: Monad2<M>): <B, A, E>(
+    b: B,
+    f: (b: B, a: A) => Kind2<M, E, B>
+  ) => (fa: Kind<F, A>) => Kind2<M, E, B>
+  <M extends URIS2, E>(M: Monad2C<M, E>): <B, A>(
+    b: B,
+    f: (b: B, a: A) => Kind2<M, E, B>
+  ) => (fa: Kind<F, A>) => Kind2<M, E, B>
+  <M extends URIS>(M: Monad1<M>): <B, A>(b: B, f: (b: B, a: A) => Kind<M, B>) => (fa: Kind<F, A>) => Kind<M, B>
+  <M>(M: Monad<M>): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
+}
+export declare function reduceM<F>(
   F: Foldable<F>
-): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
+): <M>(M: Monad<M>) => <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
 ```
 
 **Example**
@@ -259,7 +264,7 @@ const t = make(1, [make(2, []), make(3, []), make(4, [])])
 assert.deepStrictEqual(
   pipe(
     t,
-    reduceM(Monad, Foldable)(0, (b, a) => (a > 2 ? some(b + a) : some(b)))
+    reduceM(Foldable)(Monad)(0, (b, a) => (a > 2 ? some(b + a) : some(b)))
   ),
   some(7)
 )

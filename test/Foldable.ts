@@ -26,24 +26,25 @@ describe('Foldable', () => {
   })
 
   it('reduceM', () => {
+    const f = _.reduceM(RA.Foldable)(O.Monad)
     deepStrictEqual(
       pipe(
         [],
-        _.reduceM(O.Monad, RA.Foldable)(1, () => O.none)
+        f(1, () => O.none)
       ),
       O.some(1)
     )
     deepStrictEqual(
       pipe(
         [2],
-        _.reduceM(O.Monad, RA.Foldable)(1, () => O.none)
+        f(1, () => O.none)
       ),
       O.none
     )
     deepStrictEqual(
       pipe(
         [2],
-        _.reduceM(O.Monad, RA.Foldable)(1, (b, a) => O.some(b + a))
+        f(1, (b, a) => O.some(b + a))
       ),
       O.some(3)
     )
