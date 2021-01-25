@@ -3,8 +3,8 @@
  */
 import { Comonad2 } from './Comonad'
 import { Endomorphism, identity, pipe } from './function'
-import { Functor as FunctorHKT, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Functor as Functor_, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
@@ -100,48 +100,51 @@ export const Comonad: Comonad2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Reposition the focus at the specified position
+ * Reposition the focus at the specified position.
  *
  * @since 3.0.0
  */
 export const seek = <S>(s: S) => <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: s })
 
 /**
- * Reposition the focus at the specified position, which depends on the current position
+ * Reposition the focus at the specified position, which depends on the current position.
  *
  * @since 3.0.0
  */
 export const seeks = <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>): Store<S, A> => ({ peek: wa.peek, pos: f(wa.pos) })
 
 /**
- * Extract a value from a position which depends on the current position
+ * Extract a value from a position which depends on the current position.
  *
  * @since 3.0.0
  */
 export const peeks = <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>): A => wa.peek(f(wa.pos))
 
 /**
- * Extract a collection of values from positions which depend on the current position
+ * Extract a collection of values from positions which depend on the current position.
  *
  * @since 3.0.0
  */
+export function experiment<F extends URIS4>(
+  F: Functor4<F>
+): <S1, S2, R, E>(f: (s: S1) => Kind4<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind4<F, S2, R, E, A>
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+): <S, R, E>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS3, E>(
   F: Functor3C<F, E>
-): <R, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+): <S, R>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
+): <S, E>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export function experiment<F extends URIS2, E>(
   F: Functor2C<F, E>
 ): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
-export function experiment<F>(F: FunctorHKT<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
+export function experiment<F>(F: Functor_<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export function experiment<F>(F: Functor_<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
   return (f) => (wa) =>
     pipe(
       f(wa.pos),

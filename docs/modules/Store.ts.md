@@ -138,36 +138,37 @@ Added in v3.0.0
 
 ## experiment
 
-Extract a collection of values from positions which depend on the current position
+Extract a collection of values from positions which depend on the current position.
 
 **Signature**
 
 ```ts
+export declare function experiment<F extends URIS4>(
+  F: Functor4<F>
+): <S1, S2, R, E>(f: (s: S1) => Kind4<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind4<F, S2, R, E, A>
 export declare function experiment<F extends URIS3>(
   F: Functor3<F>
-): <R, E, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+): <S, R, E>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export declare function experiment<F extends URIS3, E>(
   F: Functor3C<F, E>
-): <R, S>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
+): <S, R>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
 export declare function experiment<F extends URIS2>(
   F: Functor2<F>
-): <E, S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
+): <S, E>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export declare function experiment<F extends URIS2, E>(
   F: Functor2C<F, E>
 ): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
 export declare function experiment<F extends URIS>(
   F: Functor1<F>
 ): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export declare function experiment<F>(
-  F: FunctorHKT<F>
-): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export declare function experiment<F>(F: Functor_<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
 ```
 
 Added in v3.0.0
 
 ## peeks
 
-Extract a value from a position which depends on the current position
+Extract a value from a position which depends on the current position.
 
 **Signature**
 
@@ -179,7 +180,7 @@ Added in v3.0.0
 
 ## seek
 
-Reposition the focus at the specified position
+Reposition the focus at the specified position.
 
 **Signature**
 
@@ -191,7 +192,7 @@ Added in v3.0.0
 
 ## seeks
 
-Reposition the focus at the specified position, which depends on the current position
+Reposition the focus at the specified position, which depends on the current position.
 
 **Signature**
 
