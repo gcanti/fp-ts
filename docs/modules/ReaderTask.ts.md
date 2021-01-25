@@ -31,7 +31,7 @@ Added in v2.3.0
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
-  - [local](#local)
+  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -255,12 +255,14 @@ export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
 
 Added in v2.4.0
 
-## local
+## ~~local~~
+
+Use `Reader`'s `local` instead.
 
 **Signature**
 
 ```ts
-export declare const local: <R2, R1>(f: (f: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
 ```
 
 Added in v2.3.0
