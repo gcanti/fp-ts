@@ -41,10 +41,10 @@ Added in v2.0.0
   - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
-  - [local](#local)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
+  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -405,16 +405,6 @@ export declare function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
 
 Added in v2.4.0
 
-## local
-
-**Signature**
-
-```ts
-export declare function local<R2, R1>(f: (f: R2) => R1): <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v2.0.0
-
 ## orElse
 
 **Signature**
@@ -447,6 +437,18 @@ Added in v2.10.0
 
 ```ts
 export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+```
+
+Added in v2.0.0
+
+## ~~local~~
+
+Use `Reader`'s `local` instead.
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
 ```
 
 Added in v2.0.0

@@ -86,13 +86,6 @@ export const fromIO: FromIO2<URI>['fromIO'] =
 // combinators
 // -------------------------------------------------------------------------------------
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.3.0
- */
-export const local: <R2, R1>(f: (f: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
-
 /**
  * @category combinators
  * @since 2.4.0
@@ -514,3 +507,12 @@ export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
+
+/**
+ * Use `Reader`'s `local` instead.
+ *
+ * @category combinators
+ * @since 2.3.0
+ * @deprecated
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
