@@ -188,15 +188,6 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
   /*#__PURE__*/
   ET.swap(R.Functor)
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.0.0
- */
-export function local<R2, R1>(f: (f: R2) => R1): <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> {
-  return (ma) => (q) => ma(f(q))
-}
-
 /**
  * @category combinators
  * @since 2.4.0
@@ -818,3 +809,13 @@ export function getReaderValidation<E>(
     throwError
   }
 }
+
+/**
+ * Use `Reader`'s `local` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
+  R.local
