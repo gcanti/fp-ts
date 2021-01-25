@@ -113,7 +113,6 @@ export const constUndefined: Lazy<undefined> =
  */
 export const constVoid: Lazy<void> = constUndefined
 
-// TODO: remove in v3
 /**
  * Flips the order of the arguments of a function of two arguments.
  *

@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Apply, Apply1, Apply2 } from './Apply'
-import { flow } from './function'
+import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
@@ -244,15 +244,19 @@ export function getReaderM<M>(M: Monad<M>): ReaderM<M>
 /** @deprecated */
 /* istanbul ignore next */
 export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
+  const _ap = ap(M)
+  const _map = map(M)
+  const _chain = chain(M)
+
   return {
-    map: (ma, f) => (r) => M.map(ma(r), f),
-    of: (a) => () => M.of(a),
-    ap: (mab, ma) => (r) => M.ap(mab(r), ma(r)),
-    chain: (ma, f) => (r) => M.chain(ma(r), (a) => f(a)(r)),
-    ask: () => M.of,
-    asks: (f) => (r) => M.map(M.of(r), f),
+    map: (fa, f) => pipe(fa, _map(f)),
+    ap: (fab, fa) => pipe(fab, _ap(fa)),
+    of: of(M),
+    chain: (ma, f) => pipe(ma, _chain(f)),
+    ask: ask(M),
+    asks: asks(M),
     local: (ma, f) => (q) => ma(f(q)),
-    fromReader: (ma) => (r) => M.of(ma(r)),
+    fromReader: fromReader(M),
     fromM: (ma) => () => ma
   }
 }
