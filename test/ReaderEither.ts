@@ -192,6 +192,7 @@ describe('ReaderEither', () => {
 
   it('local', () => {
     assert.deepStrictEqual(
+      // tslint:disable-next-line: deprecation
       _.local((n: number) => ({ a: n }))((r: { readonly a: number }) => E.right(r.a))(1),
       E.right(1)
     )

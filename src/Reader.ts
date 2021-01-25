@@ -58,8 +58,8 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  * @category combinators
  * @since 2.0.0
  */
-export const local: <R2, R1>(f: (d: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (q) =>
-  ma(f(q))
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (r2) =>
+  ma(f(r2))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

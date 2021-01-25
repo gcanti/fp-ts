@@ -63,16 +63,19 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
+    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
   - `ReaderTask`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `run` (@gcanti)
+    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
   - `ReaderTaskEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
     - deprecate `run` (@gcanti)
+    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
   - `ReaderTaskEither`
     - deprecate `run` (@gcanti)
   - `Task`

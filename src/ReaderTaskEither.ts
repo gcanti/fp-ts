@@ -287,14 +287,6 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
   /*#__PURE__*/
   ET.swap(RT.Functor)
 
-// TODO: remove in v3
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const local: <R2, R1>(f: (f: R2) => R1) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> =
-  R.local
-
 /**
  * @category combinators
  * @since 2.4.0
@@ -1102,3 +1094,14 @@ export function getReaderTaskValidation<E>(
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
 }
+
+/**
+ * Use `Reader`'s `local` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
