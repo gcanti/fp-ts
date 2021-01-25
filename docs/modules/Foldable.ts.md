@@ -160,25 +160,30 @@ Added in v3.0.0
 
 ## intercalate
 
-Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
+Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator.
 
 **Signature**
 
 ```ts
-export declare function intercalate<M, F extends URIS3>(
-  M: Monoid<M>,
+export declare function intercalate<F extends URIS4>(
+  F: Foldable4<F>
+): <M>(M: Monoid<M>) => (sep: M) => <S, R, E>(fm: Kind4<F, S, R, E, M>) => M
+export declare function intercalate<F extends URIS3>(
   F: Foldable3<F>
-): (sep: M) => <R, E>(fm: Kind3<F, R, E, M>) => M
-export declare function intercalate<M, F extends URIS2>(
-  M: Monoid<M>,
+): <M>(M: Monoid<M>) => (sep: M) => <R, E>(fm: Kind3<F, R, E, M>) => M
+export declare function intercalate<F extends URIS3, E>(
+  F: Foldable3C<F, E>
+): <M>(M: Monoid<M>) => (sep: M) => <R>(fm: Kind3<F, R, E, M>) => M
+export declare function intercalate<F extends URIS2>(
   F: Foldable2<F>
-): (sep: M) => <E>(fm: Kind2<F, E, M>) => M
-export declare function intercalate<M, F extends URIS2, E>(
-  M: Monoid<M>,
+): <M>(M: Monoid<M>) => (sep: M) => <E>(fm: Kind2<F, E, M>) => M
+export declare function intercalate<F extends URIS2, E>(
   F: Foldable2C<F, E>
-): (sep: M) => (fm: Kind2<F, E, M>) => M
-export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M) => (fm: Kind<F, M>) => M
-export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M) => (fm: HKT<F, M>) => M
+): <M>(M: Monoid<M>) => (sep: M) => (fm: Kind2<F, E, M>) => M
+export declare function intercalate<F extends URIS>(
+  F: Foldable1<F>
+): <M>(M: Monoid<M>) => (sep: M) => (fm: Kind<F, M>) => M
+export declare function intercalate<F>(F: Foldable<F>): <M>(M: Monoid<M>) => (sep: M) => (fm: HKT<F, M>) => M
 ```
 
 **Example**
@@ -186,11 +191,11 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 ```ts
 import { intercalate } from 'fp-ts/Foldable'
 import { monoidString } from 'fp-ts/Monoid'
-import { make, Foldable } from 'fp-ts/Tree'
+import * as T from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
-const t = make('a', [make('b', []), make('c', []), make('d', [])])
-assert.strictEqual(pipe(t, intercalate(monoidString, Foldable)('|')), 'a|b|c|d')
+const t = T.make('a', [T.make('b', []), T.make('c', []), T.make('d', [])])
+assert.strictEqual(pipe(t, intercalate(T.Foldable)(monoidString)('|')), 'a|b|c|d')
 ```
 
 Added in v3.0.0
@@ -245,7 +250,6 @@ export declare function reduceM<F extends URIS>(
     f: (b: B, a: A) => Kind2<M, E, B>
   ) => (fa: Kind<F, A>) => Kind2<M, E, B>
   <M extends URIS>(M: Monad1<M>): <B, A>(b: B, f: (b: B, a: A) => Kind<M, B>) => (fa: Kind<F, A>) => Kind<M, B>
-  <M>(M: Monad<M>): <B, A>(b: B, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
 }
 export declare function reduceM<F>(
   F: Foldable<F>

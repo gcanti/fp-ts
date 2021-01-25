@@ -85,7 +85,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onFalse` parameter from `fromPredicate_` signature (@gcanti)
   - `Foldable`
     - curry `reduceM` constraints (@gcanti)
-    - make `intercalate` pipeable (@gcanti)
+    - make `intercalate` pipeable and curry constraints (@gcanti)
     - remove `traverse_` (@gcanti)
     - rename `toArray` to `toReadonlyArray` (@gcanti)
   - `FoldableWithIndex`

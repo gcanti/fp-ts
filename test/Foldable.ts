@@ -8,7 +8,8 @@ import { deepStrictEqual } from './util'
 
 describe('Foldable', () => {
   it('intercalate', () => {
-    deepStrictEqual(pipe(['a', 'b', 'c'], _.intercalate(monoidString, RA.Foldable)(',')), 'a,b,c')
+    const intercalate = _.intercalate(RA.Foldable)(monoidString)
+    deepStrictEqual(pipe(['a', 'b', 'c'], intercalate(',')), 'a,b,c')
   })
 
   it('toReadonlyArray', () => {
