@@ -183,6 +183,8 @@ high state of flux, you're at risk of it changing without notice.
     - split `getOptionM` into separated functions (@gcanti)
   - `Ord`
     - add `ordBigint`, #1375 (@EricCrosson)
+  - `Random`
+    - add `randomElem` (@gcanti)
   - `Reader`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
