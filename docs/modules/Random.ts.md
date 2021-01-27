@@ -15,6 +15,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [random](#random)
   - [randomBool](#randombool)
+  - [randomElem](#randomelem)
   - [randomInt](#randomint)
   - [randomRange](#randomrange)
 
@@ -46,6 +47,18 @@ export declare const randomBool: IO<boolean>
 ```
 
 Added in v2.0.0
+
+## randomElem
+
+Returns a random element of a `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const randomElem: <A>(as: ReadonlyNonEmptyArray<A>) => IO<A>
+```
+
+Added in v2.10.0
 
 ## randomInt
 
