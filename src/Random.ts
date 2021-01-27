@@ -3,6 +3,7 @@
  */
 import { IO, map } from './IO'
 import { pipe } from './function'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
@@ -49,4 +50,15 @@ export const randomBool: IO<boolean> =
   pipe(
     random,
     map((n) => n < 0.5)
+  )
+
+/**
+ * Returns a random element of a `ReadonlyNonEmptyArray`.
+ *
+ * @since 2.10.0
+ */
+export const randomElem = <A>(as: ReadonlyNonEmptyArray<A>): IO<A> =>
+  pipe(
+    randomInt(0, as.length - 1),
+    map((i) => as[i])
   )
