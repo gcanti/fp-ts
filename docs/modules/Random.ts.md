@@ -15,6 +15,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [random](#random)
   - [randomBool](#randombool)
+  - [randomElem](#randomelem)
   - [randomInt](#randomint)
   - [randomRange](#randomrange)
 
@@ -43,6 +44,18 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 
 ```ts
 export declare const randomBool: IO<boolean>
+```
+
+Added in v3.0.0
+
+## randomElem
+
+Returns a random element of a `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const randomElem: <A>(as: ReadonlyNonEmptyArray<A>) => IO<A>
 ```
 
 Added in v3.0.0
