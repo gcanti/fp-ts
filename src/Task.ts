@@ -406,7 +406,7 @@ export const apS =
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => () => Promise.all(arr.map((x, i) => f(i, x)()))
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (as) => () => Promise.all(as.map((x, i) => f(i, x)()))
 
 /**
  * this function map array to task using provided function and transform it to a task of array.
@@ -420,8 +420,8 @@ export const traverseArrayWithIndex: <A, B>(
  * import { pipe } from 'fp-ts/function'
  * import { of, traverseArray } from 'fp-ts/Task'
  * async function test() {
- *   const arr = range(0, 10)
- *   assert.deepStrictEqual(await pipe(arr, traverseArray(of))(), arr)
+ *   const as = range(0, 10)
+ *   assert.deepStrictEqual(await pipe(arr, traverseArray(of))(), as)
  * }
  *
  * test()
@@ -444,26 +444,27 @@ export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A
  * import { of, sequenceArray } from 'fp-ts/Task'
  *
  * async function test() {
- *   const arr = RA.range(1, 10)
- *   assert.deepStrictEqual(await pipe(arr, RA.map(of), sequenceArray)(), arr)
+ *   const as = RA.range(1, 10)
+ *   assert.deepStrictEqual(await pipe(as, RA.map(of), sequenceArray)(), as)
  * }
  *
  * test()
  *
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = (arr) => () =>
-  Promise.all(arr.map((x) => x()))
+export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = (as) => () =>
+  Promise.all(as.map((x) => x()))
+
 /**
  * @since 2.9.0
  */
 export const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => async () => {
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (as) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const r = await f(i, arr[i])()
+  for (let i = 0; i < as.length; i++) {
+    const r = await f(i, as[i])()
     result.push(r)
   }
   return result

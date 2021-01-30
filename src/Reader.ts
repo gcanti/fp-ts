@@ -382,7 +382,7 @@ export const apSW: <A, N extends string, R2, B>(
  */
 export const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => Reader<R, B>
-) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (as) => (r) => as.map((x, i) => f(i, x)(r))
 
 /**
  * this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
@@ -393,9 +393,9 @@ export const traverseArrayWithIndex: <R, A, B>(
  * import { pipe } from 'fp-ts/function'
  *
  * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const arr = RA.range(0, 100)
+ * const as = RA.range(0, 100)
  *
- * assert.deepStrictEqual(pipe(arr, traverseArray(add))({value: 3}), pipe(arr, RA.map(x => x + 3)))
+ * assert.deepStrictEqual(pipe(as, traverseArray(add))({value: 3}), pipe(as, RA.map(x => x + 3)))
  *
  * @since 2.9.0
  */
@@ -412,9 +412,9 @@ export const traverseArray: <R, A, B>(
  * import { pipe } from 'fp-ts/function'
  *
  * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const arr = RA.range(0, 100)
+ * const as = RA.range(0, 100)
  *
- * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)({value: 3}), pipe(arr, RA.map(x => x + 3)))
+ * assert.deepStrictEqual(pipe(as, RA.map(add), sequenceArray)({value: 3}), pipe(as, RA.map(x => x + 3)))
  *
  * @since 2.9.0
  */

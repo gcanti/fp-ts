@@ -291,13 +291,13 @@ export const apS =
  */
 export const traverseArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
-) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (arr) => (s) => {
+) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (as) => (s) => {
   let lastState = s
   // tslint:disable-next-line: readonly-array
   const values = []
 
-  for (let i = 0; i < arr.length; i++) {
-    const [newValue, newState] = f(i, arr[i])(lastState)
+  for (let i = 0; i < as.length; i++) {
+    const [newValue, newState] = f(i, as[i])(lastState)
     values.push(newValue)
     lastState = newState
   }
@@ -314,9 +314,9 @@ export const traverseArrayWithIndex: <A, S, B>(
  * import { pipe, tuple } from 'fp-ts/function'
  *
  * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const arr = RA.range(0, 100)
+ * const as = RA.range(0, 100)
  *
- * assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
+ * assert.deepStrictEqual(pipe(as, traverseArray(add))(0), [as, as.reduce((p, c) => p + c, 0)])
  *
  * @since 2.9.0
  */
@@ -333,9 +333,9 @@ export const traverseArray: <A, S, B>(
  * import { pipe, tuple } from 'fp-ts/function'
  *
  * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const arr = RA.range(0, 100)
+ * const as = RA.range(0, 100)
  *
- * assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
+ * assert.deepStrictEqual(pipe(as, RA.map(add), sequenceArray)(0), [as, as.reduce((p, c) => p + c, 0)])
  *
  * @since 2.9.0
  */
