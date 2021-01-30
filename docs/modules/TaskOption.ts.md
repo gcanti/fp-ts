@@ -34,6 +34,7 @@ Added in v2.10.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [chainNullableK](#chainnullablek)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [tryCatchK](#trycatchk)
@@ -246,6 +247,18 @@ export declare const of: <A>(a: A) => TaskOption<A>
 Added in v2.10.0
 
 # combinators
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B
+) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
+```
+
+Added in v2.10.0
 
 ## fromNullableK
 

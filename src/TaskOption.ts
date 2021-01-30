@@ -181,6 +181,14 @@ export const fromNullableK =
 
 /**
  * @category combinators
+ * @since 2.10.0
+ */
+export const chainNullableK =
+  /*#__PURE__*/
+  OT.chainNullableK(T.Monad)
+
+/**
+ * @category combinators
  * @since 0.1.10
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(

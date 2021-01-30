@@ -20,6 +20,7 @@ Added in v2.0.0
   - [alt](#alt)
   - [ap](#ap)
   - [chain](#chain)
+  - [chainNullableK](#chainnullablek)
   - [fold](#fold)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
@@ -113,6 +114,21 @@ export declare function chain<M extends URIS>(
 export declare function chain<M>(
   M: Monad<M>
 ): <A, B>(f: (a: A) => HKT<M, Option<B>>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
+```
+
+Added in v2.10.0
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Option<A>>) => Kind<M, Option<NonNullable<B>>>
+export declare function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
 ```
 
 Added in v2.10.0
