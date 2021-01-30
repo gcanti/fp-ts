@@ -57,6 +57,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
@@ -497,6 +498,18 @@ export declare const chainNullableK: <E>(
 ```
 
 Added in v2.9.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.10.0
 
 ## duplicate
 
