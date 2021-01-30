@@ -100,6 +100,21 @@ export function chainNullableK<M>(
 /**
  * @since 2.10.0
  */
+export function fromOptionK<F extends URIS>(
+  F: Pointed1<F>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind<F, Option<B>>
+export function fromOptionK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT<F, Option<B>>
+export function fromOptionK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT<F, Option<B>> {
+  return (f) => flow(f, F.of)
+}
+
+/**
+ * @since 2.10.0
+ */
 export function fromPredicate<F extends URIS>(
   F: Pointed1<F>
 ): {
