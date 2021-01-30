@@ -6,7 +6,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "lib": ["es6", "dom"],
+    "lib": [],
     "sourceMap": false,
     "declaration": true,
     "strict": true,
