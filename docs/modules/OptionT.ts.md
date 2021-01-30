@@ -158,10 +158,8 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function fromNullable<F extends URIS>(
-  F: Pointed1<F>
-): <A>(fa: Kind<F, A>) => Kind<F, Option<NonNullable<A>>>
-export declare function fromNullable<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>>
+export declare function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<NonNullable<A>>>
+export declare function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>>
 ```
 
 Added in v2.10.0

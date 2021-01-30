@@ -129,9 +129,8 @@ export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Rig
  * @category constructors
  * @since 2.0.0
  */
-export function fromNullable<E>(e: E): <A>(a: A) => Either<E, NonNullable<A>> {
-  return <A>(a: A) => (a == null ? left(e) : right(a as NonNullable<A>))
-}
+export const fromNullable = <E>(e: E) => <A>(a: A): Either<E, NonNullable<A>> =>
+  a == null ? left(e) : right(a as NonNullable<A>)
 
 /**
  * Constructs a new `Either` from a function that might throw.
