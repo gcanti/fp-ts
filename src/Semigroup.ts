@@ -341,6 +341,36 @@ export const semigroupProduct: Semigroup<number> = {
 }
 
 /**
+ * `bigint` semigroup under addition.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ *
+ * assert.deepStrictEqual(S.semigroupSumBigInt.concat(BigInt(2), BigInt(3)), BigInt(5))
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const semigroupSumBigInt: Semigroup<bigint> = {
+  concat: (x, y) => x + y
+}
+
+/**
+ * `bigint` semigroup under multiplication.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ *
+ * assert.deepStrictEqual(S.semigroupProductBigInt.concat(BigInt(2), BigInt(3)), BigInt(6))
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const semigroupProductBigInt: Semigroup<bigint> = {
+  concat: (x, y) => x * y
+}
+
+/**
  * `string` semigroup under concatenation.
  *
  * @example

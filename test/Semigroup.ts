@@ -47,6 +47,14 @@ describe('Semigroup', () => {
     assert.deepStrictEqual(_.semigroupProduct.concat(2, 3), 6)
   })
 
+  it('semigroupSumBigInt', () => {
+    assert.deepStrictEqual(_.semigroupSumBigInt.concat(BigInt(2), BigInt(3)), BigInt(5))
+  })
+
+  it('semigroupSumBigInt', () => {
+    assert.deepStrictEqual(_.semigroupProductBigInt.concat(BigInt(2), BigInt(3)), BigInt(6))
+  })
+
   it('getFirstSemigroup', () => {
     assert.deepStrictEqual(_.getFirstSemigroup<number>().concat(1, 2), 1)
   })

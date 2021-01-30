@@ -121,6 +121,42 @@ export const monoidProduct: Monoid<number> = {
 }
 
 /**
+ * `bigint` monoid under addition.
+ *
+ * The `empty` value is `BigInt(0)`.
+ *
+ * @example
+ * import * as M from 'fp-ts/Monoid'
+ *
+ * assert.deepStrictEqual(M.monoidSumBigInt.concat(BigInt(2), BigInt(3)), BigInt(5))
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const monoidSumBigInt: Monoid<bigint> = {
+  concat: S.semigroupSumBigInt.concat,
+  empty: BigInt(0)
+}
+
+/**
+ * `bigint` monoid under multiplication.
+ *
+ * The `empty` value is `BigInt(1)`.
+ *
+ * @example
+ * import * as M from 'fp-ts/Monoid'
+ *
+ * assert.deepStrictEqual(M.monoidProductBigInt.concat(BigInt(2), BigInt(3)), BigInt(6))
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const monoidProductBigInt: Monoid<bigint> = {
+  concat: S.semigroupProductBigInt.concat,
+  empty: BigInt(1)
+}
+
+/**
  * `string` monoid under concatenation.
  *
  * The `empty` value is `''`.

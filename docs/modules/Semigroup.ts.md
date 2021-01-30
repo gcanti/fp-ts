@@ -62,8 +62,10 @@ Added in v2.0.0
   - [semigroupAll](#semigroupall)
   - [semigroupAny](#semigroupany)
   - [semigroupProduct](#semigroupproduct)
+  - [semigroupProductBigInt](#semigroupproductbigint)
   - [semigroupString](#semigroupstring)
   - [semigroupSum](#semigroupsum)
+  - [semigroupSumBigInt](#semigroupsumbigint)
   - [semigroupVoid](#semigroupvoid)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
@@ -382,6 +384,26 @@ assert.deepStrictEqual(S.semigroupProduct.concat(2, 3), 6)
 
 Added in v2.0.0
 
+## semigroupProductBigInt
+
+`bigint` semigroup under multiplication.
+
+**Signature**
+
+```ts
+export declare const semigroupProductBigInt: Semigroup<bigint>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+assert.deepStrictEqual(S.semigroupProductBigInt.concat(BigInt(2), BigInt(3)), BigInt(6))
+```
+
+Added in v2.10.0
+
 ## semigroupString
 
 `string` semigroup under concatenation.
@@ -421,6 +443,26 @@ assert.deepStrictEqual(S.semigroupSum.concat(2, 3), 5)
 ```
 
 Added in v2.0.0
+
+## semigroupSumBigInt
+
+`bigint` semigroup under addition.
+
+**Signature**
+
+```ts
+export declare const semigroupSumBigInt: Semigroup<bigint>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+assert.deepStrictEqual(S.semigroupSumBigInt.concat(BigInt(2), BigInt(3)), BigInt(5))
+```
+
+Added in v2.10.0
 
 ## semigroupVoid
 

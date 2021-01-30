@@ -55,8 +55,10 @@ Added in v2.0.0
   - [monoidAll](#monoidall)
   - [monoidAny](#monoidany)
   - [monoidProduct](#monoidproduct)
+  - [monoidProductBigInt](#monoidproductbigint)
   - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
+  - [monoidSumBigInt](#monoidsumbigint)
   - [monoidVoid](#monoidvoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
@@ -310,6 +312,28 @@ assert.deepStrictEqual(M.monoidProduct.concat(2, 3), 6)
 
 Added in v2.0.0
 
+## monoidProductBigInt
+
+`bigint` monoid under multiplication.
+
+The `empty` value is `BigInt(1)`.
+
+**Signature**
+
+```ts
+export declare const monoidProductBigInt: Monoid<bigint>
+```
+
+**Example**
+
+```ts
+import * as M from 'fp-ts/Monoid'
+
+assert.deepStrictEqual(M.monoidProductBigInt.concat(BigInt(2), BigInt(3)), BigInt(6))
+```
+
+Added in v2.10.0
+
 ## monoidString
 
 `string` monoid under concatenation.
@@ -353,6 +377,28 @@ assert.deepStrictEqual(M.monoidSum.concat(2, 3), 5)
 ```
 
 Added in v2.0.0
+
+## monoidSumBigInt
+
+`bigint` monoid under addition.
+
+The `empty` value is `BigInt(0)`.
+
+**Signature**
+
+```ts
+export declare const monoidSumBigInt: Monoid<bigint>
+```
+
+**Example**
+
+```ts
+import * as M from 'fp-ts/Monoid'
+
+assert.deepStrictEqual(M.monoidSumBigInt.concat(BigInt(2), BigInt(3)), BigInt(5))
+```
+
+Added in v2.10.0
 
 ## monoidVoid
 
