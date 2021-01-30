@@ -550,9 +550,9 @@ Returns a _smart constructor_ from a function that returns a nullable value.
 **Signature**
 
 ```ts
-export declare function fromNullableK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-): (...a: A) => Option<NonNullable<B>>
+export declare const fromNullableK: <A extends readonly unknown[], B>(
+  f: (...a: A) => B
+) => (...a: A) => Option<NonNullable<B>>
 ```
 
 **Example**
@@ -619,7 +619,7 @@ returns the value wrapped in a `Some`.
 **Signature**
 
 ```ts
-export declare function fromNullable<A>(a: A): Option<NonNullable<A>>
+export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
 ```
 
 **Example**
