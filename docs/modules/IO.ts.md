@@ -427,7 +427,7 @@ this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: readonly A[]) => IO<readonly B[]>
+export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly A[]) => IO<readonly B[]>
 ```
 
 **Example**
@@ -455,7 +455,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IO<B>
-) => (arr: readonly A[]) => IO<readonly B[]>
+) => (as: readonly A[]) => IO<readonly B[]>
 ```
 
 Added in v2.9.0

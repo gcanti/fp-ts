@@ -292,7 +292,7 @@ export const apS =
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IO<B>
-) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (arr) => () => arr.map((a, i) => f(i, a)())
+) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (arr) => () => arr.map((a, i) => f(i, a)())
 
 /**
  * runs an action for every element in array, and accumulates the results IO in the array.
@@ -312,7 +312,7 @@ export const traverseArrayWithIndex: <A, B>(
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (arr: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
+export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**

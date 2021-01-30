@@ -417,7 +417,7 @@ export const apSW: <A, N extends string, R2, B>(
  */
 export const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
   flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
 
 /**
@@ -425,7 +425,7 @@ export const traverseArrayWithIndex: <R, A, B>(
  */
 export const traverseArray: <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
-) => (arr: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * @since 2.9.0

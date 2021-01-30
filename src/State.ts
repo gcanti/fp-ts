@@ -291,7 +291,7 @@ export const apS =
  */
 export const traverseArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
-) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (arr) => (s) => {
+) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (arr) => (s) => {
   let lastState = s
   // tslint:disable-next-line: readonly-array
   const values = []
@@ -322,7 +322,7 @@ export const traverseArrayWithIndex: <A, S, B>(
  */
 export const traverseArray: <A, S, B>(
   f: (a: A) => State<S, B>
-) => (arr: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized

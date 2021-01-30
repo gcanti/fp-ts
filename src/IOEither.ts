@@ -793,7 +793,7 @@ export const apSW: <A, N extends string, E2, B>(
  */
 export const traverseArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
   flow(I.traverseArrayWithIndex(f), I.map(E.sequenceArray))
 
 /**
@@ -801,7 +801,7 @@ export const traverseArrayWithIndex: <A, E, B>(
  */
 export const traverseArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  *
@@ -816,7 +816,7 @@ export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEith
  */
 export const traverseSeqArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
   // tslint:disable-next-line: readonly-array
   const result = []
   for (let i = 0; i < arr.length; i++) {
@@ -834,7 +834,7 @@ export const traverseSeqArrayWithIndex: <A, E, B>(
  */
 export const traverseSeqArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
  * @since 2.9.0
