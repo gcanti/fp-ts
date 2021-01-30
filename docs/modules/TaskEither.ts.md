@@ -46,6 +46,7 @@ Added in v2.0.0
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
+  - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flatten](#flatten)
@@ -418,6 +419,18 @@ export declare const chainIOEitherKW: <E2, A, B>(
 ```
 
 Added in v2.6.1
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.10.0
 
 ## filterOrElse
 
