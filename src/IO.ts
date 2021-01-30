@@ -288,48 +288,24 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IO<B>
-) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) => (as) => () => as.map((a, i) => f(i, a)())
+export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
+  as: ReadonlyArray<A>
+): IO<ReadonlyArray<B>> => () => as.map((a, i) => f(i, a)())
 
 /**
- * runs an action for every element in array, and accumulates the results IO in the array.
- *
- * this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, IO } from 'fp-ts/IO'
- * import { pipe } from 'fp-ts/function'
- *
- * const logger: Array<unknown> = []
- * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
- *
- * pipe(RA.range(0, 100), traverseArray(log))()
- * assert.deepStrictEqual(logger, RA.range(0, 100))
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (f) =>
+export const traverseArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) =>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * transform Array of IO to IO of Array
- *
- * this function has the same behavior of `A.sequence(IO.io)` but it's stack safe
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, IO } from 'fp-ts/IO'
- * import { pipe } from 'fp-ts/function'
- *
- * const logger: Array<unknown> = []
- * const log: <A>(a: A) => IO<void> = (a) => () => { logger.push(a) }
- *
- * pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
- * assert.deepStrictEqual(logger, RA.range(0, 100))
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 2.9.0
  */

@@ -1232,6 +1232,8 @@ Added in v2.0.4
 
 ## sequenceArray
 
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+
 **Signature**
 
 ```ts
@@ -1243,6 +1245,8 @@ export declare const sequenceArray: <R, E, A>(
 Added in v2.9.0
 
 ## sequenceSeqArray
+
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -1256,6 +1260,8 @@ Added in v2.9.0
 
 ## traverseArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+
 **Signature**
 
 ```ts
@@ -1267,6 +1273,8 @@ export declare const traverseArray: <R, E, A, B>(
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 
@@ -1280,6 +1288,8 @@ Added in v2.9.0
 
 ## traverseSeqArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1291,6 +1301,8 @@ export declare const traverseSeqArray: <R, E, A, B>(
 Added in v2.9.0
 
 ## traverseSeqArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

@@ -287,55 +287,35 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => (as) => (s) => {
+export const traverseArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
+  as: ReadonlyArray<A>
+): State<S, ReadonlyArray<B>> => (s) => {
   let lastState = s
   // tslint:disable-next-line: readonly-array
   const values = []
-
   for (let i = 0; i < as.length; i++) {
     const [newValue, newState] = f(i, as[i])(lastState)
     values.push(newValue)
     lastState = newState
   }
-
   return [values, lastState]
 }
 
 /**
- * This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, State } from 'fp-ts/State'
- * import { pipe, tuple } from 'fp-ts/function'
- *
- * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const as = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(as, traverseArray(add))(0), [as, as.reduce((p, c) => p + c, 0)])
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, S, B>(
+export const traverseArray = <A, S, B>(
   f: (a: A) => State<S, B>
-) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, State } from 'fp-ts/State'
- * import { pipe, tuple } from 'fp-ts/function'
- *
- * const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
- * const as = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(as, RA.map(add), sequenceArray)(0), [as, as.reduce((p, c) => p + c, 0)])
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 2.9.0
  */

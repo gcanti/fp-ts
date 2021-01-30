@@ -1,13 +1,13 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import * as O from '../src/Option'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import * as RA from '../src/ReadonlyArray'
 import { monoidString } from '../src/Monoid'
+import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
@@ -460,60 +460,42 @@ describe('IOEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-    const replicate = RA.replicate(3, 1)
+  it('sequenceArray', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.IOEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.IOEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    assert.deepStrictEqual(pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
+    assert.deepStrictEqual(pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
+    assert.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
+    assert.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
 
-    it('sequenceArray', () => {
-      assert.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceArray)(), E.right(range))
-    })
-
-    it('traverseArray', () => {
-      assert.deepStrictEqual(pipe(range, _.traverseArray(_.of))(), E.right(range))
-    })
-
-    it('traverseArrayWithIndex', () => {
-      assert.deepStrictEqual(
-        pipe(
-          replicate,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        E.right([0, 1, 2])
-      )
-    })
-
-    it('sequenceSeqArray', () => {
-      assert.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceSeqArray)(), E.right(range))
-    })
-
-    it('traverseSeqArray', () => {
-      assert.deepStrictEqual(pipe(range, _.traverseSeqArray(_.of))(), E.right(range))
-    })
-
-    it('traverseSeqArrayWithIndex', () => {
-      assert.deepStrictEqual(
-        pipe(
-          replicate,
-          _.traverseSeqArrayWithIndex((index, _data) =>
-            pipe(
-              index,
-              _.fromPredicate(
-                (index) => index < 1,
-                () => 'ERROR'
-              )
-            )
-          )
-        )(),
-        E.left('ERROR')
-      )
-      assert.deepStrictEqual(
-        pipe(
-          replicate,
-          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        E.right([0, 1, 2])
-      )
-    })
+  it('sequenceSeqArray', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.IOEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.IOEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    assert.deepStrictEqual(pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
+    assert.deepStrictEqual(pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
+    assert.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
+    assert.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 
   it('tryCatchK', () => {

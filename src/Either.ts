@@ -1332,6 +1332,7 @@ export const apSW: <A, N extends string, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 2.9.0
  */
@@ -1339,67 +1340,28 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
   as: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < as.length; i++) {
     const e = f(i, as[i])
-    if (e._tag === 'Left') {
+    if (isLeft(e)) {
       return e
     }
-    result.push(e.right)
+    out.push(e.right)
   }
-  return right(result)
+  return right(out)
 }
 
 /**
- * map an array using provided function to Either then transform to Either of the array
- * this function has the same behavior of `A.traverse(E.either)` but it's optimized and performs better
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
- * @example
- *
- *
- * import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import * as RA from 'fp-ts/ReadonlyArray'
- *
- * const as = RA.range(0, 10)
- * assert.deepStrictEqual(
- *   pipe(
- *     as,
- *     traverseArray((x) => right(x))
- *   ),
- *   right(as)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     as,
- *     traverseArray(
- *       fromPredicate(
- *         (x) => x > 5,
- *         () => 'a'
- *       )
- *     )
- *   ),
- *   left('a')
- * )
  * @since 2.9.0
  */
-export const traverseArray: <E, A, B>(
+export const traverseArray = <E, A, B>(
   f: (a: A) => Either<E, B>
-) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * convert an array of either to an either of array
- * this function has the same behavior of `A.sequence(E.either)` but it's optimized and performs better
- *
- * @example
- *
- * import { sequenceArray, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import * as RA from 'fp-ts/ReadonlyArray'
- *
- * const as = RA.range(0, 10)
- * assert.deepStrictEqual(pipe(as, RA.map(right), sequenceArray), right(as))
- * assert.deepStrictEqual(pipe(as, RA.map(right), RA.cons(left('Error')), sequenceArray), left('Error'))
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 2.9.0
  */

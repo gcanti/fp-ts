@@ -1004,6 +1004,8 @@ Added in v2.0.0
 
 ## sequenceArray
 
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -1014,6 +1016,8 @@ Added in v2.9.0
 
 ## sequenceSeqArray
 
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1023,6 +1027,8 @@ export declare const sequenceSeqArray: <E, A>(arr: readonly IOEither<E, A>[]) =>
 Added in v2.9.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1036,6 +1042,8 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -1048,6 +1056,8 @@ Added in v2.9.0
 
 ## traverseSeqArray
 
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
 **Signature**
 
 ```ts
@@ -1059,6 +1069,8 @@ export declare const traverseSeqArray: <A, E, B>(
 Added in v2.9.0
 
 ## traverseSeqArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
