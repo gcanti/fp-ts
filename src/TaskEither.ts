@@ -34,6 +34,7 @@ import {
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither2,
+  fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
@@ -274,16 +275,6 @@ export const tryCatchK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>,
   onRejected: (reason: unknown) => E
 ): ((...a: A) => TaskEither<E, B>) => (...a) => tryCatch(() => f(...a), onRejected)
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => fromEither(f(...a))
-}
 
 /**
  * @category combinators
@@ -802,6 +793,14 @@ export const filterOrElseW: {
   ) => TaskEither<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 } = filterOrElse
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
 
 /**
  * @category instances
