@@ -183,14 +183,21 @@ describe('IOEither', () => {
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(_.fromOption(() => 'err')(O.none)(), E.left('err'))
-      assert.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
+      assert.deepStrictEqual(_.fromOption(() => 'a')(O.none)(), E.left('a'))
+      assert.deepStrictEqual(_.fromOption(() => 'a')(O.some(1))(), E.right(1))
     })
 
     it('fromOptionK', () => {
       const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
       assert.deepStrictEqual(f(1)(), E.right(1))
       assert.deepStrictEqual(f(-1)(), E.left('a'))
+    })
+
+    it('chainOptionK', () => {
+      const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+      assert.deepStrictEqual(f(_.right(1))(), E.right(1))
+      assert.deepStrictEqual(f(_.right(-1))(), E.left('a'))
+      assert.deepStrictEqual(f(_.left('b'))(), E.left('b'))
     })
 
     it('fromEither', () => {

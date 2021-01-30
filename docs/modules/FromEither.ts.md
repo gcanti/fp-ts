@@ -22,6 +22,7 @@ Added in v2.10.0
   - [FromEither3C (interface)](#fromeither3c-interface)
   - [FromEither4 (interface)](#fromeither4-interface)
 - [utils](#utils)
+  - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [fromOption](#fromoption)
   - [fromOptionK](#fromoptionk)
@@ -112,6 +113,33 @@ export interface FromEither4<F extends URIS4> {
 Added in v2.10.0
 
 # utils
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare function chainOptionK<F extends URIS4>(
+  F: FromEither4<F> & Monad4<F>
+): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <S, R>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export declare function chainOptionK<F extends URIS3>(
+  F: FromEither3<F> & Monad3<F>
+): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function chainOptionK<F extends URIS3, E>(
+  F: FromEither3C<F, E> & Monad3C<F, E>
+): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+export declare function chainOptionK<F extends URIS2>(
+  F: FromEither2<F> & Monad2<F>
+): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function chainOptionK<F extends URIS2, E>(
+  F: FromEither2C<F, E> & Monad2C<F, E>
+): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+export declare function chainOptionK<F>(
+  F: FromEither<F> & Monad<F>
+): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B>
+```
+
+Added in v2.10.0
 
 ## filterOrElse
 
