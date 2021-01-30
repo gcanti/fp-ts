@@ -406,7 +406,7 @@ export const apS =
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => () => Promise.all(arr.map((x, i) => f(i, x)()))
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => () => Promise.all(arr.map((x, i) => f(i, x)()))
 
 /**
  * this function map array to task using provided function and transform it to a task of array.
@@ -428,7 +428,7 @@ export const traverseArrayWithIndex: <A, B>(
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) =>
+export const traverseArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) =>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
@@ -459,14 +459,13 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArr
  */
 export const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => async () => {
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => (arr) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
   for (let i = 0; i < arr.length; i++) {
     const r = await f(i, arr[i])()
     result.push(r)
   }
-
   return result
 }
 
@@ -480,7 +479,7 @@ export const traverseSeqArrayWithIndex: <A, B>(
  *
  * @since 2.9.0
  */
-export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
+export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
   f
 ) => traverseSeqArrayWithIndex((_, a) => f(a))
 

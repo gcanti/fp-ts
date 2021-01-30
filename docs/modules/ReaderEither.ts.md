@@ -968,7 +968,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArray: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -980,7 +980,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (arr: readonly A[]) => ReaderEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0

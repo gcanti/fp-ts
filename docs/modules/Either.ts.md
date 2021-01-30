@@ -1618,7 +1618,7 @@ this function has the same behavior of `A.traverse(E.either)` but it's optimized
 ```ts
 export declare const traverseArray: <E, A, B>(
   f: (a: A) => Either<E, B>
-) => (arr: readonly A[]) => Either<E, readonly B[]>
+) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
 **Example**
@@ -1659,7 +1659,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <E, A, B>(
   f: (index: number, a: A) => Either<E, B>
-) => (arr: readonly A[]) => Either<E, readonly B[]>
+) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
 Added in v2.9.0

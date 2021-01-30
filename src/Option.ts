@@ -1231,12 +1231,12 @@ export const apS =
  * @since 2.9.0
  */
 export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
-  arr: ReadonlyArray<A>
+  as: ReadonlyArray<A>
 ): Option<ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = f(i, arr[i])
+  for (let i = 0; i < as.length; i++) {
+    const b = f(i, as[i])
     if (isNone(b)) {
       return none
     }
@@ -1262,7 +1262,7 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
+export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
   f
 ) => traverseArrayWithIndex((_, a) => f(a))
 

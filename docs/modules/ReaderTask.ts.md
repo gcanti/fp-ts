@@ -574,7 +574,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArray: <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
-) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -586,7 +586,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-) => (arr: readonly A[]) => ReaderTask<R, readonly B[]>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
 
 Added in v2.9.0
