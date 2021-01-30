@@ -3,13 +3,14 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { apFirst as apFirst_, Apply4, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import {
   filterOrElse as filterOrElse_,
   FromEither4,
   fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { FromIO4 } from './FromIO'
@@ -26,9 +27,9 @@ import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import { State } from './State'
+import * as ST from './StateT'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
-import * as ST from './StateT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -675,6 +676,14 @@ export const FromEither: FromEither4<URI> = {
 export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
 
 /**
  * @category constructors
