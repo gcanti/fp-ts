@@ -108,6 +108,13 @@ describe('TaskOption', () => {
     assert.deepStrictEqual(await f(-1)(), O.none)
   })
 
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    assert.deepStrictEqual(await f(_.of(1))(), O.some(1))
+    assert.deepStrictEqual(await f(_.of(0))(), O.none)
+    assert.deepStrictEqual(await f(_.of(-1))(), O.none)
+  })
+
   it('fromPredicate', async () => {
     const p = (n: number): boolean => n > 2
     const f = _.fromPredicate(p)
