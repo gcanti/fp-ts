@@ -23,6 +23,7 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
+  chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither3,
@@ -190,24 +191,6 @@ export const orElseW: <E1, R1, E2, B>(
 export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
   /*#__PURE__*/
   ET.swap(R.Functor)
-
-/**
- * Less strict version of [`chainEitherK`](#chainEitherK).
- *
- * @category combinators
- * @since 2.6.1
- */
-export const chainEitherKW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = (f) => chainW(fromEitherK(f))
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = chainEitherKW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -618,6 +601,24 @@ const MonadFromEither: FromEither3<URI> & Monad3<URI> = {
 export const chainOptionK =
   /*#__PURE__*/
   chainOptionK_(MonadFromEither)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(MonadFromEither)
+
+/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
  * @category constructors

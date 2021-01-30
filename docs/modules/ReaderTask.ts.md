@@ -236,9 +236,9 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare function fromIOK<A extends ReadonlyArray<unknown>, B>(
+export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-): <R>(...a: A) => ReaderTask<R, B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -248,9 +248,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function fromTaskK<A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
