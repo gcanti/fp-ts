@@ -21,6 +21,7 @@ Added in v2.0.0
   - [ap](#ap)
   - [chain](#chain)
   - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [fold](#fold)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
@@ -130,6 +131,21 @@ export declare function chainNullableK<M extends URIS>(
 export declare function chainNullableK<M>(
   M: Monad<M>
 ): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
+```
+
+Added in v2.10.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare function chainOptionK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: Kind<M, Option<A>>) => Kind<M, Option<B>>
+export declare function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
 ```
 
 Added in v2.10.0
