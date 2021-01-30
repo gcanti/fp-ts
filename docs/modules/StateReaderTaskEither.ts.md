@@ -526,9 +526,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const fromIOEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => IOEither<E, B>
-): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
@@ -562,9 +562,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export declare const fromTaskEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => TaskEither<E, B>
-): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0

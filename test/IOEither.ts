@@ -200,6 +200,13 @@ describe('IOEither', () => {
       assert.deepStrictEqual(f(_.left('b'))(), E.left('b'))
     })
 
+    it('chainEitherK', () => {
+      const f = _.chainEitherK((n: number) => (n > 0 ? E.right(n) : E.left('a')))
+      assert.deepStrictEqual(f(_.right(1))(), E.right(1))
+      assert.deepStrictEqual(f(_.right(-1))(), E.left('a'))
+      assert.deepStrictEqual(f(_.left('b'))(), E.left('b'))
+    })
+
     it('fromEither', () => {
       assert.deepStrictEqual(_.fromEither(E.right('a'))(), E.right('a'))
       assert.deepStrictEqual(_.fromEither(E.left('a'))(), E.left('a'))
@@ -433,12 +440,6 @@ describe('IOEither', () => {
       assert.deepStrictEqual(left(), E.right(false))
       assert.deepStrictEqual(right(), E.left([]))
     })
-  })
-
-  it('chainEitherK', () => {
-    const f = (s: string) => E.right(s.length)
-    const x = pipe(_.right('a'), _.chainEitherK(f))()
-    assert.deepStrictEqual(x, E.right(1))
   })
 
   it('do notation', () => {
