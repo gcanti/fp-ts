@@ -115,6 +115,23 @@ export function fromOptionK<F>(
 /**
  * @since 2.10.0
  */
+export function chainOptionK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: Kind<M, Option<A>>) => Kind<M, Option<B>>
+export function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
+export function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>> {
+  const chainM = chain(M)
+  const fromOptionKM = fromOptionK(M)
+  return (f) => chainM(fromOptionKM(f))
+}
+
+/**
+ * @since 2.10.0
+ */
 export function fromPredicate<F extends URIS>(
   F: Pointed1<F>
 ): {
