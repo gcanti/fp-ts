@@ -299,7 +299,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(fa: T.Task<A>) => T.Task<O.Option<NonNullable<A>>>
+export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
 ```
 
 Added in v2.10.0

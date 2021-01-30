@@ -134,9 +134,7 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
  * @category constructors
  * @since 2.0.0
  */
-export function fromNullable<A>(a: A): Option<NonNullable<A>> {
-  return a == null ? none : some(a as NonNullable<A>)
-}
+export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
 
 /**
  * Returns a *smart constructor* based on the given predicate.
@@ -397,11 +395,9 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B
  * @category combinators
  * @since 2.9.0
  */
-export function fromNullableK<A extends ReadonlyArray<unknown>, B>(
+export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-): (...a: A) => Option<NonNullable<B>> {
-  return (...a) => fromNullable(f(...a))
-}
+) => (...a: A) => Option<NonNullable<B>> = (f) => flow(f, fromNullable)
 
 /**
  * This is `chain` + `fromNullable`, useful when working with optional values.

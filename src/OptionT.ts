@@ -52,10 +52,10 @@ export function fromF<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
 /**
  * @since 2.10.0
  */
-export function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(fa: Kind<F, A>) => Kind<F, Option<NonNullable<A>>>
-export function fromNullable<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>>
-export function fromNullable<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>> {
-  return (fa) => F.map(fa, O.fromNullable)
+export function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<NonNullable<A>>>
+export function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>>
+export function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>> {
+  return (a) => F.of(O.fromNullable(a))
 }
 
 /**
