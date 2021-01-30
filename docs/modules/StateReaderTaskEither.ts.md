@@ -48,6 +48,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
+  - [fromOptionK](#fromoptionk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
   - [fromTaskEitherK](#fromtaskeitherk)
 - [constructors](#constructors)
@@ -516,6 +517,18 @@ export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ```
 
 Added in v2.4.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.10.0
 
 ## fromReaderTaskEitherK
 

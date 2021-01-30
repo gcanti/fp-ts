@@ -151,6 +151,49 @@ export function fromPredicate<F>(
 /**
  * @since 2.10.0
  */
+export function fromOptionK<F extends URIS4>(
+  F: FromEither4<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
+export function fromOptionK<F extends URIS3>(
+  F: FromEither3<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export function fromOptionK<F extends URIS3, E>(
+  F: FromEither3C<F, E>
+): (
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export function fromOptionK<F extends URIS2>(
+  F: FromEither2<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
+export function fromOptionK<F extends URIS2, E>(
+  F: FromEither2C<F, E>
+): (onNone: Lazy<E>) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
+export function fromOptionK<F>(
+  F: FromEither<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT2<F, E, B>
+export function fromOptionK<F>(
+  F: FromEither<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT2<F, E, B> {
+  const fromOptionF = fromOption(F)
+  return (onNone) => {
+    const from = fromOptionF(onNone)
+    return (f) => flow(f, from)
+  }
+}
+
+/**
+ * @since 2.10.0
+ */
 export function filterOrElse<M extends URIS4>(
   M: FromEither4<M> & Monad4<M>
 ): {

@@ -24,6 +24,7 @@ Added in v2.10.0
 - [utils](#utils)
   - [filterOrElse](#filterorelse)
   - [fromOption](#fromoption)
+  - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
 
 ---
@@ -182,6 +183,43 @@ export declare function fromOption<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
 export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
+```
+
+Added in v2.10.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare function fromOptionK<F extends URIS4>(
+  F: FromEither4<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
+export declare function fromOptionK<F extends URIS3>(
+  F: FromEither3<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export declare function fromOptionK<F extends URIS3, E>(
+  F: FromEither3C<F, E>
+): (
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export declare function fromOptionK<F extends URIS2>(
+  F: FromEither2<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromOptionK<F extends URIS2, E>(
+  F: FromEither2C<F, E>
+): (onNone: Lazy<E>) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromOptionK<F>(
+  F: FromEither<F>
+): <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT2<F, E, B>
 ```
 
 Added in v2.10.0

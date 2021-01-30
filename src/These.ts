@@ -25,7 +25,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { FromEither2, fromOption as fromOption_ } from './FromEither'
+import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -600,6 +600,14 @@ export const FromEither: FromEither2<URI> = {
 export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils
