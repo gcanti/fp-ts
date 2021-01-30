@@ -615,15 +615,15 @@ export const fromOptionK =
 
 /**
  * @example
- * import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
+ * import { toTuple2, left, right, both } from 'fp-ts/These'
  *
- * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(left('b')), ['b', 1])
- * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(right(2)), ['a', 2])
- * assert.deepStrictEqual(toReadonlyTuple2(() => 'a', () => 1)(both('b', 2)), ['b', 2])
+ * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(left('b')), ['b', 1])
+ * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(right(2)), ['a', 2])
+ * assert.deepStrictEqual(toTuple2(() => 'a', () => 1)(both('b', 2)), ['b', 2])
  *
  * @since 2.10.0
  */
-export const toReadonlyTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
+export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): readonly [E, A] =>
   isLeft(fa) ? [fa.left, a()] : isRight(fa) ? [e(), fa.right] : [fa.left, fa.right]
 
 // -------------------------------------------------------------------------------------
@@ -632,7 +632,7 @@ export const toReadonlyTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, 
 
 /* tslint:disable:readonly-array */
 /**
- * Use `toReadonlyTuple2` instead.
+ * Use `toTuple2` instead.
  *
  * @example
  * import { toTuple, left, right, both } from 'fp-ts/These'
@@ -645,7 +645,7 @@ export const toReadonlyTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, 
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
-  toReadonlyTuple2(
+  toTuple2(
     () => e,
     () => a
   ) as any

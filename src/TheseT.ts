@@ -223,19 +223,19 @@ export function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, These<E, A>>) => HKT<F
 /**
  * @since 2.10.0
  */
-export function toReadonlyTuple2<F extends URIS2>(
+export function toTuple2<F extends URIS2>(
   F: Functor2<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
-export function toReadonlyTuple2<F extends URIS>(
+export function toTuple2<F extends URIS>(
   F: Functor1<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
-export function toReadonlyTuple2<F>(
+export function toTuple2<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
-export function toReadonlyTuple2<F>(
+export function toTuple2<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]> {
-  return (e, a) => (fa) => F.map(fa, T.toReadonlyTuple2(e, a))
+  return (e, a) => (fa) => F.map(fa, T.toTuple2(e, a))
 }
 
 // -------------------------------------------------------------------------------------
@@ -380,11 +380,11 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   const _bimap = bimap(M)
   const _mapLeft = mapLeft(M)
   const _fold = fold(M)
-  const _toReadonlyTuple2: <E, A>(
+  const _toTuple2: <E, A>(
     e: Lazy<E>,
     a: Lazy<A>
     // tslint:disable-next-line: readonly-array
-  ) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toReadonlyTuple2(M) as any
+  ) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toTuple2(M) as any
   const of = right(M)
 
   const mapT = <E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> => pipe(fa, _map(f))
@@ -403,7 +403,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
     toTuple: (fa, e, a) =>
       pipe(
         fa,
-        _toReadonlyTuple2(
+        _toTuple2(
           () => e,
           () => a
         )
