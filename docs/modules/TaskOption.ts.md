@@ -275,9 +275,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => O.Option<B>
-) => (...a: A) => TaskOption<B>
+export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
 ```
 
 Added in v0.1.10
