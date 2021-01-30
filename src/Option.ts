@@ -1227,6 +1227,7 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 2.9.0
  */
@@ -1234,52 +1235,27 @@ export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<
   as: ReadonlyArray<A>
 ): Option<ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
-  const result = []
+  const out = []
   for (let i = 0; i < as.length; i++) {
     const b = f(i, as[i])
     if (isNone(b)) {
       return none
     }
-    result.push(b.value)
+    out.push(b.value)
   }
-  return some(result)
+  return some(out)
 }
 
 /**
- * Runs an action for every element in array and accumulates the results in option
- *
- * this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
- *
- * @example
- *
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const as = RA.range(0, 10)
- * assert.deepStrictEqual(pipe(as, traverseArray(some)), some(as))
- * assert.deepStrictEqual(pipe(as, traverseArray(fromPredicate((x) => x > 5))), none)
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>) => Option<ReadonlyArray<B>> = (
-  f
-) => traverseArrayWithIndex((_, a) => f(a))
+export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) =>
+  traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * get an array of option and convert it to option of array
- *
- * this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
- *
- * @example
- *
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const as = RA.range(0, 10)
- * assert.deepStrictEqual(pipe(as, RA.map(some), sequenceArray), some(as))
- * assert.deepStrictEqual(pipe(as, RA.map(fromPredicate(x => x > 8)), sequenceArray), none)
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 2.9.0
  */

@@ -1,25 +1,24 @@
 import * as Benchmark from 'benchmark'
 import * as A from '../../src/Array'
-import * as O from '../../src/Option'
+import * as _ from '../../src/Option'
 import { pipe } from '../../src/function'
 
 /*
-for an array with size 1000
-A.sequence(O.option) x 1,140 ops/sec ±0.23% (90 runs sampled)
-O.sequenceArray x 77,823 ops/sec ±2.87% (87 runs sampled)
-Fastest is O.sequenceArray
+A.sequence(_.Applicative) x 261 ops/sec ±9.68% (60 runs sampled)
+_.sequenceArray x 58,110 ops/sec ±7.58% (71 runs sampled)
+Fastest is _.sequenceArray
 */
 
 const suite = new Benchmark.Suite()
 
-const arr = A.range(0, 1000)
+const as = pipe(A.range(0, 1000), A.map(_.of))
 
 suite
-  .add('A.sequence(O.option)', function () {
-    return pipe(arr, A.map(O.some), A.sequence(O.option))
+  .add('A.sequence(_.Applicative)', function () {
+    return pipe(as, A.sequence(_.Applicative))
   })
-  .add('O.sequenceArray', function () {
-    return pipe(arr, A.map(O.some), O.sequenceArray)
+  .add('_.sequenceArray', function () {
+    return pipe(as, _.sequenceArray)
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

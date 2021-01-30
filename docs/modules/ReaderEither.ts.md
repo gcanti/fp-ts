@@ -953,6 +953,8 @@ Added in v2.8.0
 
 ## sequenceArray
 
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -962,6 +964,8 @@ export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A
 Added in v2.9.0
 
 ## traverseArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -974,6 +978,8 @@ export declare const traverseArray: <R, E, A, B>(
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

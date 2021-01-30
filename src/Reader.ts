@@ -377,44 +377,25 @@ export const apSW: <A, N extends string, R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <R, A, B>(
-  f: (index: number, a: A) => Reader<R, B>
-) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (as) => (r) => as.map((x, i) => f(i, x)(r))
+export const traverseArrayWithIndex = <R, A, B>(f: (index: number, a: A) => Reader<R, B>) => (
+  as: ReadonlyArray<A>
+): Reader<R, ReadonlyArray<B>> => (r) => as.map((x, i) => f(i, x)(r))
 
 /**
- * this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { traverseArray, Reader } from 'fp-ts/Reader'
- * import { pipe } from 'fp-ts/function'
- *
- * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const as = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(as, traverseArray(add))({value: 3}), pipe(as, RA.map(x => x + 3)))
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 2.9.0
  */
-export const traverseArray: <R, A, B>(
+export const traverseArray = <R, A, B>(
   f: (a: A) => Reader<R, B>
-) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function has the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { sequenceArray, Reader } from 'fp-ts/Reader'
- * import { pipe } from 'fp-ts/function'
- *
- * const add: (x: number) => Reader<{value:number}, number> = x => config => x + config.value
- * const as = RA.range(0, 100)
- *
- * assert.deepStrictEqual(pipe(as, RA.map(add), sequenceArray)({value: 3}), pipe(as, RA.map(x => x + 3)))
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
  *
  * @since 2.9.0
  */

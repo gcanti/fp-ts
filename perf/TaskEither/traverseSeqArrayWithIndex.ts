@@ -1,11 +1,11 @@
 import * as Benchmark from 'benchmark'
 import * as A from '../../src/Array'
-import * as _ from '../../src/Task'
+import * as _ from '../../src/TaskEither'
 import { pipe } from '../../src/function'
 
 /*
-A.traverseWithIndex(_.ApplicativeSeq) x 310 ops/sec ±10.89% (31 runs sampled)
-_.traverseSeqArrayWithIndex x 1,324 ops/sec ±6.92% (20 runs sampled)
+A.traverseWithIndex(_.ApplicativeSeq) x 309 ops/sec ±8.49% (67 runs sampled)
+_.traverseSeqArrayWithIndex x 1,502 ops/sec ±4.20% (20 runs sampled)
 Fastest is _.traverseSeqArrayWithIndex
 */
 

@@ -967,86 +967,26 @@ export const apSW: <A, N extends string, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <A, B, E>(
+export const traverseArrayWithIndex = <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (as) =>
-  pipe(as, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) =>
+  flow(T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * this function has the same behavior of `RA.traverse(TE.taskEither)` but it's stack safe and performs better
- *
- * *this function run all tasks in parallel and does not bail out, for sequential version use `traverseSeqArray`*
- *
- * @example
- *
- * import * as TE from 'fp-ts/TaskEither'
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * const PostRepo = {
- *  findById : (id: number) => TE.of({id, title: ''})
- * }
- *
- * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, TE.traverseArray(PostRepo.findById))
- *
- * async function test() {
- *   const ids = RA.range(0, 10)
- *
- *   assert.deepStrictEqual(
- *     await findAllPosts(ids)(),
- *     right(
- *       pipe(
- *         ids,
- *         RA.map((id) => ({ id, title: ''}))
- *       )
- *     )
- *   )
- * }
- *
- * test()
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @since 2.9.0
  */
-export const traverseArray: <A, B, E>(
+export const traverseArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * this function has the same behavior of `RA.sequence(TE.taskEither)` but it's stack safe and performs better
- *
- * *this function run all tasks in parallel and does not bail out, for sequential version use `sequenceSeqArray`*
- *
- * @example
- *
- * import * as TE from 'fp-ts/TaskEither'
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * const PostRepo = {
- *  findById : (id: number) => TE.of({id, title: ''})
- * }
- *
- * const findAllPosts = (ids: ReadonlyArray<number>) => pipe(ids, RA.map(PostRepo.findById), TE.sequenceArray)
- *
- * async function test() {
- *   const ids = RA.range(0, 10)
- *
- *   assert.deepStrictEqual(
- *     await findAllPosts(ids)(),
- *     right(
- *       pipe(
- *         ids,
- *         RA.map((id) => ({ id, title: ''}))
- *       )
- *     )
- *   )
- * }
- *
- * test()
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 2.9.0
  */
@@ -1055,39 +995,41 @@ export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => Task
   traverseArray(identity)
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
  * @since 2.9.0
  */
-export const traverseSeqArrayWithIndex: <A, B, E>(
-  f: (index: number, a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (as) => async () => {
+export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => TaskEither<E, B>) => (
+  as: ReadonlyArray<A>
+): TaskEither<E, ReadonlyArray<B>> => () =>
   // tslint:disable-next-line: readonly-array
-  const result = []
-  for (let i = 0; i < as.length; i++) {
-    const e = await f(i, as[i])()
-    if (E.isLeft(e)) {
-      return e
-    }
-    result.push(e.right)
-  }
-
-  return E.right(result)
-}
+  as.reduce<Promise<Either<E, Array<B>>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        E.isLeft(ebs)
+          ? acc
+          : f(i, a)().then((eb) => {
+              if (E.isLeft(eb)) {
+                return eb
+              }
+              ebs.right.push(eb.right)
+              return ebs
+            })
+      ),
+    Promise.resolve(E.right([]))
+  )
 
 /**
- * this function has the same behavior of `RA.traverse(TE.taskEitherSeq)` but it's stack safe and performs better
- *
- * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `traverseArray`*
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 2.9.0
  */
-export const traverseSeqArray: <A, B, E>(
+export const traverseSeqArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * this function has the same behavior of `RA.sequence(TE.taskEitherSeq)` but it's stack safe and performs better
- *
- * *this function run all tasks in sequential order and bails out on left side of either, for parallel version use `sequenceArray`*
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 2.9.0
  */

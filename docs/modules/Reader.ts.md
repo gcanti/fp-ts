@@ -520,7 +520,7 @@ Added in v2.8.0
 
 ## sequenceArray
 
-this function has the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -528,30 +528,11 @@ this function has the same behavior of `A.sequence(R.reader)` but it's stack saf
 export declare const sequenceArray: <R, A>(arr: readonly Reader<R, A>[]) => Reader<R, readonly A[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, Reader } from 'fp-ts/Reader'
-import { pipe } from 'fp-ts/function'
-
-const add: (x: number) => Reader<{ value: number }, number> = (x) => (config) => x + config.value
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(
-  pipe(arr, RA.map(add), sequenceArray)({ value: 3 }),
-  pipe(
-    arr,
-    RA.map((x) => x + 3)
-  )
-)
-```
-
 Added in v2.9.0
 
 ## traverseArray
 
-this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -561,28 +542,11 @@ export declare const traverseArray: <R, A, B>(
 ) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, Reader } from 'fp-ts/Reader'
-import { pipe } from 'fp-ts/function'
-
-const add: (x: number) => Reader<{ value: number }, number> = (x) => (config) => x + config.value
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(
-  pipe(arr, traverseArray(add))({ value: 3 }),
-  pipe(
-    arr,
-    RA.map((x) => x + 3)
-  )
-)
-```
-
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

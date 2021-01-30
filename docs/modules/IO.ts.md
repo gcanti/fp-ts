@@ -390,9 +390,7 @@ Added in v2.8.0
 
 ## sequenceArray
 
-transform Array of IO to IO of Array
-
-this function has the same behavior of `A.sequence(IO.io)` but it's stack safe
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -400,29 +398,11 @@ this function has the same behavior of `A.sequence(IO.io)` but it's stack safe
 export declare const sequenceArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, IO } from 'fp-ts/IO'
-import { pipe } from 'fp-ts/function'
-
-const logger: Array<unknown> = []
-const log: <A>(a: A) => IO<void> = (a) => () => {
-  logger.push(a)
-}
-
-pipe(RA.range(0, 100), RA.map(log), sequenceArray)()
-assert.deepStrictEqual(logger, RA.range(0, 100))
-```
-
 Added in v2.9.0
 
 ## traverseArray
 
-runs an action for every element in array, and accumulates the results IO in the array.
-
-this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -430,25 +410,11 @@ this function has the same behavior of `A.traverse(IO.io)` but it's stack safe
 export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly A[]) => IO<readonly B[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, IO } from 'fp-ts/IO'
-import { pipe } from 'fp-ts/function'
-
-const logger: Array<unknown> = []
-const log: <A>(a: A) => IO<void> = (a) => () => {
-  logger.push(a)
-}
-
-pipe(RA.range(0, 100), traverseArray(log))()
-assert.deepStrictEqual(logger, RA.range(0, 100))
-```
-
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

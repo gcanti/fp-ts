@@ -1,11 +1,11 @@
 import * as assert from 'assert'
-import * as RA from '../src/ReadonlyArray'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
@@ -472,33 +472,9 @@ describe('Option', () => {
     assert.deepStrictEqual(f(-1), _.none)
   })
 
-  // -------------------------------------------------------------------------------------
-  // array utils
-  // -------------------------------------------------------------------------------------
-
   it('sequenceArray', () => {
-    const arr = RA.range(0, 10)
-    assert.deepStrictEqual(pipe(arr, RA.map(_.some), _.sequenceArray), _.some(arr))
-
-    assert.deepStrictEqual(pipe(arr, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceArray), _.none)
-  })
-
-  it('traverseArray', () => {
-    const arr = RA.range(0, 10)
-    assert.deepStrictEqual(pipe(arr, _.traverseArray(_.some)), _.some(arr))
-    assert.deepStrictEqual(pipe(arr, _.traverseArray(_.fromPredicate((x) => x > 5))), _.none)
-  })
-
-  it('traverseArrayWithIndex', () => {
-    const arr = RA.range(0, 10)
-    assert.deepStrictEqual(
-      pipe(
-        arr,
-        _.traverseArrayWithIndex((index, _data) => _.some(index))
-      ),
-      _.some(arr)
-    )
-    assert.deepStrictEqual(pipe(arr, _.traverseArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
+    assert.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
+    assert.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
   })
 
   it('tryCatchK', () => {

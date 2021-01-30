@@ -4,7 +4,6 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
-import * as A from '../src/Array'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import { semigroupSum } from '../src/Semigroup'
@@ -238,27 +237,9 @@ describe('ReaderEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    it('sequenceArray', () => {
-      const arr = A.range(1, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.of), _.sequenceArray)({}), E.right(arr))
-    })
-
-    it('traverseArray', () => {
-      const arr = A.range(1, 10)
-      assert.deepStrictEqual(pipe(arr, _.traverseArray(_.of))({}), E.right(arr))
-    })
-
-    it('traverseArrayWithIndex', () => {
-      const arr = A.replicate(3, 1)
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
-        )({}),
-        E.right([0, 1, 2])
-      )
-    })
+  it('sequenceArray', () => {
+    assert.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
+    assert.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
   })
 
   it('getCompactable', () => {
