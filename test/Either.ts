@@ -581,6 +581,13 @@ describe('Either', () => {
     assert.deepStrictEqual(f(-1), _.left('a'))
   })
 
+  it('chainOptionK', () => {
+    const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    assert.deepStrictEqual(f(_.right(1)), _.right(1))
+    assert.deepStrictEqual(f(_.right(-1)), _.left('a'))
+    assert.deepStrictEqual(f(_.left('b')), _.left('b'))
+  })
+
   it('exists', () => {
     const gt2 = _.exists((n: number) => n > 2)
     assert.deepStrictEqual(gt2(_.left('a')), false)
