@@ -195,6 +195,14 @@ export const fromOptionK =
   /*#__PURE__*/
   OT.fromOptionK(T.Pointed)
 
+/**
+ * @category combinators
+ * @since 0.1.10
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  OT.chainOptionK(T.Monad)
+
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
