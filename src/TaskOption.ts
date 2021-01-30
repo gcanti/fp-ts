@@ -4,16 +4,15 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
-import { Compactable1, compact as compact_, separate as separate_ } from './Compactable'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
 import {
+  filter as filter_,
   Filterable1,
   filterMap as filterMap_,
-  filter as filter_,
-  partitionMap as partitionMap_,
-  partition as partition_
+  partition as partition_,
+  partitionMap as partitionMap_
 } from './Filterable'
-import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
@@ -527,15 +526,6 @@ export const Filterable: Filterable1<URI> = {
   filterMap: _filterMap,
   partition: _partition,
   partitionMap: _partitionMap
-}
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither1<URI> = {
-  URI,
-  fromEither
 }
 
 /**

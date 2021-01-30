@@ -65,7 +65,6 @@ Added in v2.10.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -561,16 +560,6 @@ Added in v2.10.0
 
 ```ts
 export declare const Filterable: Filterable1<'TaskOption'>
-```
-
-Added in v2.10.0
-
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: FromEither1<'TaskOption'>
 ```
 
 Added in v2.10.0
