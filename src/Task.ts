@@ -20,7 +20,7 @@ import {
 } from './Apply'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
-import { identity, pipe } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, Functor1 } from './Functor'
 import { IO } from './IO'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
@@ -95,9 +95,8 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
  * @category combinators
  * @since 2.4.0
  */
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): (...a: A) => Task<B> {
-  return (...a) => fromIO(f(...a))
-}
+export const fromIOK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): ((...a: A) => Task<B>) =>
+  flow(f, fromIO)
 
 /**
  * @category combinators

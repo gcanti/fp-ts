@@ -31,6 +31,7 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
+  chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither2,
@@ -280,29 +281,9 @@ export const tryCatchK = <E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.4.0
  */
-export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
-): (...a: A) => TaskEither<E, B> {
-  return (...a) => fromIOEither(f(...a))
-}
-
-/**
- * Less strict version of [`chainEitherK`](#chainEitherK).
- *
- * @category combinators
- * @since 2.6.1
- */
-export const chainEitherKW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => chainW(fromEitherK(f))
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainEitherKW
+): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
@@ -764,6 +745,24 @@ const MonadFromEither: FromEither2<URI> & Monad2<URI> = {
 export const chainOptionK =
   /*#__PURE__*/
   chainOptionK_(MonadFromEither)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(MonadFromEither)
+
+/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainEitherK as any
 
 /**
  * @category constructors

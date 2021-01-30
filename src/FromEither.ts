@@ -212,16 +212,13 @@ export function chainOptionK<F extends URIS2, E>(
 export function chainOptionK<F>(
   F: FromEither<F> & Monad<F>
 ): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B>
-export function chainOptionK<F>(
-  F: FromEither<F> & Monad<F>
-): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B> {
+export function chainOptionK<F extends URIS2>(
+  F: FromEither2<F> & Monad2<F>
+): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B> {
   const fromOptionKF = fromOptionK(F)
   return (onNone) => {
     const from = fromOptionKF(onNone)
-    return (f) => (ma) => {
-      const out = F.chain(ma, from(f))
-      return out as any
-    }
+    return (f) => (ma) => F.chain(ma, from(f))
   }
 }
 
@@ -250,6 +247,34 @@ export function fromEitherK<F>(
   F: FromEither<F>
 ): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B> {
   return (f) => flow(f, F.fromEither)
+}
+
+/**
+ * @since 2.10.0
+ */
+export function chainEitherK<M extends URIS4>(
+  M: FromEither4<M> & Monad4<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+export function chainEitherK<M extends URIS3>(
+  M: FromEither3<M> & Monad3<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export function chainEitherK<M extends URIS3, E>(
+  M: FromEither3C<M, E> & Monad3C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export function chainEitherK<M extends URIS2>(
+  M: FromEither2<M> & Monad2<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export function chainEitherK<M extends URIS2, E>(
+  M: FromEither2C<M, E> & Monad2C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export function chainEitherK<M>(
+  M: FromEither<M> & Monad<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+export function chainEitherK<M extends URIS2>(
+  M: FromEither2<M> & Monad2<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B> {
+  const fromEitherKF = fromEitherK(M)
+  return (f) => (ma) => M.chain(ma, fromEitherKF(f))
 }
 
 /**

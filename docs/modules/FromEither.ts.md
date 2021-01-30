@@ -22,6 +22,7 @@ Added in v2.10.0
   - [FromEither3C (interface)](#fromeither3c-interface)
   - [FromEither4 (interface)](#fromeither4-interface)
 - [utils](#utils)
+  - [chainEitherK](#chaineitherk)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
@@ -114,6 +115,33 @@ export interface FromEither4<F extends URIS4> {
 Added in v2.10.0
 
 # utils
+
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare function chainEitherK<M extends URIS4>(
+  M: FromEither4<M> & Monad4<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+export declare function chainEitherK<M extends URIS3>(
+  M: FromEither3<M> & Monad3<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export declare function chainEitherK<M extends URIS3, E>(
+  M: FromEither3C<M, E> & Monad3C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export declare function chainEitherK<M extends URIS2>(
+  M: FromEither2<M> & Monad2<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export declare function chainEitherK<M extends URIS2, E>(
+  M: FromEither2C<M, E> & Monad2C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export declare function chainEitherK<M>(
+  M: FromEither<M> & Monad<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+```
+
+Added in v2.10.0
 
 ## chainOptionK
 
