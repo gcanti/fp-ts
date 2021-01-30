@@ -473,7 +473,7 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
 ```
 
 **Example**
@@ -590,7 +590,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const mapNullable: typeof chainNullableK
+export declare const mapNullable: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0

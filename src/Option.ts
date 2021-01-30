@@ -443,9 +443,8 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 2.9.0
  */
-export function chainNullableK<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
-  return (ma) => (isNone(ma) ? none : fromNullable(f(ma.value)))
-}
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+  isNone(ma) ? none : fromNullable(f(ma.value))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
