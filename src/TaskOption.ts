@@ -191,9 +191,9 @@ export const chainNullableK =
  * @category combinators
  * @since 0.1.10
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => O.Option<B>
-) => (...a: A) => TaskOption<B> = (f) => (...a) => fromOption(f(...a))
+export const fromOptionK =
+  /*#__PURE__*/
+  OT.fromOptionK(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // type class members
