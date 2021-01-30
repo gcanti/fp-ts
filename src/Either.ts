@@ -30,7 +30,7 @@ import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
@@ -389,22 +389,22 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
  * @category combinators
  * @since 2.9.0
  */
-export function fromNullableK<E>(
+export const fromNullableK = <E>(
   e: E
-): <A extends ReadonlyArray<unknown>, B>(
+): (<A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => Either<E, NonNullable<B>> {
+) => (...a: A) => Either<E, NonNullable<B>>) => {
   const from = fromNullable(e)
-  return (f) => (...a) => from(f(...a))
+  return (f) => flow(f, from)
 }
 
 /**
  * @category combinators
  * @since 2.9.0
  */
-export function chainNullableK<E>(
+export const chainNullableK = <E>(
   e: E
-): <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>> {
+): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) => {
   const from = fromNullableK(e)
   return (f) => chain(from(f))
 }

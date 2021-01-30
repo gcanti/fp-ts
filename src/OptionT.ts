@@ -83,6 +83,23 @@ export function fromNullableK<F>(
 /**
  * @since 2.10.0
  */
+export function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Option<A>>) => Kind<M, Option<NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>> {
+  const chainM = chain(M)
+  const fromNullableKM = fromNullableK(M)
+  return (f) => chainM(fromNullableKM(f))
+}
+
+/**
+ * @since 2.10.0
+ */
 export function fromPredicate<F extends URIS>(
   F: Pointed1<F>
 ): {
