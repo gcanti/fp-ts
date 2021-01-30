@@ -248,10 +248,10 @@ export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<
   const r = Array(rLen)
   let start = 0
   for (let i = 0; i < len; i++) {
-    const arr = mma[i]
-    const l = arr.length
+    const as = mma[i]
+    const l = as.length
     for (let j = 0; j < l; j++) {
-      r[j + start] = arr[j]
+      r[j + start] = as[j]
     }
     start += l
   }
