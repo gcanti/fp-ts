@@ -1573,25 +1573,12 @@ Added in v2.0.0
 
 ## sequenceArray
 
-convert an array of either to an either of array
-this function has the same behavior of `A.sequence(E.either)` but it's optimized and performs better
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const sequenceArray: <E, A>(arr: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-**Example**
-
-```ts
-import { sequenceArray, left, right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-
-const arr = RA.range(0, 10)
-assert.deepStrictEqual(pipe(arr, RA.map(right), sequenceArray), right(arr))
-assert.deepStrictEqual(pipe(arr, RA.map(right), RA.cons(left('Error')), sequenceArray), left('Error'))
+export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
 ```
 
 Added in v2.9.0
@@ -1610,8 +1597,7 @@ Added in v2.0.0
 
 ## traverseArray
 
-map an array using provided function to Either then transform to Either of the array
-this function has the same behavior of `A.traverse(E.either)` but it's optimized and performs better
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1621,38 +1607,11 @@ export declare const traverseArray: <E, A, B>(
 ) => (as: readonly A[]) => Either<E, readonly B[]>
 ```
 
-**Example**
-
-```ts
-import { traverseArray, left, right, fromPredicate } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-
-const arr = RA.range(0, 10)
-assert.deepStrictEqual(
-  pipe(
-    arr,
-    traverseArray((x) => right(x))
-  ),
-  right(arr)
-)
-assert.deepStrictEqual(
-  pipe(
-    arr,
-    traverseArray(
-      fromPredicate(
-        (x) => x > 5,
-        () => 'a'
-      )
-    )
-  ),
-  left('a')
-)
-```
-
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

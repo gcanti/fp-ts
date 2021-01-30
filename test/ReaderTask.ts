@@ -3,7 +3,7 @@ import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as R from '../src/Reader'
-import * as A from '../src/Array'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReaderTask'
 import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
@@ -156,25 +156,37 @@ describe('ReaderTask', () => {
     assert.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined)(), { a: 1, b: 'b' })
   })
 
-  describe('array utils', () => {
-    it('sequenceArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, A.map(_.of), _.sequenceArray)(undefined)(), arr)
-    })
-    it('traverseArray', async () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(undefined)(), arr)
-    })
-
-    it('traverseArrayWithIndex', async () => {
-      const arr = A.replicate(3, 1)
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
-        )(undefined)(),
-        [0, 1, 2]
+  it('sequenceArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.ReaderTask<undefined, number> =>
+      _.fromTask(
+        T.delay(n % 2 === 0 ? 50 : 100)(
+          T.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
       )
-    })
+    const as = RA.makeBy(4, append)
+    assert.deepStrictEqual(await pipe(as, _.sequenceArray)(undefined)(), [0, 1, 2, 3])
+    assert.deepStrictEqual(log, [0, 2, 1, 3])
+  })
+
+  it('sequenceSeqArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.ReaderTask<undefined, number> =>
+      _.fromTask(
+        T.delay(n % 2 === 0 ? 50 : 100)(
+          T.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      )
+    const as = RA.makeBy(4, append)
+    assert.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(undefined)(), [0, 1, 2, 3])
+    assert.deepStrictEqual(log, [0, 1, 2, 3])
   })
 })

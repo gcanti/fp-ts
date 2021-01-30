@@ -616,7 +616,7 @@ export const apS =
  *
  * @since 2.10.0
  */
-export const traverseReadonlyArrayWithIndex = <A, B>(
+export const traverseArrayWithIndex = <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => flow(T.traverseArrayWithIndex(f), T.map(O.sequenceArray))
 
@@ -625,53 +625,58 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  *
  * @since 2.10.0
  */
-export const traverseReadonlyArray: <A, B>(
+export const traverseArray: <A, B>(
   f: (a: A) => TaskOption<B>
-) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 2.10.0
  */
-export const sequenceReadonlyArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
+export const sequenceArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseReadonlyArray(identity)
+  traverseArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 2.10.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
+export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
   as: ReadonlyArray<A>
-): TaskOption<ReadonlyArray<B>> => async () => {
+): TaskOption<ReadonlyArray<B>> => () =>
   // tslint:disable-next-line: readonly-array
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    const o = await f(i, as[i])()
-    if (O.isNone(o)) {
-      return o
-    }
-    out.push(o.value)
-  }
-  return O.some(out)
-}
+  as.reduce<Promise<Option<Array<B>>>>(
+    (acc, a, i) =>
+      acc.then((obs) =>
+        O.isNone(obs)
+          ? acc
+          : f(i, a)().then((ob) => {
+              if (O.isNone(ob)) {
+                return ob
+              }
+              obs.value.push(ob.value)
+              return obs
+            })
+      ),
+    Promise.resolve(O.some([]))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 2.10.0
  */
-export const traverseReadonlyArraySeq: <A, B>(
+export const traverseSeqArray: <A, B>(
   f: (a: A) => TaskOption<B>
-) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 2.10.0
  */
-export const sequenceReadonlyArraySeq: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
+export const sequenceSeqArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/
-  traverseReadonlyArraySeq(identity)
+  traverseSeqArray(identity)

@@ -379,7 +379,7 @@ Added in v2.8.0
 
 ## sequenceArray
 
-This function has the same behavior of `A.sequence(S.State)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -387,24 +387,11 @@ This function has the same behavior of `A.sequence(S.State)` but it's stack safe
 export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, State } from 'fp-ts/State'
-import { pipe, tuple } from 'fp-ts/function'
-
-const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(pipe(arr, RA.map(add), sequenceArray)(0), [arr, arr.reduce((p, c) => p + c, 0)])
-```
-
 Added in v2.9.0
 
 ## traverseArray
 
-This function has the same behavior of `A.traverse(S.State)` but it's stack safe and optimized
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -412,22 +399,11 @@ This function has the same behavior of `A.traverse(S.State)` but it's stack safe
 export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, State } from 'fp-ts/State'
-import { pipe, tuple } from 'fp-ts/function'
-
-const add = (n: number): State<number, number> => (s: number) => tuple(n, n + s)
-const arr = RA.range(0, 100)
-
-assert.deepStrictEqual(pipe(arr, traverseArray(add))(0), [arr, arr.reduce((p, c) => p + c, 0)])
-```
-
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

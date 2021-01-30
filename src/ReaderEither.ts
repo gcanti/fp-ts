@@ -720,21 +720,27 @@ export const apSW: <A, N extends string, R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <R, E, A, B>(
+export const traverseArrayWithIndex = <R, E, A, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) =>
   flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArray: <R, E, A, B>(
+export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
  * @since 2.9.0
  */
 export const sequenceArray: <R, E, A>(

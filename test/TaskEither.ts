@@ -503,75 +503,41 @@ describe('TaskEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    it('sequenceArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceArray)(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          RA.map(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          ),
-          _.sequenceArray
-        )(),
-        E.left('a')
-      )
-    })
+  it('sequenceArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    assert.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
+    assert.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
+    assert.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
+    assert.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
 
-    it('traverseArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        )(),
-        E.left('a')
-      )
-    })
-
-    it('sequenceSeqArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceSeqArray)(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          RA.map(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          ),
-          _.sequenceSeqArray
-        )(),
-        E.left('a')
-      )
-    })
-
-    it('traverseSeqArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), E.right(arr))
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseSeqArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        )(),
-        E.left('a')
-      )
-    })
+  it('sequenceSeqArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    assert.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
+    assert.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
+    assert.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
+    assert.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

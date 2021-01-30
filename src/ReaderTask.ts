@@ -413,26 +413,60 @@ export const apSW: <A, N extends string, R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <R, A, B>(
+export const traverseArrayWithIndex = <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) =>
   flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
  * @since 2.9.0
  */
-export const traverseArray: <R, A, B>(
+export const traverseArray = <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
-) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ *
  * @since 2.9.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.10.0
+ */
+export const traverseSeqArrayWithIndex = <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) =>
+  flow(R.traverseArrayWithIndex(f), R.map(T.sequenceSeqArray))
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 2.10.0
+ */
+export const traverseSeqArray = <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ *
+ * @since 2.10.0
+ */
+export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
