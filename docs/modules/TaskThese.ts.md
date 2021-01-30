@@ -20,12 +20,15 @@ Added in v2.4.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [left](#left)
   - [leftIO](#leftio)
@@ -115,6 +118,18 @@ Added in v2.7.0
 
 # combinators
 
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
 ## swap
 
 **Signature**
@@ -166,6 +181,29 @@ export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A>
+```
+
+Added in v2.10.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
+}
+```
+
+Added in v2.10.0
 
 ## fromTask
 

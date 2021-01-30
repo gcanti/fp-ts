@@ -277,6 +277,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromEither` function (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `foldW` (@gcanti)
+    - add `fromOption` (@gcanti)
+    - add `fromOptionK` (@gcanti)
+    - add `fromPredicate` (@gcanti)
   - `These`
     - add `Pointed` instance (@gcanti)
     - add `of` function (@gcanti)
