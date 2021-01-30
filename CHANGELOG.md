@@ -176,7 +176,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
     - add `foldW` (@gcanti)
     - add `tryCatchK` (@gcanti)
   - `OptionT`
