@@ -10,6 +10,7 @@ import {
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither4,
+  fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
@@ -233,16 +234,6 @@ export const fromState =
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> {
-  return (...a) => fromEither(f(...a))
-}
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -733,6 +724,14 @@ export const filterOrElseW: {
     ma: StateReaderTaskEither<S, R, E1, A>
   ) => StateReaderTaskEither<S, R, E1 | E2, A>
 } = filterOrElse
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
 
 /**
  * @category instances
