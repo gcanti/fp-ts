@@ -1361,17 +1361,17 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
  * import { pipe } from 'fp-ts/function'
  * import * as RA from 'fp-ts/ReadonlyArray'
  *
- * const arr = RA.range(0, 10)
+ * const as = RA.range(0, 10)
  * assert.deepStrictEqual(
  *   pipe(
- *     arr,
+ *     as,
  *     traverseArray((x) => right(x))
  *   ),
- *   right(arr)
+ *   right(as)
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     arr,
+ *     as,
  *     traverseArray(
  *       fromPredicate(
  *         (x) => x > 5,
@@ -1397,13 +1397,13 @@ export const traverseArray: <E, A, B>(
  * import { pipe } from 'fp-ts/function'
  * import * as RA from 'fp-ts/ReadonlyArray'
  *
- * const arr = RA.range(0, 10)
- * assert.deepStrictEqual(pipe(arr, RA.map(right), sequenceArray), right(arr))
- * assert.deepStrictEqual(pipe(arr, RA.map(right), RA.cons(left('Error')), sequenceArray), left('Error'))
+ * const as = RA.range(0, 10)
+ * assert.deepStrictEqual(pipe(as, RA.map(right), sequenceArray), right(as))
+ * assert.deepStrictEqual(pipe(as, RA.map(right), RA.cons(left('Error')), sequenceArray), left('Error'))
  *
  * @since 2.9.0
  */
-export const sequenceArray: <E, A>(arr: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
+export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 

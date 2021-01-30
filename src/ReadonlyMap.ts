@@ -203,9 +203,9 @@ export function toUnfoldable<K, F>(
 ): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
   const toArrayO = toReadonlyArray(ord)
   return (d) => {
-    const arr = toArrayO(d)
-    const len = arr.length
-    return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
+    const kas = toArrayO(d)
+    const len = kas.length
+    return U.unfold(0, (b) => (b < len ? O.some([kas[b], b + 1]) : O.none))
   }
 }
 

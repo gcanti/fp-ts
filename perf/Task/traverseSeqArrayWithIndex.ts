@@ -4,22 +4,25 @@ import * as T from '../../src/Task'
 import { pipe } from '../../src/function'
 
 /*
-for an array with size 1000
-A.sequence(T.task) x 534 ops/sec ±10.52% (64 runs sampled)
-T.sequenceArray x 4,237 ops/sec ±7.82% (71 runs sampled)
-Fastest is Promise.allA
+traverseSeqArrayWithIndex x 416 ops/sec ±8.78% (50 runs sampled)
 */
 
 const suite = new Benchmark.Suite()
 
-const as = pipe(A.range(0, 1000), A.map(T.of))
+const as = A.range(0, 1000)
 
 suite
-  .add('A.sequence(T.ApplicativePar)', function () {
-    return pipe(as, A.sequence(T.ApplicativePar))()
+  .add('A.traverseWithIndex(T.ApplicativeSeq)', function () {
+    return pipe(
+      as,
+      A.traverseWithIndex(T.ApplicativeSeq)((_, a) => T.of(a))
+    )()
   })
-  .add('T.sequenceArray', function () {
-    return pipe(as, T.sequenceArray)()
+  .add('traverseSeqArrayWithIndex', function () {
+    return pipe(
+      as,
+      T.traverseSeqArrayWithIndex((_, a) => T.of(a))
+    )()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console
