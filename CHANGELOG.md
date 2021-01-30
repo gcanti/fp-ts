@@ -91,9 +91,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
     - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
+    - deprecate `toTuple` in favour of `toTuple2` (@gcanti)
   - `These`
-    - deprecate `toTuple` in favour of `toReadonlyTuple2` (@gcanti)
+    - deprecate `toTuple` in favour of `toTuple2` (@gcanti)
   - `Traversable`
     - deprecate `getTraversableComposition`, use `traverse`, `sequence` helpers instead (@gcanti)
 - **New Feature**
@@ -277,7 +277,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Functor` instance (@gcanti)
     - add `Pointed` instance (@gcanti)
     - add `Bifunctor` instance (@gcanti)
-    - add `toReadonlyTuple2` (@gcanti)
+    - add `toTuple2` (@gcanti)
     - add `getApply` (@gcanti)
     - add `FromIO` instance (@gcanti)
     - add `FromTask` instance (@gcanti)
@@ -291,7 +291,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `of` function (@gcanti)
     - add `getApply` (@gcanti)
-    - add `toReadonlyTuple2` (@gcanti)
+    - add `toTuple2` (@gcanti)
     - add `FromEither` instance (@gcanti)
     - add `fromOption` constructor (@gcanti)
     - add `foldW` (@gcanti)

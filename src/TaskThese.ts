@@ -368,9 +368,9 @@ export const FromTask: FromTask2<URI> = {
 /**
  * @since 2.10.0
  */
-export const toReadonlyTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
+export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/
-  TT.toReadonlyTuple2(T.Functor)
+  TT.toTuple2(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -403,13 +403,13 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
 
 /* tslint:disable:readonly-array */
 /**
- * Use `toReadonlyTuple2` instead.
+ * Use `toTuple2` instead.
  *
  * @since 2.4.0
  * @deprecated
  */
 export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]>) =>
-  toReadonlyTuple2(
+  toTuple2(
     () => e,
     () => a
   ) as any

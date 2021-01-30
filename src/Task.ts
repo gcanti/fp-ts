@@ -479,9 +479,8 @@ export const traverseSeqArrayWithIndex: <A, B>(
  *
  * @since 2.9.0
  */
-export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
-  f
-) => traverseSeqArrayWithIndex((_, a) => f(a))
+export const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) =>
+  traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
  * run tasks in array sequential and give a task of array
