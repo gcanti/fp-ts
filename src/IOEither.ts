@@ -816,11 +816,11 @@ export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEith
  */
 export const traverseSeqArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (arr) => () => {
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => (as) => () => {
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = f(i, arr[i])()
+  for (let i = 0; i < as.length; i++) {
+    const b = f(i, as[i])()
     if (E.isLeft(b)) {
       return b
     }

@@ -130,9 +130,9 @@ export function toUnfoldable<F>(
 ): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
 export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string, A>) => HKT<F, readonly [string, A]> {
   return (r) => {
-    const arr = toReadonlyArray(r)
-    const len = arr.length
-    return U.unfold(0, (b) => (b < len ? optionSome([arr[b], b + 1]) : none))
+    const sas = toReadonlyArray(r)
+    const len = sas.length
+    return U.unfold(0, (b) => (b < len ? optionSome([sas[b], b + 1]) : none))
   }
 }
 

@@ -192,14 +192,31 @@ describe('Task', () => {
     })
 
     it('traverseSeqArrayWithIndex', async () => {
-      const arr = RA.range(0, 10)
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number> = []
+      const append = (n: number): _.Task<number> =>
+        _.delay(n % 2 === 0 ? 50 : 100)(
+          _.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      const as = RA.range(0, 10)
       assert.deepStrictEqual(
         await pipe(
-          arr,
-          _.traverseSeqArrayWithIndex((index, _data) => _.of(index))
+          [],
+          _.traverseSeqArrayWithIndex((index, _) => append(index))
         )(),
-        arr
+        []
       )
+      assert.deepStrictEqual(
+        await pipe(
+          as,
+          _.traverseSeqArrayWithIndex((index, _) => append(index))
+        )(),
+        as
+      )
+      assert.deepStrictEqual(log, as)
     })
   })
 })

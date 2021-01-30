@@ -931,8 +931,8 @@ export const apSW: <A, N extends string, R2, E2, B>(
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => () =>
-  Promise.all(arr.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (as) => (r) => () =>
+  Promise.all(as.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
 
 /**
  * @since 2.9.0
@@ -955,12 +955,12 @@ export const sequenceArray: <R, E, A>(
  */
 export const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (as) => (r) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
 
-  for (let i = 0; i < arr.length; i++) {
-    const b = await f(i, arr[i])(r)()
+  for (let i = 0; i < as.length; i++) {
+    const b = await f(i, as[i])(r)()
     if (E.isLeft(b)) {
       return b
     }

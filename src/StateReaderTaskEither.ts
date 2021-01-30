@@ -829,14 +829,14 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
  */
 export const traverseArrayWithIndex: <S, R, E, A, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (arr) => (s) => (
+) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (as) => (s) => (
   r
 ) => async () => {
   let lastState = s
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const b = await f(i, arr[i])(lastState)(r)()
+  for (let i = 0; i < as.length; i++) {
+    const b = await f(i, as[i])(lastState)(r)()
 
     if (E.isLeft(b)) {
       return b

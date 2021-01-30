@@ -971,8 +971,8 @@ export const apSW: <A, N extends string, E2, B>(
  */
 export const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) =>
-  pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (as) =>
+  pipe(as, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
  * this function has the same behavior of `RA.traverse(TE.taskEither)` but it's stack safe and performs better
@@ -1059,11 +1059,11 @@ export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => Task
  */
 export const traverseSeqArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) => async () => {
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (as) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const e = await f(i, arr[i])()
+  for (let i = 0; i < as.length; i++) {
+    const e = await f(i, as[i])()
     if (E.isLeft(e)) {
       return e
     }
