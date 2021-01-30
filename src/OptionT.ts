@@ -55,7 +55,29 @@ export function fromF<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
 export function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<NonNullable<A>>>
 export function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>>
 export function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>> {
-  return (a) => F.of(O.fromNullable(a))
+  return flow(O.fromNullable, F.of)
+}
+
+/**
+ * @since 2.10.0
+ */
+export function fromNullableK<F extends URIS>(
+  F: Pointed1<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Option<NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>> {
+  const fromNullableF = fromNullable(F)
+  return (f) => flow(f, fromNullableF)
 }
 
 /**

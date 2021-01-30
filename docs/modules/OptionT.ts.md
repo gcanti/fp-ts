@@ -24,6 +24,7 @@ Added in v2.0.0
   - [fromEither](#fromeither)
   - [fromF](#fromf)
   - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [fromPredicate](#frompredicate)
   - [getOrElse](#getorelse)
   - [map](#map)
@@ -160,6 +161,25 @@ Added in v2.10.0
 ```ts
 export declare function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<NonNullable<A>>>
 export declare function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>>
+```
+
+Added in v2.10.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare function fromNullableK<F extends URIS>(
+  F: Pointed1<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Option<NonNullable<B>>>
+export declare function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>>
 ```
 
 Added in v2.10.0
