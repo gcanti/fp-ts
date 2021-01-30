@@ -1540,7 +1540,7 @@ this function has the same behavior of `A.sequence(O.option)` but it's optimized
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (arr: readonly A[]) => Option<readonly B[]>
+export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
 **Example**
@@ -1564,7 +1564,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Option<B>
-) => (arr: readonly A[]) => Option<readonly B[]>
+) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
 Added in v2.9.0

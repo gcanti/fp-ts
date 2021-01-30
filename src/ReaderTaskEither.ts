@@ -931,7 +931,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => () =>
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => () =>
   Promise.all(arr.map((x, i) => f(i, x)(r)())).then(E.sequenceArray)
 
 /**
@@ -939,7 +939,7 @@ export const traverseArrayWithIndex: <R, E, A, B>(
  */
 export const traverseArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * @since 2.9.0
@@ -955,7 +955,7 @@ export const sequenceArray: <R, E, A>(
  */
 export const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) => (arr) => (r) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
 
@@ -975,7 +975,7 @@ export const traverseSeqArrayWithIndex: <R, E, A, B>(
  */
 export const traverseSeqArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
   traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**

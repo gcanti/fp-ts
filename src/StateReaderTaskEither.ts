@@ -829,7 +829,7 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
  */
 export const traverseArrayWithIndex: <S, R, E, A, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (arr) => (s) => (
+) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (arr) => (s) => (
   r
 ) => async () => {
   let lastState = s
@@ -854,7 +854,7 @@ export const traverseArrayWithIndex: <S, R, E, A, B>(
  */
 export const traverseArray: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
+) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**

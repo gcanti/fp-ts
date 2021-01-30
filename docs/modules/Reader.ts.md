@@ -558,7 +558,7 @@ this function has the same behavior of `A.traverse(R.reader)` but it's stack saf
 ```ts
 export declare const traverseArray: <R, A, B>(
   f: (a: A) => Reader<R, B>
-) => (arr: readonly A[]) => Reader<R, readonly B[]>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 
 **Example**
@@ -589,7 +589,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => Reader<R, B>
-) => (arr: readonly A[]) => Reader<R, readonly B[]>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 
 Added in v2.9.0

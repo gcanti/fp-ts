@@ -1261,7 +1261,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1273,7 +1273,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1285,7 +1285,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1297,7 +1297,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (arr: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0

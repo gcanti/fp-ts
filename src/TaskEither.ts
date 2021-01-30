@@ -971,7 +971,7 @@ export const apSW: <A, N extends string, E2, B>(
  */
 export const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) =>
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) =>
   pipe(arr, T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
@@ -1012,7 +1012,7 @@ export const traverseArrayWithIndex: <A, B, E>(
  */
 export const traverseArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * this function has the same behavior of `RA.sequence(TE.taskEither)` but it's stack safe and performs better
@@ -1059,7 +1059,7 @@ export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => Task
  */
 export const traverseSeqArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) => async () => {
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => (arr) => async () => {
   // tslint:disable-next-line: readonly-array
   const result = []
   for (let i = 0; i < arr.length; i++) {
@@ -1082,7 +1082,7 @@ export const traverseSeqArrayWithIndex: <A, B, E>(
  */
 export const traverseSeqArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
  * this function has the same behavior of `RA.sequence(TE.taskEitherSeq)` but it's stack safe and performs better

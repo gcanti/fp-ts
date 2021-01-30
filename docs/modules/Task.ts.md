@@ -596,7 +596,7 @@ this function has the same behavior of `A.traverse(T.task)` but it's stack safe.
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
+export declare const traverseArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 **Example**
@@ -622,7 +622,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (arr: readonly A[]) => Task<readonly B[]>
+) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v2.9.0
@@ -638,7 +638,7 @@ this function has the same behavior of `A.traverse(T.taskSeq)` but it's stack sa
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (arr: readonly A[]) => Task<readonly B[]>
+export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v2.9.0
@@ -650,7 +650,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (arr: readonly A[]) => Task<readonly B[]>
+) => (as: readonly A[]) => Task<readonly B[]>
 ```
 
 Added in v2.9.0

@@ -1336,12 +1336,12 @@ export const apSW: <A, N extends string, E2, B>(
  * @since 2.9.0
  */
 export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
-  arr: ReadonlyArray<A>
+  as: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
   // tslint:disable-next-line: readonly-array
   const result = []
-  for (let i = 0; i < arr.length; i++) {
-    const e = f(i, arr[i])
+  for (let i = 0; i < as.length; i++) {
+    const e = f(i, as[i])
     if (e._tag === 'Left') {
       return e
     }
@@ -1385,7 +1385,7 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
  */
 export const traverseArray: <E, A, B>(
   f: (a: A) => Either<E, B>
-) => (arr: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * convert an array of either to an either of array
