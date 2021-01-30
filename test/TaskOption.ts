@@ -1,10 +1,10 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
-import * as _ from '../src/TaskOption'
 import * as O from '../src/Option'
-import * as T from '../src/Task'
-import { assertPar, assertSeq } from './util'
 import * as RA from '../src/ReadonlyArray'
+import * as T from '../src/Task'
+import * as _ from '../src/TaskOption'
+import { assertPar, assertSeq } from './util'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
@@ -96,9 +96,16 @@ describe('TaskOption', () => {
   })
 
   it('fromNullable', async () => {
-    assert.deepStrictEqual(await _.fromNullable(2)(), O.some(2))
+    assert.deepStrictEqual(await _.fromNullable(1)(), O.some(1))
     assert.deepStrictEqual(await _.fromNullable(null)(), O.none)
     assert.deepStrictEqual(await _.fromNullable(undefined)(), O.none)
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    assert.deepStrictEqual(await f(1)(), O.some(1))
+    assert.deepStrictEqual(await f(0)(), O.none)
+    assert.deepStrictEqual(await f(-1)(), O.none)
   })
 
   it('fromPredicate', async () => {
