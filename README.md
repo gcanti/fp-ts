@@ -43,6 +43,7 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
   - [Consuming fp-ts](#consuming-fp-ts)
   - [TypeScript compatibility](#typescript-compatibility)
 - [Documentation](#documentation)
+- [Help](#help)
 - [Development](#development)
 - [License](#license)
 
@@ -80,6 +81,10 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 - API Reference
   - [version 2.x (current)](https://gcanti.github.io/fp-ts/modules/)
   - [version 1.x](https://github.com/gcanti/fp-ts/tree/1.x/docs/modules/)
+
+# Help
+
+Check out the fp-ts channel on [FP slack](https://fpchat-invite.herokuapp.com/) if you need help with `fp-ts`.
 
 # Development
 
