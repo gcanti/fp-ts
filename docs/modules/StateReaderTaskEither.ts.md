@@ -1096,6 +1096,8 @@ Added in v2.8.0
 
 ## sequenceArray
 
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -1108,6 +1110,8 @@ Added in v2.9.0
 
 ## traverseArray
 
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -1119,6 +1123,8 @@ export declare const traverseArray: <S, R, E, A, B>(
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

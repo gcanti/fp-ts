@@ -1262,21 +1262,18 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
   RA.reduceRightWithIndex
 
 /**
- * **for optimized and stack safe version check the data types `traverseArray` function**
  * @category Traversable
  * @since 2.6.3
  */
 export const traverse: PipeableTraverse1<URI> = RA.traverse as any
 
 /**
- * **for optimized and stack safe version check the data types `sequenceArray` function**
  * @category Traversable
  * @since 2.6.3
  */
 export const sequence: Traversable1<URI>['sequence'] = RA.sequence as any
 
 /**
- * **for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
  * @category TraversableWithIndex
  * @since 2.6.3
  */

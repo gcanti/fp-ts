@@ -210,6 +210,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `ApplySeq` instance (@gcanti)
     - add `FromIO` instance (@gcanti)
     - add `FromTask` instance (@gcanti)
+    - add `traverseSeqArrayWithIndex` (@gcanti)
+    - add `traverseSeqArray` (@gcanti)
+    - add `sequenceSeqArray` (@gcanti)
   - `ReaderTaskEither`
     - add `Pointed` instance (@gcanti)
     - add `ApplyPar` instance (@gcanti)

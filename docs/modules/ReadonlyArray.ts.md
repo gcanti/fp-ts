@@ -480,8 +480,6 @@ Added in v2.5.0
 
 ## sequence
 
-**for optimized and stack safe version check the data types `sequenceArray` function**
-
 **Signature**
 
 ```ts
@@ -491,8 +489,6 @@ export declare const sequence: Sequence1<'ReadonlyArray'>
 Added in v2.6.3
 
 ## traverse
-
-**for optimized and stack safe version check the data types `traverseArray` function**
 
 **Signature**
 
@@ -505,8 +501,6 @@ Added in v2.6.3
 # TraversableWithIndex
 
 ## traverseWithIndex
-
-**for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
 
 **Signature**
 

@@ -159,64 +159,33 @@ describe('Task', () => {
     assert.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
-  describe('array utils', () => {
-    it('sequenceArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceArray)(), arr)
-    })
-
-    it('traverseArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseArray(_.of))(), arr)
-    })
-
-    it('traverseArrayWithIndex', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(
-        await pipe(
-          arr,
-          _.traverseArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        arr
+  it('sequenceArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.Task<number> =>
+      _.delay(n % 2 === 0 ? 50 : 100)(
+        _.fromIO(() => {
+          log.push(n)
+          return n
+        })
       )
-    })
+    const as = RA.makeBy(4, append)
+    assert.deepStrictEqual(await pipe(as, _.sequenceArray)(), [0, 1, 2, 3])
+    assert.deepStrictEqual(log, [0, 2, 1, 3])
+  })
 
-    it('sequenceSeqArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, RA.map(_.of), _.sequenceSeqArray)(), arr)
-    })
-
-    it('traverseSeqArray', async () => {
-      const arr = RA.range(0, 10)
-      assert.deepStrictEqual(await pipe(arr, _.traverseSeqArray(_.of))(), arr)
-    })
-
-    it('traverseSeqArrayWithIndex', async () => {
-      // tslint:disable-next-line: readonly-array
-      const log: Array<number> = []
-      const append = (n: number): _.Task<number> =>
-        _.delay(n % 2 === 0 ? 50 : 100)(
-          _.fromIO(() => {
-            log.push(n)
-            return n
-          })
-        )
-      const as = RA.range(0, 10)
-      assert.deepStrictEqual(
-        await pipe(
-          [],
-          _.traverseSeqArrayWithIndex((index, _) => append(index))
-        )(),
-        []
+  it('sequenceSeqArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.Task<number> =>
+      _.delay(n % 2 === 0 ? 50 : 100)(
+        _.fromIO(() => {
+          log.push(n)
+          return n
+        })
       )
-      assert.deepStrictEqual(
-        await pipe(
-          as,
-          _.traverseSeqArrayWithIndex((index, _) => append(index))
-        )(),
-        as
-      )
-      assert.deepStrictEqual(log, as)
-    })
+    const as = RA.makeBy(4, append)
+    assert.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(), [0, 1, 2, 3])
+    assert.deepStrictEqual(log, [0, 1, 2, 3])
   })
 })

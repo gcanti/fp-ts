@@ -825,39 +825,48 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex: <S, R, E, A, B>(
+export const traverseArrayWithIndex = <S, R, E, A, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) => (as) => (s) => (
-  r
-) => async () => {
-  let lastState = s
+) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => () =>
   // tslint:disable-next-line: readonly-array
-  const result = []
-  for (let i = 0; i < as.length; i++) {
-    const b = await f(i, as[i])(lastState)(r)()
-
-    if (E.isLeft(b)) {
-      return b
-    }
-    const [newValue, newState] = b.right
-    result.push(newValue)
-    lastState = newState
-  }
-
-  return E.right([result, lastState])
-}
+  as.reduce<Promise<Either<E, [Array<B>, S]>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        E.isLeft(ebs)
+          ? acc
+          : f(
+              i,
+              a
+            )(s)(r)().then((eb) => {
+              if (E.isLeft(eb)) {
+                return eb
+              }
+              const [b, s] = eb.right
+              ebs.right[0].push(b)
+              ebs.right[1] = s
+              return ebs
+            })
+      ),
+    Promise.resolve(E.right([[], s]))
+  )
 
 /**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
  * @since 2.9.0
  */
-export const traverseArray: <S, R, E, A, B>(
+export const traverseArray = <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) =>
   traverseArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
  * @since 2.9.0
  */
 export const sequenceArray: <S, R, E, A>(

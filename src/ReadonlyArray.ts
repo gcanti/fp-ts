@@ -1248,14 +1248,14 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
   as: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
   // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
+  const out: Array<B> = []
   let cs: ReadonlyArray<A> = as
   while (isNonEmpty(cs)) {
     const [b, c] = f(cs)
-    result.push(b)
+    out.push(b)
     cs = c
   }
-  return result
+  return out
 }
 
 /**
@@ -1683,14 +1683,14 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   fa: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
   // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
+  const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
     if (O.isSome(optionB)) {
-      result.push(optionB.value)
+      out.push(optionB.value)
     }
   }
-  return result
+  return out
 }
 
 /**
@@ -1866,7 +1866,6 @@ export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B)
 ) => (fa) => fa.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
- * **for optimized and stack safe version check the data types `traverseArray` function**
  * @category Traversable
  * @since 2.6.3
  */
@@ -1878,7 +1877,6 @@ export const traverse: PipeableTraverse1<URI> = <F>(
 }
 
 /**
- * **for optimized and stack safe version check the data types `sequenceArray` function**
  * @category Traversable
  * @since 2.6.3
  */
@@ -1894,7 +1892,6 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 }
 
 /**
- * **for optimized and stack safe version check the data types `traverseArrayWithIndex` function**
  * @category TraversableWithIndex
  * @since 2.6.3
  */

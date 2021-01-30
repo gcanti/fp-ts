@@ -1507,9 +1507,7 @@ Added in v2.0.0
 
 ## sequenceArray
 
-get an array of option and convert it to option of array
-
-this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1517,25 +1515,11 @@ this function has the same behavior of `A.sequence(O.option)` but it's optimized
 export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { sequenceArray, some, none, fromPredicate } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const arr = RA.range(0, 10)
-assert.deepStrictEqual(pipe(arr, RA.map(some), sequenceArray), some(arr))
-assert.deepStrictEqual(pipe(arr, RA.map(fromPredicate((x) => x > 8)), sequenceArray), none)
-```
-
 Added in v2.9.0
 
 ## traverseArray
 
-Runs an action for every element in array and accumulates the results in option
-
-this function has the same behavior of `A.sequence(O.option)` but it's optimized and performs better
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1543,21 +1527,11 @@ this function has the same behavior of `A.sequence(O.option)` but it's optimized
 export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { traverseArray, some, fromPredicate, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const arr = RA.range(0, 10)
-assert.deepStrictEqual(pipe(arr, traverseArray(some)), some(arr))
-assert.deepStrictEqual(pipe(arr, traverseArray(fromPredicate((x) => x > 5))), none)
-```
-
 Added in v2.9.0
 
 ## traverseArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 

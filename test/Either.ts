@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
 import { eqNumber, eqString } from '../src/Eq'
 import { identity, pipe } from '../src/function'
@@ -7,8 +8,6 @@ import * as O from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
-import { sequenceT } from '../src/Apply'
-import * as A from '../src/Array'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -626,58 +625,9 @@ describe('Either', () => {
     assert.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
-  describe('array utils', () => {
-    it('sequenceArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(pipe(arr, A.map(_.right), _.sequenceArray), _.right(arr))
-      assert.deepStrictEqual(pipe(arr, A.map(_.right), A.cons(_.left('a')), _.sequenceArray), _.left('a'))
-    })
-
-    it('traverseArrayWithIndex', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArrayWithIndex((index, _data) => _.right(index))
-        ),
-        _.right(arr)
-      )
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        ),
-        _.left('a')
-      )
-    })
-
-    it('traverseArray', () => {
-      const arr = A.range(0, 10)
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArray((x) => _.right(x))
-        ),
-        _.right(arr)
-      )
-      assert.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseArray(
-            _.fromPredicate(
-              (x) => x > 5,
-              () => 'a'
-            )
-          )
-        ),
-        _.left('a')
-      )
-    })
+  it('sequenceArray', () => {
+    assert.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray), _.right([1, 2]))
+    assert.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray), _.left('a'))
   })
 
   describe('getCompactable', () => {
