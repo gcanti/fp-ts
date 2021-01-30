@@ -24,6 +24,7 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
+  chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither3,
@@ -291,32 +292,12 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
   ET.swap(RT.Functor)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
- *
- * @category combinators
- * @since 2.6.1
- */
-export const chainEitherKW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromEitherK(f))
-
-/**
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainEitherKW
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromIOEither(f(...a))
-}
+): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromIOEither)
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
@@ -340,11 +321,9 @@ export const chainIOEitherK: <E, A, B>(
  * @category combinators
  * @since 2.4.0
  */
-export function fromTaskEitherK<E, A extends ReadonlyArray<unknown>, B>(
+export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => TaskEither<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromTaskEither(f(...a))
-}
+): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromTaskEither)
 
 /**
  * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
@@ -785,6 +764,24 @@ const MonadFromEither: FromEither3<URI> & Monad3<URI> = {
 export const chainOptionK =
   /*#__PURE__*/
   chainOptionK_(MonadFromEither)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(MonadFromEither)
+
+/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 2.6.1
+ */
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
  * @category constructors

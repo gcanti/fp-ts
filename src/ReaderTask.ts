@@ -90,9 +90,9 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  * @category combinators
  * @since 2.4.0
  */
-export function fromIOK<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): <R>(...a: A) => ReaderTask<R, B> {
-  return (...a) => fromIO(f(...a))
-}
+export const fromIOK = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+): (<R>(...a: A) => ReaderTask<R, B>) => flow(f, fromIO)
 
 /**
  * @category combinators
@@ -105,11 +105,9 @@ export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) =
  * @category combinators
  * @since 2.4.0
  */
-export function fromTaskK<A extends ReadonlyArray<unknown>, B>(
+export const fromTaskK = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Task<B>
-): <R>(...a: A) => ReaderTask<R, B> {
-  return (...a) => fromTask(f(...a))
-}
+): (<R>(...a: A) => ReaderTask<R, B>) => flow(f, fromTask)
 
 /**
  * @category combinators
