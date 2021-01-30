@@ -4,7 +4,12 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { FromEither2 } from './FromEither'
+import {
+  FromEither2,
+  fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, Lazy, pipe } from './function'
@@ -312,6 +317,30 @@ export const FromEither: FromEither2<URI> = {
   URI,
   fromEither
 }
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances
