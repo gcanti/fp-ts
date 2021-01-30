@@ -173,6 +173,14 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
 
 /**
  * @category combinators
+ * @since 2.10.0
+ */
+export const fromNullableK =
+  /*#__PURE__*/
+  OT.fromNullableK(T.Pointed)
+
+/**
+ * @category combinators
  * @since 0.1.10
  */
 export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
