@@ -29,7 +29,7 @@ Added in v2.4.0
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
-  - [toReadonlyTuple2](#toreadonlytuple2)
+  - [toTuple2](#totuple2)
   - [~~TheseM1~~ (interface)](#thesem1-interface)
   - [~~TheseM2~~ (interface)](#thesem2-interface)
   - [~~TheseM~~ (interface)](#thesem-interface)
@@ -275,18 +275,18 @@ export declare function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, These<E, A>>) 
 
 Added in v2.10.0
 
-## toReadonlyTuple2
+## toTuple2
 
 **Signature**
 
 ```ts
-export declare function toReadonlyTuple2<F extends URIS2>(
+export declare function toTuple2<F extends URIS2>(
   F: Functor2<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => <FE>(fa: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, readonly [E, A]>
-export declare function toReadonlyTuple2<F extends URIS>(
+export declare function toTuple2<F extends URIS>(
   F: Functor1<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: Kind<F, These<E, A>>) => Kind<F, readonly [E, A]>
-export declare function toReadonlyTuple2<F>(
+export declare function toTuple2<F>(
   F: Functor<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<F, These<E, A>>) => HKT<F, readonly [E, A]>
 ```
