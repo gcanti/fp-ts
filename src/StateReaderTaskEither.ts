@@ -7,6 +7,7 @@ import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_ } from 
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import {
+  chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither4,
   fromOption as fromOption_,
@@ -685,6 +686,23 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
+const MonadFromEither: FromEither4<URI> & Monad4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  fromEither
+}
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  chainOptionK_(MonadFromEither)
+
 /**
  * @category constructors
  * @since 2.4.4
@@ -699,14 +717,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_({
-    URI,
-    map: _map,
-    ap: _ap,
-    of,
-    chain: _chain,
-    fromEither
-  })
+  filterOrElse_(MonadFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
