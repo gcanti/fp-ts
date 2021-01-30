@@ -1113,7 +1113,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArray: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1125,7 +1125,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <S, R, E, A, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (arr: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
 ```
 
 Added in v2.9.0

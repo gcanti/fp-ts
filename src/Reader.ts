@@ -382,7 +382,7 @@ export const apSW: <A, N extends string, R2, B>(
  */
 export const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => Reader<R, B>
-) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => (arr) => (r) => arr.map((x, i) => f(i, x)(r))
 
 /**
  * this function has the same behavior of `A.traverse(R.reader)` but it's stack safe and optimized
@@ -401,7 +401,7 @@ export const traverseArrayWithIndex: <R, A, B>(
  */
 export const traverseArray: <R, A, B>(
   f: (a: A) => Reader<R, B>
-) => (arr: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = (f) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * this function has the same behavior of `A.sequence(R.reader)` but it's stack safe and optimized

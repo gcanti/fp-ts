@@ -1283,7 +1283,7 @@ _this function run all tasks in parallel and does not bail out, for sequential v
 ```ts
 export declare const traverseArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 **Example**
@@ -1326,7 +1326,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1342,7 +1342,7 @@ _this function run all tasks in sequential order and bails out on left side of e
 ```ts
 export declare const traverseSeqArray: <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1354,7 +1354,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-) => (arr: readonly A[]) => TaskEither<E, readonly B[]>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
 ```
 
 Added in v2.9.0

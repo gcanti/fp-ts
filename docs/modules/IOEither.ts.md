@@ -1029,7 +1029,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1041,7 +1041,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1053,7 +1053,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArray: <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v2.9.0
@@ -1065,7 +1065,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (arr: readonly A[]) => IOEither<E, readonly B[]>
+) => (as: readonly A[]) => IOEither<E, readonly B[]>
 ```
 
 Added in v2.9.0

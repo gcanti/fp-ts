@@ -409,7 +409,7 @@ This function has the same behavior of `A.traverse(S.State)` but it's stack safe
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (arr: readonly A[]) => State<S, readonly B[]>
+export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
 ```
 
 **Example**
@@ -434,7 +434,7 @@ Added in v2.9.0
 ```ts
 export declare const traverseArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
-) => (arr: readonly A[]) => State<S, readonly B[]>
+) => (as: readonly A[]) => State<S, readonly B[]>
 ```
 
 Added in v2.9.0
