@@ -6,7 +6,7 @@
 
 import * as E from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
-import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad2, Monad3, Monad4 } from './Monad'
 import { Option } from './Option'
 
@@ -19,15 +19,6 @@ import Either = E.Either
 export interface FromEither<F> {
   readonly URI: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-
-/**
- * @category type classes
- * @since 2.10.0
- */
-export interface FromEither1<F extends URIS> {
-  readonly URI: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 
 /**
@@ -77,6 +68,10 @@ export interface FromEither4<F extends URIS4> {
   readonly fromEither: <S, R, E, A>(e: Either<E, A>) => Kind4<F, S, R, E, A>
 }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.10.0
  */
@@ -115,11 +110,23 @@ export function fromPredicate<F extends URIS3>(
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
 }
+export function fromPredicate<F extends URIS3, E>(
+  F: FromEither3C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+}
 export function fromPredicate<F extends URIS2>(
   F: FromEither2<F>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+}
+export function fromPredicate<F extends URIS2, E>(
+  F: FromEither2C<F, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
 export function fromPredicate<F>(
   F: FromEither<F>
@@ -136,6 +143,10 @@ export function fromPredicate<F>(
   return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
     flow(E.fromPredicate(predicate, onFalse), F.fromEither)
 }
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 2.10.0

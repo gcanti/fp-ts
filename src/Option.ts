@@ -18,8 +18,8 @@ import { Applicative as ApplicativeHKT, Applicative1, getApplicativeMonoid } fro
 import {
   apFirst as apFirst_,
   Apply1,
-  apSecond as apSecond_,
   apS as apS_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
@@ -28,7 +28,6 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { FromEither1 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, Functor1 } from './Functor'
 import { HKT } from './HKT'
@@ -229,7 +228,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = getRight
+export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -1113,15 +1112,6 @@ export const MonadThrow: MonadThrow1<URI> = {
   of,
   chain: _chain,
   throwError
-}
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither1<URI> = {
-  URI,
-  fromEither
 }
 
 // -------------------------------------------------------------------------------------
