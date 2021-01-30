@@ -27,6 +27,7 @@ import {
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither3,
+  fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
@@ -288,16 +289,6 @@ export const orElseW: <E1, R1, E2, B>(
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> =
   /*#__PURE__*/
   ET.swap(RT.Functor)
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export function fromEitherK<E, A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Either<E, B>
-): <R>(...a: A) => ReaderTaskEither<R, E, B> {
-  return (...a) => fromEither(f(...a))
-}
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -825,6 +816,14 @@ export const filterOrElseW: {
     ma: ReaderTaskEither<R, E1, A>
   ) => ReaderTaskEither<R, E1 | E2, A>
 } = filterOrElse
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
 
 /**
  * @category instances

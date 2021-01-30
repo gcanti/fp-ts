@@ -228,6 +228,33 @@ export function chainOptionK<F>(
 /**
  * @since 2.10.0
  */
+export function fromEitherK<F extends URIS4>(
+  F: FromEither4<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
+export function fromEitherK<F extends URIS3>(
+  F: FromEither3<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export function fromEitherK<F extends URIS3, E>(
+  F: FromEither3C<F, E>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
+export function fromEitherK<F extends URIS2>(
+  F: FromEither2<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+export function fromEitherK<F extends URIS2, E>(
+  F: FromEither2C<F, E>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+export function fromEitherK<F>(
+  F: FromEither<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
+export function fromEitherK<F>(
+  F: FromEither<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B> {
+  return (f) => flow(f, F.fromEither)
+}
+
+/**
+ * @since 2.10.0
+ */
 export function filterOrElse<M extends URIS4>(
   M: FromEither4<M> & Monad4<M>
 ): {
