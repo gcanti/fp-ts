@@ -7,7 +7,7 @@
 import * as E from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad, Monad2, Monad3, Monad4 } from './Monad'
+import { Monad, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Option } from './Option'
 
 import Either = E.Either
@@ -167,26 +167,36 @@ export function filterOrElse<M extends URIS3>(
   ) => Kind3<M, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
+export function filterOrElse<M extends URIS3, E>(
+  M: FromEither3C<M, E> & Monad3C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+}
 export function filterOrElse<M extends URIS2>(
   M: FromEither2<M> & Monad2<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
-export function filterOrElse<M>(
+export function filterOrElse<M extends URIS2, E>(
+  M: FromEither2C<M, E> & Monad2C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+}
+export function filterOrElse<M extends URIS2>(
   M: FromEither<M> & Monad<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
 }
-export function filterOrElse<M>(
-  M: FromEither<M> & Monad<M>
+export function filterOrElse<M extends URIS2>(
+  M: FromEither2<M> & Monad2<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: HKT2<M, E, A>): HKT2<M, E, A> => {
-    const out = M.chain(ma, (a) => M.fromEither(predicate(a) ? E.right(a) : E.left(onFalse(a))))
-    return out as any
-  }
+  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
+    M.chain(ma, flow(E.fromPredicate(predicate, onFalse), M.fromEither))
 }
