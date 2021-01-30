@@ -35,6 +35,7 @@ Added in v2.10.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [tryCatchK](#trycatchk)
@@ -259,6 +260,16 @@ export declare const chainNullableK: <A, B>(
 ```
 
 Added in v2.10.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+```
+
+Added in v0.1.10
 
 ## fromNullableK
 

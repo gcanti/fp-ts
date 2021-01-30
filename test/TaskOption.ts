@@ -157,10 +157,16 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('fromOptionK', async () => {
-    const f = (s: string) => (s.length > 0 ? O.some(s.length) : O.none)
-    const g = _.fromOptionK(f)
-    assert.deepStrictEqual(await g('a')(), O.some(1))
-    assert.deepStrictEqual(await g('')(), O.none)
+    const f = _.fromOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
+    assert.deepStrictEqual(await f(1)(), O.some(1))
+    assert.deepStrictEqual(await f(-1)(), O.none)
+  })
+
+  it('chainOptionK', async () => {
+    const f = _.chainOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
+    assert.deepStrictEqual(await f(_.some(1))(), O.some(1))
+    assert.deepStrictEqual(await f(_.some(-1))(), O.none)
+    assert.deepStrictEqual(await f(_.none)(), O.none)
   })
 
   describe('array utils', () => {
