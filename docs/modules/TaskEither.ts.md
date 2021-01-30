@@ -51,6 +51,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
@@ -483,6 +484,18 @@ export declare function fromIOEitherK<E, A extends ReadonlyArray<unknown>, B>(
 ```
 
 Added in v2.4.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.10.0
 
 ## orElse
 

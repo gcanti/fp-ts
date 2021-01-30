@@ -7,28 +7,29 @@
 import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C, getApplicativeMonoid } from './Applicative'
 import {
+  ap as ap_,
   apFirst as apFirst_,
   Apply2,
-  apSecond as apSecond_,
   apS as apS_,
-  ap as ap_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
+import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import {
+  filter as filter_,
   Filterable2C,
   filterMap as filterMap_,
-  filter as filter_,
-  partitionMap as partitionMap_,
-  partition as partition_
+  partition as partition_,
+  partitionMap as partitionMap_
 } from './Filterable'
 import {
   filterOrElse as filterOrElse_,
   FromEither2,
   fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { FromIO2 } from './FromIO'
@@ -643,6 +644,14 @@ export const FromEither: FromEither2<URI> = {
 export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
 
 /**
  * @category constructors

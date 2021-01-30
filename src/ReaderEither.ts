@@ -4,28 +4,29 @@
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C, getApplicativeMonoid } from './Applicative'
 import {
+  ap as ap_,
   apFirst as apFirst_,
   Apply3,
-  apSecond as apSecond_,
   apS as apS_,
-  ap as ap_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { Compactable2C, Compactable3C, compact as compact_, separate as separate_ } from './Compactable'
+import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import {
+  filter as filter_,
   Filterable3C,
   filterMap as filterMap_,
-  filter as filter_,
-  partitionMap as partitionMap_,
-  partition as partition_
+  partition as partition_,
+  partitionMap as partitionMap_
 } from './Filterable'
 import {
   filterOrElse as filterOrElse_,
   FromEither3,
   fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
@@ -600,6 +601,14 @@ export const FromEither: FromEither3<URI> = {
 export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
 
 /**
  * @category constructors

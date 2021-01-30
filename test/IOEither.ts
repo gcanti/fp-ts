@@ -1,12 +1,12 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
+import * as O from '../src/Option'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as RA from '../src/ReadonlyArray'
 import { monoidString } from '../src/Monoid'
-import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import { semigroupSum } from '../src/Semigroup'
 
@@ -183,8 +183,14 @@ describe('IOEither', () => {
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(_.fromOption(() => 'err')(none)(), E.left('err'))
-      assert.deepStrictEqual(_.fromOption(() => 'err')(some(1))(), E.right(1))
+      assert.deepStrictEqual(_.fromOption(() => 'err')(O.none)(), E.left('err'))
+      assert.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
+    })
+
+    it('fromOptionK', () => {
+      const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+      assert.deepStrictEqual(f(1)(), E.right(1))
+      assert.deepStrictEqual(f(-1)(), E.left('a'))
     })
 
     it('fromEither', () => {
@@ -340,7 +346,7 @@ describe('IOEither', () => {
     const C = _.getCompactable(monoidString)
 
     it('compact', () => {
-      assert.deepStrictEqual(C.compact(_.right(some(1)))(), E.right(1))
+      assert.deepStrictEqual(C.compact(_.right(O.some(1)))(), E.right(1))
     })
 
     it('separate', () => {
@@ -383,21 +389,21 @@ describe('IOEither', () => {
       assert.deepStrictEqual(
         pipe(
           _.right('aaa'),
-          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+          filterMap((s) => (s.length > 1 ? O.some(s.length) : O.none))
         )(),
         E.right(3)
       )
       assert.deepStrictEqual(
         pipe(
           _.right('a'),
-          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+          filterMap((s) => (s.length > 1 ? O.some(s.length) : O.none))
         )(),
         E.left([])
       )
       assert.deepStrictEqual(
         pipe(
           _.left<ReadonlyArray<string>, string>(['e']),
-          filterMap((s) => (s.length > 1 ? some(s.length) : none))
+          filterMap((s) => (s.length > 1 ? O.some(s.length) : O.none))
         )(),
         E.left(['e'])
       )
