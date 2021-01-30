@@ -84,7 +84,7 @@ Added in v2.0.0
   - [These (type alias)](#these-type-alias)
 - [utils](#utils)
   - [sequence](#sequence)
-  - [toReadonlyTuple2](#toreadonlytuple2)
+  - [toTuple2](#totuple2)
   - [traverse](#traverse)
   - [~~toTuple~~](#totuple)
 
@@ -657,35 +657,35 @@ export declare const sequence: Sequence2<'These'>
 
 Added in v2.6.3
 
-## toReadonlyTuple2
+## toTuple2
 
 **Signature**
 
 ```ts
-export declare const toReadonlyTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
 
 ```ts
-import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
+import { toTuple2, left, right, both } from 'fp-ts/These'
 
 assert.deepStrictEqual(
-  toReadonlyTuple2(
+  toTuple2(
     () => 'a',
     () => 1
   )(left('b')),
   ['b', 1]
 )
 assert.deepStrictEqual(
-  toReadonlyTuple2(
+  toTuple2(
     () => 'a',
     () => 1
   )(right(2)),
   ['a', 2]
 )
 assert.deepStrictEqual(
-  toReadonlyTuple2(
+  toTuple2(
     () => 'a',
     () => 1
   )(both('b', 2)),
@@ -707,7 +707,7 @@ Added in v2.6.3
 
 ## ~~toTuple~~
 
-Use `toReadonlyTuple2` instead.
+Use `toTuple2` instead.
 
 **Signature**
 
