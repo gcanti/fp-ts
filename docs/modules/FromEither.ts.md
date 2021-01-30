@@ -133,13 +133,25 @@ export declare function filterOrElse<M extends URIS3>(
   ) => Kind3<M, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
+export declare function filterOrElse<M extends URIS3, E>(
+  M: FromEither3C<M, E> & Monad3C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+}
 export declare function filterOrElse<M extends URIS2>(
   M: FromEither2<M> & Monad2<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
-export declare function filterOrElse<M>(
+export declare function filterOrElse<M extends URIS2, E>(
+  M: FromEither2C<M, E> & Monad2C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+}
+export declare function filterOrElse<M extends URIS2>(
   M: FromEither<M> & Monad<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
