@@ -53,12 +53,12 @@ Added in v2.0.0
 - [instances](#instances)
   - [getEndomorphismMonoid](#getendomorphismmonoid)
   - [getFunctionMonoid](#getfunctionmonoid)
-  - [monoidAll](#monoidall)
-  - [monoidAny](#monoidany)
   - [monoidProduct](#monoidproduct)
   - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
   - [monoidVoid](#monoidvoid)
+  - [~~monoidAll~~](#monoidall)
+  - [~~monoidAny~~](#monoidany)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -244,53 +244,6 @@ assert.deepStrictEqual(M2.concat(f, g)(3), true)
 
 Added in v2.0.0
 
-## monoidAll
-
-`boolean` monoid under conjunction.
-
-The `empty` value is `true`.
-
-**Signature**
-
-```ts
-export declare const monoidAll: Monoid<boolean>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-
-assert.deepStrictEqual(M.monoidAll.concat(true, true), true)
-assert.deepStrictEqual(M.monoidAll.concat(true, false), false)
-```
-
-Added in v2.0.0
-
-## monoidAny
-
-`boolean` monoid under disjunction.
-
-The `empty` value is `false`.
-
-**Signature**
-
-```ts
-export declare const monoidAny: Monoid<boolean>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-
-assert.deepStrictEqual(M.monoidAny.concat(true, true), true)
-assert.deepStrictEqual(M.monoidAny.concat(true, false), true)
-assert.deepStrictEqual(M.monoidAny.concat(false, false), false)
-```
-
-Added in v2.0.0
-
 ## monoidProduct
 
 `number` monoid under multiplication.
@@ -363,6 +316,30 @@ Added in v2.0.0
 
 ```ts
 export declare const monoidVoid: Monoid<void>
+```
+
+Added in v2.0.0
+
+## ~~monoidAll~~
+
+Use `boolean.MonoidAll` instead.
+
+**Signature**
+
+```ts
+export declare const monoidAll: Monoid<boolean>
+```
+
+Added in v2.0.0
+
+## ~~monoidAny~~
+
+Use `boolean.MonoidAny` instead.
+
+**Signature**
+
+```ts
+export declare const monoidAny: Monoid<boolean>
 ```
 
 Added in v2.0.0

@@ -7,6 +7,7 @@ import { Semigroup } from './Semigroup'
 import { Lazy } from './function'
 import { Monoid } from './Monoid'
 import * as O from './Ord'
+import * as S from './Show'
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -146,4 +147,12 @@ export const MonoidAny: Monoid<boolean> = {
 export const Ord: O.Ord<boolean> = {
   equals: Eq.equals,
   compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0)
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Show: S.Show<boolean> = {
+  show: (a) => JSON.stringify(a)
 }

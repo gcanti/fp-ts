@@ -18,8 +18,12 @@ Added in v2.2.0
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
+  - [MonoidAll](#monoidall)
+  - [MonoidAny](#monoidany)
+  - [Ord](#ord)
   - [SemigroupAll](#semigroupall)
   - [SemigroupAny](#semigroupany)
+  - [Show](#show)
 
 ---
 
@@ -94,6 +98,63 @@ export declare const Eq: E.Eq<boolean>
 
 Added in v2.10.0
 
+## MonoidAll
+
+`boolean` monoid under conjunction.
+
+The `empty` value is `true`.
+
+**Signature**
+
+```ts
+export declare const MonoidAll: Monoid<boolean>
+```
+
+**Example**
+
+```ts
+import { MonoidAll } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(MonoidAll.concat(true, true), true)
+assert.deepStrictEqual(MonoidAll.concat(true, false), false)
+```
+
+Added in v2.10.0
+
+## MonoidAny
+
+`boolean` monoid under disjunction.
+
+The `empty` value is `false`.
+
+**Signature**
+
+```ts
+export declare const MonoidAny: Monoid<boolean>
+```
+
+**Example**
+
+```ts
+import { MonoidAny } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(MonoidAny.concat(true, true), true)
+assert.deepStrictEqual(MonoidAny.concat(true, false), true)
+assert.deepStrictEqual(MonoidAny.concat(false, false), false)
+```
+
+Added in v2.10.0
+
+## Ord
+
+**Signature**
+
+```ts
+export declare const Ord: O.Ord<boolean>
+```
+
+Added in v2.10.0
+
 ## SemigroupAll
 
 `boolean` semigroup under conjunction.
@@ -113,7 +174,7 @@ assert.deepStrictEqual(SemigroupAll.concat(true, true), true)
 assert.deepStrictEqual(SemigroupAll.concat(true, false), false)
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
 ## SemigroupAny
 
@@ -135,4 +196,14 @@ assert.deepStrictEqual(SemigroupAny.concat(true, false), true)
 assert.deepStrictEqual(SemigroupAny.concat(false, false), false)
 ```
 
-Added in v2.0.0
+Added in v2.10.0
+
+## Show
+
+**Signature**
+
+```ts
+export declare const Show: S.Show<boolean>
+```
+
+Added in v2.10.0

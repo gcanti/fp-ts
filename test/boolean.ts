@@ -46,4 +46,9 @@ describe('boolean', () => {
     assert.deepStrictEqual(_.Ord.compare(true, false), 1)
     assert.deepStrictEqual(_.Ord.compare(true, true), 0)
   })
+
+  it('Show', () => {
+    assert.deepStrictEqual(_.Show.show(true), 'true')
+    assert.deepStrictEqual(_.Show.show(false), 'false')
+  })
 })
