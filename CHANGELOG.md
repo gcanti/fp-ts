@@ -24,6 +24,9 @@ high state of flux, you're at risk of it changing without notice.
   - deprecate the old monad transformers, use the specific helpers instead (@gcanti)
   - `Applicative`
     - deprecate `getApplicativeComposition`, use `ap` helper instead (@gcanti)
+  - `BooleanAlgebra`
+    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
+    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
   - `Compactable`
     - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead (@gcanti)
   - `Either`
@@ -32,6 +35,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
+  - `Eq`
+    - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
@@ -52,9 +57,16 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
+  - `Monoid`
+    - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
+    - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
+    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
+    - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in `function.getEndomorphismMonoid` is reversed) (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
+  - `Ord`
+    - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
   - `Ring`
     - deprecate `getFunctionRing`, use `function.getRing` instead (@gcanti)
   - `Reader`
@@ -80,6 +92,12 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
   - `ReaderTaskEither`
     - deprecate `run` (@gcanti)
+  - `Semigroup`
+    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
+    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
+    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
+  - `Show`
+    - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -125,15 +143,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `MonoidAny` instance (@gcanti)
     - add `Ord` instance (@gcanti)
     - add `Show` instance (@gcanti)
-  - `BooleanAlgebra`
-    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
-    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
   - `Compactable`
     - add `compact` helper (@gcanti)
     - add `separate` helper (@gcanti)
     - add `separated` constructor (@gcanti)
-  - `Eq`
-    - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
   - `Filterable`
     - add `filter` helper (@gcanti)
     - add `filterMap` helper (@gcanti)
@@ -153,6 +166,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getMonoid` (@gcanti)
     - add `getSemiring` (@gcanti)
     - add `getRing` (@gcanti)
+    - add `getEndomorphismMonoid` (@gcanti)
   - `Functor`
     - add `map` helper (@gcanti)
     - add `bindTo` helper (@gcanti)
@@ -193,10 +207,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - add `bind` helper (@gcanti)
     - add `chainFirst` helper (@gcanti)
-  - `Monoid`
-    - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
-    - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
-    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -207,8 +217,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
-  - `Ord`
-    - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
   - `Random`
     - add `randomElem` (@gcanti)
   - `Reader`
@@ -266,12 +274,6 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
-  - `Semigroup`
-    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
-    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
-    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
-  - `Show`
-    - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

@@ -108,6 +108,17 @@ export const getRing = <A, B>(R: Ring<B>): Ring<(a: A) => B> => {
   }
 }
 
+/**
+ * Endomorphism form a monoid where the `empty` value is the identity function.
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+  concat: (x, y) => (a) => y(x(a)),
+  empty: identity
+})
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
