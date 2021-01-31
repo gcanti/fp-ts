@@ -81,9 +81,9 @@ export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
  *
  * @example
  * import { getOrd } from 'fp-ts/Array'
- * import { ordString } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
  *
- * const O = getOrd(ordString)
+ * const O = getOrd(S.Ord)
  * assert.strictEqual(O.compare(['b'], ['a']), 1)
  * assert.strictEqual(O.compare(['a'], ['a']), 0)
  * assert.strictEqual(O.compare(['a'], ['b']), -1)
@@ -809,13 +809,14 @@ export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
  *
  * @example
  * import { sortBy } from 'fp-ts/Array'
- * import { ord, ordString, ordNumber } from 'fp-ts/Ord'
+ * import { ord, ordNumber } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = ord.contramap(ordString, (p: Person) => p.name)
+ * const byName = ord.contramap(S.Ord, (p: Person) => p.name)
  * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
  *
  * const sortByNameByAge = sortBy([byName, byAge])

@@ -14,6 +14,8 @@ Added in v2.10.0
 
 - [instances](#instances)
   - [Eq](#eq)
+  - [Monoid](#monoid)
+  - [Ord](#ord)
   - [Semigroup](#semigroup)
 
 ---
@@ -26,6 +28,38 @@ Added in v2.10.0
 
 ```ts
 export declare const Eq: E.Eq<string>
+```
+
+Added in v2.10.0
+
+## Monoid
+
+`string` monoid under concatenation.
+
+The `empty` value is `''`.
+
+**Signature**
+
+```ts
+export declare const Monoid: M.Monoid<string>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+
+assert.deepStrictEqual(S.Monoid.concat('a', 'b'), 'ab')
+```
+
+Added in v2.10.0
+
+## Ord
+
+**Signature**
+
+```ts
+export declare const Ord: O.Ord<string>
 ```
 
 Added in v2.10.0
@@ -43,9 +77,9 @@ export declare const Semigroup: S.Semigroup<string>
 **Example**
 
 ```ts
-import { Semigroup } from 'fp-ts/string'
+import * as S from 'fp-ts/string'
 
-assert.deepStrictEqual(Semigroup.concat('a', 'b'), 'ab')
+assert.deepStrictEqual(S.Semigroup.concat('a', 'b'), 'ab')
 ```
 
 Added in v2.10.0

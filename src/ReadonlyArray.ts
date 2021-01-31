@@ -149,9 +149,9 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> {
  *
  * @example
  * import { getOrd } from 'fp-ts/ReadonlyArray'
- * import { ordString } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
  *
- * const O = getOrd(ordString)
+ * const O = getOrd(S.Ord)
  * assert.strictEqual(O.compare(['b'], ['a']), 1)
  * assert.strictEqual(O.compare(['a'], ['a']), 0)
  * assert.strictEqual(O.compare(['a'], ['b']), -1)
@@ -1197,14 +1197,16 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  *
  * @example
  * import { sortBy } from 'fp-ts/ReadonlyArray'
- * import { ord, ordString, ordNumber } from 'fp-ts/Ord'
+ * import { contramap, ordNumber } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = ord.contramap(ordString, (p: Person) => p.name)
- * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
+ * const byAge = pipe(ordNumber, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *

@@ -4,10 +4,11 @@ import * as _ from '../src/Ord'
 import { fold } from '../src/Monoid'
 import { pipe } from '../src/function'
 import * as B from '../src/boolean'
+import * as S from '../src/string'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
-    const O = _.getTupleOrd(_.ordString, _.ordNumber, B.Ord)
+    const O = _.getTupleOrd(S.Ord, _.ordNumber, B.Ord)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -27,7 +28,7 @@ describe('Ord', () => {
       _.contramap((x: T) => x[0])
     )
     const sortBySnd = pipe(
-      _.ordString,
+      S.Ord,
       _.contramap((x: T) => x[1])
     )
     //                  v-- left unit

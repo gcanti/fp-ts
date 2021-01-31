@@ -247,13 +247,13 @@ export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa
 ```ts
 import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
-import { monoidString } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 
 const yell = (a: string) => `${a}!`
 
-assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(monoidString)(yell)), 'a!')
+assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(S.Monoid)(yell)), 'a!')
 
-assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(monoidString)(yell)), monoidString.empty)
+assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(S.Monoid)(yell)), S.Monoid.empty)
 ```
 
 Added in v2.0.0
