@@ -32,11 +32,11 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
-  - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
   - [ordString](#ordstring)
   - [~~getSemigroup~~](#getsemigroup)
+  - [~~ordBoolean~~](#ordboolean)
   - [~~ord~~](#ord)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
@@ -218,16 +218,6 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.0.0
 
-## ordBoolean
-
-**Signature**
-
-```ts
-export declare const ordBoolean: Ord<boolean>
-```
-
-Added in v2.0.0
-
 ## ordDate
 
 **Signature**
@@ -266,6 +256,18 @@ Use `getMonoid` instead
 
 ```ts
 export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
+```
+
+Added in v2.0.0
+
+## ~~ordBoolean~~
+
+Use `boolean.Ord` instead.
+
+**Signature**
+
+```ts
+export declare const ordBoolean: Ord<boolean>
 ```
 
 Added in v2.0.0
