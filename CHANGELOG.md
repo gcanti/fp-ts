@@ -115,10 +115,22 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
   - `boolean`
     - add `foldW` (@gcanti)
+    - add `Eq` instance (@gcanti)
+    - add `BooleanAlgebra` instance (@gcanti)
+    - add `SemigroupAll` instance (@gcanti)
+    - add `SemigroupAny` instance (@gcanti)
+    - add `MonoidAll` instance (@gcanti)
+    - add `MonoidAny` instance (@gcanti)
+    - add `Ord` instance (@gcanti)
+    - add `Show` instance (@gcanti)
+  - `BooleanAlgebra`
+    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
   - `Compactable`
     - add `compact` helper (@gcanti)
     - add `separate` helper (@gcanti)
     - add `separated` constructor (@gcanti)
+  - `Eq`
+    - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
   - `Filterable`
     - add `filter` helper (@gcanti)
     - add `filterMap` helper (@gcanti)
@@ -172,6 +184,9 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - add `bind` helper (@gcanti)
     - add `chainFirst` helper (@gcanti)
+  - `Monoid`
+    - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
+    - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -182,6 +197,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
+  - `Ord`
+    - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
   - `Random`
     - add `randomElem` (@gcanti)
   - `Reader`
@@ -239,6 +256,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `Semigroup`
+    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
+    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
+  - `Show`
+    - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
