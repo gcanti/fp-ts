@@ -198,21 +198,6 @@ export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup
 // -------------------------------------------------------------------------------------
 
 /**
- * `number` semigroup under multiplication.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- *
- * assert.deepStrictEqual(S.semigroupProduct.concat(2, 3), 6)
- *
- * @category instances
- * @since 2.0.0
- */
-export const semigroupProduct: Semigroup<number> = {
-  concat: (x, y) => x * y
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -358,3 +343,12 @@ export const semigroupString: Semigroup<string> = S.Semigroup
  * @deprecated
  */
 export const semigroupSum: Semigroup<number> = N.SemigroupSum
+
+/**
+ * Use `number.SemigroupProduct` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupProduct: Semigroup<number> = N.SemigroupProduct
