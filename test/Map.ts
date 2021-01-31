@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { Either, left, right } from '../src/Either'
-import { Eq, eqNumber, fromEquals } from '../src/Eq'
+import { Eq, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as _ from '../src/Map'
 import * as O from '../src/Option'
@@ -10,6 +10,7 @@ import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum }
 import { getStructShow, Show } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
+import * as N from '../src/number'
 
 interface User {
   readonly id: string
@@ -101,7 +102,7 @@ describe('Map', () => {
       ['a', 1],
       ['b', 2]
     ])
-    const elemS = _.elem(eqNumber)
+    const elemS = _.elem(N.Eq)
     assert.deepStrictEqual(elemS(2, x), true)
     assert.deepStrictEqual(elemS(3, x), false)
     assert.deepStrictEqual(elemS(2)(x), true)
@@ -507,7 +508,7 @@ describe('Map', () => {
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
-    const isSubmapS = _.isSubmap(eqUser, eqNumber)
+    const isSubmapS = _.isSubmap(eqUser, N.Eq)
     assert.deepStrictEqual(isSubmapS(me, that), true)
     assert.deepStrictEqual(isSubmapS(that)(me), true)
 
@@ -542,7 +543,7 @@ describe('Map', () => {
     const a1_ = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
     const b1 = new Map<User, number>([[{ id: 'b' }, 1]])
-    const S = _.getEq(eqUser, eqNumber)
+    const S = _.getEq(eqUser, N.Eq)
     assert.deepStrictEqual(S.equals(a1, a1), true)
     assert.deepStrictEqual(S.equals(a1, a1_), true)
     assert.deepStrictEqual(S.equals(a1_, a1), true)

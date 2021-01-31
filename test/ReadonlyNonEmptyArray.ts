@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
@@ -140,7 +140,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
+    const S = _.getEq(N.Eq)
     assert.deepStrictEqual(S.equals([1], [1]), true)
     assert.deepStrictEqual(S.equals([1], [1, 2]), false)
   })

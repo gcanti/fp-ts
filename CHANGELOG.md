@@ -38,6 +38,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Eq`
     - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
     - deprecate `eqString`, use `string.Eq` instead (@gcanti)
+    - deprecate `eqNumber`, use `number.Eq` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`

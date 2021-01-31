@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
@@ -253,7 +253,7 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    const { equals } = _.getEq(eqNumber)
+    const { equals } = _.getEq(N.Eq)
     assert.deepStrictEqual(equals(_.none, _.none), true)
     assert.deepStrictEqual(equals(_.none, _.some(1)), false)
     assert.deepStrictEqual(equals(_.some(1), _.none), false)
@@ -384,9 +384,9 @@ describe('Option', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.none), false)
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.some(2)), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(1, _.some(2)), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(2, _.none), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(2, _.some(2)), true)
+    assert.deepStrictEqual(_.elem(N.Eq)(1, _.some(2)), false)
   })
 
   it('isNone', () => {

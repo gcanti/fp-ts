@@ -5,6 +5,7 @@ import * as I from '../src/Identity'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as _ from '../src/Tree'
+import * as N from '../src/number'
 
 describe('Tree', () => {
   describe('pipeables', () => {
@@ -147,7 +148,7 @@ describe('Tree', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(Eq.eqNumber)
+    const S = _.getEq(N.Eq)
     const x = _.make(1, [_.make(2)])
     const y = _.make(2, [_.make(2)])
     const z = _.make(1, [_.make(1)])
@@ -173,7 +174,7 @@ describe('Tree', () => {
       readonly id: number
     }
     const S: Eq.Eq<User> = pipe(
-      Eq.eqNumber,
+      N.Eq,
       Eq.contramap((user: User) => user.id)
     )
     const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
