@@ -4,6 +4,7 @@
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as B from './boolean'
 import * as S from './string'
+import * as N from './number'
 
 /**
  * The `Show` type class represents those types which can be converted into
@@ -18,14 +19,6 @@ import * as S from './string'
  */
 export interface Show<A> {
   readonly show: (a: A) => string
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const showNumber: Show<number> = {
-  show: (a) => JSON.stringify(a)
 }
 
 /**
@@ -74,3 +67,12 @@ export const showBoolean: Show<boolean> = B.Show
  * @deprecated
  */
 export const showString: Show<string> = S.Show
+
+/**
+ * Use `number.Show` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const showNumber: Show<number> = N.Show
