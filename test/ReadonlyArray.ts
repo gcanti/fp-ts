@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
+import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
@@ -8,10 +9,8 @@ import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyArray'
-import * as Show from '../src/Show'
-import * as T from '../src/Task'
-import * as B from '../src/boolean'
 import * as S from '../src/string'
+import * as T from '../src/Task'
 
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
@@ -966,10 +965,10 @@ describe('ReadonlyArray', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(Show.showString)
-    assert.deepStrictEqual(S.show([]), `[]`)
-    assert.deepStrictEqual(S.show(['a']), `["a"]`)
-    assert.deepStrictEqual(S.show(['a', 'b']), `["a", "b"]`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show([]), `[]`)
+    assert.deepStrictEqual(Sh.show(['a']), `["a"]`)
+    assert.deepStrictEqual(Sh.show(['a', 'b']), `["a", "b"]`)
   })
 
   it('fromArray', () => {

@@ -1,24 +1,20 @@
 import * as assert from 'assert'
-import { showString, showNumber, getStructShow, getTupleShow } from '../src/Show'
+import { showNumber, getStructShow, getTupleShow } from '../src/Show'
+import * as S from '../src/string'
 
 describe('Show', () => {
-  it('showString', () => {
-    const S = showString
-    assert.deepStrictEqual(S.show('a'), '"a"')
-  })
-
   it('showNumber', () => {
     const S = showNumber
     assert.deepStrictEqual(S.show(1), '1')
   })
 
   it('getStructShow', () => {
-    const S = getStructShow({ a: showString, b: showNumber })
-    assert.deepStrictEqual(S.show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
+    const Sh = getStructShow({ a: S.Show, b: showNumber })
+    assert.deepStrictEqual(Sh.show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
   })
 
   it('getTupleShow', () => {
-    const S = getTupleShow(showString, showNumber)
-    assert.deepStrictEqual(S.show(['a', 1]), '["a", 1]')
+    const Sh = getTupleShow(S.Show, showNumber)
+    assert.deepStrictEqual(Sh.show(['a', 1]), '["a", 1]')
   })
 })

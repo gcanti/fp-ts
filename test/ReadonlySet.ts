@@ -1,12 +1,11 @@
 import * as assert from 'assert'
+import { getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
+import * as Eq from '../src/Eq'
+import { pipe } from '../src/function'
+import { none, some as optionSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import * as _ from '../src/ReadonlySet'
-import * as Eq from '../src/Eq'
-import { none, some as optionSome } from '../src/Option'
-import { showString } from '../src/Show'
-import { getMonoid } from '../src/Array'
-import { pipe } from '../src/function'
 import * as S from '../src/string'
 
 const gte2 = (n: number) => n >= 2
@@ -248,13 +247,13 @@ describe('ReadonlySet', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const s1 = new Set<string>([])
-    assert.deepStrictEqual(S.show(s1), `new Set([])`)
+    assert.deepStrictEqual(Sh.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
-    assert.deepStrictEqual(S.show(s2), `new Set(["a"])`)
+    assert.deepStrictEqual(Sh.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['a', 'b'])
-    assert.deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
+    assert.deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
   })
 
   it('fromSet', () => {

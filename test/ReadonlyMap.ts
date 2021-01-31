@@ -1,15 +1,15 @@
 import * as assert from 'assert'
-import * as RA from '../src/ReadonlyArray'
 import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
-import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
-import { getStructShow, Show, showString } from '../src/Show'
+import { getStructShow, Show } from '../src/Show'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 
 interface User {
@@ -1078,17 +1078,17 @@ describe('ReadonlyMap', () => {
   })
 
   it('getShow', () => {
-    const showUser: Show<User> = getStructShow({ id: showString })
-    const S = _.getShow(showUser, showString)
+    const showUser: Show<User> = getStructShow({ id: S.Show })
+    const Sh = _.getShow(showUser, S.Show)
     const m1 = new Map<User, string>([])
-    assert.deepStrictEqual(S.show(m1), `new Map([])`)
+    assert.deepStrictEqual(Sh.show(m1), `new Map([])`)
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
-    assert.deepStrictEqual(S.show(m2), `new Map([[{ id: "a" }, "b"]])`)
+    assert.deepStrictEqual(Sh.show(m2), `new Map([[{ id: "a" }, "b"]])`)
     const m3 = new Map<User, string>([
       [{ id: 'a' }, 'b'],
       [{ id: 'c' }, 'd']
     ])
-    assert.deepStrictEqual(S.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
+    assert.deepStrictEqual(Sh.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })
 
   it('updateAt', () => {
