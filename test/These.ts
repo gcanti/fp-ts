@@ -1,12 +1,11 @@
 import * as assert from 'assert'
+import * as Apply from '../src/Apply'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
-import { showString } from '../src/Show'
-import * as _ from '../src/These'
-import * as Apply from '../src/Apply'
 import * as S from '../src/string'
+import * as _ from '../src/These'
 
 describe('These', () => {
   describe('pipeables', () => {
@@ -227,10 +226,10 @@ describe('These', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString, showString)
-    assert.deepStrictEqual(S.show(_.left('a')), `left("a")`)
-    assert.deepStrictEqual(S.show(_.right('a')), `right("a")`)
-    assert.deepStrictEqual(S.show(_.both('a', 'b')), `both("a", "b")`)
+    const Sh = _.getShow(S.Show, S.Show)
+    assert.deepStrictEqual(Sh.show(_.left('a')), `left("a")`)
+    assert.deepStrictEqual(Sh.show(_.right('a')), `right("a")`)
+    assert.deepStrictEqual(Sh.show(_.both('a', 'b')), `both("a", "b")`)
   })
 
   it('swap', () => {

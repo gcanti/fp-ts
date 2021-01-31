@@ -8,7 +8,6 @@ import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/Array'
-import * as Show from '../src/Show'
 import * as T from '../src/Task'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
@@ -961,9 +960,9 @@ describe('Array', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(Show.showString)
-    assert.deepStrictEqual(S.show([]), `[]`)
-    assert.deepStrictEqual(S.show(['a']), `["a"]`)
-    assert.deepStrictEqual(S.show(['a', 'b']), `["a", "b"]`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show([]), `[]`)
+    assert.deepStrictEqual(Sh.show(['a']), `["a"]`)
+    assert.deepStrictEqual(Sh.show(['a', 'b']), `["a", "b"]`)
   })
 })
