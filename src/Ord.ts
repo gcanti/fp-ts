@@ -82,16 +82,16 @@ export const getTupleOrd = <A extends ReadonlyArray<unknown>>(...ords: { [K in k
 
 /**
  * @example
- * import { ordNumber, getDualOrd } from 'fp-ts/Ord'
+ * import { ordNumber, getDual } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
- * assert.deepStrictEqual(pipe(5, getDualOrd(ordNumber).compare(6)), 1)
+ * assert.deepStrictEqual(pipe(5, getDual(ordNumber).compare(6)), 1)
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDualOrd = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
+export const getDual = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -228,7 +228,7 @@ export const ordDate: Ord<Date> =
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+ * import { contramap, getDual, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
  *
@@ -273,7 +273,7 @@ export const ordDate: Ord<Date> =
  * ])
  *
  * // now `rememberMe = true` first, then by name, then by age
- * const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
+ * const O2 = fold(M)([getDual(byRememberMe), byName, byAge])
  * assert.deepStrictEqual(sort(O2)(users), [
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },

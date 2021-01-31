@@ -58,6 +58,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `sequenceTS`, use data type `apT` instead (@gcanti)
   - `Alternative`
     - remove `Applicative` dependency (@gcanti)
+  - `BooleanAlgebra`
+    - rename `getDualBooleanAlgebra` to `getDual` (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
   - `Either`
@@ -98,6 +100,7 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Applicative` dependency (@gcanti)
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
+    - rename `getDualMonoid` to `getDual` (@gcanti)
   - `Option`
     - make `elem` pipeable (@gcanti)
   - `Ord`
@@ -107,6 +110,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `gt` pipeable (@gcanti)
     - make `leq` pipeable (@gcanti)
     - make `geq` pipeable (@gcanti)
+    - rename `getDualOrd` to `getDual` (@gcanti)
   - `ReaderEither`
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
@@ -169,6 +173,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getChain` (@gcanti)
   - `Semigroup`
     - make `fold` curried (@gcanti)
+    - rename `getDualSemigroup` to `getDual` (@gcanti)
   - `StateReaderTaskEither`
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `TaskEither`

@@ -77,8 +77,8 @@ describe('Ord', () => {
     deepStrictEqual(betweenNumber(1, 10)(-10), false)
   })
 
-  it('getDualOrd', () => {
-    const O = _.getDualOrd(_.ordNumber)
+  it('getDual', () => {
+    const O = _.getDual(_.ordNumber)
     deepStrictEqual(pipe(1, O.compare(2)), 1)
     deepStrictEqual(pipe(2, O.compare(1)), -1)
     deepStrictEqual(pipe(2, O.compare(2)), 0)

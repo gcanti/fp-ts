@@ -53,8 +53,8 @@ describe('Monoid', () => {
     U.deepStrictEqual(_.fold(M)([1, -1]), 1)
   })
 
-  it('getDualMonoid', () => {
-    const M = _.getDualMonoid(_.monoidString)
+  it('getDual', () => {
+    const M = _.getDual(_.monoidString)
     U.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
     U.deepStrictEqual(pipe('a', M.concat(M.empty)), 'a')
     U.deepStrictEqual(pipe(M.empty, M.concat('a')), 'a')

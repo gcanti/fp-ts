@@ -15,7 +15,7 @@
 import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { getDualSemigroup, Semigroup } from './Semigroup'
+import { getDual, Semigroup } from './Semigroup'
 
 /**
  * @category type classes
@@ -294,7 +294,7 @@ export function getApplySemigroup<F extends URIS>(F: Apply1<F>): <A>(S: Semigrou
 export function getApplySemigroup<F>(F: Apply<F>): <A>(S: Semigroup<A>) => Semigroup<HKT<F, A>>
 export function getApplySemigroup<F>(F: Apply<F>): <A>(S: Semigroup<A>) => Semigroup<HKT<F, A>> {
   return <A>(S: Semigroup<A>) => {
-    const f = getDualSemigroup(S).concat
+    const f = getDual(S).concat
     return {
       concat: (second: HKT<F, A>) => (first: HKT<F, A>) => pipe(first, F.map(f), F.ap(second))
     }

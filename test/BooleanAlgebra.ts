@@ -1,4 +1,4 @@
-import { booleanAlgebraBoolean, getDualBooleanAlgebra, getFunctionBooleanAlgebra } from '../src/BooleanAlgebra'
+import { booleanAlgebraBoolean, getDual, getFunctionBooleanAlgebra } from '../src/BooleanAlgebra'
 import { pipe } from '../src/function'
 import { deepStrictEqual } from './util'
 
@@ -47,8 +47,8 @@ describe('BooleanAlgebra', () => {
     deepStrictEqual(BA.zero(-1), false)
   })
 
-  it('getDualBooleanAlgebra', () => {
-    const BA = getDualBooleanAlgebra(booleanAlgebraBoolean)
+  it('getDual', () => {
+    const BA = getDual(booleanAlgebraBoolean)
     deepStrictEqual(pipe(true, BA.implies(true)), true)
     deepStrictEqual(pipe(true, BA.implies(false)), false)
     deepStrictEqual(pipe(false, BA.implies(true)), true)

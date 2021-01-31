@@ -90,12 +90,12 @@ export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
  * import * as S from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('a', S.getDualSemigroup(S.semigroupString).concat('b')), 'ba')
+ * assert.deepStrictEqual(pipe('a', S.getDual(S.semigroupString).concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
+export const getDual = <A>(S: Semigroup<A>): Semigroup<A> => ({
   concat: (second) => (first) => S.concat(first)(second)
 })
 

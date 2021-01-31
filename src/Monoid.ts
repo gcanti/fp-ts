@@ -99,14 +99,14 @@ export const getUnitMonoid = <A>(a: A): Monoid<A> => ({
  * import * as M from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  *
- * const M1 = M.getDualMonoid(M.monoidString)
+ * const M1 = M.getDual(M.monoidString)
  * assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
-  concat: S.getDualSemigroup(M).concat,
+export const getDual = <A>(M: Monoid<A>): Monoid<A> => ({
+  concat: S.getDual(M).concat,
   empty: M.empty
 })
 

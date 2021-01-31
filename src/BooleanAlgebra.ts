@@ -52,7 +52,7 @@ export const getFunctionBooleanAlgebra = <BA>(BA: BooleanAlgebra<BA>) => <A = ne
  * @category combinators
  * @since 3.0.0
  */
-export const getDualBooleanAlgebra = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+export const getDual = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
   meet: BA.join,
   join: BA.meet,
   zero: BA.one,
