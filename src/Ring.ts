@@ -9,7 +9,8 @@
  *
  * @since 2.0.0
  */
-import { Semiring, getFunctionSemiring } from './Semiring'
+import { getRing } from './function'
+import { Semiring } from './Semiring'
 
 /**
  * @category type classes
@@ -17,21 +18,6 @@ import { Semiring, getFunctionSemiring } from './Semiring'
  */
 export interface Ring<A> extends Semiring<A> {
   readonly sub: (x: A, y: A) => A
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
-  const S = getFunctionSemiring<A, B>(ring)
-  return {
-    add: S.add,
-    mul: S.mul,
-    one: S.one,
-    zero: S.zero,
-    sub: (f, g) => (x) => ring.sub(f(x), g(x))
-  }
 }
 
 /**
@@ -71,3 +57,16 @@ export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
     sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
   } as any
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `function.getRing` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B> = getRing

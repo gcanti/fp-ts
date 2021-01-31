@@ -3,7 +3,9 @@
  */
 import { BooleanAlgebra } from './BooleanAlgebra'
 import { Monoid } from './Monoid'
+import { Ring } from './Ring'
 import { Semigroup } from './Semigroup'
+import { Semiring } from './Semiring'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -78,6 +80,32 @@ export const getMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M
     concat: getSemigroupM<A>().concat,
     empty: () => M.empty
   })
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ({
+  add: (f, g) => (x) => S.add(f(x), g(x)),
+  zero: () => S.zero,
+  mul: (f, g) => (x) => S.mul(f(x), g(x)),
+  one: () => S.one
+})
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const getRing = <A, B>(R: Ring<B>): Ring<(a: A) => B> => {
+  const S = getSemiring<A, B>(R)
+  return {
+    add: S.add,
+    mul: S.mul,
+    one: S.one,
+    zero: S.zero,
+    sub: (f, g) => (x) => R.sub(f(x), g(x))
+  }
 }
 
 // -------------------------------------------------------------------------------------
