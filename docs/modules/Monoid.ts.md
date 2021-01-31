@@ -45,13 +45,14 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [getDualMonoid](#getdualmonoid)
+  - [getStructMonoid](#getstructmonoid)
+  - [getTupleMonoid](#gettuplemonoid)
+- [constructors](#constructors)
+  - [getJoinMonoid](#getjoinmonoid)
+  - [getMeetMonoid](#getmeetmonoid)
 - [instances](#instances)
   - [getEndomorphismMonoid](#getendomorphismmonoid)
   - [getFunctionMonoid](#getfunctionmonoid)
-  - [getJoinMonoid](#getjoinmonoid)
-  - [getMeetMonoid](#getmeetmonoid)
-  - [getStructMonoid](#getstructmonoid)
-  - [getTupleMonoid](#gettuplemonoid)
   - [monoidAll](#monoidall)
   - [monoidAny](#monoidany)
   - [monoidProduct](#monoidproduct)
@@ -74,7 +75,7 @@ The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
 **Signature**
 
 ```ts
-export declare function getDualMonoid<A>(M: Monoid<A>): Monoid<A>
+export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
 ```
 
 **Example**
@@ -87,102 +88,6 @@ assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
 
 Added in v2.0.0
 
-# instances
-
-## getEndomorphismMonoid
-
-Endomorphism form a monoid where the `empty` value is the identity function.
-
-**Signature**
-
-```ts
-export declare function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>>
-```
-
-Added in v2.0.0
-
-## getFunctionMonoid
-
-Unary functions form a monoid as long as you can provide a monoid for the codomain.
-
-**Signature**
-
-```ts
-export declare function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M>
-```
-
-**Example**
-
-```ts
-import { Predicate } from 'fp-ts/function'
-import * as M from 'fp-ts/Monoid'
-
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
-
-const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
-
-assert.deepStrictEqual(M1.concat(f, g)(1), true)
-assert.deepStrictEqual(M1.concat(f, g)(3), false)
-
-const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
-
-assert.deepStrictEqual(M2.concat(f, g)(1), true)
-assert.deepStrictEqual(M2.concat(f, g)(3), true)
-```
-
-Added in v2.0.0
-
-## getJoinMonoid
-
-Get a monoid where `concat` will return the maximum, based on the provided bounded order.
-
-The `empty` value is the `bottom` value.
-
-**Signature**
-
-```ts
-export declare function getJoinMonoid<A>(B: Bounded<A>): Monoid<A>
-```
-
-**Example**
-
-```ts
-import * as B from 'fp-ts/Bounded'
-import * as M from 'fp-ts/Monoid'
-
-const M1 = M.getJoinMonoid(B.boundedNumber)
-
-assert.deepStrictEqual(M1.concat(1, 2), 2)
-```
-
-Added in v2.0.0
-
-## getMeetMonoid
-
-Get a monoid where `concat` will return the minimum, based on the provided bounded order.
-
-The `empty` value is the `top` value.
-
-**Signature**
-
-```ts
-export declare function getMeetMonoid<A>(B: Bounded<A>): Monoid<A>
-```
-
-**Example**
-
-```ts
-import * as B from 'fp-ts/Bounded'
-import * as M from 'fp-ts/Monoid'
-
-const M1 = M.getMeetMonoid(B.boundedNumber)
-
-assert.deepStrictEqual(M1.concat(1, 2), 1)
-```
-
-Added in v2.0.0
-
 ## getStructMonoid
 
 Given a struct of monoids returns a monoid for the struct.
@@ -190,9 +95,9 @@ Given a struct of monoids returns a monoid for the struct.
 **Signature**
 
 ```ts
-export declare function getStructMonoid<O extends ReadonlyRecord<string, any>>(
+export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O>
+) => Monoid<O>
 ```
 
 **Example**
@@ -222,9 +127,9 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export declare function getTupleMonoid<T extends ReadonlyArray<Monoid<any>>>(
+export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
   ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }>
+) => Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }>
 ```
 
 **Example**
@@ -237,6 +142,104 @@ assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
 const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
 assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.0.0
+
+# constructors
+
+## getJoinMonoid
+
+Get a monoid where `concat` will return the maximum, based on the provided bounded order.
+
+The `empty` value is the `bottom` value.
+
+**Signature**
+
+```ts
+export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import * as B from 'fp-ts/Bounded'
+import * as M from 'fp-ts/Monoid'
+
+const M1 = M.getJoinMonoid(B.boundedNumber)
+
+assert.deepStrictEqual(M1.concat(1, 2), 2)
+```
+
+Added in v2.0.0
+
+## getMeetMonoid
+
+Get a monoid where `concat` will return the minimum, based on the provided bounded order.
+
+The `empty` value is the `top` value.
+
+**Signature**
+
+```ts
+export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import * as B from 'fp-ts/Bounded'
+import * as M from 'fp-ts/Monoid'
+
+const M1 = M.getMeetMonoid(B.boundedNumber)
+
+assert.deepStrictEqual(M1.concat(1, 2), 1)
+```
+
+Added in v2.0.0
+
+# instances
+
+## getEndomorphismMonoid
+
+Endomorphism form a monoid where the `empty` value is the identity function.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v2.0.0
+
+## getFunctionMonoid
+
+Unary functions form a monoid as long as you can provide a monoid for the codomain.
+
+**Signature**
+
+```ts
+export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
+```
+
+**Example**
+
+```ts
+import { Predicate } from 'fp-ts/function'
+import * as M from 'fp-ts/Monoid'
+
+const f: Predicate<number> = (n) => n <= 2
+const g: Predicate<number> = (n) => n >= 0
+
+const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
+
+assert.deepStrictEqual(M1.concat(f, g)(1), true)
+assert.deepStrictEqual(M1.concat(f, g)(3), false)
+
+const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
+
+assert.deepStrictEqual(M2.concat(f, g)(1), true)
+assert.deepStrictEqual(M2.concat(f, g)(3), true)
 ```
 
 Added in v2.0.0
