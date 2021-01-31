@@ -1,10 +1,9 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
+import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import * as O from '../src/Option'
-import { eqNumber } from '../src/Eq'
-import { showString } from '../src/Show'
 import * as S from '../src/string'
 
 describe('Identity', () => {
@@ -117,8 +116,8 @@ describe('Identity', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show('a'), `"a"`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show('a'), `"a"`)
   })
 
   it('do notation', () => {

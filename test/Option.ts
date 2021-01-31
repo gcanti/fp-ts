@@ -6,9 +6,8 @@ import { monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
-import * as T from '../src/Task'
 import * as S from '../src/string'
+import * as T from '../src/Task'
 
 const p = (n: number): boolean => n > 2
 
@@ -432,9 +431,9 @@ describe('Option', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show(_.some('a')), `some("a")`)
-    assert.deepStrictEqual(S.show(_.none), `none`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show(_.some('a')), `some("a")`)
+    assert.deepStrictEqual(Sh.show(_.none), `none`)
   })
 
   it('getLeft', () => {

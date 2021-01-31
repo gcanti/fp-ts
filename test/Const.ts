@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as _ from '../src/Const'
 import { eqNumber } from '../src/Eq'
-import { showString } from '../src/Show'
 import { pipe } from '../src/function'
 import * as S from '../src/string'
 
@@ -51,8 +50,8 @@ describe('Const', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const x: _.Const<string, number> = _.make('a')
-    assert.deepStrictEqual(S.show(x), `make("a")`)
+    assert.deepStrictEqual(Sh.show(x), `make("a")`)
   })
 })

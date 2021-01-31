@@ -1,14 +1,13 @@
 import * as assert from 'assert'
+import * as A from '../src/Array'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
-import * as S from '../src/string'
 import * as O from '../src/Option'
-import * as A from '../src/Array'
 import * as _ from '../src/Record'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 
 const p = (n: number) => n > 2
@@ -397,10 +396,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show({}), `{}`)
-    assert.deepStrictEqual(S.show({ a: 'a' }), `{ "a": "a" }`)
-    assert.deepStrictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show({}), `{}`)
+    assert.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
+    assert.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 
   it('singleton', () => {

@@ -6,7 +6,6 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import { semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as S from '../src/string'
 
 describe('ReadonlyNonEmptyArray', () => {
@@ -320,9 +319,9 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show(['a']), `["a"]`)
-    assert.deepStrictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show(['a']), `["a"]`)
+    assert.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
   it('alt / concat', () => {

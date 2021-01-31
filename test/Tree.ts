@@ -4,7 +4,6 @@ import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import * as O from '../src/Option'
 import * as S from '../src/string'
-import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
 
 describe('Tree', () => {
@@ -184,11 +183,11 @@ describe('Tree', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const t1 = _.make('a')
-    assert.deepStrictEqual(S.show(t1), `make("a")`)
+    assert.deepStrictEqual(Sh.show(t1), `make("a")`)
     const t2 = _.make('a', [_.make('b'), _.make('c')])
-    assert.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+    assert.deepStrictEqual(Sh.show(t2), `make("a", [make("b"), make("c")])`)
   })
 
   it('fold', () => {
