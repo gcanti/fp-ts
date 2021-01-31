@@ -5,6 +5,7 @@ import * as B from './Bounded'
 import * as E from './Eq'
 import * as F from './Field'
 import * as O from './Ord'
+import * as S from './Show'
 
 /**
  * @category instances
@@ -45,4 +46,12 @@ export const Field: F.Field<number> = {
   degree: (_) => 1,
   div: (x, y) => x / y,
   mod: (x, y) => x % y
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Show: S.Show<number> = {
+  show: (a) => JSON.stringify(a)
 }
