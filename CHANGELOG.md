@@ -27,6 +27,8 @@ high state of flux, you're at risk of it changing without notice.
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
     - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
+  - `Bounded`
+    - deprecate `boundedNumber`, use `number.Bounded` instead (@gcanti)
   - `Compactable`
     - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead (@gcanti)
   - `Either`
