@@ -3,6 +3,7 @@
  */
 import * as B from './Bounded'
 import * as E from './Eq'
+import * as F from './Field'
 import * as O from './Ord'
 
 /**
@@ -29,4 +30,19 @@ export const Bounded: B.Bounded<number> = {
   compare: Ord.compare,
   top: Infinity,
   bottom: -Infinity
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Field: F.Field<number> = {
+  add: (x, y) => x + y,
+  zero: 0,
+  mul: (x, y) => x * y,
+  one: 1,
+  sub: (x, y) => x - y,
+  degree: (_) => 1,
+  div: (x, y) => x / y,
+  mod: (x, y) => x % y
 }

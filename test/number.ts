@@ -7,4 +7,10 @@ describe('string', () => {
     assert.deepStrictEqual(_.Ord.compare(2, 1), 1)
     assert.deepStrictEqual(_.Ord.compare(2, 2), 0)
   })
+
+  it('Field', () => {
+    assert.deepStrictEqual(_.Field.degree(0), 1)
+    assert.deepStrictEqual(_.Field.degree(1), 1)
+    assert.deepStrictEqual(_.Field.degree(2), 1)
+  })
 })
