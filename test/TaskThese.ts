@@ -2,11 +2,11 @@ import * as assert from 'assert'
 import { pipe } from '../src/function'
 import * as IO from '../src/IO'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
 import { assertPar, assertSeq } from './util'
+import * as S from '../src/string'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
@@ -39,11 +39,11 @@ describe('TaskThese', () => {
 
   describe('getApplicative', () => {
     it('Par', async () => {
-      await assertSeq(_.getApplicative(T.ApplicativeSeq, semigroupString), _.FromTask, (fa) => fa())
+      await assertSeq(_.getApplicative(T.ApplicativeSeq, S.Semigroup), _.FromTask, (fa) => fa())
     })
 
     it('Seq', async () => {
-      await assertPar(_.getApplicative(T.ApplicativePar, semigroupString), _.FromTask, (fa) => fa())
+      await assertPar(_.getApplicative(T.ApplicativePar, S.Semigroup), _.FromTask, (fa) => fa())
     })
   })
 

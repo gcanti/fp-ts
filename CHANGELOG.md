@@ -97,6 +97,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
     - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
     - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
+    - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `Task`

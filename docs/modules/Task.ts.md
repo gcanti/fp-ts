@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 91
+nav_order: 92
 parent: Modules
 ---
 
@@ -414,28 +414,10 @@ Added in v2.0.0
 
 Use `Apply.getApplySemigroup` instead.
 
-Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
-
 **Signature**
 
 ```ts
 export declare const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>>
-```
-
-**Example**
-
-```ts
-import * as T from 'fp-ts/Task'
-import { semigroupString } from 'fp-ts/Semigroup'
-
-async function test() {
-  const S = T.getSemigroup(semigroupString)
-  const fa = T.of('a')
-  const fb = T.of('b')
-  assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
-}
-
-test()
 ```
 
 Added in v2.0.0

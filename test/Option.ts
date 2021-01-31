@@ -6,9 +6,10 @@ import { monoidString, monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
+import * as S from '../src/string'
 
 const p = (n: number): boolean => n > 2
 
@@ -325,7 +326,7 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = _.getMonoid(semigroupString)
+    const { concat } = _.getMonoid(S.Semigroup)
     assert.deepStrictEqual(concat(_.none, _.none), _.none)
     assert.deepStrictEqual(concat(_.none, _.some('a')), _.some('a'))
     assert.deepStrictEqual(concat(_.some('a'), _.none), _.some('a'))
