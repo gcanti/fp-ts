@@ -1,36 +1,10 @@
 import * as assert from 'assert'
-import {
-  booleanAlgebraBoolean,
-  booleanAlgebraVoid,
-  getFunctionBooleanAlgebra,
-  getDualBooleanAlgebra
-} from '../src/BooleanAlgebra'
+import * as _ from '../src/BooleanAlgebra'
+import * as B from '../src/boolean'
 
 describe('BooleanAlgebra', () => {
-  it('booleanAlgebraBoolean', () => {
-    const BA = booleanAlgebraBoolean
-    assert.deepStrictEqual(BA.implies(true, true), true)
-    assert.deepStrictEqual(BA.implies(true, false), false)
-    assert.deepStrictEqual(BA.implies(false, true), true)
-    assert.deepStrictEqual(BA.implies(false, false), true)
-
-    assert.deepStrictEqual(BA.join(true, true), true)
-    assert.deepStrictEqual(BA.join(true, false), true)
-    assert.deepStrictEqual(BA.join(false, true), true)
-    assert.deepStrictEqual(BA.join(false, false), false)
-
-    assert.deepStrictEqual(BA.meet(true, true), true)
-    assert.deepStrictEqual(BA.meet(true, false), false)
-
-    assert.deepStrictEqual(BA.not(true), false)
-    assert.deepStrictEqual(BA.not(false), true)
-
-    assert.deepStrictEqual(BA.one, true)
-    assert.deepStrictEqual(BA.zero, false)
-  })
-
   it('booleanAlgebraVoid', () => {
-    const BA = booleanAlgebraVoid
+    const BA = _.booleanAlgebraVoid
     assert.deepStrictEqual(BA.implies(undefined, undefined), undefined)
 
     assert.deepStrictEqual(BA.join(undefined, undefined), undefined)
@@ -44,7 +18,7 @@ describe('BooleanAlgebra', () => {
   })
 
   it('getFunctionBooleanAlgebra', () => {
-    const BA = getFunctionBooleanAlgebra(booleanAlgebraBoolean)<number>()
+    const BA = _.getFunctionBooleanAlgebra(B.BooleanAlgebra)<number>()
     const f = (n: number) => n >= 0
     const g = (n: number) => n < 2
     assert.deepStrictEqual(BA.implies(f, g)(1), true)
@@ -66,7 +40,7 @@ describe('BooleanAlgebra', () => {
   })
 
   it('getDualBooleanAlgebra', () => {
-    const BA = getDualBooleanAlgebra(booleanAlgebraBoolean)
+    const BA = _.getDualBooleanAlgebra(B.BooleanAlgebra)
     assert.deepStrictEqual(BA.implies(true, true), true)
     assert.deepStrictEqual(BA.implies(true, false), false)
     assert.deepStrictEqual(BA.implies(false, true), true)
