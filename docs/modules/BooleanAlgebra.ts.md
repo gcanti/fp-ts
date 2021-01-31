@@ -24,9 +24,9 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [getDualBooleanAlgebra](#getdualbooleanalgebra)
 - [instances](#instances)
-  - [booleanAlgebraBoolean](#booleanalgebraboolean)
   - [booleanAlgebraVoid](#booleanalgebravoid)
   - [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
+  - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
@@ -41,22 +41,12 @@ Every boolean algebras has a dual algebra, which involves reversing one/zero as 
 **Signature**
 
 ```ts
-export declare function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>
+export declare const getDualBooleanAlgebra: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v2.0.0
 
 # instances
-
-## booleanAlgebraBoolean
-
-**Signature**
-
-```ts
-export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
-```
-
-Added in v2.0.0
 
 ## booleanAlgebraVoid
 
@@ -74,6 +64,18 @@ Added in v2.0.0
 
 ```ts
 export declare function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B>
+```
+
+Added in v2.0.0
+
+## ~~booleanAlgebraBoolean~~
+
+Use `boolean.BooleanAlgebra` instead.
+
+**Signature**
+
+```ts
+export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
 ```
 
 Added in v2.0.0

@@ -15,6 +15,11 @@ Added in v2.2.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+- [instances](#instances)
+  - [BooleanAlgebra](#booleanalgebra)
+  - [Eq](#eq)
+  - [SemigroupAll](#semigroupall)
+  - [SemigroupAny](#semigroupany)
 
 ---
 
@@ -66,3 +71,68 @@ export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value:
 ```
 
 Added in v2.10.0
+
+# instances
+
+## BooleanAlgebra
+
+**Signature**
+
+```ts
+export declare const BooleanAlgebra: BA.BooleanAlgebra<boolean>
+```
+
+Added in v2.10.0
+
+## Eq
+
+**Signature**
+
+```ts
+export declare const Eq: E.Eq<boolean>
+```
+
+Added in v2.10.0
+
+## SemigroupAll
+
+`boolean` semigroup under conjunction.
+
+**Signature**
+
+```ts
+export declare const SemigroupAll: Semigroup<boolean>
+```
+
+**Example**
+
+```ts
+import { SemigroupAll } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(SemigroupAll.concat(true, true), true)
+assert.deepStrictEqual(SemigroupAll.concat(true, false), false)
+```
+
+Added in v2.0.0
+
+## SemigroupAny
+
+`boolean` semigroup under disjunction.
+
+**Signature**
+
+```ts
+export declare const SemigroupAny: Semigroup<boolean>
+```
+
+**Example**
+
+```ts
+import { SemigroupAny } from 'fp-ts/boolean'
+
+assert.deepStrictEqual(SemigroupAny.concat(true, true), true)
+assert.deepStrictEqual(SemigroupAny.concat(true, false), true)
+assert.deepStrictEqual(SemigroupAny.concat(false, false), false)
+```
+
+Added in v2.0.0
