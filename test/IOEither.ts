@@ -3,9 +3,9 @@ import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as S from '../src/string'
-import { none, some } from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
+import * as O from '../src/Option'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -109,8 +109,28 @@ describe('IOEither', () => {
   })
 
   it('fromOption', () => {
-    U.deepStrictEqual(_.fromOption(() => 'err')(none)(), E.left('err'))
-    U.deepStrictEqual(_.fromOption(() => 'err')(some(1))(), E.right(1))
+    U.deepStrictEqual(_.fromOption(() => 'err')(O.none)(), E.left('err'))
+    U.deepStrictEqual(_.fromOption(() => 'err')(O.some(1))(), E.right(1))
+  })
+
+  it('fromOptionK', () => {
+    const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.deepStrictEqual(f(1)(), E.right(1))
+    U.deepStrictEqual(f(-1)(), E.left('a'))
+  })
+
+  it('chainOptionK', () => {
+    const f = _.chainOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.deepStrictEqual(f(_.right(1))(), E.right(1))
+    U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
+    U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
+  })
+
+  it('chainEitherK', () => {
+    const f = _.chainEitherK((n: number) => (n > 0 ? E.right(n) : E.left('a')))
+    U.deepStrictEqual(f(_.right(1))(), E.right(1))
+    U.deepStrictEqual(f(_.right(-1))(), E.left('a'))
+    U.deepStrictEqual(f(_.left('b'))(), E.left('b'))
   })
 
   it('fromEither', () => {
@@ -272,7 +292,7 @@ describe('IOEither', () => {
     const C = _.getCompactable(S.Monoid)
 
     it('compact', () => {
-      U.deepStrictEqual(C.compact(_.right(some(1)))(), E.right(1))
+      U.deepStrictEqual(C.compact(_.right(O.some(1)))(), E.right(1))
     })
 
     it('separate', () => {

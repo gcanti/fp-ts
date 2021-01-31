@@ -35,9 +35,11 @@ Added in v3.0.0
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstW](#chainfirstw)
+  - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
@@ -248,7 +250,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
+export declare const chainEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -260,7 +262,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
@@ -277,6 +279,18 @@ Less strict version of [`chainFirst`](#chainFirst).
 export declare const chainFirstW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -316,9 +330,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <E, A extends readonly unknown[], B>(
-  f: (...a: A) => E.Either<E, B>
-) => (...a: A) => IOEither<E, B>
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => (...a: A) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0

@@ -41,10 +41,12 @@ Added in v3.0.0
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
+  - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
@@ -299,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+export declare const chainEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -311,7 +313,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -358,6 +360,18 @@ export declare const chainIOEitherKW: <A, E2, B>(
 
 Added in v3.0.0
 
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
 ## filterOrElse
 
 **Signature**
@@ -393,9 +407,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => E.Either<E, B>
-) => (...a: A) => TaskEither<E, B>
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -408,6 +420,18 @@ Added in v3.0.0
 export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
 ) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

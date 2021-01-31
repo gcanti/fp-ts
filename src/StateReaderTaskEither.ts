@@ -7,9 +7,13 @@ import { apFirst as apFirst_, Apply4, apSecond as apSecond_, apS as apS_, apT as
 import { Bifunctor4 } from './Bifunctor'
 import * as E from './Either'
 import {
+  chainEitherK as chainEitherK_,
+  chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither4,
+  fromEitherK as fromEitherK_,
   fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { FromIO4 } from './FromIO'
@@ -217,32 +221,6 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const fromEitherK = <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
-): (<S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromEither(f(...a))
-
-/**
- * Less strict version of [`chainEitherK`](#chainEitherK).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainEitherKW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <S, R, E1>(
-  ma: StateReaderTaskEither<S, R, E1, A>
-): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<A, S, R, E2, B>(fromEitherK(f)))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainEitherK: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = chainEitherKW
 
 /**
  * @category combinators
@@ -605,6 +583,47 @@ export const fromOption =
   fromOption_(FromEither)
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
+
+const MonadFromEither: FromEither4<URI> & Monad4<URI> = {
+  map,
+  of,
+  chain,
+  fromEither
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  chainOptionK_(MonadFromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(MonadFromEither)
+
+/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainEitherK as any
+
+/**
  * Derivable from `FromEither`.
  *
  * @category constructors
@@ -620,12 +639,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_<URI>({
-    map,
-    of,
-    chain,
-    fromEither
-  })
+  filterOrElse_(MonadFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -641,6 +655,14 @@ export const filterOrElseW: {
     ma: StateReaderTaskEither<S, R, E1, A>
   ) => StateReaderTaskEither<S, R, E1 | E2, A>
 } = filterOrElse
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -34,12 +34,14 @@ Added in v3.0.0
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
+  - [chainOptionK](#chainoptionk)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
+  - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
@@ -273,7 +275,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <E, A, B>(
+export declare const chainEitherK: <A, E, B>(
   f: (a: A) => E.Either<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
@@ -287,7 +289,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
 ```
@@ -330,6 +332,18 @@ Less strict version of [`chainIOEitherK`](#chainIOEitherK).
 export declare const chainIOEitherKW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -399,9 +413,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -414,6 +426,18 @@ Added in v3.0.0
 export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
 ) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

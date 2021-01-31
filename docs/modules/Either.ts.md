@@ -52,6 +52,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainFirstW](#chainfirstw)
   - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [fromNullableK](#fromnullablek)
@@ -431,6 +432,18 @@ Added in v3.0.0
 export declare const chainNullableK: <E>(
   e: Lazy<E>
 ) => <A, B>(f: (a: A) => B) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
 ```
 
 Added in v3.0.0
