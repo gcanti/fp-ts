@@ -3,7 +3,7 @@ import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/Identity'
 import * as O from '../src/Option'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
 
@@ -91,7 +91,7 @@ describe('Tree', () => {
 
   it('foldMap', () => {
     const x = _.make('a', [_.make('b'), _.make('c')])
-    assert.deepStrictEqual(pipe(x, _.foldMap(monoidString)(identity)), 'abc')
+    assert.deepStrictEqual(pipe(x, _.foldMap(S.Monoid)(identity)), 'abc')
   })
 
   it('reduceRight', () => {

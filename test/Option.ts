@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
 import { ordString } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
@@ -114,8 +114,8 @@ describe('Option', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe(_.some('a'), _.foldMap(monoidString)(identity)), 'a')
-      assert.deepStrictEqual(pipe(_.none, _.foldMap(monoidString)(identity)), '')
+      assert.deepStrictEqual(pipe(_.some('a'), _.foldMap(S.Monoid)(identity)), 'a')
+      assert.deepStrictEqual(pipe(_.none, _.foldMap(S.Monoid)(identity)), '')
     })
 
     it('reduceRight', () => {

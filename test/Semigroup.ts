@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import * as _ from '../src/Semigroup'
 import * as B from '../src/boolean'
@@ -14,8 +13,8 @@ describe('Semigroup', () => {
   })
 
   it('fold', () => {
-    assert.deepStrictEqual(_.fold(monoidString)('', ['a', 'b', 'c']), 'abc')
-    assert.deepStrictEqual(_.fold(monoidString)('')(['a', 'b', 'c']), 'abc')
+    assert.deepStrictEqual(_.fold(S.Monoid)('', ['a', 'b', 'c']), 'abc')
+    assert.deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
   it('getMeetSemigroup', () => {

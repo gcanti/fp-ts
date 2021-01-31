@@ -3,13 +3,13 @@ import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as T from '../src/Task'
+import * as S from '../src/string'
 
 const p = (n: number) => n > 2
 
@@ -42,7 +42,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(monoidString)(identity)), 'ab')
+      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
     })
 
     it('reduceRight', () => {
@@ -127,7 +127,7 @@ describe('ReadonlyRecord', () => {
       assert.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          _.foldMapWithIndex(monoidString)((k, a) => k + a)
+          _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
         ),
         'k1ak2b'
       )

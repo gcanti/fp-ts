@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyTuple'
 
@@ -52,7 +52,7 @@ describe('ReadonlyTuple', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(monoidString)(identity)), 'a')
+      assert.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
@@ -83,18 +83,18 @@ describe('ReadonlyTuple', () => {
   })
 
   it('getApply', () => {
-    const apply = _.getApply(monoidString)
+    const apply = _.getApply(S.Monoid)
     const double = (n: number): number => n * 2
     assert.deepStrictEqual(apply.ap([double, 'a'], [1, 'b']), [2, 'ab'])
   })
 
   it('getApplicative', () => {
-    const applicative = _.getApplicative(monoidString)
+    const applicative = _.getApplicative(S.Monoid)
     assert.deepStrictEqual(applicative.of(1), [1, ''])
   })
 
   it('getMonad', () => {
-    const monad = _.getMonad(monoidString)
+    const monad = _.getMonad(S.Monoid)
     assert.deepStrictEqual(
       monad.chain([1, 'a'], (a) => [a * 2, 'b']),
       [2, 'ab']
