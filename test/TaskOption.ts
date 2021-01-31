@@ -95,6 +95,13 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await _.fromNullable(undefined)(), O.none)
   })
 
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(), O.some(1))
+    U.deepStrictEqual(await f(0)(), O.none)
+    U.deepStrictEqual(await f(-1)(), O.none)
+  })
+
   it('fromPredicate', async () => {
     const p = (n: number): boolean => n > 2
     const f = _.fromPredicate(p)

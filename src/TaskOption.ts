@@ -170,6 +170,14 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
 ): ((...a: A) => TaskOption<B>) => (...a) => tryCatch(() => f(...a))
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromNullableK =
+  /*#__PURE__*/
+  OT.fromNullableK(T.Pointed)
+
+/**
  * @category combinators
  * @since 0.1.10
  */

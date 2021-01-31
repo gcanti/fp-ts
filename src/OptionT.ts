@@ -55,6 +55,28 @@ export function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNu
 /**
  * @since 3.0.0
  */
+export function fromNullableK<F extends URIS>(
+  F: Pointed1<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Option<NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>> {
+  const fromNullableF = fromNullable(F)
+  return (f) => flow(f, fromNullableF)
+}
+
+/**
+ * @since 3.0.0
+ */
 export function fromPredicate<F extends URIS>(
   F: Pointed1<F>
 ): {
