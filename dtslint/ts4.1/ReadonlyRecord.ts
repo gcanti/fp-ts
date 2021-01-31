@@ -3,9 +3,9 @@ import * as _ from '../../src/ReadonlyRecord'
 import * as O from '../../src/Option'
 import * as A from '../../src/ReadonlyArray'
 import * as E from '../../src/Either'
-import { monoidString } from '../../src/Monoid'
-import { eqNumber } from '../../src/Eq'
-import { semigroupSum, getFirstSemigroup } from '../../src/Semigroup'
+import * as N from '../../src/number'
+import * as S from '../../src/string'
+import { getFirstSemigroup } from '../../src/Semigroup'
 import { Foldable } from '../../src/Foldable'
 import { HKT } from '../../src/HKT'
 
@@ -126,8 +126,8 @@ _.map((n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a" | "b", boolea
 _.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
 _.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-_.foldMapWithIndex(monoidString)((k: string, _n) => k)(d1) // $ExpectType string
-_.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
@@ -162,11 +162,11 @@ _.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr1) // $ExpectType Rea
 _.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr2) // $ExpectType Readonly<Record<"a" | "b", number>>
 
 type Keys = 'key1' | 'key2'
-_.getMonoid(semigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
-_.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
+_.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
+_.getMonoid<Keys, number>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
 
-_.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Readonly<Record<Keys, number>>>
-_.getEq(eqNumber) // $ExpectType Eq<Readonly<Record<string, number>>>
+_.getEq<Keys, number>(N.Eq) // $ExpectType Eq<Readonly<Record<Keys, number>>>
+_.getEq(N.Eq) // $ExpectType Eq<Readonly<Record<string, number>>>
 
 _.toUnfoldable(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
 _.toUnfoldable(A.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
@@ -179,7 +179,7 @@ _.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) 
 // isSubrecord
 //
 
-pipe(recordString, _.isSubrecord(eqNumber)(recordString)) // $ExpectType boolean
+pipe(recordString, _.isSubrecord(N.Eq)(recordString)) // $ExpectType boolean
 
 //
 // lookup
@@ -191,4 +191,4 @@ pipe(recordString, _.lookup('a')) // $ExpectType Option<number>
 // elem
 //
 
-pipe(r1, _.elem(eqNumber)(1)) // $ExpectType boolean
+pipe(r1, _.elem(N.Eq)(1)) // $ExpectType boolean

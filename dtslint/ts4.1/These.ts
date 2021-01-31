@@ -1,11 +1,11 @@
 import * as _ from '../../src/These'
 import { bindTo } from '../../src/Functor'
-import { semigroupString } from '../../src/Semigroup'
+import * as S from '../../src/string'
 import { bind } from '../../src/Monad'
 import { apS, apT } from '../../src/Apply'
 
-const A = _.getApplicative(semigroupString)
-const M = _.getMonad(semigroupString)
+const A = _.getApplicative(S.Semigroup)
+const M = _.getMonad(S.Semigroup)
 
 //
 // bindTo

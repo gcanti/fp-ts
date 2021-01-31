@@ -1,6 +1,6 @@
 import * as _ from '../../src/Either'
 import { pipe, flow } from '../../src/function'
-import { monoidAll } from '../../src/Monoid'
+import { MonoidAll } from '../../src/boolean'
 
 //
 // toUnion
@@ -49,7 +49,7 @@ flow(
 //
 
 declare function isString(x: unknown): x is string
-const W = _.getFilterable(monoidAll)
+const W = _.getFilterable(MonoidAll)
 
 pipe(_.right<string | number, boolean>(1), W.filter(isString)) // $ExpectType Either<boolean, string>
 pipe(_.right<string | number, boolean>(1), W.partition(isString)) // $ExpectType Separated<Either<boolean, unknown>, Either<boolean, string>>

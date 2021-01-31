@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReadonlyArray'
 import { pipe } from '../../src/function'
-import { eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 
 declare const rus: ReadonlyArray<unknown>
@@ -91,25 +91,25 @@ _.lookup(0) // $ExpectType <A>(as: readonly A[]) => Option<A>
 // elem
 //
 
-pipe([1, 2, 3], _.elem(eqNumber)(1)) // $ExpectType boolean
+pipe([1, 2, 3], _.elem(N.Eq)(1)) // $ExpectType boolean
 
 //
 // difference
 //
 
-pipe([1, 2], _.difference(eqNumber)([3, 4])) // $ExpectType readonly number[]
+pipe([1, 2], _.difference(N.Eq)([3, 4])) // $ExpectType readonly number[]
 
 //
 // intersection
 //
 
-pipe([1, 2], _.intersection(eqNumber)([3, 4])) // $ExpectType readonly number[]
+pipe([1, 2], _.intersection(N.Eq)([3, 4])) // $ExpectType readonly number[]
 
 //
 // union
 //
 
-pipe([1, 2], _.union(eqNumber)([3, 4])) // $ExpectType readonly number[]
+pipe([1, 2], _.union(N.Eq)([3, 4])) // $ExpectType readonly number[]
 
 //
 // zip

@@ -1,23 +1,26 @@
 import * as _ from '../../src/Semigroup'
 import { pipe } from '../../src/function'
+import * as S from '../../src/string'
+import * as N from '../../src/number'
+import * as B from '../../src/boolean'
 
 //
 // getTupleSemigroup
 //
 
 // $ExpectType Semigroup<[string, number, boolean]>
-_.getTupleSemigroup(_.semigroupString, _.semigroupSum, _.semigroupAll)
+_.getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 
 //
 // getStructSemigroup
 //
 
 // $ExpectType Semigroup<{ a: string; b: number; c: boolean; }>
-_.getStructSemigroup({ a: _.semigroupString, b: _.semigroupSum, c: _.semigroupAll })
+_.getStructSemigroup({ a: S.Semigroup, b: N.SemigroupSum, c: B.SemigroupAll })
 
 //
 // fold
 //
 
 // $ExpectType string
-pipe(['a'], _.fold(_.semigroupString)(''))
+pipe(['a'], _.fold(S.Semigroup)(''))

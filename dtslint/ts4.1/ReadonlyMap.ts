@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReadonlyMap'
-import { eqString, eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
+import * as S from '../../src/string'
 import { pipe } from '../../src/function'
 
 //
@@ -17,28 +18,28 @@ pipe(_.empty as ReadonlyMap<'a' | 'b', string | number>, FWI.partitionWithIndex(
 // member
 //
 
-pipe(new Map(), _.member(eqString)('a')) // $ExpectType boolean
+pipe(new Map(), _.member(S.Eq)('a')) // $ExpectType boolean
 
 //
 // elem
 //
 
-pipe(new Map(), _.elem(eqString)('a')) // $ExpectType boolean
+pipe(new Map(), _.elem(S.Eq)('a')) // $ExpectType boolean
 
 //
 // lookup
 //
 
-pipe(new Map([['a', 1]]), _.lookup(eqString)('a')) // $ExpectType Option<number>
+pipe(new Map([['a', 1]]), _.lookup(S.Eq)('a')) // $ExpectType Option<number>
 
 //
 // lookupWithKey
 //
 
-pipe(new Map([['a', 1]]), _.lookupWithKey(eqString)('a')) // $ExpectType Option<readonly [string, number]>
+pipe(new Map([['a', 1]]), _.lookupWithKey(S.Eq)('a')) // $ExpectType Option<readonly [string, number]>
 
 //
 // isSubmap
 //
 
-pipe(new Map([['a', 1]]), _.isSubmap(eqString, eqNumber)(new Map([['a', 1]]))) // $ExpectType boolean
+pipe(new Map([['a', 1]]), _.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]]))) // $ExpectType boolean

@@ -1,5 +1,5 @@
 import * as _ from '../../src/ReadonlySet'
-import { eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
 import { pipe } from '../../src/function'
 
 declare const me: ReadonlySet<number>
@@ -8,28 +8,28 @@ declare const me: ReadonlySet<number>
 // isSubset
 //
 
-pipe(me, _.isSubset(eqNumber)(me)) // $ExpectType boolean
+pipe(me, _.isSubset(N.Eq)(me)) // $ExpectType boolean
 
 //
 // elem
 //
 
-pipe(me, _.elem(eqNumber)(1)) // $ExpectType boolean
+pipe(me, _.elem(N.Eq)(1)) // $ExpectType boolean
 
 //
 // union
 //
 
-pipe(me, _.union(eqNumber)(me)) // $ExpectType ReadonlySet<number>
+pipe(me, _.union(N.Eq)(me)) // $ExpectType ReadonlySet<number>
 
 //
 // intersection
 //
 
-pipe(me, _.intersection(eqNumber)(me)) // $ExpectType ReadonlySet<number>
+pipe(me, _.intersection(N.Eq)(me)) // $ExpectType ReadonlySet<number>
 
 //
 // difference
 //
 
-pipe(me, _.difference(eqNumber)(me)) // $ExpectType ReadonlySet<number>
+pipe(me, _.difference(N.Eq)(me)) // $ExpectType ReadonlySet<number>
