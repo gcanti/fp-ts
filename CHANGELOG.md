@@ -105,6 +105,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
     - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
     - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
+    - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)

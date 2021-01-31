@@ -66,8 +66,23 @@ export const Show: S.Show<number> = {
  * assert.deepStrictEqual(SemigroupSum.concat(2, 3), 5)
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
 export const SemigroupSum: Semigroup<number> = {
   concat: (x, y) => x + y
+}
+
+/**
+ * `number` semigroup under multiplication.
+ *
+ * @example
+ * import { SemigroupProduct } from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(SemigroupProduct.concat(2, 3), 6)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const SemigroupProduct: Semigroup<number> = {
+  concat: (x, y) => x * y
 }
