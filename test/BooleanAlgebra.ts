@@ -4,6 +4,7 @@ import * as B from '../src/boolean'
 
 describe('BooleanAlgebra', () => {
   it('booleanAlgebraVoid', () => {
+    // tslint:disable-next-line: deprecation
     const BA = _.booleanAlgebraVoid
     assert.deepStrictEqual(BA.implies(undefined, undefined), undefined)
 
