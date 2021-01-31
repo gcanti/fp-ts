@@ -25,8 +25,8 @@ Added in v2.0.0
   - [getDualBooleanAlgebra](#getdualbooleanalgebra)
 - [instances](#instances)
   - [booleanAlgebraVoid](#booleanalgebravoid)
-  - [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
   - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
+  - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
@@ -58,16 +58,6 @@ export declare const booleanAlgebraVoid: BooleanAlgebra<void>
 
 Added in v2.0.0
 
-## getFunctionBooleanAlgebra
-
-**Signature**
-
-```ts
-export declare function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B>
-```
-
-Added in v2.0.0
-
 ## ~~booleanAlgebraBoolean~~
 
 Use `boolean.BooleanAlgebra` instead.
@@ -76,6 +66,20 @@ Use `boolean.BooleanAlgebra` instead.
 
 ```ts
 export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionBooleanAlgebra~~
+
+Use `function.getBooleanAlgebra` instead
+
+**Signature**
+
+```ts
+export declare const getFunctionBooleanAlgebra: <B>(
+  B: BooleanAlgebra<B>
+) => <A = never>() => BooleanAlgebra<(a: A) => B>
 ```
 
 Added in v2.0.0

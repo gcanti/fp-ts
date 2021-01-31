@@ -177,4 +177,11 @@ describe('function', () => {
     assert.deepStrictEqual(R.sub(f1, f2)('foo'), 4)
     assert.deepStrictEqual(R.sub(f1, f2)('fooa'), 1)
   })
+
+  it('getEndomorphismMonoid', () => {
+    const M = _.getEndomorphismMonoid<number>()
+    const double = (n: number) => n * 2
+    const f = M.concat(_.increment, double)
+    assert.deepStrictEqual(f(3), 8)
+  })
 })

@@ -51,12 +51,12 @@ Added in v2.0.0
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
 - [instances](#instances)
-  - [getEndomorphismMonoid](#getendomorphismmonoid)
-  - [getFunctionMonoid](#getfunctionmonoid)
   - [monoidProduct](#monoidproduct)
   - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
   - [monoidVoid](#monoidvoid)
+  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
+  - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
   - [~~monoidAny~~](#monoidany)
 - [type classes](#type-classes)
@@ -200,50 +200,6 @@ Added in v2.0.0
 
 # instances
 
-## getEndomorphismMonoid
-
-Endomorphism form a monoid where the `empty` value is the identity function.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
-```
-
-Added in v2.0.0
-
-## getFunctionMonoid
-
-Unary functions form a monoid as long as you can provide a monoid for the codomain.
-
-**Signature**
-
-```ts
-export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
-```
-
-**Example**
-
-```ts
-import { Predicate } from 'fp-ts/function'
-import * as M from 'fp-ts/Monoid'
-
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
-
-const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
-
-assert.deepStrictEqual(M1.concat(f, g)(1), true)
-assert.deepStrictEqual(M1.concat(f, g)(3), false)
-
-const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
-
-assert.deepStrictEqual(M2.concat(f, g)(1), true)
-assert.deepStrictEqual(M2.concat(f, g)(3), true)
-```
-
-Added in v2.0.0
-
 ## monoidProduct
 
 `number` monoid under multiplication.
@@ -316,6 +272,32 @@ Added in v2.0.0
 
 ```ts
 export declare const monoidVoid: Monoid<void>
+```
+
+Added in v2.0.0
+
+## ~~getEndomorphismMonoid~~
+
+Use `function.getEndomorphismMonoid` instead.
+
+**Note**. The execution order in `function.getEndomorphismMonoid` is reversed.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionMonoid~~
+
+Use `function.getMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
 ```
 
 Added in v2.0.0
