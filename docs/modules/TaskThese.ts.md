@@ -20,6 +20,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
@@ -110,6 +111,18 @@ export declare const of: <A, E>(a: A) => TaskThese<E, A>
 Added in v3.0.0
 
 # combinators
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
 
 ## swap
 

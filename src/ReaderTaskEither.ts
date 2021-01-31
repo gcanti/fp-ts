@@ -873,19 +873,19 @@ export const apTW: <R2, E2, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, R, E, B>(f: (index: number, a: A) => ReaderTaskEither<R, E, B>) => (
-  as: ReadonlyArray<A>
-): ReaderTaskEither<R, E, ReadonlyArray<B>> => (r) => () =>
-  Promise.all(as.map((a, i) => f(i, a)(r)())).then(E.sequenceReadonlyArray)
+export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
+  flow(R.traverseReadonlyArrayWithIndex(f), R.map(TE.sequenceReadonlyArray))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, R, E, B>(
+export const traverseReadonlyArray = <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
@@ -906,28 +906,17 @@ export const sequenceReadonlyArray: <R, E, A>(
  */
 export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyArray<A>): ReaderTaskEither<R, E, ReadonlyArray<B>> => (r) => async () => {
-  // tslint:disable-next-line: readonly-array
-  const out = []
-  for (let i = 0; i < as.length; i++) {
-    const e = await f(i, as[i])(r)()
-    if (E.isLeft(e)) {
-      return e
-    }
-    out.push(e.right)
-  }
-
-  return E.right(out)
-}
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
+  flow(R.traverseReadonlyArrayWithIndex(f), R.map(TE.sequenceReadonlyArraySeq))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq: <A, R, E, B>(
+export const traverseReadonlyArraySeq = <A, R, E, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**

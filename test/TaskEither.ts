@@ -339,31 +339,42 @@ describe('TaskEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
+  it('sequenceReadonlyArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
 
-    it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
-      U.deepStrictEqual(await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray)(), E.left(0))
-    })
-
-    it('traverseReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArray(_.of))(), E.right(range))
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5)))(), E.left(0))
-    })
-
-    it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
-      U.deepStrictEqual(
-        await pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArraySeq)(),
-        E.left(0)
-      )
-    })
-
-    it('traverseReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArraySeq(_.of))(), E.right(range))
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArraySeq(_.fromPredicate((x) => x > 5)))(), E.left(0))
-    })
+  it('sequenceReadonlyArraySeq', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArraySeq)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 
   // -------------------------------------------------------------------------------------

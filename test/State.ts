@@ -1,5 +1,4 @@
 import { pipe, tuple } from '../src/function'
-import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/State'
 import * as U from './util'
 
@@ -82,27 +81,11 @@ describe('State', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [[1, 'b'], {}])
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-
-    it('sequenceReadonlyArray', () => {
-      const add = (n: number) => (s: number) => tuple(n, n + s)
-      U.deepStrictEqual(pipe(range, RA.map(add), _.sequenceReadonlyArray)(0), [range, range.reduce((p, c) => p + c, 0)])
-    })
-
-    it('traverseReadonlyArray', () => {
-      const add = (n: number) => (s: number) => tuple(n, n + s)
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(add))(0), [range, range.reduce((p, c) => p + c, 0)])
-    })
-    it('traverseReadonlyArrayWithIndex', () => {
-      const add = (n: number) => (s: number) => tuple(n, n + s)
-      U.deepStrictEqual(
-        pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((_i, data) => add(data))
-        )(0),
-        [range, range.reduce((p, c) => p + c, 0)]
-      )
-    })
+  it('sequenceReadonlyArray', () => {
+    const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
+    U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceReadonlyArray)([]), [
+      [1, 2],
+      [1, 2]
+    ])
   })
 })

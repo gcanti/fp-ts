@@ -130,43 +130,33 @@ describe('Task', () => {
     await assertPar((a, b) => pipe(a, _.tupled, _.apT(b)), ['a', 'b'])
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-
-    it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), range)
-    })
-
-    it('traverseReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArray(_.of))(), range)
-    })
-
-    it('traverseReadonlyArrayWithIndex', async () => {
-      U.deepStrictEqual(
-        await pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        range
+  it('sequenceReadonlyArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.Task<number> =>
+      _.delay(n % 2 === 0 ? 50 : 100)(
+        _.fromIO(() => {
+          log.push(n)
+          return n
+        })
       )
-    })
+    const as = RA.makeBy(4, append)
+    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(), [0, 1, 2, 3])
+    U.deepStrictEqual(log, [0, 2, 1, 3])
+  })
 
-    it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), range)
-    })
-
-    it('traverseReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArraySeq(_.of))(), range)
-    })
-
-    it('traverseReadonlyArrayWithIndexSeq', async () => {
-      U.deepStrictEqual(
-        await pipe(
-          range,
-          _.traverseReadonlyArrayWithIndexSeq((index, _data) => _.of(index))
-        )(),
-        range
+  it('sequenceReadonlyArraySeq', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number> = []
+    const append = (n: number): _.Task<number> =>
+      _.delay(n % 2 === 0 ? 50 : 100)(
+        _.fromIO(() => {
+          log.push(n)
+          return n
+        })
       )
-    })
+    const as = RA.makeBy(4, append)
+    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(), [0, 1, 2, 3])
+    U.deepStrictEqual(log, [0, 1, 2, 3])
   })
 })

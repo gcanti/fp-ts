@@ -391,9 +391,8 @@ export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) =>
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, B>(f: (a: A) => Task<B>) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (
-  f
-) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
@@ -411,24 +410,27 @@ export const sequenceReadonlyArray: <A>(as: ReadonlyArray<Task<A>>) => Task<Read
  */
 export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyArray<A>
-): Task<ReadonlyArray<B>> => async () => {
+): Task<ReadonlyArray<B>> => () =>
   // tslint:disable-next-line: readonly-array
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    const r = await f(i, as[i])()
-    out.push(r)
-  }
-  return out
-}
+  as.reduce<Promise<Array<B>>>(
+    (acc, a, i) =>
+      acc.then((bs) =>
+        f(i, a)().then((b) => {
+          bs.push(b)
+          return bs
+        })
+      ),
+    Promise.resolve([])
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq: <A, B>(
+export const traverseReadonlyArraySeq = <A, B>(
   f: (a: A) => Task<B>
-) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.

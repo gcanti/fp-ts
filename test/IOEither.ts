@@ -410,57 +410,42 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right<number, string>(1), _.tupled, _.apT(_.right('b')))(), E.right([1, 'b'] as const))
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
+  it('sequenceReadonlyArray', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.IOEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.IOEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.right([1, 2]))
+    U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
+    U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
 
-    it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(), E.right(range))
-    })
-
-    it('traverseReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.of))(), E.right(range))
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          RA.replicate(3, 1),
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        E.right([0, 1, 2])
-      )
-    })
-
-    it('sequenceReadonlyArraySeq', () => {
-      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArraySeq)(), E.right(range))
-    })
-
-    it('traverseReadonlyArraySeq', () => {
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArraySeq(_.of))(), E.right(range))
-    })
-
-    it('traverseReadonlyArrayWithIndexSeq', () => {
-      const arr = RA.replicate(3, 1)
-      U.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseReadonlyArrayWithIndexSeq((index, _data) =>
-            pipe(
-              index,
-              _.fromPredicate((index) => index < 1)
-            )
-          )
-        )(),
-        E.left(1)
-      )
-      U.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseReadonlyArrayWithIndexSeq((index, _data) => _.of(index))
-        )(),
-        E.right([0, 1, 2])
-      )
-    })
+  it('sequenceReadonlyArraySeq', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.IOEither<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.IOEither<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceReadonlyArraySeq)(), E.right([1, 2]))
+    U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
+    U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 
   it('tryCatchK', () => {

@@ -1,6 +1,5 @@
 import { pipe } from '../src/function'
 import * as _ from '../src/IO'
-import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 
 describe('IO', () => {
@@ -61,26 +60,14 @@ describe('IO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))(), [1, 'b'])
   })
 
-  describe('array utils', () => {
-    it('sequenceReadonlyArray', () => {
-      const arr = RA.range(0, 100)
-      U.deepStrictEqual(pipe(arr, RA.map(_.of), _.sequenceReadonlyArray)(), arr)
-    })
-
-    it('traverseReadonlyArray', () => {
-      const arr = RA.range(0, 100)
-      U.deepStrictEqual(pipe(arr, _.traverseReadonlyArray(_.of))(), arr)
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      const arr = RA.range(0, 100)
-      U.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
-        )(),
-        arr
-      )
-    })
+  it('sequenceReadonlyArray', () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const append = (n: number): _.IO<number> => () => {
+      log.push(n)
+      return n
+    }
+    U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceReadonlyArray)(), [1, 2])
+    U.deepStrictEqual(log, [1, 2])
   })
 })

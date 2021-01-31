@@ -62,8 +62,11 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [tupled](#tupled)
 
 ---
@@ -548,6 +551,18 @@ export declare const sequenceReadonlyArray: <R, A>(as: readonly ReaderTask<R, A>
 
 Added in v3.0.0
 
+## sequenceReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArraySeq: <R, A>(as: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -562,6 +577,20 @@ export declare const traverseReadonlyArray: <A, R, B>(
 
 Added in v3.0.0
 
+## traverseReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArraySeq: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -570,6 +599,20 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 ```ts
 export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
 ```

@@ -746,9 +746,9 @@ export const traverseReadonlyArrayWithIndex: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, E, B>(
+export const traverseReadonlyArray = <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
@@ -784,9 +784,9 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a:
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq: <A, E, B>(
+export const traverseReadonlyArraySeq = <A, E, B>(
   f: (a: A) => IOEither<E, B>
-) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.

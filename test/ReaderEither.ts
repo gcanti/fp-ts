@@ -1,10 +1,9 @@
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import * as RA from '../src/ReadonlyArray'
+import * as S from '../src/string'
 import * as U from './util'
 
 describe('ReaderEither', () => {
@@ -190,26 +189,9 @@ describe('ReaderEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    const range = RA.range(1, 10)
-    it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, RA.map(_.of), _.sequenceReadonlyArray)({}), E.right(range))
-    })
-
-    it('traverseReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.of))({}), E.right(range))
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      const arr = RA.replicate(3, 1)
-      U.deepStrictEqual(
-        pipe(
-          arr,
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
-        )({}),
-        E.right([0, 1, 2])
-      )
-    })
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceReadonlyArray)(undefined), E.right([1, 2]))
+    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceReadonlyArray)(undefined), E.left('a'))
   })
 
   it('getCompactable', () => {

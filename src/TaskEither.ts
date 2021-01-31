@@ -951,9 +951,9 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, E, B>(
+export const traverseReadonlyArray = <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
@@ -971,28 +971,32 @@ export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<TaskEither<E, A>>) 
  */
 export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
   as: ReadonlyArray<A>
-): TaskEither<E, ReadonlyArray<B>> => async () => {
+): TaskEither<E, ReadonlyArray<B>> => () =>
   // tslint:disable-next-line: readonly-array
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    const e = await f(i, as[i])()
-    if (E.isLeft(e)) {
-      return e
-    }
-    out.push(e.right)
-  }
-  return E.right(out)
-}
+  as.reduce<Promise<Either<E, Array<B>>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        E.isLeft(ebs)
+          ? acc
+          : f(i, a)().then((eb) => {
+              if (E.isLeft(eb)) {
+                return eb
+              }
+              ebs.right.push(eb.right)
+              return ebs
+            })
+      ),
+    Promise.resolve(E.right([]))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArraySeq: <A, E, B>(
+export const traverseReadonlyArraySeq = <A, E, B>(
   f: (a: A) => TaskEither<E, B>
-) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = (f) =>
-  traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.

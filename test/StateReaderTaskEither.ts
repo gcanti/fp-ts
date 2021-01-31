@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe, tuple } from '../src/function'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
@@ -329,50 +329,25 @@ describe('StateReaderTaskEither', () => {
     )
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-
-    it('sequenceReadonlyArray', async () => {
-      const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
-
-      U.deepStrictEqual(
-        await pipe(range, RA.map(add), _.sequenceReadonlyArray)(0)({})(),
-        E.right([range, range.reduce((p, c) => p + c, 0)] as const)
-      )
-    })
-
-    it('traverseReadonlyArray', async () => {
-      const add = (n: number) => (s: number) => (_r: {}) => () => Promise.resolve(E.right(tuple(n, n + s)))
-
-      U.deepStrictEqual(
-        await pipe(range, _.traverseReadonlyArray(add))(0)({})(),
-        E.right([range, range.reduce((p, c) => p + c, 0)] as const)
-      )
-    })
-
-    it('traverseReadonlyArrayWithIndex', async () => {
-      const add = (n: number) => _.rightState((s: number) => tuple(n, n + s))
-
-      U.deepStrictEqual(
-        await pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((_index, a) =>
-            pipe(
-              a,
-              _.fromPredicate((a) => a > 5)
-            )
-          )
-        )(0)({})(),
-        E.left(0)
-      )
-
-      U.deepStrictEqual(
-        await pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((_, a) => add(a))
-        )(0)({})(),
-        E.right([range, range.reduce((p, c) => p + c, 0)] as const)
-      )
-    })
+  it('sequenceReadonlyArray', async () => {
+    // tslint:disable-next-line: readonly-array
+    const log: Array<number | string> = []
+    const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.StateReaderTaskEither<undefined, undefined, string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    U.deepStrictEqual(
+      await pipe([right(1), right(2)], _.sequenceReadonlyArray)(undefined)(undefined)(),
+      E.right([[1, 2], undefined] as const)
+    )
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

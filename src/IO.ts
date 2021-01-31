@@ -260,9 +260,8 @@ export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) =>
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, B>(f: (a: A) => IO<B>) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = (
-  f
-) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

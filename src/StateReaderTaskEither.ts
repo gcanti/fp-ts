@@ -779,30 +779,37 @@ export const apTW: <S, R2, E2, B>(
  */
 export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => async () => {
-  let out = s
+) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => () =>
   // tslint:disable-next-line: readonly-array
-  const bs: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    const e = await f(i, as[i])(out)(r)()
-    if (E.isLeft(e)) {
-      return e
-    }
-    const [b, s2] = e.right
-    bs.push(b)
-    out = s2
-  }
-  return E.right([bs, out])
-}
+  as.reduce<Promise<Either<E, [Array<B>, S]>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        E.isLeft(ebs)
+          ? acc
+          : f(
+              i,
+              a
+            )(s)(r)().then((eb) => {
+              if (E.isLeft(eb)) {
+                return eb
+              }
+              const [b, s] = eb.right
+              ebs.right[0].push(b)
+              ebs.right[1] = s
+              return ebs
+            })
+      ),
+    Promise.resolve(E.right([[], s]))
+  )
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, S, R, E, B>(
+export const traverseReadonlyArray = <A, S, R, E, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = (f) =>
+): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**

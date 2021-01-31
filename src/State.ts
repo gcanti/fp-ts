@@ -303,9 +303,9 @@ export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A)
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArray: <A, S, B>(
+export const traverseReadonlyArray = <A, S, B>(
   f: (a: A) => State<S, B>
-) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

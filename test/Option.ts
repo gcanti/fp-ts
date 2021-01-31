@@ -426,33 +426,9 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  // -------------------------------------------------------------------------------------
-  // array utils
-  // -------------------------------------------------------------------------------------
-
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-
-    it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, RA.map(_.some), _.sequenceReadonlyArray), _.some(range))
-      U.deepStrictEqual(pipe(range, RA.map(_.fromPredicate((x) => x > 5)), _.sequenceReadonlyArray), _.none)
-    })
-
-    it('traverseReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.some)), _.some(range))
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5))), _.none)
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.some(index))
-        ),
-        _.some(range)
-      )
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArrayWithIndex(_.fromPredicate((x) => x > 5))), _.none)
-    })
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceReadonlyArray), _.some([1, 2]))
+    U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceReadonlyArray), _.none)
   })
 
   it('tryCatchK', () => {

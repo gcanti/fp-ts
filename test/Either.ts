@@ -1,12 +1,11 @@
 import { separated } from '../src/Compactable'
 import * as _ from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
+import * as N from '../src/number'
 import * as O from '../src/Option'
-import * as RA from '../src/ReadonlyArray'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
-import * as S from '../src/string'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -573,35 +572,9 @@ describe('Either', () => {
     U.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
-  describe('array utils', () => {
-    const range = RA.range(0, 10)
-
-    it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(range, RA.map(_.right), _.sequenceReadonlyArray), _.right(range))
-      U.deepStrictEqual(pipe(range, RA.map(_.right), RA.cons(_.left('a')), _.sequenceReadonlyArray), _.left('a'))
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          range,
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.right(index))
-        ),
-        _.right(range)
-      )
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArrayWithIndex(_.fromPredicate((x) => x > 5))), _.left(0))
-    })
-
-    it('traverseReadonlyArray', () => {
-      U.deepStrictEqual(
-        pipe(
-          range,
-          _.traverseReadonlyArray((x) => _.right(x))
-        ),
-        _.right(range)
-      )
-      U.deepStrictEqual(pipe(range, _.traverseReadonlyArray(_.fromPredicate((x) => x > 5))), _.left(0))
-    })
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceReadonlyArray), _.right([1, 2]))
+    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceReadonlyArray), _.left('a'))
   })
 
   it('toUnion', () => {
