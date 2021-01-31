@@ -37,7 +37,7 @@
  *
  * @since 2.0.0
  */
-import { identity } from './function'
+import { identity, getSemigroup } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
@@ -296,35 +296,6 @@ export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
   }
 }
 
-/**
- * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
- *
- * @example
- * import { Predicate } from 'fp-ts/function'
- * import * as S from 'fp-ts/Semigroup'
- *
- * const f: Predicate<number> = (n) => n <= 2
- * const g: Predicate<number> = (n) => n >= 0
- *
- * const S1 = S.getFunctionSemigroup(S.semigroupAll)<number>()
- *
- * assert.deepStrictEqual(S1.concat(f, g)(1), true)
- * assert.deepStrictEqual(S1.concat(f, g)(3), false)
- *
- * const S2 = S.getFunctionSemigroup(S.semigroupAny)<number>()
- *
- * assert.deepStrictEqual(S2.concat(f, g)(1), true)
- * assert.deepStrictEqual(S2.concat(f, g)(3), true)
- *
- * @category instances
- * @since 2.0.0
- */
-export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
-  return () => ({
-    concat: (f, g) => (a) => S.concat(f(a), g(a))
-  })
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -382,3 +353,12 @@ export const semigroupAll: Semigroup<boolean> = SemigroupAll
  * @deprecated
  */
 export const semigroupAny: Semigroup<boolean> = SemigroupAny
+
+/**
+ * Use `function.getSemigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S> = getSemigroup
