@@ -94,7 +94,6 @@ Added in v3.0.0
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
-  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -508,7 +507,7 @@ Alias of [getRight](#getRight)
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => Option<A>
+export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -997,16 +996,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Foldable: Foldable1<'Option'>
-```
-
-Added in v3.0.0
-
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: FromEither1<'Option'>
 ```
 
 Added in v3.0.0

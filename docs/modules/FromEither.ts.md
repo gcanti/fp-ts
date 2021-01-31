@@ -16,7 +16,6 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
-  - [FromEither1 (interface)](#fromeither1-interface)
   - [FromEither2 (interface)](#fromeither2-interface)
   - [FromEither2C (interface)](#fromeither2c-interface)
   - [FromEither3 (interface)](#fromeither3-interface)
@@ -39,19 +38,6 @@ Added in v3.0.0
 export interface FromEither<F> {
   readonly URI?: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-```
-
-Added in v3.0.0
-
-## FromEither1 (interface)
-
-**Signature**
-
-```ts
-export interface FromEither1<F extends URIS> {
-  readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 ```
 
@@ -147,11 +133,23 @@ export declare function filterOrElse<M extends URIS3>(
   ) => Kind3<M, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
+export declare function filterOrElse<M extends URIS3, E>(
+  M: FromEither3C<M, E> & Monad3C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+}
 export declare function filterOrElse<M extends URIS2>(
   M: FromEither2<M> & Monad2<M>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+}
+export declare function filterOrElse<M extends URIS2, E>(
+  M: FromEither2C<M, E> & Monad2C<M, E>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M>(
   M: FromEither<M> & Monad<M>

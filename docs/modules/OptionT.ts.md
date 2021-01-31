@@ -16,10 +16,14 @@ Added in v3.0.0
   - [alt](#alt)
   - [ap](#ap)
   - [chain](#chain)
+  - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [fold](#fold)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
   - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
+  - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [getOrElse](#getorelse)
   - [map](#map)
@@ -75,6 +79,36 @@ export declare function chain<M>(
 
 Added in v3.0.0
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Option<A>>) => Kind<M, Option<NonNullable<B>>>
+export declare function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
+```
+
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare function chainOptionK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: Kind<M, Option<A>>) => Kind<M, Option<B>>
+export declare function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
+```
+
+Added in v3.0.0
+
 ## fold
 
 **Signature**
@@ -117,10 +151,42 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromNullable<F extends URIS>(
+export declare function fromNullable<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<NonNullable<A>>>
+export declare function fromNullable<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<NonNullable<A>>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare function fromNullableK<F extends URIS>(
   F: Pointed1<F>
-): <A>(fa: Kind<F, A>) => Kind<F, Option<NonNullable<A>>>
-export declare function fromNullable<F>(F: Pointed<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<NonNullable<A>>>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Option<NonNullable<B>>>
+export declare function fromNullableK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Option<NonNullable<B>>>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare function fromOptionK<F extends URIS>(
+  F: Pointed1<F>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind<F, Option<B>>
+export declare function fromOptionK<F>(
+  F: Pointed<F>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT<F, Option<B>>
 ```
 
 Added in v3.0.0

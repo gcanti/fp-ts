@@ -511,6 +511,12 @@ describe('Either', () => {
     U.deepStrictEqual(_.fromOption(() => 'none')(O.some(1)), _.right(1))
   })
 
+  it('fromOptionK', () => {
+    const f = _.fromOptionK(() => 'a')((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.deepStrictEqual(f(1), _.right(1))
+    U.deepStrictEqual(f(-1), _.left('a'))
+  })
+
   it('exists', () => {
     const gt2 = _.exists((n: number) => n > 2)
     U.deepStrictEqual(gt2(_.left('a')), false)
@@ -544,6 +550,13 @@ describe('Either', () => {
     const f = _.fromNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
     U.deepStrictEqual(f(1), _.right(1))
     U.deepStrictEqual(f(-1), _.left('error'))
+  })
+
+  it('chainNullableK', () => {
+    const f = _.chainNullableK(() => 'error')((n: number) => (n > 0 ? n : null))
+    U.deepStrictEqual(f(_.right(1)), _.right(1))
+    U.deepStrictEqual(f(_.right(-1)), _.left('error'))
+    U.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
   it('chainNullableK', () => {

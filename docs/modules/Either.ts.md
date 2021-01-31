@@ -55,6 +55,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [fromNullableK](#fromnullablek)
+  - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
@@ -510,6 +511,18 @@ Added in v3.0.0
 export declare const fromNullableK: <E>(
   e: Lazy<E>
 ) => <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```
 
 Added in v3.0.0

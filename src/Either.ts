@@ -380,6 +380,17 @@ export const chainNullableK = <E>(
 }
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromOptionK = <E>(
+  onNone: Lazy<E>
+): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>) => {
+  const from = fromOption(onNone)
+  return (f) => flow(f, from)
+}
+
+/**
  * Returns a `Right` if is a `Left` (and vice versa).
  *
  * @category combinators

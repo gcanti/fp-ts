@@ -34,13 +34,16 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [fromOptionK](#fromoptionk)
+  - [chainNullableK](#chainnullablek)
+  - [chainOptionK](#chainoptionk)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [fromOption](#fromoption)
+  - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [none](#none)
@@ -65,7 +68,6 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
-  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -246,17 +248,27 @@ Added in v3.0.0
 
 # combinators
 
-## fromOptionK
+## chainNullableK
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A extends readonly unknown[], B>(
-  f: (...a: A) => O.Option<B>
-) => (...a: A) => TaskOption<B>
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B
+) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
 ```
 
-Added in v0.1.10
+Added in v3.0.0
+
+## chainOptionK
+
+**Signature**
+
+```ts
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+```
+
+Added in v3.0.0
 
 ## tryCatchK
 
@@ -279,7 +291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => TaskOption<A>
+export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
 ```
 
 Added in v3.0.0
@@ -299,7 +311,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(fa: T.Task<A>) => T.Task<O.Option<NonNullable<A>>>
+export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <A, B>(f: (...a: A) => B) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -310,6 +332,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
 ```
 
 Added in v3.0.0
@@ -560,16 +592,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Filterable: Filterable1<'TaskOption'>
-```
-
-Added in v3.0.0
-
-## FromEither
-
-**Signature**
-
-```ts
-export declare const FromEither: FromEither1<'TaskOption'>
 ```
 
 Added in v3.0.0
