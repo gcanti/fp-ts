@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 62
+nav_order: 63
 parent: Modules
 ---
 
@@ -33,9 +33,9 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
   - [ordDate](#orddate)
-  - [ordNumber](#ordnumber)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~ordBoolean~~](#ordboolean)
+  - [~~ordNumber~~](#ordnumber)
   - [~~ordString~~](#ordstring)
   - [~~ord~~](#ord)
 - [type classes](#type-classes)
@@ -137,11 +137,12 @@ export declare function getMonoid<A = never>(): Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/Array'
-import { contramap, getDualOrd, getMonoid, ordNumber } from 'fp-ts/Ord'
+import { contramap, getDualOrd, getMonoid } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import * as B from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 
 interface User {
   id: number
@@ -156,7 +157,7 @@ const byName = pipe(
 )
 
 const byAge = pipe(
-  ordNumber,
+  N.Ord,
   contramap((p: User) => p.age)
 )
 
@@ -210,11 +211,12 @@ export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 **Example**
 
 ```ts
-import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
+import { getTupleOrd } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
 import * as B from 'fp-ts/boolean'
 
-const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
+const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
 assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -228,16 +230,6 @@ Added in v2.0.0
 
 ```ts
 export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
-## ordNumber
-
-**Signature**
-
-```ts
-export declare const ordNumber: Ord<number>
 ```
 
 Added in v2.0.0
@@ -262,6 +254,18 @@ Use `boolean.Ord` instead.
 
 ```ts
 export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ~~ordNumber~~
+
+Use `number.Ord` instead.
+
+**Signature**
+
+```ts
+export declare const ordNumber: Ord<number>
 ```
 
 Added in v2.0.0

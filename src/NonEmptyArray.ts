@@ -159,9 +159,9 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
  *
  * @example
  * import { cons, group } from 'fp-ts/NonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
+ * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
  *   cons(1, []),
  *   cons(2, []),
  *   cons(1, [1])
@@ -185,9 +185,9 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  *
  * @example
  * import { cons, groupSort } from 'fp-ts/NonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+ * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
  * @category combinators
  * @since 2.0.0

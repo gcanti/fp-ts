@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 60
+nav_order: 61
 parent: Modules
 ---
 
@@ -1122,9 +1122,9 @@ export declare function getEq<A>(E: Eq<A>): Eq<Option<A>>
 
 ```ts
 import { none, some, getEq } from 'fp-ts/Option'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 
-const E = getEq(eqNumber)
+const E = getEq(N.Eq)
 assert.strictEqual(E.equals(none, none), true)
 assert.strictEqual(E.equals(none, some(1)), false)
 assert.strictEqual(E.equals(some(1), none), false)
@@ -1247,9 +1247,9 @@ export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
 
 ```ts
 import { none, some, getOrd } from 'fp-ts/Option'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-const O = getOrd(ordNumber)
+const O = getOrd(N.Ord)
 assert.strictEqual(O.compare(none, none), 0)
 assert.strictEqual(O.compare(none, some(1)), -1)
 assert.strictEqual(O.compare(some(1), none), 1)
@@ -1431,11 +1431,11 @@ export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
 
 ```ts
 import { some, none, elem } from 'fp-ts/Option'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 
-assert.strictEqual(elem(eqNumber)(1, some(1)), true)
-assert.strictEqual(elem(eqNumber)(2, some(1)), false)
-assert.strictEqual(elem(eqNumber)(1, none), false)
+assert.strictEqual(elem(N.Eq)(1, some(1)), true)
+assert.strictEqual(elem(N.Eq)(2, some(1)), false)
+assert.strictEqual(elem(N.Eq)(1, none), false)
 ```
 
 Added in v2.0.0

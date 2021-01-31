@@ -673,9 +673,9 @@ export const lefts: <E, A>(as: Array<Either<E, A>>) => Array<E> = RA.lefts as an
  *
  * @example
  * import { sort } from 'fp-ts/Array'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+ * assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
  *
  * @category combinators
  * @since 2.0.0
@@ -809,15 +809,17 @@ export const uniq: <A>(E: Eq<A>) => (as: Array<A>) => Array<A> = RA.uniq as any
  *
  * @example
  * import { sortBy } from 'fp-ts/Array'
- * import { ord, ordNumber } from 'fp-ts/Ord'
+ * import { contramap } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = ord.contramap(S.Ord, (p: Person) => p.name)
- * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
