@@ -331,7 +331,7 @@ describe('Array', () => {
   })
 
   it('getEq', () => {
-    const O = _.getEq(Ord.ordString)
+    const O = _.getEq(S.Ord)
     assert.deepStrictEqual(O.equals([], []), true, '[] ]')
     assert.deepStrictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
     assert.deepStrictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
@@ -343,7 +343,7 @@ describe('Array', () => {
   })
 
   it('getOrd', () => {
-    const O = _.getOrd(Ord.ordString)
+    const O = _.getOrd(S.Ord)
     assert.deepStrictEqual(O.compare([], []), 0, '[] ]')
     assert.deepStrictEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
 
@@ -603,7 +603,7 @@ describe('Array', () => {
     assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
     assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
     const byName = pipe(
-      Ord.ordString,
+      S.Ord,
       Ord.contramap((x: { readonly name: string }) => x.name)
     )
     assert.deepStrictEqual(
@@ -771,7 +771,7 @@ describe('Array', () => {
       readonly age: number
     }
     const byName = pipe(
-      Ord.ordString,
+      S.Ord,
       Ord.contramap((p: Person) => p.name)
     )
     const byAge = pipe(

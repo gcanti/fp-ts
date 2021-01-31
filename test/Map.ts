@@ -16,7 +16,7 @@ interface User {
 }
 
 const ordUser = pipe(
-  Ord.ordString,
+  S.Ord,
   Ord.contramap((u: User) => u.id)
 )
 
@@ -128,7 +128,7 @@ describe('Map', () => {
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     assert.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['a', 1],
           ['b', 2]
@@ -137,7 +137,7 @@ describe('Map', () => {
       ['a', 'b']
     )
     assert.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['b', 2],
           ['a', 1]

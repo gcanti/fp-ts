@@ -17,7 +17,7 @@ interface User {
 }
 
 const ordUser = pipe(
-  Ord.ordString,
+  S.Ord,
   Ord.contramap((u: User) => u.id)
 )
 
@@ -223,7 +223,7 @@ describe('ReadonlyMap', () => {
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     assert.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['a', 1],
           ['b', 2]
@@ -232,7 +232,7 @@ describe('ReadonlyMap', () => {
       ['a', 'b']
     )
     assert.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['b', 2],
           ['a', 1]
@@ -821,7 +821,7 @@ describe('ReadonlyMap', () => {
     const W = _.getWitherable(ordUser)
 
     it('traverseWithIndex should sort the keys', () => {
-      const W = _.getWitherable(Ord.ordString)
+      const W = _.getWitherable(S.Ord)
       // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): IO.IO<void> => () => {
