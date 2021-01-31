@@ -13,7 +13,6 @@ import {
   partitionMap as partitionMap_,
   partition as partition_
 } from './Filterable'
-import { FromEither1 } from './FromEither'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe } from './function'
@@ -83,7 +82,7 @@ export const fromPredicate =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] =
+export const fromEither =
   /*#__PURE__*/
   OT.fromEither(T.Pointed)
 
@@ -449,15 +448,6 @@ export const Alternative: Alternative1<URI> = {
   map,
   alt,
   zero
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FromEither: FromEither1<URI> = {
-  URI,
-  fromEither
 }
 
 /**

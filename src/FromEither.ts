@@ -6,8 +6,8 @@
 
 import * as E from './Either'
 import { flow, Lazy, pipe, Predicate, Refinement } from './function'
-import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad4, Monad3, Monad2, Monad } from './Monad'
+import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import { Monad, Monad2, Monad3, Monad4 } from './Monad'
 import { Option } from './Option'
 
 import Either = E.Either
@@ -19,15 +19,6 @@ import Either = E.Either
 export interface FromEither<F> {
   readonly URI?: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FromEither1<F extends URIS> {
-  readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 
 /**
