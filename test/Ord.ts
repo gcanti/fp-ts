@@ -3,10 +3,11 @@ import { sort } from '../src/ReadonlyArray'
 import * as _ from '../src/Ord'
 import { fold } from '../src/Monoid'
 import { pipe } from '../src/function'
+import * as B from '../src/boolean'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
-    const O = _.getTupleOrd(_.ordString, _.ordNumber, _.ordBoolean)
+    const O = _.getTupleOrd(_.ordString, _.ordNumber, B.Ord)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
     assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -51,12 +52,6 @@ describe('Ord', () => {
     assert.deepStrictEqual(_.ordNumber.compare(1, 2), -1)
     assert.deepStrictEqual(_.ordNumber.compare(2, 1), 1)
     assert.deepStrictEqual(_.ordNumber.compare(2, 2), 0)
-  })
-
-  it('ordBoolean', () => {
-    assert.deepStrictEqual(_.ordBoolean.compare(false, true), -1)
-    assert.deepStrictEqual(_.ordBoolean.compare(true, false), 1)
-    assert.deepStrictEqual(_.ordBoolean.compare(true, true), 0)
   })
 
   it('clamp', () => {

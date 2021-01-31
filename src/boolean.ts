@@ -6,6 +6,7 @@ import * as E from './Eq'
 import { Semigroup } from './Semigroup'
 import { Lazy } from './function'
 import { Monoid } from './Monoid'
+import * as O from './Ord'
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -136,4 +137,13 @@ export const MonoidAll: Monoid<boolean> = {
 export const MonoidAny: Monoid<boolean> = {
   concat: SemigroupAny.concat,
   empty: false
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Ord: O.Ord<boolean> = {
+  equals: Eq.equals,
+  compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0)
 }
