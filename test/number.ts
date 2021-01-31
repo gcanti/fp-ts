@@ -13,4 +13,8 @@ describe('string', () => {
     assert.deepStrictEqual(_.Field.degree(1), 1)
     assert.deepStrictEqual(_.Field.degree(2), 1)
   })
+
+  it('Show', () => {
+    assert.deepStrictEqual(_.Show.show(1), '1')
+  })
 })
