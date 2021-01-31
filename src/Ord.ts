@@ -14,6 +14,7 @@ import { Eq, eqBigint, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Endomorphism, flow, pipe, Predicate } from './function'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -221,9 +222,22 @@ export const ordDate: Ord<Date> =
   )
 
 /**
+ * Returns a `Semigroup` such that:
+ *
+ * - `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
+  concat: (second) => (first) =>
+    fromCompare((a2) => (a1) => monoidOrdering.concat(second.compare(a2)(a1))(first.compare(a2)(a1)))
+})
+
+/**
  * Returns a `Monoid` such that:
  *
- * - its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`
+ * - `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
  * - its `empty` value is an `Ord` that always considers compared elements equal
  *
  * @example
@@ -285,8 +299,7 @@ export const ordDate: Ord<Date> =
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
-  concat: (second) => (first) =>
-    fromCompare((a2) => (a1) => monoidOrdering.concat(second.compare(a2)(a1))(first.compare(a2)(a1))),
+  concat: getSemigroup<A>().concat,
   empty: fromCompare(() => () => 0)
 })
 
