@@ -327,7 +327,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('getEq', () => {
-    const O = _.getEq(Ord.ordString)
+    const O = _.getEq(S.Ord)
     assert.deepStrictEqual(O.equals([], []), true, '[] ]')
     assert.deepStrictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
     assert.deepStrictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
@@ -339,7 +339,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('getOrd', () => {
-    const O = _.getOrd(Ord.ordString)
+    const O = _.getOrd(S.Ord)
     assert.deepStrictEqual(O.compare([], []), 0, '[] ]')
     assert.deepStrictEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
 
@@ -776,7 +776,7 @@ describe('ReadonlyArray', () => {
       readonly c: boolean
     }
     const byName = pipe(
-      Ord.ordString,
+      S.Ord,
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
     )
     const byAge = pipe(

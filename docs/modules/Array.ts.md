@@ -958,13 +958,14 @@ export declare const sortBy: <B>(ords: Ord<B>[]) => <A extends B>(as: A[]) => A[
 
 ```ts
 import { sortBy } from 'fp-ts/Array'
-import { ord, ordString, ordNumber } from 'fp-ts/Ord'
+import { ord, ordNumber } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
 
 interface Person {
   name: string
   age: number
 }
-const byName = ord.contramap(ordString, (p: Person) => p.name)
+const byName = ord.contramap(S.Ord, (p: Person) => p.name)
 const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy([byName, byAge])
@@ -1846,9 +1847,9 @@ export declare const getOrd: <A>(O: Ord<A>) => Ord<A[]>
 
 ```ts
 import { getOrd } from 'fp-ts/Array'
-import { ordString } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
 
-const O = getOrd(ordString)
+const O = getOrd(S.Ord)
 assert.strictEqual(O.compare(['b'], ['a']), 1)
 assert.strictEqual(O.compare(['a'], ['a']), 0)
 assert.strictEqual(O.compare(['a'], ['b']), -1)

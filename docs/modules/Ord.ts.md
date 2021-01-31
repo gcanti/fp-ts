@@ -34,9 +34,9 @@ Added in v2.0.0
   - [getTupleOrd](#gettupleord)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
-  - [ordString](#ordstring)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~ordBoolean~~](#ordboolean)
+  - [~~ordString~~](#ordstring)
   - [~~ord~~](#ord)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
@@ -137,7 +137,9 @@ export declare function getMonoid<A = never>(): Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/Array'
-import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+import { contramap, getDualOrd, getMonoid, ordNumber } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as B from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
 
@@ -149,7 +151,7 @@ interface User {
 }
 
 const byName = pipe(
-  ordString,
+  S.Ord,
   contramap((p: User) => p.name)
 )
 
@@ -159,7 +161,7 @@ const byAge = pipe(
 )
 
 const byRememberMe = pipe(
-  ordBoolean,
+  B.Ord,
   contramap((p: User) => p.rememberMe)
 )
 
@@ -208,9 +210,11 @@ export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 **Example**
 
 ```ts
-import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/Ord'
+import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as B from 'fp-ts/boolean'
 
-const O = getTupleOrd(ordString, ordNumber, ordBoolean)
+const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
 assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -238,16 +242,6 @@ export declare const ordNumber: Ord<number>
 
 Added in v2.0.0
 
-## ordString
-
-**Signature**
-
-```ts
-export declare const ordString: Ord<string>
-```
-
-Added in v2.0.0
-
 ## ~~getSemigroup~~
 
 Use `getMonoid` instead
@@ -268,6 +262,18 @@ Use `boolean.Ord` instead.
 
 ```ts
 export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ~~ordString~~
+
+Use `string.Ord` instead.
+
+**Signature**
+
+```ts
+export declare const ordString: Ord<string>
 ```
 
 Added in v2.0.0

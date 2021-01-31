@@ -16,6 +16,7 @@ import { monoidOrdering, Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { pipe } from './function'
 import * as B from './boolean'
+import * as S from './string'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -36,15 +37,6 @@ function compare(x: any, y: any): Ordering {
 
 function strictEqual<A>(a: A, b: A): boolean {
   return a === b
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ordString: Ord<string> = {
-  equals: strictEqual,
-  compare
 }
 
 /**
@@ -158,7 +150,9 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  *
  * @example
  * import { sort } from 'fp-ts/Array'
- * import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+ * import { contramap, getDualOrd, getMonoid, ordNumber } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as B from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
  *
@@ -170,7 +164,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  * }
  *
  * const byName = pipe(
- *   ordString,
+ *   S.Ord,
  *   contramap((p: User) => p.name)
  * )
  *
@@ -180,7 +174,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  * )
  *
  * const byRememberMe = pipe(
- *   ordBoolean,
+ *   B.Ord,
  *   contramap((p: User) => p.rememberMe)
  * )
  *
@@ -226,9 +220,11 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * Given a tuple of `Ord`s returns an `Ord` for the tuple
  *
  * @example
- * import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/Ord'
+ * import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as B from 'fp-ts/boolean'
  *
- * const O = getTupleOrd(ordString, ordNumber, ordBoolean)
+ * const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
  * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -355,3 +351,12 @@ export const ord: Contravariant1<URI> = Contravariant
  * @deprecated
  */
 export const ordBoolean: Ord<boolean> = B.Ord
+
+/**
+ * Use `string.Ord` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ordString: Ord<string> = S.Ord
