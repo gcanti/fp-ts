@@ -11,6 +11,11 @@
  * @since 2.0.0
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
+import * as B from './boolean'
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category type classes
@@ -18,18 +23,28 @@ import { HeytingAlgebra } from './HeytingAlgebra'
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
- * @category instances
+ * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+ *
+ * @category combinators
  * @since 2.0.0
  */
-export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
-  meet: (x, y) => x && y,
-  join: (x, y) => x || y,
-  zero: false,
-  one: true,
-  implies: (x, y) => !x || y,
-  not: (x) => !x
-}
+export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+  meet: (x, y) => B.join(x, y),
+  join: (x, y) => B.meet(x, y),
+  zero: B.one,
+  one: B.zero,
+  implies: (x, y) => B.join(B.not(x), y),
+  not: B.not
+})
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -59,19 +74,15 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
   })
 }
 
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
- * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+ * Use `boolean.BooleanAlgebra` instead.
  *
- * @category combinators
+ * @category instances
  * @since 2.0.0
+ * @deprecated
  */
-export function getDualBooleanAlgebra<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> {
-  return {
-    meet: (x, y) => B.join(x, y),
-    join: (x, y) => B.meet(x, y),
-    zero: B.one,
-    one: B.zero,
-    implies: (x, y) => B.join(B.not(x), y),
-    not: B.not
-  }
-}
+export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = B.BooleanAlgebra
