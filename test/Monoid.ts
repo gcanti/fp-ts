@@ -8,15 +8,15 @@ import {
   getJoinMonoid,
   getMeetMonoid,
   getTupleMonoid,
-  monoidString,
   monoidSum
 } from '../src/Monoid'
+import * as S from '../src/string'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
-    const M1 = getTupleMonoid(monoidString, monoidSum)
+    const M1 = getTupleMonoid(S.Monoid, monoidSum)
     assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const M2 = getTupleMonoid(monoidString, monoidSum, B.MonoidAll)
+    const M2 = getTupleMonoid(S.Monoid, monoidSum, B.MonoidAll)
     assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
@@ -48,7 +48,7 @@ describe('Monoid', () => {
   })
 
   it('getDualMonoid', () => {
-    const M = getDualMonoid(monoidString)
+    const M = getDualMonoid(S.Monoid)
     assert.deepStrictEqual(M.concat('a', 'b'), 'ba')
     assert.deepStrictEqual(M.concat('a', M.empty), 'a')
     assert.deepStrictEqual(M.concat(M.empty, 'a'), 'a')

@@ -722,18 +722,18 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * @example
  * import { pipe } from 'fp-ts/function';
  * import * as E from 'fp-ts/Either'
- * import { monoidString } from 'fp-ts/Monoid'
+ * import * as S from 'fp-ts/string'
  *
  * const yell = (a: string) => `${a}!`
  *
  * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.foldMap(monoidString)(yell)),
+ *   pipe(E.right('a'), E.foldMap(S.Monoid)(yell)),
  *   'a!',
  * )
  *
  * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.foldMap(monoidString)(yell)),
- *   monoidString.empty,
+ *   pipe(E.left('e'), E.foldMap(S.Monoid)(yell)),
+ *   S.Monoid.empty,
  * )
  *
  * @category Foldable

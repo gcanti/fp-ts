@@ -104,9 +104,10 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDualMonoid, monoidString } from 'fp-ts/Monoid'
+ * import { getDualMonoid } from 'fp-ts/Monoid'
+ * import * as S from 'fp-ts/string'
  *
- * assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
+ * assert.deepStrictEqual(getDualMonoid(S.Monoid).concat('a', 'b'), 'ba')
  *
  * @category combinators
  * @since 2.0.0
@@ -154,12 +155,13 @@ export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
  * Given a tuple of monoids returns a monoid for the tuple
  *
  * @example
- * import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/Monoid'
+ * import { getTupleMonoid, monoidSum, monoidAll } from 'fp-ts/Monoid'
+ * import * as S from 'fp-ts/string'
  *
- * const M1 = getTupleMonoid(monoidString, monoidSum)
+ * const M1 = getTupleMonoid(S.Monoid, monoidSum)
  * assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
- * const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+ * const M2 = getTupleMonoid(S.Monoid, monoidSum, monoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
@@ -212,25 +214,6 @@ export const monoidSum: Monoid<number> = {
 export const monoidProduct: Monoid<number> = {
   concat: S.semigroupProduct.concat,
   empty: 1
-}
-
-/**
- * `string` monoid under concatenation.
- *
- * The `empty` value is `''`.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- *
- * assert.deepStrictEqual(M.monoidString.concat('a', 'b'), 'ab')
- *
- * @category instances
- * @since 2.0.0
- */
-export const monoidString: Monoid<string> = {
-  // tslint:disable-next-line: deprecation
-  concat: S.semigroupString.concat,
-  empty: ''
 }
 
 /**
@@ -307,3 +290,16 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
   concat: (x, y) => (a) => x(y(a)),
   empty: identity
 })
+
+/**
+ * Use `string.Monoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidString: Monoid<string> = {
+  // tslint:disable-next-line: deprecation
+  concat: S.semigroupString.concat,
+  empty: ''
+}

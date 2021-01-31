@@ -2,10 +2,10 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
-import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
+import * as S from '../src/string'
 
 describe('Identity', () => {
   describe('pipeables', () => {
@@ -49,7 +49,7 @@ describe('Identity', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe('a', _.foldMap(monoidString)(identity)), 'a')
+      assert.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {

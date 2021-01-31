@@ -4,7 +4,7 @@ import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyMap'
@@ -859,7 +859,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('foldMap', () => {
-      const foldMapOM = W.foldMap(monoidString)
+      const foldMapOM = W.foldMap(S.Monoid)
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'a' }, 'b']
@@ -899,7 +899,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('foldMapWithIndex', () => {
-      const foldMapWithIndexOM = W.foldMapWithIndex(monoidString)
+      const foldMapWithIndexOM = W.foldMapWithIndex(S.Monoid)
       const m = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { showString } from '../src/Show'
 import * as _ from '../src/These'
@@ -57,9 +57,9 @@ describe('These', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
-      assert.deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
-      assert.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(monoidString)(identity)), 'a')
+      assert.deepStrictEqual(pipe(_.right('a'), _.foldMap(S.Monoid)(identity)), 'a')
+      assert.deepStrictEqual(pipe(_.left(1), _.foldMap(S.Monoid)(identity)), '')
+      assert.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
@@ -109,7 +109,7 @@ describe('These', () => {
   })
 
   it('chain', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
     assert.deepStrictEqual(M.chain(_.left('foo'), f), _.left('foo'))
     assert.deepStrictEqual(M.chain(_.right(2), f), _.right(4))
@@ -136,7 +136,7 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const { concat } = _.getSemigroup(monoidString, monoidSum)
+    const { concat } = _.getSemigroup(S.Monoid, monoidSum)
     assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
     assert.deepStrictEqual(concat(_.left('a'), _.right(2)), _.both('a', 2))
     assert.deepStrictEqual(concat(_.right(2), _.left('a')), _.both('a', 2))

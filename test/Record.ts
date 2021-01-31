@@ -3,7 +3,7 @@ import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as A from '../src/Array'
 import * as _ from '../src/Record'
@@ -46,7 +46,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(monoidString)(identity)), 'ab')
+      assert.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
     })
 
     it('reduceRight', () => {
@@ -131,7 +131,7 @@ describe('ReadonlyRecord', () => {
       assert.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          _.foldMapWithIndex(monoidString)((k, a) => k + a)
+          _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
         ),
         'k1ak2b'
       )
