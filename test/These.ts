@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as Apply from '../src/Apply'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
@@ -120,7 +120,7 @@ describe('These', () => {
   })
 
   it('getEq', () => {
-    const { equals } = _.getEq(eqNumber, eqNumber)
+    const { equals } = _.getEq(N.Eq, N.Eq)
     assert.deepStrictEqual(equals(_.left(2), _.left(2)), true)
     assert.deepStrictEqual(equals(_.left(2), _.left(3)), false)
     assert.deepStrictEqual(equals(_.left(3), _.left(2)), false)
