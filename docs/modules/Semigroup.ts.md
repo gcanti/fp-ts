@@ -37,7 +37,6 @@ Added in v3.0.0
   - [getUnitSemigroup](#getunitsemigroup)
 - [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
-  - [getFunctionSemigroup](#getfunctionsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
   - [semigroupProduct](#semigroupproduct)
@@ -235,39 +234,6 @@ import * as S from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(1, S.getFirstSemigroup<number>().concat(2)), 1)
-```
-
-Added in v3.0.0
-
-## getFunctionSemigroup
-
-Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
-
-**Signature**
-
-```ts
-export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
-```
-
-**Example**
-
-```ts
-import { Predicate, pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-import * as B from 'fp-ts/boolean'
-
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
-
-const S1 = S.getFunctionSemigroup(B.SemigroupAll)<number>()
-
-assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
-
-const S2 = S.getFunctionSemigroup(B.SemigroupAny)<number>()
-
-assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
 ```
 
 Added in v3.0.0

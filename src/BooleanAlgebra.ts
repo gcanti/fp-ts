@@ -19,21 +19,6 @@ import { HeytingAlgebra } from './HeytingAlgebra'
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const getFunctionBooleanAlgebra = <BA>(BA: BooleanAlgebra<BA>) => <A = never>(): BooleanAlgebra<
-  (a: A) => BA
-> => ({
-  meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
-  join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
-  zero: () => BA.zero,
-  one: () => BA.one,
-  implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
-  not: (x) => (a) => BA.not(x(a))
-})
-
-/**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
  * @category combinators

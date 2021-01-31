@@ -1,6 +1,137 @@
 /**
  * @since 3.0.0
  */
+import { BooleanAlgebra } from './BooleanAlgebra'
+import { Monoid } from './Monoid'
+import { Ring } from './Ring'
+import { Semigroup } from './Semigroup'
+import { Semiring } from './Semiring'
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getBooleanAlgebra = <B>(BA: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ({
+  meet: (second) => (first) => (a) => BA.meet(second(a))(first(a)),
+  join: (second) => (first) => (a) => BA.join(second(a))(first(a)),
+  zero: () => BA.zero,
+  one: () => BA.one,
+  implies: (second) => (first) => (a) => BA.implies(second(a))(first(a)),
+  not: (x) => (a) => BA.not(x(a))
+})
+
+/**
+ * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
+ *
+ * @example
+ * import { Predicate, pipe, getSemigroup } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
+ *
+ * const f: Predicate<number> = (n) => n <= 2
+ * const g: Predicate<number> = (n) => n >= 0
+ *
+ * const S1 = getSemigroup(B.SemigroupAll)<number>()
+ *
+ * assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
+ *
+ * const S2 = getSemigroup(B.SemigroupAny)<number>()
+ *
+ * assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
+  concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
+})
+
+/**
+ * Unary functions form a monoid as long as you can provide a monoid for the codomain.
+ *
+ * @example
+ * import { Predicate, getMonoid, pipe } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
+ *
+ * const f: Predicate<number> = (n) => n <= 2
+ * const g: Predicate<number> = (n) => n >= 0
+ *
+ * const M1 = getMonoid(B.MonoidAll)<number>()
+ *
+ * assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
+ *
+ * const M2 = getMonoid(B.MonoidAny)<number>()
+ *
+ * assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
+ * assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M>) => {
+  const getSemigroupM = getSemigroup(M)
+  return <A>() => ({
+    concat: getSemigroupM<A>().concat,
+    empty: () => M.empty
+  })
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemiring = <B, A>(S: Semiring<B>): Semiring<(a: A) => B> => ({
+  add: (second) => (first) => (x) => S.add(second(x))(first(x)),
+  zero: () => S.zero,
+  mul: (second) => (first) => (x) => S.mul(second(x))(first(x)),
+  one: () => S.one
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getRing = <B, A>(R: Ring<B>): Ring<(a: A) => B> => {
+  const S = getSemiring<B, A>(R)
+  return {
+    add: S.add,
+    mul: S.mul,
+    one: S.one,
+    zero: S.zero,
+    sub: (second) => (first) => (x) => R.sub(second(x))(first(x))
+  }
+}
+
+/**
+ * Endomorphism form a `Semigroup` where the `concat` operation is the usuale function composition.
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEndomorphismSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
+  concat: (second) => (first) => flow(first, second)
+})
+
+/**
+ * Endomorphism form a `Monoid` where the `empty` value is the identity function.
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+  concat: getEndomorphismSemigroup<A>().concat,
+  empty: identity
+})
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * A *thunk*

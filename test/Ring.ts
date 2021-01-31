@@ -1,6 +1,6 @@
 import { fieldNumber } from '../src/Field'
 import { pipe } from '../src/function'
-import { getFunctionRing, getTupleRing, negate } from '../src/Ring'
+import { getTupleRing, negate } from '../src/Ring'
 import { deepStrictEqual } from './util'
 
 describe('Ring', () => {
@@ -15,13 +15,5 @@ describe('Ring', () => {
 
   it('negate', () => {
     deepStrictEqual(negate(fieldNumber)(1), -1)
-  })
-
-  it('getFunctionRing', () => {
-    const R = getFunctionRing<number, string>(fieldNumber)
-    const f1 = (s: string): number => s.length
-    const f2 = (s: string): number => s.indexOf('a')
-    deepStrictEqual(pipe(f1, R.sub(f2))('foo'), 4)
-    deepStrictEqual(pipe(f1, R.sub(f2))('fooa'), 1)
   })
 })

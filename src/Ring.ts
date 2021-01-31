@@ -10,7 +10,7 @@
  * @since 3.0.0
  */
 import { Endomorphism } from './function'
-import { Semiring, getFunctionSemiring } from './Semiring'
+import { Semiring } from './Semiring'
 
 /**
  * @category type classes
@@ -23,21 +23,6 @@ export interface Ring<A> extends Semiring<A> {
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const getFunctionRing = <B, A>(ring: Ring<B>): Ring<(a: A) => B> => {
-  const S = getFunctionSemiring<B, A>(ring)
-  return {
-    add: S.add,
-    mul: S.mul,
-    one: S.one,
-    zero: S.zero,
-    sub: (second) => (first) => (x) => ring.sub(second(x))(first(x))
-  }
-}
 
 /**
  * `negate x` can be used as a shorthand for `zero - x`

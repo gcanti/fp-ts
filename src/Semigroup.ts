@@ -211,34 +211,6 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
 })
 
 /**
- * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
- *
- * @example
- * import { Predicate, pipe } from 'fp-ts/function'
- * import * as S from 'fp-ts/Semigroup'
- * import * as B from 'fp-ts/boolean'
- *
- * const f: Predicate<number> = (n) => n <= 2
- * const g: Predicate<number> = (n) => n >= 0
- *
- * const S1 = S.getFunctionSemigroup(B.SemigroupAll)<number>()
- *
- * assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
- *
- * const S2 = S.getFunctionSemigroup(B.SemigroupAny)<number>()
- *
- * assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
- *
- * @category instances
- * @since 3.0.0
- */
-export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
-  concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
-})
-
-/**
  * Return a semigroup for objects, preserving their type.
  *
  * @example

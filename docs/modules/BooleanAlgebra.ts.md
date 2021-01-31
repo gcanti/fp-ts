@@ -23,8 +23,6 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [getDual](#getdual)
-- [instances](#instances)
-  - [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
@@ -40,20 +38,6 @@ Every boolean algebras has a dual algebra, which involves reversing one/zero as 
 
 ```ts
 export declare const getDual: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
-```
-
-Added in v3.0.0
-
-# instances
-
-## getFunctionBooleanAlgebra
-
-**Signature**
-
-```ts
-export declare const getFunctionBooleanAlgebra: <BA>(
-  BA: BooleanAlgebra<BA>
-) => <A = never>() => BooleanAlgebra<(a: A) => BA>
 ```
 
 Added in v3.0.0

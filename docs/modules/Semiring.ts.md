@@ -32,24 +32,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [getFunctionSemiring](#getfunctionsemiring)
 - [type classes](#type-classes)
   - [Semiring (interface)](#semiring-interface)
 
 ---
-
-# instances
-
-## getFunctionSemiring
-
-**Signature**
-
-```ts
-export declare const getFunctionSemiring: <B, A>(S: Semiring<B>) => Semiring<(a: A) => B>
-```
-
-Added in v3.0.0
 
 # type classes
 

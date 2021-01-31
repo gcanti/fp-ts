@@ -21,7 +21,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [getFunctionRing](#getfunctionring)
   - [getTupleRing](#gettuplering)
 - [type classes](#type-classes)
   - [Ring (interface)](#ring-interface)
@@ -31,16 +30,6 @@ Added in v3.0.0
 ---
 
 # instances
-
-## getFunctionRing
-
-**Signature**
-
-```ts
-export declare const getFunctionRing: <B, A>(ring: Ring<B>) => Ring<(a: A) => B>
-```
-
-Added in v3.0.0
 
 ## getTupleRing
 

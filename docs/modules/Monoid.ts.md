@@ -35,8 +35,6 @@ Added in v3.0.0
   - [getMeetMonoid](#getmeetmonoid)
   - [getUnitMonoid](#getunitmonoid)
 - [instances](#instances)
-  - [getEndomorphismMonoid](#getendomorphismmonoid)
-  - [getFunctionMonoid](#getfunctionmonoid)
   - [monoidProduct](#monoidproduct)
   - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
@@ -195,51 +193,6 @@ export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
 Added in v2.10.0
 
 # instances
-
-## getEndomorphismMonoid
-
-Endomorphism form a monoid where the `empty` value is the identity function.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
-```
-
-Added in v3.0.0
-
-## getFunctionMonoid
-
-Unary functions form a monoid as long as you can provide a monoid for the codomain.
-
-**Signature**
-
-```ts
-export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
-```
-
-**Example**
-
-```ts
-import { Predicate, pipe } from 'fp-ts/function'
-import * as M from 'fp-ts/Monoid'
-import * as B from 'fp-ts/boolean'
-
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
-
-const M1 = M.getFunctionMonoid(B.MonoidAll)<number>()
-
-assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
-
-const M2 = M.getFunctionMonoid(B.MonoidAny)<number>()
-
-assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
-```
-
-Added in v3.0.0
 
 ## monoidProduct
 

@@ -16,7 +16,6 @@
  * @since 3.0.0
  */
 import { Bounded } from './Bounded'
-import { Endomorphism, flow, identity } from './function'
 import * as S from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -229,49 +228,6 @@ export const monoidString: Monoid<string> = {
   concat: S.semigroupString.concat,
   empty: ''
 }
-
-/**
- * Unary functions form a monoid as long as you can provide a monoid for the codomain.
- *
- * @example
- * import { Predicate, pipe } from 'fp-ts/function'
- * import * as M from 'fp-ts/Monoid'
- * import * as B from 'fp-ts/boolean'
- *
- * const f: Predicate<number> = (n) => n <= 2
- * const g: Predicate<number> = (n) => n >= 0
- *
- * const M1 = M.getFunctionMonoid(B.MonoidAll)<number>()
- *
- * assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
- *
- * const M2 = M.getFunctionMonoid(B.MonoidAny)<number>()
- *
- * assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
- * assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
- *
- * @category instances
- * @since 3.0.0
- */
-export const getFunctionMonoid = <M>(M: Monoid<M>): (<A = never>() => Monoid<(a: A) => M>) => {
-  const empty = () => M.empty
-  return () => ({
-    concat: S.getFunctionSemigroup(M)<any>().concat,
-    empty
-  })
-}
-
-/**
- * Endomorphism form a monoid where the `empty` value is the identity function.
- *
- * @category instances
- * @since 3.0.0
- */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: (second) => (first) => flow(first, second),
-  empty: identity
-})
 
 // -------------------------------------------------------------------------------------
 // utils
