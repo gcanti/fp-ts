@@ -95,6 +95,14 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
   concat: max(O)
 })
 
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
+  concat: () => a
+})
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -188,23 +196,13 @@ export const getTupleSemigroup = <T extends ReadonlyArray<Semigroup<any>>>(
  * @category combinators
  * @since 2.5.0
  */
-export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A> {
-  return (S) => ({
-    concat: (x, y) => S.concat(x, S.concat(a, y))
-  })
-}
+export const getIntercalateSemigroup = <A>(a: A) => (S: Semigroup<A>): Semigroup<A> => ({
+  concat: (x, y) => S.concat(x, S.concat(a, y))
+})
 
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const semigroupVoid: Semigroup<void> = {
-  concat: () => undefined
-}
 
 /**
  * Always return the first argument.
@@ -217,9 +215,7 @@ export const semigroupVoid: Semigroup<void> = {
  * @category instances
  * @since 2.0.0
  */
-export function getFirstSemigroup<A = never>(): Semigroup<A> {
-  return { concat: identity }
-}
+export const getFirstSemigroup = <A = never>(): Semigroup<A> => ({ concat: identity })
 
 /**
  * Always return the last argument.
@@ -232,9 +228,7 @@ export function getFirstSemigroup<A = never>(): Semigroup<A> {
  * @category instances
  * @since 2.0.0
  */
-export function getLastSemigroup<A = never>(): Semigroup<A> {
-  return { concat: (_, y) => y }
-}
+export const getLastSemigroup = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
 
 /**
  * Return a semigroup for objects, preserving their type.
@@ -253,11 +247,9 @@ export function getLastSemigroup<A = never>(): Semigroup<A> {
  * @category instances
  * @since 2.0.0
  */
-export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
-  return {
-    concat: (x, y) => Object.assign({}, x, y)
-  }
-}
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (x, y) => Object.assign({}, x, y)
+})
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -353,3 +345,12 @@ export const semigroupSum: Semigroup<number> = N.SemigroupSum
  * @deprecated
  */
 export const semigroupProduct: Semigroup<number> = N.SemigroupProduct
+
+/**
+ * Use `getUnitSemigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupVoid: Semigroup<void> = getUnitSemigroup<void>(undefined)

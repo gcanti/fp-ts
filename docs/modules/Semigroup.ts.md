@@ -56,17 +56,18 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [getJoinSemigroup](#getjoinsemigroup)
   - [getMeetSemigroup](#getmeetsemigroup)
+  - [getUnitSemigroup](#getunitsemigroup)
 - [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
-  - [semigroupVoid](#semigroupvoid)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
   - [~~semigroupProduct~~](#semigroupproduct)
   - [~~semigroupString~~](#semigroupstring)
   - [~~semigroupSum~~](#semigroupsum)
+  - [~~semigroupVoid~~](#semigroupvoid)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -104,7 +105,7 @@ You can glue items between and stay associative.
 **Signature**
 
 ```ts
-export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
+export declare const getIntercalateSemigroup: <A>(a: A) => (S: Semigroup<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -231,6 +232,16 @@ assert.deepStrictEqual(S1.concat(1, 2), 1)
 
 Added in v2.0.0
 
+## getUnitSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnitSemigroup: <A>(a: A) => Semigroup<A>
+```
+
+Added in v2.10.0
+
 # instances
 
 ## getFirstSemigroup
@@ -240,7 +251,7 @@ Always return the first argument.
 **Signature**
 
 ```ts
-export declare function getFirstSemigroup<A = never>(): Semigroup<A>
+export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
 ```
 
 **Example**
@@ -260,7 +271,7 @@ Always return the last argument.
 **Signature**
 
 ```ts
-export declare function getLastSemigroup<A = never>(): Semigroup<A>
+export declare const getLastSemigroup: <A = never>() => Semigroup<A>
 ```
 
 **Example**
@@ -280,7 +291,7 @@ Return a semigroup for objects, preserving their type.
 **Signature**
 
 ```ts
-export declare function getObjectSemigroup<A extends object = never>(): Semigroup<A>
+export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
 ```
 
 **Example**
@@ -295,16 +306,6 @@ interface Person {
 
 const S1 = S.getObjectSemigroup<Person>()
 assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
-```
-
-Added in v2.0.0
-
-## semigroupVoid
-
-**Signature**
-
-```ts
-export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0
@@ -377,6 +378,18 @@ Use `number.SemigroupSum` instead.
 
 ```ts
 export declare const semigroupSum: Semigroup<number>
+```
+
+Added in v2.0.0
+
+## ~~semigroupVoid~~
+
+Use `getUnitSemigroup` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0
