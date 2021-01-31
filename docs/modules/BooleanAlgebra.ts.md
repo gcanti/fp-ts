@@ -24,8 +24,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [getDualBooleanAlgebra](#getdualbooleanalgebra)
 - [instances](#instances)
-  - [booleanAlgebraVoid](#booleanalgebravoid)
   - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
+  - [~~booleanAlgebraVoid~~](#booleanalgebravoid)
   - [~~getFunctionBooleanAlgebra~~](#getfunctionbooleanalgebra)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
@@ -48,16 +48,6 @@ Added in v2.0.0
 
 # instances
 
-## booleanAlgebraVoid
-
-**Signature**
-
-```ts
-export declare const booleanAlgebraVoid: BooleanAlgebra<void>
-```
-
-Added in v2.0.0
-
 ## ~~booleanAlgebraBoolean~~
 
 Use `boolean.BooleanAlgebra` instead.
@@ -66,6 +56,16 @@ Use `boolean.BooleanAlgebra` instead.
 
 ```ts
 export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
+```
+
+Added in v2.0.0
+
+## ~~booleanAlgebraVoid~~
+
+**Signature**
+
+```ts
+export declare const booleanAlgebraVoid: BooleanAlgebra<void>
 ```
 
 Added in v2.0.0

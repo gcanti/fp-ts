@@ -98,6 +98,15 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
   empty: B.bottom
 })
 
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const getUnitMonoid = <A>(a: A): Monoid<A> => ({
+  concat: Se.getUnitSemigroup(a).concat,
+  empty: a
+})
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -179,19 +188,6 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
     concat: Se.getTupleSemigroup(...monoids).concat,
     empty: monoids.map((m) => m.empty)
   } as any
-}
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const monoidVoid: Monoid<void> = {
-  concat: Se.semigroupVoid.concat,
-  empty: undefined
 }
 
 // -------------------------------------------------------------------------------------
@@ -280,3 +276,12 @@ export const monoidSum: Monoid<number> = MonoidSum
  * @deprecated
  */
 export const monoidProduct: Monoid<number> = MonoidProduct
+
+/**
+ * Use `getUnitMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidVoid: Monoid<void> = getUnitMonoid<void>(undefined)
