@@ -151,8 +151,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainOptionK` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
-  - `Eq`
-    - add `eqBigint`, #1375 (@EricCrosson)
   - `Identity`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -184,8 +182,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
-  - `Ord`
-    - add `ordBigint`, #1375 (@EricCrosson)
   - `Random`
     - add `randomElem` (@gcanti)
   - `Reader`

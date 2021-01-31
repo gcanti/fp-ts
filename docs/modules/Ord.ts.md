@@ -32,7 +32,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getTupleOrd](#gettupleord)
-  - [ordBigint](#ordbigint)
   - [ordBoolean](#ordboolean)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
@@ -218,16 +217,6 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 ```
 
 Added in v2.0.0
-
-## ordBigint
-
-**Signature**
-
-```ts
-export declare const ordBigint: Ord<bigint>
-```
-
-Added in v2.10.0
 
 ## ordBoolean
 
