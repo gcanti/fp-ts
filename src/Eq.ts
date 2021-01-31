@@ -133,12 +133,6 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @category instances
  * @since 3.0.0
  */
-export const eqBigint: Eq<bigint> = eqStrict
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const eqDate: Eq<Date> = {
   equals: (second) => (first) => first.valueOf() === second.valueOf()
 }

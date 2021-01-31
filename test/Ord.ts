@@ -90,12 +90,6 @@ describe('Ord', () => {
     deepStrictEqual(pipe(new Date(1), _.ordDate.compare(new Date(0))), 1)
   })
 
-  it('ordBigint', () => {
-    deepStrictEqual(pipe(BigInt(0), _.ordBigint.compare(BigInt(0))), 0)
-    deepStrictEqual(pipe(BigInt(0), _.ordBigint.compare(BigInt(1))), -1)
-    deepStrictEqual(pipe(BigInt(1), _.ordBigint.compare(BigInt(0))), 1)
-  })
-
   it('leq', () => {
     const f = _.leq(_.ordNumber)
     deepStrictEqual(pipe(0, f(1)), true)

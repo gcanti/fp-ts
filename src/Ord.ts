@@ -10,7 +10,7 @@
  * @since 3.0.0
  */
 import { Contravariant1 } from './Contravariant'
-import { Eq, eqBigint, eqStrict } from './Eq'
+import { Eq, eqStrict } from './Eq'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Endomorphism, flow, pipe, Predicate } from './function'
@@ -144,7 +144,7 @@ declare module './HKT' {
 }
 
 // default compare for primitive types
-const compare = (second: string | number | boolean | bigint) => (first: string | number | boolean | bigint): Ordering =>
+const compare = (second: string | number | boolean) => (first: string | number | boolean): Ordering =>
   first < second ? -1 : first > second ? 1 : 0
 
 /**
@@ -191,15 +191,6 @@ export const ordNumber: Ord<number> = {
  */
 export const ordBoolean: Ord<boolean> = {
   equals: eqStrict.equals,
-  compare
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const ordBigint: Ord<bigint> = {
-  equals: eqBigint.equals,
   compare
 }
 
