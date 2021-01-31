@@ -391,6 +391,17 @@ export const fromOptionK = <E>(
 }
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainOptionK = <E>(
+  onNone: Lazy<E>
+): (<A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>) => {
+  const from = fromOptionK(onNone)
+  return (f) => chain(from(f))
+}
+
+/**
  * Returns a `Right` if is a `Left` (and vice versa).
  *
  * @category combinators
