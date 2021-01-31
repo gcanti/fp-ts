@@ -104,12 +104,6 @@ export const eqNumber: Eq<number> = eqStrict
  * @category instances
  * @since 2.0.0
  */
-export const eqBoolean: Eq<boolean> = eqStrict
-
-/**
- * @category instances
- * @since 2.0.0
- */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
     for (const k in eqs) {
@@ -194,3 +188,12 @@ export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
  * @deprecated
  */
 export const eq: Contravariant1<URI> = Contravariant
+
+/**
+ * Use `boolean.Eq` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const eqBoolean: Eq<boolean> = eqStrict
