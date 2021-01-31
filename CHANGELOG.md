@@ -37,6 +37,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
   - `Eq`
     - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
+    - deprecate `eqString`, use `string.Eq` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
@@ -122,6 +123,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `FromIO` type class (@gcanti)
   - add `FromTask` type class (@gcanti)
   - add `TaskOption` module (@gcanti)
+  - add `string` module (@gcanti)
   - `Apply`
     - add `ap` helper (@gcanti)
     - add `apS` helper (@gcanti)
