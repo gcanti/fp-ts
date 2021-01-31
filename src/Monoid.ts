@@ -265,6 +265,7 @@ export const monoidVoid: Monoid<void> = {
  * @since 2.0.0
  */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ({
+  // tslint:disable-next-line: deprecation
   concat: S.getFunctionSemigroup(M)<A>().concat,
   empty: () => M.empty
 })

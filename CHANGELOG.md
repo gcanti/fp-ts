@@ -125,7 +125,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Show` instance (@gcanti)
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
-    - deprecate `getFunctionBooleanAlgebra, use`function.getBooleanAlgebra` instead (@gcanti)
+    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
   - `Compactable`
     - add `compact` helper (@gcanti)
     - add `separate` helper (@gcanti)
@@ -260,6 +260,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Semigroup`
     - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
     - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
+    - deprecate `getFunctionSemigroup, use`function.getSemigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `State`
