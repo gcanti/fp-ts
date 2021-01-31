@@ -15,23 +15,8 @@ export interface Field<A> extends Ring<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// instances
+// utils
 // -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const fieldNumber: Field<number> = {
-  add: (second) => (first) => first + second,
-  zero: 0,
-  mul: (second) => (first) => first * second,
-  one: 1,
-  sub: (second) => (first) => first - second,
-  degree: () => 1,
-  div: (second) => (first) => first / second,
-  mod: (second) => (first) => first % second
-}
 
 /**
  * The *greatest common divisor* of two values.

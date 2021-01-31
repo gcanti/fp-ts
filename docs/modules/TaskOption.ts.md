@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -270,7 +270,7 @@ export declare const tryCatchK: <A extends readonly unknown[], B>(
 ) => (...a: A) => TaskOption<B>
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 # constructors
 

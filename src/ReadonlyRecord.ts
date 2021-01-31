@@ -767,11 +767,11 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
  * Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance for their values.
  *
  * @example
- * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import * as N from 'fp-ts/number'
  * import { getMonoid } from 'fp-ts/ReadonlyRecord'
  * import { pipe } from 'fp-ts/function'
  *
- * const M = getMonoid(semigroupSum)
+ * const M = getMonoid(N.SemigroupSum)
  * assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
  *
  * @category instances

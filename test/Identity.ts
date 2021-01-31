@@ -1,4 +1,4 @@
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import * as S from '../src/string'
@@ -99,10 +99,10 @@ describe('Identity', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
-    U.deepStrictEqual(S.equals(1)(1), true)
-    U.deepStrictEqual(S.equals(1)(2), false)
-    U.deepStrictEqual(S.equals(2)(1), false)
+    const E = _.getEq(N.Eq)
+    U.deepStrictEqual(E.equals(1)(1), true)
+    U.deepStrictEqual(E.equals(1)(2), false)
+    U.deepStrictEqual(E.equals(2)(1), false)
   })
 
   it('getShow', () => {

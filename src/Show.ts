@@ -18,19 +18,11 @@ export interface Show<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// instances
+// combinators
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const showNumber: Show<number> = {
-  show: (a) => JSON.stringify(a)
-}
-
-/**
- * @category instances
+ * @category combinators
  * @since 3.0.0
  */
 export const getStructShow = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
@@ -49,7 +41,7 @@ export const getStructShow = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A>
 })
 
 /**
- * @category instances
+ * @category combinators
  * @since 3.0.0
  */
 export const getTupleShow = <A extends ReadonlyArray<unknown>>(...shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({

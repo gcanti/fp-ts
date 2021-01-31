@@ -4,6 +4,7 @@ import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/Tree'
 import * as U from './util'
+import * as N from '../src/number'
 
 describe('Tree', () => {
   // -------------------------------------------------------------------------------------
@@ -113,13 +114,13 @@ describe('Tree', () => {
   // -------------------------------------------------------------------------------------
 
   it('getEq', () => {
-    const S = _.getEq(Eq.eqNumber)
+    const E = _.getEq(N.Eq)
     const x = _.make(1, [_.make(2)])
     const y = _.make(2, [_.make(2)])
     const z = _.make(1, [_.make(1)])
-    U.deepStrictEqual(S.equals(x)(x), true)
-    U.deepStrictEqual(S.equals(x)(y), false)
-    U.deepStrictEqual(S.equals(x)(z), false)
+    U.deepStrictEqual(E.equals(x)(x), true)
+    U.deepStrictEqual(E.equals(x)(y), false)
+    U.deepStrictEqual(E.equals(x)(z), false)
   })
 
   it('getShow', () => {
@@ -151,7 +152,7 @@ describe('Tree', () => {
       readonly id: number
     }
     const S: Eq.Eq<User> = pipe(
-      Eq.eqNumber,
+      N.Eq,
       Eq.contramap((user: User) => user.id)
     )
     const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])

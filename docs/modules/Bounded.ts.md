@@ -18,24 +18,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [boundedNumber](#boundednumber)
 - [type classes](#type-classes)
   - [Bounded (interface)](#bounded-interface)
 
 ---
-
-# instances
-
-## boundedNumber
-
-**Signature**
-
-```ts
-export declare const boundedNumber: Bounded<number>
-```
-
-Added in v3.0.0
 
 # type classes
 

@@ -1,6 +1,6 @@
 import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as S from '../src/string'
 import * as _ from '../src/Option'
@@ -235,7 +235,7 @@ describe('Option', () => {
   })
 
   it('getEq', () => {
-    const { equals } = _.getEq(eqNumber)
+    const { equals } = _.getEq(N.Eq)
     U.deepStrictEqual(equals(_.none)(_.none), true)
     U.deepStrictEqual(equals(_.none)(_.some(1)), false)
     U.deepStrictEqual(equals(_.some(1))(_.none), false)
@@ -339,9 +339,9 @@ describe('Option', () => {
   })
 
   it('elem', () => {
-    U.deepStrictEqual(pipe(_.none, _.elem(eqNumber)(2)), false)
-    U.deepStrictEqual(pipe(_.some(2), _.elem(eqNumber)(2)), true)
-    U.deepStrictEqual(pipe(_.some(2), _.elem(eqNumber)(1)), false)
+    U.deepStrictEqual(pipe(_.none, _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(1)), false)
   })
 
   it('isNone', () => {

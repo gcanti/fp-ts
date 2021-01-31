@@ -36,10 +36,10 @@ export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(
  *
  * @example
  * import { getTupleRing } from 'fp-ts/Ring'
- * import { fieldNumber } from 'fp-ts/Field'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const R = getTupleRing(fieldNumber, fieldNumber, fieldNumber)
+ * const R = getTupleRing(N.Field, N.Field, N.Field)
  * assert.deepStrictEqual(pipe([1, 2, 3], R.add([4, 5, 6])), [5, 7, 9])
  * assert.deepStrictEqual(pipe([1, 2, 3], R.mul([4, 5, 6])), [4, 10, 18])
  * assert.deepStrictEqual(R.one, [1, 1, 1])

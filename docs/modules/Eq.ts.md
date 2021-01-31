@@ -31,7 +31,6 @@ Added in v3.0.0
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
   - [eqDate](#eqdate)
-  - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
 - [type classes](#type-classes)
@@ -76,11 +75,12 @@ export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in 
 **Example**
 
 ```ts
-import { getTupleEq, eqNumber } from 'fp-ts/Eq'
+import { getTupleEq } from 'fp-ts/Eq'
 import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
 import * as B from 'fp-ts/boolean'
 
-const E = getTupleEq(S.Eq, eqNumber, B.Eq)
+const E = getTupleEq(S.Eq, N.Eq, B.Eq)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -129,16 +129,6 @@ Added in v3.0.0
 
 ```ts
 export declare const eqDate: Eq<Date>
-```
-
-Added in v3.0.0
-
-## eqNumber
-
-**Signature**
-
-```ts
-export declare const eqNumber: Eq<number>
 ```
 
 Added in v3.0.0

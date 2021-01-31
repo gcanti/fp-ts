@@ -1,10 +1,9 @@
 import { separated } from '../src/Compactable'
 import * as _ from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as U from './util'
 import * as S from '../src/string'
@@ -192,9 +191,9 @@ describe('Either', () => {
   })
 
   it('elem', () => {
-    U.deepStrictEqual(pipe(_.left('a'), _.elem(eqNumber)(2)), false)
-    U.deepStrictEqual(pipe(_.right(2), _.elem(eqNumber)(2)), true)
-    U.deepStrictEqual(pipe(_.right(2), _.elem(eqNumber)(1)), false)
+    U.deepStrictEqual(pipe(_.left('a'), _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(1)), false)
   })
 
   it('filterOrElse', () => {
@@ -339,7 +338,7 @@ describe('Either', () => {
 
   describe('getEq', () => {
     it('equals', () => {
-      const equals = _.getEq(S.Eq, eqNumber).equals
+      const equals = _.getEq(S.Eq, N.Eq).equals
       U.deepStrictEqual(equals(_.right(1))(_.right(1)), true)
       U.deepStrictEqual(equals(_.right(1))(_.right(2)), false)
       U.deepStrictEqual(equals(_.right(1))(_.left('foo')), false)
@@ -450,7 +449,7 @@ describe('Either', () => {
   })
 
   it('getSemigroup', () => {
-    const S = _.getSemigroup(semigroupSum)
+    const S = _.getSemigroup(N.SemigroupSum)
     U.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('a'))
     U.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.right(2))
     U.deepStrictEqual(pipe(_.right(1), S.concat(_.left('b'))), _.right(1))

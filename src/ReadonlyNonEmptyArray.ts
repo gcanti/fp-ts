@@ -156,9 +156,9 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
  *
  * @example
  * import { group } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
+ * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
  *   [1],
  *   [2],
  *   [1, 1]
@@ -204,9 +204,9 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  *
  * @example
  * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+ * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
  *
  * @category combinators
  * @since 3.0.0

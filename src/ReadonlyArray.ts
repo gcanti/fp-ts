@@ -20,7 +20,7 @@ import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
@@ -28,6 +28,7 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import * as N from './number'
 
 import Option = O.Option
 
@@ -769,9 +770,9 @@ export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> =
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+ * assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
  *
  * @category combinators
  * @since 3.0.0
@@ -908,11 +909,11 @@ export const rotate = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A>
  *
  * @example
  * import { elem } from 'fp-ts/ReadonlyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
- * assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
+ * assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(2)), true)
+ * assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(0)), false)
  *
  * @since 3.0.0
  */
@@ -933,9 +934,9 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (as: ReadonlyArray<A>): boolean =
  *
  * @example
  * import { uniq } from 'fp-ts/ReadonlyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
+ * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
  *
  * @category combinators
  * @since 3.0.0
@@ -966,8 +967,9 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  *
  * @example
  * import { sortBy } from 'fp-ts/ReadonlyArray'
- * import { contramap, ordNumber } from 'fp-ts/Ord'
+ * import { contramap } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
@@ -975,7 +977,7 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  *   age: number
  * }
  * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
- * const byAge = pipe(ordNumber, contramap((p: Person) => p.age))
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
@@ -1001,7 +1003,8 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  * value and the rest of the `ReadonlyArray`.
  *
  * @example
- * import { Eq, eqNumber } from 'fp-ts/Eq'
+ * import { Eq } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  * import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
  *
  * const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
@@ -1010,7 +1013,7 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  *     return [init, rest]
  *   })
  * }
- * assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+ * assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
  * @category combinators
  * @since 3.0.0
@@ -1137,10 +1140,10 @@ export function comprehension<R>(
  *
  * @example
  * import { union } from 'fp-ts/ReadonlyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
  *
  * @category combinators
  * @since 3.0.0
@@ -1156,10 +1159,10 @@ export const union = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArra
  *
  * @example
  * import { intersection } from 'fp-ts/ReadonlyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
+ * assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
  *
  * @category combinators
  * @since 3.0.0
@@ -1175,10 +1178,10 @@ export const intersection = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: Reado
  *
  * @example
  * import { difference } from 'fp-ts/ReadonlyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
+ * assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
  *
  * @category combinators
  * @since 3.0.0
@@ -1680,7 +1683,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
         return ordering
       }
     }
-    return ordNumber.compare(bLen)(aLen)
+    return N.Ord.compare(bLen)(aLen)
   })
 
 /**

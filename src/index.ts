@@ -50,6 +50,7 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
+import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
@@ -280,6 +281,10 @@ export {
    * @since 3.0.0
    */
   monoid,
+  /**
+   * @since 3.0.0
+   */
+  number,
   /**
    * @since 3.0.0
    */

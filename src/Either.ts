@@ -768,10 +768,10 @@ export const getEq = <E, A>(EE: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> =>
  *
  * @example
  * import * as E from 'fp-ts/Either'
- * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = E.getSemigroup<number, string>(semigroupSum)
+ * const S = E.getSemigroup<number, string>(N.SemigroupSum)
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.left('b'))), E.left('a'))
  * assert.deepStrictEqual(pipe(E.left('a'), S.concat(E.right(2))), E.right(2))
  * assert.deepStrictEqual(pipe(E.right(1), S.concat(E.left('b'))), E.right(1))

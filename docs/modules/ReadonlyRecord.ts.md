@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -779,11 +779,11 @@ export declare function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<
 **Example**
 
 ```ts
-import { semigroupSum } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 import { getMonoid } from 'fp-ts/ReadonlyRecord'
 import { pipe } from 'fp-ts/function'
 
-const M = getMonoid(semigroupSum)
+const M = getMonoid(N.SemigroupSum)
 assert.deepStrictEqual(pipe({ foo: 123 }, M.concat({ foo: 456 })), { foo: 579 })
 ```
 

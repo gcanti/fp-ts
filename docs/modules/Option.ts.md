@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 50
+nav_order: 51
 parent: Modules
 ---
 
@@ -1083,9 +1083,9 @@ export declare const getEq: <A>(E: Eq<A>) => Eq<Option<A>>
 
 ```ts
 import { none, some, getEq } from 'fp-ts/Option'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 
-const E = getEq(eqNumber)
+const E = getEq(N.Eq)
 assert.strictEqual(E.equals(none)(none), true)
 assert.strictEqual(E.equals(none)(some(1)), false)
 assert.strictEqual(E.equals(some(1))(none), false)
@@ -1181,10 +1181,10 @@ export declare const getMonoid: <A>(S: Semigroup<A>) => Monoid<Option<A>>
 
 ```ts
 import { getMonoid, some, none } from 'fp-ts/Option'
-import { semigroupSum } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const M = getMonoid(semigroupSum)
+const M = getMonoid(N.SemigroupSum)
 assert.deepStrictEqual(pipe(none, M.concat(none)), none)
 assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
 assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
@@ -1211,10 +1211,10 @@ export declare const getOrd: <A>(O: Ord<A>) => Ord<Option<A>>
 
 ```ts
 import { none, some, getOrd } from 'fp-ts/Option'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const O = getOrd(ordNumber)
+const O = getOrd(N.Ord)
 assert.strictEqual(pipe(none, O.compare(none)), 0)
 assert.strictEqual(pipe(none, O.compare(some(1))), -1)
 assert.strictEqual(pipe(some(1), O.compare(none)), 1)
@@ -1353,12 +1353,12 @@ export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: Option<A>) => boolean
 
 ```ts
 import * as O from 'fp-ts/Option'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(1)), true)
-assert.strictEqual(pipe(O.some(1), O.elem(eqNumber)(2)), false)
-assert.strictEqual(pipe(O.none, O.elem(eqNumber)(1)), false)
+assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(1)), true)
+assert.strictEqual(pipe(O.some(1), O.elem(N.Eq)(2)), false)
+assert.strictEqual(pipe(O.none, O.elem(N.Eq)(1)), false)
 ```
 
 Added in v3.0.0

@@ -34,9 +34,6 @@ Added in v3.0.0
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
   - [getUnitMonoid](#getunitmonoid)
-- [instances](#instances)
-  - [monoidProduct](#monoidproduct)
-  - [monoidSum](#monoidsum)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -82,7 +79,8 @@ export declare const getStructMonoid: <A>(monoids: { [K in keyof A]: Monoid<A[K]
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { getStructMonoid } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 interface Point {
@@ -90,12 +88,12 @@ interface Point {
   readonly y: number
 }
 
-const monoidPoint = M.getStructMonoid<Point>({
-  x: M.monoidSum,
-  y: M.monoidSum,
+const M = getStructMonoid<Point>({
+  x: N.MonoidSum,
+  y: N.MonoidSum,
 })
 
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v3.0.0
@@ -115,15 +113,16 @@ export declare const getTupleMonoid: <A extends readonly unknown[]>(
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { getTupleMonoid } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
 
-const M1 = M.getTupleMonoid(S.Monoid, M.monoidSum)
+const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
 assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
 
-const M2 = M.getTupleMonoid(S.Monoid, M.monoidSum, B.MonoidAll)
+const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
 assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
@@ -146,13 +145,13 @@ export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
 **Example**
 
 ```ts
-import * as B from 'fp-ts/Bounded'
-import * as M from 'fp-ts/Monoid'
+import { getJoinMonoid } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const M1 = M.getJoinMonoid(B.boundedNumber)
+const M = getJoinMonoid(N.Bounded)
 
-assert.deepStrictEqual(pipe(1, M1.concat(2)), 2)
+assert.deepStrictEqual(pipe(1, M.concat(2)), 2)
 ```
 
 Added in v3.0.0
@@ -172,13 +171,13 @@ export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
 **Example**
 
 ```ts
-import * as B from 'fp-ts/Bounded'
-import * as M from 'fp-ts/Monoid'
+import { getMeetMonoid } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const M1 = M.getMeetMonoid(B.boundedNumber)
+const M = getMeetMonoid(N.Bounded)
 
-assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
+assert.deepStrictEqual(pipe(1, M.concat(2)), 1)
 ```
 
 Added in v3.0.0
@@ -189,54 +188,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
-```
-
-Added in v2.10.0
-
-# instances
-
-## monoidProduct
-
-`number` monoid under multiplication.
-
-The `empty` value is `1`.
-
-**Signature**
-
-```ts
-export declare const monoidProduct: Monoid<number>
-```
-
-**Example**
-
-```ts
-import { monoidProduct } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
-```
-
-Added in v3.0.0
-
-## monoidSum
-
-`number` monoid under addition.
-
-The `empty` value is `0`.
-
-**Signature**
-
-```ts
-export declare const monoidSum: Monoid<number>
-```
-
-**Example**
-
-```ts
-import { monoidSum } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
 ```
 
 Added in v3.0.0
@@ -272,10 +223,11 @@ export declare const fold: <A>(M: Monoid<A>) => (as: readonly A[]) => A
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { fold } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
-assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
+assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
+assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@ import { left, right } from '../src/Either'
 import * as Eq from '../src/Eq'
 import { pipe } from '../src/function'
 import { none, some as optionSome } from '../src/Option'
-import { ordNumber } from '../src/Ord'
+import * as N from '../src/number'
 import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
@@ -18,13 +18,13 @@ const fooEq: Eq.Eq<Foo> = Eq.fromEquals((second: Foo) => (first: Foo) => first.x
 
 describe('ReadonlySet', () => {
   it('toReadonlyArray', () => {
-    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set()), [])
-    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
-    deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([3, 2, 1])), [1, 2, 3])
+    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set()), [])
+    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([1, 2, 3])), [1, 2, 3])
+    deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('getEq', () => {
-    const S = _.getEq(Eq.eqNumber)
+    const S = _.getEq(N.Eq)
     deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
     deepStrictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
     deepStrictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
@@ -37,8 +37,8 @@ describe('ReadonlySet', () => {
   })
 
   it('map', () => {
-    deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([])), new Set([]))
-    deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
+    deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([])), new Set([]))
+    deepStrictEqual(_.map(N.Eq)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
     deepStrictEqual(_.map(S.Eq)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
   })
 
@@ -57,8 +57,8 @@ describe('ReadonlySet', () => {
   })
 
   it('isSubset', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), true)
-    deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(Eq.eqNumber)(new Set([1, 2, 3]))), false)
+    deepStrictEqual(pipe(new Set([1, 2]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), true)
+    deepStrictEqual(pipe(new Set([1, 2, 4]), _.isSubset(N.Eq)(new Set([1, 2, 3]))), false)
   })
 
   it('filter', () => {
@@ -89,26 +89,26 @@ describe('ReadonlySet', () => {
   })
 
   it('union', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.union(Eq.eqNumber)(new Set([1, 3]))), new Set([1, 2, 3]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.union(N.Eq)(new Set([1, 3]))), new Set([1, 2, 3]))
   })
 
   it('intersection', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.intersection(Eq.eqNumber)(new Set([1, 3]))), new Set([1]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.intersection(N.Eq)(new Set([1, 3]))), new Set([1]))
   })
 
   it('partitionMap', () => {
-    deepStrictEqual(_.partitionMap(Eq.eqNumber, S.Eq)((n: number) => left(n))(new Set([])), {
+    deepStrictEqual(_.partitionMap(N.Eq, S.Eq)((n: number) => left(n))(new Set([])), {
       left: new Set([]),
       right: new Set([])
     })
     deepStrictEqual(
-      _.partitionMap(Eq.eqNumber, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
+      _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
       {
         left: new Set([2]),
         right: new Set(['1', '3'])
       }
     )
-    const SL = Eq.getStructEq({ value: Eq.eqNumber })
+    const SL = Eq.getStructEq({ value: N.Eq })
     const SR = Eq.getStructEq({ value: S.Eq })
     deepStrictEqual(
       _.partitionMap(
@@ -125,31 +125,31 @@ describe('ReadonlySet', () => {
   })
 
   it('getUnionMonoid', () => {
-    const M = _.getUnionMonoid(Eq.eqNumber)
+    const M = _.getUnionMonoid(N.Eq)
     deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([1, 2, 3]))
     deepStrictEqual(pipe(new Set([1, 2]), M.concat(M.empty)), new Set([1, 2]))
     deepStrictEqual(pipe(M.empty, M.concat(new Set([1, 3]))), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
-    const S = _.getIntersectionSemigroup(Eq.eqNumber)
+    const S = _.getIntersectionSemigroup(N.Eq)
     deepStrictEqual(pipe(new Set([1, 2]), S.concat(new Set([1, 3]))), new Set([1]))
     deepStrictEqual(pipe(new Set([1, 2]), S.concat(_.empty)), _.empty)
     deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
   })
 
   it('difference', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.difference(Eq.eqNumber)(new Set([1, 3]))), new Set([2]))
+    deepStrictEqual(pipe(new Set([1, 2]), _.difference(N.Eq)(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {
-    deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
-    deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
+    deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
+    deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
   })
 
   it('foldMap', () => {
-    deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
-    deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
+    deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
+    deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('singleton', () => {
@@ -158,27 +158,27 @@ describe('ReadonlySet', () => {
 
   it('insert', () => {
     const x = new Set([1, 2])
-    deepStrictEqual(_.insert(Eq.eqNumber)(3)(x), new Set([1, 2, 3]))
+    deepStrictEqual(_.insert(N.Eq)(3)(x), new Set([1, 2, 3]))
     // should return the same ference if the element is already a member
-    deepStrictEqual(_.insert(Eq.eqNumber)(2)(x), x)
+    deepStrictEqual(_.insert(N.Eq)(2)(x), x)
   })
 
   it('remove', () => {
-    deepStrictEqual(_.remove(Eq.eqNumber)(3)(new Set([1, 2])), new Set([1, 2]))
-    deepStrictEqual(_.remove(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
+    deepStrictEqual(_.remove(N.Eq)(3)(new Set([1, 2])), new Set([1, 2]))
+    deepStrictEqual(_.remove(N.Eq)(1)(new Set([1, 2])), new Set([2]))
   })
 
   it('fromReadonlyArray', () => {
-    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([]), new Set([]))
-    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1]), new Set([1]))
-    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 1]), new Set([1]))
-    deepStrictEqual(_.fromReadonlyArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
+    deepStrictEqual(_.fromReadonlyArray(N.Eq)([]), new Set([]))
+    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1]), new Set([1]))
+    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1, 1]), new Set([1]))
+    deepStrictEqual(_.fromReadonlyArray(N.Eq)([1, 2]), new Set([1, 2]))
 
     deepStrictEqual(_.fromReadonlyArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 
   it('compact', () => {
-    deepStrictEqual(_.compact(Eq.eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
+    deepStrictEqual(_.compact(N.Eq)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
     const E: Eq.Eq<R> = pipe(
       S.Eq,
@@ -191,7 +191,7 @@ describe('ReadonlySet', () => {
   })
 
   it('separate', () => {
-    deepStrictEqual(_.separate(S.Eq, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
+    deepStrictEqual(_.separate(S.Eq, N.Eq)(new Set([right(1), left('a'), right(2)])), {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
@@ -219,9 +219,7 @@ describe('ReadonlySet', () => {
 
   it('filterMap', () => {
     deepStrictEqual(
-      _.filterMap(Eq.eqNumber)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(
-        new Set(['a', 'bb', 'ccc'])
-      ),
+      _.filterMap(N.Eq)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(new Set(['a', 'bb', 'ccc'])),
       new Set([2, 3])
     )
     type R = { readonly id: string }

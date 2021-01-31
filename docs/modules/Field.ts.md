@@ -12,8 +12,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
-  - [fieldNumber](#fieldnumber)
 - [type classes](#type-classes)
   - [Field (interface)](#field-interface)
 - [utils](#utils)
@@ -21,18 +19,6 @@ Added in v3.0.0
   - [lcm](#lcm)
 
 ---
-
-# instances
-
-## fieldNumber
-
-**Signature**
-
-```ts
-export declare const fieldNumber: Field<number>
-```
-
-Added in v3.0.0
 
 # type classes
 

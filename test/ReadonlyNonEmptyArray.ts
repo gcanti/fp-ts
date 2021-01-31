@@ -1,11 +1,9 @@
 import * as assert from 'assert'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
-import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
-import * as Se from '../src/Semigroup'
 import * as U from './util'
 import * as S from '../src/string'
 
@@ -84,7 +82,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = M.fold(M.monoidSum)
+    const sum = M.fold(N.MonoidSum)
     U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
@@ -93,13 +91,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('min', () => {
-    U.deepStrictEqual(_.min(Ord.ordNumber)([2, 1, 3]), 1)
-    U.deepStrictEqual(_.min(Ord.ordNumber)([3]), 3)
+    U.deepStrictEqual(_.min(N.Ord)([2, 1, 3]), 1)
+    U.deepStrictEqual(_.min(N.Ord)([3]), 3)
   })
 
   it('max', () => {
-    U.deepStrictEqual(_.max(Ord.ordNumber)([1, 2, 3]), 3)
-    U.deepStrictEqual(_.max(Ord.ordNumber)([1]), 1)
+    U.deepStrictEqual(_.max(N.Ord)([1, 2, 3]), 3)
+    U.deepStrictEqual(_.max(N.Ord)([1]), 1)
   })
 
   it('reduce', () => {
@@ -134,22 +132,22 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
+    const S = _.getEq(N.Eq)
     U.deepStrictEqual(S.equals([1])([1]), true)
     U.deepStrictEqual(S.equals([1])([1, 2]), false)
   })
 
   it('group', () => {
-    U.deepStrictEqual(_.group(Ord.ordNumber)([]), [])
+    U.deepStrictEqual(_.group(N.Ord)([]), [])
 
-    U.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    U.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
-    U.deepStrictEqual(_.groupSort(Ord.ordNumber)([]), [])
-    U.deepStrictEqual(_.groupSort(Ord.ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+    U.deepStrictEqual(_.groupSort(N.Ord)([]), [])
+    U.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('last', () => {
@@ -163,7 +161,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('sort', () => {
-    U.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
+    U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
   })
 
   it('prependToAll', () => {
@@ -329,13 +327,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const f = _.foldMap(Se.semigroupSum)((s: string) => s.length)
+    const f = _.foldMap(N.SemigroupSum)((s: string) => s.length)
     U.deepStrictEqual(f(['a']), 1)
     U.deepStrictEqual(f(['a', 'bb']), 3)
   })
 
   it('foldMapWithIndex', () => {
-    const f = _.foldMapWithIndex(Se.semigroupSum)((i: number, s: string) => s.length + i)
+    const f = _.foldMapWithIndex(N.SemigroupSum)((i: number, s: string) => s.length + i)
     U.deepStrictEqual(f(['a']), 1)
     U.deepStrictEqual(f(['a', 'bb']), 4)
   })

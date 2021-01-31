@@ -1,6 +1,6 @@
 ---
 title: Show.ts
-nav_order: 72
+nav_order: 73
 parent: Modules
 ---
 
@@ -12,16 +12,15 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
-  - [showNumber](#shownumber)
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 
 ---
 
-# instances
+# combinators
 
 ## getStructShow
 
@@ -39,16 +38,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getTupleShow: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
-```
-
-Added in v3.0.0
-
-## showNumber
-
-**Signature**
-
-```ts
-export declare const showNumber: Show<number>
 ```
 
 Added in v3.0.0

@@ -61,6 +61,7 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
+  - [number](#number)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
@@ -583,6 +584,16 @@ Added in v3.0.0
 
 ```ts
 export declare const monoid: typeof monoid
+```
+
+Added in v3.0.0
+
+## number
+
+**Signature**
+
+```ts
+export declare const number: typeof number
 ```
 
 Added in v3.0.0

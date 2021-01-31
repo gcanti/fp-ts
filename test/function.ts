@@ -4,7 +4,7 @@ import * as U from './util'
 import * as B from '../src/boolean'
 import * as RA from '../src/ReadonlyArray'
 import { fold } from '../src/Monoid'
-import { fieldNumber } from '../src/Field'
+import * as N from '../src/number'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
@@ -163,7 +163,7 @@ describe('function', () => {
   })
 
   it('getSemiring', () => {
-    const S = _.getSemiring<number, string>(fieldNumber)
+    const S = _.getSemiring<number, string>(N.Field)
     const f1 = (s: string): number => s.length
     const f2 = (s: string): number => s.indexOf('a')
     U.deepStrictEqual(_.pipe(f1, S.add(f2))('foo'), 2)
@@ -175,7 +175,7 @@ describe('function', () => {
   })
 
   it('getRing', () => {
-    const R = _.getRing<number, string>(fieldNumber)
+    const R = _.getRing<number, string>(N.Field)
     const f1 = (s: string): number => s.length
     const f2 = (s: string): number => s.indexOf('a')
     U.deepStrictEqual(_.pipe(f1, R.sub(f2))('foo'), 4)

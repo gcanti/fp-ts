@@ -164,7 +164,7 @@ export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A |
  * Converts a function returning a `Promise` to one returning a `TaskOption`.
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Promise<B>

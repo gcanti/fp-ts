@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
-import { ordNumber } from '../src/Ord'
+import * as N from '../src/number'
 import * as _ from '../src/Semigroup'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
@@ -8,9 +8,9 @@ import * as S from '../src/string'
 
 describe('Semigroup', () => {
   it('getTupleSemigroup', () => {
-    const S1 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum)
+    const S1 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum)
     deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
-    const S2 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum, B.SemigroupAll)
+    const S2 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
     deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
@@ -19,12 +19,12 @@ describe('Semigroup', () => {
   })
 
   it('getMeetSemigroup', () => {
-    const S = _.getMeetSemigroup(ordNumber)
+    const S = _.getMeetSemigroup(N.Ord)
     deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
   it('getJoinSemigroup', () => {
-    const S = _.getJoinSemigroup(ordNumber)
+    const S = _.getJoinSemigroup(N.Ord)
     deepStrictEqual(pipe(1, S.concat(2)), 2)
   })
 
@@ -45,11 +45,6 @@ describe('Semigroup', () => {
     const expected = Object.assign({}, foo, bar)
     deepStrictEqual(result.foo, expected.foo)
     deepStrictEqual(result.bar, expected.bar)
-  })
-
-  it('semigroupProduct', () => {
-    const S = _.semigroupProduct
-    deepStrictEqual(pipe(2, S.concat(3)), 6)
   })
 
   it('getFirstSemigroup', () => {

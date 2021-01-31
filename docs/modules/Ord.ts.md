@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 52
+nav_order: 53
 parent: Modules
 ---
 
@@ -33,7 +33,6 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
   - [ordDate](#orddate)
-  - [ordNumber](#ordnumber)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -102,11 +101,12 @@ export declare const getDual: <A>(O: Ord<A>) => Ord<A>
 **Example**
 
 ```ts
-import { ordNumber, getDual } from 'fp-ts/Ord'
+import { getDual } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
-assert.deepStrictEqual(pipe(5, getDual(ordNumber).compare(6)), 1)
+assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
+assert.deepStrictEqual(pipe(5, getDual(N.Ord).compare(6)), 1)
 ```
 
 Added in v3.0.0
@@ -124,12 +124,13 @@ export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K i
 **Example**
 
 ```ts
-import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
+import { getTupleOrd } from 'fp-ts/Ord'
 import * as B from 'fp-ts/boolean'
 import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
+const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
@@ -188,10 +189,11 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
-import { contramap, getDual, getMonoid, ordNumber } from 'fp-ts/Ord'
+import { contramap, getDual, getMonoid } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
 import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
 
 interface User {
@@ -207,7 +209,7 @@ const byName = pipe(
 )
 
 const byAge = pipe(
-  ordNumber,
+  N.Ord,
   contramap((p: User) => p.age)
 )
 
@@ -279,25 +281,6 @@ assert.deepStrictEqual(pipe(new Date(1, 1, 2020), ordDate.compare(new Date(1, 1,
 
 Added in v3.0.0
 
-## ordNumber
-
-**Signature**
-
-```ts
-export declare const ordNumber: Ord<number>
-```
-
-**Example**
-
-```ts
-import { ordNumber } from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
-```
-
-Added in v3.0.0
-
 # type classes
 
 ## Ord (interface)
@@ -327,10 +310,11 @@ export declare const between: <A>(O: Ord<A>) => (low: A, hi: A) => Predicate<A>
 **Example**
 
 ```ts
-import { ordNumber, between } from 'fp-ts/Ord'
+import { between } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const f = between(ordNumber)(2, 4)
+const f = between(N.Ord)(2, 4)
 assert.deepStrictEqual(pipe(1, f), false)
 assert.deepStrictEqual(pipe(3, f), true)
 assert.deepStrictEqual(pipe(5, f), false)
@@ -351,10 +335,11 @@ export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => Endomorphism<A>
 **Example**
 
 ```ts
-import { ordNumber, clamp } from 'fp-ts/Ord'
+import { clamp } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const f = clamp(ordNumber)(2, 4)
+const f = clamp(N.Ord)(2, 4)
 assert.deepStrictEqual(pipe(1, f), 2)
 assert.deepStrictEqual(pipe(3, f), 3)
 assert.deepStrictEqual(pipe(5, f), 4)
@@ -375,12 +360,13 @@ export declare const geq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 **Example**
 
 ```ts
-import { ordNumber, geq } from 'fp-ts/Ord'
+import { geq } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, geq(ordNumber)(4)), true)
-assert.deepStrictEqual(pipe(5, geq(ordNumber)(5)), true)
-assert.deepStrictEqual(pipe(5, geq(ordNumber)(6)), false)
+assert.deepStrictEqual(pipe(5, geq(N.Ord)(4)), true)
+assert.deepStrictEqual(pipe(5, geq(N.Ord)(5)), true)
+assert.deepStrictEqual(pipe(5, geq(N.Ord)(6)), false)
 ```
 
 Added in v3.0.0
@@ -398,12 +384,13 @@ export declare const gt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 **Example**
 
 ```ts
-import { ordNumber, gt } from 'fp-ts/Ord'
+import { gt } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, gt(ordNumber)(4)), true)
-assert.deepStrictEqual(pipe(5, gt(ordNumber)(5)), false)
-assert.deepStrictEqual(pipe(5, gt(ordNumber)(6)), false)
+assert.deepStrictEqual(pipe(5, gt(N.Ord)(4)), true)
+assert.deepStrictEqual(pipe(5, gt(N.Ord)(5)), false)
+assert.deepStrictEqual(pipe(5, gt(N.Ord)(6)), false)
 ```
 
 Added in v3.0.0
@@ -421,12 +408,13 @@ export declare const leq: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 **Example**
 
 ```ts
-import { ordNumber, leq } from 'fp-ts/Ord'
+import { leq } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, leq(ordNumber)(4)), false)
-assert.deepStrictEqual(pipe(5, leq(ordNumber)(5)), true)
-assert.deepStrictEqual(pipe(5, leq(ordNumber)(6)), true)
+assert.deepStrictEqual(pipe(5, leq(N.Ord)(4)), false)
+assert.deepStrictEqual(pipe(5, leq(N.Ord)(5)), true)
+assert.deepStrictEqual(pipe(5, leq(N.Ord)(6)), true)
 ```
 
 Added in v3.0.0
@@ -444,12 +432,13 @@ export declare const lt: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 **Example**
 
 ```ts
-import { ordNumber, lt } from 'fp-ts/Ord'
+import { lt } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, lt(ordNumber)(4)), false)
-assert.deepStrictEqual(pipe(5, lt(ordNumber)(5)), false)
-assert.deepStrictEqual(pipe(5, lt(ordNumber)(6)), true)
+assert.deepStrictEqual(pipe(5, lt(N.Ord)(4)), false)
+assert.deepStrictEqual(pipe(5, lt(N.Ord)(5)), false)
+assert.deepStrictEqual(pipe(5, lt(N.Ord)(6)), true)
 ```
 
 Added in v3.0.0
@@ -467,10 +456,11 @@ export declare const max: <A>(O: Ord<A>) => (second: A) => (first: A) => A
 **Example**
 
 ```ts
-import { ordNumber, max } from 'fp-ts/Ord'
+import { max } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, max(ordNumber)(6)), 6)
+assert.deepStrictEqual(pipe(5, max(N.Ord)(6)), 6)
 ```
 
 Added in v3.0.0
@@ -488,10 +478,11 @@ export declare const min: <A>(O: Ord<A>) => (second: A) => (first: A) => A
 **Example**
 
 ```ts
-import { ordNumber, min } from 'fp-ts/Ord'
+import { min } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(5, min(ordNumber)(6)), 5)
+assert.deepStrictEqual(pipe(5, min(N.Ord)(6)), 5)
 ```
 
 Added in v3.0.0

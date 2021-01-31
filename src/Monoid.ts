@@ -40,13 +40,13 @@ export interface Monoid<A> extends S.Semigroup<A> {
  * The `empty` value is the `top` value.
  *
  * @example
- * import * as B from 'fp-ts/Bounded'
- * import * as M from 'fp-ts/Monoid'
+ * import { getMeetMonoid } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const M1 = M.getMeetMonoid(B.boundedNumber)
+ * const M = getMeetMonoid(N.Bounded)
  *
- * assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
+ * assert.deepStrictEqual(pipe(1, M.concat(2)), 1)
  *
  * @category constructors
  * @since 3.0.0
@@ -62,13 +62,13 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * The `empty` value is the `bottom` value.
  *
  * @example
- * import * as B from 'fp-ts/Bounded'
- * import * as M from 'fp-ts/Monoid'
+ * import { getJoinMonoid } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const M1 = M.getJoinMonoid(B.boundedNumber)
+ * const M = getJoinMonoid(N.Bounded)
  *
- * assert.deepStrictEqual(pipe(1, M1.concat(2)), 2)
+ * assert.deepStrictEqual(pipe(1, M.concat(2)), 2)
  *
  * @category constructors
  * @since 3.0.0
@@ -80,7 +80,7 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
 
 /**
  * @category constructors
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const getUnitMonoid = <A>(a: A): Monoid<A> => ({
   concat: S.getUnitSemigroup(a).concat,
@@ -114,7 +114,8 @@ export const getDual = <A>(M: Monoid<A>): Monoid<A> => ({
  * Given a struct of monoids returns a monoid for the struct.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { getStructMonoid } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Point {
@@ -122,12 +123,12 @@ export const getDual = <A>(M: Monoid<A>): Monoid<A> => ({
  *   readonly y: number
  * }
  *
- * const monoidPoint = M.getStructMonoid<Point>({
- *   x: M.monoidSum,
- *   y: M.monoidSum
+ * const M = getStructMonoid<Point>({
+ *   x: N.MonoidSum,
+ *   y: N.MonoidSum
  * })
  *
- * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+ * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, M.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
  * @category combinators
  * @since 3.0.0
@@ -148,15 +149,16 @@ export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): M
  * Given a tuple of monoids returns a monoid for the tuple.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { getTupleMonoid } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
+ * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
  *
- * const M1 = M.getTupleMonoid(S.Monoid, M.monoidSum)
+ * const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
  * assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
  *
- * const M2 = M.getTupleMonoid(S.Monoid, M.monoidSum, B.MonoidAll)
+ * const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
@@ -171,48 +173,6 @@ export const getTupleMonoid = <A extends ReadonlyArray<unknown>>(
   } as any)
 
 // -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * `number` monoid under addition.
- *
- * The `empty` value is `0`.
- *
- * @example
- * import { monoidSum } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
- *
- * @category instances
- * @since 3.0.0
- */
-export const monoidSum: Monoid<number> = {
-  concat: S.semigroupSum.concat,
-  empty: 0
-}
-
-/**
- * `number` monoid under multiplication.
- *
- * The `empty` value is `1`.
- *
- * @example
- * import { monoidProduct } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
- *
- * @category instances
- * @since 3.0.0
- */
-export const monoidProduct: Monoid<number> = {
-  concat: S.semigroupProduct.concat,
-  empty: 1
-}
-
-// -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
 
@@ -222,10 +182,11 @@ export const monoidProduct: Monoid<number> = {
  * If `as` is empty, return the monoid `empty` value.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { fold } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
- * assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
+ * assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
+ * assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
  *
  * @since 3.0.0
  */

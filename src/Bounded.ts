@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import { Ord, ordNumber } from './Ord'
+import { Ord } from './Ord'
 
 /**
  * @category type classes
@@ -16,15 +16,4 @@ import { Ord, ordNumber } from './Ord'
 export interface Bounded<A> extends Ord<A> {
   readonly top: A
   readonly bottom: A
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const boundedNumber: Bounded<number> = {
-  equals: ordNumber.equals,
-  compare: ordNumber.compare,
-  top: Infinity,
-  bottom: -Infinity
 }

@@ -1,6 +1,5 @@
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
-import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as _ from '../src/These'
@@ -129,7 +128,7 @@ describe('These', () => {
   })
 
   it('getEq', () => {
-    const { equals } = _.getEq(eqNumber, eqNumber)
+    const { equals } = _.getEq(N.Eq, N.Eq)
     U.deepStrictEqual(equals(_.left(2))(_.left(2)), true)
     U.deepStrictEqual(equals(_.left(2))(_.left(3)), false)
     U.deepStrictEqual(equals(_.left(3))(_.left(2)), false)
@@ -144,7 +143,7 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const TS = _.getSemigroup(S.Monoid, monoidSum)
+    const TS = _.getSemigroup(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.left('b'))), _.left('ab'))
     U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.right(2))), _.both('a', 2))
     U.deepStrictEqual(pipe(_.right(2), TS.concat(_.left('a'))), _.both('a', 2))

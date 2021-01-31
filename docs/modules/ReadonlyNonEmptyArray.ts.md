@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -317,9 +317,9 @@ export declare function group<B>(
 
 ```ts
 import { group } from 'fp-ts/ReadonlyNonEmptyArray'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 ```
 
 Added in v3.0.0
@@ -343,9 +343,9 @@ export declare function groupSort<B>(
 
 ```ts
 import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
 ```
 
 Added in v3.0.0

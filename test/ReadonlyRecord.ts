@@ -1,14 +1,14 @@
 import * as assert from 'assert'
 import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
-import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
+import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -226,7 +226,7 @@ describe('ReadonlyRecord', () => {
   it('getMonoid', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
-    const M = _.getMonoid(semigroupSum)
+    const M = _.getMonoid(N.SemigroupSum)
     U.deepStrictEqual(pipe(d1, M.concat(d2)), { k1: 1, k2: 5, k3: 4 })
     U.deepStrictEqual(pipe(d1, M.concat(M.empty)), d1)
     U.deepStrictEqual(pipe(M.empty, M.concat(d2)), d2)
@@ -234,10 +234,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getEq', () => {
-    U.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ a: 1 }), true)
-    U.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ a: 2 }), false)
-    U.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 })({ b: 1 }), false)
-    U.deepStrictEqual(_.getEq(eqNumber).equals(noPrototype)({ b: 1 }), false)
+    U.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 })({ a: 1 }), true)
+    U.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 })({ a: 2 }), false)
+    U.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 })({ b: 1 }), false)
+    U.deepStrictEqual(_.getEq(N.Eq).equals(noPrototype)({ b: 1 }), false)
   })
 
   it('lookup', () => {
@@ -389,8 +389,8 @@ describe('ReadonlyRecord', () => {
   })
 
   it('elem', () => {
-    U.deepStrictEqual(_.elem(eqNumber)(1)({ a: 1, b: 2 }), true)
-    U.deepStrictEqual(_.elem(eqNumber)(3)({ a: 1, b: 2 }), false)
+    U.deepStrictEqual(_.elem(N.Eq)(1)({ a: 1, b: 2 }), true)
+    U.deepStrictEqual(_.elem(N.Eq)(3)({ a: 1, b: 2 }), false)
   })
 
   it('fromFoldableMap', () => {

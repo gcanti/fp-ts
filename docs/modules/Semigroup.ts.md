@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -39,8 +39,6 @@ Added in v3.0.0
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
-  - [semigroupProduct](#semigroupproduct)
-  - [semigroupSum](#semigroupsum)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -110,7 +108,8 @@ export declare const getStructSemigroup: <A>(semigroups: { [K in keyof A]: Semig
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getStructSemigroup } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 interface Point {
@@ -118,12 +117,12 @@ interface Point {
   readonly y: number
 }
 
-const semigroupPoint = S.getStructSemigroup<Point>({
-  x: S.semigroupSum,
-  y: S.semigroupSum,
+const S = getStructSemigroup<Point>({
+  x: N.SemigroupSum,
+  y: N.SemigroupSum,
 })
 
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v3.0.0
@@ -143,15 +142,16 @@ export declare const getTupleSemigroup: <A extends readonly unknown[]>(
 **Example**
 
 ```ts
-import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
+import { getTupleSemigroup } from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/string'
 
-const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
+const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
 assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
 
-const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
+const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
@@ -172,13 +172,13 @@ export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/Ord'
-import * as S from 'fp-ts/Semigroup'
+import { getJoinSemigroup } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const S1 = S.getJoinSemigroup(O.ordNumber)
+const S = getJoinSemigroup(N.Ord)
 
-assert.deepStrictEqual(pipe(1, S1.concat(2)), 2)
+assert.deepStrictEqual(pipe(1, S.concat(2)), 2)
 ```
 
 Added in v3.0.0
@@ -196,13 +196,13 @@ export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/Ord'
-import * as S from 'fp-ts/Semigroup'
+import { getMeetSemigroup } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-const S1 = S.getMeetSemigroup(O.ordNumber)
+const S = getMeetSemigroup(N.Ord)
 
-assert.deepStrictEqual(pipe(1, S1.concat(2)), 1)
+assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
 ```
 
 Added in v3.0.0
@@ -288,48 +288,6 @@ assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name',
 
 Added in v3.0.0
 
-## semigroupProduct
-
-`number` semigroup under multiplication.
-
-**Signature**
-
-```ts
-export declare const semigroupProduct: Semigroup<number>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(2, S.semigroupProduct.concat(3)), 6)
-```
-
-Added in v3.0.0
-
-## semigroupSum
-
-`number` semigroup under addition.
-
-**Signature**
-
-```ts
-export declare const semigroupSum: Semigroup<number>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(2, S.semigroupSum.concat(3)), 5)
-```
-
-Added in v3.0.0
-
 # type classes
 
 ## Semigroup (interface)
@@ -359,9 +317,10 @@ export declare const fold: <A>(S: Semigroup<A>) => (startWith: A) => (as: readon
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { fold } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 
-const sum = S.fold(S.semigroupSum)(0)
+const sum = fold(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)

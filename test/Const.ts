@@ -1,5 +1,5 @@
 import * as _ from '../src/Const'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { pipe } from '../src/function'
 import * as U from './util'
 import * as S from '../src/string'
@@ -36,9 +36,9 @@ describe('Const', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
-    U.deepStrictEqual(S.equals(_.make(1))(_.make(1)), true)
-    U.deepStrictEqual(S.equals(_.make(1))(_.make(2)), false)
+    const E = _.getEq(N.Eq)
+    U.deepStrictEqual(E.equals(_.make(1))(_.make(1)), true)
+    U.deepStrictEqual(E.equals(_.make(1))(_.make(2)), false)
   })
 
   it('getApplicative', () => {

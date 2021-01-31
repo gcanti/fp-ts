@@ -5,10 +5,11 @@ import { sort } from '../src/ReadonlyArray'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
+import * as N from '../src/number'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
-    const O = _.getTupleOrd(S.Ord, _.ordNumber, B.Ord)
+    const O = _.getTupleOrd(S.Ord, N.Ord, B.Ord)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
@@ -24,7 +25,7 @@ describe('Ord', () => {
     ]
     const M = _.getMonoid<T>()
     const sortByFst = pipe(
-      _.ordNumber,
+      N.Ord,
       _.contramap((x: T) => x[0])
     )
     const sortBySnd = pipe(
@@ -50,13 +51,13 @@ describe('Ord', () => {
   })
 
   it('ordNumber', () => {
-    deepStrictEqual(pipe(1, _.ordNumber.compare(2)), -1)
-    deepStrictEqual(pipe(2, _.ordNumber.compare(1)), 1)
-    deepStrictEqual(pipe(2, _.ordNumber.compare(2)), 0)
+    deepStrictEqual(pipe(1, N.Ord.compare(2)), -1)
+    deepStrictEqual(pipe(2, N.Ord.compare(1)), 1)
+    deepStrictEqual(pipe(2, N.Ord.compare(2)), 0)
   })
 
   it('clamp', () => {
-    const clampNumber = _.clamp(_.ordNumber)
+    const clampNumber = _.clamp(N.Ord)
     deepStrictEqual(clampNumber(1, 10)(2), 2)
     deepStrictEqual(clampNumber(1, 10)(10), 10)
     deepStrictEqual(clampNumber(1, 10)(20), 10)
@@ -65,7 +66,7 @@ describe('Ord', () => {
   })
 
   it('between', () => {
-    const betweenNumber = _.between(_.ordNumber)
+    const betweenNumber = _.between(N.Ord)
     deepStrictEqual(betweenNumber(1, 10)(2), true)
     deepStrictEqual(betweenNumber(1, 10)(10), true)
     deepStrictEqual(betweenNumber(1, 10)(20), false)
@@ -74,7 +75,7 @@ describe('Ord', () => {
   })
 
   it('getDual', () => {
-    const O = _.getDual(_.ordNumber)
+    const O = _.getDual(N.Ord)
     deepStrictEqual(pipe(1, O.compare(2)), 1)
     deepStrictEqual(pipe(2, O.compare(1)), -1)
     deepStrictEqual(pipe(2, O.compare(2)), 0)
@@ -87,21 +88,21 @@ describe('Ord', () => {
   })
 
   it('leq', () => {
-    const f = _.leq(_.ordNumber)
+    const f = _.leq(N.Ord)
     deepStrictEqual(pipe(0, f(1)), true)
     deepStrictEqual(pipe(1, f(1)), true)
     deepStrictEqual(pipe(2, f(1)), false)
   })
 
   it('geq', () => {
-    const f = _.geq(_.ordNumber)
+    const f = _.geq(N.Ord)
     deepStrictEqual(pipe(0, f(1)), false)
     deepStrictEqual(pipe(1, f(1)), true)
     deepStrictEqual(pipe(2, f(1)), true)
   })
 
   it('fromCompare', () => {
-    const O1 = _.fromCompare(_.ordNumber.compare)
+    const O1 = _.fromCompare(N.Ord.compare)
     deepStrictEqual(O1.equals(0)(1), false)
     deepStrictEqual(O1.equals(1)(1), true)
     interface A {
@@ -109,7 +110,7 @@ describe('Ord', () => {
     }
     let nbCall = 0
     const O2 = _.fromCompare<A>((second) => {
-      const f = _.ordNumber.compare(second.x)
+      const f = N.Ord.compare(second.x)
       return (first) => {
         nbCall += 1
         return f(first.x)

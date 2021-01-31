@@ -13,6 +13,7 @@ import * as _ from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
+import * as N from '../src/number'
 
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
@@ -51,8 +52,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('elem', () => {
-      U.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(2)), true)
-      U.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(0)), false)
+      U.deepStrictEqual(pipe([1, 2, 3], _.elem(N.Eq)(2)), true)
+      U.deepStrictEqual(pipe([1, 2, 3], _.elem(N.Eq)(0)), false)
     })
 
     it('unfold', () => {
@@ -142,7 +143,7 @@ describe('ReadonlyArray', () => {
     })
 
     it('extend', () => {
-      const sum = (as: ReadonlyArray<number>) => M.fold(M.monoidSum)(as)
+      const sum = (as: ReadonlyArray<number>) => M.fold(N.MonoidSum)(as)
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })
@@ -602,7 +603,7 @@ describe('ReadonlyArray', () => {
 
   it('sort', () => {
     const O = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Ord.contramap((x: { readonly a: number }) => x.a)
     )
     U.deepStrictEqual(
@@ -620,9 +621,9 @@ describe('ReadonlyArray', () => {
         { a: 3, b: 'b1' }
       ]
     )
-    assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
+    assert.strictEqual(_.sort(N.Ord)(_.empty), _.empty)
     const as: ReadonlyArray<number> = [1]
-    assert.strictEqual(_.sort(Ord.ordNumber)(as), as)
+    assert.strictEqual(_.sort(N.Ord)(as), as)
   })
 
   it('zipWith', () => {
@@ -740,7 +741,7 @@ describe('ReadonlyArray', () => {
     }
 
     const eqA = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Eq.contramap((f: A) => f.b)
     )
     const arrA: A = { a: 'a', b: 1 }
@@ -756,20 +757,20 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
     U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
     U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([-0, -0]), [-0])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([0, -0]), [0])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([1]), [1])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([2, 1, 2]), [2, 1])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 1]), [1, 2])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+    U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+    U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+    U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
     U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
 
-    assert.strictEqual(_.uniq(Eq.eqNumber)(_.empty), _.empty)
+    assert.strictEqual(_.uniq(N.Eq)(_.empty), _.empty)
     const as: ReadonlyArray<number> = [1]
-    assert.strictEqual(_.uniq(Ord.ordNumber)(as), as)
+    assert.strictEqual(_.uniq(N.Ord)(as), as)
   })
 
   it('sortBy', () => {
@@ -783,7 +784,7 @@ describe('ReadonlyArray', () => {
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
     )
     const byAge = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.b)
     )
     const f = _.sortBy([byName, byAge])
@@ -817,7 +818,7 @@ describe('ReadonlyArray', () => {
         return [init, rest]
       })
     }
-    U.deepStrictEqual(group(Eq.eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    U.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
   it('splitAt', () => {
@@ -932,21 +933,21 @@ describe('ReadonlyArray', () => {
   })
 
   it('union', () => {
-    U.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([1, 2])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 2])), [1, 2])
   })
 
   it('intersection', () => {
-    U.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([3, 4])), [])
-    U.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([2, 3])), [2])
-    U.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([1, 2])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([3, 4])), [])
+    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([2, 3])), [2])
+    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([1, 2])), [1, 2])
   })
 
   it('difference', () => {
-    U.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([3, 4])), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([2, 3])), [1])
-    U.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([1, 2])), [])
+    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([3, 4])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([2, 3])), [1])
+    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([1, 2])), [])
   })
 
   it('should be safe when calling map with a binary function', () => {

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { separated } from '../src/Compactable'
 import { Either, left, right } from '../src/Either'
-import { Eq, eqNumber, fromEquals } from '../src/Eq'
+import { Eq, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
 import * as S from '../src/string'
@@ -9,10 +9,11 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
-import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
+import { getFirstSemigroup, getLastSemigroup, getStructSemigroup } from '../src/Semigroup'
 import { getStructShow, Show } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
+import * as N from '../src/number'
 
 interface User {
   readonly id: string
@@ -38,13 +39,13 @@ interface Value {
 const eqKey: Eq<Key> = fromEquals((second) => (first) => first.id % 3 === second.id % 3)
 
 const ordKey = Ord.fromCompare<Key>((second) => {
-  const f = Ord.ordNumber.compare(second.id % 3)
+  const f = N.Ord.compare(second.id % 3)
   return (first) => f(first.id % 3)
 })
 
 const eqValue: Eq<Value> = fromEquals((second) => (first) => first.value % 3 === second.value % 3)
 
-const semigroupValue = getStructSemigroup({ value: semigroupSum })
+const semigroupValue = getStructSemigroup({ value: N.SemigroupSum })
 
 const key1 = { id: 1 }
 const value1 = { value: 1 }
@@ -255,7 +256,7 @@ describe('ReadonlyMap', () => {
       ['a', 1],
       ['b', 2]
     ])
-    const elemS = _.elem(eqNumber)
+    const elemS = _.elem(N.Eq)
     U.deepStrictEqual(elemS(2)(x), true)
     U.deepStrictEqual(elemS(3)(x), false)
 
@@ -622,7 +623,7 @@ describe('ReadonlyMap', () => {
       [{ id: 'a' }, 1],
       [{ id: 'b' }, 2]
     ])
-    const isSubmapS = _.isSubmap(eqUser, eqNumber)
+    const isSubmapS = _.isSubmap(eqUser, N.Eq)
     U.deepStrictEqual(isSubmapS(that)(me), true)
 
     const isSubmap = _.isSubmap(eqKey, eqValue)
@@ -647,7 +648,7 @@ describe('ReadonlyMap', () => {
     const a1_ = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
     const b1 = new Map<User, number>([[{ id: 'b' }, 1]])
-    const S = _.getEq(eqUser, eqNumber)
+    const S = _.getEq(eqUser, N.Eq)
     U.deepStrictEqual(S.equals(a1)(a1), true)
     U.deepStrictEqual(S.equals(a1)(a1_), true)
     U.deepStrictEqual(S.equals(a1_)(a1), true)
@@ -719,7 +720,7 @@ describe('ReadonlyMap', () => {
       [{ id: 'k2' }, 5],
       [{ id: 'k3' }, 4]
     ])
-    const M1 = _.getMonoid(eqUser, semigroupSum)
+    const M1 = _.getMonoid(eqUser, N.SemigroupSum)
     U.deepStrictEqual(pipe(d1, M1.concat(d2)), expected)
     U.deepStrictEqual(pipe(d1, M1.concat(M1.empty)), d1)
     U.deepStrictEqual(pipe(M1.empty, M1.concat(d2)), d2)
