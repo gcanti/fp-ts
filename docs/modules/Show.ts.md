@@ -15,7 +15,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
-  - [showBoolean](#showboolean)
   - [showNumber](#shownumber)
   - [showString](#showstring)
 - [type classes](#type-classes)
@@ -41,16 +40,6 @@ Added in v3.0.0
 
 ```ts
 export declare const getTupleShow: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
-```
-
-Added in v3.0.0
-
-## showBoolean
-
-**Signature**
-
-```ts
-export declare const showBoolean: Show<boolean>
 ```
 
 Added in v3.0.0

@@ -15,6 +15,15 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+- [instances](#instances)
+  - [BooleanAlgebra](#booleanalgebra)
+  - [Eq](#eq)
+  - [MonoidAll](#monoidall)
+  - [MonoidAny](#monoidany)
+  - [Ord](#ord)
+  - [SemigroupAll](#semigroupall)
+  - [SemigroupAny](#semigroupany)
+  - [Show](#show)
 
 ---
 
@@ -63,6 +72,121 @@ Less strict version of [`fold`](#fold).
 
 ```ts
 export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+```
+
+Added in v3.0.0
+
+# instances
+
+## BooleanAlgebra
+
+**Signature**
+
+```ts
+export declare const BooleanAlgebra: BA.BooleanAlgebra<boolean>
+```
+
+Added in v3.0.0
+
+## Eq
+
+**Signature**
+
+```ts
+export declare const Eq: E.Eq<boolean>
+```
+
+Added in v3.0.0
+
+## MonoidAll
+
+`boolean` monoid under conjunction.
+
+The `empty` value is `true`.
+
+**Signature**
+
+```ts
+export declare const MonoidAll: Monoid<boolean>
+```
+
+Added in v3.0.0
+
+## MonoidAny
+
+`boolean` monoid under disjunction.
+
+The `empty` value is `false`.
+
+**Signature**
+
+```ts
+export declare const MonoidAny: Monoid<boolean>
+```
+
+Added in v3.0.0
+
+## Ord
+
+**Signature**
+
+```ts
+export declare const Ord: O.Ord<boolean>
+```
+
+Added in v3.0.0
+
+## SemigroupAll
+
+`boolean` semigroup under conjunction.
+
+**Signature**
+
+```ts
+export declare const SemigroupAll: Semigroup<boolean>
+```
+
+**Example**
+
+```ts
+import { SemigroupAll } from 'fp-ts/boolean'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(true, SemigroupAll.concat(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupAll.concat(false)), false)
+```
+
+Added in v3.0.0
+
+## SemigroupAny
+
+`boolean` semigroup under disjunction.
+
+**Signature**
+
+```ts
+export declare const SemigroupAny: Semigroup<boolean>
+```
+
+**Example**
+
+```ts
+import { SemigroupAny } from 'fp-ts/boolean'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(true, SemigroupAny.concat(true)), true)
+assert.deepStrictEqual(pipe(true, SemigroupAny.concat(false)), true)
+assert.deepStrictEqual(pipe(false, SemigroupAny.concat(false)), false)
+```
+
+Added in v3.0.0
+
+## Show
+
+**Signature**
+
+```ts
+export declare const Show: S.Show<boolean>
 ```
 
 Added in v3.0.0

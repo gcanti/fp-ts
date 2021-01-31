@@ -150,11 +150,12 @@ export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): M
  * @example
  * import * as M from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
  *
  * const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
  * assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
  *
- * const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, M.monoidAll)
+ * const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, B.MonoidAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
@@ -171,47 +172,6 @@ export const getTupleMonoid = <A extends ReadonlyArray<unknown>>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * `boolean` monoid under conjunction.
- *
- * The `empty` value is `true`.
- *
- * @example
- * import { monoidAll } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(true, monoidAll.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, monoidAll.concat(false)), false)
- *
- * @category instances
- * @since 3.0.0
- */
-export const monoidAll: Monoid<boolean> = {
-  concat: S.semigroupAll.concat,
-  empty: true
-}
-
-/**
- * `boolean` monoid under disjunction.
- *
- * The `empty` value is `false`.
- *
- * @example
- * import { monoidAny } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(true, monoidAny.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, monoidAny.concat(false)), true)
- * assert.deepStrictEqual(pipe(false, monoidAny.concat(false)), false)
- *
- * @category instances
- * @since 3.0.0
- */
-export const monoidAny: Monoid<boolean> = {
-  concat: S.semigroupAny.concat,
-  empty: false
-}
 
 /**
  * `number` monoid under addition.
@@ -276,16 +236,17 @@ export const monoidString: Monoid<string> = {
  * @example
  * import { Predicate, pipe } from 'fp-ts/function'
  * import * as M from 'fp-ts/Monoid'
+ * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
  * const g: Predicate<number> = (n) => n >= 0
  *
- * const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
+ * const M1 = M.getFunctionMonoid(B.MonoidAll)<number>()
  *
  * assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
  * assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
  *
- * const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
+ * const M2 = M.getFunctionMonoid(B.MonoidAny)<number>()
  *
  * assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
  * assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)

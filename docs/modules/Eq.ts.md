@@ -30,8 +30,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
-  - [eqBigint](#eqbigint)
-  - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
@@ -79,9 +77,10 @@ export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in 
 **Example**
 
 ```ts
-import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
+import { getTupleEq, eqString, eqNumber } from 'fp-ts/Eq'
+import * as B from 'fp-ts/boolean'
 
-const E = getTupleEq(eqString, eqNumber, eqBoolean)
+const E = getTupleEq(eqString, eqNumber, B.Eq)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -120,26 +119,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = 'Eq'
-```
-
-Added in v3.0.0
-
-## eqBigint
-
-**Signature**
-
-```ts
-export declare const eqBigint: Eq<bigint>
-```
-
-Added in v3.0.0
-
-## eqBoolean
-
-**Signature**
-
-```ts
-export declare const eqBoolean: Eq<boolean>
 ```
 
 Added in v3.0.0

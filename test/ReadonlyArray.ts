@@ -12,6 +12,7 @@ import * as _ from '../src/ReadonlyArray'
 import * as Show from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
+import * as B from '../src/boolean'
 
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
@@ -754,7 +755,7 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
     U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
     U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
-    U.deepStrictEqual(_.uniq(Eq.eqBoolean)([true, false, true, false]), [true, false])
+    U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
     U.deepStrictEqual(_.uniq(Eq.eqNumber)([-0, -0]), [-0])
     U.deepStrictEqual(_.uniq(Eq.eqNumber)([0, -0]), [0])
     U.deepStrictEqual(_.uniq(Eq.eqNumber)([1]), [1])

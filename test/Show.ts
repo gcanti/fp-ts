@@ -1,4 +1,4 @@
-import { getStructShow, getTupleShow, showBoolean, showNumber, showString } from '../src/Show'
+import { getStructShow, getTupleShow, showNumber, showString } from '../src/Show'
 import { deepStrictEqual } from './util'
 
 describe('Show', () => {
@@ -10,11 +10,6 @@ describe('Show', () => {
   it('showNumber', () => {
     const S = showNumber
     deepStrictEqual(S.show(1), '1')
-  })
-
-  it('showBoolean', () => {
-    const S = showBoolean
-    deepStrictEqual(S.show(true), 'true')
   })
 
   it('getStructShow', () => {

@@ -27,20 +27,19 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDualMonoid](#getdualmonoid)
+  - [getDual](#getdual)
+  - [getStructMonoid](#getstructmonoid)
+  - [getTupleMonoid](#gettuplemonoid)
+- [constructors](#constructors)
+  - [getJoinMonoid](#getjoinmonoid)
+  - [getMeetMonoid](#getmeetmonoid)
+  - [getUnitMonoid](#getunitmonoid)
 - [instances](#instances)
   - [getEndomorphismMonoid](#getendomorphismmonoid)
   - [getFunctionMonoid](#getfunctionmonoid)
-  - [getJoinMonoid](#getjoinmonoid)
-  - [getMeetMonoid](#getmeetmonoid)
-  - [getStructMonoid](#getstructmonoid)
-  - [getTupleMonoid](#gettuplemonoid)
-  - [monoidAll](#monoidall)
-  - [monoidAny](#monoidany)
   - [monoidProduct](#monoidproduct)
   - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
-  - [monoidVoid](#monoidvoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -50,14 +49,14 @@ Added in v3.0.0
 
 # combinators
 
-## getDualMonoid
+## getDual
 
 The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
 
 **Signature**
 
 ```ts
-export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
+export declare const getDual: <A>(M: Monoid<A>) => Monoid<A>
 ```
 
 **Example**
@@ -66,57 +65,72 @@ export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
 import * as M from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 
-const M1 = M.getDualMonoid(M.monoidString)
+const M1 = M.getDual(M.monoidString)
 assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
 ```
 
 Added in v3.0.0
 
-# instances
+## getStructMonoid
 
-## getEndomorphismMonoid
-
-Endomorphism form a monoid where the `empty` value is the identity function.
+Given a struct of monoids returns a monoid for the struct.
 
 **Signature**
 
 ```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
-```
-
-Added in v3.0.0
-
-## getFunctionMonoid
-
-Unary functions form a monoid as long as you can provide a monoid for the codomain.
-
-**Signature**
-
-```ts
-export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
+export declare const getStructMonoid: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<A>
 ```
 
 **Example**
 
 ```ts
-import { Predicate, pipe } from 'fp-ts/function'
 import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
 
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
+interface Point {
+  readonly x: number
+  readonly y: number
+}
 
-const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
+const monoidPoint = M.getStructMonoid<Point>({
+  x: M.monoidSum,
+  y: M.monoidSum,
+})
 
-assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
-
-const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
-
-assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
-assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
+assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
 ```
 
 Added in v3.0.0
+
+## getTupleMonoid
+
+Given a tuple of monoids returns a monoid for the tuple
+
+**Signature**
+
+```ts
+export declare const getTupleMonoid: <A extends readonly unknown[]>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import * as M from 'fp-ts/Monoid'
+import { pipe } from 'fp-ts/function'
+import * as B from 'fp-ts/boolean'
+
+const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
+assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
+
+const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, B.MonoidAll)
+assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
+```
+
+Added in v3.0.0
+
+# constructors
 
 ## getJoinMonoid
 
@@ -170,109 +184,59 @@ assert.deepStrictEqual(pipe(1, M1.concat(2)), 1)
 
 Added in v3.0.0
 
-## getStructMonoid
-
-Given a struct of monoids returns a monoid for the struct.
+## getUnitMonoid
 
 **Signature**
 
 ```ts
-export declare const getStructMonoid: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<A>
+export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
+```
+
+Added in v2.10.0
+
+# instances
+
+## getEndomorphismMonoid
+
+Endomorphism form a monoid where the `empty` value is the identity function.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v3.0.0
+
+## getFunctionMonoid
+
+Unary functions form a monoid as long as you can provide a monoid for the codomain.
+
+**Signature**
+
+```ts
+export declare const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
 ```
 
 **Example**
 
 ```ts
+import { Predicate, pipe } from 'fp-ts/function'
 import * as M from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
+import * as B from 'fp-ts/boolean'
 
-interface Point {
-  readonly x: number
-  readonly y: number
-}
+const f: Predicate<number> = (n) => n <= 2
+const g: Predicate<number> = (n) => n >= 0
 
-const monoidPoint = M.getStructMonoid<Point>({
-  x: M.monoidSum,
-  y: M.monoidSum,
-})
+const M1 = M.getFunctionMonoid(B.MonoidAll)<number>()
 
-assert.deepStrictEqual(pipe({ x: 1, y: 2 }, monoidPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
-```
+assert.deepStrictEqual(pipe(f, M1.concat(g))(1), true)
+assert.deepStrictEqual(pipe(f, M1.concat(g))(3), false)
 
-Added in v3.0.0
+const M2 = M.getFunctionMonoid(B.MonoidAny)<number>()
 
-## getTupleMonoid
-
-Given a tuple of monoids returns a monoid for the tuple
-
-**Signature**
-
-```ts
-export declare const getTupleMonoid: <A extends readonly unknown[]>(
-  ...monoids: { [K in keyof A]: Monoid<A[K]> }
-) => Monoid<A>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
-assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
-
-const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, M.monoidAll)
-assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
-```
-
-Added in v3.0.0
-
-## monoidAll
-
-`boolean` monoid under conjunction.
-
-The `empty` value is `true`.
-
-**Signature**
-
-```ts
-export declare const monoidAll: Monoid<boolean>
-```
-
-**Example**
-
-```ts
-import { monoidAll } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(true, monoidAll.concat(true)), true)
-assert.deepStrictEqual(pipe(true, monoidAll.concat(false)), false)
-```
-
-Added in v3.0.0
-
-## monoidAny
-
-`boolean` monoid under disjunction.
-
-The `empty` value is `false`.
-
-**Signature**
-
-```ts
-export declare const monoidAny: Monoid<boolean>
-```
-
-**Example**
-
-```ts
-import { monoidAny } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(true, monoidAny.concat(true)), true)
-assert.deepStrictEqual(pipe(true, monoidAny.concat(false)), true)
-assert.deepStrictEqual(pipe(false, monoidAny.concat(false)), false)
+assert.deepStrictEqual(pipe(f, M2.concat(g))(1), true)
+assert.deepStrictEqual(pipe(f, M2.concat(g))(3), true)
 ```
 
 Added in v3.0.0
@@ -342,16 +306,6 @@ import { monoidSum } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(2, monoidSum.concat(3)), 5)
-```
-
-Added in v3.0.0
-
-## monoidVoid
-
-**Signature**
-
-```ts
-export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v3.0.0

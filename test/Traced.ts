@@ -1,7 +1,8 @@
 import { pipe } from '../src/function'
-import { getStructMonoid, Monoid, monoidAny } from '../src/Monoid'
+import { getStructMonoid, Monoid } from '../src/Monoid'
 import * as _ from '../src/Traced'
 import { deepStrictEqual } from './util'
+import * as B from '../src/boolean'
 
 // Adapted from https://chshersh.github.io/posts/2019-03-25-comonadic-builders
 
@@ -12,9 +13,9 @@ interface Settings {
 }
 
 const M: Monoid<Settings> = getStructMonoid({
-  settingsHasLibrary: monoidAny,
-  settingsGitHub: monoidAny,
-  settingsTravis: monoidAny
+  settingsHasLibrary: B.MonoidAny,
+  settingsGitHub: B.MonoidAny,
+  settingsTravis: B.MonoidAny
 })
 
 const C = _.getComonad(M)

@@ -23,7 +23,7 @@ Added in v3.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [getDualOrd](#getdualord)
+  - [getDual](#getdual)
   - [getTupleOrd](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
@@ -31,8 +31,7 @@ Added in v3.0.0
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
-  - [ordBigint](#ordbigint)
-  - [ordBoolean](#ordboolean)
+  - [getSemigroup](#getsemigroup)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
   - [ordString](#ordstring)
@@ -92,22 +91,22 @@ Added in v3.0.0
 
 # combinators
 
-## getDualOrd
+## getDual
 
 **Signature**
 
 ```ts
-export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
+export declare const getDual: <A>(O: Ord<A>) => Ord<A>
 ```
 
 **Example**
 
 ```ts
-import { ordNumber, getDualOrd } from 'fp-ts/Ord'
+import { ordNumber, getDual } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
-assert.deepStrictEqual(pipe(5, getDualOrd(ordNumber).compare(6)), 1)
+assert.deepStrictEqual(pipe(5, getDual(ordNumber).compare(6)), 1)
 ```
 
 Added in v3.0.0
@@ -127,8 +126,9 @@ export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K i
 ```ts
 import * as O from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
+import * as B from 'fp-ts/boolean'
 
-const O1 = O.getTupleOrd(O.ordString, O.ordNumber, O.ordBoolean)
+const O1 = O.getTupleOrd(O.ordString, O.ordNumber, B.Ord)
 assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
@@ -174,7 +174,7 @@ Added in v3.0.0
 
 Returns a `Monoid` such that:
 
-- its `concat(ord1, ord2)` operation will order first by `ord1`, and then by `ord2`
+- `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
 - its `empty` value is an `Ord` that always considers compared elements equal
 
 **Signature**
@@ -187,9 +187,10 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
-import { contramap, getDualOrd, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+import { contramap, getDual, getMonoid, ordNumber, ordString } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
+import * as B from 'fp-ts/boolean'
 
 interface User {
   id: number
@@ -209,7 +210,7 @@ const byAge = pipe(
 )
 
 const byRememberMe = pipe(
-  ordBoolean,
+  B.Ord,
   contramap((p: User) => p.rememberMe)
 )
 
@@ -232,7 +233,7 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
+const O2 = fold(M)([getDual(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
@@ -243,33 +244,16 @@ assert.deepStrictEqual(sort(O2)(users), [
 
 Added in v3.0.0
 
-## ordBigint
+## getSemigroup
+
+Returns a `Semigroup` such that:
+
+- `pipe(ord1, concat(ord2))` will order first by `ord1`, and then by `ord2`
 
 **Signature**
 
 ```ts
-export declare const ordBigint: Ord<bigint>
-```
-
-Added in v3.0.0
-
-## ordBoolean
-
-A `boolean` order where `false` < `true`.
-
-**Signature**
-
-```ts
-export declare const ordBoolean: Ord<boolean>
-```
-
-**Example**
-
-```ts
-import { ordBoolean } from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(false, ordBoolean.compare(true)), -1)
+export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
 ```
 
 Added in v3.0.0

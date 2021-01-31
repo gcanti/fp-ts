@@ -4,12 +4,13 @@ import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import * as _ from '../src/Semigroup'
 import { deepStrictEqual } from './util'
+import * as B from '../src/boolean'
 
 describe('Semigroup', () => {
   it('getTupleSemigroup', () => {
     const S1 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum)
     deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
-    const S2 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum, _.semigroupAll)
+    const S2 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum, B.SemigroupAll)
     deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
   })
 

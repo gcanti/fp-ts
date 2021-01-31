@@ -22,10 +22,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDualBooleanAlgebra](#getdualbooleanalgebra)
+  - [getDual](#getdual)
 - [instances](#instances)
-  - [booleanAlgebraBoolean](#booleanalgebraboolean)
-  - [booleanAlgebraVoid](#booleanalgebravoid)
   - [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
@@ -34,39 +32,19 @@ Added in v3.0.0
 
 # combinators
 
-## getDualBooleanAlgebra
+## getDual
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
 **Signature**
 
 ```ts
-export declare const getDualBooleanAlgebra: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
+export declare const getDual: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v3.0.0
 
 # instances
-
-## booleanAlgebraBoolean
-
-**Signature**
-
-```ts
-export declare const booleanAlgebraBoolean: BooleanAlgebra<boolean>
-```
-
-Added in v3.0.0
-
-## booleanAlgebraVoid
-
-**Signature**
-
-```ts
-export declare const booleanAlgebraVoid: BooleanAlgebra<void>
-```
-
-Added in v3.0.0
 
 ## getFunctionBooleanAlgebra
 

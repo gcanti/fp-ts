@@ -138,11 +138,12 @@ export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[
  * @example
  * import * as S from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
  *
  * const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
  * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
  *
- * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
+ * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
@@ -215,16 +216,17 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
  * @example
  * import { Predicate, pipe } from 'fp-ts/function'
  * import * as S from 'fp-ts/Semigroup'
+ * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
  * const g: Predicate<number> = (n) => n >= 0
  *
- * const S1 = S.getFunctionSemigroup(S.semigroupAll)<number>()
+ * const S1 = S.getFunctionSemigroup(B.SemigroupAll)<number>()
  *
  * assert.deepStrictEqual(pipe(f, S1.concat(g))(1), true)
  * assert.deepStrictEqual(pipe(f, S1.concat(g))(3), false)
  *
- * const S2 = S.getFunctionSemigroup(S.semigroupAny)<number>()
+ * const S2 = S.getFunctionSemigroup(B.SemigroupAny)<number>()
  *
  * assert.deepStrictEqual(pipe(f, S2.concat(g))(1), true)
  * assert.deepStrictEqual(pipe(f, S2.concat(g))(3), true)
@@ -257,41 +259,6 @@ export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semig
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
   concat: (second) => (first) => Object.assign({}, first, second)
 })
-
-/**
- * `boolean` semigroup under conjunction.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(true, S.semigroupAll.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, S.semigroupAll.concat(false)), false)
- *
- * @category instances
- * @since 3.0.0
- */
-export const semigroupAll: Semigroup<boolean> = {
-  concat: (second) => (first) => first && second
-}
-
-/**
- * `boolean` semigroup under disjunction.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(true, S.semigroupAny.concat(true)), true)
- * assert.deepStrictEqual(pipe(true, S.semigroupAny.concat(false)), true)
- * assert.deepStrictEqual(pipe(false, S.semigroupAny.concat(false)), false)
- *
- * @category instances
- * @since 3.0.0
- */
-export const semigroupAny: Semigroup<boolean> = {
-  concat: (second) => (first) => first || second
-}
 
 /**
  * `number` semigroup under addition.

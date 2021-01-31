@@ -41,14 +41,6 @@ export const showNumber: Show<number> = {
  * @category instances
  * @since 3.0.0
  */
-export const showBoolean: Show<boolean> = {
-  show: (a) => JSON.stringify(a)
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const getStructShow = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
   show: (a) => {
     let s = '{'

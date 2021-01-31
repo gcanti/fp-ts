@@ -62,9 +62,10 @@ export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
  * @example
- * import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
+ * import { getTupleEq, eqString, eqNumber } from 'fp-ts/Eq'
+ * import * as B from 'fp-ts/boolean'
  *
- * const E = getTupleEq(eqString, eqNumber, eqBoolean)
+ * const E = getTupleEq(eqString, eqNumber, B.Eq)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
  * assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -122,12 +123,6 @@ export const eqString: Eq<string> = eqStrict
  * @since 3.0.0
  */
 export const eqNumber: Eq<number> = eqStrict
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
  * @category instances

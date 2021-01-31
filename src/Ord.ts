@@ -60,8 +60,9 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
  * @example
  * import * as O from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
  *
- * const O1 = O.getTupleOrd(O.ordString, O.ordNumber, O.ordBoolean)
+ * const O1 = O.getTupleOrd(O.ordString, O.ordNumber, B.Ord)
  * assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
  * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
  * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
@@ -178,23 +179,6 @@ export const ordNumber: Ord<number> = {
 }
 
 /**
- * A `boolean` order where `false` < `true`.
- *
- * @example
- * import { ordBoolean } from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(false, ordBoolean.compare(true)), -1)
- *
- * @category instances
- * @since 3.0.0
- */
-export const ordBoolean: Ord<boolean> = {
-  equals: eqStrict.equals,
-  compare
-}
-
-/**
  * @example
  * import { ordDate } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
@@ -233,9 +217,10 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { contramap, getDual, getMonoid, ordBoolean, ordNumber, ordString } from 'fp-ts/Ord'
+ * import { contramap, getDual, getMonoid, ordNumber, ordString } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
+ * import * as B from 'fp-ts/boolean'
  *
  * interface User {
  *   id: number
@@ -255,7 +240,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * )
  *
  * const byRememberMe = pipe(
- *   ordBoolean,
+ *   B.Ord,
  *   contramap((p: User) => p.rememberMe)
  * )
  *

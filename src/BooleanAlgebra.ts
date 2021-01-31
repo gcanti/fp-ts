@@ -22,19 +22,6 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
  * @category instances
  * @since 3.0.0
  */
-export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
-  meet: (second) => (first) => first && second,
-  join: (second) => (first) => first || second,
-  zero: false,
-  one: true,
-  implies: (second) => (first) => !first || second,
-  not: (x) => !x
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const getFunctionBooleanAlgebra = <BA>(BA: BooleanAlgebra<BA>) => <A = never>(): BooleanAlgebra<
   (a: A) => BA
 > => ({
