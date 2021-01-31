@@ -3,14 +3,14 @@ import { Either, left, right } from '../src/Either'
 import { Eq, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as _ from '../src/Map'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
+import { getFirstSemigroup, getLastSemigroup, getStructSemigroup } from '../src/Semigroup'
 import { getStructShow, Show } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import * as N from '../src/number'
 
 interface User {
   readonly id: string
@@ -39,7 +39,7 @@ const ordKey = Ord.fromCompare<Key>((x, y) => N.Ord.compare(x.id % 3, y.id % 3))
 
 const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
 
-const semigroupValue = getStructSemigroup({ value: semigroupSum })
+const semigroupValue = getStructSemigroup({ value: N.SemigroupSum })
 
 const key1 = { id: 1 }
 const value1 = { value: 1 }
@@ -620,7 +620,7 @@ describe('Map', () => {
       [{ id: 'k2' }, 5],
       [{ id: 'k3' }, 4]
     ])
-    const M1 = _.getMonoid(eqUser, semigroupSum)
+    const M1 = _.getMonoid(eqUser, N.SemigroupSum)
     assert.deepStrictEqual(M1.concat(d1, d2), expected)
     assert.deepStrictEqual(M1.concat(d1, M1.empty), d1)
     assert.deepStrictEqual(M1.concat(M1.empty, d2), d2)

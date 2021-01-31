@@ -43,6 +43,7 @@ import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { SemigroupAll, SemigroupAny } from './boolean'
 import * as S from './string'
+import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -118,7 +119,7 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * Given a struct of semigroups returns a semigroup for the struct.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { SemigroupSum } from 'fp-ts/number'
  *
  * interface Point {
  *   readonly x: number
@@ -126,8 +127,8 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * }
  *
  * const semigroupPoint = S.getStructSemigroup<Point>({
- *   x: S.semigroupSum,
- *   y: S.semigroupSum
+ *   x: SemigroupSum,
+ *   y: SemigroupSum
  * })
  *
  * assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
@@ -151,14 +152,15 @@ export const getStructSemigroup = <O extends ReadonlyRecord<string, any>>(
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
- * import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
+ * import { getTupleSemigroup } from 'fp-ts/Semigroup'
  * import * as S from 'fp-ts/string'
  * import * as B from 'fp-ts/boolean'
+ * import * as N from 'fp-ts/number'
  *
- * const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
+ * const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
  * assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
- * const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
+ * const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
@@ -194,21 +196,6 @@ export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * `number` semigroup under addition.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- *
- * assert.deepStrictEqual(S.semigroupSum.concat(2, 3), 5)
- *
- * @category instances
- * @since 2.0.0
- */
-export const semigroupSum: Semigroup<number> = {
-  concat: (x, y) => x + y
-}
 
 /**
  * `number` semigroup under multiplication.
@@ -298,8 +285,9 @@ export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
  *
  * @example
  * import * as S from 'fp-ts/Semigroup'
+ * import * as N from 'fp-ts/number'
  *
- * const sum = S.fold(S.semigroupSum)(0)
+ * const sum = S.fold(N.SemigroupSum)(0)
  *
  * assert.deepStrictEqual(sum([1, 2, 3]), 6)
  * assert.deepStrictEqual(sum([]), 0)
@@ -361,3 +349,12 @@ export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semi
  * @deprecated
  */
 export const semigroupString: Semigroup<string> = S.Semigroup
+
+/**
+ * Use `number.SemigroupSum` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupSum: Semigroup<number> = N.SemigroupSum

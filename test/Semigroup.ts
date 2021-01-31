@@ -6,9 +6,9 @@ import * as S from '../src/string'
 
 describe('Semigroup', () => {
   it('getTupleSemigroup', () => {
-    const S1 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum)
+    const S1 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum)
     assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const S2 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum, B.SemigroupAll)
+    const S2 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
     assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 

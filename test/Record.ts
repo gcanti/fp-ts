@@ -1,12 +1,12 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import { left, right } from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as _ from '../src/Record'
-import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
+import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 
@@ -242,7 +242,7 @@ describe('ReadonlyRecord', () => {
   it('getMonoid', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
-    const M = _.getMonoid(semigroupSum)
+    const M = _.getMonoid(N.SemigroupSum)
     assert.deepStrictEqual(M.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
     assert.deepStrictEqual(M.concat(d1, M.empty), d1)
     assert.deepStrictEqual(M.concat(M.empty, d2), d2)

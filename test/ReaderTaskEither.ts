@@ -10,11 +10,11 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
-import { semigroupSum } from '../src/Semigroup'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
-import * as S from '../src/string'
+import * as N from '../src/number'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -269,7 +269,7 @@ describe('ReaderTaskEither', () => {
   describe('getSemigroup', () => {
     it('concat', async () => {
       // tslint:disable-next-line: deprecation
-      const S = _.getSemigroup(semigroupSum)
+      const S = _.getSemigroup(N.SemigroupSum)
       assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))({})(), E.left('a'))
       assert.deepStrictEqual(await S.concat(_.left('a'), _.right(2))({})(), E.right(2))
       assert.deepStrictEqual(await S.concat(_.right(1), _.left('b'))({})(), E.right(1))

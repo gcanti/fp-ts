@@ -5,7 +5,6 @@ import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
-import { semigroupSum } from '../src/Semigroup'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 
@@ -485,7 +484,7 @@ describe('Either', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
-      const S = _.getSemigroup(semigroupSum)
+      const S = _.getSemigroup(N.SemigroupSum)
       assert.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
       assert.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.right(2))
       assert.deepStrictEqual(S.concat(_.right(1), _.left('b')), _.right(1))
@@ -496,7 +495,7 @@ describe('Either', () => {
   describe('getApplySemigroup', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
-      const S = _.getApplySemigroup(semigroupSum)
+      const S = _.getApplySemigroup(N.SemigroupSum)
       assert.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
       assert.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.left('a'))
       assert.deepStrictEqual(S.concat(_.right(1), _.left('b')), _.left('b'))

@@ -7,7 +7,7 @@ import * as _ from '../src/IOEither'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
+import * as N from '../src/number'
 import * as S from '../src/string'
 
 describe('IOEither', () => {
@@ -266,7 +266,7 @@ describe('IOEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
-      const S = _.getSemigroup<string, number>(semigroupSum)
+      const S = _.getSemigroup<string, number>(N.SemigroupSum)
       assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
       assert.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
       assert.deepStrictEqual(S.concat(_.rightIO(I.of(1)), _.leftIO(I.of('b')))(), E.right(1))
