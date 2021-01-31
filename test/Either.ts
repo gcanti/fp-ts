@@ -6,7 +6,6 @@ import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 
@@ -518,9 +517,9 @@ describe('Either', () => {
 
   describe('getShow', () => {
     it('show', () => {
-      const S = _.getShow(showString, showString)
-      assert.deepStrictEqual(S.show(_.left('a')), `left("a")`)
-      assert.deepStrictEqual(S.show(_.right('a')), `right("a")`)
+      const Sh = _.getShow(S.Show, S.Show)
+      assert.deepStrictEqual(Sh.show(_.left('a')), `left("a")`)
+      assert.deepStrictEqual(Sh.show(_.right('a')), `right("a")`)
     })
   })
 

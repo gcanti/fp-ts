@@ -7,9 +7,8 @@ import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
-import * as T from '../src/Task'
 import * as S from '../src/string'
+import * as T from '../src/Task'
 
 const p = (n: number) => n > 2
 
@@ -393,10 +392,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    assert.deepStrictEqual(S.show({}), `{}`)
-    assert.deepStrictEqual(S.show({ a: 'a' }), `{ "a": "a" }`)
-    assert.deepStrictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+    const Sh = _.getShow(S.Show)
+    assert.deepStrictEqual(Sh.show({}), `{}`)
+    assert.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
+    assert.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 
   it('singleton', () => {
