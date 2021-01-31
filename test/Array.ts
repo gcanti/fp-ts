@@ -152,7 +152,7 @@ describe('Array', () => {
     })
 
     it('extend', () => {
-      const sum = (as: Array<number>) => M.fold(M.monoidSum)(as)
+      const sum = (as: Array<number>) => M.fold(N.MonoidSum)(as)
       assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
       assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })

@@ -1,12 +1,12 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString, monoidSum } from '../src/Monoid'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
 import { assertPar, assertSeq } from './util'
 import * as S from '../src/string'
+import * as N from '../src/number'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
@@ -49,13 +49,13 @@ describe('TaskThese', () => {
 
   it('getSemigroup', async () => {
     // tslint:disable-next-line: deprecation
-    const S = _.getSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(await S.concat(_.right(1), _.right(2))(), TH.right(3))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), TH.left('ab'))
-    assert.deepStrictEqual(await S.concat(_.right(1), _.both('a', 2))(), TH.both('a', 3))
-    assert.deepStrictEqual(await S.concat(_.left('a'), _.both('b', 2))(), TH.both('ab', 2))
-    assert.deepStrictEqual(await S.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
+    const SSN = _.getSemigroup(S.Semigroup, N.SemigroupSum)
+    assert.deepStrictEqual(await SSN.concat(_.right(1), _.right(2))(), TH.right(3))
+    assert.deepStrictEqual(await SSN.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
+    assert.deepStrictEqual(await SSN.concat(_.left('a'), _.left('b'))(), TH.left('ab'))
+    assert.deepStrictEqual(await SSN.concat(_.right(1), _.both('a', 2))(), TH.both('a', 3))
+    assert.deepStrictEqual(await SSN.concat(_.left('a'), _.both('b', 2))(), TH.both('ab', 2))
+    assert.deepStrictEqual(await SSN.concat(_.both('a', 1), _.both('b', 2))(), TH.both('ab', 3))
   })
 
   describe('getMonad', () => {

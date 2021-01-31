@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as _ from '../src/IO'
-import { monoidSum } from '../src/Monoid'
 import * as N from '../src/number'
 
 describe('IO', () => {
@@ -52,7 +51,7 @@ describe('IO', () => {
 
   it('getMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getMonoid(monoidSum)
+    const M = _.getMonoid(N.MonoidSum)
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.IO<number> => () => log.push(message)
