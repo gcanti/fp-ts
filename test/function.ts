@@ -1,6 +1,8 @@
 import * as assert from 'assert'
 import * as _ from '../src/function'
 import * as B from '../src/boolean'
+import * as RA from '../src/ReadonlyArray'
+import { fold } from '../src/Monoid'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
@@ -136,5 +138,22 @@ describe('function', () => {
     assert.deepStrictEqual(BA.one(-1), true)
     assert.deepStrictEqual(BA.zero(1), false)
     assert.deepStrictEqual(BA.zero(-1), false)
+  })
+
+  it('getMonoid', () => {
+    const getPredicateMonoidAll = _.getMonoid(B.MonoidAll)
+    const getPredicateMonoidAny = _.getMonoid(B.MonoidAny)
+
+    const isLessThan10 = (n: number) => n <= 10
+    const isEven = (n: number) => n % 2 === 0
+
+    assert.deepStrictEqual(
+      _.pipe([1, 2, 3, 40], RA.filter(fold(getPredicateMonoidAll<number>())([isLessThan10, isEven]))),
+      [2]
+    )
+    assert.deepStrictEqual(
+      _.pipe([1, 2, 3, 40, 41], RA.filter(fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
+      [1, 2, 3, 40]
+    )
   })
 })

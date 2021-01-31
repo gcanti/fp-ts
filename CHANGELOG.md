@@ -188,6 +188,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Monoid`
     - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
     - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
+    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -260,7 +261,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Semigroup`
     - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
     - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
-    - deprecate `getFunctionSemigroup, use`function.getSemigroup` instead (@gcanti)
+    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
   - `State`
