@@ -329,14 +329,6 @@ export const semigroupString: Semigroup<string> = {
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const semigroupVoid: Semigroup<void> = {
-  concat: () => () => undefined
-}
-
-/**
  * You can glue items between and stay associative.
  *
  * @example

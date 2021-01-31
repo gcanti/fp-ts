@@ -35,19 +35,6 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
  * @category instances
  * @since 3.0.0
  */
-export const booleanAlgebraVoid: BooleanAlgebra<void> = {
-  meet: () => () => undefined,
-  join: () => () => undefined,
-  zero: undefined,
-  one: undefined,
-  implies: () => () => undefined,
-  not: () => undefined
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const getFunctionBooleanAlgebra = <BA>(BA: BooleanAlgebra<BA>) => <A = never>(): BooleanAlgebra<
   (a: A) => BA
 > => ({

@@ -56,11 +56,6 @@ describe('Semigroup', () => {
     deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
-  it('semigroupVoid', () => {
-    const S = _.semigroupVoid
-    deepStrictEqual(pipe(undefined, S.concat(undefined)), undefined)
-  })
-
   it('getDualSemigroup', () => {
     const S = _.getDualSemigroup(_.semigroupString)
     deepStrictEqual(pipe('a', S.concat('b')), 'ba')

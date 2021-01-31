@@ -126,15 +126,6 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
- * @category instances
- * @since 3.0.0
- */
-export const monoidVoid: Monoid<void> = {
-  concat: S.semigroupVoid.concat,
-  empty: undefined
-}
-
-/**
  * Given a sequence of `as`, concat them and return the total.
  *
  * If `as` is empty, return the monoid `empty` value.
