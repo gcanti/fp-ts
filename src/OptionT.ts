@@ -77,23 +77,6 @@ export function fromNullableK<F>(
 /**
  * @since 3.0.0
  */
-export function chainNullableK<M extends URIS>(
-  M: Monad1<M>
-): <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Option<A>>) => Kind<M, Option<NonNullable<B>>>
-export function chainNullableK<M>(
-  M: Monad<M>
-): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
-export function chainNullableK<M>(
-  M: Monad<M>
-): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>> {
-  const chainM = chain(M)
-  const fromNullableKM = fromNullableK(M)
-  return (f) => chainM(fromNullableKM(f))
-}
-
-/**
- * @since 3.0.0
- */
 export function fromOptionK<F extends URIS>(
   F: Pointed1<F>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Kind<F, Option<B>>
@@ -167,6 +150,44 @@ export function getOrElse<M extends URIS>(
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A> {
   return (onNone) => M.chain(O.fold(onNone, M.of))
+}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Option<A>>) => Kind<M, Option<NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>> {
+  const chainM = chain(M)
+  const fromNullableKM = fromNullableK(M)
+  return (f) => chainM(fromNullableKM(f))
+}
+
+/**
+ * @since 3.0.0
+ */
+export function chainOptionK<M extends URIS>(
+  M: Monad1<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: Kind<M, Option<A>>) => Kind<M, Option<B>>
+export function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>>
+export function chainOptionK<M>(
+  M: Monad<M>
+): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>> {
+  const chainM = chain(M)
+  const fromOptionKM = fromOptionK(M)
+  return (f) => chainM(fromOptionKM(f))
 }
 
 // -------------------------------------------------------------------------------------

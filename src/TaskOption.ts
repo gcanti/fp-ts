@@ -186,12 +186,20 @@ export const chainNullableK =
   OT.chainNullableK(T.Monad)
 
 /**
- * @category combinators
+ * @category constructors
  * @since 3.0.0
  */
 export const fromOptionK =
   /*#__PURE__*/
   OT.fromOptionK(T.Monad)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  OT.chainOptionK(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // type class members

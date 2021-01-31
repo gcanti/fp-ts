@@ -157,6 +157,13 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await g('')(), O.none)
   })
 
+  it('chainOptionK', async () => {
+    const f = _.chainOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.deepStrictEqual(await f(_.some(1))(), O.some(1))
+    U.deepStrictEqual(await f(_.some(-1))(), O.none)
+    U.deepStrictEqual(await f(_.none)(), O.none)
+  })
+
   describe('array utils', () => {
     const range = RA.range(0, 10)
 
