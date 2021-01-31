@@ -5,6 +5,7 @@
  */
 import { Ring } from './Ring'
 import { Eq } from './Eq'
+import * as N from './number'
 
 /**
  * @category type classes
@@ -14,21 +15,6 @@ export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
   readonly div: (x: A, y: A) => A
   readonly mod: (x: A, y: A) => A
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const fieldNumber: Field<number> = {
-  add: (x, y) => x + y,
-  zero: 0,
-  mul: (x, y) => x * y,
-  one: 1,
-  sub: (x, y) => x - y,
-  degree: (_) => 1,
-  div: (x, y) => x / y,
-  mod: (x, y) => x % y
 }
 
 /**
@@ -52,3 +38,14 @@ export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
   const gcdSF = gcd(E, F)
   return (x, y) => (E.equals(x, zero) || E.equals(y, zero) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const fieldNumber: Field<number> = N.Field
