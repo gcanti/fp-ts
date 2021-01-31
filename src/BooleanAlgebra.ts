@@ -12,6 +12,7 @@
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
 import * as B from './boolean'
+import { getBooleanAlgebra } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -59,21 +60,6 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
   not: () => undefined
 }
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>() => BooleanAlgebra<(a: A) => B> {
-  return () => ({
-    meet: (x, y) => (a) => B.meet(x(a), y(a)),
-    join: (x, y) => (a) => B.join(x(a), y(a)),
-    zero: () => B.zero,
-    one: () => B.one,
-    implies: (x, y) => (a) => B.implies(x(a), y(a)),
-    not: (x) => (a) => B.not(x(a))
-  })
-}
-
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
@@ -86,3 +72,14 @@ export function getFunctionBooleanAlgebra<B>(B: BooleanAlgebra<B>): <A = never>(
  * @deprecated
  */
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = B.BooleanAlgebra
+
+/**
+ * Use `function.getBooleanAlgebra` instead
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFunctionBooleanAlgebra: <B>(
+  B: BooleanAlgebra<B>
+) => <A = never>() => BooleanAlgebra<(a: A) => B> = getBooleanAlgebra
