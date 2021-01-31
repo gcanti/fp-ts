@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 import { BooleanAlgebra } from './BooleanAlgebra'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -18,6 +19,33 @@ export const getBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): Boo
   one: () => B.one,
   implies: (x, y) => (a) => B.implies(x(a), y(a)),
   not: (x) => (a) => B.not(x(a))
+})
+
+/**
+ * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
+ *
+ * @example
+ * import { Predicate, getSemigroup } from 'fp-ts/function'
+ * import * as B from 'fp-ts/boolean'
+ *
+ * const f: Predicate<number> = (n) => n <= 2
+ * const g: Predicate<number> = (n) => n >= 0
+ *
+ * const S1 = getSemigroup(B.SemigroupAll)<number>()
+ *
+ * assert.deepStrictEqual(S1.concat(f, g)(1), true)
+ * assert.deepStrictEqual(S1.concat(f, g)(3), false)
+ *
+ * const S2 = getSemigroup(B.SemigroupAny)<number>()
+ *
+ * assert.deepStrictEqual(S2.concat(f, g)(1), true)
+ * assert.deepStrictEqual(S2.concat(f, g)(3), true)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
+  concat: (f, g) => (a) => S.concat(f(a), g(a))
 })
 
 // -------------------------------------------------------------------------------------
