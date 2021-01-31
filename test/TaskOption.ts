@@ -90,9 +90,9 @@ describe('TaskOption', () => {
   })
 
   it('fromNullable', async () => {
-    U.deepStrictEqual(await _.fromNullable(T.of(2))(), O.some(2))
-    U.deepStrictEqual(await _.fromNullable(T.of(null))(), O.none)
-    U.deepStrictEqual(await _.fromNullable(T.of(undefined))(), O.none)
+    U.deepStrictEqual(await _.fromNullable(2)(), O.some(2))
+    U.deepStrictEqual(await _.fromNullable(null)(), O.none)
+    U.deepStrictEqual(await _.fromNullable(undefined)(), O.none)
   })
 
   it('fromPredicate', async () => {
