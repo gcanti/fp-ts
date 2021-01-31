@@ -52,13 +52,13 @@ Added in v2.0.0
   - [getMeetMonoid](#getmeetmonoid)
 - [instances](#instances)
   - [monoidProduct](#monoidproduct)
-  - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
   - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
   - [~~monoidAny~~](#monoidany)
+  - [~~monoidString~~](#monoidstring)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -81,9 +81,10 @@ export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
 **Example**
 
 ```ts
-import { getDualMonoid, monoidString } from 'fp-ts/Monoid'
+import { getDualMonoid } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 
-assert.deepStrictEqual(getDualMonoid(monoidString).concat('a', 'b'), 'ba')
+assert.deepStrictEqual(getDualMonoid(S.Monoid).concat('a', 'b'), 'ba')
 ```
 
 Added in v2.0.0
@@ -135,12 +136,13 @@ export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
 **Example**
 
 ```ts
-import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/Monoid'
+import { getTupleMonoid, monoidSum, monoidAll } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 
-const M1 = getTupleMonoid(monoidString, monoidSum)
+const M1 = getTupleMonoid(S.Monoid, monoidSum)
 assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
-const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+const M2 = getTupleMonoid(S.Monoid, monoidSum, monoidAll)
 assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
@@ -218,28 +220,6 @@ export declare const monoidProduct: Monoid<number>
 import * as M from 'fp-ts/Monoid'
 
 assert.deepStrictEqual(M.monoidProduct.concat(2, 3), 6)
-```
-
-Added in v2.0.0
-
-## monoidString
-
-`string` monoid under concatenation.
-
-The `empty` value is `''`.
-
-**Signature**
-
-```ts
-export declare const monoidString: Monoid<string>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-
-assert.deepStrictEqual(M.monoidString.concat('a', 'b'), 'ab')
 ```
 
 Added in v2.0.0
@@ -322,6 +302,18 @@ Use `boolean.MonoidAny` instead.
 
 ```ts
 export declare const monoidAny: Monoid<boolean>
+```
+
+Added in v2.0.0
+
+## ~~monoidString~~
+
+Use `string.Monoid` instead.
+
+**Signature**
+
+```ts
+export declare const monoidString: Monoid<string>
 ```
 
 Added in v2.0.0

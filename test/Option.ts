@@ -4,7 +4,6 @@ import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as _ from '../src/Option'
-import { ordString } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -265,16 +264,16 @@ describe('Option', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(ordString)
-    assert.deepStrictEqual(S.equals(_.none, _.none), true)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.none), false)
-    assert.deepStrictEqual(S.equals(_.none, _.some('a')), false)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.some('a')), true)
-    assert.deepStrictEqual(S.equals(_.some('a'), _.some('b')), false)
+    const E = _.getEq(S.Ord)
+    assert.deepStrictEqual(E.equals(_.none, _.none), true)
+    assert.deepStrictEqual(E.equals(_.some('a'), _.none), false)
+    assert.deepStrictEqual(E.equals(_.none, _.some('a')), false)
+    assert.deepStrictEqual(E.equals(_.some('a'), _.some('a')), true)
+    assert.deepStrictEqual(E.equals(_.some('a'), _.some('b')), false)
   })
 
   it('getOrd', () => {
-    const OS = _.getOrd(ordString)
+    const OS = _.getOrd(S.Ord)
     assert.deepStrictEqual(OS.compare(_.none, _.none), 0)
     assert.deepStrictEqual(OS.compare(_.some('a'), _.none), 1)
     assert.deepStrictEqual(OS.compare(_.none, _.some('a')), -1)

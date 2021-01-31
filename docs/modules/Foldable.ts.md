@@ -197,11 +197,11 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 
 ```ts
 import { intercalate } from 'fp-ts/Foldable'
-import { monoidString } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 import { make, tree } from 'fp-ts/Tree'
 
 const t = make('a', [make('b', []), make('c', []), make('d', [])])
-assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
+assert.strictEqual(intercalate(S.Monoid, tree)('|', t), 'a|b|c|d')
 ```
 
 Added in v2.0.0
@@ -569,11 +569,11 @@ export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable
 import { getFoldableComposition } from 'fp-ts/Foldable'
 import { array } from 'fp-ts/Array'
 import { option, some, none } from 'fp-ts/Option'
-import { monoidString } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 
 const F = getFoldableComposition(array, option)
-assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
-assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.concat), 'ac')
+assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', S.Semigroup.concat), 'abc')
+assert.strictEqual(F.reduce([some('a'), none, some('c')], '', S.Semigroup.concat), 'ac')
 ```
 
 Added in v2.0.0

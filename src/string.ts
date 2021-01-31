@@ -4,6 +4,7 @@
 import * as E from './Eq'
 import * as M from './Monoid'
 import * as S from './Semigroup'
+import * as O from './Ord'
 
 /**
  * @category instances
@@ -42,4 +43,13 @@ export const Semigroup: S.Semigroup<string> = {
 export const Monoid: M.Monoid<string> = {
   concat: Semigroup.concat,
   empty: ''
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Ord: O.Ord<string> = {
+  equals: Eq.equals,
+  compare: (x, y) => (x < y ? -1 : x > y ? 1 : 0)
 }
