@@ -3,10 +3,10 @@ import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
-import { semigroupString } from '../src/Semigroup'
 import { showString } from '../src/Show'
 import * as _ from '../src/These'
 import * as Apply from '../src/Apply'
+import * as S from '../src/string'
 
 describe('These', () => {
   describe('pipeables', () => {
@@ -95,7 +95,7 @@ describe('These', () => {
   })
 
   it('ap', () => {
-    const M = _.getMonad(semigroupString)
+    const M = _.getMonad(S.Semigroup)
     const sequenceT = Apply.sequenceT(M)
     assert.deepStrictEqual(sequenceT(_.right(1), _.right(2)), _.right([1, 2]))
     assert.deepStrictEqual(sequenceT(_.right(1), _.left('b')), _.left('b'))

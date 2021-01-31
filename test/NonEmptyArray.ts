@@ -5,8 +5,9 @@ import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
 import * as O from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import * as S from '../src/string'
 
 describe('NonEmptyArray', () => {
   describe('pipeables', () => {
@@ -355,7 +356,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('fold', () => {
-    const f = _.fold(semigroupString)
+    const f = _.fold(S.Semigroup)
     assert.deepStrictEqual(f(['a']), 'a')
     assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })

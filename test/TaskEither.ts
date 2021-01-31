@@ -8,10 +8,11 @@ import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
+import * as S from '../src/string'
 
 describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
@@ -105,24 +106,24 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicativeTaskValidation', async () => {
-    const A = _.getApplicativeTaskValidation(T.ApplicativePar, semigroupString)
+    const A = _.getApplicativeTaskValidation(T.ApplicativePar, S.Semigroup)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getTaskValidation(semigroupString)
+    const AV = _.getTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltTaskValidation', async () => {
-    const A = _.getAltTaskValidation(semigroupString)
+    const A = _.getAltTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getTaskValidation(semigroupString)
+    const AV = _.getTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getTaskValidation', () => {
     // tslint:disable-next-line: deprecation
-    const TV = _.getTaskValidation(semigroupString)
+    const TV = _.getTaskValidation(S.Semigroup)
 
     it('ap', async () => {
       const fab = _.left('a')

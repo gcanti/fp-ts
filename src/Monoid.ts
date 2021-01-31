@@ -228,6 +228,7 @@ export const monoidProduct: Monoid<number> = {
  * @since 2.0.0
  */
 export const monoidString: Monoid<string> = {
+  // tslint:disable-next-line: deprecation
   concat: S.semigroupString.concat,
   empty: ''
 }

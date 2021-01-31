@@ -42,6 +42,7 @@ import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { SemigroupAll, SemigroupAny } from './boolean'
+import * as S from './string'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -101,9 +102,10 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getDualSemigroup } from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/string'
  *
- * assert.deepStrictEqual(S.getDualSemigroup(S.semigroupString).concat('a', 'b'), 'ba')
+ * assert.deepStrictEqual(getDualSemigroup(S.Semigroup).concat('a', 'b'), 'ba')
  *
  * @category combinators
  * @since 2.0.0
@@ -149,12 +151,14 @@ export const getStructSemigroup = <O extends ReadonlyRecord<string, any>>(
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/string'
+ * import * as B from 'fp-ts/boolean'
  *
- * const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+ * const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
  * assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
- * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
+ * const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
@@ -170,9 +174,10 @@ export const getTupleSemigroup = <T extends ReadonlyArray<Semigroup<any>>>(
  * You can glue items between and stay associative.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/string'
  *
- * const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+ * const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
  *
  * assert.strictEqual(S1.concat('a', 'b'), 'a b')
  * assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
@@ -218,21 +223,6 @@ export const semigroupSum: Semigroup<number> = {
  */
 export const semigroupProduct: Semigroup<number> = {
   concat: (x, y) => x * y
-}
-
-/**
- * `string` semigroup under concatenation.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- *
- * assert.deepStrictEqual(S.semigroupString.concat('a', 'b'), 'ab')
- *
- * @category instances
- * @since 2.0.0
- */
-export const semigroupString: Semigroup<string> = {
-  concat: (x, y) => x + y
 }
 
 /**
@@ -362,3 +352,12 @@ export const semigroupAny: Semigroup<boolean> = SemigroupAny
  * @deprecated
  */
 export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S> = getSemigroup
+
+/**
+ * Use `string.Semigroup` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupString: Semigroup<string> = S.Semigroup

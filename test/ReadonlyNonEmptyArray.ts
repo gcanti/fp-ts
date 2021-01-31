@@ -5,8 +5,9 @@ import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
-import * as S from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import * as S from '../src/string'
 
 describe('ReadonlyNonEmptyArray', () => {
   describe('pipeables', () => {
@@ -336,13 +337,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const f = _.foldMap(S.semigroupSum)((s: string) => s.length)
+    const f = _.foldMap(semigroupSum)((s: string) => s.length)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 3)
   })
 
   it('foldMapWithIndex', () => {
-    const f = _.foldMapWithIndex(S.semigroupSum)((i: number, s: string) => s.length + i)
+    const f = _.foldMapWithIndex(semigroupSum)((i: number, s: string) => s.length + i)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 4)
   })
@@ -364,7 +365,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('fold', () => {
-    const f = _.fold(S.semigroupString)
+    const f = _.fold(S.Semigroup)
     assert.deepStrictEqual(f(['a']), 'a')
     assert.deepStrictEqual(f(['a', 'bb']), 'abb')
   })
