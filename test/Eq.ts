@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as _ from '../src/Eq'
 import { fold } from '../src/Monoid'
 import { pipe } from '../src/function'
+import * as B from '../src/boolean'
 
 describe('Eq', () => {
   describe('pipeables', () => {
@@ -18,7 +19,7 @@ describe('Eq', () => {
   })
 
   it('getTupleEq', () => {
-    const S = _.getTupleEq(_.eqString, _.eqNumber, _.eqBoolean)
+    const S = _.getTupleEq(_.eqString, _.eqNumber, B.Eq)
     assert.deepStrictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
     assert.deepStrictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
     assert.deepStrictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
@@ -73,7 +74,7 @@ describe('Eq', () => {
     const M = _.getMonoid<T>()
     const eqFst: _.Eq<T> = _.contramap((x: T) => x[0])(_.eqString)
     const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(_.eqNumber)
-    const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(_.eqBoolean)
+    const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
     const eq = fold(M)([eqFst, eqSnd, eq3rd])
     assert.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, true]), true)
     assert.deepStrictEqual(eq.equals(['a', 1, true], ['b', 1, true]), false)

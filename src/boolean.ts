@@ -2,6 +2,7 @@
  * @since 2.2.0
  */
 import * as BA from './BooleanAlgebra'
+import * as E from './Eq'
 import { Lazy } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -43,6 +44,12 @@ export const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) =>
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Eq: E.Eq<boolean> = E.eqStrict
 
 /**
  * @category instances
