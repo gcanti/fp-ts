@@ -241,18 +241,6 @@ export const monoidVoid: Monoid<void> = {
   empty: undefined
 }
 
-// TODO: swap execution order in v3
-/**
- * Endomorphism form a monoid where the `empty` value is the identity function.
- *
- * @category instances
- * @since 2.0.0
- */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: (x, y) => (a) => x(y(a)),
-  empty: identity
-})
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -304,3 +292,17 @@ export const monoidAny: Monoid<boolean> = MonoidAny
  * @deprecated
  */
 export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getMonoid
+
+/**
+ * Use `function.getEndomorphismMonoid` instead.
+ *
+ * **Note**. The execution order in `function.getEndomorphismMonoid` is reversed.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+  concat: (x, y) => (a) => x(y(a)),
+  empty: identity
+})

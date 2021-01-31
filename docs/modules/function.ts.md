@@ -12,6 +12,13 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [instances](#instances)
+  - [getBooleanAlgebra](#getbooleanalgebra)
+  - [getEndomorphismMonoid](#getendomorphismmonoid)
+  - [getMonoid](#getmonoid)
+  - [getRing](#getring)
+  - [getSemigroup](#getsemigroup)
+  - [getSemiring](#getsemiring)
 - [utils](#utils)
   - [Endomorphism (interface)](#endomorphism-interface)
   - [FunctionN (interface)](#functionn-interface)
@@ -39,6 +46,114 @@ Added in v2.0.0
   - [untupled](#untupled)
 
 ---
+
+# instances
+
+## getBooleanAlgebra
+
+**Signature**
+
+```ts
+export declare const getBooleanAlgebra: <B>(B: BooleanAlgebra<B>) => <A = never>() => BooleanAlgebra<(a: A) => B>
+```
+
+Added in v2.10.0
+
+## getEndomorphismMonoid
+
+Endomorphism form a monoid where the `empty` value is the identity function.
+
+**Signature**
+
+```ts
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
+```
+
+Added in v2.10.0
+
+## getMonoid
+
+Unary functions form a monoid as long as you can provide a monoid for the codomain.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M>
+```
+
+**Example**
+
+```ts
+import { Predicate, getMonoid } from 'fp-ts/function'
+import * as B from 'fp-ts/boolean'
+
+const f: Predicate<number> = (n) => n <= 2
+const g: Predicate<number> = (n) => n >= 0
+
+const M1 = getMonoid(B.MonoidAll)<number>()
+
+assert.deepStrictEqual(M1.concat(f, g)(1), true)
+assert.deepStrictEqual(M1.concat(f, g)(3), false)
+
+const M2 = getMonoid(B.MonoidAny)<number>()
+
+assert.deepStrictEqual(M2.concat(f, g)(1), true)
+assert.deepStrictEqual(M2.concat(f, g)(3), true)
+```
+
+Added in v2.10.0
+
+## getRing
+
+**Signature**
+
+```ts
+export declare const getRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
+```
+
+Added in v2.10.0
+
+## getSemigroup
+
+Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
+```
+
+**Example**
+
+```ts
+import { Predicate, getSemigroup } from 'fp-ts/function'
+import * as B from 'fp-ts/boolean'
+
+const f: Predicate<number> = (n) => n <= 2
+const g: Predicate<number> = (n) => n >= 0
+
+const S1 = getSemigroup(B.SemigroupAll)<number>()
+
+assert.deepStrictEqual(S1.concat(f, g)(1), true)
+assert.deepStrictEqual(S1.concat(f, g)(3), false)
+
+const S2 = getSemigroup(B.SemigroupAny)<number>()
+
+assert.deepStrictEqual(S2.concat(f, g)(1), true)
+assert.deepStrictEqual(S2.concat(f, g)(3), true)
+```
+
+Added in v2.10.0
+
+## getSemiring
+
+**Signature**
+
+```ts
+export declare const getSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
+```
+
+Added in v2.10.0
 
 # utils
 
