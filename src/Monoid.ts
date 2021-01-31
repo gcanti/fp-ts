@@ -36,6 +36,7 @@ import { Bounded } from './Bounded'
 import { Endomorphism, identity } from './function'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as S from './Semigroup'
+import { MonoidAll, MonoidAny } from './boolean'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -178,47 +179,6 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
 // -------------------------------------------------------------------------------------
 
 /**
- * `boolean` monoid under conjunction.
- *
- * The `empty` value is `true`.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- *
- * assert.deepStrictEqual(M.monoidAll.concat(true, true), true)
- * assert.deepStrictEqual(M.monoidAll.concat(true, false), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const monoidAll: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
-  concat: S.semigroupAll.concat,
-  empty: true
-}
-
-/**
- * `boolean` monoid under disjunction.
- *
- * The `empty` value is `false`.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- *
- * assert.deepStrictEqual(M.monoidAny.concat(true, true), true)
- * assert.deepStrictEqual(M.monoidAny.concat(true, false), true)
- * assert.deepStrictEqual(M.monoidAny.concat(false, false), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const monoidAny: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
-  concat: S.semigroupAny.concat,
-  empty: false
-}
-
-/**
  * `number` monoid under addition.
  *
  * The `empty` value is `0`.
@@ -341,3 +301,25 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
 export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
   return S.fold(M)(M.empty)
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `boolean.MonoidAll` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidAll: Monoid<boolean> = MonoidAll
+
+/**
+ * Use `boolean.MonoidAny` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidAny: Monoid<boolean> = MonoidAny

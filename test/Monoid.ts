@@ -8,19 +8,18 @@ import {
   getJoinMonoid,
   getMeetMonoid,
   getTupleMonoid,
-  monoidAll,
-  monoidAny,
   monoidString,
   monoidSum,
   getDualMonoid
 } from '../src/Monoid'
 import { pipe } from '../src/function'
+import * as B from '../src/boolean'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
     const M1 = getTupleMonoid(monoidString, monoidSum)
     assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+    const M2 = getTupleMonoid(monoidString, monoidSum, B.MonoidAll)
     assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
@@ -29,8 +28,8 @@ describe('Monoid', () => {
   })
 
   it('getFunctionMonoid', () => {
-    const getPredicateMonoidAll = getFunctionMonoid(monoidAll)
-    const getPredicateMonoidAny = getFunctionMonoid(monoidAny)
+    const getPredicateMonoidAll = getFunctionMonoid(B.MonoidAll)
+    const getPredicateMonoidAny = getFunctionMonoid(B.MonoidAny)
 
     const isLessThan10 = (n: number) => n <= 10
     const isEven = (n: number) => n % 2 === 0
