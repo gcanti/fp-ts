@@ -33,7 +33,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [getFunctionSemiring](#getfunctionsemiring)
+  - [~~getFunctionSemiring~~](#getfunctionsemiring)
 - [type classes](#type-classes)
   - [Semiring (interface)](#semiring-interface)
 
@@ -41,12 +41,14 @@ Added in v2.0.0
 
 # instances
 
-## getFunctionSemiring
+## ~~getFunctionSemiring~~
+
+Use `function.getSemiring` instead.
 
 **Signature**
 
 ```ts
-export declare function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B>
+export declare const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>
 ```
 
 Added in v2.0.0

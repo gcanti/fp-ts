@@ -21,8 +21,8 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [getFunctionRing](#getfunctionring)
   - [getTupleRing](#gettuplering)
+  - [~~getFunctionRing~~](#getfunctionring)
 - [type classes](#type-classes)
   - [Ring (interface)](#ring-interface)
 - [utils](#utils)
@@ -31,16 +31,6 @@ Added in v2.0.0
 ---
 
 # instances
-
-## getFunctionRing
-
-**Signature**
-
-```ts
-export declare function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B>
-```
-
-Added in v2.0.0
 
 ## getTupleRing
 
@@ -66,6 +56,18 @@ assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
 assert.deepStrictEqual(R.one, [1, 1, 1])
 assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
 assert.deepStrictEqual(R.zero, [0, 0, 0])
+```
+
+Added in v2.0.0
+
+## ~~getFunctionRing~~
+
+Use `function.getRing` instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionRing: <A, B>(R: Ring<B>) => Ring<(a: A) => B>
 ```
 
 Added in v2.0.0

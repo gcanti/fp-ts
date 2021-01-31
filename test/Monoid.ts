@@ -25,6 +25,7 @@ describe('Monoid', () => {
   })
 
   it('getEndomorphismMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = getEndomorphismMonoid<number>()
     const double = (n: number) => n * 2
     const inc = (n: number) => n + 1

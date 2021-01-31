@@ -58,13 +58,13 @@ Added in v2.0.0
   - [getMeetSemigroup](#getmeetsemigroup)
 - [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
-  - [getFunctionSemigroup](#getfunctionsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
   - [semigroupProduct](#semigroupproduct)
   - [semigroupString](#semigroupstring)
   - [semigroupSum](#semigroupsum)
   - [semigroupVoid](#semigroupvoid)
+  - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
 - [type classes](#type-classes)
@@ -247,38 +247,6 @@ assert.deepStrictEqual(S.getFirstSemigroup<number>().concat(1, 2), 1)
 
 Added in v2.0.0
 
-## getFunctionSemigroup
-
-Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
-
-**Signature**
-
-```ts
-export declare function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S>
-```
-
-**Example**
-
-```ts
-import { Predicate } from 'fp-ts/function'
-import * as S from 'fp-ts/Semigroup'
-
-const f: Predicate<number> = (n) => n <= 2
-const g: Predicate<number> = (n) => n >= 0
-
-const S1 = S.getFunctionSemigroup(S.semigroupAll)<number>()
-
-assert.deepStrictEqual(S1.concat(f, g)(1), true)
-assert.deepStrictEqual(S1.concat(f, g)(3), false)
-
-const S2 = S.getFunctionSemigroup(S.semigroupAny)<number>()
-
-assert.deepStrictEqual(S2.concat(f, g)(1), true)
-assert.deepStrictEqual(S2.concat(f, g)(3), true)
-```
-
-Added in v2.0.0
-
 ## getLastSemigroup
 
 Always return the last argument.
@@ -391,6 +359,18 @@ Added in v2.0.0
 
 ```ts
 export declare const semigroupVoid: Semigroup<void>
+```
+
+Added in v2.0.0
+
+## ~~getFunctionSemigroup~~
+
+Use `function.getSemigroup` instead.
+
+**Signature**
+
+```ts
+export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
 ```
 
 Added in v2.0.0
