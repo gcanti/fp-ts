@@ -3,9 +3,9 @@ import * as RA from '../src/ReadonlyArray'
 import * as I from '../src/IO'
 import * as O from '../src/Option'
 import * as T from '../src/Tree'
-import { monoidString } from '../src/Monoid'
 import * as _ from '../src/Foldable'
 import { pipe } from '../src/function'
+import * as S from '../src/string'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -16,36 +16,36 @@ describe('Foldable', () => {
     // tslint:disable-next-line: deprecation
     const F = _.getFoldableComposition(RA.Foldable, O.Foldable)
     // reduce
-    assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
-    assert.deepStrictEqual(F.reduce([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
-    assert.deepStrictEqual(F.reduce([O.none, O.none, O.none], '', monoidString.concat), '')
-    assert.deepStrictEqual(F.reduce([], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduce([O.some('a'), O.some('b'), O.some('c')], '', S.Semigroup.concat), 'abc')
+    assert.deepStrictEqual(F.reduce([O.none, O.some('b'), O.none], '', S.Semigroup.concat), 'b')
+    assert.deepStrictEqual(F.reduce([O.none, O.none, O.none], '', S.Semigroup.concat), '')
+    assert.deepStrictEqual(F.reduce([], '', S.Semigroup.concat), '')
     // foldMap
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.some('a'), O.some('b'), O.some('c')], (a) => a),
+      F.foldMap(S.Monoid)([O.some('a'), O.some('b'), O.some('c')], (a) => a),
       'abc'
     )
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.none, O.some('b'), O.none], (a) => a),
+      F.foldMap(S.Monoid)([O.none, O.some('b'), O.none], (a) => a),
       'b'
     )
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([O.none, O.none, O.none], (a) => a),
+      F.foldMap(S.Monoid)([O.none, O.none, O.none], (a) => a),
       ''
     )
     assert.deepStrictEqual(
-      F.foldMap(monoidString)([], (a: string) => a),
+      F.foldMap(S.Monoid)([], (a: string) => a),
       ''
     )
     // reduceRight
-    assert.deepStrictEqual(F.reduceRight([O.some('a'), O.some('b'), O.some('c')], '', monoidString.concat), 'abc')
-    assert.deepStrictEqual(F.reduceRight([O.none, O.some('b'), O.none], '', monoidString.concat), 'b')
-    assert.deepStrictEqual(F.reduceRight([O.none, O.none, O.none], '', monoidString.concat), '')
-    assert.deepStrictEqual(F.reduceRight([], '', monoidString.concat), '')
+    assert.deepStrictEqual(F.reduceRight([O.some('a'), O.some('b'), O.some('c')], '', S.Semigroup.concat), 'abc')
+    assert.deepStrictEqual(F.reduceRight([O.none, O.some('b'), O.none], '', S.Semigroup.concat), 'b')
+    assert.deepStrictEqual(F.reduceRight([O.none, O.none, O.none], '', S.Semigroup.concat), '')
+    assert.deepStrictEqual(F.reduceRight([], '', S.Semigroup.concat), '')
   })
 
   it('intercalate', () => {
-    assert.deepStrictEqual(_.intercalate(monoidString, RA.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
+    assert.deepStrictEqual(_.intercalate(S.Monoid, RA.Foldable)(',', ['a', 'b', 'c']), 'a,b,c')
   })
 
   it('toReadonlyArray', () => {

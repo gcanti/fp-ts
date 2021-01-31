@@ -154,8 +154,8 @@ describe('ReadonlyArray', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(M.monoidString)(identity)), 'abc')
-      assert.deepStrictEqual(pipe([], _.foldMap(M.monoidString)(identity)), '')
+      assert.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
+      assert.deepStrictEqual(pipe([], _.foldMap(S.Monoid)(identity)), '')
     })
 
     it('compact', () => {
@@ -193,7 +193,7 @@ describe('ReadonlyArray', () => {
       assert.deepStrictEqual(
         pipe(
           ['a', 'b'],
-          _.foldMapWithIndex(M.monoidString)((i, a) => i + a)
+          _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
         ),
         '0a1b'
       )

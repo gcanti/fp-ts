@@ -59,7 +59,7 @@ describe('TaskThese', () => {
   })
 
   describe('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
     it('map', async () => {
       const f = (n: number): number => n * 2
       assert.deepStrictEqual(await M.map(_.right(1), f)(), TH.right(2))

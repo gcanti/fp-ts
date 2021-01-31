@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { pipe, tuple } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as _ from '../src/Writer'
 
 describe('Writer', () => {
@@ -71,7 +71,7 @@ describe('Writer', () => {
   })
 
   describe('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
 
     it('of', () => {
       assert.deepStrictEqual(M.of(1)(), [1, ''])

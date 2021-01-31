@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as RA from '../src/ReadonlyArray'
 import { getFoldableWithIndexComposition } from '../src/FoldableWithIndex'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 
 describe('FoldableWithIndex', () => {
   it('getFoldableWithIndexComposition', () => {
@@ -18,7 +18,7 @@ describe('FoldableWithIndex', () => {
     )
 
     assert.deepStrictEqual(
-      arrayOfArray.foldMapWithIndex(monoidString)(fa, ([i, j], a) => a + i + j),
+      arrayOfArray.foldMapWithIndex(S.Monoid)(fa, ([i, j], a) => a + i + j),
       'a00b01c10d11'
     )
 

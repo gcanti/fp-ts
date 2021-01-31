@@ -4,7 +4,7 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
@@ -446,12 +446,12 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getCompactable', async () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     assert.deepStrictEqual(await C.compact(_.of(O.some('a')))({})(), E.right('a'))
   })
 
   it('getFilterable', async () => {
-    const F = _.getFilterable(monoidString)
+    const F = _.getFilterable(S.Monoid)
     assert.deepStrictEqual(await F.filter(_.of('a'), (s) => s.length > 0)({})(), E.right('a'))
     assert.deepStrictEqual(
       await F.filterMap(_.of('a'), (s) => (s.length > 0 ? O.some(s.length) : O.none))({})(),

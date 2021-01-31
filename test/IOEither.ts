@@ -4,11 +4,11 @@ import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
+import * as S from '../src/string'
 
 describe('IOEither', () => {
   describe('pipeables', () => {
@@ -277,7 +277,7 @@ describe('IOEither', () => {
   describe('getApplyMonoid', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
-      const M = _.getApplyMonoid(monoidString)
+      const M = _.getApplyMonoid(S.Monoid)
       assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
       assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))
       assert.deepStrictEqual(M.concat(_.rightIO(I.of('a')), M.empty)(), E.right('a'))
@@ -340,24 +340,24 @@ describe('IOEither', () => {
   })
 
   it('getApplicativeIOValidation', () => {
-    const A = _.getApplicativeIOValidation(monoidString)
+    const A = _.getApplicativeIOValidation(S.Monoid)
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getIOValidation(monoidString)
+    const AV = _.getIOValidation(S.Monoid)
     assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
 
   it('getAltIOValidation', () => {
-    const A = _.getAltIOValidation(monoidString)
+    const A = _.getAltIOValidation(S.Monoid)
     assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getIOValidation(monoidString)
+    const AV = _.getIOValidation(S.Monoid)
     assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
 
     it('compact', () => {
       assert.deepStrictEqual(C.compact(_.right(O.some(1)))(), E.right(1))

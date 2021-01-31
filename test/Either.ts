@@ -3,7 +3,7 @@ import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
@@ -124,8 +124,8 @@ describe('Either', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
-      assert.deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
+      assert.deepStrictEqual(pipe(_.right('a'), _.foldMap(S.Monoid)(identity)), 'a')
+      assert.deepStrictEqual(pipe(_.left(1), _.foldMap(S.Monoid)(identity)), '')
     })
 
     it('reduce', () => {
@@ -393,12 +393,12 @@ describe('Either', () => {
   })
 
   describe('getWitherable', () => {
-    const W = _.getWitherable(monoidString)
+    const W = _.getWitherable(S.Monoid)
     const p = (n: number) => n > 2
 
     it('compact', () => {
       assert.deepStrictEqual(W.compact(_.left('1')), _.left('1'))
-      assert.deepStrictEqual(W.compact(_.right(O.none)), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.compact(_.right(O.none)), _.left(S.Monoid.empty))
       assert.deepStrictEqual(W.compact(_.right(O.some(123))), _.right(123))
     })
 
@@ -406,10 +406,10 @@ describe('Either', () => {
       assert.deepStrictEqual(W.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
       assert.deepStrictEqual(W.separate(_.right(_.left('123'))), {
         left: _.right('123'),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       assert.deepStrictEqual(W.separate(_.right(_.right('123'))), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right('123')
       })
     })
@@ -421,10 +421,10 @@ describe('Either', () => {
       })
       assert.deepStrictEqual(W.partition(_.right(1), p), {
         left: _.right(1),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       assert.deepStrictEqual(W.partition(_.right(3), p), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(3)
       })
     })
@@ -437,24 +437,24 @@ describe('Either', () => {
       })
       assert.deepStrictEqual(W.partitionMap(_.right(1), f), {
         left: _.right(0),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       assert.deepStrictEqual(W.partitionMap(_.right(3), f), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(4)
       })
     })
 
     it('filter', () => {
       assert.deepStrictEqual(W.filter(_.left('123'), p), _.left('123'))
-      assert.deepStrictEqual(W.filter(_.right(1), p), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.filter(_.right(1), p), _.left(S.Monoid.empty))
       assert.deepStrictEqual(W.filter(_.right(3), p), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(W.filterMap(_.left('123'), f), _.left('123'))
-      assert.deepStrictEqual(W.filterMap(_.right(1), f), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.filterMap(_.right(1), f), _.left(S.Monoid.empty))
       assert.deepStrictEqual(W.filterMap(_.right(3), f), _.right(4))
     })
 
@@ -462,7 +462,7 @@ describe('Either', () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       assert.deepStrictEqual(await wither(_.left('foo'), f)(), _.left('foo'))
-      assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(monoidString.empty))
+      assert.deepStrictEqual(await wither(_.right(1), f)(), _.left(S.Monoid.empty))
       assert.deepStrictEqual(await wither(_.right(3), f)(), _.right(4))
     })
 
@@ -475,10 +475,10 @@ describe('Either', () => {
       })
       assert.deepStrictEqual(await wilt(_.right(1), f)(), {
         left: _.right(0),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       assert.deepStrictEqual(await wilt(_.right(3), f)(), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(4)
       })
     })
@@ -525,15 +525,15 @@ describe('Either', () => {
   })
 
   it('getApplicativeValidation', () => {
-    const A = _.getApplicativeValidation(monoidString)
+    const A = _.getApplicativeValidation(S.Monoid)
     assert.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b')), _.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getValidation(monoidString)
+    const AV = _.getValidation(S.Monoid)
     assert.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b')), _.left('ab'))
   })
 
   it('getAltValidation', () => {
-    const A = _.getAltValidation(monoidString)
+    const A = _.getAltValidation(S.Monoid)
     assert.deepStrictEqual(
       A.alt(_.left('a'), () => _.left('b')),
       _.left('ab')
@@ -547,7 +547,7 @@ describe('Either', () => {
       _.right(2)
     )
     // tslint:disable-next-line: deprecation
-    const AV = _.getValidation(monoidString)
+    const AV = _.getValidation(S.Monoid)
     assert.deepStrictEqual(
       AV.alt(_.left('a'), () => _.left('b')),
       _.left('ab')
@@ -556,16 +556,16 @@ describe('Either', () => {
 
   it('getValidationSemigroup', () => {
     // tslint:disable-next-line: deprecation
-    const S = _.getValidationSemigroup(monoidString, monoidSum)
-    assert.deepStrictEqual(S.concat(_.right(1), _.right(2)), _.right(3))
-    assert.deepStrictEqual(S.concat(_.right(1), _.left('foo')), _.left('foo'))
-    assert.deepStrictEqual(S.concat(_.left('foo'), _.right(1)), _.left('foo'))
-    assert.deepStrictEqual(S.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
+    const VS = _.getValidationSemigroup(S.Monoid, monoidSum)
+    assert.deepStrictEqual(VS.concat(_.right(1), _.right(2)), _.right(3))
+    assert.deepStrictEqual(VS.concat(_.right(1), _.left('foo')), _.left('foo'))
+    assert.deepStrictEqual(VS.concat(_.left('foo'), _.right(1)), _.left('foo'))
+    assert.deepStrictEqual(VS.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
   })
 
   it('getValidationMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getValidationMonoid(monoidString, monoidSum)
+    const M = _.getValidationMonoid(S.Monoid, monoidSum)
     assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
     assert.deepStrictEqual(M.concat(M.empty, _.right(1)), _.right(1))
   })
@@ -632,10 +632,10 @@ describe('Either', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     it('compact', () => {
       assert.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
-      assert.deepStrictEqual(C.compact(_.right(O.none)), _.left(monoidString.empty))
+      assert.deepStrictEqual(C.compact(_.right(O.none)), _.left(S.Monoid.empty))
       assert.deepStrictEqual(C.compact(_.right(O.some(123))), _.right(123))
     })
 
@@ -643,10 +643,10 @@ describe('Either', () => {
       assert.deepStrictEqual(C.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
       assert.deepStrictEqual(C.separate(_.right(_.left('123'))), {
         left: _.right('123'),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       assert.deepStrictEqual(C.separate(_.right(_.right('123'))), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right('123')
       })
     })
