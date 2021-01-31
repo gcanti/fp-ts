@@ -119,6 +119,7 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * Given a struct of semigroups returns a semigroup for the struct.
  *
  * @example
+ * import { getStructSemigroup } from 'fp-ts/Semigroup'
  * import { SemigroupSum } from 'fp-ts/number'
  *
  * interface Point {
@@ -126,7 +127,7 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
  *   readonly y: number
  * }
  *
- * const semigroupPoint = S.getStructSemigroup<Point>({
+ * const semigroupPoint = getStructSemigroup<Point>({
  *   x: SemigroupSum,
  *   y: SemigroupSum
  * })

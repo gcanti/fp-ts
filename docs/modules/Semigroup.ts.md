@@ -60,13 +60,13 @@ Added in v2.0.0
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
-  - [semigroupProduct](#semigroupproduct)
-  - [semigroupSum](#semigroupsum)
   - [semigroupVoid](#semigroupvoid)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
+  - [~~semigroupProduct~~](#semigroupproduct)
   - [~~semigroupString~~](#semigroupstring)
+  - [~~semigroupSum~~](#semigroupsum)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -136,16 +136,17 @@ export declare const getStructSemigroup: <O extends Readonly<Record<string, any>
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getStructSemigroup } from 'fp-ts/Semigroup'
+import { SemigroupSum } from 'fp-ts/number'
 
 interface Point {
   readonly x: number
   readonly y: number
 }
 
-const semigroupPoint = S.getStructSemigroup<Point>({
-  x: S.semigroupSum,
-  y: S.semigroupSum,
+const semigroupPoint = getStructSemigroup<Point>({
+  x: SemigroupSum,
+  y: SemigroupSum,
 })
 
 assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
@@ -168,14 +169,15 @@ export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
 **Example**
 
 ```ts
-import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
+import { getTupleSemigroup } from 'fp-ts/Semigroup'
 import * as S from 'fp-ts/string'
 import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
 
-const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
+const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
 assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
-const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
+const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
@@ -297,46 +299,6 @@ assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age:
 
 Added in v2.0.0
 
-## semigroupProduct
-
-`number` semigroup under multiplication.
-
-**Signature**
-
-```ts
-export declare const semigroupProduct: Semigroup<number>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.semigroupProduct.concat(2, 3), 6)
-```
-
-Added in v2.0.0
-
-## semigroupSum
-
-`number` semigroup under addition.
-
-**Signature**
-
-```ts
-export declare const semigroupSum: Semigroup<number>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.semigroupSum.concat(2, 3), 5)
-```
-
-Added in v2.0.0
-
 ## semigroupVoid
 
 **Signature**
@@ -383,6 +345,18 @@ export declare const semigroupAny: Semigroup<boolean>
 
 Added in v2.0.0
 
+## ~~semigroupProduct~~
+
+Use `number.SemigroupProduct` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupProduct: Semigroup<number>
+```
+
+Added in v2.0.0
+
 ## ~~semigroupString~~
 
 Use `string.Semigroup` instead.
@@ -391,6 +365,18 @@ Use `string.Semigroup` instead.
 
 ```ts
 export declare const semigroupString: Semigroup<string>
+```
+
+Added in v2.0.0
+
+## ~~semigroupSum~~
+
+Use `number.SemigroupSum` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupSum: Semigroup<number>
 ```
 
 Added in v2.0.0
@@ -430,8 +416,9 @@ export declare function fold<A>(
 
 ```ts
 import * as S from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
 
-const sum = S.fold(S.semigroupSum)(0)
+const sum = S.fold(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)

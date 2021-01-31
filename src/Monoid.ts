@@ -35,7 +35,7 @@
 import { MonoidAll, MonoidAny } from './boolean'
 import { Bounded } from './Bounded'
 import { Endomorphism, getEndomorphismMonoid as getEM, getMonoid } from './function'
-import { MonoidSum } from './number'
+import { MonoidProduct, MonoidSum } from './number'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
 import * as S from './string'
@@ -186,25 +186,6 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
 // -------------------------------------------------------------------------------------
 
 /**
- * `number` monoid under multiplication.
- *
- * The `empty` value is `1`.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- *
- * assert.deepStrictEqual(M.monoidProduct.concat(2, 3), 6)
- *
- * @category instances
- * @since 2.0.0
- */
-export const monoidProduct: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
-  concat: Se.semigroupProduct.concat,
-  empty: 1
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -289,5 +270,13 @@ export const monoidString: Monoid<string> = S.Monoid
  *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
 export const monoidSum: Monoid<number> = MonoidSum
+
+/**
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidProduct: Monoid<number> = MonoidProduct

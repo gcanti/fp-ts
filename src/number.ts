@@ -105,3 +105,21 @@ export const MonoidSum: Monoid<number> = {
   concat: SemigroupSum.concat,
   empty: 0
 }
+
+/**
+ * `number` monoid under multiplication.
+ *
+ * The `empty` value is `1`.
+ *
+ * @example
+ * import { MonoidProduct } from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(MonoidProduct.concat(2, MonoidProduct.empty), 2)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonoidProduct: Monoid<number> = {
+  concat: SemigroupProduct.concat,
+  empty: 1
+}
