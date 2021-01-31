@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
 import * as O from '../src/Option'
@@ -103,7 +103,7 @@ describe('Identity', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
+    const S = _.getEq(N.Eq)
     assert.deepStrictEqual(S.equals(1, 1), true)
     assert.deepStrictEqual(S.equals(1, 2), false)
     assert.deepStrictEqual(S.equals(2, 1), false)

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import { left, right } from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as O from '../src/Option'
@@ -250,10 +250,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getEq', () => {
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { a: 1 }), true)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { a: 2 }), false)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals({ a: 1 }, { b: 1 }), false)
-    assert.deepStrictEqual(_.getEq(eqNumber).equals(noPrototype, { b: 1 }), false)
+    assert.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 }, { a: 1 }), true)
+    assert.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 }, { a: 2 }), false)
+    assert.deepStrictEqual(_.getEq(N.Eq).equals({ a: 1 }, { b: 1 }), false)
+    assert.deepStrictEqual(_.getEq(N.Eq).equals(noPrototype, { b: 1 }), false)
   })
 
   it('lookup', () => {
@@ -360,11 +360,11 @@ describe('ReadonlyRecord', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(_.elem(eqNumber)(1, { a: 1, b: 2 }), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(3, { a: 1, b: 2 }), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(1, { a: 1, b: 2 }), true)
+    assert.deepStrictEqual(_.elem(N.Eq)(3, { a: 1, b: 2 }), false)
 
-    assert.deepStrictEqual(_.elem(eqNumber)(1)({ a: 1, b: 2 }), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(3)({ a: 1, b: 2 }), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(1)({ a: 1, b: 2 }), true)
+    assert.deepStrictEqual(_.elem(N.Eq)(3)({ a: 1, b: 2 }), false)
   })
 
   it('fromFoldableMap', () => {

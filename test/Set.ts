@@ -35,6 +35,7 @@ import {
   union
 } from '../src/Set'
 import * as S from '../src/string'
+import * as N from '../src/number'
 
 const gte2 = (n: number) => n >= 2
 
@@ -54,7 +55,7 @@ describe('Set', () => {
   })
 
   it('getEq', () => {
-    const E = getEq(Eq.eqNumber)
+    const E = getEq(N.Eq)
     assert.deepStrictEqual(E.equals(new Set([1, 2, 3]), new Set([1, 2, 3])), true)
     assert.deepStrictEqual(E.equals(new Set([1, 2, 3]), new Set([1, 2])), false)
     assert.deepStrictEqual(E.equals(new Set([1, 2]), new Set([1, 2, 3])), false)
@@ -67,8 +68,8 @@ describe('Set', () => {
   })
 
   it('map', () => {
-    assert.deepStrictEqual(map(Eq.eqNumber)((n: number) => n % 2)(new Set([])), new Set([]))
-    assert.deepStrictEqual(map(Eq.eqNumber)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
+    assert.deepStrictEqual(map(N.Eq)((n: number) => n % 2)(new Set([])), new Set([]))
+    assert.deepStrictEqual(map(N.Eq)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
     assert.deepStrictEqual(map(S.Eq)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
   })
 
@@ -87,11 +88,11 @@ describe('Set', () => {
   })
 
   it('subset', () => {
-    assert.deepStrictEqual(subset(Eq.eqNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
-    assert.deepStrictEqual(subset(Eq.eqNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
+    assert.deepStrictEqual(subset(N.Eq)(new Set([1, 2]), new Set([1, 2, 3])), true)
+    assert.deepStrictEqual(subset(N.Eq)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
 
-    assert.deepStrictEqual(pipe(new Set([1, 2]), subset(Eq.eqNumber)(new Set([1, 2, 3]))), true)
-    assert.deepStrictEqual(pipe(new Set([1, 2, 4]), subset(Eq.eqNumber)(new Set([1, 2, 3]))), false)
+    assert.deepStrictEqual(pipe(new Set([1, 2]), subset(N.Eq)(new Set([1, 2, 3]))), true)
+    assert.deepStrictEqual(pipe(new Set([1, 2, 4]), subset(N.Eq)(new Set([1, 2, 3]))), false)
   })
 
   it('filter', () => {
@@ -122,30 +123,30 @@ describe('Set', () => {
   })
 
   it('union', () => {
-    assert.deepStrictEqual(union(Eq.eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
+    assert.deepStrictEqual(union(N.Eq)(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
 
-    assert.deepStrictEqual(pipe(new Set([1, 2]), union(Eq.eqNumber)(new Set([1, 3]))), new Set([1, 2, 3]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), union(N.Eq)(new Set([1, 3]))), new Set([1, 2, 3]))
   })
 
   it('intersection', () => {
-    assert.deepStrictEqual(intersection(Eq.eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
+    assert.deepStrictEqual(intersection(N.Eq)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
 
-    assert.deepStrictEqual(pipe(new Set([1, 2]), intersection(Eq.eqNumber)(new Set([1, 3]))), new Set([1]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), intersection(N.Eq)(new Set([1, 3]))), new Set([1]))
   })
 
   it('partitionMap', () => {
-    assert.deepStrictEqual(partitionMap(Eq.eqNumber, S.Eq)((n: number) => left(n))(new Set([])), {
+    assert.deepStrictEqual(partitionMap(N.Eq, S.Eq)((n: number) => left(n))(new Set([])), {
       left: new Set([]),
       right: new Set([])
     })
     assert.deepStrictEqual(
-      partitionMap(Eq.eqNumber, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
+      partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
       {
         left: new Set([2]),
         right: new Set(['1', '3'])
       }
     )
-    const SL = Eq.getStructEq({ value: Eq.eqNumber })
+    const SL = Eq.getStructEq({ value: N.Eq })
     const SR = Eq.getStructEq({ value: S.Eq })
     assert.deepStrictEqual(
       partitionMap(
@@ -162,23 +163,23 @@ describe('Set', () => {
   })
 
   it('getUnionMonoid', () => {
-    const M = getUnionMonoid(Eq.eqNumber)
+    const M = getUnionMonoid(N.Eq)
     assert.deepStrictEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
     assert.deepStrictEqual(M.concat(new Set([1, 2]), M.empty), new Set([1, 2]))
     assert.deepStrictEqual(M.concat(M.empty, new Set([1, 3])), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
-    const IS = getIntersectionSemigroup(Eq.eqNumber)
+    const IS = getIntersectionSemigroup(N.Eq)
     assert.deepStrictEqual(IS.concat(new Set([1, 2]), new Set([1, 3])), new Set([1]))
     assert.deepStrictEqual(IS.concat(new Set([1, 2]), empty), empty)
     assert.deepStrictEqual(IS.concat(empty, new Set([1, 3])), empty)
   })
 
   it('difference', () => {
-    assert.deepStrictEqual(difference(Eq.eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+    assert.deepStrictEqual(difference(N.Eq)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
 
-    assert.deepStrictEqual(pipe(new Set([1, 2]), difference(Eq.eqNumber)(new Set([1, 3]))), new Set([2]))
+    assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {
@@ -197,32 +198,32 @@ describe('Set', () => {
 
   it('insert', () => {
     const x = new Set([1, 2])
-    assert.deepStrictEqual(insert(Eq.eqNumber)(3)(x), new Set([1, 2, 3]))
+    assert.deepStrictEqual(insert(N.Eq)(3)(x), new Set([1, 2, 3]))
     // should return the same ference if the element is already a member
-    assert.deepStrictEqual(insert(Eq.eqNumber)(2)(x), x)
+    assert.deepStrictEqual(insert(N.Eq)(2)(x), x)
   })
 
   it('remove', () => {
-    assert.deepStrictEqual(remove(Eq.eqNumber)(3)(new Set([1, 2])), new Set([1, 2]))
-    assert.deepStrictEqual(remove(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
+    assert.deepStrictEqual(remove(N.Eq)(3)(new Set([1, 2])), new Set([1, 2]))
+    assert.deepStrictEqual(remove(N.Eq)(1)(new Set([1, 2])), new Set([2]))
   })
 
   it('toggle', () => {
-    assert.deepStrictEqual(toggle(Eq.eqNumber)(1)(new Set([2])), new Set([1, 2]))
-    assert.deepStrictEqual(toggle(Eq.eqNumber)(1)(new Set([1, 2])), new Set([2]))
+    assert.deepStrictEqual(toggle(N.Eq)(1)(new Set([2])), new Set([1, 2]))
+    assert.deepStrictEqual(toggle(N.Eq)(1)(new Set([1, 2])), new Set([2]))
   })
 
   it('fromArray', () => {
-    assert.deepStrictEqual(fromArray(Eq.eqNumber)([]), new Set([]))
-    assert.deepStrictEqual(fromArray(Eq.eqNumber)([1]), new Set([1]))
-    assert.deepStrictEqual(fromArray(Eq.eqNumber)([1, 1]), new Set([1]))
-    assert.deepStrictEqual(fromArray(Eq.eqNumber)([1, 2]), new Set([1, 2]))
+    assert.deepStrictEqual(fromArray(N.Eq)([]), new Set([]))
+    assert.deepStrictEqual(fromArray(N.Eq)([1]), new Set([1]))
+    assert.deepStrictEqual(fromArray(N.Eq)([1, 1]), new Set([1]))
+    assert.deepStrictEqual(fromArray(N.Eq)([1, 2]), new Set([1, 2]))
 
     assert.deepStrictEqual(fromArray(fooEq)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 
   it('compact', () => {
-    assert.deepStrictEqual(compact(Eq.eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
+    assert.deepStrictEqual(compact(N.Eq)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
     const E: Eq.Eq<R> = pipe(
       S.Eq,
@@ -235,7 +236,7 @@ describe('Set', () => {
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(separate(S.Eq, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
+    assert.deepStrictEqual(separate(S.Eq, N.Eq)(new Set([right(1), left('a'), right(2)])), {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
@@ -263,7 +264,7 @@ describe('Set', () => {
 
   it('filterMap', () => {
     assert.deepStrictEqual(
-      filterMap(Eq.eqNumber)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(new Set(['a', 'bb', 'ccc'])),
+      filterMap(N.Eq)((s: string) => (s.length > 1 ? optionSome(s.length) : none))(new Set(['a', 'bb', 'ccc'])),
       new Set([2, 3])
     )
     type R = { readonly id: string }

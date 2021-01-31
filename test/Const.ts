@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as _ from '../src/Const'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { pipe } from '../src/function'
 import * as S from '../src/string'
 
@@ -38,7 +38,7 @@ describe('Const', () => {
   })
 
   it('getEq', () => {
-    const S = _.getEq(eqNumber)
+    const S = _.getEq(N.Eq)
     assert.deepStrictEqual(S.equals(_.make(1), _.make(1)), true)
     assert.deepStrictEqual(S.equals(_.make(1), _.make(2)), false)
   })

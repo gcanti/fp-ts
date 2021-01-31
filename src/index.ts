@@ -60,6 +60,7 @@ import * as monadTask from './MonadTask'
 import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
 import * as nonEmptyArray from './NonEmptyArray'
+import * as number from './number'
 import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
@@ -337,6 +338,10 @@ export {
    * @since 2.0.0
    */
   nonEmptyArray,
+  /**
+   * @since 2.10.0
+   */
+  number,
   /**
    * @since 2.0.0
    */

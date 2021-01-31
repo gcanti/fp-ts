@@ -767,9 +767,9 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
 /**
  * @example
  * import { none, some, getEq } from 'fp-ts/Option'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  *
- * const E = getEq(eqNumber)
+ * const E = getEq(N.Eq)
  * assert.strictEqual(E.equals(none, none), true)
  * assert.strictEqual(E.equals(none, some(1)), false)
  * assert.strictEqual(E.equals(some(1), none), false)
@@ -1118,11 +1118,11 @@ export const MonadThrow: MonadThrow1<URI> = {
  *
  * @example
  * import { some, none, elem } from 'fp-ts/Option'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  *
- * assert.strictEqual(elem(eqNumber)(1, some(1)), true)
- * assert.strictEqual(elem(eqNumber)(2, some(1)), false)
- * assert.strictEqual(elem(eqNumber)(1, none), false)
+ * assert.strictEqual(elem(N.Eq)(1, some(1)), true)
+ * assert.strictEqual(elem(N.Eq)(2, some(1)), false)
+ * assert.strictEqual(elem(N.Eq)(1, none), false)
  *
  * @since 2.0.0
  */

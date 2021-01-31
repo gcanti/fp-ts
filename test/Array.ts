@@ -11,6 +11,7 @@ import * as _ from '../src/Array'
 import * as T from '../src/Task'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
+import * as N from '../src/number'
 
 /* tslint:disable:readonly-array */
 
@@ -53,10 +54,10 @@ describe('Array', () => {
     })
 
     it('elem', () => {
-      assert.deepStrictEqual(_.elem(Eq.eqNumber)(2, [1, 2, 3]), true)
-      assert.deepStrictEqual(_.elem(Eq.eqNumber)(0, [1, 2, 3]), false)
-      assert.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(2)), true)
-      assert.deepStrictEqual(pipe([1, 2, 3], _.elem(Eq.eqNumber)(0)), false)
+      assert.deepStrictEqual(_.elem(N.Eq)(2, [1, 2, 3]), true)
+      assert.deepStrictEqual(_.elem(N.Eq)(0, [1, 2, 3]), false)
+      assert.deepStrictEqual(pipe([1, 2, 3], _.elem(N.Eq)(2)), true)
+      assert.deepStrictEqual(pipe([1, 2, 3], _.elem(N.Eq)(0)), false)
     })
 
     it('unfold', () => {
@@ -751,15 +752,15 @@ describe('Array', () => {
     assert.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
     assert.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
     assert.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([]), [])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([-0, -0]), [-0])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([0, -0]), [0])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1]), [1])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([2, 1, 2]), [2, 1])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 1]), [1, 2])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(_.uniq(Eq.eqNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(_.uniq(N.Eq)([]), [])
+    assert.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+    assert.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+    assert.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+    assert.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+    assert.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+    assert.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     assert.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
     assert.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
   })
@@ -808,7 +809,7 @@ describe('Array', () => {
         return [init, rest]
       })
     }
-    assert.deepStrictEqual(group(Eq.eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
   it('splitAt', () => {
@@ -924,30 +925,30 @@ describe('Array', () => {
   })
 
   it('union', () => {
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [3, 4]), [1, 2, 3, 4])
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [2, 3]), [1, 2, 3])
-    assert.deepStrictEqual(_.union(Eq.eqNumber)([1, 2], [1, 2]), [1, 2])
-    assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([3, 4])), [1, 2, 3, 4])
-    assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(pipe([1, 2], _.union(Eq.eqNumber)([1, 2])), [1, 2])
+    assert.deepStrictEqual(_.union(N.Eq)([1, 2], [3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(_.union(N.Eq)([1, 2], [2, 3]), [1, 2, 3])
+    assert.deepStrictEqual(_.union(N.Eq)([1, 2], [1, 2]), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
+    assert.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([2, 3])), [1, 2, 3])
+    assert.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 2])), [1, 2])
   })
 
   it('intersection', () => {
-    assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [3, 4]), [])
-    assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [2, 3]), [2])
-    assert.deepStrictEqual(_.intersection(Eq.eqNumber)([1, 2], [1, 2]), [1, 2])
-    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([3, 4])), [])
-    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([2, 3])), [2])
-    assert.deepStrictEqual(pipe([1, 2], _.intersection(Eq.eqNumber)([1, 2])), [1, 2])
+    assert.deepStrictEqual(_.intersection(N.Eq)([1, 2], [3, 4]), [])
+    assert.deepStrictEqual(_.intersection(N.Eq)([1, 2], [2, 3]), [2])
+    assert.deepStrictEqual(_.intersection(N.Eq)([1, 2], [1, 2]), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([3, 4])), [])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([2, 3])), [2])
+    assert.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([1, 2])), [1, 2])
   })
 
   it('difference', () => {
-    assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [3, 4]), [1, 2])
-    assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [2, 3]), [1])
-    assert.deepStrictEqual(_.difference(Eq.eqNumber)([1, 2], [1, 2]), [])
-    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([3, 4])), [1, 2])
-    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([2, 3])), [1])
-    assert.deepStrictEqual(pipe([1, 2], _.difference(Eq.eqNumber)([1, 2])), [])
+    assert.deepStrictEqual(_.difference(N.Eq)([1, 2], [3, 4]), [1, 2])
+    assert.deepStrictEqual(_.difference(N.Eq)([1, 2], [2, 3]), [1])
+    assert.deepStrictEqual(_.difference(N.Eq)([1, 2], [1, 2]), [])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([3, 4])), [1, 2])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([2, 3])), [1])
+    assert.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([1, 2])), [])
   })
 
   it('should be safe when calling map with a binary function', () => {

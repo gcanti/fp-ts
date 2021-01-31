@@ -92,12 +92,6 @@ export const eqStrict: Eq<unknown> = {
  * @category instances
  * @since 2.0.0
  */
-export const eqNumber: Eq<number> = eqStrict
-
-/**
- * @category instances
- * @since 2.0.0
- */
 export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
     for (const k in eqs) {
@@ -113,9 +107,12 @@ export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in 
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
  * @example
- * import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
+ * import { getTupleEq } from 'fp-ts/Eq'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import * as B from 'fp-ts/boolean'
  *
- * const E = getTupleEq(eqString, eqNumber, eqBoolean)
+ * const E = getTupleEq(S.Eq, N.Eq, B.Eq)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
  * assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
@@ -200,3 +197,12 @@ export const eqBoolean: Eq<boolean> = eqStrict
  * @deprecated
  */
 export const eqString: Eq<string> = eqStrict
+
+/**
+ * Use `number.Eq` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const eqNumber: Eq<number> = eqStrict

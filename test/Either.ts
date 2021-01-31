@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
-import { eqNumber } from '../src/Eq'
+import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
@@ -198,9 +198,9 @@ describe('Either', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.left('a')), false)
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.right(2)), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(1, _.right(2)), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(2, _.left('a')), false)
+    assert.deepStrictEqual(_.elem(N.Eq)(2, _.right(2)), true)
+    assert.deepStrictEqual(_.elem(N.Eq)(1, _.right(2)), false)
   })
 
   it('filterOrElse', () => {
@@ -357,7 +357,7 @@ describe('Either', () => {
 
   describe('getEq', () => {
     it('equals', () => {
-      const equals = _.getEq(S.Eq, eqNumber).equals
+      const equals = _.getEq(S.Eq, N.Eq).equals
       assert.deepStrictEqual(equals(_.right(1), _.right(1)), true)
       assert.deepStrictEqual(equals(_.right(1), _.right(2)), false)
       assert.deepStrictEqual(equals(_.right(1), _.left('foo')), false)
