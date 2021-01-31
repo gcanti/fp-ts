@@ -194,6 +194,7 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
  * @since 2.0.0
  */
 export const monoidSum: Monoid<number> = {
+  // tslint:disable-next-line: deprecation
   concat: S.semigroupSum.concat,
   empty: 0
 }

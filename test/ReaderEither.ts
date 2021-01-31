@@ -2,11 +2,11 @@ import * as assert from 'assert'
 import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import { semigroupSum } from '../src/Semigroup'
+import * as S from '../src/string'
+import * as N from '../src/number'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -141,7 +141,7 @@ describe('ReaderEither', () => {
   describe('getSemigroup', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
-      const S = _.getSemigroup(semigroupSum)
+      const S = _.getSemigroup(N.SemigroupSum)
       const e1 = S.concat(_.left('a'), _.left('b'))({})
       assert.deepStrictEqual(e1, E.left('a'))
 

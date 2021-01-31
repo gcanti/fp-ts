@@ -3,7 +3,7 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as _ from '../src/IO'
 import { monoidSum } from '../src/Monoid'
-import { semigroupSum } from '../src/Semigroup'
+import * as N from '../src/number'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -42,7 +42,7 @@ describe('IO', () => {
 
   it('getSemigroup', () => {
     // tslint:disable-next-line: deprecation
-    const S = _.getSemigroup(semigroupSum)
+    const S = _.getSemigroup(N.SemigroupSum)
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.IO<number> => () => log.push(message)

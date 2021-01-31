@@ -876,9 +876,9 @@ export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
  *
  * @example
  * import { getSemigroup, left, right } from 'fp-ts/Either'
- * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { SemigroupSum } from 'fp-ts/number'
  *
- * const S = getSemigroup<string, number>(semigroupSum)
+ * const S = getSemigroup<string, number>(SemigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
  * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
  * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
@@ -1414,9 +1414,9 @@ export const either: Monad2<URI> &
  *
  * @example
  * import { getApplySemigroup, left, right } from 'fp-ts/Either'
- * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { SemigroupSum } from 'fp-ts/number'
  *
- * const S = getApplySemigroup<string, number>(semigroupSum)
+ * const S = getApplySemigroup<string, number>(SemigroupSum)
  * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
  * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
  * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))

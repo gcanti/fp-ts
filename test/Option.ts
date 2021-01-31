@@ -1,11 +1,10 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
+import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupSum } from '../src/Semigroup'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 
@@ -351,7 +350,7 @@ describe('Option', () => {
 
   it('getApplySemigroup', () => {
     // tslint:disable-next-line: deprecation
-    const S = _.getApplySemigroup(semigroupSum)
+    const S = _.getApplySemigroup(N.SemigroupSum)
     assert.deepStrictEqual(S.concat(_.none, _.none), _.none)
     assert.deepStrictEqual(S.concat(_.some(1), _.none), _.none)
     assert.deepStrictEqual(S.concat(_.none, _.some(1)), _.none)
