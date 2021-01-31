@@ -6,6 +6,7 @@ import * as E from './Eq'
 import * as F from './Field'
 import * as O from './Ord'
 import * as S from './Show'
+import { Semigroup } from './Semigroup'
 
 /**
  * @category instances
@@ -54,4 +55,19 @@ export const Field: F.Field<number> = {
  */
 export const Show: S.Show<number> = {
   show: (a) => JSON.stringify(a)
+}
+
+/**
+ * `number` semigroup under addition.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(SemigroupSum.concat(2, 3), 5)
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const SemigroupSum: Semigroup<number> = {
+  concat: (x, y) => x + y
 }

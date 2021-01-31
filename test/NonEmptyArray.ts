@@ -4,7 +4,6 @@ import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
 import * as O from '../src/Option'
-import { semigroupSum } from '../src/Semigroup'
 import * as S from '../src/string'
 
 describe('NonEmptyArray', () => {
@@ -342,13 +341,13 @@ describe('NonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const f = _.foldMap(semigroupSum)((s: string) => s.length)
+    const f = _.foldMap(N.SemigroupSum)((s: string) => s.length)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 3)
   })
 
   it('foldMapWithIndex', () => {
-    const f = _.foldMapWithIndex(semigroupSum)((i: number, s: string) => s.length + i)
+    const f = _.foldMapWithIndex(N.SemigroupSum)((i: number, s: string) => s.length + i)
     assert.deepStrictEqual(f(['a']), 1)
     assert.deepStrictEqual(f(['a', 'bb']), 4)
   })

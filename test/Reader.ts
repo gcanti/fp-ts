@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { pipe } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import * as _ from '../src/Reader'
-import { semigroupSum } from '../src/Semigroup'
+import * as N from '../src/number'
 
 interface Env {
   readonly count: number
@@ -92,7 +92,7 @@ describe('Reader', () => {
 
   it('getSemigroup', () => {
     // tslint:disable-next-line: deprecation
-    const S = _.getSemigroup(semigroupSum)
+    const S = _.getSemigroup(N.SemigroupSum)
     assert.deepStrictEqual(S.concat(_.of(1), _.of(2))({}), 3)
   })
 

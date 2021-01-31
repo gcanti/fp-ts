@@ -165,10 +165,10 @@ export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> {
  * Returns a `Monoid` instance for records given a `Semigroup` instance for their values
  *
  * @example
- * import { semigroupSum } from 'fp-ts/Semigroup'
+ * import { SemigroupSum } from 'fp-ts/number'
  * import { getMonoid } from 'fp-ts/Record'
  *
- * const M = getMonoid(semigroupSum)
+ * const M = getMonoid(SemigroupSum)
  * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
  *
  * @since 2.0.0
