@@ -17,4 +17,8 @@ describe('string', () => {
   it('Show', () => {
     assert.deepStrictEqual(_.Show.show(1), '1')
   })
+
+  it('SemigroupProduct', () => {
+    assert.deepStrictEqual(_.SemigroupProduct.concat(2, 3), 6)
+  })
 })

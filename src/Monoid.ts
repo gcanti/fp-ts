@@ -213,6 +213,7 @@ export const monoidSum: Monoid<number> = {
  * @since 2.0.0
  */
 export const monoidProduct: Monoid<number> = {
+  // tslint:disable-next-line: deprecation
   concat: S.semigroupProduct.concat,
   empty: 1
 }

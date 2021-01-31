@@ -44,10 +44,6 @@ describe('Semigroup', () => {
     assert.deepStrictEqual(result.bar, expected.bar)
   })
 
-  it('semigroupProduct', () => {
-    assert.deepStrictEqual(_.semigroupProduct.concat(2, 3), 6)
-  })
-
   it('getFirstSemigroup', () => {
     assert.deepStrictEqual(_.getFirstSemigroup<number>().concat(1, 2), 1)
   })
