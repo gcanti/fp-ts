@@ -19,13 +19,15 @@ export interface Bounded<A> extends Ord<A> {
   readonly bottom: A
 }
 
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use `number.Bounded` instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
-export const boundedNumber: Bounded<number> = {
-  equals: N.Ord.equals,
-  compare: N.Ord.compare,
-  top: Infinity,
-  bottom: -Infinity
-}
+export const boundedNumber: Bounded<number> = N.Bounded

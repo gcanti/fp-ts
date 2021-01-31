@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
-import { boundedNumber } from '../src/Bounded'
+import * as N from '../src/number'
 import {
   fold,
   getDualMonoid,
@@ -34,14 +34,14 @@ describe('Monoid', () => {
   })
 
   it('getMeetMonoid', () => {
-    const M = getMeetMonoid(boundedNumber)
+    const M = getMeetMonoid(N.Bounded)
     assert.deepStrictEqual(fold(M)([]), +Infinity)
     assert.deepStrictEqual(fold(M)([1]), 1)
     assert.deepStrictEqual(fold(M)([1, -1]), -1)
   })
 
   it('getJoinMonoid', () => {
-    const M = getJoinMonoid(boundedNumber)
+    const M = getJoinMonoid(N.Bounded)
     assert.deepStrictEqual(fold(M)([]), -Infinity)
     assert.deepStrictEqual(fold(M)([1]), 1)
     assert.deepStrictEqual(fold(M)([1, -1]), 1)
