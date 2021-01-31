@@ -10,6 +10,7 @@ import * as Ord from '../src/Ord'
 import * as _ from '../src/Array'
 import * as Show from '../src/Show'
 import * as T from '../src/Task'
+import * as B from '../src/boolean'
 
 /* tslint:disable:readonly-array */
 
@@ -749,7 +750,7 @@ describe('Array', () => {
     assert.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
     assert.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
     assert.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
-    assert.deepStrictEqual(_.uniq(Eq.eqBoolean)([true, false, true, false]), [true, false])
+    assert.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([]), [])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([-0, -0]), [-0])
     assert.deepStrictEqual(_.uniq(Eq.eqNumber)([0, -0]), [0])
