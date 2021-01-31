@@ -36,7 +36,7 @@ interface Value {
 
 const eqKey: Eq<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)
 
-const ordKey = Ord.fromCompare<Key>((x, y) => Ord.ordNumber.compare(x.id % 3, y.id % 3))
+const ordKey = Ord.fromCompare<Key>((x, y) => N.Ord.compare(x.id % 3, y.id % 3))
 
 const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
 

@@ -71,6 +71,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Ord`
     - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
     - deprecate `ordString`, use `string.Ord` instead (@gcanti)
+    - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
   - `Ring`
     - deprecate `getFunctionRing`, use `function.getRing` instead (@gcanti)
   - `Reader`

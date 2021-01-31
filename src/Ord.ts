@@ -17,6 +17,7 @@ import { Semigroup } from './Semigroup'
 import { pipe } from './function'
 import * as B from './boolean'
 import * as S from './string'
+import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -28,24 +29,6 @@ import * as S from './string'
  */
 export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
-}
-
-// default compare for primitive types
-function compare(x: any, y: any): Ordering {
-  return x < y ? -1 : x > y ? 1 : 0
-}
-
-function strictEqual<A>(a: A, b: A): boolean {
-  return a === b
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ordNumber: Ord<number> = {
-  equals: strictEqual,
-  compare
 }
 
 // TODO: curry in v3
@@ -150,11 +133,12 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  *
  * @example
  * import { sort } from 'fp-ts/Array'
- * import { contramap, getDualOrd, getMonoid, ordNumber } from 'fp-ts/Ord'
+ * import { contramap, getDualOrd, getMonoid } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
  * import * as B from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  *
  * interface User {
  *   id: number
@@ -169,7 +153,7 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
  * )
  *
  * const byAge = pipe(
- *   ordNumber,
+ *   N.Ord,
  *   contramap((p: User) => p.age)
  * )
  *
@@ -220,11 +204,12 @@ export function getMonoid<A = never>(): Monoid<Ord<A>> {
  * Given a tuple of `Ord`s returns an `Ord` for the tuple
  *
  * @example
- * import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
+ * import { getTupleOrd } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
  * import * as B from 'fp-ts/boolean'
  *
- * const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
+ * const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
  * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
@@ -303,7 +288,7 @@ declare module './HKT' {
 export const ordDate: Ord<Date> =
   /*#__PURE__*/
   pipe(
-    ordNumber,
+    N.Ord,
     /*#__PURE__*/
     contramap((date) => date.valueOf())
   )
@@ -360,3 +345,12 @@ export const ordBoolean: Ord<boolean> = B.Ord
  * @deprecated
  */
 export const ordString: Ord<string> = S.Ord
+
+/**
+ * Use `number.Ord` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ordNumber: Ord<number> = N.Ord

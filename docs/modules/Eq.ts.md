@@ -29,12 +29,12 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [eqDate](#eqdate)
-  - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
   - [~~eqBoolean~~](#eqboolean)
+  - [~~eqNumber~~](#eqnumber)
   - [~~eqString~~](#eqstring)
   - [~~eq~~](#eq)
 - [type classes](#type-classes)
@@ -110,16 +110,6 @@ export declare const eqDate: Eq<Date>
 
 Added in v2.0.0
 
-## eqNumber
-
-**Signature**
-
-```ts
-export declare const eqNumber: Eq<number>
-```
-
-Added in v2.0.0
-
 ## eqStrict
 
 **Signature**
@@ -165,9 +155,12 @@ export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
 **Example**
 
 ```ts
-import { getTupleEq, eqString, eqNumber, eqBoolean } from 'fp-ts/Eq'
+import { getTupleEq } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
 
-const E = getTupleEq(eqString, eqNumber, eqBoolean)
+const E = getTupleEq(S.Eq, N.Eq, B.Eq)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
@@ -184,6 +177,18 @@ Use `boolean.Eq` instead.
 
 ```ts
 export declare const eqBoolean: Eq<boolean>
+```
+
+Added in v2.0.0
+
+## ~~eqNumber~~
+
+Use `number.Eq` instead.
+
+**Signature**
+
+```ts
+export declare const eqNumber: Eq<number>
 ```
 
 Added in v2.0.0

@@ -597,7 +597,7 @@ describe('ReadonlyArray', () => {
 
   it('sort', () => {
     const O = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Ord.contramap((x: { readonly a: number }) => x.a)
     )
     assert.deepStrictEqual(
@@ -615,9 +615,9 @@ describe('ReadonlyArray', () => {
         { a: 3, b: 'b1' }
       ]
     )
-    assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
+    assert.strictEqual(_.sort(N.Ord)(_.empty), _.empty)
     const as: ReadonlyArray<number> = [1]
-    assert.strictEqual(_.sort(Ord.ordNumber)(as), as)
+    assert.strictEqual(_.sort(N.Ord)(as), as)
   })
 
   it('zipWith', () => {
@@ -737,7 +737,7 @@ describe('ReadonlyArray', () => {
     }
 
     const eqA = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Eq.contramap((f: A) => f.b)
     )
     const arrA: A = { a: 'a', b: 1 }
@@ -766,7 +766,7 @@ describe('ReadonlyArray', () => {
 
     assert.strictEqual(_.uniq(N.Eq)(_.empty), _.empty)
     const as: ReadonlyArray<number> = [1]
-    assert.strictEqual(_.uniq(Ord.ordNumber)(as), as)
+    assert.strictEqual(_.uniq(N.Ord)(as), as)
   })
 
   it('sortBy', () => {
@@ -780,7 +780,7 @@ describe('ReadonlyArray', () => {
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
     )
     const byAge = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Ord.contramap((p: { readonly a: string; readonly b: number }) => p.b)
     )
     const f = _.sortBy([byName, byAge])

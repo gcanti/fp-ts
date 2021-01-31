@@ -1,9 +1,8 @@
 import * as assert from 'assert'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
-import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import { semigroupSum } from '../src/Semigroup'
 import * as S from '../src/string'
@@ -99,13 +98,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('min', () => {
-    assert.deepStrictEqual(_.min(Ord.ordNumber)([2, 1, 3]), 1)
-    assert.deepStrictEqual(_.min(Ord.ordNumber)([3]), 3)
+    assert.deepStrictEqual(_.min(N.Ord)([2, 1, 3]), 1)
+    assert.deepStrictEqual(_.min(N.Ord)([3]), 3)
   })
 
   it('max', () => {
-    assert.deepStrictEqual(_.max(Ord.ordNumber)([1, 2, 3]), 3)
-    assert.deepStrictEqual(_.max(Ord.ordNumber)([1]), 1)
+    assert.deepStrictEqual(_.max(N.Ord)([1, 2, 3]), 3)
+    assert.deepStrictEqual(_.max(N.Ord)([1]), 1)
   })
 
   it('reduce', () => {
@@ -146,16 +145,16 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('group', () => {
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([]), [])
+    assert.deepStrictEqual(_.group(N.Ord)([]), [])
 
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    assert.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    assert.deepStrictEqual(_.group(Ord.ordNumber)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    assert.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
-    assert.deepStrictEqual(_.groupSort(Ord.ordNumber)([]), [])
-    assert.deepStrictEqual(_.groupSort(Ord.ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+    assert.deepStrictEqual(_.groupSort(N.Ord)([]), [])
+    assert.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('last', () => {
@@ -169,7 +168,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('sort', () => {
-    assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
+    assert.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
   })
 
   it('prependToAll', () => {

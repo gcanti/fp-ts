@@ -794,9 +794,9 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  *
  * @example
  * import { none, some, getOrd } from 'fp-ts/Option'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * const O = getOrd(ordNumber)
+ * const O = getOrd(N.Ord)
  * assert.strictEqual(O.compare(none, none), 0)
  * assert.strictEqual(O.compare(none, some(1)), -1)
  * assert.strictEqual(O.compare(some(1), none), 1)
