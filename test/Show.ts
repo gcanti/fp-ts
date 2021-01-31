@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { showString, showNumber, showBoolean, getStructShow, getTupleShow } from '../src/Show'
+import { showString, showNumber, getStructShow, getTupleShow } from '../src/Show'
 
 describe('Show', () => {
   it('showString', () => {
@@ -10,11 +10,6 @@ describe('Show', () => {
   it('showNumber', () => {
     const S = showNumber
     assert.deepStrictEqual(S.show(1), '1')
-  })
-
-  it('showBoolean', () => {
-    const S = showBoolean
-    assert.deepStrictEqual(S.show(true), 'true')
   })
 
   it('getStructShow', () => {

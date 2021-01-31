@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 import { ReadonlyRecord } from './ReadonlyRecord'
+import * as B from './boolean'
 
 /**
  * The `Show` type class represents those types which can be converted into
@@ -38,14 +39,6 @@ export const showNumber: Show<number> = {
  * @category instances
  * @since 2.0.0
  */
-export const showBoolean: Show<boolean> = {
-  show: (a) => JSON.stringify(a)
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
 export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
   return {
     show: (s) =>
@@ -66,3 +59,16 @@ export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
     show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
   }
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `boolean.Show` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const showBoolean: Show<boolean> = B.Show

@@ -15,9 +15,9 @@ Added in v2.0.0
 - [instances](#instances)
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
-  - [showBoolean](#showboolean)
   - [showNumber](#shownumber)
   - [showString](#showstring)
+  - [~~showBoolean~~](#showboolean)
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 
@@ -49,16 +49,6 @@ export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
 
 Added in v2.0.0
 
-## showBoolean
-
-**Signature**
-
-```ts
-export declare const showBoolean: Show<boolean>
-```
-
-Added in v2.0.0
-
 ## showNumber
 
 **Signature**
@@ -75,6 +65,18 @@ Added in v2.0.0
 
 ```ts
 export declare const showString: Show<string>
+```
+
+Added in v2.0.0
+
+## ~~showBoolean~~
+
+Use `boolean.Show` instead.
+
+**Signature**
+
+```ts
+export declare const showBoolean: Show<boolean>
 ```
 
 Added in v2.0.0
