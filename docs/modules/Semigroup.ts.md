@@ -61,12 +61,12 @@ Added in v2.0.0
   - [getFunctionSemigroup](#getfunctionsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
-  - [semigroupAll](#semigroupall)
-  - [semigroupAny](#semigroupany)
   - [semigroupProduct](#semigroupproduct)
   - [semigroupString](#semigroupstring)
   - [semigroupSum](#semigroupsum)
   - [semigroupVoid](#semigroupvoid)
+  - [~~semigroupAll~~](#semigroupall)
+  - [~~semigroupAny~~](#semigroupany)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -325,49 +325,6 @@ assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age:
 
 Added in v2.0.0
 
-## semigroupAll
-
-`boolean` semigroup under conjunction.
-
-**Signature**
-
-```ts
-export declare const semigroupAll: Semigroup<boolean>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.semigroupAll.concat(true, true), true)
-assert.deepStrictEqual(S.semigroupAll.concat(true, false), false)
-```
-
-Added in v2.0.0
-
-## semigroupAny
-
-`boolean` semigroup under disjunction.
-
-**Signature**
-
-```ts
-export declare const semigroupAny: Semigroup<boolean>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.semigroupAny.concat(true, true), true)
-assert.deepStrictEqual(S.semigroupAny.concat(true, false), true)
-assert.deepStrictEqual(S.semigroupAny.concat(false, false), false)
-```
-
-Added in v2.0.0
-
 ## semigroupProduct
 
 `number` semigroup under multiplication.
@@ -434,6 +391,30 @@ Added in v2.0.0
 
 ```ts
 export declare const semigroupVoid: Semigroup<void>
+```
+
+Added in v2.0.0
+
+## ~~semigroupAll~~
+
+Use `boolean.SemigroupAll` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupAll: Semigroup<boolean>
+```
+
+Added in v2.0.0
+
+## ~~semigroupAny~~
+
+Use `boolean.SemigroupAny` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupAny: Semigroup<boolean>
 ```
 
 Added in v2.0.0

@@ -41,6 +41,7 @@ import { identity } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
+import { SemigroupAll, SemigroupAny } from './boolean'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -188,39 +189,6 @@ export function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * `boolean` semigroup under conjunction.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- *
- * assert.deepStrictEqual(S.semigroupAll.concat(true, true), true)
- * assert.deepStrictEqual(S.semigroupAll.concat(true, false), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const semigroupAll: Semigroup<boolean> = {
-  concat: (x, y) => x && y
-}
-
-/**
- * `boolean` semigroup under disjunction.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- *
- * assert.deepStrictEqual(S.semigroupAny.concat(true, true), true)
- * assert.deepStrictEqual(S.semigroupAny.concat(true, false), true)
- * assert.deepStrictEqual(S.semigroupAny.concat(false, false), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const semigroupAny: Semigroup<boolean> = {
-  concat: (x, y) => x || y
-}
 
 /**
  * `number` semigroup under addition.
@@ -392,3 +360,25 @@ export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) 
     return as.reduce(S.concat, startWith)
   }
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `boolean.SemigroupAll` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupAll: Semigroup<boolean> = SemigroupAll
+
+/**
+ * Use `boolean.SemigroupAny` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupAny: Semigroup<boolean> = SemigroupAny

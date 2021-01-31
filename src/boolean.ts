@@ -3,6 +3,7 @@
  */
 import * as BA from './BooleanAlgebra'
 import * as E from './Eq'
+import { Semigroup } from './Semigroup'
 import { Lazy } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -62,4 +63,37 @@ export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = {
   one: true,
   implies: (x, y) => !x || y,
   not: (x) => !x
+}
+
+/**
+ * `boolean` semigroup under conjunction.
+ *
+ * @example
+ * import { SemigroupAll } from 'fp-ts/boolean'
+ *
+ * assert.deepStrictEqual(SemigroupAll.concat(true, true), true)
+ * assert.deepStrictEqual(SemigroupAll.concat(true, false), false)
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const SemigroupAll: Semigroup<boolean> = {
+  concat: (x, y) => x && y
+}
+
+/**
+ * `boolean` semigroup under disjunction.
+ *
+ * @example
+ * import { SemigroupAny } from 'fp-ts/boolean'
+ *
+ * assert.deepStrictEqual(SemigroupAny.concat(true, true), true)
+ * assert.deepStrictEqual(SemigroupAny.concat(true, false), true)
+ * assert.deepStrictEqual(SemigroupAny.concat(false, false), false)
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const SemigroupAny: Semigroup<boolean> = {
+  concat: (x, y) => x || y
 }

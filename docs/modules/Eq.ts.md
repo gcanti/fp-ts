@@ -28,7 +28,6 @@ Added in v2.0.0
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [eqBoolean](#eqboolean)
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
@@ -36,6 +35,7 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
+  - [~~eqBoolean~~](#eqboolean)
   - [~~eq~~](#eq)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
@@ -96,16 +96,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## eqBoolean
-
-**Signature**
-
-```ts
-export declare const eqBoolean: Eq<boolean>
 ```
 
 Added in v2.0.0
@@ -192,6 +182,18 @@ assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+```
+
+Added in v2.0.0
+
+## ~~eqBoolean~~
+
+Use `boolean.Eq` instead.
+
+**Signature**
+
+```ts
+export declare const eqBoolean: Eq<boolean>
 ```
 
 Added in v2.0.0
