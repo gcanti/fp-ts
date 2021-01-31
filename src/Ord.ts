@@ -15,6 +15,7 @@ import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { pipe } from './function'
+import * as B from './boolean'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -51,15 +52,6 @@ export const ordString: Ord<string> = {
  * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
-  equals: strictEqual,
-  compare
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ordBoolean: Ord<boolean> = {
   equals: strictEqual,
   compare
 }
@@ -354,3 +346,12 @@ export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
  * @deprecated
  */
 export const ord: Contravariant1<URI> = Contravariant
+
+/**
+ * Use `boolean.Ord` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ordBoolean: Ord<boolean> = B.Ord
