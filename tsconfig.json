@@ -17,5 +17,5 @@
     "stripInternal": true,
     "noUncheckedIndexedAccess": false
   },
-  "include": ["./src", "./test", "./scripts"]
+  "include": ["./src", "./test", "./scripts", "./perf"]
 }
