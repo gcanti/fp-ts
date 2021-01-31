@@ -140,7 +140,7 @@ describe('TaskEither', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
 
     it('compact', async () => {
       assert.deepStrictEqual(await C.compact(_.right(some(1)))(), E.right(1))

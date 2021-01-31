@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
@@ -158,7 +158,7 @@ describe('ReaderEither', () => {
 
   describe('getApplyMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getApplyMonoid(monoidString)
+    const M = _.getApplyMonoid(S.Monoid)
 
     it('concat (right)', () => {
       const x = M.concat(_.right('a'), _.right('b'))({})
@@ -198,18 +198,18 @@ describe('ReaderEither', () => {
   })
 
   it('getApplicativeReaderValidation', () => {
-    const A = _.getApplicativeReaderValidation(monoidString)
+    const A = _.getApplicativeReaderValidation(S.Monoid)
     assert.deepStrictEqual(Apply.sequenceT(A)(_.left('a'), _.left('b'))(null), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getReaderValidation(monoidString)
+    const AV = _.getReaderValidation(S.Monoid)
     assert.deepStrictEqual(Apply.sequenceT(AV)(_.left('a'), _.left('b'))(null), E.left('ab'))
   })
 
   it('getAltReaderValidation', () => {
-    const A = _.getAltReaderValidation(monoidString)
+    const A = _.getAltReaderValidation(S.Monoid)
     assert.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getReaderValidation(monoidString)
+    const AV = _.getReaderValidation(S.Monoid)
     assert.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
   })
 
@@ -243,12 +243,12 @@ describe('ReaderEither', () => {
   })
 
   it('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     assert.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
   })
 
   it('getFilterable', () => {
-    const F = _.getFilterable(monoidString)
+    const F = _.getFilterable(S.Monoid)
     assert.deepStrictEqual(F.filter(_.of('a'), (s) => s.length > 0)({}), E.right('a'))
     assert.deepStrictEqual(F.filterMap(_.of('a'), (s) => (s.length > 0 ? O.some(s.length) : O.none))({}), E.right(1))
     const { left: left1, right: right1 } = F.partition(_.of('a'), (s) => s.length > 0)

@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as _ from '../src/Const'
 import { eqNumber } from '../src/Eq'
-import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 import { pipe } from '../src/function'
 import * as S from '../src/string'
@@ -35,7 +34,7 @@ describe('Const', () => {
   })
 
   it('getApplicative', () => {
-    const F = _.getApplicative(monoidString)
+    const F = _.getApplicative(S.Monoid)
     assert.deepStrictEqual(F.of(1), _.make(''))
   })
 
