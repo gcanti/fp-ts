@@ -6,12 +6,12 @@ import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
 import * as M from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import * as N from '../src/number'
 
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
@@ -148,7 +148,7 @@ describe('ReadonlyArray', () => {
     })
 
     it('extend', () => {
-      const sum = (as: ReadonlyArray<number>) => M.fold(M.monoidSum)(as)
+      const sum = (as: ReadonlyArray<number>) => M.fold(N.MonoidSum)(as)
       assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
       assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })

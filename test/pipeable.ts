@@ -2,11 +2,12 @@ import * as assert from 'assert'
 import * as RA from '../src/ReadonlyArray'
 import * as C from '../src/Const'
 import * as E from '../src/Either'
-import { fold, monoidSum } from '../src/Monoid'
+import { fold } from '../src/Monoid'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as R from '../src/Reader'
 import { pipe } from '../src/function'
+import * as N from '../src/number'
 
 // tslint:disable: deprecation
 
@@ -67,21 +68,21 @@ describe('pipeable', () => {
 
   it('Extend', () => {
     const { extend, duplicate } = pipeable(RA.Extend)
-    assert.deepStrictEqual(extend((as: ReadonlyArray<number>) => fold(monoidSum)(as))([1, 2, 3]), [6, 5, 3])
+    assert.deepStrictEqual(extend((as: ReadonlyArray<number>) => fold(N.MonoidSum)(as))([1, 2, 3]), [6, 5, 3])
     assert.deepStrictEqual(duplicate([1, 2, 3]), [[1, 2, 3], [2, 3], [3]])
   })
 
   it('Foldable', () => {
     const { reduce, foldMap, reduceRight } = pipeable(RA.Foldable)
     assert.deepStrictEqual(reduce(0, (acc, n: number) => acc + n)([1, 2, 3]), 6)
-    assert.deepStrictEqual(foldMap(monoidSum)((n: number) => n)([1, 2, 3]), 6)
+    assert.deepStrictEqual(foldMap(N.MonoidSum)((n: number) => n)([1, 2, 3]), 6)
     assert.deepStrictEqual(reduceRight(0, (n: number, acc) => -acc + n)([1, 2, 3]), 2)
   })
 
   it('FoldableWithIndex', () => {
     const { reduceWithIndex, foldMapWithIndex, reduceRightWithIndex } = pipeable(RA.FoldableWithIndex)
     assert.deepStrictEqual(reduceWithIndex(0, (i, acc, n: number) => acc + n + i)([1, 2, 3]), 9)
-    assert.deepStrictEqual(foldMapWithIndex(monoidSum)((i, n: number) => n + i)([1, 2, 3]), 9)
+    assert.deepStrictEqual(foldMapWithIndex(N.MonoidSum)((i, n: number) => n + i)([1, 2, 3]), 9)
     assert.deepStrictEqual(reduceRightWithIndex(0, (i, n: number, acc) => -acc + n + i)([1, 2, 3]), 3)
   })
 

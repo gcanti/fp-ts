@@ -4,7 +4,7 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
-import { monoidSum } from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
@@ -14,7 +14,6 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
-import * as N from '../src/number'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -279,7 +278,7 @@ describe('ReaderTaskEither', () => {
 
   it('getApplyMonoid', async () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getApplyMonoid(monoidSum)
+    const M = _.getApplyMonoid(N.MonoidSum)
 
     assert.deepStrictEqual(await M.concat(_.right(1), _.right(2))({})(), E.right(3))
     assert.deepStrictEqual(await M.concat(_.right(1), _.left('b'))({})(), E.left('b'))

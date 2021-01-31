@@ -1,8 +1,7 @@
 import * as assert from 'assert'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
-import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 
@@ -88,7 +87,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = _.fold(M.monoidSum)
+    const sum = _.fold(N.MonoidSum)
     assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 

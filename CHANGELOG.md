@@ -67,6 +67,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
     - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in `function.getEndomorphismMonoid` is reversed) (@gcanti)
     - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
+    - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)

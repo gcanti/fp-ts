@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { identity, pipe } from '../src/function'
-import { monoidSum } from '../src/Monoid'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -359,7 +358,7 @@ describe('Option', () => {
 
   it('getApplyMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getApplyMonoid(monoidSum)
+    const M = _.getApplyMonoid(N.MonoidSum)
     assert.deepStrictEqual(M.concat(M.empty, _.none), _.none)
     assert.deepStrictEqual(M.concat(_.none, M.empty), _.none)
     assert.deepStrictEqual(M.concat(M.empty, _.some(1)), _.some(1))

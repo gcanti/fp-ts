@@ -32,11 +32,13 @@
  *
  * @since 2.0.0
  */
-import { Bounded } from './Bounded'
-import { Endomorphism, identity, getMonoid } from './function'
-import { ReadonlyRecord } from './ReadonlyRecord'
-import * as S from './Semigroup'
 import { MonoidAll, MonoidAny } from './boolean'
+import { Bounded } from './Bounded'
+import { Endomorphism, getEndomorphismMonoid as getEM, getMonoid } from './function'
+import { MonoidSum } from './number'
+import { ReadonlyRecord } from './ReadonlyRecord'
+import * as Se from './Semigroup'
+import * as S from './string'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -46,7 +48,7 @@ import { MonoidAll, MonoidAny } from './boolean'
  * @category type classes
  * @since 2.0.0
  */
-export interface Monoid<A> extends S.Semigroup<A> {
+export interface Monoid<A> extends Se.Semigroup<A> {
   readonly empty: A
 }
 
@@ -71,7 +73,7 @@ export interface Monoid<A> extends S.Semigroup<A> {
  * @since 2.0.0
  */
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.getMeetSemigroup(B).concat,
+  concat: Se.getMeetSemigroup(B).concat,
   empty: B.top
 })
 
@@ -92,7 +94,7 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 2.0.0
  */
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.getJoinSemigroup(B).concat,
+  concat: Se.getJoinSemigroup(B).concat,
   empty: B.bottom
 })
 
@@ -113,7 +115,7 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 2.0.0
  */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
-  concat: S.getDualSemigroup(M).concat,
+  concat: Se.getDualSemigroup(M).concat,
   empty: M.empty
 })
 
@@ -121,16 +123,17 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
  * Given a struct of monoids returns a monoid for the struct.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { getStructMonoid } from 'fp-ts/Monoid'
+ * import { MonoidSum } from 'fp-ts/number'
  *
  * interface Point {
  *   readonly x: number
  *   readonly y: number
  * }
  *
- * const monoidPoint = M.getStructMonoid<Point>({
- *   x: M.monoidSum,
- *   y: M.monoidSum
+ * const monoidPoint = getStructMonoid<Point>({
+ *   x: MonoidSum,
+ *   y: MonoidSum
  * })
  *
  * assert.deepStrictEqual(monoidPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
@@ -146,7 +149,7 @@ export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
     empty[key] = monoids[key].empty
   }
   return {
-    concat: S.getStructSemigroup(monoids).concat,
+    concat: Se.getStructSemigroup(monoids).concat,
     empty
   }
 }
@@ -155,13 +158,15 @@ export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
  * Given a tuple of monoids returns a monoid for the tuple
  *
  * @example
- * import { getTupleMonoid, monoidSum, monoidAll } from 'fp-ts/Monoid'
+ * import { getTupleMonoid } from 'fp-ts/Monoid'
  * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import * as B from 'fp-ts/boolean'
  *
- * const M1 = getTupleMonoid(S.Monoid, monoidSum)
+ * const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
  * assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
- * const M2 = getTupleMonoid(S.Monoid, monoidSum, monoidAll)
+ * const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
@@ -169,9 +174,9 @@ export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
  */
 export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }> => {
+): Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> => {
   return {
-    concat: S.getTupleSemigroup(...monoids).concat,
+    concat: Se.getTupleSemigroup(...monoids).concat,
     empty: monoids.map((m) => m.empty)
   } as any
 }
@@ -179,25 +184,6 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
-
-/**
- * `number` monoid under addition.
- *
- * The `empty` value is `0`.
- *
- * @example
- * import * as M from 'fp-ts/Monoid'
- *
- * assert.deepStrictEqual(M.monoidSum.concat(2, 3), 5)
- *
- * @category instances
- * @since 2.0.0
- */
-export const monoidSum: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
-  concat: S.semigroupSum.concat,
-  empty: 0
-}
 
 /**
  * `number` monoid under multiplication.
@@ -214,7 +200,7 @@ export const monoidSum: Monoid<number> = {
  */
 export const monoidProduct: Monoid<number> = {
   // tslint:disable-next-line: deprecation
-  concat: S.semigroupProduct.concat,
+  concat: Se.semigroupProduct.concat,
   empty: 1
 }
 
@@ -223,7 +209,7 @@ export const monoidProduct: Monoid<number> = {
  * @since 2.0.0
  */
 export const monoidVoid: Monoid<void> = {
-  concat: S.semigroupVoid.concat,
+  concat: Se.semigroupVoid.concat,
   empty: undefined
 }
 
@@ -237,16 +223,15 @@ export const monoidVoid: Monoid<void> = {
  * If `as` is empty, return the monoid `empty` value.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { fold } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
- * assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
+ * assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
+ * assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
  *
  * @since 2.0.0
  */
-export function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A {
-  return S.fold(M)(M.empty)
-}
+export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.fold(M)(M.empty)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -288,10 +273,7 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
  * @since 2.0.0
  * @deprecated
  */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: (x, y) => (a) => x(y(a)),
-  empty: identity
-})
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => getDualMonoid(getEM())
 
 /**
  * Use `string.Monoid` instead.
@@ -300,8 +282,12 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
  * @since 2.0.0
  * @deprecated
  */
-export const monoidString: Monoid<string> = {
-  // tslint:disable-next-line: deprecation
-  concat: S.semigroupString.concat,
-  empty: ''
-}
+export const monoidString: Monoid<string> = S.Monoid
+
+/**
+ * Use `number.MonoidSum` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const monoidSum: Monoid<number> = MonoidSum

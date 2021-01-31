@@ -1,27 +1,19 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
+import { fold, getDualMonoid, getEndomorphismMonoid, getJoinMonoid, getMeetMonoid, getTupleMonoid } from '../src/Monoid'
 import * as N from '../src/number'
-import {
-  fold,
-  getDualMonoid,
-  getEndomorphismMonoid,
-  getJoinMonoid,
-  getMeetMonoid,
-  getTupleMonoid,
-  monoidSum
-} from '../src/Monoid'
 import * as S from '../src/string'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
-    const M1 = getTupleMonoid(S.Monoid, monoidSum)
+    const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
     assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const M2 = getTupleMonoid(S.Monoid, monoidSum, B.MonoidAll)
+    const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
     assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
   it('fold', () => {
-    assert.deepStrictEqual(fold(monoidSum)([1, 2, 3]), 6)
+    assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
   })
 
   it('getEndomorphismMonoid', () => {
