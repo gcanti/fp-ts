@@ -1,8 +1,7 @@
 import * as assert from 'assert'
 import { pipe } from '../src/function'
-import { monoidSum } from '../src/Monoid'
-import * as _ from '../src/Reader'
 import * as N from '../src/number'
+import * as _ from '../src/Reader'
 
 interface Env {
   readonly count: number
@@ -98,7 +97,7 @@ describe('Reader', () => {
 
   it('getMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getMonoid(monoidSum)
+    const M = _.getMonoid(N.MonoidSum)
     assert.deepStrictEqual(M.concat(_.of(1), M.empty)({}), 1)
     assert.deepStrictEqual(M.concat(M.empty, _.of(1))({}), 1)
   })
