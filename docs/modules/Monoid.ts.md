@@ -50,8 +50,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
+  - [getUnitMonoid](#getunitmonoid)
 - [instances](#instances)
-  - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
@@ -59,6 +59,7 @@ Added in v2.0.0
   - [~~monoidProduct~~](#monoidproduct)
   - [~~monoidString~~](#monoidstring)
   - [~~monoidSum~~](#monoidsum)
+  - [~~monoidVoid~~](#monoidvoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -203,17 +204,17 @@ assert.deepStrictEqual(M1.concat(1, 2), 1)
 
 Added in v2.0.0
 
-# instances
-
-## monoidVoid
+## getUnitMonoid
 
 **Signature**
 
 ```ts
-export declare const monoidVoid: Monoid<void>
+export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
 ```
 
-Added in v2.0.0
+Added in v2.10.0
+
+# instances
 
 ## ~~getEndomorphismMonoid~~
 
@@ -295,6 +296,18 @@ Use `number.MonoidSum` instead.
 
 ```ts
 export declare const monoidSum: Monoid<number>
+```
+
+Added in v2.0.0
+
+## ~~monoidVoid~~
+
+Use `getUnitMonoid` instead.
+
+**Signature**
+
+```ts
+export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v2.0.0

@@ -66,10 +66,12 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
     - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
     - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
-    - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in `function.getEndomorphismMonoid` is reversed) (@gcanti)
+    - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in
+      `function.getEndomorphismMonoid` is reversed) (@gcanti)
     - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
     - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
+    - deprecate `monoidVoid`, use `getUnitMonoid` instead (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -109,6 +111,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
     - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
     - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
+    - deprecate `semigroupVoid`, use `getUnitSemigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -223,6 +226,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - add `bind` helper (@gcanti)
     - add `chainFirst` helper (@gcanti)
+  - `Monoid`
+    - add `getUnitMonoid` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -290,6 +295,8 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+  - `Semigroup`
+    - add `getUnitSemigroup` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
