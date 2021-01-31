@@ -44,23 +44,6 @@ export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A
 })
 
 // -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const booleanAlgebraVoid: BooleanAlgebra<void> = {
-  meet: () => undefined,
-  join: () => undefined,
-  zero: undefined,
-  one: undefined,
-  implies: () => undefined,
-  not: () => undefined
-}
-
-// -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
@@ -83,3 +66,17 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = B.BooleanAlgebra
 export const getFunctionBooleanAlgebra: <B>(
   B: BooleanAlgebra<B>
 ) => <A = never>() => BooleanAlgebra<(a: A) => B> = getBooleanAlgebra
+
+/**
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const booleanAlgebraVoid: BooleanAlgebra<void> = {
+  meet: () => undefined,
+  join: () => undefined,
+  zero: undefined,
+  one: undefined,
+  implies: () => undefined,
+  not: () => undefined
+}
