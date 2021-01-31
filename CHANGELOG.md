@@ -107,6 +107,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
+    - deprecate `showNumber`, use `number.Show` instead (@gcanti)
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
