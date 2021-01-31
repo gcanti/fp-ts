@@ -19,7 +19,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [boundedNumber](#boundednumber)
+  - [~~boundedNumber~~](#boundednumber)
 - [type classes](#type-classes)
   - [Bounded (interface)](#bounded-interface)
 
@@ -27,7 +27,9 @@ Added in v2.0.0
 
 # instances
 
-## boundedNumber
+## ~~boundedNumber~~
+
+Use `number.Bounded` instead.
 
 **Signature**
 
