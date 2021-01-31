@@ -178,6 +178,14 @@ export const fromNullableK =
   OT.fromNullableK(T.Pointed)
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const chainNullableK =
+  /*#__PURE__*/
+  OT.chainNullableK(T.Monad)
+
+/**
  * @category combinators
  * @since 0.1.10
  */
