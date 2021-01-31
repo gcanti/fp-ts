@@ -178,7 +178,7 @@ export const fromNullableK =
   OT.fromNullableK(T.Pointed)
 
 /**
- * @category constructors
+ * @category combinators
  * @since 3.0.0
  */
 export const chainNullableK =
@@ -187,11 +187,11 @@ export const chainNullableK =
 
 /**
  * @category combinators
- * @since 0.1.10
+ * @since 3.0.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => O.Option<B>
-) => (...a: A) => TaskOption<B> = (f) => (...a) => fromOption(f(...a))
+export const fromOptionK =
+  /*#__PURE__*/
+  OT.fromOptionK(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // type class members
