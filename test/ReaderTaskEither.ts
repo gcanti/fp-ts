@@ -10,10 +10,11 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
-import { semigroupString, semigroupSum } from '../src/Semigroup'
+import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { assertPar, assertSeq } from './util'
+import * as S from '../src/string'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -292,18 +293,18 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getApplicativeReaderTaskValidation', async () => {
-    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, semigroupString)
+    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, S.Semigroup)
     assert.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getReaderTaskValidation(semigroupString)
+    const AV = _.getReaderTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(null)(), E.left('ab'))
   })
 
   it('getAltReaderTaskValidation', async () => {
-    const A = _.getAltReaderTaskValidation(semigroupString)
+    const A = _.getAltReaderTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
     // tslint:disable-next-line: deprecation
-    const AV = _.getReaderTaskValidation(semigroupString)
+    const AV = _.getReaderTaskValidation(S.Semigroup)
     assert.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(null)(), E.left('ab'))
   })
 
