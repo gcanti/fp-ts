@@ -24,7 +24,7 @@ import { Traversable2 } from './Traversable'
 /**
  * @since 3.0.0
  */
-export type ReadonlyTuple2<E, A> = readonly [A, E]
+export type Tuple2<E, A> = readonly [A, E]
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -33,12 +33,12 @@ export type ReadonlyTuple2<E, A> = readonly [A, E]
 /**
  * @since 3.0.0
  */
-export const fst = <A, E>(t: ReadonlyTuple2<E, A>): A => t[0]
+export const fst = <A, E>(t: Tuple2<E, A>): A => t[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <A, E>(t: ReadonlyTuple2<E, A>): E => t[1]
+export const snd = <A, E>(t: Tuple2<E, A>): E => t[1]
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -48,7 +48,7 @@ export const snd = <A, E>(t: ReadonlyTuple2<E, A>): E => t[1]
  * @category combinators
  * @since 3.0.0
  */
-export const swap = <A, E>(t: ReadonlyTuple2<E, A>): ReadonlyTuple2<A, E> => [snd(t), fst(t)]
+export const swap = <A, E>(t: Tuple2<E, A>): Tuple2<A, E> => [snd(t), fst(t)]
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -94,7 +94,7 @@ export const extract: Comonad2<URI>['extract'] = fst
  * @category derivable combinators
  * @since 3.0.0
  */
-export const duplicate: <E, A>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, ReadonlyTuple2<E, A>> =
+export const duplicate: <E, A>(t: Tuple2<E, A>) => Tuple2<E, Tuple2<E, A>> =
   /*#__PURE__*/
   extend(identity)
 
@@ -129,8 +129,8 @@ export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => f(fs
  * @since 3.0.0
  */
 export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
-  t: ReadonlyTuple2<E, A>
-): HKT<F, ReadonlyTuple2<E, B>> =>
+  t: Tuple2<E, A>
+): HKT<F, Tuple2<E, B>> =>
   pipe(
     f(fst(t)),
     F.map((b) => [b, snd(t)])
@@ -140,8 +140,8 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) =>
  * @since 3.0.0
  */
 export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
-  t: ReadonlyTuple2<E, HKT<F, A>>
-): HKT<F, ReadonlyTuple2<E, A>> =>
+  t: Tuple2<E, HKT<F, A>>
+): HKT<F, Tuple2<E, A>> =>
   pipe(
     fst(t),
     F.map((a) => [a, snd(t)])
@@ -155,11 +155,11 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReadonlyTuple2'
+export type URI = 'Tuple2'
 
 declare module './HKT' {
   interface URItoKind2<E, A> {
-    readonly ReadonlyTuple2: ReadonlyTuple2<E, A>
+    readonly Tuple2: Tuple2<E, A>
   }
 }
 

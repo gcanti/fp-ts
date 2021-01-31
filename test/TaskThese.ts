@@ -147,8 +147,8 @@ describe('TaskThese', () => {
   // utils
   // -------------------------------------------------------------------------------------
 
-  it('toReadonlyTuple2', async () => {
-    const f = _.toReadonlyTuple2(
+  it('toTuple2', async () => {
+    const f = _.toTuple2(
       () => 'b',
       () => 2
     )

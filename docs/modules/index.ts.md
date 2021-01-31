@@ -79,7 +79,6 @@ Added in v3.0.0
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
-  - [readonlyTuple2](#readonlytuple2)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
@@ -100,6 +99,7 @@ Added in v3.0.0
   - [traversable](#traversable)
   - [traversableWithIndex](#traversablewithindex)
   - [tree](#tree)
+  - [tuple2](#tuple2)
   - [unfoldable](#unfoldable)
   - [witherable](#witherable)
   - [writer](#writer)
@@ -768,16 +768,6 @@ export declare const readonlySet: typeof readonlySet
 
 Added in v3.0.0
 
-## readonlyTuple2
-
-**Signature**
-
-```ts
-export declare const readonlyTuple2: typeof readonlyTuple2
-```
-
-Added in v3.0.0
-
 ## ring
 
 **Signature**
@@ -974,6 +964,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tree: typeof tree
+```
+
+Added in v3.0.0
+
+## tuple2
+
+**Signature**
+
+```ts
+export declare const tuple2: typeof tuple2
 ```
 
 Added in v3.0.0

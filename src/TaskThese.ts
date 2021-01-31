@@ -329,6 +329,6 @@ export const FromTask: FromTask2<URI> = {
 /**
  * @since 3.0.0
  */
-export const toReadonlyTuple2 =
+export const toTuple2 =
   /*#__PURE__*/
-  TT.toReadonlyTuple2(T.Functor)
+  TT.toTuple2(T.Functor)

@@ -68,7 +68,6 @@ import * as readonlyMap from './ReadonlyMap'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
 import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
-import * as readonlyTuple2 from './ReadonlyTuple2'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupoid from './Semigroupoid'
@@ -89,6 +88,7 @@ import * as traced from './Traced'
 import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
+import * as tuple2 from './Tuple2'
 import * as unfoldable from './Unfoldable'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
@@ -348,10 +348,6 @@ export {
   /**
    * @since 3.0.0
    */
-  readonlyTuple2,
-  /**
-   * @since 3.0.0
-   */
   readerT,
   /**
    * @since 3.0.0
@@ -441,6 +437,10 @@ export {
    * @since 3.0.0
    */
   tree,
+  /**
+   * @since 3.0.0
+   */
+  tuple2,
   /**
    * @since 3.0.0
    */

@@ -1,10 +1,10 @@
 import { identity, pipe } from '../src/function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
-import * as _ from '../src/ReadonlyTuple2'
+import * as _ from '../src/Tuple2'
 import * as U from './util'
 
-describe('ReadonlyTuple2', () => {
+describe('Tuple2', () => {
   describe('combinators', () => {
     it('swap', () => {
       U.deepStrictEqual(_.swap([1, 'a']), ['a', 1])

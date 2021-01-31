@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 83
+nav_order: 82
 parent: Modules
 ---
 
@@ -83,7 +83,7 @@ Added in v3.0.0
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
   - [sequence](#sequence)
-  - [toReadonlyTuple2](#toreadonlytuple2)
+  - [toTuple2](#totuple2)
   - [traverse](#traverse)
 
 ---
@@ -650,20 +650,20 @@ export declare const sequence: Sequence2<'These'>
 
 Added in v3.0.0
 
-## toReadonlyTuple2
+## toTuple2
 
 **Signature**
 
 ```ts
-export declare const toReadonlyTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>) => readonly [E, A]
 ```
 
 **Example**
 
 ```ts
-import { toReadonlyTuple2, left, right, both } from 'fp-ts/These'
+import { toTuple2, left, right, both } from 'fp-ts/These'
 
-const f = toReadonlyTuple2(
+const f = toTuple2(
   () => 'a',
   () => 1
 )

@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 82
+nav_order: 81
 parent: Modules
 ---
 
@@ -53,7 +53,7 @@ Added in v3.0.0
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [utils](#utils)
-  - [toReadonlyTuple2](#toreadonlytuple2)
+  - [toTuple2](#totuple2)
 
 ---
 
@@ -421,15 +421,12 @@ Added in v3.0.0
 
 # utils
 
-## toReadonlyTuple2
+## toTuple2
 
 **Signature**
 
 ```ts
-export declare const toReadonlyTuple2: <E, A>(
-  e: Lazy<E>,
-  a: Lazy<A>
-) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

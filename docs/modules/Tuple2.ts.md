@@ -1,10 +1,10 @@
 ---
-title: ReadonlyTuple2.ts
-nav_order: 68
+title: Tuple2.ts
+nav_order: 88
 parent: Modules
 ---
 
-## ReadonlyTuple2 overview
+## Tuple2 overview
 
 Added in v3.0.0
 
@@ -44,7 +44,7 @@ Added in v3.0.0
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [utils](#utils)
-  - [ReadonlyTuple2 (type alias)](#readonlytuple2-type-alias)
+  - [Tuple2 (type alias)](#tuple2-type-alias)
   - [fst](#fst)
   - [sequence](#sequence)
   - [snd](#snd)
@@ -61,10 +61,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => (fea: ReadonlyTuple2<E, A>) => ReadonlyTuple2<G, B>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Tuple2<E, A>) => Tuple2<G, B>
 ```
 
 Added in v3.0.0
@@ -76,7 +73,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: ReadonlyTuple2<E, A>) => ReadonlyTuple2<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Tuple2<E, A>) => Tuple2<G, A>
 ```
 
 Added in v3.0.0
@@ -88,9 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(
-  f: (wa: ReadonlyTuple2<E, A>) => B
-) => (wa: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, B>
+export declare const extend: <E, A, B>(f: (wa: Tuple2<E, A>) => B) => (wa: Tuple2<E, A>) => Tuple2<E, B>
 ```
 
 Added in v3.0.0
@@ -102,7 +97,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <E, A>(wa: ReadonlyTuple2<E, A>) => A
+export declare const extract: <E, A>(wa: Tuple2<E, A>) => A
 ```
 
 Added in v3.0.0
@@ -114,7 +109,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: ReadonlyTuple2<E, A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Tuple2<E, A>) => M
 ```
 
 Added in v3.0.0
@@ -124,7 +119,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: ReadonlyTuple2<E, A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Tuple2<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -134,7 +129,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: ReadonlyTuple2<E, A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Tuple2<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -149,7 +144,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Tuple2<E, A>) => Tuple2<E, B>
 ```
 
 Added in v3.0.0
@@ -161,7 +156,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compose: <B, C>(bc: ReadonlyTuple2<B, C>) => <A>(ab: ReadonlyTuple2<A, B>) => ReadonlyTuple2<A, C>
+export declare const compose: <B, C>(bc: Tuple2<B, C>) => <A>(ab: Tuple2<A, B>) => Tuple2<A, C>
 ```
 
 Added in v3.0.0
@@ -173,7 +168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <A, E>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<A, E>
+export declare const swap: <A, E>(t: Tuple2<E, A>) => Tuple2<A, E>
 ```
 
 Added in v3.0.0
@@ -187,7 +182,7 @@ Derivable from `Extend`.
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(t: ReadonlyTuple2<E, A>) => ReadonlyTuple2<E, ReadonlyTuple2<E, A>>
+export declare const duplicate: <E, A>(t: Tuple2<E, A>) => Tuple2<E, Tuple2<E, A>>
 ```
 
 Added in v3.0.0
@@ -199,7 +194,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'ReadonlyTuple2'>
+export declare const Bifunctor: Bifunctor2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -209,7 +204,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad2<'ReadonlyTuple2'>
+export declare const Comonad: Comonad2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -219,7 +214,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable2<'ReadonlyTuple2'>
+export declare const Foldable: Foldable2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -229,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'ReadonlyTuple2'>
+export declare const Functor: Functor2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -239,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroupoid: Semigroupoid2<'ReadonlyTuple2'>
+export declare const Semigroupoid: Semigroupoid2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -249,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable2<'ReadonlyTuple2'>
+export declare const Traversable: Traversable2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -259,7 +254,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type URI = 'ReadonlyTuple2'
+export type URI = 'Tuple2'
 ```
 
 Added in v3.0.0
@@ -269,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'ReadonlyTuple2', M>
+export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'Tuple2', M>
 ```
 
 Added in v3.0.0
@@ -279,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'ReadonlyTuple2', S>
+export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'Tuple2', S>
 ```
 
 Added in v3.0.0
@@ -289,7 +284,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'ReadonlyTuple2', M>
+export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'Tuple2', M>
 ```
 
 Added in v3.0.0
@@ -299,19 +294,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <M>(M: Monoid<M>) => Pointed2C<'ReadonlyTuple2', M>
+export declare const getPointed: <M>(M: Monoid<M>) => Pointed2C<'Tuple2', M>
 ```
 
 Added in v3.0.0
 
 # utils
 
-## ReadonlyTuple2 (type alias)
+## Tuple2 (type alias)
 
 **Signature**
 
 ```ts
-export type ReadonlyTuple2<E, A> = readonly [A, E]
+export type Tuple2<E, A> = readonly [A, E]
 ```
 
 Added in v3.0.0
@@ -321,7 +316,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <A, E>(t: ReadonlyTuple2<E, A>) => A
+export declare const fst: <A, E>(t: Tuple2<E, A>) => A
 ```
 
 Added in v3.0.0
@@ -331,7 +326,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const sequence: Sequence2<'ReadonlyTuple2'>
+export declare const sequence: Sequence2<'Tuple2'>
 ```
 
 Added in v3.0.0
@@ -341,7 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <A, E>(t: ReadonlyTuple2<E, A>) => E
+export declare const snd: <A, E>(t: Tuple2<E, A>) => E
 ```
 
 Added in v3.0.0
@@ -351,7 +346,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse2<'ReadonlyTuple2'>
+export declare const traverse: Traverse2<'Tuple2'>
 ```
 
 Added in v3.0.0
