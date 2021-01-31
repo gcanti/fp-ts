@@ -4,7 +4,12 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { FromEither2, fromOption as fromOption_, fromPredicate as fromPredicate_ } from './FromEither'
+import {
+  FromEither2,
+  fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow } from './function'
@@ -281,6 +286,14 @@ export const FromEither: FromEither2<URI> = {
 export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
 
 /**
  * Derivable from `FromEither`.
