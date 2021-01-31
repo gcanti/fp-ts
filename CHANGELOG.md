@@ -55,6 +55,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
+  - `Ring`
+    - deprecate `getFunctionRing`, use `function.getRing` instead (@gcanti)
   - `Reader`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -145,6 +147,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `reduceWithIndex` helper (@gcanti)
     - add `foldaMapWithIndex` helper (@gcanti)
     - add `reduceRightWithIndex` helper (@gcanti)
+  - `function`
+    - add `getBooleanAlgebra` (@gcanti)
+    - add `getSemigroup` (@gcanti)
+    - add `getMonoid` (@gcanti)
+    - add `getSemiring` (@gcanti)
+    - add `getRing` (@gcanti)
   - `Functor`
     - add `map` helper (@gcanti)
     - add `bindTo` helper (@gcanti)

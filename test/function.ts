@@ -3,6 +3,7 @@ import * as _ from '../src/function'
 import * as B from '../src/boolean'
 import * as RA from '../src/ReadonlyArray'
 import { fold } from '../src/Monoid'
+import { fieldNumber } from '../src/Field'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
@@ -155,5 +156,25 @@ describe('function', () => {
       _.pipe([1, 2, 3, 40, 41], RA.filter(fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
       [1, 2, 3, 40]
     )
+  })
+
+  it('getSemiring', () => {
+    const S = _.getSemiring<string, number>(fieldNumber)
+    const f1 = (s: string): number => s.length
+    const f2 = (s: string): number => s.indexOf('a')
+    assert.deepStrictEqual(S.add(f1, f2)('foo'), 2)
+    assert.deepStrictEqual(S.add(f1, f2)('fooa'), 7)
+    assert.deepStrictEqual(S.zero(''), 0)
+    assert.deepStrictEqual(S.one(''), 1)
+    assert.deepStrictEqual(S.mul(f1, f2)('foo'), -3)
+    assert.deepStrictEqual(S.mul(f1, f2)('fooa'), 12)
+  })
+
+  it('getRing', () => {
+    const R = _.getRing<string, number>(fieldNumber)
+    const f1 = (s: string): number => s.length
+    const f2 = (s: string): number => s.indexOf('a')
+    assert.deepStrictEqual(R.sub(f1, f2)('foo'), 4)
+    assert.deepStrictEqual(R.sub(f1, f2)('fooa'), 1)
   })
 })
