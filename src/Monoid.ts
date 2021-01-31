@@ -192,6 +192,7 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
  * @since 2.0.0
  */
 export const monoidAll: Monoid<boolean> = {
+  // tslint:disable-next-line: deprecation
   concat: S.semigroupAll.concat,
   empty: true
 }
@@ -212,6 +213,7 @@ export const monoidAll: Monoid<boolean> = {
  * @since 2.0.0
  */
 export const monoidAny: Monoid<boolean> = {
+  // tslint:disable-next-line: deprecation
   concat: S.semigroupAny.concat,
   empty: false
 }
