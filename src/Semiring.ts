@@ -21,6 +21,7 @@
  *
  * @since 2.0.0
  */
+import { getSemiring } from './function'
 
 /**
  * @category type classes
@@ -33,15 +34,15 @@ export interface Semiring<A> {
   readonly one: A
 }
 
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
 /**
+ * Use `function.getSemiring` instead.
+ *
  * @category instances
  * @since 2.0.0
+ * @deprecated
  */
-export function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B> {
-  return {
-    add: (f, g) => (x) => S.add(f(x), g(x)),
-    zero: () => S.zero,
-    mul: (f, g) => (x) => S.mul(f(x), g(x)),
-    one: () => S.one
-  }
-}
+export const getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B> = getSemiring
