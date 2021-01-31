@@ -51,14 +51,14 @@ Added in v2.0.0
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
 - [instances](#instances)
-  - [monoidProduct](#monoidproduct)
-  - [monoidSum](#monoidsum)
   - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
   - [~~monoidAny~~](#monoidany)
+  - [~~monoidProduct~~](#monoidproduct)
   - [~~monoidString~~](#monoidstring)
+  - [~~monoidSum~~](#monoidsum)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -104,16 +104,17 @@ export declare const getStructMonoid: <O extends Readonly<Record<string, any>>>(
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { getStructMonoid } from 'fp-ts/Monoid'
+import { MonoidSum } from 'fp-ts/number'
 
 interface Point {
   readonly x: number
   readonly y: number
 }
 
-const monoidPoint = M.getStructMonoid<Point>({
-  x: M.monoidSum,
-  y: M.monoidSum,
+const monoidPoint = getStructMonoid<Point>({
+  x: MonoidSum,
+  y: MonoidSum,
 })
 
 assert.deepStrictEqual(monoidPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
@@ -130,19 +131,21 @@ Given a tuple of monoids returns a monoid for the tuple
 ```ts
 export declare const getTupleMonoid: <T extends readonly Monoid<any>[]>(
   ...monoids: T
-) => Monoid<{ [K in keyof T]: T[K] extends S.Semigroup<infer A> ? A : never }>
+) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }>
 ```
 
 **Example**
 
 ```ts
-import { getTupleMonoid, monoidSum, monoidAll } from 'fp-ts/Monoid'
+import { getTupleMonoid } from 'fp-ts/Monoid'
 import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
 
-const M1 = getTupleMonoid(S.Monoid, monoidSum)
+const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
 assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
-const M2 = getTupleMonoid(S.Monoid, monoidSum, monoidAll)
+const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
 assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
@@ -201,50 +204,6 @@ assert.deepStrictEqual(M1.concat(1, 2), 1)
 Added in v2.0.0
 
 # instances
-
-## monoidProduct
-
-`number` monoid under multiplication.
-
-The `empty` value is `1`.
-
-**Signature**
-
-```ts
-export declare const monoidProduct: Monoid<number>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-
-assert.deepStrictEqual(M.monoidProduct.concat(2, 3), 6)
-```
-
-Added in v2.0.0
-
-## monoidSum
-
-`number` monoid under addition.
-
-The `empty` value is `0`.
-
-**Signature**
-
-```ts
-export declare const monoidSum: Monoid<number>
-```
-
-**Example**
-
-```ts
-import * as M from 'fp-ts/Monoid'
-
-assert.deepStrictEqual(M.monoidSum.concat(2, 3), 5)
-```
-
-Added in v2.0.0
 
 ## monoidVoid
 
@@ -306,6 +265,16 @@ export declare const monoidAny: Monoid<boolean>
 
 Added in v2.0.0
 
+## ~~monoidProduct~~
+
+**Signature**
+
+```ts
+export declare const monoidProduct: Monoid<number>
+```
+
+Added in v2.0.0
+
 ## ~~monoidString~~
 
 Use `string.Monoid` instead.
@@ -318,6 +287,18 @@ export declare const monoidString: Monoid<string>
 
 Added in v2.0.0
 
+## ~~monoidSum~~
+
+Use `number.MonoidSum` instead.
+
+**Signature**
+
+```ts
+export declare const monoidSum: Monoid<number>
+```
+
+Added in v2.0.0
+
 # type classes
 
 ## Monoid (interface)
@@ -325,7 +306,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Monoid<A> extends S.Semigroup<A> {
+export interface Monoid<A> extends Se.Semigroup<A> {
   readonly empty: A
 }
 ```
@@ -343,16 +324,17 @@ If `as` is empty, return the monoid `empty` value.
 **Signature**
 
 ```ts
-export declare function fold<A>(M: Monoid<A>): (as: ReadonlyArray<A>) => A
+export declare const fold: <A>(M: Monoid<A>) => (as: readonly A[]) => A
 ```
 
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { fold } from 'fp-ts/Monoid'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(M.fold(M.monoidSum)([1, 2, 3]), 6)
-assert.deepStrictEqual(M.fold(M.monoidSum)([]), 0)
+assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
+assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
 ```
 
 Added in v2.0.0

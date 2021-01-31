@@ -31,9 +31,9 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
   - [getTupleOrd](#gettupleord)
   - [ordDate](#orddate)
-  - [~~getSemigroup~~](#getsemigroup)
   - [~~ordBoolean~~](#ordboolean)
   - [~~ordNumber~~](#ordnumber)
   - [~~ordString~~](#ordstring)
@@ -130,7 +130,7 @@ Returns a `Monoid` such that:
 **Signature**
 
 ```ts
-export declare function getMonoid<A = never>(): Monoid<Ord<A>>
+export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 ```
 
 **Example**
@@ -196,6 +196,16 @@ assert.deepStrictEqual(sort(O2)(users), [
 
 Added in v2.4.0
 
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
+```
+
+Added in v2.0.0
+
 ## getTupleOrd
 
 Given a tuple of `Ord`s returns an `Ord` for the tuple
@@ -230,18 +240,6 @@ Added in v2.0.0
 
 ```ts
 export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
-## ~~getSemigroup~~
-
-Use `getMonoid` instead
-
-**Signature**
-
-```ts
-export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>
 ```
 
 Added in v2.0.0
