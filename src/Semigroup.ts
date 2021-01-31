@@ -19,6 +19,10 @@ import { Endomorphism } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -26,26 +30,54 @@ import { max, min, Ord } from './Ord'
 export interface Semigroup<A> extends Magma<A> {}
 
 // -------------------------------------------------------------------------------------
-// utils
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
- * Given a sequence of `as`, concat them and return the total.
- *
- * If `as` is empty, return the provided `startWith` value.
+ * Get a semigroup where `concat` will return the minimum, based on the provided order.
  *
  * @example
+ * import * as O from 'fp-ts/Ord'
  * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  *
- * const sum = S.fold(S.semigroupSum)(0)
+ * const S1 = S.getMeetSemigroup(O.ordNumber)
  *
- * assert.deepStrictEqual(sum([1, 2, 3]), 6)
- * assert.deepStrictEqual(sum([]), 0)
+ * assert.deepStrictEqual(pipe(1, S1.concat(2)), 1)
  *
+ * @category constructors
  * @since 3.0.0
  */
-export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
-  as.reduce((a, acc) => S.concat(acc)(a), startWith)
+export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: min(O)
+})
+
+/**
+ * Get a semigroup where `concat` will return the maximum, based on the provided order.
+ *
+ * @example
+ * import * as O from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const S1 = S.getJoinSemigroup(O.ordNumber)
+ *
+ * assert.deepStrictEqual(pipe(1, S1.concat(2)), 2)
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: max(O)
+})
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
+  concat: () => () => a
+})
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -65,6 +97,80 @@ export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray
  */
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
   concat: (second) => (first) => S.concat(first)(second)
+})
+
+/**
+ * Given a struct of semigroups returns a semigroup for the struct.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Point {
+ *   readonly x: number
+ *   readonly y: number
+ * }
+ *
+ * const semigroupPoint = S.getStructSemigroup<Point>({
+ *   x: S.semigroupSum,
+ *   y: S.semigroupSum
+ * })
+ *
+ * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
+  concat: (second) => (first) => {
+    const r: A = {} as any
+    // tslint:disable-next-line: forin
+    for (const key in semigroups) {
+      r[key] = semigroups[key].concat(second[key])(first[key])
+    }
+    return r
+  }
+})
+
+/**
+ * Given a tuple of semigroups returns a semigroup for the tuple.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+ * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
+ *
+ * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
+ * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<A> => ({
+  concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
+})
+
+/**
+ * You can glue items between and stay associative.
+ *
+ * @example
+ * import * as S from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+ *
+ * assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
+ * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getIntercalateSemigroup = <A>(a: A): Endomorphism<Semigroup<A>> => (S) => ({
+  concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
 })
 
 // -------------------------------------------------------------------------------------
@@ -104,61 +210,6 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
 })
 
 /**
- * Given a struct of semigroups returns a semigroup for the struct.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * interface Point {
- *   readonly x: number
- *   readonly y: number
- * }
- *
- * const semigroupPoint = S.getStructSemigroup<Point>({
- *   x: S.semigroupSum,
- *   y: S.semigroupSum
- * })
- *
- * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, semigroupPoint.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
- *
- * @category instances
- * @since 3.0.0
- */
-export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
-  concat: (second) => (first) => {
-    const r: A = {} as any
-    // tslint:disable-next-line: forin
-    for (const key in semigroups) {
-      r[key] = semigroups[key].concat(second[key])(first[key])
-    }
-    return r
-  }
-})
-
-/**
- * Given a tuple of semigroups returns a semigroup for the tuple.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
- * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
- *
- * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
- * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
- *
- * @category instances
- * @since 3.0.0
- */
-export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
-  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<A> => ({
-  concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
-})
-
-/**
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
  *
  * @example
@@ -183,44 +234,6 @@ export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
  */
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ({
   concat: (second) => (first) => (a) => S.concat(second(a))(first(a))
-})
-
-/**
- * Get a semigroup where `concat` will return the minimum, based on the provided order.
- *
- * @example
- * import * as O from 'fp-ts/Ord'
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * const S1 = S.getMeetSemigroup(O.ordNumber)
- *
- * assert.deepStrictEqual(pipe(1, S1.concat(2)), 1)
- *
- * @category instances
- * @since 3.0.0
- */
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: min(O)
-})
-
-/**
- * Get a semigroup where `concat` will return the maximum, based on the provided order.
- *
- * @example
- * import * as O from 'fp-ts/Ord'
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * const S1 = S.getJoinSemigroup(O.ordNumber)
- *
- * assert.deepStrictEqual(pipe(1, S1.concat(2)), 2)
- *
- * @category instances
- * @since 3.0.0
- */
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: max(O)
 })
 
 /**
@@ -328,21 +341,24 @@ export const semigroupString: Semigroup<string> = {
   concat: (second) => (first) => first + second
 }
 
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
 /**
- * You can glue items between and stay associative.
+ * Given a sequence of `as`, concat them and return the total.
+ *
+ * If `as` is empty, return the provided `startWith` value.
  *
  * @example
  * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
  *
- * const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+ * const sum = S.fold(S.semigroupSum)(0)
  *
- * assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
- * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
+ * assert.deepStrictEqual(sum([1, 2, 3]), 6)
+ * assert.deepStrictEqual(sum([]), 0)
  *
- * @category instances
  * @since 3.0.0
  */
-export const getIntercalateSemigroup = <A>(a: A): Endomorphism<Semigroup<A>> => (S) => ({
-  concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
-})
+export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
+  as.reduce((a, acc) => S.concat(acc)(a), startWith)
