@@ -1218,9 +1218,9 @@ export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
 
 ```ts
 import { getMonoid, some, none } from 'fp-ts/Option'
-import { semigroupSum } from 'fp-ts/Semigroup'
+import { SemigroupSum } from 'fp-ts/number'
 
-const M = getMonoid(semigroupSum)
+const M = getMonoid(SemigroupSum)
 assert.deepStrictEqual(M.concat(none, none), none)
 assert.deepStrictEqual(M.concat(some(1), none), some(1))
 assert.deepStrictEqual(M.concat(none, some(1)), some(1))
@@ -1304,9 +1304,9 @@ export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option
 
 ```ts
 import { getApplySemigroup, some, none } from 'fp-ts/Option'
-import { semigroupSum } from 'fp-ts/Semigroup'
+import { SemigroupSum } from 'fp-ts/number'
 
-const S = getApplySemigroup(semigroupSum)
+const S = getApplySemigroup(SemigroupSum)
 assert.deepStrictEqual(S.concat(none, none), none)
 assert.deepStrictEqual(S.concat(some(1), none), none)
 assert.deepStrictEqual(S.concat(none, some(1)), none)

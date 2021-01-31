@@ -499,10 +499,10 @@ export declare function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<
 **Example**
 
 ```ts
-import { semigroupSum } from 'fp-ts/Semigroup'
+import { SemigroupSum } from 'fp-ts/number'
 import { getMonoid } from 'fp-ts/ReadonlyRecord'
 
-const M = getMonoid(semigroupSum)
+const M = getMonoid(SemigroupSum)
 assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 ```
 

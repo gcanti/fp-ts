@@ -15,7 +15,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [fieldNumber](#fieldnumber)
+  - [~~fieldNumber~~](#fieldnumber)
 - [type classes](#type-classes)
   - [Field (interface)](#field-interface)
 - [utils](#utils)
@@ -26,7 +26,7 @@ Added in v2.0.0
 
 # instances
 
-## fieldNumber
+## ~~fieldNumber~~
 
 **Signature**
 
