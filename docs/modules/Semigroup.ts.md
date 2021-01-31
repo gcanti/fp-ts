@@ -48,17 +48,19 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getDualSemigroup](#getdualsemigroup)
-  - [getFirstSemigroup](#getfirstsemigroup)
-  - [getFunctionSemigroup](#getfunctionsemigroup)
   - [getIntercalateSemigroup](#getintercalatesemigroup)
-  - [getJoinSemigroup](#getjoinsemigroup)
-  - [getLastSemigroup](#getlastsemigroup)
-  - [getMeetSemigroup](#getmeetsemigroup)
-  - [getObjectSemigroup](#getobjectsemigroup)
   - [getStructSemigroup](#getstructsemigroup)
   - [getTupleSemigroup](#gettuplesemigroup)
+- [constructors](#constructors)
+  - [getJoinSemigroup](#getjoinsemigroup)
+  - [getMeetSemigroup](#getmeetsemigroup)
+- [instances](#instances)
+  - [getFirstSemigroup](#getfirstsemigroup)
+  - [getFunctionSemigroup](#getfunctionsemigroup)
+  - [getLastSemigroup](#getlastsemigroup)
+  - [getObjectSemigroup](#getobjectsemigroup)
   - [semigroupAll](#semigroupall)
   - [semigroupAny](#semigroupany)
   - [semigroupProduct](#semigroupproduct)
@@ -72,7 +74,7 @@ Added in v2.0.0
 
 ---
 
-# instances
+# combinators
 
 ## getDualSemigroup
 
@@ -81,7 +83,7 @@ The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
 **Signature**
 
 ```ts
-export declare function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A>
+export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -93,6 +95,137 @@ assert.deepStrictEqual(S.getDualSemigroup(S.semigroupString).concat('a', 'b'), '
 ```
 
 Added in v2.0.0
+
+## getIntercalateSemigroup
+
+You can glue items between and stay associative.
+
+**Signature**
+
+```ts
+export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+
+assert.strictEqual(S1.concat('a', 'b'), 'a b')
+assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
+```
+
+Added in v2.5.0
+
+## getStructSemigroup
+
+Given a struct of semigroups returns a semigroup for the struct.
+
+**Signature**
+
+```ts
+export declare const getStructSemigroup: <O extends Readonly<Record<string, any>>>(
+  semigroups: { [K in keyof O]: Semigroup<O[K]> }
+) => Semigroup<O>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+
+const semigroupPoint = S.getStructSemigroup<Point>({
+  x: S.semigroupSum,
+  y: S.semigroupSum,
+})
+
+assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+```
+
+Added in v2.0.0
+
+## getTupleSemigroup
+
+Given a tuple of semigroups returns a semigroup for the tuple.
+
+**Signature**
+
+```ts
+export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
+  ...semigroups: T
+) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
+assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.0.0
+
+# constructors
+
+## getJoinSemigroup
+
+Get a semigroup where `concat` will return the maximum, based on the provided order.
+
+**Signature**
+
+```ts
+export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Ord'
+import * as S from 'fp-ts/Semigroup'
+
+const S1 = S.getJoinSemigroup(O.ordNumber)
+
+assert.deepStrictEqual(S1.concat(1, 2), 2)
+```
+
+Added in v2.0.0
+
+## getMeetSemigroup
+
+Get a semigroup where `concat` will return the minimum, based on the provided order.
+
+**Signature**
+
+```ts
+export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Ord'
+import * as S from 'fp-ts/Semigroup'
+
+const S1 = S.getMeetSemigroup(O.ordNumber)
+
+assert.deepStrictEqual(S1.concat(1, 2), 1)
+```
+
+Added in v2.0.0
+
+# instances
 
 ## getFirstSemigroup
 
@@ -146,52 +279,6 @@ assert.deepStrictEqual(S2.concat(f, g)(3), true)
 
 Added in v2.0.0
 
-## getIntercalateSemigroup
-
-You can glue items between and stay associative.
-
-**Signature**
-
-```ts
-export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
-
-assert.strictEqual(S1.concat('a', 'b'), 'a b')
-assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
-```
-
-Added in v2.5.0
-
-## getJoinSemigroup
-
-Get a semigroup where `concat` will return the maximum, based on the provided order.
-
-**Signature**
-
-```ts
-export declare function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Ord'
-import * as S from 'fp-ts/Semigroup'
-
-const S1 = S.getJoinSemigroup(O.ordNumber)
-
-assert.deepStrictEqual(S1.concat(1, 2), 2)
-```
-
-Added in v2.0.0
-
 ## getLastSemigroup
 
 Always return the last argument.
@@ -208,29 +295,6 @@ export declare function getLastSemigroup<A = never>(): Semigroup<A>
 import * as S from 'fp-ts/Semigroup'
 
 assert.deepStrictEqual(S.getLastSemigroup<number>().concat(1, 2), 2)
-```
-
-Added in v2.0.0
-
-## getMeetSemigroup
-
-Get a semigroup where `concat` will return the minimum, based on the provided order.
-
-**Signature**
-
-```ts
-export declare function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Ord'
-import * as S from 'fp-ts/Semigroup'
-
-const S1 = S.getMeetSemigroup(O.ordNumber)
-
-assert.deepStrictEqual(S1.concat(1, 2), 1)
 ```
 
 Added in v2.0.0
@@ -257,64 +321,6 @@ interface Person {
 
 const S1 = S.getObjectSemigroup<Person>()
 assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
-```
-
-Added in v2.0.0
-
-## getStructSemigroup
-
-Given a struct of semigroups returns a semigroup for the struct.
-
-**Signature**
-
-```ts
-export declare function getStructSemigroup<O extends ReadonlyRecord<string, any>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const semigroupPoint = S.getStructSemigroup<Point>({
-  x: S.semigroupSum,
-  y: S.semigroupSum,
-})
-
-assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
-Added in v2.0.0
-
-## getTupleSemigroup
-
-Given a tuple of semigroups returns a semigroup for the tuple.
-
-**Signature**
-
-```ts
-export declare function getTupleSemigroup<T extends ReadonlyArray<Semigroup<any>>>(
-  ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
-assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-
-const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
-assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
 Added in v2.0.0
