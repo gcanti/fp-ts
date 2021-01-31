@@ -1,19 +1,16 @@
 import * as assert from 'assert'
-import * as RA from '../src/ReadonlyArray'
+import * as B from '../src/boolean'
 import { boundedNumber } from '../src/Bounded'
 import {
   fold,
+  getDualMonoid,
   getEndomorphismMonoid,
-  getFunctionMonoid,
   getJoinMonoid,
   getMeetMonoid,
   getTupleMonoid,
   monoidString,
-  monoidSum,
-  getDualMonoid
+  monoidSum
 } from '../src/Monoid'
-import { pipe } from '../src/function'
-import * as B from '../src/boolean'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
@@ -25,23 +22,6 @@ describe('Monoid', () => {
 
   it('fold', () => {
     assert.deepStrictEqual(fold(monoidSum)([1, 2, 3]), 6)
-  })
-
-  it('getFunctionMonoid', () => {
-    const getPredicateMonoidAll = getFunctionMonoid(B.MonoidAll)
-    const getPredicateMonoidAny = getFunctionMonoid(B.MonoidAny)
-
-    const isLessThan10 = (n: number) => n <= 10
-    const isEven = (n: number) => n % 2 === 0
-
-    assert.deepStrictEqual(
-      pipe([1, 2, 3, 40], RA.filter(fold(getPredicateMonoidAll<number>())([isLessThan10, isEven]))),
-      [2]
-    )
-    assert.deepStrictEqual(
-      pipe([1, 2, 3, 40, 41], RA.filter(fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
-      [1, 2, 3, 40]
-    )
   })
 
   it('getEndomorphismMonoid', () => {

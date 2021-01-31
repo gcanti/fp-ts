@@ -33,7 +33,7 @@
  * @since 2.0.0
  */
 import { Bounded } from './Bounded'
-import { Endomorphism, identity } from './function'
+import { Endomorphism, identity, getMonoid } from './function'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as S from './Semigroup'
 import { MonoidAll, MonoidAny } from './boolean'
@@ -241,35 +241,6 @@ export const monoidVoid: Monoid<void> = {
   empty: undefined
 }
 
-/**
- * Unary functions form a monoid as long as you can provide a monoid for the codomain.
- *
- * @example
- * import { Predicate } from 'fp-ts/function'
- * import * as M from 'fp-ts/Monoid'
- *
- * const f: Predicate<number> = (n) => n <= 2
- * const g: Predicate<number> = (n) => n >= 0
- *
- * const M1 = M.getFunctionMonoid(M.monoidAll)<number>()
- *
- * assert.deepStrictEqual(M1.concat(f, g)(1), true)
- * assert.deepStrictEqual(M1.concat(f, g)(3), false)
- *
- * const M2 = M.getFunctionMonoid(M.monoidAny)<number>()
- *
- * assert.deepStrictEqual(M2.concat(f, g)(1), true)
- * assert.deepStrictEqual(M2.concat(f, g)(3), true)
- *
- * @category instances
- * @since 2.0.0
- */
-export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ({
-  // tslint:disable-next-line: deprecation
-  concat: S.getFunctionSemigroup(M)<A>().concat,
-  empty: () => M.empty
-})
-
 // TODO: swap execution order in v3
 /**
  * Endomorphism form a monoid where the `empty` value is the identity function.
@@ -324,3 +295,12 @@ export const monoidAll: Monoid<boolean> = MonoidAll
  * @deprecated
  */
 export const monoidAny: Monoid<boolean> = MonoidAny
+
+/**
+ * Use `function.getMonoid` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getMonoid
