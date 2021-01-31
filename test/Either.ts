@@ -1,12 +1,13 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
-import { eqNumber, eqString } from '../src/Eq'
+import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 
 describe('Either', () => {
@@ -357,7 +358,7 @@ describe('Either', () => {
 
   describe('getEq', () => {
     it('equals', () => {
-      const equals = _.getEq(eqString, eqNumber).equals
+      const equals = _.getEq(S.Eq, eqNumber).equals
       assert.deepStrictEqual(equals(_.right(1), _.right(1)), true)
       assert.deepStrictEqual(equals(_.right(1), _.right(2)), false)
       assert.deepStrictEqual(equals(_.right(1), _.left('foo')), false)
