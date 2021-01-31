@@ -4,7 +4,6 @@ import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as _ from '../src/NonEmptyArray'
 import * as O from '../src/Option'
-import { ordNumber } from '../src/Ord'
 import { semigroupSum } from '../src/Semigroup'
 import * as S from '../src/string'
 
@@ -99,13 +98,13 @@ describe('NonEmptyArray', () => {
   })
 
   it('min', () => {
-    assert.deepStrictEqual(_.min(ordNumber)([2, 1, 3]), 1)
-    assert.deepStrictEqual(_.min(ordNumber)([3]), 3)
+    assert.deepStrictEqual(_.min(N.Ord)([2, 1, 3]), 1)
+    assert.deepStrictEqual(_.min(N.Ord)([3]), 3)
   })
 
   it('max', () => {
-    assert.deepStrictEqual(_.max(ordNumber)([1, 2, 3]), 3)
-    assert.deepStrictEqual(_.max(ordNumber)([1]), 1)
+    assert.deepStrictEqual(_.max(N.Ord)([1, 2, 3]), 3)
+    assert.deepStrictEqual(_.max(N.Ord)([1]), 1)
   })
 
   it('reduce', () => {
@@ -146,16 +145,16 @@ describe('NonEmptyArray', () => {
   })
 
   it('group', () => {
-    assert.deepStrictEqual(_.group(ordNumber)([]), [])
+    assert.deepStrictEqual(_.group(N.Ord)([]), [])
 
-    assert.deepStrictEqual(_.group(ordNumber)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    assert.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    assert.deepStrictEqual(_.group(ordNumber)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    assert.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
-    assert.deepStrictEqual(_.groupSort(ordNumber)([]), [])
-    assert.deepStrictEqual(_.groupSort(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+    assert.deepStrictEqual(_.groupSort(N.Ord)([]), [])
+    assert.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('last', () => {
@@ -169,7 +168,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('sort', () => {
-    assert.deepStrictEqual(_.sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+    assert.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
   })
 
   it('prependToAll', () => {

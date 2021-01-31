@@ -187,9 +187,9 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
  *
  * @example
  * import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
+ * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
  *   cons(1, []),
  *   cons(2, []),
  *   cons(1, [1])
@@ -234,9 +234,9 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  *
  * @example
  * import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+ * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
  * @category combinators
  * @since 2.5.0

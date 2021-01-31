@@ -71,6 +71,7 @@ Added in v2.0.0
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
   - [nonEmptyArray](#nonemptyarray)
+  - [number](#number)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
@@ -703,6 +704,16 @@ export declare const nonEmptyArray: typeof nonEmptyArray
 ```
 
 Added in v2.0.0
+
+## number
+
+**Signature**
+
+```ts
+export declare const number: typeof number
+```
+
+Added in v2.10.0
 
 ## option
 

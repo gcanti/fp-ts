@@ -7,7 +7,8 @@
  *
  * @since 2.0.0
  */
-import { Ord, ordNumber } from './Ord'
+import { Ord } from './Ord'
+import * as N from './number'
 
 /**
  * @category type classes
@@ -23,8 +24,8 @@ export interface Bounded<A> extends Ord<A> {
  * @since 2.0.0
  */
 export const boundedNumber: Bounded<number> = {
-  equals: ordNumber.equals,
-  compare: ordNumber.compare,
+  equals: N.Ord.equals,
+  compare: N.Ord.compare,
   top: Infinity,
   bottom: -Infinity
 }

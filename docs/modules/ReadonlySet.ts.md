@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -90,10 +90,10 @@ export declare function difference<A>(
 
 ```ts
 import { difference } from 'fp-ts/ReadonlySet'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe(new Set([1, 2]), difference(eqNumber)(new Set([1, 3]))), new Set([2]))
+assert.deepStrictEqual(pipe(new Set([1, 2]), difference(N.Eq)(new Set([1, 3]))), new Set([2]))
 ```
 
 Added in v2.5.0
