@@ -1,6 +1,7 @@
 /**
  * @since 2.2.0
  */
+import * as BA from './BooleanAlgebra'
 import { Lazy } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -38,3 +39,20 @@ export const foldW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolea
  * @since 2.2.0
  */
 export const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = foldW
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = {
+  meet: (x, y) => x && y,
+  join: (x, y) => x || y,
+  zero: false,
+  one: true,
+  implies: (x, y) => !x || y,
+  not: (x) => !x
+}
