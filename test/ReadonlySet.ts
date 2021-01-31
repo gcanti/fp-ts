@@ -5,7 +5,7 @@ import { none, some as optionSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { getMonoid } from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlySet'
-import { showString } from '../src/Show'
+import * as S from '../src/string'
 import { deepStrictEqual } from './util'
 
 const gte2 = (n: number) => n >= 2
@@ -39,7 +39,7 @@ describe('ReadonlySet', () => {
   it('map', () => {
     deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([])), new Set([]))
     deepStrictEqual(_.map(Eq.eqNumber)((n: number) => n % 2)(new Set([1, 2, 3, 4])), new Set([0, 1]))
-    deepStrictEqual(_.map(Eq.eqString)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
+    deepStrictEqual(_.map(S.Eq)((n: number) => `${n % 2}`)(new Set([1, 2, 3, 4])), new Set(['0', '1']))
   })
 
   it('every', () => {
@@ -48,10 +48,10 @@ describe('ReadonlySet', () => {
   })
 
   it('chain', () => {
-    deepStrictEqual(_.chain(Eq.eqString)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
-    deepStrictEqual(_.chain(Eq.eqString)(() => new Set([]))(new Set([1, 2])), new Set([]))
+    deepStrictEqual(_.chain(S.Eq)((n: number) => new Set([n.toString()]))(new Set([])), new Set([]))
+    deepStrictEqual(_.chain(S.Eq)(() => new Set([]))(new Set([1, 2])), new Set([]))
     deepStrictEqual(
-      _.chain(Eq.eqString)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
+      _.chain(S.Eq)((n: number) => new Set([`${n}`, `${n + 1}`]))(new Set([1, 2])),
       new Set(['1', '2', '3'])
     )
   })
@@ -97,21 +97,19 @@ describe('ReadonlySet', () => {
   })
 
   it('partitionMap', () => {
-    deepStrictEqual(_.partitionMap(Eq.eqNumber, Eq.eqString)((n: number) => left(n))(new Set([])), {
+    deepStrictEqual(_.partitionMap(Eq.eqNumber, S.Eq)((n: number) => left(n))(new Set([])), {
       left: new Set([]),
       right: new Set([])
     })
     deepStrictEqual(
-      _.partitionMap(Eq.eqNumber, Eq.eqString)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(
-        new Set([1, 2, 3])
-      ),
+      _.partitionMap(Eq.eqNumber, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
       {
         left: new Set([2]),
         right: new Set(['1', '3'])
       }
     )
     const SL = Eq.getStructEq({ value: Eq.eqNumber })
-    const SR = Eq.getStructEq({ value: Eq.eqString })
+    const SR = Eq.getStructEq({ value: S.Eq })
     deepStrictEqual(
       _.partitionMap(
         SL,
@@ -182,29 +180,29 @@ describe('ReadonlySet', () => {
   it('compact', () => {
     deepStrictEqual(_.compact(Eq.eqNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { readonly id: string }
-    const S: Eq.Eq<R> = pipe(
-      Eq.eqString,
+    const E: Eq.Eq<R> = pipe(
+      S.Eq,
       Eq.contramap((x) => x.id)
     )
     deepStrictEqual(
-      _.compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
+      _.compact(E)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
     )
   })
 
   it('separate', () => {
-    deepStrictEqual(_.separate(Eq.eqString, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
+    deepStrictEqual(_.separate(S.Eq, Eq.eqNumber)(new Set([right(1), left('a'), right(2)])), {
       left: new Set(['a']),
       right: new Set([1, 2])
     })
     type L = { readonly error: string }
     type R = { readonly id: string }
     const SL: Eq.Eq<L> = pipe(
-      Eq.eqString,
+      S.Eq,
       Eq.contramap((x) => x.error)
     )
     const SR: Eq.Eq<R> = pipe(
-      Eq.eqString,
+      S.Eq,
       Eq.contramap((x) => x.id)
     )
     deepStrictEqual(
@@ -227,23 +225,23 @@ describe('ReadonlySet', () => {
       new Set([2, 3])
     )
     type R = { readonly id: string }
-    const S: Eq.Eq<R> = pipe(
-      Eq.eqString,
+    const E: Eq.Eq<R> = pipe(
+      S.Eq,
       Eq.contramap((x) => x.id)
     )
     deepStrictEqual(
-      _.filterMap(S)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
+      _.filterMap(E)((x: { readonly id: string }) => optionSome(x))(new Set([{ id: 'a' }, { id: 'a' }])),
       new Set([{ id: 'a' }])
     )
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const s1 = new Set<string>([])
-    deepStrictEqual(S.show(s1), `new Set([])`)
+    deepStrictEqual(Sh.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
-    deepStrictEqual(S.show(s2), `new Set(["a"])`)
+    deepStrictEqual(Sh.show(s2), `new Set(["a"])`)
     const s3 = new Set<string>(['a', 'b'])
-    deepStrictEqual(S.show(s3), `new Set(["a", "b"])`)
+    deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
   })
 })

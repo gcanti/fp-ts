@@ -1,10 +1,8 @@
 import * as _ from '../src/Const'
 import { eqNumber } from '../src/Eq'
 import { pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
-import { semigroupString } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as U from './util'
+import * as S from '../src/string'
 
 describe('Const', () => {
   describe('pipeables', () => {
@@ -33,7 +31,7 @@ describe('Const', () => {
   })
 
   it('getApplicative', () => {
-    const F = _.getApplicative(monoidString)
+    const F = _.getApplicative(S.Monoid)
     U.deepStrictEqual(F.of(1), _.make(''))
   })
 
@@ -44,14 +42,14 @@ describe('Const', () => {
   })
 
   it('getApplicative', () => {
-    const F = _.getApply(semigroupString)
+    const F = _.getApply(S.Semigroup)
     const fa = _.make('foo')
     U.deepStrictEqual(pipe(fa, F.ap(_.make('bar'))), _.make('foobar'))
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const x: _.Const<string, number> = _.make('a')
-    U.deepStrictEqual(S.show(x), `make("a")`)
+    U.deepStrictEqual(Sh.show(x), `make("a")`)
   })
 })

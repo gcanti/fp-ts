@@ -1,9 +1,8 @@
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/Identity'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
-import { showString } from '../src/Show'
 import * as U from './util'
 
 describe('Identity', () => {
@@ -42,7 +41,7 @@ describe('Identity', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe('a', _.foldMap(monoidString)(identity)), 'a')
+      U.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
@@ -107,8 +106,8 @@ describe('Identity', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    U.deepStrictEqual(S.show('a'), `"a"`)
+    const Sh = _.getShow(S.Show)
+    U.deepStrictEqual(Sh.show('a'), `"a"`)
   })
 
   it('do notation', () => {

@@ -4,10 +4,11 @@ import * as _ from '../src/Ord'
 import { sort } from '../src/ReadonlyArray'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
+import * as S from '../src/string'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
-    const O = _.getTupleOrd(_.ordString, _.ordNumber, B.Ord)
+    const O = _.getTupleOrd(S.Ord, _.ordNumber, B.Ord)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
@@ -27,7 +28,7 @@ describe('Ord', () => {
       _.contramap((x: T) => x[0])
     )
     const sortBySnd = pipe(
-      _.ordString,
+      S.Ord,
       _.contramap((x: T) => x[1])
     )
     //                  v-- left unit

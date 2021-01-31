@@ -62,10 +62,11 @@ export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
  * @example
- * import { getTupleEq, eqString, eqNumber } from 'fp-ts/Eq'
+ * import { getTupleEq, eqNumber } from 'fp-ts/Eq'
+ * import * as S from 'fp-ts/string'
  * import * as B from 'fp-ts/boolean'
  *
- * const E = getTupleEq(eqString, eqNumber, B.Eq)
+ * const E = getTupleEq(S.Eq, eqNumber, B.Eq)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
  * assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -111,12 +112,6 @@ declare module './HKT' {
 export const eqStrict: Eq<unknown> = {
   equals: (second) => (first) => first === second
 }
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const eqString: Eq<string> = eqStrict
 
 /**
  * @category instances

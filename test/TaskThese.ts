@@ -1,8 +1,7 @@
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
-import { semigroupString } from '../src/Semigroup'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
@@ -37,23 +36,23 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await U.assertSeq(_.getApply(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
-    await U.assertSeq<_.URI, string>(_.getApplicative(T.ApplySeq, semigroupString), _.FromTask, (fa) => fa())
+    await U.assertSeq(_.getApply(T.ApplySeq, S.Semigroup), _.FromTask, (fa) => fa())
+    await U.assertSeq<_.URI, string>(_.getApplicative(T.ApplySeq, S.Semigroup), _.FromTask, (fa) => fa())
   })
 
   it('ApplicativePar', async () => {
-    await U.assertPar(_.getApply(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
-    await U.assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, semigroupString), _.FromTask, (fa) => fa())
+    await U.assertPar(_.getApply(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
+    await U.assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
   })
 
   it('getApplicative', async () => {
-    const A = _.getApplicative(T.ApplicativePar, monoidString)
+    const A = _.getApplicative(T.ApplicativePar, S.Monoid)
     const f = (n: number): number => n * 2
     U.deepStrictEqual(await pipe(_.right(f), A.ap(_.right(1)))(), TH.right(2))
   })
 
   describe('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
 
     it('map', async () => {
       const f = (n: number): number => n * 2

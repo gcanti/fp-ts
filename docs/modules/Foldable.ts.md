@@ -190,12 +190,12 @@ export declare function intercalate<F>(F: Foldable<F>): <M>(M: Monoid<M>) => (se
 
 ```ts
 import { intercalate } from 'fp-ts/Foldable'
-import { monoidString } from 'fp-ts/Monoid'
+import { Monoid } from 'fp-ts/string'
 import * as T from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
 const t = T.make('a', [T.make('b', []), T.make('c', []), T.make('d', [])])
-assert.strictEqual(pipe(t, intercalate(T.Foldable)(monoidString)('|')), 'a|b|c|d')
+assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
 ```
 
 Added in v3.0.0

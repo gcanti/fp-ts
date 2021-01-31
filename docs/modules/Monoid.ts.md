@@ -36,7 +36,6 @@ Added in v3.0.0
   - [getUnitMonoid](#getunitmonoid)
 - [instances](#instances)
   - [monoidProduct](#monoidproduct)
-  - [monoidString](#monoidstring)
   - [monoidSum](#monoidsum)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
@@ -60,11 +59,12 @@ export declare const getDual: <A>(M: Monoid<A>) => Monoid<A>
 **Example**
 
 ```ts
-import * as M from 'fp-ts/Monoid'
+import { getDual } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-const M1 = M.getDual(M.monoidString)
-assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
+const M = getDual(S.Monoid)
+assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
 ```
 
 Added in v3.0.0
@@ -102,7 +102,7 @@ Added in v3.0.0
 
 ## getTupleMonoid
 
-Given a tuple of monoids returns a monoid for the tuple
+Given a tuple of monoids returns a monoid for the tuple.
 
 **Signature**
 
@@ -118,11 +118,12 @@ export declare const getTupleMonoid: <A extends readonly unknown[]>(
 import * as M from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
 
-const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
+const M1 = M.getTupleMonoid(S.Monoid, M.monoidSum)
 assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
 
-const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, B.MonoidAll)
+const M2 = M.getTupleMonoid(S.Monoid, M.monoidSum, B.MonoidAll)
 assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
@@ -213,29 +214,6 @@ import { monoidProduct } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(2, monoidProduct.concat(3)), 6)
-```
-
-Added in v3.0.0
-
-## monoidString
-
-`string` monoid under concatenation.
-
-The `empty` value is `''`.
-
-**Signature**
-
-```ts
-export declare const monoidString: Monoid<string>
-```
-
-**Example**
-
-```ts
-import { monoidString } from 'fp-ts/Monoid'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('a', monoidString.concat('b')), 'ab')
 ```
 
 Added in v3.0.0

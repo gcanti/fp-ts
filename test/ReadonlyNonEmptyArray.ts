@@ -5,9 +5,9 @@ import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
-import * as S from '../src/Semigroup'
-import { showString } from '../src/Show'
+import * as Se from '../src/Semigroup'
 import * as U from './util'
+import * as S from '../src/string'
 
 describe('ReadonlyNonEmptyArray', () => {
   describe('pipeables', () => {
@@ -113,7 +113,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(M.monoidString)(identity)), 'abc')
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.foldMap(S.Monoid)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
@@ -277,7 +277,7 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(
       pipe(
         ['a', 'b'],
-        _.foldMapWithIndex(M.monoidString)((i, a) => i + a)
+        _.foldMapWithIndex(S.Monoid)((i, a) => i + a)
       ),
       '0a1b'
     )
@@ -312,9 +312,9 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    U.deepStrictEqual(S.show(['a']), `["a"]`)
-    U.deepStrictEqual(S.show(['a', 'b', 'c']), `["a", "b", "c"]`)
+    const Sh = _.getShow(S.Show)
+    U.deepStrictEqual(Sh.show(['a']), `["a"]`)
+    U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
   it('alt / concat', () => {
@@ -329,13 +329,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('foldMap', () => {
-    const f = _.foldMap(S.semigroupSum)((s: string) => s.length)
+    const f = _.foldMap(Se.semigroupSum)((s: string) => s.length)
     U.deepStrictEqual(f(['a']), 1)
     U.deepStrictEqual(f(['a', 'bb']), 3)
   })
 
   it('foldMapWithIndex', () => {
-    const f = _.foldMapWithIndex(S.semigroupSum)((i: number, s: string) => s.length + i)
+    const f = _.foldMapWithIndex(Se.semigroupSum)((i: number, s: string) => s.length + i)
     U.deepStrictEqual(f(['a']), 1)
     U.deepStrictEqual(f(['a', 'bb']), 4)
   })
@@ -348,7 +348,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('fold', () => {
-    const f = _.fold(S.semigroupString)
+    const f = _.fold(S.Semigroup)
     U.deepStrictEqual(f(['a']), 'a')
     U.deepStrictEqual(f(['a', 'bb']), 'abb')
   })

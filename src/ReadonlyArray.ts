@@ -966,14 +966,15 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  *
  * @example
  * import { sortBy } from 'fp-ts/ReadonlyArray'
- * import { contramap, ordString, ordNumber } from 'fp-ts/Ord'
+ * import { contramap, ordNumber } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = pipe(ordString, contramap((p: Person) => p.name))
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
  * const byAge = pipe(ordNumber, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
@@ -1635,10 +1636,10 @@ export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
  * different lengths, the result is non equality.
  *
  * @example
- * import { eqString } from 'fp-ts/Eq'
+ * import * as S from 'fp-ts/string'
  * import { getEq } from 'fp-ts/ReadonlyArray'
  *
- * const E = getEq(eqString)
+ * const E = getEq(S.Eq)
  * assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
  * assert.strictEqual(E.equals(['a'])([]), false)
  *
@@ -1656,10 +1657,10 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyArray<A>> =>
  *
  * @example
  * import { getOrd } from 'fp-ts/ReadonlyArray'
- * import { ordString } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * const O = getOrd(ordString)
+ * const O = getOrd(S.Ord)
  * assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
  * assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
  * assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)

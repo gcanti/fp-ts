@@ -1,6 +1,6 @@
 import * as _ from '../src/Foldable'
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Tree'
@@ -8,7 +8,7 @@ import { deepStrictEqual } from './util'
 
 describe('Foldable', () => {
   it('intercalate', () => {
-    const intercalate = _.intercalate(RA.Foldable)(monoidString)
+    const intercalate = _.intercalate(RA.Foldable)(S.Monoid)
     deepStrictEqual(pipe(['a', 'b', 'c'], intercalate(',')), 'a,b,c')
   })
 
@@ -64,7 +64,7 @@ describe('Foldable', () => {
 
   it('foldMap', () => {
     const foldMap = _.foldMap(RA.Foldable, O.Foldable)
-    deepStrictEqual(pipe([O.some('a'), O.none, O.some('b')], foldMap(monoidString)(identity)), 'ab')
+    deepStrictEqual(pipe([O.some('a'), O.none, O.some('b')], foldMap(S.Monoid)(identity)), 'ab')
   })
 
   it('reduceRight', () => {

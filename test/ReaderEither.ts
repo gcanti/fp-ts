@@ -1,6 +1,6 @@
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
@@ -143,13 +143,13 @@ describe('ReaderEither', () => {
   })
 
   it('getApplicativeReaderValidation', () => {
-    const A = _.getApplicativeReaderValidation(monoidString)
+    const A = _.getApplicativeReaderValidation(S.Monoid)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null), E.left('ab'))
   })
 
   it('getAltReaderValidation', () => {
-    const A = _.getAltReaderValidation(monoidString)
+    const A = _.getAltReaderValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),
@@ -213,12 +213,12 @@ describe('ReaderEither', () => {
   })
 
   it('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     U.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
   })
 
   it('getFilterable', () => {
-    const F = _.getFilterable(monoidString)
+    const F = _.getFilterable(S.Monoid)
     const fa: _.ReaderEither<unknown, string, string> = _.of('a')
     U.deepStrictEqual(
       pipe(

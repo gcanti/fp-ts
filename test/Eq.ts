@@ -3,27 +3,28 @@ import { pipe } from '../src/function'
 import { fold } from '../src/Monoid'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
+import * as S from '../src/string'
 
 describe('Eq', () => {
   describe('pipeables', () => {
     it('contramap', () => {
-      const S = pipe(
-        _.eqString,
+      const E = pipe(
+        S.Eq,
         _.contramap((p: Person) => p.name)
       )
-      deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), true)
-      deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
-      deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
-      deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'b', age: 2 }), false)
+      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), true)
+      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
+      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
+      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 2 }), false)
     })
   })
 
   it('getTupleEq', () => {
-    const S = _.getTupleEq(_.eqString, _.eqNumber, B.Eq)
-    deepStrictEqual(S.equals(['a', 1, true])(['a', 1, true]), true)
-    deepStrictEqual(S.equals(['a', 1, true])(['b', 1, true]), false)
-    deepStrictEqual(S.equals(['a', 1, true])(['a', 2, true]), false)
-    deepStrictEqual(S.equals(['a', 1, true])(['a', 1, false]), false)
+    const E = _.getTupleEq(S.Eq, _.eqNumber, B.Eq)
+    deepStrictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+    deepStrictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+    deepStrictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+    deepStrictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
   })
 
   interface Person {
@@ -55,13 +56,13 @@ describe('Eq', () => {
   })
 
   it('getStructEq', () => {
-    const S = _.getStructEq<Person>({
-      name: _.eqString,
+    const E = _.getStructEq<Person>({
+      name: S.Eq,
       age: _.eqNumber
     })
-    deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
-    deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), false)
-    deepStrictEqual(S.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
+    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
+    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), false)
+    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
   })
 
   it('eqStrict', () => {
@@ -72,7 +73,7 @@ describe('Eq', () => {
   it('getMonoid', () => {
     type T = readonly [string, number, boolean]
     const M = _.getMonoid<T>()
-    const eqFst: _.Eq<T> = _.contramap((x: T) => x[0])(_.eqString)
+    const eqFst: _.Eq<T> = _.contramap((x: T) => x[0])(S.Eq)
     const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(_.eqNumber)
     const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
     const eq = fold(M)([eqFst, eqSnd, eq3rd])

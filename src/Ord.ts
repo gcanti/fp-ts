@@ -58,14 +58,15 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
  * Given a tuple of `Ord`s returns an `Ord` for the tuple.
  *
  * @example
- * import * as O from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
+ * import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
  * import * as B from 'fp-ts/boolean'
+ * import * as S from 'fp-ts/string'
+ * import { pipe } from 'fp-ts/function'
  *
- * const O1 = O.getTupleOrd(O.ordString, O.ordNumber, B.Ord)
- * assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
- * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
- * assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
+ * const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
+ * assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+ * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+ * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
  *
  * @category combinators
  * @since 3.0.0
@@ -101,8 +102,9 @@ export const getDual = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
 
 /**
  * @example
- * import { ordString, contramap } from 'fp-ts/Ord'
+ * import { contramap } from 'fp-ts/Ord'
  * import { sort } from 'fp-ts/ReadonlyArray'
+ * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
  * type User = {
@@ -110,7 +112,7 @@ export const getDual = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
  *   readonly age: number
  * }
  *
- * const byName = pipe(ordString, contramap((user: User) => user.name))
+ * const byName = pipe(S.Ord, contramap((user: User) => user.name))
  *
  * const users: ReadonlyArray<User> = [
  *   { name: 'b', age: 1 },
@@ -147,21 +149,6 @@ declare module './HKT' {
 // default compare for primitive types
 const compare = (second: string | number | boolean) => (first: string | number | boolean): Ordering =>
   first < second ? -1 : first > second ? 1 : 0
-
-/**
- * @example
- * import { ordString } from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe('a', ordString.compare('b')), -1)
- *
- * @category instances
- * @since 3.0.0
- */
-export const ordString: Ord<string> = {
-  equals: eqStrict.equals,
-  compare
-}
 
 /**
  * @example
@@ -217,10 +204,11 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { contramap, getDual, getMonoid, ordNumber, ordString } from 'fp-ts/Ord'
+ * import { contramap, getDual, getMonoid, ordNumber } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
  * import * as B from 'fp-ts/boolean'
+ * import * as S from 'fp-ts/string'
  *
  * interface User {
  *   id: number
@@ -230,7 +218,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * }
  *
  * const byName = pipe(
- *   ordString,
+ *   S.Ord,
  *   contramap((p: User) => p.name)
  * )
  *

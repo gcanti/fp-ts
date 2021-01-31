@@ -2,7 +2,7 @@ import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import { none, some } from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
@@ -251,14 +251,14 @@ describe('IOEither', () => {
   })
 
   it('getApplicativeIOValidation', () => {
-    const A = _.getApplicativeIOValidation(monoidString)
+    const A = _.getApplicativeIOValidation(S.Monoid)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(), E.left('ab'))
     U.deepStrictEqual(pipe(_.left('a'), A.map(tuple), A.ap(_.right(1)))(), E.left('a'))
   })
 
   it('getAltIOValidation', () => {
-    const A = _.getAltIOValidation(monoidString)
+    const A = _.getAltIOValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),
@@ -269,7 +269,7 @@ describe('IOEither', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
 
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.right(some(1)))(), E.right(1))

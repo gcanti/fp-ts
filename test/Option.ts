@@ -2,12 +2,9 @@ import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as _ from '../src/Option'
-import { ordString } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupString } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -97,8 +94,8 @@ describe('Option', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe(_.some('a'), _.foldMap(monoidString)(identity)), 'a')
-      U.deepStrictEqual(pipe(_.none, _.foldMap(monoidString)(identity)), '')
+      U.deepStrictEqual(pipe(_.some('a'), _.foldMap(S.Monoid)(identity)), 'a')
+      U.deepStrictEqual(pipe(_.none, _.foldMap(S.Monoid)(identity)), '')
     })
 
     it('reduceRight', () => {
@@ -248,7 +245,7 @@ describe('Option', () => {
   })
 
   it('getOrd', () => {
-    const OS = _.getOrd(ordString)
+    const OS = _.getOrd(S.Ord)
     U.deepStrictEqual(pipe(_.none, OS.compare(_.none)), 0)
     U.deepStrictEqual(pipe(_.some('a'), OS.compare(_.none)), 1)
     U.deepStrictEqual(pipe(_.none, OS.compare(_.some('a'))), -1)
@@ -300,7 +297,7 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const M = _.getMonoid(semigroupString)
+    const M = _.getMonoid(S.Semigroup)
     U.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
     U.deepStrictEqual(pipe(_.none, M.concat(_.some('a'))), _.some('a'))
     U.deepStrictEqual(pipe(_.some('a'), M.concat(_.none)), _.some('a'))
@@ -389,9 +386,9 @@ describe('Option', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    U.deepStrictEqual(S.show(_.some('a')), `some("a")`)
-    U.deepStrictEqual(S.show(_.none), `none`)
+    const Sh = _.getShow(S.Show)
+    U.deepStrictEqual(Sh.show(_.some('a')), `some("a")`)
+    U.deepStrictEqual(Sh.show(_.none), `none`)
   })
 
   it('getLeft', () => {

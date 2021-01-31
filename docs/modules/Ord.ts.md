@@ -34,7 +34,6 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [ordDate](#orddate)
   - [ordNumber](#ordnumber)
-  - [ordString](#ordstring)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -62,8 +61,9 @@ export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
 **Example**
 
 ```ts
-import { ordString, contramap } from 'fp-ts/Ord'
+import { contramap } from 'fp-ts/Ord'
 import { sort } from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
 type User = {
@@ -72,7 +72,7 @@ type User = {
 }
 
 const byName = pipe(
-  ordString,
+  S.Ord,
   contramap((user: User) => user.name)
 )
 
@@ -124,14 +124,15 @@ export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K i
 **Example**
 
 ```ts
-import * as O from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
+import { getTupleOrd, ordNumber } from 'fp-ts/Ord'
 import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
 
-const O1 = O.getTupleOrd(O.ordString, O.ordNumber, B.Ord)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['b', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O1.compare(['a', 1, false])), 1)
+const O = getTupleOrd(S.Ord, ordNumber, B.Ord)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
 ```
 
 Added in v3.0.0
@@ -187,10 +188,11 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
-import { contramap, getDual, getMonoid, ordNumber, ordString } from 'fp-ts/Ord'
+import { contramap, getDual, getMonoid, ordNumber } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
 import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
 
 interface User {
   id: number
@@ -200,7 +202,7 @@ interface User {
 }
 
 const byName = pipe(
-  ordString,
+  S.Ord,
   contramap((p: User) => p.name)
 )
 
@@ -292,25 +294,6 @@ import { ordNumber } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(5, ordNumber.compare(6)), -1)
-```
-
-Added in v3.0.0
-
-## ordString
-
-**Signature**
-
-```ts
-export declare const ordString: Ord<string>
-```
-
-**Example**
-
-```ts
-import { ordString } from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('a', ordString.compare('b')), -1)
 ```
 
 Added in v3.0.0

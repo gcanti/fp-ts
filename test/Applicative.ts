@@ -1,10 +1,10 @@
 import * as _ from '../src/Applicative'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { deepStrictEqual } from './util'
+import * as S from '../src/string'
 
 describe('Applicative', () => {
   it('getApplicativeMonoid', async () => {
@@ -29,14 +29,14 @@ describe('Applicative', () => {
           })
         )
       )
-    const M1 = _.getApplicativeMonoid(TE.ApplicativePar)<string, string>(monoidString)
+    const M1 = _.getApplicativeMonoid(TE.ApplicativePar)<string, string>(S.Monoid)
     deepStrictEqual(await pipe(right('a', 20), M1.concat(right('b', 10)))(), E.right('ab'))
     deepStrictEqual(log, ['b', 'a'])
 
     deepStrictEqual(await pipe(right('c', 10), M1.concat(left('d', 20)))(), E.left('d'))
     deepStrictEqual(log, ['b', 'a', 'c', 'd'])
 
-    const M2 = _.getApplicativeMonoid(TE.ApplicativeSeq)<string, string>(monoidString)
+    const M2 = _.getApplicativeMonoid(TE.ApplicativeSeq)<string, string>(S.Monoid)
     deepStrictEqual(await pipe(right('e', 20), M2.concat(right('f', 10)))(), E.right('ef'))
     deepStrictEqual(log, ['b', 'a', 'c', 'd', 'e', 'f'])
 

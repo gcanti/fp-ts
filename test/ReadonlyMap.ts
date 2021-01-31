@@ -4,13 +4,13 @@ import { Either, left, right } from '../src/Either'
 import { Eq, eqNumber, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
 import { getFirstSemigroup, getLastSemigroup, getStructSemigroup, semigroupSum } from '../src/Semigroup'
-import { getStructShow, Show, showString } from '../src/Show'
+import { getStructShow, Show } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -19,7 +19,7 @@ interface User {
 }
 
 const ordUser = pipe(
-  Ord.ordString,
+  S.Ord,
   Ord.contramap((u: User) => u.id)
 )
 
@@ -283,7 +283,7 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
 
     U.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['a', 1],
           ['b', 2]
@@ -292,7 +292,7 @@ describe('ReadonlyMap', () => {
       ['a', 'b']
     )
     U.deepStrictEqual(
-      _.keys(Ord.ordString)(
+      _.keys(S.Ord)(
         new Map([
           ['b', 2],
           ['a', 1]
@@ -781,7 +781,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'a' }, 'a'],
             [{ id: 'a' }, 'b']
           ]),
-          F.foldMap(monoidString)(identity)
+          F.foldMap(S.Monoid)(identity)
         ),
         'ab'
       )
@@ -834,7 +834,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 'a'],
             [{ id: 'k2' }, 'b']
           ]),
-          FWI.foldMapWithIndex(monoidString)((k, a) => k.id + a)
+          FWI.foldMapWithIndex(S.Monoid)((k, a) => k.id + a)
         ),
         'k1ak2b'
       )
@@ -886,7 +886,7 @@ describe('ReadonlyMap', () => {
     })
 
     it('traverseWithIndex should sort the keys', () => {
-      const TWI = _.getTraversableWithIndex(Ord.ordString)
+      const TWI = _.getTraversableWithIndex(S.Ord)
       // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): IO.IO<void> => () => {
@@ -1060,17 +1060,17 @@ describe('ReadonlyMap', () => {
   })
 
   it('getShow', () => {
-    const showUser: Show<User> = getStructShow({ id: showString })
-    const S = _.getShow(showUser, showString)
+    const showUser: Show<User> = getStructShow({ id: S.Show })
+    const Sh = _.getShow(showUser, S.Show)
     const m1 = new Map<User, string>([])
-    U.deepStrictEqual(S.show(m1), `new Map([])`)
+    U.deepStrictEqual(Sh.show(m1), `new Map([])`)
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
-    U.deepStrictEqual(S.show(m2), `new Map([[{ id: "a" }, "b"]])`)
+    U.deepStrictEqual(Sh.show(m2), `new Map([[{ id: "a" }, "b"]])`)
     const m3 = new Map<User, string>([
       [{ id: 'a' }, 'b'],
       [{ id: 'c' }, 'd']
     ])
-    U.deepStrictEqual(S.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
+    U.deepStrictEqual(Sh.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })
 
   describe('getFunctorWithIndex', () => {

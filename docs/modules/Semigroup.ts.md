@@ -40,7 +40,6 @@ Added in v3.0.0
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
   - [semigroupProduct](#semigroupproduct)
-  - [semigroupString](#semigroupstring)
   - [semigroupSum](#semigroupsum)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
@@ -64,10 +63,11 @@ export declare const getDual: <A>(S: Semigroup<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getDual } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', S.getDual(S.semigroupString).concat('b')), 'ba')
+assert.deepStrictEqual(pipe('a', getDual(S.Semigroup).concat('b')), 'ba')
 ```
 
 Added in v3.0.0
@@ -85,10 +85,11 @@ export declare const getIntercalateSemigroup: <A>(a: A) => Endomorphism<Semigrou
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/string'
 
-const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
 
 assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
 assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
@@ -142,14 +143,15 @@ export declare const getTupleSemigroup: <A extends readonly unknown[]>(
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
 
-const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
 assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
 
-const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, B.SemigroupAll)
+const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
 ```
 
@@ -303,27 +305,6 @@ import * as S from 'fp-ts/Semigroup'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(2, S.semigroupProduct.concat(3)), 6)
-```
-
-Added in v3.0.0
-
-## semigroupString
-
-`string` semigroup under concatenation.
-
-**Signature**
-
-```ts
-export declare const semigroupString: Semigroup<string>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('a', S.semigroupString.concat('b')), 'ab')
 ```
 
 Added in v3.0.0

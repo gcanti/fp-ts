@@ -33,7 +33,6 @@ Added in v3.0.0
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
-  - [eqString](#eqstring)
   - [getMonoid](#getmonoid)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
@@ -77,10 +76,11 @@ export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in 
 **Example**
 
 ```ts
-import { getTupleEq, eqString, eqNumber } from 'fp-ts/Eq'
+import { getTupleEq, eqNumber } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
 import * as B from 'fp-ts/boolean'
 
-const E = getTupleEq(eqString, eqNumber, B.Eq)
+const E = getTupleEq(S.Eq, eqNumber, B.Eq)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -149,16 +149,6 @@ Added in v3.0.0
 
 ```ts
 export declare const eqStrict: Eq<unknown>
-```
-
-Added in v3.0.0
-
-## eqString
-
-**Signature**
-
-```ts
-export declare const eqString: Eq<string>
 ```
 
 Added in v3.0.0

@@ -25,14 +25,6 @@ export interface Show<A> {
  * @category instances
  * @since 3.0.0
  */
-export const showString: Show<string> = {
-  show: (a) => JSON.stringify(a)
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const showNumber: Show<number> = {
   show: (a) => JSON.stringify(a)
 }

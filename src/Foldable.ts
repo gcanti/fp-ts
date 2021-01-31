@@ -146,12 +146,12 @@ export function reduceM<F>(
  *
  * @example
  * import { intercalate } from 'fp-ts/Foldable'
- * import { monoidString } from 'fp-ts/Monoid'
+ * import { Monoid } from 'fp-ts/string'
  * import * as T from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = T.make('a', [T.make('b', []), T.make('c', []), T.make('d', [])])
- * assert.strictEqual(pipe(t, intercalate(T.Foldable)(monoidString)('|')), 'a|b|c|d')
+ * assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
  *
  * @since 3.0.0
  */

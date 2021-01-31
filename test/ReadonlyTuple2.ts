@@ -1,5 +1,5 @@
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyTuple2'
 import * as U from './util'
@@ -54,7 +54,7 @@ describe('ReadonlyTuple2', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(monoidString)(identity)), 'a')
+      U.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
@@ -82,13 +82,13 @@ describe('ReadonlyTuple2', () => {
 
   describe('instances', () => {
     it('getApplicative', () => {
-      const A = _.getApplicative(monoidString)
+      const A = _.getApplicative(S.Monoid)
       U.deepStrictEqual(A.of(1), [1, ''])
       U.deepStrictEqual(pipe([U.double, 'a'] as const, A.ap([1, 'b'])), [2, 'ab'])
     })
 
     it('getMonad', () => {
-      const M = _.getMonad(monoidString)
+      const M = _.getMonad(S.Monoid)
       U.deepStrictEqual(
         pipe(
           [1, 'a'] as const,

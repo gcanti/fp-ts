@@ -77,6 +77,7 @@ import * as state from './State'
 import * as stateReaderTaskEither from './StateReaderTaskEither'
 import * as stateT from './StateT'
 import * as store from './Store'
+import * as string from './string'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
 import * as taskOption from './TaskOption'
@@ -391,6 +392,10 @@ export {
    * @since 3.0.0
    */
   store,
+  /**
+   * @since 3.0.0
+   */
+  string,
   /**
    * @since 3.0.0
    */

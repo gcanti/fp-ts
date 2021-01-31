@@ -4,12 +4,11 @@ import { left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup, semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -42,7 +41,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(monoidString)(identity)), 'ab')
+      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
     })
 
     it('reduceRight', () => {
@@ -127,7 +126,7 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          _.foldMapWithIndex(monoidString)((k, a) => k + a)
+          _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
         ),
         'k1ak2b'
       )
@@ -421,10 +420,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
-    U.deepStrictEqual(S.show({}), `{}`)
-    U.deepStrictEqual(S.show({ a: 'a' }), `{ "a": "a" }`)
-    U.deepStrictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+    const Sh = _.getShow(S.Show)
+    U.deepStrictEqual(Sh.show({}), `{}`)
+    U.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
+    U.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 
   it('singleton', () => {

@@ -95,11 +95,12 @@ export const getUnitMonoid = <A>(a: A): Monoid<A> => ({
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import * as M from 'fp-ts/Monoid'
+ * import { getDual } from 'fp-ts/Monoid'
+ * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * const M1 = M.getDual(M.monoidString)
- * assert.deepStrictEqual(pipe('a', M1.concat('b')), 'ba')
+ * const M = getDual(S.Monoid)
+ * assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
@@ -144,17 +145,18 @@ export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): M
 }
 
 /**
- * Given a tuple of monoids returns a monoid for the tuple
+ * Given a tuple of monoids returns a monoid for the tuple.
  *
  * @example
  * import * as M from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
+ * import * as S from 'fp-ts/string'
  *
- * const M1 = M.getTupleMonoid(M.monoidString, M.monoidSum)
+ * const M1 = M.getTupleMonoid(S.Monoid, M.monoidSum)
  * assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
  *
- * const M2 = M.getTupleMonoid(M.monoidString, M.monoidSum, B.MonoidAll)
+ * const M2 = M.getTupleMonoid(S.Monoid, M.monoidSum, B.MonoidAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
@@ -208,25 +210,6 @@ export const monoidSum: Monoid<number> = {
 export const monoidProduct: Monoid<number> = {
   concat: S.semigroupProduct.concat,
   empty: 1
-}
-
-/**
- * `string` monoid under concatenation.
- *
- * The `empty` value is `''`.
- *
- * @example
- * import { monoidString } from 'fp-ts/Monoid'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe('a', monoidString.concat('b')), 'ab')
- *
- * @category instances
- * @since 3.0.0
- */
-export const monoidString: Monoid<string> = {
-  concat: S.semigroupString.concat,
-  empty: ''
 }
 
 // -------------------------------------------------------------------------------------

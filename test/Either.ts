@@ -1,14 +1,13 @@
 import { separated } from '../src/Compactable'
 import * as _ from '../src/Either'
-import { eqNumber, eqString } from '../src/Eq'
+import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import { semigroupSum } from '../src/Semigroup'
-import { showString } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
+import * as S from '../src/string'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -118,8 +117,8 @@ describe('Either', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
-      U.deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
+      U.deepStrictEqual(pipe(_.right('a'), _.foldMap(S.Monoid)(identity)), 'a')
+      U.deepStrictEqual(pipe(_.left(1), _.foldMap(S.Monoid)(identity)), '')
     })
 
     it('reduce', () => {
@@ -340,7 +339,7 @@ describe('Either', () => {
 
   describe('getEq', () => {
     it('equals', () => {
-      const equals = _.getEq(eqString, eqNumber).equals
+      const equals = _.getEq(S.Eq, eqNumber).equals
       U.deepStrictEqual(equals(_.right(1))(_.right(1)), true)
       U.deepStrictEqual(equals(_.right(1))(_.right(2)), false)
       U.deepStrictEqual(equals(_.right(1))(_.left('foo')), false)
@@ -351,10 +350,10 @@ describe('Either', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     it('compact', () => {
       U.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
-      U.deepStrictEqual(C.compact(_.right(O.none)), _.left(monoidString.empty))
+      U.deepStrictEqual(C.compact(_.right(O.none)), _.left(S.Monoid.empty))
       U.deepStrictEqual(C.compact(_.right(O.some(123))), _.right(123))
     })
 
@@ -362,17 +361,17 @@ describe('Either', () => {
       U.deepStrictEqual(C.separate(_.left('123')), separated(_.left('123'), _.left('123')))
       U.deepStrictEqual(C.separate(_.right(_.left('123'))), {
         left: _.right('123'),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       U.deepStrictEqual(C.separate(_.right(_.right('123'))), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right('123')
       })
     })
   })
 
   describe('getFilterable', () => {
-    const F = _.getFilterable(monoidString)
+    const F = _.getFilterable(S.Monoid)
     const p = (n: number) => n > 2
 
     it('partition', () => {
@@ -382,10 +381,10 @@ describe('Either', () => {
       })
       U.deepStrictEqual(pipe(_.right(1), F.partition(p)), {
         left: _.right(1),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       U.deepStrictEqual(pipe(_.right(3), F.partition(p)), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(3)
       })
     })
@@ -398,37 +397,37 @@ describe('Either', () => {
       })
       U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), {
         left: _.right(0),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(4)
       })
     })
 
     it('filter', () => {
       U.deepStrictEqual(pipe(_.left('123'), F.filter(p)), _.left('123'))
-      U.deepStrictEqual(pipe(_.right(1), F.filter(p)), _.left(monoidString.empty))
+      U.deepStrictEqual(pipe(_.right(1), F.filter(p)), _.left(S.Monoid.empty))
       U.deepStrictEqual(pipe(_.right(3), F.filter(p)), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(pipe(_.left('123'), F.filterMap(f)), _.left('123'))
-      U.deepStrictEqual(pipe(_.right(1), F.filterMap(f)), _.left(monoidString.empty))
+      U.deepStrictEqual(pipe(_.right(1), F.filterMap(f)), _.left(S.Monoid.empty))
       U.deepStrictEqual(pipe(_.right(3), F.filterMap(f)), _.right(4))
     })
   })
 
   describe('getWitherable', () => {
-    const W = _.getWitherable(monoidString)
+    const W = _.getWitherable(S.Monoid)
     const p = (n: number) => n > 2
 
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
       U.deepStrictEqual(await pipe(_.left('foo'), wither(f))(), _.left('foo'))
-      U.deepStrictEqual(await pipe(_.right(1), wither(f))(), _.left(monoidString.empty))
+      U.deepStrictEqual(await pipe(_.right(1), wither(f))(), _.left(S.Monoid.empty))
       U.deepStrictEqual(await pipe(_.right(3), wither(f))(), _.right(4))
     })
 
@@ -441,10 +440,10 @@ describe('Either', () => {
       })
       U.deepStrictEqual(await pipe(_.right(1), wilt(f))(), {
         left: _.right(0),
-        right: _.left(monoidString.empty)
+        right: _.left(S.Monoid.empty)
       })
       U.deepStrictEqual(await pipe(_.right(3), wilt(f))(), {
-        left: _.left(monoidString.empty),
+        left: _.left(S.Monoid.empty),
         right: _.right(4)
       })
     })
@@ -460,14 +459,14 @@ describe('Either', () => {
 
   describe('getShow', () => {
     it('show', () => {
-      const S = _.getShow(showString, showString)
-      U.deepStrictEqual(S.show(_.left('a')), `left("a")`)
-      U.deepStrictEqual(S.show(_.right('a')), `right("a")`)
+      const Sh = _.getShow(S.Show, S.Show)
+      U.deepStrictEqual(Sh.show(_.left('a')), `left("a")`)
+      U.deepStrictEqual(Sh.show(_.right('a')), `right("a")`)
     })
   })
 
   it('getApplicativeValidation', () => {
-    const A = _.getApplicativeValidation(monoidString)
+    const A = _.getApplicativeValidation(S.Monoid)
 
     const apT = <B>(fb: _.Either<string, B>) => <A extends ReadonlyArray<unknown>>(
       fas: _.Either<string, A>
@@ -484,7 +483,7 @@ describe('Either', () => {
   })
 
   it('getAltValidation', () => {
-    const A = _.getAltValidation(monoidString)
+    const A = _.getAltValidation(S.Monoid)
     U.deepStrictEqual(
       pipe(
         _.left('a'),

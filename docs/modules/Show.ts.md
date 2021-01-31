@@ -16,7 +16,6 @@ Added in v3.0.0
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
   - [showNumber](#shownumber)
-  - [showString](#showstring)
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 
@@ -50,16 +49,6 @@ Added in v3.0.0
 
 ```ts
 export declare const showNumber: Show<number>
-```
-
-Added in v3.0.0
-
-## showString
-
-**Signature**
-
-```ts
-export declare const showString: Show<string>
 ```
 
 Added in v3.0.0

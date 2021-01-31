@@ -2,10 +2,9 @@ import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import { none, some } from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { assertTask } from './Task'
@@ -144,7 +143,7 @@ describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicativeTaskValidation', async () => {
-    const A = _.getApplicativeTaskValidation(T.ApplyPar, semigroupString)
+    const A = _.getApplicativeTaskValidation(T.ApplyPar, S.Semigroup)
     const assertAp = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -162,7 +161,7 @@ describe('TaskEither', () => {
   })
 
   it('getAltTaskValidation', async () => {
-    const A = _.getAltTaskValidation(semigroupString)
+    const A = _.getAltTaskValidation(S.Semigroup)
     const assertAlt = async (
       a: _.TaskEither<string, number>,
       b: _.TaskEither<string, number>,
@@ -183,7 +182,7 @@ describe('TaskEither', () => {
   })
 
   describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
 
     it('compact', async () => {
       U.deepStrictEqual(await C.compact(_.right(some(1)))(), E.right(1))
@@ -201,7 +200,7 @@ describe('TaskEither', () => {
       }
 
       await assertSeparate(_.right(E.right(1)), E.left(''), E.right(1))
-      await assertSeparate(_.right(E.left('a')), E.right('a'), E.left(monoidString.empty))
+      await assertSeparate(_.right(E.left('a')), E.right('a'), E.left(S.Monoid.empty))
       await assertSeparate(_.left('a'), E.left('a'), E.left('a'))
     })
   })

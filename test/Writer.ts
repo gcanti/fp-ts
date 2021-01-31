@@ -1,5 +1,5 @@
 import { pipe, tuple } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as _ from '../src/Writer'
 import * as U from './util'
 
@@ -60,7 +60,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicative', () => {
-    const M = _.getApplicative(monoidString)
+    const M = _.getApplicative(S.Monoid)
 
     U.deepStrictEqual(M.of(1)(), [1, ''])
 
@@ -70,7 +70,7 @@ describe('Writer', () => {
   })
 
   it('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
 
     U.deepStrictEqual(M.of(1)(), [1, ''])
 

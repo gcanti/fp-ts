@@ -1,9 +1,8 @@
 import { eqNumber } from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
-import { semigroupString } from '../src/Semigroup'
-import { showString } from '../src/Show'
+import * as S from '../src/string'
 import * as _ from '../src/These'
 import * as U from './util'
 
@@ -57,9 +56,9 @@ describe('These', () => {
   })
 
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(_.right('a'), _.foldMap(monoidString)(identity)), 'a')
-    U.deepStrictEqual(pipe(_.left(1), _.foldMap(monoidString)(identity)), '')
-    U.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(monoidString)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.right('a'), _.foldMap(S.Monoid)(identity)), 'a')
+    U.deepStrictEqual(pipe(_.left(1), _.foldMap(S.Monoid)(identity)), '')
+    U.deepStrictEqual(pipe(_.both(1, 'a'), _.foldMap(S.Monoid)(identity)), 'a')
   })
 
   it('reduceRight', () => {
@@ -98,7 +97,7 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('getApplicative', () => {
-    const A = _.getApplicative(semigroupString)
+    const A = _.getApplicative(S.Semigroup)
     const f = <A, B>(fa: _.These<string, A>, fb: _.These<string, B>): _.These<string, readonly [A, B]> =>
       pipe(
         fa,
@@ -118,7 +117,7 @@ describe('These', () => {
   })
 
   it('getMonad', () => {
-    const M = _.getMonad(monoidString)
+    const M = _.getMonad(S.Monoid)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
     U.deepStrictEqual(pipe(_.left('foo'), M.chain(f)), _.left('foo'))
     U.deepStrictEqual(pipe(_.right(2), M.chain(f)), _.right(4))
@@ -145,23 +144,23 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const S = _.getSemigroup(monoidString, monoidSum)
-    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.left('b'))), _.left('ab'))
-    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.right(2))), _.both('a', 2))
-    U.deepStrictEqual(pipe(_.right(2), S.concat(_.left('a'))), _.both('a', 2))
-    U.deepStrictEqual(pipe(_.left('a'), S.concat(_.both('b', 2))), _.both('ab', 2))
-    U.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.left('a'))), _.both('ba', 2))
-    U.deepStrictEqual(pipe(_.right(3), S.concat(_.right(2))), _.right(5))
-    U.deepStrictEqual(pipe(_.right(3), S.concat(_.both('b', 2))), _.both('b', 5))
-    U.deepStrictEqual(pipe(_.both('b', 2), S.concat(_.right(3))), _.both('b', 5))
-    U.deepStrictEqual(pipe(_.both('a', 3), S.concat(_.both('b', 2))), _.both('ab', 5))
+    const TS = _.getSemigroup(S.Monoid, monoidSum)
+    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.left('b'))), _.left('ab'))
+    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.right(2))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.right(2), TS.concat(_.left('a'))), _.both('a', 2))
+    U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.both('b', 2))), _.both('ab', 2))
+    U.deepStrictEqual(pipe(_.both('b', 2), TS.concat(_.left('a'))), _.both('ba', 2))
+    U.deepStrictEqual(pipe(_.right(3), TS.concat(_.right(2))), _.right(5))
+    U.deepStrictEqual(pipe(_.right(3), TS.concat(_.both('b', 2))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('b', 2), TS.concat(_.right(3))), _.both('b', 5))
+    U.deepStrictEqual(pipe(_.both('a', 3), TS.concat(_.both('b', 2))), _.both('ab', 5))
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString, showString)
-    U.deepStrictEqual(S.show(_.left('a')), `left("a")`)
-    U.deepStrictEqual(S.show(_.right('a')), `right("a")`)
-    U.deepStrictEqual(S.show(_.both('a', 'b')), `both("a", "b")`)
+    const Sh = _.getShow(S.Show, S.Show)
+    U.deepStrictEqual(Sh.show(_.left('a')), `left("a")`)
+    U.deepStrictEqual(Sh.show(_.right('a')), `right("a")`)
+    U.deepStrictEqual(Sh.show(_.both('a', 'b')), `both("a", "b")`)
   })
 
   // -------------------------------------------------------------------------------------

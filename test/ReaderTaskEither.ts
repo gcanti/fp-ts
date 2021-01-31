@@ -2,14 +2,13 @@ import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
-import { semigroupString } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
@@ -249,13 +248,13 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getApplicativeReaderTaskValidation', async () => {
-    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, semigroupString)
+    const A = _.getApplicativeReaderTaskValidation(T.ApplicativePar, S.Semigroup)
     const tuple = <A>(a: A) => <B>(b: B): readonly [A, B] => [a, b]
     U.deepStrictEqual(await pipe(_.left('a'), A.map(tuple), A.ap(_.left('b')))(null)(), E.left('ab'))
   })
 
   it('getAltReaderTaskValidation', async () => {
-    const A = _.getAltReaderTaskValidation(semigroupString)
+    const A = _.getAltReaderTaskValidation(S.Semigroup)
     U.deepStrictEqual(
       await pipe(
         _.left('a'),
@@ -450,12 +449,12 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getCompactable', async () => {
-    const C = _.getCompactable(monoidString)
+    const C = _.getCompactable(S.Monoid)
     U.deepStrictEqual(await C.compact(_.of(O.some('a')))({})(), E.right('a'))
   })
 
   it('getFilterable', async () => {
-    const F = _.getFilterable(monoidString)
+    const F = _.getFilterable(S.Monoid)
     const fa: _.ReaderTaskEither<unknown, string, string> = _.of('a')
     U.deepStrictEqual(
       await pipe(

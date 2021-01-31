@@ -3,12 +3,13 @@ import { pipe } from '../src/function'
 import * as _ from '../src/Monoid'
 import * as U from './util'
 import * as B from '../src/boolean'
+import * as S from '../src/string'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
-    const M1 = _.getTupleMonoid(_.monoidString, _.monoidSum)
+    const M1 = _.getTupleMonoid(S.Monoid, _.monoidSum)
     U.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
-    const M2 = _.getTupleMonoid(_.monoidString, _.monoidSum, B.MonoidAll)
+    const M2 = _.getTupleMonoid(S.Monoid, _.monoidSum, B.MonoidAll)
     U.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
@@ -31,7 +32,7 @@ describe('Monoid', () => {
   })
 
   it('getDual', () => {
-    const M = _.getDual(_.monoidString)
+    const M = _.getDual(S.Monoid)
     U.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
     U.deepStrictEqual(pipe('a', M.concat(M.empty)), 'a')
     U.deepStrictEqual(pipe(M.empty, M.concat('a')), 'a')

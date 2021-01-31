@@ -1,8 +1,7 @@
 import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as O from '../src/Option'
-import { showString } from '../src/Show'
 import * as _ from '../src/Tree'
 import * as U from './util'
 
@@ -90,7 +89,7 @@ describe('Tree', () => {
 
   it('foldMap', () => {
     const x = _.make('a', [_.make('b'), _.make('c')])
-    U.deepStrictEqual(pipe(x, _.foldMap(monoidString)(identity)), 'abc')
+    U.deepStrictEqual(pipe(x, _.foldMap(S.Monoid)(identity)), 'abc')
   })
 
   it('reduceRight', () => {
@@ -124,11 +123,11 @@ describe('Tree', () => {
   })
 
   it('getShow', () => {
-    const S = _.getShow(showString)
+    const Sh = _.getShow(S.Show)
     const t1 = _.make('a')
-    U.deepStrictEqual(S.show(t1), `make("a")`)
+    U.deepStrictEqual(Sh.show(t1), `make("a")`)
     const t2 = _.make('a', [_.make('b'), _.make('c')])
-    U.deepStrictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
+    U.deepStrictEqual(Sh.show(t2), `make("a", [make("b"), make("c")])`)
   })
 
   // -------------------------------------------------------------------------------------

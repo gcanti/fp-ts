@@ -87,10 +87,11 @@ export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getDual } from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('a', S.getDual(S.semigroupString).concat('b')), 'ba')
+ * assert.deepStrictEqual(pipe('a', getDual(S.Semigroup).concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
@@ -136,14 +137,15 @@ export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
+ * import * as S from 'fp-ts/string'
  *
- * const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+ * const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
  * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
  *
- * const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, B.SemigroupAll)
+ * const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
@@ -159,10 +161,11 @@ export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
  * You can glue items between and stay associative.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
+ * import * as S from 'fp-ts/string'
  *
- * const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+ * const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
  *
  * assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
  * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
@@ -262,22 +265,6 @@ export const semigroupSum: Semigroup<number> = {
  */
 export const semigroupProduct: Semigroup<number> = {
   concat: (second) => (first) => first * second
-}
-
-/**
- * `string` semigroup under concatenation.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe('a', S.semigroupString.concat('b')), 'ab')
- *
- * @category instances
- * @since 3.0.0
- */
-export const semigroupString: Semigroup<string> = {
-  concat: (second) => (first) => first + second
 }
 
 // -------------------------------------------------------------------------------------

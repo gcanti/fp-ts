@@ -1,6 +1,6 @@
 import * as _ from '../src/FoldableWithIndex'
 import { pipe } from '../src/function'
-import { monoidString } from '../src/Monoid'
+import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'
 import { deepStrictEqual } from './util'
@@ -22,7 +22,7 @@ describe('FoldableWithIndex', () => {
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
-        foldMap(monoidString)((ij, a) => ij[0] + ij[1] + a)
+        foldMap(S.Monoid)((ij, a) => ij[0] + ij[1] + a)
       ),
       'a01a12b03'
     )
