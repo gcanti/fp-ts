@@ -3,12 +3,13 @@ import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import * as _ from '../src/Semigroup'
 import * as B from '../src/boolean'
+import * as S from '../src/string'
 
 describe('Semigroup', () => {
   it('getTupleSemigroup', () => {
-    const S1 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum)
+    const S1 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum)
     assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const S2 = _.getTupleSemigroup(_.semigroupString, _.semigroupSum, B.SemigroupAll)
+    const S2 = _.getTupleSemigroup(S.Semigroup, _.semigroupSum, B.SemigroupAll)
     assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
@@ -57,13 +58,13 @@ describe('Semigroup', () => {
   })
 
   it('getDualSemigroup', () => {
-    const S = _.getDualSemigroup(_.semigroupString)
-    assert.deepStrictEqual(S.concat('a', 'b'), 'ba')
+    const DS = _.getDualSemigroup(S.Semigroup)
+    assert.deepStrictEqual(DS.concat('a', 'b'), 'ba')
   })
 
   it('getIntercalateSemigroup', () => {
-    const S = _.getIntercalateSemigroup(' ')(_.semigroupString)
-    assert.strictEqual(S.concat('a', 'b'), 'a b')
-    assert.strictEqual(S.concat(S.concat('a', 'b'), 'c'), S.concat('a', S.concat('b', 'c')))
+    const IS = _.getIntercalateSemigroup(' ')(S.Semigroup)
+    assert.strictEqual(IS.concat('a', 'b'), 'a b')
+    assert.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
   })
 })

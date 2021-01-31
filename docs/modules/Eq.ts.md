@@ -31,11 +31,11 @@ Added in v2.0.0
   - [eqDate](#eqdate)
   - [eqNumber](#eqnumber)
   - [eqStrict](#eqstrict)
-  - [eqString](#eqstring)
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
   - [~~eqBoolean~~](#eqboolean)
+  - [~~eqString~~](#eqstring)
   - [~~eq~~](#eq)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
@@ -130,16 +130,6 @@ export declare const eqStrict: Eq<unknown>
 
 Added in v2.5.0
 
-## eqString
-
-**Signature**
-
-```ts
-export declare const eqString: Eq<string>
-```
-
-Added in v2.0.0
-
 ## getMonoid
 
 **Signature**
@@ -194,6 +184,18 @@ Use `boolean.Eq` instead.
 
 ```ts
 export declare const eqBoolean: Eq<boolean>
+```
+
+Added in v2.0.0
+
+## ~~eqString~~
+
+Use `string.Eq` instead.
+
+**Signature**
+
+```ts
+export declare const eqString: Eq<string>
 ```
 
 Added in v2.0.0

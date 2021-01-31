@@ -508,21 +508,6 @@ export const taskSeq: typeof task = {
 /**
  * Use `Apply.getApplySemigroup` instead.
  *
- * Lift a semigroup into 'Task', the inner values are concatenated using the provided `Semigroup`.
- *
- * @example
- * import * as T from 'fp-ts/Task'
- * import { semigroupString } from 'fp-ts/Semigroup'
- *
- * async function test() {
- *   const S = T.getSemigroup(semigroupString)
- *   const fa = T.of('a')
- *   const fb = T.of('b')
- *   assert.deepStrictEqual(await S.concat(fa, fb)(), 'ab')
- * }
- *
- * test()
- *
  * @category instances
  * @since 2.0.0
  * @deprecated

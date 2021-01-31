@@ -1,10 +1,10 @@
 import * as assert from 'assert'
 import * as _ from '../src/Const'
-import { semigroupString } from '../src/Semigroup'
 import { eqNumber } from '../src/Eq'
 import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 import { pipe } from '../src/function'
+import * as S from '../src/string'
 
 describe('Const', () => {
   describe('pipeables', () => {
@@ -46,7 +46,7 @@ describe('Const', () => {
   })
 
   it('getApplicative', () => {
-    const F = _.getApply(semigroupString)
+    const F = _.getApply(S.Semigroup)
     const fa = _.make('foo')
     assert.deepStrictEqual(F.ap(fa, _.make('bar')), _.make('foobar'))
   })

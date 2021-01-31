@@ -61,12 +61,12 @@ Added in v2.0.0
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
   - [semigroupProduct](#semigroupproduct)
-  - [semigroupString](#semigroupstring)
   - [semigroupSum](#semigroupsum)
   - [semigroupVoid](#semigroupvoid)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
+  - [~~semigroupString~~](#semigroupstring)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -89,9 +89,10 @@ export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getDualSemigroup } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
 
-assert.deepStrictEqual(S.getDualSemigroup(S.semigroupString).concat('a', 'b'), 'ba')
+assert.deepStrictEqual(getDualSemigroup(S.Semigroup).concat('a', 'b'), 'ba')
 ```
 
 Added in v2.0.0
@@ -109,9 +110,10 @@ export declare function getIntercalateSemigroup<A>(a: A): (S: Semigroup<A>) => S
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
 
-const S1 = S.getIntercalateSemigroup(' ')(S.semigroupString)
+const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
 
 assert.strictEqual(S1.concat('a', 'b'), 'a b')
 assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
@@ -166,12 +168,14 @@ export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
+import { getTupleSemigroup, semigroupSum } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+import * as B from 'fp-ts/boolean'
 
-const S1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum)
+const S1 = getTupleSemigroup(S.Semigroup, semigroupSum)
 assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
 
-const S2 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll)
+const S2 = getTupleSemigroup(S.Semigroup, semigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
@@ -313,26 +317,6 @@ assert.deepStrictEqual(S.semigroupProduct.concat(2, 3), 6)
 
 Added in v2.0.0
 
-## semigroupString
-
-`string` semigroup under concatenation.
-
-**Signature**
-
-```ts
-export declare const semigroupString: Semigroup<string>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.semigroupString.concat('a', 'b'), 'ab')
-```
-
-Added in v2.0.0
-
 ## semigroupSum
 
 `number` semigroup under addition.
@@ -395,6 +379,18 @@ Use `boolean.SemigroupAny` instead.
 
 ```ts
 export declare const semigroupAny: Semigroup<boolean>
+```
+
+Added in v2.0.0
+
+## ~~semigroupString~~
+
+Use `string.Semigroup` instead.
+
+**Signature**
+
+```ts
+export declare const semigroupString: Semigroup<string>
 ```
 
 Added in v2.0.0
