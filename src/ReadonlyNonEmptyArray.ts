@@ -171,9 +171,9 @@ export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
 /**
  * @example
  * import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { eqNumber } from 'fp-ts/Eq'
+ * import * as N from 'fp-ts/number'
  *
- * const E = getEq(eqNumber)
+ * const E = getEq(N.Eq)
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
  * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
  *

@@ -4,6 +4,7 @@ import { fold } from '../src/Monoid'
 import { pipe } from '../src/function'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
+import * as N from '../src/number'
 
 describe('Eq', () => {
   describe('pipeables', () => {
@@ -20,7 +21,7 @@ describe('Eq', () => {
   })
 
   it('getTupleEq', () => {
-    const E = _.getTupleEq(S.Eq, _.eqNumber, B.Eq)
+    const E = _.getTupleEq(S.Eq, N.Eq, B.Eq)
     assert.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
     assert.deepStrictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
     assert.deepStrictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
@@ -58,7 +59,7 @@ describe('Eq', () => {
   it('getStructEq', () => {
     const E = _.getStructEq<Person>({
       name: S.Eq,
-      age: _.eqNumber
+      age: N.Eq
     })
     assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
     assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), false)
@@ -74,7 +75,7 @@ describe('Eq', () => {
     type T = readonly [string, number, boolean]
     const M = _.getMonoid<T>()
     const eqFst: _.Eq<T> = _.contramap((x: T) => x[0])(S.Eq)
-    const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(_.eqNumber)
+    const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(N.Eq)
     const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
     const eq = fold(M)([eqFst, eqSnd, eq3rd])
     assert.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, true]), true)
