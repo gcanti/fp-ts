@@ -92,12 +92,6 @@ export const eqStrict: Eq<unknown> = {
  * @category instances
  * @since 2.0.0
  */
-export const eqString: Eq<string> = eqStrict
-
-/**
- * @category instances
- * @since 2.0.0
- */
 export const eqNumber: Eq<number> = eqStrict
 
 /**
@@ -197,3 +191,12 @@ export const eq: Contravariant1<URI> = Contravariant
  * @deprecated
  */
 export const eqBoolean: Eq<boolean> = eqStrict
+
+/**
+ * Use `string.Eq` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const eqString: Eq<string> = eqStrict
