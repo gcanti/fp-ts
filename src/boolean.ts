@@ -5,6 +5,7 @@ import * as BA from './BooleanAlgebra'
 import * as E from './Eq'
 import { Semigroup } from './Semigroup'
 import { Lazy } from './function'
+import { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -75,7 +76,7 @@ export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = {
  * assert.deepStrictEqual(SemigroupAll.concat(true, false), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
 export const SemigroupAll: Semigroup<boolean> = {
   concat: (x, y) => x && y
@@ -92,8 +93,47 @@ export const SemigroupAll: Semigroup<boolean> = {
  * assert.deepStrictEqual(SemigroupAny.concat(false, false), false)
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
 export const SemigroupAny: Semigroup<boolean> = {
   concat: (x, y) => x || y
+}
+
+/**
+ * `boolean` monoid under conjunction.
+ *
+ * The `empty` value is `true`.
+ *
+ * @example
+ * import { MonoidAll } from 'fp-ts/boolean'
+ *
+ * assert.deepStrictEqual(MonoidAll.concat(true, true), true)
+ * assert.deepStrictEqual(MonoidAll.concat(true, false), false)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonoidAll: Monoid<boolean> = {
+  concat: SemigroupAll.concat,
+  empty: true
+}
+
+/**
+ * `boolean` monoid under disjunction.
+ *
+ * The `empty` value is `false`.
+ *
+ * @example
+ * import { MonoidAny } from 'fp-ts/boolean'
+ *
+ * assert.deepStrictEqual(MonoidAny.concat(true, true), true)
+ * assert.deepStrictEqual(MonoidAny.concat(true, false), true)
+ * assert.deepStrictEqual(MonoidAny.concat(false, false), false)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonoidAny: Monoid<boolean> = {
+  concat: SemigroupAny.concat,
+  empty: false
 }
