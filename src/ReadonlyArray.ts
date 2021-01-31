@@ -25,7 +25,7 @@ import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
@@ -33,6 +33,7 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import * as N from './number'
 
 import Option = O.Option
 
@@ -171,7 +172,7 @@ export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
         return ordering
       }
     }
-    return ordNumber.compare(aLen, bLen)
+    return N.Ord.compare(aLen, bLen)
   })
 }
 
@@ -971,9 +972,9 @@ export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { ordNumber } from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+ * assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
  *
  * @category combinators
  * @since 2.5.0
@@ -1197,8 +1198,9 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  *
  * @example
  * import { sortBy } from 'fp-ts/ReadonlyArray'
- * import { contramap, ordNumber } from 'fp-ts/Ord'
+ * import { contramap } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
@@ -1206,7 +1208,7 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
  *   age: number
  * }
  * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
- * const byAge = pipe(ordNumber, contramap((p: Person) => p.age))
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *

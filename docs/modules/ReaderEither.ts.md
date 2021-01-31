@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 

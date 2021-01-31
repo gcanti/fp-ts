@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -606,8 +606,9 @@ export declare const chop: <A, B>(
 **Example**
 
 ```ts
-import { Eq, eqNumber } from 'fp-ts/Eq'
+import { Eq } from 'fp-ts/Eq'
 import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
 
 const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
   return chop((as) => {
@@ -615,7 +616,7 @@ const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyAr
     return [init, rest]
   })
 }
-assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
 ```
 
 Added in v2.5.0
@@ -640,10 +641,10 @@ export declare function difference<A>(
 
 ```ts
 import { difference } from 'fp-ts/ReadonlyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([1, 2], difference(eqNumber)([2, 3])), [1])
+assert.deepStrictEqual(pipe([1, 2], difference(N.Eq)([2, 3])), [1])
 ```
 
 Added in v2.5.0
@@ -762,10 +763,10 @@ export declare function intersection<A>(
 
 ```ts
 import { intersection } from 'fp-ts/ReadonlyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([1, 2], intersection(eqNumber)([2, 3])), [2])
+assert.deepStrictEqual(pipe([1, 2], intersection(N.Eq)([2, 3])), [2])
 ```
 
 Added in v2.5.0
@@ -925,9 +926,9 @@ export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: readonly A[]) => 
 
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+assert.deepStrictEqual(sort(N.Ord)([3, 2, 1]), [1, 2, 3])
 ```
 
 Added in v2.5.0
@@ -947,8 +948,9 @@ export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as
 
 ```ts
 import { sortBy } from 'fp-ts/ReadonlyArray'
-import { contramap, ordNumber } from 'fp-ts/Ord'
+import { contramap } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 interface Person {
@@ -960,7 +962,7 @@ const byName = pipe(
   contramap((p: Person) => p.name)
 )
 const byAge = pipe(
-  ordNumber,
+  N.Ord,
   contramap((p: Person) => p.age)
 )
 
@@ -1045,10 +1047,10 @@ export declare function union<A>(
 
 ```ts
 import { union } from 'fp-ts/ReadonlyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([1, 2], union(eqNumber)([2, 3])), [1, 2, 3])
+assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
 ```
 
 Added in v2.5.0
@@ -1067,9 +1069,9 @@ export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArr
 
 ```ts
 import { uniq } from 'fp-ts/ReadonlyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
 ```
 
 Added in v2.5.0
@@ -1593,10 +1595,10 @@ export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
 **Example**
 
 ```ts
-import { eqString } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
 import { getEq } from 'fp-ts/ReadonlyArray'
 
-const E = getEq(eqString)
+const E = getEq(S.Eq)
 assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
 assert.strictEqual(E.equals(['a'], []), false)
 ```
@@ -1855,11 +1857,11 @@ export declare function elem<A>(
 
 ```ts
 import { elem } from 'fp-ts/ReadonlyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
-assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(2)), true)
-assert.strictEqual(pipe([1, 2, 3], elem(eqNumber)(0)), false)
+assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(2)), true)
+assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(0)), false)
 ```
 
 Added in v2.5.0

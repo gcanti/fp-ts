@@ -62,10 +62,10 @@ export interface Semigroup<A> extends Magma<A> {}
  * Get a semigroup where `concat` will return the minimum, based on the provided order.
  *
  * @example
- * import * as O from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/Semigroup'
  *
- * const S1 = S.getMeetSemigroup(O.ordNumber)
+ * const S1 = S.getMeetSemigroup(N.Ord)
  *
  * assert.deepStrictEqual(S1.concat(1, 2), 1)
  *
@@ -80,10 +80,10 @@ export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * Get a semigroup where `concat` will return the maximum, based on the provided order.
  *
  * @example
- * import * as O from 'fp-ts/Ord'
+ * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/Semigroup'
  *
- * const S1 = S.getJoinSemigroup(O.ordNumber)
+ * const S1 = S.getJoinSemigroup(N.Ord)
  *
  * assert.deepStrictEqual(S1.concat(1, 2), 2)
  *

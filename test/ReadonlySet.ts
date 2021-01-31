@@ -4,7 +4,6 @@ import { left, right } from '../src/Either'
 import * as Eq from '../src/Eq'
 import { pipe } from '../src/function'
 import { none, some as optionSome } from '../src/Option'
-import { ordNumber } from '../src/Ord'
 import * as _ from '../src/ReadonlySet'
 import * as S from '../src/string'
 import * as N from '../src/number'
@@ -21,9 +20,9 @@ const fooEq: Eq.Eq<Foo> = {
 
 describe('ReadonlySet', () => {
   it('toReadonlyArray', () => {
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set()), [])
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(_.toReadonlyArray(ordNumber)(new Set([3, 2, 1])), [1, 2, 3])
+    assert.deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set()), [])
+    assert.deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([1, 2, 3])), [1, 2, 3])
+    assert.deepStrictEqual(_.toReadonlyArray(N.Ord)(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('getEq', () => {
@@ -155,13 +154,13 @@ describe('ReadonlySet', () => {
   })
 
   it('reduce', () => {
-    assert.deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
-    assert.deepStrictEqual(_.reduce(ordNumber)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
+    assert.deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
+    assert.deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
   })
 
   it('foldMap', () => {
-    assert.deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
-    assert.deepStrictEqual(_.foldMap(ordNumber, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
+    assert.deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
+    assert.deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('singleton', () => {

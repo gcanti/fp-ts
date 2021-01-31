@@ -600,8 +600,8 @@ describe('Array', () => {
   })
 
   it('sort', () => {
-    assert.deepStrictEqual(_.sort(Ord.ordNumber)([3, 2, 1]), [1, 2, 3])
-    assert.strictEqual(_.sort(Ord.ordNumber)(_.empty), _.empty)
+    assert.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+    assert.strictEqual(_.sort(N.Ord)(_.empty), _.empty)
     const byName = pipe(
       S.Ord,
       Ord.contramap((x: { readonly name: string }) => x.name)
@@ -736,7 +736,7 @@ describe('Array', () => {
     }
 
     const eqA = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Eq.contramap((f: A) => f.b)
     )
     const arrA: A = { a: 'a', b: 1 }
@@ -775,7 +775,7 @@ describe('Array', () => {
       Ord.contramap((p: Person) => p.name)
     )
     const byAge = pipe(
-      Ord.ordNumber,
+      N.Ord,
       Ord.contramap((p: Person) => p.age)
     )
     const sortByNameByAge = _.sortBy([byName, byAge])

@@ -1,6 +1,6 @@
 ---
 title: string.ts
-nav_order: 90
+nav_order: 91
 parent: Modules
 ---
 
@@ -17,6 +17,7 @@ Added in v2.10.0
   - [Monoid](#monoid)
   - [Ord](#ord)
   - [Semigroup](#semigroup)
+  - [Show](#show)
 
 ---
 
@@ -80,6 +81,16 @@ export declare const Semigroup: S.Semigroup<string>
 import * as S from 'fp-ts/string'
 
 assert.deepStrictEqual(S.Semigroup.concat('a', 'b'), 'ab')
+```
+
+Added in v2.10.0
+
+## Show
+
+**Signature**
+
+```ts
+export declare const Show: Sh.Show<string>
 ```
 
 Added in v2.10.0

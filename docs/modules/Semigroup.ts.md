@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -196,10 +196,10 @@ export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/Semigroup'
 
-const S1 = S.getJoinSemigroup(O.ordNumber)
+const S1 = S.getJoinSemigroup(N.Ord)
 
 assert.deepStrictEqual(S1.concat(1, 2), 2)
 ```
@@ -219,10 +219,10 @@ export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 **Example**
 
 ```ts
-import * as O from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/Semigroup'
 
-const S1 = S.getMeetSemigroup(O.ordNumber)
+const S1 = S.getMeetSemigroup(N.Ord)
 
 assert.deepStrictEqual(S1.concat(1, 2), 1)
 ```

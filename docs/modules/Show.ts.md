@@ -1,6 +1,6 @@
 ---
 title: Show.ts
-nav_order: 85
+nav_order: 86
 parent: Modules
 ---
 
@@ -16,8 +16,8 @@ Added in v2.0.0
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
   - [showNumber](#shownumber)
-  - [showString](#showstring)
   - [~~showBoolean~~](#showboolean)
+  - [~~showString~~](#showstring)
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 
@@ -59,16 +59,6 @@ export declare const showNumber: Show<number>
 
 Added in v2.0.0
 
-## showString
-
-**Signature**
-
-```ts
-export declare const showString: Show<string>
-```
-
-Added in v2.0.0
-
 ## ~~showBoolean~~
 
 Use `boolean.Show` instead.
@@ -77,6 +67,18 @@ Use `boolean.Show` instead.
 
 ```ts
 export declare const showBoolean: Show<boolean>
+```
+
+Added in v2.0.0
+
+## ~~showString~~
+
+Use `string.Show` instead.
+
+**Signature**
+
+```ts
+export declare const showString: Show<string>
 ```
 
 Added in v2.0.0

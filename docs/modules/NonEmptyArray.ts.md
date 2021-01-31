@@ -390,9 +390,9 @@ export declare function group<B>(
 
 ```ts
 import { cons, group } from 'fp-ts/NonEmptyArray'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
+assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
 ```
 
 Added in v2.0.0
@@ -416,9 +416,9 @@ export declare const groupSort: <B>(
 
 ```ts
 import { cons, groupSort } from 'fp-ts/NonEmptyArray'
-import { ordNumber } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
 ```
 
 Added in v2.0.0
@@ -795,9 +795,9 @@ export declare const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>>
 
 ```ts
 import { getEq, cons } from 'fp-ts/NonEmptyArray'
-import { eqNumber } from 'fp-ts/Eq'
+import * as N from 'fp-ts/number'
 
-const E = getEq(eqNumber)
+const E = getEq(N.Eq)
 assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
 assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
 ```

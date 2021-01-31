@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { ordNumber } from '../src/Ord'
+import * as N from '../src/number'
 import * as _ from '../src/Semigroup'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
@@ -18,11 +18,11 @@ describe('Semigroup', () => {
   })
 
   it('getMeetSemigroup', () => {
-    assert.deepStrictEqual(_.getMeetSemigroup(ordNumber).concat(1, 2), 1)
+    assert.deepStrictEqual(_.getMeetSemigroup(N.Ord).concat(1, 2), 1)
   })
 
   it('getJoinSemigroup', () => {
-    assert.deepStrictEqual(_.getJoinSemigroup(ordNumber).concat(1, 2), 2)
+    assert.deepStrictEqual(_.getJoinSemigroup(N.Ord).concat(1, 2), 2)
   })
 
   it('getObjectSemigroup', () => {
