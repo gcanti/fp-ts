@@ -1,10 +1,10 @@
 import * as assert from 'assert'
-import { fieldNumber } from '../src/Field'
+import * as N from '../src/number'
 import * as _ from '../src/Ring'
 
 describe('Ring', () => {
   it('getTupleRing', () => {
-    const R = _.getTupleRing(fieldNumber, fieldNumber, fieldNumber)
+    const R = _.getTupleRing(N.Field, N.Field, N.Field)
     assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
     assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
     assert.deepStrictEqual(R.one, [1, 1, 1])
@@ -13,6 +13,6 @@ describe('Ring', () => {
   })
 
   it('negate', () => {
-    assert.deepStrictEqual(_.negate(fieldNumber)(1), -1)
+    assert.deepStrictEqual(_.negate(N.Field)(1), -1)
   })
 })
