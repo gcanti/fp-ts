@@ -1,9 +1,8 @@
 import * as assert from 'assert'
 import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
-import { monoidSum } from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -506,7 +505,7 @@ describe('Either', () => {
   describe('getApplyMonoid', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
-      const M = _.getApplyMonoid(monoidSum)
+      const M = _.getApplyMonoid(N.MonoidSum)
       assert.deepStrictEqual(M.concat(_.left('a'), M.empty), _.left('a'))
       assert.deepStrictEqual(M.concat(M.empty, _.left('b')), _.left('b'))
       assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
@@ -554,7 +553,7 @@ describe('Either', () => {
 
   it('getValidationSemigroup', () => {
     // tslint:disable-next-line: deprecation
-    const VS = _.getValidationSemigroup(S.Monoid, monoidSum)
+    const VS = _.getValidationSemigroup(S.Monoid, N.MonoidSum)
     assert.deepStrictEqual(VS.concat(_.right(1), _.right(2)), _.right(3))
     assert.deepStrictEqual(VS.concat(_.right(1), _.left('foo')), _.left('foo'))
     assert.deepStrictEqual(VS.concat(_.left('foo'), _.right(1)), _.left('foo'))
@@ -563,7 +562,7 @@ describe('Either', () => {
 
   it('getValidationMonoid', () => {
     // tslint:disable-next-line: deprecation
-    const M = _.getValidationMonoid(S.Monoid, monoidSum)
+    const M = _.getValidationMonoid(S.Monoid, N.MonoidSum)
     assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
     assert.deepStrictEqual(M.concat(M.empty, _.right(1)), _.right(1))
   })

@@ -7,6 +7,7 @@ import * as F from './Field'
 import * as O from './Ord'
 import * as S from './Show'
 import { Semigroup } from './Semigroup'
+import { Monoid } from './Monoid'
 
 /**
  * @category instances
@@ -85,4 +86,22 @@ export const SemigroupSum: Semigroup<number> = {
  */
 export const SemigroupProduct: Semigroup<number> = {
   concat: (x, y) => x * y
+}
+
+/**
+ * `number` monoid under addition.
+ *
+ * The `empty` value is `0`.
+ *
+ * @example
+ * import { MonoidSum } from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(MonoidSum.concat(2, MonoidSum.empty), 2)
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonoidSum: Monoid<number> = {
+  concat: SemigroupSum.concat,
+  empty: 0
 }

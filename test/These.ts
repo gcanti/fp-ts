@@ -1,8 +1,7 @@
 import * as assert from 'assert'
 import * as Apply from '../src/Apply'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
-import { monoidSum } from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as _ from '../src/These'
@@ -135,7 +134,7 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const { concat } = _.getSemigroup(S.Monoid, monoidSum)
+    const { concat } = _.getSemigroup(S.Semigroup, N.SemigroupSum)
     assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
     assert.deepStrictEqual(concat(_.left('a'), _.right(2)), _.both('a', 2))
     assert.deepStrictEqual(concat(_.right(2), _.left('a')), _.both('a', 2))

@@ -88,7 +88,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = M.fold(M.monoidSum)
+    const sum = M.fold(N.MonoidSum)
     assert.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
