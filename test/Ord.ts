@@ -90,15 +90,6 @@ describe('Ord', () => {
     assert.deepStrictEqual(_.ordDate.compare(new Date(1), new Date(0)), 1)
   })
 
-  it('ordBigint', () => {
-    assert.deepStrictEqual(_.ordBigint.compare(BigInt(0), BigInt(0)), 0)
-    assert.deepStrictEqual(_.ordBigint.compare(BigInt(0), BigInt(1)), -1)
-    assert.deepStrictEqual(_.ordBigint.compare(BigInt(1), BigInt(0)), 1)
-    assert.deepStrictEqual(_.ordBigint.equals(BigInt(0), BigInt(0)), true)
-    assert.deepStrictEqual(_.ordBigint.equals(BigInt(0), BigInt(1)), false)
-    assert.deepStrictEqual(_.ordBigint.equals(BigInt(1), BigInt(0)), false)
-  })
-
   it('leq', () => {
     assert.deepStrictEqual(_.leq(_.ordNumber)(0, 1), true)
     assert.deepStrictEqual(_.leq(_.ordNumber)(1, 1), true)
