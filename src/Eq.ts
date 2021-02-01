@@ -110,7 +110,7 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const eqStrict: Eq<unknown> = {
+export const EqStrict: Eq<unknown> = {
   equals: (second) => (first) => first === second
 }
 

@@ -61,8 +61,8 @@ describe('Eq', () => {
   })
 
   it('eqStrict', () => {
-    deepStrictEqual(_.eqStrict.equals(1)(1), true)
-    deepStrictEqual(_.eqStrict.equals(1)('a'), false)
+    deepStrictEqual(_.EqStrict.equals(1)(1), true)
+    deepStrictEqual(_.EqStrict.equals(1)('a'), false)
   })
 
   it('getMonoid', () => {

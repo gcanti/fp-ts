@@ -23,7 +23,7 @@ export type Ordering = -1 | 0 | 1
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<Ordering> = E.eqStrict
+export const Eq: E.Eq<Ordering> = E.EqStrict
 
 /**
  * @category instances

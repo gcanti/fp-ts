@@ -62,6 +62,8 @@ high state of flux, you're at risk of it changing without notice.
     - rename `getDualBooleanAlgebra` to `getDual` (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
+  - `Eq`
+    - rename `eqStrict` to `EqStrict` (@gcanti)
   - `Either`
     - make `fromNullable` lazy (@gcanti)
     - make `fromNullableK` lazy (@gcanti)

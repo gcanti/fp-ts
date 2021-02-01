@@ -53,7 +53,7 @@ export const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) =>
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<boolean> = E.eqStrict
+export const Eq: E.Eq<boolean> = E.EqStrict
 
 /**
  * @category instances

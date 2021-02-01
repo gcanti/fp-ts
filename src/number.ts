@@ -13,7 +13,7 @@ import { Monoid } from './Monoid'
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<number> = E.eqStrict
+export const Eq: E.Eq<number> = E.EqStrict
 
 /**
  * @category instances
