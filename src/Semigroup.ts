@@ -99,7 +99,7 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * @category constructors
  * @since 2.10.0
  */
-export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
+export const getConstantSemigroup = <A>(a: A): Semigroup<A> => ({
   concat: () => a
 })
 
@@ -347,10 +347,10 @@ export const semigroupSum: Semigroup<number> = N.SemigroupSum
 export const semigroupProduct: Semigroup<number> = N.SemigroupProduct
 
 /**
- * Use `getUnitSemigroup` instead.
+ * Use `getConstantSemigroup` instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupVoid: Semigroup<void> = getUnitSemigroup<void>(undefined)
+export const semigroupVoid: Semigroup<void> = getConstantSemigroup<void>(undefined)

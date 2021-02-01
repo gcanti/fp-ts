@@ -50,7 +50,6 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
-  - [getUnitMonoid](#getunitmonoid)
 - [instances](#instances)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
@@ -204,16 +203,6 @@ assert.deepStrictEqual(M1.concat(1, 2), 1)
 
 Added in v2.0.0
 
-## getUnitMonoid
-
-**Signature**
-
-```ts
-export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
-```
-
-Added in v2.10.0
-
 # instances
 
 ## ~~getEndomorphismMonoid~~
@@ -301,8 +290,6 @@ export declare const monoidSum: Monoid<number>
 Added in v2.0.0
 
 ## ~~monoidVoid~~
-
-Use `getUnitMonoid` instead.
 
 **Signature**
 

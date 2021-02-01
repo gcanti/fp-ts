@@ -71,7 +71,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
     - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
-    - deprecate `monoidVoid`, use `getUnitMonoid` instead (@gcanti)
+    - deprecate `monoidVoid` (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -111,7 +111,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
     - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
     - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
-    - deprecate `semigroupVoid`, use `getUnitSemigroup` instead (@gcanti)
+    - deprecate `semigroupVoid`, use `getConstantSemigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -226,8 +226,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - add `bind` helper (@gcanti)
     - add `chainFirst` helper (@gcanti)
-  - `Monoid`
-    - add `getUnitMonoid` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -296,7 +294,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
   - `Semigroup`
-    - add `getUnitSemigroup` (@gcanti)
+    - add `getConstantSemigroup` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
