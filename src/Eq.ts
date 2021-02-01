@@ -118,14 +118,6 @@ export const eqStrict: Eq<unknown> = {
  * @category instances
  * @since 3.0.0
  */
-export const eqDate: Eq<Date> = {
-  equals: (second) => (first) => first.valueOf() === second.valueOf()
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
 export const getMonoid = <A>(): Monoid<Eq<A>> => ({
   concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
   empty: {

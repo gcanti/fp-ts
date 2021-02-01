@@ -81,12 +81,6 @@ describe('Ord', () => {
     deepStrictEqual(pipe(2, O.compare(2)), 0)
   })
 
-  it('ordDate', () => {
-    deepStrictEqual(pipe(new Date(0), _.ordDate.compare(new Date(0))), 0)
-    deepStrictEqual(pipe(new Date(0), _.ordDate.compare(new Date(1))), -1)
-    deepStrictEqual(pipe(new Date(1), _.ordDate.compare(new Date(0))), 1)
-  })
-
   it('leq', () => {
     const f = _.leq(N.Ord)
     deepStrictEqual(pipe(0, f(1)), true)

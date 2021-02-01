@@ -11,11 +11,10 @@
  */
 import { Contravariant1 } from './Contravariant'
 import { Eq } from './Eq'
+import { Endomorphism, flow, Predicate } from './function'
 import { Monoid } from './Monoid'
 import { monoidOrdering, Ordering } from './Ordering'
-import { Endomorphism, flow, pipe, Predicate } from './function'
 import { Semigroup } from './Semigroup'
-import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -148,24 +147,6 @@ declare module './HKT' {
     readonly Ord: Ord<A>
   }
 }
-
-/**
- * @example
- * import { ordDate } from 'fp-ts/Ord'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe(new Date(1, 1, 2020), ordDate.compare(new Date(1, 1, 2021))), -1)
- *
- * @category instances
- * @since 3.0.0
- */
-export const ordDate: Ord<Date> =
-  /*#__PURE__*/
-  pipe(
-    N.Ord,
-    /*#__PURE__*/
-    contramap((date) => date.valueOf())
-  )
 
 /**
  * Returns a `Semigroup` such that:

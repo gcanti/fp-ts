@@ -15,9 +15,11 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [create](#create)
 - [instances](#instances)
-  - [eqDate](#eqdate)
-  - [eqMonth](#eqmonth)
-  - [eqYear](#eqyear)
+  - [Eq](#eq)
+  - [EqDate](#eqdate)
+  - [EqMonth](#eqmonth)
+  - [EqYear](#eqyear)
+  - [Ord](#ord)
 - [utils](#utils)
   - [now](#now)
 
@@ -27,7 +29,7 @@ Added in v3.0.0
 
 ## create
 
-Returns the current `Date`
+Returns the current `Date`.
 
 **Signature**
 
@@ -39,32 +41,61 @@ Added in v3.0.0
 
 # instances
 
-## eqDate
+## Eq
 
 **Signature**
 
 ```ts
-export declare const eqDate: Eq<Date>
+export declare const Eq: E.Eq<Date>
 ```
 
 Added in v3.0.0
 
-## eqMonth
+## EqDate
 
 **Signature**
 
 ```ts
-export declare const eqMonth: Eq<Date>
+export declare const EqDate: E.Eq<Date>
 ```
 
 Added in v3.0.0
 
-## eqYear
+## EqMonth
 
 **Signature**
 
 ```ts
-export declare const eqYear: Eq<Date>
+export declare const EqMonth: E.Eq<Date>
+```
+
+Added in v3.0.0
+
+## EqYear
+
+**Signature**
+
+```ts
+export declare const EqYear: E.Eq<Date>
+```
+
+Added in v3.0.0
+
+## Ord
+
+**Signature**
+
+```ts
+export declare const Ord: O.Ord<Date>
+```
+
+**Example**
+
+```ts
+import { Ord } from 'fp-ts/Date'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(new Date(1, 1, 2020), Ord.compare(new Date(1, 1, 2021))), -1)
 ```
 
 Added in v3.0.0
@@ -73,7 +104,7 @@ Added in v3.0.0
 
 ## now
 
-Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
+Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC.
 
 **Signature**
 

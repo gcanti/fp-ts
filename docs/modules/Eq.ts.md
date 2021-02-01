@@ -30,7 +30,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
-  - [eqDate](#eqdate)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
 - [type classes](#type-classes)
@@ -119,16 +118,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = 'Eq'
-```
-
-Added in v3.0.0
-
-## eqDate
-
-**Signature**
-
-```ts
-export declare const eqDate: Eq<Date>
 ```
 
 Added in v3.0.0

@@ -32,7 +32,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [ordDate](#orddate)
 - [type classes](#type-classes)
   - [Ord (interface)](#ord-interface)
 - [utils](#utils)
@@ -258,25 +257,6 @@ Returns a `Semigroup` such that:
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
-```
-
-Added in v3.0.0
-
-## ordDate
-
-**Signature**
-
-```ts
-export declare const ordDate: Ord<Date>
-```
-
-**Example**
-
-```ts
-import { ordDate } from 'fp-ts/Ord'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(new Date(1, 1, 2020), ordDate.compare(new Date(1, 1, 2021))), -1)
 ```
 
 Added in v3.0.0
