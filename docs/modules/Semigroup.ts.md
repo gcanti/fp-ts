@@ -54,9 +54,9 @@ Added in v2.0.0
   - [getStructSemigroup](#getstructsemigroup)
   - [getTupleSemigroup](#gettuplesemigroup)
 - [constructors](#constructors)
+  - [getConstantSemigroup](#getconstantsemigroup)
   - [getJoinSemigroup](#getjoinsemigroup)
   - [getMeetSemigroup](#getmeetsemigroup)
-  - [getUnitSemigroup](#getunitsemigroup)
 - [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
@@ -186,6 +186,16 @@ Added in v2.0.0
 
 # constructors
 
+## getConstantSemigroup
+
+**Signature**
+
+```ts
+export declare const getConstantSemigroup: <A>(a: A) => Semigroup<A>
+```
+
+Added in v2.10.0
+
 ## getJoinSemigroup
 
 Get a semigroup where `concat` will return the maximum, based on the provided order.
@@ -231,16 +241,6 @@ assert.deepStrictEqual(S1.concat(1, 2), 1)
 ```
 
 Added in v2.0.0
-
-## getUnitSemigroup
-
-**Signature**
-
-```ts
-export declare const getUnitSemigroup: <A>(a: A) => Semigroup<A>
-```
-
-Added in v2.10.0
 
 # instances
 
@@ -384,7 +384,7 @@ Added in v2.0.0
 
 ## ~~semigroupVoid~~
 
-Use `getUnitSemigroup` instead.
+Use `getConstantSemigroup` instead.
 
 **Signature**
 
