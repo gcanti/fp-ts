@@ -13,8 +13,11 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [eqOrdering](#eqordering)
-  - [monoidOrdering](#monoidordering)
+  - [Eq](#eq)
+  - [Monoid](#monoid)
+  - [Semigroup](#semigroup)
+  - [~~eqOrdering~~](#eqordering)
+  - [~~monoidOrdering~~](#monoidordering)
   - [~~semigroupOrdering~~](#semigroupordering)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
@@ -26,34 +29,68 @@ Added in v2.0.0
 
 # instances
 
-## eqOrdering
+## Eq
 
 **Signature**
 
 ```ts
-export declare const eqOrdering: Eq<Ordering>
+export declare const Eq: E.Eq<Ordering>
+```
+
+Added in v2.10.0
+
+## Monoid
+
+**Signature**
+
+```ts
+export declare const Monoid: M.Monoid<Ordering>
+```
+
+Added in v2.10.0
+
+## Semigroup
+
+**Signature**
+
+```ts
+export declare const Semigroup: S.Semigroup<Ordering>
+```
+
+Added in v2.10.0
+
+## ~~eqOrdering~~
+
+Use `Eq` instead
+
+**Signature**
+
+```ts
+export declare const eqOrdering: E.Eq<Ordering>
 ```
 
 Added in v2.0.0
 
-## monoidOrdering
+## ~~monoidOrdering~~
+
+Use `Monoid` instead
 
 **Signature**
 
 ```ts
-export declare const monoidOrdering: Monoid<Ordering>
+export declare const monoidOrdering: M.Monoid<Ordering>
 ```
 
 Added in v2.4.0
 
 ## ~~semigroupOrdering~~
 
-Use `monoidOrdering` instead
+Use `Semigroup` instead
 
 **Signature**
 
 ```ts
-export declare const semigroupOrdering: Semigroup<Ordering>
+export declare const semigroupOrdering: S.Semigroup<Ordering>
 ```
 
 Added in v2.0.0

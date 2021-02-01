@@ -77,6 +77,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
     - deprecate `ordString`, use `string.Ord` instead (@gcanti)
     - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
+  - `Ordering`
+    - deprecate `eqOrdering`, use `Eq` instead (@gcanti)
+    - deprecate `monoidOrdering`, use `Monoid` instead (@gcanti)
   - `Ring`
     - deprecate `getFunctionRing`, use `function.getRing` instead (@gcanti)
   - `Reader`
@@ -233,6 +236,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
+  - `Ordering`
+    - add `Eq` instance (@gcanti)
+    - add `Semigroup` instance (@gcanti)
+    - add `Monoid` instance (@gcanti)
   - `Random`
     - add `randomElem` (@gcanti)
   - `Reader`
