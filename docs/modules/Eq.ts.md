@@ -28,12 +28,12 @@ Added in v2.0.0
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [eqDate](#eqdate)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
   - [~~eqBoolean~~](#eqboolean)
+  - [~~eqDate~~](#eqdate)
   - [~~eqNumber~~](#eqnumber)
   - [~~eqString~~](#eqstring)
   - [~~eq~~](#eq)
@@ -96,16 +96,6 @@ Added in v2.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-Added in v2.0.0
-
-## eqDate
-
-**Signature**
-
-```ts
-export declare const eqDate: Eq<Date>
 ```
 
 Added in v2.0.0
@@ -177,6 +167,18 @@ Use `boolean.Eq` instead.
 
 ```ts
 export declare const eqBoolean: Eq<boolean>
+```
+
+Added in v2.0.0
+
+## ~~eqDate~~
+
+Use `Date.Eq` instead.
+
+**Signature**
+
+```ts
+export declare const eqDate: Eq<Date>
 ```
 
 Added in v2.0.0

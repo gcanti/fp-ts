@@ -5,7 +5,6 @@
  */
 import { Ring } from './Ring'
 import { Eq } from './Eq'
-import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -56,4 +55,13 @@ export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
  * @since 2.0.0
  * @deprecated
  */
-export const fieldNumber: Field<number> = N.Field
+export const fieldNumber: Field<number> = {
+  add: (x, y) => x + y,
+  zero: 0,
+  mul: (x, y) => x * y,
+  one: 1,
+  sub: (x, y) => x - y,
+  degree: (_) => 1,
+  div: (x, y) => x / y,
+  mod: (x, y) => x % y
+}
