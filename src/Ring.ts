@@ -12,6 +12,10 @@
 import { getRing } from './function'
 import { Semiring } from './Semiring'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -20,14 +24,9 @@ export interface Ring<A> extends Semiring<A> {
   readonly sub: (x: A, y: A) => A
 }
 
-/**
- * `negate x` can be used as a shorthand for `zero - x`
- *
- * @since 2.0.0
- */
-export function negate<A>(ring: Ring<A>): (a: A) => A {
-  return (a) => ring.sub(ring.zero, a)
-}
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Given a tuple of `Ring`s returns a `Ring` for the tuple
@@ -43,7 +42,7 @@ export function negate<A>(ring: Ring<A>): (a: A) => A {
  * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @category instances
+ * @category combinators
  * @since 2.0.0
  */
 export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
@@ -57,6 +56,17 @@ export function getTupleRing<T extends ReadonlyArray<Ring<any>>>(
     sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
   } as any
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * `negate x` can be used as a shorthand for `zero - x`
+ *
+ * @since 2.0.0
+ */
+export const negate = <A>(R: Ring<A>) => (a: A) => R.sub(R.zero, a)
 
 // -------------------------------------------------------------------------------------
 // deprecated

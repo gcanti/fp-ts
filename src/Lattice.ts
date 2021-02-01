@@ -9,6 +9,10 @@
 import { JoinSemilattice } from './JoinSemilattice'
 import { MeetSemilattice } from './MeetSemilattice'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0

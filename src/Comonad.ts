@@ -4,6 +4,10 @@
 import { Extend, Extend1, Extend2, Extend2C, Extend3 } from './Extend'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0

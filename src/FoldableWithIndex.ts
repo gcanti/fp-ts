@@ -34,6 +34,10 @@ import { Monoid } from './Monoid'
 
 /* tslint:disable:readonly-array */
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -104,7 +108,14 @@ export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable4<F> {
   readonly reduceRightWithIndex: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `reduceWithIndex` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -124,6 +135,9 @@ export function reduceWithIndex<F, I, G, J>(
 }
 
 /**
+ * `foldMapWithIndex` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -146,6 +160,9 @@ export function foldMapWithIndex<F, I, G, J>(
 }
 
 /**
+ * `reduceRightWithIndex` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(

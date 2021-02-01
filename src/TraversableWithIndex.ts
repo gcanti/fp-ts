@@ -26,6 +26,10 @@ import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithInde
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Traversable, Traversable1, Traversable2, Traversable2C } from './Traversable'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */

@@ -25,6 +25,10 @@ import {
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -67,7 +71,12 @@ export interface Monad3C<M extends URIS3, E> extends Applicative3C<M, E>, Chain3
  */
 export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}
 
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category derivables
  * @since 2.10.0
  */
 export function chainFirst<M extends URIS4>(
@@ -92,6 +101,10 @@ export function chainFirst<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (f
 export function chainFirst<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (first: HKT<M, A>) => HKT<M, A> {
   return (f) => (first) => M.chain(first, (a) => M.map(f(a), () => a))
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 2.10.0
