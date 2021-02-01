@@ -61,13 +61,13 @@ Added in v2.0.0
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
   - [getObjectSemigroup](#getobjectsemigroup)
+  - [semigroupVoid](#semigroupvoid)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
   - [~~semigroupProduct~~](#semigroupproduct)
   - [~~semigroupString~~](#semigroupstring)
   - [~~semigroupSum~~](#semigroupsum)
-  - [~~semigroupVoid~~](#semigroupvoid)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -310,6 +310,16 @@ assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age:
 
 Added in v2.0.0
 
+## semigroupVoid
+
+**Signature**
+
+```ts
+export declare const semigroupVoid: Semigroup<void>
+```
+
+Added in v2.0.0
+
 ## ~~getFunctionSemigroup~~
 
 Use `function.getSemigroup` instead.
@@ -378,18 +388,6 @@ Use `number.SemigroupSum` instead.
 
 ```ts
 export declare const semigroupSum: Semigroup<number>
-```
-
-Added in v2.0.0
-
-## ~~semigroupVoid~~
-
-Use `getConstantSemigroup` instead.
-
-**Signature**
-
-```ts
-export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0
