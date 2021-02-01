@@ -14,14 +14,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [constructors](#constructors)
   - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 - [type classes](#type-classes)
   - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
 
 ---
 
-# instances
+# constructors
 
 ## getMinMaxBoundedDistributiveLattice
 

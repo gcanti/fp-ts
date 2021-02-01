@@ -9,14 +9,22 @@
 import { Lattice } from './Lattice'
 import { Ord, max, min } from './Ord'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
  */
 export interface DistributiveLattice<A> extends Lattice<A> {}
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
- * @category instances
+ * @category constructors
  * @since 2.0.0
  */
 export function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A> {

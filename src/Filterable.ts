@@ -46,6 +46,10 @@ import {
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 2.0.0
  */
@@ -271,7 +275,14 @@ export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<
   readonly filter: Filter4<F>
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `filter` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function filter<F extends URIS2, G extends URIS2, E>(
@@ -298,6 +309,9 @@ export function filter<F, G>(
 }
 
 /**
+ * `filterMap` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function filterMap<F extends URIS2, G extends URIS2, E>(
@@ -324,6 +338,9 @@ export function filterMap<F, G>(
 }
 
 /**
+ * `partition` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function partition<F extends URIS2, G extends URIS2, E>(
@@ -362,6 +379,9 @@ export function partition<F, G>(
 }
 
 /**
+ * `partitionMap` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function partitionMap<F extends URIS2, G extends URIS2, E>(

@@ -189,7 +189,7 @@ export const chainNullableK =
 
 /**
  * @category combinators
- * @since 0.1.10
+ * @since 2.10.0
  */
 export const fromOptionK =
   /*#__PURE__*/
@@ -197,7 +197,7 @@ export const fromOptionK =
 
 /**
  * @category combinators
- * @since 0.1.10
+ * @since 2.10.0
  */
 export const chainOptionK =
   /*#__PURE__*/

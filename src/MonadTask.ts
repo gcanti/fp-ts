@@ -7,6 +7,10 @@ import { FromTask, FromTask1, FromTask2, FromTask2C, FromTask3, FromTask3C, From
 import { URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { MonadIO, MonadIO1, MonadIO2, MonadIO2C, MonadIO3, MonadIO3C, MonadIO4 } from './MonadIO'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0

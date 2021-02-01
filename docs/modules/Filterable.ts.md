@@ -16,6 +16,11 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
 - [type classes](#type-classes)
   - [Filterable (interface)](#filterable-interface)
   - [Filterable1 (interface)](#filterable1-interface)
@@ -39,10 +44,6 @@ Added in v2.0.0
   - [Partition3 (interface)](#partition3-interface)
   - [Partition3C (interface)](#partition3c-interface)
   - [Partition4 (interface)](#partition4-interface)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
   - [~~FilterableComposition11~~ (interface)](#filterablecomposition11-interface)
   - [~~FilterableComposition12C~~ (interface)](#filterablecomposition12c-interface)
   - [~~FilterableComposition12~~ (interface)](#filterablecomposition12-interface)
@@ -55,6 +56,126 @@ Added in v2.0.0
   - [~~getFilterableComposition~~](#getfilterablecomposition)
 
 ---
+
+# combinators
+
+## filter
+
+`filter` composition.
+
+**Signature**
+
+```ts
+export declare function filter<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
+export declare function filter<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+export declare function filter<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+export declare function filter<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+```
+
+Added in v2.10.0
+
+## filterMap
+
+`filterMap` composition.
+
+**Signature**
+
+```ts
+export declare function filterMap<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, B>>
+export declare function filterMap<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export declare function filterMap<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+export declare function filterMap<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+```
+
+Added in v2.10.0
+
+## partition
+
+`partition` composition.
+
+**Signature**
+
+```ts
+export declare function partition<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
+export declare function partition<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A>(
+  predicate: Predicate<A>
+) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+export declare function partition<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+export declare function partition<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+```
+
+Added in v2.10.0
+
+## partitionMap
+
+`partitionMap` composition.
+
+**Signature**
+
+```ts
+export declare function partitionMap<F extends URIS2, G extends URIS2, E>(
+  F: Functor2<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FE>(fa: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
+export declare function partitionMap<F extends URIS, G extends URIS2, E>(
+  F: Functor1<F>,
+  G: Filterable2C<G, E>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
+export declare function partitionMap<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Filterable1<G>
+): <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
+export declare function partitionMap<F, G>(
+  F: Functor<F>,
+  G: Filterable<G>
+): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
+```
+
+Added in v2.10.0
 
 # type classes
 
@@ -382,116 +503,6 @@ export interface Partition4<F extends URIS4> {
 ```
 
 Added in v2.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
-export declare function filter<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
-export declare function filter<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
-export declare function filter<F, G>(
-  F: Functor<F>,
-  G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
-```
-
-Added in v2.10.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare function filterMap<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Filterable2C<G, E>
-): <A, B>(f: (a: A) => Option<B>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, B>>
-export declare function filterMap<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Filterable2C<G, E>
-): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
-export declare function filterMap<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Filterable1<G>
-): <A, B>(f: (a: A) => Option<B>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export declare function filterMap<F, G>(
-  F: Functor<F>,
-  G: Filterable<G>
-): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-```
-
-Added in v2.10.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare function partition<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
-export declare function partition<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
-export declare function partition<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
-export declare function partition<F, G>(
-  F: Functor<F>,
-  G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
-```
-
-Added in v2.10.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare function partitionMap<F extends URIS2, G extends URIS2, E>(
-  F: Functor2<F>,
-  G: Filterable2C<G, E>
-): <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => <FE>(fa: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, B>>, Kind2<F, FE, Kind2<G, E, C>>>
-export declare function partitionMap<F extends URIS, G extends URIS2, E>(
-  F: Functor1<F>,
-  G: Filterable2C<G, E>
-): <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, C>>>
-export declare function partitionMap<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Filterable1<G>
-): <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, C>>>
-export declare function partitionMap<F, G>(
-  F: Functor<F>,
-  G: Filterable<G>
-): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>>
-```
-
-Added in v2.10.0
 
 ## ~~FilterableComposition11~~ (interface)
 

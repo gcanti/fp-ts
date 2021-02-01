@@ -7,6 +7,10 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -86,7 +90,14 @@ export interface Foldable4<F extends URIS4> {
   readonly reduceRight: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `reduce` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function reduce<F extends URIS, G extends URIS>(
@@ -105,6 +116,9 @@ export function reduce<F, G>(
 }
 
 /**
+ * `foldMap` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function foldMap<F extends URIS, G extends URIS>(
@@ -127,6 +141,9 @@ export function foldMap<F, G>(
 }
 
 /**
+ * `reduceRight` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function reduceRight<F extends URIS, G extends URIS>(
@@ -143,6 +160,10 @@ export function reduceRight<F, G>(
 ): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B {
   return (b, f) => (fga) => F.reduceRight(fga, b, (ga, b) => G.reduceRight(ga, b, f))
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.

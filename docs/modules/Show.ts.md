@@ -6,15 +6,23 @@ parent: Modules
 
 ## Show overview
 
+The `Show` type class represents those types which can be converted into
+a human-readable `string` representation.
+
+While not required, it is recommended that for any expression `x`, the
+string `show(x)` be executable TypeScript code which evaluates to the same
+value as the expression `x`.
+
 Added in v2.0.0
 
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getStructShow](#getstructshow)
   - [getTupleShow](#gettupleshow)
+- [instances](#instances)
   - [~~showBoolean~~](#showboolean)
   - [~~showNumber~~](#shownumber)
   - [~~showString~~](#showstring)
@@ -23,7 +31,7 @@ Added in v2.0.0
 
 ---
 
-# instances
+# combinators
 
 ## getStructShow
 
@@ -48,6 +56,8 @@ export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
 ```
 
 Added in v2.0.0
+
+# instances
 
 ## ~~showBoolean~~
 
@@ -88,13 +98,6 @@ Added in v2.0.0
 # type classes
 
 ## Show (interface)
-
-The `Show` type class represents those types which can be converted into
-a human-readable `string` representation.
-
-While not required, it is recommended that for any expression `x`, the
-string `show(x)` be executable TypeScript code which evaluates to the same
-value as the expression `x`.
 
 **Signature**
 

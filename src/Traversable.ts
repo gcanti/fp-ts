@@ -58,6 +58,10 @@ import {
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -289,7 +293,14 @@ export interface Sequence3<T extends URIS3> {
   <F>(F: Applicative<F>): <R, E, A>(ta: Kind3<T, R, E, HKT<F, A>>) => HKT<F, Kind3<T, R, E, A>>
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `traverse` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function traverse<T extends URIS, G extends URIS>(
@@ -317,6 +328,9 @@ export function traverse<T, G>(
 }
 
 /**
+ * `sequence` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function sequence<T extends URIS, G extends URIS>(

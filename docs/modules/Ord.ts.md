@@ -24,6 +24,7 @@ Added in v2.0.0
   - [contramap](#contramap)
 - [combinators](#combinators)
   - [getDualOrd](#getdualord)
+  - [getTupleOrd](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
@@ -32,7 +33,6 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [getTupleOrd](#gettupleord)
   - [ordDate](#orddate)
   - [~~ordBoolean~~](#ordboolean)
   - [~~ordNumber~~](#ordnumber)
@@ -72,6 +72,34 @@ Added in v2.0.0
 
 ```ts
 export declare function getDualOrd<A>(O: Ord<A>): Ord<A>
+```
+
+Added in v2.0.0
+
+## getTupleOrd
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple
+
+**Signature**
+
+```ts
+export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
+  ...ords: T
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
+```
+
+**Example**
+
+```ts
+import { getTupleOrd } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
+
+const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
+assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 ```
 
 Added in v2.0.0
@@ -202,34 +230,6 @@ Added in v2.4.0
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
-```
-
-Added in v2.0.0
-
-## getTupleOrd
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple
-
-**Signature**
-
-```ts
-export declare function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }>
-```
-
-**Example**
-
-```ts
-import { getTupleOrd } from 'fp-ts/Ord'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import * as B from 'fp-ts/boolean'
-
-const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
-assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 ```
 
 Added in v2.0.0

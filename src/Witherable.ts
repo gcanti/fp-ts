@@ -13,6 +13,10 @@ import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from 
 import { Either } from './Either'
 import { Separated } from './Compactable'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
