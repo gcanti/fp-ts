@@ -10,9 +10,9 @@
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
+import { pipe } from './function'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
-import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -127,14 +127,6 @@ export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
   return fromEquals((x, y) => eqs.every((E, i) => E.equals(x[i], y[i])))
 }
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const eqDate: Eq<Date> = {
-  equals: (x, y) => x.valueOf() === y.valueOf()
-}
-
 const empty: Eq<unknown> = {
   equals: () => true
 }
@@ -206,3 +198,14 @@ export const eqString: Eq<string> = eqStrict
  * @deprecated
  */
 export const eqNumber: Eq<number> = eqStrict
+
+/**
+ * Use `Date.Eq` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const eqDate: Eq<Date> = {
+  equals: (first, second) => first.valueOf() === second.valueOf()
+}

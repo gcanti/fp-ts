@@ -9,9 +9,6 @@
  * @since 2.0.0
  */
 import { ReadonlyRecord } from './ReadonlyRecord'
-import * as B from './boolean'
-import * as S from './string'
-import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -65,7 +62,9 @@ export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
  * @since 2.0.0
  * @deprecated
  */
-export const showBoolean: Show<boolean> = B.Show
+export const showBoolean: Show<boolean> = {
+  show: (a) => JSON.stringify(a)
+}
 
 /**
  * Use `string.Show` instead.
@@ -74,7 +73,9 @@ export const showBoolean: Show<boolean> = B.Show
  * @since 2.0.0
  * @deprecated
  */
-export const showString: Show<string> = S.Show
+export const showString: Show<string> = {
+  show: (a) => JSON.stringify(a)
+}
 
 /**
  * Use `number.Show` instead.
@@ -83,4 +84,6 @@ export const showString: Show<string> = S.Show
  * @since 2.0.0
  * @deprecated
  */
-export const showNumber: Show<number> = N.Show
+export const showNumber: Show<number> = {
+  show: (a) => JSON.stringify(a)
+}

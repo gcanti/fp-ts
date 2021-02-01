@@ -2,21 +2,25 @@ import * as assert from 'assert'
 import * as _ from '../src/boolean'
 
 describe('boolean', () => {
-  it('fold', () => {
-    assert.deepStrictEqual(
-      _.fold(
-        () => 'false',
-        () => 'true'
-      )(true),
-      'true'
-    )
-    assert.deepStrictEqual(
-      _.fold(
-        () => 'false',
-        () => 'true'
-      )(false),
-      'false'
-    )
+  // -------------------------------------------------------------------------------------
+  // instances
+  // -------------------------------------------------------------------------------------
+
+  it('Eq', () => {
+    assert.deepStrictEqual(_.Eq.equals(true, true), true)
+    assert.deepStrictEqual(_.Eq.equals(false, false), true)
+    assert.deepStrictEqual(_.Eq.equals(false, true), false)
+  })
+
+  it('Ord', () => {
+    assert.deepStrictEqual(_.Ord.compare(false, true), -1)
+    assert.deepStrictEqual(_.Ord.compare(true, false), 1)
+    assert.deepStrictEqual(_.Ord.compare(true, true), 0)
+  })
+
+  it('Show', () => {
+    assert.deepStrictEqual(_.Show.show(true), 'true')
+    assert.deepStrictEqual(_.Show.show(false), 'false')
   })
 
   it('BooleanAlgebra', () => {
@@ -41,14 +45,24 @@ describe('boolean', () => {
     assert.deepStrictEqual(BA.zero, false)
   })
 
-  it('Ord', () => {
-    assert.deepStrictEqual(_.Ord.compare(false, true), -1)
-    assert.deepStrictEqual(_.Ord.compare(true, false), 1)
-    assert.deepStrictEqual(_.Ord.compare(true, true), 0)
-  })
+  // -------------------------------------------------------------------------------------
+  // utils
+  // -------------------------------------------------------------------------------------
 
-  it('Show', () => {
-    assert.deepStrictEqual(_.Show.show(true), 'true')
-    assert.deepStrictEqual(_.Show.show(false), 'false')
+  it('fold', () => {
+    assert.deepStrictEqual(
+      _.fold(
+        () => 'false',
+        () => 'true'
+      )(true),
+      'true'
+    )
+    assert.deepStrictEqual(
+      _.fold(
+        () => 'false',
+        () => 'true'
+      )(false),
+      'false'
+    )
   })
 })

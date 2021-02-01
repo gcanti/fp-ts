@@ -32,13 +32,10 @@
  *
  * @since 2.0.0
  */
-import { MonoidAll, MonoidAny } from './boolean'
 import { Bounded } from './Bounded'
 import { Endomorphism, getEndomorphismMonoid as getEM, getMonoid } from './function'
-import { MonoidProduct, MonoidSum } from './number'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
-import * as S from './string'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -225,7 +222,11 @@ export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.fold(
  * @since 2.0.0
  * @deprecated
  */
-export const monoidAll: Monoid<boolean> = MonoidAll
+export const monoidAll: Monoid<boolean> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupAll.concat,
+  empty: true
+}
 
 /**
  * Use `boolean.MonoidAny` instead.
@@ -234,7 +235,11 @@ export const monoidAll: Monoid<boolean> = MonoidAll
  * @since 2.0.0
  * @deprecated
  */
-export const monoidAny: Monoid<boolean> = MonoidAny
+export const monoidAny: Monoid<boolean> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupAny.concat,
+  empty: false
+}
 
 /**
  * Use `function.getMonoid` instead.
@@ -263,7 +268,11 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => g
  * @since 2.0.0
  * @deprecated
  */
-export const monoidString: Monoid<string> = S.Monoid
+export const monoidString: Monoid<string> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupString.concat,
+  empty: ''
+}
 
 /**
  * Use `number.MonoidSum` instead.
@@ -272,11 +281,19 @@ export const monoidString: Monoid<string> = S.Monoid
  * @since 2.0.0
  * @deprecated
  */
-export const monoidSum: Monoid<number> = MonoidSum
+export const monoidSum: Monoid<number> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupSum.concat,
+  empty: 0
+}
 
 /**
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
-export const monoidProduct: Monoid<number> = MonoidProduct
+export const monoidProduct: Monoid<number> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupProduct.concat,
+  empty: 1
+}
