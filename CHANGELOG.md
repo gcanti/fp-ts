@@ -60,6 +60,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `Applicative` dependency (@gcanti)
   - `BooleanAlgebra`
     - rename `getDualBooleanAlgebra` to `getDual` (@gcanti)
+    - remove `booleanAlgebraVoid` (@gcanti)
   - `ChainRec`
     - drop `Chain` dependency (@gcanti)
   - `Eq`
@@ -103,6 +104,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid` (@gcanti)
     - rename `getDualMonoid` to `getDual` (@gcanti)
+    - remove `monoidVoid` (@gcanti)
   - `Option`
     - make `elem` pipeable (@gcanti)
   - `Ord`
@@ -176,6 +178,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Semigroup`
     - make `fold` curried (@gcanti)
     - rename `getDualSemigroup` to `getDual` (@gcanti)
+    - remove `semigroupVoid` (@gcanti)
   - `StateReaderTaskEither`
     - remove `onFalse` parameter in `fromPredicate` (@gcanti)
   - `TaskEither`

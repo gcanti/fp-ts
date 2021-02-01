@@ -1678,9 +1678,9 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
     const bLen = second.length
     const len = Math.min(aLen, bLen)
     for (let i = 0; i < len; i++) {
-      const ordering = O.compare(second[i])(first[i])
-      if (ordering !== 0) {
-        return ordering
+      const o = O.compare(second[i])(first[i])
+      if (o !== 0) {
+        return o
       }
     }
     return N.Ord.compare(bLen)(aLen)
