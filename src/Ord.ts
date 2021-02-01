@@ -158,7 +158,10 @@ declare module './HKT' {
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
   concat: (second) => (first) =>
-    fromCompare((a2) => (a1) => O.Monoid.concat(second.compare(a2)(a1))(first.compare(a2)(a1)))
+    fromCompare((a2) => (a1) => {
+      const ox = first.compare(a2)(a1)
+      return ox !== 0 ? ox : second.compare(a2)(a1)
+    })
 })
 
 /**
