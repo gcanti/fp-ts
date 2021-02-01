@@ -37,9 +37,4 @@ describe('Monoid', () => {
     U.deepStrictEqual(pipe('a', M.concat(M.empty)), 'a')
     U.deepStrictEqual(pipe(M.empty, M.concat('a')), 'a')
   })
-
-  it('getUnitMonoid', () => {
-    const M = _.getUnitMonoid('a')
-    U.deepStrictEqual(M.concat(M.empty)(M.empty), 'a')
-  })
 })

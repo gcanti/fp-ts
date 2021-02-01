@@ -33,7 +33,6 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
-  - [getUnitMonoid](#getunitmonoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -178,16 +177,6 @@ import { pipe } from 'fp-ts/function'
 const M = getMeetMonoid(N.Bounded)
 
 assert.deepStrictEqual(pipe(1, M.concat(2)), 1)
-```
-
-Added in v3.0.0
-
-## getUnitMonoid
-
-**Signature**
-
-```ts
-export declare const getUnitMonoid: <A>(a: A) => Monoid<A>
 ```
 
 Added in v3.0.0

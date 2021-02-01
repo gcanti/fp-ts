@@ -78,15 +78,6 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
   empty: B.bottom
 })
 
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const getUnitMonoid = <A>(a: A): Monoid<A> => ({
-  concat: S.getUnitSemigroup(a).concat,
-  empty: a
-})
-
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

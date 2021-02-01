@@ -75,7 +75,7 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const getUnitSemigroup = <A>(a: A): Semigroup<A> => ({
+export const getConstantSemigroup = <A>(a: A): Semigroup<A> => ({
   concat: () => () => a
 })
 

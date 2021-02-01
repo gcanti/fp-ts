@@ -62,4 +62,9 @@ describe('Semigroup', () => {
     assert.strictEqual(pipe('a', IS.concat('b')), 'a b')
     assert.strictEqual(pipe('a', IS.concat('b'), IS.concat('c')), 'a b c')
   })
+
+  it('getConstantSemigroup', () => {
+    const S = _.getConstantSemigroup('a')
+    assert.strictEqual(S.concat('b')('c'), 'a')
+  })
 })

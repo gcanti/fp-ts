@@ -32,9 +32,9 @@ Added in v3.0.0
   - [getStructSemigroup](#getstructsemigroup)
   - [getTupleSemigroup](#gettuplesemigroup)
 - [constructors](#constructors)
+  - [getConstantSemigroup](#getconstantsemigroup)
   - [getJoinSemigroup](#getjoinsemigroup)
   - [getMeetSemigroup](#getmeetsemigroup)
-  - [getUnitSemigroup](#getunitsemigroup)
 - [instances](#instances)
   - [getFirstSemigroup](#getfirstsemigroup)
   - [getLastSemigroup](#getlastsemigroup)
@@ -159,6 +159,16 @@ Added in v3.0.0
 
 # constructors
 
+## getConstantSemigroup
+
+**Signature**
+
+```ts
+export declare const getConstantSemigroup: <A>(a: A) => Semigroup<A>
+```
+
+Added in v3.0.0
+
 ## getJoinSemigroup
 
 Get a semigroup where `concat` will return the maximum, based on the provided order.
@@ -203,16 +213,6 @@ import { pipe } from 'fp-ts/function'
 const S = getMeetSemigroup(N.Ord)
 
 assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
-```
-
-Added in v3.0.0
-
-## getUnitSemigroup
-
-**Signature**
-
-```ts
-export declare const getUnitSemigroup: <A>(a: A) => Semigroup<A>
 ```
 
 Added in v3.0.0
