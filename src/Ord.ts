@@ -9,15 +9,17 @@
  *
  * @since 2.0.0
  */
+import * as B from './boolean'
 import { Contravariant1 } from './Contravariant'
 import { Eq } from './Eq'
-import { Monoid } from './Monoid'
-import { monoidOrdering, Ordering } from './Ordering'
-import { Semigroup } from './Semigroup'
 import { pipe } from './function'
-import * as B from './boolean'
-import * as S from './string'
+import { Monoid } from './Monoid'
 import * as N from './number'
+import * as O from './Ordering'
+import { Semigroup } from './Semigroup'
+import * as S from './string'
+
+import Ordering = O.Ordering
 
 // -------------------------------------------------------------------------------------
 // model
@@ -137,7 +139,7 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
-  concat: (x, y) => fromCompare((a, b) => monoidOrdering.concat(x.compare(a, b), y.compare(a, b)))
+  concat: (x, y) => fromCompare((a, b) => O.Semigroup.concat(x.compare(a, b), y.compare(a, b)))
 })
 
 /**
