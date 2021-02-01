@@ -25,7 +25,7 @@ import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
+import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
@@ -33,7 +33,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
-import * as N from './number'
 
 import Option = O.Option
 
@@ -172,7 +171,8 @@ export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
         return ordering
       }
     }
-    return N.Ord.compare(aLen, bLen)
+    // tslint:disable-next-line: deprecation
+    return ordNumber.compare(aLen, bLen)
   })
 }
 

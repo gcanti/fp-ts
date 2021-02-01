@@ -33,8 +33,8 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [ordDate](#orddate)
   - [~~ordBoolean~~](#ordboolean)
+  - [~~ordDate~~](#orddate)
   - [~~ordNumber~~](#ordnumber)
   - [~~ordString~~](#ordstring)
   - [~~ord~~](#ord)
@@ -234,16 +234,6 @@ export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
 
 Added in v2.0.0
 
-## ordDate
-
-**Signature**
-
-```ts
-export declare const ordDate: Ord<Date>
-```
-
-Added in v2.0.0
-
 ## ~~ordBoolean~~
 
 Use `boolean.Ord` instead.
@@ -252,6 +242,18 @@ Use `boolean.Ord` instead.
 
 ```ts
 export declare const ordBoolean: Ord<boolean>
+```
+
+Added in v2.0.0
+
+## ~~ordDate~~
+
+Use `Date.Ord` instead.
+
+**Signature**
+
+```ts
+export declare const ordDate: Ord<Date>
 ```
 
 Added in v2.0.0

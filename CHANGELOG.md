@@ -41,6 +41,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
     - deprecate `eqString`, use `string.Eq` instead (@gcanti)
     - deprecate `eqNumber`, use `number.Eq` instead (@gcanti)
+    - deprecate `eqDate`, use `Date.Eq` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
@@ -77,6 +78,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
     - deprecate `ordString`, use `string.Ord` instead (@gcanti)
     - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
+    - deprecate `ordDate`, use `Date.Ord` instead (@gcanti)
   - `Ordering`
     - deprecate `eqOrdering`, use `Eq` instead (@gcanti)
     - deprecate `monoidOrdering`, use `Monoid` instead (@gcanti)
@@ -166,6 +168,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `compact` helper (@gcanti)
     - add `separate` helper (@gcanti)
     - add `separated` constructor (@gcanti)
+  - `Date`
+    - add `Eq` instance (@gcanti)
+    - add `Ord` instance (@gcanti)
   - `Filterable`
     - add `filter` helper (@gcanti)
     - add `filterMap` helper (@gcanti)

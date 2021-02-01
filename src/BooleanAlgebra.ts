@@ -11,7 +11,6 @@
  * @since 2.0.0
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
-import * as B from './boolean'
 import { getBooleanAlgebra } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -71,7 +70,14 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
  * @since 2.0.0
  * @deprecated
  */
-export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = B.BooleanAlgebra
+export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
+  meet: (x, y) => x && y,
+  join: (x, y) => x || y,
+  zero: false,
+  one: true,
+  implies: (x, y) => !x || y,
+  not: (x) => !x
+}
 
 /**
  * Use `function.getBooleanAlgebra` instead

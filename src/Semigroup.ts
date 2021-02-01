@@ -41,9 +41,6 @@ import { identity, getSemigroup } from './function'
 import { Magma } from './Magma'
 import { max, min, Ord } from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
-import { SemigroupAll, SemigroupAny } from './boolean'
-import * as S from './string'
-import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -305,7 +302,9 @@ export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) 
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupAll: Semigroup<boolean> = SemigroupAll
+export const semigroupAll: Semigroup<boolean> = {
+  concat: (x, y) => x && y
+}
 
 /**
  * Use `boolean.SemigroupAny` instead.
@@ -314,7 +313,9 @@ export const semigroupAll: Semigroup<boolean> = SemigroupAll
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupAny: Semigroup<boolean> = SemigroupAny
+export const semigroupAny: Semigroup<boolean> = {
+  concat: (x, y) => x || y
+}
 
 /**
  * Use `function.getSemigroup` instead.
@@ -332,7 +333,9 @@ export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semi
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupString: Semigroup<string> = S.Semigroup
+export const semigroupString: Semigroup<string> = {
+  concat: (x, y) => x + y
+}
 
 /**
  * Use `number.SemigroupSum` instead.
@@ -341,7 +344,9 @@ export const semigroupString: Semigroup<string> = S.Semigroup
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupSum: Semigroup<number> = N.SemigroupSum
+export const semigroupSum: Semigroup<number> = {
+  concat: (x, y) => x + y
+}
 
 /**
  * Use `number.SemigroupProduct` instead.
@@ -350,4 +355,6 @@ export const semigroupSum: Semigroup<number> = N.SemigroupSum
  * @since 2.0.0
  * @deprecated
  */
-export const semigroupProduct: Semigroup<number> = N.SemigroupProduct
+export const semigroupProduct: Semigroup<number> = {
+  concat: (x, y) => x * y
+}
