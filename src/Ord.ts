@@ -13,7 +13,7 @@ import { Contravariant1 } from './Contravariant'
 import { Eq } from './Eq'
 import { Endomorphism, flow, Predicate } from './function'
 import { Monoid } from './Monoid'
-import { monoidOrdering, Ordering } from './Ordering'
+import * as O from './Ordering'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ import { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (second: A) => (first: A) => Ordering
+  readonly compare: (second: A) => (first: A) => O.Ordering
 }
 
 // -------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export interface Ord<A> extends Eq<A> {
 export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
   const optimizedCompare: Ord<A>['compare'] = (second) => {
     const f = compare(second)
-    return (first): Ordering => (first === second ? 0 : f(first))
+    return (first): O.Ordering => (first === second ? 0 : f(first))
   }
   return {
     equals: (second) => {
@@ -158,7 +158,7 @@ declare module './HKT' {
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
   concat: (second) => (first) =>
-    fromCompare((a2) => (a1) => monoidOrdering.concat(second.compare(a2)(a1))(first.compare(a2)(a1)))
+    fromCompare((a2) => (a1) => O.Monoid.concat(second.compare(a2)(a1))(first.compare(a2)(a1)))
 })
 
 /**

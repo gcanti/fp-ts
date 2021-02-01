@@ -144,7 +144,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromCompare: <A>(compare: (second: A) => (first: A) => Ordering) => Ord<A>
+export declare const fromCompare: <A>(compare: (second: A) => (first: A) => O.Ordering) => Ord<A>
 ```
 
 Added in v3.0.0
@@ -269,7 +269,7 @@ Added in v3.0.0
 
 ```ts
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (second: A) => (first: A) => Ordering
+  readonly compare: (second: A) => (first: A) => O.Ordering
 }
 ```
 

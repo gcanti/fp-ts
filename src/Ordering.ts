@@ -1,9 +1,9 @@
 /**
  * @since 3.0.0
  */
-import { Eq, eqStrict } from './Eq'
+import * as E from './Eq'
 import { Endomorphism } from './function'
-import { Monoid } from './Monoid'
+import * as M from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -23,15 +23,13 @@ export type Ordering = -1 | 0 | 1
  * @category instances
  * @since 3.0.0
  */
-export const eqOrdering: Eq<Ordering> = {
-  equals: eqStrict.equals
-}
+export const Eq: E.Eq<Ordering> = E.eqStrict
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const monoidOrdering: Monoid<Ordering> = {
+export const Monoid: M.Monoid<Ordering> = {
   concat: (second) => (first) => (first !== 0 ? first : second),
   empty: 0
 }

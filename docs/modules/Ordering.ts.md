@@ -13,8 +13,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [eqOrdering](#eqordering)
-  - [monoidOrdering](#monoidordering)
+  - [Eq](#eq)
+  - [Monoid](#monoid)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
@@ -25,22 +25,22 @@ Added in v3.0.0
 
 # instances
 
-## eqOrdering
+## Eq
 
 **Signature**
 
 ```ts
-export declare const eqOrdering: Eq<Ordering>
+export declare const Eq: E.Eq<Ordering>
 ```
 
 Added in v3.0.0
 
-## monoidOrdering
+## Monoid
 
 **Signature**
 
 ```ts
-export declare const monoidOrdering: Monoid<Ordering>
+export declare const Monoid: M.Monoid<Ordering>
 ```
 
 Added in v3.0.0
