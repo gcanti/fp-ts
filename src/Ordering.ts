@@ -3,6 +3,7 @@
  */
 import * as E from './Eq'
 import { Endomorphism } from './function'
+import * as S from './Semigroup'
 import * as M from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -29,8 +30,16 @@ export const Eq: E.Eq<Ordering> = E.EqStrict
  * @category instances
  * @since 3.0.0
  */
+export const Semigroup: S.Semigroup<Ordering> = {
+  concat: (second) => (first) => (first !== 0 ? first : second)
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Monoid: M.Monoid<Ordering> = {
-  concat: (second) => (first) => (first !== 0 ? first : second),
+  concat: Semigroup.concat,
   empty: 0
 }
 

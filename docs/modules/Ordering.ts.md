@@ -15,6 +15,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
+  - [Semigroup](#semigroup)
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
@@ -41,6 +42,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Monoid: M.Monoid<Ordering>
+```
+
+Added in v3.0.0
+
+## Semigroup
+
+**Signature**
+
+```ts
+export declare const Semigroup: S.Semigroup<Ordering>
 ```
 
 Added in v3.0.0

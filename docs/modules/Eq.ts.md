@@ -29,8 +29,8 @@ Added in v3.0.0
   - [fromEquals](#fromequals)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
+  - [EqStrict](#eqstrict)
   - [URI (type alias)](#uri-type-alias)
-  - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
@@ -112,22 +112,22 @@ export declare const Contravariant: Contravariant1<'Eq'>
 
 Added in v3.0.0
 
+## EqStrict
+
+**Signature**
+
+```ts
+export declare const EqStrict: Eq<unknown>
+```
+
+Added in v3.0.0
+
 ## URI (type alias)
 
 **Signature**
 
 ```ts
 export type URI = 'Eq'
-```
-
-Added in v3.0.0
-
-## eqStrict
-
-**Signature**
-
-```ts
-export declare const eqStrict: Eq<unknown>
 ```
 
 Added in v3.0.0
