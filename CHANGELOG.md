@@ -27,7 +27,6 @@ high state of flux, you're at risk of it changing without notice.
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
     - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
-    - deprecate `booleanAlgebraVoid` (@gcanti)
   - `Bounded`
     - deprecate `boundedNumber`, use `number.Bounded` instead (@gcanti)
   - `Compactable`
@@ -71,7 +70,6 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
     - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
-    - deprecate `monoidVoid` (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -111,7 +109,6 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
     - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
     - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
-    - deprecate `semigroupVoid`, use `getConstantSemigroup` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
