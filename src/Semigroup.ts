@@ -251,6 +251,12 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
   concat: (x, y) => Object.assign({}, x, y)
 })
 
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const semigroupVoid: Semigroup<void> = getConstantSemigroup<void>(undefined)
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -345,12 +351,3 @@ export const semigroupSum: Semigroup<number> = N.SemigroupSum
  * @deprecated
  */
 export const semigroupProduct: Semigroup<number> = N.SemigroupProduct
-
-/**
- * Use `getConstantSemigroup` instead.
- *
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export const semigroupVoid: Semigroup<void> = getConstantSemigroup<void>(undefined)

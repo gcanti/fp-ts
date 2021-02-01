@@ -51,6 +51,7 @@ Added in v2.0.0
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
 - [instances](#instances)
+  - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
@@ -58,7 +59,6 @@ Added in v2.0.0
   - [~~monoidProduct~~](#monoidproduct)
   - [~~monoidString~~](#monoidstring)
   - [~~monoidSum~~](#monoidsum)
-  - [~~monoidVoid~~](#monoidvoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -205,6 +205,16 @@ Added in v2.0.0
 
 # instances
 
+## monoidVoid
+
+**Signature**
+
+```ts
+export declare const monoidVoid: Monoid<void>
+```
+
+Added in v2.0.0
+
 ## ~~getEndomorphismMonoid~~
 
 Use `function.getEndomorphismMonoid` instead.
@@ -285,16 +295,6 @@ Use `number.MonoidSum` instead.
 
 ```ts
 export declare const monoidSum: Monoid<number>
-```
-
-Added in v2.0.0
-
-## ~~monoidVoid~~
-
-**Signature**
-
-```ts
-export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v2.0.0
