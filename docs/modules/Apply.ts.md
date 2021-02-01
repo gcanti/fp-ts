@@ -49,6 +49,12 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [ap](#ap)
+- [derivables](#derivables)
+  - [apFirst](#apfirst)
+  - [apS](#aps)
+  - [apSecond](#apsecond)
 - [type classes](#type-classes)
   - [Apply (interface)](#apply-interface)
   - [Apply1 (interface)](#apply1-interface)
@@ -58,105 +64,17 @@ Added in v2.0.0
   - [Apply3C (interface)](#apply3c-interface)
   - [Apply4 (interface)](#apply4-interface)
 - [utils](#utils)
-  - [ap](#ap)
-  - [apFirst](#apfirst)
-  - [apS](#aps)
-  - [apSecond](#apsecond)
   - [getApplySemigroup](#getapplysemigroup)
   - [sequenceS](#sequences)
   - [sequenceT](#sequencet)
 
 ---
 
-# type classes
-
-## Apply (interface)
-
-**Signature**
-
-```ts
-export interface Apply<F> extends Functor<F> {
-  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply1 (interface)
-
-**Signature**
-
-```ts
-export interface Apply1<F extends URIS> extends Functor1<F> {
-  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply2 (interface)
-
-**Signature**
-
-```ts
-export interface Apply2<F extends URIS2> extends Functor2<F> {
-  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply2C (interface)
-
-**Signature**
-
-```ts
-export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply3 (interface)
-
-**Signature**
-
-```ts
-export interface Apply3<F extends URIS3> extends Functor3<F> {
-  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-```
-
-Added in v2.0.0
-
-## Apply3C (interface)
-
-**Signature**
-
-```ts
-export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-```
-
-Added in v2.2.0
-
-## Apply4 (interface)
-
-**Signature**
-
-```ts
-export interface Apply4<F extends URIS4> extends Functor4<F> {
-  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-}
-```
-
-Added in v2.0.0
-
-# utils
+# combinators
 
 ## ap
+
+`ap` composition.
 
 **Signature**
 
@@ -190,6 +108,8 @@ export declare function ap<F, G>(
 ```
 
 Added in v2.10.0
+
+# derivables
 
 ## apFirst
 
@@ -297,6 +217,94 @@ export declare function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(
 ```
 
 Added in v2.10.0
+
+# type classes
+
+## Apply (interface)
+
+**Signature**
+
+```ts
+export interface Apply<F> extends Functor<F> {
+  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply1 (interface)
+
+**Signature**
+
+```ts
+export interface Apply1<F extends URIS> extends Functor1<F> {
+  readonly ap: <A, B>(fab: Kind<F, (a: A) => B>, fa: Kind<F, A>) => Kind<F, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply2 (interface)
+
+**Signature**
+
+```ts
+export interface Apply2<F extends URIS2> extends Functor2<F> {
+  readonly ap: <E, A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply2C (interface)
+
+**Signature**
+
+```ts
+export interface Apply2C<F extends URIS2, E> extends Functor2C<F, E> {
+  readonly ap: <A, B>(fab: Kind2<F, E, (a: A) => B>, fa: Kind2<F, E, A>) => Kind2<F, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply3 (interface)
+
+**Signature**
+
+```ts
+export interface Apply3<F extends URIS3> extends Functor3<F> {
+  readonly ap: <R, E, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+## Apply3C (interface)
+
+**Signature**
+
+```ts
+export interface Apply3C<F extends URIS3, E> extends Functor3C<F, E> {
+  readonly ap: <R, A, B>(fab: Kind3<F, R, E, (a: A) => B>, fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.2.0
+
+## Apply4 (interface)
+
+**Signature**
+
+```ts
+export interface Apply4<F extends URIS4> extends Functor4<F> {
+  readonly ap: <S, R, E, A, B>(fab: Kind4<F, S, R, E, (a: A) => B>, fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.0.0
+
+# utils
 
 ## getApplySemigroup
 

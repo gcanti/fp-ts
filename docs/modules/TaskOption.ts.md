@@ -269,7 +269,7 @@ Added in v2.10.0
 export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
 ```
 
-Added in v0.1.10
+Added in v2.10.0
 
 ## fromNullableK
 
@@ -289,7 +289,7 @@ Added in v2.10.0
 export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
 ```
 
-Added in v0.1.10
+Added in v2.10.0
 
 ## tryCatchK
 

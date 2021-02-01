@@ -20,8 +20,9 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getTupleRing](#gettuplering)
+- [instances](#instances)
   - [~~getFunctionRing~~](#getfunctionring)
 - [type classes](#type-classes)
   - [Ring (interface)](#ring-interface)
@@ -30,7 +31,7 @@ Added in v2.0.0
 
 ---
 
-# instances
+# combinators
 
 ## getTupleRing
 
@@ -59,6 +60,8 @@ assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
 Added in v2.0.0
+
+# instances
 
 ## ~~getFunctionRing~~
 
@@ -95,7 +98,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function negate<A>(ring: Ring<A>): (a: A) => A
+export declare const negate: <A>(R: Ring<A>) => (a: A) => A
 ```
 
 Added in v2.0.0

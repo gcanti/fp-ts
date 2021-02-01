@@ -37,6 +37,10 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { Monoid } from './Monoid'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0
@@ -78,6 +82,10 @@ export interface Applicative3C<F extends URIS3, E> extends Apply3C<F, E>, Pointe
  * @since 2.0.0
  */
 export interface Applicative4<F extends URIS4> extends Apply4<F>, Pointed4<F> {}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * Lift a monoid into 'F', the inner values are concatenated using the provided `Monoid`.

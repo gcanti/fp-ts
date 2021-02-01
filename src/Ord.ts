@@ -31,87 +31,9 @@ export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 
-// TODO: curry in v3
-/**
- * Test whether one value is _strictly less than_ another
- *
- * @since 2.0.0
- */
-export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) === -1
-}
-
-// TODO: curry in v3
-/**
- * Test whether one value is _strictly greater than_ another
- *
- * @since 2.0.0
- */
-export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) === 1
-}
-
-// TODO: curry in v3
-/**
- * Test whether one value is _non-strictly less than_ another
- *
- * @since 2.0.0
- */
-export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) !== 1
-}
-
-// TODO: curry in v3
-/**
- * Test whether one value is _non-strictly greater than_ another
- *
- * @since 2.0.0
- */
-export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) !== -1
-}
-
-// TODO: curry in v3
-/**
- * Take the minimum of two values. If they are considered equal, the first argument is chosen
- *
- * @since 2.0.0
- */
-export function min<A>(O: Ord<A>): (x: A, y: A) => A {
-  return (x, y) => (O.compare(x, y) === 1 ? y : x)
-}
-
-// TODO: curry in v3
-/**
- * Take the maximum of two values. If they are considered equal, the first argument is chosen
- *
- * @since 2.0.0
- */
-export function max<A>(O: Ord<A>): (x: A, y: A) => A {
-  return (x, y) => (O.compare(x, y) === -1 ? y : x)
-}
-
-/**
- * Clamp a value between a minimum and a maximum
- *
- * @since 2.0.0
- */
-export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
-  const minO = min(O)
-  const maxO = max(O)
-  return (low, hi) => (x) => maxO(minO(x, hi), low)
-}
-
-/**
- * Test whether a value is between a minimum and a maximum (inclusive)
- *
- * @since 2.0.0
- */
-export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
-  const lessThanO = lt(O)
-  const greaterThanO = gt(O)
-  return (low, hi) => (x) => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
-}
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -122,6 +44,91 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
   return {
     equals: (x, y) => optimizedCompare(x, y) === 0,
     compare: optimizedCompare
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Given a tuple of `Ord`s returns an `Ord` for the tuple
+ *
+ * @example
+ * import { getTupleOrd } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import * as B from 'fp-ts/boolean'
+ *
+ * const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
+ * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+ * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+ * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
+  ...ords: T
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
+  const len = ords.length
+  return fromCompare((x, y) => {
+    let i = 0
+    for (; i < len - 1; i++) {
+      const r = ords[i].compare(x[i], y[i])
+      if (r !== 0) {
+        return r
+      }
+    }
+    return ords[i].compare(x[i], y[i])
+  })
+}
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ */
+export function getDualOrd<A>(O: Ord<A>): Ord<A> {
+  return fromCompare((x, y) => O.compare(y, x))
+}
+
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe(fa, contramap(f))
+
+// -------------------------------------------------------------------------------------
+// pipeables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Contravariant
+ * @since 2.0.0
+ */
+export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
+  fromCompare((x, y) => fa.compare(f(x), f(y)))
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Ord'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Ord<A>
   }
 }
 
@@ -206,87 +213,6 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
 })
 
 /**
- * Given a tuple of `Ord`s returns an `Ord` for the tuple
- *
- * @example
- * import { getTupleOrd } from 'fp-ts/Ord'
- * import * as S from 'fp-ts/string'
- * import * as N from 'fp-ts/number'
- * import * as B from 'fp-ts/boolean'
- *
- * const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
- * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
- * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
- * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
- *
- * @category instances
- * @since 2.0.0
- */
-export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
-  const len = ords.length
-  return fromCompare((x, y) => {
-    let i = 0
-    for (; i < len - 1; i++) {
-      const r = ords[i].compare(x[i], y[i])
-      if (r !== 0) {
-        return r
-      }
-    }
-    return ords[i].compare(x[i], y[i])
-  })
-}
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export function getDualOrd<A>(O: Ord<A>): Ord<A> {
-  return fromCompare((x, y) => O.compare(y, x))
-}
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-/* istanbul ignore next */
-const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe(fa, contramap(f))
-
-// -------------------------------------------------------------------------------------
-// pipeables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category Contravariant
- * @since 2.0.0
- */
-export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
-  fromCompare((x, y) => fa.compare(f(x), f(y)))
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const URI = 'Ord'
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Ord<A>
-  }
-}
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -305,6 +231,92 @@ export const ordDate: Ord<Date> =
 export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+// TODO: curry in v3
+/**
+ * Test whether one value is _strictly less than_ another
+ *
+ * @since 2.0.0
+ */
+export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) === -1
+}
+
+// TODO: curry in v3
+/**
+ * Test whether one value is _strictly greater than_ another
+ *
+ * @since 2.0.0
+ */
+export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) === 1
+}
+
+// TODO: curry in v3
+/**
+ * Test whether one value is _non-strictly less than_ another
+ *
+ * @since 2.0.0
+ */
+export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) !== 1
+}
+
+// TODO: curry in v3
+/**
+ * Test whether one value is _non-strictly greater than_ another
+ *
+ * @since 2.0.0
+ */
+export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) !== -1
+}
+
+// TODO: curry in v3
+/**
+ * Take the minimum of two values. If they are considered equal, the first argument is chosen
+ *
+ * @since 2.0.0
+ */
+export function min<A>(O: Ord<A>): (x: A, y: A) => A {
+  return (x, y) => (O.compare(x, y) === 1 ? y : x)
+}
+
+// TODO: curry in v3
+/**
+ * Take the maximum of two values. If they are considered equal, the first argument is chosen
+ *
+ * @since 2.0.0
+ */
+export function max<A>(O: Ord<A>): (x: A, y: A) => A {
+  return (x, y) => (O.compare(x, y) === -1 ? y : x)
+}
+
+/**
+ * Clamp a value between a minimum and a maximum
+ *
+ * @since 2.0.0
+ */
+export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
+  const minO = min(O)
+  const maxO = max(O)
+  return (low, hi) => (x) => maxO(minO(x, hi), low)
+}
+
+/**
+ * Test whether a value is between a minimum and a maximum (inclusive)
+ *
+ * @since 2.0.0
+ */
+export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
+  const lessThanO = lt(O)
+  const greaterThanO = gt(O)
+  return (low, hi) => (x) => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 
 // -------------------------------------------------------------------------------------

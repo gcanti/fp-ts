@@ -5,18 +5,19 @@ import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
 import { Monoid } from './Monoid'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category model
  * @since 2.0.0
  */
 export type Ordering = -1 | 0 | 1
 
-/**
- * @since 2.0.0
- */
-export function sign(n: number): Ordering {
-  return n <= -1 ? -1 : n >= 1 ? 1 : 0
-}
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -33,6 +34,17 @@ export const eqOrdering: Eq<Ordering> = {
 export const monoidOrdering: Monoid<Ordering> = {
   concat: (x, y) => (x !== 0 ? x : y),
   empty: 0
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export function sign(n: number): Ordering {
+  return n <= -1 ? -1 : n >= 1 ? 1 : 0
 }
 
 /**

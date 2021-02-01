@@ -33,6 +33,10 @@ import {
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * A `Separated` type which holds `left` and `right` parts.
  *
@@ -42,12 +46,6 @@ export interface Separated<A, B> {
   readonly left: A
   readonly right: B
 }
-
-/**
- * @category constructors
- * @since 2.10.0
- */
-export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({ left, right })
 
 /**
  * @category type classes
@@ -129,7 +127,24 @@ export interface Compactable4<F extends URIS4> {
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
 }
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({ left, right })
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * `compact` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function compact<F extends URIS2, G extends URIS2, E>(
@@ -153,6 +168,9 @@ export function compact<F, G>(
 }
 
 /**
+ * `separate` composition.
+ *
+ * @category combinators
  * @since 2.10.0
  */
 export function separate<F extends URIS2, G extends URIS2, E>(
