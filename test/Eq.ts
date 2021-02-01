@@ -50,12 +50,6 @@ describe('Eq', () => {
     assert.deepStrictEqual(nbCall, 1)
   })
 
-  it('eqDate', () => {
-    assert.deepStrictEqual(_.eqDate.equals(new Date(0), new Date(0)), true)
-    assert.deepStrictEqual(_.eqDate.equals(new Date(0), new Date(1)), false)
-    assert.deepStrictEqual(_.eqDate.equals(new Date(1), new Date(0)), false)
-  })
-
   it('getStructEq', () => {
     const E = _.getStructEq<Person>({
       name: S.Eq,

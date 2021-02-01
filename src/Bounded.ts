@@ -7,8 +7,7 @@
  *
  * @since 2.0.0
  */
-import { Ord } from './Ord'
-import * as N from './number'
+import { Ord, ordNumber } from './Ord'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -34,4 +33,11 @@ export interface Bounded<A> extends Ord<A> {
  * @since 2.0.0
  * @deprecated
  */
-export const boundedNumber: Bounded<number> = N.Bounded
+export const boundedNumber: Bounded<number> = {
+  // tslint:disable-next-line: deprecation
+  equals: ordNumber.equals,
+  // tslint:disable-next-line: deprecation
+  compare: ordNumber.compare,
+  top: Infinity,
+  bottom: -Infinity
+}

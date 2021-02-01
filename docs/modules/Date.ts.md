@@ -15,6 +15,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [create](#create)
 - [instances](#instances)
+  - [Eq](#eq)
+  - [Ord](#ord)
   - [eqDate](#eqdate)
   - [eqMonth](#eqmonth)
   - [eqYear](#eqyear)
@@ -39,12 +41,40 @@ Added in v2.0.0
 
 # instances
 
+## Eq
+
+**Signature**
+
+```ts
+export declare const Eq: E.Eq<Date>
+```
+
+Added in v2.10.0
+
+## Ord
+
+**Signature**
+
+```ts
+export declare const Ord: O.Ord<Date>
+```
+
+**Example**
+
+```ts
+import { Ord } from 'fp-ts/Date'
+
+assert.deepStrictEqual(Ord.compare(new Date(1, 1, 2020), new Date(1, 1, 2021)), -1)
+```
+
+Added in v2.10.0
+
 ## eqDate
 
 **Signature**
 
 ```ts
-export declare const eqDate: Eq<Date>
+export declare const eqDate: E.Eq<Date>
 ```
 
 Added in v2.6.0
@@ -54,7 +84,7 @@ Added in v2.6.0
 **Signature**
 
 ```ts
-export declare const eqMonth: Eq<Date>
+export declare const eqMonth: E.Eq<Date>
 ```
 
 Added in v2.6.0
@@ -64,7 +94,7 @@ Added in v2.6.0
 **Signature**
 
 ```ts
-export declare const eqYear: Eq<Date>
+export declare const eqYear: E.Eq<Date>
 ```
 
 Added in v2.6.0

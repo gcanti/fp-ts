@@ -9,17 +9,12 @@
  *
  * @since 2.0.0
  */
-import * as B from './boolean'
 import { Contravariant1 } from './Contravariant'
-import { Eq } from './Eq'
+import { Eq, eqStrict } from './Eq'
 import { pipe } from './function'
 import { Monoid } from './Monoid'
-import * as N from './number'
-import * as O from './Ordering'
+import { Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import * as S from './string'
-
-import Ordering = O.Ordering
 
 // -------------------------------------------------------------------------------------
 // model
@@ -139,7 +134,11 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
-  concat: (x, y) => fromCompare((a, b) => O.Semigroup.concat(x.compare(a, b), y.compare(a, b)))
+  concat: (x, y) =>
+    fromCompare((a, b) => {
+      const ox = x.compare(a, b)
+      return ox !== 0 ? ox : y.compare(a, b)
+    })
 })
 
 /**
@@ -213,18 +212,6 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
   concat: getSemigroup<A>().concat,
   empty: fromCompare(() => 0)
 })
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const ordDate: Ord<Date> =
-  /*#__PURE__*/
-  pipe(
-    N.Ord,
-    /*#__PURE__*/
-    contramap((date) => date.valueOf())
-  )
 
 /**
  * @category instances
@@ -334,6 +321,16 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
  */
 export const ord: Contravariant1<URI> = Contravariant
 
+// default compare for primitive types
+function compare(x: any, y: any): Ordering {
+  return x < y ? -1 : x > y ? 1 : 0
+}
+
+const strictOrd = {
+  equals: eqStrict.equals,
+  compare
+}
+
 /**
  * Use `boolean.Ord` instead.
  *
@@ -341,7 +338,7 @@ export const ord: Contravariant1<URI> = Contravariant
  * @since 2.0.0
  * @deprecated
  */
-export const ordBoolean: Ord<boolean> = B.Ord
+export const ordBoolean: Ord<boolean> = strictOrd
 
 /**
  * Use `string.Ord` instead.
@@ -350,7 +347,7 @@ export const ordBoolean: Ord<boolean> = B.Ord
  * @since 2.0.0
  * @deprecated
  */
-export const ordString: Ord<string> = S.Ord
+export const ordString: Ord<string> = strictOrd
 
 /**
  * Use `number.Ord` instead.
@@ -359,4 +356,20 @@ export const ordString: Ord<string> = S.Ord
  * @since 2.0.0
  * @deprecated
  */
-export const ordNumber: Ord<number> = N.Ord
+export const ordNumber: Ord<number> = strictOrd
+
+/**
+ * Use `Date.Ord` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const ordDate: Ord<Date> =
+  /*#__PURE__*/
+  pipe(
+    // tslint:disable-next-line: deprecation
+    ordNumber,
+    /*#__PURE__*/
+    contramap((date) => date.valueOf())
+  )
