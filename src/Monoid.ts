@@ -186,6 +186,19 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
+ * @since 2.0.0
+ */
+export const monoidVoid: Monoid<void> = {
+  concat: Se.semigroupVoid.concat,
+  empty: undefined
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
  * Given a sequence of `as`, concat them and return the total.
  *
  * If `as` is empty, return the monoid `empty` value.
@@ -267,15 +280,3 @@ export const monoidSum: Monoid<number> = MonoidSum
  * @deprecated
  */
 export const monoidProduct: Monoid<number> = MonoidProduct
-
-/**
- * @category instances
- * @since 2.0.0
- * @deprecated
- */
-export const monoidVoid: Monoid<void> = {
-  concat:
-    /*#__PURE__*/
-    Se.getConstantSemigroup<void>(undefined).concat,
-  empty: undefined
-}

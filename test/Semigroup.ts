@@ -49,7 +49,6 @@ describe('Semigroup', () => {
   })
 
   it('semigroupVoid', () => {
-    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(_.semigroupVoid.concat(undefined, undefined), undefined)
   })
 
