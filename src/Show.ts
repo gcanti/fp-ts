@@ -1,12 +1,4 @@
 /**
- * @since 2.0.0
- */
-import { ReadonlyRecord } from './ReadonlyRecord'
-import * as B from './boolean'
-import * as S from './string'
-import * as N from './number'
-
-/**
  * The `Show` type class represents those types which can be converted into
  * a human-readable `string` representation.
  *
@@ -14,6 +6,18 @@ import * as N from './number'
  * string `show(x)` be executable TypeScript code which evaluates to the same
  * value as the expression `x`.
  *
+ * @since 2.0.0
+ */
+import { ReadonlyRecord } from './ReadonlyRecord'
+import * as B from './boolean'
+import * as S from './string'
+import * as N from './number'
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
+/**
  * @category type classes
  * @since 2.0.0
  */
@@ -21,8 +25,12 @@ export interface Show<A> {
   readonly show: (a: A) => string
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
- * @category instances
+ * @category combinators
  * @since 2.0.0
  */
 export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
@@ -35,7 +43,7 @@ export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K
 }
 
 /**
- * @category instances
+ * @category combinators
  * @since 2.0.0
  */
 export function getTupleShow<T extends ReadonlyArray<Show<any>>>(

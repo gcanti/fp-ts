@@ -34,6 +34,10 @@ import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 import { Category, Category2, Category3 } from './Category'
 import { identity } from './function'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 2.0.0

@@ -17,14 +17,14 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [constructors](#constructors)
   - [getMinMaxDistributiveLattice](#getminmaxdistributivelattice)
 - [type classes](#type-classes)
   - [DistributiveLattice (interface)](#distributivelattice-interface)
 
 ---
 
-# instances
+# constructors
 
 ## getMinMaxDistributiveLattice
 
