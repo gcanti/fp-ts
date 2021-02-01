@@ -14,6 +14,10 @@
 import { tuple } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -79,7 +83,14 @@ export interface Functor4<F extends URIS4> {
   readonly map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `map` composition.
+ *
+ * @category combinators
  * @since 3.0.0
  */
 export function map<F, G extends URIS2>(
@@ -100,6 +111,10 @@ export function map<F, G>(
 ): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
   return (f) => F.map(G.map(f))
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

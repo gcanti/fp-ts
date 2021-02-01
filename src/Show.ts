@@ -1,8 +1,4 @@
 /**
- * @since 3.0.0
- */
-
-/**
  * The `Show` type class represents those types which can be converted into
  * a human-readable `string` representation.
  *
@@ -10,6 +6,14 @@
  * string `show(x)` be executable TypeScript code which evaluates to the same
  * value as the expression `x`.
  *
+ * @since 3.0.0
+ */
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
+/**
  * @category type classes
  * @since 3.0.0
  */

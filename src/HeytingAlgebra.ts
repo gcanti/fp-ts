@@ -24,6 +24,10 @@
 import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
 import { Endomorphism } from './function'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0

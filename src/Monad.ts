@@ -15,6 +15,10 @@ import { pipe } from './function'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -73,7 +77,12 @@ export interface Monad4<M extends URIS4> extends Pointed4<M> {
   ) => (ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
 }
 
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category derivables
  * @since 3.0.0
  */
 export function chainFirst<M extends URIS4>(
@@ -104,6 +113,10 @@ export function chainFirst<M>(M: Monad<M>): <A, B>(f: (a: A) => HKT<M, B>) => (f
       )
     )
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0

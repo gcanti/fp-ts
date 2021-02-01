@@ -15,6 +15,10 @@ import { pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monoid } from './Monoid'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -94,7 +98,14 @@ export interface FoldableWithIndex4<F extends URIS4, I> {
   readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `reduceWithIndex` composition.
+ *
+ * @category combinators
  * @since 3.0.0
  */
 export function reduceWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -119,6 +130,9 @@ export function reduceWithIndex<F, I, G, J>(
 }
 
 /**
+ * `foldMapWithIndex` composition.
+ *
+ * @category combinators
  * @since 3.0.0
  */
 export function foldMapWithIndex<F extends URIS, I, G extends URIS, J>(
@@ -147,6 +161,9 @@ export function foldMapWithIndex<F, I, G, J>(
 }
 
 /**
+ * `reduceRightWithIndex` composition.
+ *
+ * @category combinators
  * @since 3.0.0
  */
 export function reduceRightWithIndex<F extends URIS, I, G extends URIS, J>(

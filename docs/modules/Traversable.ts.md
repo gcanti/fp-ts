@@ -25,6 +25,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [type classes](#type-classes)
   - [Traversable (interface)](#traversable-interface)
   - [Traversable1 (interface)](#traversable1-interface)
@@ -42,10 +45,56 @@ Added in v3.0.0
   - [Traverse2 (interface)](#traverse2-interface)
   - [Traverse2C (interface)](#traverse2c-interface)
   - [Traverse3 (interface)](#traverse3-interface)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
 
 ---
+
+# combinators
+
+## sequence
+
+`sequence` composition.
+
+**Signature**
+
+```ts
+export declare function sequence<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
+  <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+}
+export declare function sequence<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+`traverse` composition.
+
+**Signature**
+
+```ts
+export declare function traverse<T extends URIS, G extends URIS>(
+  T: Traversable1<T>,
+  G: Traversable1<G>
+): {
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    f: (a: A) => Kind<F, B>
+  ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
+  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
+}
+export declare function traverse<T, G>(
+  T: Traversable<T>,
+  G: Traversable<G>
+): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
+```
+
+Added in v3.0.0
 
 # type classes
 
@@ -334,48 +383,6 @@ export interface Traverse3<T extends URIS3> {
   ) => <R, E>(ta: Kind3<T, R, E, A>) => Kind<F, Kind3<T, R, E, B>>
   <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => <R, E>(ta: Kind3<T, R, E, A>) => HKT<F, Kind3<T, R, E, B>>
 }
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare function sequence<T extends URIS, G extends URIS>(
-  T: Traversable1<T>,
-  G: Traversable1<G>
-): {
-  <F extends URIS>(F: Applicative1<F>): <A>(tgfa: Kind<T, Kind<G, Kind<F, A>>>) => Kind<F, Kind<T, Kind<G, A>>>
-  <F>(F: Applicative<F>): <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
-}
-export declare function sequence<T, G>(
-  T: Traversable<T>,
-  G: Traversable<G>
-): <F>(F: Applicative<F>) => <A>(tgfa: HKT<T, HKT<G, HKT<F, A>>>) => HKT<F, HKT<T, HKT<G, A>>>
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare function traverse<T extends URIS, G extends URIS>(
-  T: Traversable1<T>,
-  G: Traversable1<G>
-): {
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    f: (a: A) => Kind<F, B>
-  ) => (tga: Kind<T, Kind<G, A>>) => Kind<F, Kind<T, Kind<G, B>>>
-  <F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>) => (tga: Kind<T, Kind<G, A>>) => HKT<F, Kind<T, Kind<G, B>>>
-}
-export declare function traverse<T, G>(
-  T: Traversable<T>,
-  G: Traversable<G>
-): <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => (tga: HKT<T, HKT<G, A>>) => HKT<F, HKT<T, HKT<G, B>>>
 ```
 
 Added in v3.0.0

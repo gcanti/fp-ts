@@ -17,6 +17,10 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 }
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getDual, Semigroup } from './Semigroup'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -75,7 +79,14 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
   ) => <B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
 }
 
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
+ * `ap` composition.
+ *
+ * @category combinators
  * @since 3.0.0
  */
 export function ap<F extends URIS2, G extends URIS2, E>(
@@ -115,7 +126,12 @@ export function ap<F, G>(
     )
 }
 
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category derivables
  * @since 3.0.0
  */
 export function apFirst<F extends URIS4>(
@@ -144,6 +160,7 @@ export function apFirst<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HK
 }
 
 /**
+ * @category derivables
  * @since 3.0.0
  */
 export function apSecond<F extends URIS4>(
@@ -172,6 +189,7 @@ export function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: H
 }
 
 /**
+ * @category derivables
  * @since 3.0.0
  */
 export function apS<F extends URIS4>(
@@ -230,6 +248,7 @@ export function apS<F>(
 }
 
 /**
+ * @category derivables
  * @since 3.0.0
  */
 export function apT<F extends URIS4>(
@@ -271,6 +290,10 @@ export function apT<F>(
       F.ap(fb)
     )
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * Lift a semigroup into 'F', the inner values are concatenated using the provided `Semigroup`.

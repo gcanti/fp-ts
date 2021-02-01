@@ -12,6 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [foldMap](#foldmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
 - [type classes](#type-classes)
   - [Foldable (interface)](#foldable-interface)
   - [Foldable1 (interface)](#foldable1-interface)
@@ -21,14 +25,70 @@ Added in v3.0.0
   - [Foldable3C (interface)](#foldable3c-interface)
   - [Foldable4 (interface)](#foldable4-interface)
 - [utils](#utils)
-  - [foldMap](#foldmap)
   - [intercalate](#intercalate)
-  - [reduce](#reduce)
   - [reduceM](#reducem)
-  - [reduceRight](#reduceright)
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
+
+# combinators
+
+## foldMap
+
+`foldMap` composition.
+
+**Signature**
+
+```ts
+export declare function foldMap<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
+export declare function foldMap<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
+```
+
+Added in v3.0.0
+
+## reduce
+
+`reduce` composition.
+
+**Signature**
+
+```ts
+export declare function reduce<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduce<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+`reduceRight` composition.
+
+**Signature**
+
+```ts
+export declare function reduceRight<F extends URIS, G extends URIS>(
+  F: Foldable1<F>,
+  G: Foldable1<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
+export declare function reduceRight<F, G>(
+  F: Foldable<F>,
+  G: Foldable<G>
+): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
+```
+
+Added in v3.0.0
 
 # type classes
 
@@ -141,23 +201,6 @@ Added in v3.0.0
 
 # utils
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare function foldMap<F extends URIS, G extends URIS>(
-  F: Foldable1<F>,
-  G: Foldable1<G>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: Kind<F, Kind<G, A>>) => M
-export declare function foldMap<F, G>(
-  F: Foldable<F>,
-  G: Foldable<G>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fga: HKT<F, HKT<G, A>>) => M
-```
-
-Added in v3.0.0
-
 ## intercalate
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator.
@@ -196,23 +239,6 @@ import { pipe } from 'fp-ts/function'
 
 const t = T.make('a', [T.make('b', []), T.make('c', []), T.make('d', [])])
 assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
-```
-
-Added in v3.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare function reduce<F extends URIS, G extends URIS>(
-  F: Foldable1<F>,
-  G: Foldable1<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduce<F, G>(
-  F: Foldable<F>,
-  G: Foldable<G>
-): <B, A>(b: B, f: (b: B, a: A) => B) => (fga: HKT<F, HKT<G, A>>) => B
 ```
 
 Added in v3.0.0
@@ -272,23 +298,6 @@ assert.deepStrictEqual(
   ),
   some(7)
 )
-```
-
-Added in v3.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare function reduceRight<F extends URIS, G extends URIS>(
-  F: Foldable1<F>,
-  G: Foldable1<G>
-): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: Kind<F, Kind<G, A>>) => B
-export declare function reduceRight<F, G>(
-  F: Foldable<F>,
-  G: Foldable<G>
-): <B, A>(b: B, f: (a: A, b: B) => B) => (fga: HKT<F, HKT<G, A>>) => B
 ```
 
 Added in v3.0.0

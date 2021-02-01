@@ -20,7 +20,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [combinators](#combinators)
   - [getTupleRing](#gettuplering)
 - [type classes](#type-classes)
   - [Ring (interface)](#ring-interface)
@@ -29,7 +29,7 @@ Added in v3.0.0
 
 ---
 
-# instances
+# combinators
 
 ## getTupleRing
 

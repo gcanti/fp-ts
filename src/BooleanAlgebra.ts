@@ -12,11 +12,19 @@
  */
 import { HeytingAlgebra } from './HeytingAlgebra'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
  */
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.

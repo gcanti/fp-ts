@@ -12,6 +12,10 @@
 import { Endomorphism } from './function'
 import { Semiring } from './Semiring'
 
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
+
 /**
  * @category type classes
  * @since 3.0.0
@@ -21,15 +25,8 @@ export interface Ring<A> extends Semiring<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// instances
+// combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * `negate x` can be used as a shorthand for `zero - x`
- *
- * @since 3.0.0
- */
-export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(ring.zero)
 
 /**
  * Given a tuple of `Ring`s returns a `Ring` for the tuple
@@ -46,7 +43,7 @@ export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(
  * assert.deepStrictEqual(pipe([1, 2, 3], R.sub([4, 5, 6])), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @category instances
+ * @category combinators
  * @since 3.0.0
  */
 export const getTupleRing = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<A> =>
@@ -57,3 +54,14 @@ export const getTupleRing = <A extends ReadonlyArray<unknown>>(...rings: { [K in
     one: rings.map((R) => R.one),
     sub: (second: any) => (first: any) => rings.map((R, i) => R.sub(second[i])(first[i]))
   } as any)
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * `negate x` can be used as a shorthand for `zero - x`
+ *
+ * @since 3.0.0
+ */
+export const negate = <A>(ring: Ring<A>): Endomorphism<A> => (a) => ring.sub(a)(ring.zero)
