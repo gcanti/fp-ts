@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
 import * as B from '../src/boolean'
-import { separated } from '../src/Compactable'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
@@ -14,6 +13,7 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
 import * as N from '../src/number'
+import { separated } from '../src/Separated'
 
 describe('ReadonlyArray', () => {
   describe('pipeables', () => {
@@ -203,10 +203,10 @@ describe('ReadonlyArray', () => {
 
     it('partitionMap', () => {
       U.deepStrictEqual(pipe([], _.partitionMap(identity)), separated([], []))
-      U.deepStrictEqual(pipe([E.right(1), E.left('foo'), E.right(2)], _.partitionMap(identity)), {
-        left: ['foo'],
-        right: [1, 2]
-      })
+      U.deepStrictEqual(
+        pipe([E.right(1), E.left('foo'), E.right(2)], _.partitionMap(identity)),
+        separated(['foo'], [1, 2])
+      )
     })
 
     it('partition', () => {
@@ -247,10 +247,7 @@ describe('ReadonlyArray', () => {
             )
           )
         ),
-        {
-          left: ['foo', 'err'],
-          right: [1]
-        }
+        separated(['foo', 'err'], [1])
       )
     })
 

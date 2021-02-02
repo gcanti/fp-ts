@@ -1,4 +1,3 @@
-import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
@@ -7,6 +6,7 @@ import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import * as U from './util'
+import { separated } from '../src/Separated'
 
 const p = (n: number): boolean => n > 2
 

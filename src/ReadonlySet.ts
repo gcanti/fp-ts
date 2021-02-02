@@ -7,9 +7,9 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Eq, fromEquals } from './Eq'
 import { Predicate, not, Refinement, identity } from './function'
-import { Separated } from './Compactable'
 import { Option } from './Option'
 import { Show } from './Show'
+import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -212,7 +212,7 @@ export const separate = <E, A>(EE: Eq<E>, EA: Eq<A>) => (
         break
     }
   })
-  return { left, right }
+  return separated(left, right)
 }
 
 /**
@@ -280,7 +280,7 @@ export function partition<A>(
         left.add(value)
       }
     }
-    return { left, right }
+    return separated(left, right)
   }
 }
 
@@ -313,7 +313,7 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
         break
     }
   }
-  return { left, right }
+  return separated(left, right)
 }
 
 // -------------------------------------------------------------------------------------

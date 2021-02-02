@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import { separated } from '../src/Compactable'
 import { Either, left, right } from '../src/Either'
 import { Eq, fromEquals } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
@@ -14,6 +13,7 @@ import { getStructShow, Show } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
 import * as N from '../src/number'
+import { separated } from '../src/Separated'
 
 interface User {
   readonly id: string
@@ -129,10 +129,10 @@ describe('ReadonlyMap', () => {
         ]),
         _.partitionMap(f)
       ),
-      {
-        left: new Map<string, number>([['a', 0]]),
-        right: new Map<string, number>([['b', 4]])
-      }
+      separated(
+        new Map<string, number>([['a', 0]]),
+        new Map<string, number>([['b', 4]])
+      )
     )
   })
 
@@ -147,10 +147,10 @@ describe('ReadonlyMap', () => {
         ]),
         _.partition(p)
       ),
-      {
-        left: new Map<string, number>([['a', 1]]),
-        right: new Map<string, number>([['b', 3]])
-      }
+      separated(
+        new Map<string, number>([['a', 1]]),
+        new Map<string, number>([['b', 3]])
+      )
     )
   })
 
@@ -170,10 +170,7 @@ describe('ReadonlyMap', () => {
     ])
     const foo = new Map<string, number>([['foo', 123]])
     const bar = new Map<string, number>([['bar', 123]])
-    U.deepStrictEqual(_.separate(fooBar), {
-      left: foo,
-      right: bar
-    })
+    U.deepStrictEqual(_.separate(fooBar), separated(foo, bar))
   })
 
   // -------------------------------------------------------------------------------------
@@ -1023,10 +1020,7 @@ describe('ReadonlyMap', () => {
       const b4 = new Map<string, number>([['b', 4]])
       const f = (_: string, n: number) => (p(n) ? right(n + 1) : left(n - 1))
       U.deepStrictEqual(pipe(emptyMap, partitionMapWithIndex(f)), separated(emptyMap, emptyMap))
-      U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), {
-        left: a0,
-        right: b4
-      })
+      U.deepStrictEqual(pipe(a1b3, partitionMapWithIndex(f)), separated(a0, b4))
     })
 
     it('partitionWithIndex', () => {
@@ -1040,10 +1034,7 @@ describe('ReadonlyMap', () => {
       const b3 = new Map<string, number>([['b', 3]])
       const f = (_: string, n: number) => p(n)
       U.deepStrictEqual(pipe(emptyMap, partitionWithIndex(f)), separated(emptyMap, emptyMap))
-      U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), {
-        left: a1,
-        right: b3
-      })
+      U.deepStrictEqual(pipe(a1b3, partitionWithIndex(f)), separated(a1, b3))
     })
 
     it('filterMapWithIndex', () => {

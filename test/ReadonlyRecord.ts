@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
@@ -11,6 +10,7 @@ import * as _ from '../src/ReadonlyRecord'
 import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as U from './util'
+import { separated } from '../src/Separated'
 
 const p = (n: number) => n > 2
 
@@ -54,10 +54,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: left(123), bar: right(123) }), {
-        left: { foo: 123 },
-        right: { bar: 123 }
-      })
+      U.deepStrictEqual(_.separate({ foo: left(123), bar: right(123) }), separated({ foo: 123 }, { bar: 123 }))
     })
 
     it('filter', () => {
@@ -90,19 +87,13 @@ describe('ReadonlyRecord', () => {
 
     it('partition', () => {
       U.deepStrictEqual(pipe({}, _.partition(p)), separated({}, {}))
-      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), {
-        left: { a: 1 },
-        right: { b: 3 }
-      })
+      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partition(p)), separated({ a: 1 }, { b: 3 }))
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
       U.deepStrictEqual(pipe({}, _.partitionMap(f)), separated({}, {}))
-      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), {
-        left: { a: 0 },
-        right: { b: 4 }
-      })
+      U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), separated({ a: 0 }, { b: 4 }))
     })
 
     it('reduceWithIndex', () => {
@@ -148,10 +139,7 @@ describe('ReadonlyRecord', () => {
           { a: 1, b: 2 },
           _.partitionMapWithIndex((k, a: number) => (a > 1 ? right(a) : left(k)))
         ),
-        {
-          left: { a: 'a' },
-          right: { b: 2 }
-        }
+        separated({ a: 'a' } as const, { b: 2 } as const)
       )
     })
 
@@ -161,10 +149,7 @@ describe('ReadonlyRecord', () => {
           { a: 1, b: 2 },
           _.partitionWithIndex((_, a: number) => a > 1)
         ),
-        {
-          left: { a: 1 },
-          right: { b: 2 }
-        }
+        separated({ a: 1 }, { b: 2 })
       )
     })
 

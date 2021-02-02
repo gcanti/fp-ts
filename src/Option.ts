@@ -16,7 +16,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -30,6 +30,7 @@ import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
@@ -562,7 +563,7 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => (isN
  */
 export const compact: Compactable1<URI>['compact'] = flatten
 
-const defaultSeparated = { left: none, right: none }
+const defaultSeparated = separated(none, none)
 
 /**
  * @category Compactable
@@ -571,10 +572,7 @@ const defaultSeparated = { left: none, right: none }
 export const separate: Compactable1<URI>['separate'] = (ma) => {
   const o = pipe(
     ma,
-    map((e) => ({
-      left: getLeft(e),
-      right: getRight(e)
-    }))
+    map((e) => separated(getLeft(e), getRight(e)))
   )
   return isNone(o) ? defaultSeparated : o.value
 }
@@ -596,15 +594,14 @@ export const filterMap: Filterable1<URI>['filterMap'] = (f) => (fa) => (isNone(f
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
-  return {
-    left: pipe(
+export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
+  separated(
+    pipe(
       fa,
       filter((a) => !predicate(a))
     ),
-    right: pipe(fa, filter(predicate))
-  }
-}
+    pipe(fa, filter(predicate))
+  )
 
 /**
  * @category Filterable
@@ -644,16 +641,10 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(F: Applicative_<F>) => <A, B, 
   f: (a: A) => HKT<F, Either<B, C>>
 ) => (fa: Option<A>): HKT<F, Separated<Option<B>, Option<C>>> => {
   return isNone(fa)
-    ? F.of({
-        left: none,
-        right: none
-      })
+    ? F.of(defaultSeparated)
     : pipe(
         f(fa.value),
-        F.map((e) => ({
-          left: getLeft(e),
-          right: getRight(e)
-        }))
+        F.map((e) => separated(getLeft(e), getRight(e)))
       )
 }
 

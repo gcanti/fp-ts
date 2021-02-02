@@ -17,8 +17,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [compact](#compact)
   - [separate](#separate)
-- [constructors](#constructors)
-  - [separated](#separated)
 - [type classes](#type-classes)
   - [Compactable (interface)](#compactable-interface)
   - [Compactable1 (interface)](#compactable1-interface)
@@ -27,8 +25,6 @@ Added in v3.0.0
   - [Compactable3 (interface)](#compactable3-interface)
   - [Compactable3C (interface)](#compactable3c-interface)
   - [Compactable4 (interface)](#compactable4-interface)
-- [utils](#utils)
-  - [Separated (interface)](#separated-interface)
 
 ---
 
@@ -86,18 +82,6 @@ export declare function separate<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
-```
-
-Added in v3.0.0
-
-# constructors
-
-## separated
-
-**Signature**
-
-```ts
-export declare const separated: <A, B>(left: A, right: B) => Separated<A, B>
 ```
 
 Added in v3.0.0
@@ -201,21 +185,6 @@ export interface Compactable4<F extends URIS4> {
   readonly separate: <S, R, E, A, B>(
     fa: Kind4<F, S, R, E, Either<A, B>>
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
-}
-```
-
-Added in v3.0.0
-
-# utils
-
-## Separated (interface)
-
-**Signature**
-
-```ts
-export interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
 }
 ```
 

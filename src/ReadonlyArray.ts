@@ -5,7 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -31,6 +31,7 @@ import { Witherable1 } from './Witherable'
 import * as N from './number'
 
 import Option = O.Option
+import { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors

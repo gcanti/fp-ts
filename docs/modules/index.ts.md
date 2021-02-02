@@ -83,6 +83,7 @@ Added in v3.0.0
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
   - [semiring](#semiring)
+  - [separated](#separated)
   - [show](#show)
   - [state](#state)
   - [stateReaderTaskEither](#statereadertaskeither)
@@ -804,6 +805,16 @@ Added in v3.0.0
 
 ```ts
 export declare const semiring: typeof semiring
+```
+
+Added in v3.0.0
+
+## separated
+
+**Signature**
+
+```ts
+export declare const separated: typeof separated
 ```
 
 Added in v3.0.0

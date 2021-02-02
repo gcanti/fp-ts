@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable1 } from './Filterable'
@@ -17,6 +17,7 @@ import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { Semigroup } from './Semigroup'
+import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -539,10 +540,7 @@ export function partitionMapWithIndex<A, B, C>(
           break
       }
     }
-    return {
-      left,
-      right
-    }
+    return separated(left, right)
   }
 }
 
@@ -571,10 +569,7 @@ export function partitionWithIndex<A>(
         left[key] = a
       }
     }
-    return {
-      left,
-      right
-    }
+    return separated(left, right)
   }
 }
 
@@ -720,10 +715,7 @@ export const separate: Compactable1<URI>['separate'] = <A, B>(
         break
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 // -------------------------------------------------------------------------------------

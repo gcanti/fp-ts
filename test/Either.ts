@@ -1,8 +1,8 @@
-import { separated } from '../src/Compactable'
 import * as _ from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -357,14 +357,8 @@ describe('Either', () => {
 
     it('separate', () => {
       U.deepStrictEqual(C.separate(_.left('123')), separated(_.left('123'), _.left('123')))
-      U.deepStrictEqual(C.separate(_.right(_.left('123'))), {
-        left: _.right('123'),
-        right: _.left(S.Monoid.empty)
-      })
-      U.deepStrictEqual(C.separate(_.right(_.right('123'))), {
-        left: _.left(S.Monoid.empty),
-        right: _.right('123')
-      })
+      U.deepStrictEqual(C.separate(_.right(_.left('123'))), separated(_.right('123'), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(C.separate(_.right(_.right('123'))), separated(_.left(S.Monoid.empty), _.right('123')))
     })
   })
 
@@ -373,34 +367,16 @@ describe('Either', () => {
     const p = (n: number) => n > 2
 
     it('partition', () => {
-      U.deepStrictEqual(pipe(_.left('123'), F.partition(p)), {
-        left: _.left('123'),
-        right: _.left('123')
-      })
-      U.deepStrictEqual(pipe(_.right(1), F.partition(p)), {
-        left: _.right(1),
-        right: _.left(S.Monoid.empty)
-      })
-      U.deepStrictEqual(pipe(_.right(3), F.partition(p)), {
-        left: _.left(S.Monoid.empty),
-        right: _.right(3)
-      })
+      U.deepStrictEqual(pipe(_.left('123'), F.partition(p)), separated(_.left('123'), _.left('123')))
+      U.deepStrictEqual(pipe(_.right(1), F.partition(p)), separated(_.right(1), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(pipe(_.right(3), F.partition(p)), separated(_.left(S.Monoid.empty), _.right(3)))
     })
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), {
-        left: _.left('123'),
-        right: _.left('123')
-      })
-      U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), {
-        left: _.right(0),
-        right: _.left(S.Monoid.empty)
-      })
-      U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), {
-        left: _.left(S.Monoid.empty),
-        right: _.right(4)
-      })
+      U.deepStrictEqual(pipe(_.left('123'), F.partitionMap(f)), separated(_.left('123'), _.left('123')))
+      U.deepStrictEqual(pipe(_.right(1), F.partitionMap(f)), separated(_.right(0), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(pipe(_.right(3), F.partitionMap(f)), separated(_.left(S.Monoid.empty), _.right(4)))
     })
 
     it('filter', () => {
@@ -432,18 +408,9 @@ describe('Either', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? _.right(n + 1) : _.left(n - 1))
-      U.deepStrictEqual(await pipe(_.left('foo'), wilt(f))(), {
-        left: _.left('foo'),
-        right: _.left('foo')
-      })
-      U.deepStrictEqual(await pipe(_.right(1), wilt(f))(), {
-        left: _.right(0),
-        right: _.left(S.Monoid.empty)
-      })
-      U.deepStrictEqual(await pipe(_.right(3), wilt(f))(), {
-        left: _.left(S.Monoid.empty),
-        right: _.right(4)
-      })
+      U.deepStrictEqual(await pipe(_.left('foo'), wilt(f))(), separated(_.left('foo'), _.left('foo')))
+      U.deepStrictEqual(await pipe(_.right(1), wilt(f))(), separated(_.right(0), _.left(S.Monoid.empty)))
+      U.deepStrictEqual(await pipe(_.right(3), wilt(f))(), separated(_.left(S.Monoid.empty), _.right(4)))
     })
   })
 
