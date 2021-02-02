@@ -197,11 +197,7 @@ export function separate<F, G>(
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
   const _compact = compact(F, G)
   const _map = map(F, G)
-  return (fge) => {
-    const left = _compact(pipe(fge, _map(getLeft)))
-    const right = _compact(pipe(fge, _map(getRight)))
-    return { left, right }
-  }
+  return (fge) => separated(_compact(pipe(fge, _map(getLeft))), _compact(pipe(fge, _map(getRight))))
 }
 
 // -------------------------------------------------------------------------------------

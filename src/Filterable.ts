@@ -22,7 +22,8 @@ import {
   CompactableComposition23,
   compact,
   Separated,
-  separate
+  separate,
+  separated
 } from './Compactable'
 import { Either } from './Either'
 import { pipe, Predicate, Refinement } from './function'
@@ -368,14 +369,14 @@ export function partition<F, G>(
   G: Filterable<G>
 ): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>> {
   const _filter = filter(F, G)
-  return (predicate) => (fga) => {
-    const left = pipe(
-      fga,
-      _filter((a) => !predicate(a))
+  return (predicate) => (fga) =>
+    separated(
+      pipe(
+        fga,
+        _filter((a) => !predicate(a))
+      ),
+      pipe(fga, _filter(predicate))
     )
-    const right = pipe(fga, _filter(predicate))
-    return { left, right }
-  }
 }
 
 /**
@@ -411,17 +412,17 @@ export function partitionMap<F, G>(
   G: Filterable<G>
 ): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>> {
   const _filterMap = filterMap(F, G)
-  return (f) => (fga) => {
-    const left = pipe(
-      fga,
-      _filterMap((a) => getLeft(f(a)))
+  return (f) => (fga) =>
+    separated(
+      pipe(
+        fga,
+        _filterMap((a) => getLeft(f(a)))
+      ),
+      pipe(
+        fga,
+        _filterMap((a) => getRight(f(a)))
+      )
     )
-    const right = pipe(
-      fga,
-      _filterMap((a) => getRight(f(a)))
-    )
-    return { left, right }
-  }
 }
 
 // -------------------------------------------------------------------------------------
