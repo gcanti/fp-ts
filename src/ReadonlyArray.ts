@@ -118,7 +118,7 @@ export const foldRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A
 // -------------------------------------------------------------------------------------
 
 /**
- * Same as `reduce` but it carries over the intermediate steps
+ * Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
  *
  * @example
  * import { scanLeft } from 'fp-ts/ReadonlyArray'
@@ -128,10 +128,10 @@ export const foldRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A
  * @category combinators
  * @since 3.0.0
  */
-export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
   const len = as.length
   // tslint:disable-next-line: readonly-array
-  const out: Array<B> = new Array(len + 1)
+  const out = new Array(len + 1) as [B, ...Array<B>]
   out[0] = b
   for (let i = 0; i < len; i++) {
     out[i + 1] = f(out[i], as[i])
@@ -140,7 +140,7 @@ export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray
 }
 
 /**
- * Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result
+ * Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result.
  *
  * @example
  * import { scanRight } from 'fp-ts/ReadonlyArray'
@@ -150,10 +150,10 @@ export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyArray<B> => {
+export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
   const len = as.length
   // tslint:disable-next-line: readonly-array
-  const out: Array<B> = new Array(len + 1)
+  const out = new Array(len + 1) as [B, ...Array<B>]
   out[len] = b
   for (let i = len - 1; i >= 0; i--) {
     out[i] = f(as[i], out[i + 1])

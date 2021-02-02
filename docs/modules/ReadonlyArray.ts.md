@@ -776,12 +776,12 @@ Added in v3.0.0
 
 ## scanLeft
 
-Same as `reduce` but it carries over the intermediate steps
+Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
 
 **Signature**
 
 ```ts
-export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => readonly B[]
+export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -796,12 +796,12 @@ Added in v3.0.0
 
 ## scanRight
 
-Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result
+Fold a `ReadonlyArray` from the right, keeping all intermediate results instead of only the final result.
 
 **Signature**
 
 ```ts
-export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => readonly B[]
+export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => ReadonlyNonEmptyArray<B>
 ```
 
 **Example**

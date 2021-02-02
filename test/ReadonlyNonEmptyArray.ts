@@ -251,9 +251,12 @@ describe('ReadonlyNonEmptyArray', () => {
 
     // refinements
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
-    U.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)] as const))
+    U.deepStrictEqual(
+      actual1,
+      O.some([O.some(3), O.some(2), O.some(1)]) as O.Option<_.ReadonlyNonEmptyArray<O.Some<number>>>
+    )
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
-    U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)] as const))
+    U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]) as O.Option<_.ReadonlyNonEmptyArray<O.Some<number>>>)
   })
 
   it('filterWithIndex', () => {

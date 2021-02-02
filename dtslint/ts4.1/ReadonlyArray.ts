@@ -163,3 +163,23 @@ pipe(
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
 )
+
+//
+// scanLeft
+//
+
+// $ExpectType ReadonlyNonEmptyArray<number>
+pipe(
+  [],
+  _.scanLeft(1, () => 2)
+)
+
+//
+// scanRight
+//
+
+// $ExpectType ReadonlyNonEmptyArray<number>
+pipe(
+  [],
+  _.scanRight(1, () => 2)
+)
