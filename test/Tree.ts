@@ -5,6 +5,7 @@ import * as O from '../src/Option'
 import * as _ from '../src/Tree'
 import * as U from './util'
 import * as N from '../src/number'
+import * as I from '../src/Identity'
 
 describe('Tree', () => {
   // -------------------------------------------------------------------------------------
@@ -141,6 +142,12 @@ describe('Tree', () => {
       _.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
       3
     )
+  })
+
+  it('unfoldTreeM', () => {
+    const fa = _.unfoldTreeM({ ...I.Monad, ...I.Applicative })(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
+    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
+    U.deepStrictEqual(fa, expected)
   })
 
   // -------------------------------------------------------------------------------------
