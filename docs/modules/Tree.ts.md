@@ -61,7 +61,7 @@ Added in v3.0.0
   - [getEq](#geteq)
   - [getShow](#getshow)
 - [model](#model)
-  - [Forest (type alias)](#forest-type-alias)
+  - [Forest (interface)](#forest-interface)
   - [Tree (interface)](#tree-interface)
 - [utils](#utils)
   - [ApT](#apt)
@@ -224,33 +224,32 @@ Monadic forest builder, in depth-first order.
 export declare function unfoldForestM<M extends URIS4>(
   M: Monad4<M> & Applicative4<M>
 ): <B, S, R, E, A>(
-  bs: ReadonlyArray<B>,
   f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => Kind4<M, S, R, E, Forest<A>>
+) => (bs: ReadonlyArray<B>) => Kind4<M, S, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS3>(
   M: Monad3<M> & Applicative3<M>
 ): <B, R, E, A>(
-  bs: ReadonlyArray<B>,
   f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => Kind3<M, R, E, Forest<A>>
+) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS3, E>(
   M: Monad3C<M, E> & Applicative3C<M, E>
 ): <B, R, A>(
-  bs: ReadonlyArray<B>,
   f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => Kind3<M, R, E, Forest<A>>
+) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS2>(
   M: Monad2<M> & Applicative2<M>
-): <B, R, E>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, R, readonly [E, ReadonlyArray<B>]>) => Kind2<M, R, Forest<E>>
+): <B, R, E>(
+  f: (b: B) => Kind2<M, R, readonly [E, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind2<M, R, Forest<E>>
 export declare function unfoldForestM<M extends URIS2, E>(
   M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Forest<A>>
+): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind2<M, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS>(
   M: Monad1<M> & Applicative1<M>
-): <B, A>(bs: ReadonlyArray<B>, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Forest<A>>
+): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind<M, Forest<A>>
 export declare function unfoldForestM<M>(
   M: Monad_<M> & Applicative_<M>
-): <B, A>(bs: ReadonlyArray<B>, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Forest<A>>
+): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => HKT<M, Forest<A>>
 ```
 
 Added in v3.0.0
@@ -538,12 +537,12 @@ Added in v3.0.0
 
 # model
 
-## Forest (type alias)
+## Forest (interface)
 
 **Signature**
 
 ```ts
-export type Forest<A> = ReadonlyArray<Tree<A>>
+export interface Forest<A> extends ReadonlyArray<Tree<A>> {}
 ```
 
 Added in v3.0.0
