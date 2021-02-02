@@ -895,7 +895,7 @@ Same as `reduce` but it carries over the intermediate steps
 **Signature**
 
 ```ts
-export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => B[]
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => NonEmptyArray<B>
 ```
 
 **Example**
@@ -915,7 +915,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => B[]
+export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => NonEmptyArray<B>
 ```
 
 **Example**

@@ -25,6 +25,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { NonEmptyArray } from './NonEmptyArray'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -299,11 +300,10 @@ export function foldRight<A, B>(
  * @category combinators
  * @since 2.5.0
  */
-export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> {
+export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B> {
   return (as) => {
     const l = as.length
-    // tslint:disable-next-line: readonly-array
-    const r: Array<B> = new Array(l + 1)
+    const r = new Array(l + 1) as NonEmptyArray<B>
     r[0] = b
     for (let i = 0; i < l; i++) {
       r[i + 1] = f(r[i], as[i])
@@ -323,11 +323,10 @@ export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A
  * @category combinators
  * @since 2.5.0
  */
-export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyArray<B> {
+export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B> {
   return (as) => {
     const l = as.length
-    // tslint:disable-next-line: readonly-array
-    const r: Array<B> = new Array(l + 1)
+    const r = new Array(l + 1) as NonEmptyArray<B>
     r[l] = b
     for (let i = l - 1; i >= 0; i--) {
       r[i] = f(as[i], r[i + 1])
