@@ -71,18 +71,30 @@ export const make = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
 })
 
 /**
- * Build a tree from a seed value
+ * Build a (possibly infinite) tree from a seed value in breadth-first order.
  *
  * @category constructors
  * @since 3.0.0
  */
 export const unfoldTree = <B, A>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A> => {
   const [a, bs] = f(b)
-  return { value: a, forest: unfoldForest(bs, f) }
+  return {
+    value: a,
+    forest: pipe(bs, unfoldForest(f))
+  }
 }
 
 /**
- * Monadic tree builder, in depth-first order
+ * Build a (possibly infinite) forest from a list of seed values in breadth-first order.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const unfoldForest = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) => (bs: ReadonlyArray<B>): Forest<A> =>
+  bs.map((b) => unfoldTree(b, f))
+
+/**
+ * Monadic tree builder, in depth-first order.
  *
  * @category constructors
  * @since 3.0.0
@@ -116,16 +128,7 @@ export function unfoldTreeM<M>(
 }
 
 /**
- * Build a tree from a seed value
- *
- * @category constructors
- * @since 3.0.0
- */
-export const unfoldForest = <B, A>(bs: ReadonlyArray<B>, f: (b: B) => readonly [A, ReadonlyArray<B>]): Forest<A> =>
-  bs.map((b) => unfoldTree(b, f))
-
-/**
- * Monadic forest builder, in depth-first order
+ * Monadic forest builder, in depth-first order.
  *
  * @category constructors
  * @since 3.0.0

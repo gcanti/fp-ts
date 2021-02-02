@@ -15,16 +15,16 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.10
+# 3.0.0-alpha.11
 
 - **Breaking Change**
 
-  - bump minimum typescript version (4.1.x+) (@gcanti)
-  - make type class members pipeables (@gcanti)
-  - make `readonly _E` optional in type classes (@gcanti)
-  - make `readonly URI` optional in type classes (@gcanti)
-  - remove deprecated APIs (@gcanti)
-  - remove type classes (@gcanti)
+  - bump minimum typescript version (4.1.x+)
+  - make type class members pipeables
+  - make `readonly _E` optional in type classes
+  - make `readonly URI` optional in type classes
+  - remove deprecated APIs
+  - remove type classes
     - `Chain`
     - `Choice`
     - `Strong`
@@ -32,7 +32,7 @@ high state of flux, you're at risk of it changing without notice.
     - `MonadThrow`
     - `MonadIO`
     - `MonadTask`
-  - remove mutable modules (@gcanti)
+  - remove mutable modules
     - `IORef`
     - `Array`
     - `Map`
@@ -40,168 +40,166 @@ high state of flux, you're at risk of it changing without notice.
     - `Record`
     - `Set`
     - `Tuple`
-  - switch to readonly arrays / tuples everywhere (@gcanti)
+  - switch to readonly arrays / tuples everywhere
     - Some examples:
       - make `State` definition immutable
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
-  - rename `ReadonlyTuple` module to `ReadonlyTuple2` (@gcanti)
-  - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex` (@gcanti)
-  - rename `traverseArray` to `traverseReadonlyArray` (@gcanti)
-  - rename `sequenceArray` to `sequenceReadonlyArray` (@gcanti)
-  - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq` (@gcanti)
-  - rename `traverseSeqArray` to `traverseReadonlyArraySeq` (@gcanti)
-  - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq` (@gcanti)
+  - rename `ReadonlyTuple` module to `ReadonlyTuple2`
+  - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex`
+  - rename `traverseArray` to `traverseReadonlyArray`
+  - rename `sequenceArray` to `sequenceReadonlyArray`
+  - rename `traverseSeqArrayWithIndex` to `traverseReadonlyArrayWithIndexSeq`
+  - rename `traverseSeqArray` to `traverseReadonlyArraySeq`
+  - rename `sequenceSeqArray` to `sequenceReadonlyArraySeq`
   - `Apply`
-    - remove `sequenceS`, use data type `apS` instead (@gcanti)
-    - remove `sequenceTS`, use data type `apT` instead (@gcanti)
+    - remove `sequenceS`, use data type `apS` instead
+    - remove `sequenceTS`, use data type `apT` instead
   - `Alternative`
-    - remove `Applicative` dependency (@gcanti)
+    - remove `Applicative` dependency
   - `BooleanAlgebra`
-    - rename `getDualBooleanAlgebra` to `getDual` (@gcanti)
-    - remove `booleanAlgebraVoid` (@gcanti)
+    - rename `getDualBooleanAlgebra` to `getDual`
+    - remove `booleanAlgebraVoid`
   - `ChainRec`
-    - drop `Chain` dependency (@gcanti)
+    - drop `Chain` dependency
   - `Eq`
-    - rename `eqStrict` to `EqStrict` (@gcanti)
+    - rename `eqStrict` to `EqStrict`
   - `Either`
-    - make `fromNullable` lazy (@gcanti)
-    - make `fromNullableK` lazy (@gcanti)
-    - make `chainNullableK` lazy (@gcanti)
-    - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
-    - make `parseJSON` pipeable (@gcanti)
-    - make `stringifyJSON` pipeable (@gcanti)
-    - make `elem` pipeable (@gcanti)
-    - remove `toError` function (@gcanti)
-    - remove `onThrow` parameter in `tryCatch` (@gcanti)
-    - remove `onError` parameter in `parseJSON` (@gcanti)
-    - remove `onError` parameter in `stringifyJSON` (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - refactor `Json` type (@gcanti)
+    - make `fromNullable` lazy
+    - make `fromNullableK` lazy
+    - make `chainNullableK` lazy
+    - remove `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead
+    - make `parseJSON` pipeable
+    - make `stringifyJSON` pipeable
+    - make `elem` pipeable
+    - remove `toError` function
+    - remove `onThrow` parameter in `tryCatch`
+    - remove `onError` parameter in `parseJSON`
+    - remove `onError` parameter in `stringifyJSON`
+    - remove `onFalse` parameter in `fromPredicate`
+    - refactor `Json` type
   - `Field`
-    - make `gcd` pipeable (@gcanti)
-    - make `lcm` pipeable (@gcanti)
+    - make `gcd` pipeable
+    - make `lcm` pipeable
   - `Filterable`
-    - drop `Functor` and `Compactable` dependencies (@gcanti)
+    - drop `Functor` and `Compactable` dependencies
   - `FilterableWithIndex`
-    - drop `Filterable` dependency (@gcanti)
+    - drop `Filterable` dependency
   - `FromEither`
-    - remove `onFalse` parameter from `fromPredicate_` signature (@gcanti)
+    - remove `onFalse` parameter from `fromPredicate_` signature
   - `Foldable`
-    - curry `reduceM` constraints (@gcanti)
-    - make `intercalate` pipeable and curry constraints (@gcanti)
-    - remove `traverse_` (@gcanti)
-    - rename `toArray` to `toReadonlyArray` (@gcanti)
+    - curry `reduceM` constraints
+    - make `intercalate` pipeable and curry constraints
+    - remove `traverse_`
+    - rename `toArray` to `toReadonlyArray`
   - `FoldableWithIndex`
-    - drop `Foldable` dependency (@gcanti)
+    - drop `Foldable` dependency
   - `IOEither`
-    - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
-    - remove `onThrow` parameter in `tryCatch` (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
+    - remove `onThrow` parameter in `tryCatch`
+    - remove `onFalse` parameter in `fromPredicate`
   - `Monad`
-    - drop `Applicative` dependency (@gcanti)
+    - drop `Applicative` dependency
   - `Monoid`
-    - swap execution order in `getEndomorphismMonoid` (@gcanti)
-    - rename `getDualMonoid` to `getDual` (@gcanti)
-    - remove `monoidVoid` (@gcanti)
+    - swap execution order in `getEndomorphismMonoid`
+    - rename `getDualMonoid` to `getDual`
+    - remove `monoidVoid`
   - `Option`
-    - make `elem` pipeable (@gcanti)
+    - make `elem` pipeable
   - `Ord`
-    - make `min` pipeable (@gcanti)
-    - make `max` pipeable (@gcanti)
-    - make `lt` pipeable (@gcanti)
-    - make `gt` pipeable (@gcanti)
-    - make `leq` pipeable (@gcanti)
-    - make `geq` pipeable (@gcanti)
-    - rename `getDualOrd` to `getDual` (@gcanti)
+    - make `min` pipeable
+    - make `max` pipeable
+    - make `lt` pipeable
+    - make `gt` pipeable
+    - make `leq` pipeable
+    - make `geq` pipeable
+    - rename `getDualOrd` to `getDual`
   - `ReaderEither`
-    - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
+    - remove `onFalse` parameter in `fromPredicate`
   - `ReaderTaskEither`
-    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
-      (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
+    - remove `onFalse` parameter in `fromPredicate`
   - `ReadonlyArray`
-    - make `lookup` pipeable (@gcanti)
-    - make `cons` pipeable (@gcanti)
-    - make `snoc` pipeable (@gcanti)
-    - make `zipWith` pipeable (@gcanti)
-    - make `zip` pipeable (@gcanti)
-    - make `elem` pipeable (@gcanti)
-    - make `union` pipeable (@gcanti)
-    - make `intersection` pipeable (@gcanti)
-    - make `difference` pipeable (@gcanti)
-    - make `isOutOfBound` pipeable (@gcanti)
-    - remove `unsafeInsertAt` (@gcanti)
-    - remove `unsafeUpdateAt` (@gcanti)
-    - remove `unsafeDeleteAt` (@gcanti)
-    - remove `fromArray` (@gcanti)
-    - remove `toArray` (@gcanti)
+    - make `lookup` pipeable
+    - make `cons` pipeable
+    - make `snoc` pipeable
+    - make `zipWith` pipeable
+    - make `zip` pipeable
+    - make `elem` pipeable
+    - make `union` pipeable
+    - make `intersection` pipeable
+    - make `difference` pipeable
+    - make `isOutOfBound` pipeable
+    - remove `unsafeInsertAt`
+    - remove `unsafeUpdateAt`
+    - remove `unsafeDeleteAt`
+    - remove `fromArray`
+    - remove `toArray`
   - `ReadonlyMap`
-    - make `member` pipeable (@gcanti)
-    - make `elem` pipeable (@gcanti)
-    - make `lookupWithKey` pipeable (@gcanti)
-    - make `lookup` pipeable (@gcanti)
-    - make `isSubmap` pipeable (@gcanti)
-    - remove `fromMap` (@gcanti)
-    - remove `toMap` (@gcanti)
-    - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
-    - change `deleteAt` signature (@gcanti)
-    - remove `readonlyMap` (@gcanti)
+    - make `member` pipeable
+    - make `elem` pipeable
+    - make `lookupWithKey` pipeable
+    - make `lookup` pipeable
+    - make `isSubmap` pipeable
+    - remove `fromMap`
+    - remove `toMap`
+    - rename `insertAt` to `upsertAt` and add `insertAt`
+    - change `deleteAt` signature
+    - remove `readonlyMap`
   - `ReadonlyNonEmptyArray`
-    - make `cons` pipeable (@gcanti)
-    - make `snoc` pipeable (@gcanti)
-    - make `zipWith` pipeable (@gcanti)
-    - make `zip` pipeable (@gcanti)
-    - rename `toReadonlyArray` to `toArray` (@gcanti)
-    - rename `fromArray` (@gcanti)
+    - make `cons` pipeable
+    - make `snoc` pipeable
+    - make `zipWith` pipeable
+    - make `zip` pipeable
+    - rename `toReadonlyArray` to `toArray`
+    - rename `fromArray`
   - `ReadonlyRecord`
-    - rename `hasOwnProperty` to `has` (@gcanti)
-    - make `isSubrecord` pipeable (@gcanti)
-    - make `lookup` pipeable (@gcanti)
-    - make `elem` pipeable (@gcanti)
-    - remove `fromRecord` (@gcanti)
-    - remove `toRecord` (@gcanti)
-    - rename `insertAt` to `upsertAt` and add `insertAt` (@gcanti)
+    - rename `hasOwnProperty` to `has`
+    - make `isSubrecord` pipeable
+    - make `lookup` pipeable
+    - make `elem` pipeable
+    - remove `fromRecord`
+    - remove `toRecord`
+    - rename `insertAt` to `upsertAt` and add `insertAt`
   - `ReadonlySet`
-    - make `isSubset` pipeable (@gcanti)
-    - make `elem` pipeable (@gcanti)
-    - make `union` pipeable (@gcanti)
-    - make `intersection` pipeable (@gcanti)
-    - rename `fromArray` to `fromReadonlyArray` (@gcanti)
-    - make `difference` pipeable (@gcanti)
-    - remove `fromSet` (@gcanti)
-    - remove `toSet` (@gcanti)
+    - make `isSubset` pipeable
+    - make `elem` pipeable
+    - make `union` pipeable
+    - make `intersection` pipeable
+    - rename `fromArray` to `fromReadonlyArray`
+    - make `difference` pipeable
+    - remove `fromSet`
+    - remove `toSet`
   - `ReadonlyTuple2`
-    - remove `getChain` (@gcanti)
+    - remove `getChain`
   - `Semigroup`
-    - make `fold` curried (@gcanti)
-    - rename `getDualSemigroup` to `getDual` (@gcanti)
-    - remove `semigroupVoid` (@gcanti)
+    - make `fold` curried
+    - rename `getDualSemigroup` to `getDual`
+    - remove `semigroupVoid`
   - `StateReaderTaskEither`
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate`
   - `TaskEither`
-    - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
-    - remove `onRejected` parameter in `tryCatch` (@gcanti)
+    - remove `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
+    - remove `onFalse` parameter in `fromPredicate`
+    - remove `onRejected` parameter in `tryCatch`
   - `TaskThese`
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - remove `onFalse` parameter in `fromPredicate`
   - `These`
-    - make `leftOrBoth` and `rightOrBoth` lazy (@gcanti)
-    - remove `onFalse` parameter in `fromPredicate` (@gcanti)
+    - make `leftOrBoth` and `rightOrBoth` lazy
+    - remove `onFalse` parameter in `fromPredicate`
   - `Traced`
-    - make `tracks` curried (@gcanti)
+    - make `tracks` curried
   - `Traversable`
-    - drop `Foldable` dependency (@gcanti)
+    - drop `Foldable` dependency
   - `TraversableWithIndex`
-    - drop `Traversable` dependency (@gcanti)
+    - drop `Traversable` dependency
   - `Tree`
-    - make `elem` curried (@gcanti)
-    - remove `unfoldTreeM` (@gcanti)
-    - remove `unfoldForestM` (@gcanti)
+    - make `elem` curried
+    - make `unfoldForest` pipeable
   - `Witherable`
-    - drop `Traversable` and `Filterable` dependencies (@gcanti)
+    - drop `Traversable` and `Filterable` dependencies
 
 - **New Feature**
   - add pipeable sequence T to
@@ -222,17 +220,17 @@ high state of flux, you're at risk of it changing without notice.
     - `TaskEither`
     - `Tree`
   - `Apply`
-    - add `apT_` (@gcanti)
+    - add `apT_`
   - `Functor`
-    - add `tupled_` (@gcanti)
+    - add `tupled_`
   - `ReaderTask`
-    - add `Monad` instance (@gcanti)
+    - add `Monad` instance
   - `ReaderTaskEither`
-    - add `Monad` instance (@gcanti)
+    - add `Monad` instance
   - `Task`
-    - add `Monad` instance (@gcanti)
+    - add `Monad` instance
   - `TaskEither`
-    - add `Monad` instance (@gcanti)
+    - add `Monad` instance
 
 # 2.9.3
 

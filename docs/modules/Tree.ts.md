@@ -204,19 +204,19 @@ Added in v3.0.0
 
 ## unfoldForest
 
-Build a tree from a seed value
+Build a (possibly infinite) forest from a list of seed values in breadth-first order.
 
 **Signature**
 
 ```ts
-export declare const unfoldForest: <B, A>(bs: readonly B[], f: (b: B) => readonly [A, readonly B[]]) => Forest<A>
+export declare const unfoldForest: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (bs: readonly B[]) => Forest<A>
 ```
 
 Added in v3.0.0
 
 ## unfoldForestM
 
-Monadic forest builder, in depth-first order
+Monadic forest builder, in depth-first order.
 
 **Signature**
 
@@ -251,7 +251,7 @@ Added in v3.0.0
 
 ## unfoldTree
 
-Build a tree from a seed value
+Build a (possibly infinite) tree from a seed value in breadth-first order.
 
 **Signature**
 
@@ -263,7 +263,7 @@ Added in v3.0.0
 
 ## unfoldTreeM
 
-Monadic tree builder, in depth-first order
+Monadic tree builder, in depth-first order.
 
 **Signature**
 

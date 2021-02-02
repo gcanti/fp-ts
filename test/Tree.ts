@@ -105,9 +105,10 @@ describe('Tree', () => {
   // -------------------------------------------------------------------------------------
 
   it('unfoldTree', () => {
-    const fa = _.unfoldTree(1, (b) => [b, b < 3 ? [b + 1, b + 2] : []])
-    const expected = _.make(1, [_.make(2, [_.make(3), _.make(4)]), _.make(3)])
-    U.deepStrictEqual(fa, expected)
+    U.deepStrictEqual(
+      _.unfoldTree(1, (b) => [String(b), b < 3 ? [b + 1, b + 2] : []]),
+      _.make('1', [_.make('2', [_.make('3'), _.make('4')]), _.make('3')])
+    )
   })
 
   // -------------------------------------------------------------------------------------
