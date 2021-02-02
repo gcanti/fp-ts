@@ -37,7 +37,9 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [make](#make)
   - [unfoldForest](#unfoldforest)
+  - [unfoldForestM](#unfoldforestm)
   - [unfoldTree](#unfoldtree)
+  - [unfoldTreeM](#unfoldtreem)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -212,6 +214,41 @@ export declare const unfoldForest: <B, A>(bs: readonly B[], f: (b: B) => readonl
 
 Added in v3.0.0
 
+## unfoldForestM
+
+Monadic forest builder, in depth-first order
+
+**Signature**
+
+```ts
+export declare function unfoldForestM<M extends URIS3>(
+  M: Monad3<M> & Applicative3<M>
+): <R, E, A, B>(
+  bs: ReadonlyArray<B>,
+  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
+) => Kind3<M, R, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS3, E>(
+  M: Monad3C<M, E> & Applicative3C<M, E>
+): <R, A, B>(
+  bs: ReadonlyArray<B>,
+  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
+) => Kind3<M, R, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS2>(
+  M: Monad2<M> & Applicative2<M>
+): <R, E, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, R, readonly [E, ReadonlyArray<B>]>) => Kind2<M, R, Forest<E>>
+export declare function unfoldForestM<M extends URIS2, E>(
+  M: Monad2C<M, E> & Applicative2C<M, E>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Forest<A>>
+export declare function unfoldForestM<M extends URIS>(
+  M: Monad1<M> & Applicative1<M>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Forest<A>>
+export declare function unfoldForestM<M>(
+  M: Monad_<M> & Applicative_<M>
+): <A, B>(bs: ReadonlyArray<B>, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Forest<A>>
+```
+
+Added in v3.0.0
+
 ## unfoldTree
 
 Build a tree from a seed value
@@ -220,6 +257,35 @@ Build a tree from a seed value
 
 ```ts
 export declare const unfoldTree: <B, A>(b: B, f: (b: B) => readonly [A, readonly B[]]) => Tree<A>
+```
+
+Added in v3.0.0
+
+## unfoldTreeM
+
+Monadic tree builder, in depth-first order
+
+**Signature**
+
+```ts
+export declare function unfoldTreeM<M extends URIS3>(
+  M: Monad3<M> & Applicative3<M>
+): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS3, E>(
+  M: Monad3C<M, E> & Applicative3C<M, E>
+): <R, A, B>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS2>(
+  M: Monad2<M> & Applicative2<M>
+): <E, A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS2, E>(
+  M: Monad2C<M, E> & Applicative2C<M, E>
+): <A, B>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
+export declare function unfoldTreeM<M extends URIS>(
+  M: Monad1<M> & Applicative1<M>
+): <A, B>(b: B, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Tree<A>>
+export declare function unfoldTreeM<M>(
+  M: Monad_<M> & Applicative_<M>
+): <A, B>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>>
 ```
 
 Added in v3.0.0
