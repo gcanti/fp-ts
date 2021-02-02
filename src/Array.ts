@@ -189,7 +189,7 @@ export const foldRight: <A, B>(
  * @category combinators
  * @since 2.0.0
  */
-export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => Array<B> = RA.scanLeft as any
+export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => NonEmptyArray<B> = RA.scanLeft as any
 
 /**
  * Fold an array from the right, keeping all intermediate results instead of only the final result
@@ -202,7 +202,7 @@ export const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: Array<A>) => A
  * @category combinators
  * @since 2.0.0
  */
-export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => Array<B> = RA.scanRight as any
+export const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>) => NonEmptyArray<B> = RA.scanRight as any
 
 /**
  * Test whether an array is empty
