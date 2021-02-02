@@ -127,9 +127,15 @@ export function unfoldTreeM<M>(
 ): <B, A>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M)
   return <A, B>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) =>
-    M.chain(([a, bs]: readonly [A, ReadonlyArray<B>]) =>
-      M.chain((ts: ReadonlyArray<Tree<A>>) => M.of({ value: a, forest: ts }))(pipe(bs, unfoldForestMM(f)))
-    )(f(b))
+    pipe(
+      f(b),
+      M.chain(([value, bs]) =>
+        pipe(
+          unfoldForestMM(f)(bs),
+          M.map((forest) => ({ value, forest }))
+        )
+      )
+    )
 }
 
 /**
