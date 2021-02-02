@@ -318,7 +318,7 @@ export const modifyAt: <A>(
  */
 export function filter<A, B extends A>(
   refinement: Refinement<A, B>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
 export function filter<A>(predicate: Predicate<A>): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 export function filter<A>(
   predicate: Predicate<A>
