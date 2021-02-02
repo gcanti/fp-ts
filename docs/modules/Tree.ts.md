@@ -272,7 +272,7 @@ Added in v2.0.0
 
 ## unfoldForest
 
-Build a tree from a seed value
+Build a (possibly infinite) forest from a list of seed values in breadth-first order.
 
 **Signature**
 
@@ -289,6 +289,9 @@ Monadic forest builder, in depth-first order
 **Signature**
 
 ```ts
+export declare function unfoldForestM<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(bs: Array<B>, f: (b: B) => Kind4<M, S, R, E, [A, Array<B>]>) => Kind4<M, S, R, E, Forest<A>>
 export declare function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
@@ -313,7 +316,7 @@ Added in v2.0.0
 
 ## unfoldTree
 
-Build a tree from a seed value
+Build a (possibly infinite) tree from a seed value in breadth-first order.
 
 **Signature**
 
@@ -330,6 +333,9 @@ Monadic tree builder, in depth-first order
 **Signature**
 
 ```ts
+export declare function unfoldTreeM<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(b: B, f: (b: B) => Kind4<M, S, R, E, [A, Array<B>]>) => Kind4<M, S, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
