@@ -7,7 +7,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Eq, fromEquals } from './Eq'
 import { Predicate, not, Refinement, identity } from './function'
-import { Separated } from './Compactable'
+import { separated, Separated } from './Compactable'
 import { Option } from './Option'
 import { Show } from './Show'
 
@@ -213,7 +213,7 @@ export function partition<A>(
         left.add(value)
       }
     }
-    return { left, right }
+    return separated(left, right)
   }
 }
 
@@ -349,7 +349,7 @@ export function partitionMap<B, C>(
           break
       }
     }
-    return { left, right }
+    return separated(left, right)
   }
 }
 
@@ -517,7 +517,7 @@ export function separate<E, A>(
           break
       }
     })
-    return { left, right }
+    return separated(left, right)
   }
 }
 

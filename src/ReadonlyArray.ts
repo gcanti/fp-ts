@@ -5,7 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1, separated, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -1665,10 +1665,7 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
       right.push(e.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -1751,10 +1748,7 @@ export const partitionWithIndex: {
       left.push(a)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -1785,10 +1779,7 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
       right.push(e.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**

@@ -2,7 +2,7 @@
  * @since 2.5.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1, separated, Separated } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable1 } from './Filterable'
@@ -618,10 +618,7 @@ export function partitionMapWithIndex<A, B, C>(
           break
       }
     }
-    return {
-      left,
-      right
-    }
+    return separated(left, right)
   }
 }
 
@@ -649,10 +646,7 @@ export function partitionWithIndex<A>(
         left[key] = a
       }
     }
-    return {
-      left,
-      right
-    }
+    return separated(left, right)
   }
 }
 
@@ -1051,10 +1045,7 @@ export const separate = <A, B>(
         break
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 // -------------------------------------------------------------------------------------

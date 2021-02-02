@@ -2,7 +2,7 @@
  * @since 2.5.0
  */
 import { Applicative } from './Applicative'
-import { Compactable2, Separated } from './Compactable'
+import { Compactable2, separated, Separated } from './Compactable'
 import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
@@ -540,10 +540,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
       right.set(k, ei.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -566,10 +563,7 @@ export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
       left.set(k, a)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -724,10 +718,7 @@ export const separate = <K, A, B>(
       right.set(k, ei.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 // -------------------------------------------------------------------------------------
