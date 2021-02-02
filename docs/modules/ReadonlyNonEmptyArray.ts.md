@@ -913,7 +913,7 @@ Added in v2.6.3
 ```ts
 export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
 export declare function filter<A>(
   predicate: Predicate<A>
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>

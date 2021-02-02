@@ -353,7 +353,7 @@ Added in v2.0.0
 ```ts
 export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
 export declare function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
