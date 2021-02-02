@@ -275,25 +275,27 @@ Monadic tree builder, in depth-first order.
 ```ts
 export declare function unfoldTreeM<M extends URIS4>(
   M: Monad4<M> & Applicative4<M>
-): <B, S, R, E, A>(b: B, f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>) => Kind4<M, S, R, E, Tree<A>>
+): <B, S, R, E, A>(
+  f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
+) => (b: B) => Kind4<M, S, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS3>(
   M: Monad3<M> & Applicative3<M>
-): <B, R, E, A>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
+): <B, R, E, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS3, E>(
   M: Monad3C<M, E> & Applicative3C<M, E>
-): <B, R, A>(b: B, f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => Kind3<M, R, E, Tree<A>>
+): <B, R, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS2>(
   M: Monad2<M> & Applicative2<M>
-): <B, E, A>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
+): <B, E, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS2, E>(
   M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(b: B, f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => Kind2<M, E, Tree<A>>
+): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
 export declare function unfoldTreeM<M extends URIS>(
   M: Monad1<M> & Applicative1<M>
-): <B, A>(b: B, f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => Kind<M, Tree<A>>
+): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind<M, Tree<A>>
 export declare function unfoldTreeM<M>(
   M: Monad_<M> & Applicative_<M>
-): <B, A>(b: B, f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => HKT<M, Tree<A>>
+): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => HKT<M, Tree<A>>
 ```
 
 Added in v3.0.0
