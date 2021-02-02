@@ -283,7 +283,7 @@ export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> {
  */
 export function filter<A, B extends A>(
   refinement: Refinement<A, B>
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
 export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
   return RNEA.filter(predicate) as any

@@ -89,3 +89,20 @@ pipe(
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
 )
+
+//
+// filter
+//
+
+declare const isNumber1: (sn: string | number) => sn is number
+declare const isNumber2: (sn: unknown) => sn is number
+declare const neasn: _.ReadonlyNonEmptyArray<string | number>
+
+// $ExpectType Option<ReadonlyNonEmptyArray<number>>
+pipe(neasn, _.filter(isNumber1))
+// $ExpectType Option<ReadonlyNonEmptyArray<number>>
+_.filter(isNumber1)(neasn)
+// $ExpectType Option<ReadonlyNonEmptyArray<number>>
+pipe(neasn, _.filter(isNumber2))
+// $ExpectType Option<ReadonlyNonEmptyArray<number>>
+_.filter(isNumber2)(neasn)
