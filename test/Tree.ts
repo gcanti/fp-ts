@@ -106,7 +106,10 @@ describe('Tree', () => {
 
   it('unfoldTree', () => {
     U.deepStrictEqual(
-      _.unfoldTree(1, (b) => [String(b), b < 3 ? [b + 1, b + 2] : []]),
+      pipe(
+        1,
+        _.unfoldTree((b) => [String(b), b < 3 ? [b + 1, b + 2] : []])
+      ),
       _.make('1', [_.make('2', [_.make('3'), _.make('4')]), _.make('3')])
     )
   })

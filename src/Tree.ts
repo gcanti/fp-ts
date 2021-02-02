@@ -78,7 +78,7 @@ export const make = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
  * @category constructors
  * @since 3.0.0
  */
-export const unfoldTree = <B, A>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B>]): Tree<A> => {
+export const unfoldTree = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) => (b: B): Tree<A> => {
   const [a, bs] = f(b)
   return {
     value: a,
@@ -93,7 +93,7 @@ export const unfoldTree = <B, A>(b: B, f: (b: B) => readonly [A, ReadonlyArray<B
  * @since 3.0.0
  */
 export const unfoldForest = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) => (bs: ReadonlyArray<B>): Forest<A> =>
-  bs.map((b) => unfoldTree(b, f))
+  bs.map(unfoldTree(f))
 
 /**
  * Monadic tree builder, in depth-first order.

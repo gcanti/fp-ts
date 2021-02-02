@@ -261,7 +261,7 @@ Build a (possibly infinite) tree from a seed value in breadth-first order.
 **Signature**
 
 ```ts
-export declare const unfoldTree: <B, A>(b: B, f: (b: B) => readonly [A, readonly B[]]) => Tree<A>
+export declare const unfoldTree: <B, A>(f: (b: B) => readonly [A, readonly B[]]) => (b: B) => Tree<A>
 ```
 
 Added in v3.0.0

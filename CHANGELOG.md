@@ -197,6 +197,7 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Traversable` dependency
   - `Tree`
     - make `elem` curried
+    - make `unfoldTree` pipeable
     - make `unfoldForest` pipeable
     - make `unfoldForestM` pipeable
   - `Witherable`
