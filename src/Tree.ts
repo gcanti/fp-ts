@@ -8,7 +8,7 @@
  * @since 2.0.0
  */
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
@@ -16,7 +16,7 @@ import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, Functor1 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import {
   bind as bind_,
   chainFirst as chainFirst_,
@@ -25,7 +25,8 @@ import {
   Monad2,
   Monad2C,
   Monad3,
-  Monad3C
+  Monad3C,
+  Monad4
 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
@@ -139,7 +140,7 @@ export function drawTree(tree: Tree<string>): string {
 }
 
 /**
- * Build a tree from a seed value
+ * Build a (possibly infinite) tree from a seed value in breadth-first order.
  *
  * @category constructors
  * @since 2.0.0
@@ -150,7 +151,7 @@ export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> {
 }
 
 /**
- * Build a tree from a seed value
+ * Build a (possibly infinite) forest from a list of seed values in breadth-first order.
  *
  * @category constructors
  * @since 2.0.0
@@ -165,6 +166,9 @@ export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
  * @category constructors
  * @since 2.0.0
  */
+export function unfoldTreeM<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(b: B, f: (b: B) => Kind4<M, S, R, E, [A, Array<B>]>) => Kind4<M, S, R, E, Tree<A>>
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(b: B, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Tree<A>>
@@ -183,7 +187,7 @@ export function unfoldTreeM<M extends URIS>(
 export function unfoldTreeM<M>(M: MonadHKT<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
 export function unfoldTreeM<M>(M: MonadHKT<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M)
-  return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), (ts) => M.of({ value: a, forest: ts })))
+  return (b, f) => M.chain(f(b), ([a, bs]) => M.map(unfoldForestMM(bs, f), (ts) => ({ value: a, forest: ts })))
 }
 
 /**
@@ -192,6 +196,9 @@ export function unfoldTreeM<M>(M: MonadHKT<M>): <A, B>(b: B, f: (b: B) => HKT<M,
  * @category constructors
  * @since 2.0.0
  */
+export function unfoldForestM<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, E, A, B>(bs: Array<B>, f: (b: B) => Kind4<M, S, R, E, [A, Array<B>]>) => Kind4<M, S, R, E, Forest<A>>
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A, B>(bs: Array<B>, f: (b: B) => Kind3<M, R, E, [A, Array<B>]>) => Kind3<M, R, E, Forest<A>>
