@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable1 } from './Filterable'
@@ -18,6 +18,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as RR from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
+import { Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'

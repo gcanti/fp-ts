@@ -31,6 +31,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `boundedNumber`, use `number.Bounded` instead (@gcanti)
   - `Compactable`
     - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead (@gcanti)
+    - deprecate `Separated`, use `Separated.Separated` instead (@gcanti)
   - `Either`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)

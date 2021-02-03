@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { Compactable2, Separated } from './Compactable'
+import { Compactable2 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable2 } from './Filterable'
@@ -16,6 +16,7 @@ import { Option } from './Option'
 import { Ord } from './Ord'
 import * as RM from './ReadonlyMap'
 import { Semigroup } from './Semigroup'
+import { Separated } from './Separated'
 import { Show } from './Show'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
