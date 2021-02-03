@@ -87,7 +87,7 @@ const _reduceRight: Foldable2<URI>['reduceRight'] = RT.Foldable.reduceRight
 const _traverse: Traversable2<URI>['traverse'] = RT.Traversable.traverse as any
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

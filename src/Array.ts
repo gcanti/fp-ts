@@ -1044,7 +1044,7 @@ const _wither: Witherable1<URI>['wither'] = RA.Witherable.wither as any
 const _wilt: Witherable1<URI>['wilt'] = RA.Witherable.wilt as any
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

@@ -48,7 +48,7 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => pipe(fa, contramap(f))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

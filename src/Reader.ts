@@ -81,7 +81,7 @@ const _right: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Eit
   E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

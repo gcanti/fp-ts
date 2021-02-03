@@ -246,7 +246,7 @@ const _partition: Filterable2<URI>['partition'] = RM.Filterable.partition as any
 const _partitionMap: Filterable2<URI>['partitionMap'] = RM.Filterable.partitionMap as any
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**
