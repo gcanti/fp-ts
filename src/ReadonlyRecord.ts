@@ -2,7 +2,7 @@
  * @since 2.5.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable1 } from './Filterable'
@@ -17,7 +17,7 @@ import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
-import { separated } from './Separated'
+import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'

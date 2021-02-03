@@ -32,7 +32,6 @@ Added in v2.0.0
   - [Compactable3C (interface)](#compactable3c-interface)
   - [Compactable4 (interface)](#compactable4-interface)
 - [utils](#utils)
-  - [Separated (interface)](#separated-interface)
   - [~~CompactableComposition11~~ (interface)](#compactablecomposition11-interface)
   - [~~CompactableComposition12C~~ (interface)](#compactablecomposition12c-interface)
   - [~~CompactableComposition12~~ (interface)](#compactablecomposition12-interface)
@@ -43,6 +42,7 @@ Added in v2.0.0
   - [~~CompactableComposition23~~ (interface)](#compactablecomposition23-interface)
   - [~~CompactableComposition2C1~~ (interface)](#compactablecomposition2c1-interface)
   - [~~CompactableComposition~~ (interface)](#compactablecomposition-interface)
+  - [~~Separated~~ (interface)](#separated-interface)
   - [~~getCompactableComposition~~](#getcompactablecomposition)
 
 ---
@@ -88,19 +88,19 @@ export declare function separate<F extends URIS2, G extends URIS2, E>(
   G: Compactable2C<G, E> & Functor2<G>
 ): <FE, A, B>(
   fge: Kind2<F, FE, Kind2<G, E, Either<A, B>>>
-) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, B>>>
+) => S.Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, B>>>
 export declare function separate<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Compactable2C<G, E> & Functor2<G>
-): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => S.Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
 export declare function separate<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Compactable1<G> & Functor1<G>
-): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
+): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => S.Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
 export declare function separate<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => S.Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
 ```
 
 Added in v2.10.0
@@ -121,7 +121,7 @@ export interface Compactable<F> {
   /**
    * Separates a data structure moving inner Left to the left side and inner Right to the right side of Separated
    */
-  readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
+  readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => S.Separated<HKT<F, A>, HKT<F, B>>
 }
 ```
 
@@ -135,7 +135,7 @@ Added in v2.0.0
 export interface Compactable1<F extends URIS> {
   readonly URI: F
   readonly compact: <A>(fa: Kind<F, Option<A>>) => Kind<F, A>
-  readonly separate: <A, B>(fa: Kind<F, Either<A, B>>) => Separated<Kind<F, A>, Kind<F, B>>
+  readonly separate: <A, B>(fa: Kind<F, Either<A, B>>) => S.Separated<Kind<F, A>, Kind<F, B>>
 }
 ```
 
@@ -149,7 +149,7 @@ Added in v2.0.0
 export interface Compactable2<F extends URIS2> {
   readonly URI: F
   readonly compact: <E, A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
-  readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => S.Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
 ```
 
@@ -164,7 +164,7 @@ export interface Compactable2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
   readonly compact: <A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
-  readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+  readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => S.Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
 ```
 
@@ -178,7 +178,7 @@ Added in v2.0.0
 export interface Compactable3<F extends URIS3> {
   readonly URI: F
   readonly compact: <R, E, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
-  readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => S.Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }
 ```
 
@@ -193,7 +193,7 @@ export interface Compactable3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
   readonly compact: <R, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
-  readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+  readonly separate: <R, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => S.Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }
 ```
 
@@ -209,28 +209,13 @@ export interface Compactable4<F extends URIS4> {
   readonly compact: <S, R, E, A>(fa: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, A>
   readonly separate: <S, R, E, A, B>(
     fa: Kind4<F, S, R, E, Either<A, B>>
-  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+  ) => S.Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
 }
 ```
 
 Added in v2.0.0
 
 # utils
-
-## Separated (interface)
-
-A `Separated` type which holds `left` and `right` parts.
-
-**Signature**
-
-```ts
-export interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
-}
-```
-
-Added in v2.0.0
 
 ## ~~CompactableComposition11~~ (interface)
 
@@ -373,6 +358,21 @@ Added in v2.0.0
 export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
   readonly compact: <A>(fga: HKT<F, HKT<G, Option<A>>>) => HKT<F, HKT<G, A>>
   readonly separate: <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+}
+```
+
+Added in v2.0.0
+
+## ~~Separated~~ (interface)
+
+Use `Separated.Separated` instead.
+
+**Signature**
+
+```ts
+export interface Separated<A, B> {
+  readonly left: A
+  readonly right: B
 }
 ```
 
