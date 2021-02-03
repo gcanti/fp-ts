@@ -23,8 +23,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [compact](#compact)
   - [separate](#separate)
-- [constructors](#constructors)
-  - [separated](#separated)
 - [type classes](#type-classes)
   - [Compactable (interface)](#compactable-interface)
   - [Compactable1 (interface)](#compactable1-interface)
@@ -103,18 +101,6 @@ export declare function separate<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
-```
-
-Added in v2.10.0
-
-# constructors
-
-## separated
-
-**Signature**
-
-```ts
-export declare const separated: <A, B>(left: A, right: B) => Separated<A, B>
 ```
 
 Added in v2.10.0

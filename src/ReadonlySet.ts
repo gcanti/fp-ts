@@ -7,8 +7,9 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Eq, fromEquals } from './Eq'
 import { Predicate, not, Refinement, identity } from './function'
-import { separated, Separated } from './Compactable'
+import { Separated } from './Compactable'
 import { Option } from './Option'
+import { separated } from './Separated'
 import { Show } from './Show'
 
 /**
