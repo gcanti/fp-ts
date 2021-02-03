@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.9.4",
+  "version": "2.9.5",
   "description": "Functional programming in TypeScript",
   "main": "lib/index.js",
   "module": "es6/index.js",

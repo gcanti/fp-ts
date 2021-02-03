@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.9.5
+
+- **Polish**
+  - `Array`, `ReadonlyArray`: change `scanLeft` and `scanRight` to return `NonEmptyArray`, `ReadonlyNonEmptyArray`, #1391 (@willheslam)
+
 # 2.9.4
 
 - **Bug Fix**
