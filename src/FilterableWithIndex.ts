@@ -1,7 +1,7 @@
 /**
  * @since 2.0.0
  */
-import { Separated } from './Compactable'
+import { Separated } from './Separated'
 import { Either } from './Either'
 import {
   Filterable,

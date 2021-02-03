@@ -21,7 +21,6 @@ import {
   CompactableComposition22,
   CompactableComposition23,
   compact,
-  Separated,
   separate
 } from './Compactable'
 import { Either } from './Either'
@@ -45,7 +44,7 @@ import {
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
-import { separated } from './Separated'
+import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model

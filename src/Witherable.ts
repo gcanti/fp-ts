@@ -11,7 +11,7 @@ import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } 
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
 import { Either } from './Either'
-import { Separated } from './Compactable'
+import { Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model
