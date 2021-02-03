@@ -89,7 +89,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

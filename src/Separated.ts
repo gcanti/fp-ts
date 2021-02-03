@@ -1,8 +1,8 @@
 /**
  * ```ts
- * interface Separated<A, B> {
- *    readonly left: A
- *    readonly right: B
+ * interface Separated<E, A> {
+ *    readonly left: E
+ *    readonly right: A
  * }
  * ```
  *
@@ -25,9 +25,9 @@ import { Bifunctor2 } from './Bifunctor'
  * @category type classes
  * @since 2.10.0
  */
-export interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
+export interface Separated<E, A> {
+  readonly left: E
+  readonly right: A
 }
 
 // -------------------------------------------------------------------------------------
@@ -38,20 +38,18 @@ export interface Separated<A, B> {
  * @category constructors
  * @since 2.10.0
  */
-export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({ left, right })
+export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, right })
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const map_: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-
-const mapLeft_: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-
-const bimap_: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**
@@ -61,7 +59,7 @@ const bimap_: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
  * @category Functor
  * @since 2.10.0
  */
-export const map = <B, C>(f: (b: B) => C) => <A>(fa: Separated<A, B>): Separated<A, C> =>
+export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated<E, B> =>
   separated(fa.left, f(fa.right))
 
 /**
@@ -70,7 +68,7 @@ export const map = <B, C>(f: (b: B) => C) => <A>(fa: Separated<A, B>): Separated
  * @category Bifunctor
  * @since 2.10.0
  */
-export const mapLeft = <A, B>(f: (a: A) => B) => <C>(fa: Separated<A, C>): Separated<B, C> =>
+export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separated<G, A> =>
   separated(f(fa.left), fa.right)
 
 /**
@@ -79,8 +77,8 @@ export const mapLeft = <A, B>(f: (a: A) => B) => <C>(fa: Separated<A, C>): Separ
  * @category Bifunctor
  * @since 2.10.0
  */
-export const bimap = <A, B, C, D>(g: (A: A) => B, f: (c: C) => D) => (fa: Separated<A, C>): Separated<B, D> =>
-  separated(g(fa.left), f(fa.right))
+export const bimap = <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Separated<E, A>): Separated<G, B> =>
+  separated(f(fa.left), g(fa.right))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -110,8 +108,8 @@ declare module './HKT' {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   URI,
-  mapLeft: mapLeft_,
-  bimap: bimap_
+  mapLeft: _mapLeft,
+  bimap: _bimap
 }
 
 /**
@@ -120,5 +118,5 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const Functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }

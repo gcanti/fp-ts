@@ -625,7 +625,7 @@ const _partitionMapWithIndex = <K, A, B, C>(fa: ReadonlyMap<K, A>, f: (k: K, a: 
   pipe(fa, partitionMapWithIndex(f))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

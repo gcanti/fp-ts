@@ -229,7 +229,7 @@ const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**

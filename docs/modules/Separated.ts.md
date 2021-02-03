@@ -7,9 +7,9 @@ parent: Modules
 ## Separated overview
 
 ```ts
-interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
+interface Separated<E, A> {
+  readonly left: E
+  readonly right: A
 }
 ```
 
@@ -47,7 +47,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <A, B, C, D>(g: (A: A) => B, f: (c: C) => D) => (fa: Separated<A, C>) => Separated<B, D>
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Separated<E, A>) => Separated<G, B>
 ```
 
 Added in v2.10.0
@@ -59,7 +59,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <A, B>(f: (a: A) => B) => <C>(fa: Separated<A, C>) => Separated<B, C>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>) => Separated<G, A>
 ```
 
 Added in v2.10.0
@@ -74,7 +74,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <B, C>(f: (b: B) => C) => <A>(fa: Separated<A, B>) => Separated<A, C>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>) => Separated<E, B>
 ```
 
 Added in v2.10.0
@@ -86,7 +86,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const separated: <A, B>(left: A, right: B) => Separated<A, B>
+export declare const separated: <E, A>(left: E, right: A) => Separated<E, A>
 ```
 
 Added in v2.10.0
@@ -142,9 +142,9 @@ A `Separated` type which holds `left` and `right` parts.
 **Signature**
 
 ```ts
-export interface Separated<A, B> {
-  readonly left: A
-  readonly right: B
+export interface Separated<E, A> {
+  readonly left: E
+  readonly right: A
 }
 ```
 
