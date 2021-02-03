@@ -21,6 +21,7 @@ high state of flux, you're at risk of it changing without notice.
 
   - bump minimum typescript version (4.1.x+)
   - make type class members pipeables
+  - remove `lib`, `es6` folders
   - make `readonly _E` optional in type classes
   - make `readonly URI` optional in type classes
   - remove deprecated APIs

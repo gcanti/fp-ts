@@ -1,54 +1,16 @@
+import * as fs from 'fs'
 import G from 'glob'
 import * as path from 'path'
-import { flow, pipe } from '../src/function'
-import * as RA from '../src/ReadonlyArray'
-import * as TE from '../src/TaskEither'
-import * as Tr from '../src/Tree'
-import * as T from '../src/Task'
+import * as Console from '../src/Console'
 import * as E from '../src/Either'
-import * as fs from 'fs'
+import { pipe } from '../src/function'
+import * as RA from '../src/ReadonlyArray'
+import * as T from '../src/Task'
+import * as TE from '../src/TaskEither'
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-interface File {
-  readonly _tag: 'File'
-  readonly name: string
-  readonly content: string
-}
-
-const file = (name: string, content: string): File => ({ _tag: 'File', name, content })
-
-interface Folder {
-  readonly _tag: 'Folder'
-  readonly name: string
-  readonly contents: ReadonlyArray<Item>
-}
-
-const folder = (name: string, contents: ReadonlyArray<Item> = RA.empty): Folder => ({
-  _tag: 'Folder',
-  name,
-  contents
-})
-
-type Item = File | Folder
-
-const fold = <R>(onFile: (file: File) => R, onFolder: (folder: Folder) => R) => (item: Item): R => {
-  switch (item._tag) {
-    case 'File':
-      return onFile(item)
-    case 'Folder':
-      return onFolder(item)
-  }
-}
-
-const toTree: (item: Item) => Tr.Tree<string> = Tr.unfoldTree(
-  fold(
-    (file) => [file.name, []],
-    (folder) => [folder.name, folder.contents]
-  )
-)
 
 interface Module {
   readonly name: string
@@ -64,29 +26,18 @@ const module = (name: string, es5: string, es6: string, typings: string): Module
   typings
 })
 
-const getModulePackageJson = (module: Module): string => `{
-  "main": "./${module.name}.js",
-  "module": "./${module.name}.es6.js",
-  "typings": "./${module.name}.d.ts",
-  "sideEffects": false
-}`
-
-const toFolder = (module: Module): Folder =>
-  folder(module.name, [
-    file('package.json', getModulePackageJson(module)),
-    file(`${module.name}.js`, module.es5),
-    file(`${module.name}.es6.js`, module.es6),
-    file(`${module.name}.d.ts`, module.typings)
-  ])
-
 // -------------------------------------------------------------------------------------
-// tests
+// interop
 // -------------------------------------------------------------------------------------
 
 const glob = TE.taskify<string, Error, ReadonlyArray<string>>(G)
 const readFile = TE.taskify<fs.PathLike, string, NodeJS.ErrnoException, string>(fs.readFile)
 const writeFile = TE.taskify<fs.PathLike, string, NodeJS.ErrnoException, void>(fs.writeFile)
 const mkdir = TE.taskify(fs.mkdir)
+
+// -------------------------------------------------------------------------------------
+// core
+// -------------------------------------------------------------------------------------
 
 const getBasename = (p: string): string => path.basename(p, '.ts')
 
@@ -125,6 +76,13 @@ const getModule = (name: string): TE.TaskEither<Error, Module> =>
   )
 
 const getModules = pipe(getNames, TE.chain(TE.traverseReadonlyArray(getModule)))
+
+const getModulePackageJson = (module: Module): string => `{
+  "main": "./${module.name}.js",
+  "module": "./${module.name}.es6.js",
+  "typings": "./${module.name}.d.ts",
+  "sideEffects": false
+}`
 
 const writeModule = (module: Module): TE.TaskEither<Error, void> =>
   pipe(
@@ -181,18 +139,13 @@ const writeProjectPackageJson = pipe(
   TE.chain((contents) => writeFile('./dist/package.json', JSON.stringify(contents, null, 2)))
 )
 
-const draw = flow(toTree, Tr.drawTree)
-
-import * as Console from '../src/Console'
-
 const tree = pipe(
   writeModules,
   TE.chainFirst(() => copyProjectFiles),
   TE.chainFirst(() => writeProjectPackageJson),
-  TE.map(RA.map(toFolder)),
   TE.fold(
     (e) => T.fromIO(Console.error(e)),
-    (folders) => T.fromIO(Console.log(draw(folder('dist', folders))))
+    (modules) => T.fromIO(Console.log(`${modules.length} module(s) found`))
   )
 )
 
