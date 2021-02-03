@@ -96,6 +96,7 @@ Added in v2.0.0
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
   - [semiring](#semiring)
+  - [separated](#separated)
   - [set](#set)
   - [show](#show)
   - [state](#state)
@@ -954,6 +955,16 @@ export declare const semiring: typeof semiring
 ```
 
 Added in v2.0.0
+
+## separated
+
+**Signature**
+
+```ts
+export declare const separated: typeof separated
+```
+
+Added in v2.10.0
 
 ## set
 
