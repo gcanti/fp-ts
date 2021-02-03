@@ -394,7 +394,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   .traverseWithIndex as any
 
 // -------------------------------------------------------------------------------------
-// pipeables
+// type class members
 // -------------------------------------------------------------------------------------
 
 /**
