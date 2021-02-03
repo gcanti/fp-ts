@@ -22,7 +22,7 @@ import {
   apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -37,6 +37,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
@@ -635,7 +636,7 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparated = { left: none, right: none }
+const defaultSeparated = separated(none, none)
 
 /**
  * @category Compactable
@@ -644,10 +645,7 @@ const defaultSeparated = { left: none, right: none }
 export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) => {
   const o = pipe(
     ma,
-    map((e) => ({
-      left: getLeft(e),
-      right: getRight(e)
-    }))
+    map((e) => separated(getLeft(e), getRight(e)))
   )
   return isNone(o) ? defaultSeparated : o.value
 }
@@ -676,10 +674,10 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
 } = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
-  return {
-    left: _filter(fa, (a) => !predicate(a)),
-    right: _filter(fa, predicate)
-  }
+  return separated(
+    _filter(fa, (a) => !predicate(a)),
+    _filter(fa, predicate)
+  )
 }
 
 /**
@@ -721,15 +719,7 @@ export const wither: PipeableWither1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(
 export const wilt: PipeableWilt1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (
   fa: Option<A>
 ): HKT<F, Separated<Option<B>, Option<C>>> => {
-  return isNone(fa)
-    ? F.of({
-        left: none,
-        right: none
-      })
-    : F.map(f(fa.value), (e) => ({
-        left: getLeft(e),
-        right: getRight(e)
-      }))
+  return isNone(fa) ? F.of(defaultSeparated) : F.map(f(fa.value), (e) => separated(getLeft(e), getRight(e)))
 }
 
 // -------------------------------------------------------------------------------------
