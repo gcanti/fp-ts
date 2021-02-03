@@ -144,6 +144,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `FromTask` type class (@gcanti)
   - add `TaskOption` module (@gcanti)
   - add `string` module (@gcanti)
+  - add `Separated` module (@YBogomolov)
   - `Apply`
     - add `ap` helper (@gcanti)
     - add `apS` helper (@gcanti)
