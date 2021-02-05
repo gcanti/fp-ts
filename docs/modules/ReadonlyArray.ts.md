@@ -70,6 +70,7 @@ Added in v2.5.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
@@ -720,6 +721,16 @@ export declare const duplicate: <A>(wa: readonly A[]) => readonly (readonly A[])
 ```
 
 Added in v2.5.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v2.10.0
 
 ## flatten
 

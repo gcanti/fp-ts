@@ -16,6 +16,7 @@ Added in v2.0.0
   - [map](#map)
 - [combinators](#combinators)
   - [censor](#censor)
+  - [flap](#flap)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
@@ -67,6 +68,16 @@ export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Wri
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+```
+
+Added in v2.10.0
 
 ## listen
 

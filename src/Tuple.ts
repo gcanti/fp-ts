@@ -14,7 +14,7 @@ import * as RT from './ReadonlyTuple'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2, PipeableTraverse2 } from './Traversable'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Extend2 } from './Extend'
 
 // tslint:disable:readonly-array
@@ -254,6 +254,18 @@ export const Traversable: Traversable2<URI> = {
   traverse: _traverse,
   sequence
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

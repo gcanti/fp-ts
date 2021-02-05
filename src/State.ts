@@ -4,7 +4,7 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_ } from './Apply'
 import { identity, pipe } from './function'
-import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 
@@ -322,6 +322,18 @@ export const traverseArray = <A, S, B>(
 export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

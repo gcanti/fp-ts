@@ -33,7 +33,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2, Functor3 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -748,6 +748,18 @@ export const sequenceArray: <R, E, A>(
 ) => ReaderEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

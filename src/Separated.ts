@@ -12,7 +12,7 @@
  */
 
 import { pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Bifunctor2 } from './Bifunctor'
 
 // -------------------------------------------------------------------------------------
@@ -120,3 +120,15 @@ export const Functor: Functor2<URI> = {
   URI,
   map: _map
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
