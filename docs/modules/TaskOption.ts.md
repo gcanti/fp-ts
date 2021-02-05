@@ -148,7 +148,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: TaskOption<O.Option<A>>) => TaskOption<A>
+export declare const compact: <A>(foa: TaskOption<O.Option<A>>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -158,7 +158,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fa: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
+export declare const separate: <A, B>(fe: TaskOption<Either<A, B>>) => Separated<TaskOption<A>, TaskOption<B>>
 ```
 
 Added in v3.0.0

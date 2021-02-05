@@ -5,6 +5,7 @@ import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
 import * as S from '../src/string'
 import * as U from './util'
+import * as Sep from '../src/Separated'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -216,17 +217,17 @@ describe('ReaderEither', () => {
       )({}),
       E.right(1)
     )
-    const { left: left1, right: right1 } = pipe(
+    const s1 = pipe(
       fa,
       F.partition((s) => s.length > 0)
     )
-    U.deepStrictEqual(left1({}), E.left(''))
-    U.deepStrictEqual(right1({}), E.right('a'))
-    const { left: left2, right: right2 } = pipe(
+    U.deepStrictEqual(Sep.left(s1)({}), E.left(''))
+    U.deepStrictEqual(Sep.right(s1)({}), E.right('a'))
+    const s2 = pipe(
       fa,
       F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
     )
-    U.deepStrictEqual(left2({}), E.left(''))
-    U.deepStrictEqual(right2({}), E.right(1))
+    U.deepStrictEqual(Sep.left(s2)({}), E.left(''))
+    U.deepStrictEqual(Sep.right(s2)({}), E.right(1))
   })
 })

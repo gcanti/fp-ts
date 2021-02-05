@@ -6,6 +6,7 @@ import * as S from '../src/string'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 import * as O from '../src/Option'
+import * as Sep from '../src/Separated'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -297,14 +298,14 @@ describe('IOEither', () => {
 
     it('separate', () => {
       const s1 = C.separate(_.left('a'))
-      U.deepStrictEqual(s1.left(), E.left('a'))
-      U.deepStrictEqual(s1.right(), E.left('a'))
+      U.deepStrictEqual(Sep.left(s1)(), E.left('a'))
+      U.deepStrictEqual(Sep.right(s1)(), E.left('a'))
       const s2 = C.separate(_.right(E.left('a')))
-      U.deepStrictEqual(s2.left(), E.right('a'))
-      U.deepStrictEqual(s2.right(), E.left(''))
+      U.deepStrictEqual(Sep.left(s2)(), E.right('a'))
+      U.deepStrictEqual(Sep.right(s2)(), E.left(''))
       const s3 = C.separate(_.right(E.right(1)))
-      U.deepStrictEqual(s3.left(), E.left(''))
-      U.deepStrictEqual(s3.right(), E.right(1))
+      U.deepStrictEqual(Sep.left(s3)(), E.left(''))
+      U.deepStrictEqual(Sep.right(s3)(), E.right(1))
     })
   })
 
@@ -312,21 +313,21 @@ describe('IOEither', () => {
     const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', () => {
-      const { left, right } = pipe(
+      const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
         F.partition((s) => s.length > 2)
       )
-      U.deepStrictEqual(left(), E.right('a'))
-      U.deepStrictEqual(right(), E.left([]))
+      U.deepStrictEqual(Sep.left(s)(), E.right('a'))
+      U.deepStrictEqual(Sep.right(s)(), E.left([]))
     })
 
     it('partitionMap', () => {
-      const { left, right } = pipe(
+      const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
-      U.deepStrictEqual(left(), E.right(false))
-      U.deepStrictEqual(right(), E.left([]))
+      U.deepStrictEqual(Sep.left(s)(), E.right(false))
+      U.deepStrictEqual(Sep.right(s)(), E.left([]))
     })
   })
 

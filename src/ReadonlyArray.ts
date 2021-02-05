@@ -31,7 +31,7 @@ import { Witherable1 } from './Witherable'
 import * as N from './number'
 
 import Option = O.Option
-import { Separated } from './Separated'
+import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -1350,10 +1350,7 @@ export const separate: Compactable1<URI>['separate'] = <A, B>(fa: ReadonlyArray<
       right.push(e.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -1391,10 +1388,7 @@ export const partitionWithIndex: FilterableWithIndex1<URI, number>['partitionWit
       left.push(a)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**
@@ -1422,10 +1416,7 @@ export const partitionMapWithIndex: FilterableWithIndex1<URI, number>['partition
       right.push(e.right)
     }
   }
-  return {
-    left,
-    right
-  }
+  return separated(left, right)
 }
 
 /**

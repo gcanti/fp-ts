@@ -11,6 +11,7 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
+import * as Sep from '../src/Separated'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -426,17 +427,17 @@ describe('ReaderTaskEither', () => {
       )({})(),
       E.right(1)
     )
-    const { left: left1, right: right1 } = pipe(
+    const s1 = pipe(
       fa,
       F.partition((s) => s.length > 0)
     )
-    U.deepStrictEqual(await left1({})(), E.left(''))
-    U.deepStrictEqual(await right1({})(), E.right('a'))
-    const { left: left2, right: right2 } = pipe(
+    U.deepStrictEqual(await Sep.left(s1)({})(), E.left(''))
+    U.deepStrictEqual(await Sep.right(s1)({})(), E.right('a'))
+    const s2 = pipe(
       fa,
       F.partitionMap((s) => (s.length > 0 ? E.right(s.length) : E.left(s)))
     )
-    U.deepStrictEqual(await left2({})(), E.left(''))
-    U.deepStrictEqual(await right2({})(), E.right(1))
+    U.deepStrictEqual(await Sep.left(s2)({})(), E.left(''))
+    U.deepStrictEqual(await Sep.right(s2)({})(), E.right(1))
   })
 })

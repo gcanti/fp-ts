@@ -224,7 +224,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: readonly O.Option<A>[]) => readonly A[]
+export declare const compact: <A>(foa: readonly O.Option<A>[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -234,7 +234,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fa: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
+export declare const separate: <A, B>(fe: readonly Either<A, B>[]) => Separated<readonly A[], readonly B[]>
 ```
 
 Added in v3.0.0

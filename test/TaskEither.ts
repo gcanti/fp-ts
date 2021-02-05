@@ -9,6 +9,7 @@ import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
 import { assertTask } from './Task'
 import * as U from './util'
+import * as Sep from '../src/Separated'
 
 const a: _.TaskEither<string, string> = pipe(_.of<string, string>('a'), T.delay(100))
 const b: _.TaskEither<string, string> = _.of('b')
@@ -194,9 +195,9 @@ describe('TaskEither', () => {
         expectedLeft: E.Either<string, string>,
         expectedRight: E.Either<string, number>
       ) => {
-        const { left, right } = C.separate(a)
-        U.deepStrictEqual(await left(), expectedLeft)
-        U.deepStrictEqual(await right(), expectedRight)
+        const s = C.separate(a)
+        U.deepStrictEqual(await Sep.left(s)(), expectedLeft)
+        U.deepStrictEqual(await Sep.right(s)(), expectedRight)
       }
 
       await assertSeparate(_.right(E.right(1)), E.left(''), E.right(1))
@@ -209,21 +210,21 @@ describe('TaskEither', () => {
     const F = _.getFilterable(RA.getMonoid<string>())
 
     it('partition', async () => {
-      const { left, right } = pipe(
+      const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
         F.partition((s) => s.length > 2)
       )
-      U.deepStrictEqual(await left(), E.right('a'))
-      U.deepStrictEqual(await right(), E.left([]))
+      U.deepStrictEqual(await Sep.left(s)(), E.right('a'))
+      U.deepStrictEqual(await Sep.right(s)(), E.left([]))
     })
 
     it('partitionMap', async () => {
-      const { left, right } = pipe(
+      const s = pipe(
         _.of<string, ReadonlyArray<string>>('a'),
         F.partitionMap((s) => (s.length > 2 ? E.right(s.length) : E.left(false)))
       )
-      U.deepStrictEqual(await left(), E.right(false))
-      U.deepStrictEqual(await right(), E.left([]))
+      U.deepStrictEqual(await Sep.left(s)(), E.right(false))
+      U.deepStrictEqual(await Sep.right(s)(), E.left([]))
     })
   })
 

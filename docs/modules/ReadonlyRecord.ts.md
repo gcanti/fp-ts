@@ -97,7 +97,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(foa: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -108,7 +108,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <A, B>(
-  fa: Readonly<Record<string, Either<A, B>>>
+  fe: Readonly<Record<string, Either<A, B>>>
 ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
 ```
 

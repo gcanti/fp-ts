@@ -37,7 +37,7 @@ export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, 
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => separated(fa.left, f(fa.right))
+export const map: Functor2<URI>['map'] = (f) => (fa) => separated(left(fa), f(right(fa)))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -45,7 +45,7 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => separated(fa.left, f(fa.
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(fa.left), g(fa.right))
+export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(left(fa)), g(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -53,7 +53,7 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(fa.
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => separated(f(fa.left), fa.right)
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => separated(f(left(fa)), right(fa))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -87,3 +87,17 @@ export const Bifunctor: Bifunctor2<URI> = {
   bimap,
   mapLeft
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const left = <E, A>(s: Separated<E, A>): E => s.left
+
+/**
+ * @since 3.0.0
+ */
+export const right = <E, A>(s: Separated<E, A>): A => s.right

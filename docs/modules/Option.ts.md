@@ -211,7 +211,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
+export declare const compact: <A>(foa: Option<Option<A>>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -221,7 +221,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+export declare const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
 ```
 
 Added in v3.0.0
