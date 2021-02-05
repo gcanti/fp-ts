@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [defaults](#defaults)
+  - [mapLeftDefault](#mapleftdefault)
 - [type classes](#type-classes)
   - [Bifunctor (interface)](#bifunctor-interface)
   - [Bifunctor2 (interface)](#bifunctor2-interface)
@@ -21,6 +23,29 @@ Added in v3.0.0
   - [Bifunctor4 (interface)](#bifunctor4-interface)
 
 ---
+
+# defaults
+
+## mapLeftDefault
+
+Return a default `mapLeft` implementation from `bimap`.
+
+**Signature**
+
+```ts
+export declare function mapLeftDefault<F extends URIS4>(bimap: Bifunctor4<F>['bimap']): Bifunctor4<F>['mapLeft']
+export declare function mapLeftDefault<F extends URIS3>(bimap: Bifunctor3<F>['bimap']): Bifunctor3<F>['mapLeft']
+export declare function mapLeftDefault<F extends URIS3, E>(
+  bimap: Bifunctor3C<F, E>['bimap']
+): Bifunctor3C<F, E>['mapLeft']
+export declare function mapLeftDefault<F extends URIS2>(bimap: Bifunctor2<F>['bimap']): Bifunctor2<F>['mapLeft']
+export declare function mapLeftDefault<F extends URIS2, E>(
+  bimap: Bifunctor2C<F, E>['bimap']
+): Bifunctor2C<F, E>['mapLeft']
+export declare function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft']
+```
+
+Added in v3.0.0
 
 # type classes
 

@@ -3,7 +3,7 @@
  */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { Comonad2 } from './Comonad'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
@@ -68,7 +68,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => [fst(fa), f(snd(fa))]
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 /**
  * @category Semigroupoid

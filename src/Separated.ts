@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { Functor2 } from './Functor'
 
 // -------------------------------------------------------------------------------------
@@ -53,7 +53,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(lef
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => separated(f(left(fa)), right(fa))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances

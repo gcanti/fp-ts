@@ -1,6 +1,7 @@
 /**
  * @since 3.0.0
  */
+import { identity } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
@@ -70,4 +71,24 @@ export interface Bifunctor4<F extends URIS4> {
     g: (a: A) => B
   ) => <S, R>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, B>
   readonly mapLeft: <E, G>(f: (e: E) => G) => <S, R, A>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, A>
+}
+
+// -------------------------------------------------------------------------------------
+// defaults
+// -------------------------------------------------------------------------------------
+
+/**
+ * Return a default `mapLeft` implementation from `bimap`.
+ *
+ * @category defaults
+ * @since 3.0.0
+ */
+export function mapLeftDefault<F extends URIS4>(bimap: Bifunctor4<F>['bimap']): Bifunctor4<F>['mapLeft']
+export function mapLeftDefault<F extends URIS3>(bimap: Bifunctor3<F>['bimap']): Bifunctor3<F>['mapLeft']
+export function mapLeftDefault<F extends URIS3, E>(bimap: Bifunctor3C<F, E>['bimap']): Bifunctor3C<F, E>['mapLeft']
+export function mapLeftDefault<F extends URIS2>(bimap: Bifunctor2<F>['bimap']): Bifunctor2<F>['mapLeft']
+export function mapLeftDefault<F extends URIS2, E>(bimap: Bifunctor2C<F, E>['bimap']): Bifunctor2C<F, E>['mapLeft']
+export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft']
+export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft'] {
+  return (f) => bimap(f, identity)
 }

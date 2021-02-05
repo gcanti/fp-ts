@@ -16,7 +16,7 @@
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
 import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
@@ -527,7 +527,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => (isLeft(fa) ? l
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => (isLeft(fa) ? left(f(fa.left)) : fa)
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 /**
  * Less strict version of [`ap`](#ap).

@@ -21,7 +21,7 @@
  */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
@@ -225,8 +225,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) =>
-  isLeft(fa) ? left(f(fa.left)) : isBoth(fa) ? both(f(fa.left), fa.right) : fa
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

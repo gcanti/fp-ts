@@ -4,7 +4,7 @@
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
-import { Bifunctor4 } from './Bifunctor'
+import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import * as E from './Either'
 import {
   chainEitherK as chainEitherK_,
@@ -333,7 +333,9 @@ export const bimap: Bifunctor4<URI>['bimap'] = (f, g) => (fea) => (s) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor4<URI>['mapLeft'] = (f) => (fea) => flow(fea, RTE.mapLeft(f))
+export const mapLeft: Bifunctor4<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 /**
  * Apply a function to an argument under a type constructor.

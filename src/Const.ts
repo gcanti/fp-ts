@@ -9,7 +9,7 @@
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { BooleanAlgebra } from './BooleanAlgebra'
 import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
@@ -77,7 +77,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => make(f(fa))
+export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+  /*#__PURE__*/
+  mapLeftDefault<URI>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances
