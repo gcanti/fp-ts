@@ -10,7 +10,7 @@ import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { pipe, Predicate, Refinement } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -997,6 +997,18 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     }
   }
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Comonad2C } from './Comonad'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { pipe } from './function'
 
@@ -131,6 +131,18 @@ export const Functor: Functor2<URI> = {
   URI,
   map: _map
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

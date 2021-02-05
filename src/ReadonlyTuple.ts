@@ -10,7 +10,7 @@ import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
 import { identity, pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -369,6 +369,18 @@ export const Traversable: Traversable2<URI> = {
   traverse: _traverse,
   sequence
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

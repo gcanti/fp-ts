@@ -43,7 +43,7 @@ import {
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
@@ -1036,6 +1036,18 @@ export const traverseSeqArray = <A, B, E>(
 export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

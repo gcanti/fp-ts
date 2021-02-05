@@ -43,6 +43,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -386,6 +387,16 @@ export declare const filterOrElseW: {
 ```
 
 Added in v2.9.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

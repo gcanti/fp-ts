@@ -29,7 +29,7 @@ import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
@@ -1175,6 +1175,18 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
 export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
   return (a: A): a is B => isSome(getOption(a))
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#__PURE__*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // do notation

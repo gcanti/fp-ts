@@ -24,6 +24,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flap](#flap)
   - [flatten](#flatten)
 - [constructors](#constructors)
   - [get](#get)
@@ -154,6 +155,16 @@ export declare const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: Sta
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: State<E, (a: A) => B>) => State<E, B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

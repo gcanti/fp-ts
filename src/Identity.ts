@@ -10,7 +10,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { identity as id, pipe } from './function'
-import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -388,6 +388,18 @@ export const bind =
 export const apS =
   /*#__PURE__*/
   apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

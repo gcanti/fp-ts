@@ -30,6 +30,7 @@ Added in v2.5.0
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
+  - [flap](#flap)
   - [insertAt](#insertat)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
@@ -249,6 +250,16 @@ export declare function filterMapWithIndex<K extends string, A, B>(
 ```
 
 Added in v2.5.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
+```
+
+Added in v2.10.0
 
 ## insertAt
 

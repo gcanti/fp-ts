@@ -13,7 +13,7 @@ import {
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, Lazy, pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
@@ -438,3 +438,15 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
  */
 export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> =>
   getApplySemigroup(T.ApplySeq)(TH.getSemigroup(SE, SA))
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)

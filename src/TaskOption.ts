@@ -16,7 +16,7 @@ import {
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
-import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -680,3 +680,15 @@ export const traverseSeqArray: <A, B>(
 export const sequenceSeqArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)

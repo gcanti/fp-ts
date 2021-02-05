@@ -39,6 +39,7 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
 - [constructors](#constructors)
   - [make](#make)
@@ -245,6 +246,16 @@ export declare const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>>
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

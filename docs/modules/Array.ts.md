@@ -71,6 +71,7 @@ Added in v2.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
@@ -715,6 +716,16 @@ export declare const duplicate: <A>(wa: A[]) => A[][]
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: ((a: A) => B)[]) => B[]
+```
+
+Added in v2.10.0
 
 ## flatten
 

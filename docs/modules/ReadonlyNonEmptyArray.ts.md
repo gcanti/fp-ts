@@ -42,6 +42,7 @@ Added in v2.5.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
@@ -357,6 +358,16 @@ export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNon
 ```
 
 Added in v2.5.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

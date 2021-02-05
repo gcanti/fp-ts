@@ -10,7 +10,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { flow, identity, pipe } from './function'
-import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
@@ -467,6 +467,18 @@ export const traverseSeqArray = <R, A, B>(
 export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

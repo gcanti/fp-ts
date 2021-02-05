@@ -14,7 +14,7 @@ import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from '.
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Lazy, Predicate, Refinement } from './function'
-import { Functor1 } from './Functor'
+import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -1637,6 +1637,18 @@ export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: Array<B>
 ) => (fa: Array<A>) => Array<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RA.apS as any
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

@@ -25,6 +25,8 @@ Added in v2.0.0
   - [contramap](#contramap)
 - [Functor](#functor)
   - [map](#map)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
@@ -103,6 +105,18 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Cons
 ```
 
 Added in v2.0.0
+
+# combinators
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B>
+```
+
+Added in v2.10.0
 
 # constructors
 

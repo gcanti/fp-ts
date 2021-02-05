@@ -27,6 +27,8 @@ Added in v2.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
@@ -210,6 +212,18 @@ export declare const wither: PipeableWither1<'Record'>
 ```
 
 Added in v2.6.5
+
+# combinators
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) => Record<string, B>
+```
+
+Added in v2.10.0
 
 # instances
 

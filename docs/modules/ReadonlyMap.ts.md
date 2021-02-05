@@ -28,6 +28,7 @@ Added in v2.5.0
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
+  - [flap](#flap)
   - [insertAt](#insertat)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
@@ -209,6 +210,16 @@ Added in v2.10.0
 
 ```ts
 export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.10.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: ReadonlyMap<E, (a: A) => B>) => ReadonlyMap<E, B>
 ```
 
 Added in v2.10.0

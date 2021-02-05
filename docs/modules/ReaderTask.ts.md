@@ -28,6 +28,7 @@ Added in v2.3.0
   - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
@@ -221,6 +222,16 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: Reade
 ```
 
 Added in v2.4.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

@@ -29,6 +29,7 @@ Added in v2.0.0
   - [compose](#compose)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [swap](#swap)
 - [destructors](#destructors)
   - [fst](#fst)
@@ -176,6 +177,16 @@ export declare const duplicate: <E, A>(wa: [A, E]) => [[A, E], E]
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: [(a: A) => B, E]) => [B, E]
+```
+
+Added in v2.10.0
 
 ## swap
 

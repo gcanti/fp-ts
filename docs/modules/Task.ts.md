@@ -37,6 +37,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainIOK](#chainiok)
   - [delay](#delay)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
 - [constructors](#constructors)
@@ -230,6 +231,16 @@ test()
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

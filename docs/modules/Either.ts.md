@@ -61,6 +61,7 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
@@ -590,6 +591,16 @@ export declare const filterOrElseW: {
 ```
 
 Added in v2.9.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

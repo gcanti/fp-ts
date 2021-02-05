@@ -4,7 +4,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2C } from './Pointed'
@@ -216,6 +216,18 @@ export const evaluate: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
  * @since 2.8.0
  */
 export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated
