@@ -32,6 +32,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [local](#local)
 - [constructors](#constructors)
@@ -226,6 +227,16 @@ export declare const chainFirst: <A, E, B>(f: (a: A) => Reader<E, B>) => (first:
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

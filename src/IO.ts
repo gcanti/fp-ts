@@ -16,7 +16,7 @@ import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, getApp
 import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
-import { bindTo as bindTo_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
@@ -312,6 +312,18 @@ export const traverseArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>)
 export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

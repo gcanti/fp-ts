@@ -20,6 +20,7 @@ Added in v2.0.0
   - [map](#map)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
+  - [flap](#flap)
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
@@ -88,6 +89,16 @@ export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Store<E, (a: A) => B>) => Store<E, B>
+```
+
+Added in v2.10.0
 
 # instances
 

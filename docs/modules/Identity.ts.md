@@ -36,6 +36,7 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -259,6 +260,16 @@ export declare const duplicate: <A>(ma: A) => A
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
+```
+
+Added in v2.10.0
 
 ## flatten
 

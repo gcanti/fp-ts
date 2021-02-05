@@ -27,7 +27,7 @@ import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
 import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
@@ -650,6 +650,18 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
     () => a
   ) as any
 /* tslint:enable:readonly-array */
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

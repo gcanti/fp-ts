@@ -17,6 +17,12 @@ describe('Option', () => {
       assert.deepStrictEqual(pipe(_.none, _.map(double)), _.none)
     })
 
+    it('flap', () => {
+      const double = (n: number) => n * 2
+      assert.deepStrictEqual(pipe(_.some(double), _.flap(2)), _.some(4))
+      assert.deepStrictEqual(pipe(_.none, _.flap(2)), _.none)
+    })
+
     it('ap', () => {
       const double = (n: number) => n * 2
       assert.deepStrictEqual(pipe(_.some(double), _.ap(_.some(2))), _.some(4))

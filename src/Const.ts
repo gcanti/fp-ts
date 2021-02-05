@@ -15,7 +15,7 @@ import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
 import { Eq } from './Eq'
 import { identity, pipe, unsafeCoerce } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -229,6 +229,18 @@ export const Bifunctor: Bifunctor2<URI> = {
   bimap: _bimap,
   mapLeft: _mapLeft
 }
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

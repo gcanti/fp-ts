@@ -7,7 +7,7 @@ import { Category2 } from './Category'
 import { Choice2 } from './Choice'
 import * as E from './Either'
 import { constant, flow, identity, pipe } from './function'
-import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
@@ -402,6 +402,18 @@ export const traverseArray = <R, A, B>(
 export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

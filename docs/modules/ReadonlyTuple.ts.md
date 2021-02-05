@@ -29,6 +29,7 @@ Added in v2.5.0
   - [compose](#compose)
 - [combinators](#combinators)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [swap](#swap)
 - [destructors](#destructors)
   - [fst](#fst)
@@ -176,6 +177,16 @@ export declare const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonl
 ```
 
 Added in v2.5.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: readonly [(a: A) => B, E]) => readonly [B, E]
+```
+
+Added in v2.10.0
 
 ## swap
 

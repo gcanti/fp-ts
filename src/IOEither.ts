@@ -37,7 +37,7 @@ import {
 } from './FromEither'
 import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as I from './IO'
 import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
@@ -853,6 +853,18 @@ export const traverseSeqArray = <A, E, B>(
 export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

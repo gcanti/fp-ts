@@ -14,6 +14,8 @@ Added in v2.0.0
 
 - [Functor](#functor)
   - [map](#map)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [instances](#instances)
   - [Functor](#functor-1)
   - [URI](#uri)
@@ -44,6 +46,18 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Tra
 ```
 
 Added in v2.0.0
+
+# combinators
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Traced<E, (a: A) => B>) => Traced<E, B>
+```
+
+Added in v2.10.0
 
 # instances
 

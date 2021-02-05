@@ -34,6 +34,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [flap](#flap)
   - [flatten](#flatten)
 - [constructors](#constructors)
   - [~~fromIO~~](#fromio)
@@ -163,6 +164,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) =>
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: IO<(a: A) => B>) => IO<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

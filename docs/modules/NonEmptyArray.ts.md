@@ -44,6 +44,7 @@ Added in v2.0.0
   - [copy](#copy)
   - [duplicate](#duplicate)
   - [filter](#filter)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [group](#group)
   - [groupSort](#groupsort)
@@ -358,6 +359,16 @@ export declare function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

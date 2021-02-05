@@ -64,6 +64,7 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainNullableK](#chainnullablek)
   - [duplicate](#duplicate)
+  - [flap](#flap)
   - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [tryCatchK](#trycatchk)
@@ -530,6 +531,16 @@ export declare const duplicate: <A>(ma: Option<A>) => Option<Option<A>>
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v2.10.0
 
 ## flatten
 

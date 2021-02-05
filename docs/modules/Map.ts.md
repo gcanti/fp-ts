@@ -26,6 +26,7 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [flap](#flap)
   - [insertAt](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
@@ -174,6 +175,16 @@ export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => M
 ```
 
 Added in v2.0.0
+
+## flap
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Map<E, (a: A) => B>) => Map<E, B>
+```
+
+Added in v2.10.0
 
 ## insertAt
 
