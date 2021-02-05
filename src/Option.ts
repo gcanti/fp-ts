@@ -571,13 +571,8 @@ const defaultSeparated =
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable1<URI>['separate'] = (ma) => {
-  const o = pipe(
-    ma,
-    map((e) => separated(getLeft(e), getRight(e)))
-  )
-  return isNone(o) ? defaultSeparated : o.value
-}
+export const separate: Compactable1<URI>['separate'] = (ma) =>
+  isNone(ma) ? defaultSeparated : separated(getLeft(ma.value), getRight(ma.value))
 
 /**
  * @category Filterable

@@ -23,6 +23,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [derivables](#derivables)
+  - [ap](#ap)
   - [chainFirst](#chainfirst)
 - [type classes](#type-classes)
   - [Monad (interface)](#monad-interface)
@@ -38,6 +39,22 @@ Added in v3.0.0
 ---
 
 # derivables
+
+## ap
+
+**Signature**
+
+```ts
+export declare function ap<F extends URIS4>(M: Monad4<F>): Apply4<F>['ap']
+export declare function ap<F extends URIS3>(M: Monad3<F>): Apply3<F>['ap']
+export declare function ap<F extends URIS3, E>(M: Monad3C<F, E>): Apply3C<F, E>['ap']
+export declare function ap<F extends URIS2>(M: Monad2<F>): Apply2<F>['ap']
+export declare function ap<F extends URIS2, E>(M: Monad2C<F, E>): Apply2C<F, E>['ap']
+export declare function ap<F extends URIS>(M: Monad1<F>): Apply1<F>['ap']
+export declare function ap<F>(M: Monad<F>): Apply<F>['ap']
+```
+
+Added in v3.0.0
 
 ## chainFirst
 

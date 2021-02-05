@@ -4,20 +4,20 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
-import { Compactable1, compact as compact_, separate as separate_ } from './Compactable'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
 import {
+  filter as filter_,
   Filterable1,
   filterMap as filterMap_,
-  filter as filter_,
-  partitionMap as partitionMap_,
-  partition as partition_
+  partition as partition_,
+  partitionMap as partitionMap_
 } from './Filterable'
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
-import { flow, identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy } from './function'
 import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
@@ -406,7 +406,20 @@ export const ApplicativePar: Applicative1<URI> = {
   of
 }
 
-const apSeq: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad1<URI> = {
+  URI,
+  map,
+  of,
+  chain
+}
+
+const apSeq =
+  /*#__PURE__*/
+  apSeq_(Monad)
 
 /**
  * @category instances
@@ -427,17 +440,6 @@ export const ApplicativeSeq: Applicative1<URI> = {
   map,
   ap: apSeq,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad1<URI> = {
-  URI,
-  map,
-  of,
-  chain
 }
 
 /**

@@ -14,6 +14,7 @@
 import { pipe } from './function'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -80,6 +81,21 @@ export interface Monad4<M extends URIS4> extends Pointed4<M> {
 // -------------------------------------------------------------------------------------
 // derivables
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category derivables
+ * @since 3.0.0
+ */
+export function ap<F extends URIS4>(M: Monad4<F>): Apply4<F>['ap']
+export function ap<F extends URIS3>(M: Monad3<F>): Apply3<F>['ap']
+export function ap<F extends URIS3, E>(M: Monad3C<F, E>): Apply3C<F, E>['ap']
+export function ap<F extends URIS2>(M: Monad2<F>): Apply2<F>['ap']
+export function ap<F extends URIS2, E>(M: Monad2C<F, E>): Apply2C<F, E>['ap']
+export function ap<F extends URIS>(M: Monad1<F>): Apply1<F>['ap']
+export function ap<F>(M: Monad<F>): Apply<F>['ap']
+export function ap<F>(M: Monad<F>): Apply<F>['ap'] {
+  return (fa) => M.chain((f) => pipe(fa, M.map(f)))
+}
 
 /**
  * @category derivables

@@ -40,7 +40,7 @@ import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -565,7 +565,19 @@ export const ApplicativePar: Applicative2<URI> = {
   of
 }
 
-const apSeq: Apply2<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad2<URI> = {
+  map,
+  of,
+  chain
+}
+
+const apSeq =
+  /*#__PURE__*/
+  apSeq_(Monad)
 
 /**
  * @category instances
@@ -584,34 +596,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
   map,
   ap: apSeq,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Alt: Alt2<URI> = {
-  map,
-  alt
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad2<URI> = {
-  map,
-  of,
-  chain
 }
 
 /**
@@ -636,6 +620,24 @@ export const chainFirst =
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Alt: Alt2<URI> = {
+  map,
+  alt
+}
 
 /**
  * @category instances

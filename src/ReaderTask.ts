@@ -2,13 +2,13 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
-import { flow, identity, pipe } from './function'
+import { flow, identity } from './function'
 import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
@@ -249,7 +249,19 @@ export const ApplicativePar: Applicative2<URI> = {
   of
 }
 
-const apSeq: Apply2<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad2<URI> = {
+  map,
+  of,
+  chain
+}
+
+const apSeq =
+  /*#__PURE__*/
+  apSeq_(Monad)
 
 /**
  * @category instances
@@ -269,16 +281,6 @@ export const ApplicativeSeq: Applicative2<URI> = {
   map,
   ap: apSeq,
   of
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad2<URI> = {
-  map,
-  of,
-  chain
 }
 
 /**
