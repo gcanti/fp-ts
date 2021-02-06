@@ -27,9 +27,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getIntercalateSemigroup](#getintercalatesemigroup)
   - [getStructSemigroup](#getstructsemigroup)
   - [getTupleSemigroup](#gettuplesemigroup)
+  - [intercalate](#intercalate)
   - [reverse](#reverse)
 - [constructors](#constructors)
   - [getConstantSemigroup](#getconstantsemigroup)
@@ -47,31 +47,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## getIntercalateSemigroup
-
-You can glue items between and stay associative.
-
-**Signature**
-
-```ts
-export declare const getIntercalateSemigroup: <A>(a: A) => Endomorphism<Semigroup<A>>
-```
-
-**Example**
-
-```ts
-import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-import * as S from 'fp-ts/string'
-
-const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
-
-assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
-assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
-```
-
-Added in v3.0.0
 
 ## getStructSemigroup
 
@@ -131,6 +106,31 @@ assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
 
 const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
+```
+
+Added in v3.0.0
+
+## intercalate
+
+You can glue items between and stay associative.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(middle: A) => Endomorphism<Semigroup<A>>
+```
+
+**Example**
+
+```ts
+import { intercalate } from 'fp-ts/Semigroup'
+import { pipe } from 'fp-ts/function'
+import * as S from 'fp-ts/string'
+
+const S1 = pipe(S.Semigroup, intercalate(' + '))
+
+assert.strictEqual(pipe('a', S1.concat('b')), 'a + b')
+assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a + b + c')
 ```
 
 Added in v3.0.0

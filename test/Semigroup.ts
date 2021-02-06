@@ -57,8 +57,8 @@ describe('Semigroup', () => {
     deepStrictEqual(pipe('a', DS.concat('b')), 'ba')
   })
 
-  it('getIntercalateSemigroup', () => {
-    const IS = _.getIntercalateSemigroup(' ')(S.Semigroup)
+  it('intercalate', () => {
+    const IS = _.intercalate(' ')(S.Semigroup)
     assert.strictEqual(pipe('a', IS.concat('b')), 'a b')
     assert.strictEqual(pipe('a', IS.concat('b'), IS.concat('c')), 'a b c')
   })

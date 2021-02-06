@@ -178,6 +178,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Semigroup`
     - make `fold` curried
     - rename `getDualSemigroup` to `reverse`
+    - rename `getIntercalateSemigroup` to `intercalate`
     - remove `semigroupVoid`
   - `StateReaderTaskEither`
     - remove `onFalse` parameter in `fromPredicate`

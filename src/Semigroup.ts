@@ -163,20 +163,20 @@ export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
  * You can glue items between and stay associative.
  *
  * @example
- * import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
+ * import { intercalate } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  * import * as S from 'fp-ts/string'
  *
- * const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
+ * const S1 = pipe(S.Semigroup, intercalate(' + '))
  *
- * assert.strictEqual(pipe('a', S1.concat('b')), 'a b')
- * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a b c')
+ * assert.strictEqual(pipe('a', S1.concat('b')), 'a + b')
+ * assert.strictEqual(pipe('a', S1.concat('b'), S1.concat('c')), 'a + b + c')
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getIntercalateSemigroup = <A>(a: A): Endomorphism<Semigroup<A>> => (S) => ({
-  concat: (second) => (first) => S.concat(S.concat(second)(a))(first)
+export const intercalate = <A>(middle: A): Endomorphism<Semigroup<A>> => (S) => ({
+  concat: (second) => (first) => S.concat(S.concat(second)(middle))(first)
 })
 
 // -------------------------------------------------------------------------------------
