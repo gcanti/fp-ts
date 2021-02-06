@@ -32,7 +32,7 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
  * @category combinators
  * @since 3.0.0
  */
-export const getDual = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+export const reverse = <A>(BA: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
   meet: BA.join,
   join: BA.meet,
   zero: BA.one,

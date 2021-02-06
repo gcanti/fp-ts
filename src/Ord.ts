@@ -86,17 +86,17 @@ export const getTupleOrd = <A extends ReadonlyArray<unknown>>(...ords: { [K in k
 
 /**
  * @example
- * import { getDual } from 'fp-ts/Ord'
+ * import { reverse } from 'fp-ts/Ord'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
- * assert.deepStrictEqual(pipe(5, getDual(N.Ord).compare(6)), 1)
+ * assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDual = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
+export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first) => O.compare(first)(second))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -172,7 +172,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  *
  * @example
  * import { sort } from 'fp-ts/ReadonlyArray'
- * import { contramap, getDual, getMonoid } from 'fp-ts/Ord'
+ * import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
  * import { pipe } from 'fp-ts/function'
  * import { fold } from 'fp-ts/Monoid'
  * import * as B from 'fp-ts/boolean'
@@ -220,7 +220,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * ])
  *
  * // now `rememberMe = true` first, then by name, then by age
- * const O2 = fold(M)([getDual(byRememberMe), byName, byAge])
+ * const O2 = fold(M)([reverse(byRememberMe), byName, byAge])
  * assert.deepStrictEqual(sort(O2)(users), [
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },

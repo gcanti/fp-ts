@@ -22,7 +22,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDual](#getdual)
+  - [reverse](#reverse)
 - [type classes](#type-classes)
   - [BooleanAlgebra (interface)](#booleanalgebra-interface)
 
@@ -30,14 +30,14 @@ Added in v3.0.0
 
 # combinators
 
-## getDual
+## reverse
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
 **Signature**
 
 ```ts
-export declare const getDual: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
+export declare const reverse: <A>(BA: BooleanAlgebra<A>) => BooleanAlgebra<A>
 ```
 
 Added in v3.0.0

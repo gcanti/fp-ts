@@ -1,11 +1,11 @@
-import { getDual } from '../src/BooleanAlgebra'
+import { reverse } from '../src/BooleanAlgebra'
 import { pipe } from '../src/function'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
 
 describe('BooleanAlgebra', () => {
-  it('getDual', () => {
-    const BA = getDual(B.BooleanAlgebra)
+  it('reverse', () => {
+    const BA = reverse(B.BooleanAlgebra)
     deepStrictEqual(pipe(true, BA.implies(true)), true)
     deepStrictEqual(pipe(true, BA.implies(false)), false)
     deepStrictEqual(pipe(false, BA.implies(true)), true)

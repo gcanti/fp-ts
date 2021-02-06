@@ -27,10 +27,10 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDual](#getdual)
   - [getIntercalateSemigroup](#getintercalatesemigroup)
   - [getStructSemigroup](#getstructsemigroup)
   - [getTupleSemigroup](#gettuplesemigroup)
+  - [reverse](#reverse)
 - [constructors](#constructors)
   - [getConstantSemigroup](#getconstantsemigroup)
   - [getJoinSemigroup](#getjoinsemigroup)
@@ -47,28 +47,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## getDual
-
-The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
-
-**Signature**
-
-```ts
-export declare const getDual: <A>(S: Semigroup<A>) => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import { getDual } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('a', getDual(S.Semigroup).concat('b')), 'ba')
-```
-
-Added in v3.0.0
 
 ## getIntercalateSemigroup
 
@@ -153,6 +131,28 @@ assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
 
 const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
+```
+
+Added in v3.0.0
+
+## reverse
+
+The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).concat('b')), 'ba')
 ```
 
 Added in v3.0.0

@@ -87,16 +87,16 @@ export const getConstantSemigroup = <A>(a: A): Semigroup<A> => ({
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDual } from 'fp-ts/Semigroup'
+ * import { reverse } from 'fp-ts/Semigroup'
  * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe('a', getDual(S.Semigroup).concat('b')), 'ba')
+ * assert.deepStrictEqual(pipe('a', reverse(S.Semigroup).concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDual = <A>(S: Semigroup<A>): Semigroup<A> => ({
+export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
   concat: (second) => (first) => S.concat(first)(second)
 })
 

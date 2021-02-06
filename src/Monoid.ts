@@ -86,18 +86,18 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDual } from 'fp-ts/Monoid'
+ * import { reverse } from 'fp-ts/Monoid'
  * import * as S from 'fp-ts/string'
  * import { pipe } from 'fp-ts/function'
  *
- * const M = getDual(S.Monoid)
+ * const M = reverse(S.Monoid)
  * assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getDual = <A>(M: Monoid<A>): Monoid<A> => ({
-  concat: S.getDual(M).concat,
+export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
+  concat: S.reverse(M).concat,
   empty: M.empty
 })
 

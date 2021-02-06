@@ -23,8 +23,8 @@ Added in v3.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [getDual](#getdual)
   - [getTupleOrd](#gettupleord)
+  - [reverse](#reverse)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [instances](#instances)
@@ -89,27 +89,6 @@ Added in v3.0.0
 
 # combinators
 
-## getDual
-
-**Signature**
-
-```ts
-export declare const getDual: <A>(O: Ord<A>) => Ord<A>
-```
-
-**Example**
-
-```ts
-import { getDual } from 'fp-ts/Ord'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
-assert.deepStrictEqual(pipe(5, getDual(N.Ord).compare(6)), 1)
-```
-
-Added in v3.0.0
-
 ## getTupleOrd
 
 Given a tuple of `Ord`s returns an `Ord` for the tuple.
@@ -133,6 +112,27 @@ const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
 assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
+```
+
+Added in v3.0.0
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(O: Ord<A>) => Ord<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Ord'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
+assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
 ```
 
 Added in v3.0.0
@@ -188,7 +188,7 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/ReadonlyArray'
-import { contramap, getDual, getMonoid } from 'fp-ts/Ord'
+import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
 import { pipe } from 'fp-ts/function'
 import { fold } from 'fp-ts/Monoid'
 import * as B from 'fp-ts/boolean'
@@ -236,7 +236,7 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = fold(M)([getDual(byRememberMe), byName, byAge])
+const O2 = fold(M)([reverse(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },

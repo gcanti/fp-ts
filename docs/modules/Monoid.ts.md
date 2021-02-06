@@ -27,9 +27,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDual](#getdual)
   - [getStructMonoid](#getstructmonoid)
   - [getTupleMonoid](#gettuplemonoid)
+  - [reverse](#reverse)
 - [constructors](#constructors)
   - [getJoinMonoid](#getjoinmonoid)
   - [getMeetMonoid](#getmeetmonoid)
@@ -41,29 +41,6 @@ Added in v3.0.0
 ---
 
 # combinators
-
-## getDual
-
-The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
-
-**Signature**
-
-```ts
-export declare const getDual: <A>(M: Monoid<A>) => Monoid<A>
-```
-
-**Example**
-
-```ts
-import { getDual } from 'fp-ts/Monoid'
-import * as S from 'fp-ts/string'
-import { pipe } from 'fp-ts/function'
-
-const M = getDual(S.Monoid)
-assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
-```
-
-Added in v3.0.0
 
 ## getStructMonoid
 
@@ -123,6 +100,29 @@ assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
 
 const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
 assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
+```
+
+Added in v3.0.0
+
+## reverse
+
+The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+const M = reverse(S.Monoid)
+assert.deepStrictEqual(pipe('a', M.concat('b')), 'ba')
 ```
 
 Added in v3.0.0

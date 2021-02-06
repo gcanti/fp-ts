@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.11
+# 3.0.0-alpha.12
 
 - **Breaking Change**
 
@@ -60,7 +60,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Alternative`
     - remove `Applicative` dependency
   - `BooleanAlgebra`
-    - rename `getDualBooleanAlgebra` to `getDual`
+    - rename `getDualBooleanAlgebra` to `reverse`
     - remove `booleanAlgebraVoid`
   - `ChainRec`
     - drop `Chain` dependency
@@ -104,7 +104,7 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Applicative` dependency
   - `Monoid`
     - swap execution order in `getEndomorphismMonoid`
-    - rename `getDualMonoid` to `getDual`
+    - rename `getDualMonoid` to `reverse`
     - remove `monoidVoid`
   - `Option`
     - make `elem` pipeable
@@ -115,7 +115,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `gt` pipeable
     - make `leq` pipeable
     - make `geq` pipeable
-    - rename `getDualOrd` to `getDual`
+    - rename `getDualOrd` to `reverse`
   - `ReaderEither`
     - remove `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
     - remove `onFalse` parameter in `fromPredicate`
@@ -177,7 +177,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getChain`
   - `Semigroup`
     - make `fold` curried
-    - rename `getDualSemigroup` to `getDual`
+    - rename `getDualSemigroup` to `reverse`
     - remove `semigroupVoid`
   - `StateReaderTaskEither`
     - remove `onFalse` parameter in `fromPredicate`
