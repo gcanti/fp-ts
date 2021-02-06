@@ -177,8 +177,8 @@ high state of flux, you're at risk of it changing without notice.
     - remove `getChain`
   - `Semigroup`
     - make `fold` curried
-    - rename `getDualSemigroup` to `reverse`
-    - rename `getIntercalateSemigroup` to `intercalate`
+    - rename `getDualSemigroup` to `reverse` (see https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Semigroup.scala#L89)
+    - rename `getIntercalateSemigroup` to `intercalate` (see https://github.com/typelevel/cats/blob/master/kernel/src/main/scala/cats/kernel/Semigroup.scala#L101)
     - remove `semigroupVoid`
   - `StateReaderTaskEither`
     - remove `onFalse` parameter in `fromPredicate`
