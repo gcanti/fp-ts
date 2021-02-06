@@ -158,9 +158,6 @@ _.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Readon
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
-_.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr1) // $ExpectType Readonly<Record<string, number>>
-_.fromFoldable(getFirstSemigroup<number>(), A.Foldable)(arr2) // $ExpectType Readonly<Record<"a" | "b", number>>
-
 type Keys = 'key1' | 'key2'
 _.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
 _.getMonoid<Keys, number>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
@@ -170,10 +167,6 @@ _.getEq(N.Eq) // $ExpectType Eq<Readonly<Record<string, number>>>
 
 _.toUnfoldable(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
 _.toUnfoldable(A.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
-
-declare const fromFoldableF1: Foldable<'Test'>
-declare const fromFoldableInput1: HKT<'Test', ['a' | 'b', number]>
-_.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Readonly<Record<"a" | "b", number>>
 
 //
 // isSubrecord
@@ -192,3 +185,13 @@ pipe(recordString, _.lookup('a')) // $ExpectType Option<number>
 //
 
 pipe(r1, _.elem(N.Eq)(1)) // $ExpectType boolean
+
+//
+// fromFoldable
+//
+
+// $ExpectType Readonly<Record<string, string>>
+pipe(
+  ['a', 'b'],
+  _.fromFoldable(A.Foldable)(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
+)

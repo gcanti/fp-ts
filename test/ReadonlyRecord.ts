@@ -1,16 +1,15 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
-import * as S from '../src/string'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
-import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
+import { separated } from '../src/Separated'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
-import { separated } from '../src/Separated'
 
 const p = (n: number) => n > 2
 
@@ -231,36 +230,6 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(_.lookup('b')(noPrototype), O.none)
   })
 
-  it('fromFoldable', () => {
-    const First = getFirstSemigroup<number>()
-    U.deepStrictEqual(_.fromFoldable(First, RA.Foldable)([['a', 1]]), { a: 1 })
-    U.deepStrictEqual(
-      _.fromFoldable(
-        First,
-        RA.Foldable
-      )([
-        ['a', 1],
-        ['a', 2]
-      ]),
-      {
-        a: 1
-      }
-    )
-    const Last = getLastSemigroup<number>()
-    U.deepStrictEqual(
-      _.fromFoldable(
-        Last,
-        RA.Foldable
-      )([
-        ['a', 1],
-        ['a', 2]
-      ]),
-      {
-        a: 2
-      }
-    )
-  })
-
   it('toReadonlyArray', () => {
     U.deepStrictEqual(_.toReadonlyArray({ a: 1, b: 2 }), [
       ['a', 1],
@@ -378,30 +347,9 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(_.elem(N.Eq)(3)({ a: 1, b: 2 }), false)
   })
 
-  it('fromFoldableMap', () => {
-    const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): _.ReadonlyRecord<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), RA.Foldable)(pipe(keys, RA.zip(values)), identity)
-
-    U.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
-
-    interface User {
-      readonly id: string
-      readonly name: string
-    }
-
-    const users: ReadonlyArray<User> = [
-      { id: 'id1', name: 'name1' },
-      { id: 'id2', name: 'name2' },
-      { id: 'id1', name: 'name3' }
-    ]
-
-    U.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), RA.Foldable)(users, (user) => [user.id, user]),
-      {
-        id1: { id: 'id1', name: 'name3' },
-        id2: { id: 'id2', name: 'name2' }
-      }
-    )
+  it('fromFoldable', () => {
+    const f = _.fromFoldable(RA.Foldable)(N.SemigroupSum)((s: string) => [s, s.length])
+    assert.deepStrictEqual(f(['a', 'bb', 'bb']), { a: 1, bb: 4 })
   })
 
   it('getShow', () => {

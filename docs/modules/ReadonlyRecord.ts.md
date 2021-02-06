@@ -54,7 +54,6 @@ Added in v3.0.0
   - [upsertAt](#upsertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
-  - [fromFoldableMap](#fromfoldablemap)
   - [singleton](#singleton)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -539,95 +538,31 @@ Added in v3.0.0
 
 ## fromFoldable
 
-Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
-specified `Magma` to combine values for duplicate keys.
+Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
 
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends URIS3, A>(
-  M: Magma<A>,
+export declare function fromFoldable<F extends URIS4>(
+  F: Foldable4<F>
+): <B>(
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => ReadonlyRecord<string, B>
+export declare function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <K extends string, R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F extends URIS2, A>(
-  M: Magma<A>,
+): <B>(
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [string, B]) => <R, E>(fa: Kind3<F, R, E, A>) => ReadonlyRecord<string, B>
+export declare function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <K extends string, E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F extends URIS, A>(
-  M: Magma<A>,
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => <E>(fa: Kind2<F, E, A>) => ReadonlyRecord<string, B>
+export declare function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-export declare function fromFoldable<F, A>(
-  M: Magma<A>,
-  F: FoldableHKT<F>
-): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-```
-
-Added in v3.0.0
-
-## fromFoldableMap
-
-Create a `ReadonlyRecord` from a foldable collection using the specified functions to
-
-- map to key/value pairs
-- combine values for duplicate keys
-
-**Signature**
-
-```ts
-export declare function fromFoldableMap<F extends URIS3, B>(
-  M: Magma<B>,
-  F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F extends URIS2, B>(
-  M: Magma<B>,
-  F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F extends URIS, B>(
-  M: Magma<B>,
-  F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export declare function fromFoldableMap<F, B>(
-  M: Magma<B>,
-  F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-```
-
-**Example**
-
-```ts
-import { getLastSemigroup } from 'fp-ts/Semigroup'
-import { Foldable, zip } from 'fp-ts/ReadonlyArray'
-import { identity, pipe } from 'fp-ts/function'
-import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
-
-// like lodash `zipObject` or ramda `zipObj`
-export const zipObject = <K extends string, A>(
-  keys: ReadonlyArray<K>,
-  values: ReadonlyArray<A>
-): ReadonlyRecord<K, A> => fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
-
-assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
-
-// build a `ReadonlyRecord` from a field
-interface User {
-  id: string
-  name: string
-}
-
-const users: ReadonlyArray<User> = [
-  { id: 'id1', name: 'name1' },
-  { id: 'id2', name: 'name2' },
-  { id: 'id1', name: 'name3' },
-]
-
-assert.deepStrictEqual(
-  fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, (user) => [user.id, user]),
-  {
-    id1: { id: 'id1', name: 'name3' },
-    id2: { id: 'id2', name: 'name2' },
-  }
-)
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (fa: Kind<F, A>) => ReadonlyRecord<string, B>
+export declare function fromFoldable<F>(
+  F: Foldable_<F>
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (fa: HKT<F, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0

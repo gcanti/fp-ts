@@ -7,12 +7,12 @@ import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
-import { Foldable as FoldableHKT, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable as Foldable_, Foldable1, Foldable2, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Endomorphism, flow, identity, pipe, Predicate } from './function'
+import { Endomorphism, flow, pipe, Predicate } from './function'
 import { Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
@@ -49,104 +49,40 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 export const singleton = <K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> => ({ [k]: a } as any)
 
 /**
- * Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
- * specified `Magma` to combine values for duplicate keys.
+ * Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+ * specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
  *
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends URIS3, A>(
-  M: Magma<A>,
+export function fromFoldable<F extends URIS4>(
+  F: Foldable4<F>
+): <B>(
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => ReadonlyRecord<string, B>
+export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <K extends string, R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export function fromFoldable<F extends URIS2, A>(
-  M: Magma<A>,
+): <B>(
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [string, B]) => <R, E>(fa: Kind3<F, R, E, A>) => ReadonlyRecord<string, B>
+export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <K extends string, E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyRecord<K, A>
-export function fromFoldable<F extends URIS, A>(
-  M: Magma<A>,
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => <E>(fa: Kind2<F, E, A>) => ReadonlyRecord<string, B>
+export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-export function fromFoldable<F, A>(
-  M: Magma<A>,
-  F: FoldableHKT<F>
-): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
-export function fromFoldable<F, A>(
-  M: Magma<A>,
-  F: FoldableHKT<F>
-): (fka: HKT<F, readonly [string, A]>) => ReadonlyRecord<string, A> {
-  const fromFoldableMapM = fromFoldableMap(M, F)
-  return (fka) => fromFoldableMapM(fka, identity)
-}
-
-/**
- * Create a `ReadonlyRecord` from a foldable collection using the specified functions to
- *
- * - map to key/value pairs
- * - combine values for duplicate keys
- *
- * @example
- * import { getLastSemigroup } from 'fp-ts/Semigroup'
- * import { Foldable, zip } from 'fp-ts/ReadonlyArray'
- * import { identity, pipe } from 'fp-ts/function'
- * import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
- *
- * // like lodash `zipObject` or ramda `zipObj`
- * export const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): ReadonlyRecord<K, A> =>
- *   fromFoldableMap(getLastSemigroup<A>(), Foldable)(pipe(keys, zip(values)), identity)
- *
- * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
- *
- * // build a `ReadonlyRecord` from a field
- * interface User {
- *   id: string
- *   name: string
- * }
- *
- * const users: ReadonlyArray<User> = [
- *   { id: 'id1', name: 'name1' },
- *   { id: 'id2', name: 'name2' },
- *   { id: 'id1', name: 'name3' }
- * ]
- *
- * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), Foldable)(users, user => [user.id, user]), {
- *   id1: { id: 'id1', name: 'name3' },
- *   id2: { id: 'id2', name: 'name2' }
- * })
- *
- * @category constructors
- * @since 3.0.0
- */
-export function fromFoldableMap<F extends URIS3, B>(
-  M: Magma<B>,
-  F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export function fromFoldableMap<F extends URIS2, B>(
-  M: Magma<B>,
-  F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export function fromFoldableMap<F extends URIS, B>(
-  M: Magma<B>,
-  F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export function fromFoldableMap<F, B>(
-  M: Magma<B>,
-  F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
-export function fromFoldableMap<F, B>(
-  M: Magma<B>,
-  F: FoldableHKT<F>
-): <A>(fa: HKT<F, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B> {
-  return <A>(ta: HKT<F, A>, f: (a: A) => readonly [string, B]) => {
-    return pipe(
-      ta,
-      F.reduce<Record<string, B>, A>({}, (r, a) => {
-        const [k, b] = f(a)
-        r[k] = _hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
-        return r
-      })
-    )
-  }
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (fa: Kind<F, A>) => ReadonlyRecord<string, B>
+export function fromFoldable<F>(
+  F: Foldable_<F>
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (fa: HKT<F, A>) => ReadonlyRecord<string, B>
+export function fromFoldable<F>(
+  F: Foldable_<F>
+): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (fa: HKT<F, A>) => ReadonlyRecord<string, B> {
+  return <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) =>
+    F.reduce<Record<string, B>, A>({}, (r, a) => {
+      const [k, b] = f(a)
+      r[k] = _hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
+      return r
+    })
 }
 
 // -------------------------------------------------------------------------------------

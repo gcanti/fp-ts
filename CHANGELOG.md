@@ -164,6 +164,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `fromRecord`
     - remove `toRecord`
     - rename `insertAt` to `upsertAt` and add `insertAt`
+    - remove `fromFoldable`, curry `fromFoldableMap` and rename to `fromFoldable`
   - `ReadonlySet`
     - make `isSubset` pipeable
     - make `elem` pipeable
