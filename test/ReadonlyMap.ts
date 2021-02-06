@@ -187,7 +187,9 @@ describe('ReadonlyMap', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS1 = _.fromFoldable(eqUser, getFirstSemigroup<number>(), RA.Foldable)
+    const fromFoldableS1 = _.fromFoldable(RA.Foldable)(eqUser, getFirstSemigroup<number>())<readonly [User, number]>(
+      identity
+    )
     U.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
     U.deepStrictEqual(
       fromFoldableS1([
@@ -196,7 +198,9 @@ describe('ReadonlyMap', () => {
       ]),
       a1
     )
-    const fromFoldableS2 = _.fromFoldable(eqUser, getLastSemigroup<number>(), RA.Foldable)
+    const fromFoldableS2 = _.fromFoldable(RA.Foldable)(eqUser, getLastSemigroup<number>())<readonly [User, number]>(
+      identity
+    )
     U.deepStrictEqual(
       fromFoldableS2([
         [{ id: 'a' }, 1],

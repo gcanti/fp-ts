@@ -149,6 +149,7 @@ high state of flux, you're at risk of it changing without notice.
     - rename `insertAt` to `upsertAt` and add `insertAt`
     - change `deleteAt` signature
     - remove `readonlyMap`
+    - curry `fromFoldable`
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable
     - make `snoc` pipeable

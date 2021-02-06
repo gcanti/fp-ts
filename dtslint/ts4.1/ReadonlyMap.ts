@@ -1,4 +1,5 @@
 import * as _ from '../../src/ReadonlyMap'
+import * as RA from '../../src/ReadonlyArray'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
 import { pipe } from '../../src/function'
@@ -43,3 +44,13 @@ pipe(new Map([['a', 1]]), _.lookupWithKey(S.Eq)('a')) // $ExpectType Option<read
 //
 
 pipe(new Map([['a', 1]]), _.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]]))) // $ExpectType boolean
+
+//
+// fromFoldable
+//
+
+// $ExpectType ReadonlyMap<string, string>
+pipe(
+  ['a', 'b'],
+  _.fromFoldable(RA.Foldable)(S.Eq, S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
+)

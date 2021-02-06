@@ -270,32 +270,33 @@ Added in v3.0.0
 
 ## fromFoldable
 
-Create a `ReadonlyMap` from a foldable collection of key/value pairs, using the
-specified `Magma` to combine values for duplicate keys.
+Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
 
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends URIS3, K, A>(
+export declare function fromFoldable<F extends URIS4>(
+  F: Foldable4<F>
+): <K, B>(
   E: Eq<K>,
-  M: Magma<A>,
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind4<F, S, R, E, A>) => ReadonlyMap<K, B>
+export declare function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyMap<K, A>
-export declare function fromFoldable<F extends URIS2, K, A>(
+): <K, B>(
   E: Eq<K>,
-  M: Magma<A>,
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [K, B]) => <R, E>(fka: Kind3<F, R, E, A>) => ReadonlyMap<K, B>
+export declare function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyMap<K, A>
-export declare function fromFoldable<F extends URIS, K, A>(
-  E: Eq<K>,
-  M: Magma<A>,
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => <E>(fka: Kind2<F, E, A>) => ReadonlyMap<K, B>
+export declare function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): (fka: Kind<F, readonly [K, A]>) => ReadonlyMap<K, A>
-export declare function fromFoldable<F, K, A>(
-  E: Eq<K>,
-  M: Magma<A>,
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: Kind<F, A>) => ReadonlyMap<K, B>
+export declare function fromFoldable<F>(
   F: Foldable<F>
-): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A>
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: HKT<F, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0

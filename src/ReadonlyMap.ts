@@ -7,12 +7,12 @@ import { Either, isLeft } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
+import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Endomorphism, flow, pipe, Predicate } from './function'
 import { Functor2 } from './Functor'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
@@ -41,51 +41,49 @@ import { separated, Separated } from './Separated'
 export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a]])
 
 /**
- * Create a `ReadonlyMap` from a foldable collection of key/value pairs, using the
- * specified `Magma` to combine values for duplicate keys.
+ * Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
+ * specified `Magma` to combine values for duplicate keys, and the specified `f` to map to key/value pairs.
  *
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends URIS3, K, A>(
+export function fromFoldable<F extends URIS4>(
+  F: Foldable4<F>
+): <K, B>(
   E: Eq<K>,
-  M: Magma<A>,
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind4<F, S, R, E, A>) => ReadonlyMap<K, B>
+export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F extends URIS2, K, A>(
+): <K, B>(
   E: Eq<K>,
-  M: Magma<A>,
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [K, B]) => <R, E>(fka: Kind3<F, R, E, A>) => ReadonlyMap<K, B>
+export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F extends URIS, K, A>(
-  E: Eq<K>,
-  M: Magma<A>,
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => <E>(fka: Kind2<F, E, A>) => ReadonlyMap<K, B>
+export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): (fka: Kind<F, readonly [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F, K, A>(
-  E: Eq<K>,
-  M: Magma<A>,
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: Kind<F, A>) => ReadonlyMap<K, B>
+export function fromFoldable<F>(
   F: Foldable<F>
-): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A>
-export function fromFoldable<F, K, A>(
-  E: Eq<K>,
-  M: Magma<A>,
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: HKT<F, A>) => ReadonlyMap<K, B>
+export function fromFoldable<F>(
   F: Foldable<F>
-): (fka: HKT<F, readonly [K, A]>) => ReadonlyMap<K, A> {
-  return (fka: HKT<F, readonly [K, A]>) => {
+): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: HKT<F, A>) => ReadonlyMap<K, B> {
+  return <K, B>(E: Eq<K>, M: Magma<B>) => {
     const lookupWithKeyE = lookupWithKey(E)
-    return pipe(
-      fka,
-      F.reduce<Map<K, A>, readonly [K, A]>(new Map<K, A>(), (b, [k, a]) => {
-        const oka = lookupWithKeyE(k)(b)
+    return <A>(f: (a: A) => readonly [K, B]) =>
+      F.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
+        const [k, b] = f(a)
+        const oka = lookupWithKeyE(k)(out)
         if (O.isSome(oka)) {
-          b.set(oka.value[0], M.concat(a)(oka.value[1]))
+          out.set(oka.value[0], M.concat(b)(oka.value[1]))
         } else {
-          b.set(k, a)
+          out.set(k, b)
         }
-        return b
+        return out
       })
-    )
   }
 }
 
