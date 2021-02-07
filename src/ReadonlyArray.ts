@@ -1608,20 +1608,31 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
 })
 
 /**
- * Returns a `Monoid` for `ReadonlyArray<A>`
+ * Returns a `Semigroup` for `ReadonlyArray<A>`.
  *
  * @example
- * import { getMonoid } from 'fp-ts/ReadonlyArray'
+ * import { getSemigroup } from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * const M = getMonoid<number>()
- * assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
+ * const S = getSemigroup<number>()
+ * assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
+ *
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroup = <A = never>(): Monoid<ReadonlyArray<A>> => ({
+  concat: (second) => (first) => first.concat(second),
+  empty
+})
+
+/**
+ * Returns a `Monoid` for `ReadonlyArray<A>`.
  *
  * @category instances
  * @since 3.0.0
  */
 export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => first.concat(second),
+  concat: getSemigroup<A>().concat,
   empty
 })
 

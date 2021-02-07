@@ -123,6 +123,7 @@ Added in v3.0.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
+  - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
 - [utils](#utils)
   - [ApT](#apt)
@@ -1552,22 +1553,12 @@ Added in v3.0.0
 
 ## getMonoid
 
-Returns a `Monoid` for `ReadonlyArray<A>`
+Returns a `Monoid` for `ReadonlyArray<A>`.
 
 **Signature**
 
 ```ts
 export declare const getMonoid: <A = never>() => Monoid<readonly A[]>
-```
-
-**Example**
-
-```ts
-import { getMonoid } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-const M = getMonoid<number>()
-assert.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -1596,6 +1587,28 @@ const O = getOrd(S.Ord)
 assert.strictEqual(pipe(['b'], O.compare(['a'])), 1)
 assert.strictEqual(pipe(['a'], O.compare(['a'])), 0)
 assert.strictEqual(pipe(['a'], O.compare(['b'])), -1)
+```
+
+Added in v3.0.0
+
+## getSemigroup
+
+Returns a `Semigroup` for `ReadonlyArray<A>`.
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A = never>() => Monoid<readonly A[]>
+```
+
+**Example**
+
+```ts
+import { getSemigroup } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+const S = getSemigroup<number>()
+assert.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
