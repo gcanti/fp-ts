@@ -644,13 +644,8 @@ const defaultSeparated =
  * @category Compactable
  * @since 2.0.0
  */
-export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) => {
-  const o = pipe(
-    ma,
-    map((e) => separated(getLeft(e), getRight(e)))
-  )
-  return isNone(o) ? defaultSeparated : o.value
-}
+export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
+  isNone(ma) ? defaultSeparated : separated(getLeft(ma.value), getRight(ma.value))
 
 /**
  * @category Filterable
