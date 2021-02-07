@@ -20,10 +20,12 @@ import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
-import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -128,7 +130,7 @@ export const tail = <A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => nea.
  * @since 3.0.0
  */
 export const min = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
-  const S = getMeetSemigroup(O)
+  const S = Se.min(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 
@@ -137,7 +139,7 @@ export const min = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
  * @since 3.0.0
  */
 export const max = <A>(O: Ord<A>): ((nea: ReadonlyNonEmptyArray<A>) => A) => {
-  const S = getJoinSemigroup(O)
+  const S = Se.max(O)
   return (nea) => nea.reduce((a, acc) => S.concat(acc)(a))
 }
 

@@ -8,7 +8,7 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
-import { getFirstSemigroup, getLastSemigroup, getStructSemigroup } from '../src/Semigroup'
+import { first, last, struct } from '../src/Semigroup'
 import { getStructShow, Show } from '../src/Show'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -45,7 +45,7 @@ const ordKey = Ord.fromCompare<Key>((second) => {
 
 const eqValue: Eq<Value> = fromEquals((second) => (first) => first.value % 3 === second.value % 3)
 
-const semigroupValue = getStructSemigroup({ value: N.SemigroupSum })
+const semigroupValue = struct({ value: N.SemigroupSum })
 
 const key1 = { id: 1 }
 const value1 = { value: 1 }
@@ -187,9 +187,7 @@ describe('ReadonlyMap', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS1 = _.fromFoldable(RA.Foldable)(eqUser, getFirstSemigroup<number>())<readonly [User, number]>(
-      identity
-    )
+    const fromFoldableS1 = _.fromFoldable(RA.Foldable)(eqUser, first<number>())<readonly [User, number]>(identity)
     U.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
     U.deepStrictEqual(
       fromFoldableS1([
@@ -198,9 +196,7 @@ describe('ReadonlyMap', () => {
       ]),
       a1
     )
-    const fromFoldableS2 = _.fromFoldable(RA.Foldable)(eqUser, getLastSemigroup<number>())<readonly [User, number]>(
-      identity
-    )
+    const fromFoldableS2 = _.fromFoldable(RA.Foldable)(eqUser, last<number>())<readonly [User, number]>(identity)
     U.deepStrictEqual(
       fromFoldableS2([
         [{ id: 'a' }, 1],

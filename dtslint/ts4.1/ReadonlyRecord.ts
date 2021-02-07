@@ -5,9 +5,6 @@ import * as A from '../../src/ReadonlyArray'
 import * as E from '../../src/Either'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
-import { getFirstSemigroup } from '../../src/Semigroup'
-import { Foldable } from '../../src/Foldable'
-import { HKT } from '../../src/HKT'
 
 declare const do1: { [key: string]: O.Option<number> }
 declare const ro1: Readonly<Record<'a' | 'b', O.Option<number>>>

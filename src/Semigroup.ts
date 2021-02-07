@@ -15,9 +15,11 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism } from './function'
+import * as F from './function'
 import { Magma } from './Magma'
-import { max, min, Ord } from './Ord'
+import * as O from './Ord'
+
+import Endomorphism = F.Endomorphism
 
 // -------------------------------------------------------------------------------------
 // model
@@ -37,46 +39,46 @@ export interface Semigroup<A> extends Magma<A> {}
  * Get a semigroup where `concat` will return the minimum, based on the provided order.
  *
  * @example
- * import { getMeetSemigroup } from 'fp-ts/Semigroup'
+ * import { min } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = getMeetSemigroup(N.Ord)
+ * const S = min(N.Ord)
  *
  * assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: min(O)
+export const min = <A>(o: O.Ord<A>): Semigroup<A> => ({
+  concat: O.min(o)
 })
 
 /**
  * Get a semigroup where `concat` will return the maximum, based on the provided order.
  *
  * @example
- * import { getJoinSemigroup } from 'fp-ts/Semigroup'
+ * import { max } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const S = getJoinSemigroup(N.Ord)
+ * const S = max(N.Ord)
  *
  * assert.deepStrictEqual(pipe(1, S.concat(2)), 2)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: max(O)
+export const max = <A>(o: O.Ord<A>): Semigroup<A> => ({
+  concat: O.max(o)
 })
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const getConstantSemigroup = <A>(a: A): Semigroup<A> => ({
-  concat: () => () => a
+export const constant = <A>(a: A): Semigroup<A> => ({
+  concat: F.constant(F.constant(a))
 })
 
 // -------------------------------------------------------------------------------------
@@ -104,7 +106,7 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * Given a struct of semigroups returns a semigroup for the struct.
  *
  * @example
- * import { getStructSemigroup } from 'fp-ts/Semigroup'
+ * import { struct } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
@@ -113,7 +115,7 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  *   readonly y: number
  * }
  *
- * const S = getStructSemigroup<Point>({
+ * const S = struct<Point>({
  *   x: N.SemigroupSum,
  *   y: N.SemigroupSum
  * })
@@ -123,7 +125,7 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
+export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
   concat: (second) => (first) => {
     const r: A = {} as any
     // tslint:disable-next-line: forin
@@ -138,22 +140,22 @@ export const getStructSemigroup = <A>(semigroups: { [K in keyof A]: Semigroup<A[
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
- * import { getTupleSemigroup } from 'fp-ts/Semigroup'
+ * import { tuple } from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
  *
- * const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
+ * const S1 = tuple(S.Semigroup, N.SemigroupSum)
  * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
  *
- * const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+ * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getTupleSemigroup = <A extends ReadonlyArray<unknown>>(
+export const tuple = <A extends ReadonlyArray<unknown>>(
   ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
 ): Semigroup<A> => ({
   concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
@@ -190,13 +192,13 @@ export const intercalate = <A>(middle: A): Endomorphism<Semigroup<A>> => (S) => 
  * import * as S from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(1, S.getFirstSemigroup<number>().concat(2)), 1)
+ * assert.deepStrictEqual(pipe(1, S.first<number>().concat(2)), 1)
  *
  * @category instances
  * @since 3.0.0
  */
-export const getFirstSemigroup = <A = never>(): Semigroup<A> => ({
-  concat: () => (first) => first
+export const first = <A = never>(): Semigroup<A> => ({
+  concat: F.constant(F.identity)
 })
 
 /**
@@ -206,13 +208,13 @@ export const getFirstSemigroup = <A = never>(): Semigroup<A> => ({
  * import * as S from 'fp-ts/Semigroup'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe(1, S.getLastSemigroup<number>().concat(2)), 2)
+ * assert.deepStrictEqual(pipe(1, S.last<number>().concat(2)), 2)
  *
  * @category instances
  * @since 3.0.0
  */
-export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
-  concat: (second) => () => second
+export const last = <A = never>(): Semigroup<A> => ({
+  concat: F.constant
 })
 
 /**
@@ -227,13 +229,13 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ({
  *   age: number
  * }
  *
- * const S1 = S.getObjectSemigroup<Person>()
+ * const S1 = S.object<Person>()
  * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
  *
  * @category instances
  * @since 3.0.0
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
+export const object = <A extends object = never>(): Semigroup<A> => ({
   concat: (second) => (first) => Object.assign({}, first, second)
 })
 

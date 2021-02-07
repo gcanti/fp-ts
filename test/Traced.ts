@@ -1,5 +1,5 @@
 import { pipe } from '../src/function'
-import { getStructMonoid, Monoid } from '../src/Monoid'
+import { struct, Monoid } from '../src/Monoid'
 import * as _ from '../src/Traced'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
@@ -12,7 +12,7 @@ interface Settings {
   readonly settingsTravis: boolean
 }
 
-const M: Monoid<Settings> = getStructMonoid({
+const M: Monoid<Settings> = struct({
   settingsHasLibrary: B.MonoidAny,
   settingsGitHub: B.MonoidAny,
   settingsTravis: B.MonoidAny

@@ -60,13 +60,13 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * Given a tuple of `Ord`s returns an `Ord` for the tuple.
  *
  * @example
- * import { getTupleOrd } from 'fp-ts/Ord'
+ * import { tuple } from 'fp-ts/Ord'
  * import * as B from 'fp-ts/boolean'
  * import * as S from 'fp-ts/string'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
+ * const O = tuple(S.Ord, N.Ord, B.Ord)
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
  * assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
@@ -74,7 +74,7 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const getTupleOrd = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<A> =>
   fromCompare((second) => (first) => {
     let i = 0
     for (; i < ords.length - 1; i++) {

@@ -40,19 +40,19 @@ export interface Monoid<A> extends S.Semigroup<A> {
  * The `empty` value is the `top` value.
  *
  * @example
- * import { getMeetMonoid } from 'fp-ts/Monoid'
+ * import { min } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const M = getMeetMonoid(N.Bounded)
+ * const M = min(N.Bounded)
  *
  * assert.deepStrictEqual(pipe(1, M.concat(2)), 1)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.getMeetSemigroup(B).concat,
+export const min = <A>(B: Bounded<A>): Monoid<A> => ({
+  concat: S.min(B).concat,
   empty: B.top
 })
 
@@ -62,19 +62,19 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * The `empty` value is the `bottom` value.
  *
  * @example
- * import { getJoinMonoid } from 'fp-ts/Monoid'
+ * import { max } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const M = getJoinMonoid(N.Bounded)
+ * const M = max(N.Bounded)
  *
  * assert.deepStrictEqual(pipe(1, M.concat(2)), 2)
  *
  * @category constructors
  * @since 3.0.0
  */
-export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: S.getJoinSemigroup(B).concat,
+export const max = <A>(B: Bounded<A>): Monoid<A> => ({
+  concat: S.max(B).concat,
   empty: B.bottom
 })
 
@@ -105,7 +105,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  * Given a struct of monoids returns a monoid for the struct.
  *
  * @example
- * import { getStructMonoid } from 'fp-ts/Monoid'
+ * import { struct } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
@@ -114,7 +114,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  *   readonly y: number
  * }
  *
- * const M = getStructMonoid<Point>({
+ * const M = struct<Point>({
  *   x: N.MonoidSum,
  *   y: N.MonoidSum
  * })
@@ -124,14 +124,14 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
+export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
   const empty: A = {} as any
   // tslint:disable-next-line: forin
   for (const key in monoids) {
     empty[key] = monoids[key].empty
   }
   return {
-    concat: S.getStructSemigroup(monoids).concat,
+    concat: S.struct(monoids).concat,
     empty
   }
 }
@@ -140,26 +140,24 @@ export const getStructMonoid = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): M
  * Given a tuple of monoids returns a monoid for the tuple.
  *
  * @example
- * import { getTupleMonoid } from 'fp-ts/Monoid'
+ * import { tuple } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
  *
- * const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
+ * const M1 = tuple(S.Monoid, N.MonoidSum)
  * assert.deepStrictEqual(pipe(['a', 1], M1.concat(['b', 2])), ['ab', 3])
  *
- * const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
+ * const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
  * @since 3.0.0
  */
-export const getTupleMonoid = <A extends ReadonlyArray<unknown>>(
-  ...monoids: { [K in keyof A]: Monoid<A[K]> }
-): Monoid<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> =>
   ({
-    concat: S.getTupleSemigroup(...monoids).concat,
+    concat: S.tuple(...monoids).concat,
     empty: monoids.map((m) => m.empty)
   } as any)
 

@@ -9,7 +9,7 @@ import * as N from '../src/number'
 
 describe('Ord', () => {
   it('getTupleOrd', () => {
-    const O = _.getTupleOrd(S.Ord, N.Ord, B.Ord)
+    const O = _.tuple(S.Ord, N.Ord, B.Ord)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
     deepStrictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)

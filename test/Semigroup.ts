@@ -7,10 +7,10 @@ import * as B from '../src/boolean'
 import * as S from '../src/string'
 
 describe('Semigroup', () => {
-  it('getTupleSemigroup', () => {
-    const S1 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum)
+  it('tuple', () => {
+    const S1 = _.tuple(S.Semigroup, N.SemigroupSum)
     deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
-    const S2 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+    const S2 = _.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
     deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
@@ -18,17 +18,17 @@ describe('Semigroup', () => {
     deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
-  it('getMeetSemigroup', () => {
-    const S = _.getMeetSemigroup(N.Ord)
+  it('min', () => {
+    const S = _.min(N.Ord)
     deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
-  it('getJoinSemigroup', () => {
-    const S = _.getJoinSemigroup(N.Ord)
+  it('max', () => {
+    const S = _.max(N.Ord)
     deepStrictEqual(pipe(1, S.concat(2)), 2)
   })
 
-  it('getObjectSemigroup', () => {
+  it('object', () => {
     type T = {
       readonly foo?: number
       readonly bar: string
@@ -40,15 +40,15 @@ describe('Semigroup', () => {
     const bar: T = {
       bar: '123'
     }
-    const S = _.getObjectSemigroup<T>()
+    const S = _.object<T>()
     const result = pipe(foo, S.concat(bar))
     const expected = Object.assign({}, foo, bar)
     deepStrictEqual(result.foo, expected.foo)
     deepStrictEqual(result.bar, expected.bar)
   })
 
-  it('getFirstSemigroup', () => {
-    const S = _.getFirstSemigroup<number>()
+  it('first', () => {
+    const S = _.first<number>()
     deepStrictEqual(pipe(1, S.concat(2)), 1)
   })
 
@@ -63,8 +63,8 @@ describe('Semigroup', () => {
     assert.strictEqual(pipe('a', IS.concat('b'), IS.concat('c')), 'a b c')
   })
 
-  it('getConstantSemigroup', () => {
-    const S = _.getConstantSemigroup('a')
+  it('constant', () => {
+    const S = _.constant('a')
     assert.strictEqual(S.concat('b')('c'), 'a')
   })
 })

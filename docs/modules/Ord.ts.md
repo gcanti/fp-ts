@@ -23,8 +23,8 @@ Added in v3.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [getTupleOrd](#gettupleord)
   - [reverse](#reverse)
+  - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [defaults](#defaults)
@@ -91,33 +91,6 @@ Added in v3.0.0
 
 # combinators
 
-## getTupleOrd
-
-Given a tuple of `Ord`s returns an `Ord` for the tuple.
-
-**Signature**
-
-```ts
-export declare const getTupleOrd: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
-```
-
-**Example**
-
-```ts
-import { getTupleOrd } from 'fp-ts/Ord'
-import * as B from 'fp-ts/boolean'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import { pipe } from 'fp-ts/function'
-
-const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
-assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
-```
-
-Added in v3.0.0
-
 ## reverse
 
 **Signature**
@@ -135,6 +108,33 @@ import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(5, N.Ord.compare(6)), -1)
 assert.deepStrictEqual(pipe(5, reverse(N.Ord).compare(6)), 1)
+```
+
+Added in v3.0.0
+
+## tuple
+
+Given a tuple of `Ord`s returns an `Ord` for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Ord'
+import * as B from 'fp-ts/boolean'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+const O = tuple(S.Ord, N.Ord, B.Ord)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['b', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 2, true])), -1)
+assert.strictEqual(pipe(['a', 1, true], O.compare(['a', 1, false])), 1)
 ```
 
 Added in v3.0.0
