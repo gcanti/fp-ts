@@ -27,6 +27,8 @@ Added in v3.0.0
   - [reverse](#reverse)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
+- [defaults](#defaults)
+  - [equalsDefault](#equalsdefault)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
@@ -145,6 +147,20 @@ Added in v3.0.0
 
 ```ts
 export declare const fromCompare: <A>(compare: (second: A) => (first: A) => O.Ordering) => Ord<A>
+```
+
+Added in v3.0.0
+
+# defaults
+
+## equalsDefault
+
+**Signature**
+
+```ts
+export declare const equalsDefault: <A>(
+  compare: (second: A) => (first: A) => O.Ordering
+) => (second: A) => (first: A) => boolean
 ```
 
 Added in v3.0.0

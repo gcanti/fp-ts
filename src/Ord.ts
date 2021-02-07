@@ -29,6 +29,17 @@ export interface Ord<A> extends Eq<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// defaults
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category defaults
+ * @since 3.0.0
+ */
+export const equalsDefault = <A>(compare: Ord<A>['compare']): Eq<A>['equals'] => (second) => (first) =>
+  first === second || compare(second)(first) === 0
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -36,19 +47,10 @@ export interface Ord<A> extends Eq<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => {
-  const optimizedCompare: Ord<A>['compare'] = (second) => {
-    const f = compare(second)
-    return (first): O.Ordering => (first === second ? 0 : f(first))
-  }
-  return {
-    equals: (second) => {
-      const f = optimizedCompare(second)
-      return (first) => f(first) === 0
-    },
-    compare: optimizedCompare
-  }
-}
+export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
+  equals: equalsDefault(compare),
+  compare: (second) => (first) => (first === second ? 0 : compare(second)(first))
+})
 
 // -------------------------------------------------------------------------------------
 // combinators
