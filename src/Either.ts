@@ -160,7 +160,7 @@ export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
 /**
  * @since 3.0.0
  */
-export type Json = boolean | number | string | null | ReadonlyArray<Json> | JsonRecord
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
 
 /**
  * @since 3.0.0
@@ -168,6 +168,11 @@ export type Json = boolean | number | string | null | ReadonlyArray<Json> | Json
 export interface JsonRecord {
   readonly [key: string]: Json
 }
+
+/**
+ * @since 3.0.0
+ */
+export interface JsonArray extends ReadonlyArray<Json> {}
 
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.

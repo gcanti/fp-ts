@@ -114,6 +114,7 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [Json (type alias)](#json-type-alias)
+  - [JsonArray (interface)](#jsonarray-interface)
   - [JsonRecord (interface)](#jsonrecord-interface)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -1295,7 +1296,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Json = boolean | number | string | null | ReadonlyArray<Json> | JsonRecord
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
+```
+
+Added in v3.0.0
+
+## JsonArray (interface)
+
+**Signature**
+
+```ts
+export interface JsonArray extends ReadonlyArray<Json> {}
 ```
 
 Added in v3.0.0
