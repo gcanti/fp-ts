@@ -232,6 +232,16 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -463,18 +473,6 @@ export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArra
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

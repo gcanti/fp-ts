@@ -154,6 +154,16 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -163,18 +173,6 @@ export const Comonad: Comonad2<URI> = {
   extend: _extend,
   extract
 }
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

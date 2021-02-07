@@ -902,6 +902,16 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#__PURE__*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -1175,18 +1185,6 @@ export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
 export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
   return (a: A): a is B => isSome(getOption(a))
 }
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // do notation
