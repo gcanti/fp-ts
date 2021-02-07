@@ -15,11 +15,9 @@
  *
  * @since 3.0.0
  */
-import * as F from './function'
+import { Endomorphism, identity } from './function'
 import { Magma } from './Magma'
 import * as O from './Ord'
-
-import Endomorphism = F.Endomorphism
 
 // -------------------------------------------------------------------------------------
 // model
@@ -78,7 +76,7 @@ export const max = <A>(o: O.Ord<A>): Semigroup<A> => ({
  * @since 3.0.0
  */
 export const constant = <A>(a: A): Semigroup<A> => ({
-  concat: F.constant(F.constant(a))
+  concat: () => () => a
 })
 
 // -------------------------------------------------------------------------------------
@@ -198,7 +196,7 @@ export const intercalate = <A>(middle: A): Endomorphism<Semigroup<A>> => (S) => 
  * @since 3.0.0
  */
 export const first = <A = never>(): Semigroup<A> => ({
-  concat: F.constant(F.identity)
+  concat: () => identity
 })
 
 /**
@@ -214,7 +212,7 @@ export const first = <A = never>(): Semigroup<A> => ({
  * @since 3.0.0
  */
 export const last = <A = never>(): Semigroup<A> => ({
-  concat: F.constant
+  concat: (a) => () => a
 })
 
 /**
