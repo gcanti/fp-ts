@@ -883,7 +883,7 @@ export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => 
   collect((k, a) => [k, a])
 
 /**
- * Unfolds a `ReadonlyRecord` into a list of key/value pairs.
+ * Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
  *
  * @since 3.0.0
  */

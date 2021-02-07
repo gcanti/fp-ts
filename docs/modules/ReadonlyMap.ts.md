@@ -609,19 +609,17 @@ Added in v3.0.0
 
 ## toUnfoldable
 
-Unfolds a `ReadonlyMap` into a list of key/value pairs.
+Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 
 **Signature**
 
 ```ts
-export declare function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
+export declare function toUnfoldable<F extends URIS>(
   U: Unfoldable1<F>
-): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
-export declare function toUnfoldable<K, F>(
-  O: Ord<K>,
+): <K>(o: Ord<K>) => <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
+export declare function toUnfoldable<F>(
   U: Unfoldable<F>
-): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
+): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
 ```
 
 Added in v3.0.0

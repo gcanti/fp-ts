@@ -830,23 +830,25 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
   collect(O)((k, a) => [k, a] as const)
 
 /**
- * Unfolds a `ReadonlyMap` into a list of key/value pairs.
+ * Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
  *
  * @since 3.0.0
  */
-export function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
+export function toUnfoldable<F extends URIS>(
   U: Unfoldable1<F>
-): <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
-export function toUnfoldable<K, F>(
-  ord: Ord<K>,
+): <K>(o: Ord<K>) => <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
+export function toUnfoldable<F>(
   U: Unfoldable<F>
-): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
-  const toReadonlyArrayO = toReadonlyArray(ord)
-  return (d) => {
-    const arr = toReadonlyArrayO(d)
-    const len = arr.length
-    return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
+): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
+export function toUnfoldable<F>(
+  U: Unfoldable<F>
+): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
+  return (o) => {
+    const toReadonlyArray_ = toReadonlyArray(o)
+    return (m) => {
+      const arr = toReadonlyArray_(m)
+      const len = arr.length
+      return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
+    }
   }
 }

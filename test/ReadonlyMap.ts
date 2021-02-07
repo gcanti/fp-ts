@@ -451,10 +451,10 @@ describe('ReadonlyMap', () => {
 
   it('toUnfoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
-    const toUnfoldableO = _.toUnfoldable(ordUser, RA.Unfoldable)
+    const toUnfoldableO = _.toUnfoldable(RA.Unfoldable)(ordUser)
     U.deepStrictEqual(toUnfoldableO(a1), [[{ id: 'a' }, 1]])
 
-    const toUnfoldable = _.toUnfoldable(ordKey, RA.Unfoldable)
+    const toUnfoldable = _.toUnfoldable(RA.Unfoldable)(ordKey)
     U.deepStrictEqual(
       toUnfoldable(
         new Map([

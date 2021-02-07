@@ -904,7 +904,7 @@ Added in v3.0.0
 
 ## toUnfoldable
 
-Unfolds a `ReadonlyRecord` into a list of key/value pairs.
+Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
 
 **Signature**
 

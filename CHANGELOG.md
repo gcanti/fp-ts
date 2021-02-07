@@ -150,6 +150,7 @@ high state of flux, you're at risk of it changing without notice.
     - change `deleteAt` signature
     - remove `readonlyMap`
     - curry `fromFoldable`
+    - curry `toUnfoldable`
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable
     - make `snoc` pipeable
