@@ -290,6 +290,16 @@ export const Functor: Functor2<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -438,15 +448,3 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
  */
 export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<TaskThese<E, A>> =>
   getApplySemigroup(T.ApplySeq)(TH.getSemigroup(SE, SA))
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)

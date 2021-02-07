@@ -516,6 +516,16 @@ export const Functor: Functor4<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -874,18 +884,6 @@ export const sequenceArray: <S, R, E, A>(
 ) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

@@ -196,6 +196,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Functor`
     - add `map` helper (@gcanti)
     - add `bindTo` helper (@gcanti)
+    - add `flap` derivable, #1393 (@williamareynolds)
   - `FunctorWithIndex`
     - add `mapWithIndex` helper (@gcanti)
   - `Either`

@@ -1340,6 +1340,16 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -1637,18 +1647,6 @@ export const apS: <A, N extends string, B>(
   name: Exclude<N, keyof A>,
   fb: Array<B>
 ) => (fa: Array<A>) => Array<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RA.apS as any
-
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // deprecated

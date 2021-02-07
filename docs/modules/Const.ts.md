@@ -110,6 +110,8 @@ Added in v2.0.0
 
 ## flap
 
+Derivable from `Functor`.
+
 **Signature**
 
 ```ts

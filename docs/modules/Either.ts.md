@@ -594,6 +594,8 @@ Added in v2.9.0
 
 ## flap
 
+Derivable from `Functor`.
+
 **Signature**
 
 ```ts
