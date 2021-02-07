@@ -636,7 +636,9 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) 
  */
 export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparated = separated(none, none)
+const defaultSeparated =
+  /*#__PURE__*/
+  separated(none, none)
 
 /**
  * @category Compactable
