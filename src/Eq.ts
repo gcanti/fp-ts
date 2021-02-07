@@ -48,7 +48,7 @@ export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
   fromEquals((second) => (first) => {
     for (const key in eqs) {
       if (!eqs[key].equals(second[key])(first[key])) {
@@ -62,12 +62,12 @@ export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
  * @example
- * import { getTupleEq } from 'fp-ts/Eq'
+ * import { tuple } from 'fp-ts/Eq'
  * import * as S from 'fp-ts/string'
  * import * as N from 'fp-ts/number'
  * import * as B from 'fp-ts/boolean'
  *
- * const E = getTupleEq(S.Eq, N.Eq, B.Eq)
+ * const E = tuple(S.Eq, N.Eq, B.Eq)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
  * assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
  * assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
@@ -76,7 +76,7 @@ export const getStructEq = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
  * @category combinators
  * @since 3.0.0
  */
-export const getTupleEq = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
   fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
 
 // -------------------------------------------------------------------------------------

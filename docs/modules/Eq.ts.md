@@ -23,8 +23,8 @@ Added in v3.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [getStructEq](#getstructeq)
-  - [getTupleEq](#gettupleeq)
+  - [struct](#struct)
+  - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
@@ -51,35 +51,35 @@ Added in v3.0.0
 
 # combinators
 
-## getStructEq
+## struct
 
 **Signature**
 
 ```ts
-export declare const getStructEq: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
 ```
 
 Added in v3.0.0
 
-## getTupleEq
+## tuple
 
 Given a tuple of `Eq`s returns a `Eq` for the tuple
 
 **Signature**
 
 ```ts
-export declare const getTupleEq: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
 ```
 
 **Example**
 
 ```ts
-import { getTupleEq } from 'fp-ts/Eq'
+import { tuple } from 'fp-ts/Eq'
 import * as S from 'fp-ts/string'
 import * as N from 'fp-ts/number'
 import * as B from 'fp-ts/boolean'
 
-const E = getTupleEq(S.Eq, N.Eq, B.Eq)
+const E = tuple(S.Eq, N.Eq, B.Eq)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
 assert.strictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
 assert.strictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)

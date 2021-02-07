@@ -4,15 +4,15 @@ import * as N from '../../src/number'
 import * as B from '../../src/boolean'
 
 //
-// getTupleEq
+// tuple
 //
 
 // $ExpectType Eq<[string, number, boolean]>
-_.getTupleEq(S.Eq, N.Eq, B.Eq)
+_.tuple(S.Eq, N.Eq, B.Eq)
 
 //
-// getStructEq
+// struct
 //
 
 // $ExpectType Eq<{ a: string; b: number; c: boolean; }>
-_.getStructEq({ a: S.Eq, b: N.Eq, c: B.Eq })
+_.struct({ a: S.Eq, b: N.Eq, c: B.Eq })

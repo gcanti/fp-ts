@@ -20,8 +20,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getStructShow](#getstructshow)
-  - [getTupleShow](#gettupleshow)
+  - [struct](#struct)
+  - [tuple](#tuple)
 - [type classes](#type-classes)
   - [Show (interface)](#show-interface)
 
@@ -29,22 +29,22 @@ Added in v3.0.0
 
 # combinators
 
-## getStructShow
+## struct
 
 **Signature**
 
 ```ts
-export declare const getStructShow: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
 ```
 
 Added in v3.0.0
 
-## getTupleShow
+## tuple
 
 **Signature**
 
 ```ts
-export declare const getTupleShow: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+export declare const tuple: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
 ```
 
 Added in v3.0.0

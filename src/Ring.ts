@@ -32,11 +32,11 @@ export interface Ring<A> extends Semiring<A> {
  * Given a tuple of `Ring`s returns a `Ring` for the tuple
  *
  * @example
- * import { getTupleRing } from 'fp-ts/Ring'
+ * import { tuple } from 'fp-ts/Ring'
  * import * as N from 'fp-ts/number'
  * import { pipe } from 'fp-ts/function'
  *
- * const R = getTupleRing(N.Field, N.Field, N.Field)
+ * const R = tuple(N.Field, N.Field, N.Field)
  * assert.deepStrictEqual(pipe([1, 2, 3], R.add([4, 5, 6])), [5, 7, 9])
  * assert.deepStrictEqual(pipe([1, 2, 3], R.mul([4, 5, 6])), [4, 10, 18])
  * assert.deepStrictEqual(R.one, [1, 1, 1])
@@ -46,7 +46,7 @@ export interface Ring<A> extends Semiring<A> {
  * @category combinators
  * @since 3.0.0
  */
-export const getTupleRing = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<A> =>
   ({
     add: (second: any) => (first: any) => rings.map((R, i) => R.add(second[i])(first[i])),
     zero: rings.map((R) => R.zero),
