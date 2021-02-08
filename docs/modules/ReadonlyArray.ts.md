@@ -68,7 +68,7 @@ Added in v3.0.0
   - [dropRight](#dropright)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
-  - [prependToAll](#prependtoall)
+  - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
   - [rotate](#rotate)
@@ -694,22 +694,23 @@ assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4]
 
 Added in v3.0.0
 
-## prependToAll
+## prependAll
 
 Prepend an element to every member of a `ReadonlyArray`
 
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(a: A) => (as: readonly A[]) => readonly A[]
+export declare const prependAll: <A>(a: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
 
 ```ts
-import { prependToAll } from 'fp-ts/ReadonlyArray'
+import { prependAll } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v3.0.0

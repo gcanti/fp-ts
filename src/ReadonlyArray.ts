@@ -850,14 +850,15 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * Prepend an element to every member of a `ReadonlyArray`
  *
  * @example
- * import { prependToAll } from 'fp-ts/ReadonlyArray'
+ * import { prependAll } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 3.0.0
  */
-export const prependToAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const prependAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   for (const e of as) {
@@ -880,7 +881,7 @@ export const prependToAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A
  */
 export const intersperse = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const len = as.length
-  return len === 0 ? as : cons(as[0])(prependToAll(a)(as.slice(1, len)))
+  return len === 0 ? as : cons(as[0])(prependAll(a)(as.slice(1, len)))
 }
 
 /**

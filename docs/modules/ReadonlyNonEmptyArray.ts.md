@@ -41,7 +41,7 @@ Added in v3.0.0
   - [group](#group)
   - [groupSort](#groupsort)
   - [intersperse](#intersperse)
-  - [prependToAll](#prependtoall)
+  - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
   - [zip](#zip)
@@ -371,23 +371,23 @@ assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4]
 
 Added in v3.0.0
 
-## prependToAll
+## prependAll
 
 Prepend an element to every member of an array
 
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const prependAll: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([1, 2, 3, 4], prependToAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
+assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v3.0.0

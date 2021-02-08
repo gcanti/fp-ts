@@ -379,17 +379,15 @@ export const unzip: <A, B>(
  * Prepend an element to every member of an array
  *
  * @example
- * import { prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependToAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3, 4], prependAll(9)), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 3.0.0
  */
-export const prependToAll: <A>(
-  a: A
-) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependToAll as any
+export const prependAll: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependAll as any
 
 /**
  * Places an element in between members of an array
