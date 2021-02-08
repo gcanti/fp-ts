@@ -12,6 +12,7 @@
 import { Contravariant1 } from './Contravariant'
 import { flow } from './function'
 import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -118,8 +119,16 @@ export const EqStrict: Eq<unknown> = {
  * @category instances
  * @since 3.0.0
  */
+export const getSemigroup = <A>(): Semigroup<Eq<A>> => ({
+  concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a))
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const getMonoid = <A>(): Monoid<Eq<A>> => ({
-  concat: (second) => (first) => fromEquals((b) => (a) => first.equals(b)(a) && second.equals(b)(a)),
+  concat: getSemigroup<A>().concat,
   empty: {
     equals: () => () => true
   }

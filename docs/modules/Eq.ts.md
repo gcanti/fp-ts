@@ -32,6 +32,7 @@ Added in v3.0.0
   - [EqStrict](#eqstrict)
   - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
   - [Eq (interface)](#eq-interface)
 
@@ -138,6 +139,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getMonoid: <A>() => Monoid<Eq<A>>
+```
+
+Added in v3.0.0
+
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
 ```
 
 Added in v3.0.0
