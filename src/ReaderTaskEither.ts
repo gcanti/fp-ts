@@ -202,20 +202,20 @@ export const fromTask: FromTask3<URI>['fromTask'] = rightTask
  * @category destructors
  * @since 3.0.0
  */
-export const fold =
+export const match =
   /*#__PURE__*/
-  ET.fold(RT.Monad)
+  ET.match(RT.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW: <E, R2, B, A, R3, C>(
+export const matchW: <E, R2, B, A, R3, C>(
   onLeft: (e: E) => ReaderTask<R2, B>,
   onRight: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = fold as any
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = match as any
 
 /**
  * @category destructors

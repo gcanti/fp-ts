@@ -157,12 +157,12 @@ describe('Either', () => {
     })
   })
 
-  it('fold', () => {
+  it('match', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    const fold = _.fold(f, g)
-    U.deepStrictEqual(fold(_.left('abc')), 'left3')
-    U.deepStrictEqual(fold(_.right('abc')), 'right3')
+    const match = _.match(f, g)
+    U.deepStrictEqual(match(_.left('abc')), 'left3')
+    U.deepStrictEqual(match(_.right('abc')), 'right3')
   })
 
   it('getOrElse', () => {

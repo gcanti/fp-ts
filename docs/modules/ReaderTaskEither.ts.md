@@ -73,10 +73,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -766,34 +766,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <E, R, B, A>(
-  onLeft: (e: E) => RT.ReaderTask<R, B>,
-  onRight: (a: A) => RT.ReaderTask<R, B>
-) => (ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => RT.ReaderTask<R2, B>,
-  onRight: (a: A) => RT.ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -816,6 +788,34 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <E, R2, B>(
   onLeft: (e: E) => RT.ReaderTask<R2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, R, B, A>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>,
+  onRight: (a: A) => RT.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0

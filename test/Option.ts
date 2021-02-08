@@ -199,12 +199,12 @@ describe('Option', () => {
     U.deepStrictEqual(_.zero(), _.none)
   })
 
-  it('fold', () => {
+  it('match', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    const fold = _.fold(f, g)
-    U.deepStrictEqual(fold(_.none), 'none')
-    U.deepStrictEqual(fold(_.some('abc')), 'some3')
+    const match = _.match(f, g)
+    U.deepStrictEqual(match(_.none), 'none')
+    U.deepStrictEqual(match(_.some('abc')), 'some3')
   })
 
   it('toNullable', () => {

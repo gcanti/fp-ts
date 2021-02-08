@@ -18,12 +18,12 @@ Added in v3.0.0
   - [ap](#ap)
   - [bimap](#bimap)
   - [chain](#chain)
-  - [fold](#fold)
   - [getOrElse](#getorelse)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
   - [mapLeft](#mapleft)
+  - [match](#match)
   - [orElse](#orelse)
   - [right](#right)
   - [rightF](#rightf)
@@ -133,27 +133,6 @@ export declare function chain<M>(
 
 Added in v3.0.0
 
-## fold
-
-**Signature**
-
-```ts
-export declare function fold<M extends URIS2>(
-  M: Monad2<M>
-): <E, R, B, A>(
-  onLeft: (e: E) => Kind2<M, R, B>,
-  onRight: (a: A) => Kind2<M, R, B>
-) => (ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, B>
-export declare function fold<M extends URIS>(
-  M: Monad1<M>
-): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
-export declare function fold<M>(
-  M: Monad<M>
-): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -230,6 +209,27 @@ export declare function mapLeft<F extends URIS>(
 export declare function mapLeft<F>(
   F: Functor<F>
 ): <E, G>(f: (e: E) => G) => <A>(fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, A>>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare function match<M extends URIS2>(
+  M: Monad2<M>
+): <E, R, B, A>(
+  onLeft: (e: E) => Kind2<M, R, B>,
+  onRight: (a: A) => Kind2<M, R, B>
+) => (ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, B>
+export declare function match<M extends URIS>(
+  M: Monad1<M>
+): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
+export declare function match<M>(
+  M: Monad<M>
+): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```
 
 Added in v3.0.0

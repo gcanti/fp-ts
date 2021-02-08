@@ -195,7 +195,7 @@ export function unfoldForestM<M>(
  * This is also known as the catamorphism on trees.
  *
  * @example
- * import { fold, make } from 'fp-ts/Tree'
+ * import { match, make } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = make(1, [make(2), make(3)])
@@ -203,18 +203,18 @@ export function unfoldForestM<M>(
  * const sum = (as: ReadonlyArray<number>) => as.reduce((a, acc) => a + acc, 0)
  *
  * // Sum the values in a tree:
- * assert.deepStrictEqual(pipe(t, fold((a, bs) => a + sum(bs))), 6)
+ * assert.deepStrictEqual(pipe(t, match((a, bs) => a + sum(bs))), 6)
  *
  * // Find the maximum value in the tree:
- * assert.deepStrictEqual(pipe(t, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
+ * assert.deepStrictEqual(pipe(t, match((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
  *
  * // Count the number of leaves in the tree:
- * assert.deepStrictEqual(pipe(t, fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))), 2)
+ * assert.deepStrictEqual(pipe(t, match((_, bs) => (bs.length === 0 ? 1 : sum(bs)))), 2)
  *
  * @category destructors
  * @since 3.0.0
  */
-export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A>) => B) => {
+export const match = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A>) => B) => {
   const go = (tree: Tree<A>): B => f(tree.value, tree.forest.map(go))
   return go
 }

@@ -55,10 +55,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
@@ -464,34 +464,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <B, A>(
-  onNone: () => T.Task<B>,
-  onSome: (a: A) => T.Task<B>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B>
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <B, A, C>(
-  onNone: () => T.Task<B>,
-  onSome: (a: A) => T.Task<C>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B | C>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -510,6 +482,34 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: O.Option<A>) => B | A
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(
+  onNone: () => T.Task<B>,
+  onSome: (a: A) => T.Task<B>
+) => (ma: T.Task<O.Option<A>>) => T.Task<B>
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(
+  onNone: () => T.Task<B>,
+  onSome: (a: A) => T.Task<C>
+) => (ma: T.Task<O.Option<A>>) => T.Task<B | C>
 ```
 
 Added in v3.0.0

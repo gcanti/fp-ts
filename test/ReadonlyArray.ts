@@ -702,7 +702,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('foldLeft', () => {
-    const len: <A>(as: ReadonlyArray<A>) => number = _.foldLeft(
+    const len: <A>(as: ReadonlyArray<A>) => number = _.matchLeft(
       () => 0,
       (_, tail) => 1 + len(tail)
     )
@@ -710,7 +710,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('foldRight', () => {
-    const len: <A>(as: ReadonlyArray<A>) => number = _.foldRight(
+    const len: <A>(as: ReadonlyArray<A>) => number = _.matchRight(
       () => 0,
       (init, _) => 1 + len(init)
     )

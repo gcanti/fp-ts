@@ -96,8 +96,8 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [foldLeft](#foldleft)
-  - [foldRight](#foldright)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -1279,14 +1279,14 @@ Added in v3.0.0
 
 # destructors
 
-## foldLeft
+## matchLeft
 
 Break a `ReadonlyArray` into its first element and remaining elements
 
 **Signature**
 
 ```ts
-export declare const foldLeft: <B, A>(
+export declare const matchLeft: <B, A>(
   onEmpty: Lazy<B>,
   onCons: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
@@ -1295,9 +1295,9 @@ export declare const foldLeft: <B, A>(
 **Example**
 
 ```ts
-import { foldLeft } from 'fp-ts/ReadonlyArray'
+import { matchLeft } from 'fp-ts/ReadonlyArray'
 
-const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(
+const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
   () => 0,
   (_, tail) => 1 + len(tail)
 )
@@ -1306,14 +1306,14 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v3.0.0
 
-## foldRight
+## matchRight
 
 Break a `ReadonlyArray` into its initial elements and the last element
 
 **Signature**
 
 ```ts
-export declare const foldRight: <B, A>(
+export declare const matchRight: <B, A>(
   onEmpty: Lazy<B>,
   onCons: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B

@@ -114,13 +114,13 @@ describe('ReaderEither', () => {
     })
   })
 
-  it('fold', () => {
-    const fold = _.fold(
+  it('match', () => {
+    const match = _.match(
       (s: string) => R.of(s.length),
       (n: number) => R.of(n * 2)
     )
-    U.deepStrictEqual(fold(_.right(1))({}), 2)
-    U.deepStrictEqual(fold(_.left('aaa'))({}), 3)
+    U.deepStrictEqual(match(_.right(1))({}), 2)
+    U.deepStrictEqual(match(_.left('aaa'))({}), 3)
   })
 
   it('getOrElse', () => {

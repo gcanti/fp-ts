@@ -47,7 +47,7 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
+  - [match](#match)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -371,7 +371,7 @@ Added in v3.0.0
 
 # destructors
 
-## fold
+## match
 
 Fold a tree into a "summary" value in depth-first order.
 
@@ -382,13 +382,13 @@ This is also known as the catamorphism on trees.
 **Signature**
 
 ```ts
-export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
+export declare const match: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
 ```
 
 **Example**
 
 ```ts
-import { fold, make } from 'fp-ts/Tree'
+import { match, make } from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
 
 const t = make(1, [make(2), make(3)])
@@ -399,7 +399,7 @@ const sum = (as: ReadonlyArray<number>) => as.reduce((a, acc) => a + acc, 0)
 assert.deepStrictEqual(
   pipe(
     t,
-    fold((a, bs) => a + sum(bs))
+    match((a, bs) => a + sum(bs))
   ),
   6
 )
@@ -408,7 +408,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     t,
-    fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
+    match((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
   ),
   3
 )
@@ -417,7 +417,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     t,
-    fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
+    match((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
   ),
   2
 )

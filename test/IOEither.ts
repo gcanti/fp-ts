@@ -149,16 +149,16 @@ describe('IOEither', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('fold', () => {
+  it('match', () => {
     U.deepStrictEqual(
-      _.fold(
+      _.match(
         () => I.of('left'),
         () => I.of('right')
       )(_.right(1))(),
       'right'
     )
     U.deepStrictEqual(
-      _.fold(
+      _.match(
         () => I.of('left'),
         () => I.of('right')
       )(_.left(1))(),

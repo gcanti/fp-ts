@@ -188,13 +188,13 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.left('error'))({})(), E.left('error'))
   })
 
-  it('fold', async () => {
-    const fold = _.fold(
+  it('match', async () => {
+    const match = _.match(
       (l: string) => R.of(T.of(l.length)),
       (a: number) => R.of(T.of(a * 2))
     )
-    U.deepStrictEqual(await fold(_.right(1))({})(), 2)
-    U.deepStrictEqual(await fold(_.left('err'))({})(), 3)
+    U.deepStrictEqual(await match(_.right(1))({})(), 2)
+    U.deepStrictEqual(await match(_.left('err'))({})(), 3)
   })
 
   it('getOrElse', async () => {

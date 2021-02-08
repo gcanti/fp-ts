@@ -77,10 +77,10 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [guards](#guards)
   - [isLeft](#isleft)
@@ -885,45 +885,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
-if the value is a `Right` the inner value is applied to the second function.
-
-**Signature**
-
-```ts
-export declare const fold: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-const onLeft = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
-
-const onRight = (value: number): string => `Ok: ${value}`
-
-assert.strictEqual(pipe(E.right(1), E.fold(onLeft, onRight)), 'Ok: 1')
-assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.fold(onLeft, onRight)), 'Errors: error 1, error 2')
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -966,6 +927,45 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
+```
+
+Added in v3.0.0
+
+## match
+
+Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
+if the value is a `Right` the inner value is applied to the second function.
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+const onLeft = (errors: ReadonlyArray<string>): string => `Errors: ${errors.join(', ')}`
+
+const onRight = (value: number): string => `Ok: ${value}`
+
+assert.strictEqual(pipe(E.right(1), E.match(onLeft, onRight)), 'Ok: 1')
+assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onLeft, onRight)), 'Errors: error 1, error 2')
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 Added in v3.0.0

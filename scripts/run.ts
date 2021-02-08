@@ -1,10 +1,10 @@
-import { fold } from '../src/Either'
+import { match } from '../src/Either'
 import { TaskEither } from '../src/TaskEither'
 
 export function run<A>(eff: TaskEither<Error, A>): void {
   eff()
     .then(
-      fold(
+      match(
         (e) => {
           throw e
         },

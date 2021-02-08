@@ -56,10 +56,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -549,34 +549,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <E, R, B, A>(
-  onLeft: (e: E) => R.Reader<R, B>,
-  onRight: (a: A) => R.Reader<R, B>
-) => (ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, B>
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => R.Reader<R2, B>,
-  onRight: (a: A) => R.Reader<R3, C>
-) => <R1>(ma: R.Reader<R1, E.Either<E, A>>) => R.Reader<R1 & R2 & R3, B | C>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -599,6 +571,34 @@ Less strict version of [`getOrElse`](#getOrElse).
 export declare const getOrElseW: <E, R2, B>(
   onLeft: (e: E) => R.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2, B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, R, B, A>(
+  onLeft: (e: E) => R.Reader<R, B>,
+  onRight: (a: A) => R.Reader<R, B>
+) => (ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, B>
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => R.Reader<R2, B>,
+  onRight: (a: A) => R.Reader<R3, C>
+) => <R1>(ma: R.Reader<R1, E.Either<E, A>>) => R.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0

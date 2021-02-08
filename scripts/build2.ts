@@ -143,7 +143,7 @@ const tree = pipe(
   writeModules,
   TE.chainFirst(() => copyProjectFiles),
   TE.chainFirst(() => writeProjectPackageJson),
-  TE.fold(
+  TE.match(
     (e) => T.fromIO(Console.error(e)),
     (modules) => T.fromIO(Console.log(`${modules.length} module(s) found`))
   )

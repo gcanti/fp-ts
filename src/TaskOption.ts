@@ -124,20 +124,20 @@ export const fromTask =
  * @category destructors
  * @since 3.0.0
  */
-export const fold =
+export const match =
   /*#__PURE__*/
-  OT.fold(T.Monad)
+  OT.match(T.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW: <B, A, C>(
+export const matchW: <B, A, C>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<C>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B | C> = fold as any
+) => (ma: T.Task<O.Option<A>>) => T.Task<B | C> = match as any
 
 /**
  * @category destructors

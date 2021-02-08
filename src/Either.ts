@@ -273,12 +273,12 @@ export const fromPredicate: {
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
+export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
@@ -296,14 +296,14 @@ export const foldW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => 
  * assert.strictEqual(
  *   pipe(
  *     E.right(1),
- *     E.fold(onLeft, onRight)
+ *     E.match(onLeft, onRight)
  *   ),
  *   'Ok: 1'
  * )
  * assert.strictEqual(
  *   pipe(
  *     E.left(['error 1', 'error 2']),
- *     E.fold(onLeft, onRight)
+ *     E.match(onLeft, onRight)
  *   ),
  *   'Errors: error 1, error 2'
  * )
@@ -311,7 +311,7 @@ export const foldW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => 
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = foldW
+export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = matchW
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -355,7 +355,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
  */
 export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
   /*#__PURE__*/
-  foldW(identity, identity)
+  matchW(identity, identity)
 
 // -------------------------------------------------------------------------------------
 // combinators

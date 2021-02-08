@@ -164,10 +164,10 @@ describe('Tree', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('fold', () => {
+  it('match', () => {
     const t = _.make(1, [_.make(2), _.make(3)])
     U.deepStrictEqual(
-      _.fold((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
+      _.match((a: number, bs: ReadonlyArray<number>) => bs.reduce((b, acc) => Math.max(b, acc), a))(t),
       3
     )
   })

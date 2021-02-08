@@ -187,13 +187,13 @@ describe('These', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('fold', () => {
+  it('match', () => {
     const len = (s: string) => s.length
     const f = (s: string, n: number) => len(s) + U.double(n)
-    const fold = _.fold(len, U.double, f)
-    U.deepStrictEqual(fold(_.left('foo')), 3)
-    U.deepStrictEqual(fold(_.right(1)), 2)
-    U.deepStrictEqual(fold(_.both('foo', 1)), 5)
+    const match = _.match(len, U.double, f)
+    U.deepStrictEqual(match(_.left('foo')), 3)
+    U.deepStrictEqual(match(_.right(1)), 2)
+    U.deepStrictEqual(match(_.both('foo', 1)), 5)
   })
 
   // -------------------------------------------------------------------------------------

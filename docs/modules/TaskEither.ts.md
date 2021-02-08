@@ -71,10 +71,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -727,34 +727,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>
-) => (ma: T.Task<E.Either<E, A>>) => T.Task<B>
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>
-) => (ma: TaskEither<E, A>) => T.Task<B | C>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -773,6 +745,34 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>
+) => (ma: T.Task<E.Either<E, A>>) => T.Task<B>
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>
+) => (ma: TaskEither<E, A>) => T.Task<B | C>
 ```
 
 Added in v3.0.0

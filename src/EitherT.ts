@@ -169,22 +169,22 @@ export function mapLeft<F>(
 /**
  * @since 3.0.0
  */
-export function fold<M extends URIS2>(
+export function match<M extends URIS2>(
   M: Monad2<M>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind2<M, R, B>,
   onRight: (a: A) => Kind2<M, R, B>
 ) => (ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, B>
-export function fold<M extends URIS>(
+export function match<M extends URIS>(
   M: Monad1<M>
 ): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B> {
-  return (onLeft, onRight) => M.chain(E.fold(onLeft, onRight))
+  return (onLeft, onRight) => M.chain(E.match(onLeft, onRight))
 }
 
 /**
@@ -202,7 +202,7 @@ export function getOrElse<M>(
 export function getOrElse<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A> {
-  return (onLeft) => M.chain(E.fold(onLeft, M.of))
+  return (onLeft) => M.chain(E.match(onLeft, M.of))
 }
 
 /**
@@ -257,7 +257,7 @@ export function altValidation<M, E>(
   S: Semigroup<E>
 ): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
   return (second) => (first) =>
-    pipe(first, M.chain(E.fold((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), right(M))))
+    pipe(first, M.chain(E.match((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), right(M))))
 }
 
 /**

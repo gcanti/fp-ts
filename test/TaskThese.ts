@@ -122,15 +122,15 @@ describe('TaskThese', () => {
   // destructors
   // -------------------------------------------------------------------------------------
 
-  it('fold', async () => {
-    const f = _.fold(
+  it('match', async () => {
+    const match = _.match(
       (e) => T.of(`left ${e}`),
       (a) => T.of(`right ${a}`),
       (e, a) => T.of(`both ${e} ${a}`)
     )
-    U.deepStrictEqual(await pipe(_.right(1), f)(), 'right 1')
-    U.deepStrictEqual(await pipe(_.left('a'), f)(), 'left a')
-    U.deepStrictEqual(await pipe(_.both('a', 1), f)(), 'both a 1')
+    U.deepStrictEqual(await pipe(_.right(1), match)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.left('a'), match)(), 'left a')
+    U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
   })
 
   // -------------------------------------------------------------------------------------

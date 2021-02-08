@@ -60,10 +60,10 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -560,34 +560,6 @@ Added in v3.0.0
 
 # destructors
 
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <E, B, A>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<B>
-) => (ma: I.IO<E.Either<E, A>>) => I.IO<B>
-```
-
-Added in v3.0.0
-
-## foldW
-
-Less strict version of [`fold`](#fold).
-
-**Signature**
-
-```ts
-export declare const foldW: <E, B, A, C>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<C>
-) => (ma: IOEither<E, A>) => I.IO<B | C>
-```
-
-Added in v3.0.0
-
 ## getOrElse
 
 **Signature**
@@ -606,6 +578,34 @@ Less strict version of [`getOrElse`](#getOrElse).
 
 ```ts
 export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
+```
+
+Added in v3.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<B>
+) => (ma: I.IO<E.Either<E, A>>) => I.IO<B>
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 
 Added in v3.0.0

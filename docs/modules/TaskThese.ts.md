@@ -37,8 +37,8 @@ Added in v3.0.0
   - [rightIO](#rightio)
   - [rightTask](#righttask)
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
+  - [match](#match)
+  - [matchW](#matchw)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -275,12 +275,12 @@ Added in v3.0.0
 
 # destructors
 
-## fold
+## match
 
 **Signature**
 
 ```ts
-export declare const fold: <E, B, A>(
+export declare const match: <E, B, A>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<B>,
   onBoth: (e: E, a: A) => T.Task<B>
@@ -289,14 +289,14 @@ export declare const fold: <E, B, A>(
 
 Added in v3.0.0
 
-## foldW
+## matchW
 
-Less strict version of [`fold`](#fold).
+Less strict version of [`match`](#match).
 
 **Signature**
 
 ```ts
-export declare const foldW: <E, B, A, C, D>(
+export declare const matchW: <E, B, A, C, D>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>

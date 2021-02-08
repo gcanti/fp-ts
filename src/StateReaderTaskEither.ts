@@ -204,7 +204,7 @@ export const fromState =
  */
 export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
-  E.fold((e) => left(e), right)
+  E.match((e) => left(e), right)
 
 /**
  * @category constructors

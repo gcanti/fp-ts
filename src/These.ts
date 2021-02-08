@@ -140,12 +140,12 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
+export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
   fa: These<E, A>
 ): B | C | D => {
   switch (fa._tag) {
@@ -162,11 +162,11 @@ export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, 
  * @category destructors
  * @since 3.0.0
  */
-export const fold: <E, B, A>(
+export const match: <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (fa: These<E, A>) => B = foldW
+) => (fa: These<E, A>) => B = matchW
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -176,7 +176,7 @@ export const fold: <E, B, A>(
  * @category combinators
  * @since 3.0.0
  */
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))
 
 // -------------------------------------------------------------------------------------
 // guards
@@ -318,7 +318,7 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> => ({
-  show: fold(
+  show: match(
     (l) => `left(${SE.show(l)})`,
     (a) => `right(${SA.show(a)})`,
     (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`

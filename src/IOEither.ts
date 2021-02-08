@@ -110,20 +110,20 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  * @category destructors
  * @since 3.0.0
  */
-export const fold =
+export const match =
   /*#__PURE__*/
-  ET.fold(I.Monad)
+  ET.match(I.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW: <E, B, A, C>(
+export const matchW: <E, B, A, C>(
   onLeft: (e: E) => IO<B>,
   onRight: (a: A) => IO<C>
-) => (ma: IOEither<E, A>) => IO<B | C> = fold as any
+) => (ma: IOEither<E, A>) => IO<B | C> = match as any
 
 /**
  * @category destructors

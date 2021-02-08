@@ -3,16 +3,16 @@ import { pipe } from '../src/function'
 import { deepStrictEqual } from './util'
 
 describe('boolean', () => {
-  it('fold', () => {
+  it('match', () => {
     deepStrictEqual(
-      _.fold(
+      _.match(
         () => 'false',
         () => 'true'
       )(true),
       'true'
     )
     deepStrictEqual(
-      _.fold(
+      _.match(
         () => 'false',
         () => 'true'
       )(false),

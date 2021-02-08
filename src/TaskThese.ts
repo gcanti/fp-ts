@@ -126,21 +126,21 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
  * @category destructors
  * @since 3.0.0
  */
-export const fold =
+export const match =
   /*#__PURE__*/
-  TT.fold(T.Monad)
+  TT.match(T.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldW: <E, B, A, C, D>(
+export const matchW: <E, B, A, C, D>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = fold as any
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = match as any
 
 // -------------------------------------------------------------------------------------
 // combinators

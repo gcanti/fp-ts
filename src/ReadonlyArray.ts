@@ -92,15 +92,15 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * Break a `ReadonlyArray` into its first element and remaining elements
  *
  * @example
- * import { foldLeft } from 'fp-ts/ReadonlyArray'
+ * import { matchLeft } from 'fp-ts/ReadonlyArray'
  *
- * const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
+ * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
  * @category destructors
  * @since 3.0.0
  */
-export const foldLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+export const matchLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
   as: ReadonlyArray<A>
 ): B => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
 
@@ -110,7 +110,7 @@ export const foldLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: Readonl
  * @category destructors
  * @since 3.0.0
  */
-export const foldRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+export const matchRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
   as: ReadonlyArray<A>
 ): B => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
 

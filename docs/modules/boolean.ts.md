@@ -13,8 +13,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [destructors](#destructors)
-  - [fold](#fold)
-  - [foldW](#foldw)
+  - [match](#match)
+  - [matchW](#matchw)
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
@@ -29,16 +29,16 @@ Added in v3.0.0
 
 # destructors
 
-## fold
+## match
 
-Defines the fold over a boolean value.
+Defines the match over a boolean value.
 Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
 If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
 
 **Signature**
 
 ```ts
-export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+export declare const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
 ```
 
 **Example**
@@ -46,13 +46,13 @@ export declare const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boo
 ```ts
 import { some, map } from 'fp-ts/Option'
 import { pipe } from 'fp-ts/function'
-import { fold } from 'fp-ts/boolean'
+import { match } from 'fp-ts/boolean'
 
 assert.deepStrictEqual(
   pipe(
     some(true),
     map(
-      fold(
+      match(
         () => 'false',
         () => 'true'
       )
@@ -64,14 +64,14 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## foldW
+## matchW
 
-Less strict version of [`fold`](#fold).
+Less strict version of [`match`](#match).
 
 **Signature**
 
 ```ts
-export declare const foldW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
+export declare const matchW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
 ```
 
 Added in v3.0.0

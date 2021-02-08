@@ -127,11 +127,11 @@ export function chain<M, E>(
     pipe(
       ma,
       M.chain(
-        T.fold(_left, f, (e1, a) =>
+        T.match(_left, f, (e1, a) =>
           pipe(
             f(a),
             M.map(
-              T.fold(
+              T.match(
                 (e2) => T.left(S.concat(e2)(e1)),
                 (b) => T.both(e1, b),
                 (e2, b) => T.both(S.concat(e2)(e1), b)
@@ -182,35 +182,35 @@ export function mapLeft<F>(
 /**
  * @since 3.0.0
  */
-export function fold<M extends URIS2>(
+export function match<M extends URIS2>(
   M: Monad2<M>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind2<M, R, B>,
   onRight: (a: A) => Kind2<M, R, B>,
   onBoth: (e: E, a: A) => Kind2<M, R, B>
 ) => (ma: Kind2<M, R, These<E, A>>) => Kind2<M, R, B>
-export function fold<M extends URIS>(
+export function match<M extends URIS>(
   M: Monad1<M>
 ): <E, B, A>(
   onLeft: (e: E) => Kind<M, B>,
   onRight: (a: A) => Kind<M, B>,
   onBoth: (e: E, a: A) => Kind<M, B>
 ) => (ma: Kind<M, These<E, A>>) => Kind<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
   onRight: (a: A) => HKT<M, B>,
   onBoth: (e: E, a: A) => HKT<M, B>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
   onRight: (a: A) => HKT<M, B>,
   onBoth: (e: E, a: A) => HKT<M, B>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, B> {
-  return (onLeft, onRight, onBoth) => M.chain(T.fold(onLeft, onRight, onBoth))
+  return (onLeft, onRight, onBoth) => M.chain(T.match(onLeft, onRight, onBoth))
 }
 
 /**
