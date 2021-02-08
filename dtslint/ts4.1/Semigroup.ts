@@ -19,8 +19,8 @@ _.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 _.struct({ a: S.Semigroup, b: N.SemigroupSum, c: B.SemigroupAll })
 
 //
-// fold
+// concatAll
 //
 
 // $ExpectType string
-pipe(['a'], _.fold(S.Semigroup)(''))
+pipe(['a'], _.concatAll(S.Semigroup)(''))
