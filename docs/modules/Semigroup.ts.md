@@ -42,7 +42,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
-  - [fold](#fold)
+  - [concatAll](#concatall)
 
 ---
 
@@ -302,7 +302,7 @@ Added in v3.0.0
 
 # utils
 
-## fold
+## concatAll
 
 Given a sequence of `as`, concat them and return the total.
 
@@ -311,16 +311,16 @@ If `as` is empty, return the provided `startWith` value.
 **Signature**
 
 ```ts
-export declare const fold: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
+export declare const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
 ```
 
 **Example**
 
 ```ts
-import { fold } from 'fp-ts/Semigroup'
+import { concatAll } from 'fp-ts/Semigroup'
 import * as N from 'fp-ts/number'
 
-const sum = fold(N.SemigroupSum)(0)
+const sum = concatAll(N.SemigroupSum)(0)
 
 assert.deepStrictEqual(sum([1, 2, 3]), 6)
 assert.deepStrictEqual(sum([]), 0)

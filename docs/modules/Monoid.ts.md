@@ -36,7 +36,7 @@ Added in v3.0.0
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
-  - [fold](#fold)
+  - [concatAll](#concatall)
 
 ---
 
@@ -195,7 +195,7 @@ Added in v3.0.0
 
 # utils
 
-## fold
+## concatAll
 
 Given a sequence of `as`, concat them and return the total.
 
@@ -204,17 +204,17 @@ If `as` is empty, return the monoid `empty` value.
 **Signature**
 
 ```ts
-export declare const fold: <A>(M: Monoid<A>) => (as: readonly A[]) => A
+export declare const concatAll: <A>(M: Monoid<A>) => (as: readonly A[]) => A
 ```
 
 **Example**
 
 ```ts
-import { fold } from 'fp-ts/Monoid'
+import { concatAll } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
-assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
+assert.deepStrictEqual(concatAll(N.MonoidSum)([1, 2, 3]), 6)
+assert.deepStrictEqual(concatAll(N.MonoidSum)([]), 0)
 ```
 
 Added in v3.0.0

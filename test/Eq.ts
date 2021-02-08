@@ -1,6 +1,6 @@
 import * as _ from '../src/Eq'
 import { pipe } from '../src/function'
-import { fold } from '../src/Monoid'
+import { concatAll } from '../src/Monoid'
 import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
@@ -71,7 +71,7 @@ describe('Eq', () => {
     const eqFst: _.Eq<T> = _.contramap((x: T) => x[0])(S.Eq)
     const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(N.Eq)
     const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
-    const eq = fold(M)([eqFst, eqSnd, eq3rd])
+    const eq = concatAll(M)([eqFst, eqSnd, eq3rd])
     deepStrictEqual(eq.equals(['a', 1, true])(['a', 1, true]), true)
     deepStrictEqual(eq.equals(['a', 1, true])(['b', 1, true]), false)
     deepStrictEqual(eq.equals(['a', 1, true])(['a', 2, true]), false)

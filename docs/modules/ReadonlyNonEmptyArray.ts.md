@@ -91,10 +91,10 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [concatAll](#concatall)
   - [extract](#extract)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
-  - [fold](#fold)
   - [init](#init)
   - [insertAt](#insertat)
   - [last](#last)
@@ -935,6 +935,16 @@ export declare const bindTo: <N>(name: N) => <A>(fa: ReadonlyNonEmptyArray<A>) =
 
 Added in v3.0.0
 
+## concatAll
+
+**Signature**
+
+```ts
+export declare const concatAll: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v3.0.0
+
 ## extract
 
 **Signature**
@@ -968,16 +978,6 @@ Added in v3.0.0
 export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
 ) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0

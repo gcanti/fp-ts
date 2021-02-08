@@ -14,8 +14,8 @@ describe('Semigroup', () => {
     deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
-  it('fold', () => {
-    deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
+  it('concatAll', () => {
+    deepStrictEqual(_.concatAll(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
   it('min', () => {

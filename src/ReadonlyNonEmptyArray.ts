@@ -348,7 +348,8 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 /**
  * @since 3.0.0
  */
-export const fold = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce((a, acc) => S.concat(acc)(a))
+export const concatAll = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A =>
+  fa.reduce((a, acc) => S.concat(acc)(a))
 
 /**
  * @category combinators

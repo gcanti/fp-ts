@@ -1,5 +1,5 @@
 import { pipe } from '../src/function'
-import { fold } from '../src/Monoid'
+import { concatAll } from '../src/Monoid'
 import * as _ from '../src/Ord'
 import { sort } from '../src/ReadonlyArray'
 import { deepStrictEqual } from './util'
@@ -33,7 +33,7 @@ describe('Ord', () => {
       _.contramap((x: T) => x[1])
     )
     //                  v-- left unit
-    const O1 = fold(M)([M.empty, sortByFst, sortBySnd])
+    const O1 = concatAll(M)([M.empty, sortByFst, sortBySnd])
     deepStrictEqual(sort(O1)(tuples), [
       [1, 'b'],
       [1, 'c'],
@@ -41,7 +41,7 @@ describe('Ord', () => {
       [2, 'c']
     ])
     //                           right unit --v
-    const O2 = fold(M)([sortBySnd, sortByFst, M.empty])
+    const O2 = concatAll(M)([sortBySnd, sortByFst, M.empty])
     deepStrictEqual(sort(O2)(tuples), [
       [2, 'a'],
       [1, 'b'],

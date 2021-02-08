@@ -171,12 +171,12 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...monoids: { [K in keyo
  * If `as` is empty, return the monoid `empty` value.
  *
  * @example
- * import { fold } from 'fp-ts/Monoid'
+ * import { concatAll } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
- * assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
+ * assert.deepStrictEqual(concatAll(N.MonoidSum)([1, 2, 3]), 6)
+ * assert.deepStrictEqual(concatAll(N.MonoidSum)([]), 0)
  *
  * @since 3.0.0
  */
-export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => S.fold(M)(M.empty)
+export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => S.concatAll(M)(M.empty)

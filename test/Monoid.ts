@@ -13,22 +13,22 @@ describe('Monoid', () => {
     U.deepStrictEqual(pipe(['a', 1, true], M2.concat(['b', 2, false])), ['ab', 3, false])
   })
 
-  it('fold', () => {
-    U.deepStrictEqual(_.fold(N.MonoidSum)([1, 2, 3]), 6)
+  it('concatAll', () => {
+    U.deepStrictEqual(_.concatAll(N.MonoidSum)([1, 2, 3]), 6)
   })
 
   it('min', () => {
     const M = _.min(N.Bounded)
-    U.deepStrictEqual(_.fold(M)([]), +Infinity)
-    U.deepStrictEqual(_.fold(M)([1]), 1)
-    U.deepStrictEqual(_.fold(M)([1, -1]), -1)
+    U.deepStrictEqual(_.concatAll(M)([]), +Infinity)
+    U.deepStrictEqual(_.concatAll(M)([1]), 1)
+    U.deepStrictEqual(_.concatAll(M)([1, -1]), -1)
   })
 
   it('max', () => {
     const M = _.max(N.Bounded)
-    U.deepStrictEqual(_.fold(M)([]), -Infinity)
-    U.deepStrictEqual(_.fold(M)([1]), 1)
-    U.deepStrictEqual(_.fold(M)([1, -1]), 1)
+    U.deepStrictEqual(_.concatAll(M)([]), -Infinity)
+    U.deepStrictEqual(_.concatAll(M)([1]), 1)
+    U.deepStrictEqual(_.concatAll(M)([1, -1]), 1)
   })
 
   it('reverse', () => {

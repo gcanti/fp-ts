@@ -247,15 +247,15 @@ export const object = <A extends object = never>(): Semigroup<A> => ({
  * If `as` is empty, return the provided `startWith` value.
  *
  * @example
- * import { fold } from 'fp-ts/Semigroup'
+ * import { concatAll } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
  *
- * const sum = fold(N.SemigroupSum)(0)
+ * const sum = concatAll(N.SemigroupSum)(0)
  *
  * assert.deepStrictEqual(sum([1, 2, 3]), 6)
  * assert.deepStrictEqual(sum([]), 0)
  *
  * @since 3.0.0
  */
-export const fold = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
+export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
   as.reduce((a, acc) => S.concat(acc)(a), startWith)
