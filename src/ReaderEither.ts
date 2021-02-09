@@ -121,7 +121,7 @@ export const fold: <R, E, A, B>(
   onRight: (a: A) => Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  ET.fold(R.Monad)
+  ET.match(R.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

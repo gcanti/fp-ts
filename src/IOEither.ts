@@ -128,7 +128,7 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  */
 export const fold: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  ET.fold(I.Monad)
+  ET.match(I.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

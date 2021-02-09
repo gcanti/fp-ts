@@ -180,7 +180,7 @@ export const fold: <E, A, B>(
   onRight: (a: A) => Task<B>
 ) => (ma: TaskEither<E, A>) => Task<B> =
   /*#__PURE__*/
-  ET.fold(T.Monad)
+  ET.match(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

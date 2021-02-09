@@ -218,7 +218,7 @@ export const fold: <R, E, A, B>(
   onRight: (a: A) => ReaderTask<R, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.fold(RT.Monad)
+  ET.match(RT.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

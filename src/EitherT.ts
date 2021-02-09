@@ -170,19 +170,19 @@ export function mapLeft<F>(
 /**
  * @since 2.10.0
  */
-export function fold<M extends URIS2>(
+export function match<M extends URIS2>(
   M: Monad2<M>
 ): <E, ME, R, A>(
   onLeft: (e: E) => Kind2<M, ME, R>,
   onRight: (a: A) => Kind2<M, ME, R>
 ) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, R>
-export function fold<M extends URIS>(
+export function match<M extends URIS>(
   M: Monad1<M>
 ): <E, R, A>(onLeft: (e: E) => Kind<M, R>, onRight: (a: A) => Kind<M, R>) => (ma: Kind<M, Either<E, A>>) => Kind<M, R>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R> {
   return (onLeft, onRight) => (ma) => M.chain(ma, E.fold(onLeft, onRight))
@@ -394,7 +394,7 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
   const _alt = alt(M)
   const _bimap = bimap(M)
   const _mapLeft = mapLeft(M)
-  const _fold = fold(M)
+  const _fold = match(M)
   const _getOrElse = getOrElse(M)
   const _orElse = orElse(M)
 
