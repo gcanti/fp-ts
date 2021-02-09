@@ -152,7 +152,7 @@ export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  * @since 2.5.0
  */
 export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
-  const S = Se.getJoinSemigroup(ord)
+  const S = Se.max(ord)
   return (nea) => nea.reduce(S.concat)
 }
 

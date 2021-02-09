@@ -28,8 +28,8 @@ describe('Semigroup', () => {
     U.deepStrictEqual(_.min(N.Ord).concat(1, 2), 1)
   })
 
-  it('getJoinSemigroup', () => {
-    U.deepStrictEqual(_.getJoinSemigroup(N.Ord).concat(1, 2), 2)
+  it('max', () => {
+    U.deepStrictEqual(_.max(N.Ord).concat(1, 2), 2)
   })
 
   it('getObjectSemigroup', () => {
