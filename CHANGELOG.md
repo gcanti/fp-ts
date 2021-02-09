@@ -320,6 +320,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+    - add `getSemigroup` (@gcanti)
   - `ReadonlyMap`
     - add `filterWithIndex` combinator (@gcanti)
     - add `filterMapWithIndex` combinator (@gcanti)
