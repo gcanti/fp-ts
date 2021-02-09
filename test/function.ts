@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as _ from '../src/function'
 import * as B from '../src/boolean'
 import * as RA from '../src/ReadonlyArray'
-import { fold } from '../src/Monoid'
+import { concatAll } from '../src/Monoid'
 import * as N from '../src/number'
 import * as U from './util'
 
@@ -146,11 +146,12 @@ describe('function', () => {
     const isLessThan10 = (n: number) => n <= 10
     const isEven = (n: number) => n % 2 === 0
 
-    U.deepStrictEqual(_.pipe([1, 2, 3, 40], RA.filter(fold(getPredicateMonoidAll<number>())([isLessThan10, isEven]))), [
-      2
-    ])
     U.deepStrictEqual(
-      _.pipe([1, 2, 3, 40, 41], RA.filter(fold(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
+      _.pipe([1, 2, 3, 40], RA.filter(concatAll(getPredicateMonoidAll<number>())([isLessThan10, isEven]))),
+      [2]
+    )
+    U.deepStrictEqual(
+      _.pipe([1, 2, 3, 40, 41], RA.filter(concatAll(getPredicateMonoidAny<number>())([isLessThan10, isEven]))),
       [1, 2, 3, 40]
     )
   })

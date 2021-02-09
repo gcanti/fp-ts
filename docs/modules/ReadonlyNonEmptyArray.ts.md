@@ -88,10 +88,10 @@ Added in v2.5.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [concatAll](#concatall)
   - [extract](#extract)
   - [filter](#filter)
   - [filterWithIndex](#filterwithindex)
-  - [fold](#fold)
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
@@ -105,6 +105,7 @@ Added in v2.5.0
   - [traverseWithIndex](#traversewithindex)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [~~fold~~](#fold)
 
 ---
 
@@ -929,6 +930,16 @@ export declare const bindTo: <N>(name: N) => <A>(fa: ReadonlyNonEmptyArray<A>) =
 
 Added in v2.8.0
 
+## concatAll
+
+**Signature**
+
+```ts
+export declare const concatAll: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v2.10.0
+
 ## extract
 
 **Signature**
@@ -962,16 +973,6 @@ Added in v2.5.0
 export declare function filterWithIndex<A>(
   predicate: (i: number, a: A) => boolean
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## fold
-
-**Signature**
-
-```ts
-export declare function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1124,6 +1125,18 @@ export declare function updateAt<A>(
   i: number,
   a: A
 ): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## ~~fold~~
+
+Use `concatAll` instead.
+
+**Signature**
+
+```ts
+export declare const fold: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0

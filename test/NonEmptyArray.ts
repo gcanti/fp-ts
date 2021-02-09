@@ -88,7 +88,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = _.fold(N.MonoidSum)
+    const sum = _.concatAll(N.MonoidSum)
     U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
   })
 
@@ -376,8 +376,8 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(f(['a', 'bb']), 4)
   })
 
-  it('fold', () => {
-    const f = _.fold(S.Semigroup)
+  it('concatAll', () => {
+    const f = _.concatAll(S.Semigroup)
     U.deepStrictEqual(f(['a']), 'a')
     U.deepStrictEqual(f(['a', 'bb']), 'abb')
   })

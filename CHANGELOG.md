@@ -72,6 +72,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
     - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
+    - deprecate `fold`, use `concatAll` instead (@gcanti)
+  - `NonEmptyArray`
+    - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -108,6 +111,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
   - `ReaderTaskEither`
     - deprecate `run` (@gcanti)
+  - `ReadonlyNonEmptyArray`
+    - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Semigroup`
     - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
     - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
@@ -115,6 +120,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
     - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
     - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
+    - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -236,9 +242,12 @@ high state of flux, you're at risk of it changing without notice.
   - `Monad`
     - add `bind` helper (@gcanti)
     - add `chainFirst` helper (@gcanti)
+  - `Monoid`
+    - add `concatAll` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+    - add `concatAll` (@gcanti)
   - `Option`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
@@ -309,8 +318,10 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
+    - add `concatAll` (@gcanti)
   - `Semigroup`
     - add `getConstantSemigroup` (@gcanti)
+    - add `concatAll` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

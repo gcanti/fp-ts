@@ -201,19 +201,27 @@ export const monoidVoid: Monoid<void> = {
  * If `as` is empty, return the monoid `empty` value.
  *
  * @example
- * import { fold } from 'fp-ts/Monoid'
+ * import { concatAll } from 'fp-ts/Monoid'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
- * assert.deepStrictEqual(fold(N.MonoidSum)([]), 0)
+ * assert.deepStrictEqual(concatAll(N.MonoidSum)([1, 2, 3]), 6)
+ * assert.deepStrictEqual(concatAll(N.MonoidSum)([]), 0)
  *
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const fold = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.fold(M)(M.empty)
+export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.concatAll(M)(M.empty)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `concatAll` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const fold = concatAll
 
 /**
  * Use `boolean.MonoidAll` instead.

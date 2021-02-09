@@ -71,7 +71,8 @@ Added in v2.0.0
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
-  - [fold](#fold)
+  - [concatAll](#concatall)
+  - [~~fold~~](#fold)
 
 ---
 
@@ -406,11 +407,35 @@ Added in v2.0.0
 
 # utils
 
-## fold
+## concatAll
 
 Given a sequence of `as`, concat them and return the total.
 
 If `as` is empty, return the provided `startWith` value.
+
+**Signature**
+
+```ts
+export declare const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: readonly A[]) => A
+```
+
+**Example**
+
+```ts
+import { concatAll } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
+
+const sum = concatAll(N.SemigroupSum)(0)
+
+assert.deepStrictEqual(sum([1, 2, 3]), 6)
+assert.deepStrictEqual(sum([]), 0)
+```
+
+Added in v2.10.0
+
+## ~~fold~~
+
+Use `concatAll` instead.
 
 **Signature**
 
@@ -421,18 +446,6 @@ export declare function fold<A>(
   (startWith: A): (as: ReadonlyArray<A>) => A
   (startWith: A, as: ReadonlyArray<A>): A
 }
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-import * as N from 'fp-ts/number'
-
-const sum = S.fold(N.SemigroupSum)(0)
-
-assert.deepStrictEqual(sum([1, 2, 3]), 6)
-assert.deepStrictEqual(sum([]), 0)
 ```
 
 Added in v2.0.0

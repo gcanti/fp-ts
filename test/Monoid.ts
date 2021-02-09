@@ -1,6 +1,13 @@
 import * as U from './util'
 import * as B from '../src/boolean'
-import { fold, getDualMonoid, getEndomorphismMonoid, getJoinMonoid, getMeetMonoid, getTupleMonoid } from '../src/Monoid'
+import {
+  concatAll,
+  getDualMonoid,
+  getEndomorphismMonoid,
+  getJoinMonoid,
+  getMeetMonoid,
+  getTupleMonoid
+} from '../src/Monoid'
 import * as N from '../src/number'
 import * as S from '../src/string'
 
@@ -12,8 +19,8 @@ describe('Monoid', () => {
     U.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
-  it('fold', () => {
-    U.deepStrictEqual(fold(N.MonoidSum)([1, 2, 3]), 6)
+  it('concatAll', () => {
+    U.deepStrictEqual(concatAll(N.MonoidSum)([1, 2, 3]), 6)
   })
 
   it('getEndomorphismMonoid', () => {
@@ -27,16 +34,16 @@ describe('Monoid', () => {
 
   it('getMeetMonoid', () => {
     const M = getMeetMonoid(N.Bounded)
-    U.deepStrictEqual(fold(M)([]), +Infinity)
-    U.deepStrictEqual(fold(M)([1]), 1)
-    U.deepStrictEqual(fold(M)([1, -1]), -1)
+    U.deepStrictEqual(concatAll(M)([]), +Infinity)
+    U.deepStrictEqual(concatAll(M)([1]), 1)
+    U.deepStrictEqual(concatAll(M)([1, -1]), -1)
   })
 
   it('getJoinMonoid', () => {
     const M = getJoinMonoid(N.Bounded)
-    U.deepStrictEqual(fold(M)([]), -Infinity)
-    U.deepStrictEqual(fold(M)([1]), 1)
-    U.deepStrictEqual(fold(M)([1, -1]), 1)
+    U.deepStrictEqual(concatAll(M)([]), -Infinity)
+    U.deepStrictEqual(concatAll(M)([1]), 1)
+    U.deepStrictEqual(concatAll(M)([1, -1]), 1)
   })
 
   it('getDualMonoid', () => {

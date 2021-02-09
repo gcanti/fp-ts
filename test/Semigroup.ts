@@ -13,8 +13,14 @@ describe('Semigroup', () => {
     U.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
+  it('concatAll', () => {
+    U.deepStrictEqual(_.concatAll(S.Monoid)('')(['a', 'b', 'c']), 'abc')
+  })
+
   it('fold', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fold(S.Monoid)('', ['a', 'b', 'c']), 'abc')
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
