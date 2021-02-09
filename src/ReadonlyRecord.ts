@@ -712,19 +712,19 @@ export function filterWithIndex<A>(
 export function fromFoldable<F extends URIS3, A>(
   M: Magma<A>,
   F: Foldable3<F>
-): <K extends string, R, E>(fka: Kind3<F, R, E, readonly [K, A]>) => ReadonlyRecord<K, A>
+): <R, E>(fka: Kind3<F, R, E, readonly [string, A]>) => ReadonlyRecord<string, A>
 export function fromFoldable<F extends URIS2, A>(
   M: Magma<A>,
   F: Foldable2<F>
-): <K extends string, E>(fka: Kind2<F, E, readonly [K, A]>) => ReadonlyRecord<K, A>
+): <E>(fka: Kind2<F, E, readonly [string, A]>) => ReadonlyRecord<string, A>
 export function fromFoldable<F extends URIS, A>(
   M: Magma<A>,
   F: Foldable1<F>
-): <K extends string>(fka: Kind<F, readonly [K, A]>) => ReadonlyRecord<K, A>
+): (fka: Kind<F, readonly [string, A]>) => ReadonlyRecord<string, A>
 export function fromFoldable<F, A>(
   M: Magma<A>,
   F: FoldableHKT<F>
-): <K extends string>(fka: HKT<F, readonly [K, A]>) => ReadonlyRecord<K, A>
+): (fka: HKT<F, readonly [string, A]>) => ReadonlyRecord<string, A>
 export function fromFoldable<F, A>(
   M: Magma<A>,
   F: FoldableHKT<F>
@@ -773,19 +773,19 @@ export function fromFoldable<F, A>(
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+): <R, E, A>(fa: Kind3<F, R, E, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+): <E, A>(fa: Kind2<F, E, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+): <A>(fa: Kind<F, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
   F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => readonly [K, B]) => ReadonlyRecord<K, B>
+): <A>(fa: HKT<F, A>, f: (a: A) => readonly [string, B]) => ReadonlyRecord<string, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
   F: FoldableHKT<F>

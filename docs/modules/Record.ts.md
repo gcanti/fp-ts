@@ -487,19 +487,19 @@ specified `Magma` to combine values for duplicate keys.
 export declare function fromFoldable<F extends URIS3, A>(
   M: Magma<A>,
   F: Foldable3<F>
-): <K extends string, R, E>(fka: Kind3<F, R, E, [K, A]>) => Record<K, A>
+): <R, E>(fka: Kind3<F, R, E, [string, A]>) => Record<string, A>
 export declare function fromFoldable<F extends URIS2, A>(
   M: Magma<A>,
   F: Foldable2<F>
-): <K extends string, E>(fka: Kind2<F, E, [K, A]>) => Record<K, A>
+): <E>(fka: Kind2<F, E, [string, A]>) => Record<string, A>
 export declare function fromFoldable<F extends URIS, A>(
   M: Magma<A>,
   F: Foldable1<F>
-): <K extends string>(fka: Kind<F, [K, A]>) => Record<K, A>
+): (fka: Kind<F, [string, A]>) => Record<string, A>
 export declare function fromFoldable<F, A>(
   M: Magma<A>,
   F: FoldableHKT<F>
-): <K extends string>(fka: HKT<F, [K, A]>) => Record<K, A>
+): (fka: HKT<F, [string, A]>) => Record<string, A>
 ```
 
 Added in v2.0.0
@@ -517,19 +517,19 @@ Create a record from a foldable collection using the specified functions to
 export declare function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <R, E, A, K extends string>(fa: Kind3<F, R, E, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <R, E, A>(fa: Kind3<F, R, E, A>, f: (a: A) => [string, B]) => Record<string, B>
 export declare function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <E, A, K extends string>(fa: Kind2<F, E, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <E, A>(fa: Kind2<F, E, A>, f: (a: A) => [string, B]) => Record<string, B>
 export declare function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(fa: Kind<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A>(fa: Kind<F, A>, f: (a: A) => [string, B]) => Record<string, B>
 export declare function fromFoldableMap<F, B>(
   M: Magma<B>,
   F: FoldableHKT<F>
-): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A>(fa: HKT<F, A>, f: (a: A) => [string, B]) => Record<string, B>
 ```
 
 **Example**
