@@ -133,7 +133,7 @@ export const fold: <E, B, A>(
   onBoth: (e: E, a: A) => Task<B>
 ) => (fa: TaskThese<E, A>) => Task<B> =
   /*#__PURE__*/
-  TT.fold(T.Monad)
+  TT.match(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

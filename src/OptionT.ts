@@ -169,13 +169,13 @@ export function fromEither<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F, 
 /**
  * @since 2.10.0
  */
-export function fold<M extends URIS>(
+export function match<M extends URIS>(
   M: Monad1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
   return (onNone, onSome) => (ma) => M.chain(ma, O.fold(onNone, onSome))
@@ -362,7 +362,7 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
   const _map = map(M)
   const _chain = chain(M)
   const _alt = alt(M)
-  const _fold = fold(M)
+  const _fold = match(M)
   const _getOrElse = getOrElse(M)
   const _none = none(M)
 

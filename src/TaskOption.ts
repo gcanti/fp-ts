@@ -128,7 +128,7 @@ export const fromTask: FromTask1<URI>['fromTask'] =
  */
 export const fold =
   /*#__PURE__*/
-  OT.fold(T.Monad)
+  OT.match(T.Monad)
 
 /**
  * Less strict version of [`fold`](#fold).

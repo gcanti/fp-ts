@@ -177,28 +177,28 @@ export function mapLeft<F>(
 /**
  * @since 2.10.0
  */
-export function fold<M extends URIS2>(
+export function match<M extends URIS2>(
   M: Monad2<M>
 ): <E, ME, R, A>(
   onLeft: (e: E) => Kind2<M, ME, R>,
   onRight: (a: A) => Kind2<M, ME, R>,
   onBoth: (e: E, a: A) => Kind2<M, ME, R>
 ) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, R>
-export function fold<M extends URIS>(
+export function match<M extends URIS>(
   M: Monad1<M>
 ): <E, R, A>(
   onLeft: (e: E) => Kind<M, R>,
   onRight: (a: A) => Kind<M, R>,
   onBoth: (e: E, a: A) => Kind<M, R>
 ) => (ma: Kind<M, These<E, A>>) => Kind<M, R>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, R, A>(
   onLeft: (e: E) => HKT<M, R>,
   onRight: (a: A) => HKT<M, R>,
   onBoth: (e: E, a: A) => HKT<M, R>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, R>
-export function fold<M>(
+export function match<M>(
   M: Monad<M>
 ): <E, R, A>(
   onLeft: (e: E) => HKT<M, R>,
@@ -379,7 +379,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   const _map = map(M)
   const _bimap = bimap(M)
   const _mapLeft = mapLeft(M)
-  const _fold = fold(M)
+  const _fold = match(M)
   const _toTuple2: <E, A>(
     e: Lazy<E>,
     a: Lazy<A>
