@@ -74,6 +74,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
     - deprecate `fold`, use `concatAll` instead (@gcanti)
     - deprecate `getMeetMonoid`, use `min` instead (@gcanti)
+    - deprecate `getJoinMonoid`, use `max` instead (@gcanti)
   - `NonEmptyArray`
     - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Option`
@@ -250,6 +251,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Monoid`
     - add `concatAll` (@gcanti)
     - add `min` (@gcanti)
+    - add `max` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
