@@ -110,15 +110,15 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  * The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDualSemigroup } from 'fp-ts/Semigroup'
+ * import { reverse } from 'fp-ts/Semigroup'
  * import * as S from 'fp-ts/string'
  *
- * assert.deepStrictEqual(getDualSemigroup(S.Semigroup).concat('a', 'b'), 'ba')
+ * assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
+export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
   concat: (x, y) => S.concat(y, x)
 })
 
@@ -282,6 +282,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `reverse` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getDualSemigroup = reverse
 
 /**
  * Use `max` instead.

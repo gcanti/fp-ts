@@ -112,7 +112,7 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 2.0.0
  */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
-  concat: Se.getDualSemigroup(M).concat,
+  concat: Se.reverse(M).concat,
   empty: M.empty
 })
 
