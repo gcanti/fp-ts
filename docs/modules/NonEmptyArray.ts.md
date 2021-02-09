@@ -89,9 +89,9 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [concatAll](#concatall)
   - [extract](#extract)
   - [filterWithIndex](#filterwithindex)
-  - [fold](#fold)
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
@@ -105,6 +105,7 @@ Added in v2.0.0
   - [traverseWithIndex](#traversewithindex)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [~~fold~~](#fold)
 
 ---
 
@@ -918,6 +919,16 @@ export declare const bindTo: <N extends string>(name: N) => <A>(fa: NonEmptyArra
 
 Added in v2.8.0
 
+## concatAll
+
+**Signature**
+
+```ts
+export declare const concatAll: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+```
+
+Added in v2.10.0
+
 ## extract
 
 **Signature**
@@ -939,16 +950,6 @@ export declare const filterWithIndex: <A>(
 ```
 
 Added in v2.0.0
-
-## fold
-
-**Signature**
-
-```ts
-export declare const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
-```
-
-Added in v2.5.0
 
 ## head
 
@@ -1090,3 +1091,15 @@ export declare const updateAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) =
 ```
 
 Added in v2.0.0
+
+## ~~fold~~
+
+Use `concatAll` instead.
+
+**Signature**
+
+```ts
+export declare const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+```
+
+Added in v2.5.0

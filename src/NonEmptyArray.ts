@@ -316,9 +316,9 @@ export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
 }
 
 /**
- * @since 2.5.0
+ * @since 2.10.0
  */
-export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.fold
+export const concatAll: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
 
 /**
  * @category combinators
@@ -781,6 +781,14 @@ export const apS: <A, N extends string, B>(
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `concatAll` instead.
+ *
+ * @since 2.5.0
+ * @deprecated
+ */
+export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
 
 /**
  * Use small, specific instances instead.

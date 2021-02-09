@@ -154,7 +154,7 @@ describe('Array', () => {
     })
 
     it('extend', () => {
-      const sum = (as: Array<number>) => M.fold(N.MonoidSum)(as)
+      const sum = (as: Array<number>) => M.concatAll(N.MonoidSum)(as)
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
       U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(identity)), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
     })

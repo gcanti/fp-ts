@@ -258,22 +258,34 @@ export const semigroupVoid: Semigroup<void> = getConstantSemigroup<void>(undefin
 // utils
 // -------------------------------------------------------------------------------------
 
-// TODO: remove non-curried overloading in v3
 /**
  * Given a sequence of `as`, concat them and return the total.
  *
  * If `as` is empty, return the provided `startWith` value.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import { concatAll } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
  *
- * const sum = S.fold(N.SemigroupSum)(0)
+ * const sum = concatAll(N.SemigroupSum)(0)
  *
  * assert.deepStrictEqual(sum([1, 2, 3]), 6)
  * assert.deepStrictEqual(sum([]), 0)
  *
+ * @since 2.10.0
+ */
+export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
+  as.reduce(S.concat, startWith)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `concatAll` instead.
+ *
  * @since 2.0.0
+ * @deprecated
  */
 export function fold<A>(
   S: Semigroup<A>
@@ -282,18 +294,9 @@ export function fold<A>(
   (startWith: A, as: ReadonlyArray<A>): A
 }
 export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) => A | ((as: ReadonlyArray<A>) => A) {
-  return (startWith, as?) => {
-    if (as === undefined) {
-      const foldS = fold(S)
-      return (as) => foldS(startWith, as)
-    }
-    return as.reduce(S.concat, startWith)
-  }
+  const concatAllS = concatAll(S)
+  return (startWith, as?) => (as === undefined ? concatAllS(startWith) : concatAllS(startWith)(as))
 }
-
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
 
 /**
  * Use `boolean.SemigroupAll` instead.

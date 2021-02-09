@@ -378,11 +378,9 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 }
 
 /**
- * @since 2.5.0
+ * @since 2.10.0
  */
-export function fold<A>(S: Semigroup<A>): (fa: ReadonlyNonEmptyArray<A>) => A {
-  return (fa) => fa.reduce(S.concat)
-}
+export const concatAll = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce(S.concat)
 
 /**
  * @category combinators
@@ -862,6 +860,14 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `concatAll` instead.
+ *
+ * @since 2.5.0
+ * @deprecated
+ */
+export const fold = concatAll
 
 /**
  * Use small, specific instances instead.
