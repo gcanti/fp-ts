@@ -4,7 +4,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -24,11 +24,12 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import * as O from './Option'
 import { NonEmptyArray } from './NonEmptyArray'
+import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -103,7 +104,15 @@ const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A
 }
 
 /**
- * Returns a `Monoid` for `ReadonlyArray<A>`
+ * @category instances
+ * @since 2.5.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
+  concat
+})
+
+/**
+ * Returns a `Monoid` for `ReadonlyArray<A>`.
  *
  * @example
  * import { getMonoid } from 'fp-ts/ReadonlyArray'
@@ -114,12 +123,10 @@ const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A
  * @category instances
  * @since 2.5.0
  */
-export function getMonoid<A = never>(): Monoid<ReadonlyArray<A>> {
-  return {
-    concat,
-    empty
-  }
-}
+export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
+  concat: getSemigroup<A>().concat,
+  empty
+})
 
 /**
  * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
