@@ -96,7 +96,7 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * @category constructors
  * @since 2.10.0
  */
-export const getConstantSemigroup = <A>(a: A): Semigroup<A> => ({
+export const constant = <A>(a: A): Semigroup<A> => ({
   concat: () => a
 })
 
@@ -252,7 +252,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
  * @category instances
  * @since 2.0.0
  */
-export const semigroupVoid: Semigroup<void> = getConstantSemigroup<void>(undefined)
+export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
 
 // -------------------------------------------------------------------------------------
 // utils

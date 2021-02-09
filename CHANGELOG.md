@@ -321,7 +321,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `Apply` instance (@gcanti)
     - add `concatAll` (@gcanti)
   - `Semigroup`
-    - add `getConstantSemigroup` (@gcanti)
+    - add `constant` (@gcanti)
     - add `concatAll` (@gcanti)
     - add `intercalate` (@gcanti)
   - `State`
