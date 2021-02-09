@@ -62,14 +62,14 @@ export interface Monoid<A> extends Se.Semigroup<A> {
  * import * as B from 'fp-ts/Bounded'
  * import * as M from 'fp-ts/Monoid'
  *
- * const M1 = M.getMeetMonoid(B.boundedNumber)
+ * const M1 = M.min(B.boundedNumber)
  *
  * assert.deepStrictEqual(M1.concat(1, 2), 1)
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
+export const min = <A>(B: Bounded<A>): Monoid<A> => ({
   concat: Se.min(B).concat,
   empty: B.top
 })
@@ -214,6 +214,15 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `min` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getMeetMonoid = min
 
 /**
  * Use `concatAll` instead.
