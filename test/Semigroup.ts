@@ -64,8 +64,8 @@ describe('Semigroup', () => {
     U.deepStrictEqual(DS.concat('a', 'b'), 'ba')
   })
 
-  it('getIntercalateSemigroup', () => {
-    const IS = _.getIntercalateSemigroup(' ')(S.Semigroup)
+  it('intercalate', () => {
+    const IS = _.intercalate(' ')(S.Semigroup)
     assert.strictEqual(IS.concat('a', 'b'), 'a b')
     assert.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
   })
