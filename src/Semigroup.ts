@@ -223,12 +223,12 @@ export const first = <A = never>(): Semigroup<A> => ({ concat: identity })
  * @example
  * import * as S from 'fp-ts/Semigroup'
  *
- * assert.deepStrictEqual(S.getLastSemigroup<number>().concat(1, 2), 2)
+ * assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
  *
  * @category instances
  * @since 2.0.0
  */
-export const getLastSemigroup = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
+export const last = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
 
 /**
  * Return a semigroup for objects, preserving their type.
@@ -283,6 +283,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `last` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getLastSemigroup = last
 
 /**
  * Use `first` instead.
