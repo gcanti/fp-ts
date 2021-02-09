@@ -1,8 +1,8 @@
-import * as U from './util'
 import * as B from '../src/boolean'
-import { concatAll, getDualMonoid, getEndomorphismMonoid, max, min, getTupleMonoid } from '../src/Monoid'
+import { concatAll, getEndomorphismMonoid, getTupleMonoid, max, min, reverse } from '../src/Monoid'
 import * as N from '../src/number'
 import * as S from '../src/string'
+import * as U from './util'
 
 describe('Monoid', () => {
   it('getTupleMonoid', () => {
@@ -39,8 +39,8 @@ describe('Monoid', () => {
     U.deepStrictEqual(concatAll(M)([1, -1]), 1)
   })
 
-  it('getDualMonoid', () => {
-    const M = getDualMonoid(S.Monoid)
+  it('reverse', () => {
+    const M = reverse(S.Monoid)
     U.deepStrictEqual(M.concat('a', 'b'), 'ba')
     U.deepStrictEqual(M.concat('a', M.empty), 'a')
     U.deepStrictEqual(M.concat(M.empty, 'a'), 'a')
