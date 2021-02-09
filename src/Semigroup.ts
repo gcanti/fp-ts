@@ -126,31 +126,31 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * Given a struct of semigroups returns a semigroup for the struct.
  *
  * @example
- * import { getStructSemigroup } from 'fp-ts/Semigroup'
- * import { SemigroupSum } from 'fp-ts/number'
+ * import { struct } from 'fp-ts/Semigroup'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
  *
  * interface Point {
  *   readonly x: number
  *   readonly y: number
  * }
  *
- * const semigroupPoint = getStructSemigroup<Point>({
- *   x: SemigroupSum,
- *   y: SemigroupSum
+ * const S = struct<Point>({
+ *   x: N.SemigroupSum,
+ *   y: N.SemigroupSum
  * })
  *
- * assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+ * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getStructSemigroup = <O extends ReadonlyRecord<string, any>>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> => ({
-  concat: (x, y) => {
-    const r: any = {}
-    for (const key of Object.keys(semigroups)) {
-      r[key] = semigroups[key].concat(x[key], y[key])
+export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
+  concat: (first, second) => {
+    const r: A = {} as any
+    // tslint:disable-next-line: forin
+    for (const key in semigroups) {
+      r[key] = semigroups[key].concat(first[key], second[key])
     }
     return r
   }
@@ -282,6 +282,17 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `struct` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(
+  semigroups: { [K in keyof O]: Semigroup<O[K]> }
+) => Semigroup<O> = struct
 
 /**
  * Use `reverse` instead.

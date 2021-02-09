@@ -145,7 +145,7 @@ export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
     empty[key] = monoids[key].empty
   }
   return {
-    concat: Se.getStructSemigroup(monoids).concat,
+    concat: Se.struct(monoids).concat,
     empty
   }
 }
