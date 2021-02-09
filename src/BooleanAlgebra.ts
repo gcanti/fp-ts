@@ -31,9 +31,9 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
+export const reverse = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ({
   meet: (x, y) => B.join(x, y),
   join: (x, y) => B.meet(x, y),
   zero: B.one,
@@ -62,6 +62,15 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `reverse` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getDualBooleanAlgebra = reverse
 
 /**
  * Use `boolean.BooleanAlgebra` instead.
