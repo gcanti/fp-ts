@@ -160,24 +160,25 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
- * import { getTupleSemigroup } from 'fp-ts/Semigroup'
- * import * as S from 'fp-ts/string'
+ * import { tuple } from 'fp-ts/Semigroup'
+ * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
+ * import * as S from 'fp-ts/string'
  *
- * const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
- * assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+ * const S1 = tuple(S.Semigroup, N.SemigroupSum)
+ * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
  *
- * const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
- * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+ * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+ * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getTupleSemigroup = <T extends ReadonlyArray<Semigroup<any>>>(
-  ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => ({
-  concat: (x, y) => semigroups.map((s, i) => s.concat(x[i], y[i])) as any
+export const tuple = <A extends ReadonlyArray<unknown>>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<A> => ({
+  concat: (first, second) => semigroups.map((s, i) => s.concat(first[i], second[i])) as any
 })
 
 /**
@@ -282,6 +283,17 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `tuple` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
+  ...semigroups: T
+) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
  * Use `struct` instead.

@@ -131,6 +131,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getJoinSemigroup`, use `max` instead (@gcanti)
     - deprecate `getDualSemigroup`, use `reverse` instead (@gcanti)
     - deprecate `getStructSemigroup`, use `struct` instead (@gcanti)
+    - deprecate `getTupleSemigroup`, use `tuple` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -343,6 +344,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `min` (@gcanti)
     - add `max` (@gcanti)
     - add `struct` (@gcanti)
+    - add `tuple` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

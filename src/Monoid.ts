@@ -172,7 +172,7 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
   ...monoids: T
 ): Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> => {
   return {
-    concat: Se.getTupleSemigroup(...monoids).concat,
+    concat: Se.tuple(...monoids).concat,
     empty: monoids.map((m) => m.empty)
   } as any
 }
