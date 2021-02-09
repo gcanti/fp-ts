@@ -30,6 +30,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
+  - [getSemigroup](#getsemigroup)
   - [getStructEq](#getstructeq)
   - [getTupleEq](#gettupleeq)
   - [~~eqBoolean~~](#eqboolean)
@@ -115,10 +116,20 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(): Monoid<Eq<A>>
+export declare const getMonoid: <A>() => Monoid<Eq<A>>
 ```
 
 Added in v2.6.0
+
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
+```
+
+Added in v2.10.0
 
 ## getStructEq
 

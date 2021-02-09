@@ -159,7 +159,7 @@ declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
 _.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Record<string, number>
-_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<"a" | "b", number>
+_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<string, number>
 
 type Keys = 'key1' | 'key2'
 _.getMonoid(semigroupSum) // $ExpectType Monoid<Record<string, number>>
@@ -173,7 +173,7 @@ _.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
 
 declare const fromFoldableF1: Foldable<'Test'>
 declare const fromFoldableInput1: HKT<'Test', ['a' | 'b', number]>
-_.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
+_.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<string, number>
 
 //
 // isSubrecord
