@@ -24,8 +24,8 @@ describe('Semigroup', () => {
     U.deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
-  it('getMeetSemigroup', () => {
-    U.deepStrictEqual(_.getMeetSemigroup(N.Ord).concat(1, 2), 1)
+  it('min', () => {
+    U.deepStrictEqual(_.min(N.Ord).concat(1, 2), 1)
   })
 
   it('getJoinSemigroup', () => {

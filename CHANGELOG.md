@@ -122,6 +122,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
     - deprecate `fold`, use `concatAll` instead (@gcanti)
     - deprecate `getIntercalateSemigroup`, use `intercalate` instead (@gcanti)
+    - deprecate `getMeetSemigroup`, use `min` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -324,6 +325,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `constant` (@gcanti)
     - add `concatAll` (@gcanti)
     - add `intercalate` (@gcanti)
+    - add `min` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
