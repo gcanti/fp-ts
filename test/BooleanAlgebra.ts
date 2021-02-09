@@ -17,8 +17,8 @@ describe('BooleanAlgebra', () => {
     U.deepStrictEqual(BA.zero, undefined)
   })
 
-  it('getDualBooleanAlgebra', () => {
-    const BA = _.getDualBooleanAlgebra(B.BooleanAlgebra)
+  it('reverse', () => {
+    const BA = _.reverse(B.BooleanAlgebra)
     U.deepStrictEqual(BA.implies(true, true), true)
     U.deepStrictEqual(BA.implies(true, false), false)
     U.deepStrictEqual(BA.implies(false, true), true)

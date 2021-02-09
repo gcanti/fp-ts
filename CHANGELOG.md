@@ -27,6 +27,7 @@ high state of flux, you're at risk of it changing without notice.
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
     - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
+    - deprecate `getDualBooleanAlgebra`, use `reverse` instead (@gcanti)
   - `Bounded`
     - deprecate `boundedNumber`, use `number.Bounded` instead (@gcanti)
   - `Compactable`
@@ -179,6 +180,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `MonoidAny` instance (@gcanti)
     - add `Ord` instance (@gcanti)
     - add `Show` instance (@gcanti)
+  - `BooleanAlgebra`
+    - add `reverse` (@gcanti)
   - `Compactable`
     - add `compact` helper (@gcanti)
     - add `separate` helper (@gcanti)
