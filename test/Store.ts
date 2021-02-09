@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as _ from '../src/Store'
 import * as RA from '../src/ReadonlyArray'
 import { pipe } from '../src/function'
@@ -9,7 +9,7 @@ describe('Store', () => {
   describe('pipeables', () => {
     it('map', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(
+      U.deepStrictEqual(
         _.extract(
           pipe(
             wa,
@@ -22,7 +22,7 @@ describe('Store', () => {
 
     it('extend', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(
+      U.deepStrictEqual(
         _.extract(
           pipe(
             wa,
@@ -42,18 +42,18 @@ describe('Store', () => {
 
     it('duplicate', () => {
       const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-      assert.deepStrictEqual(_.extract(_.extract(pipe(wa, _.duplicate))), 1)
+      U.deepStrictEqual(_.extract(_.extract(pipe(wa, _.duplicate))), 1)
     })
   })
 
   it('seek', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(_.extract(pipe(wa, _.seek('aa'))), 2)
+    U.deepStrictEqual(_.extract(pipe(wa, _.seek('aa'))), 2)
   })
 
   it('seeks', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       _.extract(
         pipe(
           wa,
@@ -66,7 +66,7 @@ describe('Store', () => {
 
   it('peeks', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         wa,
         _.peeks((s) => s + 'a')
@@ -77,7 +77,7 @@ describe('Store', () => {
 
   it('experiment', () => {
     const wa: _.Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         wa,
         _.experiment(RA.Functor)((s) => [s, s + 'a'])

@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as _ from '../src/Eq'
 import { fold } from '../src/Monoid'
 import { pipe } from '../src/function'
@@ -13,19 +13,19 @@ describe('Eq', () => {
         S.Eq,
         _.contramap((p: Person) => p.name)
       )
-      assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
-      assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
-      assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
-      assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
     })
   })
 
   it('getTupleEq', () => {
     const E = _.getTupleEq(S.Eq, N.Eq, B.Eq)
-    assert.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
-    assert.deepStrictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
-    assert.deepStrictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
-    assert.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
+    U.deepStrictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
   })
 
   interface Person {
@@ -45,9 +45,9 @@ describe('Eq', () => {
     const a1 = { x: 1 }
     const a2 = { x: 1 }
     S1.equals(a1, a1)
-    assert.deepStrictEqual(nbCall, 0)
+    U.deepStrictEqual(nbCall, 0)
     S1.equals(a1, a2)
-    assert.deepStrictEqual(nbCall, 1)
+    U.deepStrictEqual(nbCall, 1)
   })
 
   it('getStructEq', () => {
@@ -55,14 +55,14 @@ describe('Eq', () => {
       name: S.Eq,
       age: N.Eq
     })
-    assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
-    assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), false)
-    assert.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), false)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
   })
 
   it('eqStrict', () => {
-    assert.deepStrictEqual(_.eqStrict.equals(1, 1), true)
-    assert.deepStrictEqual(_.eqStrict.equals(1, 'a'), false)
+    U.deepStrictEqual(_.eqStrict.equals(1, 1), true)
+    U.deepStrictEqual(_.eqStrict.equals(1, 'a'), false)
   })
 
   it('getMonoid', () => {
@@ -72,9 +72,9 @@ describe('Eq', () => {
     const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(N.Eq)
     const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
     const eq = fold(M)([eqFst, eqSnd, eq3rd])
-    assert.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, true]), true)
-    assert.deepStrictEqual(eq.equals(['a', 1, true], ['b', 1, true]), false)
-    assert.deepStrictEqual(eq.equals(['a', 1, true], ['a', 2, true]), false)
-    assert.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, false]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, true]), true)
+    U.deepStrictEqual(eq.equals(['a', 1, true], ['b', 1, true]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true], ['a', 2, true]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, false]), false)
   })
 })

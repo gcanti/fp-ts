@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import { log, info, error, warn } from '../src/Console'
 
 describe('Console', () => {
@@ -12,7 +12,7 @@ describe('Console', () => {
       logger.push(a)
     }
     log('log')()
-    assert.deepStrictEqual(logger, ['log'])
+    U.deepStrictEqual(logger, ['log'])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
@@ -27,7 +27,7 @@ describe('Console', () => {
       logger.push(a)
     }
     info('info')()
-    assert.deepStrictEqual(logger, ['info'])
+    U.deepStrictEqual(logger, ['info'])
     // tslint:disable-next-line:no-console
     console.info = info_
   })
@@ -42,7 +42,7 @@ describe('Console', () => {
       logger.push(a)
     }
     error('error')()
-    assert.deepStrictEqual(logger, ['error'])
+    U.deepStrictEqual(logger, ['error'])
     // tslint:disable-next-line:no-console
     console.error = error_
   })
@@ -57,7 +57,7 @@ describe('Console', () => {
       logger.push(a)
     }
     warn('warn')()
-    assert.deepStrictEqual(logger, ['warn'])
+    U.deepStrictEqual(logger, ['warn'])
     // tslint:disable-next-line:no-console
     console.warn = warn_
   })

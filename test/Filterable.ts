@@ -1,18 +1,19 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
 import { getFilterableComposition } from '../src/Filterable'
 import { some, none } from '../src/Option'
 import { right, left } from '../src/Either'
 import { increment } from '../src/function'
+import { separated } from '../src/Separated'
 
 describe('Filterable', () => {
   it('getFilterableComposition', () => {
     // tslint:disable-next-line: deprecation
     const F = getFilterableComposition(RA.Functor, RA.Filterable)
 
-    assert.deepStrictEqual(F.map([[1]], increment), [[2]])
+    U.deepStrictEqual(F.map([[1]], increment), [[2]])
 
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       F.filter(
         [
           [1, 2],
@@ -23,7 +24,7 @@ describe('Filterable', () => {
       [[2], [3, 4]]
     )
 
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       F.filterMap(
         [
           ['a', 'bb'],
@@ -34,7 +35,7 @@ describe('Filterable', () => {
       [[2], [3, 4]]
     )
 
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       F.partition(
         [
           ['a', 'bb'],
@@ -42,13 +43,10 @@ describe('Filterable', () => {
         ],
         (a) => a.length % 2 === 0
       ),
-      {
-        left: [['a'], ['ccc']],
-        right: [['bb'], ['dddd']]
-      }
+      separated([['a'], ['ccc']], [['bb'], ['dddd']])
     )
 
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       F.partitionMap(
         [
           ['a', 'bb'],
@@ -56,10 +54,7 @@ describe('Filterable', () => {
         ],
         (a) => (a.length % 2 === 0 ? right(a.length) : left(a))
       ),
-      {
-        left: [['a'], ['ccc']],
-        right: [[2], [4]]
-      }
+      separated([['a'], ['ccc']], [[2], [4]])
     )
   })
 })

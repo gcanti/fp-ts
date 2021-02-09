@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as B from '../src/boolean'
 import { pipe } from '../src/function'
 import { getStructMonoid, Monoid } from '../src/Monoid'
@@ -52,19 +52,19 @@ describe('Traced', () => {
   describe('pipeables', () => {
     it('map', () => {
       const wa = buildProject('myproject')
-      assert.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
+      U.deepStrictEqual(pipe(wa, _.map(getProjectName))(M.empty), 'myproject')
     })
   })
 
   it('getComonad', () => {
     const wa = buildProject('myproject')
-    assert.deepStrictEqual(C.extract(wa), {
+    U.deepStrictEqual(C.extract(wa), {
       projectName: 'myproject',
       projectHasLibrary: false,
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(C.extend(wa, hasLibraryB)), {
+    U.deepStrictEqual(C.extract(C.extend(wa, hasLibraryB)), {
       projectName: 'myproject',
       projectHasLibrary: true,
       projectGitHub: false,
@@ -74,13 +74,13 @@ describe('Traced', () => {
 
   it('tracks', () => {
     const travisB = _.tracks(M, (project: Project): Settings => ({ ...M.empty, settingsTravis: project.projectGitHub }))
-    assert.deepStrictEqual(C.extract(C.extend(buildProject('travis'), travisB)), {
+    U.deepStrictEqual(C.extract(C.extend(buildProject('travis'), travisB)), {
       projectName: 'travis',
       projectHasLibrary: false,
       projectGitHub: false,
       projectTravis: false
     })
-    assert.deepStrictEqual(C.extract(C.extend(C.extend(buildProject('github-travis'), gitHubB), travisB)), {
+    U.deepStrictEqual(C.extract(C.extend(C.extend(buildProject('github-travis'), gitHubB), travisB)), {
       projectName: 'github-travis',
       projectHasLibrary: false,
       projectGitHub: true,
@@ -89,7 +89,7 @@ describe('Traced', () => {
   })
 
   it('listen', () => {
-    assert.deepStrictEqual(C.extract(_.listen(buildProject('myproject'))), [
+    U.deepStrictEqual(C.extract(_.listen(buildProject('myproject'))), [
       {
         projectName: 'myproject',
         projectHasLibrary: false,
@@ -105,7 +105,7 @@ describe('Traced', () => {
   })
 
   it('listens', () => {
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       C.extract(
         pipe(
           buildProject('myproject'),
@@ -125,7 +125,7 @@ describe('Traced', () => {
   })
 
   it('censor', () => {
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       C.extract(
         pipe(
           buildProject('myproject'),

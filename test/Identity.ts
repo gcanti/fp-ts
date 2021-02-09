@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import { left, right } from '../src/Either'
 import * as N from '../src/number'
 import { identity, pipe } from '../src/function'
@@ -10,35 +10,35 @@ describe('Identity', () => {
   describe('pipeables', () => {
     it('map', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(pipe(1, _.map(double)), 2)
+      U.deepStrictEqual(pipe(1, _.map(double)), 2)
     })
 
     it('ap', () => {
       const double = (n: number): number => n * 2
       const fab = double
-      assert.deepStrictEqual(pipe(fab, _.ap(1)), 2)
+      U.deepStrictEqual(pipe(fab, _.ap(1)), 2)
     })
 
     it('apFirst', () => {
-      assert.deepStrictEqual(pipe('a', _.apFirst('b')), 'a')
+      U.deepStrictEqual(pipe('a', _.apFirst('b')), 'a')
     })
 
     it('apSecond', () => {
-      assert.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
+      U.deepStrictEqual(pipe('a', _.apSecond('b')), 'b')
     })
 
     it('chain', () => {
       const f = (n: number) => n * 2
-      assert.deepStrictEqual(pipe(1, _.chain(f)), 2)
+      U.deepStrictEqual(pipe(1, _.chain(f)), 2)
     })
 
     it('chainFirst', () => {
       const f = (n: number) => n * 2
-      assert.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
+      U.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
     })
 
     it('reduce', () => {
-      assert.deepStrictEqual(
+      U.deepStrictEqual(
         pipe(
           'b',
           _.reduce('a', (b, a) => b + a)
@@ -48,16 +48,16 @@ describe('Identity', () => {
     })
 
     it('foldMap', () => {
-      assert.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
+      U.deepStrictEqual(pipe('a', _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
       const f = (a: string, acc: string) => acc + a
-      assert.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
+      U.deepStrictEqual(pipe('a', _.reduceRight('', f)), 'a')
     })
 
     it('alt', () => {
-      assert.deepStrictEqual(
+      U.deepStrictEqual(
         pipe(
           1,
           _.alt(() => 2)
@@ -67,26 +67,26 @@ describe('Identity', () => {
     })
 
     it('extract', () => {
-      assert.deepStrictEqual(pipe(1, _.extract), 1)
+      U.deepStrictEqual(pipe(1, _.extract), 1)
     })
 
     it('extend', () => {
       const f = (fa: _.Identity<string>): number => fa.length
-      assert.deepStrictEqual(pipe('foo', _.extend(f)), 3)
+      U.deepStrictEqual(pipe('foo', _.extend(f)), 3)
     })
 
     it('duplicate', () => {
-      assert.deepStrictEqual(pipe('a', _.duplicate), 'a')
+      U.deepStrictEqual(pipe('a', _.duplicate), 'a')
     })
 
     it('flatten', () => {
-      assert.deepStrictEqual(pipe('a', _.flatten), 'a')
+      U.deepStrictEqual(pipe('a', _.flatten), 'a')
     })
 
     it('traverse', () => {
       const traverse = _.traverse(O.Applicative)
-      assert.deepStrictEqual(pipe(1, traverse(O.some)), O.some(1))
-      assert.deepStrictEqual(
+      U.deepStrictEqual(pipe(1, traverse(O.some)), O.some(1))
+      U.deepStrictEqual(
         pipe(
           1,
           traverse(() => O.none)
@@ -97,31 +97,31 @@ describe('Identity', () => {
 
     it('sequence', () => {
       const sequence = _.sequence(O.Applicative)
-      assert.deepStrictEqual(sequence(O.some('a')), O.some('a'))
-      assert.deepStrictEqual(sequence(O.none), O.none)
+      U.deepStrictEqual(sequence(O.some('a')), O.some('a'))
+      U.deepStrictEqual(sequence(O.none), O.none)
     })
   })
 
   it('getEq', () => {
     const S = _.getEq(N.Eq)
-    assert.deepStrictEqual(S.equals(1, 1), true)
-    assert.deepStrictEqual(S.equals(1, 2), false)
-    assert.deepStrictEqual(S.equals(2, 1), false)
+    U.deepStrictEqual(S.equals(1, 1), true)
+    U.deepStrictEqual(S.equals(1, 2), false)
+    U.deepStrictEqual(S.equals(2, 1), false)
   })
 
   it('ChainRec', () => {
     const x = _.ChainRec.chainRec<number, number>(0, (a) => (a < 10 ? left(a + 1) : right(a)))
     const expected = 10
-    assert.deepStrictEqual(x, expected)
+    U.deepStrictEqual(x, expected)
   })
 
   it('getShow', () => {
     const Sh = _.getShow(S.Show)
-    assert.deepStrictEqual(Sh.show('a'), `"a"`)
+    U.deepStrictEqual(Sh.show('a'), `"a"`)
   })
 
   it('do notation', () => {
-    assert.deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         _.of(1),
         _.bindTo('a'),
@@ -132,6 +132,6 @@ describe('Identity', () => {
   })
 
   it('apS', () => {
-    assert.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), { a: 1, b: 'b' })
+    U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), { a: 1, b: 'b' })
   })
 })
