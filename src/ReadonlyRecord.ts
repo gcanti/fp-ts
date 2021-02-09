@@ -740,14 +740,14 @@ export function fromFoldable<F, A>(
  * - combine values for duplicate keys.
  *
  * @example
- * import { getLastSemigroup } from 'fp-ts/Semigroup'
+ * import { last } from 'fp-ts/Semigroup'
  * import { readonlyArray, zip } from 'fp-ts/ReadonlyArray'
  * import { identity } from 'fp-ts/function'
  * import { ReadonlyRecord, fromFoldableMap } from 'fp-ts/ReadonlyRecord'
  *
  * // like lodash `zipObject` or ramda `zipObj`
  * export const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): ReadonlyRecord<K, A> =>
- *   fromFoldableMap(getLastSemigroup<A>(), readonlyArray)(zip(keys, values), identity)
+ *   fromFoldableMap(last<A>(), readonlyArray)(zip(keys, values), identity)
  *
  * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
  *
@@ -763,7 +763,7 @@ export function fromFoldable<F, A>(
  *   { id: 'id1', name: 'name3' }
  * ]
  *
- * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), readonlyArray)(users, user => [user.id, user]), {
+ * assert.deepStrictEqual(fromFoldableMap(last<User>(), readonlyArray)(users, user => [user.id, user]), {
  *   id1: { id: 'id1', name: 'name3' },
  *   id2: { id: 'id2', name: 'name2' }
  * })
