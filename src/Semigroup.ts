@@ -210,12 +210,12 @@ export const intercalate = <A>(middle: A) => (S: Semigroup<A>): Semigroup<A> => 
  * @example
  * import * as S from 'fp-ts/Semigroup'
  *
- * assert.deepStrictEqual(S.getFirstSemigroup<number>().concat(1, 2), 1)
+ * assert.deepStrictEqual(S.first<number>().concat(1, 2), 1)
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getFirstSemigroup = <A = never>(): Semigroup<A> => ({ concat: identity })
+export const first = <A = never>(): Semigroup<A> => ({ concat: identity })
 
 /**
  * Always return the last argument.
@@ -283,6 +283,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `first` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFirstSemigroup = first
 
 /**
  * Use `tuple` instead.

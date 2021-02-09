@@ -51,8 +51,8 @@ describe('Semigroup', () => {
     U.deepStrictEqual(result.bar, expected.bar)
   })
 
-  it('getFirstSemigroup', () => {
-    U.deepStrictEqual(_.getFirstSemigroup<number>().concat(1, 2), 1)
+  it('first', () => {
+    U.deepStrictEqual(_.first<number>().concat(1, 2), 1)
   })
 
   it('semigroupVoid', () => {
