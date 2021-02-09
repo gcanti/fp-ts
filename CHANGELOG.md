@@ -213,6 +213,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainOptionK` (@gcanti)
   - `EitherT`
     - split `getEitherM` into separated functions (@gcanti)
+  - `Eq`
+    - add `getSemigroup` (@gcanti)
   - `Identity`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
