@@ -179,22 +179,22 @@ export const getTupleSemigroup = <T extends ReadonlyArray<Semigroup<any>>>(
 })
 
 /**
- * You can glue items between and stay associative.
+ * Between each pair of elements insert `middle`.
  *
  * @example
- * import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
+ * import { intercalate } from 'fp-ts/Semigroup'
  * import * as S from 'fp-ts/string'
+ * import { pipe } from 'fp-ts/function'
  *
- * const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
+ * const S1 = pipe(S.Semigroup, intercalate(' + '))
  *
- * assert.strictEqual(S1.concat('a', 'b'), 'a b')
- * assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
+ * assert.strictEqual(S1.concat('a', 'b'), 'a + b')
  *
  * @category combinators
- * @since 2.5.0
+ * @since 2.10.0
  */
-export const getIntercalateSemigroup = <A>(a: A) => (S: Semigroup<A>): Semigroup<A> => ({
-  concat: (x, y) => S.concat(x, S.concat(a, y))
+export const intercalate = <A>(middle: A) => (S: Semigroup<A>): Semigroup<A> => ({
+  concat: (x, y) => S.concat(x, S.concat(middle, y))
 })
 
 // -------------------------------------------------------------------------------------
@@ -280,6 +280,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `intercalate` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export const getIntercalateSemigroup = intercalate
 
 /**
  * Use `concatAll` instead.
