@@ -73,7 +73,6 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
   concat: Se.min(B).concat,
   empty: B.top
 })
-
 /**
  * Get a monoid where `concat` will return the maximum, based on the provided bounded order.
  *
@@ -83,14 +82,14 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
  * import * as B from 'fp-ts/Bounded'
  * import * as M from 'fp-ts/Monoid'
  *
- * const M1 = M.getJoinMonoid(B.boundedNumber)
+ * const M1 = M.max(B.boundedNumber)
  *
  * assert.deepStrictEqual(M1.concat(1, 2), 2)
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
+export const max = <A>(B: Bounded<A>): Monoid<A> => ({
   concat: Se.max(B).concat,
   empty: B.bottom
 })
@@ -178,10 +177,6 @@ export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
   } as any
 }
 
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
 /**
  * @category instances
  * @since 2.0.0
@@ -214,6 +209,15 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `max` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getJoinMonoid = max
 
 /**
  * Use `min` instead.
