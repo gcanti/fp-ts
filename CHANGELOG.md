@@ -246,6 +246,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `tryCatchK` (@gcanti)
   - `OptionT`
     - split `getOptionM` into separated functions (@gcanti)
+  - `Ord`
+    - add `equalsDefault` (@gcanti)
   - `Ordering`
     - add `Eq` instance (@gcanti)
     - add `Semigroup` instance (@gcanti)
