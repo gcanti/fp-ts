@@ -27,6 +27,8 @@ Added in v2.0.0
   - [getTupleOrd](#gettupleord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
+- [defaults](#defaults)
+  - [equalsDefault](#equalsdefault)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
@@ -111,10 +113,22 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+export declare const fromCompare: <A>(compare: (x: A, y: A) => Ordering) => Ord<A>
 ```
 
 Added in v2.0.0
+
+# defaults
+
+## equalsDefault
+
+**Signature**
+
+```ts
+export declare const equalsDefault: <A>(compare: (x: A, y: A) => Ordering) => (x: A, y: A) => boolean
+```
+
+Added in v2.10.0
 
 # instances
 
