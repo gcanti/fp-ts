@@ -73,6 +73,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
     - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
     - deprecate `fold`, use `concatAll` instead (@gcanti)
+    - deprecate `getMeetMonoid`, use `min` instead (@gcanti)
   - `NonEmptyArray`
     - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Option`
@@ -248,6 +249,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainFirst` helper (@gcanti)
   - `Monoid`
     - add `concatAll` (@gcanti)
+    - add `min` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
