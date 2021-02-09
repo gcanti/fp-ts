@@ -91,7 +91,7 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
  * @since 2.0.0
  */
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: Se.getJoinSemigroup(B).concat,
+  concat: Se.max(B).concat,
   empty: B.bottom
 })
 

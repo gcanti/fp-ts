@@ -83,14 +83,14 @@ export const min = <A>(O: Ord<A>): Semigroup<A> => ({
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/Semigroup'
  *
- * const S1 = S.getJoinSemigroup(N.Ord)
+ * const S1 = S.max(N.Ord)
  *
  * assert.deepStrictEqual(S1.concat(1, 2), 2)
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+export const max = <A>(O: Ord<A>): Semigroup<A> => ({
   concat: Or.max(O)
 })
 
@@ -282,6 +282,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `max` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getJoinSemigroup = max
 
 /**
  * Use `min` instead.
