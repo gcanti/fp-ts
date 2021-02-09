@@ -6,10 +6,10 @@ import * as S from '../src/string'
 import * as U from './util'
 
 describe('Semigroup', () => {
-  it('getTupleSemigroup', () => {
-    const S1 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum)
+  it('tuple', () => {
+    const S1 = _.tuple(S.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const S2 = _.getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+    const S2 = _.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
     U.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
