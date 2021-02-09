@@ -13,6 +13,7 @@ import { Contravariant1 } from './Contravariant'
 import { pipe } from './function'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -133,14 +134,20 @@ const empty: Eq<unknown> = {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export const getSemigroup = <A>(): Semigroup<Eq<A>> => ({
+  concat: (x, y) => fromEquals((a, b) => x.equals(a, b) && y.equals(a, b))
+})
+
+/**
+ * @category instances
  * @since 2.6.0
  */
-export function getMonoid<A>(): Monoid<Eq<A>> {
-  return {
-    concat: (x, y) => fromEquals((a, b) => x.equals(a, b) && y.equals(a, b)),
-    empty
-  }
-}
+export const getMonoid = <A>(): Monoid<Eq<A>> => ({
+  concat: getSemigroup<A>().concat,
+  empty
+})
 
 /**
  * @category instances
