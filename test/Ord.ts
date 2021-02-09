@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import { sort } from '../src/ReadonlyArray'
 import * as _ from '../src/Ord'
 import { fold } from '../src/Monoid'
@@ -10,9 +10,9 @@ import * as N from '../src/number'
 describe('Ord', () => {
   it('getTupleOrd', () => {
     const O = _.getTupleOrd(S.Ord, N.Ord, B.Ord)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
-    assert.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+    U.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+    U.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+    U.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
   })
 
   it('getMonoid', () => {
@@ -34,7 +34,7 @@ describe('Ord', () => {
     )
     //                  v-- left unit
     const O1 = fold(M)([M.empty, sortByFst, sortBySnd])
-    assert.deepStrictEqual(sort(O1)(tuples), [
+    U.deepStrictEqual(sort(O1)(tuples), [
       [1, 'b'],
       [1, 'c'],
       [2, 'a'],
@@ -42,7 +42,7 @@ describe('Ord', () => {
     ])
     //                           right unit --v
     const O2 = fold(M)([sortBySnd, sortByFst, M.empty])
-    assert.deepStrictEqual(sort(O2)(tuples), [
+    U.deepStrictEqual(sort(O2)(tuples), [
       [2, 'a'],
       [1, 'b'],
       [1, 'c'],
@@ -52,45 +52,45 @@ describe('Ord', () => {
 
   it('clamp', () => {
     const clampNumber = _.clamp(N.Ord)
-    assert.deepStrictEqual(clampNumber(1, 10)(2), 2)
-    assert.deepStrictEqual(clampNumber(1, 10)(10), 10)
-    assert.deepStrictEqual(clampNumber(1, 10)(20), 10)
-    assert.deepStrictEqual(clampNumber(1, 10)(1), 1)
-    assert.deepStrictEqual(clampNumber(1, 10)(-10), 1)
+    U.deepStrictEqual(clampNumber(1, 10)(2), 2)
+    U.deepStrictEqual(clampNumber(1, 10)(10), 10)
+    U.deepStrictEqual(clampNumber(1, 10)(20), 10)
+    U.deepStrictEqual(clampNumber(1, 10)(1), 1)
+    U.deepStrictEqual(clampNumber(1, 10)(-10), 1)
   })
 
   it('between', () => {
     const betweenNumber = _.between(N.Ord)
-    assert.deepStrictEqual(betweenNumber(1, 10)(2), true)
-    assert.deepStrictEqual(betweenNumber(1, 10)(10), true)
-    assert.deepStrictEqual(betweenNumber(1, 10)(20), false)
-    assert.deepStrictEqual(betweenNumber(1, 10)(1), true)
-    assert.deepStrictEqual(betweenNumber(1, 10)(-10), false)
+    U.deepStrictEqual(betweenNumber(1, 10)(2), true)
+    U.deepStrictEqual(betweenNumber(1, 10)(10), true)
+    U.deepStrictEqual(betweenNumber(1, 10)(20), false)
+    U.deepStrictEqual(betweenNumber(1, 10)(1), true)
+    U.deepStrictEqual(betweenNumber(1, 10)(-10), false)
   })
 
   it('getDualOrd', () => {
     const O = _.getDualOrd(N.Ord)
-    assert.deepStrictEqual(O.compare(1, 2), 1)
-    assert.deepStrictEqual(O.compare(2, 1), -1)
-    assert.deepStrictEqual(O.compare(2, 2), 0)
+    U.deepStrictEqual(O.compare(1, 2), 1)
+    U.deepStrictEqual(O.compare(2, 1), -1)
+    U.deepStrictEqual(O.compare(2, 2), 0)
   })
 
   it('leq', () => {
-    assert.deepStrictEqual(_.leq(N.Ord)(0, 1), true)
-    assert.deepStrictEqual(_.leq(N.Ord)(1, 1), true)
-    assert.deepStrictEqual(_.leq(N.Ord)(2, 1), false)
+    U.deepStrictEqual(_.leq(N.Ord)(0, 1), true)
+    U.deepStrictEqual(_.leq(N.Ord)(1, 1), true)
+    U.deepStrictEqual(_.leq(N.Ord)(2, 1), false)
   })
 
   it('geq', () => {
-    assert.deepStrictEqual(_.geq(N.Ord)(0, 1), false)
-    assert.deepStrictEqual(_.geq(N.Ord)(1, 1), true)
-    assert.deepStrictEqual(_.geq(N.Ord)(2, 1), true)
+    U.deepStrictEqual(_.geq(N.Ord)(0, 1), false)
+    U.deepStrictEqual(_.geq(N.Ord)(1, 1), true)
+    U.deepStrictEqual(_.geq(N.Ord)(2, 1), true)
   })
 
   it('fromCompare', () => {
     const O1 = _.fromCompare(N.Ord.compare)
-    assert.deepStrictEqual(O1.equals(0, 1), false)
-    assert.deepStrictEqual(O1.equals(1, 1), true)
+    U.deepStrictEqual(O1.equals(0, 1), false)
+    U.deepStrictEqual(O1.equals(1, 1), true)
     interface A {
       readonly x: number
     }
@@ -101,13 +101,13 @@ describe('Ord', () => {
     })
     const a1 = { x: 1 }
     const a2 = { x: 1 }
-    assert.deepStrictEqual(O2.equals(a1, a1), true)
-    assert.deepStrictEqual(nbCall, 0)
-    assert.deepStrictEqual(O2.equals(a1, a2), true)
-    assert.deepStrictEqual(nbCall, 1)
-    assert.deepStrictEqual(O2.compare(a1, a1), 0)
-    assert.deepStrictEqual(nbCall, 1)
-    assert.deepStrictEqual(O2.compare(a1, a2), 0)
-    assert.deepStrictEqual(nbCall, 2)
+    U.deepStrictEqual(O2.equals(a1, a1), true)
+    U.deepStrictEqual(nbCall, 0)
+    U.deepStrictEqual(O2.equals(a1, a2), true)
+    U.deepStrictEqual(nbCall, 1)
+    U.deepStrictEqual(O2.compare(a1, a1), 0)
+    U.deepStrictEqual(nbCall, 1)
+    U.deepStrictEqual(O2.compare(a1, a2), 0)
+    U.deepStrictEqual(nbCall, 2)
   })
 })

@@ -1,8 +1,8 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as _ from '../src/string'
 
 describe('string', () => {
   it('Show', () => {
-    assert.deepStrictEqual(_.Show.show('a'), '"a"')
+    U.deepStrictEqual(_.Show.show('a'), '"a"')
   })
 })

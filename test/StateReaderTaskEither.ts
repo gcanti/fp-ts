@@ -1,4 +1,4 @@
-import * as assert from 'assert'
+import * as U from './util'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
@@ -12,7 +12,7 @@ import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
-import { assertSeq } from './util'
+import * as assert from 'assert'
 
 const state: unknown = {}
 
@@ -24,7 +24,7 @@ describe('StateReaderTaskEither', () => {
         _.alt(() => _.left(1)),
         _.evaluate(state)
       )({})()
-      assert.deepStrictEqual(e1, E.right('a'))
+      U.deepStrictEqual(e1, E.right('a'))
       const e2 = await pipe(
         pipe(
           _.left(1),
@@ -32,7 +32,7 @@ describe('StateReaderTaskEither', () => {
           _.evaluate(state)
         )
       )({})()
-      assert.deepStrictEqual(e2, E.right('b'))
+      U.deepStrictEqual(e2, E.right('b'))
       const e3 = await pipe(
         pipe(
           _.left(1),
@@ -40,61 +40,61 @@ describe('StateReaderTaskEither', () => {
           _.evaluate(state)
         )
       )({})()
-      assert.deepStrictEqual(e3, E.left(2))
+      U.deepStrictEqual(e3, E.left(2))
     })
 
     it('map', async () => {
       const len = (s: string): number => s.length
       const e = await pipe(_.right('aaa'), _.map(len), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right(3))
+      U.deepStrictEqual(e, E.right(3))
     })
 
     it('ap', async () => {
       const len = (s: string): number => s.length
       const e = await pipe(_.right(len), _.ap(_.right('aaa')), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right(3))
+      U.deepStrictEqual(e, E.right(3))
     })
 
     it('apFirst', async () => {
       const e = await pipe(_.right('a'), _.apFirst(_.right('b')), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right('a'))
+      U.deepStrictEqual(e, E.right('a'))
     })
 
     it('apSecond', async () => {
       const e = await pipe(_.right('a'), _.apSecond(_.right('b')), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right('b'))
+      U.deepStrictEqual(e, E.right('b'))
     })
 
     it('chain', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
       const e = await pipe(_.right('aaa'), _.chain(f), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right(3))
+      U.deepStrictEqual(e, E.right(3))
     })
 
     it('chainFirst', async () => {
       const f = (s: string) => (s.length > 2 ? _.right(s.length) : _.right(0))
       const e = await pipe(_.right('aaa'), _.chainFirst(f), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right('aaa'))
+      U.deepStrictEqual(e, E.right('aaa'))
     })
 
     it('chainFirst', async () => {
       const e = await pipe(_.right(_.right('a')), _.flatten, _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.right('a'))
+      U.deepStrictEqual(e, E.right('a'))
     })
 
     it('bimap', async () => {
       const gt2 = (n: number): boolean => n > 2
       const len = (s: string): number => s.length
       const e1 = await pipe(_.right('aaa'), _.bimap(gt2, len), _.evaluate(state))({})()
-      assert.deepStrictEqual(e1, E.right(3))
+      U.deepStrictEqual(e1, E.right(3))
       const e2 = await pipe(_.left(3), _.bimap(gt2, len), _.evaluate(state))({})()
-      assert.deepStrictEqual(e2, E.left(true))
+      U.deepStrictEqual(e2, E.left(true))
     })
 
     it('mapLeft', async () => {
       const gt2 = (n: number): boolean => n > 2
       const e = await pipe(_.left(3), _.mapLeft(gt2), _.evaluate(state))({})()
-      assert.deepStrictEqual(e, E.left(true))
+      U.deepStrictEqual(e, E.left(true))
     })
 
     it('fromPredicate', async () => {
@@ -107,9 +107,9 @@ describe('StateReaderTaskEither', () => {
       const e1 = await pipe(gt2(3), _.evaluate(state))({})()
       const e2 = await pipe(gt2(1), _.evaluate(state))({})()
       const e3 = await pipe(isNumber(4), _.evaluate(state))({})()
-      assert.deepStrictEqual(e1, E.right(3))
-      assert.deepStrictEqual(e2, E.left('Invalid number 1'))
-      assert.deepStrictEqual(e3, E.right(4))
+      U.deepStrictEqual(e1, E.right(3))
+      U.deepStrictEqual(e2, E.left('Invalid number 1'))
+      U.deepStrictEqual(e3, E.right(4))
     })
 
     it('filterOrElse', async () => {
@@ -121,7 +121,7 @@ describe('StateReaderTaskEither', () => {
         ),
         _.evaluate(state)
       )({})()
-      assert.deepStrictEqual(e1, E.right(12))
+      U.deepStrictEqual(e1, E.right(12))
 
       const e2 = await pipe(
         _.right(8),
@@ -131,7 +131,7 @@ describe('StateReaderTaskEither', () => {
         ),
         _.evaluate(state)
       )({})()
-      assert.deepStrictEqual(e2, E.left('a'))
+      U.deepStrictEqual(e2, E.left('a'))
     })
   })
 
@@ -140,7 +140,7 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('applicativeStateReaderTaskEither', async () => {
-    await assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)(null)())
+    await U.assertSeq(_.Applicative, _.FromTask, (fa) => fa(null)(null)())
   })
 
   // -------------------------------------------------------------------------------------
@@ -148,9 +148,9 @@ describe('StateReaderTaskEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('run', async () => {
-    const ma = _.right('aaa')
+    const ma = _.right('a')
     const e = await ma({})({})()
-    assert.deepStrictEqual(e, E.right(['aaa', {}]))
+    assert.deepStrictEqual(e, E.right(['a', {}]))
   })
 
   it('applicativeReaderTaskEitherSeq', async () => {
@@ -167,37 +167,37 @@ describe('StateReaderTaskEither', () => {
       _.chain(() => append('end 2'))
     )
     const sequence = A.sequence(_.Applicative)
-    assert.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}]))
-    assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+    U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}]))
+    U.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
   it('execute', async () => {
     const ma = _.right('a')
     const e = await pipe(ma, _.execute(state))({})()
-    assert.deepStrictEqual(e, E.right({}))
+    U.deepStrictEqual(e, E.right({}))
   })
 
   it('rightState', async () => {
     const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.rightState(s), _.evaluate(state))({})()
-    assert.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.right(1))
   })
 
   it('leftState', async () => {
     const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.leftState(s), _.evaluate(state))({})()
-    assert.deepStrictEqual(e, E.left(1))
+    U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromReaderTaskEither', async () => {
     const rte: RTE.ReaderTaskEither<{}, string, number> = RTE.right(1)
     const e = await pipe(_.fromReaderTaskEither(rte), _.evaluate(state))({})()
-    assert.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.right(1))
   })
 
   it('left', async () => {
     const e = await _.left(1)({})({})()
-    assert.deepStrictEqual(e, E.left(1))
+    U.deepStrictEqual(e, E.left(1))
   })
 
   it('rightTask', async () => {
@@ -207,7 +207,7 @@ describe('StateReaderTaskEither', () => {
 
   it('leftTask', async () => {
     const e = await _.leftTask(T.of(1))({})({})()
-    assert.deepStrictEqual(e, E.left(1))
+    U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromTaskEither', async () => {
@@ -222,28 +222,28 @@ describe('StateReaderTaskEither', () => {
 
   it('leftReader', async () => {
     const e = await _.leftReader(R.of(1))({})({})()
-    assert.deepStrictEqual(e, E.left(1))
+    U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromIOEither', async () => {
     const e1 = await _.fromIOEither(IE.right(1))({})({})()
     assert.deepStrictEqual(e1, E.right([1, {}]))
     const e2 = await _.fromIOEither(IE.left(1))({})({})()
-    assert.deepStrictEqual(e2, E.left(1))
+    U.deepStrictEqual(e2, E.left(1))
   })
 
   it('fromEither', async () => {
     const e1 = await _.fromEither(E.right(1))({})({})()
     assert.deepStrictEqual(e1, E.right([1, {}]))
     const e2 = await _.fromEither(E.left(1))({})({})()
-    assert.deepStrictEqual(e2, E.left(1))
+    U.deepStrictEqual(e2, E.left(1))
   })
 
   it('fromOption', async () => {
     const e1 = await _.fromOption(() => 'err')(O.some(1))({})({})()
     assert.deepStrictEqual(e1, E.right([1, {}]))
     const e2 = await _.fromOption(() => 'err')(O.none)({})({})()
-    assert.deepStrictEqual(e2, E.left('err'))
+    U.deepStrictEqual(e2, E.left('err'))
   })
 
   it('rightIO', async () => {
@@ -253,19 +253,19 @@ describe('StateReaderTaskEither', () => {
 
   it('leftIO', async () => {
     const e = await _.leftIO(I.of(1))({})({})()
-    assert.deepStrictEqual(e, E.left(1))
+    U.deepStrictEqual(e, E.left(1))
   })
 
   it('fromOption', async () => {
     const e1 = await _.fromOption(() => 'none')(O.none)({})({})()
-    assert.deepStrictEqual(e1, E.left('none'))
+    U.deepStrictEqual(e1, E.left('none'))
     const e2 = await _.fromOption(() => 'none')(O.some(1))({})({})()
     assert.deepStrictEqual(e2, E.right([1, {}]))
   })
 
   it('fromReaderEither', async () => {
     const e1 = await _.fromReaderEither(RE.left('a'))({})({})()
-    assert.deepStrictEqual(e1, E.left('a'))
+    U.deepStrictEqual(e1, E.left('a'))
     const e2 = await _.fromReaderEither(RE.right(1))({})({})()
     assert.deepStrictEqual(e2, E.right([1, {}]))
   })
@@ -309,7 +309,7 @@ describe('StateReaderTaskEither', () => {
 
   it('gets', async () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(await _.gets(double)(1)({})(), E.right([2, 1]))
+    U.deepStrictEqual(await _.gets(double)(1)({})(), E.right([2, 1]))
   })
 
   it('do notation', async () => {
@@ -349,14 +349,14 @@ describe('StateReaderTaskEither', () => {
       await pipe([right(1), right(2)], _.sequenceArray)(undefined)(undefined)(),
       E.right([[1, 2], undefined])
     )
-    assert.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(undefined)(undefined)(), E.left('a'))
-    assert.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(undefined)(undefined)(), E.left('b'))
-    assert.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(undefined)(undefined)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(undefined)(undefined)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 
   it('fromState', async () => {
     const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
-    assert.deepStrictEqual(e, E.right(1))
+    U.deepStrictEqual(e, E.right(1))
   })
 })

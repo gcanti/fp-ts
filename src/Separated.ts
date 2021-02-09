@@ -60,7 +60,7 @@ const _bimap: Bifunctor2<URI>['bimap'] = (fa, g, f) => pipe(fa, bimap(g, f))
  * @since 2.10.0
  */
 export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated<E, B> =>
-  separated(fa.left, f(fa.right))
+  separated(left(fa), f(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -69,7 +69,7 @@ export const map = <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>): Separated
  * @since 2.10.0
  */
 export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separated<G, A> =>
-  separated(f(fa.left), fa.right)
+  separated(f(left(fa)), right(fa))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -78,7 +78,7 @@ export const mapLeft = <E, G>(f: (e: E) => G) => <A>(fa: Separated<E, A>): Separ
  * @since 2.10.0
  */
 export const bimap = <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Separated<E, A>): Separated<G, B> =>
-  separated(f(fa.left), g(fa.right))
+  separated(f(left(fa)), g(right(fa)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -130,3 +130,17 @@ export const Functor: Functor2<URI> = {
 export const flap =
   /*#_PURE_*/
   flap_(Functor)
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.10.0
+ */
+export const left = <E, A>(s: Separated<E, A>): E => s.left
+
+/**
+ * @since 2.10.0
+ */
+export const right = <E, A>(s: Separated<E, A>): A => s.right

@@ -37,6 +37,9 @@ Added in v2.10.0
   - [URI (type alias)](#uri-type-alias)
 - [type classes](#type-classes)
   - [Separated (interface)](#separated-interface)
+- [utils](#utils)
+  - [left](#left)
+  - [right](#right)
 
 ---
 
@@ -162,6 +165,28 @@ export interface Separated<E, A> {
   readonly left: E
   readonly right: A
 }
+```
+
+Added in v2.10.0
+
+# utils
+
+## left
+
+**Signature**
+
+```ts
+export declare const left: <E, A>(s: Separated<E, A>) => E
+```
+
+Added in v2.10.0
+
+## right
+
+**Signature**
+
+```ts
+export declare const right: <E, A>(s: Separated<E, A>) => A
 ```
 
 Added in v2.10.0

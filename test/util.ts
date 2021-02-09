@@ -4,6 +4,10 @@ import { FromTask, FromTask1, FromTask2, FromTask3, FromTask4 } from '../src/Fro
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'
 import * as T from '../src/Task'
 
+export const deepStrictEqual = <A>(actual: A, expected: A) => {
+  assert.deepStrictEqual(actual, expected)
+}
+
 export interface AssertParSeq {
   <F extends URIS4>(
     F: Apply4<F>,
@@ -38,7 +42,7 @@ export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => a
   const b = MT.fromTask(T.fromIO(() => log.push('b')))
   const ab = sequenceT(F)(a, b)
   await run(ab)
-  assert.deepStrictEqual(log, expected)
+  deepStrictEqual(log, expected)
 }
 
 export const assertPar = assertParSeq(['b', 'a'])
