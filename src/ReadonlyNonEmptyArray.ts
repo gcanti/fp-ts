@@ -21,7 +21,7 @@ import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { ReadonlyRecord } from './ReadonlyRecord'
-import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
@@ -144,7 +144,7 @@ export const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArra
  * @since 2.5.0
  */
 export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
-  const S = getMeetSemigroup(ord)
+  const S = Se.min(ord)
   return (nea) => nea.reduce(S.concat)
 }
 
@@ -152,7 +152,7 @@ export function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  * @since 2.5.0
  */
 export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
-  const S = getJoinSemigroup(ord)
+  const S = Se.getJoinSemigroup(ord)
   return (nea) => nea.reduce(S.concat)
 }
 
@@ -162,7 +162,7 @@ export function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A {
  * @category instances
  * @since 2.5.0
  */
-export function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> {
+export function getSemigroup<A = never>(): Se.Semigroup<ReadonlyNonEmptyArray<A>> {
   return {
     concat: concat
   }
@@ -380,7 +380,7 @@ export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyA
 /**
  * @since 2.10.0
  */
-export const concatAll = <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce(S.concat)
+export const concatAll = <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>): A => fa.reduce(S.concat)
 
 /**
  * @category combinators
@@ -468,7 +468,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
+export const foldMapWithIndex = <S>(S: Se.Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   fa: ReadonlyNonEmptyArray<A>
 ) => fa.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, fa[0]))
 
@@ -476,7 +476,7 @@ export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A)
  * @category Foldable
  * @since 2.5.0
  */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) =>
+export const foldMap = <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) =>
   fa.slice(1).reduce((s, a) => S.concat(s, f(a)), f(fa[0]))
 
 /**

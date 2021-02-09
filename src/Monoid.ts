@@ -70,7 +70,7 @@ export interface Monoid<A> extends Se.Semigroup<A> {
  * @since 2.0.0
  */
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ({
-  concat: Se.getMeetSemigroup(B).concat,
+  concat: Se.min(B).concat,
   empty: B.top
 })
 

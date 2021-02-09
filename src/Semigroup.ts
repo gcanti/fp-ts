@@ -39,8 +39,10 @@
  */
 import { identity, getSemigroup } from './function'
 import { Magma } from './Magma'
-import { max, min, Ord } from './Ord'
+import * as Or from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
+
+import Ord = Or.Ord
 
 // -------------------------------------------------------------------------------------
 // model
@@ -63,15 +65,15 @@ export interface Semigroup<A> extends Magma<A> {}
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/Semigroup'
  *
- * const S1 = S.getMeetSemigroup(N.Ord)
+ * const S1 = S.min(N.Ord)
  *
  * assert.deepStrictEqual(S1.concat(1, 2), 1)
  *
  * @category constructors
  * @since 2.0.0
  */
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: min(O)
+export const min = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: Or.min(O)
 })
 
 /**
@@ -89,7 +91,7 @@ export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
  * @since 2.0.0
  */
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: max(O)
+  concat: Or.max(O)
 })
 
 /**
@@ -280,6 +282,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `min` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getMeetSemigroup = min
 
 /**
  * Use `intercalate` instead.
