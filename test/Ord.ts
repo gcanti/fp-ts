@@ -68,8 +68,8 @@ describe('Ord', () => {
     U.deepStrictEqual(betweenNumber(1, 10)(-10), false)
   })
 
-  it('getDualOrd', () => {
-    const O = _.getDualOrd(N.Ord)
+  it('reverse', () => {
+    const O = _.reverse(N.Ord)
     U.deepStrictEqual(O.compare(1, 2), 1)
     U.deepStrictEqual(O.compare(2, 1), -1)
     U.deepStrictEqual(O.compare(2, 2), 0)
