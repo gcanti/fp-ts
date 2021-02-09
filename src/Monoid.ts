@@ -102,15 +102,15 @@ export const max = <A>(B: Bounded<A>): Monoid<A> => ({
  * The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
  *
  * @example
- * import { getDualMonoid } from 'fp-ts/Monoid'
+ * import { reverse } from 'fp-ts/Monoid'
  * import * as S from 'fp-ts/string'
  *
- * assert.deepStrictEqual(getDualMonoid(S.Monoid).concat('a', 'b'), 'ba')
+ * assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ({
+export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
   concat: Se.reverse(M).concat,
   empty: M.empty
 })
@@ -211,6 +211,15 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 
 /**
+ * Use `reverse` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getDualMonoid = reverse
+
+/**
  * Use `max` instead.
  *
  * @category constructors
@@ -280,7 +289,7 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
  * @since 2.0.0
  * @deprecated
  */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => getDualMonoid(getEM())
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => reverse(getEM())
 
 /**
  * Use `string.Monoid` instead.
