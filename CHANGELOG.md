@@ -87,6 +87,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `ordString`, use `string.Ord` instead (@gcanti)
     - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
     - deprecate `ordDate`, use `Date.Ord` instead (@gcanti)
+    - deprecate `getDualOrd`, use `reverse` instead (@gcanti)
   - `Ordering`
     - deprecate `eqOrdering`, use `Eq` instead (@gcanti)
     - deprecate `monoidOrdering`, use `Monoid` instead (@gcanti)
@@ -270,6 +271,7 @@ high state of flux, you're at risk of it changing without notice.
     - split `getOptionM` into separated functions (@gcanti)
   - `Ord`
     - add `equalsDefault` (@gcanti)
+    - add `reverse` (@gcanti)
   - `Ordering`
     - add `Eq` instance (@gcanti)
     - add `Semigroup` instance (@gcanti)

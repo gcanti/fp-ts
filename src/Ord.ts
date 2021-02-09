@@ -91,11 +91,9 @@ export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getDualOrd<A>(O: Ord<A>): Ord<A> {
-  return fromCompare((x, y) => O.compare(y, x))
-}
+export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((x, y) => O.compare(y, x))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -157,7 +155,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  *
  * @example
  * import { sort } from 'fp-ts/Array'
- * import { contramap, getDualOrd, getMonoid } from 'fp-ts/Ord'
+ * import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
  * import * as S from 'fp-ts/string'
  * import * as B from 'fp-ts/boolean'
  * import { pipe } from 'fp-ts/function'
@@ -205,7 +203,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
  * ])
  *
  * // now `rememberMe = true` first, then by name, then by age
- * const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
+ * const O2 = fold(M)([reverse(byRememberMe), byName, byAge])
  * assert.deepStrictEqual(sort(O2)(users), [
  *   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
  *   { id: 2, name: 'Guido', age: 46, rememberMe: true },
@@ -319,6 +317,15 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `reverse` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getDualOrd = reverse
 
 /**
  * Use `Contravariant` instead.
