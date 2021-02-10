@@ -10,7 +10,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
 import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
-import { getStructShow, Show } from '../src/Show'
+import { struct, Show } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -1072,7 +1072,7 @@ describe('ReadonlyMap', () => {
   })
 
   it('getShow', () => {
-    const showUser: Show<User> = getStructShow({ id: S.Show })
+    const showUser: Show<User> = struct({ id: S.Show })
     const Sh = _.getShow(showUser, S.Show)
     const m1 = new Map<User, string>([])
     U.deepStrictEqual(Sh.show(m1), `new Map([])`)
