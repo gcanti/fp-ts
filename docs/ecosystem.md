@@ -35,6 +35,7 @@ has_toc: false
 - [fp-fetch](https://github.com/monstasat/fp-fetch) - Functional style, non-throwing utils for data fetching
 - [fp-ts-std](https://github.com/samhh/fp-ts-std) - The missing pseudo-standard library for fp-ts.
 - [fp-ts-lcg](https://github.com/no-day/fp-ts-lcg) - A seeded pseudorandom number generator
+- [fp-ts-bigint](https://github.com/ericcrosson/fp-ts-bigint) - Opt-in BigInt functions
 
 ## Bindings
 
