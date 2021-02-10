@@ -8,8 +8,8 @@ import * as S from '../src/string'
 import * as N from '../src/number'
 
 describe('Ord', () => {
-  it('getTupleOrd', () => {
-    const O = _.getTupleOrd(S.Ord, N.Ord, B.Ord)
+  it('tuple', () => {
+    const O = _.tuple(S.Ord, N.Ord, B.Ord)
     U.deepStrictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
     U.deepStrictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
     U.deepStrictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)

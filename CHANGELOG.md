@@ -90,6 +90,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
     - deprecate `ordDate`, use `Date.Ord` instead (@gcanti)
     - deprecate `getDualOrd`, use `reverse` instead (@gcanti)
+    - deprecate `getTupleOrd`, use `tuple` instead (@gcanti)
   - `Ordering`
     - deprecate `eqOrdering`, use `Eq` instead (@gcanti)
     - deprecate `monoidOrdering`, use `Monoid` instead (@gcanti)
@@ -281,6 +282,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Ord`
     - add `equalsDefault` (@gcanti)
     - add `reverse` (@gcanti)
+    - add `tuple` (@gcanti)
   - `Ordering`
     - add `Eq` instance (@gcanti)
     - add `Semigroup` instance (@gcanti)

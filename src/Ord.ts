@@ -57,37 +57,33 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
 // -------------------------------------------------------------------------------------
 
 /**
- * Given a tuple of `Ord`s returns an `Ord` for the tuple
+ * Given a tuple of `Ord`s returns an `Ord` for the tuple.
  *
  * @example
- * import { getTupleOrd } from 'fp-ts/Ord'
+ * import { tuple } from 'fp-ts/Ord'
+ * import * as B from 'fp-ts/boolean'
  * import * as S from 'fp-ts/string'
  * import * as N from 'fp-ts/number'
- * import * as B from 'fp-ts/boolean'
  *
- * const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
+ * const O = tuple(S.Ord, N.Ord, B.Ord)
  * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getTupleOrd<T extends ReadonlyArray<Ord<any>>>(
-  ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
-  const len = ords.length
-  return fromCompare((x, y) => {
+export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<A> =>
+  fromCompare((first, second) => {
     let i = 0
-    for (; i < len - 1; i++) {
-      const r = ords[i].compare(x[i], y[i])
+    for (; i < ords.length - 1; i++) {
+      const r = ords[i].compare(first[i], second[i])
       if (r !== 0) {
         return r
       }
     }
-    return ords[i].compare(x[i], y[i])
+    return ords[i].compare(first[i], second[i])
   })
-}
 
 /**
  * @category combinators
@@ -317,6 +313,17 @@ export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `tuple` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
+  ...ords: T
+) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> = tuple
 
 /**
  * Use `reverse` instead.
