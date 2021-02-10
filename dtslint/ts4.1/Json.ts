@@ -4,14 +4,15 @@ import * as _ from '../../src/Json'
 // stringify
 //
 
-// // $ExpectError
-// _.stringify(undefined)
-// // $ExpectError
-// _.stringify(() => {})
-// // $ExpectError
-// _.stringify(Symbol())
+// $ExpectError
+_.stringify(undefined)
+// $ExpectError
+_.stringify(() => {})
+// $ExpectError
+_.stringify(Symbol())
 
-interface AB {
+// tslint:disable-next-line: interface-over-type-literal
+type AB = {
   readonly a: string
   readonly b: number
 }

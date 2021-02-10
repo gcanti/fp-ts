@@ -21,13 +21,13 @@ describe('Json', () => {
       ),
       E.left(true)
     )
-    interface Person {
+    type Person = {
       readonly name: string
       readonly age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
     U.deepStrictEqual(pipe(person, _.stringify), E.right('{"name":"Giulio","age":45}'))
 
-    U.deepStrictEqual(_.stringify(undefined), E.left(new Error('Converting unsupported structure to JSON')))
+    U.deepStrictEqual(_.stringify(undefined as any), E.left(new Error('Converting unsupported structure to JSON')))
   })
 })
