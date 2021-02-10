@@ -113,8 +113,8 @@ describe('ReadonlySet', () => {
       _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
       separated(new Set([2]), new Set(['1', '3']))
     )
-    const SL = Eq.getStructEq({ value: N.Eq })
-    const SR = Eq.getStructEq({ value: S.Eq })
+    const SL = Eq.struct({ value: N.Eq })
+    const SR = Eq.struct({ value: S.Eq })
     U.deepStrictEqual(
       _.partitionMap(
         SL,

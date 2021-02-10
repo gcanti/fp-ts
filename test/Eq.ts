@@ -50,8 +50,8 @@ describe('Eq', () => {
     U.deepStrictEqual(nbCall, 1)
   })
 
-  it('getStructEq', () => {
-    const E = _.getStructEq<Person>({
+  it('struct', () => {
+    const E = _.struct<Person>({
       name: S.Eq,
       age: N.Eq
     })

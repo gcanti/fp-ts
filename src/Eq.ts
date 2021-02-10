@@ -42,6 +42,24 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+  fromEquals((first, second) => {
+    for (const key in eqs) {
+      if (!eqs[key].equals(first[key], second[key])) {
+        return false
+      }
+    }
+    return true
+  })
+
+// -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
@@ -87,21 +105,6 @@ declare module './HKT' {
  */
 export const eqStrict: Eq<unknown> = {
   equals: (a, b) => a === b
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
-  return fromEquals((x, y) => {
-    for (const k in eqs) {
-      if (!eqs[k].equals(x[k], y[k])) {
-        return false
-      }
-    }
-    return true
-  })
 }
 
 /**
@@ -161,6 +164,15 @@ export const Contravariant: Contravariant1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `struct` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O> = struct
 
 /**
  * Use `eqStrict` instead

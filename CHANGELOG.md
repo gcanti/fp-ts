@@ -44,6 +44,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `eqString`, use `string.Eq` instead (@gcanti)
     - deprecate `eqNumber`, use `number.Eq` instead (@gcanti)
     - deprecate `eqDate`, use `Date.Eq` instead (@gcanti)
+    - deprecate `getStructEq`, use `struct` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
