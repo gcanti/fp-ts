@@ -134,6 +134,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getTupleSemigroup`, use `tuple` instead (@gcanti)
     - deprecate `getFirstSemigroup`, use `first` instead (@gcanti)
     - deprecate `getLastSemigroup`, use `last` instead (@gcanti)
+    - deprecate `getObjectSemigroup`, use `assign` instead (@gcanti)
   - `Show`
     - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
     - deprecate `showString`, use `string.Show` instead (@gcanti)
@@ -349,6 +350,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `tuple` (@gcanti)
     - add `first` (@gcanti)
     - add `last` (@gcanti)
+    - add `assign` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

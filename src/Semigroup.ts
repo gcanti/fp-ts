@@ -70,7 +70,7 @@ export interface Semigroup<A> extends Magma<A> {}
  * assert.deepStrictEqual(S1.concat(1, 2), 1)
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.10.0
  */
 export const min = <A>(O: Ord<A>): Semigroup<A> => ({
   concat: Or.min(O)
@@ -226,28 +226,28 @@ export const first = <A = never>(): Semigroup<A> => ({ concat: identity })
  * assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
 export const last = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
 
 /**
- * Return a semigroup for objects, preserving their type.
+ * Return a semigroup which works like `Object.assign`.
  *
  * @example
- * import * as S from 'fp-ts/Semigroup'
+ * import * as Se from 'fp-ts/Semigroup'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
  *
- * const S1 = S.getObjectSemigroup<Person>()
- * assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
+ * const S = Se.assign<Person>()
+ * assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
  *
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
+export const assign = <A extends object = never>(): Semigroup<A> => ({
   concat: (x, y) => Object.assign({}, x, y)
 })
 
@@ -283,6 +283,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `assign` instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getObjectSemigroup = assign
 
 /**
  * Use `last` instead.

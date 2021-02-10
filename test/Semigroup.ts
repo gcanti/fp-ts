@@ -32,7 +32,7 @@ describe('Semigroup', () => {
     U.deepStrictEqual(_.max(N.Ord).concat(1, 2), 2)
   })
 
-  it('getObjectSemigroup', () => {
+  it('assign', () => {
     type T = {
       readonly foo?: number
       readonly bar: string
@@ -44,7 +44,7 @@ describe('Semigroup', () => {
     const bar: T = {
       bar: '123'
     }
-    const S = _.getObjectSemigroup<T>()
+    const S = _.assign<T>()
     const result = S.concat(foo, bar)
     const expected = Object.assign({}, foo, bar)
     U.deepStrictEqual(result.foo, expected.foo)
