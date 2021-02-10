@@ -294,20 +294,28 @@ export const fromPredicate: {
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
+export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
  * if the value is a `Right` the inner value is applied to the second function.
  *
  * @example
- * import { fold, left, right } from 'fp-ts/Either'
+ * import { match, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * function onLeft(errors: Array<string>): string {
@@ -321,22 +329,30 @@ export const foldW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => 
  * assert.strictEqual(
  *   pipe(
  *     right(1),
- *     fold(onLeft, onRight)
+ *     match(onLeft, onRight)
  *   ),
  *   'Ok: 1'
  * )
  * assert.strictEqual(
  *   pipe(
  *     left(['error 1', 'error 2']),
- *     fold(onLeft, onRight)
+ *     match(onLeft, onRight)
  *   ),
  *   'Errors: error 1, error 2'
  * )
  *
  * @category destructors
+ * @since 2.10.0
+ */
+export const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = matchW
+
+/**
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
  * @since 2.0.0
  */
-export const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = foldW
+export const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = match
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).

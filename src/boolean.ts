@@ -14,13 +14,21 @@ import * as S from './Show'
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
+export const matchW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
   value ? onTrue() : onFalse()
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * Defines the fold over a boolean value.
@@ -30,20 +38,28 @@ export const foldW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolea
  * @example
  * import { some, map } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
- * import { fold } from 'fp-ts/boolean'
+ * import { match } from 'fp-ts/boolean'
  *
  * assert.deepStrictEqual(
  *  pipe(
  *    some(true),
- *    map(fold(() => 'false', () => 'true'))
+ *    map(match(() => 'false', () => 'true'))
  *  ),
  *  some('true')
  * )
  *
  * @category destructors
+ * @since 2.10.0
+ */
+export const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = foldW
+
+/**
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
  * @since 2.2.0
  */
-export const fold: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = foldW
+export const fold = match
 
 // -------------------------------------------------------------------------------------
 // instances

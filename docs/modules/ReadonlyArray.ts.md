@@ -99,6 +99,8 @@ Added in v2.5.0
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
   - [toArray](#toarray)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
@@ -1328,45 +1330,75 @@ Added in v2.5.0
 
 ## foldLeft
 
-Break an array into its first element and remaining elements
+Alias of [`matchLeft`](#matchLeft).
 
 **Signature**
 
 ```ts
-export declare function foldLeft<A, B>(
+export declare const foldLeft: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: ReadonlyArray<A>) => B
-): (as: ReadonlyArray<A>) => B
-```
-
-**Example**
-
-```ts
-import { foldLeft } from 'fp-ts/ReadonlyArray'
-
-const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(
-  () => 0,
-  (_, tail) => 1 + len(tail)
-)
-assert.strictEqual(len([1, 2, 3]), 3)
+  onCons: (head: A, tail: readonly A[]) => B
+) => (as: readonly A[]) => B
 ```
 
 Added in v2.5.0
 
 ## foldRight
 
-Break an array into its initial elements and the last element
+Alias of [`matchRight`](#matchRight).
 
 **Signature**
 
 ```ts
-export declare function foldRight<A, B>(
+export declare const foldRight: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (init: ReadonlyArray<A>, last: A) => B
-): (as: ReadonlyArray<A>) => B
+  onCons: (init: readonly A[], last: A) => B
+) => (as: readonly A[]) => B
 ```
 
 Added in v2.5.0
+
+## matchLeft
+
+Break an array into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(
+  onEmpty: Lazy<B>,
+  onCons: (head: A, tail: readonly A[]) => B
+) => (as: readonly A[]) => B
+```
+
+**Example**
+
+```ts
+import { matchLeft } from 'fp-ts/ReadonlyArray'
+
+const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(
+  () => 0,
+  (_, tail) => 1 + len(tail)
+)
+assert.strictEqual(len([1, 2, 3]), 3)
+```
+
+Added in v2.10.0
+
+## matchRight
+
+Break an array into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(
+  onEmpty: Lazy<B>,
+  onCons: (init: readonly A[], last: A) => B
+) => (as: readonly A[]) => B
+```
+
+Added in v2.10.0
 
 ## toArray
 

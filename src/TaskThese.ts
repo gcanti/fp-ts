@@ -125,9 +125,9 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
  * @category destructors
- * @since 2.4.0
+ * @since 2.10.0
  */
-export const fold: <E, B, A>(
+export const match: <E, B, A>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>,
   onBoth: (e: E, a: A) => Task<B>
@@ -136,16 +136,32 @@ export const fold: <E, B, A>(
   TT.match(T.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.4.0
+ */
+export const fold = match
+
+/**
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <E, B, A, C, D>(
+export const matchW: <E, B, A, C, D>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<C>,
   onBoth: (e: E, a: A) => Task<D>
 ) => (fa: TaskThese<E, A>) => Task<B | C | D> = fold as any
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 // -------------------------------------------------------------------------------------
 // combinators

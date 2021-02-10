@@ -80,6 +80,8 @@ Added in v2.0.0
   - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -808,6 +810,8 @@ Added in v2.0.0
 
 ## fold
 
+Alias of [`match`](#match).
+
 **Signature**
 
 ```ts
@@ -821,7 +825,7 @@ Added in v2.0.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
@@ -859,6 +863,34 @@ export declare const getOrElseW: <R2, E, B>(
 ```
 
 Added in v2.6.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <R, E, A, B>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>,
+  onRight: (a: A) => RT.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
+```
+
+Added in v2.10.0
 
 ## toUnion
 

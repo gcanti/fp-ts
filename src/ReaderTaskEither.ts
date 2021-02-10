@@ -211,9 +211,9 @@ export const fromEither: FromEither3<URI>['fromEither'] = RT.of
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const fold: <R, E, A, B>(
+export const match: <R, E, A, B>(
   onLeft: (e: E) => ReaderTask<R, B>,
   onRight: (a: A) => ReaderTask<R, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
@@ -221,15 +221,31 @@ export const fold: <R, E, A, B>(
   ET.match(RT.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = match
+
+/**
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <E, R2, B, A, R3, C>(
+export const matchW: <E, R2, B, A, R3, C>(
   onLeft: (e: E) => ReaderTask<R2, B>,
   onRight: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = fold as any
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = match as any
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * @category destructors

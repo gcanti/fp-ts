@@ -77,6 +77,8 @@ Added in v2.0.0
   - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -751,6 +753,8 @@ Added in v2.0.0
 
 ## fold
 
+Alias of [`match`](#match).
+
 **Signature**
 
 ```ts
@@ -764,7 +768,7 @@ Added in v2.0.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
@@ -798,6 +802,34 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: 
 ```
 
 Added in v2.6.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, A, B>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>
+) => (ma: TaskEither<E, A>) => T.Task<B>
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>
+) => (ma: TaskEither<E, A>) => T.Task<B | C>
+```
+
+Added in v2.10.0
 
 ## toUnion
 

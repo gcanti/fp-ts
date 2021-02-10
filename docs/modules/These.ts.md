@@ -60,6 +60,8 @@ Added in v2.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
+  - [match](#match)
+  - [matchW](#matchw)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -320,6 +322,8 @@ Added in v2.0.0
 
 ## fold
 
+Alias of [`match`](#match).
+
 **Signature**
 
 ```ts
@@ -334,7 +338,7 @@ Added in v2.0.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
@@ -439,6 +443,36 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 ```
 
 Added in v2.0.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, A, B>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (fa: These<E, A>) => B
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (fa: These<E, A>) => B | C | D
+```
+
+Added in v2.10.0
 
 # guards
 

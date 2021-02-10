@@ -83,12 +83,12 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 }
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
+export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
   fa: These<E, A>
 ): B | C | D => {
   switch (fa._tag) {
@@ -102,14 +102,30 @@ export const foldW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, 
 }
 
 /**
+ * Alias of [`matchW`](#matchW).
+ *
  * @category destructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const fold: <E, A, B>(
+export const foldW = matchW
+
+/**
+ * @category destructors
+ * @since 2.10.0
+ */
+export const match: <E, A, B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (fa: These<E, A>) => B = foldW
+) => (fa: These<E, A>) => B = matchW
+
+/**
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = match
 
 /**
  * @category combinators
