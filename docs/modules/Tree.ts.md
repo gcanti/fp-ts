@@ -47,7 +47,7 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flatten](#flatten)
 - [destructors](#destructors)
-  - [match](#match)
+  - [fold](#fold)
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -371,7 +371,7 @@ Added in v3.0.0
 
 # destructors
 
-## match
+## fold
 
 Fold a tree into a "summary" value in depth-first order.
 
@@ -382,24 +382,26 @@ This is also known as the catamorphism on trees.
 **Signature**
 
 ```ts
-export declare const match: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
+export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tree<A>) => B
 ```
 
 **Example**
 
 ```ts
-import { match, make } from 'fp-ts/Tree'
+import { fold, make } from 'fp-ts/Tree'
+import * as N from 'fp-ts/number'
+import { concatAll } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 
 const t = make(1, [make(2), make(3)])
 
-const sum = (as: ReadonlyArray<number>) => as.reduce((a, acc) => a + acc, 0)
+const sum = concatAll(N.MonoidSum)
 
 // Sum the values in a tree:
 assert.deepStrictEqual(
   pipe(
     t,
-    match((a, bs) => a + sum(bs))
+    fold((a, bs) => a + sum(bs))
   ),
   6
 )
@@ -408,7 +410,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     t,
-    match((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
+    fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))
   ),
   3
 )
@@ -417,7 +419,7 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   pipe(
     t,
-    match((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
+    fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
   ),
   2
 )
