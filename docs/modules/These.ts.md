@@ -173,7 +173,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => These<E, A>
+export declare const of: typeof right
 ```
 
 Added in v2.0.0

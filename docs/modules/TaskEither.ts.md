@@ -307,7 +307,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => TaskEither<E, A>
+export declare const of: <E = never, A = never>(a: A) => TaskEither<E, A>
 ```
 
 Added in v2.0.0

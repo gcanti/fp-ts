@@ -633,7 +633,7 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category Pointed
  * @since 2.7.0
  */
-export const of: Pointed2<URI>['of'] = right
+export const of = right
 
 /**
  * Less strict version of [`chain`](#chain).

@@ -484,7 +484,7 @@ export const altW: <E2, B>(
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed2<URI>['of'] = right
+export const of = right
 
 /**
  * @category MonadTask

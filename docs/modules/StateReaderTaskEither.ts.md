@@ -270,7 +270,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const of: <S, R, E, A>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const of: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.7.0

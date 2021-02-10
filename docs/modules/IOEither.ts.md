@@ -258,7 +258,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => IOEither<E, A>
+export declare const of: <E = never, A = never>(a: A) => IOEither<E, A>
 ```
 
 Added in v2.8.5

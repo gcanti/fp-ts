@@ -373,7 +373,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => Either<E, A>
+export declare const of: <E = never, A = never>(a: A) => Either<E, A>
 ```
 
 Added in v2.7.0
