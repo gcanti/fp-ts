@@ -77,6 +77,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getMeetMonoid`, use `min` instead (@gcanti)
     - deprecate `getJoinMonoid`, use `max` instead (@gcanti)
     - deprecate `getDualMonoid`, use `reverse` instead (@gcanti)
+    - deprecate `getStructMonoid`, use `struct` instead (@gcanti)
   - `NonEmptyArray`
     - deprecate `fold`, use `concatAll` instead (@gcanti)
   - `Option`
@@ -263,6 +264,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `min` (@gcanti)
     - add `max` (@gcanti)
     - add `reverse` (@gcanti)
+    - add `struct` (@gcanti)
   - `NonEmptyArray`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
