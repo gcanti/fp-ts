@@ -121,6 +121,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `run` (@gcanti)
   - `ReadonlyNonEmptyArray`
     - deprecate `fold`, use `concatAll` instead (@gcanti)
+  - `Ring`
+    - deprecate `getTupleRing`, use `tuple` instead (@gcanti)
   - `Semigroup`
     - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
     - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
@@ -346,6 +348,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
     - add `concatAll` (@gcanti)
+  - `Ring`
+    - add `tuple` (@gcanti)
   - `Semigroup`
     - add `constant` (@gcanti)
     - add `concatAll` (@gcanti)
