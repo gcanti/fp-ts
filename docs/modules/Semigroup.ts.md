@@ -49,20 +49,29 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDualSemigroup](#getdualsemigroup)
-  - [getIntercalateSemigroup](#getintercalatesemigroup)
-  - [getStructSemigroup](#getstructsemigroup)
-  - [getTupleSemigroup](#gettuplesemigroup)
+  - [intercalate](#intercalate)
+  - [reverse](#reverse)
+  - [struct](#struct)
+  - [tuple](#tuple)
+  - [~~getDualSemigroup~~](#getdualsemigroup)
+  - [~~getIntercalateSemigroup~~](#getintercalatesemigroup)
+  - [~~getStructSemigroup~~](#getstructsemigroup)
+  - [~~getTupleSemigroup~~](#gettuplesemigroup)
 - [constructors](#constructors)
-  - [getConstantSemigroup](#getconstantsemigroup)
-  - [getJoinSemigroup](#getjoinsemigroup)
-  - [getMeetSemigroup](#getmeetsemigroup)
+  - [constant](#constant)
+  - [max](#max)
+  - [min](#min)
+  - [~~getJoinSemigroup~~](#getjoinsemigroup)
+  - [~~getMeetSemigroup~~](#getmeetsemigroup)
 - [instances](#instances)
-  - [getFirstSemigroup](#getfirstsemigroup)
-  - [getLastSemigroup](#getlastsemigroup)
-  - [getObjectSemigroup](#getobjectsemigroup)
+  - [assign](#assign)
+  - [first](#first)
+  - [last](#last)
   - [semigroupVoid](#semigroupvoid)
+  - [~~getFirstSemigroup~~](#getfirstsemigroup)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
+  - [~~getLastSemigroup~~](#getlastsemigroup)
+  - [~~getObjectSemigroup~~](#getobjectsemigroup)
   - [~~semigroupAll~~](#semigroupall)
   - [~~semigroupAny~~](#semigroupany)
   - [~~semigroupProduct~~](#semigroupproduct)
@@ -78,9 +87,114 @@ Added in v2.0.0
 
 # combinators
 
-## getDualSemigroup
+## intercalate
+
+Between each pair of elements insert `middle`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { intercalate } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+const S1 = pipe(S.Semigroup, intercalate(' + '))
+
+assert.strictEqual(S1.concat('a', 'b'), 'a + b')
+```
+
+Added in v2.10.0
+
+## reverse
 
 The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(S: Semigroup<A>) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Semigroup'
+import * as S from 'fp-ts/string'
+
+assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
+```
+
+Added in v2.10.0
+
+## struct
+
+Given a struct of semigroups returns a semigroup for the struct.
+
+**Signature**
+
+```ts
+export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { struct } from 'fp-ts/Semigroup'
+import * as N from 'fp-ts/number'
+
+interface Point {
+  readonly x: number
+  readonly y: number
+}
+
+const S = struct<Point>({
+  x: N.SemigroupSum,
+  y: N.SemigroupSum,
+})
+
+assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+```
+
+Added in v2.10.0
+
+## tuple
+
+Given a tuple of semigroups returns a semigroup for the tuple.
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(
+  ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
+) => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Semigroup'
+import * as B from 'fp-ts/boolean'
+import * as N from 'fp-ts/number'
+import * as S from 'fp-ts/string'
+
+const S1 = tuple(S.Semigroup, N.SemigroupSum)
+assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
+assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+```
+
+Added in v2.10.0
+
+## ~~getDualSemigroup~~
+
+Use `reverse` instead.
 
 **Signature**
 
@@ -88,44 +202,23 @@ The dual of a `Semigroup`, obtained by swapping the arguments of `concat`.
 export declare const getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
 ```
 
-**Example**
-
-```ts
-import { getDualSemigroup } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-
-assert.deepStrictEqual(getDualSemigroup(S.Semigroup).concat('a', 'b'), 'ba')
-```
-
 Added in v2.0.0
 
-## getIntercalateSemigroup
+## ~~getIntercalateSemigroup~~
 
-You can glue items between and stay associative.
+Use `intercalate` instead.
 
 **Signature**
 
 ```ts
-export declare const getIntercalateSemigroup: <A>(a: A) => (S: Semigroup<A>) => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import { getIntercalateSemigroup } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-
-const S1 = getIntercalateSemigroup(' ')(S.Semigroup)
-
-assert.strictEqual(S1.concat('a', 'b'), 'a b')
-assert.strictEqual(S1.concat(S1.concat('a', 'b'), 'c'), S1.concat('a', S1.concat('b', 'c')))
+export declare const getIntercalateSemigroup: <A>(middle: A) => (S: Semigroup<A>) => Semigroup<A>
 ```
 
 Added in v2.5.0
 
-## getStructSemigroup
+## ~~getStructSemigroup~~
 
-Given a struct of semigroups returns a semigroup for the struct.
+Use `struct` instead.
 
 **Signature**
 
@@ -135,30 +228,11 @@ export declare const getStructSemigroup: <O extends Readonly<Record<string, any>
 ) => Semigroup<O>
 ```
 
-**Example**
-
-```ts
-import { getStructSemigroup } from 'fp-ts/Semigroup'
-import { SemigroupSum } from 'fp-ts/number'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const semigroupPoint = getStructSemigroup<Point>({
-  x: SemigroupSum,
-  y: SemigroupSum,
-})
-
-assert.deepStrictEqual(semigroupPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
 Added in v2.0.0
 
-## getTupleSemigroup
+## ~~getTupleSemigroup~~
 
-Given a tuple of semigroups returns a semigroup for the tuple.
+Use `tuple` instead.
 
 **Signature**
 
@@ -168,43 +242,28 @@ export declare const getTupleSemigroup: <T extends readonly Semigroup<any>[]>(
 ) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }>
 ```
 
-**Example**
-
-```ts
-import { getTupleSemigroup } from 'fp-ts/Semigroup'
-import * as S from 'fp-ts/string'
-import * as B from 'fp-ts/boolean'
-import * as N from 'fp-ts/number'
-
-const S1 = getTupleSemigroup(S.Semigroup, N.SemigroupSum)
-assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
-
-const S2 = getTupleSemigroup(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
-assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
-```
-
 Added in v2.0.0
 
 # constructors
 
-## getConstantSemigroup
+## constant
 
 **Signature**
 
 ```ts
-export declare const getConstantSemigroup: <A>(a: A) => Semigroup<A>
+export declare const constant: <A>(a: A) => Semigroup<A>
 ```
 
 Added in v2.10.0
 
-## getJoinSemigroup
+## max
 
 Get a semigroup where `concat` will return the maximum, based on the provided order.
 
 **Signature**
 
 ```ts
-export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+export declare const max: <A>(O: Or.Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -213,21 +272,21 @@ export declare const getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/Semigroup'
 
-const S1 = S.getJoinSemigroup(N.Ord)
+const S1 = S.max(N.Ord)
 
 assert.deepStrictEqual(S1.concat(1, 2), 2)
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
-## getMeetSemigroup
+## min
 
 Get a semigroup where `concat` will return the minimum, based on the provided order.
 
 **Signature**
 
 ```ts
-export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+export declare const min: <A>(O: Or.Ord<A>) => Semigroup<A>
 ```
 
 **Example**
@@ -236,80 +295,104 @@ export declare const getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
 import * as N from 'fp-ts/number'
 import * as S from 'fp-ts/Semigroup'
 
-const S1 = S.getMeetSemigroup(N.Ord)
+const S1 = S.min(N.Ord)
 
 assert.deepStrictEqual(S1.concat(1, 2), 1)
+```
+
+Added in v2.10.0
+
+## ~~getJoinSemigroup~~
+
+Use `max` instead.
+
+**Signature**
+
+```ts
+export declare const getJoinSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getMeetSemigroup~~
+
+Use `min` instead.
+
+**Signature**
+
+```ts
+export declare const getMeetSemigroup: <A>(O: Or.Ord<A>) => Semigroup<A>
 ```
 
 Added in v2.0.0
 
 # instances
 
-## getFirstSemigroup
+## assign
 
-Always return the first argument.
+Return a semigroup which works like `Object.assign`.
 
 **Signature**
 
 ```ts
-export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
+export declare const assign: <A extends object = never>() => Semigroup<A>
 ```
 
 **Example**
 
 ```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.getFirstSemigroup<number>().concat(1, 2), 1)
-```
-
-Added in v2.0.0
-
-## getLastSemigroup
-
-Always return the last argument.
-
-**Signature**
-
-```ts
-export declare const getLastSemigroup: <A = never>() => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-
-assert.deepStrictEqual(S.getLastSemigroup<number>().concat(1, 2), 2)
-```
-
-Added in v2.0.0
-
-## getObjectSemigroup
-
-Return a semigroup for objects, preserving their type.
-
-**Signature**
-
-```ts
-export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
+import * as Se from 'fp-ts/Semigroup'
 
 interface Person {
   name: string
   age: number
 }
 
-const S1 = S.getObjectSemigroup<Person>()
-assert.deepStrictEqual(S1.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
+const S = Se.assign<Person>()
+assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
 ```
 
-Added in v2.0.0
+Added in v2.10.0
+
+## first
+
+Always return the first argument.
+
+**Signature**
+
+```ts
+export declare const first: <A = never>() => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+assert.deepStrictEqual(S.first<number>().concat(1, 2), 1)
+```
+
+Added in v2.10.0
+
+## last
+
+Always return the last argument.
+
+**Signature**
+
+```ts
+export declare const last: <A = never>() => Semigroup<A>
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+
+assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
+```
+
+Added in v2.10.0
 
 ## semigroupVoid
 
@@ -317,6 +400,18 @@ Added in v2.0.0
 
 ```ts
 export declare const semigroupVoid: Semigroup<void>
+```
+
+Added in v2.0.0
+
+## ~~getFirstSemigroup~~
+
+Use `first` instead.
+
+**Signature**
+
+```ts
+export declare const getFirstSemigroup: <A = never>() => Semigroup<A>
 ```
 
 Added in v2.0.0
@@ -329,6 +424,30 @@ Use `function.getSemigroup` instead.
 
 ```ts
 export declare const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S>
+```
+
+Added in v2.0.0
+
+## ~~getLastSemigroup~~
+
+Use `last` instead.
+
+**Signature**
+
+```ts
+export declare const getLastSemigroup: <A = never>() => Semigroup<A>
+```
+
+Added in v2.0.0
+
+## ~~getObjectSemigroup~~
+
+Use `assign` instead.
+
+**Signature**
+
+```ts
+export declare const getObjectSemigroup: <A extends object = never>() => Semigroup<A>
 ```
 
 Added in v2.0.0

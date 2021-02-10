@@ -22,7 +22,6 @@ Added in v2.0.0
   - [chain](#chain)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
-  - [fold](#fold)
   - [fromEither](#fromeither)
   - [fromF](#fromf)
   - [fromNullable](#fromnullable)
@@ -31,6 +30,7 @@ Added in v2.0.0
   - [fromPredicate](#frompredicate)
   - [getOrElse](#getorelse)
   - [map](#map)
+  - [match](#match)
   - [none](#none)
   - [some](#some)
   - [~~OptionM1~~ (interface)](#optionm1-interface)
@@ -150,21 +150,6 @@ export declare function chainOptionK<M>(
 
 Added in v2.10.0
 
-## fold
-
-**Signature**
-
-```ts
-export declare function fold<M extends URIS>(
-  M: Monad1<M>
-): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
-export declare function fold<M>(
-  M: Monad<M>
-): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
-```
-
-Added in v2.10.0
-
 ## fromEither
 
 **Signature**
@@ -275,6 +260,21 @@ export declare function map<F extends URIS>(
   F: Functor1<F>
 ): <A, B>(f: (a: A) => B) => (fa: Kind<F, Option<A>>) => Kind<F, Option<B>>
 export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, Option<A>>) => HKT<F, Option<B>>
+```
+
+Added in v2.10.0
+
+## match
+
+**Signature**
+
+```ts
+export declare function match<M extends URIS>(
+  M: Monad1<M>
+): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
+export declare function match<M>(
+  M: Monad<M>
+): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
 ```
 
 Added in v2.10.0

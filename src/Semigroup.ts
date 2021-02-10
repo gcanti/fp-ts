@@ -128,7 +128,6 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * @example
  * import { struct } from 'fp-ts/Semigroup'
  * import * as N from 'fp-ts/number'
- * import { pipe } from 'fp-ts/function'
  *
  * interface Point {
  *   readonly x: number
@@ -140,7 +139,7 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  *   y: N.SemigroupSum
  * })
  *
- * assert.deepStrictEqual(pipe({ x: 1, y: 2 }, S.concat({ x: 3, y: 4 })), { x: 4, y: 6 })
+ * assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
  *
  * @category combinators
  * @since 2.10.0
@@ -161,16 +160,15 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
  *
  * @example
  * import { tuple } from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  * import * as N from 'fp-ts/number'
  * import * as S from 'fp-ts/string'
  *
  * const S1 = tuple(S.Semigroup, N.SemigroupSum)
- * assert.deepStrictEqual(pipe(['a', 1], S1.concat(['b', 2])), ['ab', 3])
+ * assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
  * const S2 = tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
- * assert.deepStrictEqual(pipe(['a', 1, true], S2.concat(['b', 2, false])), ['ab', 3, false])
+ * assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
  * @since 2.10.0

@@ -23,8 +23,9 @@ Added in v2.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [getDualOrd](#getdualord)
   - [getTupleOrd](#gettupleord)
+  - [reverse](#reverse)
+  - [~~getDualOrd~~](#getdualord)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
 - [defaults](#defaults)
@@ -68,16 +69,6 @@ Added in v2.0.0
 
 # combinators
 
-## getDualOrd
-
-**Signature**
-
-```ts
-export declare function getDualOrd<A>(O: Ord<A>): Ord<A>
-```
-
-Added in v2.0.0
-
 ## getTupleOrd
 
 Given a tuple of `Ord`s returns an `Ord` for the tuple
@@ -102,6 +93,28 @@ const O = getTupleOrd(S.Ord, N.Ord, B.Ord)
 assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+```
+
+Added in v2.0.0
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(O: Ord<A>) => Ord<A>
+```
+
+Added in v2.10.0
+
+## ~~getDualOrd~~
+
+Use `reverse` instead.
+
+**Signature**
+
+```ts
+export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>
 ```
 
 Added in v2.0.0
@@ -179,7 +192,7 @@ export declare const getMonoid: <A = never>() => Monoid<Ord<A>>
 
 ```ts
 import { sort } from 'fp-ts/Array'
-import { contramap, getDualOrd, getMonoid } from 'fp-ts/Ord'
+import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import * as B from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
@@ -227,7 +240,7 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = fold(M)([getDualOrd(byRememberMe), byName, byAge])
+const O2 = fold(M)([reverse(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
