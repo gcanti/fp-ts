@@ -150,31 +150,28 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> 
 }
 
 /**
- * Given a tuple of monoids returns a monoid for the tuple
+ * Given a tuple of monoids returns a monoid for the tuple.
  *
  * @example
- * import { getTupleMonoid } from 'fp-ts/Monoid'
- * import * as S from 'fp-ts/string'
- * import * as N from 'fp-ts/number'
+ * import { tuple } from 'fp-ts/Monoid'
  * import * as B from 'fp-ts/boolean'
+ * import * as N from 'fp-ts/number'
+ * import * as S from 'fp-ts/string'
  *
- * const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
+ * const M1 = tuple(S.Monoid, N.MonoidSum)
  * assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
  *
- * const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
+ * const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getTupleMonoid = <T extends ReadonlyArray<Monoid<any>>>(
-  ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> => {
-  return {
-    concat: Se.tuple(...monoids).concat,
+export const tuple = <A extends ReadonlyArray<unknown>>(...monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> =>
+  ({
+    concat: Se.tuple(...(monoids as any)).concat,
     empty: monoids.map((m) => m.empty)
-  } as any
-}
+  } as any)
 
 /**
  * @category instances
@@ -208,6 +205,17 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `tuple` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
+  ...monoids: T
+) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
  * Use `struct` instead.

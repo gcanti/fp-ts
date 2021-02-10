@@ -1,14 +1,14 @@
 import * as B from '../src/boolean'
-import { concatAll, getEndomorphismMonoid, getTupleMonoid, max, min, reverse } from '../src/Monoid'
+import { concatAll, getEndomorphismMonoid, tuple, max, min, reverse } from '../src/Monoid'
 import * as N from '../src/number'
 import * as S from '../src/string'
 import * as U from './util'
 
 describe('Monoid', () => {
-  it('getTupleMonoid', () => {
-    const M1 = getTupleMonoid(S.Monoid, N.MonoidSum)
+  it('tuple', () => {
+    const M1 = tuple(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
-    const M2 = getTupleMonoid(S.Monoid, N.MonoidSum, B.MonoidAll)
+    const M2 = tuple(S.Monoid, N.MonoidSum, B.MonoidAll)
     U.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
   })
 
