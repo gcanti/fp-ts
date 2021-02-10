@@ -34,6 +34,7 @@ has_toc: false
 - [expressive-ts](https://github.com/IMax153/expressive-ts) - Comonadic builders for writing complex regular expressions
 - [fp-fetch](https://github.com/monstasat/fp-fetch) - Functional style, non-throwing utils for data fetching
 - [fp-ts-std](https://github.com/samhh/fp-ts-std) - The missing pseudo-standard library for fp-ts.
+- [fp-ts-lcg](https://github.com/no-day/fp-ts-lcg) - A seeded pseudorandom number generator
 
 ## Bindings
 
