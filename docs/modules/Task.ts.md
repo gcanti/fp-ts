@@ -33,6 +33,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [delay](#delay)
+  - [flap](#flap)
   - [fromIOK](#fromiok)
 - [constructors](#constructors)
   - [fromIO](#fromio)
@@ -171,6 +172,18 @@ async function test() {
 }
 
 test()
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B>
 ```
 
 Added in v3.0.0

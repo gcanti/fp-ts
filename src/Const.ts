@@ -15,7 +15,7 @@ import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
 import { Eq } from './Eq'
 import { identity, unsafeCoerce } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -166,6 +166,16 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

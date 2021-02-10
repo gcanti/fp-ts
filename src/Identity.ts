@@ -3,13 +3,13 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { flow, identity as id } from './function'
-import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
@@ -177,6 +177,16 @@ export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 export const Functor: Functor1<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

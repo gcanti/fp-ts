@@ -3,12 +3,12 @@
  */
 import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
-import { apFirst as apFirst_, Apply3, apSecond as apSecond_, apS as apS_, apT as apT_, ap as ap_ } from './Apply'
+import { ap as ap_, apFirst as apFirst_, Apply3, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { Compactable3C, Compactable2C, compact as compact_, separate as separate_ } from './Compactable'
+import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { Filterable3C, filter, filterMap, partition, partitionMap } from './Filterable'
+import { filter, Filterable3C, filterMap, partition, partitionMap } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -20,7 +20,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -351,6 +351,16 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
 export const Functor: Functor3<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

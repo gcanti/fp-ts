@@ -2,10 +2,10 @@
  * @since 3.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Category2 } from './Category'
 import { constant, flow, identity } from './function'
-import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
@@ -158,6 +158,16 @@ declare module './HKT' {
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

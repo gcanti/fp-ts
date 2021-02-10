@@ -66,6 +66,7 @@ Added in v3.0.0
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
+  - [flap](#flap)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependAll](#prependall)
@@ -646,6 +647,18 @@ export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly
 import { dropRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
 ```
 
 Added in v3.0.0

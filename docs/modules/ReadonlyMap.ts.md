@@ -31,6 +31,7 @@ Added in v3.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [flap](#flap)
   - [insertAt](#insertat)
   - [pop](#pop)
   - [upsertAt](#upsertat)
@@ -224,6 +225,18 @@ Delete the element at the specified key, creating a new `ReadonlyMap`, or return
 
 ```ts
 export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: ReadonlyMap<E, (a: A) => B>) => ReadonlyMap<E, B>
 ```
 
 Added in v3.0.0

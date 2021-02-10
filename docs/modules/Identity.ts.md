@@ -31,6 +31,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -199,6 +201,20 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => A
+```
+
+Added in v3.0.0
+
+# combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: (a: A) => B) => B
 ```
 
 Added in v3.0.0

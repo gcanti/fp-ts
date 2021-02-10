@@ -3,7 +3,7 @@
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2C } from './Pointed'
@@ -175,6 +175,16 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // utils

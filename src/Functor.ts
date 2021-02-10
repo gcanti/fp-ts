@@ -84,6 +84,29 @@ export interface Functor4<F extends URIS4> {
 }
 
 // -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category derivables
+ * @since 3.0.0
+ */
+export function flap<F extends URIS4>(
+  F: Functor4<F>
+): <A>(a: A) => <S, R, E, B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
+export function flap<F extends URIS3>(
+  F: Functor3<F>
+): <A>(a: A) => <R, E, B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+export function flap<F extends URIS2>(
+  F: Functor2<F>
+): <A>(a: A) => <E, B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+export function flap<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
+export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
+export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B> {
+  return (a) => F.map((f) => f(a))
+}
+
+// -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
 

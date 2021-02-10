@@ -32,7 +32,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { isNone, none, Option, some } from './Option'
@@ -370,6 +370,16 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

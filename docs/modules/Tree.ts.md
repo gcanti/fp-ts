@@ -34,6 +34,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
   - [unfoldForest](#unfoldforest)
@@ -186,6 +188,20 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => Tree<A>
+```
+
+Added in v3.0.0
+
+# combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B>
 ```
 
 Added in v3.0.0

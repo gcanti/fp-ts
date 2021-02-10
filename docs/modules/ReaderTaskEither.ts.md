@@ -39,6 +39,7 @@ Added in v3.0.0
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromOptionK](#fromoptionk)
@@ -404,6 +405,18 @@ export declare const filterOrElseW: {
     ma: ReaderTaskEither<R, E1, A>
   ) => ReaderTaskEither<R, E2 | E1, A>
 }
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

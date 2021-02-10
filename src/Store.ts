@@ -2,10 +2,19 @@
  * @since 3.0.0
  */
 import { Comonad2 } from './Comonad'
-import { Endomorphism, identity, pipe } from './function'
-import { Functor as Functor_, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Extend2 } from './Extend'
+import { Endomorphism, identity, pipe } from './function'
+import {
+  flap as flap_,
+  Functor as Functor_,
+  Functor1,
+  Functor2,
+  Functor2C,
+  Functor3,
+  Functor3C,
+  Functor4
+} from './Functor'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -84,6 +93,16 @@ declare module './HKT' {
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

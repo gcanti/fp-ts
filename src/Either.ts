@@ -15,7 +15,7 @@
  */
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
-import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { Compactable2C } from './Compactable'
 import { Eq, fromEquals } from './Eq'
@@ -24,7 +24,7 @@ import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
 import { FromEither2 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -894,6 +894,16 @@ export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

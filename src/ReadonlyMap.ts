@@ -10,23 +10,23 @@ import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Endomorphism, flow, pipe, Predicate } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { Ord } from './Ord'
-import { snd } from './Tuple2'
 import { Semigroup } from './Semigroup'
+import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable2C } from './Traversable'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
+import { snd } from './Tuple2'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 
 import Option = O.Option
-import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -481,6 +481,16 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

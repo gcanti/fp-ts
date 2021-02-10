@@ -12,7 +12,7 @@ import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Endomorphism, Lazy, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { bind as bind_, Monad1 } from './Monad'
 import { none, Option, some } from './Option'
@@ -587,6 +587,16 @@ export const getEq: <A>(E: Eq<A>) => Eq<ReadonlyNonEmptyArray<A>> = RA.getEq
 export const Functor: Functor1<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

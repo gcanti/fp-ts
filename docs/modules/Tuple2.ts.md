@@ -28,6 +28,7 @@ Added in v3.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
+  - [flap](#flap)
   - [swap](#swap)
 - [derivable combinators](#derivable-combinators)
   - [duplicate](#duplicate)
@@ -162,6 +163,18 @@ export declare const compose: <B, C>(bc: Tuple2<B, C>) => <A>(ab: Tuple2<A, B>) 
 Added in v3.0.0
 
 # combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Tuple2<E, (a: A) => B>) => Tuple2<E, B>
+```
+
+Added in v3.0.0
 
 ## swap
 

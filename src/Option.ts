@@ -15,7 +15,7 @@
 import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -23,7 +23,7 @@ import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -809,6 +809,16 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({
 export const Functor: Functor1<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

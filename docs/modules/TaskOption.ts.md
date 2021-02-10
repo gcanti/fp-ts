@@ -36,6 +36,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
+  - [flap](#flap)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -266,6 +267,18 @@ Added in v3.0.0
 
 ```ts
 export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
 ```
 
 Added in v3.0.0

@@ -35,6 +35,7 @@ Added in v3.0.0
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
@@ -323,6 +324,18 @@ export declare const filterOrElseW: {
     ma: ReaderEither<R, E1, A>
   ) => ReaderEither<R, E2 | E1, A>
 }
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0

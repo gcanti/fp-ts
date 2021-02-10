@@ -25,6 +25,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
+  - [flap](#flap)
   - [fromIOK](#fromiok)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
@@ -172,6 +173,18 @@ Added in v3.0.0
 
 ```ts
 export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
 ```
 
 Added in v3.0.0

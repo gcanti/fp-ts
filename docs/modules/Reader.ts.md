@@ -29,6 +29,7 @@ Added in v3.0.0
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
+  - [flap](#flap)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -182,6 +183,18 @@ export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) 
 Added in v3.0.0
 
 # combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v3.0.0
 
 ## local
 

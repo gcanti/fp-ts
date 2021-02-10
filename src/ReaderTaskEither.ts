@@ -30,7 +30,7 @@ import {
 import { FromIO3 } from './FromIO'
 import { FromTask3 } from './FromTask'
 import { flow, identity, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor2, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad3 } from './Monad'
@@ -503,6 +503,16 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
 export const Functor: Functor3<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

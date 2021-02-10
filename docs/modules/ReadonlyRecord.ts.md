@@ -47,6 +47,7 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [flap](#flap)
   - [insertAt](#insertat)
   - [modifyAt](#modifyat)
   - [pop](#pop)
@@ -454,6 +455,18 @@ Delete the element at the specified key, creating a new `ReadonlyRecord`.
 export declare function deleteAt<K extends string>(
   k: K
 ): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>>
 ```
 
 Added in v3.0.0

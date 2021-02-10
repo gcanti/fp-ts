@@ -42,6 +42,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [flap](#flap)
   - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -174,6 +175,18 @@ export declare const of: <A, E = never>(right: A) => These<E, A>
 Added in v3.0.0
 
 # combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B>
+```
+
+Added in v3.0.0
 
 ## fromOptionK
 

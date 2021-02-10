@@ -55,6 +55,7 @@ Added in v3.0.0
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
+  - [flap](#flap)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
@@ -508,6 +509,18 @@ export declare const filterOrElseW: {
   ) => Either<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 }
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Comonad2C } from './Comonad'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -53,6 +53,16 @@ declare module './HKT' {
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

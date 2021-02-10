@@ -20,6 +20,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [constructors](#constructors)
   - [get](#get)
   - [gets](#gets)
@@ -104,6 +106,20 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, E>(a: A) => State<E, A>
+```
+
+Added in v3.0.0
+
+# combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: State<E, (a: A) => B>) => State<E, B>
 ```
 
 Added in v3.0.0

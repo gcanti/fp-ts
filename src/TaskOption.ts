@@ -16,7 +16,7 @@ import {
 import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy } from './function'
-import { bindTo as bindTo_, Functor1, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
 import * as O from './Option'
 import * as OT from './OptionT'
@@ -347,16 +347,24 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const Functor: Functor1<URI> = {
-  URI,
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
 export const Pointed: Pointed1<URI> = {
-  URI,
   map,
   of
 }
@@ -366,7 +374,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const ApplyPar: Apply1<URI> = {
-  URI,
   map,
   ap
 }
@@ -400,7 +407,6 @@ export const apSecond =
  * @since 3.0.0
  */
 export const ApplicativePar: Applicative1<URI> = {
-  URI,
   map,
   ap,
   of
@@ -411,7 +417,6 @@ export const ApplicativePar: Applicative1<URI> = {
  * @since 3.0.0
  */
 export const Monad: Monad1<URI> = {
-  URI,
   map,
   of,
   chain
@@ -426,7 +431,6 @@ const apSeq =
  * @since 3.0.0
  */
 export const ApplySeq: Apply1<URI> = {
-  URI,
   map,
   ap: apSeq
 }
@@ -436,7 +440,6 @@ export const ApplySeq: Apply1<URI> = {
  * @since 3.0.0
  */
 export const ApplicativeSeq: Applicative1<URI> = {
-  URI,
   map,
   ap: apSeq,
   of
@@ -460,7 +463,6 @@ export const chainFirst =
  * @since 3.0.0
  */
 export const Alt: Alt1<URI> = {
-  URI,
   map,
   alt
 }
@@ -470,7 +472,6 @@ export const Alt: Alt1<URI> = {
  * @since 3.0.0
  */
 export const Alternative: Alternative1<URI> = {
-  URI,
   map,
   alt,
   zero
@@ -481,7 +482,6 @@ export const Alternative: Alternative1<URI> = {
  * @since 3.0.0
  */
 export const FromIO: FromIO1<URI> = {
-  URI,
   fromIO
 }
 
@@ -490,7 +490,6 @@ export const FromIO: FromIO1<URI> = {
  * @since 3.0.0
  */
 export const FromTask: FromTask1<URI> = {
-  URI,
   fromIO,
   fromTask
 }
@@ -500,7 +499,6 @@ export const FromTask: FromTask1<URI> = {
  * @since 3.0.0
  */
 export const Compactable: Compactable1<URI> = {
-  URI,
   compact,
   separate
 }
@@ -510,7 +508,6 @@ export const Compactable: Compactable1<URI> = {
  * @since 3.0.0
  */
 export const Filterable: Filterable1<URI> = {
-  URI,
   filter,
   filterMap,
   partition,

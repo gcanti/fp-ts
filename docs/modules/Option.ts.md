@@ -58,6 +58,7 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [chainNullableK](#chainnullablek)
+  - [flap](#flap)
   - [fromNullableK](#fromnullablek)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
@@ -450,6 +451,18 @@ assert.deepStrictEqual(
   ),
   none
 )
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
 Added in v3.0.0

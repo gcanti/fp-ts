@@ -25,6 +25,8 @@ Added in v3.0.0
   - [contramap](#contramap)
 - [Functor](#functor)
   - [map](#map)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
@@ -98,6 +100,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
+```
+
+Added in v3.0.0
+
+# combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B>
 ```
 
 Added in v3.0.0

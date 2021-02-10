@@ -3,7 +3,7 @@
  */
 import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
-import { apFirst as apFirst_, Apply4, apSecond as apSecond_, apS as apS_, apT as apT_ } from './Apply'
+import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import * as E from './Either'
 import {
@@ -19,7 +19,7 @@ import {
 import { FromIO4 } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, Functor4, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { bind as bind_, chainFirst as chainFirst_, Monad4 } from './Monad'
@@ -443,6 +443,16 @@ declare module './HKT' {
 export const Functor: Functor4<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

@@ -13,7 +13,7 @@ import {
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow } from './function'
-import { Functor2 } from './Functor'
+import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
@@ -250,6 +250,16 @@ export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => ({
 export const Functor: Functor2<URI> = {
   map
 }
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
 
 /**
  * @category instances

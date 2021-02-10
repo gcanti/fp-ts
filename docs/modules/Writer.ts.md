@@ -16,6 +16,7 @@ Added in v3.0.0
   - [map](#map)
 - [combinators](#combinators)
   - [censor](#censor)
+  - [flap](#flap)
   - [listen](#listen)
   - [listens](#listens)
   - [pass](#pass)
@@ -61,6 +62,18 @@ Modify the final accumulator value by applying a function
 
 ```ts
 export declare const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A>
+```
+
+Added in v3.0.0
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
 ```
 
 Added in v3.0.0

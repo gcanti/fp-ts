@@ -17,6 +17,8 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
+- [combinators](#combinators)
+  - [flap](#flap)
 - [constructors](#constructors)
   - [separated](#separated)
 - [instances](#instances)
@@ -67,6 +69,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>) => Separated<E, B>
+```
+
+Added in v3.0.0
+
+# combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: Separated<E, (a: A) => B>) => Separated<E, B>
 ```
 
 Added in v3.0.0

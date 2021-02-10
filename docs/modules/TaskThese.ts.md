@@ -20,6 +20,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [flap](#flap)
   - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -111,6 +112,18 @@ export declare const of: <A, E = never>(a: A) => TaskThese<E, A>
 Added in v3.0.0
 
 # combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
+```
+
+Added in v3.0.0
 
 ## fromOptionK
 

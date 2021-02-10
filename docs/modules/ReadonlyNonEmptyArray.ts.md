@@ -38,6 +38,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [flap](#flap)
   - [group](#group)
   - [groupSort](#groupsort)
   - [intersperse](#intersperse)
@@ -297,6 +298,18 @@ export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 Added in v3.0.0
 
 # combinators
+
+## flap
+
+Derivable from `Functor`.
+
+**Signature**
+
+```ts
+export declare const flap: <A>(a: A) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v3.0.0
 
 ## group
 
