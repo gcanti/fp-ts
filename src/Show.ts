@@ -28,16 +28,22 @@ export interface Show<A> {
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getStructShow<O extends ReadonlyRecord<string, any>>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
-  return {
-    show: (s) =>
-      `{ ${Object.keys(shows)
-        .map((k) => `${k}: ${shows[k].show(s[k])}`)
-        .join(', ')} }`
+export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+  show: (a) => {
+    let s = '{'
+    // tslint:disable-next-line: forin
+    for (const key in shows) {
+      s += ` ${key}: ${shows[key].show(a[key])},`
+    }
+    if (s.length > 1) {
+      s = s.slice(0, -1) + ' '
+    }
+    s += '}'
+    return s
   }
-}
+})
 
 /**
  * @category combinators
@@ -54,6 +60,17 @@ export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `struct` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getStructShow: <O extends ReadonlyRecord<string, any>>(
+  shows: { [K in keyof O]: Show<O[K]> }
+) => Show<O> = struct
 
 /**
  * Use `boolean.Show` instead.
