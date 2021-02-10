@@ -40,6 +40,8 @@ Added in v2.4.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+  - [match](#match)
+  - [matchW](#matchw)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -292,6 +294,8 @@ Added in v2.4.0
 
 ## fold
 
+Alias of [`match`](#match).
+
 **Signature**
 
 ```ts
@@ -306,12 +310,42 @@ Added in v2.4.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
 ```ts
 export declare const foldW: <E, B, A, C, D>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>,
+  onBoth: (e: E, a: A) => T.Task<D>
+) => (fa: TaskThese<E, A>) => T.Task<B | C | D>
+```
+
+Added in v2.10.0
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<B>,
+  onBoth: (e: E, a: A) => T.Task<B>
+) => (fa: TaskThese<E, A>) => T.Task<B>
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C, D>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>

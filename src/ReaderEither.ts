@@ -114,9 +114,9 @@ export const fromEither: FromEither3<URI>['fromEither'] = R.of
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const fold: <R, E, A, B>(
+export const match: <R, E, A, B>(
   onLeft: (e: E) => Reader<R, B>,
   onRight: (a: A) => Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
@@ -124,15 +124,31 @@ export const fold: <R, E, A, B>(
   ET.match(R.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = match
+
+/**
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <E, R2, B, A, R3, C>(
+export const matchW: <E, R2, B, A, R3, C>(
   onLeft: (e: E) => Reader<R2, B>,
   onRight: (a: A) => Reader<R3, C>
-) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = fold as any
+) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = match as any
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * @category destructors

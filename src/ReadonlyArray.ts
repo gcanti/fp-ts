@@ -269,36 +269,46 @@ export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<
 }
 
 /**
- * Break an array into its first element and remaining elements
+ * Break an array into its first element and remaining elements.
  *
  * @example
- * import { foldLeft } from 'fp-ts/ReadonlyArray'
+ * import { matchLeft } from 'fp-ts/ReadonlyArray'
  *
- * const len: <A>(as: ReadonlyArray<A>) => number = foldLeft(() => 0, (_, tail) => 1 + len(tail))
+ * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
  * @category destructors
- * @since 2.5.0
+ * @since 2.10.0
  */
-export function foldLeft<A, B>(
-  onEmpty: Lazy<B>,
-  onCons: (head: A, tail: ReadonlyArray<A>) => B
-): (as: ReadonlyArray<A>) => B {
-  return (as) => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
-}
+export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+  as: ReadonlyArray<A>
+): B => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
 
 /**
- * Break an array into its initial elements and the last element
+ * Alias of [`matchLeft`](#matchLeft).
  *
  * @category destructors
  * @since 2.5.0
  */
-export function foldRight<A, B>(
-  onEmpty: Lazy<B>,
-  onCons: (init: ReadonlyArray<A>, last: A) => B
-): (as: ReadonlyArray<A>) => B {
-  return (as) => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
-}
+export const foldLeft = matchLeft
+
+/**
+ * Break an array into its initial elements and the last element.
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+  as: ReadonlyArray<A>
+): B => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
+
+/**
+ * Alias of [`matchRight`](#matchRight).
+ *
+ * @category destructors
+ * @since 2.5.0
+ */
+export const foldRight = matchRight
 
 /**
  * Same as `reduce` but it carries over the intermediate steps

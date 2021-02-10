@@ -173,9 +173,9 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 /**
  * @category destructors
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const fold: <E, A, B>(
+export const match: <E, A, B>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>
 ) => (ma: TaskEither<E, A>) => Task<B> =
@@ -183,15 +183,31 @@ export const fold: <E, A, B>(
   ET.match(T.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = match
+
+/**
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <E, B, A, C>(
+export const matchW: <E, B, A, C>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<C>
-) => (ma: TaskEither<E, A>) => Task<B | C> = fold as any
+) => (ma: TaskEither<E, A>) => Task<B | C> = match as any
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * @category destructors

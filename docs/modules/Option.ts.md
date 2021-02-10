@@ -83,6 +83,8 @@ Added in v2.0.0
   - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [guards](#guards)
@@ -775,8 +777,7 @@ Added in v2.0.0
 
 ## fold
 
-Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
-returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
+Alias of [`match`](#match).
 
 **Signature**
 
@@ -784,40 +785,11 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 export declare const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
 ```
 
-**Example**
-
-```ts
-import { some, none, fold } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(
-  pipe(
-    some(1),
-    fold(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a some containing 1'
-)
-
-assert.strictEqual(
-  pipe(
-    none,
-    fold(
-      () => 'a none',
-      (a) => `a some containing ${a}`
-    )
-  ),
-  'a none'
-)
-```
-
 Added in v2.0.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
@@ -872,6 +844,60 @@ export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B
 ```
 
 Added in v2.6.0
+
+## match
+
+Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
+returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
+
+**Signature**
+
+```ts
+export declare const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+```
+
+**Example**
+
+```ts
+import { some, none, match } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(
+  pipe(
+    some(1),
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a some containing 1'
+)
+
+assert.strictEqual(
+  pipe(
+    none,
+    match(
+      () => 'a none',
+      (a) => `a some containing ${a}`
+    )
+  ),
+  'a none'
+)
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
+```
+
+Added in v2.10.0
 
 ## toNullable
 

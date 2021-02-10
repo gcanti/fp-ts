@@ -126,20 +126,36 @@ export const fromTask: FromTask1<URI>['fromTask'] =
  * @category destructors
  * @since 2.10.0
  */
-export const fold =
+export const match =
   /*#__PURE__*/
   OT.match(T.Monad)
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Alias of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW: <B, C, A>(
+export const fold = match
+
+/**
+ * Less strict version of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchW: <B, C, A>(
   onNone: () => Task<B>,
   onSome: (a: A) => Task<C>
 ) => (ma: TaskOption<A>) => Task<B | C> = fold as any
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * @category destructors

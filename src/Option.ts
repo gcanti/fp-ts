@@ -234,26 +234,34 @@ export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`fold`](#fold).
+ * Less strict version of [`match`](#match).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
+export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
   isNone(ma) ? onNone() : onSome(ma.value)
+
+/**
+ * Alias of [`matchW`](#matchW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchW
 
 /**
  * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
  * @example
- * import { some, none, fold } from 'fp-ts/Option'
+ * import { some, none, match } from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.strictEqual(
  *   pipe(
  *     some(1),
- *     fold(() => 'a none', a => `a some containing ${a}`)
+ *     match(() => 'a none', a => `a some containing ${a}`)
  *   ),
  *   'a some containing 1'
  * )
@@ -261,15 +269,23 @@ export const foldW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Opt
  * assert.strictEqual(
  *   pipe(
  *     none,
- *     fold(() => 'a none', a => `a some containing ${a}`)
+ *     match(() => 'a none', a => `a some containing ${a}`)
  *   ),
  *   'a none'
  * )
  *
  * @category destructors
+ * @since 2.10.0
+ */
+export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
+
+/**
+ * Alias of [`match`](#match).
+ *
+ * @category destructors
  * @since 2.0.0
  */
-export const fold: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = foldW
+export const fold = match
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `null`.

@@ -83,6 +83,8 @@ Added in v2.0.0
   - [foldW](#foldw)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
+  - [match](#match)
+  - [matchW](#matchw)
   - [toUnion](#tounion)
 - [guards](#guards)
   - [isLeft](#isleft)
@@ -923,8 +925,7 @@ Added in v2.0.0
 
 ## fold
 
-Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
-if the value is a `Right` the inner value is applied to the second function.
+Alias of [`match`](#match).
 
 **Signature**
 
@@ -932,29 +933,11 @@ if the value is a `Right` the inner value is applied to the second function.
 export declare const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
 ```
 
-**Example**
-
-```ts
-import { fold, left, right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-function onLeft(errors: Array<string>): string {
-  return `Errors: ${errors.join(', ')}`
-}
-
-function onRight(value: number): string {
-  return `Ok: ${value}`
-}
-
-assert.strictEqual(pipe(right(1), fold(onLeft, onRight)), 'Ok: 1')
-assert.strictEqual(pipe(left(['error 1', 'error 2']), fold(onLeft, onRight)), 'Errors: error 1, error 2')
-```
-
 Added in v2.0.0
 
 ## foldW
 
-Less strict version of [`fold`](#fold).
+Alias of [`matchW`](#matchW).
 
 **Signature**
 
@@ -1009,6 +992,49 @@ export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E
 ```
 
 Added in v2.6.0
+
+## match
+
+Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
+if the value is a `Right` the inner value is applied to the second function.
+
+**Signature**
+
+```ts
+export declare const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { match, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+function onLeft(errors: Array<string>): string {
+  return `Errors: ${errors.join(', ')}`
+}
+
+function onRight(value: number): string {
+  return `Ok: ${value}`
+}
+
+assert.strictEqual(pipe(right(1), match(onLeft, onRight)), 'Ok: 1')
+assert.strictEqual(pipe(left(['error 1', 'error 2']), match(onLeft, onRight)), 'Errors: error 1, error 2')
+```
+
+Added in v2.10.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
+```
+
+Added in v2.10.0
 
 ## toUnion
 
