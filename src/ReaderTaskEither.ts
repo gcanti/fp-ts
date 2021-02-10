@@ -443,7 +443,7 @@ export const apW: <R2, E2, A>(
  * @category Pointed
  * @since 2.7.0
  */
-export const of: Pointed3<URI>['of'] = right
+export const of = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

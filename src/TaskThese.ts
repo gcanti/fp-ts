@@ -224,7 +224,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  * @category Pointed
  * @since 2.7.0
  */
-export const of: Pointed2<URI>['of'] = right
+export const of = right
 
 // -------------------------------------------------------------------------------------
 // instances
