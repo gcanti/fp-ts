@@ -119,29 +119,28 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  * Given a struct of monoids returns a monoid for the struct.
  *
  * @example
- * import { getStructMonoid } from 'fp-ts/Monoid'
- * import { MonoidSum } from 'fp-ts/number'
+ * import { struct } from 'fp-ts/Monoid'
+ * import * as N from 'fp-ts/number'
  *
  * interface Point {
  *   readonly x: number
  *   readonly y: number
  * }
  *
- * const monoidPoint = getStructMonoid<Point>({
- *   x: MonoidSum,
- *   y: MonoidSum
+ * const M = struct<Point>({
+ *   x: N.MonoidSum,
+ *   y: N.MonoidSum
  * })
  *
- * assert.deepStrictEqual(monoidPoint.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
+ * assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export const getStructMonoid = <O extends ReadonlyRecord<string, any>>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => {
-  const empty: any = {}
-  for (const key of Object.keys(monoids)) {
+export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
+  const empty: A = {} as any
+  // tslint:disable-next-line: forin
+  for (const key in monoids) {
     empty[key] = monoids[key].empty
   }
   return {
@@ -209,6 +208,17 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `struct` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
+  monoids: { [K in keyof O]: Monoid<O[K]> }
+) => Monoid<O> = struct
 
 /**
  * Use `reverse` instead.
