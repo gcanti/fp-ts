@@ -355,10 +355,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => ({
-  value: a,
-  forest: RA.empty
-})
+export const of: Pointed1<URI>['of'] = (a) => make(a)
 
 // -------------------------------------------------------------------------------------
 // instances

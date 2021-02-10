@@ -168,7 +168,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => These<E, A>
+export declare const of: <A, E = never>(right: A) => These<E, A>
 ```
 
 Added in v3.0.0

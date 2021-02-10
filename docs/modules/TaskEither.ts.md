@@ -289,7 +289,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => TaskEither<E, A>
+export declare const of: <A, E = never>(a: A) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

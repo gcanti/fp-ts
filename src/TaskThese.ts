@@ -193,7 +193,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed2<URI>['of'] = right
+export const of = right
 
 // -------------------------------------------------------------------------------------
 // instances

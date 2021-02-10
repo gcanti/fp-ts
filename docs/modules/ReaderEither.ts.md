@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R, E>(a: A) => ReaderEither<R, E, A>
+export declare const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

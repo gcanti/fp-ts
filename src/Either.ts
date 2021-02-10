@@ -558,7 +558,7 @@ export const ap: Apply2<URI>['ap'] = apW
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed2<URI>['of'] = right
+export const of = right
 
 /**
  * Less strict version of [`chain`](#chain).
