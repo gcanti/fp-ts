@@ -20,8 +20,10 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getStructShow](#getstructshow)
-  - [getTupleShow](#gettupleshow)
+  - [struct](#struct)
+  - [tuple](#tuple)
+  - [~~getStructShow~~](#getstructshow)
+  - [~~getTupleShow~~](#gettupleshow)
 - [instances](#instances)
   - [~~showBoolean~~](#showboolean)
   - [~~showNumber~~](#shownumber)
@@ -33,26 +35,50 @@ Added in v2.0.0
 
 # combinators
 
-## getStructShow
+## struct
 
 **Signature**
 
 ```ts
-export declare function getStructShow<O extends ReadonlyRecord<string, any>>(
+export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+```
+
+Added in v2.10.0
+
+## tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+```
+
+Added in v2.10.0
+
+## ~~getStructShow~~
+
+Use `struct` instead.
+
+**Signature**
+
+```ts
+export declare const getStructShow: <O extends Readonly<Record<string, any>>>(
   shows: { [K in keyof O]: Show<O[K]> }
-): Show<O>
+) => Show<O>
 ```
 
 Added in v2.0.0
 
-## getTupleShow
+## ~~getTupleShow~~
+
+Use `tuple` instead.
 
 **Signature**
 
 ```ts
-export declare function getTupleShow<T extends ReadonlyArray<Show<any>>>(
+export declare const getTupleShow: <T extends readonly Show<any>[]>(
   ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
+) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
