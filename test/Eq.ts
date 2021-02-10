@@ -20,8 +20,8 @@ describe('Eq', () => {
     })
   })
 
-  it('getTupleEq', () => {
-    const E = _.getTupleEq(S.Eq, N.Eq, B.Eq)
+  it('tuple', () => {
+    const E = _.tuple(S.Eq, N.Eq, B.Eq)
     U.deepStrictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
     U.deepStrictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
     U.deepStrictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)

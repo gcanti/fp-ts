@@ -22,6 +22,11 @@ Added in v2.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
+- [combinators](#combinators)
+  - [struct](#struct)
+  - [tuple](#tuple)
+  - [~~getStructEq~~](#getstructeq)
+  - [~~getTupleEq~~](#gettupleeq)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
 - [instances](#instances)
@@ -31,8 +36,6 @@ Added in v2.0.0
   - [eqStrict](#eqstrict)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
-  - [getStructEq](#getstructeq)
-  - [getTupleEq](#gettupleeq)
   - [~~eqBoolean~~](#eqboolean)
   - [~~eqDate~~](#eqdate)
   - [~~eqNumber~~](#eqnumber)
@@ -53,6 +56,71 @@ Added in v2.0.0
 
 ```ts
 export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>
+```
+
+Added in v2.0.0
+
+# combinators
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+```
+
+Added in v2.10.0
+
+## tuple
+
+Given a tuple of `Eq`s returns a `Eq` for the tuple
+
+**Signature**
+
+```ts
+export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+```
+
+**Example**
+
+```ts
+import { tuple } from 'fp-ts/Eq'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import * as B from 'fp-ts/boolean'
+
+const E = tuple(S.Eq, N.Eq, B.Eq)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
+assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
+assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+```
+
+Added in v2.10.0
+
+## ~~getStructEq~~
+
+Use `struct` instead.
+
+**Signature**
+
+```ts
+export declare const getStructEq: <O extends Readonly<Record<string, any>>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O>
+```
+
+Added in v2.0.0
+
+## ~~getTupleEq~~
+
+Use `tuple` instead.
+
+**Signature**
+
+```ts
+export declare const getTupleEq: <T extends readonly Eq<any>[]>(
+  ...eqs: T
+) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
 ```
 
 Added in v2.0.0
@@ -130,45 +198,6 @@ export declare const getSemigroup: <A>() => Semigroup<Eq<A>>
 ```
 
 Added in v2.10.0
-
-## getStructEq
-
-**Signature**
-
-```ts
-export declare function getStructEq<O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O>
-```
-
-Added in v2.0.0
-
-## getTupleEq
-
-Given a tuple of `Eq`s returns a `Eq` for the tuple
-
-**Signature**
-
-```ts
-export declare function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
-  ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }>
-```
-
-**Example**
-
-```ts
-import { getTupleEq } from 'fp-ts/Eq'
-import * as S from 'fp-ts/string'
-import * as N from 'fp-ts/number'
-import * as B from 'fp-ts/boolean'
-
-const E = getTupleEq(S.Eq, N.Eq, B.Eq)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
-assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
-assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
-```
-
-Added in v2.0.0
 
 ## ~~eqBoolean~~
 
