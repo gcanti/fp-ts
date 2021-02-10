@@ -304,6 +304,8 @@ describe('Either', () => {
     }
     const person: Person = { name: 'Giulio', age: 45 }
     U.deepStrictEqual(pipe(person, _.stringifyJSON), _.right('{"name":"Giulio","age":45}'))
+
+    U.deepStrictEqual(_.stringifyJSON(undefined), _.left(new Error('Converting unsupported structure to JSON')))
   })
 
   it('fromPredicate', () => {

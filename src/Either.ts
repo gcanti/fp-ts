@@ -211,7 +211,15 @@ export const parseJSON = (s: string): Either<unknown, Json> => tryCatch(() => JS
  * @category constructors
  * @since 3.0.0
  */
-export const stringifyJSON = (u: unknown): Either<unknown, string> => tryCatch(() => JSON.stringify(u))
+export const stringifyJSON = (u: unknown): Either<unknown, string> =>
+  tryCatch(() => {
+    const s = JSON.stringify(u)
+    // tslint:disable-next-line: strict-type-predicates
+    if (typeof s !== 'string') {
+      throw new Error('Converting unsupported structure to JSON')
+    }
+    return s
+  })
 
 /**
  * @example
