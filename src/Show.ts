@@ -47,19 +47,26 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
 
 /**
  * @category combinators
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getTupleShow<T extends ReadonlyArray<Show<any>>>(
-  ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> {
-  return {
-    show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
-  }
-}
+export const tuple = <A extends ReadonlyArray<unknown>>(...shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+  show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
+})
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `tuple` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
+  ...shows: T
+) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> = tuple
 
 /**
  * Use `struct` instead.

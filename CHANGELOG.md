@@ -147,6 +147,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `showString`, use `string.Show` instead (@gcanti)
     - deprecate `showNumber`, use `number.Show` instead (@gcanti)
     - deprecate `getStructShow`, use `struct` instead (@gcanti)
+    - deprecate `getTupleShow`, use `tuple` instead (@gcanti)
   - `Task`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
     - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
@@ -368,6 +369,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `assign` (@gcanti)
   - `Show`
     - add `struct` (@gcanti)
+    - add `tuple` (@gcanti)
   - `State`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)
