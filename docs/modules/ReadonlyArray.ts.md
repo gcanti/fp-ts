@@ -126,6 +126,7 @@ Added in v2.5.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
+  - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~readonlyArray~~](#readonlyarray)
 - [unsafe](#unsafe)
@@ -1620,12 +1621,12 @@ Added in v2.5.0
 
 ## getMonoid
 
-Returns a `Monoid` for `ReadonlyArray<A>`
+Returns a `Monoid` for `ReadonlyArray<A>`.
 
 **Signature**
 
 ```ts
-export declare function getMonoid<A = never>(): Monoid<ReadonlyArray<A>>
+export declare const getMonoid: <A = never>() => Monoid<readonly A[]>
 ```
 
 **Example**
@@ -1662,6 +1663,16 @@ const O = getOrd(S.Ord)
 assert.strictEqual(O.compare(['b'], ['a']), 1)
 assert.strictEqual(O.compare(['a'], ['a']), 0)
 assert.strictEqual(O.compare(['a'], ['b']), -1)
+```
+
+Added in v2.5.0
+
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A = never>() => Semigroup<readonly A[]>
 ```
 
 Added in v2.5.0

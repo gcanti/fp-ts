@@ -6,7 +6,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
-import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
+import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -238,7 +238,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('fromFoldable', () => {
-    const First = getFirstSemigroup<number>()
+    const First = Se.first<number>()
     U.deepStrictEqual(_.fromFoldable(First, RA.Foldable)([['a', 1]]), { a: 1 })
     U.deepStrictEqual(
       _.fromFoldable(
@@ -252,7 +252,7 @@ describe('ReadonlyRecord', () => {
         a: 1
       }
     )
-    const Last = getLastSemigroup<number>()
+    const Last = Se.last<number>()
     U.deepStrictEqual(
       _.fromFoldable(
         Last,
@@ -351,7 +351,7 @@ describe('ReadonlyRecord', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: ReadonlyArray<K>, values: ReadonlyArray<A>): _.ReadonlyRecord<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), RA.Foldable)(RA.zip(keys, values), identity)
+      _.fromFoldableMap(Se.last<A>(), RA.Foldable)(RA.zip(keys, values), identity)
 
     U.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -367,7 +367,7 @@ describe('ReadonlyRecord', () => {
     ]
 
     U.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), RA.Foldable)(users, (user) => [user.id, user]),
+      _.fromFoldableMap(Se.last<User>(), RA.Foldable)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

@@ -6,7 +6,7 @@ import * as IO from '../src/IO'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as _ from '../src/Record'
-import { getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
+import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -16,7 +16,7 @@ const p = (n: number) => n > 2
 
 const noPrototype = Object.create(null)
 
-describe('ReadonlyRecord', () => {
+describe('Record', () => {
   describe('pipeables', () => {
     it('map', () => {
       const double = (n: number): number => n * 2
@@ -251,7 +251,7 @@ describe('ReadonlyRecord', () => {
   })
 
   it('fromFoldable', () => {
-    const First = getFirstSemigroup<number>()
+    const First = Se.first<number>()
     U.deepStrictEqual(_.fromFoldable(First, A.Foldable)([['a', 1]]), { a: 1 })
     U.deepStrictEqual(
       _.fromFoldable(
@@ -265,7 +265,7 @@ describe('ReadonlyRecord', () => {
         a: 1
       }
     )
-    const Last = getLastSemigroup<number>()
+    const Last = Se.last<number>()
     U.deepStrictEqual(
       _.fromFoldable(
         Last,
@@ -354,7 +354,7 @@ describe('ReadonlyRecord', () => {
   it('fromFoldableMap', () => {
     // tslint:disable-next-line: readonly-array
     const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
-      _.fromFoldableMap(getLastSemigroup<A>(), A.Foldable)(A.zip(keys, values), identity)
+      _.fromFoldableMap(Se.last<A>(), A.Foldable)(A.zip(keys, values), identity)
 
     U.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -371,7 +371,7 @@ describe('ReadonlyRecord', () => {
     ]
 
     U.deepStrictEqual(
-      _.fromFoldableMap(getLastSemigroup<User>(), A.Foldable)(users, (user) => [user.id, user]),
+      _.fromFoldableMap(Se.last<User>(), A.Foldable)(users, (user) => [user.id, user]),
       {
         id1: { id: 'id1', name: 'name3' },
         id2: { id: 'id2', name: 'name2' }

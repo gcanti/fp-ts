@@ -22,7 +22,8 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDualBooleanAlgebra](#getdualbooleanalgebra)
+  - [reverse](#reverse)
+  - [~~getDualBooleanAlgebra~~](#getdualbooleanalgebra)
 - [instances](#instances)
   - [booleanAlgebraVoid](#booleanalgebravoid)
   - [~~booleanAlgebraBoolean~~](#booleanalgebraboolean)
@@ -34,9 +35,21 @@ Added in v2.0.0
 
 # combinators
 
-## getDualBooleanAlgebra
+## reverse
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(B: BooleanAlgebra<A>) => BooleanAlgebra<A>
+```
+
+Added in v2.10.0
+
+## ~~getDualBooleanAlgebra~~
+
+Use `reverse` instead.
 
 **Signature**
 

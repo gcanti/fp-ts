@@ -21,11 +21,11 @@ Added in v2.4.0
   - [bimap](#bimap)
   - [both](#both)
   - [chain](#chain)
-  - [fold](#fold)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
   - [mapLeft](#mapleft)
+  - [match](#match)
   - [right](#right)
   - [rightF](#rightf)
   - [swap](#swap)
@@ -143,36 +143,6 @@ export declare function chain<M, E>(
 
 Added in v2.10.0
 
-## fold
-
-**Signature**
-
-```ts
-export declare function fold<M extends URIS2>(
-  M: Monad2<M>
-): <E, ME, R, A>(
-  onLeft: (e: E) => Kind2<M, ME, R>,
-  onRight: (a: A) => Kind2<M, ME, R>,
-  onBoth: (e: E, a: A) => Kind2<M, ME, R>
-) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, R>
-export declare function fold<M extends URIS>(
-  M: Monad1<M>
-): <E, R, A>(
-  onLeft: (e: E) => Kind<M, R>,
-  onRight: (a: A) => Kind<M, R>,
-  onBoth: (e: E, a: A) => Kind<M, R>
-) => (ma: Kind<M, These<E, A>>) => Kind<M, R>
-export declare function fold<M>(
-  M: Monad<M>
-): <E, R, A>(
-  onLeft: (e: E) => HKT<M, R>,
-  onRight: (a: A) => HKT<M, R>,
-  onBoth: (e: E, a: A) => HKT<M, R>
-) => (ma: HKT<M, These<E, A>>) => HKT<M, R>
-```
-
-Added in v2.10.0
-
 ## left
 
 **Signature**
@@ -231,6 +201,36 @@ export declare function mapLeft<F extends URIS>(
 export declare function mapLeft<F>(
   F: Functor<F>
 ): <E, G>(f: (e: E) => G) => <A>(fea: HKT<F, These<E, A>>) => HKT<F, These<G, A>>
+```
+
+Added in v2.10.0
+
+## match
+
+**Signature**
+
+```ts
+export declare function match<M extends URIS2>(
+  M: Monad2<M>
+): <E, ME, R, A>(
+  onLeft: (e: E) => Kind2<M, ME, R>,
+  onRight: (a: A) => Kind2<M, ME, R>,
+  onBoth: (e: E, a: A) => Kind2<M, ME, R>
+) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, R>
+export declare function match<M extends URIS>(
+  M: Monad1<M>
+): <E, R, A>(
+  onLeft: (e: E) => Kind<M, R>,
+  onRight: (a: A) => Kind<M, R>,
+  onBoth: (e: E, a: A) => Kind<M, R>
+) => (ma: Kind<M, These<E, A>>) => Kind<M, R>
+export declare function match<M>(
+  M: Monad<M>
+): <E, R, A>(
+  onLeft: (e: E) => HKT<M, R>,
+  onRight: (a: A) => HKT<M, R>,
+  onBoth: (e: E, a: A) => HKT<M, R>
+) => (ma: HKT<M, These<E, A>>) => HKT<M, R>
 ```
 
 Added in v2.10.0

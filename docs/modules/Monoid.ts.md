@@ -44,12 +44,15 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [getDualMonoid](#getdualmonoid)
   - [getStructMonoid](#getstructmonoid)
   - [getTupleMonoid](#gettuplemonoid)
+  - [reverse](#reverse)
+  - [~~getDualMonoid~~](#getdualmonoid)
 - [constructors](#constructors)
-  - [getJoinMonoid](#getjoinmonoid)
-  - [getMeetMonoid](#getmeetmonoid)
+  - [max](#max)
+  - [min](#min)
+  - [~~getJoinMonoid~~](#getjoinmonoid)
+  - [~~getMeetMonoid~~](#getmeetmonoid)
 - [instances](#instances)
   - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
@@ -68,27 +71,6 @@ Added in v2.0.0
 ---
 
 # combinators
-
-## getDualMonoid
-
-The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
-
-**Signature**
-
-```ts
-export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
-```
-
-**Example**
-
-```ts
-import { getDualMonoid } from 'fp-ts/Monoid'
-import * as S from 'fp-ts/string'
-
-assert.deepStrictEqual(getDualMonoid(S.Monoid).concat('a', 'b'), 'ba')
-```
-
-Added in v2.0.0
 
 ## getStructMonoid
 
@@ -152,9 +134,42 @@ assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, fal
 
 Added in v2.0.0
 
+## reverse
+
+The dual of a `Monoid`, obtained by swapping the arguments of `concat`.
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import { reverse } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
+
+assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
+```
+
+Added in v2.10.0
+
+## ~~getDualMonoid~~
+
+Use `reverse` instead.
+
+**Signature**
+
+```ts
+export declare const getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
+```
+
+Added in v2.0.0
+
 # constructors
 
-## getJoinMonoid
+## max
 
 Get a monoid where `concat` will return the maximum, based on the provided bounded order.
 
@@ -163,7 +178,7 @@ The `empty` value is the `bottom` value.
 **Signature**
 
 ```ts
-export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
+export declare const max: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -172,14 +187,14 @@ export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
 import * as B from 'fp-ts/Bounded'
 import * as M from 'fp-ts/Monoid'
 
-const M1 = M.getJoinMonoid(B.boundedNumber)
+const M1 = M.max(B.boundedNumber)
 
 assert.deepStrictEqual(M1.concat(1, 2), 2)
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
-## getMeetMonoid
+## min
 
 Get a monoid where `concat` will return the minimum, based on the provided bounded order.
 
@@ -188,7 +203,7 @@ The `empty` value is the `top` value.
 **Signature**
 
 ```ts
-export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
+export declare const min: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 **Example**
@@ -197,9 +212,33 @@ export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
 import * as B from 'fp-ts/Bounded'
 import * as M from 'fp-ts/Monoid'
 
-const M1 = M.getMeetMonoid(B.boundedNumber)
+const M1 = M.min(B.boundedNumber)
 
 assert.deepStrictEqual(M1.concat(1, 2), 1)
+```
+
+Added in v2.10.0
+
+## ~~getJoinMonoid~~
+
+Use `max` instead.
+
+**Signature**
+
+```ts
+export declare const getJoinMonoid: <A>(B: Bounded<A>) => Monoid<A>
+```
+
+Added in v2.0.0
+
+## ~~getMeetMonoid~~
+
+Use `min` instead.
+
+**Signature**
+
+```ts
+export declare const getMeetMonoid: <A>(B: Bounded<A>) => Monoid<A>
 ```
 
 Added in v2.0.0

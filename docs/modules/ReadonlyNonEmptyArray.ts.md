@@ -175,7 +175,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
 ```
 
 Added in v2.5.0
@@ -208,7 +208,7 @@ Added in v2.5.0
 
 ```ts
 export declare const foldMapWithIndex: <S>(
-  S: Semigroup<S>
+  S: Se.Semigroup<S>
 ) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
 ```
 
@@ -836,7 +836,7 @@ Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
 **Signature**
 
 ```ts
-export declare function getSemigroup<A = never>(): Semigroup<ReadonlyNonEmptyArray<A>>
+export declare function getSemigroup<A = never>(): Se.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -935,7 +935,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const concatAll: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.10.0
@@ -1136,7 +1136,7 @@ Use `concatAll` instead.
 **Signature**
 
 ```ts
-export declare const fold: <A>(S: Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
