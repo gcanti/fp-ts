@@ -861,7 +861,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string>
+export declare const stringifyJSON: <E>(u: unknown, onError: (reason: unknown) => E) => Either<E, string>
 ```
 
 **Example**

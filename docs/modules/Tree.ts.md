@@ -391,10 +391,12 @@ export declare function fold<A, B>(f: (a: A, bs: Array<B>) => B): (tree: Tree<A>
 
 ```ts
 import { fold, make } from 'fp-ts/Tree'
+import { concatAll } from 'fp-ts/Monoid'
+import { MonoidSum } from 'fp-ts/number'
 
 const t = make(1, [make(2), make(3)])
 
-const sum = (as: Array<number>) => as.reduce((a, acc) => a + acc, 0)
+const sum = concatAll(MonoidSum)
 
 // Sum the values in a tree:
 assert.deepStrictEqual(fold((a: number, bs: Array<number>) => a + sum(bs))(t), 6)
