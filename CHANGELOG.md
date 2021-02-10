@@ -45,6 +45,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `eqNumber`, use `number.Eq` instead (@gcanti)
     - deprecate `eqDate`, use `Date.Eq` instead (@gcanti)
     - deprecate `getStructEq`, use `struct` instead (@gcanti)
+    - deprecate `getTupleEq`, use `tuple` instead (@gcanti)
   - `Filterable`
     - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
   - `Foldable`
@@ -243,6 +244,8 @@ high state of flux, you're at risk of it changing without notice.
     - split `getEitherM` into separated functions (@gcanti)
   - `Eq`
     - add `getSemigroup` (@gcanti)
+    - add `struct` (@gcanti)
+    - add `tuple` (@gcanti)
   - `Identity`
     - add `Pointed` instance (@gcanti)
     - add `Apply` instance (@gcanti)

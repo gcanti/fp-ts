@@ -59,6 +59,27 @@ export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
     return true
   })
 
+/**
+ * Given a tuple of `Eq`s returns a `Eq` for the tuple
+ *
+ * @example
+ * import { tuple } from 'fp-ts/Eq'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import * as B from 'fp-ts/boolean'
+ *
+ * const E = tuple(S.Eq, N.Eq, B.Eq)
+ * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
+ * assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
+ * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
+ * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const tuple = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+  fromEquals((first, second) => eqs.every((E, i) => E.equals(first[i], second[i])))
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
@@ -107,30 +128,6 @@ export const eqStrict: Eq<unknown> = {
   equals: (a, b) => a === b
 }
 
-/**
- * Given a tuple of `Eq`s returns a `Eq` for the tuple
- *
- * @example
- * import { getTupleEq } from 'fp-ts/Eq'
- * import * as S from 'fp-ts/string'
- * import * as N from 'fp-ts/number'
- * import * as B from 'fp-ts/boolean'
- *
- * const E = getTupleEq(S.Eq, N.Eq, B.Eq)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, true]), true)
- * assert.strictEqual(E.equals(['a', 1, true], ['b', 1, true]), false)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 2, true]), false)
- * assert.strictEqual(E.equals(['a', 1, true], ['a', 1, false]), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export function getTupleEq<T extends ReadonlyArray<Eq<any>>>(
-  ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> {
-  return fromEquals((x, y) => eqs.every((E, i) => E.equals(x[i], y[i])))
-}
-
 const empty: Eq<unknown> = {
   equals: () => true
 }
@@ -164,6 +161,17 @@ export const Contravariant: Contravariant1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `tuple` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
+  ...eqs: T
+) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> = tuple
 
 /**
  * Use `struct` instead.
