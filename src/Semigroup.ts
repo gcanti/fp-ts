@@ -216,7 +216,7 @@ export const last = <A = never>(): Semigroup<A> => ({
 })
 
 /**
- * Return a semigroup for objects, preserving their type.
+ * Return a semigroup which works like `Object.assign`.
  *
  * @example
  * import * as S from 'fp-ts/Semigroup'
@@ -227,13 +227,13 @@ export const last = <A = never>(): Semigroup<A> => ({
  *   age: number
  * }
  *
- * const S1 = S.object<Person>()
+ * const S1 = S.assign<Person>()
  * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
  *
  * @category instances
  * @since 3.0.0
  */
-export const object = <A extends object = never>(): Semigroup<A> => ({
+export const assign = <A extends object = never>(): Semigroup<A> => ({
   concat: (second) => (first) => Object.assign({}, first, second)
 })
 

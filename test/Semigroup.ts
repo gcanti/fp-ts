@@ -28,7 +28,7 @@ describe('Semigroup', () => {
     deepStrictEqual(pipe(1, S.concat(2)), 2)
   })
 
-  it('object', () => {
+  it('assign', () => {
     type T = {
       readonly foo?: number
       readonly bar: string
@@ -40,7 +40,7 @@ describe('Semigroup', () => {
     const bar: T = {
       bar: '123'
     }
-    const S = _.object<T>()
+    const S = _.assign<T>()
     const result = pipe(foo, S.concat(bar))
     const expected = Object.assign({}, foo, bar)
     deepStrictEqual(result.foo, expected.foo)
