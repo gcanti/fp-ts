@@ -66,9 +66,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
-  - [parseJSON](#parsejson)
   - [right](#right)
-  - [stringifyJSON](#stringifyjson)
   - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
@@ -113,9 +111,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [Json (type alias)](#json-type-alias)
-  - [JsonArray (interface)](#jsonarray-interface)
-  - [JsonRecord (interface)](#jsonrecord-interface)
   - [apS](#aps)
   - [apSW](#apsw)
   - [apT](#apt)
@@ -703,28 +698,6 @@ export declare const left: <E, A = never>(e: E) => Either<E, A>
 
 Added in v3.0.0
 
-## parseJSON
-
-Converts a JavaScript Object Notation (JSON) string into an object.
-
-**Signature**
-
-```ts
-export declare const parseJSON: (s: string) => Either<unknown, Json>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe('{"a":1}', E.parseJSON), E.right({ a: 1 }))
-assert.deepStrictEqual(pipe('{"a":}', E.parseJSON), E.left(new SyntaxError('Unexpected token } in JSON at position 5')))
-```
-
-Added in v3.0.0
-
 ## right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -734,37 +707,6 @@ of this structure.
 
 ```ts
 export declare const right: <A, E = never>(a: A) => Either<E, A>
-```
-
-Added in v3.0.0
-
-## stringifyJSON
-
-Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
-
-**Signature**
-
-```ts
-export declare const stringifyJSON: (u: unknown) => Either<unknown, string>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe({ a: 1 }, E.stringifyJSON), E.right('{"a":1}'))
-const circular: any = { ref: null }
-circular.ref = circular
-assert.deepStrictEqual(
-  pipe(
-    circular,
-    E.stringifyJSON,
-    E.mapLeft((e) => String(e).includes('Converting circular structure to JSON'))
-  ),
-  E.left(true)
-)
 ```
 
 Added in v3.0.0
@@ -1287,38 +1229,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Do: Either<never, {}>
-```
-
-Added in v3.0.0
-
-## Json (type alias)
-
-**Signature**
-
-```ts
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-```
-
-Added in v3.0.0
-
-## JsonArray (interface)
-
-**Signature**
-
-```ts
-export interface JsonArray extends ReadonlyArray<Json> {}
-```
-
-Added in v3.0.0
-
-## JsonRecord (interface)
-
-**Signature**
-
-```ts
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
 ```
 
 Added in v3.0.0

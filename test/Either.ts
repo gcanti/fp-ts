@@ -281,33 +281,6 @@ describe('Either', () => {
     U.deepStrictEqual(_.swap(_.left('b')), _.right('b'))
   })
 
-  it('parseJSON', () => {
-    U.deepStrictEqual(pipe('{"a":1}', _.parseJSON), _.right({ a: 1 }))
-    U.deepStrictEqual(pipe('{"a":}', _.parseJSON), _.left(new SyntaxError('Unexpected token } in JSON at position 5')))
-  })
-
-  it('stringifyJSON', () => {
-    U.deepStrictEqual(pipe({ a: 1 }, _.stringifyJSON), _.right('{"a":1}'))
-    const circular: any = { ref: null }
-    circular.ref = circular
-    U.deepStrictEqual(
-      pipe(
-        circular,
-        _.stringifyJSON,
-        _.mapLeft((e) => (e as Error).message.includes('Converting circular structure to JSON'))
-      ),
-      _.left(true)
-    )
-    interface Person {
-      readonly name: string
-      readonly age: number
-    }
-    const person: Person = { name: 'Giulio', age: 45 }
-    U.deepStrictEqual(pipe(person, _.stringifyJSON), _.right('{"name":"Giulio","age":45}'))
-
-    U.deepStrictEqual(_.stringifyJSON(undefined), _.left(new Error('Converting unsupported structure to JSON')))
-  })
-
   it('fromPredicate', () => {
     const f = _.fromPredicate((n: number) => n >= 2)
     U.deepStrictEqual(f(3), _.right(3))

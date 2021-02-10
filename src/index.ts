@@ -45,6 +45,7 @@ import * as invariant from './Invariant'
 import * as io from './IO'
 import * as ioEither from './IOEither'
 import * as joinSemilattice from './JoinSemilattice'
+import * as json from './Json'
 import * as lattice from './Lattice'
 import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
@@ -262,6 +263,10 @@ export {
    * @since 3.0.0
    */
   joinSemilattice,
+  /**
+   * @since 3.0.0
+   */
+  json,
   /**
    * @since 3.0.0
    */

@@ -79,7 +79,9 @@ high state of flux, you're at risk of it changing without notice.
     - remove `onError` parameter in `parseJSON`
     - remove `onError` parameter in `stringifyJSON`
     - remove `onFalse` parameter in `fromPredicate`
-    - refactor `Json` type
+    - move `Json` type to `Json` module
+    - move `parseJSON` type to `Json` module
+    - move `stringifyJSON` type to `Json` module
   - `Field`
     - make `gcd` pipeable
     - make `lcm` pipeable
@@ -210,6 +212,7 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Traversable` and `Filterable` dependencies
 
 - **New Feature**
+  - add `Json` module
   - add pipeable sequence T to
     - `Either`
     - `Identity`

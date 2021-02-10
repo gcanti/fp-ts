@@ -56,6 +56,7 @@ Added in v3.0.0
   - [io](#io)
   - [ioEither](#ioeither)
   - [joinSemilattice](#joinsemilattice)
+  - [json](#json)
   - [lattice](#lattice)
   - [magma](#magma)
   - [meetSemilattice](#meetsemilattice)
@@ -535,6 +536,16 @@ Added in v3.0.0
 
 ```ts
 export declare const joinSemilattice: typeof joinSemilattice
+```
+
+Added in v3.0.0
+
+## json
+
+**Signature**
+
+```ts
+export declare const json: typeof json
 ```
 
 Added in v3.0.0
