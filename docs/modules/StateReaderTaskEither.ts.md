@@ -83,6 +83,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -880,6 +881,16 @@ export declare const Bifunctor: Bifunctor4<'StateReaderTaskEither'>
 ```
 
 Added in v2.7.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
 
 ## FromEither
 

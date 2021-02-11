@@ -22,7 +22,7 @@ import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
@@ -2068,6 +2068,17 @@ export const Applicative: Applicative1<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

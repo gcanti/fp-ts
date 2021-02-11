@@ -93,7 +93,7 @@ describe('These', () => {
   })
 
   it('ap', () => {
-    const M = _.getMonad(S.Semigroup)
+    const M = _.getApply(S.Semigroup)
     const sequenceT = Apply.sequenceT(M)
     U.deepStrictEqual(sequenceT(_.right(1), _.right(2)), _.right([1, 2]))
     U.deepStrictEqual(sequenceT(_.right(1), _.left('b')), _.left('b'))
@@ -107,7 +107,7 @@ describe('These', () => {
   })
 
   it('chain', () => {
-    const M = _.getMonad(S.Monoid)
+    const M = _.getChain(S.Semigroup)
     const f = (n: number) => (n >= 2 ? (n <= 5 ? _.right(n * 2) : _.both('bar', n)) : _.left('bar'))
     U.deepStrictEqual(M.chain(_.left('foo'), f), _.left('foo'))
     U.deepStrictEqual(M.chain(_.right(2), f), _.right(4))
@@ -116,6 +116,16 @@ describe('These', () => {
     U.deepStrictEqual(M.chain(_.both('foo', 2), f), _.both('foo', 4))
     U.deepStrictEqual(M.chain(_.both('foo', 1), f), _.left('foobar'))
     U.deepStrictEqual(M.chain(_.both('foo', 6), f), _.both('foobar', 6))
+  })
+
+  it('getApplicative', () => {
+    const A = _.getApplicative(S.Semigroup)
+    U.deepStrictEqual(A.of(1), _.right(1))
+  })
+
+  it('getMonad', () => {
+    const M = _.getMonad(S.Semigroup)
+    U.deepStrictEqual(M.of(1), _.right(1))
   })
 
   it('getEq', () => {

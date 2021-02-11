@@ -22,6 +22,7 @@
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
@@ -233,9 +234,11 @@ export function getApplicative<E>(S: Semigroup<E>): Applicative2C<URI, E> {
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
+export function getChain<E>(S: Semigroup<E>): Chain2C<URI, E> {
+  const A = getApply(S)
+
   const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -245,20 +248,34 @@ export function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<UR
     }
     const fb = f(ma.right)
     return isLeft(fb)
-      ? left(SE.concat(ma.left, fb.left))
+      ? left(S.concat(ma.left, fb.left))
       : isRight(fb)
       ? both(ma.left, fb.right)
-      : both(SE.concat(ma.left, fb.left), fb.right)
+      : both(S.concat(ma.left, fb.left), fb.right)
   }
 
-  const applicative = getApplicative(SE)
   return {
     URI,
     _E: undefined as any,
     map: _map,
-    of: right,
-    ap: applicative.ap,
-    chain,
+    ap: A.ap,
+    chain
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E> {
+  const C = getChain(S)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    of,
+    ap: C.ap,
+    chain: C.chain,
     throwError: left
   }
 }

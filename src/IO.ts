@@ -17,7 +17,7 @@ import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
@@ -197,6 +197,17 @@ export const Applicative: Applicative1<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

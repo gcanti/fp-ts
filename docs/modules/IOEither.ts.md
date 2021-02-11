@@ -75,6 +75,7 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
@@ -727,6 +728,16 @@ export declare const Bifunctor: Bifunctor2<'IOEither'>
 ```
 
 Added in v2.7.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain2<'IOEither'>
+```
+
+Added in v2.10.0
 
 ## FromEither
 

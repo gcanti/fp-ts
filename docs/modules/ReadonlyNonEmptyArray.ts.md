@@ -66,6 +66,7 @@ Added in v2.5.0
   - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
+  - [Chain](#chain)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
@@ -694,6 +695,16 @@ Added in v2.7.0
 
 ```ts
 export declare const Apply: Apply1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.10.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v2.10.0

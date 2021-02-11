@@ -34,6 +34,7 @@ Added in v2.0.0
 - [instances](#instances)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
+  - [Chain](#chain)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -248,6 +249,16 @@ Added in v2.7.0
 
 ```ts
 export declare const Apply: Apply2<'State'>
+```
+
+Added in v2.10.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain2<'State'>
 ```
 
 Added in v2.10.0

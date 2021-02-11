@@ -23,7 +23,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Compactable2C } from './Compactable'
 import { Eq } from './Eq'
@@ -1143,6 +1143,17 @@ export const Applicative: Applicative2<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

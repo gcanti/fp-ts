@@ -5,7 +5,7 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_ } from './Apply'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Pointed2 } from './Pointed'
 import { Monad2 } from './Monad'
 
@@ -219,6 +219,17 @@ export const Applicative: Applicative2<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

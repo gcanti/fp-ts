@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
 import { Apply1 } from './Apply'
+import { Chain1 } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -1404,6 +1405,17 @@ export const Applicative: Applicative1<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

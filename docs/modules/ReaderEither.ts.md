@@ -71,6 +71,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -724,6 +725,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderEither'>
 ```
 
 Added in v2.7.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain3<'ReaderEither'>
+```
+
+Added in v2.10.0
 
 ## FromEither
 

@@ -23,7 +23,7 @@ import { FromTask1 } from './FromTask'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { IO } from './IO'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
@@ -316,6 +316,16 @@ export const ApplicativeSeq: Applicative1<URI> = {
   map: _map,
   ap: _apSeq,
   of
+}
+
+/**
+ * @internal
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain
 }
 
 /**

@@ -94,6 +94,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [ChainRec](#chainrec)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
@@ -1113,6 +1114,16 @@ export declare const Bifunctor: Bifunctor2<'Either'>
 ```
 
 Added in v2.7.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain2<'Either'>
+```
+
+Added in v2.10.0
 
 ## ChainRec
 
