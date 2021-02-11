@@ -22,6 +22,7 @@
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
@@ -432,7 +433,7 @@ export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
+export const getChain = <E>(S: Semigroup<E>): Chain2C<URI, E> => {
   const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -450,8 +451,20 @@ export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
 
   return {
     map,
-    of,
     chain
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
+  const C = getChain(S)
+  return {
+    map,
+    of,
+    chain: C.chain
   }
 }
 

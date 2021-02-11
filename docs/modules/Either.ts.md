@@ -793,7 +793,7 @@ Added in v3.0.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Monad`.
+Derivable from `Chain`.
 
 **Signature**
 
@@ -819,7 +819,7 @@ Added in v3.0.0
 
 The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
 
-Derivable from `Monad`.
+Derivable from `Chain`.
 
 **Signature**
 

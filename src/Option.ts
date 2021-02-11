@@ -470,7 +470,7 @@ export const of: Pointed1<URI>['of'] = some
 export const chain: Chain1<URI>['chain'] = (f) => (ma) => (isNone(ma) ? none : f(ma.value))
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -895,14 +895,14 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * @category instances
@@ -1078,7 +1078,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S

@@ -277,7 +277,7 @@ export const chainW: <A, E2, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
@@ -494,14 +494,14 @@ export const ApplicativeSeq: Applicative2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
@@ -556,9 +556,8 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
-const MonadFromEither: FromEither2<URI> & Monad2<URI> = {
+const ChainFromEither: FromEither2<URI> & Chain2<URI> = {
   map,
-  of,
   chain,
   fromEither
 }
@@ -569,7 +568,7 @@ const MonadFromEither: FromEither2<URI> & Monad2<URI> = {
  */
 export const chainOptionK =
   /*#__PURE__*/
-  chainOptionK_(MonadFromEither)
+  chainOptionK_(ChainFromEither)
 
 /**
  * @category combinators
@@ -577,7 +576,7 @@ export const chainOptionK =
  */
 export const chainEitherK =
   /*#__PURE__*/
-  chainEitherK_(MonadFromEither)
+  chainEitherK_(ChainFromEither)
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -605,7 +604,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_(MonadFromEither)
+  filterOrElse_(ChainFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -683,7 +682,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * Less strict version of [`bind`](#bind).

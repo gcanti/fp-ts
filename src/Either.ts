@@ -525,7 +525,7 @@ export const chain: Chain2<URI>['chain'] = chainW
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -980,14 +980,14 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
 export const chainFirst =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
@@ -1106,7 +1106,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * Less strict version of [`bind`](#bind).
