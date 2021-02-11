@@ -98,16 +98,16 @@ Added in v2.0.0
 
 ```ts
 export declare function ap<M extends URIS3>(
-  M: Monad3<M>
+  M: Chain3<M>
 ): <S, R, E, A>(fa: StateT3<M, S, R, E, A>) => <B>(fab: StateT3<M, S, R, E, (a: A) => B>) => StateT3<M, S, R, E, B>
 export declare function ap<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <S, E, A>(fa: StateT2<M, S, E, A>) => <B>(fab: StateT2<M, S, E, (a: A) => B>) => StateT2<M, S, E, B>
 export declare function ap<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <S, A>(fa: StateT1<M, S, A>) => <B>(fab: StateT1<M, S, (a: A) => B>) => StateT1<M, S, B>
 export declare function ap<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <S, A>(fa: StateT<M, S, A>) => <B>(fab: StateT<M, S, (a: A) => B>) => StateT<M, S, B>
 ```
 
@@ -119,16 +119,16 @@ Added in v2.10.0
 
 ```ts
 export declare function chain<M extends URIS3>(
-  M: Monad3<M>
+  M: Chain3<M>
 ): <A, S, R, E, B>(f: (a: A) => StateT3<M, S, R, E, B>) => (ma: StateT3<M, S, R, E, A>) => StateT3<M, S, R, E, B>
 export declare function chain<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <A, S, E, B>(f: (a: A) => StateT2<M, S, E, B>) => (ma: StateT2<M, S, E, A>) => StateT2<M, S, E, B>
 export declare function chain<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <A, S, B>(f: (a: A) => StateT1<M, S, B>) => (ma: StateT1<M, S, A>) => StateT1<M, S, B>
 export declare function chain<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <A, S, B>(f: (a: A) => StateT<M, S, B>) => (ma: StateT<M, S, A>) => StateT<M, S, B>
 ```
 

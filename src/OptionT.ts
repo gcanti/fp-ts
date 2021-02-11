@@ -8,6 +8,7 @@ import {
   ApplicativeCompositionHKT1
 } from './Applicative'
 import { ap as ap_, Apply, Apply1 } from './Apply'
+import { Chain, Chain1 } from './Chain'
 import { Either } from './Either'
 import { flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor, Functor1, map as map_ } from './Functor'
@@ -170,13 +171,13 @@ export function fromEither<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F, 
  * @since 2.10.0
  */
 export function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
   return (onNone, onSome) => (ma) => M.chain(ma, O.fold(onNone, onSome))
 }
