@@ -1,6 +1,7 @@
 import { pipe } from '../src/function'
 import * as _ from '../src/IO'
 import * as U from './util'
+import * as E from '../src/Either'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -69,5 +70,10 @@ describe('IO', () => {
     }
     U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceReadonlyArray)(), [1, 2])
     U.deepStrictEqual(log, [1, 2])
+  })
+
+  it('chainRec', () => {
+    const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
+    U.deepStrictEqual(_.ChainRec.chainRec(f)(0)(), 'ok 15000')
   })
 })

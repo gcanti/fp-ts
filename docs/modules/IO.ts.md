@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 43
+nav_order: 44
 parent: Modules
 ---
 
@@ -26,6 +26,8 @@ Added in v3.0.0
   - [ap](#ap)
 - [Chain](#chain)
   - [chain](#chain)
+- [ChainRec](#chainrec)
+  - [chainRec](#chainrec)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -41,6 +43,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
+  - [ChainRec](#chainrec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -86,6 +89,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
+# ChainRec
+
+## chainRec
+
+**Signature**
+
+```ts
+export declare const chainRec: <A, B>(f: (a: A) => IO<Either<A, B>>) => (a: A) => IO<B>
 ```
 
 Added in v3.0.0
@@ -216,6 +231,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Chain: Chain1<'IO'>
+```
+
+Added in v3.0.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec1<'IO'>
 ```
 
 Added in v3.0.0

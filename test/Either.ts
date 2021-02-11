@@ -535,4 +535,35 @@ describe('Either', () => {
     U.deepStrictEqual(f('a'), _.right(1))
     U.deepStrictEqual(f(''), _.left(new Error('empty string')))
   })
+
+  it('chainRec', () => {
+    const chainRec = _.chainRec
+    U.deepStrictEqual(
+      pipe(
+        1,
+        chainRec(() => _.left('a'))
+      ),
+      _.left('a')
+    )
+    U.deepStrictEqual(
+      pipe(
+        1,
+        chainRec(() => _.right(_.right(1)))
+      ),
+      _.right(1)
+    )
+    U.deepStrictEqual(
+      pipe(
+        1,
+        chainRec((a) => {
+          if (a < 5) {
+            return _.right(_.left(a + 1))
+          } else {
+            return _.right(_.right(a))
+          }
+        })
+      ),
+      _.right(5)
+    )
+  })
 })

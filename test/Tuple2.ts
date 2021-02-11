@@ -3,6 +3,8 @@ import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/Tuple2'
 import * as U from './util'
+import * as RA from '../src/ReadonlyArray'
+import * as E from '../src/Either'
 
 describe('Tuple2', () => {
   describe('combinators', () => {
@@ -97,5 +99,19 @@ describe('Tuple2', () => {
         [2, 'ab']
       )
     })
+  })
+
+  it('getChainRec', () => {
+    const { chainRec } = _.getChainRec(RA.getMonoid<number>())
+    function seqReq(upper: number): readonly [number, ReadonlyArray<number>] {
+      return pipe(
+        1,
+        chainRec((init) => [init >= upper ? E.right(init) : E.left(init + 1), [init]])
+      )
+    }
+    const xs = _.snd(seqReq(10000))
+    U.deepStrictEqual(xs.length, 10000)
+    U.deepStrictEqual(xs[0], 1)
+    U.deepStrictEqual(xs[xs.length - 1], 10000)
   })
 })

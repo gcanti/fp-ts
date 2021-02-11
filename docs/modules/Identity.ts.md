@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
@@ -19,6 +19,8 @@ Added in v3.0.0
   - [ap](#ap)
 - [Chain](#chain)
   - [chain](#chain)
+- [ChainRec](#chainrec)
+  - [chainRec](#chainrec)
 - [Extend](#extend)
   - [extend](#extend)
 - [Extract](#extract)
@@ -44,6 +46,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
+  - [ChainRec](#chainrec-1)
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
@@ -119,6 +122,18 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => B) => (ma: A) => B
+```
+
+Added in v3.0.0
+
+# ChainRec
+
+## chainRec
+
+**Signature**
+
+```ts
+export declare const chainRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
 ```
 
 Added in v3.0.0
@@ -327,6 +342,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Chain: Chain1<'Identity'>
+```
+
+Added in v3.0.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec1<'Identity'>
 ```
 
 Added in v3.0.0

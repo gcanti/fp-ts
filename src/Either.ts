@@ -18,6 +18,7 @@ import { Applicative as Applicative_, Applicative2, Applicative2C } from './Appl
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor2, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C } from './Compactable'
 import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
@@ -523,6 +524,18 @@ export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
 export const chain: Chain2<URI>['chain'] = chainW
 
 /**
+ * @category ChainRec
+ * @since 3.0.0
+ */
+export const chainRec: ChainRec2<URI>['chainRec'] = (f) =>
+  flow(
+    f,
+    tailRec((e) =>
+      isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+    )
+  )
+
+/**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
  * Derivable from `Chain`.
@@ -998,6 +1011,14 @@ export const chainFirst =
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ChainRec: ChainRec2<URI> = {
+  chainRec
+}
 
 /**
  * @category instances

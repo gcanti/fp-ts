@@ -28,7 +28,6 @@ high state of flux, you're at risk of it changing without notice.
   - remove type classes
     - `Choice`
     - `Strong`
-    - `ChainRec`
     - `MonadThrow`
     - `MonadIO`
     - `MonadTask`
@@ -63,6 +62,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `booleanAlgebraVoid`
   - `ChainRec`
     - drop `Chain` dependency
+    - make `tailRec` pipeable
   - `Eq`
     - rename `eqStrict` to `EqStrict`
   - `Either`

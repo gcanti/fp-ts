@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 41
+nav_order: 42
 parent: Modules
 ---
 
@@ -27,6 +27,7 @@ Added in v3.0.0
   - [boundedMeetSemilattice](#boundedmeetsemilattice)
   - [category](#category)
   - [chain](#chain)
+  - [chainRec](#chainrec)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [console](#console)
@@ -247,6 +248,16 @@ Added in v3.0.0
 
 ```ts
 export declare const chain: typeof chain
+```
+
+Added in v3.0.0
+
+## chainRec
+
+**Signature**
+
+```ts
+export declare const chainRec: typeof chainRec
 ```
 
 Added in v3.0.0

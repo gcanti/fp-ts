@@ -14,6 +14,7 @@
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
@@ -66,6 +67,18 @@ export const of: Pointed1<URI>['of'] = constant
  * @since 3.0.0
  */
 export const chain: Chain1<URI>['chain'] = (f) => (ma) => () => f(ma())()
+
+/**
+ * @category ChainRec
+ * @since 3.0.0
+ */
+export const chainRec: ChainRec1<URI>['chainRec'] = (f) => (a) => () => {
+  let e = f(a)()
+  while (e._tag === 'Left') {
+    e = f(e.left)()
+  }
+  return e.right
+}
 
 /**
  * Derivable from `Chain`.
@@ -200,6 +213,14 @@ export const chainFirst =
  */
 export const FromIO: FromIO1<URI> = {
   fromIO: identity
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ChainRec: ChainRec1<URI> = {
+  chainRec
 }
 
 // -------------------------------------------------------------------------------------

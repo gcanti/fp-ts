@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -143,6 +144,12 @@ export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => 
  */
 export const alt: Alt1<URI>['alt'] = altW
 
+/**
+ * @category ChainRec
+ * @since 3.0.0
+ */
+export const chainRec: ChainRec1<URI>['chainRec'] = tailRec
+
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -271,6 +278,14 @@ export const Monad: Monad1<URI> = {
 export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ChainRec: ChainRec1<URI> = {
+  chainRec
+}
 
 /**
  * @category instances

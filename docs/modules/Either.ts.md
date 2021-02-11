@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 22
+nav_order: 23
 parent: Modules
 ---
 
@@ -36,6 +36,8 @@ Added in v3.0.0
 - [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [ChainRec](#chainrec)
+  - [chainRec](#chainrec)
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
@@ -90,6 +92,7 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
   - [Chain](#chain-1)
+  - [ChainRec](#chainrec-1)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -232,6 +235,18 @@ Less strict version of [`chain`](#chain).
 
 ```ts
 export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# ChainRec
+
+## chainRec
+
+**Signature**
+
+```ts
+export declare const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -1010,6 +1025,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Chain: Chain2<'Either'>
+```
+
+Added in v3.0.0
+
+## ChainRec
+
+**Signature**
+
+```ts
+export declare const ChainRec: ChainRec2<'Either'>
 ```
 
 Added in v3.0.0
