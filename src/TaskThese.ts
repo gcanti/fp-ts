@@ -4,6 +4,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { Chain2C } from './Chain'
 import {
   FromEither2,
   fromOption as fromOption_,
@@ -279,18 +280,34 @@ export function getApplicative<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicativ
 
 /**
  * @category instances
- * @since 2.4.0
+ * @since 2.10.0
  */
-export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
-  const A = getApplicative(T.ApplicativePar, S)
+export function getChain<E>(S: Semigroup<E>): Chain2C<URI, E> {
+  const A = getApply(T.ApplicativePar, S)
   const chain = TT.chain(T.Monad, S)
   return {
     URI,
     _E: undefined as any,
     map: _map,
     ap: A.ap,
+    chain: (ma, f) => pipe(ma, chain(f))
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.4.0
+ */
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadTask2C<URI, E> {
+  const A = getApplicative(T.ApplicativePar, S)
+  const C = getChain(S)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    ap: A.ap,
     of,
-    chain: (ma, f) => pipe(ma, chain(f)),
+    chain: C.chain,
     fromIO,
     fromTask
   }

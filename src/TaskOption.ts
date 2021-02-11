@@ -17,7 +17,7 @@ import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
@@ -480,8 +480,17 @@ export const ApplicativeSeq: Applicative1<URI> = {
 }
 
 /**
- * @category instances
- * @since 2.10.0
+ * @internal
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
+}
+
+/**
+ * @internal
  */
 export const Monad: Monad1<URI> = {
   URI,

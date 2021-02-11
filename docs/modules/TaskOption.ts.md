@@ -74,7 +74,6 @@ Added in v2.10.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
   - [MonadIO](#monadio)
   - [MonadTask](#monadtask)
   - [Pointed](#pointed-1)
@@ -668,16 +667,6 @@ Added in v2.10.0
 
 ```ts
 export declare const Functor: Functor1<'TaskOption'>
-```
-
-Added in v2.10.0
-
-## Monad
-
-**Signature**
-
-```ts
-export declare const Monad: Monad1<'TaskOption'>
 ```
 
 Added in v2.10.0

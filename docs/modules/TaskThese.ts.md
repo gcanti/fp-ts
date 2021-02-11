@@ -53,6 +53,7 @@ Added in v2.4.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
+  - [getChain](#getchain)
   - [getMonad](#getmonad)
   - [~~bifunctorTaskThese~~](#bifunctortaskthese)
   - [~~functorTaskThese~~](#functortaskthese)
@@ -452,6 +453,16 @@ Added in v2.7.0
 
 ```ts
 export declare const getApply: <E>(A: Apply1<'Task'>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
+```
+
+Added in v2.10.0
+
+## getChain
+
+**Signature**
+
+```ts
+export declare function getChain<E>(S: Semigroup<E>): Chain2C<URI, E>
 ```
 
 Added in v2.10.0

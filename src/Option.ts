@@ -22,6 +22,7 @@ import {
   apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -31,7 +32,7 @@ import { Foldable1 } from './Foldable'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -41,7 +42,6 @@ import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -978,6 +978,17 @@ export const Applicative: Applicative1<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

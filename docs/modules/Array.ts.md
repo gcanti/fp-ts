@@ -119,6 +119,7 @@ Added in v2.0.0
   - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
+  - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -1668,6 +1669,16 @@ Added in v2.7.0
 
 ```ts
 export declare const Apply: Apply1<'Array'>
+```
+
+Added in v2.10.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain1<'Array'>
 ```
 
 Added in v2.10.0

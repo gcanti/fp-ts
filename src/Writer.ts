@@ -3,6 +3,7 @@
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
+import { Chain2C } from './Chain'
 import { pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { Monad2C } from './Monad'
@@ -176,21 +177,37 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
 
 /**
  * @category instances
+ * @since 2.10.0
+ */
+export function getChain<W>(M: Monoid<W>): Chain2C<URI, W> {
+  const A = getApply(M)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    ap: A.ap,
+    chain: (fa, f) => () => {
+      const [a, w1] = fa()
+      const [b, w2] = f(a)()
+      return [b, M.concat(w1, w2)]
+    }
+  }
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
 export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   const A = getApplicative(M)
+  const C = getChain(M)
   return {
     URI,
     _E: undefined as any,
     map: _map,
     ap: A.ap,
     of: A.of,
-    chain: (fa, f) => () => {
-      const [a, w1] = fa()
-      const [b, w2] = f(a)()
-      return [b, M.concat(w1, w2)]
-    }
+    chain: C.chain
   }
 }
 

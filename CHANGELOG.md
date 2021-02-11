@@ -432,6 +432,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromTask` instance
     - add `fromEither` function
     - add `FromEither` instance
+    - add `getChain` instance
     - add `foldW`
     - add `match` alias
     - add `matchW` alias
@@ -461,6 +462,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getPointed`
     - add `getApply`
     - add `getApplicative`
+    - add `getChain`
 
 # 2.9.5
 

@@ -77,6 +77,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
+  - [getChain](#getchain)
   - [getEq](#geteq)
   - [getMonad](#getmonad)
   - [getSemigroup](#getsemigroup)
@@ -614,6 +615,16 @@ export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'These', E>
 
 Added in v2.10.0
 
+## getChain
+
+**Signature**
+
+```ts
+export declare function getChain<E>(S: Semigroup<E>): Chain2C<URI, E>
+```
+
+Added in v2.10.0
+
 ## getEq
 
 **Signature**
@@ -629,7 +640,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getMonad<E>(SE: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
+export declare function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI, E>
 ```
 
 Added in v2.0.0

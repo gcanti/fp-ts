@@ -6,6 +6,7 @@
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
 import { Apply1 } from './Apply'
+import { Chain1 } from './Chain'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -647,6 +648,17 @@ export const Applicative: Applicative1<URI> = {
   map: _map,
   ap: _ap,
   of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
 }
 
 /**

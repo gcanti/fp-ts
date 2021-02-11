@@ -39,7 +39,7 @@ import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -690,6 +690,16 @@ export const ApplicativeSeq: Applicative3<URI> = {
   map: _map,
   ap: _apSeq,
   of
+}
+
+/**
+ * @internal
+ */
+export const Chain: Chain3<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain
 }
 
 /**

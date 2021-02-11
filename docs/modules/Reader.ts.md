@@ -42,6 +42,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Category](#category-1)
+  - [Chain](#chain)
   - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -322,6 +323,16 @@ export declare const Category: Category2<'Reader'>
 ```
 
 Added in v2.7.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain2<'Reader'>
+```
+
+Added in v2.10.0
 
 ## Choice
 
