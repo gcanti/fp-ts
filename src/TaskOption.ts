@@ -129,7 +129,7 @@ export const fromTask: FromTask1<URI>['fromTask'] =
  */
 export const match =
   /*#__PURE__*/
-  OT.match(T.Monad)
+  OT.match(T.Chain)
 
 /**
  * Alias of [`match`](#match).
@@ -490,17 +490,6 @@ export const Chain: Chain1<URI> = {
 }
 
 /**
- * @internal
- */
-export const Monad: Monad1<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  of,
-  chain: _chain
-}
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -511,7 +500,7 @@ export const Monad: Monad1<URI> = {
  */
 export const chainFirst =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * @category instances
@@ -630,7 +619,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
