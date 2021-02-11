@@ -4,6 +4,7 @@
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Chain2C } from './Chain'
 import { Comonad2 } from './Comonad'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
@@ -266,14 +267,26 @@ export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <M>(M: Monoid<M>): Monad2C<URI, M> => {
-  const P = getPointed(M)
+export const getChain = <S>(S: Semigroup<S>): Chain2C<URI, S> => {
   return {
     map,
     chain: (f) => (ma) => {
       const [b, s] = f(fst(ma))
-      return [b, M.concat(s)(snd(ma))]
-    },
+      return [b, S.concat(s)(snd(ma))]
+    }
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonad = <M>(M: Monoid<M>): Monad2C<URI, M> => {
+  const P = getPointed(M)
+  const C = getChain(M)
+  return {
+    map,
+    chain: C.chain,
     of: P.of
   }
 }

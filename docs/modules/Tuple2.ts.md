@@ -42,6 +42,7 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
+  - [getChain](#getchain)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
 - [utils](#utils)
@@ -288,6 +289,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'Tuple2', S>
+```
+
+Added in v3.0.0
+
+## getChain
+
+**Signature**
+
+```ts
+export declare const getChain: <S>(S: Semigroup<S>) => Chain2C<'Tuple2', S>
 ```
 
 Added in v3.0.0
