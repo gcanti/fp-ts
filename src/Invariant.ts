@@ -59,6 +59,7 @@ export interface Invariant3<F extends URIS3> {
  */
 export interface Invariant3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E: E
   readonly imap: <R, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => B, g: (b: B) => A) => Kind3<F, R, E, B>
 }
 

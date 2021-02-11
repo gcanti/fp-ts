@@ -14,9 +14,17 @@
  *
  * @since 2.0.0
  */
-import { Alt, Alt1, Alt2, Alt2C, Alt3 } from './Alt'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4 } from './Alt'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative3C,
+  Applicative4
+} from './Applicative'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -60,4 +68,20 @@ export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, 
  */
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F> {
   readonly zero: <R, E, A>() => Kind3<F, R, E, A>
+}
+
+/**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface Alternative3C<F extends URIS3, E> extends Applicative3C<F, E>, Alt3C<F, E> {
+  readonly zero: <R, A>() => Kind3<F, R, E, A>
+}
+
+/**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface Alternative4<F extends URIS4> extends Applicative4<F>, Alt4<F> {
+  readonly zero: <S, R, E, A>() => Kind4<F, S, R, E, A>
 }
