@@ -532,7 +532,6 @@ export const flap =
  */
 export const Pointed: Pointed4<URI> = {
   URI,
-  map: _map,
   of
 }
 
