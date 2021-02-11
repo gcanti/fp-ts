@@ -296,7 +296,7 @@ export const Monad: Monad2<URI> = {
  */
 export const chainFirst =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * @category instances
@@ -358,7 +358,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * @since 2.8.0

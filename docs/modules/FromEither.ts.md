@@ -122,22 +122,22 @@ Added in v2.10.0
 
 ```ts
 export declare function chainEitherK<M extends URIS4>(
-  M: FromEither4<M> & Monad4<M>
+  M: FromEither4<M> & Chain4<M>
 ): <E, A, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
 export declare function chainEitherK<M extends URIS3>(
-  M: FromEither3<M> & Monad3<M>
+  M: FromEither3<M> & Chain3<M>
 ): <E, A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainEitherK<M extends URIS3, E>(
-  M: FromEither3C<M, E> & Monad3C<M, E>
+  M: FromEither3C<M, E> & Chain3C<M, E>
 ): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainEitherK<M extends URIS2>(
-  M: FromEither2<M> & Monad2<M>
+  M: FromEither2<M> & Chain2<M>
 ): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainEitherK<M extends URIS2, E>(
-  M: FromEither2C<M, E> & Monad2C<M, E>
+  M: FromEither2C<M, E> & Chain2C<M, E>
 ): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainEitherK<M>(
-  M: FromEither<M> & Monad<M>
+  M: FromEither<M> & Chain<M>
 ): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, B>
 ```
 
@@ -149,22 +149,22 @@ Added in v2.10.0
 
 ```ts
 export declare function chainOptionK<F extends URIS4>(
-  F: FromEither4<F> & Monad4<F>
+  F: FromEither4<F> & Chain4<F>
 ): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <S, R>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 export declare function chainOptionK<F extends URIS3>(
-  F: FromEither3<F> & Monad3<F>
+  F: FromEither3<F> & Chain3<F>
 ): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 export declare function chainOptionK<F extends URIS3, E>(
-  F: FromEither3C<F, E> & Monad3C<F, E>
+  F: FromEither3C<F, E> & Chain3C<F, E>
 ): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 export declare function chainOptionK<F extends URIS2>(
-  F: FromEither2<F> & Monad2<F>
+  F: FromEither2<F> & Chain2<F>
 ): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
 export declare function chainOptionK<F extends URIS2, E>(
-  F: FromEither2C<F, E> & Monad2C<F, E>
+  F: FromEither2C<F, E> & Chain2C<F, E>
 ): (onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
 export declare function chainOptionK<F>(
-  F: FromEither<F> & Monad<F>
+  F: FromEither<F> & Chain<F>
 ): <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => (ma: HKT2<F, E, A>) => HKT2<F, E, B>
 ```
 
@@ -176,7 +176,7 @@ Added in v2.10.0
 
 ```ts
 export declare function filterOrElse<M extends URIS4>(
-  M: FromEither4<M> & Monad4<M>
+  M: FromEither4<M> & Chain4<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: Kind4<M, S, R, E, A>
@@ -184,7 +184,7 @@ export declare function filterOrElse<M extends URIS4>(
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
 }
 export declare function filterOrElse<M extends URIS3>(
-  M: FromEither3<M> & Monad3<M>
+  M: FromEither3<M> & Chain3<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: Kind3<M, R, E, A>
@@ -192,25 +192,25 @@ export declare function filterOrElse<M extends URIS3>(
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
 export declare function filterOrElse<M extends URIS3, E>(
-  M: FromEither3C<M, E> & Monad3C<M, E>
+  M: FromEither3C<M, E> & Chain3C<M, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
 export declare function filterOrElse<M extends URIS2>(
-  M: FromEither2<M> & Monad2<M>
+  M: FromEither2<M> & Chain2<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M extends URIS2, E>(
-  M: FromEither2C<M, E> & Monad2C<M, E>
+  M: FromEither2C<M, E> & Chain2C<M, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M extends URIS2>(
-  M: FromEither<M> & Monad<M>
+  M: FromEither<M> & Chain<M>
 ): {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>

@@ -255,7 +255,7 @@ export const Monad: Monad2<URI> = {
  */
 export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A> =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -291,7 +291,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
