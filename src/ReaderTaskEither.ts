@@ -39,7 +39,7 @@ import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, chainFirst as chainFirst_, Monad3, Monad3C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -56,6 +56,7 @@ import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
 import ReaderTask = RT.ReaderTask
+import { Monad3, Monad3C } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -468,7 +469,7 @@ export const chainW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -706,7 +707,7 @@ export const Monad: Monad3<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -720,7 +721,7 @@ export const chainFirst: <R, E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.8.0

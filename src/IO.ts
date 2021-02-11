@@ -17,11 +17,12 @@ import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -86,7 +87,7 @@ export const of: Pointed1<URI>['of'] = constant
 export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => (ma) => _chain(ma, f)
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -214,7 +215,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0

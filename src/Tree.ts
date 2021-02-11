@@ -17,17 +17,8 @@ import { Foldable1 } from './Foldable'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  bind as bind_,
-  chainFirst as chainFirst_,
-  Monad as MonadHKT,
-  Monad1,
-  Monad2,
-  Monad2C,
-  Monad3,
-  Monad3C,
-  Monad4
-} from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Show } from './Show'
@@ -352,7 +343,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
   extend(identity)
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -555,7 +546,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0

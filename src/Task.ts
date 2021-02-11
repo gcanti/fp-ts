@@ -23,11 +23,12 @@ import { FromTask1 } from './FromTask'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { IO } from './IO'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -157,7 +158,7 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
   ma().then((a) => f(a)())
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -332,7 +333,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0

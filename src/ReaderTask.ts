@@ -12,7 +12,7 @@ import {
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
@@ -29,6 +29,7 @@ import Task = T.Task
 import Reader = R.Reader
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
+import { Monad2 } from './Monad'
 
 /**
  * @category model
@@ -193,7 +194,7 @@ export const chainW: <R2, A, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.3.0
@@ -334,7 +335,7 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.3.0

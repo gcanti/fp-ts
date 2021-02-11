@@ -8,12 +8,13 @@ import { Choice2 } from './Choice'
 import * as E from './Either'
 import { constant, flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
+import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -136,7 +137,7 @@ export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -277,7 +278,7 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
