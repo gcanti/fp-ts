@@ -226,6 +226,15 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
+export const Chain: Chain2<URI> = {
+  map,
+  chain
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Monad: Monad2<URI> = {
   map,
   of,

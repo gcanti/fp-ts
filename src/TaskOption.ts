@@ -417,6 +417,15 @@ export const ApplicativePar: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
+export const Chain: Chain1<URI> = {
+  map,
+  chain
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Monad: Monad1<URI> = {
   map,
   of,

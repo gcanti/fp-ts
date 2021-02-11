@@ -91,6 +91,7 @@ Added in v3.0.0
   - [Alternative](#alternative-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
+  - [Chain](#chain-1)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -969,6 +970,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Apply: Apply1<'Option'>
+```
+
+Added in v3.0.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain1<'Option'>
 ```
 
 Added in v3.0.0

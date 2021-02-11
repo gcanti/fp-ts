@@ -67,6 +67,7 @@ Added in v3.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
+  - [Chain](#chain-1)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromIO](#fromio)
@@ -585,6 +586,16 @@ Added in v3.0.0
 
 ```ts
 export declare const ApplySeq: Apply1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain1<'TaskOption'>
 ```
 
 Added in v3.0.0

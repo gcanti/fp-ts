@@ -86,6 +86,7 @@ Added in v3.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
@@ -901,6 +902,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain3<'ReaderTaskEither'>
 ```
 
 Added in v3.0.0

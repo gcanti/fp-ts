@@ -529,6 +529,15 @@ export const Alt: Alt4<URI> = {
  * @category instances
  * @since 3.0.0
  */
+export const Chain: Chain4<URI> = {
+  map,
+  chain
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Monad: Monad4<URI> = {
   map,
   of,

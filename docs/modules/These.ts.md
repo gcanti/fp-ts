@@ -508,7 +508,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(SE: Semigroup<E>) => Monad2C<'These', E>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad2C<'These', E>
 ```
 
 Added in v3.0.0

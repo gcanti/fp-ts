@@ -433,7 +433,7 @@ export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(SE: Semigroup<E>): Monad2C<URI, E> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
   const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -443,10 +443,10 @@ export const getMonad = <E>(SE: Semigroup<E>): Monad2C<URI, E> => {
     }
     const fb = f(ma.right)
     return isLeft(fb)
-      ? left(SE.concat(fb.left)(ma.left))
+      ? left(S.concat(fb.left)(ma.left))
       : isRight(fb)
       ? both(ma.left, fb.right)
-      : both(SE.concat(fb.left)(ma.left), fb.right)
+      : both(S.concat(fb.left)(ma.left), fb.right)
   }
 
   return {
