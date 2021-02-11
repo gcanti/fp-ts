@@ -219,7 +219,7 @@ export const match: <R, E, A, B>(
   onRight: (a: A) => ReaderTask<R, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.match(RT.Monad)
+  ET.match(RT.Chain)
 
 /**
  * Alias of [`match`](#match).
@@ -703,17 +703,6 @@ export const Chain: Chain3<URI> = {
 }
 
 /**
- * @internal
- */
-export const Monad: Monad3<URI> = {
-  URI,
-  map: _map,
-  ap: _apPar,
-  of,
-  chain: _chain
-}
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
@@ -726,7 +715,7 @@ export const chainFirst: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
@@ -926,7 +915,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * @since 2.8.0

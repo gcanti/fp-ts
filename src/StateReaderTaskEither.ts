@@ -400,7 +400,7 @@ export const ap: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>
 ) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
-  ST.ap(RTE.Monad)
+  ST.ap(RTE.Chain)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -430,7 +430,7 @@ export const chain: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
-  ST.chain(RTE.Monad)
+  ST.chain(RTE.Chain)
 
 /**
  * Less strict version of [`chain`](#chain).
