@@ -236,7 +236,6 @@ export const Traversable: Traversable2<URI> = {
  * @since 3.0.0
  */
 export const getPointed = <M>(M: Monoid<M>): Pointed2C<URI, M> => ({
-  map,
   of: (a) => [a, M.empty]
 })
 

@@ -393,7 +393,6 @@ export const flap =
  * @since 3.0.0
  */
 export const Pointed: Pointed2<URI> = {
-  map,
   of
 }
 

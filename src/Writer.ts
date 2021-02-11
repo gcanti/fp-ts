@@ -121,7 +121,6 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
-  map,
   of: (a) => () => [a, M.empty]
 })
 
