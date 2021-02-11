@@ -3,6 +3,7 @@
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
+import { Chain2C } from './Chain'
 import { flap as flap_, Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -155,16 +156,28 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
-  const P = getPointed(M)
+export const getChain = <W>(S: Semigroup<W>): Chain2C<URI, W> => {
   return {
     map,
-    of: P.of,
     chain: (f) => (ma) => () => {
       const [a, w1] = ma()
       const [b, w2] = f(a)()
-      return [b, M.concat(w2)(w1)]
+      return [b, S.concat(w2)(w1)]
     }
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
+  const P = getPointed(M)
+  const C = getChain(M)
+  return {
+    map,
+    of: P.of,
+    chain: C.chain
   }
 }
 
