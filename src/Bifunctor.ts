@@ -54,6 +54,7 @@ export interface Bifunctor3<F extends URIS3> {
  */
 export interface Bifunctor3C<F extends URIS3, E> {
   readonly URI: F
+  readonly _E: E
   readonly bimap: <R, A, G, B>(fea: Kind3<F, R, E, A>, f: (e: E) => G, g: (a: A) => B) => Kind3<F, R, G, B>
   readonly mapLeft: <R, A, G>(fea: Kind3<F, R, E, A>, f: (e: E) => G) => Kind3<F, R, G, A>
 }

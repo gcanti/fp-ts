@@ -67,7 +67,7 @@ Added in v2.10.0
 ```ts
 export interface FromEither2C<F extends URIS2, E> {
   readonly URI: F
-  readonly _E?: E
+  readonly _E: E
   readonly fromEither: <A>(e: Either<E, A>) => Kind2<F, E, A>
 }
 ```
@@ -94,7 +94,7 @@ Added in v2.10.0
 ```ts
 export interface FromEither3C<F extends URIS3, E> {
   readonly URI: F
-  readonly _E?: E
+  readonly _E: E
   readonly fromEither: <R, A>(e: Either<E, A>) => Kind3<F, R, E, A>
 }
 ```

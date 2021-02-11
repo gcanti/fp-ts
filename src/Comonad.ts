@@ -1,8 +1,8 @@
 /**
  * @since 2.0.0
  */
-import { Extend, Extend1, Extend2, Extend2C, Extend3 } from './Extend'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Extend, Extend1, Extend2, Extend2C, Extend3, Extend3C, Extend4 } from './Extend'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -46,4 +46,20 @@ export interface Comonad2C<W extends URIS2, E> extends Extend2C<W, E> {
  */
 export interface Comonad3<W extends URIS3> extends Extend3<W> {
   readonly extract: <R, E, A>(wa: Kind3<W, R, E, A>) => A
+}
+
+/**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface Comonad3C<W extends URIS3, E> extends Extend3C<W, E> {
+  readonly extract: <R, A>(wa: Kind3<W, R, E, A>) => A
+}
+
+/**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface Comonad4<W extends URIS4> extends Extend4<W> {
+  readonly extract: <S, R, E, A>(wa: Kind4<W, S, R, E, A>) => A
 }
