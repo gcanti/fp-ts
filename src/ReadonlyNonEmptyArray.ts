@@ -856,7 +856,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S

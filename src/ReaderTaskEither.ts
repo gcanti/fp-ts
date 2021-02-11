@@ -774,11 +774,10 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
-const MonadFromEither: FromEither3<URI> & Monad3<URI> = {
+const ChainFromEither: FromEither3<URI> & Chain3<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  of,
   chain: _chain,
   fromEither
 }
@@ -789,7 +788,7 @@ const MonadFromEither: FromEither3<URI> & Monad3<URI> = {
  */
 export const chainOptionK =
   /*#__PURE__*/
-  chainOptionK_(MonadFromEither)
+  chainOptionK_(ChainFromEither)
 
 /**
  * @category combinators
@@ -797,7 +796,7 @@ export const chainOptionK =
  */
 export const chainEitherK =
   /*#__PURE__*/
-  chainEitherK_(MonadFromEither)
+  chainEitherK_(ChainFromEither)
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -823,7 +822,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_(MonadFromEither)
+  filterOrElse_(ChainFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).

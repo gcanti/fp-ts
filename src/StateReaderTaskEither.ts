@@ -617,7 +617,7 @@ export const chainFirst: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
@@ -678,11 +678,10 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
-const MonadFromEither: FromEither4<URI> & Monad4<URI> = {
+const ChainFromEither: FromEither4<URI> & Chain4<URI> = {
   URI,
   map: _map,
   ap: _ap,
-  of,
   chain: _chain,
   fromEither
 }
@@ -693,7 +692,7 @@ const MonadFromEither: FromEither4<URI> & Monad4<URI> = {
  */
 export const chainOptionK =
   /*#__PURE__*/
-  chainOptionK_(MonadFromEither)
+  chainOptionK_(ChainFromEither)
 
 /**
  * @category combinators
@@ -701,7 +700,7 @@ export const chainOptionK =
  */
 export const chainEitherK =
   /*#__PURE__*/
-  chainEitherK_(MonadFromEither)
+  chainEitherK_(ChainFromEither)
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -727,7 +726,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_(MonadFromEither)
+  filterOrElse_(ChainFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -809,7 +808,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * @since 2.8.0

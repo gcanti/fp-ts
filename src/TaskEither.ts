@@ -46,7 +46,7 @@ import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -678,11 +678,10 @@ export const ApplicativeSeq: Applicative2<URI> = {
   of
 }
 
-const Monad: Monad2<URI> = {
+const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  of,
   chain: _chain
 }
 
@@ -697,7 +696,7 @@ const Monad: Monad2<URI> = {
  */
 export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> =
   /*#__PURE__*/
-  chainFirst_(Monad)
+  chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
@@ -756,11 +755,10 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
-const MonadFromEither: FromEither2<URI> & Monad2<URI> = {
+const ChainFromEither: FromEither2<URI> & Chain2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
-  of,
   chain: _chain,
   fromEither
 }
@@ -771,7 +769,7 @@ const MonadFromEither: FromEither2<URI> & Monad2<URI> = {
  */
 export const chainOptionK =
   /*#__PURE__*/
-  chainOptionK_(MonadFromEither)
+  chainOptionK_(ChainFromEither)
 
 /**
  * @category combinators
@@ -779,7 +777,7 @@ export const chainOptionK =
  */
 export const chainEitherK =
   /*#__PURE__*/
-  chainEitherK_(MonadFromEither)
+  chainEitherK_(ChainFromEither)
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -805,7 +803,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_(MonadFromEither)
+  filterOrElse_(ChainFromEither)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
@@ -956,7 +954,7 @@ export const bindTo =
  */
 export const bind =
   /*#__PURE__*/
-  bind_(Monad)
+  bind_(Chain)
 
 /**
  * @since 2.8.0
