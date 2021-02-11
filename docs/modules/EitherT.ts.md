@@ -259,16 +259,16 @@ Added in v2.10.0
 
 ```ts
 export declare function match<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <E, ME, R, A>(
   onLeft: (e: E) => Kind2<M, ME, R>,
   onRight: (a: A) => Kind2<M, ME, R>
 ) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, R>
 export declare function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <E, R, A>(onLeft: (e: E) => Kind<M, R>, onRight: (a: A) => Kind<M, R>) => (ma: Kind<M, Either<E, A>>) => Kind<M, R>
 export declare function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R>
 ```
 

@@ -3,6 +3,7 @@
  */
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
 import { Apply, Apply1, Apply2, ap as ap_ } from './Apply'
+import { Chain, Chain1, Chain2 } from './Chain'
 import * as E from './Either'
 import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, map as map_ } from './Functor'
@@ -171,19 +172,19 @@ export function mapLeft<F>(
  * @since 2.10.0
  */
 export function match<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <E, ME, R, A>(
   onLeft: (e: E) => Kind2<M, ME, R>,
   onRight: (a: A) => Kind2<M, ME, R>
 ) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, R>
 export function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <E, R, A>(onLeft: (e: E) => Kind<M, R>, onRight: (a: A) => Kind<M, R>) => (ma: Kind<M, Either<E, A>>) => Kind<M, R>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R> {
   return (onLeft, onRight) => (ma) => M.chain(ma, E.fold(onLeft, onRight))
 }

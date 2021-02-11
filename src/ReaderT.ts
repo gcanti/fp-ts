@@ -2,6 +2,7 @@
  * @since 2.0.0
  */
 import { Apply, Apply1, Apply2 } from './Apply'
+import { Chain, Chain1, Chain2 } from './Chain'
 import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
@@ -57,16 +58,16 @@ export function ap<F>(
  * @since 2.10.0
  */
 export function chain<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <A, R, E, B>(f: (a: A) => Reader<R, Kind2<M, E, B>>) => (ma: Reader<R, Kind2<M, E, A>>) => Reader<R, Kind2<M, E, B>>
 export function chain<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <A, R, B>(f: (a: A) => Reader<R, Kind<M, B>>) => (ma: Reader<R, Kind<M, A>>) => Reader<R, Kind<M, B>>
 export function chain<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <A, R, B>(f: (a: A) => Reader<R, HKT<M, B>>) => (ma: Reader<R, HKT<M, A>>) => Reader<R, HKT<M, B>>
 export function chain<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <A, R, B>(f: (a: A) => Reader<R, HKT<M, B>>) => (ma: Reader<R, HKT<M, A>>) => Reader<R, HKT<M, B>> {
   return (f) => (ma) => (r) => M.chain(ma(r), (a) => f(a)(r))
 }
