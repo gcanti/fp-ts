@@ -141,7 +141,7 @@ export const replicate: <A>(n: number, a: A) => Array<A> = RA.replicate as any
 /**
  * Removes one level of nesting.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @example
  * import { flatten } from 'fp-ts/Array'
@@ -1120,7 +1120,7 @@ export const chainWithIndex: <A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0

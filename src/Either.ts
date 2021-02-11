@@ -18,11 +18,12 @@ import { Applicative as ApplicativeHKT, Applicative2, Applicative2C, getApplicat
 import {
   apFirst as apFirst_,
   Apply2,
-  apSecond as apSecond_,
   apS as apS_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec2, ChainRec2C, tailRec } from './ChainRec'
 import { Compactable2C } from './Compactable'
 import { Eq } from './Eq'
@@ -33,7 +34,7 @@ import { FromEither2 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
+import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -661,7 +662,7 @@ export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) =
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -1160,7 +1161,7 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -1172,7 +1173,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.8.0

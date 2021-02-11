@@ -34,7 +34,7 @@ import {
 } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad3, Monad3C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -43,6 +43,7 @@ import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import Reader = R.Reader
+import { Monad3, Monad3C } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -314,7 +315,7 @@ export const chainW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -530,7 +531,7 @@ export const Monad: Monad3<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -544,7 +545,7 @@ export const chainFirst: <R, E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.8.0

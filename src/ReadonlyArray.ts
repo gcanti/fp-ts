@@ -22,7 +22,7 @@ import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
@@ -38,6 +38,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 import Option = O.Option
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -239,7 +240,7 @@ export function replicate<A>(n: number, a: A): ReadonlyArray<A> {
 /**
  * Removes one level of nesting
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @example
  * import { flatten } from 'fp-ts/ReadonlyArray'
@@ -2085,7 +2086,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.5.0

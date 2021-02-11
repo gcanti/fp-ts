@@ -31,7 +31,7 @@ import { Foldable1 } from './Foldable'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -41,6 +41,7 @@ import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -548,7 +549,7 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
   isNone(ma) ? none : f(ma.value)
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -995,7 +996,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0

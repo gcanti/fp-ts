@@ -18,449 +18,449 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0
 
 - **Deprecations**
-  - deprecate `pipeable` module, use the specific helpers instead (@gcanti)
-  - deprecate `ValidationT` module, use `EitherT` instead (@gcanti)
-  - deprecate "mega instances", use small, specific instances instead (@gcanti)
-  - deprecate the old monad transformers, use the specific helpers instead (@gcanti)
+  - deprecate `pipeable` module, use the specific helpers instead
+  - deprecate `ValidationT` module, use `EitherT` instead
+  - deprecate "mega instances", use small, specific instances instead
+  - deprecate the old monad transformers, use the specific helpers instead
   - `Applicative`
-    - deprecate `getApplicativeComposition`, use `ap` helper instead (@gcanti)
+    - deprecate `getApplicativeComposition`, use `ap` helper instead
   - `BooleanAlgebra`
-    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead (@gcanti)
-    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead (@gcanti)
-    - deprecate `getDualBooleanAlgebra`, use `reverse` instead (@gcanti)
+    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead
+    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead
+    - deprecate `getDualBooleanAlgebra`, use `reverse` instead
   - `Bounded`
-    - deprecate `boundedNumber`, use `number.Bounded` instead (@gcanti)
+    - deprecate `boundedNumber`, use `number.Bounded` instead
   - `Compactable`
-    - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead (@gcanti)
-    - deprecate `Separated`, use `Separated.Separated` instead (@gcanti)
+    - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead
+    - deprecate `Separated`, use `Separated.Separated` instead
   - `Either`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead
   - `Eq`
-    - deprecate `eqBoolean`, use `boolean.Eq` instead (@gcanti)
-    - deprecate `eqString`, use `string.Eq` instead (@gcanti)
-    - deprecate `eqNumber`, use `number.Eq` instead (@gcanti)
-    - deprecate `eqDate`, use `Date.Eq` instead (@gcanti)
-    - deprecate `getStructEq`, use `struct` instead (@gcanti)
-    - deprecate `getTupleEq`, use `tuple` instead (@gcanti)
+    - deprecate `eqBoolean`, use `boolean.Eq` instead
+    - deprecate `eqString`, use `string.Eq` instead
+    - deprecate `eqNumber`, use `number.Eq` instead
+    - deprecate `eqDate`, use `Date.Eq` instead
+    - deprecate `getStructEq`, use `struct` instead
+    - deprecate `getTupleEq`, use `tuple` instead
   - `Filterable`
-    - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead (@gcanti)
+    - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead
   - `Foldable`
-    - deprecate `toArray` in favour of `toReadonlyArray` (@gcanti)
-    - deprecate `getFoldableComposition`, use `reduce`, `foldMap`, `reduceRight` helpers instead (@gcanti)
+    - deprecate `toArray` in favour of `toReadonlyArray`
+    - deprecate `getFoldableComposition`, use `reduce`, `foldMap`, `reduceRight` helpers instead
   - `FoldableWithIndex`
-    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex`, `foldMapWithIndex`, `reduceRightWithIndex` helpers instead (@gcanti)
+    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex`, `foldMapWithIndex`, `reduceRightWithIndex` helpers instead
   - `Functor`
-    - deprecate `getFunctorComposition`, use `map` helper instead (@gcanti)
+    - deprecate `getFunctorComposition`, use `map` helper instead
   - `FunctorWithIndex`
-    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex` helper instead (@gcanti)
+    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex` helper instead
   - `IO`
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `fromIO` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `fromIO`
   - `IOEither`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
   - `Monoid`
-    - deprecate `monoidAll`, use `boolean.MonoidAll` instead (@gcanti)
-    - deprecate `monoidAny`, use `boolean.MonoidAny` instead (@gcanti)
-    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead (@gcanti)
+    - deprecate `monoidAll`, use `boolean.MonoidAll` instead
+    - deprecate `monoidAny`, use `boolean.MonoidAny` instead
+    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead
     - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in
-      `function.getEndomorphismMonoid` is reversed) (@gcanti)
-    - deprecate `monoidString`, use `string.Monoid` instead (@gcanti)
-    - deprecate `monoidSum`, use `number.MonoidSum` instead (@gcanti)
-    - deprecate `monoidProduct`, use `number.MonoidProduct` instead (@gcanti)
-    - deprecate `fold`, use `concatAll` instead (@gcanti)
-    - deprecate `getMeetMonoid`, use `min` instead (@gcanti)
-    - deprecate `getJoinMonoid`, use `max` instead (@gcanti)
-    - deprecate `getDualMonoid`, use `reverse` instead (@gcanti)
-    - deprecate `getStructMonoid`, use `struct` instead (@gcanti)
-    - deprecate `getTupleMonoid`, use `tuple` instead (@gcanti)
+      `function.getEndomorphismMonoid` is reversed)
+    - deprecate `monoidString`, use `string.Monoid` instead
+    - deprecate `monoidSum`, use `number.MonoidSum` instead
+    - deprecate `monoidProduct`, use `number.MonoidProduct` instead
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `getMeetMonoid`, use `min` instead
+    - deprecate `getJoinMonoid`, use `max` instead
+    - deprecate `getDualMonoid`, use `reverse` instead
+    - deprecate `getStructMonoid`, use `struct` instead
+    - deprecate `getTupleMonoid`, use `tuple` instead
   - `NonEmptyArray`
-    - deprecate `fold`, use `concatAll` instead (@gcanti)
+    - deprecate `fold`, use `concatAll` instead
   - `Option`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
   - `Ord`
-    - deprecate `ordBoolean`, use `boolean.Ord` instead (@gcanti)
-    - deprecate `ordString`, use `string.Ord` instead (@gcanti)
-    - deprecate `ordNumber`, use `number.Ord` instead (@gcanti)
-    - deprecate `ordDate`, use `Date.Ord` instead (@gcanti)
-    - deprecate `getDualOrd`, use `reverse` instead (@gcanti)
-    - deprecate `getTupleOrd`, use `tuple` instead (@gcanti)
+    - deprecate `ordBoolean`, use `boolean.Ord` instead
+    - deprecate `ordString`, use `string.Ord` instead
+    - deprecate `ordNumber`, use `number.Ord` instead
+    - deprecate `ordDate`, use `Date.Ord` instead
+    - deprecate `getDualOrd`, use `reverse` instead
+    - deprecate `getTupleOrd`, use `tuple` instead
   - `Ordering`
-    - deprecate `eqOrdering`, use `Eq` instead (@gcanti)
-    - deprecate `monoidOrdering`, use `Monoid` instead (@gcanti)
+    - deprecate `eqOrdering`, use `Eq` instead
+    - deprecate `monoidOrdering`, use `Monoid` instead
   - `Ring`
-    - deprecate `getFunctionRing`, use `function.getRing` instead (@gcanti)
+    - deprecate `getFunctionRing`, use `function.getRing` instead
   - `Reader`
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
   - `ReaderEither`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead (@gcanti)
-    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
+    - deprecate `local`, Use `Reader`'s `local` instead
   - `ReaderTask`
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `run` (@gcanti)
-    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `run`
+    - deprecate `local`, Use `Reader`'s `local` instead
   - `ReaderTaskEither`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead (@gcanti)
-    - deprecate `run` (@gcanti)
-    - deprecate `local`, Use `Reader`'s `local` instead (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
+    - deprecate `run`
+    - deprecate `local`, Use `Reader`'s `local` instead
   - `ReaderTaskEither`
-    - deprecate `run` (@gcanti)
+    - deprecate `run`
   - `ReadonlyNonEmptyArray`
-    - deprecate `fold`, use `concatAll` instead (@gcanti)
+    - deprecate `fold`, use `concatAll` instead
   - `Ring`
-    - deprecate `getTupleRing`, use `tuple` instead (@gcanti)
+    - deprecate `getTupleRing`, use `tuple` instead
   - `Semigroup`
-    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead (@gcanti)
-    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead (@gcanti)
-    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead (@gcanti)
-    - deprecate `semigroupString`, use `string.Semigroup` instead (@gcanti)
-    - deprecate `semigroupSum`, use `number.SemigroupSum` instead (@gcanti)
-    - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead (@gcanti)
-    - deprecate `fold`, use `concatAll` instead (@gcanti)
-    - deprecate `getIntercalateSemigroup`, use `intercalate` instead (@gcanti)
-    - deprecate `getMeetSemigroup`, use `min` instead (@gcanti)
-    - deprecate `getJoinSemigroup`, use `max` instead (@gcanti)
-    - deprecate `getDualSemigroup`, use `reverse` instead (@gcanti)
-    - deprecate `getStructSemigroup`, use `struct` instead (@gcanti)
-    - deprecate `getTupleSemigroup`, use `tuple` instead (@gcanti)
-    - deprecate `getFirstSemigroup`, use `first` instead (@gcanti)
-    - deprecate `getLastSemigroup`, use `last` instead (@gcanti)
-    - deprecate `getObjectSemigroup`, use `assign` instead (@gcanti)
+    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead
+    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead
+    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead
+    - deprecate `semigroupString`, use `string.Semigroup` instead
+    - deprecate `semigroupSum`, use `number.SemigroupSum` instead
+    - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `getIntercalateSemigroup`, use `intercalate` instead
+    - deprecate `getMeetSemigroup`, use `min` instead
+    - deprecate `getJoinSemigroup`, use `max` instead
+    - deprecate `getDualSemigroup`, use `reverse` instead
+    - deprecate `getStructSemigroup`, use `struct` instead
+    - deprecate `getTupleSemigroup`, use `tuple` instead
+    - deprecate `getFirstSemigroup`, use `first` instead
+    - deprecate `getLastSemigroup`, use `last` instead
+    - deprecate `getObjectSemigroup`, use `assign` instead
   - `Show`
-    - deprecate `showBoolean`, use `boolean.Show` instead (@gcanti)
-    - deprecate `showString`, use `string.Show` instead (@gcanti)
-    - deprecate `showNumber`, use `number.Show` instead (@gcanti)
-    - deprecate `getStructShow`, use `struct` instead (@gcanti)
-    - deprecate `getTupleShow`, use `tuple` instead (@gcanti)
+    - deprecate `showBoolean`, use `boolean.Show` instead
+    - deprecate `showString`, use `string.Show` instead
+    - deprecate `showNumber`, use `number.Show` instead
+    - deprecate `getStructShow`, use `struct` instead
+    - deprecate `getTupleShow`, use `tuple` instead
   - `Task`
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `fromTask` (@gcanti)
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `fromTask`
   - `TaskEither`
-    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid` (@gcanti)
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead (@gcanti)
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
   - `TaskThese`
-    - deprecate `functorTaskThese` instance in favour of `Functor` (@gcanti)
-    - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor` (@gcanti)
-    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup` (@gcanti)
-    - deprecate `toTuple` in favour of `toTuple2` (@gcanti)
+    - deprecate `functorTaskThese` instance in favour of `Functor`
+    - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `toTuple` in favour of `toTuple2`
   - `These`
-    - deprecate `toTuple` in favour of `toTuple2` (@gcanti)
+    - deprecate `toTuple` in favour of `toTuple2`
   - `Traversable`
-    - deprecate `getTraversableComposition`, use `traverse`, `sequence` helpers instead (@gcanti)
+    - deprecate `getTraversableComposition`, use `traverse`, `sequence` helpers instead
 - **New Feature**
-  - add `Pointed` type class (@gcanti)
-  - add `FromEither` type class (@gcanti)
-  - add `FromIO` type class (@gcanti)
-  - add `FromTask` type class (@gcanti)
-  - add `TaskOption` module (@gcanti)
-  - add `string` module (@gcanti)
-  - add `number` module (@gcanti)
+  - add `Pointed` type class
+  - add `FromEither` type class
+  - add `FromIO` type class
+  - add `FromTask` type class
+  - add `TaskOption` module
+  - add `string` module
+  - add `number` module
   - add `Separated` module (@YBogomolov)
   - `Apply`
-    - add `ap` helper (@gcanti)
-    - add `apS` helper (@gcanti)
-    - add `apFirst` helper (@gcanti)
-    - add `apSecond` helper (@gcanti)
-    - add `getApplySemigroup` (@gcanti)
+    - add `ap` helper
+    - add `apS` helper
+    - add `apFirst` helper
+    - add `apSecond` helper
+    - add `getApplySemigroup`
   - `Applicative`
-    - add `getApplicativeMonoid` (@gcanti)
+    - add `getApplicativeMonoid`
   - `Array`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `matchLeft` alias (@gcanti)
-    - add `matchRight` alias (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `matchLeft` alias
+    - add `matchRight` alias
   - `boolean`
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `Eq` instance (@gcanti)
-    - add `BooleanAlgebra` instance (@gcanti)
-    - add `SemigroupAll` instance (@gcanti)
-    - add `SemigroupAny` instance (@gcanti)
-    - add `MonoidAll` instance (@gcanti)
-    - add `MonoidAny` instance (@gcanti)
-    - add `Ord` instance (@gcanti)
-    - add `Show` instance (@gcanti)
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `Eq` instance
+    - add `BooleanAlgebra` instance
+    - add `SemigroupAll` instance
+    - add `SemigroupAny` instance
+    - add `MonoidAll` instance
+    - add `MonoidAny` instance
+    - add `Ord` instance
+    - add `Show` instance
   - `BooleanAlgebra`
-    - add `reverse` (@gcanti)
+    - add `reverse`
+  - `Chain`
+    - add `bind` helper
+    - add `chainFirst` helper
   - `Compactable`
-    - add `compact` helper (@gcanti)
-    - add `separate` helper (@gcanti)
-    - add `separated` constructor (@gcanti)
+    - add `compact` helper
+    - add `separate` helper
+    - add `separated` constructor
   - `Date`
-    - add `Eq` instance (@gcanti)
-    - add `Ord` instance (@gcanti)
+    - add `Eq` instance
+    - add `Ord` instance
   - `Filterable`
-    - add `filter` helper (@gcanti)
-    - add `filterMap` helper (@gcanti)
-    - add `partition` helper (@gcanti)
-    - add `partitionMap` helper (@gcanti)
+    - add `filter` helper
+    - add `filterMap` helper
+    - add `partition` helper
+    - add `partitionMap` helper
   - `Foldable`
-    - add `reduce` helper (@gcanti)
-    - add `foldaMap` helper (@gcanti)
-    - add `reduceRight` helper (@gcanti)
+    - add `reduce` helper
+    - add `foldaMap` helper
+    - add `reduceRight` helper
   - `FoldableWithIndex`
-    - add `reduceWithIndex` helper (@gcanti)
-    - add `foldaMapWithIndex` helper (@gcanti)
-    - add `reduceRightWithIndex` helper (@gcanti)
+    - add `reduceWithIndex` helper
+    - add `foldaMapWithIndex` helper
+    - add `reduceRightWithIndex` helper
   - `function`
-    - add `getBooleanAlgebra` (@gcanti)
-    - add `getSemigroup` (@gcanti)
-    - add `getMonoid` (@gcanti)
-    - add `getSemiring` (@gcanti)
-    - add `getRing` (@gcanti)
-    - add `getEndomorphismMonoid` (@gcanti)
+    - add `getBooleanAlgebra`
+    - add `getSemigroup`
+    - add `getMonoid`
+    - add `getSemiring`
+    - add `getRing`
+    - add `getEndomorphismMonoid`
   - `Functor`
-    - add `map` helper (@gcanti)
-    - add `bindTo` helper (@gcanti)
+    - add `map` helper
+    - add `bindTo` helper
     - add `flap` derivable, #1393 (@williamareynolds)
   - `FunctorWithIndex`
-    - add `mapWithIndex` helper (@gcanti)
+    - add `mapWithIndex` helper
   - `Either`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `getCompactable` (@gcanti)
-    - add `getFilterable` (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `toUnion`, closes #1362 (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `orElseW` (@gcanti)
-    - add `tryCatchK` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `FromEither` instance
+    - add `toUnion`, closes #1362
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `tryCatchK`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `EitherT`
-    - split `getEitherM` into separated functions (@gcanti)
+    - split `getEitherM` into separated functions
   - `Eq`
-    - add `getSemigroup` (@gcanti)
-    - add `struct` (@gcanti)
-    - add `tuple` (@gcanti)
+    - add `getSemigroup`
+    - add `struct`
+    - add `tuple`
   - `Identity`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
   - `IO`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `FromIO` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `FromIO` instance
   - `IOEither`
-    - add `Pointed` instance (@gcanti)
-    - add `getCompactable` (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `tryCatchK` combinator (@gcanti)
-    - add `toUnion` (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `orElseW` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
-  - `Monad`
-    - add `bind` helper (@gcanti)
-    - add `chainFirst` helper (@gcanti)
+    - add `Pointed` instance
+    - add `getCompactable`
+    - add `FromIO` instance
+    - add `FromEither` instance
+    - add `tryCatchK` combinator
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `Monoid`
-    - add `concatAll` (@gcanti)
-    - add `min` (@gcanti)
-    - add `max` (@gcanti)
-    - add `reverse` (@gcanti)
-    - add `struct` (@gcanti)
-    - add `tuple` (@gcanti)
+    - add `concatAll`
+    - add `min`
+    - add `max`
+    - add `reverse`
+    - add `struct`
+    - add `tuple`
   - `NonEmptyArray`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `concatAll` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `concatAll`
   - `Option`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `tryCatchK` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `tryCatchK`
   - `OptionT`
-    - split `getOptionM` into separated functions (@gcanti)
+    - split `getOptionM` into separated functions
   - `Ord`
-    - add `equalsDefault` (@gcanti)
-    - add `reverse` (@gcanti)
-    - add `tuple` (@gcanti)
+    - add `equalsDefault`
+    - add `reverse`
+    - add `tuple`
   - `Ordering`
-    - add `Eq` instance (@gcanti)
-    - add `Semigroup` instance (@gcanti)
-    - add `Monoid` instance (@gcanti)
+    - add `Eq` instance
+    - add `Semigroup` instance
+    - add `Monoid` instance
   - `Random`
-    - add `randomElem` (@gcanti)
+    - add `randomElem`
   - `Reader`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
   - `ReaderT`
-    - split `getReaderM` into separated functions (@gcanti)
+    - split `getReaderM` into separated functions
   - `ReaderEither`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `getCompactable` (@gcanti)
-    - add `getFilterable` (@gcanti)
-    - add `toUnion` (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `orElseW` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `FromEither` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `ReaderTask`
-    - add `Pointed` instance (@gcanti)
-    - add `ApplyPar` instance (@gcanti)
-    - add `ApplySeq` instance (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
-    - add `traverseSeqArrayWithIndex` (@gcanti)
-    - add `traverseSeqArray` (@gcanti)
-    - add `sequenceSeqArray` (@gcanti)
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `traverseSeqArrayWithIndex`
+    - add `traverseSeqArray`
+    - add `sequenceSeqArray`
   - `ReaderTaskEither`
-    - add `Pointed` instance (@gcanti)
-    - add `ApplyPar` instance (@gcanti)
-    - add `ApplySeq` instance (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `getCompactable` (@gcanti)
-    - add `getFilterable` (@gcanti)
-    - add `toUnion` (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `orElseW` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `ReadonlyArray`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `getSemigroup` (@gcanti)
-    - add `matchLeft` instance (@gcanti)
-    - add `matchRight` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `getSemigroup`
+    - add `matchLeft` instance
+    - add `matchRight` instance
   - `ReadonlyMap`
-    - add `filterWithIndex` combinator (@gcanti)
-    - add `filterMapWithIndex` combinator (@gcanti)
-    - add `partitionWithIndex` combinator (@gcanti)
-    - add `partitionMapWithIndex` combinator (@gcanti)
-    - add `getFunctorWithIndex` (@gcanti)
-    - add `getFoldable` (@gcanti)
-    - add `getFoldableWithIndex` (@gcanti)
-    - add `getTraversable` (@gcanti)
-    - add `getTraversableWithIndex` (@gcanti)
+    - add `filterWithIndex` combinator
+    - add `filterMapWithIndex` combinator
+    - add `partitionWithIndex` combinator
+    - add `partitionMapWithIndex` combinator
+    - add `getFunctorWithIndex`
+    - add `getFoldable`
+    - add `getFoldableWithIndex`
+    - add `getTraversable`
+    - add `getTraversableWithIndex`
   - `ReadonlyNonEmptyArray`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `concatAll` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `concatAll`
   - `Ring`
-    - add `tuple` (@gcanti)
+    - add `tuple`
   - `Semigroup`
-    - add `constant` (@gcanti)
-    - add `concatAll` (@gcanti)
-    - add `intercalate` (@gcanti)
-    - add `min` (@gcanti)
-    - add `max` (@gcanti)
-    - add `struct` (@gcanti)
-    - add `tuple` (@gcanti)
-    - add `first` (@gcanti)
-    - add `last` (@gcanti)
-    - add `assign` (@gcanti)
+    - add `constant`
+    - add `concatAll`
+    - add `intercalate`
+    - add `min`
+    - add `max`
+    - add `struct`
+    - add `tuple`
+    - add `first`
+    - add `last`
+    - add `assign`
   - `Show`
-    - add `struct` (@gcanti)
-    - add `tuple` (@gcanti)
+    - add `struct`
+    - add `tuple`
   - `State`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
   - `StateT`
-    - split `getStateM` into separated functions (@gcanti)
+    - split `getStateM` into separated functions
   - `StateReaderTaskEither`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
-    - add `Monad` instance (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `Monad` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `Task`
-    - add `Pointed` instance (@gcanti)
-    - add `ApplyPar` instance (@gcanti)
-    - add `ApplySeq` instance (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
   - `TaskEither`
-    - add `Pointed` instance (@gcanti)
-    - add `ApplyPar` instance (@gcanti)
-    - add `ApplySeq` instance (@gcanti)
-    - add `getCompactable` (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `toUnion` (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `orElseW` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `chainOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `getCompactable`
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
   - `TaskThese`
-    - add `Functor` instance (@gcanti)
-    - add `Pointed` instance (@gcanti)
-    - add `Bifunctor` instance (@gcanti)
-    - add `toTuple2` (@gcanti)
-    - add `getApply` (@gcanti)
-    - add `FromIO` instance (@gcanti)
-    - add `FromTask` instance (@gcanti)
-    - add `fromEither` function (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `fromOption` (@gcanti)
-    - add `fromOptionK` (@gcanti)
-    - add `fromPredicate` (@gcanti)
+    - add `Functor` instance
+    - add `Pointed` instance
+    - add `Bifunctor` instance
+    - add `toTuple2`
+    - add `getApply`
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `fromEither` function
+    - add `FromEither` instance
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `fromOption`
+    - add `fromOptionK`
+    - add `fromPredicate`
   - `These`
-    - add `Pointed` instance (@gcanti)
-    - add `of` function (@gcanti)
-    - add `getApply` (@gcanti)
-    - add `toTuple2` (@gcanti)
-    - add `FromEither` instance (@gcanti)
-    - add `fromOption` constructor (@gcanti)
-    - add `foldW` (@gcanti)
-    - add `match` alias (@gcanti)
-    - add `matchW` alias (@gcanti)
-    - add `fromOptionK` (@gcanti)
+    - add `Pointed` instance
+    - add `of` function
+    - add `getApply`
+    - add `toTuple2`
+    - add `FromEither` instance
+    - add `fromOption` constructor
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `fromOptionK`
   - `TheseT`
-    - split `getTheseM` into separated functions (@gcanti)
+    - split `getTheseM` into separated functions
   - `Traversable`
-    - add `traverse` helper (@gcanti)
-    - add `sequence` helper (@gcanti)
+    - add `traverse` helper
+    - add `sequence` helper
   - `Tree`
-    - add `Pointed` instance (@gcanti)
-    - add `Apply` instance (@gcanti)
+    - add `Pointed` instance
+    - add `Apply` instance
   - `Writer`
-    - add `getPointed` (@gcanti)
-    - add `getApply` (@gcanti)
-    - add `getApplicative` (@gcanti)
+    - add `getPointed`
+    - add `getApply`
+    - add `getApplicative`
 
 # 2.9.5
 

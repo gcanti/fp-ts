@@ -336,7 +336,7 @@ Added in v2.5.0
 Composes computations in sequence, using the return value of one computation to determine the next computation and
 keeping only the result of the first.
 
-Derivable from `Monad`.
+Derivable from `Chain`.
 
 **Signature**
 
@@ -374,7 +374,7 @@ Added in v2.10.0
 
 ## flatten
 
-Derivable from `Monad`.
+Derivable from `Chain`.
 
 **Signature**
 

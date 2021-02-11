@@ -14,7 +14,7 @@ import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Lazy, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { bind as bind_, Monad1 } from './Monad'
+import { bind as bind_ } from './Chain'
 import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
@@ -25,6 +25,7 @@ import * as Se from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -546,7 +547,7 @@ export const chain: <A, B>(
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.5.0
@@ -574,7 +575,7 @@ export const extend: <A, B>(
 ) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = RA.extend as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.5.0

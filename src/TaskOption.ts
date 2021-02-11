@@ -17,7 +17,7 @@ import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
@@ -27,6 +27,7 @@ import * as T from './Task'
 
 import Task = T.Task
 import Option = O.Option
+import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -257,7 +258,7 @@ export const chain =
   OT.chain(T.Monad)
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 2.10.0
@@ -494,7 +495,7 @@ export const Monad: Monad1<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 2.10.0

@@ -39,7 +39,7 @@ import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as I from './IO'
-import { bind as bind_, chainFirst as chainFirst_, Monad2, Monad2C } from './Monad'
+import { bind as bind_, chainFirst as chainFirst_ } from './Chain'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -52,6 +52,7 @@ import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import IO = I.IO
+import { Monad2, Monad2C } from './Monad'
 
 /**
  * @category model
@@ -326,7 +327,7 @@ export const chainW: <E2, A, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
 
 /**
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -563,7 +564,7 @@ export const Monad: Monad2<URI> = {
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
  * keeping only the result of the first.
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
@@ -575,7 +576,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
 /**
  * Less strict version of [`chainFirst`](#chainFirst).
  *
- * Derivable from `Monad`.
+ * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.8.0
