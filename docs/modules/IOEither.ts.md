@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 43
+nav_order: 44
 parent: Modules
 ---
 
@@ -24,11 +24,11 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
+- [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Functor](#functor)
+  - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -76,7 +76,7 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
@@ -189,22 +189,7 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>)
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-# Monad
+# Chain
 
 ## chain
 
@@ -228,6 +213,21 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0

@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
 import {
   filter as filter_,
@@ -17,7 +18,7 @@ import { FromIO1 } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { Monad1 } from './Monad'
 import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
@@ -231,10 +232,10 @@ export const ap: Apply1<URI>['ap'] =
 export const of: Pointed1<URI>['of'] = some
 
 /**
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] =
+export const chain: Chain1<URI>['chain'] =
   /*#__PURE__*/
   OT.chain(T.Monad)
 

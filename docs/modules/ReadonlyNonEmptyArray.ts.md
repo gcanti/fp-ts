@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 66
+nav_order: 67
 parent: Modules
 ---
 
@@ -19,6 +19,8 @@ Added in v3.0.0
   - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
@@ -33,8 +35,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -75,7 +75,7 @@ Added in v3.0.0
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
@@ -150,6 +150,22 @@ Added in v3.0.0
 export declare const ap: <A>(
   fa: ReadonlyNonEmptyArray<A>
 ) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v3.0.0
+
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0
@@ -265,22 +281,6 @@ Added in v3.0.0
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
 ) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(
-  f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0

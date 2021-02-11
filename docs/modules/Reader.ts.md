@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 59
+nav_order: 60
 parent: Modules
 ---
 
@@ -17,11 +17,11 @@ Added in v3.0.0
   - [apW](#apw)
 - [Category](#category)
   - [id](#id)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
+- [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Functor](#functor)
+  - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [Profunctor](#profunctor)
@@ -44,7 +44,7 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
   - [URI (type alias)](#uri-type-alias)
@@ -105,22 +105,7 @@ export declare const id: <A>() => Reader<A, A>
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
-```
-
-Added in v3.0.0
-
-# Monad
+# Chain
 
 ## chain
 
@@ -142,6 +127,21 @@ Less strict version of [`chain`](#chain).
 
 ```ts
 export declare const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
 ```
 
 Added in v3.0.0

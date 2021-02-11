@@ -7,6 +7,7 @@ import { pipe } from '../src/function'
 import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
+import * as J from '../src/Json'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -112,10 +113,10 @@ const writeProjectPackageJson = pipe(
   TE.chain((s) =>
     TE.fromEither(
       pipe(
-        E.parseJSON(s),
+        J.parse(s),
         E.bimap(
           () => new Error('invalid JSON'),
-          (json): E.Json => {
+          (json): J.Json => {
             const clone = Object.assign(
               {
                 main: 'index/index.js',

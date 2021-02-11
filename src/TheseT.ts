@@ -3,6 +3,7 @@
  */
 
 import { Apply2, Apply1, Apply, ap as ap_ } from './Apply'
+import { Chain2, Chain1, Chain } from './Chain'
 import { flow, Lazy, pipe } from './function'
 import { Functor2, Functor1, Functor, map as map_ } from './Functor'
 import { URIS2, Kind2, URIS, Kind, HKT } from './HKT'
@@ -183,28 +184,28 @@ export function mapLeft<F>(
  * @since 3.0.0
  */
 export function match<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind2<M, R, B>,
   onRight: (a: A) => Kind2<M, R, B>,
   onBoth: (e: E, a: A) => Kind2<M, R, B>
 ) => (ma: Kind2<M, R, These<E, A>>) => Kind2<M, R, B>
 export function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <E, B, A>(
   onLeft: (e: E) => Kind<M, B>,
   onRight: (a: A) => Kind<M, B>,
   onBoth: (e: E, a: A) => Kind<M, B>
 ) => (ma: Kind<M, These<E, A>>) => Kind<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
   onRight: (a: A) => HKT<M, B>,
   onBoth: (e: E, a: A) => HKT<M, B>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
   onRight: (a: A) => HKT<M, B>,

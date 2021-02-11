@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -17,7 +18,7 @@ import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement } from 
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as N from './number'
 import * as O from './Option'
@@ -1234,10 +1235,10 @@ export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] = (f) => (ma) =>
+export const chain: Chain1<URI>['chain'] = (f) => (ma) =>
   pipe(
     ma,
     chainWithIndex((_, a) => f(a))

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 64
+nav_order: 65
 parent: Modules
 ---
 
@@ -19,6 +19,8 @@ Added in v3.0.0
   - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -46,8 +48,6 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -114,7 +114,7 @@ Added in v3.0.0
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
@@ -215,6 +215,20 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B)[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -430,20 +444,6 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0

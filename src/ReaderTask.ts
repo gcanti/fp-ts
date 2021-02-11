@@ -3,12 +3,13 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { FromIO2 } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
-import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
@@ -146,17 +147,17 @@ export const of: Pointed2<URI>['of'] =
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] =
+export const chain: Chain2<URI>['chain'] =
   /*#__PURE__*/
   RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, R2, B>(

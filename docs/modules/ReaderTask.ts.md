@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 62
+nav_order: 63
 parent: Modules
 ---
 
@@ -15,11 +15,11 @@ Added in v3.0.0
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
+- [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Functor](#functor)
+  - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -47,7 +47,7 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -100,22 +100,7 @@ export declare const apW: <R2, A>(
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
-```
-
-Added in v3.0.0
-
-# Monad
+# Chain
 
 ## chain
 
@@ -139,6 +124,21 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v3.0.0

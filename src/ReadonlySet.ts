@@ -163,7 +163,7 @@ export const map = <B>(E: Eq<B>): (<A>(f: (x: A) => B) => (s: ReadonlySet<A>) =>
 }
 
 /**
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chain = <B>(E: Eq<B>): (<A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>) => {

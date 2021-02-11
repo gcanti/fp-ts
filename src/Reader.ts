@@ -4,9 +4,10 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Category2 } from './Category'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { constant, flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroupoid2 } from './Semigroupoid'
@@ -92,7 +93,7 @@ export const of: Pointed2<URI>['of'] = constant
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
@@ -102,10 +103,10 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] = chainW
+export const chain: Chain2<URI>['chain'] = chainW
 
 /**
  * Derivable from `Monad`.

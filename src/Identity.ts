@@ -4,6 +4,7 @@
 import { Alt1 } from './Alt'
 import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -11,7 +12,7 @@ import { Foldable1 } from './Foldable'
 import { flow, identity as id } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -56,10 +57,10 @@ export const of: Pointed1<URI>['of'] = id
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] = (f) => (ma) => f(ma)
+export const chain: Chain1<URI>['chain'] = (f) => (ma) => f(ma)
 
 /**
  * @category Extend

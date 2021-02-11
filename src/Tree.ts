@@ -24,17 +24,8 @@ import { Foldable1 } from './Foldable'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  bind as bind_,
-  chainFirst as chainFirst_,
-  Monad as Monad_,
-  Monad1,
-  Monad2,
-  Monad2C,
-  Monad3,
-  Monad3C,
-  Monad4
-} from './Monad'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
@@ -248,10 +239,10 @@ export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
+export const chain: Chain1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
   const { value, forest } = f(ma.value)
   const concat = RA.getMonoid<Tree<B>>().concat
   return {

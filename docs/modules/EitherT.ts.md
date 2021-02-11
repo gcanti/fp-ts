@@ -1,6 +1,6 @@
 ---
 title: EitherT.ts
-nav_order: 22
+nav_order: 23
 parent: Modules
 ---
 
@@ -219,16 +219,16 @@ Added in v3.0.0
 
 ```ts
 export declare function match<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind2<M, R, B>,
   onRight: (a: A) => Kind2<M, R, B>
 ) => (ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, B>
 export declare function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
 export declare function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```
 

@@ -3,9 +3,10 @@
  */
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 
 // -------------------------------------------------------------------------------------
@@ -93,10 +94,10 @@ export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] = (f) => (ma) => (s1) => {
+export const chain: Chain2<URI>['chain'] = (f) => (ma) => (s1) => {
   const [a, s2] = ma(s1)
   return f(a)(s2)
 }

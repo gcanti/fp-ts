@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -14,10 +14,10 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -36,7 +36,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -69,6 +69,20 @@ export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => 
 
 Added in v3.0.0
 
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -80,20 +94,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: OptionT.ts
-nav_order: 53
+nav_order: 54
 parent: Modules
 ---
 
@@ -229,10 +229,10 @@ Added in v3.0.0
 
 ```ts
 export declare function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
 export declare function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
 ```
 

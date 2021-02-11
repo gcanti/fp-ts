@@ -40,7 +40,7 @@ import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -48,6 +48,7 @@ import * as T from './Task'
 
 import Either = E.Either
 import Task = T.Task
+import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -353,17 +354,17 @@ export const apW: <E2, A>(
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] =
+export const chain: Chain2<URI>['chain'] =
   /*#__PURE__*/
   ET.chain(T.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, E2, B>(

@@ -1,6 +1,6 @@
 ---
 title: ReaderT.ts
-nav_order: 61
+nav_order: 62
 parent: Modules
 ---
 
@@ -75,13 +75,13 @@ Added in v3.0.0
 
 ```ts
 export declare function chain<M extends URIS2>(
-  M: Monad2<M>
+  M: Chain2<M>
 ): <A, R, E, B>(f: (a: A) => Reader<R, Kind2<M, E, B>>) => (ma: Reader<R, Kind2<M, E, A>>) => Reader<R, Kind2<M, E, B>>
 export declare function chain<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <A, R, B>(f: (a: A) => Reader<R, Kind<M, B>>) => (ma: Reader<R, Kind<M, A>>) => Reader<R, Kind<M, B>>
 export declare function chain<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <A, R, B>(f: (a: A) => Reader<R, HKT<M, B>>) => (ma: Reader<R, HKT<M, A>>) => Reader<R, HKT<M, B>>
 ```
 

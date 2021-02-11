@@ -6,6 +6,7 @@
 import { Alt1 } from './Alt'
 import { Applicative1 } from './Applicative'
 import { Apply1, apS as apS_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain1 } from './Chain'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
@@ -14,7 +15,7 @@ import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Endomorphism, Lazy, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { bind as bind_, Monad1 } from './Monad'
+import { Monad1 } from './Monad'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -454,10 +455,10 @@ export const of: Pointed1<URI>['of'] = RA.of as any
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] = RA.chain as any
+export const chain: Chain1<URI>['chain'] = RA.chain as any
 
 /**
  * Derivable from `Extend`.

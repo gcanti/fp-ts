@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 82
+nav_order: 83
 parent: Modules
 ---
 
@@ -19,6 +19,8 @@ Added in v3.0.0
   - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -29,8 +31,6 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -72,7 +72,7 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -138,6 +138,18 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+# Chain
+
+## chain
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -219,18 +231,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0

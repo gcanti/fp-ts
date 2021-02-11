@@ -5,6 +5,7 @@ import { Alt3, Alt3C } from './Alt'
 import { Applicative3, Applicative3C } from './Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply3, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
+import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -21,7 +22,7 @@ import {
 } from './FromEither'
 import { flow, identity, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad3 } from './Monad'
+import { Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
@@ -233,17 +234,17 @@ export const of = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad3<URI>['chain'] =
+export const chain: Chain3<URI>['chain'] =
   /*#__PURE__*/
   ET.chain(R.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, R2, E2, B>(

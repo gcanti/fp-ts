@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 52
+nav_order: 53
 parent: Modules
 ---
 
@@ -30,6 +30,8 @@ Added in v3.0.0
   - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -46,8 +48,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -96,7 +96,7 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI (type alias)](#uri-type-alias)
@@ -201,6 +201,20 @@ Apply a function to an argument under a type constructor.
 
 ```ts
 export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0
@@ -326,20 +340,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -24,10 +24,10 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -50,7 +50,7 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
   - [getRaceMonoid](#getracemonoid)
@@ -88,6 +88,20 @@ export declare const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task
 
 Added in v3.0.0
 
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -99,20 +113,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B>
 ```
 
 Added in v3.0.0

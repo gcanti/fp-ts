@@ -13,10 +13,11 @@
  */
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { bind as bind_, chainFirst as chainFirst_, Monad1 } from './Monad'
+import { Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 
 // -------------------------------------------------------------------------------------
@@ -61,10 +62,10 @@ export const of: Pointed1<URI>['of'] = constant
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad1<URI>['chain'] = (f) => (ma) => () => f(ma())()
+export const chain: Chain1<URI>['chain'] = (f) => (ma) => () => f(ma())()
 
 /**
  * Derivable from `Monad`.

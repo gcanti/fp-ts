@@ -17,6 +17,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Compactable2C } from './Compactable'
 import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
@@ -26,7 +27,7 @@ import { FromEither2 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
@@ -507,7 +508,7 @@ export const of = right
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
@@ -516,10 +517,10 @@ export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] = chainW
+export const chain: Chain2<URI>['chain'] = chainW
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.

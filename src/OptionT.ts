@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import { Apply, Apply1, ap as ap_ } from './Apply'
+import { Chain1, Chain } from './Chain'
 import { Either } from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
 import { Functor, Functor1, map as map_ } from './Functor'
@@ -130,13 +131,13 @@ export function fromEither<F>(F: Pointed<F>): <E, A>(e: Either<E, A>) => HKT<F, 
  * @since 3.0.0
  */
 export function match<M extends URIS>(
-  M: Monad1<M>
+  M: Chain1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
 export function match<M>(
-  M: Monad<M>
+  M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
   return (onNone, onSome) => M.chain(O.match(onNone, onSome))
 }

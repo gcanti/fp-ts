@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 76
+nav_order: 77
 parent: Modules
 ---
 
@@ -21,11 +21,11 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
+- [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Functor](#functor)
+  - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -86,7 +86,7 @@ Added in v3.0.0
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -200,24 +200,7 @@ export declare const mapLeft: <E, G>(
 
 Added in v3.0.0
 
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(
-  f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-# Monad
+# Chain
 
 ## chain
 
@@ -243,6 +226,23 @@ Less strict version of [`chain`](#chain).
 export declare const chainW: <A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+# Functor
+
+## map
+
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+use the type constructor `F` to represent some computational context.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(
+  f: (a: A) => B
+) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0

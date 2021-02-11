@@ -33,7 +33,7 @@ import { flow, identity, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad3 } from './Monad'
+import { ap as apSeq_, bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
@@ -52,6 +52,7 @@ import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
 import ReaderTask = RT.ReaderTask
+import { Monad3 } from './Monad'
 
 /**
  * @category model
@@ -385,17 +386,17 @@ export const of = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad3<URI>['chain'] =
+export const chain: Chain3<URI>['chain'] =
   /*#__PURE__*/
   ET.chain(RT.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, R2, E2, B>(

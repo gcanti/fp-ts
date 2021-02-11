@@ -1,6 +1,6 @@
 ---
 title: Either.ts
-nav_order: 21
+nav_order: 22
 parent: Modules
 ---
 
@@ -33,6 +33,9 @@ Added in v3.0.0
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
+- [Chain](#chain)
+  - [chain](#chain)
+  - [chainW](#chainw)
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
@@ -41,9 +44,6 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-  - [chainW](#chainw)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -93,7 +93,7 @@ Added in v3.0.0
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [URI (type alias)](#uri-type-alias)
@@ -209,6 +209,32 @@ export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Either<E, A>) =
 
 Added in v3.0.0
 
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+**Signature**
+
+```ts
+export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
+
 # Extend
 
 ## extend
@@ -312,32 +338,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0

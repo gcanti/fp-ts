@@ -26,13 +26,14 @@ import { FromIO2 } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as I from './IO'
-import { ap as apSeq_, bind as bind_, chainFirst as chainFirst_, Monad2 } from './Monad'
+import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import IO = I.IO
+import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -258,17 +259,17 @@ export const of = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad2<URI>['chain'] =
+export const chain: Chain2<URI>['chain'] =
   /*#__PURE__*/
   ET.chain(I.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, E2, B>(

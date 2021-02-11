@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Chain](#chain)
+  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -22,8 +24,6 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [combinators](#combinators)
   - [difference](#difference)
   - [insert](#insert)
@@ -49,6 +49,18 @@ Added in v3.0.0
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
+
+# Chain
+
+## chain
+
+**Signature**
+
+```ts
+export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
+```
+
+Added in v3.0.0
 
 # Compactable
 
@@ -136,18 +148,6 @@ Projects a `ReadonlySet` through a function.
 
 ```ts
 export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (s: ReadonlySet<A>) => ReadonlySet<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => ReadonlySet<B>) => (s: ReadonlySet<A>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0

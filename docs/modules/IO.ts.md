@@ -1,6 +1,6 @@
 ---
 title: IO.ts
-nav_order: 42
+nav_order: 43
 parent: Modules
 ---
 
@@ -24,10 +24,10 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -42,7 +42,7 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
@@ -75,6 +75,20 @@ export declare const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B>
 
 Added in v3.0.0
 
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -86,20 +100,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B>
 ```
 
 Added in v3.0.0

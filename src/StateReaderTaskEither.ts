@@ -5,6 +5,7 @@ import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
+import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
 import {
   chainEitherK as chainEitherK_,
@@ -22,7 +23,7 @@ import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, chainFirst as chainFirst_, Monad4 } from './Monad'
+import { Monad4 } from './Monad'
 import { Pointed4 } from './Pointed'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
@@ -368,17 +369,17 @@ export const of = right
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
-export const chain: Monad4<URI>['chain'] =
+export const chain: Chain4<URI>['chain'] =
   /*#__PURE__*/
   ST.chain(RTE.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
  *
- * @category Monad
+ * @category Chain
  * @since 3.0.0
  */
 export const chainW: <A, S, R2, E2, B>(
