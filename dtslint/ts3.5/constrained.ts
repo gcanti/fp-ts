@@ -3,6 +3,8 @@ import { Alternative2C, Alternative3C } from '../../src/Alternative'
 import { Applicative2C, Applicative3C } from '../../src/Applicative'
 import { Apply2C, Apply3C } from '../../src/Apply'
 import { Bifunctor2C, Bifunctor3C } from '../../src/Bifunctor'
+import { Chain2C, Chain3C } from '../../src/Chain'
+import { ChainRec2C, ChainRec3C } from '../../src/ChainRec'
 import { Comonad2C, Comonad3C } from '../../src/Comonad'
 import { Compactable2C, Compactable3C } from '../../src/Compactable'
 import { Contravariant2C, Contravariant3C } from '../../src/Contravariant'
@@ -168,3 +170,15 @@ type _47 = Unfoldable3C<'ReaderEither', string>['_E']
 
 // $ExpectType string
 type _48 = Witherable2C<'Either', string>['_E']
+
+// $ExpectType string
+type _49 = Chain2C<'Either', string>['_E']
+
+// $ExpectType string
+type _50 = Chain3C<'ReaderEither', string>['_E']
+
+// $ExpectType string
+type _51 = ChainRec2C<'Either', string>['_E']
+
+// $ExpectType string
+type _52 = ChainRec3C<'ReaderEither', string>['_E']

@@ -1,11 +1,9 @@
 /**
  * @since 2.0.0
  */
-import { Chain, Chain1, Chain2, Chain2C, Chain3 } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import { Either } from './Either'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-
-// TODO: remove module in v3
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -52,12 +50,28 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 }
 
 /**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface ChainRec3C<F extends URIS3, E> extends Chain3C<F, E> {
+  readonly chainRec: <R, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
+}
+
+/**
+ * @category type classes
+ * @since 2.10.0
+ */
+export interface ChainRec4<F extends URIS4> extends Chain4<F> {
+  readonly chainRec: <S, R, E, A, B>(a: A, f: (a: A) => Kind4<F, S, R, E, Either<A, B>>) => Kind4<F, S, R, E, B>
+}
+
+/**
  * @since 2.0.0
  */
-export function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B {
-  let v = f(a)
-  while (v._tag === 'Left') {
-    v = f(v.left)
+export const tailRec = <A, B>(startWith: A, f: (a: A) => Either<A, B>): B => {
+  let ab = f(startWith)
+  while (ab._tag === 'Left') {
+    ab = f(ab.left)
   }
-  return v.right
+  return ab.right
 }
