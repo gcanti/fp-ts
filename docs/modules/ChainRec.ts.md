@@ -18,6 +18,8 @@ Added in v2.0.0
   - [ChainRec2 (interface)](#chainrec2-interface)
   - [ChainRec2C (interface)](#chainrec2c-interface)
   - [ChainRec3 (interface)](#chainrec3-interface)
+  - [ChainRec3C (interface)](#chainrec3c-interface)
+  - [ChainRec4 (interface)](#chainrec4-interface)
 - [utils](#utils)
   - [tailRec](#tailrec)
 
@@ -85,6 +87,30 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 
 Added in v2.0.0
 
+## ChainRec3C (interface)
+
+**Signature**
+
+```ts
+export interface ChainRec3C<F extends URIS3, E> extends Chain3C<F, E> {
+  readonly chainRec: <R, A, B>(a: A, f: (a: A) => Kind3<F, R, E, Either<A, B>>) => Kind3<F, R, E, B>
+}
+```
+
+Added in v2.10.0
+
+## ChainRec4 (interface)
+
+**Signature**
+
+```ts
+export interface ChainRec4<F extends URIS4> extends Chain4<F> {
+  readonly chainRec: <S, R, E, A, B>(a: A, f: (a: A) => Kind4<F, S, R, E, Either<A, B>>) => Kind4<F, S, R, E, B>
+}
+```
+
+Added in v2.10.0
+
 # utils
 
 ## tailRec
@@ -92,7 +118,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B
+export declare const tailRec: <A, B>(startWith: A, f: (a: A) => Either<A, B>) => B
 ```
 
 Added in v2.0.0
