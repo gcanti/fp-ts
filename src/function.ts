@@ -198,54 +198,12 @@ export function flow<A extends ReadonlyArray<unknown>, B, C, D, E, F, G, H, I, J
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (...a: A) => J
-export function flow(
-  ab: Function,
-  bc?: Function,
-  cd?: Function,
-  de?: Function,
-  ef?: Function,
-  fg?: Function,
-  gh?: Function,
-  hi?: Function,
-  ij?: Function
-): unknown {
-  switch (arguments.length) {
-    case 1:
-      return ab
-    case 2:
-      return function (this: unknown) {
-        return bc!(ab.apply(this, arguments))
+export function flow(...fns: ReadonlyArray<Function>): unknown {
+  return fns.length === 0 || fns.length > 9
+    ? undefined
+    : function (this: unknown, ...args: ReadonlyArray<unknown>) {
+        return fns.slice(1).reduce((prev, fn) => fn(prev), fns[0].apply(this, args))
       }
-    case 3:
-      return function (this: unknown) {
-        return cd!(bc!(ab.apply(this, arguments)))
-      }
-    case 4:
-      return function (this: unknown) {
-        return de!(cd!(bc!(ab.apply(this, arguments))))
-      }
-    case 5:
-      return function (this: unknown) {
-        return ef!(de!(cd!(bc!(ab.apply(this, arguments)))))
-      }
-    case 6:
-      return function (this: unknown) {
-        return fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))
-      }
-    case 7:
-      return function (this: unknown) {
-        return gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))
-      }
-    case 8:
-      return function (this: unknown) {
-        return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments))))))))
-      }
-    case 9:
-      return function (this: unknown) {
-        return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab.apply(this, arguments)))))))))
-      }
-  }
-  return
 }
 
 /**
@@ -555,71 +513,8 @@ export function pipe<A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T>
   rs: (r: R) => S,
   st: (s: S) => T
 ): T
-export function pipe(
-  a: unknown,
-  ab?: Function,
-  bc?: Function,
-  cd?: Function,
-  de?: Function,
-  ef?: Function,
-  fg?: Function,
-  gh?: Function,
-  hi?: Function,
-  ij?: Function,
-  jk?: Function,
-  kl?: Function,
-  lm?: Function,
-  mn?: Function,
-  no?: Function,
-  op?: Function,
-  pq?: Function,
-  qr?: Function,
-  rs?: Function,
-  st?: Function
-): unknown {
-  switch (arguments.length) {
-    case 1:
-      return a
-    case 2:
-      return ab!(a)
-    case 3:
-      return bc!(ab!(a))
-    case 4:
-      return cd!(bc!(ab!(a)))
-    case 5:
-      return de!(cd!(bc!(ab!(a))))
-    case 6:
-      return ef!(de!(cd!(bc!(ab!(a)))))
-    case 7:
-      return fg!(ef!(de!(cd!(bc!(ab!(a))))))
-    case 8:
-      return gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))
-    case 9:
-      return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))
-    case 10:
-      return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))
-    case 11:
-      return jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))
-    case 12:
-      return kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))
-    case 13:
-      return lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))
-    case 14:
-      return mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))
-    case 15:
-      return no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))
-    case 16:
-      return op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))
-    case 17:
-      return pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))
-    case 18:
-      return qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))
-    case 19:
-      return rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))))
-    case 20:
-      return st!(rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))))
-  }
-  return
+export function pipe(a: unknown, ...fns: ReadonlyArray<Function>): unknown {
+  return fns.length > 19 ? undefined : fns.reduce((prev, fn) => fn(prev), a)
 }
 
 /**
