@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import { identity } from './function'
+import { Functor4, Functor3, Functor3C, Functor2, Functor2C, Functor } from './Functor'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
@@ -91,4 +92,22 @@ export function mapLeftDefault<F extends URIS2, E>(bimap: Bifunctor2C<F, E>['bim
 export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft']
 export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft'] {
   return (f) => bimap(f, identity)
+}
+
+// -------------------------------------------------------------------------------------
+// derivables
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category derivables
+ * @since 3.0.0
+ */
+export function map<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']
+export function map<F extends URIS3>(B: Bifunctor3<F>): Functor3<F>['map']
+export function map<F extends URIS3, E>(B: Bifunctor3C<F, E>): Functor3C<F, E>['map']
+export function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map']
+export function map<F extends URIS2, E>(B: Bifunctor2C<F, E>): Functor2C<F, E>['map']
+export function map<F>(B: Bifunctor<F>): Functor<F>['map']
+export function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map'] {
+  return (f) => B.bimap(identity, f)
 }

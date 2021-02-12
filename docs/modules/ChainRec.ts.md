@@ -127,7 +127,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tailRec: <A, B>(f: (a: A) => Either<A, B>) => (a: A) => B
+export declare const tailRec: <A, B>(f: (a: A) => Either<A, B>) => (startWith: A) => B
 ```
 
 Added in v3.0.0

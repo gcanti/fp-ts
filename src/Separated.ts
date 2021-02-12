@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
 import { flap as flap_, Functor2 } from './Functor'
 
 // -------------------------------------------------------------------------------------
@@ -29,15 +29,6 @@ export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, 
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => (fa) => separated(left(fa), f(right(fa)))
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -77,6 +68,26 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_<URI>(Bifunctor)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Functor: Functor2<URI> = {
   map
 }
@@ -90,15 +101,6 @@ export const Functor: Functor2<URI> = {
 export const flap =
   /*#_PURE_*/
   flap_(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
-}
 
 // -------------------------------------------------------------------------------------
 // utils

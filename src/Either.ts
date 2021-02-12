@@ -16,7 +16,7 @@
 import { Alt2, Alt2C } from './Alt'
 import { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C } from './Compactable'
@@ -456,15 +456,6 @@ export const filterOrElse: {
 // -------------------------------------------------------------------------------------
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => (fa) => (isLeft(fa) ? fa : right(f(fa.right)))
-
-/**
  * Map a pair of functions over the two type arguments of the bifunctor.
  *
  * @category Bifunctor
@@ -879,27 +870,21 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
-  map,
-  ap: (fa) => (fab) =>
-    isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
-  of
-})
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
 
 /**
- * @category instances
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
  * @since 3.0.0
  */
-export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
-  map,
-  alt: (second) => (first) => {
-    if (isRight(first)) {
-      return first
-    }
-    const ea = second()
-    return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
-  }
-})
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_<URI>(Bifunctor)
 
 /**
  * @category instances
@@ -969,6 +954,17 @@ export const Applicative: Applicative2<URI> = {
   ap,
   of
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
+  map,
+  ap: (fa) => (fab) =>
+    isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
+  of
+})
 
 /**
  * @category instances
@@ -1044,19 +1040,25 @@ export const Traversable: Traversable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
+export const Alt: Alt2<URI> = {
+  map,
+  alt
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt2<URI> = {
+export const getAltValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => ({
   map,
-  alt
-}
+  alt: (second) => (first) => {
+    if (isRight(first)) {
+      return first
+    }
+    const ea = second()
+    return isLeft(ea) ? left(S.concat(ea.left)(first.left)) : ea
+  }
+})
 
 /**
  * @category instances

@@ -3,7 +3,7 @@
  */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
 import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
@@ -104,15 +104,6 @@ export const duplicate: <E, A>(t: Tuple2<E, A>) => Tuple2<E, Tuple2<E, A>> =
   extend(identity)
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => (fa) => [f(fst(fa)), snd(fa)]
-
-/**
  * @category Foldable
  * @since 3.0.0
  */
@@ -172,6 +163,26 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_<URI>(Bifunctor)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Functor: Functor2<URI> = {
   map
 }
@@ -185,15 +196,6 @@ export const Functor: Functor2<URI> = {
 export const flap =
   /*#_PURE_*/
   flap_(Functor)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
-}
 
 /**
  * @category instances

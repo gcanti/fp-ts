@@ -9,7 +9,7 @@
  */
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
 import { BooleanAlgebra } from './BooleanAlgebra'
 import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
@@ -53,15 +53,6 @@ export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
  * @since 3.0.0
  */
 export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = () => unsafeCoerce
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -163,6 +154,34 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
+export const Contravariant: Contravariant2<URI> = {
+  contramap
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_<URI>(Bifunctor)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Functor: Functor2<URI> = {
   map
 }
@@ -177,22 +196,6 @@ export const flap =
   /*#_PURE_*/
   flap_(Functor)
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Contravariant: Contravariant2<URI> = {
-  contramap
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
-}
 /**
  * @category instances
  * @since 3.0.0

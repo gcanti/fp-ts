@@ -80,8 +80,8 @@ export interface ChainRec4<F extends URIS4> {
 /**
  * @since 3.0.0
  */
-export const tailRec = <A, B>(f: (a: A) => Either<A, B>) => (a: A): B => {
-  let v = f(a)
+export const tailRec = <A, B>(f: (a: A) => Either<A, B>) => (startWith: A): B => {
+  let v = f(startWith)
   while (v._tag === 'Left') {
     v = f(v.left)
   }

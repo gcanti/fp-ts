@@ -21,7 +21,7 @@
  */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
-import { Bifunctor2, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
 import { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -231,16 +231,6 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
   mapLeftDefault<URI>(bimap)
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 3.0.0
- */
-export const map: Functor2<URI>['map'] = (f) => (fa) =>
-  isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
-
-/**
  * @category Foldable
  * @since 3.0.0
  */
@@ -363,6 +353,26 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
       ? both(first.left, SA.concat(second.right)(first.right))
       : both(SE.concat(second.left)(first.left), SA.concat(second.right)(first.right))
 })
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft
+}
+
+/**
+ * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
+ * use the type constructor `F` to represent some computational context.
+ *
+ * @category Functor
+ * @since 3.0.0
+ */
+export const map: Functor2<URI>['map'] =
+  /*#__PURE__*/
+  map_<URI>(Bifunctor)
 
 /**
  * @category instances
@@ -503,15 +513,6 @@ export const fromOptionK =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  bimap,
-  mapLeft
-}
 
 /**
  * @category instances
