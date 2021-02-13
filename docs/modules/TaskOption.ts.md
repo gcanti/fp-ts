@@ -37,10 +37,13 @@ Added in v2.10.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromIOK](#fromiok)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [tryCatchK](#trycatchk)
@@ -293,6 +296,26 @@ export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: T
 
 Added in v2.10.0
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
 ## chainNullableK
 
 **Signature**
@@ -335,6 +358,16 @@ Derivable from `Chain`.
 
 ```ts
 export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0

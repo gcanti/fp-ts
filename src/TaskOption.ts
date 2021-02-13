@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
 import {
   filter as filter_,
@@ -13,11 +14,11 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import { FromIO1 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import * as O from './Option'
@@ -27,7 +28,6 @@ import * as T from './Task'
 
 import Task = T.Task
 import Option = O.Option
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -584,6 +584,30 @@ export const FromIO: FromIO1<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

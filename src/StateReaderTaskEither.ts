@@ -5,6 +5,7 @@ import { Alt4 } from './Alt'
 import { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { Bifunctor4 } from './Bifunctor'
+import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
 import {
   chainEitherK as chainEitherK_,
@@ -16,13 +17,13 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO4 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
+import { Monad4 } from './Monad'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Pointed4 } from './Pointed'
@@ -40,7 +41,6 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
-import { Monad4 } from './Monad'
 
 /* tslint:disable:readonly-array */
 /**
@@ -750,6 +750,30 @@ export const FromIO: FromIO4<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

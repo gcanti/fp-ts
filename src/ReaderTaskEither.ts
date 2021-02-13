@@ -13,6 +13,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
+import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -33,13 +34,13 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO3 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask3 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import { Monad3, Monad3C } from './Monad'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -56,7 +57,6 @@ import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
 import ReaderTask = RT.ReaderTask
-import { Monad3, Monad3C } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -846,6 +846,30 @@ export const FromIO: FromIO3<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

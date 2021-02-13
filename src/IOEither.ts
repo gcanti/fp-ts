@@ -15,6 +15,7 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -35,11 +36,11 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO2 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as I from './IO'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -52,7 +53,6 @@ import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import IO = I.IO
-import { Monad2, Monad2C } from './Monad'
 
 /**
  * @category model
@@ -639,6 +639,30 @@ export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
