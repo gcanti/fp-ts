@@ -63,7 +63,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex<F, I> extends Functor<F> {
+export interface FunctorWithIndex<F, I> {
+  readonly URI?: F
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 }
 ```
@@ -75,7 +76,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
+export interface FunctorWithIndex1<F extends URIS, I> {
+  readonly URI?: F
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 ```
@@ -87,7 +89,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
+export interface FunctorWithIndex2<F extends URIS2, I> {
+  readonly URI?: F
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
@@ -99,7 +102,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex2C<F extends URIS2, I, E> extends Functor2C<F, E> {
+export interface FunctorWithIndex2C<F extends URIS2, I, E> {
+  readonly URI?: F
+  readonly _E?: E
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
@@ -111,7 +116,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
+export interface FunctorWithIndex3<F extends URIS3, I> {
+  readonly URI?: F
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
@@ -123,7 +129,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex3C<F extends URIS3, I, E> extends Functor3C<F, E> {
+export interface FunctorWithIndex3C<F extends URIS3, I, E> {
+  readonly URI?: F
+  readonly _E?: E
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
@@ -135,7 +143,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
+export interface FunctorWithIndex4<F extends URIS4, I> {
+  readonly URI?: F
   readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 ```

@@ -1722,7 +1722,6 @@ export const Pointed: Pointed1<URI> = {
  * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
-  map,
   mapWithIndex
 }
 

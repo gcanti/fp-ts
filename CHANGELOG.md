@@ -97,6 +97,8 @@ high state of flux, you're at risk of it changing without notice.
     - rename `toArray` to `toReadonlyArray`
   - `FoldableWithIndex`
     - drop `Foldable` dependency
+  - `FunctorWithIndex`
+    - drop `Functor` dependency
   - `IOEither`
     - remove `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
     - remove `onThrow` parameter in `tryCatch`

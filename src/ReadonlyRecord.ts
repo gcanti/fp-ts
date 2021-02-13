@@ -754,7 +754,6 @@ export const flap =
  * @since 3.0.0
  */
 export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
-  map,
   mapWithIndex
 }
 
