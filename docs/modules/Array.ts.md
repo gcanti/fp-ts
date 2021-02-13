@@ -71,6 +71,7 @@ Added in v2.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [duplicate](#duplicate)
+  - [flatZip](#flatzip)
   - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
@@ -86,6 +87,7 @@ Added in v2.0.0
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
+  - [transpose](#transpose)
   - [union](#union)
   - [uniq](#uniq)
   - [zip](#zip)
@@ -721,6 +723,32 @@ export declare const duplicate: <A>(wa: A[]) => A[][]
 
 Added in v2.0.0
 
+## flatZip
+
+Merge several arrays into one by alternating elements from each array
+
+**Signature**
+
+```ts
+export declare const flatZip: <A>(aas: A[][]) => A[]
+```
+
+**Example**
+
+```ts
+import { flatZip } from 'fp-ts/Array'
+
+assert.deepStrictEqual(
+  flatZip([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [1, 4, 2, 5, 3, 6, 7]
+)
+```
+
+Added in v2.10.0
+
 ## flatten
 
 Removes one level of nesting.
@@ -1053,6 +1081,32 @@ assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.0.0
+
+## transpose
+
+Switches rows and columns of a two dimensional array
+
+**Signature**
+
+```ts
+export declare const transpose: <A>(xy: A[][]) => NonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { transpose } from 'fp-ts/Array'
+
+assert.deepStrictEqual(
+  transpose([
+    [1, 2, 3],
+    [4, 5, 6, 7],
+  ]),
+  [[1, 4], [2, 5], [3, 6], [7]]
+)
+```
+
+Added in v2.10.0
 
 ## union
 

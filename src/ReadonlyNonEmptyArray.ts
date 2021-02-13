@@ -441,6 +441,36 @@ export const intersperse: <A>(
   e: A
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.intersperse as any
 
+/**
+ * Switches rows and columns of a two dimensional array
+ *
+ * @example
+ * import { transpose } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(transpose([[1, 2, 3], [4, 5, 6, 7]]), [[1, 4], [2, 5], [3, 6], [7]])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const transpose: <A>(
+  xy: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> = RA.transpose as any
+
+/**
+ * Merge several arrays into one by alternating elements from each array
+ *
+ * @example
+ * import { flatZip } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(flatZip([[1, 2, 3], [4, 5, 6, 7]]), [1, 4, 2, 5, 3, 6, 7])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flatZip: <A>(
+  aas: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => ReadonlyNonEmptyArray<A> = RA.flatZip as any
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------

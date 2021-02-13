@@ -681,6 +681,75 @@ describe('ReadonlyArray', () => {
     assert.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
+  it('transpose', () => {
+    assert.deepStrictEqual(
+      _.transpose([
+        [1, 2, 3],
+        [4, 5, 6, 7]
+      ]),
+      [[1, 4], [2, 5], [3, 6], [7]]
+    )
+    assert.deepStrictEqual(_.transpose([[]]), [])
+    assert.deepStrictEqual(_.transpose([[1]]), [[1]])
+    assert.deepStrictEqual(_.transpose([[1, 2, 3]]), [[1], [2], [3]])
+    assert.deepStrictEqual(_.transpose([[1], [2], [3]]), [[1, 2, 3]])
+    assert.deepStrictEqual(_.transpose([[], []]), [])
+    assert.deepStrictEqual(_.transpose([[1], []]), [[1]])
+    assert.deepStrictEqual(_.transpose([[], [1]]), [[1]])
+    assert.deepStrictEqual(_.transpose([[1], [2]]), [[1, 2]])
+    assert.deepStrictEqual(_.transpose([[1], [2, 3]]), [[1, 2], [3]])
+    assert.deepStrictEqual(_.transpose([[1, 2], [3]]), [[1, 3], [2]])
+    assert.deepStrictEqual(
+      _.transpose([
+        [1, 2],
+        [3, 4]
+      ]),
+      [
+        [1, 3],
+        [2, 4]
+      ]
+    )
+    assert.deepStrictEqual(_.transpose([[1, 2, 3], [4]]), [[1, 4], [2], [3]])
+    assert.deepStrictEqual(_.transpose([[1], [2, 3, 4]]), [[1, 2], [3], [4]])
+    assert.deepStrictEqual(_.transpose([[1], [2, 3], [4, 5, 6]]), [[1, 2, 4], [3, 5], [6]])
+    assert.deepStrictEqual(_.transpose([[1, 2, 3], [4, 5], [6]]), [[1, 4, 6], [2, 5], [3]])
+    assert.deepStrictEqual(_.transpose([[1, 2], [3], [4, 5, 6]]), [[1, 3, 4], [2, 5], [6]])
+    assert.deepStrictEqual(_.transpose([[1, 2, 3], [4], [5, 6]]), [[1, 4, 5], [2, 6], [3]])
+  })
+
+  it('flatZip', () => {
+    assert.deepStrictEqual(
+      _.flatZip([
+        [1, 2, 3],
+        [4, 5, 6, 7]
+      ]),
+      [1, 4, 2, 5, 3, 6, 7]
+    )
+    assert.deepStrictEqual(_.flatZip([[]]), [])
+    assert.deepStrictEqual(_.flatZip([[1]]), [1])
+    assert.deepStrictEqual(_.flatZip([[1, 2, 3]]), [1, 2, 3])
+    assert.deepStrictEqual(_.flatZip([[1], [2], [3]]), [1, 2, 3])
+    assert.deepStrictEqual(_.flatZip([[], []]), [])
+    assert.deepStrictEqual(_.flatZip([[1], []]), [1])
+    assert.deepStrictEqual(_.flatZip([[], [1]]), [1])
+    assert.deepStrictEqual(_.flatZip([[1], [2]]), [1, 2])
+    assert.deepStrictEqual(_.flatZip([[1], [2, 3]]), [1, 2, 3])
+    assert.deepStrictEqual(_.flatZip([[1, 2], [3]]), [1, 3, 2])
+    assert.deepStrictEqual(
+      _.flatZip([
+        [1, 2],
+        [3, 4]
+      ]),
+      [1, 3, 2, 4]
+    )
+    assert.deepStrictEqual(_.flatZip([[1, 2, 3], [4]]), [1, 4, 2, 3])
+    assert.deepStrictEqual(_.flatZip([[1], [2, 3, 4]]), [1, 2, 3, 4])
+    assert.deepStrictEqual(_.flatZip([[1], [2, 3], [4, 5, 6]]), [1, 2, 4, 3, 5, 6])
+    assert.deepStrictEqual(_.flatZip([[1, 2, 3], [4, 5], [6]]), [1, 4, 6, 2, 5, 3])
+    assert.deepStrictEqual(_.flatZip([[1, 2], [3], [4, 5, 6]]), [1, 3, 4, 2, 5, 6])
+    assert.deepStrictEqual(_.flatZip([[1, 2, 3], [4], [5, 6]]), [1, 4, 5, 2, 6, 3])
+  })
+
   it('rotate', () => {
     assert.deepStrictEqual(_.rotate(1)([]), [])
     assert.deepStrictEqual(_.rotate(1)([1]), [1])

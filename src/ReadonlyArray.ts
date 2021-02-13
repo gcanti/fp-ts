@@ -1093,6 +1093,51 @@ export function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 }
 
 /**
+ * Switches rows and columns of a two dimensional array
+ *
+ * @example
+ * import { transpose } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(transpose([[1, 2, 3], [4, 5, 6, 7]]), [[1, 4], [2, 5], [3, 6], [7]])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export function transpose<A>(xy: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<ReadonlyNonEmptyArray<A>> {
+  const maxX = xy.length
+  const maxY = Math.max(...xy.map((y) => y.length))
+  // tslint:disable-next-line: readonly-array
+  const yx: Array<Array<A>> = []
+  let yi = 0
+  for (; yi < maxY; yi++) {
+    let xi = 0
+    // tslint:disable-next-line: readonly-array
+    let x: Array<A> = []
+    for (; xi < maxX; xi++) {
+      const y = xy[xi]
+      if (yi < y.length) {
+        x.push(y[yi])
+      }
+    }
+    yx.push(x)
+  }
+  return (yx as unknown) as ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
+
+/**
+ * Merge several arrays into one by alternating elements from each array
+ *
+ * @example
+ * import { flatZip } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(flatZip([[1, 2, 3], [4, 5, 6, 7]]), [1, 4, 2, 5, 3, 6, 7])
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flatZip: <A>(aas: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = flow(transpose, flatten)
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example
