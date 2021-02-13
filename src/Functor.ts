@@ -112,12 +112,8 @@ export function map<F, G>(
   return (f) => (fa) => F.map(fa, (ga) => G.map(ga, f))
 }
 
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
 /**
- * @category derivables
+ * @category combinators
  * @since 2.10.0
  */
 export function flap<F extends URIS4>(
