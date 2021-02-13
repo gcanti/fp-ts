@@ -42,7 +42,12 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2 } from './FromTask'
+import {
+  chainFirstTaskK as chainFirstTaskK_,
+  chainTaskK as chainTaskK_,
+  FromTask2,
+  fromTaskK as fromTaskK_
+} from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -859,6 +864,30 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromTaskK =
+  /*#__PURE__*/
+  fromTaskK_(FromTask)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainTaskK =
+  /*#__PURE__*/
+  chainTaskK_(FromTask, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstTaskK =
+  /*#__PURE__*/
+  chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils

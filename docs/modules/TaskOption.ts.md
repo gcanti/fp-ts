@@ -38,14 +38,17 @@ Added in v2.10.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
+  - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
+  - [fromTaskK](#fromtaskk)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -306,6 +309,16 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOp
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 ## chainIOK
 
 **Signature**
@@ -334,6 +347,16 @@ Added in v2.10.0
 
 ```ts
 export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+```
+
+Added in v2.10.0
+
+## chainTaskK
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -388,6 +411,16 @@ Added in v2.10.0
 
 ```ts
 export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
+```
+
+Added in v2.10.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0
