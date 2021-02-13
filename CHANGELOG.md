@@ -39,6 +39,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup`
     - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid`
     - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead
+    - deprecate `Json` type, use the `Json` module instead
+    - deprecate `parseJSON` type, use the `Json` module instead
+    - deprecate `stringifyJSON` type, use the `Json` module instead
   - `Eq`
     - deprecate `eqBoolean`, use `boolean.Eq` instead
     - deprecate `eqString`, use `string.Eq` instead
@@ -175,6 +178,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `string` module
   - add `number` module
   - add `Separated` module (@YBogomolov)
+  - add `Json` module
   - `Apply`
     - add `ap` helper
     - add `apS` helper

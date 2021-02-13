@@ -168,74 +168,6 @@ export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E
 }
 
 /**
- * Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
- *
- * @since 2.6.7
- */
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-
-/**
- * @since 2.6.7
- */
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
-
-/**
- * @since 2.6.7
- */
-export interface JsonArray extends ReadonlyArray<Json> {}
-
-// TODO curry in v3
-/**
- * Converts a JavaScript Object Notation (JSON) string into an object.
- *
- * @example
- * import { parseJSON, toError, right, left } from 'fp-ts/Either'
- *
- * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
- * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
- *
- * @category constructors
- * @since 2.0.0
- */
-export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json> {
-  return tryCatch(() => JSON.parse(s), onError)
-}
-
-// TODO curry in v3
-/**
- * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
- *
- * @example
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
- * const circular: any = { ref: null }
- * circular.ref = circular
- * assert.deepStrictEqual(
- *   pipe(
- *     E.stringifyJSON(circular, E.toError),
- *     E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
- *   ),
- *   E.left(true)
- * )
- *
- * @category constructors
- * @since 2.0.0
- */
-export const stringifyJSON = <E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> =>
-  tryCatch(() => {
-    const s = JSON.stringify(u)
-    // tslint:disable-next-line: strict-type-predicates
-    if (typeof s !== 'string') {
-      throw new Error('Converting unsupported structure to JSON')
-    }
-    return s
-  }, onError)
-
-/**
  * @example
  * import { fromOption, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
@@ -1416,6 +1348,64 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use the `Json` module instead.
+ *
+ * @since 2.6.7
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
+
+/**
+ * Use the `Json` module instead.
+ *
+ * @since 2.6.7
+ * @deprecated
+ */
+export interface JsonRecord {
+  // tslint:disable-next-line: deprecation
+  readonly [key: string]: Json
+}
+
+/**
+ * Use the `Json` module instead.
+ *
+ * @since 2.6.7
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export interface JsonArray extends ReadonlyArray<Json> {}
+
+/**
+ * Use the `Json.parse` module instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json> {
+  return tryCatch(() => JSON.parse(s), onError)
+}
+
+/**
+ * Use the `Json.stringify` module instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const stringifyJSON = <E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> =>
+  tryCatch(() => {
+    const s = JSON.stringify(u)
+    // tslint:disable-next-line: strict-type-predicates
+    if (typeof s !== 'string') {
+      throw new Error('Converting unsupported structure to JSON')
+    }
+    return s
+  }, onError)
 
 /**
  * Use small, specific instances instead.
