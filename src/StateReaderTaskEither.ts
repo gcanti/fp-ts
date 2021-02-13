@@ -216,7 +216,7 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
  */
 export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
-  E.fold((e) => left(e), right)
+  E.match((e) => left(e), right)
 
 /**
  * @category constructors

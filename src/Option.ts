@@ -315,7 +315,7 @@ export const fold = match
  */
 export const toNullable: <A>(ma: Option<A>) => A | null =
   /*#__PURE__*/
-  fold(constNull, identity)
+  match(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -344,7 +344,7 @@ export const toNullable: <A>(ma: Option<A>) => A | null =
  */
 export const toUndefined: <A>(ma: Option<A>) => A | undefined =
   /*#__PURE__*/
-  fold(constUndefined, identity)
+  match(constUndefined, identity)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).

@@ -179,7 +179,7 @@ export function match<M>(
 export function match<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
-  return (onNone, onSome) => (ma) => M.chain(ma, O.fold(onNone, onSome))
+  return (onNone, onSome) => (ma) => M.chain(ma, O.match(onNone, onSome))
 }
 
 /**
@@ -190,7 +190,7 @@ export function getOrElse<M extends URIS>(
 ): <A>(onNone: Lazy<Kind<M, A>>) => (fa: Kind<M, Option<A>>) => Kind<M, A>
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A> {
-  return (onNone) => (fa) => M.chain(fa, O.fold(onNone, M.of))
+  return (onNone) => (fa) => M.chain(fa, O.match(onNone, M.of))
 }
 
 // -------------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ export function chain<M>(
   return (f) => (ma) =>
     M.chain(
       ma,
-      O.fold(() => _none, f)
+      O.match(() => _none, f)
     )
 }
 
@@ -256,7 +256,7 @@ export function alt<M>(
   M: Monad<M>
 ): <A>(second: Lazy<HKT<M, Option<A>>>) => (first: HKT<M, Option<A>>) => HKT<M, Option<A>> {
   const _some = some(M)
-  return (second) => (first) => M.chain(first, O.fold(second, _some))
+  return (second) => (first) => M.chain(first, O.match(second, _some))
 }
 
 // -------------------------------------------------------------------------------------
