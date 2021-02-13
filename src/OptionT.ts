@@ -139,7 +139,7 @@ export function match<M>(
 export function match<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
-  return (onNone, onSome) => M.chain(O.match(onNone, onSome))
+  return flow(O.match, M.chain)
 }
 
 /**

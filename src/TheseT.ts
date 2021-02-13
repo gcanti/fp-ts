@@ -211,7 +211,7 @@ export function match<M>(
   onRight: (a: A) => HKT<M, B>,
   onBoth: (e: E, a: A) => HKT<M, B>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, B> {
-  return (onLeft, onRight, onBoth) => M.chain(T.match(onLeft, onRight, onBoth))
+  return flow(T.match, M.chain)
 }
 
 /**

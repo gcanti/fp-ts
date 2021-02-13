@@ -185,7 +185,7 @@ export function match<M>(
 export function match<M>(
   M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B> {
-  return (onLeft, onRight) => M.chain(E.match(onLeft, onRight))
+  return flow(E.match, M.chain)
 }
 
 /**
