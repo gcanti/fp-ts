@@ -1,5 +1,5 @@
 import * as _ from '../../src/Either'
-import { pipe, flow } from '../../src/function'
+import { pipe, flow, identity } from '../../src/function'
 import { monoidAll } from '../../src/Monoid'
 
 //
@@ -85,4 +85,14 @@ pipe(
     (result) => result > 0,
     () => 'b' as const
   )
+)
+
+//
+// stringifyJSON
+//
+
+// $ExpectType Either<unknown, string>
+pipe(
+  _.right('a'),
+  _.chainFirst((s) => _.stringifyJSON(s, identity))
 )

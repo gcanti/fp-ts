@@ -74,10 +74,10 @@ Added in v2.0.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
-  - [parseJSON](#parsejson)
   - [right](#right)
-  - [stringifyJSON](#stringifyjson)
   - [tryCatch](#trycatch)
+  - [~~parseJSON~~](#parsejson)
+  - [~~stringifyJSON~~](#stringifyjson)
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
@@ -126,9 +126,6 @@ Added in v2.0.0
   - [Right (interface)](#right-interface)
 - [utils](#utils)
   - [Do](#do)
-  - [Json (type alias)](#json-type-alias)
-  - [JsonArray (interface)](#jsonarray-interface)
-  - [JsonRecord (interface)](#jsonrecord-interface)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -140,6 +137,9 @@ Added in v2.0.0
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [~~JsonArray~~ (interface)](#jsonarray-interface)
+  - [~~JsonRecord~~ (interface)](#jsonrecord-interface)
+  - [~~Json~~ (type alias)](#json-type-alias)
 
 ---
 
@@ -821,27 +821,6 @@ export declare const left: <E = never, A = never>(e: E) => Either<E, A>
 
 Added in v2.0.0
 
-## parseJSON
-
-Converts a JavaScript Object Notation (JSON) string into an object.
-
-**Signature**
-
-```ts
-export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json>
-```
-
-**Example**
-
-```ts
-import { parseJSON, toError, right, left } from 'fp-ts/Either'
-
-assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
-assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
-```
-
-Added in v2.0.0
-
 ## right
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -851,36 +830,6 @@ of this structure.
 
 ```ts
 export declare const right: <E = never, A = never>(a: A) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## stringifyJSON
-
-Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
-
-**Signature**
-
-```ts
-export declare const stringifyJSON: <E>(u: unknown, onError: (reason: unknown) => E) => Either<E, string>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
-const circular: any = { ref: null }
-circular.ref = circular
-assert.deepStrictEqual(
-  pipe(
-    E.stringifyJSON(circular, E.toError),
-    E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
-  ),
-  E.left(true)
-)
 ```
 
 Added in v2.0.0
@@ -918,6 +867,30 @@ const head = <A>(as: ReadonlyArray<A>): E.Either<Error, A> =>
 
 assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
+```
+
+Added in v2.0.0
+
+## ~~parseJSON~~
+
+Use the `Json.parse` module instead.
+
+**Signature**
+
+```ts
+export declare function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json>
+```
+
+Added in v2.0.0
+
+## ~~stringifyJSON~~
+
+Use the `Json.stringify` module instead.
+
+**Signature**
+
+```ts
+export declare const stringifyJSON: <E>(u: unknown, onError: (reason: unknown) => E) => Either<E, string>
 ```
 
 Added in v2.0.0
@@ -1491,40 +1464,6 @@ export declare const Do: Either<never, {}>
 
 Added in v2.9.0
 
-## Json (type alias)
-
-Copied from https://github.com/Microsoft/TypeScript/issues/1897#issuecomment-338650717
-
-**Signature**
-
-```ts
-export type Json = boolean | number | string | null | JsonArray | JsonRecord
-```
-
-Added in v2.6.7
-
-## JsonArray (interface)
-
-**Signature**
-
-```ts
-export interface JsonArray extends ReadonlyArray<Json> {}
-```
-
-Added in v2.6.7
-
-## JsonRecord (interface)
-
-**Signature**
-
-```ts
-export interface JsonRecord {
-  readonly [key: string]: Json
-}
-```
-
-Added in v2.6.7
-
 ## apS
 
 **Signature**
@@ -1672,3 +1611,42 @@ export declare const traverseArrayWithIndex: <E, A, B>(
 ```
 
 Added in v2.9.0
+
+## ~~JsonArray~~ (interface)
+
+Use the `Json` module instead.
+
+**Signature**
+
+```ts
+export interface JsonArray extends ReadonlyArray<Json> {}
+```
+
+Added in v2.6.7
+
+## ~~JsonRecord~~ (interface)
+
+Use the `Json` module instead.
+
+**Signature**
+
+```ts
+export interface JsonRecord {
+  // tslint:disable-next-line: deprecation
+  readonly [key: string]: Json
+}
+```
+
+Added in v2.6.7
+
+## ~~Json~~ (type alias)
+
+Use the `Json` module instead.
+
+**Signature**
+
+```ts
+export type Json = boolean | number | string | null | JsonArray | JsonRecord
+```
+
+Added in v2.6.7

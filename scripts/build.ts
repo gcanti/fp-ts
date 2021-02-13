@@ -6,6 +6,7 @@ import * as A from '../src/ReadonlyArray'
 import * as TE from '../src/TaskEither'
 import { FileSystem, fileSystem } from './FileSystem'
 import { run } from './run'
+import * as J from '../src/Json'
 
 interface Build<A> extends RTE.ReaderTaskEither<FileSystem, Error, A> {}
 
@@ -15,9 +16,9 @@ const PKG = 'package.json'
 export const copyPackageJson: Build<void> = (C) =>
   pipe(
     C.readFile(PKG),
-    TE.chain((s) => TE.fromEither(E.parseJSON(s, E.toError))),
-    TE.map((v) => {
-      const clone = Object.assign({}, v as any)
+    TE.chain((s) => TE.fromEither(pipe(J.parse(s), E.mapLeft(E.toError)))),
+    TE.map((json) => {
+      const clone = Object.assign({}, json as any)
 
       delete clone.scripts
       delete clone.files
