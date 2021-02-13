@@ -125,10 +125,10 @@ export function chain<M, E>(
   return (f) => (ma) =>
     M.chain(
       ma,
-      T.fold(_left, f, (e1, a) =>
+      T.match(_left, f, (e1, a) =>
         M.map(
           f(a),
-          T.fold(
+          T.match(
             (e2) => T.left(S.concat(e1, e2)),
             (b) => T.both(e1, b),
             (e2, b) => T.both(S.concat(e1, e2), b)
@@ -205,7 +205,7 @@ export function match<M>(
   onRight: (a: A) => HKT<M, R>,
   onBoth: (e: E, a: A) => HKT<M, R>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, R> {
-  return (onLeft, onRight, onBoth) => (ma) => M.chain(ma, T.fold(onLeft, onRight, onBoth))
+  return (onLeft, onRight, onBoth) => (ma) => M.chain(ma, T.match(onLeft, onRight, onBoth))
 }
 
 /**

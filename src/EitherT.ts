@@ -186,7 +186,7 @@ export function match<M>(
 export function match<M>(
   M: Chain<M>
 ): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R> {
-  return (onLeft, onRight) => (ma) => M.chain(ma, E.fold(onLeft, onRight))
+  return (onLeft, onRight) => (ma) => M.chain(ma, E.match(onLeft, onRight))
 }
 
 /**
@@ -204,7 +204,7 @@ export function getOrElse<M>(
 export function getOrElse<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A> {
-  return (onLeft) => (ma) => M.chain(ma, E.fold(onLeft, M.of))
+  return (onLeft) => (ma) => M.chain(ma, E.match(onLeft, M.of))
 }
 
 /**
@@ -261,7 +261,7 @@ export function altValidation<M, E>(
   return (second) => (first) =>
     M.chain(
       first,
-      E.fold(
+      E.match(
         (e1) =>
           M.map(
             second(),

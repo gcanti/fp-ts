@@ -132,7 +132,7 @@ export const fold = match
  * @category combinators
  * @since 2.4.0
  */
-export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e, a) => both(a, e))
+export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (e, a) => both(a, e))
 
 /**
  * @category instances
@@ -140,7 +140,7 @@ export const swap: <E, A>(fa: These<E, A>) => These<A, E> = fold(right, left, (e
  */
 export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
   return {
-    show: fold(
+    show: match(
       (l) => `left(${SE.show(l)})`,
       (a) => `right(${SA.show(a)})`,
       (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`
