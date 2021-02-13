@@ -12,10 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [map](#map)
 - [defaults](#defaults)
   - [mapLeftDefault](#mapleftdefault)
-- [derivables](#derivables)
-  - [map](#map)
 - [type classes](#type-classes)
   - [Bifunctor (interface)](#bifunctor-interface)
   - [Bifunctor2 (interface)](#bifunctor2-interface)
@@ -25,6 +25,23 @@ Added in v3.0.0
   - [Bifunctor4 (interface)](#bifunctor4-interface)
 
 ---
+
+# combinators
+
+## map
+
+**Signature**
+
+```ts
+export declare function map<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']
+export declare function map<F extends URIS3>(B: Bifunctor3<F>): Functor3<F>['map']
+export declare function map<F extends URIS3, E>(B: Bifunctor3C<F, E>): Functor3C<F, E>['map']
+export declare function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map']
+export declare function map<F extends URIS2, E>(B: Bifunctor2C<F, E>): Functor2C<F, E>['map']
+export declare function map<F>(B: Bifunctor<F>): Functor<F>['map']
+```
+
+Added in v3.0.0
 
 # defaults
 
@@ -45,23 +62,6 @@ export declare function mapLeftDefault<F extends URIS2, E>(
   bimap: Bifunctor2C<F, E>['bimap']
 ): Bifunctor2C<F, E>['mapLeft']
 export declare function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['mapLeft']
-```
-
-Added in v3.0.0
-
-# derivables
-
-## map
-
-**Signature**
-
-```ts
-export declare function map<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']
-export declare function map<F extends URIS3>(B: Bifunctor3<F>): Functor3<F>['map']
-export declare function map<F extends URIS3, E>(B: Bifunctor3C<F, E>): Functor3C<F, E>['map']
-export declare function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map']
-export declare function map<F extends URIS2, E>(B: Bifunctor2C<F, E>): Functor2C<F, E>['map']
-export declare function map<F>(B: Bifunctor<F>): Functor<F>['map']
 ```
 
 Added in v3.0.0

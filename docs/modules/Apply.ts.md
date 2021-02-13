@@ -25,7 +25,6 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [ap](#ap)
-- [derivables](#derivables)
   - [apFirst](#apfirst)
   - [apS](#aps)
   - [apSecond](#apsecond)
@@ -81,8 +80,6 @@ export declare function ap<F, G>(
 ```
 
 Added in v3.0.0
-
-# derivables
 
 ## apFirst
 

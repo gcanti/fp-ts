@@ -17,7 +17,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO4 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask4 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
@@ -575,6 +575,30 @@ export const chainFirstW: <A, S, R2, E2, B>(
 export const FromIO: FromIO4<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

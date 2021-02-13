@@ -14,11 +14,10 @@
 import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { FromIO1 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
@@ -82,19 +81,6 @@ export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
       ma().then(resolve)
     }, millis)
   })
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const fromIOK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): ((...a: A) => Task<B>) => (...a) =>
-  fromIO(f(...a))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainIOK = <A, B>(f: (a: A) => IO<B>): ((ma: Task<A>) => Task<B>) => chain(fromIOK(f))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -314,6 +300,30 @@ export const chainFirst =
 export const FromIO: FromIO1<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

@@ -8,6 +8,7 @@ import { Alt2, Alt2C } from './Alt'
 import { Applicative2, Applicative2C } from './Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -22,18 +23,17 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO2 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as I from './IO'
-import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import IO = I.IO
-import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -527,8 +527,32 @@ export const Alt: Alt2<URI> = {
  * @since 3.0.0
  */
 export const FromIO: FromIO2<URI> = {
-  fromIO: fromIO
+  fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

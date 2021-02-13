@@ -69,11 +69,11 @@ export interface Chain4<M extends URIS4> extends Functor4<M> {
 }
 
 // -------------------------------------------------------------------------------------
-// derivables
+// combinators
 // -------------------------------------------------------------------------------------
 
 /**
- * @category derivables
+ * @category combinators
  * @since 3.0.0
  */
 export function ap<F extends URIS4>(M: Chain4<F>): Apply4<F>['ap']
@@ -88,7 +88,7 @@ export function ap<F>(M: Chain<F>): Apply<F>['ap'] {
 }
 
 /**
- * @category derivables
+ * @category combinators
  * @since 3.0.0
  */
 export function chainFirst<M extends URIS4>(

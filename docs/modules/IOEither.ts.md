@@ -34,12 +34,15 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
+  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
+  - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
@@ -271,6 +274,16 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v3.0.0
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
@@ -281,6 +294,16 @@ Less strict version of [`chainFirst`](#chainFirst).
 export declare const chainFirstW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: IOEither<E, A>) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -345,6 +368,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => (...a: A) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0

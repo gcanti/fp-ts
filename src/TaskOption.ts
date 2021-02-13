@@ -14,7 +14,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import { FromIO1 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
 import { flow, identity, Lazy } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
@@ -493,6 +493,30 @@ export const Alternative: Alternative1<URI> = {
 export const FromIO: FromIO1<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

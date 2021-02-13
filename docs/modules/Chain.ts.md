@@ -12,7 +12,7 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [derivables](#derivables)
+- [combinators](#combinators)
   - [ap](#ap)
   - [chainFirst](#chainfirst)
 - [type classes](#type-classes)
@@ -28,7 +28,7 @@ Added in v3.0.0
 
 ---
 
-# derivables
+# combinators
 
 ## ap
 

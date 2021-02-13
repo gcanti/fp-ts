@@ -34,9 +34,12 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [chainFirstIOK](#chainfirstiok)
+  - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [flap](#flap)
+  - [fromIOK](#fromiok)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -250,6 +253,26 @@ Added in v3.0.0
 
 # combinators
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## chainNullableK
 
 **Signature**
@@ -280,6 +303,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0

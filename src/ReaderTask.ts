@@ -4,11 +4,10 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
-import { FromIO2 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
-import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
@@ -74,21 +73,6 @@ export const asks =
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const fromIOK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-): (<R>(...a: A) => ReaderTask<R, B>) => (...a) => fromIO(f(...a))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
-  chain((a) => fromIO(f(a)))
 
 /**
  * @category combinators
@@ -322,6 +306,30 @@ export const chainFirst =
 export const FromIO: FromIO2<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

@@ -34,7 +34,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO2 } from './FromIO'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
@@ -665,6 +665,30 @@ export const Alt: Alt2<URI> = {
 export const FromIO: FromIO2<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

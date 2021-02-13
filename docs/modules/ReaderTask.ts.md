@@ -23,6 +23,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
@@ -158,12 +159,22 @@ Added in v3.0.0
 
 # combinators
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v3.0.0
+
 ## chainIOK
 
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v3.0.0
@@ -195,9 +206,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(
-  f: (...a: A) => IO<B>
-) => <R>(...a: A) => ReaderTask<R, B>
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => ReaderTask<E, B>
 ```
 
 Added in v3.0.0

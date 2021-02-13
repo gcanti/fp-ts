@@ -95,11 +95,11 @@ export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['m
 }
 
 // -------------------------------------------------------------------------------------
-// derivables
+// combinators
 // -------------------------------------------------------------------------------------
 
 /**
- * @category derivables
+ * @category combinators
  * @since 3.0.0
  */
 export function map<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']

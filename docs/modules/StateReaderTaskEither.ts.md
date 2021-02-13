@@ -31,9 +31,11 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
+  - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
@@ -44,6 +46,7 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
+  - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
   - [fromTaskEitherK](#fromtaskeitherk)
@@ -288,6 +291,18 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v3.0.0
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
@@ -324,6 +339,18 @@ Less strict version of [`chainIOEitherK`](#chainIOEitherK).
 export declare const chainIOEitherKW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainIOK
+
+**Signature**
+
+```ts
+export declare const chainIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -464,6 +491,16 @@ Added in v3.0.0
 export declare const fromIOEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => IOEither<E, B>
 ) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <S, R, E>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0

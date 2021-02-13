@@ -11,7 +11,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO2 } from './FromIO'
+import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2 } from './FromTask'
 import { flow } from './function'
 import { flap as flap_, Functor2 } from './Functor'
@@ -334,6 +334,14 @@ export const fromPredicate =
 export const FromIO: FromIO2<URI> = {
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
 
 /**
  * @category instances

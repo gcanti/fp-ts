@@ -84,11 +84,11 @@ export interface Functor4<F extends URIS4> {
 }
 
 // -------------------------------------------------------------------------------------
-// derivables
+// combinators
 // -------------------------------------------------------------------------------------
 
 /**
- * @category derivables
+ * @category combinators
  * @since 3.0.0
  */
 export function flap<F extends URIS4>(
@@ -105,10 +105,6 @@ export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B
 export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B> {
   return (a) => F.map((f) => f(a))
 }
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * `map` composition.
