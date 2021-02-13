@@ -85,7 +85,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export declare const stringify: (json: Json) => Either<unknown, string>
+export declare const stringify: <A>(json: A) => Either<unknown, string>
 ```
 
 Added in v3.0.0

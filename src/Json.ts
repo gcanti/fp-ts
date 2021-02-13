@@ -40,7 +40,7 @@ export const parse = (s: string): Either<unknown, Json> => tryCatch(() => JSON.p
  *
  * @since 3.0.0
  */
-export const stringify = (json: Json): Either<unknown, string> =>
+export const stringify = <A>(json: A): Either<unknown, string> =>
   tryCatch(() => {
     const s = JSON.stringify(json)
     // tslint:disable-next-line: strict-type-predicates
