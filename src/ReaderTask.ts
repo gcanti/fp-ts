@@ -11,7 +11,12 @@ import {
 } from './Apply'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2 } from './FromTask'
+import {
+  chainFirstTaskK as chainFirstTaskK_,
+  chainTaskK as chainTaskK_,
+  FromTask2,
+  fromTaskK as fromTaskK_
+} from './FromTask'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { Monad2 } from './Monad'
@@ -81,25 +86,6 @@ export const fromTask: FromTask2<URI>['fromTask'] =
 export const fromIO: FromIO2<URI>['fromIO'] =
   /*#__PURE__*/
   flow(T.fromIO, fromTask)
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const fromTaskK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-): (<R>(...a: A) => ReaderTask<R, B>) => flow(f, fromTask)
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
-  chain((a) => fromTask(f(a)))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -379,6 +365,30 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromTaskK =
+  /*#__PURE__*/
+  fromTaskK_(FromTask)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainTaskK =
+  /*#__PURE__*/
+  chainTaskK_(FromTask, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstTaskK =
+  /*#__PURE__*/
+  chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation

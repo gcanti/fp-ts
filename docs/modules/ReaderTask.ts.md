@@ -27,6 +27,7 @@ Added in v2.3.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
@@ -214,6 +215,16 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: Rea
 
 Added in v2.10.0
 
+## chainFirstTaskK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v2.10.0
+
 ## chainIOK
 
 **Signature**
@@ -229,7 +240,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
 ```
 
 Added in v2.4.0
@@ -273,9 +284,7 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A extends readonly unknown[], B>(
-  f: (...a: A) => T.Task<B>
-) => <R>(...a: A) => ReaderTask<R, B>
+export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => ReaderTask<E, B>
 ```
 
 Added in v2.4.0

@@ -12,7 +12,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2 } from './FromTask'
+import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
 import { flow, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -410,6 +410,14 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromTaskK =
+  /*#__PURE__*/
+  fromTaskK_(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils

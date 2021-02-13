@@ -100,6 +100,11 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.chainTaskK(f))(undefined)(), 1)
   })
 
+  it('chainFirstTaskK', async () => {
+    const f = (s: string) => T.of(s.length)
+    U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstTaskK(f))(undefined)(), 'a')
+  })
+
   it('fromIOK', async () => {
     const f = _.fromIOK((s: string) => I.of(s.length))
     U.deepStrictEqual(await pipe(_.of('a'), _.chain(f))({})(), 1)
