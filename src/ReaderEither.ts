@@ -500,19 +500,13 @@ export const fromOptionK =
   /*#__PURE__*/
   fromOptionK_(FromEither)
 
-const ChainFromEither: FromEither3<URI> & Chain3<URI> = {
-  map,
-  chain,
-  fromEither
-}
-
 /**
  * @category combinators
  * @since 3.0.0
  */
 export const chainOptionK =
   /*#__PURE__*/
-  chainOptionK_(ChainFromEither)
+  chainOptionK_(FromEither, Chain)
 
 /**
  * @category combinators
@@ -520,7 +514,7 @@ export const chainOptionK =
  */
 export const chainEitherK =
   /*#__PURE__*/
-  chainEitherK_(ChainFromEither)
+  chainEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainEitherK`](#chainEitherK).
@@ -548,7 +542,7 @@ export const fromPredicate =
  */
 export const filterOrElse =
   /*#__PURE__*/
-  filterOrElse_(ChainFromEither)
+  filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterOrElse).
