@@ -1,4 +1,4 @@
-remote_theme: fluffyemily/just-the-docs
+remote_theme: pmarsceill/just-the-docs
 
 # Enable or disable the site search
 search_enabled: true

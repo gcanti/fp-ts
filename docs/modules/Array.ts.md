@@ -1254,7 +1254,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export declare const range: (start: number, end: number) => number[]
+export declare const range: (start: number, end: number) => Array<number>
 ```
 
 **Example**
