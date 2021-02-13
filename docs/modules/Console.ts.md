@@ -27,7 +27,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function error(s: unknown): IO<void>
+export declare const error: <A>(a: A) => IO<void>
 ```
 
 Added in v2.0.0
@@ -37,7 +37,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function info(s: unknown): IO<void>
+export declare const info: <A>(a: A) => IO<void>
 ```
 
 Added in v2.0.0
@@ -47,7 +47,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function log(s: unknown): IO<void>
+export declare const log: <A>(a: A) => IO<void>
 ```
 
 Added in v2.0.0
@@ -57,7 +57,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function warn(s: unknown): IO<void>
+export declare const warn: <A>(a: A) => IO<void>
 ```
 
 Added in v2.0.0
