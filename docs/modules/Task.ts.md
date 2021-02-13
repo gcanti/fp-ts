@@ -35,6 +35,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainFirstIOK](#chainfirstiok)
   - [chainIOK](#chainiok)
   - [delay](#delay)
   - [flap](#flap)
@@ -187,12 +188,22 @@ export declare const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>
 
 Added in v2.0.0
 
+## chainFirstIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A>
+```
+
+Added in v2.10.0
+
 ## chainIOK
 
 **Signature**
 
 ```ts
-export declare function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B>
 ```
 
 Added in v2.4.0
@@ -261,7 +272,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
 ```
 
 Added in v2.4.0

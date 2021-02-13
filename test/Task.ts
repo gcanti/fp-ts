@@ -144,6 +144,11 @@ describe('Task', () => {
     U.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(), 1)
   })
 
+  it('chainFirstIOK', async () => {
+    const f = (s: string) => I.of(s.length)
+    U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstIOK(f))(), 'a')
+  })
+
   it('do notation', async () => {
     U.deepStrictEqual(
       await pipe(

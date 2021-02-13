@@ -14,21 +14,20 @@ import { Applicative1, getApplicativeMonoid } from './Applicative'
 import {
   apFirst as apFirst_,
   Apply1,
-  apSecond as apSecond_,
   apS as apS_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
-import { FromIO1 } from './FromIO'
-import { FromTask1 } from './FromTask'
-import { flow, identity, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { IO } from './IO'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
+import { FromTask1 } from './FromTask'
+import { identity, pipe } from './function'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { Monad1 } from './Monad'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -90,21 +89,6 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
         ma().then(resolve)
       }, millis)
     })
-}
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const fromIOK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>): ((...a: A) => Task<B>) =>
-  flow(f, fromIO)
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export function chainIOK<A, B>(f: (a: A) => IO<B>): (ma: Task<A>) => Task<B> {
-  return chain(fromIOK(f))
 }
 
 // -------------------------------------------------------------------------------------
@@ -359,6 +343,30 @@ export const FromIO: FromIO1<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

@@ -5,21 +5,23 @@ import { Applicative2, getApplicativeMonoid } from './Applicative'
 import {
   apFirst as apFirst_,
   Apply2,
-  apSecond as apSecond_,
   apS as apS_,
+  apSecond as apSecond_,
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import { FromTask2 } from './FromTask'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
-import { IO } from './IO'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Monad2 } from './Monad'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
+import * as RT from './ReaderT'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import * as RT from './ReaderT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -27,9 +29,6 @@ import * as RT from './ReaderT'
 
 import Task = T.Task
 import Reader = R.Reader
-import { FromIO2 } from './FromIO'
-import { FromTask2 } from './FromTask'
-import { Monad2 } from './Monad'
 
 /**
  * @category model
@@ -86,21 +85,6 @@ export const fromIO: FromIO2<URI>['fromIO'] =
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const fromIOK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => IO<B>
-): (<R>(...a: A) => ReaderTask<R, B>) => flow(f, fromIO)
-
-/**
- * @category combinators
- * @since 2.4.0
- */
-export const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
-  chain((a) => fromIO(f(a)))
 
 /**
  * @category combinators
@@ -361,6 +345,30 @@ export const FromIO: FromIO2<URI> = {
   URI,
   fromIO
 }
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const fromIOK =
+  /*#__PURE__*/
+  fromIOK_(FromIO)
+
+/**
+ * @category combinators
+ * @since 2.4.0
+ */
+export const chainIOK =
+  /*#__PURE__*/
+  chainIOK_(FromIO, Chain)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainFirstIOK =
+  /*#__PURE__*/
+  chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances

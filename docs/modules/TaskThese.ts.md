@@ -21,6 +21,7 @@ Added in v2.4.0
   - [of](#of)
 - [combinators](#combinators)
   - [flap](#flap)
+  - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -130,6 +131,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) => TaskThese<E, B>
+```
+
+Added in v2.10.0
+
+## fromIOK
+
+**Signature**
+
+```ts
+export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
