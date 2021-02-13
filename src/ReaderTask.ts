@@ -5,7 +5,12 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2 } from './FromTask'
+import {
+  chainFirstTaskK as chainFirstTaskK_,
+  chainTaskK as chainTaskK_,
+  FromTask2,
+  fromTaskK as fromTaskK_
+} from './FromTask'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { Monad2 } from './Monad'
@@ -73,21 +78,6 @@ export const asks =
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const fromTaskK = <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Task<B>
-): (<R>(...a: A) => ReaderTask<R, B>) => (...a) => fromTask(f(...a))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainTaskK: <A, B>(f: (a: A) => Task<B>) => <R>(ma: ReaderTask<R, A>) => ReaderTask<R, B> = (f) =>
-  chain((a) => fromTask(f(a)))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -339,6 +329,30 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromTaskK =
+  /*#__PURE__*/
+  fromTaskK_(FromTask)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainTaskK =
+  /*#__PURE__*/
+  chainTaskK_(FromTask, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstTaskK =
+  /*#__PURE__*/
+  chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation

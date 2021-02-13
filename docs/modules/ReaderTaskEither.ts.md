@@ -32,6 +32,7 @@ Added in v3.0.0
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
@@ -39,6 +40,7 @@ Added in v3.0.0
   - [chainOptionK](#chainoptionk)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
+  - [chainTaskK](#chaintaskk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -47,6 +49,7 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
+  - [fromTaskK](#fromtaskk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
@@ -313,6 +316,18 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v3.0.0
 
+## chainFirstTaskK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst).
@@ -399,6 +414,18 @@ Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
 export declare const chainTaskEitherKW: <A, E2, B>(
   f: (a: A) => TE.TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainTaskK
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R, E>(first: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -501,6 +528,16 @@ Added in v3.0.0
 export declare const fromTaskEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => TE.TaskEither<E, B>
 ) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <R, E>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

@@ -23,6 +23,7 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromTaskK](#fromtaskk)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
@@ -145,6 +146,16 @@ Added in v3.0.0
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0

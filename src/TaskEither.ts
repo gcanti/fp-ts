@@ -20,6 +20,7 @@ import {
   apT as apT_
 } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
+import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
@@ -35,12 +36,17 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2 } from './FromTask'
+import {
+  chainFirstTaskK as chainFirstTaskK_,
+  chainTaskK as chainTaskK_,
+  FromTask2,
+  fromTaskK as fromTaskK_
+} from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
@@ -48,7 +54,6 @@ import * as T from './Task'
 
 import Either = E.Either
 import Task = T.Task
-import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -698,6 +703,30 @@ export const FromTask: FromTask2<URI> = {
   fromIO,
   fromTask
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromTaskK =
+  /*#__PURE__*/
+  fromTaskK_(FromTask)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainTaskK =
+  /*#__PURE__*/
+  chainTaskK_(FromTask, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstTaskK =
+  /*#__PURE__*/
+  chainFirstTaskK_(FromTask, Chain)
 
 /**
  * @category instances

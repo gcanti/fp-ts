@@ -35,11 +35,14 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
+  - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [fromIOK](#fromiok)
+  - [fromTaskK](#fromtaskk)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -263,6 +266,16 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOp
 
 Added in v3.0.0
 
+## chainFirstTaskK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## chainIOK
 
 **Signature**
@@ -295,6 +308,16 @@ export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Ta
 
 Added in v3.0.0
 
+## chainTaskK
+
+**Signature**
+
+```ts
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => (first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -313,6 +336,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## fromTaskK
+
+**Signature**
+
+```ts
+export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
