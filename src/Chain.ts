@@ -76,11 +76,11 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
 }
 
 // -------------------------------------------------------------------------------------
-// derivables
+// combinators
 // -------------------------------------------------------------------------------------
 
 /**
- * @category derivables
+ * @category combinators
  * @since 2.10.0
  */
 export function chainFirst<M extends URIS4>(

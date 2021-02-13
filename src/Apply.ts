@@ -147,12 +147,8 @@ export function ap<F, G>(
     )
 }
 
-// -------------------------------------------------------------------------------------
-// derivables
-// -------------------------------------------------------------------------------------
-
 /**
- * @category derivables
+ * @category combinators
  * @since 2.10.0
  */
 export function apFirst<F extends URIS4>(
@@ -181,7 +177,7 @@ export function apFirst<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: HK
 }
 
 /**
- * @category derivables
+ * @category combinators
  * @since 2.10.0
  */
 export function apSecond<F extends URIS4>(
@@ -210,7 +206,7 @@ export function apSecond<F>(A: Apply<F>): <B>(second: HKT<F, B>) => <A>(first: H
 }
 
 /**
- * @category derivables
+ * @category combinators
  * @since 2.10.0
  */
 export function apS<F extends URIS4>(

@@ -260,7 +260,7 @@ export const chain =
 /**
  * Derivable from `Chain`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 2.10.0
  */
 export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> =
@@ -421,7 +421,7 @@ export const ApplyPar: Apply1<URI> = {
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 2.10.0
  */
 export const apFirst =
@@ -433,7 +433,7 @@ export const apFirst =
  *
  * Derivable from `Apply`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 2.10.0
  */
 export const apSecond =
@@ -494,7 +494,7 @@ export const Chain: Chain1<URI> = {
  *
  * Derivable from `Chain`.
  *
- * @category derivable combinators
+ * @category combinators
  * @since 2.10.0
  */
 export const chainFirst =

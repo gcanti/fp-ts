@@ -21,7 +21,7 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [derivables](#derivables)
+- [combinators](#combinators)
   - [chainFirst](#chainfirst)
 - [type classes](#type-classes)
   - [Chain (interface)](#chain-interface)
@@ -36,7 +36,7 @@ Added in v2.0.0
 
 ---
 
-# derivables
+# combinators
 
 ## chainFirst
 

@@ -34,9 +34,13 @@ Added in v2.10.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [apFirst](#apfirst)
+  - [apSecond](#apsecond)
+  - [chainFirst](#chainfirst)
   - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [flap](#flap)
+  - [flatten](#flatten)
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [tryCatchK](#trycatchk)
@@ -50,11 +54,6 @@ Added in v2.10.0
   - [none](#none)
   - [some](#some)
   - [tryCatch](#trycatch)
-- [derivable combinators](#derivable-combinators)
-  - [apFirst](#apfirst)
-  - [apSecond](#apsecond)
-  - [chainFirst](#chainfirst)
-  - [flatten](#flatten)
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
@@ -251,6 +250,49 @@ Added in v2.10.0
 
 # combinators
 
+## apFirst
+
+Combine two effectful actions, keeping only the result of the first.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## apSecond
+
+Combine two effectful actions, keeping only the result of the second.
+
+Derivable from `Apply`.
+
+**Signature**
+
+```ts
+export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+## chainFirst
+
+Composes computations in sequence, using the return value of one computation to determine the next computation and
+keeping only the result of the first.
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
 ## chainNullableK
 
 **Signature**
@@ -281,6 +323,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v2.10.0
+
+## flatten
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -416,63 +470,6 @@ See also [`tryCatchK`](#tryCatchK).
 
 ```ts
 export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-# derivable combinators
-
-## apFirst
-
-Combine two effectful actions, keeping only the result of the first.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apFirst: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## apSecond
-
-Combine two effectful actions, keeping only the result of the second.
-
-Derivable from `Apply`.
-
-**Signature**
-
-```ts
-export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOption<A>) => TaskOption<B>
-```
-
-Added in v2.10.0
-
-## chainFirst
-
-Composes computations in sequence, using the return value of one computation to determine the next computation and
-keeping only the result of the first.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: TaskOption<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## flatten
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A>
 ```
 
 Added in v2.10.0
