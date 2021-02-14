@@ -474,7 +474,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(A: Apply1<'Task'>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
+export declare const getApply: <E>(A: Apply1<T.URI>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
 ```
 
 Added in v2.10.0
