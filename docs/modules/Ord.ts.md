@@ -209,7 +209,7 @@ import { contramap, reverse, getMonoid } from 'fp-ts/Ord'
 import * as S from 'fp-ts/string'
 import * as B from 'fp-ts/boolean'
 import { pipe } from 'fp-ts/function'
-import { fold } from 'fp-ts/Monoid'
+import { concatAll } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
 
 interface User {
@@ -244,7 +244,7 @@ const users: Array<User> = [
 ]
 
 // sort by name, then by age, then by `rememberMe`
-const O1 = fold(M)([byName, byAge, byRememberMe])
+const O1 = concatAll(M)([byName, byAge, byRememberMe])
 assert.deepStrictEqual(sort(O1)(users), [
   { id: 3, name: 'Giulio', age: 44, rememberMe: false },
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
@@ -253,7 +253,7 @@ assert.deepStrictEqual(sort(O1)(users), [
 ])
 
 // now `rememberMe = true` first, then by name, then by age
-const O2 = fold(M)([reverse(byRememberMe), byName, byAge])
+const O2 = concatAll(M)([reverse(byRememberMe), byName, byAge])
 assert.deepStrictEqual(sort(O2)(users), [
   { id: 4, name: 'Giulio', age: 44, rememberMe: true },
   { id: 2, name: 'Guido', age: 46, rememberMe: true },
