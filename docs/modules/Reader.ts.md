@@ -454,7 +454,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: Reader<E, B>) => <A>(fas: Reader<E, A>) => Reader<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: Reader<E, B>) => <A>(fas: Reader<E, A>) => Reader<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -468,7 +468,7 @@ Less strict version of [`apT`](#apT).
 ```ts
 export declare const apTW: <R2, B>(
   fb: Reader<R2, B>
-) => <R1, A extends readonly unknown[]>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [any, B]>
+) => <R1, A extends readonly unknown[]>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]>
 ```
 
 Added in v3.0.0

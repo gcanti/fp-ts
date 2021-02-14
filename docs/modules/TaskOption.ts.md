@@ -798,7 +798,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: TaskOption<B>) => <A>(fas: TaskOption<A>) => TaskOption<readonly [any, B]>
+export declare const apT: <B>(fb: TaskOption<B>) => <A>(fas: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0

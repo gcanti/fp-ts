@@ -1324,7 +1324,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Option<B>) => <A>(fas: Option<A>) => Option<readonly [any, B]>
+export declare const apT: <B>(fb: Option<B>) => <A>(fas: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -1025,7 +1025,7 @@ Added in v3.0.0
 
 ```ts
 export declare const getApplicativeTaskValidation: <E>(
-  A: Apply1<'Task'>,
+  A: Apply1<T.URI>,
   S: Semigroup<E>
 ) => Applicative2C<'TaskEither', E>
 ```
@@ -1119,7 +1119,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: TaskEither<E, B>) => <A>(fas: TaskEither<E, A>) => TaskEither<E, readonly [any, B]>
+export declare const apT: <E, B>(
+  fb: TaskEither<E, B>
+) => <A>(fas: TaskEither<E, A>) => TaskEither<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1133,7 +1135,7 @@ Less strict version of [`apT`](#apT).
 ```ts
 export declare const apTW: <E2, B>(
   fb: TaskEither<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [any, B]>
+) => <E1, A extends readonly unknown[]>(fas: TaskEither<E1, A>) => TaskEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

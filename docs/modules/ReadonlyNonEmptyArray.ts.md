@@ -931,7 +931,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <B>(
   fb: ReadonlyNonEmptyArray<B>
-) => <A>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [any, B]>
+) => <A>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]>
 ```
 
 Added in v3.0.0

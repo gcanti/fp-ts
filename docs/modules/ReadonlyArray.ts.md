@@ -1158,7 +1158,7 @@ Create a `ReadonlyArray` containing a range of integers, including both endpoint
 **Signature**
 
 ```ts
-export declare const range: (start: number, end: number) => readonly number[]
+export declare const range: (start: number, end: number) => ReadonlyArray<number>
 ```
 
 **Example**
@@ -1701,7 +1701,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: readonly B[]) => <A>(fas: readonly A[]) => readonly (readonly [any, B])[]
+export declare const apT: <B>(fb: readonly B[]) => <A>(fas: readonly A[]) => readonly (readonly [...A, B])[]
 ```
 
 Added in v3.0.0
@@ -1912,7 +1912,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export declare const findIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => O.Option<number>
+export declare const findIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => Option<number>
 ```
 
 **Example**
@@ -1962,7 +1962,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export declare const findLastIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => O.Option<number>
+export declare const findLastIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => Option<number>
 ```
 
 **Example**

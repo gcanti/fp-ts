@@ -475,7 +475,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Task<B>) => <A>(fas: Task<A>) => Task<readonly [any, B]>
+export declare const apT: <B>(fb: Task<B>) => <A>(fas: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0

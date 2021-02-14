@@ -338,7 +338,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: State<E, B>) => <A>(fas: State<E, A>) => State<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: State<E, B>) => <A>(fas: State<E, A>) => State<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0

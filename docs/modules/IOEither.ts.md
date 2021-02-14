@@ -906,7 +906,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: IOEither<E, B>) => <A>(fas: IOEither<E, A>) => IOEither<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: IOEither<E, B>) => <A>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -920,7 +920,7 @@ Less strict version of [`apT`](#apT).
 ```ts
 export declare const apTW: <E2, B>(
   fb: IOEither<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: IOEither<E1, A>) => IOEither<E2 | E1, readonly [any, B]>
+) => <E1, A extends readonly unknown[]>(fas: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

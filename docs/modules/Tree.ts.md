@@ -631,7 +631,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Tree<B>) => <A>(fas: Tree<A>) => Tree<readonly [any, B]>
+export declare const apT: <B>(fb: Tree<B>) => <A>(fas: Tree<A>) => Tree<readonly [...A, B]>
 ```
 
 Added in v3.0.0

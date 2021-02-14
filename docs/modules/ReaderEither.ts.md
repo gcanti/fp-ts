@@ -840,7 +840,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <R, E, B>(
   fb: ReaderEither<R, E, B>
-) => <A>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [any, B]>
+) => <A>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -856,7 +856,7 @@ export declare const apTW: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   fas: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E2 | E1, readonly [any, B]>
+) => ReaderEither<R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

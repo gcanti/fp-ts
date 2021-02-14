@@ -1315,7 +1315,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: Either<E, B>) => <A>(fas: Either<E, A>) => Either<E, readonly [any, B]>
+export declare const apT: <E, B>(fb: Either<E, B>) => <A>(fas: Either<E, A>) => Either<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1329,7 +1329,7 @@ Less strict version of [`apT`](#apT).
 ```ts
 export declare const apTW: <E2, B>(
   fb: Either<E2, B>
-) => <E1, A extends readonly unknown[]>(fas: Either<E1, A>) => Either<E2 | E1, readonly [any, B]>
+) => <E1, A extends readonly unknown[]>(fas: Either<E1, A>) => Either<E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

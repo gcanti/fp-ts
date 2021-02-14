@@ -1081,7 +1081,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <S, R, E, B>(
   fb: StateReaderTaskEither<S, R, E, B>
-) => <A>(fas: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, readonly [any, B]>
+) => <A>(fas: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1097,7 +1097,7 @@ export declare const apTW: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   fas: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [any, B]>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0
