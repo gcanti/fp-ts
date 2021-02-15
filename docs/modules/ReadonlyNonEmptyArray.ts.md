@@ -47,11 +47,12 @@ Added in v2.5.0
   - [group](#group)
   - [groupSort](#groupsort)
   - [intersperse](#intersperse)
-  - [prependToAll](#prependtoall)
+  - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [concat](#concat)
   - [cons](#cons)
@@ -457,25 +458,25 @@ assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 
 
 Added in v2.9.0
 
-## prependToAll
+## prependAll
 
 Prepend an element to every member of an array
 
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const prependAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+import { cons, prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
 
-assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
 ```
 
-Added in v2.9.0
+Added in v2.10.0
 
 ## reverse
 
@@ -523,6 +524,18 @@ export declare const zipWith: <A, B, C>(
 ```
 
 Added in v2.5.1
+
+## ~~prependToAll~~
+
+Use `prependAll` instead.
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.9.0
 
 # constructors
 

@@ -171,10 +171,10 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
   })
 
-  it('prependToAll', () => {
-    U.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3])), _.cons(0, [1, 0, 2, 0, 3]))
-    U.deepStrictEqual(_.prependToAll(0)(_.cons(1, [])), _.cons(0, [1]))
-    U.deepStrictEqual(_.prependToAll(0)(_.cons(1, [2, 3, 4])), _.cons(0, [1, 0, 2, 0, 3, 0, 4]))
+  it('prependAll', () => {
+    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [2, 3])), _.cons(0, [1, 0, 2, 0, 3]))
+    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [])), _.cons(0, [1]))
+    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [2, 3, 4])), _.cons(0, [1, 0, 2, 0, 3, 0, 4]))
   })
 
   it('intersperse', () => {

@@ -749,14 +749,14 @@ export const unzip: <A, B>(as: Array<[A, B]>) => [Array<A>, Array<B>] = RA.unzip
  * Prepend an element to every member of an array
  *
  * @example
- * import { prependToAll } from 'fp-ts/Array'
+ * import { prependAll } from 'fp-ts/Array'
  *
- * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+ * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since 2.9.0
+ * @since 2.10.0
  */
-export const prependToAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependToAll as any
+export const prependAll: <A>(e: A) => (xs: Array<A>) => Array<A> = RA.prependAll as any
 
 /**
  * Places an element in between members of an array
@@ -1678,6 +1678,15 @@ export const apS: <A, N extends string, B>(
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prependAll` instead
+ *
+ * @category combinators
+ * @since 2.9.0
+ * @deprecated
+ */
+export const prependToAll = prependAll
 
 /**
  * Use small, specific instances instead.
