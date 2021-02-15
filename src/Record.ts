@@ -102,9 +102,13 @@ export function insertAt<A>(k: string, a: A): (r: Record<string, A>) => Record<s
 }
 
 /**
- * @since 2.0.0
+ * Test whether or not a key exists in a `Record`.
+ *
+ * Note. This function is not pipeable because is a custom type guard.
+ *
+ * @since 2.10.0
  */
-export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
+export const has: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.has
 
 /**
  * Delete a key and value from a map
@@ -782,6 +786,14 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `has` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.has
 
 /**
  * Use small, specific instances instead.

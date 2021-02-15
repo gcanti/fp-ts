@@ -160,14 +160,14 @@ export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => 
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
-// TODO: rename in v3 to avoid #1249
 /**
- * @since 2.5.0
+ * Test whether or not a key exists in a `ReadonlyRecord`.
+ *
+ * Note. This function is not pipeable because is a custom type guard.
+ *
+ * @since 2.10.0
  */
-export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
-export function hasOwnProperty<K extends string>(this: any, k: string, r?: ReadonlyRecord<K, unknown>): k is K {
-  return _hasOwnProperty.call(r === undefined ? this : r, k)
-}
+export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _hasOwnProperty.call(r, k)
 
 /**
  * Delete a key and value from a map
@@ -197,7 +197,7 @@ export function updateAt<A>(
   a: A
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
   return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!hasOwnProperty(k, r)) {
+    if (!has(k, r)) {
       return none
     }
     if (r[k] === a) {
@@ -217,7 +217,7 @@ export function modifyAt<A>(
   f: (a: A) => A
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
   return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!hasOwnProperty(k, r)) {
+    if (!has(k, r)) {
       return none
     }
     const out: Record<K, A> = Object.assign({}, r)
@@ -1228,6 +1228,17 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `has` instead.
+ *
+ * @since 2.5.0
+ * @deprecated
+ */
+export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+export function hasOwnProperty<K extends string>(this: any, k: string, r?: ReadonlyRecord<K, unknown>): k is K {
+  return _hasOwnProperty.call(r === undefined ? this : r, k)
+}
 
 /**
  * Use small, specific instances instead.

@@ -69,7 +69,7 @@ Added in v2.5.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
-  - [hasOwnProperty (function)](#hasownproperty-function)
+  - [has](#has)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -86,6 +86,7 @@ Added in v2.5.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
+  - [~~hasOwnProperty (function)~~](#hasownproperty-function)
 
 ---
 
@@ -744,15 +745,19 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
-## hasOwnProperty (function)
+## has
+
+Test whether or not a key exists in a `ReadonlyRecord`.
+
+Note. This function is not pipeable because is a custom type guard.
 
 **Signature**
 
 ```ts
-export declare function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
+export declare const has: <K extends string>(k: string, r: Readonly<Record<K, unknown>>) => k is K
 ```
 
-Added in v2.5.0
+Added in v2.10.0
 
 ## isEmpty
 
@@ -1018,6 +1023,18 @@ export declare function updateAt<A>(
   k: string,
   a: A
 ): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
+```
+
+Added in v2.5.0
+
+## ~~hasOwnProperty (function)~~
+
+Use `has` instead.
+
+**Signature**
+
+```ts
+export declare function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
 ```
 
 Added in v2.5.0

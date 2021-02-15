@@ -57,7 +57,7 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
-  - [hasOwnProperty (function)](#hasownproperty-function)
+  - [has](#has)
   - [insertAt](#insertat)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
@@ -80,6 +80,7 @@ Added in v2.0.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
+  - [~~hasOwnProperty (function)~~](#hasownproperty-function)
 
 ---
 
@@ -611,15 +612,19 @@ export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
 
 Added in v2.0.0
 
-## hasOwnProperty (function)
+## has
+
+Test whether or not a key exists in a `Record`.
+
+Note. This function is not pipeable because is a custom type guard.
 
 **Signature**
 
 ```ts
-export declare const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K
+export declare const has: <K extends string>(k: string, r: Record<K, unknown>) => k is K
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
 ## insertAt
 
@@ -944,6 +949,18 @@ Added in v2.0.0
 
 ```ts
 export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
+```
+
+Added in v2.0.0
+
+## ~~hasOwnProperty (function)~~
+
+Use `has` instead.
+
+**Signature**
+
+```ts
+export declare const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K
 ```
 
 Added in v2.0.0

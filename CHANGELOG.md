@@ -25,7 +25,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Applicative`
     - deprecate `getApplicativeComposition`, use `ap` helper instead
   - `Array`
-    - deprecate `prependToAll`, use `prependAll`
+    - deprecate `prependToAll`, use `prependAll` instead
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead
     - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead
@@ -88,7 +88,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getTupleMonoid`, use `tuple` instead
   - `NonEmptyArray`
     - deprecate `fold`, use `concatAll` instead
-    - deprecate `prependToAll`, use `prependAll`
+    - deprecate `prependToAll`, use `prependAll` instead
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
@@ -128,10 +128,14 @@ high state of flux, you're at risk of it changing without notice.
   - `ReaderTaskEither`
     - deprecate `run`
   - `ReadonlyArray`
-    - deprecate `prependToAll`, use `prependAll`
+    - deprecate `prependToAll`, use `prependAll` instead
   - `ReadonlyNonEmptyArray`
     - deprecate `fold`, use `concatAll` instead
-    - deprecate `prependToAll`, use `prependAll`
+    - deprecate `prependToAll`, use `prependAll` instead
+  - `ReadonlyRecord`
+    - deprecate `hasOwnProperty`, use `has` instead
+  - `Record`
+    - deprecate `hasOwnProperty`, use `has` instead
   - `Ring`
     - deprecate `getTupleRing`, use `tuple` instead
   - `Semigroup`

@@ -390,10 +390,10 @@ describe('Record', () => {
     U.deepStrictEqual(_.singleton('a', 1), { a: 1 })
   })
 
-  it('hasOwnProperty', () => {
+  it('has', () => {
     const x: Record<string, number> = { a: 1 }
-    U.deepStrictEqual(_.hasOwnProperty('a', x), true)
-    U.deepStrictEqual(_.hasOwnProperty('b', x), false)
+    U.deepStrictEqual(_.has('a', x), true)
+    U.deepStrictEqual(_.has('b', x), false)
   })
 
   it('updateAt', () => {
