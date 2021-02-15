@@ -25,7 +25,7 @@ import { Semigroup } from './Semigroup'
  * @since 2.0.0
  */
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (x: A, y: A) => Ordering
+  readonly compare: (first: A, second: A) => Ordering
 }
 
 // -------------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A
  * @category combinators
  * @since 2.10.0
  */
-export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((x, y) => O.compare(y, x))
+export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((first, second) => O.compare(second, first))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -107,7 +107,7 @@ const contramap_: <A, B>(fa: Ord<A>, f: (b: B) => A) => Ord<B> = (fa, f) => pipe
  * @since 2.0.0
  */
 export const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
-  fromCompare((x, y) => fa.compare(f(x), f(y)))
+  fromCompare((first, second) => fa.compare(f(first), f(second)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -136,10 +136,10 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ({
-  concat: (x, y) =>
+  concat: (first, second) =>
     fromCompare((a, b) => {
-      const ox = x.compare(a, b)
-      return ox !== 0 ? ox : y.compare(a, b)
+      const ox = first.compare(a, b)
+      return ox !== 0 ? ox : second.compare(a, b)
     })
 })
 
@@ -234,9 +234,7 @@ export const Contravariant: Contravariant1<URI> = {
  *
  * @since 2.0.0
  */
-export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) === -1
-}
+export const lt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === -1
 
 // TODO: curry in v3
 /**
@@ -244,9 +242,7 @@ export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) === 1
-}
+export const gt = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) === 1
 
 // TODO: curry in v3
 /**
@@ -254,9 +250,7 @@ export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) !== 1
-}
+export const leq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== 1
 
 // TODO: curry in v3
 /**
@@ -264,9 +258,7 @@ export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
-  return (x, y) => O.compare(x, y) !== -1
-}
+export const geq = <A>(O: Ord<A>) => (first: A, second: A): boolean => O.compare(first, second) !== -1
 
 // TODO: curry in v3
 /**
@@ -274,9 +266,8 @@ export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function min<A>(O: Ord<A>): (x: A, y: A) => A {
-  return (x, y) => (O.compare(x, y) === 1 ? y : x)
-}
+export const min = <A>(O: Ord<A>) => (first: A, second: A): A =>
+  first === second || O.compare(first, second) < 1 ? first : second
 
 // TODO: curry in v3
 /**
@@ -284,19 +275,18 @@ export function min<A>(O: Ord<A>): (x: A, y: A) => A {
  *
  * @since 2.0.0
  */
-export function max<A>(O: Ord<A>): (x: A, y: A) => A {
-  return (x, y) => (O.compare(x, y) === -1 ? y : x)
-}
+export const max = <A>(O: Ord<A>) => (first: A, second: A): A =>
+  first === second || O.compare(first, second) > -1 ? first : second
 
 /**
  * Clamp a value between a minimum and a maximum
  *
  * @since 2.0.0
  */
-export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
+export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => A) => {
   const minO = min(O)
   const maxO = max(O)
-  return (low, hi) => (x) => maxO(minO(x, hi), low)
+  return (low, hi) => (a) => maxO(minO(a, hi), low)
 }
 
 /**
@@ -304,10 +294,10 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
  *
  * @since 2.0.0
  */
-export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
-  const lessThanO = lt(O)
-  const greaterThanO = gt(O)
-  return (low, hi) => (x) => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
+export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) => {
+  const ltO = lt(O)
+  const gtO = gt(O)
+  return (low, hi) => (a) => (ltO(a, low) || gtO(a, hi) ? false : true)
 }
 
 // -------------------------------------------------------------------------------------
@@ -344,8 +334,8 @@ export const getDualOrd = reverse
 export const ord: Contravariant1<URI> = Contravariant
 
 // default compare for primitive types
-function compare(x: any, y: any): Ordering {
-  return x < y ? -1 : x > y ? 1 : 0
+function compare(first: any, second: any): Ordering {
+  return first < second ? -1 : first > second ? 1 : 0
 }
 
 const strictOrd = {
