@@ -13,7 +13,7 @@ import { Contravariant1 } from './Contravariant'
 import { Eq } from './Eq'
 import { Endomorphism, flow, Predicate } from './function'
 import { Monoid } from './Monoid'
-import * as O from './Ordering'
+import { Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ import { Semigroup } from './Semigroup'
  * @since 3.0.0
  */
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (second: A) => (first: A) => O.Ordering
+  readonly compare: (second: A) => (first: A) => Ordering
 }
 
 // -------------------------------------------------------------------------------------
