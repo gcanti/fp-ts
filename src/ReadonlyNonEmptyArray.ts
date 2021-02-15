@@ -413,16 +413,14 @@ export const unzip: <A, B>(
  * Prepend an element to every member of an array
  *
  * @example
- * import { cons, prependToAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { cons, prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(prependToAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
  *
  * @category combinators
- * @since 2.9.0
+ * @since 2.10.0
  */
-export const prependToAll: <A>(
-  e: A
-) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependToAll as any
+export const prependAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = RA.prependAll as any
 
 /**
  * Places an element in between members of an array
@@ -871,6 +869,15 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prependAll` instead.
+ *
+ * @category combinators
+ * @since 2.9.0
+ * @deprecated
+ */
+export const prependToAll = prependAll
 
 /**
  * Use `concatAll` instead.

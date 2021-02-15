@@ -76,7 +76,7 @@ Added in v2.0.0
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
-  - [prependToAll](#prependtoall)
+  - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
   - [rotate](#rotate)
@@ -91,6 +91,7 @@ Added in v2.0.0
   - [uniq](#uniq)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [comprehension](#comprehension)
   - [cons](#cons)
@@ -818,25 +819,25 @@ assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 
 Added in v2.0.0
 
-## prependToAll
+## prependAll
 
 Prepend an element to every member of an array
 
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: A[]) => A[]
+export declare const prependAll: <A>(e: A) => (xs: A[]) => A[]
 ```
 
 **Example**
 
 ```ts
-import { prependToAll } from 'fp-ts/Array'
+import { prependAll } from 'fp-ts/Array'
 
-assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
 ```
 
-Added in v2.9.0
+Added in v2.10.0
 
 ## reverse
 
@@ -1166,6 +1167,18 @@ assert.deepStrictEqual(
 ```
 
 Added in v2.0.0
+
+## ~~prependToAll~~
+
+Use `prependAll` instead
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(e: A) => (xs: A[]) => A[]
+```
+
+Added in v2.9.0
 
 # constructors
 

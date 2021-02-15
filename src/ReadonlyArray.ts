@@ -1077,14 +1077,14 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * Prepend an element to every member of an array
  *
  * @example
- * import { prependToAll } from 'fp-ts/ReadonlyArray'
+ * import { prependAll } from 'fp-ts/ReadonlyArray'
  *
- * assert.deepStrictEqual(prependToAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
+ * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
- * @since 2.9.0
+ * @since 2.10.0
  */
-export const prependToAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const prependAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
   // tslint:disable-next-line: readonly-array
   const ys: Array<A> = []
   for (const x of xs) {
@@ -1110,7 +1110,7 @@ export function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A>
     if (length === 0) {
       return as
     }
-    return cons(as[0], prependToAll(e)(as.slice(1, as.length)))
+    return cons(as[0], prependAll(e)(as.slice(1, as.length)))
   }
 }
 
@@ -2392,6 +2392,15 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prependAll` instead.
+ *
+ * @category combinators
+ * @since 2.9.0
+ * @deprecated
+ */
+export const prependToAll = prependAll
 
 /**
  * Use small, specific instances instead.

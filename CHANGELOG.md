@@ -24,6 +24,8 @@ high state of flux, you're at risk of it changing without notice.
   - deprecate the old monad transformers, use the specific helpers instead
   - `Applicative`
     - deprecate `getApplicativeComposition`, use `ap` helper instead
+  - `Array`
+    - deprecate `prependToAll`, use `prependAll`
   - `BooleanAlgebra`
     - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead
     - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead
@@ -86,6 +88,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getTupleMonoid`, use `tuple` instead
   - `NonEmptyArray`
     - deprecate `fold`, use `concatAll` instead
+    - deprecate `prependToAll`, use `prependAll`
   - `Option`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
     - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
@@ -124,8 +127,11 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `local`, Use `Reader`'s `local` instead
   - `ReaderTaskEither`
     - deprecate `run`
+  - `ReadonlyArray`
+    - deprecate `prependToAll`, use `prependAll`
   - `ReadonlyNonEmptyArray`
     - deprecate `fold`, use `concatAll` instead
+    - deprecate `prependToAll`, use `prependAll`
   - `Ring`
     - deprecate `getTupleRing`, use `tuple` instead
   - `Semigroup`
