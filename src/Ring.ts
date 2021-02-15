@@ -46,7 +46,7 @@ export interface Ring<A> extends Semiring<A> {
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...rings: { [K in keyof A]: Ring<A[K]> }): Ring<Readonly<A>> =>
   ({
     add: (second: any) => (first: any) => rings.map((R, i) => R.add(second[i])(first[i])),
     zero: rings.map((R) => R.zero),

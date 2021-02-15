@@ -5,18 +5,18 @@ import * as N from '../../src/number'
 import * as B from '../../src/boolean'
 
 //
-// tuple
-//
-
-// $ExpectType Semigroup<[string, number, boolean]>
-_.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
-
-//
 // struct
 //
 
-// $ExpectType Semigroup<{ a: string; b: number; c: boolean; }>
+// $ExpectType Semigroup<{ readonly a: string; readonly b: number; readonly c: boolean; }>
 _.struct({ a: S.Semigroup, b: N.SemigroupSum, c: B.SemigroupAll })
+
+//
+// tuple
+//
+
+// $ExpectType Semigroup<readonly [string, number, boolean]>
+_.tuple(S.Semigroup, N.SemigroupSum, B.SemigroupAll)
 
 //
 // concatAll

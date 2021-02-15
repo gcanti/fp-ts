@@ -119,7 +119,7 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple.
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
 ```
 
 **Example**
@@ -146,7 +146,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromCompare: <A>(compare: (second: A) => (first: A) => O.Ordering) => Ord<A>
+export declare const fromCompare: <A>(compare: (second: A) => (first: A) => Ordering) => Ord<A>
 ```
 
 Added in v3.0.0
@@ -159,7 +159,7 @@ Added in v3.0.0
 
 ```ts
 export declare const equalsDefault: <A>(
-  compare: (second: A) => (first: A) => O.Ordering
+  compare: (second: A) => (first: A) => Ordering
 ) => (second: A) => (first: A) => boolean
 ```
 
@@ -285,7 +285,7 @@ Added in v3.0.0
 
 ```ts
 export interface Ord<A> extends Eq<A> {
-  readonly compare: (second: A) => (first: A) => O.Ordering
+  readonly compare: (second: A) => (first: A) => Ordering
 }
 ```
 

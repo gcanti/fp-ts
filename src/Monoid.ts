@@ -124,7 +124,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> => {
+export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
   const empty: A = {} as any
   // tslint:disable-next-line: forin
   for (const key in monoids) {
@@ -155,7 +155,9 @@ export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> 
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(...monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+): Monoid<Readonly<A>> =>
   ({
     concat: S.tuple(...monoids).concat,
     empty: monoids.map((m) => m.empty)

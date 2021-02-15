@@ -29,7 +29,7 @@ export interface Show<A> {
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
   show: (a) => {
     let s = '{'
     // tslint:disable-next-line: forin
@@ -48,6 +48,8 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(...shows: { [K in keyof A]: Show<A[K]> }): Show<A> => ({
+export const tuple = <A extends ReadonlyArray<unknown>>(
+  ...shows: { [K in keyof A]: Show<A[K]> }
+): Show<Readonly<A>> => ({
   show: (t) => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
 })

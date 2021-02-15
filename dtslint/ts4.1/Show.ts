@@ -4,15 +4,15 @@ import * as N from '../../src/number'
 import * as B from '../../src/boolean'
 
 //
-// tuple
-//
-
-// $ExpectType Show<[string, number, boolean]>
-_.tuple(S.Show, N.Show, B.Show)
-
-//
 // struct
 //
 
-// $ExpectType Show<{ a: string; b: number; c: boolean; }>
+// $ExpectType Show<{ readonly a: string; readonly b: number; readonly c: boolean; }>
 _.struct({ a: S.Show, b: N.Show, c: B.Show })
+
+//
+// tuple
+//
+
+// $ExpectType Show<readonly [string, number, boolean]>
+_.tuple(S.Show, N.Show, B.Show)

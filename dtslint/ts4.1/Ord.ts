@@ -7,5 +7,5 @@ import * as B from '../../src/boolean'
 // tuple
 //
 
-// $ExpectType Ord<[string, number, boolean]>
+// $ExpectType Ord<readonly [string, number, boolean]>
 _.tuple(S.Ord, N.Ord, B.Ord)

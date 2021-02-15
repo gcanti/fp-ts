@@ -123,7 +123,9 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semigroup<A> => ({
+export const struct = <A>(
+  semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
   concat: (second) => (first) => {
     const r: A = {} as any
     // tslint:disable-next-line: forin
@@ -155,7 +157,7 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
  */
 export const tuple = <A extends ReadonlyArray<unknown>>(
   ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<A> => ({
+): Semigroup<Readonly<A>> => ({
   concat: (second) => (first) => semigroups.map((s, i) => s.concat(second[i])(first[i])) as any
 })
 

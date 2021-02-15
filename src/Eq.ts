@@ -49,7 +49,7 @@ export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
+export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K in keyof A]: A[K] }> =>
   fromEquals((second) => (first) => {
     for (const key in eqs) {
       if (!eqs[key].equals(second[key])(first[key])) {
@@ -77,8 +77,9 @@ export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(...eqs: { [K in keyof A]: Eq<A[K]> }): Eq<A> =>
-  fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
+export const tuple = <A extends ReadonlyArray<unknown>>(
+  ...eqs: { [K in keyof A]: Eq<A[K]> }
+): Eq<Readonly<Readonly<A>>> => fromEquals((second) => (first) => eqs.every((E, i) => E.equals(second[i])(first[i])))
 
 // -------------------------------------------------------------------------------------
 // type class members

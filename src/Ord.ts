@@ -74,7 +74,7 @@ export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<A> =>
+export const tuple = <A extends ReadonlyArray<unknown>>(...ords: { [K in keyof A]: Ord<A[K]> }): Ord<Readonly<A>> =>
   fromCompare((second) => (first) => {
     let i = 0
     for (; i < ords.length - 1; i++) {
