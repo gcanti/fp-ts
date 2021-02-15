@@ -40,7 +40,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
 ```
 
 Added in v2.10.0
@@ -50,7 +50,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(...shows: { [K in keyof A]: Show<A[K]> }) => Show<A>
+export declare const tuple: <A extends readonly unknown[]>(
+  ...shows: { [K in keyof A]: Show<A[K]> }
+) => Show<Readonly<A>>
 ```
 
 Added in v2.10.0
