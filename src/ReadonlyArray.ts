@@ -5,6 +5,7 @@ import { Alt1 } from './Alt'
 import { Alternative1 } from './Alternative'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -22,7 +23,7 @@ import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
@@ -38,7 +39,6 @@ import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 import Option = O.Option
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
