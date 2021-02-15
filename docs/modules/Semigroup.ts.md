@@ -139,7 +139,9 @@ Given a struct of semigroups returns a semigroup for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }) => Semigroup<A>
+export declare const struct: <A>(
+  semigroups: { [K in keyof A]: Semigroup<A[K]> }
+) => Semigroup<{ readonly [K in keyof A]: A[K] }>
 ```
 
 **Example**
@@ -172,7 +174,7 @@ Given a tuple of semigroups returns a semigroup for the tuple.
 ```ts
 export declare const tuple: <A extends readonly unknown[]>(
   ...semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<A>
+) => Semigroup<Readonly<A>>
 ```
 
 **Example**

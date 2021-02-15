@@ -67,7 +67,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
 ```
 
 Added in v2.10.0
@@ -79,7 +79,7 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<A>
+export declare const tuple: <A extends readonly unknown[]>(...eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<Readonly<A>>
 ```
 
 **Example**

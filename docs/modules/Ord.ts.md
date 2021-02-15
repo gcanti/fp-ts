@@ -87,7 +87,7 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple.
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<A>
+export declare const tuple: <A extends readonly unknown[]>(...ords: { [K in keyof A]: Ord<A[K]> }) => Ord<Readonly<A>>
 ```
 
 **Example**

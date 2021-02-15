@@ -102,7 +102,7 @@ Given a struct of monoids returns a monoid for the struct.
 **Signature**
 
 ```ts
-export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<A>
+export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
 ```
 
 **Example**
@@ -133,7 +133,9 @@ Given a tuple of monoids returns a monoid for the tuple.
 **Signature**
 
 ```ts
-export declare const tuple: <A extends readonly unknown[]>(...monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<A>
+export declare const tuple: <A extends readonly unknown[]>(
+  ...monoids: { [K in keyof A]: Monoid<A[K]> }
+) => Monoid<Readonly<A>>
 ```
 
 **Example**

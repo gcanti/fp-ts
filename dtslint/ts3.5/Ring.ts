@@ -1,8 +1,15 @@
 import * as _ from '../../src/Ring'
-import { fieldNumber } from '../../src/Field'
+import * as N from '../../src/number'
+
+//
+// tuple
+//
+
+// $ExpectType Ring<readonly [number, number, number]>
+_.tuple(N.Field, N.Field, N.Field)
 
 //
 // getTupleRing
 //
 
-_.getTupleRing(fieldNumber, fieldNumber, fieldNumber) // $ExpectType Ring<[number, number, number]>
+_.getTupleRing(N.Field, N.Field, N.Field) // $ExpectType Ring<[number, number, number]>
