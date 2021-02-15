@@ -6,6 +6,7 @@ import { deepStrictEqual } from './util'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
 import * as N from '../src/number'
+import * as assert from 'assert'
 
 describe('Ord', () => {
   it('tuple', () => {
@@ -120,5 +121,35 @@ describe('Ord', () => {
     deepStrictEqual(nbCall, 1)
     deepStrictEqual(pipe(a1, O2.compare(a2)), 0)
     deepStrictEqual(nbCall, 2)
+  })
+
+  it('min', () => {
+    type A = { readonly a: number }
+    const min = _.min(
+      pipe(
+        N.Ord,
+        _.contramap((a: A) => a.a)
+      )
+    )
+    deepStrictEqual(pipe({ a: 1 }, min({ a: 2 })), { a: 1 })
+    deepStrictEqual(pipe({ a: 2 }, min({ a: 1 })), { a: 1 })
+    const first = { a: 1 }
+    const second = { a: 1 }
+    assert.strictEqual(pipe(first, min(second)), first)
+  })
+
+  it('max', () => {
+    type A = { readonly a: number }
+    const max = _.max(
+      pipe(
+        N.Ord,
+        _.contramap((a: A) => a.a)
+      )
+    )
+    deepStrictEqual(pipe({ a: 1 }, max({ a: 2 })), { a: 2 })
+    deepStrictEqual(pipe({ a: 2 }, max({ a: 1 })), { a: 2 })
+    const first = { a: 1 }
+    const second = { a: 1 }
+    assert.strictEqual(pipe(first, max(second)), first)
   })
 })

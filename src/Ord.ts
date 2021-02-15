@@ -326,7 +326,8 @@ export const geq = <A>(O: Ord<A>) => (second: A) => (first: A): boolean => O.com
  *
  * @since 3.0.0
  */
-export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === 1 ? second : first)
+export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A =>
+  first === second || O.compare(second)(first) < 1 ? first : second
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen.
@@ -340,7 +341,8 @@ export const min = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(
  *
  * @since 3.0.0
  */
-export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A => (O.compare(second)(first) === -1 ? second : first)
+export const max = <A>(O: Ord<A>) => (second: A) => (first: A): A =>
+  first === second || O.compare(second)(first) > -1 ? first : second
 
 /**
  * Clamp a value between a minimum and a maximum.
