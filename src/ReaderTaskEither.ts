@@ -13,7 +13,8 @@ import {
   apT as apT_
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
+import { ap as apSeq_, bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { filter, Filterable3C, filterMap, partition, partitionMap } from './Filterable'
@@ -35,10 +36,10 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
-import { ap as apSeq_, bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import { Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
@@ -57,7 +58,6 @@ import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
 import ReaderTask = RT.ReaderTask
-import { Monad3 } from './Monad'
 
 /**
  * @category model
@@ -481,10 +481,10 @@ export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> =>
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     compact: compact_(RT.Functor, C),
-    separate: separate_(RT.Functor, C)
+    separate: separate_(RT.Functor, C, E.Functor)
   }
 }
 

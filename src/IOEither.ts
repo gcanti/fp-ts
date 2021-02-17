@@ -349,10 +349,10 @@ export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     compact: compact_(I.Functor, C),
-    separate: separate_(I.Functor, C)
+    separate: separate_(I.Functor, C, E.Functor)
   }
 }
 

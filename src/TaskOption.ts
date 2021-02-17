@@ -276,15 +276,13 @@ export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>)
  */
 export const zero: Alternative1<URI>['zero'] = () => none
 
-const C: Compactable1<O.URI> & Functor1<O.URI> = { ...O.Compactable, ...O.Functor }
-
 /**
  * @category Compactable
  * @since 3.0.0
  */
 export const compact: Compactable1<URI>['compact'] =
   /*#__PURE__*/
-  compact_(T.Functor, C)
+  compact_(T.Functor, O.Compactable)
 
 /**
  * @category Compactable
@@ -292,7 +290,7 @@ export const compact: Compactable1<URI>['compact'] =
  */
 export const separate: Compactable1<URI>['separate'] =
   /*#__PURE__*/
-  separate_(T.Functor, C)
+  separate_(T.Functor, O.Compactable, O.Functor)
 
 /**
  * @category Filterable

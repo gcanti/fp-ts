@@ -6,7 +6,7 @@ import { Applicative3, Applicative3C } from './Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply3, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
+import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import { filter, Filterable3C, filterMap, partition, partitionMap } from './Filterable'
@@ -21,7 +21,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import { Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -324,10 +324,10 @@ export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
  * @since 3.0.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     compact: compact_(R.Functor, C),
-    separate: separate_(R.Functor, C)
+    separate: separate_(R.Functor, C, E.Functor)
   }
 }
 
