@@ -1,6 +1,6 @@
 ---
 title: Profunctor.ts
-nav_order: 59
+nav_order: 60
 parent: Modules
 ---
 
@@ -29,10 +29,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor<F> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => <E>(fea: HKT2<F, E, A>) => HKT<F, B>
-  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: HKT2<F, E, A>) => HKT2<F, D, B>
+export interface Profunctor<P> {
+  readonly URI?: P
+  readonly map: <A, B>(f: (a: A) => B) => <E>(pea: HKT2<P, E, A>) => HKT<P, B>
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (pea: HKT2<P, E, A>) => HKT2<P, D, B>
 }
 ```
 
@@ -43,8 +43,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor2<F extends URIS2> extends Functor2<F> {
-  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, D, B>
+export interface Profunctor2<P extends URIS2> extends Functor2<P> {
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (pea: Kind2<P, E, A>) => Kind2<P, D, B>
 }
 ```
 
@@ -55,8 +55,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor2C<F extends URIS2, E> extends Functor2C<F, E> {
-  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, D, B>
+export interface Profunctor2C<P extends URIS2, E> extends Functor2C<P, E> {
+  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => (pea: Kind2<P, E, A>) => Kind2<P, D, B>
 }
 ```
 
@@ -67,8 +67,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor3<F extends URIS3> extends Functor3<F> {
-  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+export interface Profunctor3<P extends URIS3> extends Functor3<P> {
+  readonly promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(pea: Kind3<P, R, E, A>) => Kind3<P, R, D, B>
 }
 ```
 
@@ -79,8 +79,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor3C<F extends URIS3, E> extends Functor3C<F, E> {
-  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(fea: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
+export interface Profunctor3C<P extends URIS3, E> extends Functor3C<P, E> {
+  readonly promap: <D, A, B>(f: (d: D) => E, g: (a: A) => B) => <R>(pea: Kind3<P, R, E, A>) => Kind3<P, R, D, B>
 }
 ```
 
@@ -91,11 +91,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Profunctor4<F extends URIS4> extends Functor4<F> {
+export interface Profunctor4<P extends URIS4> extends Functor4<P> {
   readonly promap: <D, E, A, B>(
     f: (d: D) => E,
     g: (a: A) => B
-  ) => <S, R>(fea: Kind4<F, S, R, E, A>) => Kind4<F, S, R, D, B>
+  ) => <S, R>(pea: Kind4<P, S, R, E, A>) => Kind4<P, S, R, D, B>
 }
 ```
 

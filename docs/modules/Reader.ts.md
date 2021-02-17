@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 61
+nav_order: 62
 parent: Modules
 ---
 
@@ -44,6 +44,7 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Chain](#chain-1)
+  - [Choice](#choice)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -166,7 +167,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B>
+export declare const promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (pea: Reader<E, A>) => Reader<D, B>
 ```
 
 Added in v3.0.0
@@ -331,6 +332,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Chain: Chain2<'Reader'>
+```
+
+Added in v3.0.0
+
+## Choice
+
+**Signature**
+
+```ts
+export declare const Choice: Choice2<'Reader'>
 ```
 
 Added in v3.0.0

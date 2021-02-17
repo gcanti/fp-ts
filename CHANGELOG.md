@@ -26,7 +26,6 @@ high state of flux, you're at risk of it changing without notice.
   - make `readonly URI` optional in type classes
   - remove deprecated APIs
   - remove type classes
-    - `Choice`
     - `Strong`
     - `MonadThrow`
     - `MonadIO`

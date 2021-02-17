@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 42
+nav_order: 43
 parent: Modules
 ---
 
@@ -28,6 +28,7 @@ Added in v3.0.0
   - [category](#category)
   - [chain](#chain)
   - [chainRec](#chainrec)
+  - [choice](#choice)
   - [comonad](#comonad)
   - [compactable](#compactable)
   - [console](#console)
@@ -258,6 +259,16 @@ Added in v3.0.0
 
 ```ts
 export declare const chainRec: typeof chainRec
+```
+
+Added in v3.0.0
+
+## choice
+
+**Signature**
+
+```ts
+export declare const choice: typeof choice
 ```
 
 Added in v3.0.0

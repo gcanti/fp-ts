@@ -5,12 +5,14 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Category2 } from './Category'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Choice2 } from './Choice'
 import { constant, flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroupoid2 } from './Semigroupoid'
+import * as E from './Either'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -135,6 +137,18 @@ export const promap: Profunctor2<URI>['promap'] = (f, g) => (fea) => (a) => g(fe
  * @since 3.0.0
  */
 export const id: Category2<URI>['id'] = () => identity
+
+/**
+ * @category Choice
+ * @since 3.0.0
+ */
+const left: Choice2<URI>['left'] = (pab) => E.match((a) => E.left(pab(a)), E.right)
+
+/**
+ * @category Choice
+ * @since 3.0.0
+ */
+const right: Choice2<URI>['right'] = (pbc) => E.match(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -269,6 +283,17 @@ export const Profunctor: Profunctor2<URI> = {
 export const Category: Category2<URI> = {
   compose,
   id
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Choice: Choice2<URI> = {
+  map,
+  promap,
+  left,
+  right
 }
 
 // -------------------------------------------------------------------------------------
