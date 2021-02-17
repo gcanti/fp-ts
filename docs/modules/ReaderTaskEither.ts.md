@@ -96,10 +96,15 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadIO](#monadio)
+  - [MonadTask](#monadtask)
+  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -1038,6 +1043,16 @@ export declare const Bifunctor: Bifunctor3<'ReaderTaskEither'>
 
 Added in v2.7.0
 
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
 ## FromEither
 
 **Signature**
@@ -1077,6 +1092,46 @@ export declare const Functor: Functor3<'ReaderTaskEither'>
 ```
 
 Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow3<'ReaderTaskEither'>
+```
+
+Added in v2.10.0
 
 ## Pointed
 

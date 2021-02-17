@@ -17,16 +17,48 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.2
 
-- `Choice`
-  - deprecate `splitChoice` in favour of `split`
-  - deprecate `fanin` in favour of `fanIn`
-- `Compactable`
-  - split `compact` / `separate` constraints
-- `Reader`
-  - export `first`, `second`, `left`, `right`
-- `Strong`
-  - deprecate `splitString` in favour of `split`
-  - deprecate `fanout` in favour of `fanOut`
+- **Deprecations**
+  - `Choice`
+    - deprecate `splitChoice` in favour of `split`
+    - deprecate `fanin` in favour of `fanIn`
+  - `Strong`
+    - deprecate `splitString` in favour of `split`
+    - deprecate `fanout` in favour of `fanOut`
+- **New Feature**
+  - `Reader`
+    - export `first`, `second`, `left`, `right`
+  - `ReaderTask`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+  - `ReaderTaskEither`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `StateReaderTaskEither`
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `Task`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+  - `TaskEither`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `TaskOption`
+    - export `Chain` instance
+    - export `Monad` instance
+- **Polish**
+  - `Compactable`
+    - split `compact` / `separate` constraints
 
 # 2.10.0-rc.1
 
