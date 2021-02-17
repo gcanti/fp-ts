@@ -20,6 +20,7 @@ import {
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { Monad2 } from './Monad'
+import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
@@ -290,7 +291,8 @@ export const ApplicativeSeq: Applicative2<URI> = {
 }
 
 /**
- * @internal
+ * @category instances
+ * @since 2.10.0
  */
 export const Chain: Chain2<URI> = {
   URI,
@@ -300,7 +302,8 @@ export const Chain: Chain2<URI> = {
 }
 
 /**
- * @internal
+ * @category instances
+ * @since 2.10.0
  */
 export const Monad: Monad2<URI> = {
   URI,
@@ -308,6 +311,33 @@ export const Monad: Monad2<URI> = {
   of,
   ap: _apPar,
   chain: _chain
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadIO: MonadIO2<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadTask: MonadTask2<URI> = {
+  URI,
+  map: _map,
+  of,
+  ap: _apPar,
+  chain: _chain,
+  fromIO,
+  fromTask
 }
 
 /**

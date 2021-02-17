@@ -482,7 +482,8 @@ export const ApplicativeSeq: Applicative1<URI> = {
 }
 
 /**
- * @internal
+ * @category instances
+ * @since 2.10.0
  */
 export const Chain: Chain1<URI> = {
   URI,
@@ -525,6 +526,18 @@ export const Alternative: Alternative1<URI> = {
   of,
   alt: _alt,
   zero
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad1<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain
 }
 
 /**

@@ -46,6 +46,7 @@ import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3, Monad3C } from './Monad'
+import { MonadIO3 } from './MonadIO'
 import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -697,13 +698,66 @@ export const ApplicativeSeq: Applicative3<URI> = {
 }
 
 /**
- * @internal
+ * @category instances
+ * @since 2.10.0
  */
 export const Chain: Chain3<URI> = {
   URI,
   map: _map,
   ap: _apPar,
   chain: _chain
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad3<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadIO: MonadIO3<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadTask: MonadTask3<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  fromIO,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadThrow: MonadThrow3<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  throwError
 }
 
 /**

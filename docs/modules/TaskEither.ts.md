@@ -93,10 +93,15 @@ Added in v2.0.0
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
   - [Bifunctor](#bifunctor-1)
+  - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadIO](#monadio)
+  - [MonadTask](#monadtask-1)
+  - [MonadThrow](#monadthrow)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -969,6 +974,16 @@ export declare const Bifunctor: Bifunctor2<'TaskEither'>
 
 Added in v2.7.0
 
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain2<'TaskEither'>
+```
+
+Added in v2.10.0
+
 ## FromEither
 
 **Signature**
@@ -1008,6 +1023,46 @@ export declare const Functor: Functor2<'TaskEither'>
 ```
 
 Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad2<'TaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO2<'TaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask2<'TaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow2<'TaskEither'>
+```
+
+Added in v2.10.0
 
 ## Pointed
 
