@@ -156,27 +156,32 @@ export function compact<F, G>(
  */
 export function separate<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
-  G: Compactable2C<G, E> & Functor2<G>
+  C: Compactable2C<G, E>,
+  G: Functor2<G>
 ): <FE, A, B>(
   fge: Kind2<F, FE, Kind2<G, E, Either<A, B>>>
 ) => S.Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, B>>>
 export function separate<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
-  G: Compactable2C<G, E> & Functor2<G>
+  C: Compactable2C<G, E>,
+  G: Functor2<G>
 ): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => S.Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
 export function separate<F extends URIS, G extends URIS>(
   F: Functor1<F>,
-  G: Compactable1<G> & Functor1<G>
+  C: Compactable1<G>,
+  G: Functor1<G>
 ): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => S.Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
 export function separate<F, G>(
   F: Functor<F>,
-  G: Compactable<G> & Functor<G>
+  C: Compactable<G>,
+  G: Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => S.Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
 export function separate<F, G>(
   F: Functor<F>,
-  G: Compactable<G> & Functor<G>
+  C: Compactable<G>,
+  G: Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => S.Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>> {
-  const _compact = compact(F, G)
+  const _compact = compact(F, C)
   const _map = map(F, G)
   return (fge) => S.separated(_compact(pipe(fge, _map(getLeft))), _compact(pipe(fge, _map(getRight))))
 }
@@ -360,7 +365,7 @@ export function getCompactableComposition<F, G>(
   return {
     map,
     compact: compact(F, G),
-    separate: separate(F, G)
+    separate: separate(F, G, G)
   }
 }
 

@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.2
+
+- `Compactable`
+  - split `compact` / `separate` constraints
+
 # 2.10.0-rc.1
 
 - **Deprecations**
