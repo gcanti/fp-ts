@@ -31,7 +31,7 @@
 import { Either } from './Either'
 import { HKT2, Kind2, Kind3, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
-import { Category, Category2, Category3 } from './Category'
+import { Category, Category2, Category3, Category4 } from './Category'
 import { identity } from './function'
 
 // -------------------------------------------------------------------------------------
@@ -78,31 +78,42 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
  * Compose a value acting on a sum from two values, each acting on one of
  * the components of the sum.
  *
- * Specializing `(+++)` to function application would look like this:
+ * Specializing `split` to function application would look like this:
  *
  * ```purescript
- * (+++) :: forall a b c d. (a -> b) -> (c -> d) -> (Either a c) -> (Either b d)
+ * split :: forall a b c d. (a -> b) -> (c -> d) -> (Either a c) -> (Either b d)
  * ```
  *
  * We take two functions, `f` and `g`, and we transform them into a single function which
  * takes an `Either`and maps `f` over the left side and `g` over the right side.  Just like
- * `bi-map` would do for the `bi-functor` instance of `Either`.
+ * `bimap` would do for the `Bifunctor` instance of `Either`.
  *
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function splitChoice<F extends URIS3>(
-  F: Category3<F> & Choice3<F>
-): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
-export function splitChoice<F extends URIS2>(
-  F: Category2<F> & Choice2<F>
-): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>
-export function splitChoice<F>(
-  F: Category<F> & Choice<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>
-export function splitChoice<F>(
-  F: Category<F> & Choice<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> {
-  return (pab, pcd) => F.compose(F.left(pab), F.right(pcd))
+export function split<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C, D>(
+  pab: Kind4<P, S, R, A, B>,
+  pcd: Kind4<P, S, R, C, D>
+) => Kind4<P, S, R, Either<A, C>, Either<B, D>>
+export function split<P extends URIS3>(
+  P: Choice3<P>,
+  C: Category3<P>
+): <R, A, B, C, D>(pab: Kind3<P, R, A, B>, pcd: Kind3<P, R, C, D>) => Kind3<P, R, Either<A, C>, Either<B, D>>
+export function split<P extends URIS2>(
+  P: Choice2<P>,
+  C: Category2<P>
+): <A, B, C, D>(pab: Kind2<P, A, B>, pcd: Kind2<P, C, D>) => Kind2<P, Either<A, C>, Either<B, D>>
+export function split<P>(
+  P: Choice<P>,
+  C: Category<P>
+): <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) => HKT2<P, Either<A, C>, Either<B, D>>
+export function split<P>(
+  P: Choice<P>,
+  C: Category<P>
+): <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) => HKT2<P, Either<A, C>, Either<B, D>> {
+  return <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) => C.compose(P.right<B, C, D>(pcd), P.left<A, B, C>(pab))
 }
 
 /**
@@ -112,10 +123,10 @@ export function splitChoice<F>(
  * This combinator is useful when assembling values from smaller components,
  * because it provides a way to support two different types of input.
  *
- * Specializing `(|||)` to function application would look like this:
+ * Specializing `fanIn` to function application would look like this:
  *
  * ```purescript
- * (|||) :: forall a b c d. (a -> c) -> (b -> c) -> Either a b -> c
+ * fanIn :: forall a b c d. (a -> c) -> (b -> c) -> Either a b -> c
  * ```
  *
  * We take two functions, `f` and `g`, which both return the same type `c` and we transform them into a
@@ -125,23 +136,82 @@ export function splitChoice<F>(
  * This allows us to bundle two different computations which both have the same result type into one
  * function which will run the appropriate computation based on the parameter supplied in the `Either` value.
  *
+ * @since 2.10.0
+ */
+export function fanIn<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
+export function fanIn<P extends URIS3>(
+  P: Choice3<P>,
+  C: Category3<P>
+): <R, A, B, C>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
+export function fanIn<P extends URIS2>(
+  P: Choice2<P>,
+  C: Category2<P>
+): <A, B, C>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
+export function fanIn<P>(
+  P: Choice<P>,
+  C: Category<P>
+): <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
+export function fanIn<P>(
+  P: Choice<P>,
+  C: Category<P>
+): <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C> {
+  const splitPC = split(P, C)
+  return <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>): HKT2<P, Either<A, B>, C> =>
+    C.compose(
+      P.promap(C.id<C>(), (cc: Either<C, C>) => (cc._tag === 'Left' ? cc.left : cc.right), identity),
+      splitPC(pac, pbc)
+    )
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `split` instead.
+ *
  * @since 2.0.0
+ * @deprecated
+ */
+export function splitChoice<F extends URIS3>(
+  F: Category3<F> & Choice3<F>
+): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, Either<A, C>, Either<B, D>>
+/** @deprecated */
+export function splitChoice<F extends URIS2>(
+  F: Category2<F> & Choice2<F>
+): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, Either<A, C>, Either<B, D>>
+/** @deprecated */
+export function splitChoice<F>(
+  F: Category<F> & Choice<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>
+export function splitChoice<F>(
+  F: Category<F> & Choice<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> {
+  return split(F, F)
+}
+
+/**
+ * Use `fanIn` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
  */
 export function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>
 ): <R, A, B, C>(pac: Kind3<F, R, A, C>, pbc: Kind3<F, R, B, C>) => Kind3<F, R, Either<A, B>, C>
+/** @deprecated */
 export function fanin<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C>(pac: Kind2<F, A, C>, pbc: Kind2<F, B, C>) => Kind2<F, Either<A, B>, C>
+/** @deprecated */
 export function fanin<F>(
   F: Category<F> & Choice<F>
 ): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C>
 export function fanin<F>(
   F: Category<F> & Choice<F>
 ): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C> {
-  const splitChoiceF = splitChoice(F)
-  return <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>): HKT2<F, Either<A, B>, C> => {
-    const join: HKT2<F, Either<C, C>, C> = F.promap(F.id<C>(), (e) => (e._tag === 'Left' ? e.left : e.right), identity)
-    return F.compose(join, splitChoiceF(pac, pbc))
-  }
+  return fanIn(F, F)
 }
