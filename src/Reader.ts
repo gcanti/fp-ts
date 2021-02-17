@@ -74,12 +74,6 @@ const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
 const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 const _compose: Category2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 const _promap: Profunctor2<URI>['promap'] = (fea, f, g) => pipe(fea, promap(f, g))
-const _first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
-const _second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
-const _left: Choice2<URI>['left'] = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> =>
-  E.fold<A, C, E.Either<B, C>>((a) => E.left(pab(a)), E.right)
-const _right: Choice2<URI>['right'] = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> =>
-  E.fold<A, B, E.Either<A, C>>(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -165,6 +159,30 @@ export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reade
  * @since 2.0.0
  */
 export const id: Category2<URI>['id'] = () => identity
+
+/**
+ * @category Strong
+ * @since 2.10.0
+ */
+export const first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+
+/**
+ * @category Strong
+ * @since 2.10.0
+ */
+export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+
+/**
+ * @category Choice
+ * @since 2.10.0
+ */
+export const left: Choice2<URI>['left'] = (pab) => E.fold((a) => E.left(pab(a)), E.right)
+
+/**
+ * @category Choice
+ * @since 2.10.0
+ */
+export const right: Choice2<URI>['right'] = (pbc) => E.fold(E.left, (b) => E.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -325,8 +343,8 @@ export const Strong: Strong2<URI> = {
   URI,
   map: _map,
   promap: _promap,
-  first: _first,
-  second: _second
+  first,
+  second
 }
 
 /**
@@ -337,8 +355,8 @@ export const Choice: Choice2<URI> = {
   URI,
   map: _map,
   promap: _promap,
-  left: _left,
-  right: _right
+  left,
+  right
 }
 
 // -------------------------------------------------------------------------------------
@@ -444,10 +462,10 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   promap: _promap,
   compose: _compose,
   id,
-  first: _first,
-  second: _second,
-  left: _left,
-  right: _right
+  first,
+  second,
+  left,
+  right
 }
 
 /**

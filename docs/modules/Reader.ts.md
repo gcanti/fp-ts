@@ -17,6 +17,9 @@ Added in v2.0.0
   - [apW](#apw)
 - [Category](#category)
   - [id](#id)
+- [Choice](#choice)
+  - [left](#left)
+  - [right](#right)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -28,6 +31,9 @@ Added in v2.0.0
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
+- [Strong](#strong)
+  - [first](#first)
+  - [second](#second)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -43,12 +49,12 @@ Added in v2.0.0
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Chain](#chain)
-  - [Choice](#choice)
+  - [Choice](#choice-1)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
-  - [Strong](#strong)
+  - [Strong](#strong-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [~~getMonoid~~](#getmonoid)
@@ -106,6 +112,28 @@ export declare const id: <A>() => Reader<A, A>
 ```
 
 Added in v2.0.0
+
+# Choice
+
+## left
+
+**Signature**
+
+```ts
+export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>>
+```
+
+Added in v2.10.0
+
+## right
+
+**Signature**
+
+```ts
+export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
+```
+
+Added in v2.10.0
 
 # Functor
 
@@ -183,6 +211,28 @@ export declare const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) 
 ```
 
 Added in v2.0.0
+
+# Strong
+
+## first
+
+**Signature**
+
+```ts
+export declare const first: <A, B, C>(pab: Reader<A, B>) => Reader<[A, C], [B, C]>
+```
+
+Added in v2.10.0
+
+## second
+
+**Signature**
+
+```ts
+export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<[A, B], [A, C]>
+```
+
+Added in v2.10.0
 
 # combinators
 
