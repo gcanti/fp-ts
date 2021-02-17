@@ -861,12 +861,13 @@ export const sortBy: <B>(ords: Array<Ord<B>>) => <A extends B>(as: Array<A>) => 
  *
  * @example
  * import { Eq } from 'fp-ts/Eq'
- * import { chop, spanLeft } from 'fp-ts/Array'
+ * import * as A from 'fp-ts/Array'
  * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
  *
  * const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
- *   return chop(as => {
- *     const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
+ *   return A.chop(as => {
+ *     const { init, rest } = pipe(as, A.spanLeft((a: A) => S.equals(a, as[0])))
  *     return [init, rest]
  *   })
  * }
