@@ -17,6 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.2
 
+- `Choice`
+  - deprecate `splitChoice` in favour of `split`
+  - deprecate `fanin` in favour of `fanIn`
 - `Compactable`
   - split `compact` / `separate` constraints
 
