@@ -1253,12 +1253,13 @@ export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: Readon
  *
  * @example
  * import { Eq } from 'fp-ts/Eq'
- * import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
  * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
  *
  * const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
- *   return chop(as => {
- *     const { init, rest } = spanLeft((a: A) => S.equals(a, as[0]))(as)
+ *   return RA.chop(as => {
+ *     const { init, rest } = pipe(as, RA.spanLeft((a: A) => S.equals(a, as[0])))
  *     return [init, rest]
  *   })
  * }
