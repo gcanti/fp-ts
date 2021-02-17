@@ -53,6 +53,7 @@ import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
+import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -682,11 +683,67 @@ export const ApplicativeSeq: Applicative2<URI> = {
   of
 }
 
-const Chain: Chain2<URI> = {
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain2<URI> = {
   URI,
   map: _map,
   ap: _apPar,
   chain: _chain
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Monad: Monad2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadIO: MonadIO2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadTask: MonadTask2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  fromIO,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadThrow: MonadThrow2<URI> = {
+  URI,
+  map: _map,
+  ap: _apPar,
+  chain: _chain,
+  of,
+  throwError
 }
 
 /**

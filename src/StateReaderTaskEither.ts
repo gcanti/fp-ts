@@ -29,6 +29,7 @@ import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
+import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Pointed4 } from './Pointed'
@@ -606,6 +607,46 @@ export const Monad: Monad4<URI> = {
   ap: _ap,
   of,
   chain: _chain
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadIO: MonadIO4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  fromIO
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadTask: MonadTask4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  fromIO,
+  fromTask
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const MonadThrow: MonadThrow4<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  throwError
 }
 
 /**

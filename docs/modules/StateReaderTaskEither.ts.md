@@ -95,6 +95,9 @@ Added in v2.0.0
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
+  - [MonadIO](#monadio)
+  - [MonadTask](#monadtask)
+  - [MonadThrow](#monadthrow-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -1014,6 +1017,36 @@ Added in v2.7.0
 
 ```ts
 export declare const Monad: Monad4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask4<'StateReaderTaskEither'>
+```
+
+Added in v2.10.0
+
+## MonadThrow
+
+**Signature**
+
+```ts
+export declare const MonadThrow: MonadThrow4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0

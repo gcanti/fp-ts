@@ -48,9 +48,13 @@ Added in v2.0.0
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
   - [ApplySeq](#applyseq)
+  - [Chain](#chain)
   - [FromIO](#fromio)
   - [FromTask](#fromtask-1)
   - [Functor](#functor-1)
+  - [Monad](#monad-1)
+  - [MonadIO](#monadio)
+  - [MonadTask](#monadtask)
   - [Pointed](#pointed-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
@@ -331,6 +335,16 @@ export declare const ApplySeq: Apply1<'Task'>
 
 Added in v2.10.0
 
+## Chain
+
+**Signature**
+
+```ts
+export declare const Chain: Chain1<'Task'>
+```
+
+Added in v2.10.0
+
 ## FromIO
 
 **Signature**
@@ -360,6 +374,36 @@ export declare const Functor: Functor1<'Task'>
 ```
 
 Added in v2.7.0
+
+## Monad
+
+**Signature**
+
+```ts
+export declare const Monad: Monad1<'Task'>
+```
+
+Added in v2.10.0
+
+## MonadIO
+
+**Signature**
+
+```ts
+export declare const MonadIO: MonadIO1<'Task'>
+```
+
+Added in v2.10.0
+
+## MonadTask
+
+**Signature**
+
+```ts
+export declare const MonadTask: MonadTask1<'Task'>
+```
+
+Added in v2.10.0
 
 ## Pointed
 
