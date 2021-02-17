@@ -811,7 +811,7 @@ describe('ReadonlyArray', () => {
   it('chop', () => {
     const group = <A>(E: Eq.Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
       return _.chop((as) => {
-        const { init, rest } = _.spanLeft(E.equals(as[0]))(as)
+        const { init, rest } = pipe(as, _.spanLeft(E.equals(as[0])))
         return [init, rest]
       })
     }

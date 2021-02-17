@@ -556,11 +556,12 @@ export declare const chop: <A, B>(
 ```ts
 import { Eq } from 'fp-ts/Eq'
 import * as N from 'fp-ts/number'
-import { chop, spanLeft } from 'fp-ts/ReadonlyArray'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-const group = <A>(S: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-  return chop((as) => {
-    const { init, rest } = spanLeft(S.equals(as[0]))(as)
+const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
+  return RA.chop((as) => {
+    const { init, rest } = pipe(as, RA.spanLeft(E.equals(as[0])))
     return [init, rest]
   })
 }
