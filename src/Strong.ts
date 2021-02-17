@@ -77,33 +77,39 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
 /**
  * Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
  *
- * Specializing `(***)` to function application would look like this:
+ * Specializing `split` to function application would look like this:
  *
  * ```purescript
- * (***) :: forall a b c d. (a -> b) -> (c -> d) -> (Tuple a c) -> (Tuple b d)
+ * split :: forall a b c d. (a -> b) -> (c -> d) -> (Tuple a c) -> (Tuple b d)
  * ```
  *
  * We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
  * over the first element and `g` over the second.  Just like `bi-map` would do for the `bi-functor` instance of tuple.
  *
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function splitStrong<F extends URIS4>(
-  F: Category4<F> & Strong4<F>
+export function split<F extends URIS4>(
+  S: Strong4<F>,
+  C: Category4<F>
 ): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
-export function splitStrong<F extends URIS3>(
-  F: Category3<F> & Strong3<F>
+export function split<F extends URIS3>(
+  S: Strong3<F>,
+  C: Category3<F>
 ): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
-export function splitStrong<F extends URIS2>(
-  F: Category2<F> & Strong2<F>
+export function split<F extends URIS2>(
+  S: Strong2<F>,
+  C: Category2<F>
 ): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, [A, C], [B, D]>
-export function splitStrong<F>(
-  F: Category<F> & Strong<F>
+export function split<F>(
+  S: Strong<F>,
+  C: Category<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>
-export function splitStrong<F>(
-  F: Category<F> & Strong<F>
+export function split<F>(
+  S: Strong<F>,
+  C: Category<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> {
-  return (pab, pcd) => F.compose(F.first(pab), F.second(pcd))
+  return <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) =>
+    C.compose(S.second<B, C, D>(pcd), S.first<A, B, C>(pab))
 }
 
 /**
@@ -112,36 +118,100 @@ export function splitStrong<F>(
  * This combinator is useful when assembling values from smaller components, because it provides a way to support two
  * different types of output.
  *
- * Specializing `(&&&)` to function application would look like this:
+ * Specializing `fanOut` to function application would look like this:
  *
  * ```purescript
- * (&&&) :: forall a b c. (a -> b) -> (a -> c) -> (a -> (Tuple b c))
+ * fanOut :: forall a b c. (a -> b) -> (a -> c) -> (a -> (Tuple b c))
  * ```
  *
  * We take two functions, `f` and `g`, with the same parameter type and we transform them into a single function which
  * takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively.  This
  * allows us to run two parallel computations on the same input and return both results in a tuple.
  *
+ * @since 2.10.0
+ */
+export function fanOut<F extends URIS4>(
+  S: Strong4<F>,
+  C: Category4<F>
+): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+export function fanOut<F extends URIS3>(
+  S: Strong3<F>,
+  C: Category3<F>
+): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
+export function fanOut<F extends URIS2>(
+  S: Strong2<F>,
+  C: Category2<F>
+): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>
+export function fanOut<F>(
+  S: Strong<F>,
+  C: Category<F>
+): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>
+export function fanOut<F>(
+  S: Strong<F>,
+  C: Category<F>
+): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> {
+  const splitSC = split(S, C)
+  return <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>): HKT2<F, A, [B, C]> =>
+    C.compose(
+      splitSC(pab, pac),
+      S.promap<A, A, A, [A, A]>(C.id<A>(), identity, (a) => [a, a])
+    )
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `split` instead.
+ *
  * @since 2.0.0
+ * @deprecated
+ */
+export function splitStrong<F extends URIS4>(
+  F: Category4<F> & Strong4<F>
+): <S, R, A, B, C, D>(pab: Kind4<F, S, R, A, B>, pcd: Kind4<F, S, R, C, D>) => Kind4<F, S, R, [A, C], [B, D]>
+/** @deprecated */
+export function splitStrong<F extends URIS3>(
+  F: Category3<F> & Strong3<F>
+): <R, A, B, C, D>(pab: Kind3<F, R, A, B>, pcd: Kind3<F, R, C, D>) => Kind3<F, R, [A, C], [B, D]>
+/** @deprecated */
+export function splitStrong<F extends URIS2>(
+  F: Category2<F> & Strong2<F>
+): <A, B, C, D>(pab: Kind2<F, A, B>, pcd: Kind2<F, C, D>) => Kind2<F, [A, C], [B, D]>
+/** @deprecated */
+export function splitStrong<F>(
+  F: Category<F> & Strong<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>
+export function splitStrong<F>(
+  F: Category<F> & Strong<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> {
+  return split(F, F)
+}
+
+/**
+ * Use `fanOut` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
  */
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>
 ): <S, R, A, B, C>(pab: Kind4<F, S, R, A, B>, pac: Kind4<F, S, R, A, C>) => Kind4<F, S, R, A, [B, C]>
+/** @deprecated */
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <R, A, B, C>(pab: Kind3<F, R, A, B>, pac: Kind3<F, R, A, C>) => Kind3<F, R, A, [B, C]>
+/** @deprecated */
 export function fanout<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C>(pab: Kind2<F, A, B>, pac: Kind2<F, A, C>) => Kind2<F, A, [B, C]>
+/** @deprecated */
 export function fanout<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>
 export function fanout<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> {
-  const splitStrongF = splitStrong(F)
-  return <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>): HKT2<F, A, [B, C]> => {
-    const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, (a) => [a, a])
-    return F.compose(splitStrongF(pab, pac), split)
-  }
+  return fanOut(F, F)
 }

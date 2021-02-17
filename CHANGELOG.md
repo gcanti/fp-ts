@@ -22,6 +22,9 @@ high state of flux, you're at risk of it changing without notice.
   - deprecate `fanin` in favour of `fanIn`
 - `Compactable`
   - split `compact` / `separate` constraints
+- `Strong`
+  - deprecate `splitString` in favour of `split`
+  - deprecate `fanout` in favour of `fanOut`
 
 # 2.10.0-rc.1
 
