@@ -14,7 +14,7 @@ import {
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
 import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
+import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import {
@@ -42,7 +42,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3, Monad3C } from './Monad'
@@ -539,12 +539,12 @@ declare module './HKT' {
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     URI,
     _E: undefined as any,
     compact: compact_(RT.Functor, C),
-    separate: separate_(RT.Functor, C)
+    separate: separate_(RT.Functor, C, E.Functor)
   }
 }
 

@@ -663,7 +663,7 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G> {
   const map = getFunctorComposition(F, G).map
   const _compact = compact(F, G)
-  const _separate = separate(F, G)
+  const _separate = separate(F, G, G)
   const _filter = filter(F, G)
   const _filterMap = filterMap(F, G)
   const _partition = partition(F, G)
