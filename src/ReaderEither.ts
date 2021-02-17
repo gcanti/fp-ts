@@ -12,7 +12,8 @@ import {
   getApplySemigroup as getApplySemigroup_
 } from './Apply'
 import { Bifunctor3 } from './Bifunctor'
-import { compact as compact_, Compactable2C, Compactable3C, separate as separate_ } from './Compactable'
+import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
 import {
@@ -33,8 +34,8 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, Functor3 } from './Functor'
-import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
+import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -43,7 +44,6 @@ import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import Reader = R.Reader
-import { Monad3, Monad3C } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -378,12 +378,12 @@ declare module './HKT' {
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     URI,
     _E: undefined as any,
     compact: compact_(R.Functor, C),
-    separate: separate_(R.Functor, C)
+    separate: separate_(R.Functor, C, E.Functor)
   }
 }
 

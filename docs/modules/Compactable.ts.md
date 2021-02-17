@@ -85,21 +85,25 @@ Added in v2.10.0
 ```ts
 export declare function separate<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
-  G: Compactable2C<G, E> & Functor2<G>
+  C: Compactable2C<G, E>,
+  G: Functor2<G>
 ): <FE, A, B>(
   fge: Kind2<F, FE, Kind2<G, E, Either<A, B>>>
 ) => S.Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, B>>>
 export declare function separate<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
-  G: Compactable2C<G, E> & Functor2<G>
+  C: Compactable2C<G, E>,
+  G: Functor2<G>
 ): <A, B>(fge: Kind<F, Kind2<G, E, Either<A, B>>>) => S.Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
 export declare function separate<F extends URIS, G extends URIS>(
   F: Functor1<F>,
-  G: Compactable1<G> & Functor1<G>
+  C: Compactable1<G>,
+  G: Functor1<G>
 ): <A, B>(fge: Kind<F, Kind<G, Either<A, B>>>) => S.Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
 export declare function separate<F, G>(
   F: Functor<F>,
-  G: Compactable<G> & Functor<G>
+  C: Compactable<G>,
+  G: Functor<G>
 ): <A, B>(fge: HKT<F, HKT<G, Either<A, B>>>) => S.Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
 ```
 

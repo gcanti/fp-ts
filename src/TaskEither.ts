@@ -554,12 +554,12 @@ export function getAltTaskValidation<E>(S: Semigroup<E>): Alt2C<URI, E> {
  * @since 2.10.0
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
-  const C: Compactable2C<E.URI, E> & Functor2<E.URI> = { ...E.getCompactable(M), ...E.Functor }
+  const C = E.getCompactable(M)
   return {
     URI,
     _E: undefined as any,
     compact: compact_(T.Functor, C),
-    separate: separate_(T.Functor, C)
+    separate: separate_(T.Functor, C, E.Functor)
   }
 }
 
