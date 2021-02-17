@@ -130,6 +130,10 @@ function which will run the appropriate computation based on the parameter suppl
 **Signature**
 
 ```ts
+export declare function fanIn<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
 export declare function fanIn<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>
@@ -164,6 +168,13 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 **Signature**
 
 ```ts
+export declare function split<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C, D>(
+  pab: Kind4<P, S, R, A, B>,
+  pcd: Kind4<P, S, R, C, D>
+) => Kind4<P, S, R, Either<A, C>, Either<B, D>>
 export declare function split<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>

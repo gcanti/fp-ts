@@ -20,6 +20,9 @@ Added in v3.0.0
 - [Chain](#chain)
   - [chain](#chain)
   - [chainW](#chainw)
+- [Choice](#choice)
+  - [left](#left)
+  - [right](#right)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -28,6 +31,9 @@ Added in v3.0.0
   - [promap](#promap)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
+- [Strong](#strong)
+  - [first](#first)
+  - [second](#second)
 - [combinators](#combinators)
   - [flap](#flap)
   - [local](#local)
@@ -44,11 +50,12 @@ Added in v3.0.0
   - [Apply](#apply-1)
   - [Category](#category-1)
   - [Chain](#chain-1)
-  - [Choice](#choice)
+  - [Choice](#choice-1)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
+  - [Strong](#strong-1)
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
@@ -133,6 +140,28 @@ export declare const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: 
 
 Added in v3.0.0
 
+# Choice
+
+## left
+
+**Signature**
+
+```ts
+export declare const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>>
+```
+
+Added in v3.0.0
+
+## right
+
+**Signature**
+
+```ts
+export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
+```
+
+Added in v3.0.0
+
 # Functor
 
 ## map
@@ -180,6 +209,28 @@ Added in v3.0.0
 
 ```ts
 export declare const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C>
+```
+
+Added in v3.0.0
+
+# Strong
+
+## first
+
+**Signature**
+
+```ts
+export declare const first: <A, B, C>(pab: Reader<A, B>) => Reader<readonly [A, C], readonly [B, C]>
+```
+
+Added in v3.0.0
+
+## second
+
+**Signature**
+
+```ts
+export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]>
 ```
 
 Added in v3.0.0
@@ -382,6 +433,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Profunctor: Profunctor2<'Reader'>
+```
+
+Added in v3.0.0
+
+## Strong
+
+**Signature**
+
+```ts
+export declare const Strong: Strong2<'Reader'>
 ```
 
 Added in v3.0.0

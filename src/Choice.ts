@@ -28,7 +28,7 @@
  *
  * @since 3.0.0
  */
-import { Category, Category2, Category3 } from './Category'
+import { Category, Category2, Category3, Category4 } from './Category'
 import { Either } from './Either'
 import { identity, pipe } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
@@ -86,6 +86,13 @@ export interface Choice4<P extends URIS4> extends Profunctor4<P> {
  *
  * @since 3.0.0
  */
+export function split<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C, D>(
+  pab: Kind4<P, S, R, A, B>,
+  pcd: Kind4<P, S, R, C, D>
+) => Kind4<P, S, R, Either<A, C>, Either<B, D>>
 export function split<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>
@@ -128,6 +135,10 @@ export function split<P>(
  *
  * @since 3.0.0
  */
+export function fanIn<P extends URIS4>(
+  P: Choice4<P>,
+  C: Category4<P>
+): <S, R, A, B, C>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
 export function fanIn<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>

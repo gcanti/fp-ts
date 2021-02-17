@@ -13,6 +13,7 @@ import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroupoid2 } from './Semigroupoid'
 import * as E from './Either'
+import { Strong2 } from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -142,13 +143,25 @@ export const id: Category2<URI>['id'] = () => identity
  * @category Choice
  * @since 3.0.0
  */
-const left: Choice2<URI>['left'] = (pab) => E.match((a) => E.left(pab(a)), E.right)
+export const left: Choice2<URI>['left'] = (pab) => E.match((a) => E.left(pab(a)), E.right)
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-const right: Choice2<URI>['right'] = (pbc) => E.match(E.left, (b) => E.right(pbc(b)))
+export const right: Choice2<URI>['right'] = (pbc) => E.match(E.left, (b) => E.right(pbc(b)))
+
+/**
+ * @category Strong
+ * @since 3.0.0
+ */
+export const first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+
+/**
+ * @category Strong
+ * @since 3.0.0
+ */
+export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -294,6 +307,17 @@ export const Choice: Choice2<URI> = {
   promap,
   left,
   right
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Strong: Strong2<URI> = {
+  map,
+  promap,
+  first,
+  second
 }
 
 // -------------------------------------------------------------------------------------

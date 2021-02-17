@@ -94,6 +94,7 @@ Added in v3.0.0
   - [stateT](#statet)
   - [store](#store)
   - [string](#string)
+  - [strong](#strong)
   - [task](#task)
   - [taskEither](#taskeither)
   - [taskOption](#taskoption)
@@ -919,6 +920,16 @@ Added in v3.0.0
 
 ```ts
 export declare const string: typeof string
+```
+
+Added in v3.0.0
+
+## strong
+
+**Signature**
+
+```ts
+export declare const strong: typeof strong
 ```
 
 Added in v3.0.0
