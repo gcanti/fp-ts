@@ -22,7 +22,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `splitChoice` in favour of `split`
     - deprecate `fanin` in favour of `fanIn`
   - `Strong`
-    - deprecate `splitString` in favour of `split`
+    - deprecate `splitStrong` in favour of `split`
     - deprecate `fanout` in favour of `fanOut`
 - **New Feature**
   - `Reader`
