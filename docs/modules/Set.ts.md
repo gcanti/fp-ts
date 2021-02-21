@@ -27,7 +27,6 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromArray](#fromarray)
   - [singleton](#singleton)
-  - [toArray](#toarray)
 - [instances](#instances)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -38,12 +37,16 @@ Added in v2.0.0
   - [empty](#empty)
   - [every](#every)
   - [foldMap](#foldmap)
+  - [isEmpty](#isempty)
+  - [isSubset](#issubset)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
   - [separate](#separate)
+  - [size](#size)
   - [some](#some)
-  - [subset](#subset)
+  - [toArray](#toarray)
+  - [~~subset~~](#subset)
 
 ---
 
@@ -221,16 +224,6 @@ export declare const singleton: <A>(a: A) => Set<A>
 
 Added in v2.0.0
 
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(O: Ord<A>) => (set: Set<A>) => A[]
-```
-
-Added in v2.0.0
-
 # instances
 
 ## getEq
@@ -317,6 +310,28 @@ export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M
 
 Added in v2.0.0
 
+## isEmpty
+
+Test whether a `ReadonlySet` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
+```
+
+Added in v2.10.0
+
+## isSubset
+
+**Signature**
+
+```ts
+export declare const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
+```
+
+Added in v2.10.0
+
 ## partition
 
 **Signature**
@@ -363,6 +378,18 @@ export declare const separate: <E, A>(EE: Eq<E>, EA: Eq<A>) => (fa: Set<Either<E
 
 Added in v2.0.0
 
+## size
+
+Calculate the number of elements in a `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(set: ReadonlySet<A>) => number
+```
+
+Added in v2.10.0
+
 ## some
 
 **Signature**
@@ -373,9 +400,19 @@ export declare const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => bool
 
 Added in v2.0.0
 
-## subset
+## toArray
 
-`true` if and only if every element in the first set is an element of the second set
+**Signature**
+
+```ts
+export declare const toArray: <A>(O: Ord<A>) => (set: Set<A>) => A[]
+```
+
+Added in v2.0.0
+
+## ~~subset~~
+
+Use `isSubset` instead.
 
 **Signature**
 
