@@ -36,6 +36,13 @@ export const Semigroup: S.Semigroup<string> = {
 }
 
 /**
+ * An empty `string`.
+ *
+ * @since 3.0.0
+ */
+export const empty: string = ''
+
+/**
  * `string` monoid under concatenation.
  *
  * The `empty` value is `''`.
@@ -51,7 +58,7 @@ export const Semigroup: S.Semigroup<string> = {
  */
 export const Monoid: M.Monoid<string> = {
   concat: Semigroup.concat,
-  empty: ''
+  empty
 }
 
 /**
@@ -74,13 +81,6 @@ export const Show: Sh.Show<string> = {
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
-
-/**
- * An empty `string`.
- *
- * @since 3.0.0
- */
-export const empty: string = ''
 
 /**
  * Test whether a `string` is empty.
