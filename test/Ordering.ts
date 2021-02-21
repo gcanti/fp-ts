@@ -1,5 +1,5 @@
 import { pipe } from '../src/function'
-import { Eq, reverse, Monoid, sign } from '../src/Ordering'
+import * as _ from '../src/Ordering'
 import { deepStrictEqual } from './util'
 
 describe('Ordering', () => {
@@ -8,36 +8,51 @@ describe('Ordering', () => {
   // -------------------------------------------------------------------------------------
 
   it('Eq', () => {
-    deepStrictEqual(Eq.equals(-1)(-1), true)
-    deepStrictEqual(Eq.equals(-1)(0), false)
-    deepStrictEqual(Eq.equals(-1)(1), false)
-    deepStrictEqual(Eq.equals(0)(-1), false)
-    deepStrictEqual(Eq.equals(0)(0), true)
-    deepStrictEqual(Eq.equals(0)(1), false)
-    deepStrictEqual(Eq.equals(1)(-1), false)
-    deepStrictEqual(Eq.equals(1)(0), false)
-    deepStrictEqual(Eq.equals(1)(1), true)
+    deepStrictEqual(_.Eq.equals(-1)(-1), true)
+    deepStrictEqual(_.Eq.equals(-1)(0), false)
+    deepStrictEqual(_.Eq.equals(-1)(1), false)
+    deepStrictEqual(_.Eq.equals(0)(-1), false)
+    deepStrictEqual(_.Eq.equals(0)(0), true)
+    deepStrictEqual(_.Eq.equals(0)(1), false)
+    deepStrictEqual(_.Eq.equals(1)(-1), false)
+    deepStrictEqual(_.Eq.equals(1)(0), false)
+    deepStrictEqual(_.Eq.equals(1)(1), true)
   })
 
   it('Monoid', () => {
     // concat
-    deepStrictEqual(pipe(-1, Monoid.concat(-1)), -1)
-    deepStrictEqual(pipe(-1, Monoid.concat(0)), -1)
-    deepStrictEqual(pipe(-1, Monoid.concat(1)), -1)
-    deepStrictEqual(pipe(0, Monoid.concat(-1)), -1)
-    deepStrictEqual(pipe(0, Monoid.concat(0)), 0)
-    deepStrictEqual(pipe(0, Monoid.concat(1)), 1)
-    deepStrictEqual(pipe(1, Monoid.concat(-1)), 1)
-    deepStrictEqual(pipe(1, Monoid.concat(0)), 1)
-    deepStrictEqual(pipe(1, Monoid.concat(1)), 1)
+    deepStrictEqual(pipe(-1, _.Monoid.concat(-1)), -1)
+    deepStrictEqual(pipe(-1, _.Monoid.concat(0)), -1)
+    deepStrictEqual(pipe(-1, _.Monoid.concat(1)), -1)
+    deepStrictEqual(pipe(0, _.Monoid.concat(-1)), -1)
+    deepStrictEqual(pipe(0, _.Monoid.concat(0)), 0)
+    deepStrictEqual(pipe(0, _.Monoid.concat(1)), 1)
+    deepStrictEqual(pipe(1, _.Monoid.concat(-1)), 1)
+    deepStrictEqual(pipe(1, _.Monoid.concat(0)), 1)
+    deepStrictEqual(pipe(1, _.Monoid.concat(1)), 1)
 
     // empty
-    deepStrictEqual(pipe(1, Monoid.concat(Monoid.empty)), 1)
-    deepStrictEqual(pipe(Monoid.empty, Monoid.concat(1)), 1)
-    deepStrictEqual(pipe(-1, Monoid.concat(Monoid.empty)), -1)
-    deepStrictEqual(pipe(Monoid.empty, Monoid.concat(-1)), -1)
-    deepStrictEqual(pipe(0, Monoid.concat(Monoid.empty)), 0)
-    deepStrictEqual(pipe(Monoid.empty, Monoid.concat(0)), 0)
+    deepStrictEqual(pipe(1, _.Monoid.concat(_.Monoid.empty)), 1)
+    deepStrictEqual(pipe(_.Monoid.empty, _.Monoid.concat(1)), 1)
+    deepStrictEqual(pipe(-1, _.Monoid.concat(_.Monoid.empty)), -1)
+    deepStrictEqual(pipe(_.Monoid.empty, _.Monoid.concat(-1)), -1)
+    deepStrictEqual(pipe(0, _.Monoid.concat(_.Monoid.empty)), 0)
+    deepStrictEqual(pipe(_.Monoid.empty, _.Monoid.concat(0)), 0)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // destructors
+  // -------------------------------------------------------------------------------------
+
+  it('match', () => {
+    const f = _.match(
+      () => 'lt',
+      () => 'eq',
+      () => 'gt'
+    )
+    deepStrictEqual(f(-1), 'lt')
+    deepStrictEqual(f(0), 'eq')
+    deepStrictEqual(f(1), 'gt')
   })
 
   // -------------------------------------------------------------------------------------
@@ -45,14 +60,14 @@ describe('Ordering', () => {
   // -------------------------------------------------------------------------------------
 
   it('reverse', () => {
-    deepStrictEqual(reverse(-1), 1)
-    deepStrictEqual(reverse(0), 0)
-    deepStrictEqual(reverse(1), -1)
+    deepStrictEqual(_.reverse(-1), 1)
+    deepStrictEqual(_.reverse(0), 0)
+    deepStrictEqual(_.reverse(1), -1)
   })
 
   it('sign', () => {
-    deepStrictEqual(sign(10), 1)
-    deepStrictEqual(sign(0), 0)
-    deepStrictEqual(sign(-10), -1)
+    deepStrictEqual(_.sign(10), 1)
+    deepStrictEqual(_.sign(0), 0)
+    deepStrictEqual(_.sign(-10), -1)
   })
 })

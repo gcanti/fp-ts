@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [destructors](#destructors)
+  - [match](#match)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -19,10 +21,22 @@ Added in v3.0.0
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
-  - [invert](#invert)
+  - [reverse](#reverse)
   - [sign](#sign)
 
 ---
+
+# destructors
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
+```
+
+Added in v3.0.0
 
 # instances
 
@@ -70,12 +84,12 @@ Added in v3.0.0
 
 # utils
 
-## invert
+## reverse
 
 **Signature**
 
 ```ts
-export declare const invert: Endomorphism<Ordering>
+export declare const reverse: Endomorphism<Ordering>
 ```
 
 Added in v3.0.0

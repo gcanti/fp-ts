@@ -17,6 +17,17 @@ import * as M from './Monoid'
 export type Ordering = -1 | 0 | 1
 
 // -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const match = <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering): A =>
+  o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
+
+// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -55,13 +66,4 @@ export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 /**
  * @since 3.0.0
  */
-export const reverse: Endomorphism<Ordering> = (O) => {
-  switch (O) {
-    case -1:
-      return 1
-    case 1:
-      return -1
-    default:
-      return 0
-  }
-}
+export const reverse: Endomorphism<Ordering> = (o) => (o === -1 ? 1 : o === 1 ? -1 : 0)
