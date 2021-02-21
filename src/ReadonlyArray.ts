@@ -367,9 +367,7 @@ export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export function isEmpty<A>(as: ReadonlyArray<A>): boolean {
-  return as.length === 0
-}
+export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
 
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
@@ -377,9 +375,14 @@ export function isEmpty<A>(as: ReadonlyArray<A>): boolean {
  * @category guards
  * @since 2.5.0
  */
-export function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> {
-  return as.length > 0
-}
+export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+
+/**
+ * Calculate the number of elements in a `ReadonlyArray`.
+ *
+ * @since 2.10.0
+ */
+export const size = <A>(as: ReadonlyArray<A>): number => as.length
 
 /**
  * Test whether an array contains a particular index

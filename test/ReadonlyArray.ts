@@ -1020,4 +1020,10 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(pipe([-1, -2, 3], _.some(isPositive)), true)
     U.deepStrictEqual(pipe([-1, -2, -3], _.some(isPositive)), false)
   })
+
+  it('size', () => {
+    U.deepStrictEqual(_.size(_.empty), 0)
+    U.deepStrictEqual(_.size([]), 0)
+    U.deepStrictEqual(_.size(['a']), 1)
+  })
 })
