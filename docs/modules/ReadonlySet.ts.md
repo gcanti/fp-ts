@@ -340,7 +340,7 @@ Test whether a `ReadonlySet` is empty.
 export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## isSubset
 
@@ -420,7 +420,7 @@ Calculate the number of elements in a `ReadonlySet`.
 export declare const size: <A>(set: ReadonlySet<A>) => number
 ```
 
-Added in v3.0.0
+Added in v2.10.0
 
 ## some
 

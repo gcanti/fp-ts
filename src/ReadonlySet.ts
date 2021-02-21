@@ -456,14 +456,14 @@ export const empty: ReadonlySet<never> = new Set()
 /**
  * Test whether a `ReadonlySet` is empty.
  *
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
 
 /**
  * Calculate the number of elements in a `ReadonlySet`.
  *
- * @since 3.0.0
+ * @since 2.10.0
  */
 export const size = <A>(set: ReadonlySet<A>): number => set.size
 

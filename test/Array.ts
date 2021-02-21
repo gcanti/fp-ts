@@ -965,4 +965,10 @@ describe('Array', () => {
     U.deepStrictEqual(Sh.show(['a']), `["a"]`)
     U.deepStrictEqual(Sh.show(['a', 'b']), `["a", "b"]`)
   })
+
+  it('size', () => {
+    U.deepStrictEqual(_.size(_.empty), 0)
+    U.deepStrictEqual(_.size([]), 0)
+    U.deepStrictEqual(_.size(['a']), 1)
+  })
 })

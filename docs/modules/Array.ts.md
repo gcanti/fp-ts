@@ -164,6 +164,7 @@ Added in v2.0.0
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [size](#size)
   - [some](#some)
   - [splitAt](#splitat)
   - [unzip](#unzip)
@@ -2301,6 +2302,18 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v2.0.0
+
+## size
+
+Calculate the number of elements in a `Array`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(as: readonly A[]) => number
+```
+
+Added in v2.10.0
 
 ## some
 
