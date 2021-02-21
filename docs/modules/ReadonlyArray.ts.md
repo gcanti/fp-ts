@@ -156,6 +156,7 @@ Added in v3.0.0
   - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
@@ -2082,7 +2083,7 @@ Added in v3.0.0
 
 ## isEmpty
 
-Test whether a `ReadonlyArray` is empty
+Test whether a `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2198,6 +2199,18 @@ import { some, none } from 'fp-ts/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
+```
+
+Added in v3.0.0
+
+## size
+
+Calculate the number of elements in a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(as: readonly A[]) => number
 ```
 
 Added in v3.0.0

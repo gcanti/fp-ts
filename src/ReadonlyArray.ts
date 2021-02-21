@@ -164,7 +164,7 @@ export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
 }
 
 /**
- * Test whether a `ReadonlyArray` is empty
+ * Test whether a `ReadonlyArray` is empty.
  *
  * @example
  * import { isEmpty } from 'fp-ts/ReadonlyArray'

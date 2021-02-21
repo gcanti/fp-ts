@@ -7,6 +7,10 @@ import * as S from './Semigroup'
 import * as O from './Ord'
 import * as Sh from './Show'
 
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @category instances
  * @since 3.0.0
@@ -66,3 +70,28 @@ export const Ord: O.Ord<string> = {
 export const Show: Sh.Show<string> = {
   show: (a) => JSON.stringify(a)
 }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * An empty `string`.
+ *
+ * @since 3.0.0
+ */
+export const empty: string = ''
+
+/**
+ * Test whether a `string` is empty.
+ *
+ * @since 3.0.0
+ */
+export const isEmpty = (s: string): boolean => s.length === 0
+
+/**
+ * Calculate the number of characters in a `string`.
+ *
+ * @since 3.0.0
+ */
+export const size = (s: string): number => s.length

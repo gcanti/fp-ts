@@ -43,8 +43,10 @@ Added in v3.0.0
   - [empty](#empty)
   - [every](#every)
   - [foldMap](#foldmap)
+  - [isEmpty](#isempty)
   - [isSubset](#issubset)
   - [reduce](#reduce)
+  - [size](#size)
   - [some](#some)
   - [toReadonlyArray](#toreadonlyarray)
 
@@ -340,6 +342,18 @@ export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M
 
 Added in v3.0.0
 
+## isEmpty
+
+Test whether a `ReadonlySet` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
+```
+
+Added in v3.0.0
+
 ## isSubset
 
 Return `true` if and only if every element in the first `ReadonlySet` is an element of the second `ReadonlySet`.
@@ -358,6 +372,18 @@ Added in v3.0.0
 
 ```ts
 export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B
+```
+
+Added in v3.0.0
+
+## size
+
+Calculate the number of elements in a `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(set: ReadonlySet<A>) => number
 ```
 
 Added in v3.0.0

@@ -18,6 +18,10 @@ Added in v3.0.0
   - [Ord](#ord)
   - [Semigroup](#semigroup)
   - [Show](#show)
+- [utils](#utils)
+  - [empty](#empty)
+  - [isEmpty](#isempty)
+  - [size](#size)
 
 ---
 
@@ -93,6 +97,44 @@ Added in v3.0.0
 
 ```ts
 export declare const Show: Sh.Show<string>
+```
+
+Added in v3.0.0
+
+# utils
+
+## empty
+
+An empty `string`.
+
+**Signature**
+
+```ts
+export declare const empty: string
+```
+
+Added in v3.0.0
+
+## isEmpty
+
+Test whether a `string` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: (s: string) => boolean
+```
+
+Added in v3.0.0
+
+## size
+
+Calculate the number of characters in a `string`.
+
+**Signature**
+
+```ts
+export declare const size: (s: string) => number
 ```
 
 Added in v3.0.0
