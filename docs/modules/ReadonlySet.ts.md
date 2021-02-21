@@ -28,7 +28,6 @@ Added in v2.5.0
   - [fromSet](#fromset)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toReadonlyArray](#toreadonlyarray)
   - [toSet](#toset)
 - [instances](#instances)
   - [getEq](#geteq)
@@ -40,12 +39,15 @@ Added in v2.5.0
   - [empty](#empty)
   - [every](#every)
   - [foldMap](#foldmap)
+  - [isEmpty](#isempty)
   - [isSubset](#issubset)
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
   - [separate](#separate)
+  - [size](#size)
   - [some](#some)
+  - [toReadonlyArray](#toreadonlyarray)
 
 ---
 
@@ -227,16 +229,6 @@ Added in v2.5.0
 
 # destructors
 
-## toReadonlyArray
-
-**Signature**
-
-```ts
-export declare function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A>
-```
-
-Added in v2.5.0
-
 ## toSet
 
 **Signature**
@@ -323,7 +315,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
+export declare const every: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
 ```
 
 Added in v2.5.0
@@ -337,6 +329,18 @@ export declare function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M)
 ```
 
 Added in v2.5.0
+
+## isEmpty
+
+Test whether a `ReadonlySet` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
+```
+
+Added in v3.0.0
 
 ## isSubset
 
@@ -406,12 +410,34 @@ export declare function separate<E, A>(
 
 Added in v2.5.0
 
+## size
+
+Calculate the number of elements in a `ReadonlySet`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(set: ReadonlySet<A>) => number
+```
+
+Added in v3.0.0
+
 ## some
 
 **Signature**
 
 ```ts
-export declare function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+```
+
+Added in v2.5.0
+
+## toReadonlyArray
+
+**Signature**
+
+```ts
+export declare function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A>
 ```
 
 Added in v2.5.0

@@ -257,4 +257,16 @@ describe('ReadonlySet', () => {
     U.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
   })
+
+  it('isEmpty', () => {
+    U.deepStrictEqual(_.isEmpty(_.empty), true)
+    U.deepStrictEqual(_.isEmpty(new Set()), true)
+    U.deepStrictEqual(_.isEmpty(new Set(['a'])), false)
+  })
+
+  it('size', () => {
+    U.deepStrictEqual(_.size(_.empty), 0)
+    U.deepStrictEqual(_.size(new Set()), 0)
+    U.deepStrictEqual(_.size(new Set(['a'])), 1)
+  })
 })
