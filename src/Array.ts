@@ -245,6 +245,13 @@ export const isEmpty: <A>(as: Array<A>) => boolean = RA.isEmpty
 export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = RA.isNonEmpty as any
 
 /**
+ * Calculate the number of elements in a `Array`.
+ *
+ * @since 2.10.0
+ */
+export const size: <A>(as: ReadonlyArray<A>) => number = RA.size
+
+/**
  * Test whether an array contains a particular index
  *
  * @since 2.0.0

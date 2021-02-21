@@ -21,8 +21,12 @@ high state of flux, you're at risk of it changing without notice.
   - `Ordering`
     - deprecate `invert` in favour of `reverse`
 - **New Feature**
+  - `Array`
+    - add `size`
   - `Ordering`
     - add `match`
+  - `ReadonlyArray`
+    - add `size`
   - `ReadonlySet`
     - add `isEmpty`
     - add `size`

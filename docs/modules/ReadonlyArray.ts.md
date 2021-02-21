@@ -164,6 +164,7 @@ Added in v2.5.0
   - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
+  - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
   - [splitAt](#splitat)
@@ -1437,7 +1438,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyA
 **Signature**
 
 ```ts
-export declare function isNonEmpty<A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -2224,7 +2225,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export declare function isEmpty<A>(as: ReadonlyArray<A>): boolean
+export declare const isEmpty: <A>(as: readonly A[]) => boolean
 ```
 
 **Example**
@@ -2339,6 +2340,18 @@ assert.deepStrictEqual(modifyAt(1, double)([]), none)
 ```
 
 Added in v2.5.0
+
+## size
+
+Calculate the number of elements in a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const size: <A>(as: readonly A[]) => number
+```
+
+Added in v2.10.0
 
 ## some
 
