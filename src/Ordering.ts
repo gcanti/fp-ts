@@ -1,10 +1,9 @@
 /**
  * @since 2.0.0
  */
-import * as S from './Semigroup'
 import * as E from './Eq'
 import * as M from './Monoid'
-import { Endomorphism } from './function'
+import * as S from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -15,6 +14,27 @@ import { Endomorphism } from './function'
  * @since 2.0.0
  */
 export type Ordering = -1 | 0 | 1
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category destructors
+ * @since 2.10.0
+ */
+export const match = <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering): A =>
+  o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 : 0)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -53,11 +73,6 @@ export const Monoid: M.Monoid<Ordering> = {
  * @since 2.0.0
  */
 export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
-
-/**
- * @since 2.10.0
- */
-export const reverse: Endomorphism<Ordering> = (o) => (o === -1 ? 1 : o === 1 ? -1 : 0)
 
 // -------------------------------------------------------------------------------------
 // deprecated
