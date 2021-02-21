@@ -184,6 +184,13 @@ export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
 export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
 
 /**
+ * Calculate the number of elements in a `ReadonlyArray`.
+ *
+ * @since 3.0.0
+ */
+export const size = <A>(as: ReadonlyArray<A>): number => as.length
+
+/**
  * Test whether a `ReadonlyArray` contains a particular index
  *
  * @since 3.0.0
