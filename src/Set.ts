@@ -19,27 +19,10 @@ import { Show } from './Show'
 export const getShow: <A>(S: Show<A>) => Show<Set<A>> = RS.getShow
 
 /**
- * @since 2.0.0
- */
-export const empty: Set<never> = new Set()
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-// tslint:disable-next-line: readonly-array
-export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = RS.toReadonlyArray as any
-
-/**
  * @category instances
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = RS.getEq
-
-/**
- * @since 2.0.0
- */
-export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.some
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -51,30 +34,12 @@ export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS
 export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> = RS.map as any
 
 /**
- * @since 2.0.0
- */
-export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.every
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category combinators
  * @since 2.0.0
  */
 export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> = RS.chain as any
-
-// TODO: remove non-curried overloading in v3
-/**
- * `true` if and only if every element in the first set is an element of the second set
- *
- * @since 2.0.0
- */
-export const subset: <A>(
-  E: Eq<A>
-) => {
-  (that: Set<A>): (me: Set<A>) => boolean
-  (me: Set<A>, that: Set<A>): boolean
-} = RS.isSubset
 
 /**
  * @category combinators
@@ -94,19 +59,6 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
   return RS.partition(predicate) as any
 }
-
-// TODO: remove non-curried overloading in v3
-/**
- * Test if a value is a member of a set
- *
- * @since 2.0.0
- */
-export const elem: <A>(
-  E: Eq<A>
-) => {
-  (a: A): (set: Set<A>) => boolean
-  (a: A, set: Set<A>): boolean
-} = RS.elem
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -254,3 +206,77 @@ export const separate: <E, A>(
  * @since 2.0.0
  */
 export const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> = RS.filterMap as any
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const empty: Set<never> = new Set()
+
+/**
+ * Test whether a `ReadonlySet` is empty.
+ *
+ * @since 2.10.0
+ */
+export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
+
+/**
+ * Calculate the number of elements in a `ReadonlySet`.
+ *
+ * @since 2.10.0
+ */
+export const size = <A>(set: ReadonlySet<A>): number => set.size
+
+/**
+ * @since 2.0.0
+ */
+export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.some
+
+/**
+ * @since 2.0.0
+ */
+export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.every
+
+/**
+ * @since 2.10.0
+ */
+export const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean = RS.isSubset
+
+// TODO: remove non-curried overloading in v3
+/**
+ * Test if a value is a member of a set
+ *
+ * @since 2.0.0
+ */
+export const elem: <A>(
+  E: Eq<A>
+) => {
+  (a: A): (set: Set<A>) => boolean
+  (a: A, set: Set<A>): boolean
+} = RS.elem
+
+/**
+ * @since 2.0.0
+ */
+// tslint:disable-next-line: readonly-array
+export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = RS.toReadonlyArray as any
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `isSubset` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const subset: <A>(
+  E: Eq<A>
+) => {
+  (that: Set<A>): (me: Set<A>) => boolean
+  (me: Set<A>, that: Set<A>): boolean
+} = RS.isSubset

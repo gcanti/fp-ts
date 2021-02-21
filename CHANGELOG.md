@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecations**
   - `Ordering`
     - deprecate `invert` in favour of `reverse`
+  - `Set`
+    - deprecate `subset` in favour of `isSubset`
 - **New Feature**
   - `Array`
     - add `size`
@@ -30,6 +32,10 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlySet`
     - add `isEmpty`
     - add `size`
+  - `Set`
+    - add `isEmpty`
+    - add `size`
+    - add `isSubset`
 
 # 2.10.0-rc.2
 
