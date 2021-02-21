@@ -15,6 +15,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.3
+
+- **Deprecations**
+  - `Ordering`
+    - deprecate `invert` in favour of `reverse`
+
 # 2.10.0-rc.2
 
 - **Deprecations**

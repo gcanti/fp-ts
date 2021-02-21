@@ -49,9 +49,9 @@ describe('Ordering', () => {
     U.deepStrictEqual(_.sign(-10), -1)
   })
 
-  it('invert', () => {
-    U.deepStrictEqual(_.invert(-1), 1)
-    U.deepStrictEqual(_.invert(0), 0)
-    U.deepStrictEqual(_.invert(1), -1)
+  it('reverse', () => {
+    U.deepStrictEqual(_.reverse(-1), 1)
+    U.deepStrictEqual(_.reverse(0), 0)
+    U.deepStrictEqual(_.reverse(1), -1)
   })
 })

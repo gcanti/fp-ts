@@ -22,8 +22,9 @@ Added in v2.0.0
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
-  - [invert](#invert)
+  - [reverse](#reverse)
   - [sign](#sign)
+  - [~~invert~~](#invert)
 
 ---
 
@@ -109,22 +110,34 @@ Added in v2.0.0
 
 # utils
 
-## invert
+## reverse
 
 **Signature**
 
 ```ts
-export declare function invert(O: Ordering): Ordering
+export declare const reverse: Endomorphism<Ordering>
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
 ## sign
 
 **Signature**
 
 ```ts
-export declare function sign(n: number): Ordering
+export declare const sign: (n: number) => Ordering
+```
+
+Added in v2.0.0
+
+## ~~invert~~
+
+Use `reverse` instead.
+
+**Signature**
+
+```ts
+export declare const invert: Endomorphism<Ordering>
 ```
 
 Added in v2.0.0
