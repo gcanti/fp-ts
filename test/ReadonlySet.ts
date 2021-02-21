@@ -231,4 +231,10 @@ describe('ReadonlySet', () => {
     const s3 = new Set<string>(['a', 'b'])
     deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
   })
+
+  it('isEmpty', () => {
+    deepStrictEqual(_.isEmpty(_.empty), true)
+    deepStrictEqual(_.isEmpty(new Set()), true)
+    deepStrictEqual(_.isEmpty(new Set(['a'])), false)
+  })
 })

@@ -374,6 +374,13 @@ export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  */
 export const empty: ReadonlySet<never> = new Set()
 
+/**
+ * Test whether a `ReadonlySet` is empty.
+ *
+ * @since 3.0.0
+ */
+export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
+
 interface Next<A> {
   readonly done?: boolean
   readonly value: A
