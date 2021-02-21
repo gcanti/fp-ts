@@ -20,6 +20,9 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecations**
   - `Ordering`
     - deprecate `invert` in favour of `reverse`
+- **New Feature**
+  - `Ordering`
+    - add `match`
 
 # 2.10.0-rc.2
 
