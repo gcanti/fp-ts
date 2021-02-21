@@ -2,9 +2,8 @@
  * @since 3.0.0
  */
 import * as E from './Eq'
-import { Endomorphism } from './function'
-import * as S from './Semigroup'
 import * as M from './Monoid'
+import * as S from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -15,6 +14,16 @@ import * as M from './Monoid'
  * @since 3.0.0
  */
 export type Ordering = -1 | 0 | 1
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const reverse = (o: Ordering): Ordering => (o === -1 ? 1 : o === 1 ? -1 : 0)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -62,8 +71,3 @@ export const Monoid: M.Monoid<Ordering> = {
  * @since 3.0.0
  */
 export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
-
-/**
- * @since 3.0.0
- */
-export const reverse: Endomorphism<Ordering> = (o) => (o === -1 ? 1 : o === 1 ? -1 : 0)

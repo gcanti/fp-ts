@@ -12,6 +12,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [reverse](#reverse)
 - [destructors](#destructors)
   - [match](#match)
 - [instances](#instances)
@@ -21,10 +23,21 @@ Added in v3.0.0
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
-  - [reverse](#reverse)
   - [sign](#sign)
 
 ---
+
+# combinators
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: (o: Ordering) => Ordering
+```
+
+Added in v3.0.0
 
 # destructors
 
@@ -83,16 +96,6 @@ export type Ordering = -1 | 0 | 1
 Added in v3.0.0
 
 # utils
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: Endomorphism<Ordering>
-```
-
-Added in v3.0.0
 
 ## sign
 
