@@ -36,6 +36,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `isEmpty`
     - add `size`
     - add `isSubset`
+  - `string`
+    - add `empty`
+    - add `isEmpty`
+    - add `size`
 
 # 2.10.0-rc.2
 
