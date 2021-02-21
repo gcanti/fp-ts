@@ -237,4 +237,10 @@ describe('ReadonlySet', () => {
     deepStrictEqual(_.isEmpty(new Set()), true)
     deepStrictEqual(_.isEmpty(new Set(['a'])), false)
   })
+
+  it('size', () => {
+    deepStrictEqual(_.size(_.empty), 0)
+    deepStrictEqual(_.size(new Set()), 0)
+    deepStrictEqual(_.size(new Set(['a'])), 1)
+  })
 })
