@@ -47,24 +47,6 @@ export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
 }
 
 /**
- * @since 2.5.0
- */
-export const empty: ReadonlySet<never> = new Set()
-
-/**
- * @category destructors
- * @since 2.5.0
- */
-export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
-  return (x) => {
-    // tslint:disable-next-line: readonly-array
-    const r: Array<A> = []
-    x.forEach((e) => r.push(e))
-    return r.sort(O.compare)
-  }
-}
-
-/**
  * @category instances
  * @since 2.5.0
  */
@@ -76,22 +58,6 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
 interface Next<A> {
   readonly done?: boolean
   readonly value: A
-}
-
-/**
- * @since 2.5.0
- */
-export function some<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean {
-  return (set) => {
-    const values = set.values()
-    let e: Next<A>
-    let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!found && !(e = values.next()).done) {
-      found = predicate(e.value)
-    }
-    return found
-  }
 }
 
 /**
@@ -115,13 +81,6 @@ export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: ReadonlySet<A>) =
 }
 
 /**
- * @since 2.5.0
- */
-export function every<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => boolean {
-  return not(some(not(predicate)))
-}
-
-/**
  * @category combinators
  * @since 2.5.0
  */
@@ -137,31 +96,6 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
       })
     })
     return r
-  }
-}
-
-// TODO: remove non-curried overloading in v3
-/**
- * `true` if and only if every element in the first set is an element of the second set
- *
- * @since 2.5.0
- */
-export function isSubset<A>(
-  E: Eq<A>
-): {
-  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
-  (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
-}
-export function isSubset<A>(
-  E: Eq<A>
-): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => boolean | ((me: ReadonlySet<A>) => boolean) {
-  const elemE = elem(E)
-  return (me, that?) => {
-    if (that === undefined) {
-      const isSubsetE = isSubset(E)
-      return (that) => isSubsetE(that, me)
-    }
-    return every((a: A) => elemE(a, that))(me)
   }
 }
 
@@ -214,35 +148,6 @@ export function partition<A>(
       }
     }
     return separated(left, right)
-  }
-}
-
-// TODO: remove non-curried overloading in v3
-/**
- * Test if a value is a member of a set
- *
- * @since 2.5.0
- */
-export function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (set: ReadonlySet<A>) => boolean
-  (a: A, set: ReadonlySet<A>): boolean
-}
-export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((set: ReadonlySet<A>) => boolean) {
-  return (a, set?) => {
-    if (set === undefined) {
-      const elemE = elem(E)
-      return (set) => elemE(a, set)
-    }
-    const values = set.values()
-    let e: Next<A>
-    let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
-    while (!found && !(e = values.next()).done) {
-      found = E.equals(a, e.value)
-    }
-    return found
   }
 }
 
@@ -536,5 +441,113 @@ export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Read
       }
     })
     return r
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.5.0
+ */
+export const empty: ReadonlySet<never> = new Set()
+
+/**
+ * Test whether a `ReadonlySet` is empty.
+ *
+ * @since 3.0.0
+ */
+export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
+
+/**
+ * Calculate the number of elements in a `ReadonlySet`.
+ *
+ * @since 3.0.0
+ */
+export const size = <A>(set: ReadonlySet<A>): number => set.size
+
+/**
+ * @since 2.5.0
+ */
+export const some = <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>): boolean => {
+  const values = set.values()
+  let e: Next<A>
+  let found = false
+  // tslint:disable-next-line: strict-boolean-expressions
+  while (!found && !(e = values.next()).done) {
+    found = predicate(e.value)
+  }
+  return found
+}
+
+/**
+ * @since 2.5.0
+ */
+export const every = <A>(predicate: Predicate<A>): ((set: ReadonlySet<A>) => boolean) => not(some(not(predicate)))
+
+// TODO: remove non-curried overloading in v3
+/**
+ * `true` if and only if every element in the first set is an element of the second set
+ *
+ * @since 2.5.0
+ */
+export function isSubset<A>(
+  E: Eq<A>
+): {
+  (that: ReadonlySet<A>): (me: ReadonlySet<A>) => boolean
+  (me: ReadonlySet<A>, that: ReadonlySet<A>): boolean
+}
+export function isSubset<A>(
+  E: Eq<A>
+): (me: ReadonlySet<A>, that?: ReadonlySet<A>) => boolean | ((me: ReadonlySet<A>) => boolean) {
+  const elemE = elem(E)
+  return (me, that?) => {
+    if (that === undefined) {
+      const isSubsetE = isSubset(E)
+      return (that) => isSubsetE(that, me)
+    }
+    return every((a: A) => elemE(a, that))(me)
+  }
+}
+
+// TODO: remove non-curried overloading in v3
+/**
+ * Test if a value is a member of a set
+ *
+ * @since 2.5.0
+ */
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (set: ReadonlySet<A>) => boolean
+  (a: A, set: ReadonlySet<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((set: ReadonlySet<A>) => boolean) {
+  return (a, set?) => {
+    if (set === undefined) {
+      const elemE = elem(E)
+      return (set) => elemE(a, set)
+    }
+    const values = set.values()
+    let e: Next<A>
+    let found = false
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!found && !(e = values.next()).done) {
+      found = E.equals(a, e.value)
+    }
+    return found
+  }
+}
+
+/**
+ * @since 2.5.0
+ */
+export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
+  return (x) => {
+    // tslint:disable-next-line: readonly-array
+    const r: Array<A> = []
+    x.forEach((e) => r.push(e))
+    return r.sort(O.compare)
   }
 }

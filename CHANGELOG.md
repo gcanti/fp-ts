@@ -23,6 +23,9 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Ordering`
     - add `match`
+  - `ReadonlySet`
+    - add `isEmpty`
+    - add `size`
 
 # 2.10.0-rc.2
 
