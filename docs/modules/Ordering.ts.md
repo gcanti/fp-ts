@@ -12,6 +12,10 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [reverse](#reverse)
+- [destructors](#destructors)
+  - [match](#match)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -22,11 +26,34 @@ Added in v2.0.0
 - [model](#model)
   - [Ordering (type alias)](#ordering-type-alias)
 - [utils](#utils)
-  - [reverse](#reverse)
   - [sign](#sign)
   - [~~invert~~](#invert)
 
 ---
+
+# combinators
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: (o: Ordering) => Ordering
+```
+
+Added in v2.10.0
+
+# destructors
+
+## match
+
+**Signature**
+
+```ts
+export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
+```
+
+Added in v2.10.0
 
 # instances
 
@@ -110,16 +137,6 @@ Added in v2.0.0
 
 # utils
 
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: Endomorphism<Ordering>
-```
-
-Added in v2.10.0
-
 ## sign
 
 **Signature**
@@ -137,7 +154,7 @@ Use `reverse` instead.
 **Signature**
 
 ```ts
-export declare const invert: Endomorphism<Ordering>
+export declare const invert: (o: Ordering) => Ordering
 ```
 
 Added in v2.0.0
