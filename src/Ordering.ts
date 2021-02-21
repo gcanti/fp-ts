@@ -4,6 +4,7 @@
 import * as S from './Semigroup'
 import * as E from './Eq'
 import * as M from './Monoid'
+import { Endomorphism } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -51,27 +52,24 @@ export const Monoid: M.Monoid<Ordering> = {
 /**
  * @since 2.0.0
  */
-export function sign(n: number): Ordering {
-  return n <= -1 ? -1 : n >= 1 ? 1 : 0
-}
+export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 
 /**
- * @since 2.0.0
+ * @since 2.10.0
  */
-export function invert(O: Ordering): Ordering {
-  switch (O) {
-    case -1:
-      return 1
-    case 1:
-      return -1
-    default:
-      return 0
-  }
-}
+export const reverse: Endomorphism<Ordering> = (o) => (o === -1 ? 1 : o === 1 ? -1 : 0)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `reverse` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const invert = reverse
 
 /**
  * Use `Semigroup` instead
