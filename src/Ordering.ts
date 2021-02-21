@@ -55,7 +55,7 @@ export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 /**
  * @since 3.0.0
  */
-export const invert: Endomorphism<Ordering> = (O) => {
+export const reverse: Endomorphism<Ordering> = (O) => {
   switch (O) {
     case -1:
       return 1

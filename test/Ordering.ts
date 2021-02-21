@@ -1,5 +1,5 @@
 import { pipe } from '../src/function'
-import { Eq, invert, Monoid, sign } from '../src/Ordering'
+import { Eq, reverse, Monoid, sign } from '../src/Ordering'
 import { deepStrictEqual } from './util'
 
 describe('Ordering', () => {
@@ -44,10 +44,10 @@ describe('Ordering', () => {
   // utils
   // -------------------------------------------------------------------------------------
 
-  it('invert', () => {
-    deepStrictEqual(invert(-1), 1)
-    deepStrictEqual(invert(0), 0)
-    deepStrictEqual(invert(1), -1)
+  it('reverse', () => {
+    deepStrictEqual(reverse(-1), 1)
+    deepStrictEqual(reverse(0), 0)
+    deepStrictEqual(reverse(1), -1)
   })
 
   it('sign', () => {
