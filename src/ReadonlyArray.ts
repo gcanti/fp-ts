@@ -914,9 +914,8 @@ export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<Readonl
  *
  * @since 2.5.0
  */
-export function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
-}
+export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * Reverse an array, creating a new array

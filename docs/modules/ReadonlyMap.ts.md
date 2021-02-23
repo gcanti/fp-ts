@@ -667,9 +667,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function modifyAt<K>(
+export declare const modifyAt: <K>(
   E: Eq<K>
-): <A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>
+) => <A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => O.Option<ReadonlyMap<K, A>>
 ```
 
 Added in v2.5.0

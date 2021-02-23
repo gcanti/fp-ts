@@ -2325,7 +2325,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(i: number, f: (a: A) => A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
