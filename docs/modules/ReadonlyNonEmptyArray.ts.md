@@ -1080,10 +1080,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function modifyAt<A>(
+export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0

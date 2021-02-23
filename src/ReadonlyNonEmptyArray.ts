@@ -331,12 +331,10 @@ export const updateAt = <A>(i: number, a: A): ((nea: ReadonlyNonEmptyArray<A>) =
 /**
  * @since 2.5.0
  */
-export function modifyAt<A>(
+export const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.modifyAt(i, f) as any
-}
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> = RA.modifyAt as any
 
 /**
  * @since 2.5.0
