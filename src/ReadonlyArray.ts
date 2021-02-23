@@ -867,9 +867,8 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  *
  * @since 2.5.0
  */
-export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as)))
-}
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -883,9 +882,8 @@ export function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  *
  * @since 2.5.0
  */
-export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as)))
-}
+export const updateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as))
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -899,9 +897,8 @@ export function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<R
  *
  * @since 2.5.0
  */
-export function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>> {
-  return (as) => (isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as)))
-}
+export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as))
 
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out

@@ -319,16 +319,14 @@ export function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>)
 /**
  * @since 2.5.0
  */
-export function insertAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.insertAt(i, a) as any
-}
+export const insertAt = <A>(i: number, a: A): ((nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
+  RA.insertAt(i, a) as any
 
 /**
  * @since 2.5.0
  */
-export function updateAt<A>(i: number, a: A): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return RA.updateAt(i, a) as any
-}
+export const updateAt = <A>(i: number, a: A): ((nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
+  RA.updateAt(i, a) as any
 
 /**
  * @since 2.5.0

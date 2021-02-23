@@ -1037,10 +1037,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function insertAt<A>(
+export declare const insertAt: <A>(
   i: number,
   a: A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1145,10 +1145,10 @@ Added in v2.5.1
 **Signature**
 
 ```ts
-export declare function updateAt<A>(
+export declare const updateAt: <A>(
   i: number,
   a: A
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0

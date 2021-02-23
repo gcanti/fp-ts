@@ -192,21 +192,18 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
 /**
  * @since 2.5.0
  */
-export function updateAt<A>(
-  k: string,
-  a: A
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
-  return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!has(k, r)) {
-      return none
-    }
-    if (r[k] === a) {
-      return optionSome(r)
-    }
-    const out: Record<K, A> = Object.assign({}, r)
-    out[k] = a
-    return optionSome(out)
+export const updateAt = <A>(k: string, a: A) => <K extends string>(
+  r: ReadonlyRecord<K, A>
+): Option<ReadonlyRecord<K, A>> => {
+  if (!has(k, r)) {
+    return none
   }
+  if (r[k] === a) {
+    return optionSome(r)
+  }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = a
+  return optionSome(out)
 }
 
 /**
