@@ -15,7 +15,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import { isNone, isSome, none, Option, some as optionSome } from './Option'
+import * as O from './Option'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
@@ -23,6 +23,12 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+
+import Option = O.Option
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -133,7 +139,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
   return (r) => {
     const sas = toReadonlyArray(r)
     const len = sas.length
-    return U.unfold(0, (b) => (b < len ? optionSome([sas[b], b + 1]) : none))
+    return U.unfold(0, (b) => (b < len ? O.some([sas[b], b + 1]) : O.none))
   }
 }
 
@@ -196,31 +202,28 @@ export const updateAt = <A>(k: string, a: A) => <K extends string>(
   r: ReadonlyRecord<K, A>
 ): Option<ReadonlyRecord<K, A>> => {
   if (!has(k, r)) {
-    return none
+    return O.none
   }
   if (r[k] === a) {
-    return optionSome(r)
+    return O.some(r)
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = a
-  return optionSome(out)
+  return O.some(out)
 }
 
 /**
  * @since 2.5.0
  */
-export function modifyAt<A>(
-  k: string,
-  f: (a: A) => A
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>> {
-  return <K extends string>(r: ReadonlyRecord<K, A>) => {
-    if (!has(k, r)) {
-      return none
-    }
-    const out: Record<K, A> = Object.assign({}, r)
-    out[k] = f(r[k])
-    return optionSome(out)
+export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
+  r: ReadonlyRecord<K, A>
+): Option<ReadonlyRecord<K, A>> => {
+  if (!has(k, r)) {
+    return O.none
   }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = f(r[k])
+  return O.some(out)
 }
 
 /**
@@ -237,7 +240,7 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
   const deleteAtk = deleteAt(k)
   return (r) => {
     const oa = lookup(k, r)
-    return isNone(oa) ? none : optionSome([oa.value, deleteAtk(r)])
+    return O.isNone(oa) ? O.none : O.some([oa.value, deleteAtk(r)])
   }
 }
 
@@ -337,7 +340,7 @@ export function lookup<A>(
   if (r === undefined) {
     return (r) => lookup(k, r)
   }
-  return _hasOwnProperty.call(r, k) ? optionSome(r[k]) : none
+  return _hasOwnProperty.call(r, k) ? O.some(r[k]) : O.none
 }
 
 /**
@@ -663,7 +666,7 @@ export function filterMapWithIndex<A, B>(
     const keys = Object.keys(fa)
     for (const key of keys) {
       const optionB = f(key, fa[key])
-      if (isSome(optionB)) {
+      if (O.isSome(optionB)) {
         r[key] = optionB.value
       }
     }
@@ -1015,7 +1018,7 @@ export const compact = <A>(fa: Readonly<Record<string, Option<A>>>): Readonly<Re
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionA = fa[key]
-    if (isSome(optionA)) {
+    if (O.isSome(optionA)) {
       r[key] = optionA.value
     }
   }

@@ -25,11 +25,11 @@ import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 
+import Option = O.Option
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Option = O.Option
 
 /**
  * @category constructors
@@ -271,9 +271,9 @@ export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
 /**
  * @since 2.5.0
  */
-export function modifyAt<K>(
+export const modifyAt = <K>(
   E: Eq<K>
-): <A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>> {
+): (<A>(k: K, f: (a: A) => A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, f) => (m) => {
     const found = lookupWithKeyE(k, m)
