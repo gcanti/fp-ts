@@ -790,12 +790,7 @@ export const lookupWithKey = <K>(E: Eq<K>) => (k: K): (<A>(m: ReadonlyMap<K, A>)
  */
 export const lookup = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<A>) => {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k) => {
-    const lookupWithKeyEk = lookupWithKeyE(k)
-    return (m) => {
-      return pipe(lookupWithKeyEk(m), O.map(snd))
-    }
-  }
+  return (k) => flow(lookupWithKeyE(k), O.map(snd))
 }
 
 /**
