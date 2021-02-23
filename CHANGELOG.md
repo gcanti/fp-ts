@@ -211,7 +211,6 @@ high state of flux, you're at risk of it changing without notice.
     - drop `Traversable` and `Filterable` dependencies
 
 - **New Feature**
-  - add `Json` module
   - add pipeable sequence T to
     - `Either`
     - `Identity`
