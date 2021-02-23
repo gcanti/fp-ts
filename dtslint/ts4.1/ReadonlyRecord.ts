@@ -129,8 +129,6 @@ _.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
-_.singleton('a', 1) // $ExpectType Readonly<Record<"a", number>>
-
 _.traverseWithIndex(O.Applicative)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
 _.traverseWithIndex(O.Applicative)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
@@ -192,3 +190,9 @@ pipe(
   ['a', 'b'],
   _.fromFoldable(A.Foldable)(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
+
+//
+// singleton
+//
+
+_.singleton('a', 1) // $ExpectType Readonly<Record<string, number>>

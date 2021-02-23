@@ -168,6 +168,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `toRecord`
     - rename `insertAt` to `upsertAt` and add `insertAt` which now returns an `Option`
     - remove `fromFoldable`, curry `fromFoldableMap` and rename to `fromFoldable`
+    - drop `K` type parameter in `singleton` signature
   - `ReadonlySet`
     - make `isSubset` pipeable
     - make `elem` pipeable
