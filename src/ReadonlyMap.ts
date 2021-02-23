@@ -172,21 +172,14 @@ export const modifyAt = <K>(
  * @category combinators
  * @since 3.0.0
  */
-export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
   const popE = pop(E)
-  return (k) => {
-    const popEk = popE(k)
-    return (m) =>
-      pipe(
-        popEk(m),
-        O.map(snd),
-        O.getOrElse(() => m)
-      )
-  }
+  return (k) => flow(popE(k), O.map(snd))
 }
 
 /**
- * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`.
+ * Delete a key and value from a `ReadonlyMap`, returning the value as well as the subsequent `ReadonlyMap`,
+ * or returning `None` if the key doesn't exist.
  *
  * @category combinators
  * @since 3.0.0

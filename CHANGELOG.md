@@ -147,8 +147,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `isSubmap` pipeable
     - remove `fromMap`
     - remove `toMap`
-    - rename `insertAt` to `upsertAt` and add `insertAt`
-    - change `deleteAt` signature
+    - rename `insertAt` to `upsertAt` and add `insertAt` which now returns an `Option`
+    - `deleteAt` returns an `Option`
     - remove `readonlyMap`
     - curry `fromFoldable`
     - curry `toUnfoldable`
@@ -166,7 +166,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `elem` pipeable
     - remove `fromRecord`
     - remove `toRecord`
-    - rename `insertAt` to `upsertAt` and add `insertAt`
+    - rename `insertAt` to `upsertAt` and add `insertAt` which now returns an `Option`
     - remove `fromFoldable`, curry `fromFoldableMap` and rename to `fromFoldable`
   - `ReadonlySet`
     - make `isSubset` pipeable

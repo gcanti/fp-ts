@@ -536,10 +536,11 @@ describe('ReadonlyMap', () => {
     const del = _.deleteAt(eqUser)
     U.deepStrictEqual(
       pipe(m, del({ id: 'a' })),
-      new Map<User, number>([[{ id: 'b' }, 2]])
+      O.some(
+        new Map<User, number>([[{ id: 'b' }, 2]])
+      )
     )
-    // should return the same reference if nothing changed
-    assert.strictEqual(pipe(m, del({ id: 'c' })), m)
+    U.deepStrictEqual(pipe(m, del({ id: 'c' })), O.none)
   })
 
   it('updateAt', () => {
