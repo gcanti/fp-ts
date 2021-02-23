@@ -216,7 +216,7 @@ export function toUnfoldable<K, F>(
  * @category combinators
  * @since 2.5.0
  */
-export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> {
+export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, a) => (m) => {
     const found = lookupWithKeyE(k, m)
@@ -239,7 +239,7 @@ export function insertAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>)
  * @category combinators
  * @since 2.5.0
  */
-export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> {
+export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k) => (m) => {
     const found = lookupWithKeyE(k, m)
@@ -255,7 +255,7 @@ export function deleteAt<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) => Re
 /**
  * @since 2.5.0
  */
-export function updateAt<K>(E: Eq<K>): <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>> {
+export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
   const lookupWithKeyE = lookupWithKey(E)
   return (k, a) => (m) => {
     const found = lookupWithKeyE(k, m)
