@@ -1019,10 +1019,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function updateAt<A>(
+export declare const updateAt: <A>(
   k: string,
   a: A
-): <K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v2.5.0

@@ -1906,7 +1906,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare function deleteAt(i: number): <A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2204,7 +2204,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare function insertAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2504,7 +2504,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare function updateAt<A>(i: number, a: A): (as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>
+export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
