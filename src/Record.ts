@@ -92,14 +92,12 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: Record<string, A>) => 
 }
 
 /**
- * Insert or replace a key/value pair in a record
+ * Insert or replace a key/value pair in a `Record`.
  *
- * @since 2.0.0
+ * @category combinators
+ * @since 2.10.0
  */
-export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
-export function insertAt<A>(k: string, a: A): (r: Record<string, A>) => Record<string, A> {
-  return RR.insertAt(k, a) as any
-}
+export const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A> = RR.upsertAt
 
 /**
  * Test whether or not a key exists in a `Record`.
@@ -786,6 +784,17 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `upsertAt` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
+export function insertAt<A>(k: string, a: A): (r: Record<string, A>) => Record<string, A> {
+  return upsertAt(k, a)
+}
 
 /**
  * Use `has` instead.

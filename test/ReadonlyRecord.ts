@@ -307,10 +307,13 @@ describe('ReadonlyRecord', () => {
   })
 
   it('insertAt', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('a', 1)({}), { a: 1 })
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
     // should return the same reference if the value is already there
     const x = { a: 1 }
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('a', 1)(x), x)
   })
 
