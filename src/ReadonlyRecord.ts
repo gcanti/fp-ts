@@ -157,18 +157,13 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>
  * @category combinators
  * @since 3.0.0
  */
-export function deleteAt<K extends string>(
-  k: K
-): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
-export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return <A>(r: ReadonlyRecord<string, A>) => {
-    if (!_hasOwnProperty.call(r, k)) {
-      return r
-    }
-    const out: Record<string, A> = Object.assign({}, r)
-    delete out[k]
-    return out
+export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+  if (!_hasOwnProperty.call(r, k)) {
+    return r
   }
+  const out: Record<string, A> = Object.assign({}, r)
+  delete out[k]
+  return out
 }
 
 /**

@@ -17,6 +17,12 @@ const l1 = { a: 1 }
 declare const keyString: string
 
 //
+// singleton
+//
+
+_.singleton('a', 1) // $ExpectType Readonly<Record<string, number>>
+
+//
 // has
 //
 
@@ -29,22 +35,6 @@ if (_.has(keyString, recordString)) {
 if (_.has(keyString, r1)) {
   keyString // $ExpectType "a" | "b"
 }
-
-//
-// updateAt
-//
-
-pipe(d1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(recordString, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(r1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
-
-//
-// modifyAt
-//
-
-pipe(d1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(recordString, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 //
 // pop
@@ -78,16 +68,26 @@ _.upsertAt('b', 0)(d1) // $ExpectType Readonly<Record<string, number>>
 _.upsertAt(stringKey, 0)(r1) // $ExpectType Readonly<Record<string, number>>
 
 //
+// updateAt
+//
+
+pipe(d1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(recordString, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(r1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+
+//
+// modifyAt
+//
+
+pipe(d1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(recordString, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+
+//
 // deleteAt
 //
 
-_.deleteAt('a')({ a: 1 }) // $ExpectType Readonly<Record<never, number>>
-_.deleteAt('b')({ a: 1 }) // $ExpectType Readonly<Record<"a", number>>
-_.deleteAt('a')(l1) // $ExpectType Readonly<Record<never, number>>
-_.deleteAt('b')(l1) // $ExpectType Readonly<Record<"a", number>>
 _.deleteAt('b')(d1) // $ExpectType Readonly<Record<string, number>>
-_.deleteAt('c')(r1) // $ExpectType Readonly<Record<"a" | "b", number>>
-_.deleteAt('a')(r1) // $ExpectType Readonly<Record<"b", number>>
 _.deleteAt(stringKey)(r1) // $ExpectType Readonly<Record<string, number>>
 
 //
@@ -182,9 +182,3 @@ pipe(
   ['a', 'b'],
   _.fromFoldable(A.Foldable)(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
-
-//
-// singleton
-//
-
-_.singleton('a', 1) // $ExpectType Readonly<Record<string, number>>

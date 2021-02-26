@@ -452,9 +452,7 @@ Delete the element at the specified key, creating a new `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare function deleteAt<K extends string>(
-  k: K
-): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
+export declare const deleteAt: (k: string) => <A>(r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
