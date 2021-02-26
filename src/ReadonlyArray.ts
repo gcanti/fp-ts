@@ -1311,7 +1311,7 @@ export function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [Reado
  */
 export function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> {
   const f = chop(splitAt(n))
-  return (as) => (as.length === 0 ? empty : isOutOfBound(n - 1, as) ? [as] : f(as))
+  return (as) => (isNonEmpty(as) ? (n < 1 || n >= as.length ? [as] : f(as)) : empty)
 }
 
 /**
