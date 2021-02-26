@@ -95,19 +95,13 @@ export function fromFoldable<F>(
  * @category combinators
  * @since 3.0.0
  */
-export function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => Option<ReadonlyRecord<KS | K, A>>
-export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => Option<ReadonlyRecord<string, A>> {
-  return (r) => {
-    if (!_hasOwnProperty.call(r, k)) {
-      const out: Record<string, A> = Object.assign({}, r)
-      out[k] = a
-      return O.some(out)
-    }
-    return O.none
+export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
+  if (!_hasOwnProperty.call(r, k)) {
+    const out: Record<string, A> = Object.assign({}, r)
+    out[k] = a
+    return O.some(out)
   }
+  return O.none
 }
 
 /**

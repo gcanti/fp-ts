@@ -478,10 +478,10 @@ Insert an element at the specified key, creating a new `ReadonlyRecord`, or retu
 **Signature**
 
 ```ts
-export declare function insertAt<K extends string, A>(
-  k: K,
+export declare const insertAt: <A>(
+  k: string,
   a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => Option<ReadonlyRecord<KS | K, A>>
+) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -587,7 +587,7 @@ Create a `ReadonlyRecord` from one key/value pair.
 **Signature**
 
 ```ts
-export declare const singleton: <K extends string, A>(k: K, a: A) => Readonly<Record<K, A>>
+export declare const singleton: <A>(k: string, a: A) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
