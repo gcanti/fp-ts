@@ -928,12 +928,7 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: ReadonlyArray<A>)
  * @category combinators
  * @since 2.5.0
  */
-export function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A> {
-  if (isEmpty(as)) {
-    return as
-  }
-  return as.slice().reverse()
-}
+export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice().reverse())
 
 /**
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
