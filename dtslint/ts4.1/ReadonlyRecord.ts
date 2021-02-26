@@ -79,8 +79,8 @@ pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<"a" | 
 // deleteAt
 //
 
-_.deleteAt('b')(d1) // $ExpectType Readonly<Record<string, number>>
-_.deleteAt(stringKey)(r1) // $ExpectType Readonly<Record<string, number>>
+_.deleteAt('b')(d1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.deleteAt(stringKey)(r1) // $ExpectType Option<Readonly<Record<string, number>>>
 
 //
 // pop

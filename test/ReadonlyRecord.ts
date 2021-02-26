@@ -316,11 +316,8 @@ describe('ReadonlyRecord', () => {
   })
 
   it('deleteAt', () => {
-    U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.deleteAt('a')), { b: 2 })
-    // should return the same reference when nothing changed
-    const x = { a: 1 }
-    assert.strictEqual(pipe(x, _.deleteAt('b')), x)
-    assert.strictEqual(pipe(noPrototype, _.deleteAt('b')), noPrototype)
+    U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.deleteAt('a')), O.some({ b: 2 }))
+    U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.deleteAt('c')), O.none)
   })
 
   it('pop', () => {

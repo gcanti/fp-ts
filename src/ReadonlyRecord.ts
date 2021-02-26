@@ -152,36 +152,33 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>
 }
 
 /**
- * Delete the element at the specified key, creating a new `ReadonlyRecord`.
+ * Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
   if (!_hasOwnProperty.call(r, k)) {
-    return r
+    return O.none
   }
   const out: Record<string, A> = Object.assign({}, r)
   delete out[k]
-  return out
+  return O.some(out)
 }
 
 /**
- * Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
+ * Delete the element at the specified key, returning the value as well as the subsequent `ReadonlyRecord`,
+ * or returning `None` if the key doesn't exist.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const pop = (
-  k: string
-): (<A>(r: ReadonlyRecord<string, A>) => Option<readonly [A, ReadonlyRecord<string, A>]>) => {
-  const deleteAtk = deleteAt(k)
-  const lookupk = lookup(k)
-  return (r) => {
-    const oa = lookupk(r)
-    return O.isNone(oa) ? O.none : O.some([oa.value, deleteAtk(r)])
-  }
-}
+export const pop = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<readonly [A, ReadonlyRecord<string, A>]> =>
+  pipe(
+    r,
+    deleteAt(k),
+    O.map((out) => [r[k], out])
+  )
 
 // -------------------------------------------------------------------------------------
 // type class members

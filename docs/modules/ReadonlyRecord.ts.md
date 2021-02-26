@@ -447,12 +447,14 @@ Added in v3.0.0
 
 ## deleteAt
 
-Delete the element at the specified key, creating a new `ReadonlyRecord`.
+Delete the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
 
 **Signature**
 
 ```ts
-export declare const deleteAt: (k: string) => <A>(r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+export declare const deleteAt: (
+  k: string
+) => <A>(r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -501,7 +503,8 @@ Added in v3.0.0
 
 ## pop
 
-Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
+Delete the element at the specified key, returning the value as well as the subsequent `ReadonlyRecord`,
+or returning `None` if the key doesn't exist.
 
 **Signature**
 
