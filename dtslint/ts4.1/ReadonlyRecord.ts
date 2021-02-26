@@ -74,12 +74,8 @@ _.insertAt(stringKey, 0)(r1) // $ExpectType Option<Readonly<Record<string, numbe
 // upsertAt
 //
 
-_.upsertAt('b', 0)({ a: 1 }) // $ExpectType Readonly<Record<"a" | "b", number>>
-_.upsertAt('b', 0)(l1) // $ExpectType Readonly<Record<"a" | "b", number>>
 _.upsertAt('b', 0)(d1) // $ExpectType Readonly<Record<string, number>>
-_.upsertAt('b', 0)(r1) // $ExpectType Readonly<Record<"a" | "b", number>>
 _.upsertAt(stringKey, 0)(r1) // $ExpectType Readonly<Record<string, number>>
-_.upsertAt('c', 0)(r1) // $ExpectType Readonly<Record<"a" | "b" | "c", number>>
 
 //
 // deleteAt

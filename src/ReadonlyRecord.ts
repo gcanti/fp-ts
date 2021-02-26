@@ -110,19 +110,13 @@ export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  * @category combinators
  * @since 3.0.0
  */
-export function upsertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
-export function upsertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return (r) => {
-    if (_hasOwnProperty.call(r, k) && r[k] === a) {
-      return r
-    }
-    const out: Record<string, A> = Object.assign({}, r)
-    out[k] = a
-    return out
+export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+  if (_hasOwnProperty.call(r, k) && r[k] === a) {
+    return r
   }
+  const out: Record<string, A> = Object.assign({}, r)
+  out[k] = a
+  return out
 }
 
 /**

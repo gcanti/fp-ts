@@ -539,10 +539,7 @@ Insert or replace a key/value pair in a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare function upsertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
+export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
