@@ -841,7 +841,7 @@ Reverse an array, creating a new array
 **Signature**
 
 ```ts
-export declare function reverse<A>(as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const reverse: <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
