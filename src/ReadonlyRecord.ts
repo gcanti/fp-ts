@@ -172,12 +172,9 @@ export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): Readon
  * @category combinators
  * @since 3.0.0
  */
-export function pop<K extends string>(
-  k: K
-): <KS extends string, A>(
-  r: ReadonlyRecord<KS, A>
-) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
-export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<readonly [A, ReadonlyRecord<string, A>]> {
+export const pop = (
+  k: string
+): (<A>(r: ReadonlyRecord<string, A>) => Option<readonly [A, ReadonlyRecord<string, A>]>) => {
   const deleteAtk = deleteAt(k)
   const lookupk = lookup(k)
   return (r) => {

@@ -37,14 +37,6 @@ if (_.has(keyString, r1)) {
 }
 
 //
-// pop
-//
-
-_.pop('a')(r1) // $ExpectType Option<readonly [number, Readonly<Record<"b", number>>]>
-_.pop('a')(d1) // $ExpectType Option<readonly [number, Readonly<Record<string, number>>]>
-_.pop(stringKey)(r1) // $ExpectType Option<readonly [number, Readonly<Record<string, number>>]>
-
-//
 // collect
 //
 
@@ -89,6 +81,13 @@ pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<"a" | 
 
 _.deleteAt('b')(d1) // $ExpectType Readonly<Record<string, number>>
 _.deleteAt(stringKey)(r1) // $ExpectType Readonly<Record<string, number>>
+
+//
+// pop
+//
+
+_.pop('a')(d1) // $ExpectType Option<readonly [number, Readonly<Record<string, number>>]>
+_.pop(stringKey)(r1) // $ExpectType Option<readonly [number, Readonly<Record<string, number>>]>
 
 //
 // mapWithIndex

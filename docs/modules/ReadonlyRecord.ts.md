@@ -506,11 +506,9 @@ Delete a key and value from a `ReadonlyRecord`, returning the value as well as t
 **Signature**
 
 ```ts
-export declare function pop<K extends string>(
-  k: K
-): <KS extends string, A>(
-  r: ReadonlyRecord<KS, A>
-) => Option<readonly [A, ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>]>
+export declare const pop: (
+  k: string
+) => <A>(r: Readonly<Record<string, A>>) => O.Option<readonly [A, Readonly<Record<string, A>>]>
 ```
 
 Added in v3.0.0
