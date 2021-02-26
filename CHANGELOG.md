@@ -20,7 +20,11 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecations**
   - `Ordering`
     - deprecate `invert` in favour of `reverse`
+  - `ReadonlyMap`
+    - deprecate `insertAt` in favour of `upsertAt`
   - `ReadonlyRecord`
+    - deprecate `insertAt` in favour of `upsertAt`
+  - `Map`
     - deprecate `insertAt` in favour of `upsertAt`
   - `Record`
     - deprecate `insertAt` in favour of `upsertAt`
@@ -39,7 +43,6 @@ high state of flux, you're at risk of it changing without notice.
   - `Set`
     - add `isEmpty`
     - add `size`
-    - add `isSubset`
   - `string`
     - add `empty`
     - add `isEmpty`
