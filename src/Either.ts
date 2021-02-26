@@ -1299,7 +1299,14 @@ export const either: Monad2<URI> &
  * @since 2.0.0
  */
 export function toError(e: unknown): Error {
-  return e instanceof Error ? e : new Error(String(e))
+  const sToErr = (se: string): Error => new Error(se)
+
+  return e instanceof Error
+    ? e
+    : pipe(
+      stringifyJSON(e, () => String(e)),
+      fold(sToErr, sToErr)
+    )
 }
 
 /**
