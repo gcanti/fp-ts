@@ -211,25 +211,28 @@ export function toUnfoldable<K, F>(
 }
 
 /**
- * Insert or replace a key/value pair in a map
+ * Insert or replace a key/value pair in a `ReadonlyMap`.
  *
  * @category combinators
- * @since 2.5.0
+ * @since 2.10.0
  */
-export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, a) => (m) => {
-    const found = lookupWithKeyE(k, m)
-    if (O.isNone(found)) {
-      const r = new Map(m)
-      r.set(k, a)
-      return r
-    } else if (found.value[1] !== a) {
-      const r = new Map(m)
-      r.set(found.value[0], a)
-      return r
+  return (k, a) => {
+    const lookupWithKeyEk = lookupWithKeyE(k)
+    return (m) => {
+      const found = lookupWithKeyEk(m)
+      if (O.isNone(found)) {
+        const out = new Map(m)
+        out.set(k, a)
+        return out
+      } else if (found.value[1] !== a) {
+        const out = new Map(m)
+        out.set(found.value[0], a)
+        return out
+      }
+      return m
     }
-    return m
   }
 }
 
@@ -1011,6 +1014,15 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `upsertAt` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> = upsertAt
 
 /**
  * Use small, specific instances instead.

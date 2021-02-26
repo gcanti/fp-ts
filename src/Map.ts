@@ -108,12 +108,12 @@ export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A
 }
 
 /**
- * Insert or replace a key/value pair in a map
+ * Insert or replace a key/value pair in a `Map`.
  *
  * @category combinators
  * @since 2.0.0
  */
-export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = RM.insertAt as any
+export const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = RM.upsertAt as any
 
 /**
  * Delete a key and value from a map
@@ -396,6 +396,15 @@ export const Filterable: Filterable2<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `upsertAt` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = upsertAt
 
 /**
  * Use `Filterable` instead.
