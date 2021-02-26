@@ -29,9 +29,10 @@ Added in v2.5.0
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
-  - [insertAt](#insertat)
   - [partitionMapWithIndex](#partitionmapwithindex)
   - [partitionWithIndex](#partitionwithindex)
+  - [upsertAt](#upsertat)
+  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
   - [fromMap](#frommap)
@@ -226,18 +227,6 @@ export declare const flap: <A>(a: A) => <E, B>(fab: ReadonlyMap<E, (a: A) => B>)
 
 Added in v2.10.0
 
-## insertAt
-
-Insert or replace a key/value pair in a map
-
-**Signature**
-
-```ts
-export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
-
 ## partitionMapWithIndex
 
 **Signature**
@@ -261,6 +250,30 @@ export declare const partitionWithIndex: <K, A>(
 ```
 
 Added in v2.10.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.10.0
+
+## ~~insertAt~~
+
+Use `upsertAt` instead.
+
+**Signature**
+
+```ts
+export declare const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
 
 # constructors
 

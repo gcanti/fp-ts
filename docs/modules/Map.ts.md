@@ -27,7 +27,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [flap](#flap)
-  - [insertAt](#insertat)
+  - [upsertAt](#upsertat)
+  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
 - [instances](#instances)
@@ -188,9 +189,21 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Map<E, (a: A) => B>) => Map<
 
 Added in v2.10.0
 
-## insertAt
+## upsertAt
 
-Insert or replace a key/value pair in a map
+Insert or replace a key/value pair in a `Map`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.0.0
+
+## ~~insertAt~~
+
+Use `upsertAt` instead.
 
 **Signature**
 
