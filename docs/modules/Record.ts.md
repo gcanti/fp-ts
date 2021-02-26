@@ -29,6 +29,7 @@ Added in v2.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [flap](#flap)
+  - [upsertAt](#upsertat)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
@@ -58,7 +59,6 @@ Added in v2.0.0
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [has](#has)
-  - [insertAt](#insertat)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -81,6 +81,7 @@ Added in v2.0.0
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
+  - [~~insertAt~~](#insertat)
 
 ---
 
@@ -224,6 +225,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) => Record<string, B>
+```
+
+Added in v2.10.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `Record`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
 ```
 
 Added in v2.10.0
@@ -626,21 +639,6 @@ export declare const has: <K extends string>(k: string, r: Record<K, unknown>) =
 
 Added in v2.10.0
 
-## insertAt
-
-Insert or replace a key/value pair in a record
-
-**Signature**
-
-```ts
-export declare function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
-```
-
-Added in v2.0.0
-
 ## isEmpty
 
 Test whether a record is empty
@@ -961,6 +959,21 @@ Use `has` instead.
 
 ```ts
 export declare const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K
+```
+
+Added in v2.0.0
+
+## ~~insertAt~~
+
+Use `upsertAt` instead.
+
+**Signature**
+
+```ts
+export declare function insertAt<K extends string, A>(
+  k: K,
+  a: A
+): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
 ```
 
 Added in v2.0.0

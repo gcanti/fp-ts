@@ -31,9 +31,10 @@ Added in v2.5.0
   - [deleteAt](#deleteat)
   - [filterMapWithIndex](#filtermapwithindex)
   - [flap](#flap)
-  - [insertAt](#insertat)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
+  - [upsertAt](#upsertat)
+  - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromRecord](#fromrecord)
   - [singleton](#singleton)
@@ -264,21 +265,6 @@ export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) 
 
 Added in v2.10.0
 
-## insertAt
-
-Insert or replace a key/value pair in a record
-
-**Signature**
-
-```ts
-export declare function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
-```
-
-Added in v2.5.0
-
 ## map
 
 Map a record passing the values to the iterating function
@@ -301,6 +287,33 @@ Map a record passing the keys to the iterating function
 export declare function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+```
+
+Added in v2.5.0
+
+## upsertAt
+
+Insert or replace a key/value pair in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const upsertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.10.0
+
+## ~~insertAt~~
+
+Use `upsertAt` instead.
+
+**Signature**
+
+```ts
+export declare function insertAt<K extends string, A>(
+  k: K,
+  a: A
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
 ```
 
 Added in v2.5.0

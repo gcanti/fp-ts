@@ -144,24 +144,18 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
 }
 
 /**
- * Insert or replace a key/value pair in a record
+ * Insert or replace a key/value pair in a `ReadonlyRecord`.
  *
  * @category combinators
- * @since 2.5.0
+ * @since 2.10.0
  */
-export function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
-export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return (r) => {
-    if (r[k] === a) {
-      return r
-    }
-    const out: Record<string, A> = Object.assign({}, r)
-    out[k] = a
-    return out
+export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
+  if (_hasOwnProperty.call(r, k) && r[k] === a) {
+    return r
   }
+  const out: Record<string, A> = Object.assign({}, r)
+  out[k] = a
+  return out
 }
 
 const _hasOwnProperty = Object.prototype.hasOwnProperty
@@ -1228,6 +1222,21 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `upsertAt` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export function insertAt<K extends string, A>(
+  k: K,
+  a: A
+): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
+export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
+  return upsertAt(k, a)
+}
 
 /**
  * Use `has` instead.
