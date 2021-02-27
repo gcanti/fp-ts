@@ -835,20 +835,21 @@ describe('ReadonlyArray', () => {
   })
 
   it('splitAt', () => {
+    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
+    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
     U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
       [1, 2],
       [3, 4, 5]
     ])
-    U.deepStrictEqual(_.splitAt(2)([]), [[], []])
-    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
-    U.deepStrictEqual(_.splitAt(-1)([1, 2]), [[1], [2]])
+    // zero
     U.deepStrictEqual(_.splitAt(0)([1, 2]), [[], [1, 2]])
-    U.deepStrictEqual(_.splitAt(3)([1, 2]), [[1, 2], []])
+    // out of bounds
+    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
+    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
   })
 
   describe('chunksOf', () => {
-    it('should split an array into length-n pieces', () => {
+    it('should split a `ReadonlyArray` into length-n pieces', () => {
       U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
       U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
         [1, 2],
@@ -871,7 +872,7 @@ describe('ReadonlyArray', () => {
     })
 
     // #897
-    it('should respect the law: RA.chunksOf(n)(xs).concat(RA.chunksOf(n)(ys)) == RA.chunksOf(n)(xs.concat(ys)))', () => {
+    it('should respect the law: chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))', () => {
       const xs: ReadonlyArray<number> = []
       const ys: ReadonlyArray<number> = [1, 2]
       U.deepStrictEqual(_.chunksOf(2)(xs).concat(_.chunksOf(2)(ys)), _.chunksOf(2)(xs.concat(ys)))

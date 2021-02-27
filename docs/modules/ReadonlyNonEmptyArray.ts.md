@@ -48,6 +48,7 @@ Added in v2.5.0
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
+  - [chunksOf](#chunksof)
   - [concat](#concat)
   - [duplicate](#duplicate)
   - [filter](#filter)
@@ -65,6 +66,7 @@ Added in v2.5.0
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
+  - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zip](#zip)
@@ -395,12 +397,31 @@ Added in v2.10.0
 
 ## chop
 
+A useful recursion pattern for processing a `ReadonlyNonEmptyArray` to produce a new `ReadonlyNonEmptyArray`, often used for "chopping" up the input
+`ReadonlyNonEmptyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `ReadonlyNonEmptyArray` and produce a
+value and the tail of the `ReadonlyNonEmptyArray`.
+
 **Signature**
 
 ```ts
 export declare const chop: <A, B>(
   f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
 ) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## chunksOf
+
+Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const chunksOf: (
+  n: number
+) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.10.0
@@ -535,9 +556,9 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export declare function groupBy<A>(
+export declare const groupBy: <A>(
   f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>>
+) => (as: readonly A[]) => Readonly<Record<string, ReadonlyNonEmptyArray<A>>>
 ```
 
 **Example**
@@ -661,6 +682,21 @@ export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyA
 ```
 
 Added in v2.5.0
+
+## splitAt
+
+Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has `n` elements.
+If `n` is out of bounds or `n = 0`, the input is returned.
+
+**Signature**
+
+```ts
+export declare const splitAt: (
+  n: number
+) => <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyNonEmptyArray<A>, readonly A[]]
+```
+
+Added in v2.10.0
 
 ## unzip
 
