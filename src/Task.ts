@@ -493,7 +493,6 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArr
 export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyArray<A>
 ): Task<ReadonlyArray<B>> => () =>
-  // tslint:disable-next-line: readonly-array
   as.reduce<Promise<Array<B>>>(
     (acc, a, i) =>
       acc.then((bs) =>

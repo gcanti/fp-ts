@@ -22,8 +22,6 @@ import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable2C } from './Witherable'
 
-/* tslint:disable:readonly-array */
-
 /**
  * @category instances
  * @since 2.0.0

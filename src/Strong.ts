@@ -36,8 +36,6 @@ import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 // model
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-array */
-
 /**
  * @category type classes
  * @since 2.0.0

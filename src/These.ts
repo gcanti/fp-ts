@@ -672,7 +672,6 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 // deprecated
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-array */
 /**
  * Use `toTuple2` instead.
  *
@@ -691,7 +690,6 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
     () => e,
     () => a
   ) as any
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // deprecated

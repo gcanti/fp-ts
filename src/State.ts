@@ -13,7 +13,6 @@ import { Monad2 } from './Monad'
 // model
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
@@ -21,7 +20,6 @@ import { Monad2 } from './Monad'
 export interface State<S, A> {
   (s: S): [A, S]
 }
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -316,7 +314,6 @@ export const traverseArrayWithIndex = <A, S, B>(f: (index: number, a: A) => Stat
   as: ReadonlyArray<A>
 ): State<S, ReadonlyArray<B>> => (s) => {
   let lastState = s
-  // tslint:disable-next-line: readonly-array
   const values = []
   for (let i = 0; i < as.length; i++) {
     const [newValue, newState] = f(i, as[i])(lastState)

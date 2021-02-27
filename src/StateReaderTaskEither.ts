@@ -48,7 +48,6 @@ import { TaskEither } from './TaskEither'
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
@@ -56,7 +55,6 @@ import Either = E.Either
 export interface StateReaderTaskEither<S, R, E, A> {
   (s: S): ReaderTaskEither<R, E, [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -938,7 +936,6 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 export const traverseArrayWithIndex = <S, R, E, A, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => () =>
-  // tslint:disable-next-line: readonly-array
   as.reduce<Promise<Either<E, [Array<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
@@ -1062,7 +1059,6 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
     RTE.map(([_, s]) => s)
   )
 
-/* tslint:disable:readonly-array */
 /**
  * @since 2.0.0
  * @deprecated
@@ -1071,4 +1067,3 @@ export const execState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
 export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> {
   return ma(s)(r)()
 }
-/* tslint:enable:readonly-array */

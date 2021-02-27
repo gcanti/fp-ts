@@ -17,8 +17,6 @@ import { Traversable2, PipeableTraverse2 } from './Traversable'
 import { flap as flap_, Functor2 } from './Functor'
 import { Extend2 } from './Extend'
 
-// tslint:disable:readonly-array
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------

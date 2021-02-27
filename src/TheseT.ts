@@ -271,7 +271,6 @@ export interface TheseM<M> {
   readonly left: <E, A>(e: E) => TheseT<M, E, A>
   readonly right: <E, A>(a: A) => TheseT<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT<M, E, A>
-  // tslint:disable-next-line: readonly-array
   readonly toTuple: <E, A>(fa: TheseT<M, E, A>, e: E, a: A) => HKT<M, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>
@@ -311,7 +310,6 @@ export interface TheseM1<M extends URIS> {
   readonly left: <E, A>(e: E) => TheseT1<M, E, A>
   readonly right: <E, A>(a: A) => TheseT1<M, E, A>
   readonly both: <E, A>(e: E, a: A) => TheseT1<M, E, A>
-  // tslint:disable-next-line: readonly-array
   readonly toTuple: <E, A>(fa: TheseT1<M, E, A>, e: E, a: A) => Kind<M, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>
@@ -351,7 +349,6 @@ export interface TheseM2<M extends URIS2> {
   readonly left: <R, E, A>(e: E) => TheseT2<M, R, E, A>
   readonly right: <R, E, A>(a: A) => TheseT2<M, R, E, A>
   readonly both: <R, E, A>(e: E, a: A) => TheseT2<M, R, E, A>
-  // tslint:disable-next-line: readonly-array
   readonly toTuple: <R, E, A>(fa: TheseT2<M, R, E, A>, e: E, a: A) => Kind2<M, R, [E, A]>
   readonly getMonad: <E>(
     S: Semigroup<E>
@@ -380,11 +377,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   const _bimap = bimap(M)
   const _mapLeft = mapLeft(M)
   const _fold = match(M)
-  const _toTuple2: <E, A>(
-    e: Lazy<E>,
-    a: Lazy<A>
-    // tslint:disable-next-line: readonly-array
-  ) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toTuple2(M) as any
+  const _toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toTuple2(M) as any
   const of = right(M)
 
   const mapT = <E, A, B>(fa: TheseT<M, E, A>, f: (a: A) => B): TheseT<M, E, B> => pipe(fa, _map(f))
