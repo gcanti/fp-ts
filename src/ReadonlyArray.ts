@@ -49,143 +49,13 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @category constructors
  * @since 2.5.0
  */
-// tslint:disable-next-line: readonly-array
-export function fromArray<A>(as: Array<A>): ReadonlyArray<A> {
-  const l = as.length
-  if (l === 0) {
-    return empty
-  }
-  const ras = Array(l)
-  for (let i = 0; i < l; i++) {
-    ras[i] = as[i]
-  }
-  return ras
-}
+export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => as.slice()
 
 /**
  * @category destructors
  * @since 2.5.0
  */
-// tslint:disable-next-line: readonly-array
-export function toArray<A>(ras: ReadonlyArray<A>): Array<A> {
-  const l = ras.length
-  const as = Array(l)
-  for (let i = 0; i < l; i++) {
-    as[i] = ras[i]
-  }
-  return as
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>> {
-  return {
-    show: (as) => `[${as.map(S.show).join(', ')}]`
-  }
-}
-
-const concat = <A, B>(x: ReadonlyArray<A>, y: ReadonlyArray<B>): ReadonlyArray<A | B> => {
-  const lenx = x.length
-  if (lenx === 0) {
-    return y
-  }
-  const leny = y.length
-  if (leny === 0) {
-    return x
-  }
-  const r = Array(lenx + leny)
-  for (let i = 0; i < lenx; i++) {
-    r[i] = x[i]
-  }
-  for (let i = 0; i < leny; i++) {
-    r[i + lenx] = y[i]
-  }
-  return r
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
-  concat
-})
-
-/**
- * Returns a `Monoid` for `ReadonlyArray<A>`.
- *
- * @example
- * import { getMonoid } from 'fp-ts/ReadonlyArray'
- *
- * const M = getMonoid<number>()
- * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
- *
- * @category instances
- * @since 2.5.0
- */
-export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: getSemigroup<A>().concat,
-  empty
-})
-
-/**
- * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
- * arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
- * different lengths, the result is non equality.
- *
- * @example
- * import * as S from 'fp-ts/string'
- * import { getEq } from 'fp-ts/ReadonlyArray'
- *
- * const E = getEq(S.Eq)
- * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
- * assert.strictEqual(E.equals(['a'], []), false)
- *
- * @category instances
- * @since 2.5.0
- */
-export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> {
-  return {
-    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
-  }
-}
-
-/**
- * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
- * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
- * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
- * the same length, the result is equality.
- *
- * @example
- * import { getOrd } from 'fp-ts/ReadonlyArray'
- * import * as S from 'fp-ts/string'
- *
- * const O = getOrd(S.Ord)
- * assert.strictEqual(O.compare(['b'], ['a']), 1)
- * assert.strictEqual(O.compare(['a'], ['a']), 0)
- * assert.strictEqual(O.compare(['a'], ['b']), -1)
- *
- *
- * @category instances
- * @since 2.5.0
- */
-export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
-  return fromCompare((a, b) => {
-    const aLen = a.length
-    const bLen = b.length
-    const len = Math.min(aLen, bLen)
-    for (let i = 0; i < len; i++) {
-      const ordering = O.compare(a[i], b[i])
-      if (ordering !== 0) {
-        return ordering
-      }
-    }
-    // tslint:disable-next-line: deprecation
-    return ordNumber.compare(aLen, bLen)
-  })
-}
+export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
@@ -200,7 +70,6 @@ export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
  * @since 2.5.0
  */
 export function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
   const r: Array<A> = []
   for (let i = 0; i < n; i++) {
     r.push(f(i))
@@ -944,7 +813,6 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (isEmpty(a
  * @since 2.5.0
  */
 export function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> {
-  // tslint:disable-next-line: readonly-array
   const r: Array<A> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
@@ -968,7 +836,6 @@ export function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  * @since 2.5.0
  */
 export function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> {
-  // tslint:disable-next-line: readonly-array
   const r: Array<E> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
@@ -1009,7 +876,6 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): Reado
  * @since 2.5.0
  */
 export function zipWith<A, B, C>(fa: ReadonlyArray<A>, fb: ReadonlyArray<B>, f: (a: A, b: B) => C): ReadonlyArray<C> {
-  // tslint:disable-next-line: readonly-array
   const fc: Array<C> = []
   const len = Math.min(fa.length, fb.length)
   for (let i = 0; i < len; i++) {
@@ -1055,16 +921,12 @@ export function zip<A, B>(
  * @since 2.5.0
  */
 export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] {
-  // tslint:disable-next-line: readonly-array
   const fa: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const fb: Array<B> = []
-
   for (let i = 0; i < as.length; i++) {
     fa[i] = as[i][0]
     fb[i] = as[i][1]
   }
-
   return [fa, fb]
 }
 
@@ -1080,7 +942,6 @@ export function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @since 2.10.0
  */
 export const prependAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
-  // tslint:disable-next-line: readonly-array
   const ys: Array<A> = []
   for (const x of xs) {
     ys.push(e, x)
@@ -1192,7 +1053,6 @@ export function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
     if (len <= 1) {
       return as
     }
-    // tslint:disable-next-line: readonly-array
     const r: Array<A> = []
     let i = 0
     for (; i < len; i++) {
@@ -1266,7 +1126,6 @@ export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: Readon
 export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
   as: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   let cs: ReadonlyArray<A> = as
   while (isNonEmpty(cs)) {
@@ -1405,10 +1264,7 @@ export function union<A>(
       const unionE = union(E)
       return (ys) => unionE(ys, xs)
     }
-    return concat(
-      xs,
-      ys.filter((a) => !elemE(a, xs))
-    )
+    return xs.concat(ys.filter((a) => !elemE(a, xs)))
   }
 }
 
@@ -1583,9 +1439,8 @@ const _wilt = <F>(
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<A | B> = (that) => (
-  fa
-) => concat(fa, that())
+export const altW = <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+  (fa as ReadonlyArray<A | B>).concat(that())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1668,9 +1523,7 @@ export const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: ReadonlyArr
  * @since 2.5.0
  */
 export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<ReadonlyArray<A>, ReadonlyArray<B>> => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<B> = []
   for (const e of fa) {
     if (e._tag === 'Left') {
@@ -1698,7 +1551,6 @@ export const filter: {
 export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   fa: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
@@ -1750,9 +1602,7 @@ export const partitionWithIndex: {
 } = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
   fa: ReadonlyArray<A>
 ): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<A> = []
   for (let i = 0; i < fa.length; i++) {
     const a = fa[i]
@@ -1781,9 +1631,7 @@ export const partitionMap: <A, B, C>(
 export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B, C>) => (
   fa: ReadonlyArray<A>
 ): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<B> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<C> = []
   for (let i = 0; i < fa.length; i++) {
     const e = f(i, fa[i])
@@ -1944,7 +1792,6 @@ export const wilt: PipeableWilt1<URI> = <F>(
  * @since 2.6.6
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
-  // tslint:disable-next-line: readonly-array
   const ret: Array<A> = []
   let bb: B = b
   while (true) {
@@ -1980,6 +1827,96 @@ declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: ReadonlyArray<A>
   }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
+  show: (as) => `[${as.map(S.show).join(', ')}]`
+})
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
+  concat: (first, second) => first.concat(second)
+})
+
+/**
+ * Returns a `Monoid` for `ReadonlyArray<A>`.
+ *
+ * @example
+ * import { getMonoid } from 'fp-ts/ReadonlyArray'
+ *
+ * const M = getMonoid<number>()
+ * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+ *
+ * @category instances
+ * @since 2.5.0
+ */
+export const getMonoid = <A = never>(): Monoid<ReadonlyArray<A>> => ({
+  concat: getSemigroup<A>().concat,
+  empty
+})
+
+/**
+ * Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
+ * arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
+ * different lengths, the result is non equality.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { getEq } from 'fp-ts/ReadonlyArray'
+ *
+ * const E = getEq(S.Eq)
+ * assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
+ * assert.strictEqual(E.equals(['a'], []), false)
+ *
+ * @category instances
+ * @since 2.5.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>> {
+  return {
+    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+  }
+}
+
+/**
+ * Derives an `Ord` over the `ReadonlyArray` of a given element type from the `Ord` of that type. The ordering between two such
+ * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
+ * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
+ * the same length, the result is equality.
+ *
+ * @example
+ * import { getOrd } from 'fp-ts/ReadonlyArray'
+ * import * as S from 'fp-ts/string'
+ *
+ * const O = getOrd(S.Ord)
+ * assert.strictEqual(O.compare(['b'], ['a']), 1)
+ * assert.strictEqual(O.compare(['a'], ['a']), 0)
+ * assert.strictEqual(O.compare(['a'], ['b']), -1)
+ *
+ *
+ * @category instances
+ * @since 2.5.0
+ */
+export function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>> {
+  return fromCompare((a, b) => {
+    const aLen = a.length
+    const bLen = b.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const ordering = O.compare(a[i], b[i])
+      if (ordering !== 0) {
+        return ordering
+      }
+    }
+    // tslint:disable-next-line: deprecation
+    return ordNumber.compare(aLen, bLen)
+  })
 }
 
 /**

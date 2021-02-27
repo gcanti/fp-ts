@@ -26,8 +26,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { HKT } from './HKT'
 
-/* tslint:disable:readonly-array */
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------

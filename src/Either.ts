@@ -1315,7 +1315,6 @@ export const apSW: <A, N extends string, E2, B>(
 export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
   as: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
-  // tslint:disable-next-line: readonly-array
   const out = []
   for (let i = 0; i < as.length; i++) {
     const e = f(i, as[i])
