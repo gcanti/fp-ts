@@ -49,7 +49,7 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @category constructors
  * @since 2.5.0
  */
-export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => as.slice()
+export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
 
 /**
  * @category destructors
@@ -69,12 +69,15 @@ export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
  * @category constructors
  * @since 2.5.0
  */
-export function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A> {
-  const r: Array<A> = []
-  for (let i = 0; i < n; i++) {
-    r.push(f(i))
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
+  if (n <= 0) {
+    return empty
   }
-  return r
+  const out: Array<A> = []
+  for (let i = 0; i < n; i++) {
+    out.push(f(i))
+  }
+  return out
 }
 
 /**
@@ -88,9 +91,7 @@ export function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A> {
  * @category constructors
  * @since 2.5.0
  */
-export function range(start: number, end: number): ReadonlyArray<number> {
-  return makeBy(end - start + 1, (i) => start + i)
-}
+export const range = (start: number, end: number): ReadonlyArray<number> => makeBy(end - start + 1, (i) => start + i)
 
 /**
  * Create an array containing a value repeated the specified number of times
@@ -103,41 +104,7 @@ export function range(start: number, end: number): ReadonlyArray<number> {
  * @category constructors
  * @since 2.5.0
  */
-export function replicate<A>(n: number, a: A): ReadonlyArray<A> {
-  return makeBy(n, () => a)
-}
-
-/**
- * Removes one level of nesting
- *
- * Derivable from `Chain`.
- *
- * @example
- * import { flatten } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
- *
- * @category combinators
- * @since 2.5.0
- */
-export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A> {
-  let rLen = 0
-  const len = mma.length
-  for (let i = 0; i < len; i++) {
-    rLen += mma[i].length
-  }
-  const r = Array(rLen)
-  let start = 0
-  for (let i = 0; i < len; i++) {
-    const as = mma[i]
-    const l = as.length
-    for (let j = 0; j < l; j++) {
-      r[j + start] = as[j]
-    }
-    start += l
-  }
-  return r
-}
+export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
 /**
  * Break an array into its first element and remaining elements.
@@ -153,7 +120,7 @@ export function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<
  */
 export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
   as: ReadonlyArray<A>
-): B => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
+): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -171,7 +138,7 @@ export const foldLeft = matchLeft
  */
 export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
   as: ReadonlyArray<A>
-): B => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
+): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -192,16 +159,14 @@ export const foldRight = matchRight
  * @category combinators
  * @since 2.5.0
  */
-export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B> {
-  return (as) => {
-    const l = as.length
-    const r = new Array(l + 1) as NonEmptyArray<B>
-    r[0] = b
-    for (let i = 0; i < l; i++) {
-      r[i + 1] = f(r[i], as[i])
-    }
-    return r
+export const scanLeft = <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+  const len = as.length
+  const out = new Array(len + 1) as NonEmptyArray<B>
+  out[0] = b
+  for (let i = 0; i < len; i++) {
+    out[i + 1] = f(out[i], as[i])
   }
+  return out
 }
 
 /**
@@ -215,20 +180,18 @@ export function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A
  * @category combinators
  * @since 2.5.0
  */
-export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B> {
-  return (as) => {
-    const l = as.length
-    const r = new Array(l + 1) as NonEmptyArray<B>
-    r[l] = b
-    for (let i = l - 1; i >= 0; i--) {
-      r[i] = f(as[i], r[i + 1])
-    }
-    return r
+export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
+  const len = as.length
+  const out = new Array(len + 1) as NonEmptyArray<B>
+  out[len] = b
+  for (let i = len - 1; i >= 0; i--) {
+    out[i] = f(as[i], out[i + 1])
   }
+  return out
 }
 
 /**
- * Test whether an array is empty
+ * Test whether a `ReadonlyArray` is empty.
  *
  * @example
  * import { isEmpty } from 'fp-ts/ReadonlyArray'
@@ -240,12 +203,12 @@ export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<
 export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
 
 /**
- * Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
+ * Test whether a `ReadonlyArray` is non empty.
  *
  * @category guards
  * @since 2.5.0
  */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -259,9 +222,7 @@ export const size = <A>(as: ReadonlyArray<A>): number => as.length
  *
  * @since 2.5.0
  */
-export function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean {
-  return i < 0 || i >= as.length
-}
+export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNEA.isOutOfBound
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -285,7 +246,7 @@ export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as
 
 // TODO: remove non-curried overloading in v3
 /**
- * Attaches an element to the front of an array, creating a new non empty array
+ * Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
  * import { cons } from 'fp-ts/ReadonlyArray'
@@ -296,27 +257,11 @@ export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as
  * @category constructors
  * @since 2.5.0
  */
-export function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function cons<A>(
-  head: A,
-  tail?: ReadonlyArray<A>
-): ReadonlyNonEmptyArray<A> | ((tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>) {
-  if (tail === undefined) {
-    return (tail) => cons(head, tail)
-  }
-  const len = tail.length
-  const r = Array(len + 1)
-  for (let i = 0; i < len; i++) {
-    r[i + 1] = tail[i]
-  }
-  r[0] = head
-  return (r as unknown) as ReadonlyNonEmptyArray<A>
-}
+export const cons = RNEA.cons
 
 // TODO: curry and make data-last in v3
 /**
- * Append an element to the end of an array, creating a new non empty array
+ * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
  * import { snoc } from 'fp-ts/ReadonlyArray'
@@ -326,15 +271,7 @@ export function cons<A>(
  * @category constructors
  * @since 2.5.0
  */
-export function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> {
-  const len = init.length
-  const r = Array(len + 1)
-  for (let i = 0; i < len; i++) {
-    r[i] = init[i]
-  }
-  r[len] = end
-  return (r as unknown) as ReadonlyNonEmptyArray<A>
-}
+export const snoc = RNEA.snoc
 
 /**
  * Get the first element in an array, or `None` if the array is empty
@@ -348,9 +285,7 @@ export function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
  *
  * @since 2.5.0
  */
-export function head<A>(as: ReadonlyArray<A>): Option<A> {
-  return isEmpty(as) ? O.none : O.some(as[0])
-}
+export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.head(as)) : O.none)
 
 /**
  * Get the last element in an array, or `None` if the array is empty
@@ -364,9 +299,7 @@ export function head<A>(as: ReadonlyArray<A>): Option<A> {
  *
  * @since 2.5.0
  */
-export function last<A>(as: ReadonlyArray<A>): Option<A> {
-  return lookup(as.length - 1, as)
-}
+export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.last(as)) : O.none)
 
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
@@ -380,10 +313,8 @@ export function last<A>(as: ReadonlyArray<A>): Option<A> {
  *
  * @since 2.5.0
  */
-export function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
-  return isEmpty(as) ? O.none : O.some(as.slice(1))
-}
-
+export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isNonEmpty(as) ? O.some(RNEA.tail(as)) : O.none
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  *
@@ -396,10 +327,8 @@ export function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
  *
  * @since 2.5.0
  */
-export function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
-  const len = as.length
-  return len === 0 ? O.none : O.some(as.slice(0, len - 1))
-}
+export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
 
 /**
  * Keep only a number of elements from the start of an array, creating a new array.
@@ -413,9 +342,7 @@ export function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> {
  * @category combinators
  * @since 2.5.0
  */
-export function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => as.slice(0, n)
-}
+export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, n)
 
 /**
  * Keep only a number of elements from the end of an array, creating a new array.
@@ -428,9 +355,7 @@ export function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<
  *
  * @since 2.5.0
  */
-export function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => (n === 0 ? empty : as.slice(-n))
-}
+export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n === 0 ? empty : as.slice(-n))
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -516,9 +441,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * @category combinators
  * @since 2.5.0
  */
-export function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => as.slice(n, as.length)
-}
+export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(n, as.length)
 
 /**
  * Drop a number of elements from the end of an array, creating a new array
@@ -531,9 +454,7 @@ export function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => as.slice(0, as.length - n)
-}
+export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -546,16 +467,14 @@ export function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const l = as.length
-    const rest = Array(l - i)
-    for (let j = i; j < l; j++) {
-      rest[j - i] = as[j]
-    }
-    return rest
+export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  const i = spanIndexUncurry(as, predicate)
+  const l = as.length
+  const out = Array(l - i)
+  for (let j = i; j < l; j++) {
+    out[j - i] = as[j]
   }
+  return out
 }
 
 /**
@@ -570,16 +489,14 @@ export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  *
  * @since 2.5.0
  */
-export function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number> {
-  return (as) => {
-    const len = as.length
-    for (let i = 0; i < len; i++) {
-      if (predicate(as[i])) {
-        return O.some(i)
-      }
+export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): Option<number> => {
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    if (predicate(as[i])) {
+      return O.some(i)
     }
-    return O.none
   }
+  return O.none
 }
 
 /**
@@ -737,8 +654,7 @@ export function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>
  *
  * @since 2.5.0
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+export const insertAt = RNEA.insertAt
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -752,8 +668,10 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
  *
  * @since 2.5.0
  */
-export const updateAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as))
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
+  const f = RNEA.updateAt(i, a)
+  return (as) => (isNonEmpty(as) ? f(as) : O.none)
+}
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -1123,17 +1041,11 @@ export function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: Readon
  * @category combinators
  * @since 2.5.0
  */
-export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
-  as: ReadonlyArray<A>
-): ReadonlyArray<B> => {
-  const out: Array<B> = []
-  let cs: ReadonlyArray<A> = as
-  while (isNonEmpty(cs)) {
-    const [b, c] = f(cs)
-    out.push(b)
-    cs = c
-  }
-  return out
+export const chop = <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
+): ((as: ReadonlyArray<A>) => ReadonlyArray<B>) => {
+  const g = RNEA.chop(f)
+  return (as) => (isNonEmpty(as) ? g(as) : empty)
 }
 
 /**
@@ -1499,6 +1411,16 @@ export const chainWithIndex: <A, B>(
   }
   return out
 }
+
+/**
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -2213,25 +2135,15 @@ export const Witherable: Witherable1<URI> = {
  * @category unsafe
  * @since 2.5.0
  */
-export function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  const xs = as.slice()
-  xs.splice(i, 0, a)
-  return xs
-}
+export const unsafeInsertAt: <A>(i: number, a: A, as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> =
+  RNEA.unsafeInsertAt
 
 /**
  * @category unsafe
  * @since 2.5.0
  */
-export function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = as.slice()
-    xs[i] = a
-    return xs
-  }
-}
+export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  isNonEmpty(as) ? RNEA.unsafeUpdateAt(i, a, as) : empty
 
 /**
  * @category unsafe
@@ -2252,7 +2164,7 @@ export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
  *
  * @since 2.5.0
  */
-export const empty: ReadonlyArray<never> = [] // TODO from ReadonlyNonEmptyArray
+export const empty: ReadonlyArray<never> = RNEA.empty
 
 /**
  * Check if a predicate holds true for every array member.
