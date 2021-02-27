@@ -642,7 +642,9 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt = RNEA.insertAt
+export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => O.Option<RNEA.ReadonlyNonEmptyArray<A>> =
+  // tslint:disable-next-line: deprecation
+  RNEA.insertAt
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
