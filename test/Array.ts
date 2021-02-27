@@ -819,8 +819,8 @@ describe('Array', () => {
     U.deepStrictEqual(_.splitAt(2)([]), [[], []])
     U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
     U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
-    U.deepStrictEqual(_.splitAt(-1)([1, 2]), [[1], [2]])
-    U.deepStrictEqual(_.splitAt(0)([1, 2]), [[], [1, 2]])
+    U.deepStrictEqual(_.splitAt(-1)([1, 2, 3]), [[1, 2, 3], []])
+    U.deepStrictEqual(_.splitAt(0)([1, 2, 3]), [[], [1, 2, 3]])
     U.deepStrictEqual(_.splitAt(3)([1, 2]), [[1, 2], []])
   })
 

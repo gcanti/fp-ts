@@ -1,9 +1,9 @@
 import * as assert from 'assert'
 import { identity, pipe } from '../src/function'
-import * as Se from '../src/Semigroup'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyNonEmptyArray'
+import * as Se from '../src/Semigroup'
 import * as S from '../src/string'
 import * as U from './util'
 
@@ -425,5 +425,36 @@ describe('ReadonlyNonEmptyArray', () => {
         ['a', 'b', 'c']
       ]
     )
+  })
+
+  it('splitAt', () => {
+    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
+    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
+    U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
+    // zero
+    U.deepStrictEqual(_.splitAt(0)([1]), [[1], []])
+    // out of bounds
+    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
+    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+  })
+
+  describe('chunksOf', () => {
+    it('should split a `ReadonlyNonEmptyArray` into length-n pieces', () => {
+      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+        [1, 2],
+        [3, 4],
+        [5, 6]
+      ])
+      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
+    })
   })
 })

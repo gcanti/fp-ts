@@ -253,21 +253,19 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export function groupBy<A>(
-  f: (a: A) => string
-): (as: ReadonlyArray<A>) => ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> {
-  return (as: ReadonlyArray<A>) => {
-    const r: Record<string, NonEmptyArray<A>> = {}
-    for (const a of as) {
-      const k = f(a)
-      if (r.hasOwnProperty(k)) {
-        r[k].push(a)
-      } else {
-        r[k] = [a]
-      }
+export const groupBy = <A>(f: (a: A) => string) => (
+  as: ReadonlyArray<A>
+): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
+  const out: Record<string, NonEmptyArray<A>> = {}
+  for (const a of as) {
+    const k = f(a)
+    if (out.hasOwnProperty(k)) {
+      out[k].push(a)
+    } else {
+      out[k] = [a]
     }
-    return r
   }
+  return out
 }
 
 /**
@@ -470,6 +468,10 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArr
 }
 
 /**
+ * A useful recursion pattern for processing a `ReadonlyNonEmptyArray` to produce a new `ReadonlyNonEmptyArray`, often used for "chopping" up the input
+ * `ReadonlyNonEmptyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `ReadonlyNonEmptyArray` and produce a
+ * value and the tail of the `ReadonlyNonEmptyArray`.
+ *
  * @category combinators
  * @since 2.10.0
  */
@@ -486,6 +488,29 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
   }
   return out
 }
+
+/**
+ * Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has `n` elements.
+ * If `n` is out of bounds or `n = 0`, the input is returned.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const splitAt = (n: number) => <A>(
+  as: ReadonlyNonEmptyArray<A>
+): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
+  n < 1 || n > as.length ? [as, empty] : [cons(head(as), as.slice(1, n)), as.slice(n)]
+
+/**
+ * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+ * the `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chunksOf = (
+  n: number
+): (<A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => chop(splitAt(n))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
