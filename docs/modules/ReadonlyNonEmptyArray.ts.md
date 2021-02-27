@@ -19,14 +19,14 @@ Added in v2.5.0
   - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
+- [Comonad](#comonad)
+  - [extract](#extract)
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
-  - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [Functor](#functor)
@@ -37,46 +37,62 @@ Added in v2.5.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
+- [TraversableWithIndex](#traversablewithindex)
+  - [traverseWithIndex](#traversewithindex)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [concat](#concat)
   - [duplicate](#duplicate)
+  - [filter](#filter)
+  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [group](#group)
+  - [groupBy](#groupby)
   - [groupSort](#groupsort)
+  - [insertAt](#insertat)
   - [intersperse](#intersperse)
+  - [modifyAt](#modifyat)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
+  - [unzip](#unzip)
+  - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [concat](#concat)
   - [cons](#cons)
   - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [groupBy](#groupby)
   - [snoc](#snoc)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
+- [guards](#guards)
+  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
-  - [Comonad](#comonad)
+  - [Comonad](#comonad-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
+  - [Traversable](#traversable-1)
+  - [TraversableWithIndex](#traversablewithindex-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
@@ -91,22 +107,13 @@ Added in v2.5.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [concatAll](#concatall)
-  - [extract](#extract)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
   - [head](#head)
   - [init](#init)
-  - [insertAt](#insertat)
+  - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [max](#max)
   - [min](#min)
-  - [modifyAt](#modifyat)
-  - [sequence](#sequence)
   - [tail](#tail)
-  - [traverse](#traverse)
-  - [traverseWithIndex](#traversewithindex)
-  - [unzip](#unzip)
-  - [updateAt](#updateat)
   - [~~fold~~](#fold)
 
 ---
@@ -123,7 +130,7 @@ types of kind `* -> *`.
 ```ts
 export declare const alt: <A>(
   that: Lazy<ReadonlyNonEmptyArray<A>>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.6.2
@@ -137,7 +144,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <B>(
   that: Lazy<ReadonlyNonEmptyArray<B>>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
+) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v2.9.0
@@ -150,11 +157,23 @@ Added in v2.9.0
 
 ```ts
 export declare const ap: <A>(
-  fa: ReadonlyNonEmptyArray<A>
+  as: ReadonlyNonEmptyArray<A>
 ) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
+
+# Comonad
+
+## extract
+
+**Signature**
+
+```ts
+export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
+```
+
+Added in v2.6.3
 
 # Extend
 
@@ -164,30 +183,20 @@ Added in v2.5.0
 
 ```ts
 export declare const extend: <A, B>(
-  f: (fa: ReadonlyNonEmptyArray<A>) => B
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (as: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
 
 # Foldable
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
-```
-
-Added in v2.5.0
-
 ## reduce
 
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
 ```
 
 Added in v2.5.0
@@ -197,24 +206,12 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyNonEmptyArray<A>) => B
 ```
 
 Added in v2.5.0
 
 # FoldableWithIndex
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: Se.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
-```
-
-Added in v2.5.0
 
 ## reduceRightWithIndex
 
@@ -224,7 +221,7 @@ Added in v2.5.0
 export declare const reduceRightWithIndex: <A, B>(
   b: B,
   f: (i: number, a: A, b: B) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => B
 ```
 
 Added in v2.5.0
@@ -237,7 +234,7 @@ Added in v2.5.0
 export declare const reduceWithIndex: <A, B>(
   b: B,
   f: (i: number, b: B, a: A) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => B
 ```
 
 Added in v2.5.0
@@ -252,7 +249,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+export declare const map: <A, B>(f: (a: A) => B) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
@@ -266,7 +263,7 @@ Added in v2.5.0
 ```ts
 export declare const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
@@ -299,6 +296,40 @@ export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
 
 Added in v2.5.0
 
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.6.3
+
+# TraversableWithIndex
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonEmptyArray', number>
+```
+
+Added in v2.6.3
+
 # combinators
 
 ## apFirst
@@ -311,8 +342,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apFirst: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -327,8 +358,8 @@ Derivable from `Apply`.
 
 ```ts
 export declare const apSecond: <B>(
-  fb: ReadonlyNonEmptyArray<B>
-) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v2.5.0
@@ -345,7 +376,30 @@ Derivable from `Chain`.
 ```ts
 export declare const chainFirst: <A, B>(
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(
+  f: (i: number, a: A) => ReadonlyNonEmptyArray<B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
+export declare function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -358,6 +412,33 @@ Derivable from `Extend`.
 
 ```ts
 export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -386,9 +467,31 @@ export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArr
 
 Added in v2.5.0
 
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v2.5.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: Se.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (as: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v2.5.0
+
 ## group
 
-Group equal, consecutive elements of an array into non empty arrays.
+Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
 
 **Signature**
 
@@ -408,186 +511,6 @@ import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
-```
-
-Added in v2.5.0
-
-## groupSort
-
-Sort and then group the elements of an array into non empty arrays.
-
-**Signature**
-
-```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
-}
-```
-
-**Example**
-
-```ts
-import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
-```
-
-Added in v2.5.0
-
-## intersperse
-
-Places an element in between members of an array
-
-**Signature**
-
-```ts
-export declare const intersperse: <A>(e: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
-```
-
-Added in v2.9.0
-
-## prependAll
-
-Prepend an element to every member of an array
-
-**Signature**
-
-```ts
-export declare const prependAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { cons, prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
-```
-
-Added in v2.10.0
-
-## reverse
-
-**Signature**
-
-```ts
-export declare const reverse: <A>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## sort
-
-**Signature**
-
-```ts
-export declare function sort<B>(O: Ord<B>): <A extends B>(nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## zip
-
-**Signature**
-
-```ts
-export declare const zip: {
-  <B>(bs: ReadonlyNonEmptyArray<B>): <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
-  <A, B>(as: ReadonlyNonEmptyArray<A>, bs: ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<readonly [A, B]>
-}
-```
-
-Added in v2.5.1
-
-## zipWith
-
-**Signature**
-
-```ts
-export declare const zipWith: <A, B, C>(
-  fa: ReadonlyNonEmptyArray<A>,
-  fb: ReadonlyNonEmptyArray<B>,
-  f: (a: A, b: B) => C
-) => ReadonlyNonEmptyArray<C>
-```
-
-Added in v2.5.1
-
-## ~~prependToAll~~
-
-Use `prependAll` instead.
-
-**Signature**
-
-```ts
-export declare const prependToAll: <A>(e: A) => (xs: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.9.0
-
-# constructors
-
-## concat
-
-**Signature**
-
-```ts
-export declare function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
-export declare function concat<A>(fx: ReadonlyNonEmptyArray<A>, fy: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
-## cons
-
-Append an element to the front of an array, creating a new non empty array
-
-**Signature**
-
-```ts
-export declare const cons: <A>(head: A, tail: readonly A[]) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
-```
-
-Added in v2.5.0
-
-## fromArray
-
-**Signature**
-
-```ts
-export declare function fromArray<A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## fromReadonlyArray
-
-Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array
-
-**Signature**
-
-```ts
-export declare function fromReadonlyArray<A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -618,9 +541,233 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', '
 
 Added in v2.5.0
 
+## groupSort
+
+Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
+
+**Signature**
+
+```ts
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
+```
+
+**Example**
+
+```ts
+import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+```
+
+Added in v2.5.0
+
+## insertAt
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(
+  i: number,
+  a: A
+) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## intersperse
+
+Places an element in between members of a `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const intersperse: <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+```
+
+Added in v2.9.0
+
+## modifyAt
+
+**Signature**
+
+```ts
+export declare const modifyAt: <A>(
+  i: number,
+  f: (a: A) => A
+) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## prependAll
+
+Prepend an element to every member of a `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prependAll: <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { cons, prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+```
+
+Added in v2.10.0
+
+## reverse
+
+**Signature**
+
+```ts
+export declare const reverse: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## sort
+
+**Signature**
+
+```ts
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.5.0
+
+## unzip
+
+**Signature**
+
+```ts
+export declare const unzip: <A, B>(
+  abs: ReadonlyNonEmptyArray<readonly [A, B]>
+) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>]
+```
+
+Added in v2.5.1
+
+## updateAt
+
+**Signature**
+
+```ts
+export declare const updateAt: <A>(
+  i: number,
+  a: A
+) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## zip
+
+**Signature**
+
+```ts
+export declare function zip<B>(
+  bs: ReadonlyNonEmptyArray<B>
+): <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A, B]>
+export declare function zip<A, B>(
+  as: ReadonlyNonEmptyArray<A>,
+  bs: ReadonlyNonEmptyArray<B>
+): ReadonlyNonEmptyArray<readonly [A, B]>
+```
+
+Added in v2.5.1
+
+## zipWith
+
+**Signature**
+
+```ts
+export declare const zipWith: <A, B, C>(
+  as: ReadonlyNonEmptyArray<A>,
+  bs: ReadonlyNonEmptyArray<B>,
+  f: (a: A, b: B) => C
+) => ReadonlyNonEmptyArray<C>
+```
+
+Added in v2.5.1
+
+## ~~prependToAll~~
+
+Use `prependAll` instead.
+
+**Signature**
+
+```ts
+export declare const prependToAll: <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.9.0
+
+# constructors
+
+## cons
+
+Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+```
+
+Added in v2.5.0
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## fromReadonlyArray
+
+Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
+
+**Signature**
+
+```ts
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
 ## snoc
 
-Append an element to the end of an array, creating a new non empty array
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
@@ -642,12 +789,12 @@ Added in v2.5.0
 
 ## uncons
 
-Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+Return the tuple of the `head` and the `tail`.
 
 **Signature**
 
 ```ts
-export declare function uncons<A>(nea: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>]
+export declare const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
 ```
 
 **Example**
@@ -662,12 +809,12 @@ Added in v2.9.0
 
 ## unsnoc
 
-Produces a couple of a copy of the array without its last element, and that last element
+Return the tuple of the `init` and the `last`.
 
 **Signature**
 
 ```ts
-export declare function unsnoc<A>(nea: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A]
+export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
 ```
 
 **Example**
@@ -679,6 +826,20 @@ assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
 ```
 
 Added in v2.9.0
+
+# guards
+
+## isNonEmpty
+
+Test whether a `ReadonlyArray` is non empty.
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.10.0
 
 # instances
 
@@ -860,7 +1021,7 @@ Builds a `Semigroup` instance for `ReadonlyNonEmptyArray`
 **Signature**
 
 ```ts
-export declare function getSemigroup<A = never>(): Se.Semigroup<ReadonlyNonEmptyArray<A>>
+export declare const getSemigroup: <A = never>() => Se.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -959,54 +1120,17 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.10.0
-
-## extract
-
-**Signature**
-
-```ts
-export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
-```
-
-Added in v2.6.3
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-export declare function filter<A>(
-  predicate: Predicate<A>
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare function filterWithIndex<A>(
-  predicate: (i: number, a: A) => boolean
-): (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
 
 ## head
 
 **Signature**
 
 ```ts
-export declare function head<A>(nea: ReadonlyNonEmptyArray<A>): A
+export declare const head: <A>(as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1018,7 +1142,7 @@ Get all but the last element of a non empty array, creating a new array.
 **Signature**
 
 ```ts
-export declare function init<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A>
+export declare const init: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
 ```
 
 **Example**
@@ -1032,25 +1156,22 @@ assert.deepStrictEqual(init([1]), [])
 
 Added in v2.5.0
 
-## insertAt
+## isOutOfBound
 
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(
-  i: number,
-  a: A
-) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
-Added in v2.5.0
+Added in v2.10.0
 
 ## last
 
 **Signature**
 
 ```ts
-export declare function last<A>(nea: ReadonlyNonEmptyArray<A>): A
+export declare const last: <A>(as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1060,7 +1181,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function max<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare const max: <A>(O: Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
@@ -1070,85 +1191,17 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function min<A>(ord: Ord<A>): (nea: ReadonlyNonEmptyArray<A>) => A
+export declare const min: <A>(O: Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
-
-## modifyAt
-
-**Signature**
-
-```ts
-export declare const modifyAt: <A>(
-  i: number,
-  f: (a: A) => A
-) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v2.6.3
 
 ## tail
 
 **Signature**
 
 ```ts
-export declare function tail<A>(nea: ReadonlyNonEmptyArray<A>): ReadonlyArray<A>
-```
-
-Added in v2.5.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'ReadonlyNonEmptyArray'>
-```
-
-Added in v2.6.3
-
-## traverseWithIndex
-
-**Signature**
-
-```ts
-export declare const traverseWithIndex: PipeableTraverseWithIndex1<'ReadonlyNonEmptyArray', number>
-```
-
-Added in v2.6.3
-
-## unzip
-
-**Signature**
-
-```ts
-export declare const unzip: <A, B>(
-  as: ReadonlyNonEmptyArray<readonly [A, B]>
-) => readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>]
-```
-
-Added in v2.5.1
-
-## updateAt
-
-**Signature**
-
-```ts
-export declare const updateAt: <A>(
-  i: number,
-  a: A
-) => (nea: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+export declare const tail: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1160,7 +1213,7 @@ Use `concatAll` instead.
 **Signature**
 
 ```ts
-export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: ReadonlyNonEmptyArray<A>) => A
+export declare const fold: <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
