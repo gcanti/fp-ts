@@ -1002,8 +1002,8 @@ Added in v2.5.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of an array, creating a new array.
-`n` must be a natural number
+Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+The input `n` must be a natural number.
 
 **Signature**
 
@@ -2437,8 +2437,8 @@ Added in v2.5.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an array, creating a new array.
-`n` must be a natural number
+Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+The input `n` must be a natural number.
 
 **Signature**
 
