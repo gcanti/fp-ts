@@ -290,13 +290,6 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): Readon
 }
 
 /**
- * @category combinators
- * @since 2.5.0
- */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
-
-/**
  * @internal
  */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
@@ -1085,6 +1078,16 @@ export const concatAll = <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmptyArray<A
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `ReadonlyArray`'s `insertAt` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
 
 /**
  * Use `prependAll` instead.

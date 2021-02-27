@@ -28,6 +28,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `insertAt` in favour of `upsertAt`
   - `Record`
     - deprecate `insertAt` in favour of `upsertAt`
+  - `ReadonlyNonEmptyArray`
+    - deprecate `insertAt`, Use `ReadonlyArray`'s `insertAt` instead
   - `Set`
     - deprecate `subset` in favour of `isSubset`
 - **New Feature**
