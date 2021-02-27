@@ -563,8 +563,8 @@ describe('ReadonlyArray', () => {
 
   it('insertAt', () => {
     U.deepStrictEqual(_.insertAt(1, 1)([]), O.none)
-    U.deepStrictEqual(_.insertAt(0, 1)([]), O.some([1]))
-    U.deepStrictEqual(_.insertAt(2, 5)([1, 2, 3, 4]), O.some([1, 2, 5, 3, 4]))
+    U.deepStrictEqual(_.insertAt(0, 1)([]), O.some([1] as const))
+    U.deepStrictEqual(_.insertAt(2, 5)([1, 2, 3, 4]), O.some([1, 2, 5, 3, 4] as const))
   })
 
   it('unsafeUpdateAt', () => {
@@ -573,6 +573,7 @@ describe('ReadonlyArray', () => {
     const as: ReadonlyArray<{ readonly a: number }> = [x]
     const result = _.unsafeUpdateAt(0, x, as)
     U.deepStrictEqual(result, as)
+    U.deepStrictEqual(_.unsafeUpdateAt(0, 1, []), _.empty)
   })
 
   it('updateAt', () => {
@@ -828,7 +829,9 @@ describe('ReadonlyArray', () => {
         return [init, rest]
       })
     }
-    U.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    const f = group(N.Eq)
+    U.deepStrictEqual(f([]), [])
+    U.deepStrictEqual(f([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
   it('splitAt', () => {

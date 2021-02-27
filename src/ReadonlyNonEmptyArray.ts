@@ -279,20 +279,29 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>
 
 const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
 
-const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const xs = toNonEmptyArray(as)
-  xs.splice(i, 0, a)
-  return xs
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = toNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
+  }
+  return [a]
 }
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
   i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
 
-const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+/**
+ * @internal
+ */
+export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   if (as[i] === a) {
     return as
   } else {
@@ -301,6 +310,11 @@ const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): Reado
     return xs
   }
 }
+
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * @category combinators
@@ -451,6 +465,24 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArr
   const out: NonEmptyArray<B> = toNonEmptyArray(f(0, head(as)))
   for (let i = 1; i < as.length; i++) {
     out.push(...f(i, as[i]))
+  }
+  return out
+}
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
+  as: ReadonlyNonEmptyArray<A>
+): ReadonlyNonEmptyArray<B> => {
+  const [b, rest] = f(as)
+  const out: NonEmptyArray<B> = [b]
+  let next: ReadonlyArray<A> = rest
+  while (isNonEmpty(next)) {
+    const [b, rest] = f(next)
+    out.push(b)
+    next = rest
   }
   return out
 }
@@ -1003,11 +1035,6 @@ export const last = <A>(as: ReadonlyNonEmptyArray<A>): A => as[as.length - 1]
  * @since 2.5.0
  */
 export const init = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(0, -1)
-
-/**
- * @since 2.10.0
- */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * @since 2.5.0
