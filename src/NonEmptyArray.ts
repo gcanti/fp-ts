@@ -249,6 +249,7 @@ export const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => Non
 export const insertAt: <A>(
   i: number,
   a: A
+  // tslint:disable-next-line: deprecation
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.insertAt as any
 
 /**
