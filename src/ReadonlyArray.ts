@@ -1065,7 +1065,7 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  *
  * @since 2.5.0
  */
-export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
+export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
   const f = RNEA.chunksOf(n)
   return (as) => (isNonEmpty(as) ? f(as) : empty)
 }
