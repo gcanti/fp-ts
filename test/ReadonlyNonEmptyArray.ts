@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { identity, pipe } from '../src/function'
-import * as M from '../src/Monoid'
+import * as Se from '../src/Semigroup'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyNonEmptyArray'
@@ -89,8 +89,13 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = M.concatAll(N.MonoidSum)
+    const sum = (as: _.ReadonlyNonEmptyArray<number>): number => {
+      const head = _.head(as)
+      assert.ok(typeof (head as any) === 'number')
+      return Se.concatAll(N.MonoidSum)(head)(_.tail(as))
+    }
     U.deepStrictEqual(pipe([1, 2, 3, 4], _.extend(sum)), [10, 9, 7, 4])
+    U.deepStrictEqual(pipe([1], _.extend(sum)), [1])
   })
 
   it('extract', () => {
@@ -301,9 +306,11 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('cons', () => {
     U.deepStrictEqual(_.cons(1, [2, 3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([2, 3, 4], _.cons(1)), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
+    U.deepStrictEqual(_.snoc([], 0), [0])
     U.deepStrictEqual(_.snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 
@@ -313,6 +320,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('unsnoc', () => {
+    U.deepStrictEqual(_.unsnoc([0]), [[], 0])
+    U.deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
     U.deepStrictEqual(_.unsnoc(_.snoc([], 0)), [[], 0])
     U.deepStrictEqual(_.unsnoc(_.snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
   })
@@ -381,5 +390,39 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('apS', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), [{ a: 1, b: 'b' }])
+  })
+
+  it('zipWith', () => {
+    U.deepStrictEqual(
+      _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+      ['a1', 'b2', 'c3']
+    )
+  })
+
+  it('zip', () => {
+    U.deepStrictEqual(_.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
+    U.deepStrictEqual(pipe(_.cons(1, [2, 3]), _.zip(['a', 'b', 'c', 'd'])), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
+  })
+
+  it('unzip', () => {
+    U.deepStrictEqual(
+      _.unzip([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]),
+      [
+        [1, 2, 3],
+        ['a', 'b', 'c']
+      ]
+    )
   })
 })

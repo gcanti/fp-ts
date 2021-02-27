@@ -606,7 +606,7 @@ value and the rest of the array.
 
 ```ts
 export declare const chop: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+  f: (as: RNEA.ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
 ) => (as: readonly A[]) => readonly B[]
 ```
 
@@ -1438,7 +1438,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyA
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0

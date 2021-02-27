@@ -29,7 +29,7 @@ import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
 import { Pointed1 } from './Pointed'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
@@ -39,6 +39,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 import Option = O.Option
+import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1811,7 +1812,7 @@ export const filterWithIndex: {
  */
 export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (
   wa
-) => wa.map((_, i, as) => f(as.slice(i)))
+) => wa.map((_, i) => f(wa.slice(i)))
 
 /**
  * Derivable from `Extend`.
@@ -2314,7 +2315,7 @@ export function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
  *
  * @since 2.5.0
  */
-export const empty: ReadonlyArray<never> = []
+export const empty: ReadonlyArray<never> = [] // TODO from ReadonlyNonEmptyArray
 
 /**
  * Check if a predicate holds true for every array member.
