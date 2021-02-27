@@ -138,16 +138,15 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('group', () => {
-    U.deepStrictEqual(_.group(N.Ord)([]), [])
-
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
-
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    const group = _.group(N.Ord)
+    U.deepStrictEqual(group([1]), [[1]])
+    U.deepStrictEqual(group([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    U.deepStrictEqual(group([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
-    U.deepStrictEqual(_.groupSort(N.Ord)([]), [])
-    U.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
+    const groupSort = _.groupSort(N.Ord)
+    U.deepStrictEqual(groupSort([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('last', () => {
@@ -161,7 +160,10 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('sort', () => {
-    U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+    const sort = _.sort(N.Ord)
+    U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(sort(singleton), singleton)
   })
 
   it('prependAll', () => {
@@ -188,19 +190,6 @@ describe('ReadonlyNonEmptyArray', () => {
       '3': ['foo', 'bar'],
       '6': ['foobar']
     })
-  })
-
-  it('insertAt', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    const a4 = make(3)
-    U.deepStrictEqual(_.insertAt(0, a4)([a1, a2, a3]), O.some([a4, a1, a2, a3] as const))
-    U.deepStrictEqual(_.insertAt(-1, a4)([a1, a2, a3]), O.none)
-    U.deepStrictEqual(_.insertAt(3, a4)([a1, a2, a3]), O.some([a1, a2, a3, a4] as const))
-    U.deepStrictEqual(_.insertAt(1, a4)([a1, a2, a3]), O.some([a1, a4, a2, a3] as const))
-    U.deepStrictEqual(_.insertAt(4, a4)([a1, a2, a3]), O.none)
   })
 
   it('updateAt', () => {
@@ -371,5 +360,68 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('apT', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b'))), [[1, 'b']])
+  })
+
+  it('zipWith', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.zipWith(['a', 'b', 'c', 'd'], (n, s) => s + n)
+      ),
+      ['a1', 'b2', 'c3']
+    )
+  })
+
+  it('zip', () => {
+    U.deepStrictEqual(pipe([1, 2, 3] as const, _.zip(['a', 'b', 'c', 'd'])), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
+  })
+
+  it('unzip', () => {
+    U.deepStrictEqual(
+      _.unzip([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]),
+      [
+        [1, 2, 3],
+        ['a', 'b', 'c']
+      ]
+    )
+  })
+
+  it('splitAt', () => {
+    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
+    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
+    U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
+    // zero
+    U.deepStrictEqual(_.splitAt(0)([1]), [[1], []])
+    // out of bounds
+    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
+    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+  })
+
+  describe('chunksOf', () => {
+    it('should split a `ReadonlyNonEmptyArray` into length-n pieces', () => {
+      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+        [1, 2],
+        [3, 4],
+        [5, 6]
+      ])
+      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
+    })
   })
 })

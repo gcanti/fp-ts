@@ -159,6 +159,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `zip` pipeable
     - rename `toReadonlyArray` to `toArray`
     - rename `fromArray`
+    - drop `group` overloading involving `ReadonlyArray`
+    - drop `groupSort` overloading involving `ReadonlyArray`
   - `ReadonlyRecord`
     - rename `hasOwnProperty` to `has`
     - make `isSubrecord` pipeable
