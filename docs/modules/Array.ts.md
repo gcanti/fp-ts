@@ -1981,7 +1981,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => A[]
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -2069,7 +2069,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export declare const chunksOf: (n: number) => <A>(as: A[]) => A[][]
+export declare const chunksOf: (n: number) => <A>(as: A[]) => NonEmptyArray<A>[]
 ```
 
 **Example**

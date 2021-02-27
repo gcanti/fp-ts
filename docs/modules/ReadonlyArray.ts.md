@@ -1874,7 +1874,7 @@ whenever `n` evenly divides the length of `as`.
 **Signature**
 
 ```ts
-export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly (readonly A[])[]
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly RNEA.ReadonlyNonEmptyArray<A>[]
 ```
 
 **Example**
