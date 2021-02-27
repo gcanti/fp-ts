@@ -805,7 +805,6 @@ export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<IOEither<E, A>>) =>
 export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
   as: ReadonlyArray<A>
 ): IOEither<E, ReadonlyArray<B>> => () => {
-  // tslint:disable-next-line: readonly-array
   const out = []
   for (let i = 0; i < as.length; i++) {
     const e = f(i, as[i])()

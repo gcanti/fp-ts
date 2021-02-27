@@ -11,6 +11,6 @@
     "no-console": true,
     "array-type": [true, "generic"],
     "readonly-keyword": true,
-    "readonly-array": true
+    "readonly-array": false
   }
 }

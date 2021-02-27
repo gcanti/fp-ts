@@ -1206,7 +1206,6 @@ export const apTW: <E2, B>(
 export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
   as: ReadonlyArray<A>
 ): Either<E, ReadonlyArray<B>> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   for (let i = 0; i < as.length; i++) {
     const e = f(i, as[i])

@@ -182,10 +182,8 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
     if (len === 0) {
       return RA.empty
     }
-    // tslint:disable-next-line: readonly-array
     const out: Array<ReadonlyNonEmptyArray<A>> = []
     let head: A = as[0]
-    // tslint:disable-next-line: readonly-array
     let nea: [A, ...Array<A>] = [head]
     for (let i = 1; i < len; i++) {
       const x = as[i]
@@ -244,7 +242,6 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 export const groupBy = <A>(f: (a: A) => string) => (
   as: ReadonlyArray<A>
 ): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
-  // tslint:disable-next-line: readonly-array
   const out: Record<string, [A, ...Array<A>]> = {}
   for (const a of as) {
     const k = f(a)

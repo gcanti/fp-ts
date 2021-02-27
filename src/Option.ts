@@ -1126,7 +1126,6 @@ export const apT =
 export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
   as: ReadonlyArray<A>
 ): Option<ReadonlyArray<B>> => {
-  // tslint:disable-next-line: readonly-array
   const out = []
   for (let i = 0; i < as.length; i++) {
     const o = f(i, as[i])

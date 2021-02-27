@@ -461,7 +461,6 @@ export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa
  * @since 3.0.0
  */
 export const toReadonlyArray = <A>(O: Ord<A>) => (s: ReadonlySet<A>): ReadonlyArray<A> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   s.forEach((e) => out.push(e))
   return out.sort((first, second) => O.compare(second)(first))

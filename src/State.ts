@@ -307,7 +307,6 @@ export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A)
   as: ReadonlyArray<A>
 ): State<S, ReadonlyArray<B>> => (s) => {
   let out = s
-  // tslint:disable-next-line: readonly-array
   const bs: Array<B> = []
   for (let i = 0; i < as.length; i++) {
     const [b, s2] = f(i, as[i])(out)

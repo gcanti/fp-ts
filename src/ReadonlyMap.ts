@@ -744,7 +744,6 @@ export const values = <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>): ReadonlyArray
 export const collect = <K>(O: Ord<K>): (<A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B>) => {
   const keysO = keys(O)
   return <A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>): ReadonlyArray<B> => {
-    // tslint:disable-next-line: readonly-array
     const out: Array<B> = []
     const ks = keysO(m)
     for (const key of ks) {

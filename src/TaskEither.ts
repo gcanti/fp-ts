@@ -1039,7 +1039,6 @@ export const sequenceReadonlyArray: <E, A>(as: ReadonlyArray<TaskEither<E, A>>) 
 export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
   as: ReadonlyArray<A>
 ): TaskEither<E, ReadonlyArray<B>> => () =>
-  // tslint:disable-next-line: readonly-array
   as.reduce<Promise<Either<E, Array<B>>>>(
     (acc, a, i) =>
       acc.then((ebs) =>

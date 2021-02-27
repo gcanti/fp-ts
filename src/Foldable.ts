@@ -282,7 +282,6 @@ export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Readon
   return <A>(fa: HKT<F, A>) =>
     pipe(
       fa,
-      // tslint:disable-next-line: readonly-array
       F.reduce([], (acc: Array<A>, a) => {
         acc.push(a)
         return acc

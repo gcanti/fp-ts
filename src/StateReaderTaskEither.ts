@@ -847,7 +847,6 @@ export const apTW: <S, R2, E2, B>(
 export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => () =>
-  // tslint:disable-next-line: readonly-array
   as.reduce<Promise<Either<E, [Array<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>

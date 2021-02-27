@@ -853,7 +853,6 @@ export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
 export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (
   r: ReadonlyRecord<K, A>
 ): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   for (const key of keys(r)) {
     out.push(f(key, r[key]))

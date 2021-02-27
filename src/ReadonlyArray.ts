@@ -54,7 +54,6 @@ export const makeBy = <A>(n: number, f: (n: number) => A): ReadonlyArray<A> => {
   if (n <= 0) {
     return empty
   }
-  // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   for (let i = 0; i < n; i++) {
     out.push(f(i))
@@ -135,7 +134,6 @@ export const matchRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<
  */
 export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
   const len = as.length
-  // tslint:disable-next-line: readonly-array
   const out = new Array(len + 1) as [B, ...Array<B>]
   out[0] = b
   for (let i = 0; i < len; i++) {
@@ -157,7 +155,6 @@ export const scanLeft = <B, A>(b: B, f: (b: B, a: A) => B) => (as: ReadonlyArray
  */
 export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArray<A>): ReadonlyNonEmptyArray<B> => {
   const len = as.length
-  // tslint:disable-next-line: readonly-array
   const out = new Array(len + 1) as [B, ...Array<B>]
   out[len] = b
   for (let i = len - 1; i >= 0; i--) {
@@ -742,7 +739,6 @@ export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (isEmpty(a
  */
 export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> => {
   const len = as.length
-  // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   for (let i = 0; i < len; i++) {
     const a = as[i]
@@ -765,7 +761,6 @@ export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  * @since 3.0.0
  */
 export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<E> = []
   const len = as.length
   for (let i = 0; i < len; i++) {
@@ -808,7 +803,6 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyArray<A>): Reado
 export const zipWith = <B, A, C>(fb: ReadonlyArray<B>, f: (a: A, b: B) => C) => (
   fa: ReadonlyArray<A>
 ): ReadonlyArray<C> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<C> = []
   const len = Math.min(fa.length, fb.length)
   for (let i = 0; i < len; i++) {
@@ -844,16 +838,12 @@ export const zip: <B>(bs: ReadonlyArray<B>) => <A>(as: ReadonlyArray<A>) => Read
  * @since 3.0.0
  */
 export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] => {
-  // tslint:disable-next-line: readonly-array
   const fa: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const fb: Array<B> = []
-
   for (let i = 0; i < as.length; i++) {
     fa[i] = as[i][0]
     fb[i] = as[i][1]
   }
-
   return [fa, fb]
 }
 
@@ -870,7 +860,6 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @since 3.0.0
  */
 export const prependAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   for (const e of as) {
     out.push(a, e)
@@ -961,7 +950,6 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
     if (len <= 1) {
       return as
     }
-    // tslint:disable-next-line: readonly-array
     const out: Array<A> = []
     let i = 0
     for (; i < len; i++) {
@@ -1035,7 +1023,6 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
 export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
   as: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   let cs: ReadonlyArray<A> = as
   while (isNonEmpty(cs)) {
@@ -1322,7 +1309,6 @@ export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (f) 
 export const filterMapWithIndex: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = <A, B>(
   f: (i: number, a: A) => Option<B>
 ) => (fa: ReadonlyArray<A>): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
@@ -1352,9 +1338,7 @@ export const compact: Compactable1<URI>['compact'] =
  * @since 3.0.0
  */
 export const separate: Compactable1<URI>['separate'] = <A, B>(fa: ReadonlyArray<Either<A, B>>) => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<B> = []
   for (const e of fa) {
     if (e._tag === 'Left') {
@@ -1389,9 +1373,7 @@ export const partition: Filterable1<URI>['partition'] = <A>(
 export const partitionWithIndex: FilterableWithIndex1<URI, number>['partitionWithIndex'] = <A>(
   predicateWithIndex: PredicateWithIndex<number, A>
 ) => (fa: ReadonlyArray<A>): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<A> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<A> = []
   for (let i = 0; i < fa.length; i++) {
     const a = fa[i]
@@ -1417,9 +1399,7 @@ export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMa
 export const partitionMapWithIndex: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = <A, B, C>(
   f: (i: number, a: A) => Either<B, C>
 ) => (fa: ReadonlyArray<A>): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => {
-  // tslint:disable-next-line: readonly-array
   const left: Array<B> = []
-  // tslint:disable-next-line: readonly-array
   const right: Array<C> = []
   for (let i = 0; i < fa.length; i++) {
     const e = f(i, fa[i])
@@ -1584,7 +1564,6 @@ export const wilt: Witherable1<URI>['wilt'] = <F>(
  * @since 3.0.0
  */
 export const unfold: Unfoldable1<URI>['unfold'] = <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => {
-  // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   let next: B = b
   let o: Option<readonly [A, B]>

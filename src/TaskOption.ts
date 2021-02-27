@@ -673,7 +673,6 @@ export const sequenceReadonlyArray: <A>(as: ReadonlyArray<TaskOption<A>>) => Tas
 export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
   as: ReadonlyArray<A>
 ): TaskOption<ReadonlyArray<B>> => () =>
-  // tslint:disable-next-line: readonly-array
   as.reduce<Promise<Option<Array<B>>>>(
     (acc, a, i) =>
       acc.then((obs) =>
