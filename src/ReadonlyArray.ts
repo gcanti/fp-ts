@@ -51,6 +51,9 @@ import Option = O.Option
  * @since 3.0.0
  */
 export const makeBy = <A>(n: number, f: (n: number) => A): ReadonlyArray<A> => {
+  if (n <= 0) {
+    return empty
+  }
   // tslint:disable-next-line: readonly-array
   const out: Array<A> = []
   for (let i = 0; i < n; i++) {
@@ -330,7 +333,7 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> => {
  * @category combinators
  * @since 3.0.0
  */
-export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, n)
+export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(0, n))
 
 /**
  * Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`..
@@ -343,7 +346,7 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  *
  * @since 3.0.0
  */
-export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n === 0 ? empty : as.slice(-n))
+export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(-n))
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
