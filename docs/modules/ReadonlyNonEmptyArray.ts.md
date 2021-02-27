@@ -47,6 +47,7 @@ Added in v2.5.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
+  - [chop](#chop)
   - [concat](#concat)
   - [duplicate](#duplicate)
   - [filter](#filter)
@@ -109,7 +110,6 @@ Added in v2.5.0
   - [concatAll](#concatall)
   - [head](#head)
   - [init](#init)
-  - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [max](#max)
   - [min](#min)
@@ -393,6 +393,18 @@ export declare const chainWithIndex: <A, B>(
 
 Added in v2.10.0
 
+## chop
+
+**Signature**
+
+```ts
+export declare const chop: <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+```
+
+Added in v2.10.0
+
 ## concat
 
 **Signature**
@@ -572,10 +584,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(
-  i: number,
-  a: A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1155,16 +1164,6 @@ assert.deepStrictEqual(init([1]), [])
 ```
 
 Added in v2.5.0
-
-## isOutOfBound
-
-**Signature**
-
-```ts
-export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
-```
-
-Added in v2.10.0
 
 ## last
 

@@ -667,7 +667,7 @@ Drop a number of elements from the start of an array, creating a new array
 **Signature**
 
 ```ts
-export declare function dropLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -687,7 +687,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -707,7 +707,7 @@ Drop a number of elements from the end of an array, creating a new array
 **Signature**
 
 ```ts
-export declare function dropRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -746,22 +746,12 @@ Added in v2.10.0
 
 ## flatten
 
-Removes one level of nesting
-
 Derivable from `Chain`.
 
 **Signature**
 
 ```ts
-export declare function flatten<A>(mma: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<A>
-```
-
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
+export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -902,7 +892,7 @@ Same as `reduce` but it carries over the intermediate steps
 **Signature**
 
 ```ts
-export declare function scanLeft<A, B>(b: B, f: (b: B, a: A) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B>
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -922,7 +912,10 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export declare function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: ReadonlyArray<A>) => ReadonlyNonEmptyArray<B>
+export declare const scanRight: <A, B>(
+  b: B,
+  f: (a: A, b: B) => B
+) => (as: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -1015,7 +1008,7 @@ Keep only a number of elements from the start of an array, creating a new array.
 **Signature**
 
 ```ts
-export declare function takeLeft(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const takeLeft: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1234,13 +1227,12 @@ Added in v2.5.0
 
 ## cons
 
-Attaches an element to the front of an array, creating a new non empty array
+Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export declare function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+export declare const cons: typeof RNEA.cons
 ```
 
 **Example**
@@ -1259,7 +1251,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fromArray<A>(as: Array<A>): ReadonlyArray<A>
+export declare const fromArray: <A>(as: A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1271,7 +1263,7 @@ Return a list of length `n` with element `i` initialized with `f(i)`
 **Signature**
 
 ```ts
-export declare function makeBy<A>(n: number, f: (i: number) => A): ReadonlyArray<A>
+export declare const makeBy: <A>(n: number, f: (i: number) => A) => readonly A[]
 ```
 
 **Example**
@@ -1292,7 +1284,7 @@ Create an array containing a range of integers, including both endpoints
 **Signature**
 
 ```ts
-export declare function range(start: number, end: number): ReadonlyArray<number>
+export declare const range: (start: number, end: number) => ReadonlyArray<number>
 ```
 
 **Example**
@@ -1312,7 +1304,7 @@ Create an array containing a value repeated the specified number of times
 **Signature**
 
 ```ts
-export declare function replicate<A>(n: number, a: A): ReadonlyArray<A>
+export declare const replicate: <A>(n: number, a: A) => readonly A[]
 ```
 
 **Example**
@@ -1327,12 +1319,12 @@ Added in v2.5.0
 
 ## snoc
 
-Append an element to the end of an array, creating a new non empty array
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare function snoc<A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A>
+export declare const snoc: <A>(init: readonly A[], end: A) => RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1424,7 +1416,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function toArray<A>(ras: ReadonlyArray<A>): Array<A>
+export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
@@ -1433,7 +1425,7 @@ Added in v2.5.0
 
 ## isNonEmpty
 
-Test whether an array is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
+Test whether a `ReadonlyArray` is non empty.
 
 **Signature**
 
@@ -1743,7 +1735,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<ReadonlyArray<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
 ```
 
 Added in v2.5.0
@@ -1785,7 +1777,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function unsafeInsertAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -1795,7 +1787,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function unsafeUpdateAt<A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeUpdateAt: <A>(i: number, a: A, as: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -2051,7 +2043,7 @@ Find the first index for which a predicate holds
 **Signature**
 
 ```ts
-export declare function findIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
+export declare const findIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => Option<number>
 ```
 
 **Example**
@@ -2160,7 +2152,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare function head<A>(as: ReadonlyArray<A>): Option<A>
+export declare const head: <A>(as: readonly A[]) => O.Option<A>
 ```
 
 **Example**
@@ -2182,7 +2174,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare function init<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
+export declare const init: <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2204,7 +2196,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<RNEA.ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**
@@ -2220,7 +2212,7 @@ Added in v2.5.0
 
 ## isEmpty
 
-Test whether an array is empty
+Test whether a `ReadonlyArray` is empty.
 
 **Signature**
 
@@ -2245,7 +2237,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export declare function isOutOfBound<A>(i: number, as: ReadonlyArray<A>): boolean
+export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
 Added in v2.5.0
@@ -2257,7 +2249,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare function last<A>(as: ReadonlyArray<A>): Option<A>
+export declare const last: <A>(as: readonly A[]) => O.Option<A>
 ```
 
 **Example**
@@ -2431,7 +2423,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare function tail<A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>>
+export declare const tail: <A>(as: readonly A[]) => O.Option<readonly A[]>
 ```
 
 **Example**
@@ -2454,7 +2446,7 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export declare function takeRight(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
