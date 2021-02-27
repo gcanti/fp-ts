@@ -331,8 +331,8 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
   isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
 
 /**
- * Keep only a number of elements from the start of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * The input `n` must be a natural number.
  *
  * @example
  * import { takeLeft } from 'fp-ts/ReadonlyArray'
@@ -342,11 +342,11 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @category combinators
  * @since 2.5.0
  */
-export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, n)
+export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(0, n))
 
 /**
- * Keep only a number of elements from the end of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * The input `n` must be a natural number.
  *
  * @example
  * import { takeRight } from 'fp-ts/ReadonlyArray'
@@ -355,7 +355,7 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n === 0 ? empty : as.slice(-n))
+export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(-n))
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
