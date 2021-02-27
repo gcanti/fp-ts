@@ -598,9 +598,9 @@ Added in v2.5.0
 
 ## chop
 
-A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
-array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
-value and the rest of the array.
+A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
+`ReadonlyArray`. Typically `chop` is called with some function that will consume an initial prefix of the `ReadonlyArray` and produce a
+value and the tail of the `ReadonlyArray`.
 
 **Signature**
 
@@ -791,7 +791,7 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare function intersperse<A>(e: A): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const intersperse: <A>(e: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -851,7 +851,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export declare function rights<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A>
+export declare const rights: <E, A>(as: readonly Either<E, A>[]) => readonly A[]
 ```
 
 **Example**
@@ -872,7 +872,7 @@ Rotate an array to the right by `n` steps
 **Signature**
 
 ```ts
-export declare function rotate(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const rotate: (n: number) => <A>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -957,7 +957,7 @@ etc...
 **Signature**
 
 ```ts
-export declare function sortBy<B>(ords: ReadonlyArray<Ord<B>>): <A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const sortBy: <B>(ords: readonly Ord<B>[]) => <A extends B>(as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1078,7 +1078,7 @@ Remove duplicates from an array, keeping the first occurrence of an element.
 **Signature**
 
 ```ts
-export declare function uniq<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare const uniq: <A>(E: Eq<A>) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1127,11 +1127,7 @@ input array is short, excess elements of the longer array are discarded.
 **Signature**
 
 ```ts
-export declare function zipWith<A, B, C>(
-  fa: ReadonlyArray<A>,
-  fb: ReadonlyArray<B>,
-  f: (a: A, b: B) => C
-): ReadonlyArray<C>
+export declare const zipWith: <A, B, C>(fa: readonly A[], fb: readonly B[], f: (a: A, b: B) => C) => readonly C[]
 ```
 
 **Example**
@@ -1656,7 +1652,7 @@ different lengths, the result is non equality.
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<ReadonlyArray<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<readonly A[]>
 ```
 
 **Example**
@@ -1703,7 +1699,7 @@ the same length, the result is equality.
 **Signature**
 
 ```ts
-export declare function getOrd<A>(O: Ord<A>): Ord<ReadonlyArray<A>>
+export declare const getOrd: <A>(O: Ord<A>) => Ord<readonly A[]>
 ```
 
 **Example**
@@ -1767,7 +1763,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function unsafeDeleteAt<A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A>
+export declare const unsafeDeleteAt: <A>(i: number, as: readonly A[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -1865,20 +1861,20 @@ Added in v2.7.0
 
 ## chunksOf
 
-Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
-definition of `chunksOf`; it satisfies the property that
+Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the `ReadonlyArray`. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that:
 
 ```ts
 chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
 ```
 
-whenever `n` evenly divides the length of `xs`.
+whenever `n` evenly divides the length of `as`.
 
 **Signature**
 
 ```ts
-export declare function chunksOf(n: number): <A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly (readonly A[])[]
 ```
 
 **Example**
@@ -2014,7 +2010,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
 ```
 
 **Example**
@@ -2093,7 +2089,7 @@ Returns the index of the last element of the list which matches the predicate
 **Signature**
 
 ```ts
-export declare function findLastIndex<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<number>
+export declare const findLastIndex: <A>(predicate: Predicate<A>) => (as: readonly A[]) => Option<number>
 ```
 
 **Example**
@@ -2123,7 +2119,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare function findLastMap<A, B>(f: (a: A) => Option<B>): (as: ReadonlyArray<A>) => Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
 ```
 
 **Example**
@@ -2271,7 +2267,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export declare function lefts<E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E>
+export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
 ```
 
 **Example**
@@ -2395,12 +2391,13 @@ Added in v2.5.0
 
 ## splitAt
 
-Splits an array into two pieces, the first piece has `n` elements.
+Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
+If `n` is out of bounds, the input is returned.
 
 **Signature**
 
 ```ts
-export declare function splitAt(n: number): <A>(as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
+export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
 ```
 
 **Example**
@@ -2466,7 +2463,7 @@ The function is reverse of `zip`. Takes an array of pairs and return two corresp
 **Signature**
 
 ```ts
-export declare function unzip<A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>]
+export declare const unzip: <A, B>(as: readonly (readonly [A, B])[]) => readonly [readonly A[], readonly B[]]
 ```
 
 **Example**
