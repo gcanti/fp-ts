@@ -913,7 +913,7 @@ export const splitAt: (n: number) => <A>(as: Array<A>) => [Array<A>, Array<A>] =
  *
  * @since 2.0.0
  */
-export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<Array<A>> = RA.chunksOf as any
+export const chunksOf: (n: number) => <A>(as: Array<A>) => Array<NonEmptyArray<A>> = RA.chunksOf as any
 
 /**
  * Array comprehension
@@ -1610,7 +1610,7 @@ export const Witherable: Witherable1<URI> = {
  * @category unsafe
  * @since 2.0.0
  */
-export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => Array<A> = RA.unsafeInsertAt as any
+export const unsafeInsertAt: <A>(i: number, a: A, as: Array<A>) => NonEmptyArray<A> = RA.unsafeInsertAt as any
 
 /**
  * @category unsafe
