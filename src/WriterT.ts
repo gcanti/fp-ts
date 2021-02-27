@@ -7,8 +7,6 @@ import { Monoid } from './Monoid'
 
 // TODO: remove module in v3
 
-// tslint:disable:readonly-array
-
 /**
  * @category model
  * @since 2.4.0

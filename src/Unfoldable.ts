@@ -10,8 +10,6 @@ import { Option } from './Option'
 // model
 // -------------------------------------------------------------------------------------
 
-// tslint:disable:readonly-array
-
 /**
  * @category type classes
  * @since 2.0.0

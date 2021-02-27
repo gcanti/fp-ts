@@ -184,7 +184,6 @@ export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
  * @category constructors
  * @since 2.0.0
  */
-// tslint:disable-next-line: readonly-array
 export const fromArray: <A>(E: Eq<A>) => (as: Array<A>) => Set<A> = RS.fromArray as any
 
 /**
@@ -261,7 +260,6 @@ export const elem: <A>(
 /**
  * @since 2.0.0
  */
-// tslint:disable-next-line: readonly-array
 export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = RS.toReadonlyArray as any
 
 // -------------------------------------------------------------------------------------

@@ -271,7 +271,6 @@ export function toReadonlyArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Kind<F
 export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A>
 export function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => ReadonlyArray<A> {
   return <A>(fa: HKT<F, A>) =>
-    // tslint:disable-next-line: readonly-array
     F.reduce(fa, [], (acc: Array<A>, a) => {
       acc.push(a)
       return acc

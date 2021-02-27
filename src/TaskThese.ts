@@ -459,7 +459,6 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
   mapLeft: _mapLeft
 }
 
-/* tslint:disable:readonly-array */
 /**
  * Use `toTuple2` instead.
  *
@@ -471,7 +470,6 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: TaskThese<E, A>) => Task<[E, A]
     () => e,
     () => a
   ) as any
-/* tslint:enable:readonly-array */
 
 /**
  * Use small, specific instances instead.

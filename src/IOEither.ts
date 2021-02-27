@@ -876,7 +876,6 @@ export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEith
 export const traverseSeqArrayWithIndex = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
   as: ReadonlyArray<A>
 ): IOEither<E, ReadonlyArray<B>> => () => {
-  // tslint:disable-next-line: readonly-array
   const out = []
   for (let i = 0; i < as.length; i++) {
     const b = f(i, as[i])()

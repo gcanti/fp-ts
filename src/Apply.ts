@@ -324,7 +324,6 @@ function getTupleConstructor(len: number): (a: unknown) => any {
   return tupleConstructors[len]
 }
 
-/* tslint:disable:readonly-array */
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
  *
@@ -385,7 +384,6 @@ export function sequenceT<F>(F: Apply<F>): any {
     return fas
   }
 }
-/* tslint:enable:readonly-array */
 
 type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
 
@@ -428,7 +426,6 @@ function getRecordConstructor(keys: ReadonlyArray<string>) {
   }
 }
 
-/* tslint:disable:readonly-array */
 /**
  * Like `Apply.sequenceT` but works with structs instead of tuples.
  *
@@ -502,4 +499,3 @@ export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => H
     return fr
   }
 }
-/* tslint:enable:readonly-array */

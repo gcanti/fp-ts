@@ -122,7 +122,6 @@ export function mapWithIndex<F, I, G, J>(
 // -------------------------------------------------------------------------------------
 
 // tslint:disable: deprecation
-/* tslint:disable:readonly-array */
 
 /**
  * @since 2.0.0
@@ -200,8 +199,6 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
     f: (i: [FI, GI], a: A) => B
   ) => Kind2<F, FE, Kind2<G, E, B>>
 }
-
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
