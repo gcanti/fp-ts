@@ -60,7 +60,6 @@ Added in v2.5.0
   - [group](#group)
   - [groupBy](#groupby)
   - [groupSort](#groupsort)
-  - [insertAt](#insertat)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
   - [prependAll](#prependall)
@@ -71,6 +70,7 @@ Added in v2.5.0
   - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [cons](#cons)
@@ -600,16 +600,6 @@ assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2,
 
 Added in v2.5.0
 
-## insertAt
-
-**Signature**
-
-```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
 ## intersperse
 
 Places an element in between members of a `ReadonlyNonEmptyArray`.
@@ -752,6 +742,18 @@ export declare const zipWith: <A, B, C>(
 ```
 
 Added in v2.5.1
+
+## ~~insertAt~~
+
+Use `ReadonlyArray`'s `insertAt` instead.
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
 
 ## ~~prependToAll~~
 
