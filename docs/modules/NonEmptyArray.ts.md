@@ -22,11 +22,9 @@ Added in v2.0.0
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
-  - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [FoldableWithIndex](#foldablewithindex)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [Functor](#functor)
@@ -41,25 +39,32 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [concat](#concat)
   - [copy](#copy)
   - [duplicate](#duplicate)
   - [filter](#filter)
+  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [group](#group)
+  - [groupBy](#groupby)
   - [groupSort](#groupsort)
+  - [insertAt](#insertat)
   - [intersperse](#intersperse)
+  - [modifyAt](#modifyat)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
+  - [unzip](#unzip)
+  - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [concat](#concat)
   - [cons](#cons)
   - [fromArray](#fromarray)
-  - [groupBy](#groupby)
   - [snoc](#snoc)
 - [destructors](#destructors)
   - [uncons](#uncons)
@@ -93,20 +98,15 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [concatAll](#concatall)
   - [extract](#extract)
-  - [filterWithIndex](#filterwithindex)
   - [head](#head)
   - [init](#init)
-  - [insertAt](#insertat)
   - [last](#last)
   - [max](#max)
   - [min](#min)
-  - [modifyAt](#modifyat)
   - [sequence](#sequence)
   - [tail](#tail)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
-  - [unzip](#unzip)
-  - [updateAt](#updateat)
   - [~~fold~~](#fold)
 
 ---
@@ -166,16 +166,6 @@ Added in v2.0.0
 
 # Foldable
 
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
-```
-
-Added in v2.0.0
-
 ## reduce
 
 **Signature**
@@ -197,18 +187,6 @@ export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Non
 Added in v2.0.0
 
 # FoldableWithIndex
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
-```
-
-Added in v2.0.0
 
 ## reduceRightWithIndex
 
@@ -328,6 +306,17 @@ export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: N
 
 Added in v2.0.0
 
+## concat
+
+**Signature**
+
+```ts
+export declare function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
+export declare function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
+```
+
+Added in v2.2.0
+
 ## copy
 
 **Signature**
@@ -363,6 +352,18 @@ export declare function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<
 
 Added in v2.0.0
 
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -383,6 +384,28 @@ Derivable from `Chain`.
 
 ```ts
 export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
+```
+
+Added in v2.0.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -413,6 +436,30 @@ assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [cons(1, []), cons(2, []), co
 
 Added in v2.0.0
 
+## groupBy
+
+Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+function on each element, and grouping the results according to values returned
+
+**Signature**
+
+```ts
+export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
+```
+
+**Example**
+
+```ts
+import { cons, groupBy } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
+  '3': cons('foo', ['bar']),
+  '6': cons('foobar', []),
+})
+```
+
+Added in v2.0.0
+
 ## groupSort
 
 Sort and then group the elements of an array into non empty arrays.
@@ -439,6 +486,16 @@ assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2,
 
 Added in v2.0.0
 
+## insertAt
+
+**Signature**
+
+```ts
+export declare const insertAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## intersperse
 
 Places an element in between members of an array
@@ -458,6 +515,16 @@ assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 
 ```
 
 Added in v2.9.0
+
+## modifyAt
+
+**Signature**
+
+```ts
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
 
 ## prependAll
 
@@ -495,6 +562,26 @@ Added in v2.0.0
 
 ```ts
 export declare const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
+## unzip
+
+**Signature**
+
+```ts
+export declare const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
+```
+
+Added in v2.5.1
+
+## updateAt
+
+**Signature**
+
+```ts
+export declare const updateAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -540,17 +627,6 @@ Added in v2.9.0
 
 # constructors
 
-## concat
-
-**Signature**
-
-```ts
-export declare function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
-export declare function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
-```
-
-Added in v2.2.0
-
 ## cons
 
 Append an element to the front of an array, creating a new non empty array
@@ -579,30 +655,6 @@ Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty ar
 
 ```ts
 export declare const fromArray: <A>(as: A[]) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## groupBy
-
-Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
-function on each element, and grouping the results according to values returned
-
-**Signature**
-
-```ts
-export declare const groupBy: <A>(f: (a: A) => string) => (as: A[]) => Record<string, NonEmptyArray<A>>
-```
-
-**Example**
-
-```ts
-import { cons, groupBy } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
-  '3': cons('foo', ['bar']),
-  '6': cons('foobar', []),
-})
 ```
 
 Added in v2.0.0
@@ -963,18 +1015,6 @@ export declare const extract: <A>(wa: NonEmptyArray<A>) => A
 
 Added in v2.7.0
 
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
 ## head
 
 **Signature**
@@ -1006,16 +1046,6 @@ assert.deepStrictEqual(init([1]), [])
 
 Added in v2.2.0
 
-## insertAt
-
-**Signature**
-
-```ts
-export declare const insertAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
 ## last
 
 **Signature**
@@ -1042,16 +1072,6 @@ Added in v2.0.0
 
 ```ts
 export declare const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
-```
-
-Added in v2.0.0
-
-## modifyAt
-
-**Signature**
-
-```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -1095,26 +1115,6 @@ export declare const traverseWithIndex: PipeableTraverseWithIndex1<'NonEmptyArra
 ```
 
 Added in v2.6.3
-
-## unzip
-
-**Signature**
-
-```ts
-export declare const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
-```
-
-Added in v2.5.1
-
-## updateAt
-
-**Signature**
-
-```ts
-export declare const updateAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
 
 ## ~~fold~~
 

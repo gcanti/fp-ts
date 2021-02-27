@@ -621,12 +621,26 @@ describe('ReadonlyArray', () => {
 
   it('zipWith', () => {
     U.deepStrictEqual(
+      _.zipWith([1, 2, 3], [], (n, s) => s + n),
+      []
+    )
+    U.deepStrictEqual(
+      _.zipWith([], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+      []
+    )
+    U.deepStrictEqual(
+      _.zipWith([], [], (n, s) => s + n),
+      []
+    )
+    U.deepStrictEqual(
       _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
       ['a1', 'b2', 'c3']
     )
   })
 
   it('zip', () => {
+    U.deepStrictEqual(_.zip([], ['a', 'b', 'c', 'd']), [])
+    U.deepStrictEqual(_.zip([1, 2, 3], []), [])
     U.deepStrictEqual(_.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
       [1, 'a'],
       [2, 'b'],
@@ -640,6 +654,7 @@ describe('ReadonlyArray', () => {
   })
 
   it('unzip', () => {
+    U.deepStrictEqual(_.unzip([]), [[], []])
     U.deepStrictEqual(
       _.unzip([
         [1, 'a'],

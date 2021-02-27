@@ -37,6 +37,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `match`
   - `ReadonlyArray`
     - add `size`
+  - `ReadonlyNonEmptyArray`
+    - add `isNonEmpty`
+    - add `chainWithIndex`
   - `ReadonlySet`
     - add `isEmpty`
     - add `size`

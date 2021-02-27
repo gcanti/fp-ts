@@ -4,7 +4,7 @@
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
-import { Applicative1 } from './Applicative'
+import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { Apply1 } from './Apply'
 import { Chain1 } from './Chain'
 import { Comonad1 } from './Comonad'
@@ -12,7 +12,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Lazy, Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement, pipe } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
@@ -24,6 +24,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
+import { HKT } from './HKT'
 
 /* tslint:disable:readonly-array */
 
@@ -212,7 +213,7 @@ export const groupSort: <B>(
  *   '6': cons('foobar', [])
  * })
  *
- * @category constructors
+ * @category combinators
  * @since 2.0.0
  */
 export const groupBy: <A>(
@@ -244,6 +245,7 @@ export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
 export const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const insertAt: <A>(
@@ -252,6 +254,7 @@ export const insertAt: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.insertAt as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const updateAt: <A>(
@@ -260,6 +263,7 @@ export const updateAt: <A>(
 ) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.updateAt as any
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const modifyAt: <A>(
@@ -293,6 +297,7 @@ export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => O
 }
 
 /**
+ * @category combinators
  * @since 2.0.0
  */
 export const filterWithIndex: <A>(
@@ -307,7 +312,7 @@ export const of: Pointed1<URI>['of'] = RNEA.of as any
 
 // TODO: curry in v3
 /**
- * @category constructors
+ * @category combinators
  * @since 2.2.0
  */
 export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
@@ -341,6 +346,7 @@ export const zip: {
 } = RNEA.zip as any
 
 /**
+ * @category combinators
  * @since 2.5.1
  */
 export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = RNEA.unzip as any
@@ -371,45 +377,73 @@ export const prependAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A>
  */
 export const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.intersperse as any
 
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const _map: Monad1<URI>['map'] = RNEA.Functor.map as any
-const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = RNEA.FunctorWithIndex.mapWithIndex as any
-const _ap: Monad1<URI>['ap'] = RNEA.Applicative.ap as any
-const _chain: Monad1<URI>['chain'] = RNEA.Monad.chain as any
-const _extend: Extend1<URI>['extend'] = RNEA.Comonad.extend as any
-const _reduce: Foldable1<URI>['reduce'] = RNEA.Foldable.reduce as any
-const _foldMap: Foldable1<URI>['foldMap'] = RNEA.Foldable.foldMap as any
-const _reduceRight: Foldable1<URI>['reduceRight'] = RNEA.Foldable.reduceRight as any
-const _traverse: Traversable1<URI>['traverse'] = RNEA.Traversable.traverse as any
-const _alt: Alt1<URI>['alt'] = RNEA.Alt.alt as any
-const _reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = RNEA.FoldableWithIndex
-  .reduceWithIndex as any
-const _foldMapWithIndex: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = RNEA.FoldableWithIndex
-  .foldMapWithIndex as any
-const _reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = RNEA.FoldableWithIndex
-  .reduceRightWithIndex as any
-const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = RNEA.TraversableWithIndex
-  .traverseWithIndex as any
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
 /**
- * @category FoldableWithIndex
+ * @category combinators
  * @since 2.0.0
  */
 export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
   RNEA.foldMapWithIndex
 
 /**
- * @category Foldable
+ * @category combinators
  * @since 2.0.0
  */
 export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
+
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+/* istanbul ignore next */
+const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+/* istanbul ignore next */
+const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
+/* istanbul ignore next */
+const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const _extend: Extend1<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+/* istanbul ignore next */
+const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
+  const foldMapM = foldMap(M)
+  return (fa, f) => pipe(fa, foldMapM(f))
+}
+/* istanbul ignore next */
+const _reduceRight: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+/* istanbul ignore next */
+const _traverse: Traversable1<URI>['traverse'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
+}
+/* istanbul ignore next */
+const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+/* istanbul ignore next */
+const _reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) =>
+  pipe(fa, reduceWithIndex(b, f))
+/* istanbul ignore next */
+const _foldMapWithIndex: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (M) => {
+  const foldMapWithIndexM = foldMapWithIndex(M)
+  return (fa, f) => pipe(fa, foldMapWithIndexM(f))
+}
+/* istanbul ignore next */
+const _reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (fa, b, f) =>
+  pipe(fa, reduceRightWithIndex(b, f))
+/* istanbul ignore next */
+const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(ta: NonEmptyArray<A>, f: (i: number, a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>) => {
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (ta, f) => pipe(ta, traverseWithIndexF(f))
+}
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * Less strict version of [`alt`](#alt).
