@@ -208,6 +208,7 @@ describe('ReadonlyNonEmptyArray', () => {
     const a2 = make(1)
     const a3 = make(2)
     const a4 = make(3)
+    U.deepStrictEqual(pipe([], _.insertAt(1, 1)), O.none)
     assert.deepStrictEqual(_.insertAt(0, a4)([a1, a2, a3]), O.some([a4, a1, a2, a3]))
     U.deepStrictEqual(_.insertAt(-1, a4)([a1, a2, a3]), O.none)
     assert.deepStrictEqual(_.insertAt(3, a4)([a1, a2, a3]), O.some([a1, a2, a3, a4]))

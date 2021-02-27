@@ -40,6 +40,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - add `isNonEmpty`
     - add `chainWithIndex`
+    - add `chop`
   - `ReadonlySet`
     - add `isEmpty`
     - add `size`
