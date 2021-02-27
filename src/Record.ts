@@ -25,8 +25,6 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
-/* tslint:disable:readonly-array */
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------

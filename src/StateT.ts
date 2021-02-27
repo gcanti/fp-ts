@@ -10,7 +10,6 @@ import { Pointed, Pointed1, Pointed2, Pointed3 } from './Pointed'
 import { snd } from './ReadonlyTuple'
 import { State } from './State'
 
-/* tslint:disable:readonly-array */
 /**
  * @category model
  * @since 2.0.0
@@ -41,7 +40,6 @@ export interface StateT2<M extends URIS2, S, E, A> {
 export interface StateT3<M extends URIS3, S, R, E, A> {
   (s: S): Kind3<M, R, E, [A, S]>
 }
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.10.0

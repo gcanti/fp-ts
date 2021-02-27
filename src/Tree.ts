@@ -24,8 +24,6 @@ import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 
-// tslint:disable:readonly-array
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------

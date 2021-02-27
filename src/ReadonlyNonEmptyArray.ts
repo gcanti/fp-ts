@@ -113,7 +113,6 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  * @category constructors
  * @since 2.5.0
  */
-// tslint:disable-next-line: readonly-array
 export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.slice())
 
 // -------------------------------------------------------------------------------------
@@ -197,7 +196,6 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
     if (len === 0) {
       return empty
     }
-    // tslint:disable-next-line: readonly-array
     const out: Array<ReadonlyNonEmptyArray<A>> = []
     let head: A = as[0]
     let nea: NonEmptyArray<A> = [head]

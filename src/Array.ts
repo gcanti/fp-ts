@@ -35,8 +35,6 @@ import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 // model
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-array */
-
 /**
  * @category instances
  * @since 2.0.0

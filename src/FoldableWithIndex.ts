@@ -32,8 +32,6 @@ import { pipe } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monoid } from './Monoid'
 
-/* tslint:disable:readonly-array */
-
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
@@ -291,8 +289,6 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
     f: (i: [FI, GI], a: A, b: B) => B
   ) => B
 }
-
-/* tslint:enable:readonly-array */
 
 /**
  * @since 2.0.0
