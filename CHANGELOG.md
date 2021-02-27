@@ -35,11 +35,14 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Array`
     - add `size`
+    - better `unsafeInsertAt` signature
+    - better `chunksOf` signature
   - `Ordering`
     - add `match`
   - `ReadonlyArray`
     - add `size`
     - better `unsafeInsertAt` signature
+    - better `chunksOf` signature, closes #1407
   - `ReadonlyNonEmptyArray`
     - add `isNonEmpty`
     - add `chainWithIndex`
