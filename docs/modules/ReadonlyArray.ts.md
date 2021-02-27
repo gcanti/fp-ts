@@ -548,7 +548,7 @@ value and the rest of the `ReadonlyArray`.
 
 ```ts
 export declare const chop: <A, B>(
-  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
+  f: (as: RNEA.ReadonlyNonEmptyArray<A>) => readonly [B, readonly A[]]
 ) => (as: readonly A[]) => readonly B[]
 ```
 
@@ -799,7 +799,7 @@ Fold a `ReadonlyArray` from the left, keeping all intermediate results instead o
 **Signature**
 
 ```ts
-export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => ReadonlyNonEmptyArray<B>
+export declare const scanLeft: <B, A>(b: B, f: (b: B, a: A) => B) => (as: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -819,7 +819,10 @@ Fold a `ReadonlyArray` from the right, keeping all intermediate results instead 
 **Signature**
 
 ```ts
-export declare const scanRight: <B, A>(b: B, f: (a: A, b: B) => B) => (as: readonly A[]) => ReadonlyNonEmptyArray<B>
+export declare const scanRight: <B, A>(
+  b: B,
+  f: (a: A, b: B) => B
+) => (as: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B>
 ```
 
 **Example**
@@ -1118,7 +1121,7 @@ Attaches an element to the front of a `ReadonlyArray`, creating a new `ReadonlyN
 **Signature**
 
 ```ts
-export declare const cons: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
+export declare const cons: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1200,7 +1203,7 @@ Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEm
 **Signature**
 
 ```ts
-export declare const snoc: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
+export declare const snoc: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -1302,7 +1305,7 @@ Break a `ReadonlyArray` into its first element and remaining elements
 **Signature**
 
 ```ts
-export declare const matchLeft: <B, A>(
+export declare const matchLeft: <A, B>(
   onEmpty: Lazy<B>,
   onCons: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
@@ -1329,7 +1332,7 @@ Break a `ReadonlyArray` into its initial elements and the last element
 **Signature**
 
 ```ts
-export declare const matchRight: <B, A>(
+export declare const matchRight: <A, B>(
   onEmpty: Lazy<B>,
   onCons: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
@@ -1346,7 +1349,7 @@ Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmpty
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -1751,12 +1754,12 @@ definition of `chunksOf`; it satisfies the property that
 chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
 ```
 
-whenever `n` evenly divides the length of `xs`.
+whenever `n` evenly divides the length of `as`.
 
 **Signature**
 
 ```ts
-export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly (readonly A[])[]
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly RNEA.ReadonlyNonEmptyArray<A>[]
 ```
 
 **Example**
@@ -2067,7 +2070,7 @@ Insert an element at the specified index, creating a new `ReadonlyArray`, or ret
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<RNEA.ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**
@@ -2266,6 +2269,7 @@ Added in v3.0.0
 ## splitAt
 
 Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
+If `n` is out of bounds, the input is returned.
 
 **Signature**
 

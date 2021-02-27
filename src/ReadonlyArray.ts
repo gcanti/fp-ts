@@ -24,7 +24,7 @@ import * as N from './number'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as RNEA from './ReadonlyNonEmptyArray'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -33,6 +33,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 import Option = O.Option
+import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -103,9 +104,9 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @category destructors
  * @since 3.0.0
  */
-export const matchLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
   as: ReadonlyArray<A>
-): B => (isEmpty(as) ? onEmpty() : onCons(as[0], as.slice(1)))
+): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element
@@ -113,9 +114,9 @@ export const matchLeft = <B, A>(onEmpty: Lazy<B>, onCons: (head: A, tail: Readon
  * @category destructors
  * @since 3.0.0
  */
-export const matchRight = <B, A>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
   as: ReadonlyArray<A>
-): B => (isEmpty(as) ? onEmpty() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
+): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -181,7 +182,7 @@ export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
  * @category guards
  * @since 3.0.0
  */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -227,15 +228,7 @@ export const lookup = (i: number): (<A>(as: ReadonlyArray<A>) => Option<A>) => {
  * @category constructors
  * @since 3.0.0
  */
-export const cons = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const len = tail.length
-  const r = Array(len + 1)
-  for (let i = 0; i < len; i++) {
-    r[i + 1] = tail[i]
-  }
-  r[0] = head
-  return (r as unknown) as ReadonlyNonEmptyArray<A>
-}
+export const cons = RNEA.cons
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -249,15 +242,7 @@ export const cons = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyAr
  * @category constructors
  * @since 3.0.0
  */
-export const snoc = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const len = init.length
-  const r = Array(len + 1)
-  for (let i = 0; i < len; i++) {
-    r[i] = init[i]
-  }
-  r[len] = end
-  return (r as unknown) as ReadonlyNonEmptyArray<A>
-}
+export const snoc = RNEA.snoc
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -271,7 +256,7 @@ export const snoc = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArr
  *
  * @since 3.0.0
  */
-export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isEmpty(as) ? O.none : O.some(as[0]))
+export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.head(as)) : O.none)
 
 /**
  * Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -285,7 +270,7 @@ export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isEmpty(as) ? O.non
  *
  * @since 3.0.0
  */
-export const last = <A>(as: ReadonlyArray<A>): Option<A> => lookup(as.length - 1)(as)
+export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.last(as)) : O.none)
 
 /**
  * Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -299,7 +284,8 @@ export const last = <A>(as: ReadonlyArray<A>): Option<A> => lookup(as.length - 1
  *
  * @since 3.0.0
  */
-export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> => (isEmpty(as) ? O.none : O.some(as.slice(1)))
+export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isNonEmpty(as) ? O.some(RNEA.tail(as)) : O.none
 
 /**
  * Get all but the last element of a `ReadonlyArray`, creating a new `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -313,10 +299,8 @@ export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> => (isEm
  *
  * @since 3.0.0
  */
-export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> => {
-  const len = as.length
-  return len === 0 ? O.none : O.some(as.slice(0, len - 1))
-}
+export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
 
 /**
  * Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`..
@@ -625,12 +609,6 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
   return O.none
 }
 
-const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const xs = as.slice()
-  xs.splice(i, 0, a)
-  return xs
-}
-
 /**
  * Insert an element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
  *
@@ -642,8 +620,17 @@ const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray
  *
  * @since 3.0.0
  */
-export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> => {
+  if (i < 0 || i > as.length) {
+    return O.none
+  }
+  if (isNonEmpty(as)) {
+    const out = RNEA.toNonEmptyArray(as)
+    out.splice(i, 0, a)
+    return O.some(out)
+  }
+  return O.some([a])
+}
 
 /**
  * Change the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out of bounds.
@@ -659,16 +646,6 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
  */
 export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) =>
   modifyAt(i, () => a)
-
-const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = as.slice()
-    xs[i] = a
-    return xs
-  }
-}
 
 /**
  * Apply a function to the element at the specified index, creating a new `ReadonlyArray`, or returning `None` if the index is out
@@ -686,7 +663,19 @@ const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray
  */
 export const modifyAt = <A>(i: number, f: Endomorphism<A>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
   const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+  return (as) => {
+    if (predicate(as)) {
+      return O.none
+    }
+    const prev = as[i]
+    const next = f(prev)
+    if (next === prev) {
+      return O.some(as)
+    }
+    const out = as.slice()
+    out[i] = next
+    return O.some(out)
+  }
 }
 
 const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> => {
@@ -1020,21 +1009,16 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  * @category combinators
  * @since 3.0.0
  */
-export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]) => (
-  as: ReadonlyArray<A>
-): ReadonlyArray<B> => {
-  const out: Array<B> = []
-  let cs: ReadonlyArray<A> = as
-  while (isNonEmpty(cs)) {
-    const [b, c] = f(cs)
-    out.push(b)
-    cs = c
-  }
-  return out
+export const chop = <A, B>(
+  f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, ReadonlyArray<A>]
+): ((as: ReadonlyArray<A>) => ReadonlyArray<B>) => {
+  const g = RNEA.chop(f)
+  return (as) => (isNonEmpty(as) ? g(as) : empty)
 }
 
 /**
  * Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
+ * If `n` is out of bounds, the input is returned.
  *
  * @example
  * import { splitAt } from 'fp-ts/ReadonlyArray'
@@ -1043,10 +1027,8 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
  *
  * @since 3.0.0
  */
-export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] => [
-  as.slice(0, n),
-  as.slice(n)
-]
+export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
+  n === 0 ? [empty, as] : isNonEmpty(as) ? RNEA.splitAt(n)(as) : [empty, empty]
 
 /**
  * Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1057,7 +1039,7 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  * chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
  * ```
  *
- * whenever `n` evenly divides the length of `xs`.
+ * whenever `n` evenly divides the length of `as`.
  *
  * @example
  * import { chunksOf } from 'fp-ts/ReadonlyArray'
@@ -1067,10 +1049,9 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  *
  * @since 3.0.0
  */
-export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-  const f = chop(splitAt(n))
-  const predicate = isOutOfBound(n - 1)
-  return (as) => (isEmpty(as) ? empty : predicate(as) ? [as] : f(as))
+export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
+  const f = RNEA.chunksOf(n)
+  return (as) => (isNonEmpty(as) ? f(as) : empty)
 }
 
 /**
@@ -1913,7 +1894,7 @@ export const Witherable: Witherable1<URI> = {
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = []
+export const empty: ReadonlyArray<never> = RNEA.empty
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.

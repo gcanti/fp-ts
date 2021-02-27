@@ -58,18 +58,14 @@ pipe(nexs, _.sort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<X>
 //
 
 _.group(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-pipe(xs, _.group<X>(ordSubX)) // $ExpectType ReadonlyArray<ReadonlyNonEmptyArray<X>>
-_.group(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-// TODO pipe(nexs, _.group<X>(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
+pipe(nexs, _.group(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
 
 //
 // groupSort
 //
 
 _.groupSort(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-pipe(xs, _.groupSort<X>(ordSubX)) // $ExpectType ReadonlyArray<ReadonlyNonEmptyArray<X>>
-_.groupSort(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-// TODO pipe(nexs, _.groupSort<X>(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
+pipe(nexs, _.groupSort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
 
 //
 // groupBy

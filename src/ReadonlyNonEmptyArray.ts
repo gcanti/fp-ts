@@ -250,7 +250,20 @@ interface NonEmptyArray<A> extends Array<A> {
   0: A
 }
 
-const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
+/**
+ * @internal
+ */
+export const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
+
+const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+
+/**
+ * Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
+ *
+ * @since 3.0.0
+ */
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
+  modifyAt(i, () => a)
 
 /**
  * @internal
@@ -264,19 +277,6 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
     return xs
   }
 }
-
-/**
- * @internal
- */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
-
-/**
- * Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.
- *
- * @since 3.0.0
- */
-export const updateAt = <A>(i: number, a: A) => (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as))
 
 /**
  * Apply a function to the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out
