@@ -273,7 +273,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
  * @since 2.5.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
-  as.slice().sort(O.compare) as any
+  as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
 const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
 
