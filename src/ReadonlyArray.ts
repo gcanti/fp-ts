@@ -860,12 +860,9 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @category combinators
  * @since 2.10.0
  */
-export const prependAll = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const out: Array<A> = []
-  for (const x of as) {
-    out.push(middle, x)
-  }
-  return out
+export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.prependAll(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : empty)
 }
 
 /**
