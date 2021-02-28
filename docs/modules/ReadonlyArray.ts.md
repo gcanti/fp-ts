@@ -64,6 +64,7 @@ Added in v2.5.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -102,7 +103,6 @@ Added in v2.5.0
   - [foldRight](#foldright)
   - [matchLeft](#matchleft)
   - [matchRight](#matchright)
-  - [toArray](#toarray)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -143,7 +143,6 @@ Added in v2.5.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -170,6 +169,7 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
+  - [toArray](#toarray)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -596,6 +596,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => readonly B[]) => (first: re
 
 Added in v2.5.0
 
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (as: readonly A[]) => readonly B[]
+```
+
+Added in v2.7.0
+
 ## chop
 
 A useful recursion pattern for processing a `ReadonlyArray` to produce a new `ReadonlyArray`, often used for "chopping" up the input
@@ -791,7 +801,7 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(e: A) => (as: readonly A[]) => readonly A[]
+export declare const intersperse: <A>(middle: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -811,7 +821,7 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependAll: <A>(e: A) => (xs: readonly A[]) => readonly A[]
+export declare const prependAll: <A>(middle: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1150,7 +1160,7 @@ Use `prependAll` instead.
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: readonly A[]) => readonly A[]
+export declare const prependToAll: <A>(middle: A) => (as: readonly A[]) => readonly A[]
 ```
 
 Added in v2.9.0
@@ -1406,16 +1416,6 @@ export declare const matchRight: <A, B>(
 ```
 
 Added in v2.10.0
-
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(as: readonly A[]) => A[]
-```
-
-Added in v2.5.0
 
 # guards
 
@@ -1848,16 +1848,6 @@ export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly {
 ```
 
 Added in v2.8.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
-```
-
-Added in v2.7.0
 
 ## chunksOf
 
@@ -2452,6 +2442,16 @@ export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly
 import { takeRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+```
+
+Added in v2.5.0
+
+## toArray
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
