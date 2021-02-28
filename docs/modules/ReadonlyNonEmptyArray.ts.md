@@ -80,8 +80,10 @@ Added in v2.5.0
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
-  - [uncons](#uncons)
-  - [unsnoc](#unsnoc)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
+  - [~~uncons~~](#uncons)
+  - [~~unsnoc~~](#unsnoc)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -862,9 +864,49 @@ Added in v2.5.0
 
 # destructors
 
-## uncons
+## unappend
+
+Return the tuple of the `init` and the `last`.
+
+**Signature**
+
+```ts
+export declare const unappend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
+```
+
+**Example**
+
+```ts
+import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v2.9.0
+
+## unprepend
 
 Return the tuple of the `head` and the `tail`.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
+```
+
+Added in v2.9.0
+
+## ~~uncons~~
+
+Use `unprepend` instead.
 
 **Signature**
 
@@ -872,19 +914,11 @@ Return the tuple of the `head` and the `tail`.
 export declare const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
 ```
 
-**Example**
+Added in v2.10.0
 
-```ts
-import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+## ~~unsnoc~~
 
-assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
-```
-
-Added in v2.9.0
-
-## unsnoc
-
-Return the tuple of the `init` and the `last`.
+Use `unappend` instead.
 
 **Signature**
 
@@ -892,15 +926,7 @@ Return the tuple of the `init` and the `last`.
 export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
 ```
 
-**Example**
-
-```ts
-import { snoc, unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
-```
-
-Added in v2.9.0
+Added in v2.10.0
 
 # guards
 
