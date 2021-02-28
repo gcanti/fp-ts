@@ -63,43 +63,33 @@ export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray
 // constructors
 // -------------------------------------------------------------------------------------
 
-// TODO: remove non-curried overloading in v3
 /**
- * Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
  *
  * @category constructors
- * @since 2.5.0
+ * @since 2.10.0
  */
-export function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function cons<A>(
-  head: A,
-  tail?: ReadonlyArray<A>
-): ReadonlyNonEmptyArray<A> | ((tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>) {
-  if (tail === undefined) {
-    return (tail) => cons(head, tail)
-  }
-  return [head, ...tail]
-}
+export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
 
-// TODO: curry and make data-last in v3
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { append } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
  * @category constructors
- * @since 2.5.0
+ * @since 2.10.0
  */
-export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
 
 /**
  * Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
@@ -124,9 +114,9 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
  * Return the tuple of the `head` and the `tail`.
  *
  * @example
- * import { cons, uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+ * assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
  * @category destructors
  * @since 2.9.0
@@ -173,13 +163,13 @@ export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<
  * Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
  *
  * @example
- * import { cons, group } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { group } from 'fp-ts/ReadonlyNonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
  * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
- *   cons(1, []),
- *   cons(2, []),
- *   cons(1, [1])
+ *   [1],
+ *   [2],
+ *   [1, 1]
  * ])
  *
  * @category combinators
@@ -219,10 +209,10 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
  * Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
  *
  * @example
- * import { cons, groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+ * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
  *
  * @category combinators
  * @since 2.5.0
@@ -244,11 +234,11 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { cons, groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { groupBy } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
- *   '3': cons('foo', ['bar']),
- *   '6': cons('foobar', [])
+ * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']), {
+ *   '1': ['a', 'b'],
+ *   '2': ['ab']
  * })
  *
  * @category combinators
@@ -387,9 +377,9 @@ export const unzip = <A, B>(
  * Prepend an element to every member of a `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { cons, prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { prependAll } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.10.0
@@ -406,16 +396,16 @@ export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Read
  * Places an element in between members of a `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { cons, intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { intersperse } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.9.0
  */
 export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? cons(as[0], prependAll(middle)(rest)) : as
+  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
 }
 
 /**
@@ -479,7 +469,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
 export const splitAt = (n: number) => <A>(
   as: ReadonlyNonEmptyArray<A>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
-  n < 1 || n > as.length ? [as, empty] : [cons(head(as), as.slice(1, n)), as.slice(n)]
+  n < 1 || n > as.length ? [as, []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -707,7 +697,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
   let out: HKT<F, ReadonlyNonEmptyArray<B>> = F.map(f(0, head(as)), of)
   for (let i = 1; i < as.length; i++) {
     out = F.ap(
-      F.map(out, (bs) => (b: B) => snoc(bs, b)),
+      F.map(out, (bs) => (b: B) => pipe(bs, append(b))),
       f(i, as[i])
     )
   }
@@ -762,12 +752,12 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> =
 
 /**
  * @example
- * import { getEq, cons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { getEq } from 'fp-ts/ReadonlyNonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
  * const E = getEq(N.Eq)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
+ * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
+ * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
  *
  * @category instances
  * @since 2.5.0
@@ -1065,6 +1055,32 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>):
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prepend` instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+export function cons<A>(head: A): (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+/** @deprecated */
+export function cons<A>(head: A, tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
+export function cons<A>(
+  head: A,
+  tail?: ReadonlyArray<A>
+): ReadonlyNonEmptyArray<A> | ((tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>) {
+  return tail === undefined ? prepend(head) : pipe(tail, prepend(head))
+}
+
+/**
+ * Use `append` instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
 
 /**
  * @internal
