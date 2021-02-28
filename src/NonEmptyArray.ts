@@ -102,30 +102,30 @@ export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonE
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? O.some(as) : O.none)
 
 /**
- * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+ * Return the tuple of the `head` and the `tail`.
  *
  * @example
- * import { uncons } from 'fp-ts/NonEmptyArray'
+ * import { unprepend } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(uncons([1, 2, 3]), [1, [2, 3]])
+ * assert.deepStrictEqual(unprepend([1, 2, 3]), [1, [2, 3]])
  *
  * @category destructors
  * @since 2.9.0
  */
-export const uncons = <A>(as: NonEmptyArray<A>): [A, Array<A>] => [head(as), tail(as)]
+export const unprepend = <A>(as: NonEmptyArray<A>): [A, Array<A>] => [head(as), tail(as)]
 
 /**
- * Produces a couple of a copy of the array without its last element, and that last element
+ * Return the tuple of the `init` and the `last`.
  *
  * @example
- * import { snoc, unsnoc } from 'fp-ts/NonEmptyArray'
+ * import { unappend } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+ * assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
  * @category destructors
  * @since 2.9.0
  */
-export const unsnoc = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), last(as)]
+export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), last(as)]
 
 /**
  * @category instances
@@ -1022,6 +1022,24 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `unprepend` instead.
+ *
+ * @category destructors
+ * @since 2.9.0
+ * @deprecated
+ */
+export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
+
+/**
+ * Use `unappend` instead.
+ *
+ * @category destructors
+ * @since 2.9.0
+ * @deprecated
+ */
+export const unsnoc: <A>(as: NonEmptyArray<A>) => [Array<A>, A] = unappend
 
 /**
  * Use `prepend` instead.
