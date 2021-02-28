@@ -41,6 +41,34 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 // -------------------------------------------------------------------------------------
 
 /**
+ * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @example
+ * import { prepend } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+ *
+ * @category constructors
+ * @since 2.10.0
+ */
+export const prepend = RNEA.prepend
+
+/**
+ * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @example
+ * import { append } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+ *
+ * @category constructors
+ * @since 2.10.0
+ */
+export const append = RNEA.append
+
+/**
  * @category constructors
  * @since 2.5.0
  */
@@ -254,35 +282,6 @@ export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as: ReadonlyArray<A>) => Option<A>) {
   return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? O.none : O.some(as[i])
 }
-
-// TODO: remove non-curried overloading in v3
-/**
- * Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { cons } from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
- *
- * @category constructors
- * @since 2.5.0
- */
-export const cons = RNEA.cons
-
-// TODO: curry and make data-last in v3
-/**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { snoc } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.5.0
- */
-export const snoc = RNEA.snoc
 
 /**
  * Get the first element in an array, or `None` if the array is empty
@@ -882,7 +881,7 @@ export const prependAll = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArra
  */
 export const intersperse = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const len = as.length
-  return len === 0 ? as : cons(as[0], prependAll(middle)(as.slice(1, len)))
+  return len === 0 ? as : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
 }
 
 /**
@@ -1135,7 +1134,7 @@ export function comprehension<R>(
     if (input.length === 0) {
       return g(...scope) ? [f(...scope)] : empty
     } else {
-      return _chain(input[0], (x) => go(snoc(scope, x), input.slice(1)))
+      return _chain(input[0], (x) => go(pipe(scope, append(x)), input.slice(1)))
     }
   }
   return go(empty, input)
@@ -1630,7 +1629,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
 ): HKT<F, ReadonlyArray<A>> => {
   return _reduce(ta, F.of(zero()), (fas, fa) =>
     F.ap(
-      F.map(fas, (as) => (a: A) => snoc(as, a)),
+      F.map(fas, (as) => (a: A) => pipe(as, append(a))),
       fa
     )
   )
@@ -1645,7 +1644,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 ): ((ta: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     F.ap(
-      F.map(fbs, (bs) => (b: B) => snoc(bs, b)),
+      F.map(fbs, (bs) => (b: B) => pipe(bs, append(b))),
       f(i, a)
     )
   )
@@ -2203,6 +2202,26 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prepend` instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const cons = RNEA.cons
+
+/**
+ * Use `append` instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export const snoc = RNEA.snoc
 
 /**
  * Use `prependAll` instead.

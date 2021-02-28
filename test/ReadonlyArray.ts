@@ -376,15 +376,21 @@ describe('ReadonlyArray', () => {
   })
 
   it('cons', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons(0, [1, 2, 3]), [0, 1, 2, 3])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons([1], [[2]]), [[1], [2]])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([1, 2, 3], _.cons(0)), [0, 1, 2, 3])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([[2]], _.cons([1])), [[1], [2]])
   })
 
   it('snoc', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc(as, 4), [1, 2, 3, 4])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc([[1]], [2]), [[1], [2]])
   })
 
