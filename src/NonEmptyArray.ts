@@ -60,43 +60,38 @@ export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length
 // -------------------------------------------------------------------------------------
 
 /**
+ * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @example
+ * import { prepend } from 'fp-ts/NonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+ *
+ * @category constructors
+ * @since 2.10.0
+ */
+export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
+
+/**
+ * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @example
+ * import { append } from 'fp-ts/NonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+ *
+ * @category constructors
+ * @since 2.10.0
+ */
+export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => concat(init, [end])
+
+/**
  * @category constructors
  * @since 2.10.0
  */
 export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]
-
-/**
- * Append an element to the front of an array, creating a new non empty array
- *
- * @example
- * import { cons } from 'fp-ts/NonEmptyArray'
- *
- * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.0.0
- */
-export function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
-export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
-export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Array<A>) => NonEmptyArray<A>) {
-  if (tail === undefined) {
-    return (tail) => cons(head, tail)
-  }
-  return [head, ...tail]
-}
-
-/**
- * Append an element to the end of an array, creating a new non empty array
- *
- * @example
- * import { snoc } from 'fp-ts/NonEmptyArray'
- *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.0.0
- */
-export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => concat(init, [end])
 
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
@@ -110,9 +105,9 @@ export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEm
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
  *
  * @example
- * import { cons, uncons } from 'fp-ts/NonEmptyArray'
+ * import { uncons } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(uncons(cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+ * assert.deepStrictEqual(uncons([1, 2, 3]), [1, [2, 3]])
  *
  * @category destructors
  * @since 2.9.0
@@ -184,12 +179,12 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
 
 /**
  * @example
- * import { getEq, cons } from 'fp-ts/NonEmptyArray'
+ * import { getEq } from 'fp-ts/NonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
  * const E = getEq(N.Eq)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
- * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
+ * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
+ * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
  *
  * @category instances
  * @since 2.0.0
@@ -201,13 +196,13 @@ export const getEq = <A>(E: Eq<A>): Eq<NonEmptyArray<A>> =>
  * Group equal, consecutive elements of an array into non empty arrays.
  *
  * @example
- * import { cons, group } from 'fp-ts/NonEmptyArray'
+ * import { group } from 'fp-ts/NonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
  * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
- *   cons(1, []),
- *   cons(2, []),
- *   cons(1, [1])
+ *   [1],
+ *   [2],
+ *   [1, 1]
  * ])
  *
  * @category combinators
@@ -247,10 +242,10 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  * Sort and then group the elements of an array into non empty arrays.
  *
  * @example
- * import { cons, groupSort } from 'fp-ts/NonEmptyArray'
+ * import { groupSort } from 'fp-ts/NonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
+ * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
  *
  * @category combinators
  * @since 2.0.0
@@ -272,11 +267,11 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { cons, groupBy } from 'fp-ts/NonEmptyArray'
+ * import { groupBy } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
- *   '3': cons('foo', ['bar']),
- *   '6': cons('foobar', [])
+ * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']), {
+ *   '1': ['a', 'b'],
+ *   '2': ['ab']
  * })
  *
  * @category combinators
@@ -468,9 +463,9 @@ export const unzip = <A, B>(abs: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonE
  * Prepend an element to every member of an array
  *
  * @example
- * import { cons, prependAll } from 'fp-ts/NonEmptyArray'
+ * import { prependAll } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(prependAll(9)(cons(1, [2, 3, 4])), cons(9, [1, 9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(prependAll(9)([1, 2, 3, 4]), [9, 1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.10.0
@@ -487,16 +482,16 @@ export const prependAll = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArra
  * Places an element in between members of an array
  *
  * @example
- * import { cons, intersperse } from 'fp-ts/NonEmptyArray'
+ * import { intersperse } from 'fp-ts/NonEmptyArray'
  *
- * assert.deepStrictEqual(intersperse(9)(cons(1, [2, 3, 4])), cons(1, [9, 2, 9, 3, 9, 4]))
+ * assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
  *
  * @category combinators
  * @since 2.9.0
  */
 export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? cons(as[0], prependAll(middle)(rest)) : as
+  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
 }
 
 /**
@@ -548,7 +543,7 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: N
  * @since 2.10.0
  */
 export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] =>
-  n < 1 || n > as.length ? [as, []] : [cons(head(as), as.slice(1, n)), as.slice(n)]
+  n < 1 || n > as.length ? [as, []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * @category combinators
@@ -756,7 +751,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
   let out: HKT<F, NonEmptyArray<B>> = F.map(f(0, head(as)), of)
   for (let i = 1; i < as.length; i++) {
     out = F.ap(
-      F.map(out, (bs) => (b: B) => snoc(bs, b)),
+      F.map(out, (bs) => (b: B) => pipe(bs, append(b))),
       f(i, as[i])
     )
   }
@@ -1027,6 +1022,29 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `prepend` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
+/** @deprecated */
+export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
+export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Array<A>) => NonEmptyArray<A>) {
+  return tail === undefined ? prepend(head) : pipe(tail, prepend(head))
+}
+
+/**
+ * Use `append` instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, append(end))
 
 /**
  * Use `prependAll` instead.

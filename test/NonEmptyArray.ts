@@ -175,16 +175,16 @@ describe('NonEmptyArray', () => {
   })
 
   it('prependAll', () => {
-    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [2, 3])), _.cons(0, [1, 0, 2, 0, 3]))
-    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [])), _.cons(0, [1]))
-    U.deepStrictEqual(_.prependAll(0)(_.cons(1, [2, 3, 4])), _.cons(0, [1, 0, 2, 0, 3, 0, 4]))
+    U.deepStrictEqual(_.prependAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
+    U.deepStrictEqual(_.prependAll(0)([1]), [0, 1])
+    U.deepStrictEqual(_.prependAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
   })
 
   it('intersperse', () => {
-    U.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3])), _.cons(1, [0, 2, 0, 3]))
-    U.deepStrictEqual(_.intersperse(0)(_.cons(1, [])), _.cons(1, []))
-    U.deepStrictEqual(_.intersperse(0)(_.cons(1, [2])), _.cons(1, [0, 2]))
-    U.deepStrictEqual(_.intersperse(0)(_.cons(1, [2, 3, 4])), _.cons(1, [0, 2, 0, 3, 0, 4]))
+    U.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
+    U.deepStrictEqual(_.intersperse(0)([1]), [1])
+    U.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
+    U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
   it('reverse', () => {
@@ -243,12 +243,12 @@ describe('NonEmptyArray', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.modifyAt(1, double)(_.cons(1, [])), O.none)
-    U.deepStrictEqual(_.modifyAt(1, double)(_.cons(1, [2])), O.some(_.cons(1, [4])))
+    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
   })
 
   it('copy', () => {
-    const nea1 = _.cons(1, [])
+    const nea1: _.NonEmptyArray<number> = [1]
     const nea2 = _.copy(nea1)
     U.deepStrictEqual(nea2, nea1)
     U.deepStrictEqual(nea2 === nea1, false)
@@ -336,21 +336,23 @@ describe('NonEmptyArray', () => {
   })
 
   it('cons', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons(1, [2, 3, 4]), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 
   it('uncons', () => {
-    U.deepStrictEqual(_.uncons(_.cons(0, [])), [0, []])
-    U.deepStrictEqual(_.uncons(_.cons(1, [2, 3, 4])), [1, [2, 3, 4]])
+    U.deepStrictEqual(_.uncons([0]), [0, []])
+    U.deepStrictEqual(_.uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
   })
 
   it('unsnoc', () => {
-    U.deepStrictEqual(_.unsnoc(_.snoc([], 0)), [[], 0])
-    U.deepStrictEqual(_.unsnoc(_.snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+    U.deepStrictEqual(_.unsnoc([0]), [[], 0])
+    U.deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
   })
 
   it('getShow', () => {
@@ -396,12 +398,13 @@ describe('NonEmptyArray', () => {
   })
 
   it('zip', () => {
-    U.deepStrictEqual(_.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+    const x: _.NonEmptyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(_.zip(x, ['a', 'b', 'c', 'd']), [
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
     ])
-    U.deepStrictEqual(pipe(_.cons(1, [2, 3]), _.zip(['a', 'b', 'c', 'd'])), [
+    U.deepStrictEqual(pipe(x, _.zip(['a', 'b', 'c', 'd'])), [
       [1, 'a'],
       [2, 'b'],
       [3, 'c']
