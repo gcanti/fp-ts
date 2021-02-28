@@ -37,6 +37,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `size`
     - better `unsafeInsertAt` signature
     - better `chunksOf` signature
+  - `NonEmptyArray`
+    - add `isNonEmpty` guard
+    - add `fromReadonlyNonEmptyArray` constructor
+    - add `chainWithIndex` combinator
   - `Ordering`
     - add `match`
   - `ReadonlyArray`

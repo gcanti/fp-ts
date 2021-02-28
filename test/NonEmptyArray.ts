@@ -167,7 +167,11 @@ describe('NonEmptyArray', () => {
   })
 
   it('sort', () => {
-    U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+    const sort = _.sort(N.Ord)
+    U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
+    // should optimize `1`-length `ReadonlyNonEmptyArray`s
+    const singleton: _.NonEmptyArray<number> = [1]
+    assert.strictEqual(sort(singleton), singleton)
   })
 
   it('prependAll', () => {
@@ -202,6 +206,8 @@ describe('NonEmptyArray', () => {
     const a2 = make(1)
     const a3 = make(2)
     const a4 = make(3)
+    U.deepStrictEqual(pipe([], _.insertAt(1, 1)), O.none)
+    U.deepStrictEqual(pipe([], _.insertAt(0, 1)), O.some([1]))
     U.deepStrictEqual(_.insertAt(0, a4)([a1, a2, a3]), O.some([a4, a1, a2, a3]))
     U.deepStrictEqual(_.insertAt(-1, a4)([a1, a2, a3]), O.none)
     U.deepStrictEqual(_.insertAt(3, a4)([a1, a2, a3]), O.some([a1, a2, a3, a4]))
@@ -380,5 +386,39 @@ describe('NonEmptyArray', () => {
     const f = _.concatAll(S.Semigroup)
     U.deepStrictEqual(f(['a']), 'a')
     U.deepStrictEqual(f(['a', 'bb']), 'abb')
+  })
+
+  it('zipWith', () => {
+    U.deepStrictEqual(
+      _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
+      ['a1', 'b2', 'c3']
+    )
+  })
+
+  it('zip', () => {
+    U.deepStrictEqual(_.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
+    U.deepStrictEqual(pipe(_.cons(1, [2, 3]), _.zip(['a', 'b', 'c', 'd'])), [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c']
+    ])
+  })
+
+  it('unzip', () => {
+    U.deepStrictEqual(
+      _.unzip([
+        [1, 'a'],
+        [2, 'b'],
+        [3, 'c']
+      ]),
+      [
+        [1, 2, 3],
+        ['a', 'b', 'c']
+      ]
+    )
   })
 })
