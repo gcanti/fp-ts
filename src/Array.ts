@@ -19,7 +19,6 @@ import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -30,6 +29,9 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import * as NEA from './NonEmptyArray'
+
+import NonEmptyArray = NEA.NonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1633,7 +1635,7 @@ export const unsafeDeleteAt: <A>(i: number, as: Array<A>) => Array<A> = RA.unsaf
  *
  * @since 2.0.0
  */
-export const empty: Array<never> = []
+export const empty: Array<never> = NEA.empty
 
 /**
  * @since 2.9.0

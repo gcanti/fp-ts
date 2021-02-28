@@ -17,7 +17,7 @@ import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { NonEmptyArray } from './NonEmptyArray'
+import { NonEmptyArray, fromReadonlyNonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -27,6 +27,7 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
+import Semigroup = Se.Semigroup
 import Option = O.Option
 
 // -------------------------------------------------------------------------------------
@@ -275,19 +276,17 @@ export const groupBy = <A>(f: (a: A) => string) => (
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
   as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
-const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
+/**
+ * @category combinators
+ * @since 2.5.0
+ */
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
+  modifyAt(i, () => a)
 
 /**
  * @internal
  */
-export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
-  if (isNonEmpty(as)) {
-    const xs = toNonEmptyArray(as)
-    xs.splice(i, 0, a)
-    return xs
-  }
-  return [a]
-}
+export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * @internal
@@ -296,23 +295,11 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
   if (as[i] === a) {
     return as
   } else {
-    const xs = toNonEmptyArray(as)
+    const xs = fromReadonlyNonEmptyArray(as)
     xs[i] = a
     return xs
   }
 }
-
-/**
- * @internal
- */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
-
-/**
- * @category combinators
- * @since 2.5.0
- */
-export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
-  modifyAt(i, () => a)
 
 /**
  * @category combinators
@@ -435,7 +422,7 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
  * @category combinators
  * @since 2.5.0
  */
-export const foldMapWithIndex = <S>(S: Se.Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
+export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   as: ReadonlyNonEmptyArray<A>
 ) => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
@@ -443,7 +430,7 @@ export const foldMapWithIndex = <S>(S: Se.Semigroup<S>) => <A>(f: (i: number, a:
  * @category combinators
  * @since 2.5.0
  */
-export const foldMap = <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) =>
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) =>
   as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
 
 /**
@@ -453,7 +440,7 @@ export const foldMap = <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: Re
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = toNonEmptyArray(f(0, head(as)))
+  const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
   for (let i = 1; i < as.length; i++) {
     out.push(...f(i, as[i]))
   }
@@ -769,7 +756,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyNonEmptyArray<A>> => ({
  * @category instances
  * @since 2.5.0
  */
-export const getSemigroup = <A = never>(): Se.Semigroup<ReadonlyNonEmptyArray<A>> => ({
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
   concat
 })
 
@@ -1073,11 +1060,23 @@ export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
 /**
  * @since 2.10.0
  */
-export const concatAll = <A>(S: Se.Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>): A => as.reduce(S.concat)
+export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>): A => as.reduce(S.concat)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
+  }
+  return [a]
+}
 
 /**
  * Use `ReadonlyArray`'s `insertAt` instead.
