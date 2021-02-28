@@ -29,6 +29,11 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `insertAt` in favour of `upsertAt`
   - `Map`
     - deprecate `insertAt` in favour of `upsertAt`
+  - `NonEmptyArray`
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+    - deprecate `uncons` in favour of `unprepend`
+    - deprecate `unsnoc` in favour of `unappend`
   - `Record`
     - deprecate `insertAt` in favour of `upsertAt`
   - `ReadonlyArray`
@@ -36,6 +41,10 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `snoc` in favour of `append`
   - `ReadonlyNonEmptyArray`
     - deprecate `insertAt`, Use `ReadonlyArray`'s `insertAt` instead
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+    - deprecate `uncons` in favour of `unprepend`
+    - deprecate `unsnoc` in favour of `unappend`
   - `Set`
     - deprecate `subset` in favour of `isSubset`
 - **New Feature**

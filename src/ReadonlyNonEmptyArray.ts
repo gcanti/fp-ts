@@ -114,27 +114,27 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
  * Return the tuple of the `head` and the `tail`.
  *
  * @example
- * import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
+ * assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
  * @category destructors
  * @since 2.9.0
  */
-export const uncons = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
+export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
 
 /**
  * Return the tuple of the `init` and the `last`.
  *
  * @example
- * import { snoc, unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
+ * assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
  * @category destructors
  * @since 2.9.0
  */
-export const unsnoc = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
+export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -1055,6 +1055,24 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>):
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `unprepend` instead.
+ *
+ * @category destructors
+ * @since 2.10.0
+ * @deprecated
+ */
+export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyArray<A>] = unprepend
+
+/**
+ * Use `unappend` instead.
+ *
+ * @category destructors
+ * @since 2.10.0
+ * @deprecated
+ */
+export const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyArray<A>, A] = unappend
 
 /**
  * Use `prepend` instead.
