@@ -173,7 +173,11 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('sort', () => {
-    U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
+    const sort = _.sort(N.Ord)
+    U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
+    // should optimize `1`-length `ReadonlyNonEmptyArray`s
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(sort(singleton), singleton)
   })
 
   it('prependAll', () => {
