@@ -74,8 +74,10 @@ Added in v2.0.0
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
-  - [uncons](#uncons)
-  - [unsnoc](#unsnoc)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
+  - [~~uncons~~](#uncons)
+  - [~~unsnoc~~](#unsnoc)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -767,9 +769,49 @@ Added in v2.0.0
 
 # destructors
 
-## uncons
+## unappend
 
-Produces a couple of the first element of the array, and a new array of the remaining elements, if any
+Return the tuple of the `init` and the `last`.
+
+**Signature**
+
+```ts
+export declare const unappend: <A>(as: NonEmptyArray<A>) => [A[], A]
+```
+
+**Example**
+
+```ts
+import { unappend } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v2.9.0
+
+## unprepend
+
+Return the tuple of the `head` and the `tail`.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: NonEmptyArray<A>) => [A, A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3]), [1, [2, 3]])
+```
+
+Added in v2.9.0
+
+## ~~uncons~~
+
+Use `unprepend` instead.
 
 **Signature**
 
@@ -777,32 +819,16 @@ Produces a couple of the first element of the array, and a new array of the rema
 export declare const uncons: <A>(as: NonEmptyArray<A>) => [A, A[]]
 ```
 
-**Example**
-
-```ts
-import { uncons } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(uncons([1, 2, 3]), [1, [2, 3]])
-```
-
 Added in v2.9.0
 
-## unsnoc
+## ~~unsnoc~~
 
-Produces a couple of a copy of the array without its last element, and that last element
+Use `unappend` instead.
 
 **Signature**
 
 ```ts
 export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
-```
-
-**Example**
-
-```ts
-import { snoc, unsnoc } from 'fp-ts/NonEmptyArray'
-
-assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
 ```
 
 Added in v2.9.0

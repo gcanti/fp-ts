@@ -329,16 +329,16 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 
-  it('uncons', () => {
-    U.deepStrictEqual(_.uncons([0]), [0, []])
-    U.deepStrictEqual(_.uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
+  it('unprepend', () => {
+    U.deepStrictEqual(_.unprepend([0]), [0, []])
+    U.deepStrictEqual(_.unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
   })
 
-  it('unsnoc', () => {
-    U.deepStrictEqual(_.unsnoc([0]), [[], 0])
-    U.deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
-    U.deepStrictEqual(_.unsnoc([0]), [[], 0])
-    U.deepStrictEqual(_.unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
+  it('unappend', () => {
+    U.deepStrictEqual(_.unappend([0]), [[], 0])
+    U.deepStrictEqual(_.unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+    U.deepStrictEqual(_.unappend([0]), [[], 0])
+    U.deepStrictEqual(_.unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
   })
 
   it('getShow', () => {
