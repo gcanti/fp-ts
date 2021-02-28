@@ -855,12 +855,9 @@ export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
  * @category combinators
  * @since 2.10.0
  */
-export const prependAll = <A>(middle: A) => (as: Array<A>): Array<A> => {
-  const out: Array<A> = []
-  for (const x of as) {
-    out.push(middle, x)
-  }
-  return out
+export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
+  const f = NEA.prependAll(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : [])
 }
 
 /**
