@@ -311,8 +311,8 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
  * @category combinators
  * @since 2.5.0
  */
-export const updateAt = <A>(i: number, a: A) => (as: ReadonlyNonEmptyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, a, as))
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
+  modifyAt(i, () => a)
 
 /**
  * @category combinators

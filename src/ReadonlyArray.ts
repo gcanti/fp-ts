@@ -315,6 +315,7 @@ export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.
  */
 export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
   isNonEmpty(as) ? O.some(RNEA.tail(as)) : O.none
+
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  *
@@ -642,7 +643,7 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => O.Option<RNEA.ReadonlyNonEmptyArray<A>> =
+export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>> =
   // tslint:disable-next-line: deprecation
   RNEA.insertAt
 
@@ -658,10 +659,8 @@ export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => O.Optio
  *
  * @since 2.5.0
  */
-export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
-  const f = RNEA.updateAt(i, a)
-  return (as) => (isNonEmpty(as) ? f(as) : O.none)
-}
+export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) =>
+  modifyAt(i, () => a)
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
