@@ -1,6 +1,6 @@
 ---
 title: Tuple2.ts
-nav_order: 94
+nav_order: 95
 parent: Modules
 ---
 

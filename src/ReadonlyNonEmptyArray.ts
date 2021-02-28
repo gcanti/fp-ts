@@ -17,6 +17,7 @@ import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from '.
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
+import * as NEA from './NonEmptyArray'
 import * as O from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
@@ -175,7 +176,7 @@ export const group = <B>(E: Eq<B>) => <A extends B>(
     as,
     chop((as) => {
       const h = head(as)
-      const out: NonEmptyArray<A> = [h]
+      const out: NEA.NonEmptyArray<A> = [h]
       let i = 1
       for (; i < as.length; i++) {
         const a = as[i]
@@ -224,7 +225,7 @@ export const groupSort = <B>(
 export const groupBy = <A>(f: (a: A) => string) => (
   as: ReadonlyArray<A>
 ): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
-  const out: Record<string, [A, ...Array<A>]> = {}
+  const out: Record<string, NEA.NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
     if (Object.prototype.hasOwnProperty.call(out, k)) {
@@ -245,16 +246,6 @@ export const groupBy = <A>(f: (a: A) => string) => (
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
   as.length === 1 ? as : (as.slice().sort((first, second) => O.compare(second)(first)) as any)
 
-interface NonEmptyArray<A> extends Array<A> {
-  // tslint:disable-next-line: readonly-keyword
-  0: A
-}
-
-/**
- * @internal
- */
-export const toNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [head(as), ...tail(as)]
-
 const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
@@ -266,19 +257,6 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) =>
   modifyAt(i, () => a)
 
 /**
- * @internal
- */
-export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = toNonEmptyArray(as)
-    xs[i] = a
-    return xs
-  }
-}
-
-/**
  * Apply a function to the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out
  * of bounds.
  *
@@ -286,7 +264,19 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+): Option<ReadonlyNonEmptyArray<A>> => {
+  if (isOutOfBound(i, as)) {
+    return O.none
+  }
+  const prev = as[i]
+  const next = f(prev)
+  if (next === prev) {
+    return O.some(as)
+  }
+  const out = NEA.fromReadonlyNonEmptyArray(as)
+  out[i] = next
+  return O.some(out)
+}
 
 /**
  * @since 3.0.0
@@ -313,7 +303,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 export const zipWith = <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) => C) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<C> => {
-  const cs: NonEmptyArray<C> = [f(as[0], bs[0])]
+  const cs: NEA.NonEmptyArray<C> = [f(as[0], bs[0])]
   const len = Math.min(as.length, bs.length)
   for (let i = 1; i < len; i++) {
     cs[i] = f(as[i], bs[i])
@@ -335,8 +325,8 @@ export const zip = <B>(bs: ReadonlyNonEmptyArray<B>) => <A>(
 export const unzip = <A, B>(
   abs: ReadonlyNonEmptyArray<readonly [A, B]>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] => {
-  const fa: NonEmptyArray<A> = [abs[0][0]]
-  const fb: NonEmptyArray<B> = [abs[0][1]]
+  const fa: NEA.NonEmptyArray<A> = [abs[0][0]]
+  const fb: NEA.NonEmptyArray<B> = [abs[0][1]]
   for (let i = 1; i < abs.length; i++) {
     fa[i] = abs[i][0]
     fb[i] = abs[i][1]
@@ -357,7 +347,7 @@ export const unzip = <A, B>(
  * @since 3.0.0
  */
 export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const out: NonEmptyArray<A> = [middle, as[0]]
+  const out: NEA.NonEmptyArray<A> = [middle, as[0]]
   for (let i = 1; i < as.length; i++) {
     out.push(middle, as[i])
   }
@@ -403,7 +393,7 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = toNonEmptyArray(f(0, head(as)))
+  const out: NEA.NonEmptyArray<B> = NEA.fromReadonlyNonEmptyArray(f(0, head(as)))
   for (let i = 1; i < as.length; i++) {
     out.push(...f(i, as[i]))
   }
@@ -422,7 +412,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   const [b, rest] = f(as)
-  const out: NonEmptyArray<B> = [b]
+  const out: NEA.NonEmptyArray<B> = [b]
   let next: ReadonlyArray<A> = rest
   while (isNonEmpty(next)) {
     const [b, rest] = f(next)
@@ -502,7 +492,7 @@ export const extend: Extend1<URI>['extend'] = <A, B>(f: (as: ReadonlyNonEmptyArr
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   let next: ReadonlyArray<A> = tail(as)
-  const out: NonEmptyArray<B> = [f(as)]
+  const out: NEA.NonEmptyArray<B> = [f(as)]
   while (isNonEmpty(next)) {
     out.push(f(next))
     next = tail(next)
@@ -546,7 +536,7 @@ export const map: Functor1<URI>['map'] = (f) => mapWithIndex((_, a) => f(a))
 export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = <A, B>(f: (i: number, a: A) => B) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = [f(0, head(as))]
+  const out: NEA.NonEmptyArray<B> = [f(0, head(as))]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i]))
   }

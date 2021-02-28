@@ -20,6 +20,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import * as NEA from './NonEmptyArray'
 import * as N from './number'
 import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
@@ -625,7 +626,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
     return O.none
   }
   if (isNonEmpty(as)) {
-    const out = RNEA.toNonEmptyArray(as)
+    const out = NEA.fromReadonlyNonEmptyArray(as)
     out.splice(i, 0, a)
     return O.some(out)
   }

@@ -65,6 +65,7 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
+  - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
   - [optionT](#optiont)
@@ -630,6 +631,16 @@ Added in v3.0.0
 
 ```ts
 export declare const monoid: typeof monoid
+```
+
+Added in v3.0.0
+
+## nonEmptyArray
+
+**Signature**
+
+```ts
+export declare const nonEmptyArray: typeof nonEmptyArray
 ```
 
 Added in v3.0.0
