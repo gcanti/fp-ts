@@ -10,13 +10,8 @@ import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
-import { Filter1, Filterable1, Partition1 } from './Filterable'
-import {
-  FilterableWithIndex1,
-  PartitionWithIndex1,
-  PredicateWithIndex,
-  RefinementWithIndex
-} from './FilterableWithIndex'
+import { Filterable1 } from './Filterable'
+import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Lazy, pipe, Predicate, Refinement } from './function'
@@ -42,7 +37,7 @@ import Option = O.Option
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
-// model
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
@@ -50,12 +45,6 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @since 2.5.0
  */
 export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
-
-/**
- * @category destructors
- * @since 2.5.0
- */
-export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
@@ -106,6 +95,10 @@ export const range = (start: number, end: number): ReadonlyArray<number> => make
  */
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
 /**
  * Break an array into its first element and remaining elements.
  *
@@ -147,6 +140,24 @@ export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<
  * @since 2.5.0
  */
 export const foldRight = matchRight
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.7.0
+ */
+export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
+  as: ReadonlyArray<A>
+): ReadonlyArray<B> => {
+  const out: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    out.push(...f(i, as[i]))
+  }
+  return out
+}
 
 /**
  * Same as `reduce` but it carries over the intermediate steps
@@ -850,12 +861,12 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @category combinators
  * @since 2.10.0
  */
-export const prependAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const ys: Array<A> = []
-  for (const x of xs) {
-    ys.push(e, x)
+export const prependAll = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
+  const out: Array<A> = []
+  for (const x of as) {
+    out.push(middle, x)
   }
-  return ys
+  return out
 }
 
 /**
@@ -869,9 +880,9 @@ export const prependAll = <A>(e: A) => (xs: ReadonlyArray<A>): ReadonlyArray<A> 
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse = <A>(e: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
+export const intersperse = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const len = as.length
-  return len === 0 ? as : cons(as[0], prependAll(e)(as.slice(1, len)))
+  return len === 0 ? as : cons(as[0], prependAll(middle)(as.slice(1, len)))
 }
 
 /**
@@ -1249,24 +1260,22 @@ export const zero: Alternative1<URI>['zero'] = () => empty
 
 const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 const _mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-const _ap: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _chain: <A, B>(fa: ReadonlyArray<A>, f: (a: A) => ReadonlyArray<B>) => ReadonlyArray<B> = (ma, f) =>
-  pipe(ma, chain(f))
-const _filter: Filter1<URI> = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) => pipe(fa, filter(predicate))
+const _ap: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _filter: Filterable1<URI>['filter'] = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) =>
+  pipe(fa, filter(predicate))
 const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
-const _partitionWithIndex: PartitionWithIndex1<URI, number> = <A>(
+const _partition: Filterable1<URI>['partition'] = <A>(fa: ReadonlyArray<A>, predicate: Predicate<A>) =>
+  pipe(fa, partition(predicate))
+const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
+const _partitionWithIndex: FilterableWithIndex1<URI, number>['partitionWithIndex'] = <A>(
   fa: ReadonlyArray<A>,
   predicateWithIndex: (i: number, a: A) => boolean
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partitionWithIndex(predicateWithIndex))
-const _partition: Partition1<URI> = <A>(
-  fa: ReadonlyArray<A>,
-  predicate: Predicate<A>
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => pipe(fa, partition(predicate))
-const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
-const _partitionMapWithIndex = <A, B, C>(
+) => pipe(fa, partitionWithIndex(predicateWithIndex))
+const _partitionMapWithIndex: FilterableWithIndex1<URI, number>['partitionMapWithIndex'] = <A, B, C>(
   fa: ReadonlyArray<A>,
   f: (i: number, a: A) => Either<B, C>
-): Separated<ReadonlyArray<B>, ReadonlyArray<C>> => pipe(fa, partitionMapWithIndex(f))
+) => pipe(fa, partitionMapWithIndex(f))
 const _alt: Alt1<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
 const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
@@ -1274,47 +1283,45 @@ const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
   return (fa, f) => pipe(fa, foldMapM(f))
 }
 const _reduceRight: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-const _reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) => {
-  const l = fa.length
-  let r = b
-  for (let i = 0; i < l; i++) {
-    r = f(i, r, fa[i])
-  }
-  return r
+const _reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (fa, b, f) =>
+  pipe(fa, reduceWithIndex(b, f))
+const _foldMapWithIndex: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (M) => {
+  const foldMapWithIndexM = foldMapWithIndex(M)
+  return (fa, f) => pipe(fa, foldMapWithIndexM(f))
 }
-const _foldMapWithIndex: FoldableWithIndex1<URI, number>['foldMapWithIndex'] = (M) => (fa, f) =>
-  fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 const _reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (fa, b, f) =>
   pipe(fa, reduceRightWithIndex(b, f))
-const _filterMapWithIndex = <A, B>(fa: ReadonlyArray<A>, f: (i: number, a: A) => Option<B>): ReadonlyArray<B> =>
-  pipe(fa, filterMapWithIndex(f))
-const _filterWithIndex = <A>(
+const _filterMapWithIndex: FilterableWithIndex1<URI, number>['filterMapWithIndex'] = <A, B>(
+  fa: ReadonlyArray<A>,
+  f: (i: number, a: A) => Option<B>
+) => pipe(fa, filterMapWithIndex(f))
+const _filterWithIndex: FilterableWithIndex1<URI, number>['filterWithIndex'] = <A>(
   fa: ReadonlyArray<A>,
   predicateWithIndex: (i: number, a: A) => boolean
-): ReadonlyArray<A> => pipe(fa, filterWithIndex(predicateWithIndex))
+) => pipe(fa, filterWithIndex(predicateWithIndex))
 const _extend: Extend1<URI>['extend'] = (fa, f) => pipe(fa, extend(f))
-const _traverse = <F>(
+const _traverse: Traversable1<URI>['traverse'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseF = traverse(F)
   return (ta, f) => pipe(ta, traverseF(f))
 }
 /* istanbul ignore next */
-const _traverseWithIndex = <F>(
+const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (i: number, a: A) => HKT<F, B>) => HKT<F, ReadonlyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
 /* istanbul ignore next */
-const _wither = <F>(
+const _wither: Witherable1<URI>['wither'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyArray<B>>) => {
   const witherF = wither(F)
   return (fa, f) => pipe(fa, witherF(f))
 }
 /* istanbul ignore next */
-const _wilt = <F>(
+const _wilt: Witherable1<URI>['wilt'] = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B, C>(
   fa: ReadonlyArray<A>,
@@ -1366,34 +1373,6 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
     ma,
     chainWithIndex((_, a) => f(a))
   )
-
-/**
- * @since 2.7.0
- */
-export const chainWithIndex: <A, B>(
-  f: (i: number, a: A) => ReadonlyArray<B>
-) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) => {
-  let outLen = 0
-  const l = ma.length
-  const temp = new Array(l)
-  for (let i = 0; i < l; i++) {
-    const e = ma[i]
-    const arr = f(i, e)
-    outLen += arr.length
-    temp[i] = arr
-  }
-  const out = Array(outLen)
-  let start = 0
-  for (let i = 0; i < l; i++) {
-    const arr = temp[i]
-    const l = arr.length
-    for (let j = 0; j < l; j++) {
-      out[j + start] = arr[j]
-    }
-    start += l
-  }
-  return out
-}
 
 /**
  * Derivable from `Chain`.
@@ -1581,12 +1560,8 @@ export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray
  * @category FoldableWithIndex
  * @since 2.5.0
  */
-export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>) => M = (
-  M
-) => {
-  const foldMapWithIndexM = _foldMapWithIndex(M)
-  return (f) => (fa) => foldMapWithIndexM(fa, f)
-}
+export const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: ReadonlyArray<A>): M =>
+  fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 
 /**
  * @category Foldable
@@ -1610,7 +1585,14 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyA
  */
 export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyArray<A>) => B = (b, f) => (
   fa
-) => _reduceWithIndex(fa, b, f)
+) => {
+  const len = fa.length
+  let out = b
+  for (let i = 0; i < len; i++) {
+    out = f(i, out, fa[i])
+  }
+  return out
+}
 
 /**
  * @category Foldable
@@ -1697,19 +1679,19 @@ export const wilt: PipeableWilt1<URI> = <F>(
  * @since 2.6.6
  */
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
-  const ret: Array<A> = []
+  const out: Array<A> = []
   let bb: B = b
   while (true) {
     const mt = f(bb)
     if (O.isSome(mt)) {
       const [a, b] = mt.value
-      ret.push(a)
+      out.push(a)
       bb = b
     } else {
       break
     }
   }
-  return ret
+  return out
 }
 
 // -------------------------------------------------------------------------------------
@@ -2137,6 +2119,11 @@ export const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.5.0
+ */
+export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
 
 /**
  * An empty array

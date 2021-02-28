@@ -43,11 +43,6 @@ export interface NonEmptyArray<A> extends Array<A> {
   0: A
 }
 
-/**
- * @internal
- */
-export const empty: Array<never> = []
-
 // -------------------------------------------------------------------------------------
 // guards
 // -------------------------------------------------------------------------------------
@@ -81,7 +76,14 @@ export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonE
  * @category constructors
  * @since 2.0.0
  */
-export const cons = <A>(head: A, tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
+export function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
+export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
+export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Array<A>) => NonEmptyArray<A>) {
+  if (tail === undefined) {
+    return (tail) => cons(head, tail)
+  }
+  return [head, ...tail]
+}
 
 /**
  * Append an element to the end of an array, creating a new non empty array
@@ -115,7 +117,7 @@ export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEm
  * @category destructors
  * @since 2.9.0
  */
-export const uncons = <A>(as: NonEmptyArray<A>): readonly [A, Array<A>] => [head(as), tail(as)]
+export const uncons = <A>(as: NonEmptyArray<A>): [A, Array<A>] => [head(as), tail(as)]
 
 /**
  * Produces a couple of a copy of the array without its last element, and that last element
@@ -128,7 +130,7 @@ export const uncons = <A>(as: NonEmptyArray<A>): readonly [A, Array<A>] => [head
  * @category destructors
  * @since 2.9.0
  */
-export const unsnoc = <A>(as: NonEmptyArray<A>): readonly [Array<A>, A] => [init(as), last(as)]
+export const unsnoc = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), last(as)]
 
 /**
  * @category instances
@@ -221,7 +223,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   return (as) => {
     const len = as.length
     if (len === 0) {
-      return empty
+      return []
     }
     const out: Array<NonEmptyArray<A>> = []
     let head: A = as[0]
@@ -257,12 +259,12 @@ export function groupSort<B>(
   O: Ord<B>
 ): {
   <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): ReadonlyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
-export function groupSort<A>(O: Ord<A>): (as: Array<A>) => ReadonlyArray<NonEmptyArray<A>> {
+export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   const sortO = sort(O)
   const groupO = group(O)
-  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
+  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : [])
 }
 
 /**
@@ -318,7 +320,10 @@ export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<A> =>
   as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
-const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
   if (isNonEmpty(as)) {
     const xs = fromReadonlyNonEmptyArray(as)
     xs.splice(i, 0, a)
@@ -341,9 +346,15 @@ export const insertAt = <A>(i: number, a: A) => (as: Array<A>): Option<NonEmptyA
 export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>) =>
   modifyAt(i, () => a)
 
-const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
 
-const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
+/**
+ * @internal
+ */
+export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
   if (as[i] === a) {
     return as
   } else {
@@ -427,12 +438,12 @@ export const zipWith = <A, B, C>(
  * @category combinators
  * @since 2.5.1
  */
-export function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<readonly [A, B]>
-export function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<readonly [A, B]>
+export function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
+export function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
 export function zip<A, B>(
   as: NonEmptyArray<A>,
   bs?: NonEmptyArray<B>
-): NonEmptyArray<readonly [A, B]> | ((bs: NonEmptyArray<B>) => NonEmptyArray<readonly [B, A]>) {
+): NonEmptyArray<[A, B]> | ((bs: NonEmptyArray<B>) => NonEmptyArray<[B, A]>) {
   if (bs === undefined) {
     return (bs) => zip(bs, as)
   }
@@ -443,7 +454,7 @@ export function zip<A, B>(
  * @category combinators
  * @since 2.5.1
  */
-export const unzip = <A, B>(abs: NonEmptyArray<readonly [A, B]>): readonly [NonEmptyArray<A>, NonEmptyArray<B>] => {
+export const unzip = <A, B>(abs: NonEmptyArray<[A, B]>): [NonEmptyArray<A>, NonEmptyArray<B>] => {
   const fa: NonEmptyArray<A> = [abs[0][0]]
   const fb: NonEmptyArray<B> = [abs[0][1]]
   for (let i = 1; i < abs.length; i++) {
@@ -515,6 +526,35 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => NonEmptyArray<B>) =
   }
   return out
 }
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: NonEmptyArray<A>): NonEmptyArray<B> => {
+  const [b, rest] = f(as)
+  const out: NonEmptyArray<B> = [b]
+  let next: Array<A> = rest
+  while (isNonEmpty(next)) {
+    const [b, rest] = f(next)
+    out.push(b)
+    next = rest
+  }
+  return out
+}
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] =>
+  n < 1 || n > as.length ? [as, []] : [cons(head(as), as.slice(1, n)), as.slice(n)]
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chunksOf = (n: number): (<A>(as: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>) => chop(splitAt(n))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
