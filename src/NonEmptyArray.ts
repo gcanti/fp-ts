@@ -5,40 +5,70 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { Apply1 } from './Apply'
-import { Chain1 } from './Chain'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
-import { Eq } from './Eq'
+import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Lazy, Predicate, Refinement, pipe } from './function'
-import { flap as flap_, Functor1 } from './Functor'
+import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Option } from './Option'
+import * as O from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
-import { HKT } from './HKT'
+
+import Semigroup = Se.Semigroup
+import Option = O.Option
+import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
 
-/* tslint:disable:readonly-keyword */
 /**
  * @category model
  * @since 2.0.0
  */
 export interface NonEmptyArray<A> extends Array<A> {
+  // tslint:disable-next-line: readonly-keyword
   0: A
 }
-/* tslint:enable:readonly-keyword */
+
+/**
+ * @internal
+ */
+export const empty: Array<never> = []
+
+// -------------------------------------------------------------------------------------
+// guards
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test whether a `Array` is non empty.
+ *
+ * @category guards
+ * @since 2.10.0
+ */
+export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length > 0
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]
 
 /**
  * Append an element to the front of an array, creating a new non empty array
@@ -51,7 +81,7 @@ export interface NonEmptyArray<A> extends Array<A> {
  * @category constructors
  * @since 2.0.0
  */
-export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons as any
+export const cons = <A>(head: A, tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
 
 /**
  * Append an element to the end of an array, creating a new non empty array
@@ -64,7 +94,7 @@ export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = RNEA.cons 
  * @category constructors
  * @since 2.0.0
  */
-export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc as any
+export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => concat(init, [end])
 
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
@@ -72,7 +102,7 @@ export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = RNEA.snoc a
  * @category constructors
  * @since 2.0.0
  */
-export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fromArray as any
+export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? O.some(as) : O.none)
 
 /**
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any
@@ -85,7 +115,7 @@ export const fromArray: <A>(as: Array<A>) => Option<NonEmptyArray<A>> = RNEA.fro
  * @category destructors
  * @since 2.9.0
  */
-export const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, Array<A>] = RNEA.uncons as any
+export const uncons = <A>(as: NonEmptyArray<A>): readonly [A, Array<A>] => [head(as), tail(as)]
 
 /**
  * Produces a couple of a copy of the array without its last element, and that last element
@@ -98,39 +128,47 @@ export const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, Array<A>] = RNEA
  * @category destructors
  * @since 2.9.0
  */
-export const unsnoc: <A>(nea: NonEmptyArray<A>) => readonly [Array<A>, A] = RNEA.unsnoc as any
+export const unsnoc = <A>(as: NonEmptyArray<A>): readonly [Array<A>, A] => [init(as), last(as)]
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
+export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => ({
+  show: (as) => `[${as.map(S.show).join(', ')}]`
+})
 
 /**
  * @since 2.0.0
  */
-export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
+export const head = <A>(as: NonEmptyArray<A>): A => as[0]
 
 /**
  * @since 2.0.0
  */
-export const tail: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.tail as any
+export const tail = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(1)
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.reverse as any
+export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as), ...as.slice(0, -1).reverse()]
 
 /**
  * @since 2.0.0
  */
-export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
+export const min = <A>(O: Ord<A>): ((as: NonEmptyArray<A>) => A) => {
+  const S = Se.min(O)
+  return (as) => as.reduce(S.concat)
+}
 
 /**
  * @since 2.0.0
  */
-export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
+export const max = <A>(O: Ord<A>): ((as: NonEmptyArray<A>) => A) => {
+  const S = Se.max(O)
+  return (as) => as.reduce(S.concat)
+}
 
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
@@ -138,7 +176,9 @@ export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
  * @category instances
  * @since 2.0.0
  */
-export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.getSemigroup as any
+export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
+  concat
+})
 
 /**
  * @example
@@ -152,7 +192,8 @@ export const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>> = RNEA.g
  * @category instances
  * @since 2.0.0
  */
-export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
+export const getEq = <A>(E: Eq<A>): Eq<NonEmptyArray<A>> =>
+  fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -177,7 +218,27 @@ export function group<B>(
   <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
 export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
-  return RNEA.group(E) as any
+  return (as) => {
+    const len = as.length
+    if (len === 0) {
+      return empty
+    }
+    const out: Array<NonEmptyArray<A>> = []
+    let head: A = as[0]
+    let nea: NonEmptyArray<A> = [head]
+    for (let i = 1; i < len; i++) {
+      const a = as[i]
+      if (E.equals(a, head)) {
+        nea.push(a)
+      } else {
+        out.push(nea)
+        head = a
+        nea = [head]
+      }
+    }
+    out.push(nea)
+    return out
+  }
 }
 
 /**
@@ -192,12 +253,17 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  * @category combinators
  * @since 2.0.0
  */
-export const groupSort: <B>(
+export function groupSort<B>(
   O: Ord<B>
-) => {
+): {
   <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
-} = RNEA.groupSort as any
+  <A extends B>(as: Array<A>): ReadonlyArray<NonEmptyArray<A>>
+}
+export function groupSort<A>(O: Ord<A>): (as: Array<A>) => ReadonlyArray<NonEmptyArray<A>> {
+  const sortO = sort(O)
+  const groupO = group(O)
+  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
+}
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
@@ -214,14 +280,23 @@ export const groupSort: <B>(
  * @category combinators
  * @since 2.0.0
  */
-export const groupBy: <A>(
-  f: (a: A) => string
-) => (as: Array<A>) => Record<string, NonEmptyArray<A>> = RNEA.groupBy as any
+export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string, NonEmptyArray<A>> => {
+  const out: Record<string, NonEmptyArray<A>> = {}
+  for (const a of as) {
+    const k = f(a)
+    if (out.hasOwnProperty(k)) {
+      out[k].push(a)
+    } else {
+      out[k] = [a]
+    }
+  }
+  return out
+}
 
 /**
  * @since 2.0.0
  */
-export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
+export const last = <A>(as: NonEmptyArray<A>): A => as[as.length - 1]
 
 /**
  * Get all but the last element of a non empty array, creating a new array.
@@ -234,121 +309,149 @@ export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
  *
  * @since 2.2.0
  */
-export const init: <A>(nea: NonEmptyArray<A>) => Array<A> = RNEA.init as any
+export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.sort as any
+export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<A> =>
+  as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const insertAt: <A>(
-  i: number,
-  a: A
-  // tslint:disable-next-line: deprecation
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.insertAt as any
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const updateAt: <A>(
-  i: number,
-  a: A
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.updateAt as any
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const modifyAt: <A>(
-  i: number,
-  f: (a: A) => A
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.modifyAt as any
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A> {
-  const l = nea.length
-  const as = Array(l)
-  for (let i = 0; i < l; i++) {
-    as[i] = nea[i]
+const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
   }
-  return as as any
+  return [a]
 }
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return RNEA.filter(predicate) as any
+export const insertAt = <A>(i: number, a: A) => (as: Array<A>): Option<NonEmptyArray<A>> =>
+  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ */
+export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>) =>
+  modifyAt(i, () => a)
+
+const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+
+const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs[i] = a
+    return xs
+  }
 }
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> = RNEA.filterWithIndex as any
+export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>): Option<NonEmptyArray<A>> =>
+  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ */
+export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyNonEmptyArray
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ */
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return filterWithIndex((_, a) => predicate(a))
+}
+
+/**
+ * @category combinators
+ * @since 2.0.0
+ */
+export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
+  as: NonEmptyArray<A>
+): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = RNEA.of as any
+export const of: Pointed1<URI>['of'] = (a) => [a]
 
 // TODO: curry in v3
 /**
  * @category combinators
  * @since 2.2.0
  */
-export function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
-export function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
-export function concat<A>(fx: Array<A>, fy: Array<A>): Array<A> {
-  return RNEA.concat(fx as any, fy as any) as any
+export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
+export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
+  return first.concat(second)
 }
 
 /**
  * @since 2.10.0
  */
-export const concatAll: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
+export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
 /**
  * @category combinators
  * @since 2.5.1
  */
-export const zipWith: <A, B, C>(
-  fa: NonEmptyArray<A>,
-  fb: NonEmptyArray<B>,
+export const zipWith = <A, B, C>(
+  as: NonEmptyArray<A>,
+  bs: NonEmptyArray<B>,
   f: (a: A, b: B) => C
-) => NonEmptyArray<C> = RNEA.zipWith as any
+): NonEmptyArray<C> => {
+  const cs: NonEmptyArray<C> = [f(as[0], bs[0])]
+  const len = Math.min(as.length, bs.length)
+  for (let i = 1; i < len; i++) {
+    cs[i] = f(as[i], bs[i])
+  }
+  return cs
+}
 
 /**
  * @category combinators
  * @since 2.5.1
  */
-export const zip: {
-  <B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
-  <A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
-} = RNEA.zip as any
+export function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<readonly [A, B]>
+export function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<readonly [A, B]>
+export function zip<A, B>(
+  as: NonEmptyArray<A>,
+  bs?: NonEmptyArray<B>
+): NonEmptyArray<readonly [A, B]> | ((bs: NonEmptyArray<B>) => NonEmptyArray<readonly [B, A]>) {
+  if (bs === undefined) {
+    return (bs) => zip(bs, as)
+  }
+  return zipWith(as, bs, (a, b) => [a, b])
+}
 
 /**
  * @category combinators
  * @since 2.5.1
  */
-export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>] = RNEA.unzip as any
+export const unzip = <A, B>(abs: NonEmptyArray<readonly [A, B]>): readonly [NonEmptyArray<A>, NonEmptyArray<B>] => {
+  const fa: NonEmptyArray<A> = [abs[0][0]]
+  const fb: NonEmptyArray<B> = [abs[0][1]]
+  for (let i = 1; i < abs.length; i++) {
+    fa[i] = abs[i][0]
+    fb[i] = abs[i][1]
+  }
+  return [fa, fb]
+}
 
 /**
  * Prepend an element to every member of an array
@@ -361,7 +464,13 @@ export const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonE
  * @category combinators
  * @since 2.10.0
  */
-export const prependAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.prependAll as any
+export const prependAll = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  const out: NonEmptyArray<A> = [middle, as[0]]
+  for (let i = 1; i < as.length; i++) {
+    out.push(middle, as[i])
+  }
+  return out
+}
 
 /**
  * Places an element in between members of an array
@@ -374,20 +483,38 @@ export const prependAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A>
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.intersperse as any
+export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  const rest = tail(as)
+  return isNonEmpty(rest) ? cons(as[0], prependAll(middle)(rest)) : as
+}
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
-  RNEA.foldMapWithIndex
+export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (as: NonEmptyArray<A>) =>
+  as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: NonEmptyArray<A>) =>
+  as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const chainWithIndex = <A, B>(f: (i: number, a: A) => NonEmptyArray<B>) => (
+  as: NonEmptyArray<A>
+): NonEmptyArray<B> => {
+  const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
+  for (let i = 1; i < as.length; i++) {
+    out.push(...f(i, as[i]))
+  }
+  return out
+}
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -450,9 +577,8 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @category Alt
  * @since 2.9.0
  */
-export const altW: <B>(
-  that: Lazy<NonEmptyArray<B>>
-) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A | B> = RNEA.altW as any
+export const altW = <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A | B> =>
+  concat(as as NonEmptyArray<A | B>, that())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -461,7 +587,7 @@ export const altW: <B>(
  * @category Alt
  * @since 2.6.2
  */
-export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.alt as any
+export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) => NonEmptyArray<A> = altW
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -469,27 +595,8 @@ export const alt: <A>(that: Lazy<NonEmptyArray<A>>) => (fa: NonEmptyArray<A>) =>
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B> = RNEA.ap as any
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.apFirst as any
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.apSecond as any
+export const ap = <A>(as: NonEmptyArray<A>): (<B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>) =>
+  chain((f) => pipe(as, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -497,46 +604,42 @@ export const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) =>
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(
-  f: (a: A) => NonEmptyArray<B>
-) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.chain as any
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <A, B>(
-  f: (a: A) => NonEmptyArray<B>
-) => (ma: NonEmptyArray<A>) => NonEmptyArray<A> = RNEA.chainFirst as any
-
-/**
- * Derivable from `Extend`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = RNEA.duplicate as any
+export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>): ((ma: NonEmptyArray<A>) => NonEmptyArray<B>) =>
+  chainWithIndex((_, a) => f(a))
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(
-  f: (fa: NonEmptyArray<A>) => B
-) => (ma: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.extend as any
+export const extend = <A, B>(f: (as: NonEmptyArray<A>) => B) => (as: NonEmptyArray<A>): NonEmptyArray<B> => {
+  let next: Array<A> = tail(as)
+  const out: NonEmptyArray<B> = [f(as)]
+  while (isNonEmpty(next)) {
+    out.push(f(next))
+    next = tail(next)
+  }
+  return out
+}
+
+/**
+ * Derivable from `Extend`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> =
+  /*#__PURE__*/
+  extend(identity)
 
 /**
  * Derivable from `Chain`.
  *
  * @category combinators
- * @since 2.0.0
+ * @since 2.5.0
  */
-export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = RNEA.flatten as any
+export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -545,56 +648,80 @@ export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.map as any
+export const map = <A, B>(f: (a: A) => B): ((as: NonEmptyArray<A>) => NonEmptyArray<B>) => mapWithIndex((_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
  * @since 2.0.0
  */
-export const mapWithIndex: <A, B>(
-  f: (i: number, a: A) => B
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<B> = RNEA.mapWithIndex as any
+export const mapWithIndex = <A, B>(f: (i: number, a: A) => B) => (as: NonEmptyArray<A>): NonEmptyArray<B> => {
+  const out: NonEmptyArray<B> = [f(0, head(as))]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i]))
+  }
+  return out
+}
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduce
+export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: NonEmptyArray<A>) => B) =>
+  reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B =
-  RNEA.reduceWithIndex
+export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: NonEmptyArray<A>): B =>
+  as.reduce((b, a, i) => f(i, b, a), b)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduceRight
+export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B): ((as: NonEmptyArray<A>) => B) =>
+  reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =
-  RNEA.reduceRightWithIndex
+export const reduceRightWithIndex = <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (as: NonEmptyArray<A>): B =>
+  as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @since 2.6.3
  */
-export const traverse: PipeableTraverse1<URI> = RNEA.traverse as any
+export const traverse: PipeableTraverse1<URI> = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(f: (a: A) => HKT<F, B>) => (as: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>>) => {
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (f) => traverseWithIndexF((_, a) => f(a))
+}
 
 /**
  * @since 2.6.3
  */
-export const sequence: Traversable1<URI>['sequence'] = RNEA.sequence as any
+export const sequence: Traversable1<URI>['sequence'] = <F>(
+  F: ApplicativeHKT<F>
+): (<A>(as: NonEmptyArray<HKT<F, A>>) => HKT<F, NonEmptyArray<A>>) => traverseWithIndex(F)((_, a) => a)
 
 /**
  * @since 2.6.3
  */
-export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = RNEA.traverseWithIndex as any
+export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F: ApplicativeHKT<F>) => <A, B>(
+  f: (i: number, a: A) => HKT<F, B>
+) => (as: NonEmptyArray<A>): HKT<F, NonEmptyArray<B>> => {
+  let out: HKT<F, NonEmptyArray<B>> = F.map(f(0, head(as)), of)
+  for (let i = 1; i < as.length; i++) {
+    out = F.ap(
+      F.map(out, (bs) => (b: B) => snoc(bs, b)),
+      f(i, as[i])
+    )
+  }
+  return out
+}
 
 /**
  * @since 2.7.0
@@ -672,6 +799,30 @@ export const Apply: Apply1<URI> = {
 }
 
 /**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -692,6 +843,19 @@ export const Chain: Chain1<URI> = {
   ap: _ap,
   chain: _chain
 }
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Chain)
 
 /**
  * @category instances
@@ -798,17 +962,16 @@ export const Do: NonEmptyArray<{}> =
 /**
  * @since 2.8.0
  */
-export const bindTo: <N extends string>(
-  name: N
-) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }> = RNEA.bindTo as any
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind: <N extends string, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => NonEmptyArray<B>
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.bind as any
+export const bind =
+  /*#__PURE__*/
+  bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -817,10 +980,9 @@ export const bind: <N extends string, A, B>(
 /**
  * @since 2.8.0
  */
-export const apS: <A, N extends string, B>(
-  name: Exclude<N, keyof A>,
-  fb: NonEmptyArray<B>
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in keyof A | N]: K extends keyof A ? A[K] : B }> = RNEA.apS as any
+export const apS =
+  /*#__PURE__*/
+  apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -841,7 +1003,7 @@ export const prependToAll = prependAll
  * @since 2.5.0
  * @deprecated
  */
-export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
+export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = concatAll
 
 /**
  * Use small, specific instances instead.
