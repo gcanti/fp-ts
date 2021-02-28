@@ -91,13 +91,15 @@ Added in v2.5.0
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
+  - [append](#append)
   - [comprehension](#comprehension)
-  - [cons](#cons)
   - [fromArray](#fromarray)
   - [makeBy](#makeby)
+  - [prepend](#prepend)
   - [range](#range)
   - [replicate](#replicate)
-  - [snoc](#snoc)
+  - [~~cons~~](#cons)
+  - [~~snoc~~](#snoc)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
@@ -1167,6 +1169,27 @@ Added in v2.9.0
 
 # constructors
 
+## append
+
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const append: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { append } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
 ## comprehension
 
 Array comprehension
@@ -1231,27 +1254,6 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
-## cons
-
-Append an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const cons: typeof RNEA.cons
-```
-
-**Example**
-
-```ts
-import { cons } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
-```
-
-Added in v2.5.0
-
 ## fromArray
 
 **Signature**
@@ -1282,6 +1284,27 @@ assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 ```
 
 Added in v2.5.0
+
+## prepend
+
+Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prepend: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prepend } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
 
 ## range
 
@@ -1323,22 +1346,26 @@ assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 
 Added in v2.5.0
 
-## snoc
+## ~~cons~~
 
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Use `prepend` instead.
+
+**Signature**
+
+```ts
+export declare const cons: typeof RNEA.cons
+```
+
+Added in v2.5.0
+
+## ~~snoc~~
+
+Use `append` instead.
 
 **Signature**
 
 ```ts
 export declare const snoc: <A>(init: readonly A[], end: A) => RNEA.ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { snoc } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
 Added in v2.5.0

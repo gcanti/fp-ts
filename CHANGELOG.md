@@ -18,6 +18,9 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0-rc.3
 
 - **Deprecations**
+  - `Array`
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
   - `Ordering`
     - deprecate `invert` in favour of `reverse`
   - `ReadonlyMap`
@@ -28,6 +31,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `insertAt` in favour of `upsertAt`
   - `Record`
     - deprecate `insertAt` in favour of `upsertAt`
+  - `ReadonlyArray`
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
   - `ReadonlyNonEmptyArray`
     - deprecate `insertAt`, Use `ReadonlyArray`'s `insertAt` instead
   - `Set`

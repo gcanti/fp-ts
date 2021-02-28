@@ -94,12 +94,14 @@ Added in v2.0.0
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
+  - [append](#append)
   - [comprehension](#comprehension)
-  - [cons](#cons)
   - [makeBy](#makeby)
+  - [prepend](#prepend)
   - [range](#range)
   - [replicate](#replicate)
-  - [snoc](#snoc)
+  - [~~cons~~](#cons)
+  - [~~snoc~~](#snoc)
 - [destructors](#destructors)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -1205,6 +1207,27 @@ Added in v2.9.0
 
 # constructors
 
+## append
+
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const append: <A>(end: A) => (init: A[]) => NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { append } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
+
 ## comprehension
 
 Array comprehension
@@ -1261,27 +1284,6 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-## cons
-
-Attaches an element to the front of an array, creating a new non empty array
-
-**Signature**
-
-```ts
-export declare const cons: typeof NEA.cons
-```
-
-**Example**
-
-```ts
-import { cons } from 'fp-ts/Array'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
-```
-
-Added in v2.0.0
-
 ## makeBy
 
 Return a list of length `n` with element `i` initialized with `f(i)`
@@ -1302,6 +1304,27 @@ assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 ```
 
 Added in v2.0.0
+
+## prepend
+
+Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prepend: <A>(head: A) => (tail: A[]) => NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prepend } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
+```
+
+Added in v2.10.0
 
 ## range
 
@@ -1343,22 +1366,26 @@ assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 
 Added in v2.0.0
 
-## snoc
+## ~~cons~~
 
-Append an element to the end of an array, creating a new non empty array
+Use `prepend` instead.
+
+**Signature**
+
+```ts
+export declare const cons: typeof NEA.cons
+```
+
+Added in v2.0.0
+
+## ~~snoc~~
+
+Use `append` instead.
 
 **Signature**
 
 ```ts
 export declare const snoc: <A>(init: A[], end: A) => NEA.NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { snoc } from 'fp-ts/Array'
-
-assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
 Added in v2.0.0
