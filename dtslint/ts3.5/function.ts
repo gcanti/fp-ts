@@ -24,10 +24,10 @@ _.flow(A.snoc, A.head)
 // tupled
 //
 
-_.tupled(A.insertAt)([0, 'a']) // $ExpectType (as: string[]) => Option<string[]>
+_.tupled(A.insertAt)([0, 'a']) // $ExpectType (as: string[]) => Option<NonEmptyArray<string>>
 
 //
 // untupled
 //
 
-_.untupled(_.tupled(A.insertAt)) // $ExpectType <A>(i: number, a: A) => (as: A[]) => Option<A[]>
+_.untupled(_.tupled(A.insertAt)) // $ExpectType <A>(i: number, a: A) => (as: A[]) => Option<NonEmptyArray<A>>

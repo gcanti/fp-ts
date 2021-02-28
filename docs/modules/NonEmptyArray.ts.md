@@ -39,6 +39,9 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
+  - [chop](#chop)
+  - [chunksOf](#chunksof)
   - [concat](#concat)
   - [copy](#copy)
   - [duplicate](#duplicate)
@@ -57,6 +60,7 @@ Added in v2.0.0
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [sort](#sort)
+  - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zip](#zip)
@@ -65,10 +69,13 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [cons](#cons)
   - [fromArray](#fromarray)
+  - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
   - [snoc](#snoc)
 - [destructors](#destructors)
   - [uncons](#uncons)
   - [unsnoc](#unsnoc)
+- [guards](#guards)
+  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -133,7 +140,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <B>(that: Lazy<NonEmptyArray<B>>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B | A>
+export declare const altW: <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<B | A>
 ```
 
 Added in v2.9.0
@@ -147,7 +154,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
+export declare const ap: <A>(as: NonEmptyArray<A>) => <B>(fab: NonEmptyArray<(a: A) => B>) => NonEmptyArray<B>
 ```
 
 Added in v2.0.0
@@ -159,7 +166,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: NonEmptyArray<A>) => B) => (ma: NonEmptyArray<A>) => NonEmptyArray<B>
+export declare const extend: <A, B>(f: (as: NonEmptyArray<A>) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
 ```
 
 Added in v2.0.0
@@ -171,7 +178,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (as: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -181,7 +188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -193,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (as: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -203,7 +210,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -218,7 +225,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B>
+export declare const map: <A, B>(f: (a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
 ```
 
 Added in v2.0.0
@@ -230,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: NonEmptyArray<A>) => NonEmptyArray<B>
+export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
 ```
 
 Added in v2.0.0
@@ -272,10 +279,10 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const apFirst: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## apSecond
 
@@ -286,10 +293,10 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: NonEmptyArray<B>) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<B>
+export declare const apSecond: <B>(second: NonEmptyArray<B>) => <A>(first: NonEmptyArray<A>) => NonEmptyArray<B>
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## chainFirst
 
@@ -301,18 +308,50 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (ma: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const chainFirst: <A, B>(f: (a: A) => NonEmptyArray<B>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
-Added in v2.0.0
+Added in v2.5.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(
+  f: (i: number, a: A) => NonEmptyArray<B>
+) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## chop
+
+**Signature**
+
+```ts
+export declare const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, A[]]) => (as: NonEmptyArray<A>) => NonEmptyArray<B>
+```
+
+Added in v2.10.0
+
+## chunksOf
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
+```
+
+Added in v2.10.0
 
 ## concat
 
 **Signature**
 
 ```ts
-export declare function concat<A>(fx: Array<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
-export declare function concat<A>(fx: NonEmptyArray<A>, fy: Array<A>): NonEmptyArray<A>
+export declare function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
 ```
 
 Added in v2.2.0
@@ -322,7 +361,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export declare function copy<A>(nea: NonEmptyArray<A>): NonEmptyArray<A>
+export declare const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -337,7 +376,7 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>>
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## filter
 
@@ -346,8 +385,8 @@ Added in v2.0.0
 ```ts
 export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
-): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export declare function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -359,7 +398,7 @@ Added in v2.0.0
 ```ts
 export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -386,14 +425,14 @@ Derivable from `Chain`.
 export declare const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A>
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## foldMap
 
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -404,8 +443,8 @@ Added in v2.0.0
 
 ```ts
 export declare const foldMapWithIndex: <S>(
-  S: Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
+  S: Se.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (as: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -467,11 +506,11 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export declare const groupSort: <B>(
+export declare function groupSort<B>(
   O: Ord<B>
-) => {
+): {
   <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: A[]): NonEmptyArray<A>[]
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
 }
 ```
 
@@ -491,7 +530,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => O.Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -503,7 +542,7 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(e: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const intersperse: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 **Example**
@@ -521,7 +560,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -533,7 +572,7 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const prependAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 **Example**
@@ -551,7 +590,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const reverse: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -561,17 +600,27 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const sort: <B>(O: Ord<B>) => <A extends B>(nea: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.0.0
+
+## splitAt
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: NonEmptyArray<A>) => [NonEmptyArray<A>, A[]]
+```
+
+Added in v2.10.0
 
 ## unzip
 
 **Signature**
 
 ```ts
-export declare const unzip: <A, B>(as: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
+export declare const unzip: <A, B>(abs: NonEmptyArray<[A, B]>) => [NonEmptyArray<A>, NonEmptyArray<B>]
 ```
 
 Added in v2.5.1
@@ -581,7 +630,7 @@ Added in v2.5.1
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export declare const updateAt: <A>(i: number, a: A) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -591,10 +640,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const zip: {
-  <B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
-  <A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
-}
+export declare function zip<B>(bs: NonEmptyArray<B>): <A>(as: NonEmptyArray<A>) => NonEmptyArray<[A, B]>
+export declare function zip<A, B>(as: NonEmptyArray<A>, bs: NonEmptyArray<B>): NonEmptyArray<[A, B]>
 ```
 
 Added in v2.5.1
@@ -605,8 +652,8 @@ Added in v2.5.1
 
 ```ts
 export declare const zipWith: <A, B, C>(
-  fa: NonEmptyArray<A>,
-  fb: NonEmptyArray<B>,
+  as: NonEmptyArray<A>,
+  bs: NonEmptyArray<B>,
   f: (a: A, b: B) => C
 ) => NonEmptyArray<C>
 ```
@@ -620,7 +667,7 @@ Use `prependAll` instead.
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const prependToAll: <A>(middle: A) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.9.0
@@ -634,7 +681,8 @@ Append an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare const cons: <A>(head: A, tail: A[]) => NonEmptyArray<A>
+export declare function cons<A>(head: A): (tail: Array<A>) => NonEmptyArray<A>
+export declare function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A>
 ```
 
 **Example**
@@ -654,10 +702,20 @@ Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty ar
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[]) => Option<NonEmptyArray<A>>
+export declare const fromArray: <A>(as: A[]) => O.Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
+
+## fromReadonlyNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.10.0
 
 ## snoc
 
@@ -688,7 +746,7 @@ Produces a couple of the first element of the array, and a new array of the rema
 **Signature**
 
 ```ts
-export declare const uncons: <A>(nea: NonEmptyArray<A>) => readonly [A, A[]]
+export declare const uncons: <A>(as: NonEmptyArray<A>) => [A, A[]]
 ```
 
 **Example**
@@ -708,7 +766,7 @@ Produces a couple of a copy of the array without its last element, and that last
 **Signature**
 
 ```ts
-export declare const unsnoc: <A>(nea: NonEmptyArray<A>) => readonly [A[], A]
+export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
 ```
 
 **Example**
@@ -720,6 +778,20 @@ assert.deepStrictEqual(unsnoc(snoc([1, 2, 3], 4)), [[1, 2, 3], 4])
 ```
 
 Added in v2.9.0
+
+# guards
+
+## isNonEmpty
+
+Test whether a `Array` is non empty.
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: A[]) => as is NonEmptyArray<A>
+```
+
+Added in v2.10.0
 
 # instances
 
@@ -901,7 +973,7 @@ Builds a `Semigroup` instance for `NonEmptyArray`
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => Semigroup<NonEmptyArray<A>>
+export declare const getSemigroup: <A = never>() => Se.Semigroup<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -941,6 +1013,7 @@ Added in v2.0.0
 
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
+  // tslint:disable-next-line: readonly-keyword
   0: A
 }
 ```
@@ -964,7 +1037,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: NonEmptyArray<B>
 ) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -977,10 +1050,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => NonEmptyArray<B>
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -990,7 +1063,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }>
 ```
 
 Added in v2.8.0
@@ -1000,7 +1073,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const concatAll: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+export declare const concatAll: <A>(S: Se.Semigroup<A>) => (as: NonEmptyArray<A>) => A
 ```
 
 Added in v2.10.0
@@ -1020,7 +1093,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const head: <A>(nea: NonEmptyArray<A>) => A
+export declare const head: <A>(as: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1032,7 +1105,7 @@ Get all but the last element of a non empty array, creating a new array.
 **Signature**
 
 ```ts
-export declare const init: <A>(nea: NonEmptyArray<A>) => A[]
+export declare const init: <A>(as: NonEmptyArray<A>) => A[]
 ```
 
 **Example**
@@ -1051,7 +1124,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export declare const last: <A>(nea: NonEmptyArray<A>) => A
+export declare const last: <A>(as: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1061,7 +1134,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
+export declare const max: <A>(O: Ord<A>) => (as: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1071,7 +1144,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
+export declare const min: <A>(O: Ord<A>) => (as: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1091,7 +1164,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const tail: <A>(nea: NonEmptyArray<A>) => A[]
+export declare const tail: <A>(as: NonEmptyArray<A>) => A[]
 ```
 
 Added in v2.0.0
@@ -1123,7 +1196,7 @@ Use `concatAll` instead.
 **Signature**
 
 ```ts
-export declare const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A
+export declare const fold: <A>(S: Se.Semigroup<A>) => (fa: NonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0

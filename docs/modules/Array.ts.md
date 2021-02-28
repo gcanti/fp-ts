@@ -64,6 +64,7 @@ Added in v2.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
+  - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [copy](#copy)
   - [difference](#difference)
@@ -140,6 +141,7 @@ Added in v2.0.0
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
+  - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~array~~](#array)
 - [unsafe](#unsafe)
@@ -148,10 +150,10 @@ Added in v2.0.0
   - [unsafeUpdateAt](#unsafeupdateat)
 - [utils](#utils)
   - [Do](#do)
+  - [Spanned (interface)](#spanned-interface)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chainWithIndex](#chainwithindex)
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -232,7 +234,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Option<A>[]) => A[]
+export declare const compact: <A>(fa: O.Option<A>[]) => A[]
 ```
 
 Added in v2.0.0
@@ -279,7 +281,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -314,7 +316,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => O.Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -515,7 +517,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => A[]
 ```
 
 Added in v2.6.6
@@ -553,10 +555,10 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[]
+export declare const apFirst: <B>(second: B[]) => <A>(first: A[]) => A[]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## apSecond
 
@@ -567,10 +569,10 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[]
+export declare const apSecond: <B>(second: B[]) => <A>(first: A[]) => B[]
 ```
 
-Added in v2.0.0
+Added in v2.5.0
 
 ## chainFirst
 
@@ -582,10 +584,20 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (ma: A[]) => A[]
+export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (first: A[]) => A[]
 ```
 
 Added in v2.0.0
+
+## chainWithIndex
+
+**Signature**
+
+```ts
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => B[]) => (as: A[]) => B[]
+```
+
+Added in v2.7.0
 
 ## chop
 
@@ -596,7 +608,7 @@ value and the rest of the array.
 **Signature**
 
 ```ts
-export declare const chop: <A, B>(f: (as: NonEmptyArray<A>) => [B, A[]]) => (as: A[]) => B[]
+export declare const chop: <A, B>(f: (as: NEA.NonEmptyArray<A>) => [B, A[]]) => (as: A[]) => B[]
 ```
 
 **Example**
@@ -639,7 +651,12 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: Eq<A>) => { (xs: A[]): (ys: A[]) => A[]; (xs: A[], ys: A[]): A[] }
+export declare function difference<A>(
+  E: Eq<A>
+): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
 ```
 
 **Example**
@@ -740,8 +757,6 @@ Added in v2.10.0
 
 ## flatten
 
-Removes one level of nesting.
-
 Derivable from `Chain`.
 
 **Signature**
@@ -750,15 +765,7 @@ Derivable from `Chain`.
 export declare const flatten: <A>(mma: A[][]) => A[]
 ```
 
-**Example**
-
-```ts
-import { flatten } from 'fp-ts/Array'
-
-assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
-```
-
-Added in v2.0.0
+Added in v2.5.0
 
 ## intersection
 
@@ -768,7 +775,12 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const intersection: <A>(E: Eq<A>) => { (xs: A[]): (ys: A[]) => A[]; (xs: A[], ys: A[]): A[] }
+export declare function intersection<A>(
+  E: Eq<A>
+): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
 ```
 
 **Example**
@@ -790,7 +802,7 @@ Places an element in between members of an array
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(e: A) => (as: A[]) => A[]
+export declare const intersperse: <A>(middle: A) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -831,7 +843,7 @@ Prepend an element to every member of an array
 **Signature**
 
 ```ts
-export declare const prependAll: <A>(e: A) => (xs: A[]) => A[]
+export declare const prependAll: <A>(middle: A) => (as: A[]) => A[]
 ```
 
 **Example**
@@ -912,7 +924,7 @@ Same as `reduce` but it carries over the intermediate steps
 **Signature**
 
 ```ts
-export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => NonEmptyArray<B>
+export declare const scanLeft: <A, B>(b: B, f: (b: B, a: A) => B) => (as: A[]) => NEA.NonEmptyArray<B>
 ```
 
 **Example**
@@ -932,7 +944,7 @@ Fold an array from the right, keeping all intermediate results instead of only t
 **Signature**
 
 ```ts
-export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => NonEmptyArray<B>
+export declare const scanRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: A[]) => NEA.NonEmptyArray<B>
 ```
 
 **Example**
@@ -1087,7 +1099,12 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export declare const union: <A>(E: Eq<A>) => { (xs: A[]): (ys: A[]) => A[]; (xs: A[], ys: A[]): A[] }
+export declare function union<A>(
+  E: Eq<A>
+): {
+  (xs: Array<A>): (ys: Array<A>) => Array<A>
+  (xs: Array<A>, ys: Array<A>): Array<A>
+}
 ```
 
 **Example**
@@ -1131,7 +1148,8 @@ longer array are discarded
 **Signature**
 
 ```ts
-export declare const zip: { <B>(bs: B[]): <A>(as: A[]) => [A, B][]; <A, B>(as: A[], bs: B[]): [A, B][] }
+export declare function zip<B>(bs: Array<B>): <A>(as: Array<A>) => Array<[A, B]>
+export declare function zip<A, B>(as: Array<A>, bs: Array<B>): Array<[A, B]>
 ```
 
 **Example**
@@ -1180,7 +1198,7 @@ Use `prependAll` instead
 **Signature**
 
 ```ts
-export declare const prependToAll: <A>(e: A) => (xs: A[]) => A[]
+export declare const prependToAll: <A>(middle: A) => (as: A[]) => A[]
 ```
 
 Added in v2.9.0
@@ -1250,7 +1268,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare const cons: { <A>(head: A): (tail: A[]) => NonEmptyArray<A>; <A>(head: A, tail: A[]): NonEmptyArray<A> }
+export declare const cons: typeof NEA.cons
 ```
 
 **Example**
@@ -1332,7 +1350,7 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export declare const snoc: <A>(init: A[], end: A) => NonEmptyArray<A>
+export declare const snoc: <A>(init: A[], end: A) => NEA.NonEmptyArray<A>
 ```
 
 **Example**
@@ -1382,7 +1400,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
 ```
 
 **Example**
@@ -1439,7 +1457,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
 ```
 
 **Example**
@@ -1492,7 +1510,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const head: <A>(as: A[]) => Option<A>
+export declare const head: <A>(as: A[]) => O.Option<A>
 ```
 
 **Example**
@@ -1514,7 +1532,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare const init: <A>(as: A[]) => Option<A[]>
+export declare const init: <A>(as: A[]) => O.Option<A[]>
 ```
 
 **Example**
@@ -1536,7 +1554,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const last: <A>(as: A[]) => Option<A>
+export declare const last: <A>(as: A[]) => O.Option<A>
 ```
 
 **Example**
@@ -1597,10 +1615,8 @@ Split an array into two parts:
 **Signature**
 
 ```ts
-export declare function spanLeft<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
-export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> }
+export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 ```
 
 **Example**
@@ -1620,7 +1636,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: A[]) => Option<A[]>
+export declare const tail: <A>(as: A[]) => O.Option<A[]>
 ```
 
 **Example**
@@ -1644,7 +1660,7 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 **Signature**
 
 ```ts
-export declare const isNonEmpty: <A>(as: A[]) => as is NonEmptyArray<A>
+export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -1934,6 +1950,16 @@ assert.strictEqual(O.compare(['a'], ['b']), -1)
 
 Added in v2.0.0
 
+## getSemigroup
+
+**Signature**
+
+```ts
+export declare const getSemigroup: <A = never>() => Semigroup<A[]>
+```
+
+Added in v2.10.0
+
 ## getShow
 
 **Signature**
@@ -1981,7 +2007,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => NonEmptyArray<A>
+export declare const unsafeInsertAt: <A>(i: number, a: A, as: A[]) => NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -2008,12 +2034,27 @@ export declare const Do: {}[]
 
 Added in v2.9.0
 
+## Spanned (interface)
+
+**Signature**
+
+```ts
+export interface Spanned<I, R> {
+  // tslint:disable-next-line: readonly-keyword
+  init: Array<I>
+  // tslint:disable-next-line: readonly-keyword
+  rest: Array<R>
+}
+```
+
+Added in v2.10.0
+
 ## apS
 
 **Signature**
 
 ```ts
-export declare const apS: <A, N extends string, B>(
+export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: B[]
 ) => (fa: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
@@ -2026,10 +2067,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, B>(
+export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B[]
-) => (fa: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (ma: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v2.8.0
@@ -2039,20 +2080,10 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N extends string>(name: N) => <A>(fa: A[]) => { [K in N]: A }[]
+export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { [K in N]: A }[]
 ```
 
 Added in v2.8.0
-
-## chainWithIndex
-
-**Signature**
-
-```ts
-export declare const chainWithIndex: <A, B>(f: (index: number, a: A) => B[]) => (ma: A[]) => B[]
-```
-
-Added in v2.7.0
 
 ## chunksOf
 
@@ -2069,7 +2100,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export declare const chunksOf: (n: number) => <A>(as: A[]) => NonEmptyArray<A>[]
+export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
 ```
 
 **Example**
@@ -2089,7 +2120,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const deleteAt: (i: number) => <A>(as: A[]) => Option<A[]>
+export declare const deleteAt: (i: number) => <A>(as: A[]) => O.Option<A[]>
 ```
 
 **Example**
@@ -2113,7 +2144,12 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => { (a: A): (as: A[]) => boolean; (a: A, as: A[]): boolean }
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (as: Array<A>) => boolean
+  (a: A, as: Array<A>): boolean
+}
 ```
 
 **Example**
@@ -2210,7 +2246,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => O.Option<NEA.NonEmptyArray<A>>
 ```
 
 **Example**
@@ -2263,7 +2299,8 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare const lookup: { (i: number): <A>(as: A[]) => Option<A>; <A>(i: number, as: A[]): Option<A> }
+export declare function lookup(i: number): <A>(as: Array<A>) => Option<A>
+export declare function lookup<A>(i: number, as: Array<A>): Option<A>
 ```
 
 **Example**
@@ -2287,7 +2324,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => Option<A[]>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => O.Option<A[]>
 ```
 
 **Example**
@@ -2310,7 +2347,7 @@ Calculate the number of elements in a `Array`.
 **Signature**
 
 ```ts
-export declare const size: <A>(as: readonly A[]) => number
+export declare const size: <A>(as: A[]) => number
 ```
 
 Added in v2.10.0
@@ -2385,7 +2422,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
+export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => O.Option<A[]>
 ```
 
 **Example**
