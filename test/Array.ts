@@ -3,7 +3,7 @@ import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
-import { identity, pipe, tuple } from '../src/function'
+import { identity, pipe, Predicate, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
@@ -577,6 +577,7 @@ describe('Array', () => {
     const as: Array<{ readonly a: number }> = [x]
     const result = _.unsafeUpdateAt(0, x, as)
     U.deepStrictEqual(result, as)
+    U.deepStrictEqual(_.unsafeUpdateAt(0, 1, []), _.empty)
   })
 
   it('updateAt', () => {
@@ -696,6 +697,7 @@ describe('Array', () => {
 
   it('reverse', () => {
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
+    U.deepStrictEqual(_.reverse([]), [])
   })
 
   it('foldLeft', () => {
@@ -802,26 +804,30 @@ describe('Array', () => {
   })
 
   it('chop', () => {
-    const group = <A>(E: Eq.Eq<A>): ((as: Array<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
+    const group = <A>(E: Eq.Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
       return _.chop((as) => {
         const { init, rest } = _.spanLeft((a: A) => E.equals(a, as[0]))(as)
         return [init, rest]
       })
     }
-    U.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    const f = group(N.Eq)
+    U.deepStrictEqual(f([]), [])
+    U.deepStrictEqual(f([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
   it('splitAt', () => {
+    U.deepStrictEqual(_.splitAt(2)([]), [[], []])
+    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
+    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
     U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
       [1, 2],
       [3, 4, 5]
     ])
-    U.deepStrictEqual(_.splitAt(2)([]), [[], []])
+    // zero
+    U.deepStrictEqual(_.splitAt(0)([1, 2]), [[], [1, 2]])
+    // out of bounds
     U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
-    U.deepStrictEqual(_.splitAt(-1)([1, 2, 3]), [[1, 2, 3], []])
-    U.deepStrictEqual(_.splitAt(0)([1, 2, 3]), [[], [1, 2, 3]])
-    U.deepStrictEqual(_.splitAt(3)([1, 2]), [[1, 2], []])
+    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
   })
 
   describe('chunksOf', () => {
@@ -970,5 +976,21 @@ describe('Array', () => {
     U.deepStrictEqual(_.size(_.empty), 0)
     U.deepStrictEqual(_.size([]), 0)
     U.deepStrictEqual(_.size(['a']), 1)
+  })
+
+  it('every', () => {
+    const isPositive: Predicate<number> = (n) => n > 0
+    U.deepStrictEqual(pipe([1, 2, 3], _.every(isPositive)), true)
+    U.deepStrictEqual(pipe([1, 2, -3], _.every(isPositive)), false)
+  })
+
+  it('some', () => {
+    const isPositive: Predicate<number> = (n) => n > 0
+    U.deepStrictEqual(pipe([-1, -2, 3], _.some(isPositive)), true)
+    U.deepStrictEqual(pipe([-1, -2, -3], _.some(isPositive)), false)
+  })
+
+  it('copy', () => {
+    U.deepStrictEqual(pipe([1, 2, 3], _.copy), [1, 2, 3])
   })
 })

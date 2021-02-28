@@ -80,7 +80,7 @@ pipe(
 // spanLeft
 //
 
-// $ExpectType { init: number[]; rest: unknown[]; }
+// $ExpectType Spanned<number, unknown>
 pipe(
   us,
   _.spanLeft((u: unknown): u is number => typeof u === 'number')
