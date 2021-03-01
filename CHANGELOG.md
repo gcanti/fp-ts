@@ -45,6 +45,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `snoc` in favour of `append`
     - deprecate `uncons` in favour of `unprepend`
     - deprecate `unsnoc` in favour of `unappend`
+  - `ReadonlySet`
+    - deprecate `fromArray` in favour of `fromReadonlyArray`
   - `Set`
     - deprecate `subset` in favour of `isSubset`
 - **New Feature**
@@ -82,6 +84,7 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlySet`
     - add `isEmpty`
     - add `size`
+    - add `toggle`
   - `Set`
     - add `isEmpty`
     - add `size`

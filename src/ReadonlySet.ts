@@ -173,10 +173,10 @@ export function union<A>(
       const unionE = union(E)
       return (that) => unionE(me, that)
     }
-    if (me === empty) {
+    if (isEmpty(me)) {
       return that
     }
-    if (that === empty) {
+    if (isEmpty(that)) {
       return me
     }
     const r = new Set(me)
@@ -211,7 +211,7 @@ export function intersection<A>(
       const intersectionE = intersection(E)
       return (that) => intersectionE(that, me)
     }
-    if (me === empty || that === empty) {
+    if (isEmpty(me) || isEmpty(that)) {
       return empty
     }
     const r = new Set<A>()
@@ -361,38 +361,48 @@ export function insert<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => Readonly
  * @category combinators
  * @since 2.5.0
  */
-export function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A> {
-  return (a) => (set) => filter((ax: A) => !E.equals(a, ax))(set)
+export const remove = <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>): ReadonlySet<A> =>
+  filter((ax: A) => !E.equals(a, ax))(set)
+
+/**
+ * Checks an element is a member of a set;
+ * If yes, removes the value from the set
+ * If no, inserts the value to the set
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
+  const elemE = elem(E)
+  const removeE = remove(E)
+  const insertE = insert(E)
+  return (a) => (set) => (elemE(a, set) ? removeE : insertE)(a)(set)
 }
 
 /**
  * Create a set from an array
  *
  * @category constructors
- * @since 2.5.0
+ * @since 2.10.0
  */
-export function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A> {
-  return (as) => {
-    const len = as.length
-    const r = new Set<A>()
-    const has = elem(E)
-    for (let i = 0; i < len; i++) {
-      const a = as[i]
-      if (!has(a, r)) {
-        r.add(a)
-      }
+export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
+  const len = as.length
+  const out = new Set<A>()
+  const has = elem(E)
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (!has(a, out)) {
+      out.add(a)
     }
-    return r
   }
+  return out
 }
 
 /**
  * @category combinators
  * @since 2.5.0
  */
-export function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A> {
-  return filterMap(E)(identity)
-}
+export const compact = <A>(E: Eq<A>): ((fa: ReadonlySet<Option<A>>) => ReadonlySet<A>) => filterMap(E)(identity)
 
 /**
  * @since 2.5.0
@@ -541,10 +551,21 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
 /**
  * @since 2.5.0
  */
-export function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A> {
-  return (x) => {
-    const r: Array<A> = []
-    x.forEach((e) => r.push(e))
-    return r.sort(O.compare)
-  }
+export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): ReadonlyArray<A> => {
+  const out: Array<A> = []
+  set.forEach((e) => out.push(e))
+  return out.sort(O.compare)
 }
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+/**
+ * Use `fromReadonlyArray` instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+export const fromArray: <A>(E: Eq<A>) => (as: ReadonlyArray<A>) => ReadonlySet<A> = fromReadonlyArray
