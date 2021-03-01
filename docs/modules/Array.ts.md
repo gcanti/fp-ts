@@ -2171,12 +2171,7 @@ an array of type `Array<A>`.
 **Signature**
 
 ```ts
-export declare function elem<A>(
-  E: Eq<A>
-): {
-  (a: A): (as: Array<A>) => boolean
-  (a: A, as: Array<A>): boolean
-}
+export declare const elem: <A>(E: Eq<A>) => { (a: A): (as: A[]) => boolean; (a: A, as: A[]): boolean }
 ```
 
 **Example**
@@ -2326,8 +2321,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare function lookup(i: number): <A>(as: Array<A>) => Option<A>
-export declare function lookup<A>(i: number, as: Array<A>): Option<A>
+export declare const lookup: { (i: number): <A>(as: A[]) => O.Option<A>; <A>(i: number, as: A[]): O.Option<A> }
 ```
 
 **Example**
