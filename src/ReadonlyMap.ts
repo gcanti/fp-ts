@@ -460,9 +460,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
  * @category constructors
  * @since 2.5.0
  */
-export function singleton<K, A>(k: K, a: A): ReadonlyMap<K, A> {
-  return new Map([[k, a]])
-}
+export const singleton = <K, A>(k: K, a: A): ReadonlyMap<K, A> => new Map([[k, a]])
 
 /**
  * Create a map from a foldable collection of key/value pairs, using the

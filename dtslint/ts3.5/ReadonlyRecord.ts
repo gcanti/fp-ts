@@ -70,12 +70,8 @@ _.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType readonly number[]
 // insertAt
 //
 
-_.insertAt('b', 0)({ a: 1 }) // $ExpectType Readonly<Record<"a" | "b", number>>
-_.insertAt('b', 0)(l1) // $ExpectType Readonly<Record<"a" | "b", number>>
 _.insertAt('b', 0)(d1) // $ExpectType Readonly<Record<string, number>>
-_.insertAt('b', 0)(r1) // $ExpectType Readonly<Record<"a" | "b", number>>
 _.insertAt(stringKey, 0)(r1) // $ExpectType Readonly<Record<string, number>>
-_.insertAt('c', 0)(r1) // $ExpectType Readonly<Record<"a" | "b" | "c", number>>
 
 //
 // deleteAt
@@ -121,7 +117,7 @@ _.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType str
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
-_.singleton('a', 1) // $ExpectType Readonly<Record<"a", number>>
+_.singleton('a', 1) // $ExpectType Readonly<Record<string, number>>
 
 _.traverseWithIndex(O.option)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
 _.traverseWithIndex(O.option)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>

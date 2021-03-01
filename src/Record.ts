@@ -246,7 +246,7 @@ export function reduceRightWithIndex<A, B>(b: B, f: (k: string, a: A, b: B) => B
  *
  * @since 2.0.0
  */
-export const singleton: <K extends string, A>(k: K, a: A) => Record<K, A> = RR.singleton
+export const singleton: <A>(k: string, a: A) => Record<string, A> = RR.singleton
 
 /**
  * @since 2.0.0
@@ -789,10 +789,7 @@ export const Witherable: Witherable1<URI> = {
  * @since 2.0.0
  * @deprecated
  */
-export function insertAt<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
-export function insertAt<A>(k: string, a: A): (r: Record<string, A>) => Record<string, A> {
-  return upsertAt(k, a)
-}
+export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A> = upsertAt
 
 /**
  * Use `has` instead.

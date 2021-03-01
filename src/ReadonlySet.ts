@@ -334,9 +334,7 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
  * @category constructors
  * @since 2.5.0
  */
-export function singleton<A>(a: A): ReadonlySet<A> {
-  return new Set([a])
-}
+export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
 
 /**
  * Insert a value into a set
