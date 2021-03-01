@@ -660,7 +660,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyRecord<string, A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
+export function getEq<A, K extends string = string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
   const isSubrecordE = isSubrecord(E)
   return fromEquals((second) => (first) => isSubrecordE(first)(second) && isSubrecordE(second)(first))
@@ -680,7 +680,7 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
  * @category instances
  * @since 3.0.0
  */
-export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
+export function getMonoid<A, K extends string = string>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
   return {
     concat: (second) => (first) => {

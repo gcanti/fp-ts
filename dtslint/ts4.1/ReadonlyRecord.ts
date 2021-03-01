@@ -144,9 +144,9 @@ declare const arr2: Array<['a' | 'b', number]>
 
 type Keys = 'key1' | 'key2'
 _.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
-_.getMonoid<Keys, number>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
+_.getMonoid<number, Keys>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
 
-_.getEq<Keys, number>(N.Eq) // $ExpectType Eq<Readonly<Record<Keys, number>>>
+_.getEq<number, Keys>(N.Eq) // $ExpectType Eq<Readonly<Record<Keys, number>>>
 _.getEq(N.Eq) // $ExpectType Eq<Readonly<Record<string, number>>>
 
 _.toUnfoldable(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]

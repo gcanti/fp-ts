@@ -705,7 +705,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
+export declare function getEq<A, K extends string = string>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
 ```
 
 Added in v3.0.0
@@ -717,7 +717,7 @@ Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance f
 **Signature**
 
 ```ts
-export declare function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
+export declare function getMonoid<A, K extends string = string>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
 ```
 
 **Example**
