@@ -17,6 +17,9 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
+  - [endo](#endo)
+  - [filterFirst](#filterfirst)
+  - [filterSecond](#filtersecond)
   - [reverse](#reverse)
 - [type classes](#type-classes)
   - [Magma (interface)](#magma-interface)
@@ -26,6 +29,36 @@ Added in v3.0.0
 ---
 
 # combinators
+
+## endo
+
+**Signature**
+
+```ts
+export declare const endo: <A>(f: Endomorphism<A>) => (M: Magma<A>) => Magma<A>
+```
+
+Added in v3.0.0
+
+## filterFirst
+
+**Signature**
+
+```ts
+export declare const filterFirst: <A>(predicate: Predicate<A>) => (M: Magma<A>) => Magma<A>
+```
+
+Added in v3.0.0
+
+## filterSecond
+
+**Signature**
+
+```ts
+export declare const filterSecond: <A>(predicate: Predicate<A>) => (M: Magma<A>) => Magma<A>
+```
+
+Added in v3.0.0
 
 ## reverse
 
