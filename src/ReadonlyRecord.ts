@@ -125,10 +125,8 @@ export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  * @category combinators
  * @since 3.0.0
  */
-export const updateAt = <A>(
-  k: string,
-  a: A
-): (<K extends string>(r: ReadonlyRecord<K, A>) => Option<ReadonlyRecord<K, A>>) => modifyAt(k, () => a)
+export const updateAt = <A>(k: string, a: A): ((r: ReadonlyRecord<string, A>) => Option<ReadonlyRecord<string, A>>) =>
+  modifyAt(k, () => a)
 
 /**
  * Apply a function to the element at the specified key, creating a new `ReadonlyRecord`, or returning `None` if the key doesn't exist.
@@ -136,9 +134,9 @@ export const updateAt = <A>(
  * @category combinators
  * @since 3.0.0
  */
-export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>(
-  r: ReadonlyRecord<K, A>
-): Option<ReadonlyRecord<K, A>> => {
+export const modifyAt = <A>(k: string, f: Endomorphism<A>) => (
+  r: ReadonlyRecord<string, A>
+): Option<ReadonlyRecord<string, A>> => {
   if (!has(k, r)) {
     return O.none
   }
@@ -146,7 +144,7 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => <K extends string>
   if (a === r[k]) {
     return O.some(r)
   }
-  const out: Record<K, A> = Object.assign({}, r)
+  const out: Record<string, A> = Object.assign({}, r)
   out[k] = a
   return O.some(out)
 }

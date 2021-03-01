@@ -496,7 +496,7 @@ Apply a function to the element at the specified key, creating a new `ReadonlyRe
 export declare const modifyAt: <A>(
   k: string,
   f: Endomorphism<A>
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -526,7 +526,7 @@ Change the element at the specified keys, creating a new `ReadonlyRecord`, or re
 export declare const updateAt: <A>(
   k: string,
   a: A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => (r: Readonly<Record<string, A>>) => O.Option<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0

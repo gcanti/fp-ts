@@ -171,6 +171,9 @@ high state of flux, you're at risk of it changing without notice.
     - rename `insertAt` to `upsertAt` and add `insertAt` which now returns an `Option`
     - remove `fromFoldable`, curry `fromFoldableMap` and rename to `fromFoldable`
     - `deleteAt` now returns an `Option`
+    - remove `extends string` constraint from `pop`
+    - remove `extends string` constraint from `updateAt`
+    - remove `extends string` constraint from `modifyAt`
   - `ReadonlySet`
     - make `isSubset` pipeable
     - make `elem` pipeable

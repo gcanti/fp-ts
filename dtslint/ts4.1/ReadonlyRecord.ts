@@ -65,7 +65,6 @@ _.upsertAt(stringKey, 0)(r1) // $ExpectType Readonly<Record<string, number>>
 
 pipe(d1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
 pipe(recordString, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(r1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 //
 // modifyAt
@@ -73,7 +72,6 @@ pipe(r1, _.updateAt('a', 3)) // $ExpectType Option<Readonly<Record<"a" | "b", nu
 
 pipe(d1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
 pipe(recordString, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(r1, _.modifyAt('a', identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 //
 // deleteAt
