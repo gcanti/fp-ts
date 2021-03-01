@@ -89,7 +89,7 @@ high state of flux, you're at risk of it changing without notice.
   - `FromEither`
     - remove `onFalse` parameter from `fromPredicate_` signature
   - `Foldable`
-    - curry `reduceM` constraints
+    - change `reduceM` signature
     - make `intercalate` pipeable and curry constraints
     - remove `traverse_`
     - rename `toArray` to `toReadonlyArray`
