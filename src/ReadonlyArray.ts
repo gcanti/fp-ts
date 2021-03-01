@@ -21,8 +21,9 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
+import * as N from './number'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord, ordNumber } from './Ord'
+import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
@@ -1794,8 +1795,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<ReadonlyArray<A>> =>
         return ordering
       }
     }
-    // tslint:disable-next-line: deprecation
-    return ordNumber.compare(aLen, bLen)
+    return N.Ord.compare(aLen, bLen)
   })
 
 /**
