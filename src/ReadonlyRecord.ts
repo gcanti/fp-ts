@@ -444,9 +444,7 @@ export function reduceRightWithIndex<A, B>(
  * @category constructors
  * @since 2.5.0
  */
-export function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A> {
-  return { [k]: a } as any
-}
+export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [k]: a })
 
 /**
  * @since 2.5.0
@@ -1229,13 +1227,10 @@ export const Witherable: Witherable1<URI> = {
  * @since 2.5.0
  * @deprecated
  */
-export function insertAt<K extends string, A>(
-  k: K,
+export const insertAt: <A>(
+  k: string,
   a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
-export function insertAt<A>(k: string, a: A): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
-  return upsertAt(k, a)
-}
+) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>> = upsertAt
 
 /**
  * Use `has` instead.
