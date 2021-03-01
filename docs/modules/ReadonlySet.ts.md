@@ -22,11 +22,13 @@ Added in v2.5.0
   - [intersection](#intersection)
   - [map](#map)
   - [remove](#remove)
+  - [toggle](#toggle)
   - [union](#union)
 - [constructors](#constructors)
-  - [fromArray](#fromarray)
+  - [fromReadonlyArray](#fromreadonlyarray)
   - [fromSet](#fromset)
   - [singleton](#singleton)
+  - [~~fromArray~~](#fromarray)
 - [destructors](#destructors)
   - [toSet](#toset)
 - [instances](#instances)
@@ -68,7 +70,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function compact<A>(E: Eq<A>): (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
+export declare const compact: <A>(E: Eq<A>) => (fa: ReadonlySet<Option<A>>) => ReadonlySet<A>
 ```
 
 Added in v2.5.0
@@ -169,10 +171,24 @@ Delete a value from a set
 **Signature**
 
 ```ts
-export declare function remove<A>(E: Eq<A>): (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+export declare const remove: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v2.5.0
+
+## toggle
+
+Checks an element is a member of a set;
+If yes, removes the value from the set
+If no, inserts the value to the set
+
+**Signature**
+
+```ts
+export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.10.0
 
 ## union
 
@@ -193,17 +209,17 @@ Added in v2.5.0
 
 # constructors
 
-## fromArray
+## fromReadonlyArray
 
 Create a set from an array
 
 **Signature**
 
 ```ts
-export declare function fromArray<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlySet<A>
+export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
-Added in v2.5.0
+Added in v2.10.0
 
 ## fromSet
 
@@ -223,6 +239,18 @@ Create a set with one element
 
 ```ts
 export declare const singleton: <A>(a: A) => ReadonlySet<A>
+```
+
+Added in v2.5.0
+
+## ~~fromArray~~
+
+Use `fromReadonlyArray` instead.
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(E: Eq<A>) => (as: readonly A[]) => ReadonlySet<A>
 ```
 
 Added in v2.5.0
@@ -437,7 +465,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function toReadonlyArray<A>(O: Ord<A>): (set: ReadonlySet<A>) => ReadonlyArray<A>
+export declare const toReadonlyArray: <A>(O: Ord<A>) => (set: ReadonlySet<A>) => readonly A[]
 ```
 
 Added in v2.5.0
