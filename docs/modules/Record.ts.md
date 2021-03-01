@@ -92,7 +92,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A>
+export declare const compact: <A>(fa: Record<string, O.Option<A>>) => Record<string, A>
 ```
 
 Added in v2.0.0
@@ -129,7 +129,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: Record<string, A>) => Record<string, B>
 ```
 
 Added in v2.0.0
@@ -456,9 +456,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function filterMapWithIndex<K extends string, A, B>(
-  f: (key: K, a: A) => Option<B>
-): (fa: Record<K, A>) => Record<string, B>
+export declare const filterMapWithIndex: <K extends string, A, B>(
+  f: (key: K, a: A) => O.Option<B>
+) => (fa: Record<K, A>) => Record<string, B>
 ```
 
 Added in v2.0.0
@@ -483,9 +483,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function foldMapWithIndex<M>(
+export declare const foldMapWithIndex: <M>(
   M: Monoid<M>
-): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
 ```
 
 Added in v2.0.0
@@ -588,7 +588,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>>
+export declare const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>>
 ```
 
 Added in v2.0.0
@@ -600,7 +600,7 @@ Returns a `Monoid` instance for records given a `Semigroup` instance for their v
 **Signature**
 
 ```ts
-export declare function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
+export declare const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>>
 ```
 
 **Example**
@@ -686,8 +686,8 @@ Lookup the value for a key in a record
 
 ```ts
 export declare const lookup: {
-  (k: string): <A>(r: Record<string, A>) => Option<A>
-  <A>(k: string, r: Record<string, A>): Option<A>
+  (k: string): <A>(r: Record<string, A>) => O.Option<A>
+  <A>(k: string, r: Record<string, A>): O.Option<A>
 }
 ```
 
@@ -700,7 +700,7 @@ Map a record passing the values to the iterating function
 **Signature**
 
 ```ts
-export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: Record<K, A>) => Record<K, B>
+export declare const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B>
 ```
 
 Added in v2.0.0
@@ -712,7 +712,7 @@ Map a record passing the keys to the iterating function
 **Signature**
 
 ```ts
-export declare function mapWithIndex<K extends string, A, B>(f: (k: K, a: A) => B): (fa: Record<K, A>) => Record<K, B>
+export declare const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa: Record<K, A>) => Record<K, B>
 ```
 
 Added in v2.0.0
@@ -725,7 +725,7 @@ Added in v2.0.0
 export declare const modifyAt: <A>(
   k: string,
   f: (a: A) => A
-) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
+) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
 ```
 
 Added in v2.0.0
@@ -735,9 +735,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function partitionMapWithIndex<K extends string, A, B, C>(
+export declare const partitionMapWithIndex: <K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
-): (fa: Record<K, A>) => Separated<Record<string, B>, Record<string, C>>
+) => (fa: Record<K, A>) => Separated<Record<string, B>, Record<string, C>>
 ```
 
 Added in v2.0.0
@@ -776,10 +776,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function reduceRightWithIndex<K extends string, A, B>(
+export declare const reduceRightWithIndex: <K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
-): (fa: Record<K, A>) => B
+) => (fa: Record<K, A>) => B
 ```
 
 Added in v2.0.0
@@ -789,10 +789,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function reduceWithIndex<K extends string, A, B>(
+export declare const reduceWithIndex: <K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
-): (fa: Record<K, A>) => B
+) => (fa: Record<K, A>) => B
 ```
 
 Added in v2.0.0
@@ -946,7 +946,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
+export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
 ```
 
 Added in v2.0.0

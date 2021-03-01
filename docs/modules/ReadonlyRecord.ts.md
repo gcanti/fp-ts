@@ -579,9 +579,9 @@ Map a record into an array
 **Signature**
 
 ```ts
-export declare function collect<K extends string, A, B>(
+export declare const collect: <K extends string, A, B>(
   f: (k: K, a: A) => B
-): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
+) => (r: Readonly<Record<K, A>>) => readonly B[]
 ```
 
 **Example**
@@ -803,7 +803,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function keys<K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K>
+export declare const keys: <K extends string>(r: Readonly<Record<K, unknown>>) => readonly K[]
 ```
 
 Added in v2.5.0
