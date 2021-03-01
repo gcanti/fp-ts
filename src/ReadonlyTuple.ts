@@ -43,9 +43,7 @@ export function snd<A, E>(ea: readonly [A, E]): E {
  * @category combinators
  * @since 2.5.0
  */
-export function swap<A, E>(ea: readonly [A, E]): readonly [E, A] {
-  return [snd(ea), fst(ea)]
-}
+export const swap = <A, E>(ea: readonly [A, E]): readonly [E, A] => [snd(ea), fst(ea)]
 
 /**
  * @category instances
@@ -113,7 +111,6 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   }
 }
 
-// TODO: remove in v3
 /**
  * @category instances
  * @since 2.5.0
