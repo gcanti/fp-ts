@@ -47,6 +47,24 @@ export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): Readon
 // -------------------------------------------------------------------------------------
 
 /**
+ * Checks an element is a member of a set;
+ * If yes, removes the value from the set
+ * If no, inserts the value to the set
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
+  const elemE = elem(E)
+  const removeE = remove(E)
+  const insertE = insert(E)
+  return (a) => {
+    const elemEa = elemE(a)
+    return (set) => (elemEa(set) ? removeE : insertE)(a)(set)
+  }
+}
+
+/**
  * Return the union of two `ReadonlySet`s.
  *
  * @category combinators

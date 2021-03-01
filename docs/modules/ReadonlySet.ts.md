@@ -29,6 +29,7 @@ Added in v3.0.0
   - [insert](#insert)
   - [intersection](#intersection)
   - [remove](#remove)
+  - [toggle](#toggle)
   - [union](#union)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
@@ -215,6 +216,20 @@ export declare const remove: <A>(E: Eq<A>) => (a: A) => (s: ReadonlySet<A>) => R
 ```
 
 Added in v3.0.0
+
+## toggle
+
+Checks an element is a member of a set;
+If yes, removes the value from the set
+If no, inserts the value to the set
+
+**Signature**
+
+```ts
+export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
+```
+
+Added in v2.10.0
 
 ## union
 

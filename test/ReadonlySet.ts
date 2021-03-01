@@ -243,4 +243,9 @@ describe('ReadonlySet', () => {
     deepStrictEqual(_.size(new Set()), 0)
     deepStrictEqual(_.size(new Set(['a'])), 1)
   })
+
+  it('toggle', () => {
+    deepStrictEqual(_.toggle(N.Eq)(1)(new Set([2])), new Set([1, 2]))
+    deepStrictEqual(_.toggle(N.Eq)(1)(new Set([1, 2])), new Set([2]))
+  })
 })
