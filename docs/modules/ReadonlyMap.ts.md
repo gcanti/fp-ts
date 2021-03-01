@@ -618,7 +618,7 @@ Get a sorted array of the keys contained in a map
 **Signature**
 
 ```ts
-export declare function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K>
+export declare const keys: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly K[]
 ```
 
 Added in v2.5.0
@@ -728,7 +728,7 @@ Get a sorted array of the values contained in a map
 **Signature**
 
 ```ts
-export declare function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A>
+export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
 ```
 
 Added in v2.5.0
