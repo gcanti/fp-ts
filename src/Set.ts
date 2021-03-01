@@ -1,10 +1,10 @@
 /**
  * @since 2.0.0
  */
-import { Separated } from './Separated'
+import { separated, Separated } from './Separated'
 import { Either } from './Either'
 import { Eq } from './Eq'
-import { Predicate, Refinement } from './function'
+import { identity, Predicate, Refinement } from './function'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
@@ -31,7 +31,19 @@ export const getEq: <A>(E: Eq<A>) => Eq<Set<A>> = RS.getEq
  * @category combinators
  * @since 2.0.0
  */
-export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> = RS.map as any
+export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> {
+  const elemE = elem(E)
+  return (f) => (set) => {
+    const r = new Set<B>()
+    set.forEach((e) => {
+      const v = f(e)
+      if (!elemE(v, r)) {
+        r.add(v)
+      }
+    })
+    return r
+  }
+}
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -39,7 +51,25 @@ export const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B
  * @category combinators
  * @since 2.0.0
  */
-export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> = RS.chain as any
+export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> {
+  const elemE = elem(E)
+  return (f) => (set) => {
+    const r = new Set<B>()
+    set.forEach((e) => {
+      f(e).forEach((e) => {
+        if (!elemE(e, r)) {
+          r.add(e)
+        }
+      })
+    })
+    return r
+  }
+}
+
+interface Next<A> {
+  readonly done?: boolean
+  readonly value: A
+}
 
 /**
  * @category combinators
@@ -48,7 +78,19 @@ export const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) =
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
 export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
 export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
-  return RS.filter(predicate) as any
+  return (set) => {
+    const values = set.values()
+    let e: Next<A>
+    const r = new Set<A>()
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = values.next()).done) {
+      const value = e.value
+      if (predicate(value)) {
+        r.add(value)
+      }
+    }
+    return r
+  }
 }
 
 /**
@@ -57,7 +99,22 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
 export function partition<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Separated<Set<A>, Set<B>>
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
-  return RS.partition(predicate) as any
+  return (set) => {
+    const values = set.values()
+    let e: Next<A>
+    const right = new Set<A>()
+    const left = new Set<A>()
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = values.next()).done) {
+      const value = e.value
+      if (predicate(value)) {
+        right.add(value)
+      } else {
+        left.add(value)
+      }
+    }
+    return separated(left, right)
+  }
 }
 
 // TODO: remove non-curried overloading in v3
@@ -67,12 +124,34 @@ export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separate
  * @category combinators
  * @since 2.0.0
  */
-export const union: <A>(
+export function union<A>(
   E: Eq<A>
-) => {
+): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
-} = RS.union as any
+}
+export function union<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> | ((me: Set<A>) => Set<A>) {
+  const elemE = elem(E)
+  return (me, that?) => {
+    if (that === undefined) {
+      const unionE = union(E)
+      return (that) => unionE(me, that)
+    }
+    if (isEmpty(me)) {
+      return that
+    }
+    if (isEmpty(that)) {
+      return me
+    }
+    const r = new Set(me)
+    that.forEach((e) => {
+      if (!elemE(e, r)) {
+        r.add(e)
+      }
+    })
+    return r
+  }
+}
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -81,20 +160,65 @@ export const union: <A>(
  * @category combinators
  * @since 2.0.0
  */
-export const intersection: <A>(
+export function intersection<A>(
   E: Eq<A>
-) => {
+): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
-} = RS.intersection as any
+}
+export function intersection<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> | ((that: Set<A>) => Set<A>) {
+  const elemE = elem(E)
+  return (me, that?) => {
+    if (that === undefined) {
+      const intersectionE = intersection(E)
+      return (that) => intersectionE(that, me)
+    }
+    if (isEmpty(me) || isEmpty(that)) {
+      return new Set()
+    }
+    const r = new Set<A>()
+    me.forEach((e) => {
+      if (elemE(e, that)) {
+        r.add(e)
+      }
+    })
+    return r
+  }
+}
 
 /**
  * @since 2.0.0
  */
-export const partitionMap: <B, C>(
+export function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> = RS.partitionMap as any
+): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>> {
+  return <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => {
+    const values = set.values()
+    let e: Next<A>
+    const left = new Set<B>()
+    const right = new Set<C>()
+    const hasB = elem(EB)
+    const hasC = elem(EC)
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = values.next()).done) {
+      const v = f(e.value)
+      switch (v._tag) {
+        case 'Left':
+          if (!hasB(v.left, left)) {
+            left.add(v.left)
+          }
+          break
+        case 'Right':
+          if (!hasC(v.right, right)) {
+            right.add(v.right)
+          }
+          break
+      }
+    }
+    return separated(left, right)
+  }
+}
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -110,24 +234,43 @@ export const partitionMap: <B, C>(
  * @category combinators
  * @since 2.0.0
  */
-export const difference: <A>(
+export function difference<A>(
   E: Eq<A>
-) => {
+): {
   (that: Set<A>): (me: Set<A>) => Set<A>
   (me: Set<A>, that: Set<A>): Set<A>
-} = RS.difference as any
+}
+export function difference<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> | ((me: Set<A>) => Set<A>) {
+  const elemE = elem(E)
+  return (me, that?) => {
+    if (that === undefined) {
+      const differenceE = difference(E)
+      return (that) => differenceE(that, me)
+    }
+    return filter((a: A) => !elemE(a, that))(me)
+  }
+}
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>> = RS.getUnionMonoid as any
+export function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>> {
+  return {
+    concat: union(E),
+    empty: new Set()
+  }
+}
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>> = RS.getIntersectionSemigroup as any
+export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> {
+  return {
+    concat: intersection(E)
+  }
+}
 
 /**
  * @since 2.0.0
@@ -145,7 +288,7 @@ export const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa
  * @category constructors
  * @since 2.0.0
  */
-export const singleton: <A>(a: A) => Set<A> = RS.singleton as any
+export const singleton = <A>(a: A): Set<A> => new Set([a])
 
 /**
  * Insert a value into a set
@@ -153,7 +296,18 @@ export const singleton: <A>(a: A) => Set<A> = RS.singleton as any
  * @category combinators
  * @since 2.0.0
  */
-export const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.insert as any
+export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
+  const elemE = elem(E)
+  return (a) => (set) => {
+    if (!elemE(a)(set)) {
+      const r = new Set(set)
+      r.add(a)
+      return r
+    } else {
+      return set
+    }
+  }
+}
 
 /**
  * Delete a value from a set
@@ -161,7 +315,7 @@ export const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.ins
  * @category combinators
  * @since 2.0.0
  */
-export const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.remove as any
+export const remove = <A>(E: Eq<A>) => (a: A) => (set: Set<A>): Set<A> => filter((ax: A) => !E.equals(a, ax))(set)
 
 /**
  * Checks an element is a member of a set;
@@ -171,7 +325,7 @@ export const remove: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A> = RS.rem
  * @category combinators
  * @since 2.5.0
  */
-export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
+export const toggle = <A>(E: Eq<A>): ((a: A) => (set: Set<A>) => Set<A>) => {
   const elemE = elem(E)
   const removeE = remove(E)
   const insertE = insert(E)
@@ -184,27 +338,69 @@ export function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
  * @category constructors
  * @since 2.0.0
  */
-export const fromArray: <A>(E: Eq<A>) => (as: Array<A>) => Set<A> = RS.fromArray as any
+export const fromArray = <A>(E: Eq<A>) => (as: Array<A>): Set<A> => {
+  const len = as.length
+  const out = new Set<A>()
+  const has = elem(E)
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (!has(a, out)) {
+      out.add(a)
+    }
+  }
+  return out
+}
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const compact: <A>(E: Eq<A>) => (fa: Set<Option<A>>) => Set<A> = RS.compact as any
+export const compact = <A>(E: Eq<A>): ((fa: Set<Option<A>>) => Set<A>) => filterMap(E)(identity)
 
 /**
  * @since 2.0.0
  */
-export const separate: <E, A>(
-  EE: Eq<E>,
-  EA: Eq<A>
-) => (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> = RS.separate as any
+export function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>> {
+  return (fa) => {
+    const elemEE = elem(EE)
+    const elemEA = elem(EA)
+    const left: Set<E> = new Set()
+    const right: Set<A> = new Set()
+    fa.forEach((e) => {
+      switch (e._tag) {
+        case 'Left':
+          if (!elemEE(e.left, left)) {
+            left.add(e.left)
+          }
+          break
+        case 'Right':
+          if (!elemEA(e.right, right)) {
+            right.add(e.right)
+          }
+          break
+      }
+    })
+    return separated(left, right)
+  }
+}
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> = RS.filterMap as any
+export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> {
+  const elemE = elem(E)
+  return (f) => (fa) => {
+    const r: Set<B> = new Set()
+    fa.forEach((a) => {
+      const ob = f(a)
+      if (ob._tag === 'Some' && !elemE(ob.value, r)) {
+        r.add(ob.value)
+      }
+    })
+    return r
+  }
+}
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -216,18 +412,18 @@ export const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set
 export const empty: Set<never> = new Set()
 
 /**
- * Test whether a `ReadonlySet` is empty.
+ * Test whether a `Set` is empty.
  *
  * @since 2.10.0
  */
-export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
+export const isEmpty = <A>(set: Set<A>): boolean => set.size === 0
 
 /**
- * Calculate the number of elements in a `ReadonlySet`.
+ * Calculate the number of elements in a `Set`.
  *
  * @since 2.10.0
  */
-export const size = <A>(set: ReadonlySet<A>): number => set.size
+export const size = <A>(set: Set<A>): number => set.size
 
 /**
  * @since 2.0.0
@@ -242,7 +438,7 @@ export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = R
 /**
  * @since 2.10.0
  */
-export const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean = RS.isSubset
+export const isSubset: <A>(E: Eq<A>) => (that: Set<A>) => (me: Set<A>) => boolean = RS.isSubset
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -260,7 +456,11 @@ export const elem: <A>(
 /**
  * @since 2.0.0
  */
-export const toArray: <A>(O: Ord<A>) => (set: Set<A>) => Array<A> = RS.toReadonlyArray as any
+export const toArray = <A>(O: Ord<A>) => (set: Set<A>): Array<A> => {
+  const out: Array<A> = []
+  set.forEach((e) => out.push(e))
+  return out.sort(O.compare)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated

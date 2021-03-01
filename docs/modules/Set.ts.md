@@ -59,7 +59,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <B>(E: Eq<B>) => <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B>
+export declare function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B>
 ```
 
 Added in v2.0.0
@@ -81,9 +81,12 @@ Form the set difference (`x` - `y`)
 **Signature**
 
 ```ts
-export declare const difference: <A>(
+export declare function difference<A>(
   E: Eq<A>
-) => { (that: Set<A>): (me: Set<A>) => Set<A>; (me: Set<A>, that: Set<A>): Set<A> }
+): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
 ```
 
 **Example**
@@ -114,7 +117,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <B>(E: Eq<B>) => <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B>
+export declare function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B>
 ```
 
 Added in v2.0.0
@@ -126,7 +129,7 @@ Insert a value into a set
 **Signature**
 
 ```ts
-export declare const insert: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
+export declare function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A>
 ```
 
 Added in v2.0.0
@@ -138,9 +141,12 @@ The set of elements which are in both the first and second set
 **Signature**
 
 ```ts
-export declare const intersection: <A>(
+export declare function intersection<A>(
   E: Eq<A>
-) => { (that: Set<A>): (me: Set<A>) => Set<A>; (me: Set<A>, that: Set<A>): Set<A> }
+): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
 ```
 
 Added in v2.0.0
@@ -153,7 +159,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <B>(E: Eq<B>) => <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
+export declare function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B>
 ```
 
 Added in v2.0.0
@@ -179,7 +185,7 @@ If no, inserts the value to the set
 **Signature**
 
 ```ts
-export declare function toggle<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A>
+export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: Set<A>) => Set<A>
 ```
 
 Added in v2.5.0
@@ -191,9 +197,12 @@ Form the union of two sets
 **Signature**
 
 ```ts
-export declare const union: <A>(
+export declare function union<A>(
   E: Eq<A>
-) => { (that: Set<A>): (me: Set<A>) => Set<A>; (me: Set<A>, that: Set<A>): Set<A> }
+): {
+  (that: Set<A>): (me: Set<A>) => Set<A>
+  (me: Set<A>, that: Set<A>): Set<A>
+}
 ```
 
 Added in v2.0.0
@@ -241,7 +250,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>>
+export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>>
 ```
 
 Added in v2.0.0
@@ -261,7 +270,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>>
+export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>>
 ```
 
 Added in v2.0.0
@@ -312,12 +321,12 @@ Added in v2.0.0
 
 ## isEmpty
 
-Test whether a `ReadonlySet` is empty.
+Test whether a `Set` is empty.
 
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
+export declare const isEmpty: <A>(set: Set<A>) => boolean
 ```
 
 Added in v2.10.0
@@ -327,7 +336,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const isSubset: <A>(E: Eq<A>) => (that: ReadonlySet<A>) => (me: ReadonlySet<A>) => boolean
+export declare const isSubset: <A>(E: Eq<A>) => (that: Set<A>) => (me: Set<A>) => boolean
 ```
 
 Added in v2.10.0
@@ -350,10 +359,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const partitionMap: <B, C>(
+export declare function partitionMap<B, C>(
   EB: Eq<B>,
   EC: Eq<C>
-) => <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>>
+): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>>
 ```
 
 Added in v2.0.0
@@ -373,19 +382,19 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const separate: <E, A>(EE: Eq<E>, EA: Eq<A>) => (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>>
+export declare function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>>
 ```
 
 Added in v2.0.0
 
 ## size
 
-Calculate the number of elements in a `ReadonlySet`.
+Calculate the number of elements in a `Set`.
 
 **Signature**
 
 ```ts
-export declare const size: <A>(set: ReadonlySet<A>) => number
+export declare const size: <A>(set: Set<A>) => number
 ```
 
 Added in v2.10.0
