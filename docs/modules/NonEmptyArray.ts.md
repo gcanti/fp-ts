@@ -182,7 +182,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (as: NonEmptyArray<A>) => B
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -192,7 +192,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (as: NonEmptyArray<A>) => B
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -204,7 +204,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (as: NonEmptyArray<A>) => B
+export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -214,7 +214,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: NonEmptyArray<A>) => B
+export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B
 ```
 
 Added in v2.0.0
@@ -436,7 +436,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (as: NonEmptyArray<A>) => S
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -448,7 +448,7 @@ Added in v2.0.0
 ```ts
 export declare const foldMapWithIndex: <S>(
   S: Se.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (as: NonEmptyArray<A>) => S
+) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S
 ```
 
 Added in v2.0.0
@@ -1147,7 +1147,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const head: <A>(as: NonEmptyArray<A>) => A
+export declare const head: <A>(nea: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1178,7 +1178,7 @@ Added in v2.2.0
 **Signature**
 
 ```ts
-export declare const last: <A>(as: NonEmptyArray<A>) => A
+export declare const last: <A>(nea: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1188,7 +1188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const max: <A>(O: Ord<A>) => (as: NonEmptyArray<A>) => A
+export declare const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
@@ -1198,7 +1198,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const min: <A>(O: Ord<A>) => (as: NonEmptyArray<A>) => A
+export declare const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0

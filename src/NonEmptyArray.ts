@@ -8,7 +8,7 @@ import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
-import { Eq, fromEquals } from './Eq'
+import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
@@ -131,14 +131,12 @@ export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), l
  * @category instances
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => ({
-  show: (as) => `[${as.map(S.show).join(', ')}]`
-})
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
 
 /**
  * @since 2.0.0
  */
-export const head = <A>(as: NonEmptyArray<A>): A => as[0]
+export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
 
 /**
  * @since 2.0.0
@@ -154,18 +152,12 @@ export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as),
 /**
  * @since 2.0.0
  */
-export const min = <A>(O: Ord<A>): ((as: NonEmptyArray<A>) => A) => {
-  const S = Se.min(O)
-  return (as) => as.reduce(S.concat)
-}
+export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
 
 /**
  * @since 2.0.0
  */
-export const max = <A>(O: Ord<A>): ((as: NonEmptyArray<A>) => A) => {
-  const S = Se.max(O)
-  return (as) => as.reduce(S.concat)
-}
+export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
 
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
@@ -189,8 +181,7 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
  * @category instances
  * @since 2.0.0
  */
-export const getEq = <A>(E: Eq<A>): Eq<NonEmptyArray<A>> =>
-  fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -293,7 +284,7 @@ export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string
 /**
  * @since 2.0.0
  */
-export const last = <A>(as: NonEmptyArray<A>): A => as[as.length - 1]
+export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
 
 /**
  * Get all but the last element of a non empty array, creating a new array.
@@ -498,15 +489,14 @@ export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArr
  * @category combinators
  * @since 2.0.0
  */
-export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (as: NonEmptyArray<A>) =>
-  as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
+export const foldMapWithIndex: <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (fa: NonEmptyArray<A>) => S =
+  RNEA.foldMapWithIndex
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: NonEmptyArray<A>) =>
-  as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
+export const foldMap: <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: NonEmptyArray<A>) => S = RNEA.foldMap
 
 /**
  * @category combinators
@@ -701,29 +691,27 @@ export const mapWithIndex = <A, B>(f: (i: number, a: A) => B) => (as: NonEmptyAr
  * @category Foldable
  * @since 2.0.0
  */
-export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: NonEmptyArray<A>) => B) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduce
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: NonEmptyArray<A>): B =>
-  as.reduce((b, a, i) => f(i, b, a), b)
+export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: NonEmptyArray<A>) => B =
+  RNEA.reduceWithIndex
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B): ((as: NonEmptyArray<A>) => B) =>
-  reduceRightWithIndex(b, (_, b, a) => f(b, a))
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B = RNEA.reduceRight
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceRightWithIndex = <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (as: NonEmptyArray<A>): B =>
-  as.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: NonEmptyArray<A>) => B =
+  RNEA.reduceRightWithIndex
 
 /**
  * @since 2.6.3
@@ -1079,7 +1067,7 @@ export const prependToAll = prependAll
  * @since 2.5.0
  * @deprecated
  */
-export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = concatAll
+export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
 
 /**
  * Use small, specific instances instead.
