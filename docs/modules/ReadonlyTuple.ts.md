@@ -195,7 +195,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function swap<A, E>(ea: readonly [A, E]): readonly [E, A]
+export declare const swap: <A, E>(ea: readonly [A, E]) => readonly [E, A]
 ```
 
 Added in v2.5.0

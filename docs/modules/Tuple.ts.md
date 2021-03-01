@@ -195,7 +195,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const swap: <A, E>(sa: [A, E]) => [E, A]
+export declare const swap: <A, E>(ea: [A, E]) => [E, A]
 ```
 
 Added in v2.0.0
@@ -309,7 +309,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <M>(M: Monoid<M>) => Applicative2C<'Tuple', M>
+export declare function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M>
 ```
 
 Added in v2.0.0
@@ -319,7 +319,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <S>(S: Semigroup<S>) => Apply2C<'Tuple', S>
+export declare function getApply<S>(S: Semigroup<S>): Apply2C<URI, S>
 ```
 
 Added in v2.0.0
@@ -329,7 +329,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <S>(S: Semigroup<S>) => Chain2C<'Tuple', S>
+export declare function getChain<S>(S: Semigroup<S>): Chain2C<URI, S>
 ```
 
 Added in v2.0.0
@@ -339,7 +339,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getChainRec: <M>(M: Monoid<M>) => ChainRec2C<'Tuple', M>
+export declare function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M>
 ```
 
 Added in v2.0.0
@@ -349,7 +349,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <M>(M: Monoid<M>) => Monad2C<'Tuple', M>
+export declare function getMonad<M>(M: Monoid<M>): Monad2C<URI, M>
 ```
 
 Added in v2.0.0
