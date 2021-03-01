@@ -831,7 +831,7 @@ Create a record with one key/value pair
 **Signature**
 
 ```ts
-export declare const singleton: <K extends string, A>(k: K, a: A) => Record<K, A>
+export declare const singleton: <A>(k: string, a: A) => Record<string, A>
 ```
 
 Added in v2.0.0
@@ -970,10 +970,7 @@ Use `upsertAt` instead.
 **Signature**
 
 ```ts
-export declare function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A>
+export declare const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A>
 ```
 
 Added in v2.0.0

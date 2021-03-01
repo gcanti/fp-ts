@@ -310,10 +310,7 @@ Use `upsertAt` instead.
 **Signature**
 
 ```ts
-export declare function insertAt<K extends string, A>(
-  k: K,
-  a: A
-): <KS extends string>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<KS | K, A>
+export declare const insertAt: <A>(k: string, a: A) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0
@@ -337,7 +334,7 @@ Create a record with one key/value pair
 **Signature**
 
 ```ts
-export declare function singleton<K extends string, A>(k: K, a: A): ReadonlyRecord<K, A>
+export declare const singleton: <A>(k: string, a: A) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0

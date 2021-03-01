@@ -82,6 +82,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `empty`
     - add `isEmpty`
     - add `size`
+- **Bug Fix**
+  - `ReadonlyRecord` / `Record`: remove `extends string` constraints in `singleton` / `insertAt`, closes #1413
 
 # 2.10.0-rc.2
 

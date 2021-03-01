@@ -222,7 +222,7 @@ Create a set with one element
 **Signature**
 
 ```ts
-export declare function singleton<A>(a: A): ReadonlySet<A>
+export declare const singleton: <A>(a: A) => ReadonlySet<A>
 ```
 
 Added in v2.5.0

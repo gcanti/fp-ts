@@ -326,7 +326,7 @@ Create a map with one key/value pair
 **Signature**
 
 ```ts
-export declare function singleton<K, A>(k: K, a: A): ReadonlyMap<K, A>
+export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
