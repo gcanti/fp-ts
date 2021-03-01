@@ -218,32 +218,32 @@ export const lookup = (i: number): (<A>(as: ReadonlyArray<A>) => Option<A>) => {
 }
 
 /**
- * Attaches an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { cons } from 'fp-ts/ReadonlyArray'
+ * import { prepend } from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
+ * assert.deepStrictEqual(pipe([1, 2, 3], prepend(0)), [0, 1, 2, 3])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const cons = RNEA.cons
+export const prepend = RNEA.prepend
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
- * import { snoc } from 'fp-ts/ReadonlyArray'
+ * import { append } from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const snoc = RNEA.snoc
+export const append = RNEA.append
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.
@@ -871,7 +871,7 @@ export const prependAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> 
  */
 export const intersperse = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const len = as.length
-  return len === 0 ? as : cons(as[0])(prependAll(a)(as.slice(1, len)))
+  return len === 0 ? as : prepend(as[0])(prependAll(a)(as.slice(1, len)))
 }
 
 /**
@@ -1113,7 +1113,7 @@ export function comprehension<R>(
         : empty
       : pipe(
           input[0],
-          chain((x) => go(snoc(x)(scope), input.slice(1)))
+          chain((x) => go(append(x)(scope), input.slice(1)))
         )
   return go(empty, input)
 }
@@ -1491,7 +1491,7 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative_<F>) =
     reduce(F.of(zero()), (fas, fa) =>
       pipe(
         fas,
-        F.map((as) => (a: A) => snoc(a)(as)),
+        F.map((as) => (a: A) => append(a)(as)),
         F.ap(fa)
       )
     )
@@ -1512,7 +1512,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     pipe(
       fbs,
-      F.map((bs) => (b: B) => snoc(b)(bs)),
+      F.map((bs) => (b: B) => append(b)(bs)),
       F.ap(f(i, a))
     )
   )

@@ -121,7 +121,7 @@ pipe([1, 2], _.zip(['a', 'b'])) // $ExpectType readonly (readonly [number, strin
 // cons
 //
 
-_.cons(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
+_.prepend(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
 
 //
 // sort

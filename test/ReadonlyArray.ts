@@ -370,15 +370,15 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.isNonEmpty([]), false)
   })
 
-  it('cons', () => {
-    U.deepStrictEqual(pipe([1, 2, 3], _.cons(0)), [0, 1, 2, 3])
-    U.deepStrictEqual(pipe([[2]], _.cons([1])), [[1], [2]])
+  it('prepend', () => {
+    U.deepStrictEqual(pipe([1, 2, 3], _.prepend(0)), [0, 1, 2, 3])
+    U.deepStrictEqual(pipe([[2]], _.prepend([1])), [[1], [2]])
   })
 
-  it('snoc', () => {
+  it('append', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
-    U.deepStrictEqual(pipe(as, _.snoc(4)), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([[1]], _.snoc([2])), [[1], [2]])
+    U.deepStrictEqual(pipe(as, _.append(4)), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([[1]], _.append([2])), [[1], [2]])
   })
 
   it('head', () => {

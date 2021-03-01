@@ -64,32 +64,32 @@ export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray
 // -------------------------------------------------------------------------------------
 
 /**
- * Append an element to the front of an array, creating a new non empty array
+ * Prepend an element to the front of an array, creating a new non empty array
  *
  * @example
- * import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const cons = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
+export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
 
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
  * @example
- * import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { append } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
+ * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const snoc = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
 
 /**
  * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
@@ -368,7 +368,7 @@ export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Read
  */
 export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? cons(as[0])(prependAll(middle)(rest)) : as
+  return isNonEmpty(rest) ? prepend(as[0])(prependAll(middle)(rest)) : as
 }
 
 /**
@@ -432,7 +432,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
 export const splitAt = (n: number) => <A>(
   as: ReadonlyNonEmptyArray<A>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
-  n < 1 || n > as.length ? [as, empty] : [pipe(as.slice(1, n), cons(head(as))), as.slice(n)]
+  n < 1 || n > as.length ? [as, empty] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -599,7 +599,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
   for (let i = 1; i < as.length; i++) {
     out = pipe(
       out,
-      F.map((bs) => (b: B) => pipe(bs, snoc(b))),
+      F.map((bs) => (b: B) => pipe(bs, append(b))),
       F.ap(f(i, as[i]))
     )
   }

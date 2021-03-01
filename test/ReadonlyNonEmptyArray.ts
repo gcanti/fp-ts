@@ -283,12 +283,12 @@ describe('ReadonlyNonEmptyArray', () => {
     )
   })
 
-  it('cons', () => {
-    U.deepStrictEqual(_.cons(1)([2, 3, 4]), [1, 2, 3, 4])
+  it('prepend', () => {
+    U.deepStrictEqual(_.prepend(1)([2, 3, 4]), [1, 2, 3, 4])
   })
 
-  it('snoc', () => {
-    U.deepStrictEqual(pipe([1, 2, 3], _.snoc(4)), [1, 2, 3, 4])
+  it('append', () => {
+    U.deepStrictEqual(pipe([1, 2, 3], _.append(4)), [1, 2, 3, 4])
   })
 
   it('uncons', () => {

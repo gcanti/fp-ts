@@ -56,9 +56,9 @@ Added in v3.0.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
-  - [cons](#cons)
+  - [append](#append)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [snoc](#snoc)
+  - [prepend](#prepend)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -573,23 +573,23 @@ Added in v3.0.0
 
 # constructors
 
-## cons
+## append
 
-Append an element to the front of an array, creating a new non empty array
+Append an element to the end of an array, creating a new non empty array
 
 **Signature**
 
 ```ts
-export declare const cons: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
+export declare const append: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { cons } from 'fp-ts/ReadonlyNonEmptyArray'
+import { append } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([2, 3, 4], cons(1)), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -606,23 +606,23 @@ export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<Readon
 
 Added in v3.0.0
 
-## snoc
+## prepend
 
-Append an element to the end of an array, creating a new non empty array
+Prepend an element to the front of an array, creating a new non empty array
 
 **Signature**
 
 ```ts
-export declare const snoc: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
+export declare const prepend: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
 
 ```ts
-import { snoc } from 'fp-ts/ReadonlyNonEmptyArray'
+import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
+assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0

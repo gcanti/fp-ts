@@ -34,8 +34,8 @@ pipe(rnetns, _.unzip) // $ExpectType readonly [ReadonlyNonEmptyArray<number>, Re
 // cons
 //
 
-_.cons(1)([]) // $ExpectType ReadonlyNonEmptyArray<number>
-_.cons(1)([2, 3]) // $ExpectType ReadonlyNonEmptyArray<number>
+_.prepend(1)([]) // $ExpectType ReadonlyNonEmptyArray<number>
+_.prepend(1)([2, 3]) // $ExpectType ReadonlyNonEmptyArray<number>
 
 //
 // sort

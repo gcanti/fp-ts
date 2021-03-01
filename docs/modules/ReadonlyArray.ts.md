@@ -84,12 +84,12 @@ Added in v3.0.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
+  - [append](#append)
   - [comprehension](#comprehension)
-  - [cons](#cons)
   - [makeBy](#makeby)
+  - [prepend](#prepend)
   - [range](#range)
   - [replicate](#replicate)
-  - [snoc](#snoc)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -1050,6 +1050,27 @@ Added in v3.0.0
 
 # constructors
 
+## append
+
+Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const append: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { append } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
+```
+
+Added in v3.0.0
+
 ## comprehension
 
 Array comprehension
@@ -1114,27 +1135,6 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## cons
-
-Attaches an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const cons: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { cons } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], cons(0)), [0, 1, 2, 3])
-```
-
-Added in v3.0.0
-
 ## makeBy
 
 Return a list of length `n` with element `i` initialized with `f(i)`
@@ -1152,6 +1152,27 @@ import { makeBy } from 'fp-ts/ReadonlyArray'
 
 const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+```
+
+Added in v3.0.0
+
+## prepend
+
+Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const prepend: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { prepend } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], prepend(0)), [0, 1, 2, 3])
 ```
 
 Added in v3.0.0
@@ -1192,27 +1213,6 @@ export declare const replicate: <A>(n: number, a: A) => readonly A[]
 import { replicate } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
-```
-
-Added in v3.0.0
-
-## snoc
-
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const snoc: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { snoc } from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], snoc(4)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
