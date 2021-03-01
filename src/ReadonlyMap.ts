@@ -442,10 +442,10 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
   const lookupWithKeyS = lookupWithKey(EK)
   return {
     concat: (second) => (first) => {
-      if (first === empty) {
+      if (isEmpty(first)) {
         return second
       }
-      if (second === empty) {
+      if (isEmpty(second)) {
         return first
       }
       const r = new Map(first)

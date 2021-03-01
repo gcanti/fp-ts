@@ -55,10 +55,10 @@ export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): Readon
 export const union = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>) => {
   const elemE = elem(E)
   return (second) => (first) => {
-    if (first === empty) {
+    if (isEmpty(first)) {
       return second
     }
-    if (second === empty) {
+    if (isEmpty(second)) {
       return first
     }
     const r = new Set(first)
@@ -80,7 +80,7 @@ export const union = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: Readonl
 export const intersection = <A>(E: Eq<A>): ((second: ReadonlySet<A>) => (first: ReadonlySet<A>) => ReadonlySet<A>) => {
   const elemE = elem(E)
   return (second) => (first) => {
-    if (first === empty || second === empty) {
+    if (isEmpty(first) || isEmpty(second)) {
       return empty
     }
     const r = new Set<A>()

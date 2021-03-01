@@ -686,17 +686,14 @@ export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Readonly
 export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
   return {
     concat: (second) => (first) => {
-      if (first === empty) {
+      if (isEmpty(first)) {
         return second
       }
-      if (second === empty) {
+      if (isEmpty(second)) {
         return first
       }
       const keys = Object.keys(second)
       const len = keys.length
-      if (len === 0) {
-        return first
-      }
       const r: Record<string, A> = Object.assign({}, first)
       for (let i = 0; i < len; i++) {
         const k = keys[i]
