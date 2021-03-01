@@ -8,7 +8,7 @@ import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from 
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
-import { Eq, fromEquals } from './Eq'
+import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
@@ -21,10 +21,10 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
-import * as N from './number'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
+import { getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
+import * as RA from './ReadonlyArray'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
@@ -52,7 +52,7 @@ import Option = O.Option
  * @category constructors
  * @since 2.10.0
  */
-export const prepend = NEA.prepend
+export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> = NEA.prepend
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -66,7 +66,7 @@ export const prepend = NEA.prepend
  * @category constructors
  * @since 2.10.0
  */
-export const append = NEA.append
+export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
@@ -229,7 +229,7 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>): N
  *
  * @since 2.0.0
  */
-export const isEmpty = <A>(as: Array<A>): boolean => as.length === 0
+export const isEmpty: <A>(as: Array<A>) => boolean = RA.isEmpty
 
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
@@ -267,11 +267,10 @@ export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = NEA.isOutOf
  *
  * @since 2.0.0
  */
-export function lookup(i: number): <A>(as: Array<A>) => Option<A>
-export function lookup<A>(i: number, as: Array<A>): Option<A>
-export function lookup<A>(i: number, as?: Array<A>): Option<A> | (<A>(as: Array<A>) => Option<A>) {
-  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? O.none : O.some(as[i])
-}
+export const lookup: {
+  (i: number): <A>(as: Array<A>) => Option<A>
+  <A>(i: number, as: Array<A>): Option<A>
+} = RA.lookup
 
 /**
  * Get the first element in an array, or `None` if the array is empty
@@ -286,7 +285,8 @@ export function lookup<A>(i: number, as?: Array<A>): Option<A> | (<A>(as: Array<
  * @category destructors
  * @since 2.0.0
  */
-export const head = <A>(as: Array<A>): Option<A> => (isNonEmpty(as) ? O.some(NEA.head(as)) : O.none)
+export const head: <A>(as: Array<A>) => Option<A> = RA.head
+
 /**
  * Get the last element in an array, or `None` if the array is empty
  *
@@ -300,7 +300,7 @@ export const head = <A>(as: Array<A>): Option<A> => (isNonEmpty(as) ? O.some(NEA
  * @category destructors
  * @since 2.0.0
  */
-export const last = <A>(as: Array<A>): Option<A> => (isNonEmpty(as) ? O.some(NEA.last(as)) : O.none)
+export const last: <A>(as: Array<A>) => Option<A> = RA.last
 
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
@@ -495,14 +495,7 @@ export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Arr
  *
  * @since 2.0.0
  */
-export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number> => {
-  for (let i = 0; i < as.length; i++) {
-    if (predicate(as[i])) {
-      return O.some(i)
-    }
-  }
-  return O.none
-}
+export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = RA.findIndex
 
 /**
  * Find the first element which satisfies a predicate (or a refinement) function
@@ -519,14 +512,7 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
-  return (as) => {
-    for (let i = 0; i < as.length; i++) {
-      if (predicate(as[i])) {
-        return O.some(as[i])
-      }
-    }
-    return O.none
-  }
+  return RA.findFirst(predicate)
 }
 
 /**
@@ -549,15 +535,7 @@ export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<
  * @category destructors
  * @since 2.0.0
  */
-export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Option<B> => {
-  for (let i = 0; i < as.length; i++) {
-    const out = f(as[i])
-    if (O.isSome(out)) {
-      return out
-    }
-  }
-  return O.none
-}
+export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findFirstMap
 
 /**
  * Find the last element which satisfies a predicate function
@@ -574,14 +552,7 @@ export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Op
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
-  return (as) => {
-    for (let i = as.length - 1; i >= 0; i--) {
-      if (predicate(as[i])) {
-        return O.some(as[i])
-      }
-    }
-    return O.none
-  }
+  return RA.findLast(predicate)
 }
 
 /**
@@ -604,15 +575,7 @@ export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A
  * @category destructors
  * @since 2.0.0
  */
-export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Option<B> => {
-  for (let i = as.length - 1; i >= 0; i--) {
-    const out = f(as[i])
-    if (O.isSome(out)) {
-      return out
-    }
-  }
-  return O.none
-}
+export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Option<B> = RA.findLastMap
 
 /**
  * Returns the index of the last element of the list which matches the predicate
@@ -632,14 +595,7 @@ export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Opt
  *
  * @since 2.0.0
  */
-export const findLastIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number> => {
-  for (let i = as.length - 1; i >= 0; i--) {
-    if (predicate(as[i])) {
-      return O.some(i)
-    }
-  }
-  return O.none
-}
+export const findLastIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option<number> = RA.findLastIndex
 
 /**
  * @category combinators
@@ -915,28 +871,12 @@ export const rotate = (n: number) => <A>(as: Array<A>): Array<A> => {
  *
  * @since 2.0.0
  */
-export function elem<A>(
+export const elem: <A>(
   E: Eq<A>
-): {
+) => {
   (a: A): (as: Array<A>) => boolean
   (a: A, as: Array<A>): boolean
-}
-export function elem<A>(E: Eq<A>): (a: A, as?: Array<A>) => boolean | ((as: Array<A>) => boolean) {
-  return (a, as?) => {
-    if (as === undefined) {
-      const elemE = elem(E)
-      return (as) => elemE(a, as)
-    }
-    const predicate = (element: A) => E.equals(element, a)
-    let i = 0
-    for (; i < as.length; i++) {
-      if (predicate(as[i])) {
-        return true
-      }
-    }
-    return false
-  }
-}
+} = RA.elem
 
 /**
  * Remove duplicates from an array, keeping the first occurrence of an element.
@@ -1527,52 +1467,39 @@ export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> =
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = (M) => {
-  const foldMapWithIndexM = foldMapWithIndex(M)
-  return (f) => foldMapWithIndexM((_, a) => f(a))
-}
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Array<A>) => M = RA.foldMap
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>): M =>
-  fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
+export const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: Array<A>) => M =
+  RA.foldMapWithIndex
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = (b, f) =>
-  reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduce
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = (b, f) => (fa) => {
-  const len = fa.length
-  let out = b
-  for (let i = 0; i < len; i++) {
-    out = f(i, out, fa[i])
-  }
-  return out
-}
+export const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: Array<A>) => B = RA.reduceWithIndex
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = (b, f) =>
-  reduceRightWithIndex(b, (_, a, b) => f(a, b))
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Array<A>) => B = RA.reduceRight
 
 /**
  * @category FoldableWithIndex
  * @since 2.0.0
  */
-export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B = (b, f) => (
-  fa
-) => fa.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: Array<A>) => B =
+  RA.reduceRightWithIndex
 
 /**
  * @category Traversable
@@ -1688,9 +1615,7 @@ declare module './HKT' {
  * @category instances
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<Array<A>> => ({
-  show: (as) => `[${as.map(S.show).join(', ')}]`
-})
+export const getShow: <A>(S: Show<A>) => Show<Array<A>> = RA.getShow
 
 /**
  * @category instances
@@ -1733,8 +1658,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => ({
  * @category instances
  * @since 2.0.0
  */
-export const getEq = <A>(E: Eq<A>): Eq<Array<A>> =>
-  fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
 
 /**
  * Derives an `Ord` over the `Array` of a given element type from the `Ord` of that type. The ordering between two such
@@ -1754,19 +1678,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Array<A>> =>
  * @category instances
  * @since 2.0.0
  */
-export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> =>
-  fromCompare((a, b) => {
-    const aLen = a.length
-    const bLen = b.length
-    const len = Math.min(aLen, bLen)
-    for (let i = 0; i < len; i++) {
-      const ordering = O.compare(a[i], b[i])
-      if (ordering !== 0) {
-        return ordering
-      }
-    }
-    return N.Ord.compare(aLen, bLen)
-  })
+export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
 
 /**
  * @category instances
@@ -2095,12 +2007,12 @@ export const empty: Array<never> = []
 /**
  * @since 2.9.0
  */
-export const every = <A>(predicate: Predicate<A>) => (as: Array<A>): boolean => as.every(predicate)
+export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.every
 
 /**
  * @since 2.9.0
  */
-export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): boolean => as.some(predicate)
+export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.some
 
 // -------------------------------------------------------------------------------------
 // do notation
