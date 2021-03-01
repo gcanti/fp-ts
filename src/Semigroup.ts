@@ -16,8 +16,10 @@
  * @since 3.0.0
  */
 import { Endomorphism, identity } from './function'
-import { Magma } from './Magma'
+import * as M from './Magma'
 import * as O from './Ord'
+
+import Magma = M.Magma
 
 // -------------------------------------------------------------------------------------
 // model
@@ -96,9 +98,7 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  * @category combinators
  * @since 3.0.0
  */
-export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
-  concat: (second) => (first) => S.concat(first)(second)
-})
+export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -259,5 +259,4 @@ export const assign = <A extends object = never>(): Semigroup<A> => ({
  *
  * @since 3.0.0
  */
-export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
-  as.reduce((a, acc) => S.concat(acc)(a), startWith)
+export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>) => A = M.concatAll

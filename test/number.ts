@@ -2,7 +2,7 @@ import * as U from './util'
 import { pipe } from '../src/function'
 import * as _ from '../src/number'
 
-describe('string', () => {
+describe('number', () => {
   it('Ord', () => {
     U.deepStrictEqual(pipe(1, _.Ord.compare(2)), -1)
     U.deepStrictEqual(pipe(2, _.Ord.compare(1)), 1)
