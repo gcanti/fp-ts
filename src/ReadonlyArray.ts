@@ -1595,7 +1595,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => first.concat(second),
+  concat: (second) => (first) => (isEmpty(first) ? second : isEmpty(second) ? first : first.concat(second)),
   empty
 })
 
