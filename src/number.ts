@@ -8,6 +8,7 @@ import * as O from './Ord'
 import * as S from './Show'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
+import { Magma } from './Magma'
 
 /**
  * @category instances
@@ -56,6 +57,14 @@ export const Field: F.Field<number> = {
  */
 export const Show: S.Show<number> = {
   show: (a) => JSON.stringify(a)
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const MagmaSub: Magma<number> = {
+  concat: Field.sub
 }
 
 /**
