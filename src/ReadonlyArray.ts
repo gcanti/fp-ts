@@ -197,7 +197,7 @@ export const size = <A>(as: ReadonlyArray<A>): number => as.length
  *
  * @since 3.0.0
  */
-export const isOutOfBound = <A>(i: number) => (as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNEA.isOutOfBound
 
 /**
  * This function provides a safe way to read a value at a particular index from a `ReadonlyArray`
@@ -212,10 +212,8 @@ export const isOutOfBound = <A>(i: number) => (as: ReadonlyArray<A>): boolean =>
  *
  * @since 3.0.0
  */
-export const lookup = (i: number): (<A>(as: ReadonlyArray<A>) => Option<A>) => {
-  const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(as[i]))
-}
+export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
+  isOutOfBound(i, as) ? O.none : O.some(as[i])
 
 /**
  * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -662,21 +660,18 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  *
  * @since 3.0.0
  */
-export const modifyAt = <A>(i: number, f: Endomorphism<A>): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
-  const predicate = isOutOfBound(i)
-  return (as) => {
-    if (predicate(as)) {
-      return O.none
-    }
-    const prev = as[i]
-    const next = f(prev)
-    if (next === prev) {
-      return O.some(as)
-    }
-    const out = as.slice()
-    out[i] = next
-    return O.some(out)
+export const modifyAt = <A>(i: number, f: Endomorphism<A>) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> => {
+  if (isOutOfBound(i, as)) {
+    return O.none
   }
+  const prev = as[i]
+  const next = f(prev)
+  if (next === prev) {
+    return O.some(as)
+  }
+  const out = as.slice()
+  out[i] = next
+  return O.some(out)
 }
 
 const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> => {
@@ -697,10 +692,8 @@ const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArray<A> =>
  *
  * @since 3.0.0
  */
-export const deleteAt = (i: number): (<A>(as: ReadonlyArray<A>) => Option<ReadonlyArray<A>>) => {
-  const predicate = isOutOfBound(i)
-  return (as) => (predicate(as) ? O.none : O.some(unsafeDeleteAt(i, as)))
-}
+export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
+  isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as))
 
 /**
  * Reverse a `ReadonlyArray`, creating a new `ReadonlyArray`.

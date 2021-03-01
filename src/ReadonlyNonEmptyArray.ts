@@ -246,7 +246,10 @@ export const groupBy = <A>(f: (a: A) => string) => (
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
   as.length === 1 ? as : (as.slice().sort((first, second) => O.compare(second)(first)) as any)
 
-const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.

@@ -133,7 +133,6 @@ high state of flux, you're at risk of it changing without notice.
     - make `union` pipeable
     - make `intersection` pipeable
     - make `difference` pipeable
-    - make `isOutOfBound` pipeable
     - remove `unsafeInsertAt`
     - remove `unsafeUpdateAt`
     - remove `unsafeDeleteAt`

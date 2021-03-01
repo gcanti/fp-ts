@@ -2111,7 +2111,7 @@ Test whether a `ReadonlyArray` contains a particular index
 **Signature**
 
 ```ts
-export declare const isOutOfBound: <A>(i: number) => (as: readonly A[]) => boolean
+export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
 Added in v3.0.0
