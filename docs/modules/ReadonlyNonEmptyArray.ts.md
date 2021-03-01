@@ -64,8 +64,8 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
 - [destructors](#destructors)
-  - [uncons](#uncons)
-  - [unsnoc](#unsnoc)
+  - [unappend](#unappend)
+  - [unprepend](#unprepend)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -680,42 +680,42 @@ Added in v3.0.0
 
 # destructors
 
-## uncons
-
-Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
-
-**Signature**
-
-```ts
-export declare const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
-```
-
-**Example**
-
-```ts
-import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
-```
-
-Added in v3.0.0
-
-## unsnoc
+## unappend
 
 Produces a couple of a copy of the array without its last element, and that last element.
 
 **Signature**
 
 ```ts
-export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
+export declare const unappend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
 ```
 
 **Example**
 
 ```ts
-import { unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
 
-assert.deepStrictEqual(unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
+assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
+```
+
+Added in v3.0.0
+
+## unprepend
+
+Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
+
+**Signature**
+
+```ts
+export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, readonly A[]]
+```
+
+**Example**
+
+```ts
+import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
 ```
 
 Added in v3.0.0

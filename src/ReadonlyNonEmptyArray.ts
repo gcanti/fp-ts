@@ -108,27 +108,27 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  * Produces a couple of the first element of the array, and a new array of the remaining elements, if any.
  *
  * @example
- * import { uncons } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(uncons([1, 2, 3, 4]), [1, [2, 3, 4]])
+ * assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
  *
  * @category destructors
  * @since 3.0.0
  */
-export const uncons = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
+export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, ReadonlyArray<A>] => [head(as), tail(as)]
 
 /**
  * Produces a couple of a copy of the array without its last element, and that last element.
  *
  * @example
- * import { unsnoc } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { unappend } from 'fp-ts/ReadonlyNonEmptyArray'
  *
- * assert.deepStrictEqual(unsnoc([1, 2, 3, 4]), [[1, 2, 3], 4])
+ * assert.deepStrictEqual(unappend([1, 2, 3, 4]), [[1, 2, 3], 4])
  *
  * @category destructors
  * @since 3.0.0
  */
-export const unsnoc = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
+export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
 
 // -------------------------------------------------------------------------------------
 // combinators
