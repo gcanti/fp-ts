@@ -1726,7 +1726,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
  * @since 2.5.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
-  concat: (first, second) => first.concat(second)
+  concat: (first, second) => (isEmpty(first) ? second : isEmpty(second) ? first : first.concat(second))
 })
 
 /**
