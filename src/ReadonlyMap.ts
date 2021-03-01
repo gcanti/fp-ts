@@ -148,18 +148,16 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
  *
  * @since 2.5.0
  */
-export function keys<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<K> {
-  return (m) => Array.from(m.keys()).sort(O.compare)
-}
+export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K> =>
+  Array.from(m.keys()).sort(O.compare)
 
 /**
  * Get a sorted array of the values contained in a map
  *
  * @since 2.5.0
  */
-export function values<A>(O: Ord<A>): <K>(m: ReadonlyMap<K, A>) => ReadonlyArray<A> {
-  return (m) => Array.from(m.values()).sort(O.compare)
-}
+export const values = <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>): ReadonlyArray<A> =>
+  Array.from(m.values()).sort(O.compare)
 
 /**
  * @since 2.5.0
@@ -258,16 +256,8 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => R
  * @since 2.5.0
  */
 export const updateAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => Option<ReadonlyMap<K, A>>) => {
-  const lookupWithKeyE = lookupWithKey(E)
-  return (k, a) => (m) => {
-    const found = lookupWithKeyE(k, m)
-    if (O.isNone(found)) {
-      return O.none
-    }
-    const r = new Map(m)
-    r.set(found.value[0], a)
-    return O.some(r)
-  }
+  const modifyAtE = modifyAt(E)
+  return (k, a) => modifyAtE(k, () => a)
 }
 
 /**
@@ -429,10 +419,10 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
   const lookupWithKeyS = lookupWithKey(SK)
   return {
     concat: (mx, my) => {
-      if (mx === empty) {
+      if (isEmpty(mx)) {
         return my
       }
-      if (my === empty) {
+      if (isEmpty(my)) {
         return mx
       }
       const r = new Map(mx)

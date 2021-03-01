@@ -53,6 +53,13 @@ high state of flux, you're at risk of it changing without notice.
     - better `unsafeInsertAt` signature
     - better `chunksOf` signature
     - add `getSemigroup`
+  - `Map`
+    - add `filterWithIndex` combinator
+    - add `filterMapWithIndex` combinator
+    - add `partitionWithIndex` combinator
+    - add `partitionMapWithIndex` combinator
+    - add `getTraversableWithIndex` instance
+    - add `getFoldableWithIndex` instance
   - `NonEmptyArray`
     - add `isNonEmpty` guard
     - add `fromReadonlyNonEmptyArray` constructor

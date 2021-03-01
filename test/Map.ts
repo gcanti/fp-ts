@@ -1074,4 +1074,16 @@ describe('Map', () => {
       )
     )
   })
+
+  it('mapWithIndex', () => {
+    const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+    const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+    U.deepStrictEqual(
+      pipe(
+        aa1,
+        _.mapWithIndex((k, a) => a + k.id.length)
+      ),
+      aa3
+    )
+  })
 })

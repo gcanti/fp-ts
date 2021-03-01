@@ -26,7 +26,11 @@ Added in v2.0.0
   - [mapWithIndex](#mapwithindex)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [filterMapWithIndex](#filtermapwithindex)
+  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
+  - [partitionMapWithIndex](#partitionmapwithindex)
+  - [partitionWithIndex](#partitionwithindex)
   - [upsertAt](#upsertat)
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
@@ -39,8 +43,10 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldableWithIndex](#getfoldablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversableWithIndex](#gettraversablewithindex)
   - [getWitherable](#getwitherable)
   - [~~map\_~~](#map_)
 - [utils](#utils)
@@ -71,7 +77,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <K, A>(fa: Map<K, Option<A>>) => Map<K, A>
+export declare const compact: <K, A>(fa: Map<K, O.Option<A>>) => Map<K, A>
 ```
 
 Added in v2.0.0
@@ -106,7 +112,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => <K>(fa: Map<K, A>) => Map<K, B>
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: Map<K, A>) => Map<K, B>
 ```
 
 Added in v2.0.0
@@ -177,6 +183,26 @@ export declare const deleteAt: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => M
 
 Added in v2.0.0
 
+## filterMapWithIndex
+
+**Signature**
+
+```ts
+export declare const filterMapWithIndex: <K, A, B>(f: (k: K, a: A) => O.Option<B>) => (fa: Map<K, A>) => Map<K, B>
+```
+
+Added in v2.10.0
+
+## filterWithIndex
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.10.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -185,6 +211,30 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Map<E, (a: A) => B>) => Map<E, B>
+```
+
+Added in v2.10.0
+
+## partitionMapWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionMapWithIndex: <K, A, B, C>(
+  f: (k: K, a: A) => Either<B, C>
+) => (fa: Map<K, A>) => Separated<Map<K, B>, Map<K, C>>
+```
+
+Added in v2.10.0
+
+## partitionWithIndex
+
+**Signature**
+
+```ts
+export declare const partitionWithIndex: <K, A>(
+  p: (k: K, a: A) => boolean
+) => (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 ```
 
 Added in v2.10.0
@@ -310,10 +360,20 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getFilterableWithIndex: <K = never>() => FilterableWithIndex2C<'Map', K, K>
+export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K>
 ```
 
 Added in v2.0.0
+
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C<'Map', K, K>
+```
+
+Added in v2.10.0
 
 ## getMonoid
 
@@ -322,7 +382,7 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 **Signature**
 
 ```ts
-export declare const getMonoid: <K, A>(SK: Eq<K>, SA: Semigroup<A>) => Monoid<Map<K, A>>
+export declare function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>>
 ```
 
 Added in v2.0.0
@@ -337,12 +397,22 @@ export declare const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>
 
 Added in v2.0.0
 
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'Map', K, K>
+```
+
+Added in v2.10.0
+
 ## getWitherable
 
 **Signature**
 
 ```ts
-export declare const getWitherable: <K>(O: Ord<K>) => Witherable2C<'Map', K> & TraversableWithIndex2C<'Map', K, K>
+export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K>
 ```
 
 Added in v2.0.0
@@ -366,7 +436,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => B[]
+export declare function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B>
 ```
 
 Added in v2.0.0
@@ -441,7 +511,7 @@ Lookup the value for a key in a `Map`.
 ```ts
 export declare const lookup: <K>(
   E: Eq<K>
-) => { (k: K): <A>(m: Map<K, A>) => Option<A>; <A>(k: K, m: Map<K, A>): Option<A> }
+) => { (k: K): <A>(m: Map<K, A>) => O.Option<A>; <A>(k: K, m: Map<K, A>): O.Option<A> }
 ```
 
 Added in v2.0.0
@@ -454,9 +524,12 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export declare const lookupWithKey: <K>(
+export declare function lookupWithKey<K>(
   E: Eq<K>
-) => { (k: K): <A>(m: Map<K, A>) => Option<[K, A]>; <A>(k: K, m: Map<K, A>): Option<[K, A]> }
+): {
+  (k: K): <A>(m: Map<K, A>) => Option<[K, A]>
+  <A>(k: K, m: Map<K, A>): Option<[K, A]>
+}
 ```
 
 Added in v2.0.0
@@ -478,7 +551,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const modifyAt: <K>(E: Eq<K>) => <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => Option<Map<K, A>>
+export declare const modifyAt: <K>(E: Eq<K>) => <A>(k: K, f: (a: A) => A) => (m: Map<K, A>) => O.Option<Map<K, A>>
 ```
 
 Added in v2.0.0
@@ -490,7 +563,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export declare const pop: <K>(E: Eq<K>) => (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]>
+export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]>
 ```
 
 Added in v2.0.0
@@ -526,7 +599,7 @@ Get a sorted of the key/value pairs contained in a map
 **Signature**
 
 ```ts
-export declare const toArray: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => [K, A][]
+export declare function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]>
 ```
 
 Added in v2.0.0
@@ -539,10 +612,10 @@ Unfolds a map into a list of key/value pairs
 
 ```ts
 export declare function toUnfoldable<K, F extends URIS>(
-  O: Ord<K>,
+  ord: Ord<K>,
   U: Unfoldable1<F>
 ): <A>(d: Map<K, A>) => Kind<F, [K, A]>
-export declare function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
+export declare function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
 ```
 
 Added in v2.0.0
@@ -552,7 +625,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Option<Map<K, A>>
+export declare const updateAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => O.Option<Map<K, A>>
 ```
 
 Added in v2.0.0
