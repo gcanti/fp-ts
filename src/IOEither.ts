@@ -773,11 +773,11 @@ export const bracket = <E, A, B>(
     acquire,
     chain((a) =>
       pipe(
-        pipe(use(a), I.map(E.right)),
-        chain((e) =>
+        use(a),
+        I.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => (E.isLeft(e) ? left(e.left) : of(e.right)))
+            chain(() => fromEither(e))
           )
         )
       )

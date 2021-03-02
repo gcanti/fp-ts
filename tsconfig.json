@@ -17,5 +17,5 @@
     "forceConsistentCasingInFileNames": true,
     "stripInternal": true
   },
-  "include": ["./docs/examples"]
+  "include": ["./src", "./test", "./scripts", "./perf"]
 }
