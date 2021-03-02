@@ -773,14 +773,4 @@ Use `toTuple2` instead.
 export declare const toTuple: <E, A>(e: E, a: A) => (fa: These<E, A>) => [E, A]
 ```
 
-**Example**
-
-```ts
-import { toTuple, left, right, both } from 'fp-ts/These'
-
-assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
-assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
-assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
-```
-
 Added in v2.0.0

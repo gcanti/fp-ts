@@ -658,12 +658,12 @@ export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
  *
  * assert.deepStrictEqual(
  *   pipe(E.right('a'), E.reduce(startWith, concat)),
- *   'prefix:a',
+ *   'prefix:a'
  * )
  *
  * assert.deepStrictEqual(
  *   pipe(E.left('e'), E.reduce(startWith, concat)),
- *   'prefix',
+ *   'prefix'
  * )
  *
  * @category Foldable
@@ -676,7 +676,7 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  * Map each element of the structure to a monoid, and combine the results.
  *
  * @example
- * import { pipe } from 'fp-ts/function';
+ * import { pipe } from 'fp-ts/function'
  * import * as E from 'fp-ts/Either'
  * import * as S from 'fp-ts/string'
  *
@@ -684,12 +684,12 @@ export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>)
  *
  * assert.deepStrictEqual(
  *   pipe(E.right('a'), E.foldMap(S.Monoid)(yell)),
- *   'a!',
+ *   'a!'
  * )
  *
  * assert.deepStrictEqual(
  *   pipe(E.left('e'), E.foldMap(S.Monoid)(yell)),
- *   S.Monoid.empty,
+ *   S.Monoid.empty
  * )
  *
  * @category Foldable
@@ -710,12 +710,12 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either
  *
  * assert.deepStrictEqual(
  *   pipe(E.right('a'), E.reduceRight(startWith, concat)),
- *   'a:postfix',
+ *   'a:postfix'
  * )
  *
  * assert.deepStrictEqual(
  *   pipe(E.left('e'), E.reduceRight(startWith, concat)),
- *   'postfix',
+ *   'postfix'
  * )
  *
  * @category Foldable
@@ -734,13 +734,13 @@ export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(['a']), E.traverse(O.option)(RA.head)),
- *   O.some(E.right('a')),
+ *   pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)),
+ *   O.some(E.right('a'))
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right([]), E.traverse(O.option)(RA.head)),
- *   O.none,
+ *   pipe(E.right([]), E.traverse(O.Applicative)(RA.head)),
+ *   O.none
  * )
  *
  * @category Traversable
@@ -759,12 +759,12 @@ export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A,
  * import * as O from 'fp-ts/Option'
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(O.some('a')), E.sequence(O.option)),
- *   O.some(E.right('a')),
+ *   pipe(E.right(O.some('a')), E.sequence(O.Applicative)),
+ *   O.some(E.right('a'))
  *  )
  *
  * assert.deepStrictEqual(
- *   pipe(E.right(O.none), E.sequence(O.option)),
+ *   pipe(E.right(O.none), E.sequence(O.Applicative)),
  *   O.none
  * )
  *
@@ -1444,16 +1444,6 @@ export const either: Monad2<URI> &
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
- *
- * @example
- * import { getApplySemigroup, left, right } from 'fp-ts/Either'
- * import { SemigroupSum } from 'fp-ts/number'
- *
- * const S = getApplySemigroup<string, number>(SemigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  * @category instances
  * @since 2.0.0

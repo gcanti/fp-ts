@@ -378,24 +378,24 @@ export declare function sequenceS<F>(
 **Example**
 
 ```ts
-import { either, right, left } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { sequenceS } from 'fp-ts/Apply'
 
-const ado = sequenceS(either)
+const ado = sequenceS(E.Apply)
 
 assert.deepStrictEqual(
   ado({
-    a: right(1),
-    b: right(true),
+    a: E.right(1),
+    b: E.right(true),
   }),
-  right({ a: 1, b: true })
+  E.right({ a: 1, b: true })
 )
 assert.deepStrictEqual(
   ado({
-    a: right(1),
-    b: left('error'),
+    a: E.right(1),
+    b: E.left('error'),
   }),
-  left('error')
+  E.left('error')
 )
 ```
 
@@ -449,12 +449,12 @@ export declare function sequenceT<F>(
 
 ```ts
 import { sequenceT } from 'fp-ts/Apply'
-import { option, some, none } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 
-const sequenceTOption = sequenceT(option)
-assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
-assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
-assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
+const sequenceTOption = sequenceT(O.Apply)
+assert.deepStrictEqual(sequenceTOption(O.some(1)), O.some([1]))
+assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2')), O.some([1, '2']))
+assert.deepStrictEqual(sequenceTOption(O.some(1), O.some('2'), O.none), O.none)
 ```
 
 Added in v2.0.0

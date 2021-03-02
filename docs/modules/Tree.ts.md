@@ -653,9 +653,9 @@ export declare function drawTree(tree: Tree<string>): string
 **Example**
 
 ```ts
-import { make, drawTree, tree } from 'fp-ts/Tree'
+import { make, drawTree } from 'fp-ts/Tree'
 
-const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
+const fa = make('a', [make('b'), make('c'), make('d', [make('e'), make('f')])])
 
 assert.strictEqual(
   drawTree(fa),

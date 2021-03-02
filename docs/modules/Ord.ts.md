@@ -213,10 +213,10 @@ import { concatAll } from 'fp-ts/Monoid'
 import * as N from 'fp-ts/number'
 
 interface User {
-  id: number
-  name: string
-  age: number
-  rememberMe: boolean
+  readonly id: number
+  readonly name: string
+  readonly age: number
+  readonly rememberMe: boolean
 }
 
 const byName = pipe(

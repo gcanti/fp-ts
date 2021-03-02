@@ -522,21 +522,6 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
 /**
  * Returns the composition of two traversables
  *
- * @example
- * import { array } from 'fp-ts/Array'
- * import { io } from 'fp-ts/IO'
- * import { none, option, some } from 'fp-ts/Option'
- * import { getTraversableComposition } from 'fp-ts/Traversable'
- *
- * const T = getTraversableComposition(array, option)
- * const state: Record<string, number | undefined> = {
- *   a: 1,
- *   b: 2
- * }
- * const read = (s: string) => () => state[s]
- * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
- * assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
- *
  * @since 2.0.0
  * @deprecated
  */

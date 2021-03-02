@@ -238,7 +238,7 @@ async function test() {
   const fb = append('b')
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
-  await sequenceT(T.task)(fa, fb, fc, fd)()
+  await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
 }
 
