@@ -1001,8 +1001,8 @@ import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 interface Person {
-  name: string
-  age: number
+  readonly name: string
+  readonly age: number
 }
 const byName = pipe(
   S.Ord,
@@ -1409,8 +1409,13 @@ export declare function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) =>
 import { findFirst } from 'fp-ts/Array'
 import { some } from 'fp-ts/Option'
 
+type X = {
+  readonly a: number
+  readonly b: number
+}
+
 assert.deepStrictEqual(
-  findFirst((x: { a: number; b: number }) => x.a === 1)([
+  findFirst((x: X) => x.a === 1)([
     { a: 1, b: 1 },
     { a: 1, b: 2 },
   ]),
@@ -1437,8 +1442,8 @@ import { findFirstMap } from 'fp-ts/Array'
 import { some, none } from 'fp-ts/Option'
 
 interface Person {
-  name: string
-  age?: number
+  readonly name: string
+  readonly age?: number
 }
 
 const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
@@ -1466,8 +1471,13 @@ export declare function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => 
 import { findLast } from 'fp-ts/Array'
 import { some } from 'fp-ts/Option'
 
+type X = {
+  readonly a: number
+  readonly b: number
+}
+
 assert.deepStrictEqual(
-  findLast((x: { a: number; b: number }) => x.a === 1)([
+  findLast((x: X) => x.a === 1)([
     { a: 1, b: 1 },
     { a: 1, b: 2 },
   ]),
@@ -1494,8 +1504,8 @@ import { findLastMap } from 'fp-ts/Array'
 import { some, none } from 'fp-ts/Option'
 
 interface Person {
-  name: string
-  age?: number
+  readonly name: string
+  readonly age?: number
 }
 
 const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
@@ -2248,15 +2258,15 @@ import { findLastIndex } from 'fp-ts/Array'
 import { some, none } from 'fp-ts/Option'
 
 interface X {
-  a: number
-  b: number
+  readonly a: number
+  readonly b: number
 }
 const xs: Array<X> = [
   { a: 1, b: 0 },
   { a: 1, b: 1 },
 ]
-assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
-assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
+assert.deepStrictEqual(findLastIndex((x: { readonly a: number }) => x.a === 1)(xs), some(1))
+assert.deepStrictEqual(findLastIndex((x: { readonly a: number }) => x.a === 4)(xs), none)
 ```
 
 Added in v2.0.0

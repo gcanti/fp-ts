@@ -106,12 +106,12 @@ export function drawForest(forest: Forest<string>): string {
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { make, drawTree, tree } from 'fp-ts/Tree'
+ * import { make, drawTree } from 'fp-ts/Tree'
  *
  * const fa = make('a', [
- *   tree.of('b'),
- *   tree.of('c'),
- *   make('d', [tree.of('e'), tree.of('f')])
+ *   make('b'),
+ *   make('c'),
+ *   make('d', [make('e'), make('f')])
  * ])
  *
  * assert.strictEqual(drawTree(fa), `a

@@ -398,9 +398,9 @@ import { pipe } from 'fp-ts/function'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.option)), O.some(E.right('a')))
+assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.some(E.right('a')))
 
-assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.option)), O.none)
+assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
 ```
 
 Added in v2.6.3
@@ -423,9 +423,9 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as E from 'fp-ts/Either'
 import * as O from 'fp-ts/Option'
 
-assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.option)(RA.head)), O.some(E.right('a')))
+assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
 
-assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.option)(RA.head)), O.none)
+assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
 ```
 
 Added in v2.6.3
@@ -1352,19 +1352,6 @@ are concatenated using the provided `Semigroup`
 
 ```ts
 export declare const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
-```
-
-**Example**
-
-```ts
-import { getApplySemigroup, left, right } from 'fp-ts/Either'
-import { SemigroupSum } from 'fp-ts/number'
-
-const S = getApplySemigroup<string, number>(SemigroupSum)
-assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
-assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
-assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
-assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 ```
 
 Added in v2.0.0

@@ -237,22 +237,6 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
 /**
  * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
  *
- * @example
- * import { getApplicativeComposition } from 'fp-ts/Applicative'
- * import { option, Option, some } from 'fp-ts/Option'
- * import { task, Task } from 'fp-ts/Task'
- *
- * // an Applicative instance for Task<Option<A>>
- * const A = getApplicativeComposition(task, option)
- *
- * const x: Task<Option<number>> = task.of(some(1))
- * const y: Task<Option<number>> = task.of(some(2))
- *
- * const sum = (a: number) => (b: number): number => a + b
- *
- * A.ap(A.map(x, sum), y)()
- *   .then(result => assert.deepStrictEqual(result, some(3)))
- *
  * @since 2.0.0
  * @deprecated
  */

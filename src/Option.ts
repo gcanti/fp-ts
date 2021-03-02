@@ -425,10 +425,10 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * import { pipe } from 'fp-ts/function'
  *
  * interface Employee {
- *   company?: {
- *     address?: {
- *       street?: {
- *         name?: string
+ *   readonly company?: {
+ *     readonly address?: {
+ *       readonly street?: {
+ *         readonly name?: string
  *       }
  *     }
  *   }
@@ -1336,25 +1336,6 @@ export const option: Monad1<URI> &
 
 /**
  * Use `Apply.getApplySemigroup` instead.
- *
- * `Apply` semigroup
- *
- * | x       | y       | concat(x, y)       |
- * | ------- | ------- | ------------------ |
- * | none    | none    | none               |
- * | some(a) | none    | none               |
- * | none    | some(a) | none               |
- * | some(a) | some(b) | some(concat(a, b)) |
- *
- * @example
- * import { getApplySemigroup, some, none } from 'fp-ts/Option'
- * import { SemigroupSum } from 'fp-ts/number'
- *
- * const S = getApplySemigroup(SemigroupSum)
- * assert.deepStrictEqual(S.concat(none, none), none)
- * assert.deepStrictEqual(S.concat(some(1), none), none)
- * assert.deepStrictEqual(S.concat(none, some(1)), none)
- * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
  *
  * @category instances
  * @since 2.0.0

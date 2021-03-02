@@ -237,8 +237,8 @@ export const last = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
  * import * as Se from 'fp-ts/Semigroup'
  *
  * interface Person {
- *   name: string
- *   age: number
+ *   readonly name: string
+ *   readonly age: number
  * }
  *
  * const S = Se.assign<Person>()

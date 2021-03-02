@@ -241,10 +241,10 @@ export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M
 ```ts
 import { intercalate } from 'fp-ts/Foldable'
 import * as S from 'fp-ts/string'
-import { make, tree } from 'fp-ts/Tree'
+import { make, Foldable } from 'fp-ts/Tree'
 
 const t = make('a', [make('b', []), make('c', []), make('d', [])])
-assert.strictEqual(intercalate(S.Monoid, tree)('|', t), 'a|b|c|d')
+assert.strictEqual(intercalate(S.Monoid, Foldable)('|', t), 'a|b|c|d')
 ```
 
 Added in v2.0.0
@@ -334,10 +334,10 @@ export declare function toReadonlyArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) =
 
 ```ts
 import { toReadonlyArray } from 'fp-ts/Foldable'
-import { tree, make } from 'fp-ts/Tree'
+import { Foldable, make } from 'fp-ts/Tree'
 
 const t = make(1, [make(2, []), make(3, []), make(4, [])])
-assert.deepStrictEqual(toReadonlyArray(tree)(t), [1, 2, 3, 4])
+assert.deepStrictEqual(toReadonlyArray(Foldable)(t), [1, 2, 3, 4])
 ```
 
 Added in v2.10.0
@@ -375,13 +375,13 @@ export declare function traverse_<M, F>(
 **Example**
 
 ```ts
-import { array } from 'fp-ts/Array'
+import { Foldable } from 'fp-ts/Array'
 import { traverse_ } from 'fp-ts/Foldable'
-import { io } from 'fp-ts/IO'
+import { Applicative } from 'fp-ts/IO'
 
 let log = ''
 const append = (s: string) => () => (log += s)
-traverse_(io, array)(['a', 'b', 'c'], append)()
+traverse_(Applicative, Foldable)(['a', 'b', 'c'], append)()
 assert.strictEqual(log, 'abc')
 ```
 
@@ -570,19 +570,6 @@ export declare function getFoldableComposition<F extends URIS, G extends URIS>(
   G: Foldable1<G>
 ): FoldableComposition11<F, G>
 export declare function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
-```
-
-**Example**
-
-```ts
-import { getFoldableComposition } from 'fp-ts/Foldable'
-import { array } from 'fp-ts/Array'
-import { option, some, none } from 'fp-ts/Option'
-import * as S from 'fp-ts/string'
-
-const F = getFoldableComposition(array, option)
-assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', S.Semigroup.concat), 'abc')
-assert.strictEqual(F.reduce([some('a'), none, some('c')], '', S.Semigroup.concat), 'ac')
 ```
 
 Added in v2.0.0

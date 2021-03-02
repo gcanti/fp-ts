@@ -59,10 +59,10 @@ export interface Monoid<A> extends Se.Semigroup<A> {
  * The `empty` value is the `top` value.
  *
  * @example
- * import * as B from 'fp-ts/Bounded'
+ * import * as N from 'fp-ts/number'
  * import * as M from 'fp-ts/Monoid'
  *
- * const M1 = M.min(B.boundedNumber)
+ * const M1 = M.min(N.Bounded)
  *
  * assert.deepStrictEqual(M1.concat(1, 2), 1)
  *
@@ -79,10 +79,10 @@ export const min = <A>(B: Bounded<A>): Monoid<A> => ({
  * The `empty` value is the `bottom` value.
  *
  * @example
- * import * as B from 'fp-ts/Bounded'
+ * import * as N from 'fp-ts/number'
  * import * as M from 'fp-ts/Monoid'
  *
- * const M1 = M.max(B.boundedNumber)
+ * const M1 = M.max(N.Bounded)
  *
  * assert.deepStrictEqual(M1.concat(1, 2), 2)
  *

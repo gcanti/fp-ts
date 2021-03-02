@@ -504,7 +504,12 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  * import { findFirst } from 'fp-ts/Array'
  * import { some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(findFirst((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
+ * type X = {
+ *   readonly a: number
+ *   readonly b: number
+ * }
+ *
+ * assert.deepStrictEqual(findFirst((x: X) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
  *
  * @category destructors
  * @since 2.0.0
@@ -523,8 +528,8 @@ export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<
  * import { some, none } from 'fp-ts/Option'
  *
  * interface Person {
- *   name: string
- *   age?: number
+ *   readonly name: string
+ *   readonly age?: number
  * }
  *
  * const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
@@ -544,7 +549,12 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  * import { findLast } from 'fp-ts/Array'
  * import { some } from 'fp-ts/Option'
  *
- * assert.deepStrictEqual(findLast((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
+ * type X = {
+ *   readonly a: number
+ *   readonly b: number
+ * }
+ *
+ * assert.deepStrictEqual(findLast((x: X) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
  *
  * @category destructors
  * @since 2.0.0
@@ -563,8 +573,8 @@ export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A
  * import { some, none } from 'fp-ts/Option'
  *
  * interface Person {
- *   name: string
- *   age?: number
+ *   readonly name: string
+ *   readonly age?: number
  * }
  *
  * const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
@@ -585,12 +595,12 @@ export const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => Op
  * import { some, none } from 'fp-ts/Option'
  *
  * interface X {
- *   a: number
- *   b: number
+ *   readonly a: number
+ *   readonly b: number
  * }
  * const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
- * assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
- * assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
+ * assert.deepStrictEqual(findLastIndex((x: { readonly a: number }) => x.a === 1)(xs), some(1))
+ * assert.deepStrictEqual(findLastIndex((x: { readonly a: number }) => x.a === 4)(xs), none)
  *
  *
  * @since 2.0.0
@@ -921,8 +931,8 @@ export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
- *   name: string
- *   age: number
+ *   readonly name: string
+ *   readonly age: number
  * }
  * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
  * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))

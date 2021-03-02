@@ -396,9 +396,9 @@ export declare const collect: <K extends string, A, B>(f: (k: K, a: A) => B) => 
 ```ts
 import { collect } from 'fp-ts/Record'
 
-const x: { a: string; b: boolean } = { a: 'foo', b: false }
+const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
 assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
-  { key: 'a', value: 'foo' },
+  { key: 'a', value: 'c' },
   { key: 'b', value: false },
 ])
 ```
@@ -550,20 +550,18 @@ export declare function fromFoldableMap<F, B>(
 
 ```ts
 import { last } from 'fp-ts/Semigroup'
-import { array, zip } from 'fp-ts/Array'
+import { Foldable, zip } from 'fp-ts/Array'
 import { identity } from 'fp-ts/function'
 import { fromFoldableMap } from 'fp-ts/Record'
 
-// like lodash `zipObject` or ramda `zipObj`
 export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
-  fromFoldableMap(last<A>(), array)(zip(keys, values), identity)
+  fromFoldableMap(last<A>(), Foldable)(zip(keys, values), identity)
 
 assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
-// build a record from a field
 interface User {
-  id: string
-  name: string
+  readonly id: string
+  readonly name: string
 }
 
 const users: Array<User> = [
@@ -573,7 +571,7 @@ const users: Array<User> = [
 ]
 
 assert.deepStrictEqual(
-  fromFoldableMap(last<User>(), array)(users, (user) => [user.id, user]),
+  fromFoldableMap(last<User>(), Foldable)(users, (user) => [user.id, user]),
   {
     id1: { id: 'id1', name: 'name3' },
     id2: { id: 'id2', name: 'name2' },

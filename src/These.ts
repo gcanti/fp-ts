@@ -675,13 +675,6 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 /**
  * Use `toTuple2` instead.
  *
- * @example
- * import { toTuple, left, right, both } from 'fp-ts/These'
- *
- * assert.deepStrictEqual(toTuple('a', 1)(left('b')), ['b', 1])
- * assert.deepStrictEqual(toTuple('a', 1)(right(2)), ['a', 2])
- * assert.deepStrictEqual(toTuple('a', 1)(both('b', 2)), ['b', 2])
- *
  * @since 2.0.0
  * @deprecated
  */
