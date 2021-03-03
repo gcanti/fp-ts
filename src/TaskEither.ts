@@ -1025,7 +1025,7 @@ export const bracket = <E, A, B>(
         T.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => fromEither(e))
+            chain(() => T.of(e))
           )
         )
       )
