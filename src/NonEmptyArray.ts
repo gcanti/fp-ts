@@ -101,6 +101,10 @@ export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonE
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? O.some(as) : O.none)
 
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
 /**
  * Return the tuple of the `head` and the `tail`.
  *
@@ -127,61 +131,26 @@ export const unprepend = <A>(as: NonEmptyArray<A>): [A, Array<A>] => [head(as), 
  */
 export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), last(as)]
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
+// TODO: curry in v3
 /**
- * @since 2.0.0
+ * @category combinators
+ * @since 2.2.0
  */
-export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
-
-/**
- * @since 2.0.0
- */
-export const tail = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(1)
+export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
+export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
+  return first.concat(second)
+}
 
 /**
  * @category combinators
  * @since 2.0.0
  */
 export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as), ...as.slice(0, -1).reverse()]
-
-/**
- * @since 2.0.0
- */
-export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
-
-/**
- * @since 2.0.0
- */
-export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
-
-/**
- * Builds a `Semigroup` instance for `NonEmptyArray`
- *
- * @category instances
- * @since 2.0.0
- */
-export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
-  concat
-})
-
-/**
- * @example
- * import { getEq } from 'fp-ts/NonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * const E = getEq(N.Eq)
- * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
- * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -282,24 +251,6 @@ export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string
 }
 
 /**
- * @since 2.0.0
- */
-export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
-
-/**
- * Get all but the last element of a non empty array, creating a new array.
- *
- * @example
- * import { init } from 'fp-ts/NonEmptyArray'
- *
- * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
- * assert.deepStrictEqual(init([1]), [])
- *
- * @since 2.2.0
- */
-export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
-
-/**
  * @category combinators
  * @since 2.0.0
  */
@@ -386,22 +337,6 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
  * @since 2.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => [a]
-
-// TODO: curry in v3
-/**
- * @category combinators
- * @since 2.2.0
- */
-export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
-export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
-export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
-  return first.concat(second)
-}
-
-/**
- * @since 2.10.0
- */
-export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
 /**
  * @category combinators
@@ -749,7 +684,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 /**
  * @since 2.7.0
  */
-export const extract: Comonad1<URI>['extract'] = head
+export const extract: Comonad1<URI>['extract'] = RNEA.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -772,6 +707,36 @@ declare module './HKT' {
     readonly [URI]: NonEmptyArray<A>
   }
 }
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
+
+/**
+ * Builds a `Semigroup` instance for `NonEmptyArray`
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
+  concat
+})
+
+/**
+ * @example
+ * import { getEq } from 'fp-ts/NonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * const E = getEq(N.Eq)
+ * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
+ * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * @category instances
@@ -1006,6 +971,53 @@ export const bind =
 export const apS =
   /*#__PURE__*/
   apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
+
+/**
+ * @since 2.0.0
+ */
+export const tail = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(1)
+
+/**
+ * @since 2.0.0
+ */
+export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
+
+/**
+ * Get all but the last element of a non empty array, creating a new array.
+ *
+ * @example
+ * import { init } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
+ * assert.deepStrictEqual(init([1]), [])
+ *
+ * @since 2.2.0
+ */
+export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
+
+/**
+ * @since 2.0.0
+ */
+export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
+
+/**
+ * @since 2.0.0
+ */
+export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
+
+/**
+ * @since 2.10.0
+ */
+export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
 // -------------------------------------------------------------------------------------
 // deprecated
