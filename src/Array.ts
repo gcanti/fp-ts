@@ -439,7 +439,8 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
 }
 
 /**
- * Drop a number of elements from the start of an array, creating a new array
+ * Drop a number of elements from the start of an `Array`, creating a new `Array`.
+ * If `n` (must be a natural number) is negative a copy of the input is returned.
  *
  * @example
  * import { dropLeft } from 'fp-ts/Array'
@@ -449,10 +450,12 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(n, as.length)
+export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
+  n <= 0 ? copy(as) : n >= as.length ? [] : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of an array, creating a new array
+ * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is negative a copy of the input is returned.
  *
  * @example
  * import { dropRight } from 'fp-ts/Array'
@@ -462,7 +465,8 @@ export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(n
  * @category combinators
  * @since 2.0.0
  */
-export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(0, as.length - n)
+export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
+  n <= 0 ? copy(as) : n >= as.length ? [] : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array

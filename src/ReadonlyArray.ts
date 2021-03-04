@@ -445,7 +445,8 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
 }
 
 /**
- * Drop a number of elements from the start of an array, creating a new array
+ * Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
  * import { dropLeft } from 'fp-ts/ReadonlyArray'
@@ -455,10 +456,12 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * @category combinators
  * @since 2.5.0
  */
-export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(n, as.length)
+export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  n <= 0 ? as : n >= as.length ? empty : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of an array, creating a new array
+ * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
  * import { dropRight } from 'fp-ts/ReadonlyArray'
@@ -468,7 +471,8 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, as.length - n)
+export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  n <= 0 ? as : n >= as.length ? empty : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
