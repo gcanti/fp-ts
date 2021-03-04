@@ -908,8 +908,14 @@ describe('Array', () => {
 
   it('range', () => {
     U.deepStrictEqual(_.range(0, 0), [0])
+    U.deepStrictEqual(_.range(0, 1), [0, 1])
     U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
     U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
+    U.deepStrictEqual(_.range(-1, 0), [-1, 0])
+    U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
+    // out of bound
+    U.deepStrictEqual(_.range(2, 1), [2])
+    U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 
   it('replicate', () => {
