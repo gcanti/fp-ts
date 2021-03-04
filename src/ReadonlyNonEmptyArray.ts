@@ -42,54 +42,63 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 
+// -------------------------------------------------------------------------------------
+// internal
+// -------------------------------------------------------------------------------------
+
 /**
  * @internal
  */
 export const empty: ReadonlyArray<never> = []
 
-// -------------------------------------------------------------------------------------
-// guards
-// -------------------------------------------------------------------------------------
-
 /**
- * Test whether a `ReadonlyArray` is non empty.
- *
- * @category guards
- * @since 2.10.0
+ * @internal
  */
 export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { append } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
+
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
+  }
+  return [a]
+}
+
+/**
+ * @internal
+ */
+export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs[i] = a
+    return xs
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
@@ -272,24 +281,6 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>
  */
 export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>) =>
   modifyAt(i, () => a)
-
-/**
- * @internal
- */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
-
-/**
- * @internal
- */
-export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs[i] = a
-    return xs
-  }
-}
 
 /**
  * @category combinators
@@ -1082,7 +1073,7 @@ export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyA
 export const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyArray<A>, A] = unappend
 
 /**
- * Use `prepend` instead.
+ * Use `ReadonlyArray`'s `prepend` instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -1099,25 +1090,13 @@ export function cons<A>(
 }
 
 /**
- * Use `append` instead.
+ * Use `ReadonlyArray`'s `append` instead.
  *
  * @category constructors
  * @since 2.5.0
  * @deprecated
  */
 export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
-
-/**
- * @internal
- */
-export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
-  if (isNonEmpty(as)) {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs.splice(i, 0, a)
-    return xs
-  }
-  return [a]
-}
 
 /**
  * Use `ReadonlyArray`'s `insertAt` instead.

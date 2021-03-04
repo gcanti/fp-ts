@@ -67,10 +67,8 @@ Added in v2.0.0
   - [~~filter~~](#filter)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [append](#append)
   - [fromArray](#fromarray)
   - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
-  - [prepend](#prepend)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
@@ -78,8 +76,6 @@ Added in v2.0.0
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -682,27 +678,6 @@ Added in v2.9.0
 
 # constructors
 
-## append
-
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: A[]) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
 ## fromArray
 
 Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
@@ -725,30 +700,9 @@ export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArr
 
 Added in v2.10.0
 
-## prepend
-
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: A[]) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
 ## ~~cons~~
 
-Use `prepend` instead.
+Use `Array`'s `prepend` instead.
 
 **Signature**
 
@@ -761,7 +715,7 @@ Added in v2.0.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use `Array`'s `append` instead.
 
 **Signature**
 
@@ -836,20 +790,6 @@ export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
 ```
 
 Added in v2.9.0
-
-# guards
-
-## isNonEmpty
-
-Test whether a `Array` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: A[]) => as is NonEmptyArray<A>
-```
-
-Added in v2.10.0
 
 # instances
 

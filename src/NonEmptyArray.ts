@@ -44,48 +44,57 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// guards
+// internal
 // -------------------------------------------------------------------------------------
 
 /**
- * Test whether a `Array` is non empty.
- *
- * @category guards
- * @since 2.10.0
+ * @internal
  */
 export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length > 0
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { prepend } from 'fp-ts/NonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { append } from 'fp-ts/NonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => concat(init, [end])
+
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
+  }
+  return [a]
+}
+
+/**
+ * @internal
+ */
+export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs[i] = a
+    return xs
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -258,18 +267,6 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEm
   as.length === 1 ? as : (as.slice().sort(O.compare) as any)
 
 /**
- * @internal
- */
-export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
-  if (isNonEmpty(as)) {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs.splice(i, 0, a)
-    return xs
-  }
-  return [a]
-}
-
-/**
  * @category combinators
  * @since 2.0.0
  */
@@ -282,24 +279,6 @@ export const insertAt = <A>(i: number, a: A) => (as: Array<A>): Option<NonEmptyA
  */
 export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>) =>
   modifyAt(i, () => a)
-
-/**
- * @internal
- */
-export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
-
-/**
- * @internal
- */
-export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs[i] = a
-    return xs
-  }
-}
 
 /**
  * @category combinators
@@ -1049,7 +1028,7 @@ export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
 export const unsnoc: <A>(as: NonEmptyArray<A>) => [Array<A>, A] = unappend
 
 /**
- * Use `prepend` instead.
+ * Use `Array`'s `prepend` instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1063,7 +1042,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 }
 
 /**
- * Use `append` instead.
+ * Use `Array`'s `append` instead.
  *
  * @category constructors
  * @since 2.0.0
