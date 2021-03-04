@@ -417,17 +417,27 @@ describe('Array', () => {
   })
 
   it('takeLeft', () => {
-    U.deepStrictEqual(_.takeLeft(2)([]), [])
-    U.deepStrictEqual(_.takeLeft(2)([1, 2, 3]), [1, 2])
-    U.deepStrictEqual(_.takeLeft(0)([1, 2, 3]), [])
+    U.deepStrictEqual(_.takeLeft(0)([]), [])
+    U.deepStrictEqual(_.takeLeft(0)([1, 2]), [])
+    U.deepStrictEqual(_.takeLeft(1)([1, 2]), [1])
+    U.deepStrictEqual(_.takeLeft(2)([1, 2]), [1, 2])
+    // out of bound
+    U.deepStrictEqual(_.takeLeft(1)([]), [])
+    U.deepStrictEqual(_.takeLeft(3)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.takeLeft(-1)([]), [])
+    U.deepStrictEqual(_.takeLeft(-1)([1, 2]), [1, 2])
   })
 
   it('takeRight', () => {
-    U.deepStrictEqual(_.takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-    U.deepStrictEqual(_.takeRight(0)([1, 2, 3, 4, 5]), [])
-    U.deepStrictEqual(_.takeRight(2)([]), [])
-    U.deepStrictEqual(_.takeRight(5)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.takeRight(10)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.takeRight(0)([]), [])
+    U.deepStrictEqual(_.takeRight(0)([1, 2]), [])
+    U.deepStrictEqual(_.takeRight(1)([1, 2]), [2])
+    U.deepStrictEqual(_.takeRight(2)([1, 2]), [1, 2])
+    // out of bound
+    U.deepStrictEqual(_.takeRight(1)([]), [])
+    U.deepStrictEqual(_.takeRight(3)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.takeRight(-1)([]), [])
+    U.deepStrictEqual(_.takeRight(-1)([1, 2]), [1, 2])
   })
 
   it('spanLeft', () => {

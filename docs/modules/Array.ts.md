@@ -1033,8 +1033,8 @@ Added in v2.0.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of an array, creating a new array.
-`n` must be a natural number
+Keep only a number of elements from the start of an `Array`, creating a new `Array`.
+If `n` (must be a natural number) is out of bound a copy of the input is returned.
 
 **Signature**
 
@@ -1075,8 +1075,8 @@ Added in v2.0.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an array, creating a new array.
-`n` must be a natural number
+Keep only a number of elements from the end of an `Array`, creating a new `Array`.
+If `n` (must be a natural number) is out of bound a copy of the input is returned.
 
 **Signature**
 

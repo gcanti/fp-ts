@@ -333,8 +333,8 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
 export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.some(NEA.init(as)) : O.none)
 
 /**
- * Keep only a number of elements from the start of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a number of elements from the start of an `Array`, creating a new `Array`.
+ * If `n` (must be a natural number) is out of bound a copy of the input is returned.
  *
  * @example
  * import { takeLeft } from 'fp-ts/Array'
@@ -344,11 +344,12 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
  * @category combinators
  * @since 2.0.0
  */
-export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? [] : as.slice(0, n))
+export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
+  isOutOfBound(n, as) ? copy(as) : n === 0 ? [] : as.slice(0, n)
 
 /**
- * Keep only a number of elements from the end of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a number of elements from the end of an `Array`, creating a new `Array`.
+ * If `n` (must be a natural number) is out of bound a copy of the input is returned.
  *
  * @example
  * import { takeRight } from 'fp-ts/Array'
@@ -358,7 +359,8 @@ export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? 
  * @category combinators
  * @since 2.0.0
  */
-export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? [] : as.slice(-n))
+export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> =>
+  isOutOfBound(n, as) ? copy(as) : n === 0 ? [] : as.slice(-n)
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
