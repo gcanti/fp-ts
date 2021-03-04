@@ -76,7 +76,8 @@ export const append = RNEA.append
 export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
 
 /**
- * Return a list of length `n` with element `i` initialized with `f(i)`
+ * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
+ * If `n` (must be a natural number) is negative return `empty`.
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyArray'
@@ -99,7 +100,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
 }
 
 /**
- * Create an array containing a range of integers, including both endpoints
+ * Create a `ReadonlyArray` containing a range of integers, including both endpoints.
  *
  * @example
  * import { range } from 'fp-ts/ReadonlyArray'
@@ -112,7 +113,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
 export const range = (start: number, end: number): ReadonlyArray<number> => makeBy(end - start + 1, (i) => start + i)
 
 /**
- * Create an array containing a value repeated the specified number of times
+ * Create a `ReadonlyArray` containing a value repeated the specified number of times.
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyArray'
@@ -1094,7 +1095,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
 }
 
 /**
- * Array comprehension
+ * `ReadonlyArray` comprehension.
  *
  * ```
  * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]

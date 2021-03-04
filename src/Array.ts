@@ -69,7 +69,8 @@ export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> =
 export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
 
 /**
- * Return a list of length `n` with element `i` initialized with `f(i)`
+ * Return an `Array` of length `n` with element `i` initialized with `f(i)`.
+ * If `n` (must be a natural number) is negative return `[]`.
  *
  * @example
  * import { makeBy } from 'fp-ts/Array'
@@ -92,7 +93,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
 }
 
 /**
- * Create an array containing a range of integers, including both endpoints
+ * Create an `Array` containing a range of integers, including both endpoints.
  *
  * @example
  * import { range } from 'fp-ts/Array'
@@ -105,7 +106,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
 export const range = (start: number, end: number): Array<number> => makeBy(end - start + 1, (i) => start + i)
 
 /**
- * Create an array containing a value repeated the specified number of times
+ * Create an `Array` containing a value repeated the specified number of times.
  *
  * @example
  * import { replicate } from 'fp-ts/Array'
@@ -1025,7 +1026,7 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
 }
 
 /**
- * Array comprehension
+ * `Array` comprehension.
  *
  * ```
  * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
