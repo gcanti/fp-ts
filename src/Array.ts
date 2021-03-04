@@ -1178,7 +1178,7 @@ export function difference<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = NEA.of
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

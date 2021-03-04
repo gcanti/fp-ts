@@ -1261,7 +1261,7 @@ export function difference<A>(
  * @category Pointed
  * @since 2.5.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
  * @category Alternative
