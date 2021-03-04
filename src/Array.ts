@@ -103,7 +103,8 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
  * @category constructors
  * @since 2.0.0
  */
-export const range = (start: number, end: number): Array<number> => makeBy(end - start + 1, (i) => start + i)
+export const range = (start: number, end: number): Array<number> =>
+  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
 /**
  * Create an `Array` containing a value repeated the specified number of times.

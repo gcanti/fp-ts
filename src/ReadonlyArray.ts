@@ -110,7 +110,8 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
  * @category constructors
  * @since 2.5.0
  */
-export const range = (start: number, end: number): ReadonlyArray<number> => makeBy(end - start + 1, (i) => start + i)
+export const range = (start: number, end: number): ReadonlyArray<number> =>
+  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
