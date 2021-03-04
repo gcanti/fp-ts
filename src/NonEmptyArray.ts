@@ -315,24 +315,6 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>)
 export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyNonEmptyArray
 
 /**
- * @category combinators
- * @since 2.0.0
- */
-export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return filterWithIndex((_, a) => predicate(a))
-}
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
-  as: NonEmptyArray<A>
-): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
-
-/**
  * @category Pointed
  * @since 2.0.0
  */
@@ -1022,6 +1004,31 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `Array`'s `filter` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
+  return filterWithIndex((_, a) => predicate(a))
+}
+
+/**
+ * Use `Array`'s `filterWithIndex` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
+  as: NonEmptyArray<A>
+): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * Use `unprepend` instead.

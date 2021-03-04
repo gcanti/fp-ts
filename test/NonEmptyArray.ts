@@ -288,8 +288,10 @@ describe('NonEmptyArray', () => {
     )
 
     // refinements
+    // tslint:disable-next-line: deprecation
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
     U.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)]))
+    // tslint:disable-next-line: deprecation
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
     U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]))
   })
@@ -298,10 +300,12 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(
       pipe(
         [1, 2, 3],
+        // tslint:disable-next-line: deprecation
         _.filterWithIndex((i) => i % 2 === 0)
       ),
       O.some([1, 3])
     )
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 

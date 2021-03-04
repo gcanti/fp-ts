@@ -45,8 +45,6 @@ Added in v2.0.0
   - [concat](#concat)
   - [copy](#copy)
   - [duplicate](#duplicate)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
   - [flatten](#flatten)
   - [foldMap](#foldmap)
@@ -65,6 +63,8 @@ Added in v2.0.0
   - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~filterWithIndex~~](#filterwithindex)
+  - [~~filter~~](#filter)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
@@ -382,31 +382,6 @@ export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEm
 
 Added in v2.5.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -663,6 +638,35 @@ export declare const zipWith: <A, B, C>(
 ```
 
 Added in v2.5.1
+
+## ~~filterWithIndex~~
+
+Use `Array`'s `filterWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## ~~filter~~
+
+Use `Array`'s `filter` instead.
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
 
 ## ~~prependToAll~~
 
