@@ -73,10 +73,8 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [append](#append)
   - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [prepend](#prepend)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
@@ -84,8 +82,6 @@ Added in v2.5.0
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -777,27 +773,6 @@ Added in v2.9.0
 
 # constructors
 
-## append
-
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
 ## fromArray
 
 **Signature**
@@ -820,30 +795,9 @@ export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<Readon
 
 Added in v2.5.0
 
-## prepend
-
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
 ## ~~cons~~
 
-Use `prepend` instead.
+Use `ReadonlyArray`'s `prepend` instead.
 
 **Signature**
 
@@ -856,7 +810,7 @@ Added in v2.5.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use `ReadonlyArray`'s `append` instead.
 
 **Signature**
 
@@ -928,20 +882,6 @@ Use `unappend` instead.
 
 ```ts
 export declare const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [readonly A[], A]
-```
-
-Added in v2.10.0
-
-# guards
-
-## isNonEmpty
-
-Test whether a `ReadonlyArray` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.10.0

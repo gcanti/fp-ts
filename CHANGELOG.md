@@ -24,6 +24,11 @@ high state of flux, you're at risk of it changing without notice.
   - `ReadonlyNonEmptyArray`
     - deprecate `filter` in favour of `ReadonlyArray`'s `filter`
     - deprecate `filterWithIndex` in favour of `ReadonlyArray`'s `filterWithIndex`
+- **Polish**
+  - `NonEmptyArray`
+    - remove duplicated `append`, `prepend`, `isNonEmpty`
+  - `ReadonlyNonEmptyArray`
+    - remove duplicated `append`, `prepend`, `isNonEmpty`
 
 # 2.10.0-rc.3
 
