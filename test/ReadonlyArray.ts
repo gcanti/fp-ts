@@ -922,6 +922,8 @@ describe('ReadonlyArray', () => {
   it('makeBy', () => {
     const double = (n: number): number => n * 2
     U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    U.deepStrictEqual(_.makeBy(0, double), [])
+    U.deepStrictEqual(_.makeBy(-1, double), [])
   })
 
   it('range', () => {

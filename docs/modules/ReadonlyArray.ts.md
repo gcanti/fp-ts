@@ -1194,7 +1194,7 @@ Added in v2.10.0
 
 ## comprehension
 
-Array comprehension
+`ReadonlyArray` comprehension.
 
 ```
 [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
@@ -1268,7 +1268,8 @@ Added in v2.5.0
 
 ## makeBy
 
-Return a list of length `n` with element `i` initialized with `f(i)`
+Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
+If `n` (must be a natural number) is negative return `empty`.
 
 **Signature**
 
@@ -1310,7 +1311,7 @@ Added in v2.10.0
 
 ## range
 
-Create an array containing a range of integers, including both endpoints
+Create a `ReadonlyArray` containing a range of integers, including both endpoints.
 
 **Signature**
 
@@ -1330,7 +1331,7 @@ Added in v2.5.0
 
 ## replicate
 
-Create an array containing a value repeated the specified number of times
+Create a `ReadonlyArray` containing a value repeated the specified number of times.
 
 **Signature**
 
