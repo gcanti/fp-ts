@@ -1014,8 +1014,8 @@ Added in v2.5.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
-The input `n` must be a natural number.
+Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is out of bound the input is returned.
 
 **Signature**
 
@@ -2464,8 +2464,8 @@ Added in v2.5.0
 
 ## takeRight
 
-Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
-The input `n` must be a natural number.
+Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is out of bound the input is returned.
 
 **Signature**
 
