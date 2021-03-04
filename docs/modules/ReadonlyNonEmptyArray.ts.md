@@ -51,8 +51,6 @@ Added in v2.5.0
   - [chunksOf](#chunksof)
   - [concat](#concat)
   - [duplicate](#duplicate)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
   - [flatten](#flatten)
   - [foldMap](#foldmap)
@@ -70,6 +68,8 @@ Added in v2.5.0
   - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~filterWithIndex~~](#filterwithindex)
+  - [~~filter~~](#filter)
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
@@ -453,33 +453,6 @@ export declare const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNon
 
 Added in v2.5.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-export declare function filter<A>(
-  predicate: Predicate<A>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -746,6 +719,37 @@ export declare const zipWith: <A, B, C>(
 ```
 
 Added in v2.5.1
+
+## ~~filterWithIndex~~
+
+Use `ReadonlyArray`'s `filterWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## ~~filter~~
+
+Use `ReadonlyArray`'s `filter` instead.
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
 
 ## ~~insertAt~~
 

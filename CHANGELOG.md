@@ -15,6 +15,16 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.4
+
+- **Deprecations**
+  - `NonEmptyArray`
+    - deprecate `filter` in favour of `Array`'s `filter`
+    - deprecate `filterWithIndex` in favour of `Array`'s `filterWithIndex`
+  - `ReadonlyNonEmptyArray`
+    - deprecate `filter` in favour of `ReadonlyArray`'s `filter`
+    - deprecate `filterWithIndex` in favour of `ReadonlyArray`'s `filterWithIndex`
+
 # 2.10.0-rc.3
 
 - **Deprecations**

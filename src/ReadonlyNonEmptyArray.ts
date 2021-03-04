@@ -301,26 +301,6 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
 
 /**
  * @category combinators
- * @since 2.5.0
- */
-export function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return filterWithIndex((_, a) => predicate(a))
-}
-
-/**
- * @category combinators
- * @since 2.5.0
- */
-export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
-
-/**
- * @category combinators
  * @since 2.5.1
  */
 export const zipWith = <A, B, C>(
@@ -1055,6 +1035,33 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>):
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `ReadonlyArray`'s `filter` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
+  return filterWithIndex((_, a) => predicate(a))
+}
+
+/**
+ * Use `ReadonlyArray`'s `filterWithIndex` instead.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
+  as: ReadonlyNonEmptyArray<A>
+): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * Use `unprepend` instead.
