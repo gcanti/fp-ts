@@ -674,7 +674,8 @@ Added in v2.5.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an array, creating a new array
+Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is negative the input is returned.
 
 **Signature**
 
@@ -714,7 +715,8 @@ Added in v2.5.0
 
 ## dropRight
 
-Drop a number of elements from the end of an array, creating a new array
+Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is negative the input is returned.
 
 **Signature**
 

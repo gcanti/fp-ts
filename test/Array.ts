@@ -453,15 +453,25 @@ describe('Array', () => {
   })
 
   it('dropLeft', () => {
-    U.deepStrictEqual(_.dropLeft(2)([1, 2, 3]), [3])
-    U.deepStrictEqual(_.dropLeft(10)([1, 2, 3]), [])
-    U.deepStrictEqual(_.dropLeft(0)([1, 2, 3]), [1, 2, 3])
+    U.deepStrictEqual(_.dropLeft(0)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropLeft(1)([1, 2]), [2])
+    U.deepStrictEqual(_.dropLeft(2)([1, 2]), [])
+    // out of bound
+    U.deepStrictEqual(_.dropLeft(1)([]), [])
+    U.deepStrictEqual(_.dropLeft(3)([1, 2]), [])
+    U.deepStrictEqual(_.dropLeft(-1)([]), [])
+    U.deepStrictEqual(_.dropLeft(-1)([1, 2]), [1, 2])
   })
 
   it('dropRight', () => {
-    U.deepStrictEqual(_.dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
-    U.deepStrictEqual(_.dropRight(10)([1, 2, 3, 4, 5]), [])
-    U.deepStrictEqual(_.dropRight(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.dropRight(0)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropRight(1)([1, 2]), [1])
+    U.deepStrictEqual(_.dropRight(2)([1, 2]), [])
+    // out of bound
+    U.deepStrictEqual(_.dropRight(1)([]), [])
+    U.deepStrictEqual(_.dropRight(3)([1, 2]), [])
+    U.deepStrictEqual(_.dropRight(-1)([]), [])
+    U.deepStrictEqual(_.dropRight(-1)([1, 2]), [1, 2])
   })
 
   it('dropLeftWhile', () => {
