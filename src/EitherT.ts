@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
-import { Apply, Apply1, Apply2, ap as ap_ } from './Apply'
+import { ap as ap_, Apply, Apply1, Apply2 } from './Apply'
 import { Chain, Chain1, Chain2 } from './Chain'
 import * as E from './Either'
 import { flow, Lazy, pipe } from './function'
@@ -280,6 +280,36 @@ export function toUnion<F extends URIS>(F: Functor1<F>): <E, A>(fa: Kind<F, Eith
 export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => HKT<F, E | A>
 export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => HKT<F, E | A> {
   return (fa) => F.map(fa, E.toUnion)
+}
+
+export function bracketT<F extends URIS>(
+  F: Monad1<F>
+): <E, B>(
+  acquire: Kind<F, Either<E, B>>,
+  release: (fa: Kind<F, Either<E, B>>) => Kind<F, Either<E, void>>
+) => <A>(kleisli: (resource: B) => Kind<F, Either<E, A>>) => Kind<F, Either<E, A>>
+export function bracketT<F>(
+  F: Monad<F>
+): <E, B>(
+  acquire: HKT<F, Either<E, B>>,
+  release: (fa: HKT<F, Either<E, B>>) => HKT<F, Either<E, void>>
+) => <A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<E, A>>
+
+export function bracketT<F>(
+  F: Monad<F>
+): <E, B>(
+  acquire: HKT<F, Either<E, B>>,
+  release: (fa: HKT<F, Either<E, B>>) => HKT<F, Either<E, void>>
+) => <A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<E, A>> {
+  return (acquire, release) => (kleisli) =>
+    F.chain(acquire, (eb) =>
+      F.chain(pipe(F.of(eb), chain(F)(kleisli)), (ea) =>
+        F.map(
+          release(F.of(eb)),
+          E.chain(() => ea)
+        )
+      )
+    )
 }
 
 // -------------------------------------------------------------------------------------
