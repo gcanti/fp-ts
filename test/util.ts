@@ -4,6 +4,9 @@ import { FromTask, FromTask1, FromTask2, FromTask2C, FromTask3, FromTask4 } from
 import { pipe } from '../src/function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '../src/HKT'
 import * as T from '../src/Task'
+import * as Se from '../src/Semigroup'
+import * as fc from 'fast-check'
+import { Eq } from '../src/Eq'
 
 export const deepStrictEqual = <A>(actual: A, expected: A) => {
   assert.deepStrictEqual(actual, expected)
@@ -58,4 +61,26 @@ export function add(a: number): (b: number) => number
 export function add(a: string): (b: string) => string
 export function add(a: any): (b: any) => any {
   return (b) => a + b
+}
+
+// -------------------------------------------------------------------------------------
+// laws
+// -------------------------------------------------------------------------------------
+
+export const laws = {
+  semigroup: {
+    associativity: <A>(S: Se.Semigroup<A>, E: Eq<A>) => (a: A, b: A, c: A): boolean =>
+      E.equals(pipe(a, S.concat(b), S.concat(c)))(pipe(a, S.concat(pipe(b, S.concat(c)))))
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// properties
+// -------------------------------------------------------------------------------------
+
+export const properties = {
+  semigroup: {
+    associativity: <A>(S: Se.Semigroup<A>, E: Eq<A>) => (arb: fc.Arbitrary<A>) =>
+      fc.property(arb, arb, arb, laws.semigroup.associativity(S, E))
+  }
 }

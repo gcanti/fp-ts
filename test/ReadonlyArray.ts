@@ -938,22 +938,26 @@ describe('ReadonlyArray', () => {
     )
   })
 
-  it('union', () => {
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 2])), [1, 2])
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(N.Eq)
+    U.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe([1, 2], M.concat([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe([1, 2], M.concat([1, 2])), [1, 2])
   })
 
-  it('intersection', () => {
-    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([3, 4])), [])
-    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([2, 3])), [2])
-    U.deepStrictEqual(pipe([1, 2], _.intersection(N.Eq)([1, 2])), [1, 2])
+  it('getIntersectionSemigroup', () => {
+    const S = _.getIntersectionSemigroup(N.Eq)
+    U.deepStrictEqual(pipe([1, 2], S.concat([3, 4])), [])
+    U.deepStrictEqual(pipe([1, 2], S.concat([2, 3])), [2])
+    U.deepStrictEqual(pipe([1, 2], S.concat([1, 2])), [1, 2])
   })
 
-  it('difference', () => {
-    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([3, 4])), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([2, 3])), [1])
-    U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([1, 2])), [])
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(N.Eq)
+    U.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], M.concat([2, 3])), [1])
+    U.deepStrictEqual(pipe([1, 2], M.concat([1, 2])), [])
+    // is not a semigroup -> Counterexample: [[1],[],[1]]
   })
 
   it('should be safe when calling map with a binary function', () => {

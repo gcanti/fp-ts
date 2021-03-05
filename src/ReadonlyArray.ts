@@ -18,6 +18,7 @@ import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement } from 
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
@@ -26,6 +27,7 @@ import * as O from './Option'
 import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
+import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
@@ -1121,9 +1123,9 @@ export function comprehension<R>(
  * @category combinators
  * @since 3.0.0
  */
-export const union = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
   const elemE = elem(E)
-  return (ys) => (xs) => xs.concat(ys.filter((a) => !elemE(a)(xs)))
+  return (second) => (first) => first.concat(second.filter((a) => !elemE(a)(first)))
 }
 
 /**
@@ -1140,9 +1142,9 @@ export const union = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArra
  * @category combinators
  * @since 3.0.0
  */
-export const intersection = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+export const intersection = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
   const elemE = elem(E)
-  return (ys) => (xs) => xs.filter((a) => elemE(a)(ys))
+  return (second) => (first) => first.filter((a) => elemE(a)(second))
 }
 
 /**
@@ -1159,9 +1161,9 @@ export const intersection = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: Reado
  * @category combinators
  * @since 3.0.0
  */
-export const difference = <A>(E: Eq<A>): ((ys: ReadonlyArray<A>) => (xs: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
   const elemE = elem(E)
-  return (ys) => (xs) => xs.filter((a) => !elemE(a)(ys))
+  return (second) => (first) => first.filter((a) => !elemE(a)(second))
 }
 
 /**
@@ -1572,6 +1574,39 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
 })
 
 /**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => ({
+  concat: union(E)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlyArray<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>> => ({
+  concat: intersection(E)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
+  concat: difference(E)
+})
+
+/**
  * Returns a `Semigroup` for `ReadonlyArray<A>`.
  *
  * @example
@@ -1584,9 +1619,8 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyArray<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getSemigroup = <A = never>(): Monoid<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => (isEmpty(first) ? second : isEmpty(second) ? first : first.concat(second)),
-  empty
+export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
+  concat: (second) => (first) => (isEmpty(first) ? second : isEmpty(second) ? first : first.concat(second))
 })
 
 /**

@@ -45,7 +45,7 @@
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "eslint": "^7.16.0",
-    "fast-check": "^1.25.1",
+    "fast-check": "^2.13.0",
     "glob": "^7.1.6",
     "jest": "^26.4.2",
     "mocha": "^5.2.0",
