@@ -600,7 +600,8 @@ Added in v3.0.0
 
 ## dropLeft
 
-Drop a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is negative the input is returned.
 
 **Signature**
 
@@ -640,7 +641,8 @@ Added in v3.0.0
 
 ## dropRight
 
-Drop a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is negative the input is returned.
 
 **Signature**
 
@@ -913,8 +915,8 @@ Added in v3.0.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`..
-`n` must be a natural number
+Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is out of bound the input is returned.
 
 **Signature**
 
@@ -1141,12 +1143,13 @@ Added in v3.0.0
 
 ## makeBy
 
-Return a list of length `n` with element `i` initialized with `f(i)`
+Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
+If `n` (must be a natural number) is negative return `empty`.
 
 **Signature**
 
 ```ts
-export declare const makeBy: <A>(n: number, f: (n: number) => A) => readonly A[]
+export declare const makeBy: <A>(n: number, f: (i: number) => A) => readonly A[]
 ```
 
 **Example**
@@ -1183,7 +1186,7 @@ Added in v3.0.0
 
 ## range
 
-Create a `ReadonlyArray` containing a range of integers, including both endpoints
+Create a `ReadonlyArray` containing a range of integers, including both endpoints.
 
 **Signature**
 
@@ -2358,8 +2361,8 @@ Added in v3.0.0
 
 ## takeRight
 
-Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`..
-`n` must be a natural number
+Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+If `n` (must be a natural number) is out of bound the input is returned.
 
 **Signature**
 

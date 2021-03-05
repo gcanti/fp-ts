@@ -400,22 +400,27 @@ describe('ReadonlyArray', () => {
   })
 
   it('takeLeft', () => {
-    U.deepStrictEqual(_.takeLeft(2)([1, 2, 3]), [1, 2])
-    U.deepStrictEqual(_.takeLeft(0)([1, 2, 3]), [])
+    U.deepStrictEqual(_.takeLeft(0)([]), [])
+    U.deepStrictEqual(_.takeLeft(0)([1, 2]), [])
+    U.deepStrictEqual(_.takeLeft(1)([1, 2]), [1])
+    U.deepStrictEqual(_.takeLeft(2)([1, 2]), [1, 2])
     // out of bound
-    U.deepStrictEqual(_.takeLeft(2)([]), [])
-    U.deepStrictEqual(_.takeLeft(5)([1, 2, 3]), [1, 2, 3])
-    U.deepStrictEqual(_.takeLeft(-1)([1, 2, 3]), [])
+    U.deepStrictEqual(_.takeLeft(1)([]), [])
+    U.deepStrictEqual(_.takeLeft(3)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.takeLeft(-1)([]), [])
+    U.deepStrictEqual(_.takeLeft(-1)([1, 2]), [1, 2])
   })
 
   it('takeRight', () => {
-    U.deepStrictEqual(_.takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-    U.deepStrictEqual(_.takeRight(0)([1, 2, 3, 4, 5]), [])
-    U.deepStrictEqual(_.takeRight(5)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.takeRight(0)([]), [])
+    U.deepStrictEqual(_.takeRight(0)([1, 2]), [])
+    U.deepStrictEqual(_.takeRight(1)([1, 2]), [2])
+    U.deepStrictEqual(_.takeRight(2)([1, 2]), [1, 2])
     // out of bound
-    U.deepStrictEqual(_.takeRight(2)([]), [])
-    U.deepStrictEqual(_.takeRight(10)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    U.deepStrictEqual(_.takeLeft(-1)([1, 2, 3]), [])
+    U.deepStrictEqual(_.takeRight(1)([]), [])
+    U.deepStrictEqual(_.takeRight(3)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.takeRight(-1)([]), [])
+    U.deepStrictEqual(_.takeRight(-1)([1, 2]), [1, 2])
   })
 
   it('spanLeft', () => {
@@ -431,15 +436,25 @@ describe('ReadonlyArray', () => {
   })
 
   it('dropLeft', () => {
-    U.deepStrictEqual(_.dropLeft(2)([1, 2, 3]), [3])
-    U.deepStrictEqual(_.dropLeft(10)([1, 2, 3]), [])
-    U.deepStrictEqual(_.dropLeft(0)([1, 2, 3]), [1, 2, 3])
+    U.deepStrictEqual(_.dropLeft(0)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropLeft(1)([1, 2]), [2])
+    U.deepStrictEqual(_.dropLeft(2)([1, 2]), [])
+    // out of bound
+    U.deepStrictEqual(_.dropLeft(1)([]), [])
+    U.deepStrictEqual(_.dropLeft(3)([1, 2]), [])
+    U.deepStrictEqual(_.dropLeft(-1)([]), [])
+    U.deepStrictEqual(_.dropLeft(-1)([1, 2]), [1, 2])
   })
 
   it('dropRight', () => {
-    U.deepStrictEqual(_.dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
-    U.deepStrictEqual(_.dropRight(10)([1, 2, 3, 4, 5]), [])
-    U.deepStrictEqual(_.dropRight(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.dropRight(0)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropRight(1)([1, 2]), [1])
+    U.deepStrictEqual(_.dropRight(2)([1, 2]), [])
+    // out of bound
+    U.deepStrictEqual(_.dropRight(1)([]), [])
+    U.deepStrictEqual(_.dropRight(3)([1, 2]), [])
+    U.deepStrictEqual(_.dropRight(-1)([]), [])
+    U.deepStrictEqual(_.dropRight(-1)([1, 2]), [1, 2])
   })
 
   it('dropLeftWhile', () => {
@@ -884,13 +899,22 @@ describe('ReadonlyArray', () => {
   })
 
   it('makeBy', () => {
-    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
+    const double = (n: number): number => n * 2
+    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    U.deepStrictEqual(_.makeBy(0, double), [])
+    U.deepStrictEqual(_.makeBy(-1, double), [])
   })
 
   it('range', () => {
     U.deepStrictEqual(_.range(0, 0), [0])
+    U.deepStrictEqual(_.range(0, 1), [0, 1])
     U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
     U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
+    U.deepStrictEqual(_.range(-1, 0), [-1, 0])
+    U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
+    // out of bound
+    U.deepStrictEqual(_.range(2, 1), [2])
+    U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 
   it('replicate', () => {

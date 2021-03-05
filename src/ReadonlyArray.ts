@@ -43,7 +43,8 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 // -------------------------------------------------------------------------------------
 
 /**
- * Return a list of length `n` with element `i` initialized with `f(i)`
+ * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
+ * If `n` (must be a natural number) is negative return `empty`.
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyArray'
@@ -54,7 +55,7 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @category constructors
  * @since 3.0.0
  */
-export const makeBy = <A>(n: number, f: (n: number) => A): ReadonlyArray<A> => {
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
   if (n <= 0) {
     return empty
   }
@@ -66,7 +67,7 @@ export const makeBy = <A>(n: number, f: (n: number) => A): ReadonlyArray<A> => {
 }
 
 /**
- * Create a `ReadonlyArray` containing a range of integers, including both endpoints
+ * Create a `ReadonlyArray` containing a range of integers, including both endpoints.
  *
  * @example
  * import { range } from 'fp-ts/ReadonlyArray'
@@ -76,7 +77,8 @@ export const makeBy = <A>(n: number, f: (n: number) => A): ReadonlyArray<A> => {
  * @category constructors
  * @since 3.0.0
  */
-export const range = (start: number, end: number): ReadonlyArray<number> => makeBy(end - start + 1, (i) => start + i)
+export const range = (start: number, end: number): ReadonlyArray<number> =>
+  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times
@@ -304,8 +306,8 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
   isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
 
 /**
- * Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`..
- * `n` must be a natural number
+ * Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is out of bound the input is returned.
  *
  * @example
  * import { takeLeft } from 'fp-ts/ReadonlyArray'
@@ -315,11 +317,12 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @category combinators
  * @since 3.0.0
  */
-export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(0, n))
+export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(0, n)
 
 /**
- * Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`..
- * `n` must be a natural number
+ * Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is out of bound the input is returned.
  *
  * @example
  * import { takeRight } from 'fp-ts/ReadonlyArray'
@@ -328,7 +331,8 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  *
  * @since 3.0.0
  */
-export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (n <= 0 ? empty : as.slice(-n))
+export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(-n)
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
@@ -404,7 +408,8 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
 }
 
 /**
- * Drop a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
  * import { dropLeft } from 'fp-ts/ReadonlyArray'
@@ -414,10 +419,12 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * @category combinators
  * @since 3.0.0
  */
-export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(n, as.length)
+export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  n <= 0 ? as : n >= as.length ? empty : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
  * import { dropRight } from 'fp-ts/ReadonlyArray'
@@ -427,7 +434,8 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * @category combinators
  * @since 3.0.0
  */
-export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => as.slice(0, as.length - n)
+export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  n <= 0 ? as : n >= as.length ? empty : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
