@@ -15,15 +15,15 @@ describe('Tuple2', () => {
 
   describe('type class members', () => {
     it('compose', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.compose([true, 2])), [true, 'a'])
+      U.deepStrictEqual(pipe(_.tuple2(1, 'a'), _.compose([true, 2])), [true, 'a'])
     })
 
     it('map', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.map(U.double)), [2, 'a'])
+      U.deepStrictEqual(pipe(_.tuple2(1, 'a'), _.map(U.double)), [2, 'a'])
     })
 
     it('extract', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.extract), 1)
+      U.deepStrictEqual(pipe(_.tuple2(1, 'a'), _.extract), 1)
     })
 
     it('extend', () => {
@@ -38,17 +38,17 @@ describe('Tuple2', () => {
 
     it('mapLeft', () => {
       const len = (s: string): number => s.length
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapLeft(len)), [1, 1])
+      U.deepStrictEqual(pipe(_.tuple2(1, 'a'), _.mapLeft(len)), [1, 1])
     })
 
     it('duplicate', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.duplicate), [[1, 'a'], 'a'])
+      U.deepStrictEqual(pipe(_.tuple2(1, 'a'), _.duplicate), [[1, 'a'], 'a'])
     })
 
     it('reduce', () => {
       U.deepStrictEqual(
         pipe(
-          ['b', 1] as const,
+          _.tuple2('b', 1),
           _.reduce('a', (acc, a) => acc + a)
         ),
         'ab'
@@ -56,13 +56,13 @@ describe('Tuple2', () => {
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(S.Monoid)(identity)), 'a')
+      U.deepStrictEqual(pipe(_.tuple2('a', 1), _.foldMap(S.Monoid)(identity)), 'a')
     })
 
     it('reduceRight', () => {
       U.deepStrictEqual(
         pipe(
-          ['b', 1] as const,
+          _.tuple2('b', 1),
           _.reduceRight('a', (acc, a) => acc + a)
         ),
         'ba'
@@ -71,13 +71,13 @@ describe('Tuple2', () => {
 
     it('traverse', () => {
       const traverse = _.traverse(O.Applicative)((n: number) => (n > 1 ? O.some(n) : O.none))
-      U.deepStrictEqual(traverse([2, 'a']), O.some([2, 'a'] as const))
+      U.deepStrictEqual(traverse([2, 'a']), O.some(_.tuple2(2, 'a')))
       U.deepStrictEqual(traverse([1, 'a']), O.none)
     })
 
     it('sequence', () => {
       const sequence = _.sequence(O.Applicative)
-      U.deepStrictEqual(sequence([O.some(1), 'a']), O.some([1, 'a'] as const))
+      U.deepStrictEqual(sequence([O.some(1), 'a']), O.some(_.tuple2(1, 'a')))
       U.deepStrictEqual(sequence([O.none, 'a']), O.none)
     })
   })
@@ -86,14 +86,14 @@ describe('Tuple2', () => {
     it('getApplicative', () => {
       const A = _.getApplicative(S.Monoid)
       U.deepStrictEqual(A.of(1), [1, ''])
-      U.deepStrictEqual(pipe([U.double, 'a'] as const, A.ap([1, 'b'])), [2, 'ab'])
+      U.deepStrictEqual(pipe(_.tuple2(U.double, 'a'), A.ap([1, 'b'])), [2, 'ab'])
     })
 
     it('getMonad', () => {
       const M = _.getMonad(S.Monoid)
       U.deepStrictEqual(
         pipe(
-          [1, 'a'] as const,
+          _.tuple2(1, 'a'),
           M.chain((a) => [a * 2, 'b'])
         ),
         [2, 'ab']

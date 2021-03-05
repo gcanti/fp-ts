@@ -52,6 +52,7 @@ Added in v3.0.0
   - [sequence](#sequence)
   - [snd](#snd)
   - [traverse](#traverse)
+  - [tuple2](#tuple2)
 
 ---
 
@@ -382,6 +383,16 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: Traverse2<'Tuple2'>
+```
+
+Added in v3.0.0
+
+## tuple2
+
+**Signature**
+
+```ts
+export declare const tuple2: <A, E>(a: A, e: E) => Tuple2<E, A>
 ```
 
 Added in v3.0.0
