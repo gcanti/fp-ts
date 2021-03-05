@@ -35,6 +35,7 @@ Added in v3.0.0
   - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
 - [instances](#instances)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
@@ -271,6 +272,16 @@ export declare const singleton: <A>(a: A) => ReadonlySet<A>
 Added in v3.0.0
 
 # instances
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<ReadonlySet<A>>
+```
+
+Added in v3.0.0
 
 ## getEq
 

@@ -86,14 +86,6 @@ describe('ReadonlySet', () => {
     deepStrictEqual(actual, separated(new Set(['a']), new Set([1, 2])))
   })
 
-  it('union', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.union(N.Eq)(new Set([1, 3]))), new Set([1, 2, 3]))
-  })
-
-  it('intersection', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.intersection(N.Eq)(new Set([1, 3]))), new Set([1]))
-  })
-
   it('partitionMap', () => {
     deepStrictEqual(
       _.partitionMap(N.Eq, S.Eq)((n: number) => left(n))(new Set([])),
@@ -130,8 +122,9 @@ describe('ReadonlySet', () => {
     deepStrictEqual(pipe(_.empty, S.concat(new Set([1, 3]))), _.empty)
   })
 
-  it('difference', () => {
-    deepStrictEqual(pipe(new Set([1, 2]), _.difference(N.Eq)(new Set([1, 3]))), new Set([2]))
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(N.Eq)
+    deepStrictEqual(pipe(new Set([1, 2]), M.concat(new Set([1, 3]))), new Set([2]))
   })
 
   it('reduce', () => {

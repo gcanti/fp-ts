@@ -122,11 +122,15 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -579,7 +583,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const difference: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
+export declare const difference: <A>(E: Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -674,7 +678,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export declare const intersection: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
+export declare const intersection: <A>(E: Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -958,7 +962,7 @@ Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyAr
 **Signature**
 
 ```ts
-export declare const union: <A>(E: Eq<A>) => (ys: readonly A[]) => (xs: readonly A[]) => readonly A[]
+export declare const union: <A>(E: Eq<A>) => (second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1556,6 +1560,16 @@ export declare const Witherable: Witherable1<'ReadonlyArray'>
 
 Added in v3.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<readonly A[]>
+```
+
+Added in v3.0.0
+
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1577,6 +1591,16 @@ import { getEq } from 'fp-ts/ReadonlyArray'
 const E = getEq(S.Eq)
 assert.strictEqual(E.equals(['a', 'b'])(['a', 'b']), true)
 assert.strictEqual(E.equals(['a'])([]), false)
+```
+
+Added in v3.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
 ```
 
 Added in v3.0.0
@@ -1628,7 +1652,7 @@ Returns a `Semigroup` for `ReadonlyArray<A>`.
 **Signature**
 
 ```ts
-export declare const getSemigroup: <A = never>() => Monoid<readonly A[]>
+export declare const getSemigroup: <A = never>() => Semigroup<readonly A[]>
 ```
 
 **Example**
@@ -1649,6 +1673,26 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
+```
+
+Added in v3.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<readonly A[]>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
 ```
 
 Added in v3.0.0
