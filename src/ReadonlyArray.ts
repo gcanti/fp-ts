@@ -1170,7 +1170,7 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
  * @category Alternative
