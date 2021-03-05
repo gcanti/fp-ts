@@ -368,8 +368,16 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlySet<A>> => {
  * @category instances
  * @since 3.0.0
  */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
+  concat: union(E)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
-  concat: union(E),
+  concat: getUnionSemigroup(E).concat,
   empty
 })
 

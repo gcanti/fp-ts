@@ -39,6 +39,7 @@ Added in v3.0.0
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -307,6 +308,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<ReadonlySet<A>>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A>>
 ```
 
 Added in v3.0.0
