@@ -97,8 +97,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [concatAll](#concatall)
   - [extract](#extract)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
   - [head](#head)
   - [init](#init)
   - [last](#last)
@@ -1006,33 +1004,6 @@ Added in v3.0.0
 
 ```ts
 export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
-```
-
-Added in v3.0.0
-
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-export declare function filter<A>(
-  predicate: Predicate<A>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0

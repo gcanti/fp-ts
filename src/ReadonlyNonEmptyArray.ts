@@ -12,7 +12,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, identity, Lazy, pipe, Predicate, Refinement, tuple } from './function'
+import { flow, identity, Lazy, pipe, tuple } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -280,24 +280,6 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   out[i] = next
   return O.some(out)
 }
-
-/**
- * @since 3.0.0
- */
-export function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
-export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  return filterWithIndex((_, a) => predicate(a))
-}
-
-/**
- * @since 3.0.0
- */
-export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
-  as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * @category combinators

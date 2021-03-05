@@ -223,36 +223,6 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4] as const))
   })
 
-  it('filter', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    U.deepStrictEqual(_.filter(({ x }) => x !== 1)([a1, a2, a3]), O.some([a3] as const))
-    U.deepStrictEqual(_.filter(({ x }) => x !== 2)([a1, a2, a3]), O.some([a1, a2] as const))
-    U.deepStrictEqual(
-      _.filter(({ x }) => {
-        return !(x === 1 || x === 2)
-      })([a1, a2, a3]),
-      O.none
-    )
-    U.deepStrictEqual(_.filter(({ x }) => x !== 10)([a1, a2, a3]), O.some([a1, a2, a3] as const))
-
-    // refinements
-    const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
-    U.deepStrictEqual(
-      actual1,
-      O.some([O.some(3), O.some(2), O.some(1)]) as O.Option<_.ReadonlyNonEmptyArray<O.Some<number>>>
-    )
-    const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
-    U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]) as O.Option<_.ReadonlyNonEmptyArray<O.Some<number>>>)
-  })
-
-  it('filterWithIndex', () => {
-    U.deepStrictEqual(_.filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), O.some([1, 3] as const))
-    U.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
-  })
-
   it('reduceWithIndex', () => {
     U.deepStrictEqual(
       pipe(
