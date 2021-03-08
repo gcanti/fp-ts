@@ -1,4 +1,3 @@
-import * as assert from 'assert'
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
 import * as E from '../src/Either'
@@ -598,12 +597,13 @@ describe('Array', () => {
   })
 
   it('unsafeUpdateAt', () => {
-    // should return the same reference if nothing changed
-    const x = { a: 1 }
-    const as: Array<{ readonly a: number }> = [x]
-    const result = _.unsafeUpdateAt(0, x, as)
-    U.deepStrictEqual(result, as)
-    U.deepStrictEqual(_.unsafeUpdateAt(0, 1, []), _.empty)
+    U.deepStrictEqual(pipe(_.unsafeUpdateAt(1, 2, []), _.isEmpty), true)
+    // should not return the same reference if nothing changed
+    const input: Array<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(_.unsafeUpdateAt(1, 2, input), (out) => out === input),
+      false
+    )
   })
 
   it('updateAt', () => {
@@ -637,7 +637,7 @@ describe('Array', () => {
 
   it('sort', () => {
     U.deepStrictEqual(_.sort(N.Ord)([3, 2, 1]), [1, 2, 3])
-    assert.strictEqual(_.sort(N.Ord)(_.empty), _.empty)
+    U.deepStrictEqual(_.sort(N.Ord)([]), [])
     const byName = pipe(
       S.Ord,
       Ord.contramap((x: { readonly name: string }) => x.name)
@@ -1017,7 +1017,6 @@ describe('Array', () => {
   })
 
   it('size', () => {
-    U.deepStrictEqual(_.size(_.empty), 0)
     U.deepStrictEqual(_.size([]), 0)
     U.deepStrictEqual(_.size(['a']), 1)
   })

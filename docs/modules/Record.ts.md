@@ -48,7 +48,6 @@ Added in v2.0.0
   - [collect](#collect)
   - [deleteAt](#deleteat)
   - [elem](#elem)
-  - [empty](#empty)
   - [every](#every)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
@@ -80,6 +79,7 @@ Added in v2.0.0
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
+  - [~~empty~~](#empty)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
   - [~~insertAt~~](#insertat)
 
@@ -427,16 +427,6 @@ Added in v2.0.0
 export declare const elem: <A>(
   E: Eq<A>
 ) => { (a: A): (fa: Record<string, A>) => boolean; (a: A, fa: Record<string, A>): boolean }
-```
-
-Added in v2.0.0
-
-## empty
-
-**Signature**
-
-```ts
-export declare const empty: Record<string, never>
 ```
 
 Added in v2.0.0
@@ -945,6 +935,18 @@ Added in v2.0.0
 
 ```ts
 export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
+```
+
+Added in v2.0.0
+
+## ~~empty~~
+
+Use a new `{}` instead.
+
+**Signature**
+
+```ts
+export declare const empty: Record<string, never>
 ```
 
 Added in v2.0.0

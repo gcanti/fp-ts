@@ -18,12 +18,18 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0-rc.4
 
 - **Deprecations**
+  - `Array`
+    - deprecate `empty`
+  - `Map`
+    - deprecate `empty`
   - `NonEmptyArray`
     - deprecate `filter` in favour of `Array`'s `filter`
     - deprecate `filterWithIndex` in favour of `Array`'s `filterWithIndex`
   - `ReadonlyNonEmptyArray`
     - deprecate `filter` in favour of `ReadonlyArray`'s `filter`
     - deprecate `filterWithIndex` in favour of `ReadonlyArray`'s `filterWithIndex`
+  - `Record`
+    - deprecate `empty`
 - **Polish**
   - `NonEmptyArray`
     - remove duplicated `append`, `prepend`, `isNonEmpty`

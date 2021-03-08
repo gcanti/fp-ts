@@ -595,12 +595,13 @@ describe('ReadonlyArray', () => {
   })
 
   it('unsafeUpdateAt', () => {
+    assert.strictEqual(_.unsafeUpdateAt(1, 2, []), _.empty)
     // should return the same reference if nothing changed
-    const x = { a: 1 }
-    const as: ReadonlyArray<{ readonly a: number }> = [x]
-    const result = _.unsafeUpdateAt(0, x, as)
-    U.deepStrictEqual(result, as)
-    U.deepStrictEqual(_.unsafeUpdateAt(0, 1, []), _.empty)
+    const input: ReadonlyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(_.unsafeUpdateAt(1, 2, input), (out) => out === input),
+      true
+    )
   })
 
   it('updateAt', () => {

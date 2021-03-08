@@ -279,7 +279,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function make<A>(value: A, forest: Forest<A> = A.empty): Tree<A>
+export declare function make<A>(value: A, forest: Forest<A> = []): Tree<A>
 ```
 
 Added in v2.0.0

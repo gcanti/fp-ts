@@ -1146,13 +1146,15 @@ export function comprehension<R>(
   f: (...xs: ReadonlyArray<any>) => R,
   g: (...xs: ReadonlyArray<any>) => boolean = () => true
 ): ReadonlyArray<R> {
-  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> => {
-    if (input.length === 0) {
-      return g(...scope) ? [f(...scope)] : empty
-    } else {
-      return _chain(input[0], (x) => go(pipe(scope, append(x)), input.slice(1)))
-    }
-  }
+  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> =>
+    isNonEmpty(input)
+      ? pipe(
+          RNEA.head(input),
+          chain((x) => go(pipe(scope, append(x)), RNEA.tail(input)))
+        )
+      : g(...scope)
+      ? [f(...scope)]
+      : empty
   return go(empty, input)
 }
 

@@ -61,7 +61,6 @@ describe('Map', () => {
     U.deepStrictEqual(_.size(emptyMap), 0)
     U.deepStrictEqual(_.size(a1), 1)
 
-    U.deepStrictEqual(_.size(_.empty), 0)
     U.deepStrictEqual(_.size(new Map()), 0)
     U.deepStrictEqual(_.size(new Map([['a', 1]])), 1)
   })
@@ -72,7 +71,6 @@ describe('Map', () => {
     U.deepStrictEqual(_.isEmpty(emptyMap), true)
     U.deepStrictEqual(_.isEmpty(a1), false)
 
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
     U.deepStrictEqual(_.isEmpty(new Map()), true)
     U.deepStrictEqual(_.isEmpty(new Map([['a', 1]])), false)
   })
@@ -377,7 +375,7 @@ describe('Map', () => {
 
     // tslint:disable-next-line: deprecation
     const insert = _.insertAt(eqKey)
-    U.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))
+    U.deepStrictEqual(insert({ id: 1 }, { value: 1 })(new Map()), new Map([[{ id: 1 }, { value: 1 }]]))
     const x = insert({ id: 1 }, value1)(repo)
     U.deepStrictEqual(
       x,
@@ -528,11 +526,6 @@ describe('Map', () => {
     U.deepStrictEqual(pipe(new Map([[{ id: 1 }, { value: 4 }]]), isSubmap(repo)), true)
     U.deepStrictEqual(pipe(new Map([[{ id: 4 }, { value: 1 }]]), isSubmap(repo)), true)
     U.deepStrictEqual(pipe(new Map([[{ id: 3 }, { value: 3 }]]), isSubmap(repo)), false)
-  })
-
-  it('empty', () => {
-    U.deepStrictEqual(_.empty, new Map<string, number>())
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
   })
 
   it('singleton', () => {
@@ -920,7 +913,7 @@ describe('Map', () => {
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await wither(_.empty, f)(), _.empty)
+      U.deepStrictEqual(await wither(new Map(), f)(), new Map())
       U.deepStrictEqual(
         await wither(
           new Map([
@@ -936,7 +929,7 @@ describe('Map', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await wilt(_.empty, f)(), separated(_.empty, _.empty))
+      U.deepStrictEqual(await wilt(new Map(), f)(), separated(new Map(), new Map()))
       U.deepStrictEqual(
         await wilt(
           new Map([

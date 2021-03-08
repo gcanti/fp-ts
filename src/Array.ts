@@ -1069,13 +1069,15 @@ export function comprehension<R>(
   f: (...xs: Array<any>) => R,
   g: (...xs: Array<any>) => boolean = () => true
 ): Array<R> {
-  const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> => {
-    if (input.length === 0) {
-      return g(...scope) ? [f(...scope)] : []
-    } else {
-      return _chain(input[0], (x) => go(pipe(scope, append(x)), input.slice(1)))
-    }
-  }
+  const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> =>
+    isNonEmpty(input)
+      ? pipe(
+          NEA.head(input),
+          chain((x) => go(pipe(scope, append(x)), NEA.tail(input)))
+        )
+      : g(...scope)
+      ? [f(...scope)]
+      : []
   return go([], input)
 }
 
@@ -2016,13 +2018,6 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
 // -------------------------------------------------------------------------------------
 
 /**
- * An empty array
- *
- * @since 2.0.0
- */
-export const empty: Array<never> = []
-
-/**
  * @since 2.9.0
  */
 export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.every
@@ -2071,6 +2066,14 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use a new `[]` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const empty: Array<never> = []
 
 /**
  * Use `prepend` instead.

@@ -403,7 +403,9 @@ export function isSubmap<K, A>(
 /**
  * @since 2.5.0
  */
-export const empty: ReadonlyMap<never, never> = new Map<never, never>()
+export const empty: ReadonlyMap<never, never> =
+  // the type annotation here is intended (otherwise it doesn't type-check)
+  new Map<never, never>()
 
 /**
  * @category instances
