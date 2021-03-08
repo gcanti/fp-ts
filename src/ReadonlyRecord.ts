@@ -16,6 +16,7 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
+import * as RA from './ReadonlyArray'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
@@ -319,7 +320,7 @@ export function traverseWithIndex<F>(
 ): <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
   return <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => {
     const ks = keys(ta)
-    if (ks.length === 0) {
+    if (RA.isEmpty(ks)) {
       return F.of(empty)
     }
     let fr: HKT<F, Record<string, B>> = F.of({})
@@ -823,7 +824,7 @@ export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(
  *
  * @since 3.0.0
  */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => Object.keys(r).length === 0
+export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => RA.isEmpty(Object.keys(r))
 
 /**
  * @since 3.0.0

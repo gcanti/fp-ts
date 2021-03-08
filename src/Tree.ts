@@ -190,19 +190,15 @@ export function unfoldForestM<M>(
  * import * as N from 'fp-ts/number'
  * import { concatAll } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
+ * import { isEmpty } from 'fp-ts/ReadonlyArray'
  *
  * const t = make(1, [make(2), make(3)])
  *
  * const sum = concatAll(N.MonoidSum)
  *
- * // Sum the values in a tree:
  * assert.deepStrictEqual(pipe(t, fold((a, bs) => a + sum(bs))), 6)
- *
- * // Find the maximum value in the tree:
  * assert.deepStrictEqual(pipe(t, fold((a, bs) => bs.reduce((b, acc) => Math.max(b, acc), a))), 3)
- *
- * // Count the number of leaves in the tree:
- * assert.deepStrictEqual(pipe(t, fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))), 2)
+ * assert.deepStrictEqual(pipe(t, fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))), 2)
  *
  * @category destructors
  * @since 3.0.0
@@ -372,7 +368,7 @@ declare module './HKT' {
  */
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
-    return t.forest === RA.empty || t.forest.length === 0
+    return RA.isEmpty(t.forest)
       ? `make(${S.show(t.value)})`
       : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }

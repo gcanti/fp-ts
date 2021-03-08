@@ -409,12 +409,12 @@ import { fold, make } from 'fp-ts/Tree'
 import * as N from 'fp-ts/number'
 import { concatAll } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
+import { isEmpty } from 'fp-ts/ReadonlyArray'
 
 const t = make(1, [make(2), make(3)])
 
 const sum = concatAll(N.MonoidSum)
 
-// Sum the values in a tree:
 assert.deepStrictEqual(
   pipe(
     t,
@@ -422,8 +422,6 @@ assert.deepStrictEqual(
   ),
   6
 )
-
-// Find the maximum value in the tree:
 assert.deepStrictEqual(
   pipe(
     t,
@@ -431,12 +429,10 @@ assert.deepStrictEqual(
   ),
   3
 )
-
-// Count the number of leaves in the tree:
 assert.deepStrictEqual(
   pipe(
     t,
-    fold((_, bs) => (bs.length === 0 ? 1 : sum(bs)))
+    fold((_, bs) => (isEmpty(bs) ? 1 : sum(bs)))
   ),
   2
 )
