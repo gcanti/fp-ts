@@ -142,13 +142,20 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 /**
  * @since 2.0.0
  */
-export const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>> = RR.updateAt
+export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A>) => Option<Record<K, A>>) =>
+  modifyAt(k, () => a)
 
 /**
  * @since 2.0.0
  */
-export const modifyAt: <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>> =
-  RR.modifyAt
+export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
+  if (!has(k, r)) {
+    return O.none
+  }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = f(r[k])
+  return O.some(out)
+}
 
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map

@@ -1109,6 +1109,16 @@ describe('ReadonlyMap', () => {
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
     )
+    // should return the same reference if nothing changed
+    const input: ReadonlyMap<string, number> = new Map([['a', 1]])
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(S.Eq)('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
+    )
   })
 
   it('fromMap', () => {

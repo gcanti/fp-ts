@@ -1073,6 +1073,16 @@ describe('Map', () => {
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
     )
+    // should not return the same reference if nothing changed
+    const input: Map<string, number> = new Map([['a', 1]])
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(S.Eq)('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(false)
+    )
   })
 
   it('mapWithIndex', () => {
