@@ -52,7 +52,6 @@ Added in v2.0.0
 - [utils](#utils)
   - [collect](#collect)
   - [elem](#elem)
-  - [empty](#empty)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -67,6 +66,7 @@ Added in v2.0.0
   - [toUnfoldable](#tounfoldable)
   - [updateAt](#updateat)
   - [values](#values)
+  - [~~empty~~](#empty)
 
 ---
 
@@ -453,16 +453,6 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 
 Added in v2.0.0
 
-## empty
-
-**Signature**
-
-```ts
-export declare const empty: Map<never, never>
-```
-
-Added in v2.0.0
-
 ## isEmpty
 
 Test whether or not a map is empty
@@ -638,6 +628,18 @@ Get a sorted array of the values contained in a map
 
 ```ts
 export declare const values: <A>(O: Ord<A>) => <K>(m: Map<K, A>) => A[]
+```
+
+Added in v2.0.0
+
+## ~~empty~~
+
+Use a `new Map()` instead.
+
+**Signature**
+
+```ts
+export declare const empty: Map<never, never>
 ```
 
 Added in v2.0.0

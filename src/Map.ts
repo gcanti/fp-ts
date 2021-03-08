@@ -280,11 +280,6 @@ export const isSubmap: <K, A>(
 } = RM.isSubmap
 
 /**
- * @since 2.0.0
- */
-export const empty = new Map<never, never>()
-
-/**
  * @category instances
  * @since 2.0.0
  */
@@ -812,6 +807,14 @@ export const Filterable: Filterable2<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use a `new Map()` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const empty = new Map<never, never>()
 
 /**
  * Use `upsertAt` instead.

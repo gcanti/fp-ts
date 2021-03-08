@@ -217,11 +217,6 @@ export const lookup: {
 } = RR.lookup
 
 /**
- * @since 2.0.0
- */
-export const empty: Record<string, never> = {}
-
-/**
  * Map a record passing the keys to the iterating function
  *
  * @since 2.0.0
@@ -848,6 +843,14 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use a new `{}` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const empty: Record<string, never> = {}
 
 /**
  * Use `upsertAt` instead.

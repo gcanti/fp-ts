@@ -159,7 +159,6 @@ Added in v2.0.0
   - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
-  - [empty](#empty)
   - [every](#every)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
@@ -173,6 +172,7 @@ Added in v2.0.0
   - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [~~empty~~](#empty)
 
 ---
 
@@ -2200,18 +2200,6 @@ assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(0)), false)
 
 Added in v2.0.0
 
-## empty
-
-An empty array
-
-**Signature**
-
-```ts
-export declare const empty: never[]
-```
-
-Added in v2.0.0
-
 ## every
 
 **Signature**
@@ -2467,6 +2455,18 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1)([]), none)
+```
+
+Added in v2.0.0
+
+## ~~empty~~
+
+Use a new `[]` instead.
+
+**Signature**
+
+```ts
+export declare const empty: never[]
 ```
 
 Added in v2.0.0
