@@ -128,6 +128,26 @@ export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const concatW: {
+  <B>(second: ReadonlyNonEmptyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+  <B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+  <B>(second: ReadonlyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyArray<A | B>
+} = RNEA.concatW
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const concat: {
+  <A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+  <A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+  <A>(second: ReadonlyArray<A>): (first: ReadonlyArray<A>) => ReadonlyArray<A>
+} = concatW
+
+/**
  * Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
  *
  * @example

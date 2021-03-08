@@ -1,5 +1,14 @@
 /**
- * Data structure which represents readonly non-empty arrays.
+ * Data structure which represents non-empty readonly arrays.
+ *
+ * ```ts
+ * export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
+ *   readonly 0: A
+ * }
+ * ```
+ *
+ * Note that you don't need any conversion, a `ReadonlyNonEmptyArray` is a `ReadonlyArray`,
+ * so all `ReadonlyArray`'s APIs can be used with a `ReadonlyNonEmptyArray` without further ado.
  *
  * @since 3.0.0
  */
@@ -42,54 +51,49 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
   readonly 0: A
 }
 
+// -------------------------------------------------------------------------------------
+// internal
+// -------------------------------------------------------------------------------------
+
 /**
  * @internal
  */
 export const empty: ReadonlyArray<never> = []
 
-// -------------------------------------------------------------------------------------
-// guards
-// -------------------------------------------------------------------------------------
-
 /**
- * Test whether a `ReadonlyArray` is non empty.
- *
- * @category guards
- * @since 3.0.0
- */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
-/**
- * Prepend an element to the front of an array, creating a new non empty array
- *
- * @example
- * import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 3.0.0
+ * @internal
  */
 export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
 
 /**
- * Append an element to the end of an array, creating a new non empty array
- *
- * @example
- * import { append } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 3.0.0
+ * @internal
  */
-export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concatW([end])(init)
+
+/**
+ * @internal
+ */
+export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+
+/**
+ * @internal
+ */
+export function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(
+  second: ReadonlyArray<B>
+): {
+  <A>(first: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A | B>
+  <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B>
+}
+export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(first: ReadonlyArray<A | B>) => first.concat(second)
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
@@ -133,16 +137,6 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
-export function concat<A>(fx: ReadonlyNonEmptyArray<A>, fy: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyArray<A>): ReadonlyArray<A> {
-  return fx.concat(fy)
-}
 
 /**
  * @category combinators
@@ -436,9 +430,9 @@ export const chunksOf = (
  * @category Alt
  * @since 3.0.0
  */
-export const altW = <B>(second: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
-  first: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<A | B> => concat(first as ReadonlyNonEmptyArray<A | B>, second())
+export const altW = <B>(
+  second: Lazy<ReadonlyNonEmptyArray<B>>
+): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concatW(second())
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -625,7 +619,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyNonEmptyArray<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
-  concat: (second) => (first) => concat(first, second)
+  concat: concatW
 })
 
 /**

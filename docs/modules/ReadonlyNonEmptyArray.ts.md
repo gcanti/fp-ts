@@ -6,7 +6,16 @@ parent: Modules
 
 ## ReadonlyNonEmptyArray overview
 
-Data structure which represents readonly non-empty arrays.
+Data structure which represents non-empty readonly arrays.
+
+```ts
+export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
+  readonly 0: A
+}
+```
+
+Note that you don't need any conversion, a `ReadonlyNonEmptyArray` is a `ReadonlyArray`,
+so all `ReadonlyArray`'s APIs can be used with a `ReadonlyNonEmptyArray` without further ado.
 
 Added in v3.0.0
 
@@ -39,7 +48,6 @@ Added in v3.0.0
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
-  - [concat](#concat)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -56,9 +64,7 @@ Added in v3.0.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
-  - [append](#append)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [prepend](#prepend)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -66,8 +72,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -324,17 +328,6 @@ export declare const chunksOf: (
 
 Added in v3.0.0
 
-## concat
-
-**Signature**
-
-```ts
-export declare function concat<A>(fx: ReadonlyArray<A>, fy: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
-export declare function concat<A>(fx: ReadonlyNonEmptyArray<A>, fy: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-```
-
-Added in v3.0.0
-
 ## duplicate
 
 Derivable from `Extend`.
@@ -571,27 +564,6 @@ Added in v3.0.0
 
 # constructors
 
-## append
-
-Append an element to the end of an array, creating a new non empty array
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: readonly A[]) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v3.0.0
-
 ## fromReadonlyArray
 
 Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
@@ -600,27 +572,6 @@ Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an em
 
 ```ts
 export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## prepend
-
-Prepend an element to the front of an array, creating a new non empty array
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: readonly A[]) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
 ```
 
 Added in v3.0.0
@@ -714,20 +665,6 @@ export declare const unprepend: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A
 import { unprepend } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(unprepend([1, 2, 3, 4]), [1, [2, 3, 4]])
-```
-
-Added in v3.0.0
-
-# guards
-
-## isNonEmpty
-
-Test whether a `ReadonlyArray` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0

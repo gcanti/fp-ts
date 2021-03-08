@@ -302,14 +302,15 @@ describe('ReadonlyRecord', () => {
 
   it('modifyAt', () => {
     const x: _.ReadonlyRecord<string, number> = { a: 1 }
-    U.deepStrictEqual(pipe(x, _.modifyAt('b', U.double)), O.none)
-    U.deepStrictEqual(pipe(x, _.modifyAt('a', U.double)), O.some({ a: 2 }))
-    // should return the same reference when nothing changed
+    U.deepStrictEqual(_.modifyAt('b', (n: number) => n * 2)(x), O.none)
+    U.deepStrictEqual(_.modifyAt('a', (n: number) => n * 2)(x), O.some({ a: 2 }))
+    // should return the same reference if nothing changed
+    const input: _.ReadonlyRecord<string, number> = { a: 1 }
     U.deepStrictEqual(
       pipe(
-        x,
-        _.modifyAt('a', (n) => n),
-        O.map((y) => y === x)
+        input,
+        _.modifyAt('a', identity),
+        O.map((out) => out === input)
       ),
       O.some(true)
     )

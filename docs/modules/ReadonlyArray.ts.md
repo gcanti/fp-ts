@@ -62,6 +62,8 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [chop](#chop)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
@@ -571,6 +573,34 @@ const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyAr
   })
 }
 assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+```
+
+Added in v3.0.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: {
+  <A>(second: RNEA.ReadonlyNonEmptyArray<A>): (first: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+  <A>(second: readonly A[]): (first: RNEA.ReadonlyNonEmptyArray<A>) => RNEA.ReadonlyNonEmptyArray<A>
+  <A>(second: readonly A[]): (first: readonly A[]) => readonly A[]
+}
+```
+
+Added in v3.0.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: {
+  <B>(second: RNEA.ReadonlyNonEmptyArray<B>): <A>(first: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
+  <B>(second: readonly B[]): <A>(first: RNEA.ReadonlyNonEmptyArray<A>) => RNEA.ReadonlyNonEmptyArray<B | A>
+  <B>(second: readonly B[]): <A>(first: readonly A[]) => readonly (B | A)[]
+}
 ```
 
 Added in v3.0.0

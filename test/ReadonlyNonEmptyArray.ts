@@ -219,8 +219,19 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('modifyAt', () => {
-    U.deepStrictEqual(_.modifyAt(1, U.double)([1]), O.none)
-    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4] as const))
+    const double = (n: number): number => n * 2
+    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4] as const))
+    // should return the same reference if nothing changed
+    const input: _.ReadonlyNonEmptyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(1, identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
+    )
   })
 
   it('reduceWithIndex', () => {
@@ -278,7 +289,6 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('alt / concat', () => {
-    U.deepStrictEqual(_.concat(['a'], []), ['a'])
     U.deepStrictEqual(
       pipe(
         ['a'],
