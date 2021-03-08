@@ -6,7 +6,16 @@ parent: Modules
 
 ## ReadonlyNonEmptyArray overview
 
-Data structure which represents non-empty arrays
+Data structure which represents non-empty readonly arrays.
+
+```ts
+export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
+  readonly 0: A
+}
+```
+
+Note that you don't need any conversion, a `ReadonlyNonEmptyArray` is a `ReadonlyArray`,
+so all `ReadonlyArray`'s APIs can be used with a `ReadonlyNonEmptyArray` without further ado.
 
 Added in v2.5.0
 
