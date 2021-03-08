@@ -213,8 +213,12 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
   if (!has(k, r)) {
     return O.none
   }
+  const next = f(r[k])
+  if (next === r[k]) {
+    return O.some(r)
+  }
   const out: Record<K, A> = Object.assign({}, r)
-  out[k] = f(r[k])
+  out[k] = next
   return O.some(out)
 }
 

@@ -616,10 +616,19 @@ describe('ReadonlyArray', () => {
   })
 
   it('modifyAt', () => {
-    const as: ReadonlyArray<number> = [1, 2, 3]
     const double = (x: number): number => x * 2
-    U.deepStrictEqual(_.modifyAt(1, double)(as), O.some([1, 4, 3]))
+    U.deepStrictEqual(_.modifyAt(1, double)([1, 2, 3]), O.some([1, 4, 3]))
     U.deepStrictEqual(_.modifyAt(1, double)([]), O.none)
+    // should return the same reference if nothing changed
+    const input: ReadonlyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(1, identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
+    )
   })
 
   it('sort', () => {

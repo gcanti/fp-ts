@@ -272,8 +272,13 @@ export const modifyAt = <K>(
     if (O.isNone(found)) {
       return O.none
     }
+    const [fk, fv] = found.value
+    const next = f(fv)
+    if (next === fv) {
+      return O.some(m)
+    }
     const r = new Map(m)
-    r.set(found.value[0], f(found.value[1]))
+    r.set(fk, next)
     return O.some(r)
   }
 }

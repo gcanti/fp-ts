@@ -245,6 +245,16 @@ describe('NonEmptyArray', () => {
     const double = (n: number): number => n * 2
     U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
     U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
+    // should not return the same reference if nothing changed
+    const input: _.NonEmptyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(1, identity),
+        O.map((out) => out === input)
+      ),
+      O.some(false)
+    )
   })
 
   it('copy', () => {

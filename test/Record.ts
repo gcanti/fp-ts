@@ -415,5 +415,15 @@ describe('Record', () => {
     const x: Record<string, number> = { a: 1 }
     U.deepStrictEqual(_.modifyAt('b', (n: number) => n * 2)(x), O.none)
     U.deepStrictEqual(_.modifyAt('a', (n: number) => n * 2)(x), O.some({ a: 2 }))
+    // should not return the same reference if nothing changed
+    const input: Record<string, number> = { a: 1 }
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(false)
+    )
   })
 })

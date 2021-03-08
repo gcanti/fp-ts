@@ -83,13 +83,9 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<
  * @internal
  */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs[i] = a
-    return xs
-  }
+  const xs = fromReadonlyNonEmptyArray(as)
+  xs[i] = a
+  return xs
 }
 
 // -------------------------------------------------------------------------------------
