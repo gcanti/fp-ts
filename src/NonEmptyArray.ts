@@ -1,5 +1,14 @@
 /**
- * Data structure which represents non-empty arrays
+ * Data structure which represents non-empty arrays.
+ *
+ * ```ts
+ * export type NonEmptyArray<A> = Array<A> & {
+ *   0: A
+ * }
+ * ```
+ *
+ * Note that you don't need any conversion, a `NonEmptyArray` is an `Array`,
+ * so all `Array`'s APIs can be used with a `NonEmptyArray` without further ado.
  *
  * @since 2.0.0
  */
