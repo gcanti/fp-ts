@@ -17,7 +17,7 @@ import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
-import { Eq, fromEquals } from './Eq'
+import { Eq, fromEquals, fromOrd } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
@@ -154,7 +154,7 @@ export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<
  * import { group } from 'fp-ts/ReadonlyNonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
+ * assert.deepStrictEqual(group(N.Eq)([1, 2, 1, 1]), [
  *   [1],
  *   [2],
  *   [1, 1]
@@ -199,7 +199,7 @@ export const group = <B>(E: Eq<B>) => <A extends B>(
 export const groupSort = <B>(
   O: Ord<B>
 ): (<A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) =>
-  flow(sort(O), group(O))
+  flow(sort(O), group(fromOrd(O)))
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning

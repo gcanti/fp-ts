@@ -66,7 +66,6 @@ export const Monoid: M.Monoid<string> = {
  * @since 3.0.0
  */
 export const Ord: O.Ord<string> = {
-  equals: Eq.equals,
   compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
 }
 

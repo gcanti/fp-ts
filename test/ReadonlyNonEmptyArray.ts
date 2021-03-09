@@ -138,7 +138,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('group', () => {
-    const group = _.group(N.Ord)
+    const group = _.group(N.Eq)
     U.deepStrictEqual(group([1]), [[1]])
     U.deepStrictEqual(group([1, 2, 1, 1]), [[1], [2], [1, 1]])
     U.deepStrictEqual(group([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])

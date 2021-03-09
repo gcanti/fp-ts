@@ -134,7 +134,6 @@ export const MonoidAny: Monoid<boolean> = {
  * @since 3.0.0
  */
 export const Ord: O.Ord<boolean> = {
-  equals: Eq.equals,
   compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
 }
 

@@ -110,6 +110,7 @@ high state of flux, you're at risk of it changing without notice.
   - `Option`
     - make `elem` pipeable
   - `Ord`
+    - drop `Eq` dependency
     - make `min` pipeable
     - make `max` pipeable
     - make `lt` pipeable

@@ -12,6 +12,7 @@
 import { Contravariant1 } from './Contravariant'
 import { flow } from './function'
 import { Monoid } from './Monoid'
+import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -40,6 +41,12 @@ export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
     return (first) => first === second || predicate(first)
   }
 })
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromOrd = <A>(O: Ord<A>): Eq<A> => fromEquals((second) => (first) => O.compare(second)(first) === 0)
 
 // -------------------------------------------------------------------------------------
 // combinators

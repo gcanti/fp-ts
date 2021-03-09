@@ -1,6 +1,7 @@
 import * as _ from '../../src/ReadonlyNonEmptyArray'
 import { pipe } from '../../src/function'
 import { Ord } from '../../src/Ord'
+import { Eq } from '../../src/Eq'
 
 declare const ras: ReadonlyArray<string>
 declare const rneas: _.ReadonlyNonEmptyArray<string>
@@ -57,8 +58,10 @@ pipe(nexs, _.sort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<X>
 // group
 //
 
-_.group(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-pipe(nexs, _.group(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
+declare const eqSubX: Eq<{ readonly a: string }>
+
+_.group(eqSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
+pipe(nexs, _.group(eqSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
 
 //
 // groupSort

@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { Either, left, right } from '../src/Either'
-import { Eq, fromEquals } from '../src/Eq'
+import { Eq, fromEquals, fromOrd } from '../src/Eq'
 import { identity, pipe, Refinement } from '../src/function'
 import * as IO from '../src/IO'
 import * as S from '../src/string'
@@ -24,7 +24,7 @@ const ordUser = pipe(
   Ord.contramap((u: User) => u.id)
 )
 
-const eqUser: Eq<User> = { equals: ordUser.equals }
+const eqUser: Eq<User> = fromOrd(ordUser)
 
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
@@ -873,7 +873,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 1],
             [{ id: 'k2' }, 2]
           ]),
-          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k)({ id: 'k1' }) ? O.some(n) : O.none))
+          traverseWithIndex((k, n): O.Option<number> => (!eqUser.equals(k)({ id: 'k1' }) ? O.some(n) : O.none))
         ),
         O.none
       )
@@ -883,7 +883,7 @@ describe('ReadonlyMap', () => {
             [{ id: 'k1' }, 2],
             [{ id: 'k2' }, 3]
           ]),
-          traverseWithIndex((k, n): O.Option<number> => (!ordUser.equals(k)({ id: 'k3' }) ? O.some(n) : O.none))
+          traverseWithIndex((k, n): O.Option<number> => (!eqUser.equals(k)({ id: 'k3' }) ? O.some(n) : O.none))
         ),
         O.some(
           new Map([

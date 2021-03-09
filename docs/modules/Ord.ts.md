@@ -27,8 +27,6 @@ Added in v3.0.0
   - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromCompare](#fromcompare)
-- [defaults](#defaults)
-  - [equalsDefault](#equalsdefault)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [URI (type alias)](#uri-type-alias)
@@ -39,6 +37,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
+  - [equals](#equals)
   - [geq](#geq)
   - [gt](#gt)
   - [leq](#leq)
@@ -147,20 +146,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromCompare: <A>(compare: (second: A) => (first: A) => Ordering) => Ord<A>
-```
-
-Added in v3.0.0
-
-# defaults
-
-## equalsDefault
-
-**Signature**
-
-```ts
-export declare const equalsDefault: <A>(
-  compare: (second: A) => (first: A) => Ordering
-) => (second: A) => (first: A) => boolean
 ```
 
 Added in v3.0.0
@@ -284,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Ord<A> extends Eq<A> {
+export interface Ord<A> {
   readonly compare: (second: A) => (first: A) => Ordering
 }
 ```
@@ -339,6 +324,16 @@ const f = clamp(N.Ord)(2, 4)
 assert.deepStrictEqual(pipe(1, f), 2)
 assert.deepStrictEqual(pipe(3, f), 3)
 assert.deepStrictEqual(pipe(5, f), 4)
+```
+
+Added in v3.0.0
+
+## equals
+
+**Signature**
+
+```ts
+export declare const equals: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
 ```
 
 Added in v3.0.0

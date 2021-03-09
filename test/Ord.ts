@@ -96,33 +96,6 @@ describe('Ord', () => {
     deepStrictEqual(pipe(2, f(1)), true)
   })
 
-  it('fromCompare', () => {
-    const O1 = _.fromCompare(N.Ord.compare)
-    deepStrictEqual(O1.equals(0)(1), false)
-    deepStrictEqual(O1.equals(1)(1), true)
-    interface A {
-      readonly x: number
-    }
-    let nbCall = 0
-    const O2 = _.fromCompare<A>((second) => {
-      const f = N.Ord.compare(second.x)
-      return (first) => {
-        nbCall += 1
-        return f(first.x)
-      }
-    })
-    const a1 = { x: 1 }
-    const a2 = { x: 1 }
-    deepStrictEqual(O2.equals(a1)(a1), true)
-    deepStrictEqual(nbCall, 0)
-    deepStrictEqual(O2.equals(a1)(a2), true)
-    deepStrictEqual(nbCall, 1)
-    deepStrictEqual(pipe(a1, O2.compare(a1)), 0)
-    deepStrictEqual(nbCall, 1)
-    deepStrictEqual(pipe(a1, O2.compare(a2)), 0)
-    deepStrictEqual(nbCall, 2)
-  })
-
   it('min', () => {
     type A = { readonly a: number }
     const min = _.min(
@@ -151,5 +124,11 @@ describe('Ord', () => {
     const first = { a: 1 }
     const second = { a: 1 }
     assert.strictEqual(pipe(first, max(second)), first)
+  })
+
+  it('equals', () => {
+    const equals = _.equals(N.Ord)
+    deepStrictEqual(equals(1)(1), true)
+    deepStrictEqual(equals(1)(2), false)
   })
 })

@@ -21,7 +21,6 @@ export const Eq: E.Eq<number> = E.EqStrict
  * @since 3.0.0
  */
 export const Ord: O.Ord<number> = {
-  equals: Eq.equals,
   compare: (second) => (first) => (first < second ? -1 : first > second ? 1 : 0)
 }
 
@@ -30,7 +29,6 @@ export const Ord: O.Ord<number> = {
  * @since 3.0.0
  */
 export const Bounded: B.Bounded<number> = {
-  equals: Ord.equals,
   compare: Ord.compare,
   top: Infinity,
   bottom: -Infinity

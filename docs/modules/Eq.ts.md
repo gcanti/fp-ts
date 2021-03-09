@@ -27,6 +27,7 @@ Added in v3.0.0
   - [tuple](#tuple)
 - [constructors](#constructors)
   - [fromEquals](#fromequals)
+  - [fromOrd](#fromord)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
   - [EqStrict](#eqstrict)
@@ -99,6 +100,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEquals: <A>(equals: (second: A) => (first: A) => boolean) => Eq<A>
+```
+
+Added in v3.0.0
+
+## fromOrd
+
+**Signature**
+
+```ts
+export declare const fromOrd: <A>(O: Ord<A>) => Eq<A>
 ```
 
 Added in v3.0.0

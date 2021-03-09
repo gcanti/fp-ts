@@ -24,20 +24,9 @@ import { Semigroup } from './Semigroup'
  * @category type classes
  * @since 3.0.0
  */
-export interface Ord<A> extends Eq<A> {
+export interface Ord<A> {
   readonly compare: (second: A) => (first: A) => Ordering
 }
-
-// -------------------------------------------------------------------------------------
-// defaults
-// -------------------------------------------------------------------------------------
-
-/**
- * @category defaults
- * @since 3.0.0
- */
-export const equalsDefault = <A>(compare: Ord<A>['compare']): Eq<A>['equals'] => (second) => (first) =>
-  first === second || compare(second)(first) === 0
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -48,7 +37,6 @@ export const equalsDefault = <A>(compare: Ord<A>['compare']): Eq<A>['equals'] =>
  * @since 3.0.0
  */
 export const fromCompare = <A>(compare: Ord<A>['compare']): Ord<A> => ({
-  equals: equalsDefault(compare),
   compare: (second) => (first) => (first === second ? 0 : compare(second)(first))
 })
 
@@ -249,6 +237,12 @@ export const Contravariant: Contravariant1<URI> = {
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const equals = <A>(O: Ord<A>): Eq<A>['equals'] => (second: A) => (first: A) =>
+  first === second || O.compare(second)(first) === 0
 
 /**
  * Test whether one value is _strictly less than_ another.
