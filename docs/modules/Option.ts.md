@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 56
+nav_order: 57
 parent: Modules
 ---
 
@@ -96,6 +96,7 @@ Added in v3.0.0
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -556,19 +557,21 @@ Returns a _smart constructor_ based on the given predicate.
 **Signature**
 
 ```ts
-export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+export declare const fromPredicate: {
+  <A, B>(refinement: Refinement<A, B>): (a: A) => Option<B>
+  <A>(predicate: Predicate<A>): (a: A) => Option<A>
+}
 ```
 
 **Example**
 
 ```ts
-import { none, some, fromPredicate } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 
-const getOption = fromPredicate((n: number) => n >= 0)
+const getOption = O.fromPredicate((n: number) => n >= 0)
 
-assert.deepStrictEqual(getOption(-1), none)
-assert.deepStrictEqual(getOption(1), some(1))
+assert.deepStrictEqual(getOption(-1), O.none)
+assert.deepStrictEqual(getOption(1), O.some(1))
 ```
 
 Added in v3.0.0
@@ -1020,6 +1023,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Foldable: Foldable1<'Option'>
+```
+
+Added in v3.0.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Option'>
 ```
 
 Added in v3.0.0

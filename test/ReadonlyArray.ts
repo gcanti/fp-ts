@@ -1040,4 +1040,9 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.size([]), 0)
     U.deepStrictEqual(_.size(['a']), 1)
   })
+
+  it('fromEither', () => {
+    U.deepStrictEqual(_.fromEither(E.right(1)), [1])
+    assert.strictEqual(_.fromEither(E.left('a')), _.empty)
+  })
 })

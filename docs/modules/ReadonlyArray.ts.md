@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -88,6 +88,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
+  - [fromEither](#fromeither)
+  - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [range](#range)
@@ -115,6 +117,7 @@ Added in v3.0.0
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
@@ -248,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: readonly O.Option<A>[]) => readonly A[]
+export declare const compact: <A>(foa: readonly Option<A>[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -292,7 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -326,9 +329,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(
-  f: (i: number, a: A) => O.Option<B>
-) => (fa: readonly A[]) => readonly B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -472,8 +473,6 @@ Added in v3.0.0
 
 ## sequence
 
-**for optimized and stack safe version check the data types `sequenceArray` function**
-
 **Signature**
 
 ```ts
@@ -483,8 +482,6 @@ export declare const sequence: Sequence1<'ReadonlyArray'>
 Added in v3.0.0
 
 ## traverse
-
-**for optimized and stack safe version check the data types `traverseArray` function**
 
 **Signature**
 
@@ -497,8 +494,6 @@ Added in v3.0.0
 # TraversableWithIndex
 
 ## traverseWithIndex
-
-**for optimized and stack safe version check the data types `traverseReadonlyArrayWithIndex` function**
 
 **Signature**
 
@@ -515,7 +510,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const unfold: <B, A>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
+export declare const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1171,6 +1166,31 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare const fromPredicate: {
+  <A, B>(refinement: Refinement<A, B>): (a: A) => readonly B[]
+  <A>(predicate: Predicate<A>): (a: A) => readonly A[]
+}
+```
+
+Added in v3.0.0
+
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1499,6 +1519,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyArray', number>
+```
+
+Added in v3.0.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'ReadonlyArray'>
 ```
 
 Added in v3.0.0
@@ -1856,7 +1886,7 @@ Delete the element at the specified index, creating a new `ReadonlyArray`, or re
 **Signature**
 
 ```ts
-export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -1965,7 +1995,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<B>
 ```
 
 **Example**
@@ -2074,7 +2104,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<B>
 ```
 
 **Example**
@@ -2103,7 +2133,7 @@ Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is 
 **Signature**
 
 ```ts
-export declare const head: <A>(as: readonly A[]) => O.Option<A>
+export declare const head: <A>(as: readonly A[]) => Option<A>
 ```
 
 **Example**
@@ -2125,7 +2155,7 @@ Get all but the last element of a `ReadonlyArray`, creating a new `ReadonlyArray
 **Signature**
 
 ```ts
-export declare const init: <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const init: <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2147,7 +2177,7 @@ Insert an element at the specified index, creating a new `ReadonlyArray`, or ret
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<RNEA.ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<RNEA.ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**
@@ -2200,7 +2230,7 @@ Get the last element in a `ReadonlyArray`, or `None` if the `ReadonlyArray` is e
 **Signature**
 
 ```ts
-export declare const last: <A>(as: readonly A[]) => O.Option<A>
+export declare const last: <A>(as: readonly A[]) => Option<A>
 ```
 
 **Example**
@@ -2243,7 +2273,7 @@ This function provides a safe way to read a value at a particular index from a `
 **Signature**
 
 ```ts
-export declare const lookup: (i: number) => <A>(as: readonly A[]) => O.Option<A>
+export declare const lookup: (i: number) => <A>(as: readonly A[]) => Option<A>
 ```
 
 **Example**
@@ -2267,7 +2297,7 @@ of bounds.
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: Endomorphism<A>) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const modifyAt: <A>(i: number, f: Endomorphism<A>) => (as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2374,7 +2404,7 @@ Get all but the first element of a `ReadonlyArray`, creating a new `ReadonlyArra
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const tail: <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2457,7 +2487,7 @@ Change the element at the specified index, creating a new `ReadonlyArray`, or re
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**

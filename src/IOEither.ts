@@ -31,6 +31,7 @@ import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import * as _ from './internal'
 
 import Either = E.Either
 import IO = I.IO
@@ -808,12 +809,12 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a:
   const out = []
   for (let i = 0; i < as.length; i++) {
     const e = f(i, as[i])()
-    if (E.isLeft(e)) {
+    if (_.isLeft(e)) {
       return e
     }
     out.push(e.right)
   }
-  return E.right(out)
+  return _.right(out)
 }
 
 /**

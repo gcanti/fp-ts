@@ -10,6 +10,7 @@ import { HKT, Kind, URIS } from './HKT'
 import { Monad, Monad1 } from './Monad'
 import * as O from './Option'
 import { Pointed, Pointed1 } from './Pointed'
+import * as _ from './internal'
 
 import Option = O.Option
 
@@ -23,7 +24,7 @@ import Option = O.Option
 export function some<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<A>>
 export function some<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>>
 export function some<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>> {
-  return flow(O.some, F.of)
+  return flow(_.some, F.of)
 }
 
 /**
@@ -32,7 +33,7 @@ export function some<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>> {
 export function none<F extends URIS>(F: Pointed1<F>): Kind<F, Option<never>>
 export function none<F>(F: Pointed<F>): HKT<F, Option<never>>
 export function none<F>(F: Pointed<F>): HKT<F, Option<never>> {
-  return F.of(O.none)
+  return F.of(_.none)
 }
 
 /**
@@ -41,7 +42,7 @@ export function none<F>(F: Pointed<F>): HKT<F, Option<never>> {
 export function fromF<F extends URIS>(F: Functor1<F>): <A>(ma: Kind<F, A>) => Kind<F, Option<A>>
 export function fromF<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
 export function fromF<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>> {
-  return F.map(O.some)
+  return F.map(_.some)
 }
 
 /**

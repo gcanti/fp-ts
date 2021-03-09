@@ -11,6 +11,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -266,7 +267,7 @@ export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: Rea
     const r: Set<B> = new Set()
     fa.forEach((a) => {
       const ob = f(a)
-      if (ob._tag === 'Some' && !elemE(ob.value)(r)) {
+      if (_.isSome(ob) && !elemE(ob.value)(r)) {
         r.add(ob.value)
       }
     })

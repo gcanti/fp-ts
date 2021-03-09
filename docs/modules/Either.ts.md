@@ -467,7 +467,7 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
@@ -558,9 +558,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
+export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -685,7 +683,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
   <A>(predicate: Predicate<A>): (a: A) => Either<A, A>
 }
 ```

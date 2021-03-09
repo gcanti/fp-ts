@@ -6,7 +6,8 @@ import { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
-import * as E from './Either'
+import { Either } from './Either'
+import * as _ from './internal'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -43,7 +44,6 @@ import { TaskEither } from './TaskEither'
 // -------------------------------------------------------------------------------------
 
 import ReaderTaskEither = RTE.ReaderTaskEither
-import Either = E.Either
 
 /**
  * @category model
@@ -208,9 +208,7 @@ export const fromState =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither4<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.match((e) => left(e), right)
+export const fromEither: FromEither4<URI>['fromEither'] = (e) => (_.isLeft(e) ? left(e.left) : right(e.right))
 
 /**
  * @category constructors
@@ -850,13 +848,13 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
   as.reduce<Promise<Either<E, [Array<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
-        E.isLeft(ebs)
+        _.isLeft(ebs)
           ? acc
           : f(
               i,
               a
             )(s)(r)().then((eb) => {
-              if (E.isLeft(eb)) {
+              if (_.isLeft(eb)) {
                 return eb
               }
               const [b, s] = eb.right
@@ -865,7 +863,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
               return ebs
             })
       ),
-    Promise.resolve(E.right([[], s]))
+    Promise.resolve(_.right([[], s]))
   )
 
 /**

@@ -3,14 +3,12 @@
  *
  * @since 3.0.0
  */
-
 import { Chain, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import * as E from './Either'
+import { Either } from './Either'
 import { flow, Lazy, pipe, Predicate, Refinement } from './function'
-import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Option } from './Option'
-
-import Either = E.Either
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -23,6 +21,15 @@ import Either = E.Either
 export interface FromEither<F> {
   readonly URI?: F
   readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
+}
+
+/**
+ * @category type classes
+ * @since 3.0.0
+ */
+export interface FromEither1<F extends URIS> {
+  readonly URI?: F
+  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
 }
 
 /**
@@ -97,7 +104,7 @@ export function fromOption<F extends URIS2, E>(
 ): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A> {
-  return (onNone) => flow(E.fromOption(onNone), F.fromEither)
+  return (onNone) => (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
 }
 
 /**
@@ -122,6 +129,12 @@ export function fromPredicate<F extends URIS2>(
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind2<F, A, B>
   <A>(predicate: Predicate<A>): (a: A) => Kind2<F, A, A>
 }
+export function fromPredicate<F extends URIS>(
+  F: FromEither1<F>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind<F, B>
+  <A>(predicate: Predicate<A>): (a: A) => Kind<F, A>
+}
 export function fromPredicate<F>(
   F: FromEither<F>
 ): {
@@ -134,7 +147,7 @@ export function fromPredicate<F>(
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT2<F, A, B>
   <A>(predicate: Predicate<A>): (a: A) => HKT2<F, A, A>
 } {
-  return <A>(predicate: Predicate<A>) => flow(E.fromPredicate(predicate), F.fromEither)
+  return <A>(predicate: Predicate<A>) => (a: A) => F.fromEither(predicate(a) ? _.right(a) : _.left(a))
 }
 
 // -------------------------------------------------------------------------------------
@@ -344,6 +357,6 @@ export function filterOrElse<M extends URIS2>(
   return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
     pipe(
       ma,
-      M.chain((a) => F.fromEither(predicate(a) ? E.right(a) : E.left(onFalse(a))))
+      M.chain((a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
     )
 }

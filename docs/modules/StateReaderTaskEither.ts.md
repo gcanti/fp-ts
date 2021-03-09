@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -274,7 +274,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
+  f: (a: A) => Either<E, B>
 ) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -288,7 +288,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 
 ```ts
 export declare const chainEitherKW: <E2, A, B>(
-  f: (a: A) => E.Either<E2, B>
+  f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
 
@@ -504,7 +504,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromEitherK: <A, E, B>(
-  f: (...a: A) => E.Either<E, B>
+  f: (...a: A) => Either<E, B>
 ) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -587,7 +587,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S, R>(e: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromEither: <E, A, S, R>(e: Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

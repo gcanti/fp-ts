@@ -3,7 +3,8 @@
  */
 import { Applicative } from './Applicative'
 import { Compactable2 } from './Compactable'
-import { Either, isLeft } from './Either'
+import { Either } from './Either'
+import * as _ from './internal'
 import { Eq, fromEquals } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
@@ -77,7 +78,7 @@ export function fromFoldable<F>(
       F.reduce<Map<K, B>, A>(new Map<K, B>(), (out, a) => {
         const [k, b] = f(a)
         const oka = lookupWithKeyE(k)(out)
-        if (O.isSome(oka)) {
+        if (_.isSome(oka)) {
           out.set(oka.value[0], M.concat(b)(oka.value[1]))
         } else {
           out.set(k, b)
@@ -103,7 +104,7 @@ export const insertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
   return (k, a) => {
     const memberEk = memberE(k)
     const upsertAtEka = upsertAtE(k, a)
-    return (m) => (memberEk(m) ? O.none : O.some(upsertAtEka(m)))
+    return (m) => (memberEk(m) ? _.none : _.some(upsertAtEka(m)))
   }
 }
 
@@ -119,7 +120,7 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: ReadonlyMap<K, A>
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
       const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
+      if (_.isNone(found)) {
         const out = new Map(m)
         out.set(k, a)
         return out
@@ -156,17 +157,17 @@ export const modifyAt = <K>(
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
       const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
-        return O.none
+      if (_.isNone(found)) {
+        return _.none
       }
       const [fk, fv] = found.value
       const next = f(fv)
       if (next === fv) {
-        return O.some(m)
+        return _.some(m)
       }
       const r = new Map(m)
       r.set(fk, next)
-      return O.some(r)
+      return _.some(r)
     }
   }
 }
@@ -247,7 +248,7 @@ export const compact: Compactable2<URI>['compact'] = <K, A>(m: ReadonlyMap<K, Op
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
-    if (O.isSome(oa)) {
+    if (_.isSome(oa)) {
       out.set(k, oa.value)
     }
   }
@@ -268,7 +269,7 @@ export const separate: Compactable2<URI>['separate'] = <K, A, B>(
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
@@ -341,7 +342,7 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
-    if (O.isSome(o)) {
+    if (_.isSome(o)) {
       m.set(k, o.value)
     }
   }
@@ -386,7 +387,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
@@ -460,7 +461,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const oka = lookupWithKeyS(k)(first)
-        if (O.isSome(oka)) {
+        if (_.isSome(oka)) {
           r.set(oka.value[0], SA.concat(a)(oka.value[1]))
         } else {
           r.set(k, a)
@@ -697,7 +698,7 @@ export const member = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => boo
   const lookupE = lookup(E)
   return (k) => {
     const lookupEk = lookupE(k)
-    return (m) => O.isSome(lookupEk(m))
+    return (m) => _.isSome(lookupEk(m))
   }
 }
 
@@ -773,10 +774,10 @@ export const lookupWithKey = <K>(E: Eq<K>) => (k: K): (<A>(m: ReadonlyMap<K, A>)
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicate(k)) {
-        return O.some([k, a])
+        return _.some([k, a])
       }
     }
-    return O.none
+    return _.none
   }
 }
 
@@ -807,7 +808,7 @@ export const isSubmap = <K, A>(
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const oka = lookupWithKeyS(k)(second)
-      if (O.isNone(oka) || !EK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
+      if (_.isNone(oka) || !EK.equals(oka.value[0])(k) || !SA.equals(oka.value[1])(a)) {
         return false
       }
     }
@@ -849,7 +850,7 @@ export function toUnfoldable<F>(
     return (m) => {
       const arr = toReadonlyArray_(m)
       const len = arr.length
-      return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
+      return U.unfold(0, (b) => (b < len ? _.some([arr[b], b + 1]) : _.none))
     }
   }
 }

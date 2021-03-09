@@ -28,6 +28,7 @@ import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
 import * as T from './Task'
+import * as _ from './internal'
 
 import Task = T.Task
 import Option = O.Option
@@ -104,8 +105,8 @@ export const fromEither =
  */
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
   f().then(
-    (a) => O.some(a),
-    () => O.none
+    (a) => _.some(a),
+    () => _.none
   )
 
 /**
@@ -143,7 +144,7 @@ export const match =
 export const matchW: <B, A, C>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<C>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B | C> = match as any
+) => (ma: T.Task<Option<A>>) => T.Task<B | C> = match as any
 
 /**
  * @category destructors
@@ -676,17 +677,17 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A)
   as.reduce<Promise<Option<Array<B>>>>(
     (acc, a, i) =>
       acc.then((obs) =>
-        O.isNone(obs)
+        _.isNone(obs)
           ? acc
           : f(i, a)().then((ob) => {
-              if (O.isNone(ob)) {
+              if (_.isNone(ob)) {
                 return ob
               }
               obs.value.push(ob.value)
               return obs
             })
       ),
-    Promise.resolve(O.some([]))
+    Promise.resolve(_.some([]))
   )
 
 /**

@@ -27,7 +27,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import * as NEA from './NonEmptyArray'
-import * as O from './Option'
+import { Option } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyRecord } from './ReadonlyRecord'
@@ -35,9 +35,9 @@ import * as Se from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+import * as _ from './internal'
 
 import Semigroup = Se.Semigroup
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -102,7 +102,7 @@ export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyArray<A
  * @since 3.0.0
  */
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  isNonEmpty(as) ? O.some(as) : O.none
+  isNonEmpty(as) ? _.some(as) : _.none
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -263,16 +263,16 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   as: ReadonlyNonEmptyArray<A>
 ): Option<ReadonlyNonEmptyArray<A>> => {
   if (isOutOfBound(i, as)) {
-    return O.none
+    return _.none
   }
   const prev = as[i]
   const next = f(prev)
   if (next === prev) {
-    return O.some(as)
+    return _.some(as)
   }
   const out = NEA.fromReadonlyNonEmptyArray(as)
   out[i] = next
-  return O.some(out)
+  return _.some(out)
 }
 
 /**

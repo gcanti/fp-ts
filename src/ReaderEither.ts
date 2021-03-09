@@ -27,6 +27,7 @@ import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
+import * as _ from './internal'
 
 import Either = E.Either
 import Reader = R.Reader
@@ -81,13 +82,13 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, 
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
+export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => _.right
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, _.right)
 
 /**
  * @category constructors

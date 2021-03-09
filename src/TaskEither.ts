@@ -51,6 +51,7 @@ import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
+import * as _ from './internal'
 
 import Either = E.Either
 import Task = T.Task
@@ -150,7 +151,7 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
  * @category constructors
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(E.right, E.left)
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(_.right, _.left)
 
 /**
  * @category constructors
@@ -871,7 +872,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
     const args = Array.prototype.slice.call(arguments)
     return () =>
       new Promise((resolve) => {
-        const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.left(e)) : resolve(_.right(r)))
         f.apply(null, args.concat(cbResolver))
       })
   }
@@ -1042,17 +1043,17 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(f: (index: number, a:
   as.reduce<Promise<Either<E, Array<B>>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
-        E.isLeft(ebs)
+        _.isLeft(ebs)
           ? acc
           : f(i, a)().then((eb) => {
-              if (E.isLeft(eb)) {
+              if (_.isLeft(eb)) {
                 return eb
               }
               ebs.right.push(eb.right)
               return ebs
             })
       ),
-    Promise.resolve(E.right([]))
+    Promise.resolve(_.right([]))
   )
 
 /**

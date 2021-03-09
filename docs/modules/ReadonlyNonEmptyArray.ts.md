@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 70
+nav_order: 71
 parent: Modules
 ---
 
@@ -571,7 +571,7 @@ Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an em
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -1017,7 +1017,7 @@ of bounds.
 export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -1094,7 +1094,7 @@ Change the element at the specified index, creating a new `ReadonlyNonEmptyArray
 export declare const updateAt: <A>(
   i: number,
   a: A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0

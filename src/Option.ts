@@ -23,9 +23,11 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
+import { FromEither1, fromPredicate as fromPredicate_ } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
@@ -68,20 +70,6 @@ export type Option<A> = None | Some<A>
 // -------------------------------------------------------------------------------------
 
 /**
- * Returns `true` if the option is an instance of `Some`, `false` otherwise.
- *
- * @example
- * import { some, none, isSome } from 'fp-ts/Option'
- *
- * assert.strictEqual(isSome(some(1)), true)
- * assert.strictEqual(isSome(none), false)
- *
- * @category guards
- * @since 3.0.0
- */
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
-
-/**
  * Returns `true` if the option is `None`, `false` otherwise.
  *
  * @example
@@ -93,7 +81,21 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
  * @category guards
  * @since 3.0.0
  */
-export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
+export const isNone: <A>(fa: Option<A>) => fa is None = _.isNone
+
+/**
+ * Returns `true` if the option is an instance of `Some`, `false` otherwise.
+ *
+ * @example
+ * import { some, none, isSome } from 'fp-ts/Option'
+ *
+ * assert.strictEqual(isSome(some(1)), true)
+ * assert.strictEqual(isSome(none), false)
+ *
+ * @category guards
+ * @since 3.0.0
+ */
+export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -105,7 +107,7 @@ export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
  * @category constructors
  * @since 3.0.0
  */
-export const none: Option<never> = { _tag: 'None' }
+export const none: Option<never> = _.none
 
 /**
  * Constructs a `Some`. Represents an optional value that exists.
@@ -113,7 +115,7 @@ export const none: Option<never> = { _tag: 'None' }
  * @category constructors
  * @since 3.0.0
  */
-export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
+export const some: <A>(a: A) => Option<A> = _.some
 
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
@@ -130,26 +132,6 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
  * @since 3.0.0
  */
 export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
-
-/**
- * Returns a *smart constructor* based on the given predicate.
- *
- * @example
- * import { none, some, fromPredicate } from 'fp-ts/Option'
- *
- * const getOption = fromPredicate((n: number) => n >= 0)
- *
- * assert.deepStrictEqual(getOption(-1), none)
- * assert.deepStrictEqual(getOption(1), some(1))
- *
- * @category constructors
- * @since 3.0.0
- */
-export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
-  return (a) => (predicate(a) ? some(a) : none)
-}
 
 /**
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
@@ -192,7 +174,7 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
  * @category constructors
  * @since 3.0.0
  */
-export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Right' ? none : some(ma.left))
+export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (_.isRight(ma) ? none : some(ma.left))
 
 /**
  * Returns the `Right` value of an `Either` if possible.
@@ -207,7 +189,7 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Righ
  * @category constructors
  * @since 3.0.0
  */
-export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
+export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (_.isLeft(ma) ? none : some(ma.right))
 
 /**
  * Transforms an `Either` to an `Option` discarding the error.
@@ -980,6 +962,32 @@ export const Witherable: Witherable1<URI> = {
   wither,
   wilt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromEither: FromEither1<URI> = {
+  fromEither
+}
+
+/**
+ * Returns a *smart constructor* based on the given predicate.
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ *
+ * const getOption = O.fromPredicate((n: number) => n >= 0)
+ *
+ * assert.deepStrictEqual(getOption(-1), O.none)
+ * assert.deepStrictEqual(getOption(1), O.some(1))
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils

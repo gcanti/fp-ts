@@ -3,6 +3,7 @@
  */
 import { Either } from './Either'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -82,7 +83,7 @@ export interface ChainRec4<F extends URIS4> {
  */
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>) => (startWith: A): B => {
   let v = f(startWith)
-  while (v._tag === 'Left') {
+  while (_.isLeft(v)) {
     v = f(v.left)
   }
   return v.right

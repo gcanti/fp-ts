@@ -24,6 +24,7 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import * as _ from './internal'
 
 import Option = O.Option
 
@@ -100,9 +101,9 @@ export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
   if (!_hasOwnProperty.call(r, k)) {
     const out: Record<string, A> = Object.assign({}, r)
     out[k] = a
-    return O.some(out)
+    return _.some(out)
   }
-  return O.none
+  return _.none
 }
 
 /**
@@ -139,15 +140,15 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => (
   r: ReadonlyRecord<string, A>
 ): Option<ReadonlyRecord<string, A>> => {
   if (!has(k, r)) {
-    return O.none
+    return _.none
   }
   const a = f(r[k])
   if (a === r[k]) {
-    return O.some(r)
+    return _.some(r)
   }
   const out: Record<string, A> = Object.assign({}, r)
   out[k] = a
-  return O.some(out)
+  return _.some(out)
 }
 
 /**
@@ -158,11 +159,11 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => (
  */
 export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
   if (!_hasOwnProperty.call(r, k)) {
-    return O.none
+    return _.none
   }
   const out: Record<string, A> = Object.assign({}, r)
   delete out[k]
-  return O.some(out)
+  return _.some(out)
 }
 
 /**
@@ -500,7 +501,7 @@ export function filterMapWithIndex<A, B>(
     const keys = Object.keys(fa)
     for (const key of keys) {
       const optionB = f(key, fa[key])
-      if (O.isSome(optionB)) {
+      if (_.isSome(optionB)) {
         r[key] = optionB.value
       }
     }
@@ -599,7 +600,7 @@ export const compact: Compactable1<URI>['compact'] = <A>(
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionA = fa[key]
-    if (O.isSome(optionA)) {
+    if (_.isSome(optionA)) {
       r[key] = optionA.value
     }
   }
@@ -878,7 +879,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
   return (r) => {
     const arr = toReadonlyArray(r)
     const len = arr.length
-    return U.unfold(0, (b) => (b < len ? O.some([arr[b], b + 1]) : O.none))
+    return U.unfold(0, (b) => (b < len ? _.some([arr[b], b + 1]) : _.none))
   }
 }
 
@@ -915,7 +916,7 @@ export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) 
  * @since 3.0.0
  */
 export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
-  _hasOwnProperty.call(r, k) ? O.some(r[k]) : O.none
+  _hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
 
 /**
  * An empty `ReadonlyRecord`.

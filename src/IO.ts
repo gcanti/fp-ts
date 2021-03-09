@@ -20,6 +20,7 @@ import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -74,7 +75,7 @@ export const chain: Chain1<URI>['chain'] = (f) => (ma) => () => f(ma())()
  */
 export const chainRec: ChainRec1<URI>['chainRec'] = (f) => (a) => () => {
   let e = f(a)()
-  while (e._tag === 'Left') {
+  while (_.isLeft(e)) {
     e = f(e.left)()
   }
   return e.right

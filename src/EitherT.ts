@@ -10,6 +10,7 @@ import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Pointed, Pointed1, Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import * as _ from './internal'
 
 import Either = E.Either
 
@@ -20,7 +21,7 @@ export function right<F extends URIS2>(F: Pointed2<F>): <A, FE, E = never>(a: A)
 export function right<F extends URIS>(F: Pointed1<F>): <A, E = never>(a: A) => Kind<F, Either<E, A>>
 export function right<F>(F: Pointed<F>): <A, E = never>(a: A) => HKT<F, Either<E, A>>
 export function right<F>(F: Pointed<F>): <A, E = never>(a: A) => HKT<F, Either<E, A>> {
-  return flow(E.right, F.of)
+  return flow(_.right, F.of)
 }
 
 /**
@@ -30,7 +31,7 @@ export function left<F extends URIS2>(F: Pointed2<F>): <E, FE, A = never>(e: E) 
 export function left<F extends URIS>(F: Pointed1<F>): <E, A = never>(e: E) => Kind<F, Either<E, A>>
 export function left<F>(F: Pointed<F>): <E, A = never>(e: E) => HKT<F, Either<E, A>>
 export function left<F>(F: Pointed<F>): <E, A = never>(e: E) => HKT<F, Either<E, A>> {
-  return flow(E.left, F.of)
+  return flow(_.left, F.of)
 }
 
 /**
@@ -42,7 +43,7 @@ export function rightF<F extends URIS2>(
 export function rightF<F extends URIS>(F: Functor1<F>): <A, E = never>(fa: Kind<F, A>) => Kind<F, Either<E, A>>
 export function rightF<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, Either<E, A>>
 export function rightF<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, Either<E, A>> {
-  return F.map(E.right)
+  return F.map(_.right)
 }
 
 /**
@@ -54,7 +55,7 @@ export function leftF<F extends URIS2>(
 export function leftF<F extends URIS>(F: Functor1<F>): <E, A = never>(fe: Kind<F, E>) => Kind<F, Either<E, A>>
 export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>>
 export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>> {
-  return F.map(E.left)
+  return F.map(_.left)
 }
 
 /**
@@ -108,7 +109,7 @@ export function chain<M>(
 export function chain<M>(
   M: Monad<M>
 ): <A, E, B>(f: (a: A) => HKT<M, Either<E, B>>) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, B>> {
-  return (f) => M.chain((e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
+  return (f) => M.chain((e) => (_.isLeft(e) ? M.of(e) : f(e.right)))
 }
 
 /**
@@ -128,7 +129,7 @@ export function alt<M>(
 export function alt<M>(
   M: Monad<M>
 ): <E, A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
-  return (second) => M.chain((e) => (E.isLeft(e) ? second() : M.of(e)))
+  return (second) => M.chain((e) => (_.isLeft(e) ? second() : M.of(e)))
 }
 
 /**
@@ -223,7 +224,7 @@ export function orElse<M>(
 export function orElse<M>(
   M: Monad<M>
 ): <E1, E2, A>(onLeft: (e: E1) => HKT<M, Either<E2, A>>) => (ma: HKT<M, Either<E1, A>>) => HKT<M, Either<E2, A>> {
-  return (onLeft) => M.chain((e) => (E.isLeft(e) ? onLeft(e.left) : M.of(e)))
+  return (onLeft) => M.chain((e) => (_.isLeft(e) ? onLeft(e.left) : M.of(e)))
 }
 
 /**

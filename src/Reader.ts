@@ -14,6 +14,7 @@ import { Profunctor2 } from './Profunctor'
 import { Semigroupoid2 } from './Semigroupoid'
 import * as E from './Either'
 import { Strong2 } from './Strong'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -143,13 +144,13 @@ export const id: Category2<URI>['id'] = () => identity
  * @category Choice
  * @since 3.0.0
  */
-export const left: Choice2<URI>['left'] = (pab) => E.match((a) => E.left(pab(a)), E.right)
+export const left: Choice2<URI>['left'] = (pab) => E.match((a) => _.left(pab(a)), _.right)
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-export const right: Choice2<URI>['right'] = (pbc) => E.match(E.left, (b) => E.right(pbc(b)))
+export const right: Choice2<URI>['right'] = (pbc) => E.match(_.left, (b) => _.right(pbc(b)))
 
 /**
  * @category Strong

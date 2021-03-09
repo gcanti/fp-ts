@@ -33,6 +33,7 @@ import { Either } from './Either'
 import { identity, pipe } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
+import * as _ from './internal'
 
 /**
  * @category type classes
@@ -162,7 +163,7 @@ export function fanIn<P>(
       C.compose(
         pipe(
           C.id<C>(),
-          P.promap((cc: Either<C, C>) => (cc._tag === 'Left' ? cc.left : cc.right), identity)
+          P.promap((cc: Either<C, C>) => (_.isLeft(cc) ? cc.left : cc.right), identity)
         )
       )
     )

@@ -19,6 +19,7 @@ import { Pointed2C } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Traversable2 } from './Traversable'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -312,7 +313,7 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
     let result: readonly [Either<A, B>, M] = f(a)
     let acc: M = M.empty
     let s: Either<A, B> = fst(result)
-    while (s._tag === 'Left') {
+    while (_.isLeft(s)) {
       acc = M.concat(snd(result))(acc)
       result = f(s.left)
       s = fst(result)
