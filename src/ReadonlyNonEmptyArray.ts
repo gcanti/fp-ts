@@ -184,7 +184,7 @@ export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<
  * import { group } from 'fp-ts/ReadonlyNonEmptyArray'
  * import * as N from 'fp-ts/number'
  *
- * assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [
+ * assert.deepStrictEqual(group(N.Eq)([1, 2, 1, 1]), [
  *   [1],
  *   [2],
  *   [1, 1]

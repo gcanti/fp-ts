@@ -789,7 +789,7 @@ describe('ReadonlyArray', () => {
     }
 
     const eqA = pipe(
-      N.Ord,
+      N.Eq,
       Eq.contramap((f: A) => f.b)
     )
     const arrA: A = { a: 'a', b: 1 }
@@ -818,7 +818,7 @@ describe('ReadonlyArray', () => {
 
     assert.strictEqual(_.uniq(N.Eq)(_.empty), _.empty)
     const as: ReadonlyArray<number> = [1]
-    assert.strictEqual(_.uniq(N.Ord)(as), as)
+    assert.strictEqual(_.uniq(N.Eq)(as), as)
   })
 
   it('sortBy', () => {

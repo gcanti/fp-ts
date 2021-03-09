@@ -150,11 +150,11 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('group', () => {
-    U.deepStrictEqual(_.group(N.Ord)([]), [])
+    U.deepStrictEqual(_.group(N.Eq)([]), [])
 
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    U.deepStrictEqual(_.group(N.Eq)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    U.deepStrictEqual(_.group(N.Eq)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {

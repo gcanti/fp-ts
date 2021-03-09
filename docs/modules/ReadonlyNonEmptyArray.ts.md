@@ -525,7 +525,7 @@ export declare function group<B>(
 import { group } from 'fp-ts/ReadonlyNonEmptyArray'
 import * as N from 'fp-ts/number'
 
-assert.deepStrictEqual(group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+assert.deepStrictEqual(group(N.Eq)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 ```
 
 Added in v2.5.0
