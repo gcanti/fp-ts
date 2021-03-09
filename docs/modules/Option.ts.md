@@ -57,8 +57,10 @@ Added in v3.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
   - [chainNullableK](#chainnullablek)
   - [flap](#flap)
+  - [fromEitherK](#fromeitherk)
   - [fromNullableK](#fromnullablek)
   - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
@@ -404,6 +406,16 @@ Added in v3.0.0
 
 # combinators
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
 ## chainNullableK
 
 This is `chain` + `fromNullable`, useful when working with optional values.
@@ -465,6 +477,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B>
+```
+
+Added in v3.0.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0

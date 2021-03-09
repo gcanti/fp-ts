@@ -3,12 +3,12 @@
  *
  * @since 3.0.0
  */
-import { Chain, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import { Either } from './Either'
 import { flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Option } from './Option'
 import * as _ from './internal'
+import { Option } from './Option'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -253,6 +253,9 @@ export function fromEitherK<F extends URIS2>(
 export function fromEitherK<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+export function fromEitherK<F extends URIS>(
+  F: FromEither1<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind<F, B>
 export function fromEitherK<F>(
   F: FromEither<F>
 ): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
@@ -286,6 +289,10 @@ export function chainEitherK<M extends URIS2, E>(
   F: FromEither2C<M, E>,
   M: Chain2C<M, E>
 ): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export function chainEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, B>
 export function chainEitherK<M>(
   F: FromEither<M>,
   M: Chain<M>

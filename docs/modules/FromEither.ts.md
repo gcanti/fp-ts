@@ -61,6 +61,10 @@ export declare function chainEitherK<M extends URIS2, E>(
   F: FromEither2C<M, E>,
   M: Chain2C<M, E>
 ): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export declare function chainEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, B>
 export declare function chainEitherK<M>(
   F: FromEither<M>,
   M: Chain<M>
@@ -177,6 +181,9 @@ export declare function fromEitherK<F extends URIS2>(
 export declare function fromEitherK<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromEitherK<F extends URIS>(
+  F: FromEither1<F>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind<F, B>
 export declare function fromEitherK<F>(
   F: FromEither<F>
 ): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
