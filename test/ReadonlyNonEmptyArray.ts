@@ -194,6 +194,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('reverse', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.reverse(singleton), singleton)
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 

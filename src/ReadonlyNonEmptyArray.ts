@@ -176,10 +176,8 @@ export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyArray<A>): Re
  * @category combinators
  * @since 2.5.0
  */
-export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => [
-  last(as),
-  ...as.slice(0, -1).reverse()
-]
+export const reverse = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+  as.length === 1 ? as : [last(as), ...as.slice(0, -1).reverse()]
 
 /**
  * Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
