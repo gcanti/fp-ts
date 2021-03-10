@@ -1056,19 +1056,18 @@ export function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
 export function comprehension<A, B, R>(
   input: [Array<A>, Array<B>],
   f: (a: A, b: B) => R,
   g?: (a: A, b: B) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
-export function comprehension<R>(
-  input: Array<Array<any>>,
-  f: (...xs: Array<any>) => R,
-  g: (...xs: Array<any>) => boolean = () => true
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+export function comprehension<A, R>(
+  input: Array<Array<A>>,
+  f: (...xs: Array<A>) => R,
+  g: (...xs: Array<A>) => boolean = () => true
 ): Array<R> {
-  const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> =>
+  const go = (scope: Array<A>, input: Array<Array<A>>): Array<R> =>
     isNonEmpty(input)
       ? pipe(
           NEA.head(input),

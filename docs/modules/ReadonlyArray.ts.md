@@ -1214,11 +1214,6 @@ export declare function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
 export declare function comprehension<A, B, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
   f: (a: A, b: B) => R,
@@ -1226,8 +1221,8 @@ export declare function comprehension<A, B, R>(
 ): ReadonlyArray<R>
 export declare function comprehension<A, R>(
   input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
+  f: (a: A) => R,
+  g?: (a: A) => boolean
 ): ReadonlyArray<R>
 ```
 

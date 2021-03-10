@@ -1251,13 +1251,12 @@ export declare function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
 export declare function comprehension<A, B, R>(
   input: [Array<A>, Array<B>],
   f: (a: A, b: B) => R,
   g?: (a: A, b: B) => boolean
 ): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
 ```
 
 **Example**

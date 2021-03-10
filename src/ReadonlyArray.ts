@@ -1120,11 +1120,6 @@ export function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): ReadonlyArray<R>
-export function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
 export function comprehension<A, B, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
   f: (a: A, b: B) => R,
@@ -1132,15 +1127,15 @@ export function comprehension<A, B, R>(
 ): ReadonlyArray<R>
 export function comprehension<A, R>(
   input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
+  f: (a: A) => R,
+  g?: (a: A) => boolean
 ): ReadonlyArray<R>
-export function comprehension<R>(
-  input: ReadonlyArray<ReadonlyArray<any>>,
-  f: (...xs: ReadonlyArray<any>) => R,
-  g: (...xs: ReadonlyArray<any>) => boolean = () => true
+export function comprehension<A, R>(
+  input: ReadonlyArray<ReadonlyArray<A>>,
+  f: (...xs: ReadonlyArray<A>) => R,
+  g: (...xs: ReadonlyArray<A>) => boolean = () => true
 ): ReadonlyArray<R> {
-  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> =>
+  const go = (scope: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
     isNonEmpty(input)
       ? pipe(
           RNEA.head(input),
