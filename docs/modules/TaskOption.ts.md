@@ -40,26 +40,21 @@ Added in v2.10.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
-  - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
-  - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
-  - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [none](#none)
   - [some](#some)
-  - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
@@ -85,6 +80,12 @@ Added in v2.10.0
   - [MonadTask](#monadtask)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
+- [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
 - [utils](#utils)
@@ -331,18 +332,6 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<
 
 Added in v2.10.0
 
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <A, B>(
-  f: (a: A) => B
-) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
-```
-
-Added in v2.10.0
-
 ## chainOptionK
 
 **Signature**
@@ -397,16 +386,6 @@ export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task
 
 Added in v2.10.0
 
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <A, B>(f: (...a: A) => B) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
-```
-
-Added in v2.10.0
-
 ## fromOptionK
 
 **Signature**
@@ -423,20 +402,6 @@ Added in v2.10.0
 
 ```ts
 export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => (...a: A) => TaskOption<B>
-```
-
-Added in v2.10.0
-
-## tryCatchK
-
-Converts a function returning a `Promise` to one returning a `TaskOption`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(
-  f: (...a: A) => Promise<B>
-) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -459,16 +424,6 @@ Added in v2.10.0
 
 ```ts
 export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## fromNullable
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
 ```
 
 Added in v2.10.0
@@ -522,22 +477,6 @@ Added in v2.10.0
 
 ```ts
 export declare const some: <A>(a: A) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## tryCatch
-
-Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
-
-Note: `f` should never `throw` errors, they are not caught.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -792,6 +731,70 @@ Added in v2.10.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v2.10.0
+
+# interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B
+) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
+```
+
+Added in v2.10.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
+```
+
+Added in v2.10.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <A, B>(f: (...a: A) => B) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
+```
+
+Added in v2.10.0
+
+## tryCatch
+
+Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+
+Note: `f` should never `throw` errors, they are not caught.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+## tryCatchK
+
+Converts a function returning a `Promise` to one returning a `TaskOption`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Promise<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0

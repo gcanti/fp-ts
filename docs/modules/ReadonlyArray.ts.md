@@ -93,7 +93,6 @@ Added in v2.5.0
 - [constructors](#constructors)
   - [append](#append)
   - [comprehension](#comprehension)
-  - [fromArray](#fromarray)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [range](#range)
@@ -135,6 +134,9 @@ Added in v2.5.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~readonlyArray~~](#readonlyarray)
+- [interop](#interop)
+  - [fromArray](#fromarray)
+  - [toArray](#toarray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -171,7 +173,6 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [toArray](#toarray)
   - [unzip](#unzip)
   - [updateAt](#updateat)
 
@@ -1256,16 +1257,6 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => readonly A[]
-```
-
-Added in v2.5.0
-
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1782,6 +1773,28 @@ export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
   FoldableWithIndex1<'ReadonlyArray', number> &
   TraversableWithIndex1<'ReadonlyArray', number> &
   Witherable1<'ReadonlyArray'>
+```
+
+Added in v2.5.0
+
+# interop
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## toArray
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
@@ -2482,16 +2495,6 @@ export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly
 import { takeRight } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-```
-
-Added in v2.5.0
-
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0

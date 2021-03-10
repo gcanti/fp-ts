@@ -63,7 +63,6 @@ Added in v2.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -77,7 +76,6 @@ Added in v2.0.0
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
-  - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
@@ -85,7 +83,6 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -115,6 +112,10 @@ Added in v2.0.0
   - [~~getTaskValidation~~](#gettaskvalidation)
   - [~~taskEitherSeq~~](#taskeitherseq)
   - [~~taskEither~~](#taskeither)
+- [interop](#interop)
+  - [toUnion](#tounion)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
@@ -650,21 +651,6 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 
 Added in v2.0.0
 
-## tryCatchK
-
-Converts a function returning a `Promise` to one returning a `TaskEither`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <E, A extends readonly unknown[], B>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (reason: unknown) => E
-) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v2.5.0
-
 # constructors
 
 ## fromEither
@@ -790,36 +776,6 @@ export declare const rightTask: <E = never, A = never>(ma: T.Task<A>) => TaskEit
 
 Added in v2.0.0
 
-## tryCatch
-
-Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
-
-Note: `f` should never `throw` errors, they are not caught.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
-```
-
-**Example**
-
-```ts
-import { left, right } from 'fp-ts/Either'
-import { tryCatch } from 'fp-ts/TaskEither'
-
-tryCatch(() => Promise.resolve(1), String)().then((result) => {
-  assert.deepStrictEqual(result, right(1))
-})
-tryCatch(() => Promise.reject('error'), String)().then((result) => {
-  assert.deepStrictEqual(result, left('error'))
-})
-```
-
-Added in v2.0.0
-
 # destructors
 
 ## fold
@@ -898,16 +854,6 @@ export declare const matchW: <E, B, A, C>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>
 ) => (ma: TaskEither<E, A>) => T.Task<B | C>
-```
-
-Added in v2.10.0
-
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
 ```
 
 Added in v2.10.0
@@ -1221,6 +1167,63 @@ export declare const taskEither: Monad2<'TaskEither'> &
 ```
 
 Added in v2.0.0
+
+# interop
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
+```
+
+Added in v2.10.0
+
+## tryCatch
+
+Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+
+Note: `f` should never `throw` errors, they are not caught.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E) => TaskEither<E, A>
+```
+
+**Example**
+
+```ts
+import { left, right } from 'fp-ts/Either'
+import { tryCatch } from 'fp-ts/TaskEither'
+
+tryCatch(() => Promise.resolve(1), String)().then((result) => {
+  assert.deepStrictEqual(result, right(1))
+})
+tryCatch(() => Promise.reject('error'), String)().then((result) => {
+  assert.deepStrictEqual(result, left('error'))
+})
+```
+
+Added in v2.0.0
+
+## tryCatchK
+
+Converts a function returning a `Promise` to one returning a `TaskEither`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (reason: unknown) => E
+) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.5.0
 
 # model
 

@@ -70,12 +70,6 @@ export const prepend = RNEA.prepend
 export const append = RNEA.append
 
 /**
- * @category constructors
- * @since 2.5.0
- */
-export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
-
-/**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
  * If `n` (must be a natural number) is negative return `empty`.
  *
@@ -2133,13 +2127,24 @@ export const unsafeDeleteAt = <A>(i: number, as: ReadonlyArray<A>): ReadonlyArra
 }
 
 // -------------------------------------------------------------------------------------
-// utils
+// interop
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category interop
  * @since 2.5.0
  */
 export const toArray = <A>(as: ReadonlyArray<A>): Array<A> => as.slice()
+
+/**
+ * @category interop
+ * @since 2.5.0
+ */
+export const fromArray = <A>(as: Array<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice())
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
 
 /**
  * An empty array

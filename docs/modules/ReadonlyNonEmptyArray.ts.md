@@ -82,7 +82,6 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [fromArray](#fromarray)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
@@ -111,6 +110,8 @@ Added in v2.5.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~readonlyNonEmptyArray~~](#readonlynonemptyarray)
+- [interop](#interop)
+  - [fromArray](#fromarray)
 - [model](#model)
   - [ReadonlyNonEmptyArray (type alias)](#readonlynonemptyarray-type-alias)
 - [utils](#utils)
@@ -782,16 +783,6 @@ Added in v2.9.0
 
 # constructors
 
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => O.Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v2.5.0
-
 ## fromReadonlyArray
 
 Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the input is empty.
@@ -1103,6 +1094,18 @@ export declare const readonlyNonEmptyArray: Monad1<'ReadonlyNonEmptyArray'> &
   FunctorWithIndex1<'ReadonlyNonEmptyArray', number> &
   FoldableWithIndex1<'ReadonlyNonEmptyArray', number> &
   Alt1<'ReadonlyNonEmptyArray'>
+```
+
+Added in v2.5.0
+
+# interop
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => O.Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0

@@ -118,12 +118,6 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
   isNonEmpty(as) ? O.some(as) : O.none
 
-/**
- * @category constructors
- * @since 2.5.0
- */
-export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.slice())
-
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -153,6 +147,16 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
  * @since 2.9.0
  */
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
+
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 2.5.0
+ */
+export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.slice())
 
 // -------------------------------------------------------------------------------------
 // combinators

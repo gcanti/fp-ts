@@ -53,7 +53,6 @@ Added in v2.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -63,7 +62,6 @@ Added in v2.0.0
   - [leftIO](#leftio)
   - [right](#right)
   - [rightIO](#rightio)
-  - [tryCatch](#trycatch)
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
@@ -71,7 +69,6 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -98,6 +95,10 @@ Added in v2.0.0
   - [~~getIOValidation~~](#getiovalidation)
   - [~~getSemigroup~~](#getsemigroup)
   - [~~ioEither~~](#ioeither)
+- [interop](#interop)
+  - [toUnion](#tounion)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
 - [utils](#utils)
@@ -504,21 +505,6 @@ export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 
 Added in v2.0.0
 
-## tryCatchK
-
-Converts a function that may throw to one returning a `IOEither`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => B,
-  onThrow: (reason: unknown) => E
-) => (...a: A) => IOEither<E, B>
-```
-
-Added in v2.10.0
-
 # constructors
 
 ## fromEither
@@ -604,20 +590,6 @@ export declare const rightIO: <E = never, A = never>(ma: I.IO<A>) => IOEither<E,
 
 Added in v2.0.0
 
-## tryCatch
-
-Constructs a new `IOEither` from a function that performs a side effect and might throw
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E) => IOEither<E, A>
-```
-
-Added in v2.0.0
-
 # destructors
 
 ## fold
@@ -696,16 +668,6 @@ export declare const matchW: <E, B, A, C>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<C>
 ) => (ma: IOEither<E, A>) => I.IO<B | C>
-```
-
-Added in v2.10.0
-
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: I.IO<E.Either<E, A>>) => I.IO<E | A>
 ```
 
 Added in v2.10.0
@@ -985,6 +947,47 @@ export declare const ioEither: Monad2<'IOEither'> &
 ```
 
 Added in v2.0.0
+
+# interop
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: I.IO<E.Either<E, A>>) => I.IO<E | A>
+```
+
+Added in v2.10.0
+
+## tryCatch
+
+Constructs a new `IOEither` from a function that performs a side effect and might throw
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E) => IOEither<E, A>
+```
+
+Added in v2.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `IOEither`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B,
+  onThrow: (reason: unknown) => E
+) => (...a: A) => IOEither<E, B>
+```
+
+Added in v2.10.0
 
 # model
 

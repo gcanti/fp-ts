@@ -103,17 +103,6 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> =
 export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
- * Constructs a new `IOEither` from a function that performs a side effect and might throw
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @category constructors
- * @since 2.0.0
- */
-export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> => () =>
-  E.tryCatch(f, onThrow)
-
-/**
  * @category constructors
  * @since 2.7.0
  */
@@ -174,8 +163,34 @@ export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) 
  */
 export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * Constructs a new `IOEither` from a function that performs a side effect and might throw
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @category interop
+ * @since 2.0.0
+ */
+export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (reason: unknown) => E): IOEither<E, A> => () =>
+  E.tryCatch(f, onThrow)
+
+/**
+ * Converts a function that may throw to one returning a `IOEither`.
+ *
+ * @category interop
+ * @since 2.10.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B,
+  onThrow: (reason: unknown) => E
+): ((...a: A) => IOEither<E, B>) => (...a) => tryCatch(() => f(...a), onThrow)
+
+/**
+ * @category interop
  * @since 2.10.0
  */
 export const toUnion =
@@ -211,17 +226,6 @@ export const orElseW: <E1, E2, B>(
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   /*#__PURE__*/
   ET.swap(I.Functor)
-
-/**
- * Converts a function that may throw to one returning a `IOEither`.
- *
- * @category combinators
- * @since 2.10.0
- */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => B,
-  onThrow: (reason: unknown) => E
-): ((...a: A) => IOEither<E, B>) => (...a) => tryCatch(() => f(...a), onThrow)
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
