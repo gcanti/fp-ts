@@ -33,9 +33,11 @@ Added in v3.0.0
 - [Extend](#extend)
   - [extend](#extend)
 - [Foldable](#foldable)
+  - [foldMap](#foldmap)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [FoldableWithIndex](#foldablewithindex)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
 - [Functor](#functor)
@@ -51,8 +53,6 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
-  - [foldMap](#foldmap)
-  - [foldMapWithIndex](#foldmapwithindex)
   - [group](#group)
   - [groupBy](#groupby)
   - [intersperse](#intersperse)
@@ -193,6 +193,18 @@ Added in v3.0.0
 
 # Foldable
 
+## foldMap
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v3.0.0
+
 ## reduce
 
 **Signature**
@@ -214,6 +226,20 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Rea
 Added in v3.0.0
 
 # FoldableWithIndex
+
+## foldMapWithIndex
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <S>(
+  S: Se.Semigroup<S>
+) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
+```
+
+Added in v3.0.0
 
 ## reduceRightWithIndex
 
@@ -359,28 +385,6 @@ Derivable from `Chain`.
 
 ```ts
 export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
-```
-
-Added in v3.0.0
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <S>(S: Se.Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
-```
-
-Added in v3.0.0
-
-## foldMapWithIndex
-
-**Signature**
-
-```ts
-export declare const foldMapWithIndex: <S>(
-  S: Se.Semigroup<S>
-) => <A>(f: (i: number, a: A) => S) => (fa: ReadonlyNonEmptyArray<A>) => S
 ```
 
 Added in v3.0.0

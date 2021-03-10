@@ -337,21 +337,6 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
  * @category combinators
  * @since 3.0.0
  */
-export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
-  fa: ReadonlyNonEmptyArray<A>
-): S => fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>): S =>
-  fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
@@ -512,11 +497,30 @@ export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = <A, 
 export const reduce: Foldable1<URI>['reduce'] = (b, f) => reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category Foldable
+ * @since 3.0.0
+ */
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: ReadonlyNonEmptyArray<A>): S =>
+  fa.slice(1).reduce((s, a) => S.concat(f(a))(s), f(fa[0]))
+
+/**
  * @category FoldableWithIndex
  * @since 3.0.0
  */
 export const reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (b, f) => (as) =>
   as.reduce((b, a, i) => f(i, b, a), b)
+
+/**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category FoldableWithIndex
+ * @since 3.0.0
+ */
+export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
+  fa: ReadonlyNonEmptyArray<A>
+): S => fa.slice(1).reduce((s, a, i) => S.concat(f(i + 1, a))(s), f(0, fa[0]))
 
 /**
  * @category Foldable
