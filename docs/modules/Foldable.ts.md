@@ -26,7 +26,7 @@ Added in v3.0.0
   - [Foldable4 (interface)](#foldable4-interface)
 - [utils](#utils)
   - [intercalate](#intercalate)
-  - [reduceM](#reducem)
+  - [reduceE](#reducee)
   - [toReadonlyArray](#toreadonlyarray)
 
 ---
@@ -243,7 +243,7 @@ assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
 
 Added in v3.0.0
 
-## reduceM
+## reduceE
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
@@ -252,7 +252,7 @@ Note: this function is not generally stack-safe, e.g., for monads which build up
 **Signature**
 
 ```ts
-export declare function reduceM<F extends URIS>(
+export declare function reduceE<F extends URIS>(
   F: Foldable1<F>
 ): {
   <M extends URIS4>(M: Chain4<M>): <S, R, E, B, A>(
@@ -280,7 +280,7 @@ export declare function reduceM<F extends URIS>(
     f: (b: B, a: A) => Kind<M, B>
   ) => (fa: Kind<F, A>) => Kind<M, B>
 }
-export declare function reduceM<F>(
+export declare function reduceE<F>(
   F: Foldable<F>
 ): <M>(M: Chain<M>) => <B, A>(mb: HKT<M, B>, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
 ```
@@ -288,7 +288,7 @@ export declare function reduceM<F>(
 **Example**
 
 ```ts
-import { reduceM } from 'fp-ts/Foldable'
+import { reduceE } from 'fp-ts/Foldable'
 import { Chain, some } from 'fp-ts/Option'
 import { make, Foldable } from 'fp-ts/Tree'
 import { pipe } from 'fp-ts/function'
@@ -297,7 +297,7 @@ const t = make(1, [make(2, []), make(3, []), make(4, [])])
 assert.deepStrictEqual(
   pipe(
     t,
-    reduceM(Foldable)(Chain)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
+    reduceE(Foldable)(Chain)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))
   ),
   some(7)
 )

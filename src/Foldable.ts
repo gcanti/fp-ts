@@ -166,17 +166,17 @@ export function reduceRight<F, G>(
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
  *
  * @example
- * import { reduceM } from 'fp-ts/Foldable'
+ * import { reduceE } from 'fp-ts/Foldable'
  * import { Chain, some } from 'fp-ts/Option'
  * import { make, Foldable } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(pipe(t, reduceM(Foldable)(Chain)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
+ * assert.deepStrictEqual(pipe(t, reduceE(Foldable)(Chain)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @since 3.0.0
  */
-export function reduceM<F extends URIS>(
+export function reduceE<F extends URIS>(
   F: Foldable1<F>
 ): {
   <M extends URIS4>(M: Chain4<M>): <S, R, E, B, A>(
@@ -204,10 +204,10 @@ export function reduceM<F extends URIS>(
     f: (b: B, a: A) => Kind<M, B>
   ) => (fa: Kind<F, A>) => Kind<M, B>
 }
-export function reduceM<F>(
+export function reduceE<F>(
   F: Foldable<F>
 ): <M>(M: Chain<M>) => <B, A>(mb: HKT<M, B>, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B>
-export function reduceM<F>(
+export function reduceE<F>(
   F: Foldable<F>
 ): <M>(M: Chain<M>) => <B, A>(mb: HKT<M, B>, f: (b: B, a: A) => HKT<M, B>) => (fa: HKT<F, A>) => HKT<M, B> {
   return (M) => (mb, f) =>

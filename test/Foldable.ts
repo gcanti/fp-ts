@@ -26,8 +26,8 @@ describe('Foldable', () => {
     ])
   })
 
-  it('reduceM', () => {
-    const f = _.reduceM(RA.Foldable)(O.Chain)
+  it('reduceE', () => {
+    const f = _.reduceE(RA.Foldable)(O.Chain)
     deepStrictEqual(
       pipe(
         [],
