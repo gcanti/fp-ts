@@ -394,21 +394,6 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
 
 /**
  * @category combinators
- * @since 2.5.0
- */
-export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
-  as: ReadonlyNonEmptyArray<A>
-) => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
-
-/**
- * @category combinators
- * @since 2.5.0
- */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) =>
-  as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
-
-/**
- * @category combinators
  * @since 2.10.0
  */
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
@@ -631,11 +616,13 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: ReadonlyNonEmpty
   reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
- * @category FoldableWithIndex
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category Foldable
  * @since 2.5.0
  */
-export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
-  as.reduce((b, a, i) => f(i, b, a), b)
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) =>
+  as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
 
 /**
  * @category Foldable
@@ -643,6 +630,23 @@ export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => 
  */
 export const reduceRight = <A, B>(b: B, f: (a: A, b: B) => B): ((as: ReadonlyNonEmptyArray<A>) => B) =>
   reduceRightWithIndex(b, (_, b, a) => f(b, a))
+
+/**
+ * @category FoldableWithIndex
+ * @since 2.5.0
+ */
+export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  as.reduce((b, a, i) => f(i, b, a), b)
+
+/**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @category FoldableWithIndex
+ * @since 2.5.0
+ */
+export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
+  as: ReadonlyNonEmptyArray<A>
+) => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
 /**
  * @category FoldableWithIndex
