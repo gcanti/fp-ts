@@ -468,25 +468,45 @@ describe('ReadonlyArray', () => {
   })
 
   it('dropLeft', () => {
-    U.deepStrictEqual(_.dropLeft(0)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.dropLeft(1)([1, 2]), [2])
-    U.deepStrictEqual(_.dropLeft(2)([1, 2]), [])
+    // _.empty
+    assert.strictEqual(_.dropLeft(0)(_.empty), _.empty)
+    // empty
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.dropLeft(0)(empty), empty)
+    const full: ReadonlyArray<number> = [1, 2]
+    // non empty
+    assert.strictEqual(_.dropLeft(0)(full), full)
+    U.deepStrictEqual(_.dropLeft(1)(full), [2])
+    // full
+    assert.strictEqual(_.dropLeft(2)(full), _.empty)
     // out of bound
-    U.deepStrictEqual(_.dropLeft(1)([]), [])
-    U.deepStrictEqual(_.dropLeft(3)([1, 2]), [])
-    U.deepStrictEqual(_.dropLeft(-1)([]), [])
-    U.deepStrictEqual(_.dropLeft(-1)([1, 2]), [1, 2])
+    assert.strictEqual(_.dropLeft(1)(_.empty), _.empty)
+    assert.strictEqual(_.dropLeft(1)(empty), empty)
+    assert.strictEqual(_.dropLeft(3)(full), _.empty)
+    assert.strictEqual(_.dropLeft(-1)(_.empty), _.empty)
+    assert.strictEqual(_.dropLeft(-1)(empty), empty)
+    assert.strictEqual(_.dropLeft(-1)(full), full)
   })
 
   it('dropRight', () => {
-    U.deepStrictEqual(_.dropRight(0)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.dropRight(1)([1, 2]), [1])
-    U.deepStrictEqual(_.dropRight(2)([1, 2]), [])
+    // _.empty
+    assert.strictEqual(_.dropRight(0)(_.empty), _.empty)
+    // empty
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.dropRight(0)(empty), empty)
+    const full: ReadonlyArray<number> = [1, 2]
+    // non empty
+    assert.strictEqual(_.dropRight(0)(full), full)
+    U.deepStrictEqual(_.dropRight(1)(full), [1])
+    // full
+    assert.strictEqual(_.dropRight(2)(full), _.empty)
     // out of bound
-    U.deepStrictEqual(_.dropRight(1)([]), [])
-    U.deepStrictEqual(_.dropRight(3)([1, 2]), [])
-    U.deepStrictEqual(_.dropRight(-1)([]), [])
-    U.deepStrictEqual(_.dropRight(-1)([1, 2]), [1, 2])
+    assert.strictEqual(_.dropRight(1)(_.empty), _.empty)
+    assert.strictEqual(_.dropRight(1)(empty), empty)
+    assert.strictEqual(_.dropRight(3)(full), _.empty)
+    assert.strictEqual(_.dropRight(-1)(_.empty), _.empty)
+    assert.strictEqual(_.dropRight(-1)(empty), empty)
+    assert.strictEqual(_.dropRight(-1)(full), full)
   })
 
   it('dropLeftWhile', () => {

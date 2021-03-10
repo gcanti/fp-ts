@@ -449,30 +449,6 @@ describe('Array', () => {
     U.deepStrictEqual(_.takeRight(-1)(full), full)
   })
 
-  it('takeLeft', () => {
-    U.deepStrictEqual(_.takeLeft(0)([]), [])
-    U.deepStrictEqual(_.takeLeft(0)([1, 2]), [])
-    U.deepStrictEqual(_.takeLeft(1)([1, 2]), [1])
-    U.deepStrictEqual(_.takeLeft(2)([1, 2]), [1, 2])
-    // out of bound
-    U.deepStrictEqual(_.takeLeft(1)([]), [])
-    U.deepStrictEqual(_.takeLeft(3)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.takeLeft(-1)([]), [])
-    U.deepStrictEqual(_.takeLeft(-1)([1, 2]), [1, 2])
-  })
-
-  it('takeRight', () => {
-    U.deepStrictEqual(_.takeRight(0)([]), [])
-    U.deepStrictEqual(_.takeRight(0)([1, 2]), [])
-    U.deepStrictEqual(_.takeRight(1)([1, 2]), [2])
-    U.deepStrictEqual(_.takeRight(2)([1, 2]), [1, 2])
-    // out of bound
-    U.deepStrictEqual(_.takeRight(1)([]), [])
-    U.deepStrictEqual(_.takeRight(3)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.takeRight(-1)([]), [])
-    U.deepStrictEqual(_.takeRight(-1)([1, 2]), [1, 2])
-  })
-
   it('spanLeft', () => {
     U.deepStrictEqual(_.spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
   })
@@ -486,25 +462,37 @@ describe('Array', () => {
   })
 
   it('dropLeft', () => {
-    U.deepStrictEqual(_.dropLeft(0)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.dropLeft(1)([1, 2]), [2])
-    U.deepStrictEqual(_.dropLeft(2)([1, 2]), [])
+    // empty
+    const empty: Array<number> = []
+    U.deepStrictEqual(_.dropLeft(0)(empty), empty)
+    const full: Array<number> = [1, 2]
+    // non empty
+    U.deepStrictEqual(_.dropLeft(0)(full), full)
+    U.deepStrictEqual(_.dropLeft(1)(full), [2])
+    // full
+    U.deepStrictEqual(_.dropLeft(2)(full), [])
     // out of bound
-    U.deepStrictEqual(_.dropLeft(1)([]), [])
-    U.deepStrictEqual(_.dropLeft(3)([1, 2]), [])
-    U.deepStrictEqual(_.dropLeft(-1)([]), [])
-    U.deepStrictEqual(_.dropLeft(-1)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropLeft(1)(empty), empty)
+    U.deepStrictEqual(_.dropLeft(3)(full), [])
+    U.deepStrictEqual(_.dropLeft(-1)(empty), empty)
+    U.deepStrictEqual(_.dropLeft(-1)(full), full)
   })
 
   it('dropRight', () => {
-    U.deepStrictEqual(_.dropRight(0)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.dropRight(1)([1, 2]), [1])
-    U.deepStrictEqual(_.dropRight(2)([1, 2]), [])
+    // empty
+    const empty: Array<number> = []
+    U.deepStrictEqual(_.dropRight(0)(empty), empty)
+    const full: Array<number> = [1, 2]
+    // non empty
+    U.deepStrictEqual(_.dropRight(0)(full), full)
+    U.deepStrictEqual(_.dropRight(1)(full), [1])
+    // full
+    U.deepStrictEqual(_.dropRight(2)(full), [])
     // out of bound
-    U.deepStrictEqual(_.dropRight(1)([]), [])
-    U.deepStrictEqual(_.dropRight(3)([1, 2]), [])
-    U.deepStrictEqual(_.dropRight(-1)([]), [])
-    U.deepStrictEqual(_.dropRight(-1)([1, 2]), [1, 2])
+    U.deepStrictEqual(_.dropRight(1)(empty), empty)
+    U.deepStrictEqual(_.dropRight(3)(full), [])
+    U.deepStrictEqual(_.dropRight(-1)(empty), empty)
+    U.deepStrictEqual(_.dropRight(-1)(full), full)
   })
 
   it('dropLeftWhile', () => {

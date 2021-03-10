@@ -452,7 +452,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
  * @since 2.0.0
  */
 export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
-  n <= 0 ? copy(as) : n >= as.length ? [] : as.slice(n, as.length)
+  n <= 0 || isEmpty(as) ? copy(as) : n >= as.length ? [] : as.slice(n, as.length)
 
 /**
  * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -467,7 +467,7 @@ export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @since 2.0.0
  */
 export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
-  n <= 0 ? copy(as) : n >= as.length ? [] : as.slice(0, as.length - n)
+  n <= 0 || isEmpty(as) ? copy(as) : n >= as.length ? [] : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
