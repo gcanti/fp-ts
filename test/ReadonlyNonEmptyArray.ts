@@ -175,6 +175,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('reverse', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.reverse(singleton), singleton)
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
@@ -442,5 +444,17 @@ describe('ReadonlyNonEmptyArray', () => {
         [3, 'b']
       ]
     )
+  })
+
+  it('takeLeft', () => {
+    const full: _.ReadonlyNonEmptyArray<number> = [1, 2]
+    // non empty
+    U.deepStrictEqual(_.takeLeft(1)(full), [1])
+    // full
+    assert.strictEqual(_.takeLeft(2)(full), full)
+    // out of bound
+    assert.strictEqual(_.takeLeft(0)(full), full)
+    assert.strictEqual(_.takeLeft(3)(full), full)
+    assert.strictEqual(_.takeLeft(-1)(full), full)
   })
 })

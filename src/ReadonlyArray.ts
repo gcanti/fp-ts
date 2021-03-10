@@ -484,7 +484,7 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * @since 3.0.0
  */
 export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  n <= 0 ? as : n >= as.length ? empty : as.slice(n, as.length)
+  n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(n, as.length)
 
 /**
  * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -499,7 +499,7 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * @since 3.0.0
  */
 export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  n <= 0 ? as : n >= as.length ? empty : as.slice(0, as.length - n)
+  n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new `ReadonlyArray`.
@@ -780,7 +780,7 @@ export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<Readonl
  * @category combinators
  * @since 3.0.0
  */
-export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice().reverse())
+export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length <= 1 ? as : as.slice().reverse())
 
 /**
  * Extracts from a `ReadonlyArray` of `Either`s all the `Right` elements.
@@ -916,9 +916,9 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  * @category combinators
  * @since 3.0.0
  */
-export const prependAll = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const prependAlla = RNEA.prependAll(a)
-  return isNonEmpty(as) ? prependAlla(as) : empty
+export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.prependAll(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
