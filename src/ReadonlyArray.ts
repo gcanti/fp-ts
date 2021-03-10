@@ -64,30 +64,7 @@ export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft
  * @category constructors
  * @since 3.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
-  if (n <= 0) {
-    return empty
-  }
-  const out: Array<A> = []
-  for (let i = 0; i < n; i++) {
-    out.push(f(i))
-  }
-  return out
-}
-
-/**
- * Create a `ReadonlyArray` containing a range of integers, including both endpoints.
- *
- * @example
- * import { range } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
- *
- * @category constructors
- * @since 3.0.0
- */
-export const range = (start: number, end: number): ReadonlyArray<number> =>
-  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(n, f))
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times

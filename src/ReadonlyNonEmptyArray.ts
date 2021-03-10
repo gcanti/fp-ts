@@ -134,6 +134,42 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
  */
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
 
+/**
+ * Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+ * If `n` (must be a natural number) is non positive return `[f(0)]`.
+ *
+ * @example
+ * import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * const double = (n: number): number => n * 2
+ * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray<A> => {
+  const j = Math.max(0, n)
+  const out: NEA.NonEmptyArray<A> = [f(0)]
+  for (let i = 1; i < j; i++) {
+    out.push(f(i))
+  }
+  return out
+}
+
+/**
+ * Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+ *
+ * @example
+ * import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const range = (start: number, end: number): ReadonlyNonEmptyArray<number> =>
+  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

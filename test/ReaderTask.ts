@@ -3,6 +3,7 @@ import * as I from '../src/IO'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderTask'
 import * as RA from '../src/ReadonlyArray'
+import * as RNEA from '../src/ReadonlyNonEmptyArray'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -136,7 +137,7 @@ describe('ReaderTask', () => {
   })
 
   describe('array utils', () => {
-    const range = RA.range(0, 10)
+    const range = RNEA.range(0, 10)
 
     it('sequenceReadonlyArray', async () => {
       U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(undefined)(), range)
