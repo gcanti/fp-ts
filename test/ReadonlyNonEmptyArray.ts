@@ -144,11 +144,6 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(group([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
-  it('groupSort', () => {
-    const groupSort = _.groupSort(N.Ord)
-    U.deepStrictEqual(groupSort([1, 2, 1, 1]), [[1, 1, 1], [2]])
-  })
-
   it('last', () => {
     U.deepStrictEqual(_.last([1, 2, 3]), 3)
     U.deepStrictEqual(_.last([1]), 1)

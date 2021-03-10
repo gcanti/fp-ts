@@ -139,6 +139,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `unsafeDeleteAt`
     - remove `fromArray`
     - remove `toArray`
+    - remove `groupSort`
   - `ReadonlyMap`
     - make `member` pipeable
     - make `elem` pipeable

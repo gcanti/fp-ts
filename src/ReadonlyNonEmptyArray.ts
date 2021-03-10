@@ -17,14 +17,15 @@ import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
-import { Eq, fromEquals, fromOrd } from './Eq'
+import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, identity, Lazy, pipe, tuple } from './function'
+import { identity, Lazy, pipe, tuple } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import * as NEA from './NonEmptyArray'
 import { Option } from './Option'
@@ -35,7 +36,6 @@ import * as Se from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
-import * as _ from './internal'
 
 import Semigroup = Se.Semigroup
 
@@ -183,23 +183,6 @@ export const group = <B>(E: Eq<B>) => <A extends B>(
       return [out, as.slice(i)]
     })
   )
-
-/**
- * Sort and then group the elements of an array into non empty arrays.
- *
- * @example
- * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
- *
- * @category combinators
- * @since 3.0.0
- */
-export const groupSort = <B>(
-  O: Ord<B>
-): (<A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) =>
-  flow(sort(O), group(fromOrd(O)))
 
 /**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning

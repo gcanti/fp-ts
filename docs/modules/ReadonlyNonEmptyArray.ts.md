@@ -55,7 +55,6 @@ Added in v3.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [group](#group)
   - [groupBy](#groupby)
-  - [groupSort](#groupsort)
   - [intersperse](#intersperse)
   - [prependAll](#prependall)
   - [reverse](#reverse)
@@ -431,29 +430,6 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', '
   '3': ['foo', 'bar'],
   '6': ['foobar'],
 })
-```
-
-Added in v3.0.0
-
-## groupSort
-
-Sort and then group the elements of an array into non empty arrays.
-
-**Signature**
-
-```ts
-export declare const groupSort: <B>(
-  O: Ord<B>
-) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-```
-
-**Example**
-
-```ts
-import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
 ```
 
 Added in v3.0.0

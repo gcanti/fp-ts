@@ -64,13 +64,6 @@ _.group(eqSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray
 pipe(nexs, _.group(eqSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
 
 //
-// groupSort
-//
-
-_.groupSort(ordSubX)(nexs) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-pipe(nexs, _.groupSort(ordSubX)) // $ExpectType ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<X>>
-
-//
 // groupBy
 //
 
