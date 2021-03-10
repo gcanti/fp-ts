@@ -3,9 +3,9 @@ import * as _ from '../../src/Record'
 import * as O from '../../src/Option'
 import * as A from '../../src/Array'
 import * as E from '../../src/Either'
-import { monoidString } from '../../src/Monoid'
-import { eqNumber } from '../../src/Eq'
-import { semigroupSum, getFirstSemigroup } from '../../src/Semigroup'
+import * as N from '../../src/number'
+import * as S from '../../src/string'
+import { getFirstSemigroup } from '../../src/Semigroup'
 import { Foldable } from '../../src/Foldable'
 import { HKT } from '../../src/HKT'
 
@@ -120,8 +120,8 @@ _.map((n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 _.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
 _.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-_.foldMapWithIndex(monoidString)((k: string, _n) => k)(d1) // $ExpectType string
-_.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
@@ -158,11 +158,11 @@ _.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Record
 _.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<string, number>
 
 type Keys = 'key1' | 'key2'
-_.getMonoid(semigroupSum) // $ExpectType Monoid<Record<string, number>>
-_.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+_.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Record<string, number>>
+_.getMonoid<Keys, number>(N.SemigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-_.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Record<Keys, number>>
-_.getEq(eqNumber) // $ExpectType Eq<Record<string, number>>
+_.getEq<Keys, number>(N.Eq) // $ExpectType Eq<Record<Keys, number>>
+_.getEq(N.Eq) // $ExpectType Eq<Record<string, number>>
 
 _.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
 _.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
@@ -175,8 +175,8 @@ _.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) 
 // isSubrecord
 //
 
-_.isSubrecord(eqNumber)(recordString, recordString) // $ExpectType boolean
-_.isSubrecord(eqNumber)(recordString) // $ExpectType (me: Record<string, number>) => boolean
+_.isSubrecord(N.Eq)(recordString, recordString) // $ExpectType boolean
+_.isSubrecord(N.Eq)(recordString) // $ExpectType (me: Record<string, number>) => boolean
 
 //
 // lookup
@@ -189,5 +189,5 @@ _.lookup('a') // $ExpectType <A>(r: Record<string, A>) => Option<A>
 // elem
 //
 
-_.elem(eqNumber)(1, recordString) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (fa: Record<string, number>) => boolean
+_.elem(N.Eq)(1, recordString) // $ExpectType boolean
+_.elem(N.Eq)(1) // $ExpectType (fa: Record<string, number>) => boolean

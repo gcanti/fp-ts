@@ -1,6 +1,6 @@
 import * as _ from '../../src/Either'
 import { pipe, flow, identity } from '../../src/function'
-import { monoidAll } from '../../src/Monoid'
+import * as B from '../../src/boolean'
 
 //
 // getOrElseW
@@ -39,7 +39,7 @@ flow(f, _.fromNullable('error'))('foo')
 //
 
 declare function isString(x: unknown): x is string
-const W = _.getWitherable(monoidAll)
+const W = _.getWitherable(B.MonoidAll)
 
 W.filter(_.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
 W.partition(_.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>

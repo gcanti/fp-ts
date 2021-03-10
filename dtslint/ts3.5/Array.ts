@@ -1,6 +1,6 @@
 import * as _ from '../../src/Array'
 import { pipe } from '../../src/function'
-import { eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 
 declare const us: Array<unknown>
@@ -97,29 +97,29 @@ _.lookup(0) // $ExpectType <A>(as: A[]) => Option<A>
 // elem
 //
 
-_.elem(eqNumber)(1, [1, 2, 3]) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (as: number[]) => boolean
+_.elem(N.Eq)(1, [1, 2, 3]) // $ExpectType boolean
+_.elem(N.Eq)(1) // $ExpectType (as: number[]) => boolean
 
 //
 // difference
 //
 
-_.difference(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
-_.difference(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
+_.difference(N.Eq)([1, 2], [3, 4]) // $ExpectType number[]
+_.difference(N.Eq)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 //
 // intersection
 //
 
-_.intersection(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
-_.intersection(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
+_.intersection(N.Eq)([1, 2], [3, 4]) // $ExpectType number[]
+_.intersection(N.Eq)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 //
 // union
 //
 
-_.union(eqNumber)([1, 2], [3, 4]) // $ExpectType number[]
-_.union(eqNumber)([3, 4]) // $ExpectType (ys: number[]) => number[]
+_.union(N.Eq)([1, 2], [3, 4]) // $ExpectType number[]
+_.union(N.Eq)([3, 4]) // $ExpectType (ys: number[]) => number[]
 
 //
 // zip

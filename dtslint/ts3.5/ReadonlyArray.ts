@@ -1,6 +1,6 @@
 import * as _ from '../../src/ReadonlyArray'
 import { pipe } from '../../src/function'
-import { eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 
 declare const rus: ReadonlyArray<unknown>
@@ -88,29 +88,29 @@ _.lookup(0) // $ExpectType <A>(as: readonly A[]) => Option<A>
 // elem
 //
 
-_.elem(eqNumber)(1, [1, 2, 3]) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (as: readonly number[]) => boolean
+_.elem(N.Eq)(1, [1, 2, 3]) // $ExpectType boolean
+_.elem(N.Eq)(1) // $ExpectType (as: readonly number[]) => boolean
 
 //
 // difference
 //
 
-_.difference(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
-_.difference(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+_.difference(N.Eq)([1, 2], [3, 4]) // $ExpectType readonly number[]
+_.difference(N.Eq)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
 
 //
 // intersection
 //
 
-_.intersection(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
-_.intersection(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+_.intersection(N.Eq)([1, 2], [3, 4]) // $ExpectType readonly number[]
+_.intersection(N.Eq)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
 
 //
 // union
 //
 
-_.union(eqNumber)([1, 2], [3, 4]) // $ExpectType readonly number[]
-_.union(eqNumber)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
+_.union(N.Eq)([1, 2], [3, 4]) // $ExpectType readonly number[]
+_.union(N.Eq)([3, 4]) // $ExpectType (ys: readonly number[]) => readonly number[]
 
 //
 // zip

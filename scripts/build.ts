@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
 import * as RTE from '../src/ReaderTaskEither'
-import * as A from '../src/ReadonlyArray'
+import * as RA from '../src/ReadonlyArray'
 import * as TE from '../src/TaskEither'
 import { FileSystem, fileSystem } from './FileSystem'
 import { run } from './run'
@@ -34,10 +34,10 @@ export const FILES: ReadonlyArray<string> = ['CHANGELOG.md', 'LICENSE', 'README.
 export const copyFiles: Build<ReadonlyArray<void>> = (C) =>
   pipe(
     FILES,
-    A.traverse(TE.ApplicativePar)((from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
+    RA.traverse(TE.ApplicativePar)((from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
   )
 
-const traverse = A.traverse(TE.ApplicativePar)
+const traverse = RA.traverse(TE.ApplicativePar)
 
 export const makeModules: Build<void> = (C) =>
   pipe(
