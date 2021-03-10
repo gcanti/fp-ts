@@ -2379,7 +2379,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => as is NEA.NonEmptyArray<A>
 ```
 
 Added in v2.9.0
