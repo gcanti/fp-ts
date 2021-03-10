@@ -1,18 +1,18 @@
 import * as fc from 'fast-check'
 import { isDeepStrictEqual } from 'util'
+import * as _ from '../src/Array'
+import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
 import { identity, pipe, Predicate, tuple } from '../src/function'
 import * as M from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
-import * as _ from '../src/Array'
-import * as T from '../src/Task'
-import * as B from '../src/boolean'
-import * as S from '../src/string'
-import * as N from '../src/number'
-import * as U from './util'
 import { separated } from '../src/Separated'
+import * as S from '../src/string'
+import * as T from '../src/Task'
+import * as U from './util'
 
 /* tslint:disable:readonly-array */
 
@@ -413,6 +413,40 @@ describe('Array', () => {
     const as: Array<number> = [1, 2, 3]
     U.deepStrictEqual(_.tail(as), O.some([2, 3]))
     U.deepStrictEqual(_.tail([]), O.none)
+  })
+
+  it('takeLeft', () => {
+    // empty
+    const empty: Array<number> = []
+    U.deepStrictEqual(_.takeLeft(0)(empty), empty)
+    const full: Array<number> = [1, 2]
+    // non empty
+    U.deepStrictEqual(_.takeLeft(0)(full), [])
+    U.deepStrictEqual(_.takeLeft(1)(full), [1])
+    // full
+    U.deepStrictEqual(_.takeLeft(2)(full), full)
+    // out of bound
+    U.deepStrictEqual(_.takeLeft(1)(empty), empty)
+    U.deepStrictEqual(_.takeLeft(3)(full), full)
+    U.deepStrictEqual(_.takeLeft(-1)(empty), empty)
+    U.deepStrictEqual(_.takeLeft(-1)(full), full)
+  })
+
+  it('takeRight', () => {
+    // empty
+    const empty: Array<number> = []
+    U.deepStrictEqual(_.takeRight(0)(empty), empty)
+    const full: Array<number> = [1, 2]
+    // non empty
+    U.deepStrictEqual(_.takeRight(0)(full), [])
+    U.deepStrictEqual(_.takeRight(1)(full), [2])
+    // full
+    U.deepStrictEqual(_.takeRight(2)(full), full)
+    // out of bound
+    U.deepStrictEqual(_.takeRight(1)(empty), empty)
+    U.deepStrictEqual(_.takeRight(3)(full), full)
+    U.deepStrictEqual(_.takeRight(-1)(empty), empty)
+    U.deepStrictEqual(_.takeRight(-1)(full), full)
   })
 
   it('takeLeft', () => {
