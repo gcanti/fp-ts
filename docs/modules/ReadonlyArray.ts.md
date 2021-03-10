@@ -92,7 +92,6 @@ Added in v3.0.0
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
-  - [range](#range)
   - [replicate](#replicate)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
@@ -748,7 +747,7 @@ Prepend an element to every member of a `ReadonlyArray`
 **Signature**
 
 ```ts
-export declare const prependAll: <A>(a: A) => (as: readonly A[]) => readonly A[]
+export declare const prependAll: <A>(middle: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**
@@ -1104,7 +1103,7 @@ Added in v3.0.0
 
 ## comprehension
 
-Array comprehension
+`ReadonlyArray` comprehension.
 
 ```
 [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
@@ -1123,11 +1122,6 @@ export declare function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
 export declare function comprehension<A, B, R>(
   input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
   f: (a: A, b: B) => R,
@@ -1135,8 +1129,8 @@ export declare function comprehension<A, B, R>(
 ): ReadonlyArray<R>
 export declare function comprehension<A, R>(
   input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
+  f: (a: A) => R,
+  g?: (a: A) => boolean
 ): ReadonlyArray<R>
 ```
 
@@ -1234,29 +1228,9 @@ assert.deepStrictEqual(pipe([1, 2, 3], prepend(0)), [0, 1, 2, 3])
 
 Added in v3.0.0
 
-## range
-
-Create a `ReadonlyArray` containing a range of integers, including both endpoints.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => ReadonlyArray<number>
-```
-
-**Example**
-
-```ts
-import { range } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
-```
-
-Added in v3.0.0
-
 ## replicate
 
-Create a `ReadonlyArray` containing a value repeated the specified number of times
+Create a `ReadonlyArray` containing a value repeated the specified number of times.
 
 **Signature**
 
@@ -2332,7 +2306,7 @@ Check if a predicate holds true for any `ReadonlyArray` member.
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**

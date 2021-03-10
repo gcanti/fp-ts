@@ -181,9 +181,11 @@ export const range = (start: number, end: number): ReadonlyNonEmptyArray<number>
  * import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
  * import { tuple } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
  *   [1, 'a'],
  *   [1, 'b'],
+ *   [2, 'a'],
+ *   [2, 'b'],
  *   [3, 'a'],
  *   [3, 'b']
  * ])
