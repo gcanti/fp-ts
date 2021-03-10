@@ -414,27 +414,45 @@ describe('ReadonlyArray', () => {
   })
 
   it('takeLeft', () => {
-    U.deepStrictEqual(_.takeLeft(0)([]), [])
-    U.deepStrictEqual(_.takeLeft(0)([1, 2]), [])
-    U.deepStrictEqual(_.takeLeft(1)([1, 2]), [1])
-    U.deepStrictEqual(_.takeLeft(2)([1, 2]), [1, 2])
+    // _.empty
+    assert.strictEqual(_.takeLeft(0)(_.empty), _.empty)
+    // empty
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.takeLeft(0)(empty), empty)
+    const full: ReadonlyArray<number> = [1, 2]
+    // non empty
+    assert.strictEqual(_.takeLeft(0)(full), _.empty)
+    U.deepStrictEqual(_.takeLeft(1)(full), [1])
+    // full
+    assert.strictEqual(_.takeLeft(2)(full), full)
     // out of bound
-    U.deepStrictEqual(_.takeLeft(1)([]), [])
-    U.deepStrictEqual(_.takeLeft(3)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.takeLeft(-1)([]), [])
-    U.deepStrictEqual(_.takeLeft(-1)([1, 2]), [1, 2])
+    assert.strictEqual(_.takeLeft(1)(_.empty), _.empty)
+    assert.strictEqual(_.takeLeft(1)(empty), empty)
+    assert.strictEqual(_.takeLeft(3)(full), full)
+    assert.strictEqual(_.takeLeft(-1)(_.empty), _.empty)
+    assert.strictEqual(_.takeLeft(-1)(empty), empty)
+    assert.strictEqual(_.takeLeft(-1)(full), full)
   })
 
   it('takeRight', () => {
-    U.deepStrictEqual(_.takeRight(0)([]), [])
-    U.deepStrictEqual(_.takeRight(0)([1, 2]), [])
-    U.deepStrictEqual(_.takeRight(1)([1, 2]), [2])
-    U.deepStrictEqual(_.takeRight(2)([1, 2]), [1, 2])
+    // _.empty
+    assert.strictEqual(_.takeRight(0)(_.empty), _.empty)
+    // empty
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.takeRight(0)(empty), empty)
+    const full: ReadonlyArray<number> = [1, 2]
+    // non empty
+    assert.strictEqual(_.takeRight(0)(full), _.empty)
+    U.deepStrictEqual(_.takeRight(1)(full), [2])
+    // full
+    assert.strictEqual(_.takeRight(2)(full), full)
     // out of bound
-    U.deepStrictEqual(_.takeRight(1)([]), [])
-    U.deepStrictEqual(_.takeRight(3)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.takeRight(-1)([]), [])
-    U.deepStrictEqual(_.takeRight(-1)([1, 2]), [1, 2])
+    assert.strictEqual(_.takeRight(1)(_.empty), _.empty)
+    assert.strictEqual(_.takeRight(1)(empty), empty)
+    assert.strictEqual(_.takeRight(3)(full), full)
+    assert.strictEqual(_.takeRight(-1)(_.empty), _.empty)
+    assert.strictEqual(_.takeRight(-1)(empty), empty)
+    assert.strictEqual(_.takeRight(-1)(full), full)
   })
 
   it('spanLeft', () => {

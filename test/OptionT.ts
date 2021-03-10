@@ -7,12 +7,10 @@ import * as T from '../src/Task'
 const MT = getOptionM(T.Monad)
 
 describe('OptionT', () => {
-  it('map', () => {
+  it('map', async () => {
     const greetingT = MT.of('welcome')
     const excitedGreetingT = MT.map(greetingT, (s) => s + '!')
-    return excitedGreetingT().then((o) => {
-      U.deepStrictEqual(o, O.some('welcome!'))
-    })
+    U.deepStrictEqual(await excitedGreetingT(), O.some('welcome!'))
   })
 
   it('ap', async () => {
@@ -27,13 +25,12 @@ describe('OptionT', () => {
     )
   })
 
-  it('chain', () => {
+  it('chain', async () => {
     const to1 = MT.chain(MT.of('foo'), (a) => MT.of(a.length))
     const to2 = MT.chain(T.of(O.none), (a: string) => MT.of(a.length))
-    return Promise.all([to1(), to2()]).then(([o1, o2]) => {
-      U.deepStrictEqual(o1, O.some(3))
-      U.deepStrictEqual(o2, O.none)
-    })
+    const [o1, o2] = await Promise.all([to1(), to2()])
+    U.deepStrictEqual(o1, O.some(3))
+    U.deepStrictEqual(o2, O.none)
   })
 
   it('fold', async () => {
@@ -59,15 +56,11 @@ describe('OptionT', () => {
     U.deepStrictEqual(n2, 2)
   })
 
-  it('fromM', () => {
-    return MT.fromM(T.of(1))().then((o) => {
-      U.deepStrictEqual(o, O.some(1))
-    })
+  it('fromM', async () => {
+    U.deepStrictEqual(await MT.fromM(T.of(1))(), O.some(1))
   })
 
-  it('none', () => {
-    return MT.none()().then((o) => {
-      U.deepStrictEqual(o, O.none)
-    })
+  it('none', async () => {
+    U.deepStrictEqual(await MT.none()(), O.none)
   })
 })
