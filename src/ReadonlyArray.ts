@@ -2183,7 +2183,8 @@ export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boo
  *
  * @since 2.9.0
  */
-export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boolean => as.some(predicate)
+export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
+  as.some(predicate)
 
 // -------------------------------------------------------------------------------------
 // do notation

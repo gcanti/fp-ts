@@ -2391,7 +2391,7 @@ Check if a predicate holds true for any array member.
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**

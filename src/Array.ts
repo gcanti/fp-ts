@@ -2024,7 +2024,7 @@ export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = 
 /**
  * @since 2.9.0
  */
-export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.some
+export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmptyArray<A> => as.some(predicate)
 
 // -------------------------------------------------------------------------------------
 // do notation
