@@ -17,6 +17,10 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.5
 
+- **Polish**
+  - `Array` / `ReadonlyArray`
+    - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+
 # 2.10.0-rc.4
 
 - **Deprecations**

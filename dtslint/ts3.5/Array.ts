@@ -1,7 +1,8 @@
 import * as _ from '../../src/Array'
-import { pipe } from '../../src/function'
+import { identity, pipe } from '../../src/function'
 import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
+import * as E from '../../src/Either'
 
 declare const us: Array<unknown>
 declare const ns: Array<number>
@@ -174,4 +175,17 @@ pipe(
   _.Do,
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
+)
+
+//
+// some
+//
+
+// $ExpectType Either<number[], NonEmptyArray<number>>
+pipe(
+  ns,
+  E.fromPredicate(
+    _.some((n) => n > 0),
+    identity
+  )
 )
