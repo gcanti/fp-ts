@@ -61,7 +61,6 @@ Added in v3.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -77,6 +76,8 @@ Added in v3.0.0
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
+- [interop](#interop)
+  - [toUnion](#tounion)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
 - [utils](#utils)
@@ -617,16 +618,6 @@ export declare const matchW: <E, R2, B, A, R3, C>(
 
 Added in v3.0.0
 
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <R, E, A>(fa: R.Reader<R, E.Either<E, A>>) => R.Reader<R, E | A>
-```
-
-Added in v3.0.0
-
 # instances
 
 ## Alt
@@ -765,6 +756,18 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => Filterable3C<'ReaderEither', E>
+```
+
+Added in v3.0.0
+
+# interop
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <R, E, A>(fa: R.Reader<R, E.Either<E, A>>) => R.Reader<R, E | A>
 ```
 
 Added in v3.0.0

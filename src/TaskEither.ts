@@ -131,29 +131,6 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
 export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
- * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
- *
- * Note: `f` should never `throw` errors, they are not caught.
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @example
- * import { left, right } from 'fp-ts/Either'
- * import { tryCatch } from 'fp-ts/TaskEither'
- *
- * tryCatch(() => Promise.resolve(1))().then(result => {
- *   assert.deepStrictEqual(result, right(1))
- * })
- * tryCatch(() => Promise.reject('error'))().then(result => {
- *   assert.deepStrictEqual(result, left('error'))
- * })
- *
- * @category constructors
- * @since 3.0.0
- */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(_.right, _.left)
-
-/**
  * @category constructors
  * @since 3.0.0
  */
@@ -206,8 +183,50 @@ export const getOrElseW: <E, B>(
   onLeft: (e: E) => Task<B>
 ) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+ *
+ * Note: `f` should never `throw` errors, they are not caught.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @example
+ * import { left, right } from 'fp-ts/Either'
+ * import { tryCatch } from 'fp-ts/TaskEither'
+ *
+ * tryCatch(() => Promise.resolve(1))().then(result => {
+ *   assert.deepStrictEqual(result, right(1))
+ * })
+ * tryCatch(() => Promise.reject('error'))().then(result => {
+ *   assert.deepStrictEqual(result, left('error'))
+ * })
+ *
+ * @category interop
+ * @since 3.0.0
+ */
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(_.right, _.left)
+
+/**
+ * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
+ *
+ * @category interop
+ * @since 3.0.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (error: unknown) => E
+): ((...a: A) => TaskEither<E, B>) => (...a) =>
+  pipe(
+    tryCatch(() => f(...a)),
+    mapLeft(onRejected)
+  )
+
+/**
+ * @category interop
  * @since 3.0.0
  */
 export const toUnion =
@@ -260,21 +279,6 @@ export const orElseW: <E1, E2, B>(
 export const swap =
   /*#__PURE__*/
   ET.swap(T.Functor)
-
-/**
- * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (error: unknown) => E
-): ((...a: A) => TaskEither<E, B>) => (...a) =>
-  pipe(
-    tryCatch(() => f(...a)),
-    mapLeft(onRejected)
-  )
 
 /**
  * @category combinators

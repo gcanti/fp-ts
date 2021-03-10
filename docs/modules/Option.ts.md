@@ -58,20 +58,15 @@ Added in v3.0.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
-  - [chainNullableK](#chainnullablek)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
-  - [fromNullableK](#fromnullablek)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
-  - [fromNullable](#fromnullable)
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
   - [none](#none)
   - [some](#some)
-  - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -83,8 +78,6 @@ Added in v3.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toNullable](#tonullable)
-  - [toUndefined](#toundefined)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -111,6 +104,14 @@ Added in v3.0.0
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
+- [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
+  - [toNullable](#tonullable)
+  - [toUndefined](#toundefined)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
@@ -416,59 +417,6 @@ export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: 
 
 Added in v3.0.0
 
-## chainNullableK
-
-This is `chain` + `fromNullable`, useful when working with optional values.
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
-```
-
-**Example**
-
-```ts
-import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-interface Employee {
-  company?: {
-    address?: {
-      street?: {
-        name?: string
-      }
-    }
-  }
-}
-
-const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee1.company),
-    chainNullableK((company) => company.address),
-    chainNullableK((address) => address.street),
-    chainNullableK((street) => street.name)
-  ),
-  some('high street')
-)
-
-const employee2: Employee = { company: { address: { street: {} } } }
-
-assert.deepStrictEqual(
-  pipe(
-    fromNullable(employee2.company),
-    chainNullableK((company) => company.address),
-    chainNullableK((address) => address.street),
-    chainNullableK((street) => street.name)
-  ),
-  none
-)
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -491,48 +439,6 @@ export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (..
 
 Added in v3.0.0
 
-## fromNullableK
-
-Returns a _smart constructor_ from a function that returns a nullable value.
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B
-) => (...a: A) => Option<NonNullable<B>>
-```
-
-**Example**
-
-```ts
-import { fromNullableK, none, some } from 'fp-ts/Option'
-
-const f = (s: string): number | undefined => {
-  const n = parseFloat(s)
-  return isNaN(n) ? undefined : n
-}
-
-const g = fromNullableK(f)
-
-assert.deepStrictEqual(g('1'), some(1))
-assert.deepStrictEqual(g('a'), none)
-```
-
-Added in v3.0.0
-
-## tryCatchK
-
-Converts a function that may throw to one returning a `Option`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromEither
@@ -545,29 +451,6 @@ Alias of [getRight](#getRight)
 
 ```ts
 export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v3.0.0
-
-## fromNullable
-
-Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
-returns the value wrapped in a `Some`.
-
-**Signature**
-
-```ts
-export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
-```
-
-**Example**
-
-```ts
-import { none, some, fromNullable } from 'fp-ts/Option'
-
-assert.deepStrictEqual(fromNullable(undefined), none)
-assert.deepStrictEqual(fromNullable(null), none)
-assert.deepStrictEqual(fromNullable(1), some(1))
 ```
 
 Added in v3.0.0
@@ -662,38 +545,6 @@ Constructs a `Some`. Represents an optional value that exists.
 
 ```ts
 export declare const some: <A>(a: A) => Option<A>
-```
-
-Added in v3.0.0
-
-## tryCatch
-
-Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
-`Some`.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import { none, some, tryCatch } from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  tryCatch(() => {
-    throw new Error()
-  }),
-  none
-)
-assert.deepStrictEqual(
-  tryCatch(() => 1),
-  some(1)
-)
 ```
 
 Added in v3.0.0
@@ -865,50 +716,6 @@ Less strict version of [`match`](#match).
 
 ```ts
 export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
-```
-
-Added in v3.0.0
-
-## toNullable
-
-Extracts the value out of the structure, if it exists. Otherwise returns `null`.
-
-**Signature**
-
-```ts
-export declare const toNullable: <A>(ma: Option<A>) => A
-```
-
-**Example**
-
-```ts
-import { some, none, toNullable } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toNullable), 1)
-assert.strictEqual(pipe(none, toNullable), null)
-```
-
-Added in v3.0.0
-
-## toUndefined
-
-Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
-
-**Signature**
-
-```ts
-export declare const toUndefined: <A>(ma: Option<A>) => A
-```
-
-**Example**
-
-```ts
-import { some, none, toUndefined } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.strictEqual(pipe(some(1), toUndefined), 1)
-assert.strictEqual(pipe(none, toUndefined), undefined)
 ```
 
 Added in v3.0.0
@@ -1278,6 +1085,202 @@ Added in v3.0.0
 
 ```ts
 export declare const getShow: <A>(S: Show<A>) => Show<Option<A>>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableK
+
+This is `chain` + `fromNullable`, useful when working with optional values.
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
+```
+
+**Example**
+
+```ts
+import { some, none, fromNullable, chainNullableK } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+interface Employee {
+  company?: {
+    address?: {
+      street?: {
+        name?: string
+      }
+    }
+  }
+}
+
+const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
+
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee1.company),
+    chainNullableK((company) => company.address),
+    chainNullableK((address) => address.street),
+    chainNullableK((street) => street.name)
+  ),
+  some('high street')
+)
+
+const employee2: Employee = { company: { address: { street: {} } } }
+
+assert.deepStrictEqual(
+  pipe(
+    fromNullable(employee2.company),
+    chainNullableK((company) => company.address),
+    chainNullableK((address) => address.street),
+    chainNullableK((street) => street.name)
+  ),
+  none
+)
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+returns the value wrapped in a `Some`.
+
+**Signature**
+
+```ts
+export declare const fromNullable: <A>(a: A) => Option<NonNullable<A>>
+```
+
+**Example**
+
+```ts
+import { none, some, fromNullable } from 'fp-ts/Option'
+
+assert.deepStrictEqual(fromNullable(undefined), none)
+assert.deepStrictEqual(fromNullable(null), none)
+assert.deepStrictEqual(fromNullable(1), some(1))
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+Returns a _smart constructor_ from a function that returns a nullable value.
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <A extends readonly unknown[], B>(
+  f: (...a: A) => B
+) => (...a: A) => Option<NonNullable<B>>
+```
+
+**Example**
+
+```ts
+import { fromNullableK, none, some } from 'fp-ts/Option'
+
+const f = (s: string): number | undefined => {
+  const n = parseFloat(s)
+  return isNaN(n) ? undefined : n
+}
+
+const g = fromNullableK(f)
+
+assert.deepStrictEqual(g('1'), some(1))
+assert.deepStrictEqual(g('a'), none)
+```
+
+Added in v3.0.0
+
+## toNullable
+
+Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+
+**Signature**
+
+```ts
+export declare const toNullable: <A>(ma: Option<A>) => A
+```
+
+**Example**
+
+```ts
+import { some, none, toNullable } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toNullable), 1)
+assert.strictEqual(pipe(none, toNullable), null)
+```
+
+Added in v3.0.0
+
+## toUndefined
+
+Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
+
+**Signature**
+
+```ts
+export declare const toUndefined: <A>(ma: Option<A>) => A
+```
+
+**Example**
+
+```ts
+import { some, none, toUndefined } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.strictEqual(pipe(some(1), toUndefined), 1)
+assert.strictEqual(pipe(none, toUndefined), undefined)
+```
+
+Added in v3.0.0
+
+## tryCatch
+
+Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+`Some`.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <A>(f: Lazy<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import { none, some, tryCatch } from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  tryCatch(() => {
+    throw new Error()
+  }),
+  none
+)
+assert.deepStrictEqual(
+  tryCatch(() => 1),
+  some(1)
+)
+```
+
+Added in v3.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `Option`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0

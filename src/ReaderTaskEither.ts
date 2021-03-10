@@ -241,8 +241,12 @@ export const getOrElseW: <E, R2, B>(
   onLeft: (e: E) => ReaderTask<R2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = getOrElse as any
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * @category interop
  * @since 3.0.0
  */
 export const toUnion =

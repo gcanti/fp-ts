@@ -53,24 +53,19 @@ Added in v3.0.0
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainFirstW](#chainfirstw)
-  - [chainNullableK](#chainnullablek)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
-  - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
-  - [fromNullable](#fromnullable)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [right](#right)
-  - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -82,7 +77,6 @@ Added in v3.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toUnion](#tounion)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -109,6 +103,13 @@ Added in v3.0.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [getWitherable](#getwitherable)
+- [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
+  - [toUnion](#tounion)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
@@ -437,18 +438,6 @@ export declare const chainFirstW: <A, E2, B>(
 
 Added in v3.0.0
 
-## chainNullableK
-
-**Signature**
-
-```ts
-export declare const chainNullableK: <E>(
-  e: Lazy<E>
-) => <A, B>(f: (a: A) => B) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## chainOptionK
 
 **Signature**
@@ -541,18 +530,6 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => E
 
 Added in v3.0.0
 
-## fromNullableK
-
-**Signature**
-
-```ts
-export declare const fromNullableK: <E>(
-  e: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Either<E, NonNullable<B>>
-```
-
-Added in v3.0.0
-
 ## fromOptionK
 
 **Signature**
@@ -603,46 +580,7 @@ export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 
 Added in v3.0.0
 
-## tryCatchK
-
-Converts a function that may throw to one returning a `Either`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => B,
-  onThrow: (error: unknown) => E
-) => (...a: A) => Either<E, B>
-```
-
-Added in v3.0.0
-
 # constructors
-
-## fromNullable
-
-Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
-the provided default as a `Left`.
-
-**Signature**
-
-```ts
-export declare const fromNullable: <E>(e: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-const parse = E.fromNullable(() => 'nully')
-
-assert.deepStrictEqual(parse(1), E.right(1))
-assert.deepStrictEqual(parse(null), E.left('nully'))
-```
-
-Added in v3.0.0
 
 ## fromOption
 
@@ -734,39 +672,6 @@ of this structure.
 
 ```ts
 export declare const right: <A, E = never>(a: A) => Either<E, A>
-```
-
-Added in v3.0.0
-
-## tryCatch
-
-Constructs a new `Either` from a function that might throw.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: Lazy<A>) => Either<unknown, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-
-const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
-  if (as.length > 0) {
-    return as[0]
-  } else {
-    throw new Error('empty array')
-  }
-}
-
-const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as))
-
-assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
-assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
 ```
 
 Added in v3.0.0
@@ -935,16 +840,6 @@ Less strict version of [`match`](#match).
 
 ```ts
 export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
-```
-
-Added in v3.0.0
-
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
 ```
 
 Added in v3.0.0
@@ -1216,6 +1111,114 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 
 ```ts
 export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
+```
+
+Added in v3.0.0
+
+# interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: Lazy<E>
+) => <A, B>(f: (a: A) => B) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+the provided default as a `Left`.
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: Lazy<E>) => <A>(a: A) => Either<E, NonNullable<A>>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+const parse = E.fromNullable(() => 'nully')
+
+assert.deepStrictEqual(parse(1), E.right(1))
+assert.deepStrictEqual(parse(null), E.left('nully'))
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Either<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: Either<E, A>) => E | A
+```
+
+Added in v3.0.0
+
+## tryCatch
+
+Constructs a new `Either` from a function that might throw.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <A>(f: Lazy<A>) => Either<unknown, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
+  if (as.length > 0) {
+    return as[0]
+  } else {
+    throw new Error('empty array')
+  }
+}
+
+const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> => E.tryCatch(() => unsafeHead(as))
+
+assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
+```
+
+Added in v3.0.0
+
+## tryCatchK
+
+Converts a function that may throw to one returning a `Either`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+) => (...a: A) => Either<E, B>
 ```
 
 Added in v3.0.0

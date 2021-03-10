@@ -57,7 +57,6 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
-  - [tryCatchK](#trycatchk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -71,7 +70,6 @@ Added in v3.0.0
   - [right](#right)
   - [rightIO](#rightio)
   - [rightTask](#righttask)
-  - [tryCatch](#trycatch)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -82,7 +80,6 @@ Added in v3.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-  - [toUnion](#tounion)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -102,6 +99,10 @@ Added in v3.0.0
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
+- [interop](#interop)
+  - [toUnion](#tounion)
+  - [tryCatch](#trycatch)
+  - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
 - [utils](#utils)
@@ -572,21 +573,6 @@ export declare const swap: <E, A>(ma: T.Task<E.Either<E, A>>) => T.Task<E.Either
 
 Added in v3.0.0
 
-## tryCatchK
-
-Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
-
-**Signature**
-
-```ts
-export declare const tryCatchK: <A extends readonly unknown[], B, E>(
-  f: (...a: A) => Promise<B>,
-  onRejected: (error: unknown) => E
-) => (...a: A) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
 # constructors
 
 ## fromEither
@@ -716,36 +702,6 @@ export declare const rightTask: <A, E = never>(ma: T.Task<A>) => TaskEither<E, A
 
 Added in v3.0.0
 
-## tryCatch
-
-Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
-
-Note: `f` should never `throw` errors, they are not caught.
-
-See also [`tryCatchK`](#tryCatchK).
-
-**Signature**
-
-```ts
-export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskEither<unknown, A>
-```
-
-**Example**
-
-```ts
-import { left, right } from 'fp-ts/Either'
-import { tryCatch } from 'fp-ts/TaskEither'
-
-tryCatch(() => Promise.resolve(1))().then((result) => {
-  assert.deepStrictEqual(result, right(1))
-})
-tryCatch(() => Promise.reject('error'))().then((result) => {
-  assert.deepStrictEqual(result, left('error'))
-})
-```
-
-Added in v3.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -853,16 +809,6 @@ export declare const matchW: <E, B, A, C>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>
 ) => (ma: TaskEither<E, A>) => T.Task<B | C>
-```
-
-Added in v3.0.0
-
-## toUnion
-
-**Signature**
-
-```ts
-export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
 ```
 
 Added in v3.0.0
@@ -1048,6 +994,63 @@ Added in v3.0.0
 
 ```ts
 export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'TaskEither', E>
+```
+
+Added in v3.0.0
+
+# interop
+
+## toUnion
+
+**Signature**
+
+```ts
+export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
+```
+
+Added in v3.0.0
+
+## tryCatch
+
+Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
+
+Note: `f` should never `throw` errors, they are not caught.
+
+See also [`tryCatchK`](#tryCatchK).
+
+**Signature**
+
+```ts
+export declare const tryCatch: <A>(f: Lazy<Promise<A>>) => TaskEither<unknown, A>
+```
+
+**Example**
+
+```ts
+import { left, right } from 'fp-ts/Either'
+import { tryCatch } from 'fp-ts/TaskEither'
+
+tryCatch(() => Promise.resolve(1))().then((result) => {
+  assert.deepStrictEqual(result, right(1))
+})
+tryCatch(() => Promise.reject('error'))().then((result) => {
+  assert.deepStrictEqual(result, left('error'))
+})
+```
+
+Added in v3.0.0
+
+## tryCatchK
+
+Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
+
+**Signature**
+
+```ts
+export declare const tryCatchK: <A extends readonly unknown[], B, E>(
+  f: (...a: A) => Promise<B>,
+  onRejected: (error: unknown) => E
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0

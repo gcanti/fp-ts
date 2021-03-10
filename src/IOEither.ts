@@ -89,16 +89,6 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
 export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
- * Constructs a new `IOEither` from a function that performs a side effect and might throw.
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @category constructors
- * @since 3.0.0
- */
-export const tryCatch = <A>(f: Lazy<A>): IOEither<unknown, A> => () => E.tryCatch(f)
-
-/**
  * @category constructors
  * @since 3.0.0
  */
@@ -143,8 +133,37 @@ export const getOrElse =
  */
 export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * Constructs a new `IOEither` from a function that performs a side effect and might throw.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @category interop
+ * @since 3.0.0
+ */
+export const tryCatch = <A>(f: Lazy<A>): IOEither<unknown, A> => () => E.tryCatch(f)
+
+/**
+ * Converts a function that may throw to one returning a `IOEither`.
+ *
+ * @category interop
+ * @since 3.0.0
+ */
+export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
+  f: (...a: A) => B,
+  onThrow: (error: unknown) => E
+): ((...a: A) => IOEither<E, B>) => (...a) =>
+  pipe(
+    tryCatch(() => f(...a)),
+    mapLeft(onThrow)
+  )
+
+/**
+ * @category interop
  * @since 3.0.0
  */
 export const toUnion =
@@ -180,21 +199,6 @@ export const orElseW: <E1, E2, B>(
 export const swap =
   /*#__PURE__*/
   ET.swap(I.Functor)
-
-/**
- * Converts a function that may throw to one returning a `IOEither`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
-  f: (...a: A) => B,
-  onThrow: (error: unknown) => E
-): ((...a: A) => IOEither<E, B>) => (...a) =>
-  pipe(
-    tryCatch(() => f(...a)),
-    mapLeft(onThrow)
-  )
 
 // -------------------------------------------------------------------------------------
 // type class members

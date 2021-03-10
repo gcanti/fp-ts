@@ -116,57 +116,6 @@ export const left: <E, A = never>(e: E) => Either<E, A> = _.left
  */
 export const right: <A, E = never>(a: A) => Either<E, A> = _.right
 
-/**
- * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
- * the provided default as a `Left`.
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * const parse = E.fromNullable(() => 'nully')
- *
- * assert.deepStrictEqual(parse(1), E.right(1))
- * assert.deepStrictEqual(parse(null), E.left('nully'))
- *
- * @category constructors
- * @since 3.0.0
- */
-export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
-  a == null ? left(e()) : right(a as NonNullable<A>)
-
-/**
- * Constructs a new `Either` from a function that might throw.
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
- *   if (as.length > 0) {
- *     return as[0]
- *   } else {
- *     throw new Error('empty array')
- *   }
- * }
- *
- * const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> =>
- *   E.tryCatch(() => unsafeHead(as))
- *
- * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
- *
- * @category constructors
- * @since 3.0.0
- */
-export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
-  try {
-    return right(f())
-  } catch (e) {
-    return left(e)
-  }
-}
-
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -248,20 +197,30 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * Takes a lazy default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+ * the provided default as a `Left`.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * const parse = E.fromNullable(() => 'nully')
+ *
+ * assert.deepStrictEqual(parse(1), E.right(1))
+ * assert.deepStrictEqual(parse(null), E.left('nully'))
+ *
+ * @category interop
  * @since 3.0.0
  */
-export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
-  /*#__PURE__*/
-  matchW(identity, identity)
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
+export const fromNullable = <E>(e: Lazy<E>) => <A>(a: A): Either<E, NonNullable<A>> =>
+  a == null ? left(e()) : right(a as NonNullable<A>)
 
 /**
- * @category combinators
+ * @category interop
  * @since 3.0.0
  */
 export const fromNullableK = <E>(
@@ -274,7 +233,7 @@ export const fromNullableK = <E>(
 }
 
 /**
- * @category combinators
+ * @category interop
  * @since 3.0.0
  */
 export const chainNullableK = <E>(
@@ -285,17 +244,42 @@ export const chainNullableK = <E>(
 }
 
 /**
- * Returns a `Right` if is a `Left` (and vice versa).
+ * Constructs a new `Either` from a function that might throw.
  *
- * @category combinators
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * const unsafeHead = <A>(as: ReadonlyArray<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
+ *
+ * const head = <A>(as: ReadonlyArray<A>): E.Either<unknown, A> =>
+ *   E.tryCatch(() => unsafeHead(as))
+ *
+ * assert.deepStrictEqual(head([]), E.left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), E.right(1))
+ *
+ * @category interop
  * @since 3.0.0
  */
-export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
+export const tryCatch = <A>(f: Lazy<A>): Either<unknown, A> => {
+  try {
+    return right(f())
+  } catch (e) {
+    return left(e)
+  }
+}
 
 /**
  * Converts a function that may throw to one returning a `Either`.
  *
- * @category combinators
+ * @category interop
  * @since 3.0.0
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
@@ -306,6 +290,26 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
     tryCatch(() => f(...a)),
     mapLeft(onThrow)
   )
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
+  /*#__PURE__*/
+  matchW(identity, identity)
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns a `Right` if is a `Left` (and vice versa).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
 
 /**
  * Less strict version of [`orElse`](#orElse).
