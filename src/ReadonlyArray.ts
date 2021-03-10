@@ -67,7 +67,7 @@ export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft
 export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(n, f))
 
 /**
- * Create a `ReadonlyArray` containing a value repeated the specified number of times
+ * Create a `ReadonlyArray` containing a value repeated the specified number of times.
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyArray'
@@ -78,6 +78,64 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (
  * @since 3.0.0
  */
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
+
+/**
+ * `ReadonlyArray` comprehension.
+ *
+ * ```
+ * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+ * ```
+ *
+ * @example
+ * import { comprehension } from 'fp-ts/ReadonlyArray'
+ * import { tuple } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
+ *   [1, 'a'],
+ *   [1, 'b'],
+ *   [3, 'a'],
+ *   [3, 'b']
+ * ])
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export function comprehension<A, B, C, D, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): ReadonlyArray<R>
+export function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): ReadonlyArray<R>
+export function comprehension<A, B, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): ReadonlyArray<R>
+export function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => R,
+  g?: (a: A) => boolean
+): ReadonlyArray<R>
+export function comprehension<A, R>(
+  input: ReadonlyArray<ReadonlyArray<A>>,
+  f: (...as: ReadonlyArray<A>) => R,
+  g: (...as: ReadonlyArray<A>) => boolean = () => true
+): ReadonlyArray<R> {
+  const go = (as: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyArray<A>>): ReadonlyArray<R> =>
+    isNonEmpty(input)
+      ? pipe(
+          RNEA.head(input),
+          chain((head) => go(append(head)(as), RNEA.tail(input)))
+        )
+      : g(...as)
+      ? [f(...as)]
+      : empty
+  return go(empty, input)
+}
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -1053,75 +1111,11 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
- *
  * @since 3.0.0
  */
 export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
   const f = RNEA.chunksOf(n)
   return (as) => (isNonEmpty(as) ? f(as) : empty)
-}
-
-/**
- * Array comprehension
- *
- * ```
- * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
- * ```
- *
- * @example
- * import { comprehension } from 'fp-ts/ReadonlyArray'
- * import { tuple } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
- *   [1, 'a'],
- *   [1, 'b'],
- *   [3, 'a'],
- *   [3, 'b']
- * ])
- *
- * @category constructors
- * @since 3.0.0
- */
-export function comprehension<A, B, C, D, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, B, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): ReadonlyArray<R>
-export function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
-): ReadonlyArray<R>
-export function comprehension<R>(
-  input: ReadonlyArray<ReadonlyArray<any>>,
-  f: (...xs: ReadonlyArray<any>) => R,
-  g: (...xs: ReadonlyArray<any>) => boolean = () => true
-): ReadonlyArray<R> {
-  const go = (scope: ReadonlyArray<any>, input: ReadonlyArray<ReadonlyArray<any>>): ReadonlyArray<R> =>
-    isNonEmpty(input)
-      ? pipe(
-          RNEA.head(input),
-          chain((head) => go(append(head)(scope), RNEA.tail(input)))
-        )
-      : g(...scope)
-      ? [f(...scope)]
-      : empty
-  return go(empty, input)
 }
 
 /**

@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as N from '../src/number'
-import { identity, pipe } from '../src/function'
+import { identity, pipe, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyNonEmptyArray'
@@ -403,6 +403,7 @@ describe('ReadonlyNonEmptyArray', () => {
   it('makeBy', () => {
     const double = (n: number): number => n * 2
     U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    // If `n` (must be a natural number) is non positive return `[f(0)]`.
     U.deepStrictEqual(_.makeBy(0, double), [0])
     U.deepStrictEqual(_.makeBy(-1, double), [0])
   })
@@ -417,5 +418,29 @@ describe('ReadonlyNonEmptyArray', () => {
     // out of bound
     U.deepStrictEqual(_.range(2, 1), [2])
     U.deepStrictEqual(_.range(-1, -2), [-1])
+  })
+
+  it('comprehension', () => {
+    U.deepStrictEqual(
+      _.comprehension([[1, 2, 3]], (a) => a * 2),
+      [2, 4, 6]
+    )
+    U.deepStrictEqual(
+      _.comprehension(
+        [
+          [1, 2, 3],
+          ['a', 'b']
+        ],
+        tuple
+      ),
+      [
+        [1, 'a'],
+        [1, 'b'],
+        [2, 'a'],
+        [2, 'b'],
+        [3, 'a'],
+        [3, 'b']
+      ]
+    )
   })
 })

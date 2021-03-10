@@ -170,6 +170,62 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray
 export const range = (start: number, end: number): ReadonlyNonEmptyArray<number> =>
   start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
+/**
+ * `ReadonlyNonEmptyArray` comprehension.
+ *
+ * ```
+ * [ f(x, y, ...) | x ← xs, y ← ys, ... ]
+ * ```
+ *
+ * @example
+ * import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { tuple } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
+ *   [1, 'a'],
+ *   [1, 'b'],
+ *   [3, 'a'],
+ *   [3, 'b']
+ * ])
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export function comprehension<A, B, C, D, R>(
+  input: readonly [
+    ReadonlyNonEmptyArray<A>,
+    ReadonlyNonEmptyArray<B>,
+    ReadonlyNonEmptyArray<C>,
+    ReadonlyNonEmptyArray<D>
+  ],
+  f: (a: A, b: B, c: C, d: D) => R
+): ReadonlyNonEmptyArray<R>
+export function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>, ReadonlyNonEmptyArray<C>],
+  f: (a: A, b: B, c: C) => R
+): ReadonlyNonEmptyArray<R>
+export function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>],
+  f: (a: A, b: B) => R
+): ReadonlyNonEmptyArray<R>
+export function comprehension<A, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>],
+  f: (a: A) => R
+): ReadonlyNonEmptyArray<R>
+export function comprehension<A, R>(
+  input: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>,
+  f: (...as: ReadonlyArray<A>) => R
+): ReadonlyNonEmptyArray<R> {
+  const go = (as: ReadonlyArray<A>, input: ReadonlyArray<ReadonlyNonEmptyArray<A>>): ReadonlyNonEmptyArray<R> =>
+    isNonEmpty(input)
+      ? pipe(
+          head(input),
+          chain((head) => go(append(head)(as), tail(input)))
+        )
+      : [f(...as)]
+  return go(empty, input)
+}
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
