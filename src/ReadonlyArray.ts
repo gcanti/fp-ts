@@ -728,7 +728,7 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: ReadonlyArray<A>)
  * @category combinators
  * @since 2.5.0
  */
-export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (isEmpty(as) ? empty : as.slice().reverse())
+export const reverse = <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => (as.length <= 1 ? as : as.slice().reverse())
 
 /**
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
@@ -875,7 +875,7 @@ export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [Reado
  */
 export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
   const f = RNEA.prependAll(middle)
-  return (as) => (isNonEmpty(as) ? f(as) : empty)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
@@ -2114,7 +2114,7 @@ export const unsafeInsertAt: <A>(i: number, a: A, as: ReadonlyArray<A>) => Reado
  * @since 2.5.0
  */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyArray<A> =>
-  isNonEmpty(as) ? RNEA.unsafeUpdateAt(i, a, as) : empty
+  isNonEmpty(as) ? RNEA.unsafeUpdateAt(i, a, as) : as
 
 /**
  * @category unsafe

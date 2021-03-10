@@ -633,7 +633,9 @@ describe('ReadonlyArray', () => {
   })
 
   it('unsafeUpdateAt', () => {
-    assert.strictEqual(_.unsafeUpdateAt(1, 2, []), _.empty)
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.unsafeUpdateAt(1, 2, empty), empty)
+    assert.strictEqual(_.unsafeUpdateAt(1, 2, _.empty), _.empty)
     // should return the same reference if nothing changed
     const input: ReadonlyArray<number> = [1, 2, 3]
     U.deepStrictEqual(
@@ -759,15 +761,19 @@ describe('ReadonlyArray', () => {
   })
 
   it('prependAll', () => {
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.prependAll(0)(empty), empty)
+    assert.strictEqual(_.prependAll(0)(_.empty), _.empty)
     U.deepStrictEqual(_.prependAll(0)([1, 2, 3]), [0, 1, 0, 2, 0, 3])
-    U.deepStrictEqual(_.prependAll(0)([]), [])
     U.deepStrictEqual(_.prependAll(0)([1]), [0, 1])
     U.deepStrictEqual(_.prependAll(0)([1, 2, 3, 4]), [0, 1, 0, 2, 0, 3, 0, 4])
   })
 
   it('intersperse', () => {
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.intersperse(0)(empty), empty)
+    assert.strictEqual(_.intersperse(0)(_.empty), _.empty)
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
-    U.deepStrictEqual(_.intersperse(0)([]), [])
     U.deepStrictEqual(_.intersperse(0)([1]), [1])
     U.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
@@ -786,8 +792,12 @@ describe('ReadonlyArray', () => {
   })
 
   it('reverse', () => {
-    U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(_.reverse(empty), empty)
     assert.strictEqual(_.reverse(_.empty), _.empty)
+    const singleton: ReadonlyArray<number> = [1]
+    assert.strictEqual(_.reverse(singleton), singleton)
+    U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
   it('foldLeft', () => {
@@ -898,15 +908,11 @@ describe('ReadonlyArray', () => {
   })
 
   it('chop', () => {
-    const group = <A>(E: Eq.Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-      return _.chop((as) => {
-        const { init, rest } = _.spanLeft((a: A) => E.equals(a, as[0]))(as)
-        return [init, rest]
-      })
-    }
-    const f = group(N.Eq)
-    U.deepStrictEqual(f([]), [])
-    U.deepStrictEqual(f([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    const f = _.chop<number, number>((as) => [as[0] * 2, as.slice(1)])
+    const empty: ReadonlyArray<number> = []
+    assert.strictEqual(f(empty), _.empty)
+    assert.strictEqual(f(_.empty), _.empty)
+    U.deepStrictEqual(f([1, 2, 3]), [2, 4, 6])
   })
 
   it('splitAt', () => {
@@ -942,9 +948,13 @@ describe('ReadonlyArray', () => {
 
     // #897
     it('returns an empty array if provided an empty array', () => {
-      U.deepStrictEqual(_.chunksOf(1)([]), [])
-      U.deepStrictEqual(_.chunksOf(2)([]), [])
-      U.deepStrictEqual(_.chunksOf(0)([]), [])
+      const empty: ReadonlyArray<number> = []
+      assert.strictEqual(_.chunksOf(0)(empty), _.empty)
+      assert.strictEqual(_.chunksOf(0)(_.empty), _.empty)
+      assert.strictEqual(_.chunksOf(1)(empty), _.empty)
+      assert.strictEqual(_.chunksOf(1)(_.empty), _.empty)
+      assert.strictEqual(_.chunksOf(2)(empty), _.empty)
+      assert.strictEqual(_.chunksOf(2)(_.empty), _.empty)
     })
 
     // #897
