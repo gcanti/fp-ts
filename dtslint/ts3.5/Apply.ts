@@ -2,39 +2,31 @@ import * as _ from '../../src/Apply'
 import { URIS, Kind } from '../../src/HKT'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as E from '../../src/Either'
+import { pipe } from '../../src/function'
+import * as Fu from '../../src/Functor'
+
+//
+// apS
+//
+
+export const apS = <F extends URIS>(F: _.Apply1<F>) => (
+  s: Kind<F, string>,
+  n: Kind<F, number>
+): Kind<F, { s: string; n: number }> => {
+  const apS = _.apS(F)
+  const bindTo = Fu.bindTo(F)
+  return pipe(s, bindTo('s'), apS('n', n))
+}
 
 //
 // sequenceS
 //
 
-declare function functionForfactoryS(
-  a1: string,
-  a2: number,
-  a3: boolean,
-  a4: string,
-  a5: number,
-  a6: boolean,
-  a7: string,
-  a8: number,
-  a9: boolean
-): boolean
-
-export function factoryS<F extends URIS>(
-  F: _.Apply1<F>,
-  a1: Kind<F, string>,
-  a2: Kind<F, number>,
-  a3: Kind<F, boolean>,
-  a4: Kind<F, string>,
-  a5: Kind<F, number>,
-  a6: Kind<F, boolean>,
-  a7: Kind<F, string>,
-  a8: Kind<F, number>,
-  a9: Kind<F, boolean>
-): Kind<F, boolean> {
-  return F.map(_.sequenceS(F)({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }), ({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }) =>
-    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
-  )
-}
+// TODO: broken in typescript@4.2.3
+// export const sequenceS = <F extends URIS>(F: _.Apply1<F>) => (
+//   s: Kind<F, string>,
+//   n: Kind<F, number>
+// ): Kind<F, { s: string; n: number }> => _.sequenceS(F)({ s, n })
 
 declare const sequenceS1: E.Either<string, number>
 declare const sequenceS2: E.Either<string, string>
@@ -68,22 +60,11 @@ sequenceSf2({ sequenceS5, sequenceS6, sequenceS7 }) // $ExpectType ReaderTaskEit
 // sequenceT
 //
 
-export function factoryT<F extends URIS>(
-  F: _.Apply1<F>,
-  f1: Kind<F, string>,
-  f2: Kind<F, number>,
-  f3: Kind<F, boolean>,
-  f4: Kind<F, string>,
-  f5: Kind<F, number>,
-  f6: Kind<F, boolean>,
-  f7: Kind<F, string>,
-  f8: Kind<F, number>,
-  f9: Kind<F, boolean>
-): Kind<F, boolean> {
-  return F.map(_.sequenceT(F)(f1, f2, f3, f4, f5, f6, f7, f8, f9), ([a1, a2, a3, a4, a5, a6, a7, a8, a9]) =>
-    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
-  )
-}
+// TODO: broken in typescript@4.2.3
+// export const sequenceT = <F extends URIS>(F: _.Apply1<F>) => (
+//   s: Kind<F, string>,
+//   n: Kind<F, number>
+// ): Kind<F, [string, number]> => _.sequenceT(F)(s, n)
 
 const sequenceTf1 = _.sequenceT(E.either)
 
