@@ -23,6 +23,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+  - `OptionT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
 
 # 2.10.0-rc.4
 
