@@ -374,9 +374,15 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * If `n` (must be a natural number) is out of bounds the input is returned.
  *
  * @example
- * import { takeLeft } from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+ * const input: ReadonlyArray<number> = [1, 2, 3]
+ * assert.deepStrictEqual(pipe([1, 2, 3], RA.takeLeft(2)), [1, 2])
+ *
+ * // out of bounds
+ * assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
+ * assert.strictEqual(pipe(input, RA.takeLeft(-1)), input)
  *
  * @category combinators
  * @since 3.0.0
@@ -389,9 +395,15 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * If `n` (must be a natural number) is out of bounds the input is returned.
  *
  * @example
- * import { takeRight } from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+ * const input: ReadonlyArray<number> = [1, 2, 3]
+ * assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
+ *
+ * // out of bounds
+ * assert.strictEqual(pipe(input, RA.takeRight(4)), input)
+ * assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
  *
  * @since 3.0.0
  */
@@ -476,9 +488,13 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
  * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
- * import { dropLeft } from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+ * const input: ReadonlyArray<number> = [1, 2, 3]
+ * assert.deepStrictEqual(pipe(input, RA.dropLeft(2)), [3])
+ * assert.strictEqual(pipe(input, RA.dropLeft(0)), input)
+ * assert.strictEqual(pipe(input, RA.dropLeft(-1)), input)
  *
  * @category combinators
  * @since 3.0.0
@@ -491,9 +507,13 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
- * import { dropRight } from 'fp-ts/ReadonlyArray'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+ * const input: ReadonlyArray<number> = [1, 2, 3]
+ * assert.deepStrictEqual(pipe(input, RA.dropRight(2)), [1])
+ * assert.strictEqual(pipe(input, RA.dropRight(0)), input)
+ * assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
  *
  * @category combinators
  * @since 3.0.0
