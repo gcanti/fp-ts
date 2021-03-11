@@ -336,7 +336,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
 
 /**
  * Keep only a number of elements from the start of an `Array`, creating a new `Array`.
- * If `n` (must be a natural number) is out of bound a copy of the input is returned.
+ * If `n` (must be a natural number) is out of bounds a copy of the input is returned.
  *
  * @example
  * import { takeLeft } from 'fp-ts/Array'
@@ -350,7 +350,7 @@ export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (isOutOfBo
 
 /**
  * Keep only a number of elements from the end of an `Array`, creating a new `Array`.
- * If `n` (must be a natural number) is out of bound a copy of the input is returned.
+ * If `n` (must be a natural number) is out of bounds a copy of the input is returned.
  *
  * @example
  * import { takeRight } from 'fp-ts/Array'
