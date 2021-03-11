@@ -371,7 +371,7 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
 
 /**
  * Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is out of bound the input is returned.
+ * If `n` (must be a natural number) is out of bounds the input is returned.
  *
  * @example
  * import { takeLeft } from 'fp-ts/ReadonlyArray'
@@ -386,7 +386,7 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
 
 /**
  * Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is out of bound the input is returned.
+ * If `n` (must be a natural number) is out of bounds the input is returned.
  *
  * @example
  * import { takeRight } from 'fp-ts/ReadonlyArray'

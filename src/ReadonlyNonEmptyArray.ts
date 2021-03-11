@@ -234,7 +234,7 @@ export function comprehension<A, R>(
 
 /**
  * Keep only a number of elements from the tail of an `ReadonlyNonEmptyArray`, creating a new `ReadonlyNonEmptyArray`.
- * If `n` (must be a natural number) is out of bound the input is returned.
+ * If `n` (must be a natural number) is out of bounds the input is returned.
  *
  * @category combinators
  * @since 3.0.0

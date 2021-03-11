@@ -524,7 +524,7 @@ Added in v3.0.0
 ## takeLeft
 
 Keep only a number of elements from the tail of an `ReadonlyNonEmptyArray`, creating a new `ReadonlyNonEmptyArray`.
-If `n` (must be a natural number) is out of bound the input is returned.
+If `n` (must be a natural number) is out of bounds the input is returned.
 
 **Signature**
 
