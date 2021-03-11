@@ -356,7 +356,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => T.Task<O.Option<A>>
+export declare const fromEither: <A>(e: Either<unknown, A>) => T.Task<O.Option<A>>
 ```
 
 Added in v3.0.0

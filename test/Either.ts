@@ -419,7 +419,7 @@ describe('Either', () => {
 
     U.deepStrictEqual(pipe(_.left('a'), apT(_.left('b'))), _.left('ab'))
     U.deepStrictEqual(pipe(_.right([1]), apT(_.left('b'))), _.left('b'))
-    U.deepStrictEqual(pipe(_.right([1]), apT(_.right(2))), _.right([1, 2]))
+    U.deepStrictEqual(pipe(_.right([1]), apT(_.right(2))), _.right([1, 2] as const))
   })
 
   it('getAltValidation', () => {
