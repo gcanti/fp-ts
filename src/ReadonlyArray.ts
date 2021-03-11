@@ -476,7 +476,6 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * If `n` (must be a natural number) is negative the input is returned.
  *
  * @example
- * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
  *
