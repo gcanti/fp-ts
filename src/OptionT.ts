@@ -10,12 +10,12 @@ import {
 import { ap as ap_, Apply, Apply1 } from './Apply'
 import { Chain, Chain1 } from './Chain'
 import { Either } from './Either'
-import { flow, Lazy, pipe, Predicate, Refinement } from './function'
+import { constant, flow, Lazy, pipe, Predicate, Refinement } from './function'
 import { Functor, Functor1, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C } from './Monad'
 import * as O from './Option'
-import { Pointed, Pointed1 } from './Pointed'
+import { Pointed, Pointed1, Pointed2 } from './Pointed'
 
 import Option = O.Option
 
@@ -35,10 +35,11 @@ export function some<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>> {
 /**
  * @since 2.10.0
  */
-export function none<F extends URIS>(F: Pointed1<F>): Kind<F, Option<never>>
-export function none<F>(F: Pointed<F>): HKT<F, Option<never>>
-export function none<F>(F: Pointed<F>): HKT<F, Option<never>> {
-  return F.of(O.none)
+export function zero<F extends URIS2>(F: Pointed2<F>): <E, A>() => Kind2<F, E, Option<A>>
+export function zero<F extends URIS>(F: Pointed1<F>): <A>() => Kind<F, Option<A>>
+export function zero<F>(F: Pointed<F>): <A>() => HKT<F, Option<A>>
+export function zero<F>(F: Pointed<F>): <A>() => HKT<F, Option<A>> {
+  return constant(F.of(O.none))
 }
 
 /**
@@ -235,11 +236,11 @@ export function chain<M>(
 export function chain<M>(
   M: Monad<M>
 ): <A, B>(f: (a: A) => HKT<M, Option<B>>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>> {
-  const _none = none(M)
+  const zeroM = zero(M)
   return (f) => (ma) =>
     M.chain(
       ma,
-      O.match(() => _none, f)
+      O.match(() => zeroM(), f)
     )
 }
 
@@ -359,23 +360,23 @@ export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
 export function getOptionM<M>(M: Monad<M>): OptionM<M>
 /** @deprecated */
 export function getOptionM<M>(M: Monad<M>): OptionM<M> {
-  const _ap = ap(M)
-  const _map = map(M)
-  const _chain = chain(M)
-  const _alt = alt(M)
-  const _fold = match(M)
-  const _getOrElse = getOrElse(M)
-  const _none = none(M)
+  const apM = ap(M)
+  const mapM = map(M)
+  const chainM = chain(M)
+  const altM = alt(M)
+  const foldM = match(M)
+  const getOrElseM = getOrElse(M)
+  const zeroM = zero(M)
 
   return {
-    map: (fa, f) => pipe(fa, _map(f)),
-    ap: (fab, fa) => pipe(fab, _ap(fa)),
+    map: (fa, f) => pipe(fa, mapM(f)),
+    ap: (fab, fa) => pipe(fab, apM(fa)),
     of: some(M),
-    chain: (ma, f) => pipe(ma, _chain(f)),
-    alt: (fa, that) => pipe(fa, _alt(that)),
-    fold: (fa, onNone, onSome) => pipe(fa, _fold(onNone, onSome)),
-    getOrElse: (fa, onNone) => pipe(fa, _getOrElse(onNone)),
+    chain: (ma, f) => pipe(ma, chainM(f)),
+    alt: (fa, that) => pipe(fa, altM(that)),
+    fold: (fa, onNone, onSome) => pipe(fa, foldM(onNone, onSome)),
+    getOrElse: (fa, onNone) => pipe(fa, getOrElseM(onNone)),
     fromM: fromF(M),
-    none: () => _none
+    none: () => zeroM()
   }
 }

@@ -31,8 +31,8 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [map](#map)
   - [match](#match)
-  - [none](#none)
   - [some](#some)
+  - [zero](#zero)
   - [~~OptionM1~~ (interface)](#optionm1-interface)
   - [~~OptionM2C~~ (interface)](#optionm2c-interface)
   - [~~OptionM2~~ (interface)](#optionm2-interface)
@@ -279,17 +279,6 @@ export declare function match<M>(
 
 Added in v2.10.0
 
-## none
-
-**Signature**
-
-```ts
-export declare function none<F extends URIS>(F: Pointed1<F>): Kind<F, Option<never>>
-export declare function none<F>(F: Pointed<F>): HKT<F, Option<never>>
-```
-
-Added in v2.10.0
-
 ## some
 
 **Signature**
@@ -297,6 +286,18 @@ Added in v2.10.0
 ```ts
 export declare function some<F extends URIS>(F: Pointed1<F>): <A>(a: A) => Kind<F, Option<A>>
 export declare function some<F>(F: Pointed<F>): <A>(a: A) => HKT<F, Option<A>>
+```
+
+Added in v2.10.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare function zero<F extends URIS2>(F: Pointed2<F>): <E, A>() => Kind2<F, E, Option<A>>
+export declare function zero<F extends URIS>(F: Pointed1<F>): <A>() => Kind<F, Option<A>>
+export declare function zero<F>(F: Pointed<F>): <A>() => HKT<F, Option<A>>
 ```
 
 Added in v2.10.0

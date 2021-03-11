@@ -60,14 +60,6 @@ export const some: <A>(a: A) => TaskOption<A> =
  * @category constructors
  * @since 2.10.0
  */
-export const none: TaskOption<never> =
-  /*#__PURE__*/
-  OT.none(T.Pointed)
-
-/**
- * @category constructors
- * @since 2.10.0
- */
 export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
 
 /**
@@ -296,7 +288,17 @@ export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>)
  * @category Alternative
  * @since 2.10.0
  */
-export const zero: Alternative1<URI>['zero'] = () => none
+export const zero: Alternative1<URI>['zero'] =
+  /*#__PURE__*/
+  OT.zero(T.Pointed)
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const none: TaskOption<never> =
+  /*#__PURE__*/
+  zero()
 
 /**
  * @category Compactable

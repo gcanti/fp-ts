@@ -17,6 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.5
 
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - `OptionT`
+    - rename `none` to `zero` and change signature
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
