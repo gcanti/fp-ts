@@ -27,6 +27,8 @@ high state of flux, you're at risk of it changing without notice.
     - add overloads for `Kind2`, `Kind3`, `Kind4`
   - `ReadonlyMap`
     - sort keys in `getShow`
+  - `ReadonlySet`
+    - sort keys in `getShow`
 
 # 2.10.0-rc.4
 

@@ -34,14 +34,11 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
 export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
   return {
     show: (s) => {
-      let elements = ''
+      const entries: Array<string> = []
       s.forEach((a) => {
-        elements += S.show(a) + ', '
+        entries.push(S.show(a))
       })
-      if (elements !== '') {
-        elements = elements.substring(0, elements.length - 2)
-      }
-      return `new Set([${elements}])`
+      return `new Set([${entries.sort().join(', ')}])`
     }
   }
 }
