@@ -346,14 +346,11 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
  */
 export const getShow = <A>(S: Show<A>): Show<ReadonlySet<A>> => ({
   show: (s) => {
-    let elements = ''
+    const entries: Array<string> = []
     s.forEach((a) => {
-      elements += S.show(a) + ', '
+      entries.push(S.show(a))
     })
-    if (elements !== '') {
-      elements = elements.substring(0, elements.length - 2)
-    }
-    return `new Set([${elements}])`
+    return `new Set([${entries.sort().join(', ')}])`
   }
 })
 

@@ -221,7 +221,7 @@ describe('ReadonlySet', () => {
     deepStrictEqual(Sh.show(s1), `new Set([])`)
     const s2 = new Set<string>(['a'])
     deepStrictEqual(Sh.show(s2), `new Set(["a"])`)
-    const s3 = new Set<string>(['a', 'b'])
+    const s3 = new Set<string>(['b', 'a'])
     deepStrictEqual(Sh.show(s3), `new Set(["a", "b"])`)
   })
 
