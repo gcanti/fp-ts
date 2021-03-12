@@ -676,7 +676,8 @@ Added in v3.0.0
 ## makeBy
 
 Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
-If `n` (must be a natural number) is non positive return `[f(0)]`.
+
+**Note**. `n` is normalized to a natural number.
 
 **Signature**
 

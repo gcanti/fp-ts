@@ -750,15 +750,23 @@ describe('ReadonlyArray', () => {
   })
 
   it('rotate', () => {
-    U.deepStrictEqual(_.rotate(1)([]), [])
-    U.deepStrictEqual(_.rotate(1)([1]), [1])
+    assert.strictEqual(_.rotate(1)(_.empty), _.empty)
+    const singleton: ReadonlyArray<number> = [1]
+    assert.strictEqual(_.rotate(1)(singleton), singleton)
     U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
-    U.deepStrictEqual(_.rotate(2)([1, 2]), [1, 2])
-    U.deepStrictEqual(_.rotate(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    const two: ReadonlyArray<number> = [1, 2]
+    assert.strictEqual(_.rotate(2)(two), two)
+    assert.strictEqual(_.rotate(0)(two), two)
     U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
     U.deepStrictEqual(_.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
     U.deepStrictEqual(_.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
     U.deepStrictEqual(_.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(7)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-7)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(2.2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-2.2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
   })
 
   it('reverse', () => {
