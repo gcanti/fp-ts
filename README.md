@@ -84,7 +84,10 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 
 # Help
 
-Check out the fp-ts channel on [FP slack](https://fpchat-invite.herokuapp.com/) if you need help with `fp-ts`.
+If you need help with `fp-ts` check out:
+
+- this [Discord server](https://discord.gg/HVWmBBXM8A)
+- the `#fp-ts` channel on [FP slack](https://fpchat-invite.herokuapp.com/) .
 
 # Development
 
