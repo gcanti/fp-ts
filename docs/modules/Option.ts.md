@@ -512,7 +512,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const mapNullable: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
+export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
 ```
 
 Added in v2.0.0
@@ -1176,7 +1176,7 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(f: (a: A) => B) => (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
 ```
 
 **Example**
@@ -1253,7 +1253,7 @@ Returns a _smart constructor_ from a function that returns a nullable value.
 
 ```ts
 export declare const fromNullableK: <A extends readonly unknown[], B>(
-  f: (...a: A) => B
+  f: (...a: A) => B | null | undefined
 ) => (...a: A) => Option<NonNullable<B>>
 ```
 
@@ -1282,7 +1282,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `null`.
 **Signature**
 
 ```ts
-export declare const toNullable: <A>(ma: Option<A>) => A
+export declare const toNullable: <A>(ma: Option<A>) => A | null
 ```
 
 **Example**
@@ -1304,7 +1304,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns `undefi
 **Signature**
 
 ```ts
-export declare const toUndefined: <A>(ma: Option<A>) => A
+export declare const toUndefined: <A>(ma: Option<A>) => A | undefined
 ```
 
 **Example**

@@ -42,7 +42,7 @@
     "@types/node": "^12.6.8",
     "@types/prettier": "1.10.0",
     "benchmark": "2.1.4",
-    "docs-ts": "^0.6.2",
+    "docs-ts": "^0.6.7",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "fast-check": "^1.25.1",

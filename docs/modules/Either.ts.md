@@ -1301,7 +1301,7 @@ Added in v2.0.0
 ```ts
 export declare const chainNullableK: <E>(
   e: E
-) => <A, B>(f: (a: A) => B) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
 Added in v2.9.0
@@ -1337,7 +1337,7 @@ Added in v2.0.0
 ```ts
 export declare const fromNullableK: <E>(
   e: E
-) => <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Either<E, NonNullable<B>>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
 Added in v2.9.0
