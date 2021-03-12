@@ -87,8 +87,9 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
   if (n <= 0) {
     return empty
   }
+  const m = Math.floor(n)
   const out: Array<A> = []
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < m; i++) {
     out.push(f(i))
   }
   return out
