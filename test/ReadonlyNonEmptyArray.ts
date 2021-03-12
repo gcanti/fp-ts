@@ -494,4 +494,28 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.replicate(1, 'a'), ['a'])
     U.deepStrictEqual(_.replicate(2, 'a'), ['a', 'a'])
   })
+
+  it('rotate', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.rotate(1)(singleton), singleton)
+    assert.strictEqual(_.rotate(2)(singleton), singleton)
+    assert.strictEqual(_.rotate(-1)(singleton), singleton)
+    assert.strictEqual(_.rotate(-2)(singleton), singleton)
+    const two: _.ReadonlyNonEmptyArray<number> = [1, 2]
+    assert.strictEqual(_.rotate(2)(two), two)
+    assert.strictEqual(_.rotate(0)(two), two)
+    assert.strictEqual(_.rotate(-2)(two), two)
+
+    U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
+    U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    U.deepStrictEqual(_.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    U.deepStrictEqual(_.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(7)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-7)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(2.2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-2.2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+  })
 })

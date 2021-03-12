@@ -191,6 +191,32 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 // -------------------------------------------------------------------------------------
 
 /**
+ * Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+ *
+ * @example
+ * import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+  const len = as.length
+  const m = Math.round(n) % len
+  if (isOutOfBound(Math.abs(m), as) || m === 0) {
+    return as
+  }
+  if (m < 0) {
+    const [f, s] = splitAt(-m)(as)
+    return concatW(f)(s)
+  } else {
+    return rotate(m - len)(as)
+  }
+}
+
+/**
  * Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
  *
  * @category combinators

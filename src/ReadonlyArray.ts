@@ -977,17 +977,9 @@ export const intersperse = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A>
  * @category combinators
  * @since 3.0.0
  */
-export const rotate = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const len = as.length
-  if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return as
-  }
-  const m = Math.round(n) % len
-  if (n < 0) {
-    return rotate(len + m)(as)
-  } else {
-    return as.slice(-m).concat(as.slice(0, len - m))
-  }
+export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.rotate(n)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
