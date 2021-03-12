@@ -1081,8 +1081,8 @@ describe('ReadonlyMap', () => {
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
     U.deepStrictEqual(Sh.show(m2), `new Map([[{ id: "a" }, "b"]])`)
     const m3 = new Map<User, string>([
-      [{ id: 'a' }, 'b'],
-      [{ id: 'c' }, 'd']
+      [{ id: 'c' }, 'd'],
+      [{ id: 'a' }, 'b']
     ])
     U.deepStrictEqual(Sh.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })

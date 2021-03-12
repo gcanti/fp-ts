@@ -54,14 +54,11 @@ export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
 export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> {
   return {
     show: (m) => {
-      let elements = ''
+      const entries: Array<string> = []
       m.forEach((a, k) => {
-        elements += `[${SK.show(k)}, ${SA.show(a)}], `
+        entries.push(`[${SK.show(k)}, ${SA.show(a)}]`)
       })
-      if (elements !== '') {
-        elements = elements.substring(0, elements.length - 2)
-      }
-      return `new Map([${elements}])`
+      return `new Map([${entries.sort().join(', ')}])`
     }
   }
 }
