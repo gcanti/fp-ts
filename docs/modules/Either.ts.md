@@ -1124,7 +1124,7 @@ Added in v3.0.0
 ```ts
 export declare const chainNullableK: <E>(
   e: Lazy<E>
-) => <A, B>(f: (a: A) => B) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -1160,7 +1160,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullableK: <E>(
   e: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => B) => (...a: A) => Either<E, NonNullable<B>>
+) => <A extends readonly unknown[], B>(f: (...a: A) => B | null | undefined) => (...a: A) => Either<E, NonNullable<B>>
 ```
 
 Added in v3.0.0

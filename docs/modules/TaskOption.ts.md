@@ -693,7 +693,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainNullableK: <A, B>(
-  f: (a: A) => B
+  f: (a: A) => B | null | undefined
 ) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
 ```
 
@@ -714,7 +714,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableK: <A, B>(f: (...a: A) => B) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
+export declare const fromNullableK: <A, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0
