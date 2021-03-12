@@ -269,7 +269,7 @@ export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string
  * @since 2.0.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<A> =>
-  as.length === 1 ? as : (as.slice().sort(O.compare) as any)
+  as.slice().sort(O.compare) as any
 
 /**
  * @category combinators
@@ -434,7 +434,7 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: N
  * @since 2.10.0
  */
 export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] =>
-  n < 1 || n > as.length ? [as, []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+  n < 1 || n > as.length ? [copy(as), []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * @category combinators

@@ -169,9 +169,7 @@ describe('NonEmptyArray', () => {
   it('sort', () => {
     const sort = _.sort(N.Ord)
     U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
-    // should optimize `1`-length `ReadonlyNonEmptyArray`s
-    const singleton: _.NonEmptyArray<number> = [1]
-    assert.strictEqual(sort(singleton), singleton)
+    U.deepStrictEqual(sort([1]), [1])
   })
 
   it('prependAll', () => {
@@ -437,5 +435,53 @@ describe('NonEmptyArray', () => {
         ['a', 'b', 'c']
       ]
     )
+  })
+
+  it('splitAt', () => {
+    const assertEmptySecond = (input: _.NonEmptyArray<number>, n: number) => {
+      const [first, second] = _.splitAt(n)(input)
+      U.deepStrictEqual(first, input)
+      U.deepStrictEqual(second, [])
+    }
+
+    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
+    U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
+    U.deepStrictEqual(_.splitAt(2.2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
+    // n = 0
+    assertEmptySecond([1, 2], 0)
+    // n = length
+    assertEmptySecond([1, 2], 2)
+    // n out of bounds
+    assertEmptySecond([1], 2)
+    assertEmptySecond([1], -1)
+  })
+
+  it('chunksOf', () => {
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+      [1, 2],
+      [3, 4],
+      [5, 6]
+    ])
+    U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+    const assertSingleChunk = (input: _.NonEmptyArray<number>, n: number) => {
+      const chunks = _.chunksOf(n)(input)
+      U.deepStrictEqual(chunks.length, 1)
+      U.deepStrictEqual(_.head(chunks), input)
+    }
+    // n = 0
+    assertSingleChunk([1, 2], 0)
+    // n = length
+    assertSingleChunk([1, 2], 2)
+    // n out of bounds
+    assertSingleChunk([1, 2], -1)
+    assertSingleChunk([1, 2], 3)
   })
 })

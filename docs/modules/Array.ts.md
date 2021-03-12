@@ -675,8 +675,9 @@ Added in v2.0.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an `Array`, creating a new `Array`.
-If `n` (must be a natural number) is negative a copy of the input is returned.
+Drop a max number of elements from the start of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -716,8 +717,9 @@ Added in v2.0.0
 
 ## dropRight
 
-Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-If `n` (must be a natural number) is negative a copy of the input is returned.
+Drop a max number of elements from the end of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -903,7 +905,7 @@ Added in v2.0.0
 
 ## rotate
 
-Rotate an array to the right by `n` steps
+Rotate a `Array` by `n` steps.
 
 **Signature**
 
@@ -1035,8 +1037,9 @@ Added in v2.0.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of an `Array`, creating a new `Array`.
-If `n` (must be a natural number) is out of bounds a copy of the input is returned.
+Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1077,8 +1080,9 @@ Added in v2.0.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an `Array`, creating a new `Array`.
-If `n` (must be a natural number) is out of bounds a copy of the input is returned.
+Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1287,8 +1291,9 @@ Added in v2.0.0
 
 ## makeBy
 
-Return an `Array` of length `n` with element `i` initialized with `f(i)`.
-If `n` (must be a natural number) is negative return `[]`.
+Return a `Array` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1350,7 +1355,9 @@ Added in v2.0.0
 
 ## replicate
 
-Create an `Array` containing a value repeated the specified number of times.
+Create a `Array` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 

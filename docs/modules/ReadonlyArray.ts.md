@@ -675,8 +675,9 @@ Added in v2.5.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-If `n` (must be a natural number) is negative the input is returned.
+Drop a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -720,8 +721,9 @@ Added in v2.5.0
 
 ## dropRight
 
-Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-If `n` (must be a natural number) is negative the input is returned.
+Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -890,7 +892,7 @@ Added in v2.5.0
 
 ## rotate
 
-Rotate an array to the right by `n` steps
+Rotate a `ReadonlyArray` by `n` steps.
 
 **Signature**
 
@@ -1025,8 +1027,9 @@ Added in v2.5.0
 
 ## takeLeft
 
-Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-If `n` (must be a natural number) is out of bounds the input is returned.
+Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1041,7 +1044,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 const input: ReadonlyArray<number> = [1, 2, 3]
-assert.deepStrictEqual(pipe([1, 2, 3], RA.takeLeft(2)), [1, 2])
+assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
 
 // out of bounds
 assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
@@ -1269,7 +1272,8 @@ Added in v2.5.0
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
-If `n` (must be a natural number) is negative return `empty`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1332,6 +1336,8 @@ Added in v2.5.0
 ## replicate
 
 Create a `ReadonlyArray` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -2489,8 +2495,9 @@ Added in v2.5.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-If `n` (must be a natural number) is out of bounds the input is returned.
+Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 

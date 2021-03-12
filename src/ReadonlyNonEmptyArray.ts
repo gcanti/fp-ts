@@ -436,7 +436,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
 export const splitAt = (n: number) => <A>(
   as: ReadonlyNonEmptyArray<A>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
-  n < 1 || n > as.length ? [as, []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+  n < 1 || n >= as.length ? [as, empty] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of

@@ -458,33 +458,50 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('splitAt', () => {
+    const assertEmptySecond = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
+      const [first, second] = _.splitAt(n)(input)
+      assert.strictEqual(first, input)
+      assert.strictEqual(second, _.empty)
+    }
+
     U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
     U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
       [1, 2],
       [3, 4, 5]
     ])
-    // zero
-    U.deepStrictEqual(_.splitAt(0)([1]), [[1], []])
-    // out of bounds
-    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+    U.deepStrictEqual(_.splitAt(2.2)([1, 2, 3, 4, 5]), [
+      [1, 2],
+      [3, 4, 5]
+    ])
+    // n = 0
+    assertEmptySecond([1, 2], 0)
+    // n = length
+    assertEmptySecond([1, 2], 2)
+    // n out of bounds
+    assertEmptySecond([1], 2)
+    assertEmptySecond([1], -1)
   })
 
-  describe('chunksOf', () => {
-    it('should split a `ReadonlyNonEmptyArray` into length-n pieces', () => {
-      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
-        [1, 2],
-        [3, 4],
-        [5, 6]
-      ])
-      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
-      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
-    })
+  it('chunksOf', () => {
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+      [1, 2],
+      [3, 4],
+      [5, 6]
+    ])
+    U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+    const assertSingleChunk = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
+      const chunks = _.chunksOf(n)(input)
+      assert.strictEqual(chunks.length, 1)
+      assert.strictEqual(_.head(chunks), input)
+    }
+    // n = 0
+    assertSingleChunk([1, 2], 0)
+    // n = length
+    assertSingleChunk([1, 2], 2)
+    // n out of bounds
+    assertSingleChunk([1, 2], -1)
+    assertSingleChunk([1, 2], 3)
   })
 })

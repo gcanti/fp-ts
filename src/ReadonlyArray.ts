@@ -71,7 +71,8 @@ export const append = RNEA.append
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
- * If `n` (must be a natural number) is negative return `empty`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyArray'
@@ -109,6 +110,8 @@ export const range = (start: number, end: number): ReadonlyArray<number> =>
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyArray'
@@ -339,15 +342,16 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
   isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
 
 /**
- * Keep only a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is out of bounds the input is returned.
+ * Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
  * import { pipe } from 'fp-ts/function'
  *
  * const input: ReadonlyArray<number> = [1, 2, 3]
- * assert.deepStrictEqual(pipe([1, 2, 3], RA.takeLeft(2)), [1, 2])
+ * assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
  *
  * // out of bounds
  * assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
@@ -360,8 +364,9 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
   isOutOfBound(n, as) ? as : n === 0 ? empty : as.slice(0, n)
 
 /**
- * Keep only a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is out of bounds the input is returned.
+ * Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -453,8 +458,9 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
 }
 
 /**
- * Drop a number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is negative the input is returned.
+ * Drop a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -472,8 +478,9 @@ export const dropLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
   n <= 0 || isEmpty(as) ? as : n >= as.length ? empty : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is negative the input is returned.
+ * Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import * as RA from 'fp-ts/ReadonlyArray'
@@ -915,7 +922,7 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArr
 }
 
 /**
- * Rotate an array to the right by `n` steps
+ * Rotate a `ReadonlyArray` by `n` steps.
  *
  * @example
  * import { rotate } from 'fp-ts/ReadonlyArray'
@@ -929,10 +936,12 @@ export const rotate = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A>
   const len = as.length
   if (n === 0 || len <= 1 || len === Math.abs(n)) {
     return as
-  } else if (n < 0) {
-    return rotate(len + n)(as)
+  }
+  const m = Math.round(n) % len
+  if (n < 0) {
+    return rotate(len + m)(as)
   } else {
-    return as.slice(-n).concat(as.slice(0, len - n))
+    return as.slice(-m).concat(as.slice(0, len - m))
   }
 }
 

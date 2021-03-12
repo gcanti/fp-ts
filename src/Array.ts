@@ -69,8 +69,9 @@ export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> =
 export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
 
 /**
- * Return an `Array` of length `n` with element `i` initialized with `f(i)`.
- * If `n` (must be a natural number) is negative return `[]`.
+ * Return a `Array` of length `n` with element `i` initialized with `f(i)`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { makeBy } from 'fp-ts/Array'
@@ -107,7 +108,9 @@ export const range = (start: number, end: number): Array<number> =>
   start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
 /**
- * Create an `Array` containing a value repeated the specified number of times.
+ * Create a `Array` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { replicate } from 'fp-ts/Array'
@@ -335,8 +338,9 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
 export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.some(NEA.init(as)) : O.none)
 
 /**
- * Keep only a number of elements from the start of an `Array`, creating a new `Array`.
- * If `n` (must be a natural number) is out of bounds a copy of the input is returned.
+ * Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { takeLeft } from 'fp-ts/Array'
@@ -349,8 +353,9 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
 export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (isOutOfBound(n, as) ? copy(as) : as.slice(0, n))
 
 /**
- * Keep only a number of elements from the end of an `Array`, creating a new `Array`.
- * If `n` (must be a natural number) is out of bounds a copy of the input is returned.
+ * Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { takeRight } from 'fp-ts/Array'
@@ -440,8 +445,9 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
 }
 
 /**
- * Drop a number of elements from the start of an `Array`, creating a new `Array`.
- * If `n` (must be a natural number) is negative a copy of the input is returned.
+ * Drop a max number of elements from the start of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { dropLeft } from 'fp-ts/Array'
@@ -455,8 +461,9 @@ export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
   n <= 0 || isEmpty(as) ? copy(as) : n >= as.length ? [] : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
- * If `n` (must be a natural number) is negative a copy of the input is returned.
+ * Drop a max number of elements from the end of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { dropRight } from 'fp-ts/Array'
@@ -851,7 +858,7 @@ export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
 }
 
 /**
- * Rotate an array to the right by `n` steps
+ * Rotate a `Array` by `n` steps.
  *
  * @example
  * import { rotate } from 'fp-ts/Array'
@@ -864,11 +871,13 @@ export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
 export const rotate = (n: number) => <A>(as: Array<A>): Array<A> => {
   const len = as.length
   if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return as
-  } else if (n < 0) {
-    return rotate(len + n)(as)
+    return copy(as)
+  }
+  const m = Math.round(n) % len
+  if (n < 0) {
+    return rotate(len + m)(as)
   } else {
-    return as.slice(-n).concat(as.slice(0, len - n))
+    return as.slice(-m).concat(as.slice(0, len - m))
   }
 }
 
