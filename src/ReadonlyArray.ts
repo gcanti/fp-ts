@@ -1140,8 +1140,9 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  * @since 3.0.0
  */
 export const union = <A>(E: Eq<A>): Semigroup<ReadonlyArray<A>>['concat'] => {
-  const elemE = elem(E)
-  return (second) => (first) => first.concat(second.filter((a) => !elemE(a)(first)))
+  const unionE = RNEA.union(E)
+  return (second) => (first) =>
+    isNonEmpty(first) && isNonEmpty(second) ? unionE(second)(first) : isNonEmpty(first) ? first : second
 }
 
 /**

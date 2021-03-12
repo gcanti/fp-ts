@@ -1020,9 +1020,13 @@ describe('ReadonlyArray', () => {
 
   it('getUnionMonoid', () => {
     const M = _.getUnionMonoid(N.Eq)
-    U.deepStrictEqual(pipe([1, 2], M.concat([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], M.concat([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], M.concat([1, 2])), [1, 2])
+    const two: ReadonlyArray<number> = [1, 2]
+    U.deepStrictEqual(pipe(two, M.concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe(two, M.concat([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe(two, M.concat([1, 2])), [1, 2])
+    assert.strictEqual(pipe(two, M.concat(M.empty)), two)
+    assert.strictEqual(pipe(M.empty, M.concat(two)), two)
+    assert.strictEqual(pipe(M.empty, M.concat(M.empty)), M.empty)
   })
 
   it('getIntersectionSemigroup', () => {

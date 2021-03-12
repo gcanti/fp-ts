@@ -65,6 +65,7 @@ Added in v3.0.0
   - [sort](#sort)
   - [sortBy](#sortby)
   - [splitAt](#splitat)
+  - [union](#union)
   - [uniq](#uniq)
   - [updateHead](#updatehead)
   - [updateLast](#updatelast)
@@ -686,6 +687,30 @@ If `n` is out of bounds or `n = 0`, the input is returned.
 export declare const splitAt: (
   n: number
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyNonEmptyArray<A>, readonly A[]]
+```
+
+Added in v3.0.0
+
+## union
+
+Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  E: Eq<A>
+) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { union } from 'fp-ts/ReadonlyArray'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
 ```
 
 Added in v3.0.0

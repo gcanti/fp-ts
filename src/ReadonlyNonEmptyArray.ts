@@ -266,6 +266,24 @@ export const sortBy = <B>(
 }
 
 /**
+ * Creates a `ReadonlyArray` of unique values, in order, from all given `ReadonlyArray`s using a `Eq` for equality comparisons.
+ *
+ * @example
+ * import { union } from 'fp-ts/ReadonlyArray'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe([1, 2], union(N.Eq)([2, 3])), [1, 2, 3])
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
+  const uniqE = uniq(E)
+  return (second) => (first) => uniqE(concatW(second)(first))
+}
+
+/**
  * Rotate a `ReadonlyNonEmptyArray` by `n` steps.
  *
  * @example
