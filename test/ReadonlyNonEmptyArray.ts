@@ -445,16 +445,4 @@ describe('ReadonlyNonEmptyArray', () => {
       ]
     )
   })
-
-  it('takeLeft', () => {
-    const full: _.ReadonlyNonEmptyArray<number> = [1, 2]
-    // non empty
-    U.deepStrictEqual(_.takeLeft(1)(full), [1])
-    // full
-    assert.strictEqual(_.takeLeft(2)(full), full)
-    // out of bound
-    assert.strictEqual(_.takeLeft(0)(full), full)
-    assert.strictEqual(_.takeLeft(3)(full), full)
-    assert.strictEqual(_.takeLeft(-1)(full), full)
-  })
 })

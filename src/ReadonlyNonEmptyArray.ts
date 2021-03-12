@@ -233,16 +233,6 @@ export function comprehension<A, R>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Keep only a number of elements from the tail of an `ReadonlyNonEmptyArray`, creating a new `ReadonlyNonEmptyArray`.
- * If `n` (must be a natural number) is out of bounds the input is returned.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const takeLeft = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
-  n < 1 || n >= as.length ? as : [head(as), ...as.slice(1, n)]
-
-/**
  * @category combinators
  * @since 3.0.0
  */

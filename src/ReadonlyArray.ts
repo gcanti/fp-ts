@@ -378,7 +378,7 @@ export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * import { pipe } from 'fp-ts/function'
  *
  * const input: ReadonlyArray<number> = [1, 2, 3]
- * assert.deepStrictEqual(pipe([1, 2, 3], RA.takeLeft(2)), [1, 2])
+ * assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
  *
  * // out of bounds
  * assert.strictEqual(pipe(input, RA.takeLeft(4)), input)

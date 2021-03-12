@@ -60,7 +60,6 @@ Added in v3.0.0
   - [reverse](#reverse)
   - [sort](#sort)
   - [splitAt](#splitat)
-  - [takeLeft](#takeleft)
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
@@ -517,19 +516,6 @@ If `n` is out of bounds or `n = 0`, the input is returned.
 export declare const splitAt: (
   n: number
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyNonEmptyArray<A>, readonly A[]]
-```
-
-Added in v3.0.0
-
-## takeLeft
-
-Keep only a number of elements from the tail of an `ReadonlyNonEmptyArray`, creating a new `ReadonlyNonEmptyArray`.
-If `n` (must be a natural number) is out of bounds the input is returned.
-
-**Signature**
-
-```ts
-export declare const takeLeft: (n: number) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
