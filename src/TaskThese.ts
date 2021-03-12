@@ -225,7 +225,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => Task
  * @category Pointed
  * @since 2.7.0
  */
-export const of = right
+export const of: <E = never, A = never>(a: A) => TaskThese<E, A> = right
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -576,7 +576,7 @@ export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) =>
  * @category Pointed
  * @since 2.7.0
  */
-export const of = right
+export const of: <E = never, A = never>(a: A) => Either<E, A> = right
 
 /**
  * Less strict version of [`chain`](#chain).

@@ -308,7 +308,7 @@ export const apW: <E2, A>(
  * @category Pointed
  * @since 2.8.5
  */
-export const of = right
+export const of: <E = never, A = never>(a: A) => IOEither<E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
