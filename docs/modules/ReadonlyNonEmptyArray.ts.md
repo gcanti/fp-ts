@@ -50,6 +50,7 @@ Added in v3.0.0
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
   - [chunksOf](#chunksof)
+  - [comprehension](#comprehension)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -63,15 +64,14 @@ Added in v3.0.0
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
-  - [comprehension](#comprehension)
   - [fromReadonlyArray](#fromreadonlyarray)
+  - [makeBy](#makeby)
+  - [range](#range)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
 - [destructors](#destructors)
-  - [makeBy](#makeby)
-  - [range](#range)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
 - [instances](#instances)
@@ -356,6 +356,67 @@ export declare const chunksOf: (
 
 Added in v3.0.0
 
+## comprehension
+
+`ReadonlyNonEmptyArray` comprehension.
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ... ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: readonly [
+    ReadonlyNonEmptyArray<A>,
+    ReadonlyNonEmptyArray<B>,
+    ReadonlyNonEmptyArray<C>,
+    ReadonlyNonEmptyArray<D>
+  ],
+  f: (a: A, b: B, c: C, d: D) => R
+): ReadonlyNonEmptyArray<R>
+export declare function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>, ReadonlyNonEmptyArray<C>],
+  f: (a: A, b: B, c: C) => R
+): ReadonlyNonEmptyArray<R>
+export declare function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>],
+  f: (a: A, b: B) => R
+): ReadonlyNonEmptyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyNonEmptyArray<A>],
+  f: (a: A) => R
+): ReadonlyNonEmptyArray<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [2, 'a'],
+    [2, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v3.0.0
+
 ## duplicate
 
 Derivable from `Extend`.
@@ -547,67 +608,6 @@ Added in v3.0.0
 
 # constructors
 
-## comprehension
-
-`ReadonlyNonEmptyArray` comprehension.
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ... ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: readonly [
-    ReadonlyNonEmptyArray<A>,
-    ReadonlyNonEmptyArray<B>,
-    ReadonlyNonEmptyArray<C>,
-    ReadonlyNonEmptyArray<D>
-  ],
-  f: (a: A, b: B, c: C, d: D) => R
-): ReadonlyNonEmptyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>, ReadonlyNonEmptyArray<C>],
-  f: (a: A, b: B, c: C) => R
-): ReadonlyNonEmptyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>],
-  f: (a: A, b: B) => R
-): ReadonlyNonEmptyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyNonEmptyArray<A>],
-  f: (a: A) => R
-): ReadonlyNonEmptyArray<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [2, 'a'],
-    [2, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v3.0.0
-
 ## fromReadonlyArray
 
 Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an empty array.
@@ -616,6 +616,49 @@ Builds a `ReadonlyNonEmptyArray` from an array returning `none` if `as` is an em
 
 ```ts
 export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v3.0.0
+
+## makeBy
+
+Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const makeBy: <A>(n: number, f: (i: number) => A) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+
+const double = (n: number): number => n * 2
+assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+```
+
+Added in v3.0.0
+
+## range
+
+Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => ReadonlyNonEmptyArray<number>
+```
+
+**Example**
+
+```ts
+import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
 
 Added in v3.0.0
@@ -672,49 +715,6 @@ export declare const chainFirst: <A, B>(
 Added in v3.0.0
 
 # destructors
-
-## makeBy
-
-Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
-
-**Note**. `n` is normalized to a natural number.
-
-**Signature**
-
-```ts
-export declare const makeBy: <A>(n: number, f: (i: number) => A) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
-
-const double = (n: number): number => n * 2
-assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
-```
-
-Added in v3.0.0
-
-## range
-
-Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => ReadonlyNonEmptyArray<number>
-```
-
-**Example**
-
-```ts
-import { range } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
-```
-
-Added in v3.0.0
 
 ## unappend
 

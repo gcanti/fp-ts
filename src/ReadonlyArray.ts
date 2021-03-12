@@ -82,6 +82,40 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (
  */
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Break a `ReadonlyArray` into its first element and remaining elements
+ *
+ * @example
+ * import { matchLeft } from 'fp-ts/ReadonlyArray'
+ *
+ * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
+ * assert.strictEqual(len([1, 2, 3]), 3)
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+  as: ReadonlyArray<A>
+): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+
+/**
+ * Break a `ReadonlyArray` into its initial elements and the last element
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+  as: ReadonlyArray<A>
+): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
 /**
  * `ReadonlyArray` comprehension.
  *
@@ -139,40 +173,6 @@ export function comprehension<A, R>(
       : empty
   return go(empty, input)
 }
-
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
-/**
- * Break a `ReadonlyArray` into its first element and remaining elements
- *
- * @example
- * import { matchLeft } from 'fp-ts/ReadonlyArray'
- *
- * const len: <A>(as: ReadonlyArray<A>) => number = matchLeft(() => 0, (_, tail) => 1 + len(tail))
- * assert.strictEqual(len([1, 2, 3]), 3)
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
-  as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
-
-/**
- * Break a `ReadonlyArray` into its initial elements and the last element
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
-  as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
 
 /**
  * @category combinators
