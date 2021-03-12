@@ -66,6 +66,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
+  - [chunksOf](#chunksof)
+  - [comprehension](#comprehension)
   - [copy](#copy)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -85,6 +87,7 @@ Added in v2.0.0
   - [scanRight](#scanright)
   - [sort](#sort)
   - [sortBy](#sortby)
+  - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
@@ -95,7 +98,6 @@ Added in v2.0.0
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
-  - [comprehension](#comprehension)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [range](#range)
@@ -156,7 +158,6 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
@@ -169,7 +170,6 @@ Added in v2.0.0
   - [modifyAt](#modifyat)
   - [size](#size)
   - [some](#some)
-  - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [~~empty~~](#empty)
@@ -635,6 +635,89 @@ assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4
 
 Added in v2.0.0
 
+## chunksOf
+
+Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that
+
+```ts
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
+```
+
+whenever `n` evenly divides the length of `xs`.
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { chunksOf } from 'fp-ts/Array'
+
+assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+```
+
+Added in v2.0.0
+
+## comprehension
+
+`Array` comprehension.
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: [Array<A>, Array<B>, Array<C>, Array<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): Array<R>
+export declare function comprehension<A, B, C, R>(
+  input: [Array<A>, Array<B>, Array<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): Array<R>
+export declare function comprehension<A, B, R>(
+  input: [Array<A>, Array<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/Array'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.0.0
+
 ## copy
 
 **Signature**
@@ -1035,6 +1118,29 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v2.0.0
 
+## splitAt
+
+Splits an array into two pieces, the first piece has `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/Array'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
+])
+```
+
+Added in v2.0.0
+
 ## takeLeft
 
 Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
@@ -1233,61 +1339,6 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 ```
 
 Added in v2.10.0
-
-## comprehension
-
-`Array` comprehension.
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: [Array<A>, Array<B>, Array<C>, Array<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): Array<R>
-export declare function comprehension<A, B, C, R>(
-  input: [Array<A>, Array<B>, Array<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): Array<R>
-export declare function comprehension<A, B, R>(
-  input: [Array<A>, Array<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/Array'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v2.0.0
 
 ## makeBy
 
@@ -2131,34 +2182,6 @@ export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { [K in N]: A }[]
 
 Added in v2.8.0
 
-## chunksOf
-
-Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
-definition of `chunksOf`; it satisfies the property that
-
-```ts
-chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
-```
-
-whenever `n` evenly divides the length of `xs`.
-
-**Signature**
-
-```ts
-export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
-```
-
-**Example**
-
-```ts
-import { chunksOf } from 'fp-ts/Array'
-
-assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.0.0
-
 ## deleteAt
 
 Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -2389,29 +2412,6 @@ export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => as is NE
 ```
 
 Added in v2.9.0
-
-## splitAt
-
-Splits an array into two pieces, the first piece has `n` elements.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/Array'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
-```
-
-Added in v2.0.0
 
 ## unzip
 

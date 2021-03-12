@@ -878,6 +878,7 @@ export function zip<A, B>(
  *
  * assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
+ * @category combinators
  * @since 2.5.0
  */
 export const unzip = <A, B>(as: ReadonlyArray<readonly [A, B]>): readonly [ReadonlyArray<A>, ReadonlyArray<B>] => {
@@ -1090,6 +1091,7 @@ export const chop = <A, B>(
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
+ * @category combinators
  * @since 2.5.0
  */
 export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
@@ -1111,7 +1113,7 @@ export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [Reado
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
- *
+ * @category combinators
  * @since 2.5.0
  */
 export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>>) => {
@@ -1137,7 +1139,7 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
  *   [3, 'b']
  * ])
  *
- * @category constructors
+ * @category combinators
  * @since 2.5.0
  */
 export function comprehension<A, B, C, D, R>(

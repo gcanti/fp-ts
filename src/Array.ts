@@ -1006,6 +1006,7 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Ar
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const splitAt = (n: number) => <A>(as: Array<A>): [Array<A>, Array<A>] =>
@@ -1027,6 +1028,7 @@ export const splitAt = (n: number) => <A>(as: Array<A>): [Array<A>, Array<A>] =>
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A>>) => {
@@ -1052,7 +1054,7 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
  *   [3, 'b']
  * ])
  *
- * @category constructors
+ * @category combinators
  * @since 2.0.0
  */
 export function comprehension<A, B, C, D, R>(
