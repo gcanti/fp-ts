@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as N from '../src/number'
-import { identity, pipe, tuple } from '../src/function'
+import { Endomorphism, identity, pipe, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyNonEmptyArray'
@@ -461,5 +461,31 @@ describe('ReadonlyNonEmptyArray', () => {
         [3, 'b']
       ]
     )
+  })
+
+  it('modifyHead', () => {
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyHead(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyHead(f)), ['a!', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyHead(f)), ['a!', 'b', 'c'])
+  })
+
+  it('updateHead', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateHead('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateHead('d')), ['d', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateHead('d')), ['d', 'b', 'c'])
+  })
+
+  it('modifyLast', () => {
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyLast(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyLast(f)), ['a', 'b!'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyLast(f)), ['a', 'b', 'c!'])
+  })
+
+  it('updateLast', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateLast('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateLast('d')), ['a', 'd'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateLast('d')), ['a', 'b', 'd'])
   })
 })

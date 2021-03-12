@@ -21,7 +21,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, tuple } from './function'
+import { identity, Lazy, pipe, tuple, Endomorphism } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -174,6 +174,42 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const modifyHead = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => [
+  f(head(as)),
+  ...tail(as)
+]
+
+/**
+ * Change the head, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const updateHead = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyHead(() => a)
+
+/**
+ * Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+  pipe(init(as), append(f(last(as))))
+
+/**
+ * Change the last element, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
 
 /**
  * `ReadonlyNonEmptyArray` comprehension.
