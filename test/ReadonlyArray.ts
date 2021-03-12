@@ -957,13 +957,17 @@ describe('ReadonlyArray', () => {
 
   it('makeBy', () => {
     const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.makeBy(0, double), [])
-    U.deepStrictEqual(_.makeBy(-1, double), [])
+    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    assert.strictEqual(_.makeBy(0, double), _.empty)
+    assert.strictEqual(_.makeBy(-1, double), _.empty)
+    U.deepStrictEqual(_.makeBy(2.2, double), [0, 2])
   })
 
   it('replicate', () => {
-    U.deepStrictEqual(_.replicate(0, 'a'), [])
+    assert.strictEqual(_.replicate(0, 'a'), _.empty)
+    assert.strictEqual(_.replicate(-1, 'a'), _.empty)
     U.deepStrictEqual(_.replicate(3, 'a'), ['a', 'a', 'a'])
+    U.deepStrictEqual(_.replicate(2.2, 'a'), ['a', 'a'])
   })
 
   it('comprehension', () => {

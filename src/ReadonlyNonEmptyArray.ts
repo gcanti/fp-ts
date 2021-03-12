@@ -149,7 +149,7 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
  * @since 3.0.0
  */
 export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray<A> => {
-  const j = Math.max(0, n)
+  const j = Math.max(0, Math.floor(n))
   const out: NEA.NonEmptyArray<A> = [f(0)]
   for (let i = 1; i < j; i++) {
     out.push(f(i))
