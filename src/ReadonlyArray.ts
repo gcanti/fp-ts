@@ -1020,22 +1020,8 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (as: ReadonlyArray<A>): boolean =
  * @since 3.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const elemS = elem(E)
-  return (as) => {
-    const len = as.length
-    if (len <= 1) {
-      return as
-    }
-    const out: Array<A> = []
-    let i = 0
-    for (; i < len; i++) {
-      const a = as[i]
-      if (!elemS(a)(out)) {
-        out.push(a)
-      }
-    }
-    return len === out.length ? as : out
-  }
+  const f = RNEA.uniq(E)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**

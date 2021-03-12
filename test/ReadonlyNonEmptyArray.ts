@@ -6,6 +6,8 @@ import * as O from '../src/Option'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as U from './util'
 import * as S from '../src/string'
+import * as Eq from '../src/Eq'
+import * as B from '../src/boolean'
 
 describe('ReadonlyNonEmptyArray', () => {
   describe('pipeables', () => {
@@ -517,5 +519,43 @@ describe('ReadonlyNonEmptyArray', () => {
 
     U.deepStrictEqual(_.rotate(2.2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
     U.deepStrictEqual(_.rotate(-2.2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+  })
+
+  it('uniq', () => {
+    interface A {
+      readonly a: string
+      readonly b: number
+    }
+
+    const eqA = pipe(
+      N.Eq,
+      Eq.contramap((f: A) => f.b)
+    )
+    const arrA: A = { a: 'a', b: 1 }
+    const arrB: A = { a: 'b', b: 1 }
+    const arrC: A = { a: 'c', b: 2 }
+    const arrD: A = { a: 'd', b: 2 }
+    const arrUniq: _.ReadonlyNonEmptyArray<A> = [arrA, arrC]
+
+    U.deepStrictEqual(_.uniq(eqA)(arrUniq), arrUniq)
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
+    U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
+    U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+    U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+    U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+    U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+
+    const as: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.uniq(N.Eq)(as), as)
   })
 })

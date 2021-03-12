@@ -191,6 +191,32 @@ export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArr
 // -------------------------------------------------------------------------------------
 
 /**
+ * Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+ *
+ * @example
+ * import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (as.length === 1) {
+    return as
+  }
+  const out: NEA.NonEmptyArray<A> = [head(as)]
+  const rest = tail(as)
+  for (const a of rest) {
+    if (out.every((o) => !E.equals(o)(a))) {
+      out.push(a)
+    }
+  }
+  return out
+}
+
+/**
  * Rotate a `ReadonlyNonEmptyArray` by `n` steps.
  *
  * @example
