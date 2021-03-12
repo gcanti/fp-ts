@@ -451,7 +451,7 @@ export const altW: <E2, B>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of = right
+export const of: <A, E = never>(a: A) => TaskEither<E, A> = right
 
 // -------------------------------------------------------------------------------------
 // instances

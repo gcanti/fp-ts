@@ -286,7 +286,7 @@ export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) =>
  * @category Pointed
  * @since 3.0.0
  */
-export const of = right
+export const of: <A, E = never>(right: A) => These<E, A> = right
 
 // -------------------------------------------------------------------------------------
 // instances

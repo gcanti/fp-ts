@@ -390,7 +390,7 @@ export const apW: <R2, E2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of = right
+export const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
