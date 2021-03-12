@@ -488,4 +488,10 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe(['a', 'b'], _.updateLast('d')), ['a', 'd'])
     U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateLast('d')), ['a', 'b', 'd'])
   })
+
+  it('replicate', () => {
+    U.deepStrictEqual(_.replicate(0, 'a'), ['a'])
+    U.deepStrictEqual(_.replicate(1, 'a'), ['a'])
+    U.deepStrictEqual(_.replicate(2, 'a'), ['a', 'a'])
+  })
 })

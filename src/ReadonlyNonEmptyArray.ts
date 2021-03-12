@@ -128,6 +128,21 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray
 }
 
 /**
+ * Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const replicate = <A>(n: number, a: A): ReadonlyNonEmptyArray<A> => makeBy(n, () => a)
+
+/**
  * Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
  *
  * @example
