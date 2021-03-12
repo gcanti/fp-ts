@@ -28,7 +28,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { NonEmptyArray, fromReadonlyNonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
-import { Ord } from './Ord'
+import { Ord, getMonoid } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
@@ -103,6 +103,73 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
     xs[i] = a
     return xs
   }
+}
+
+/**
+ * @internal
+ */
+export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+  if (as.length === 1) {
+    return as
+  }
+  const out: NonEmptyArray<A> = [head(as)]
+  const rest = tail(as)
+  for (const a of rest) {
+    if (out.every((o) => !E.equals(o, a))) {
+      out.push(a)
+    }
+  }
+  return out
+}
+
+/**
+ * @internal
+ */
+export const sortBy = <B>(
+  ords: ReadonlyArray<Ord<B>>
+): (<A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
+  if (isNonEmpty(ords)) {
+    const M = getMonoid<B>()
+    return sort(ords.reduce(M.concat, M.empty))
+  }
+  return identity
+}
+
+/**
+ * @internal
+ */
+export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
+  const uniqE = uniq(E)
+  return (first, second) => uniqE(concat(first, second))
+}
+
+/**
+ * @internal
+ */
+export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
+  const len = as.length
+  const m = Math.round(n) % len
+  if (isOutOfBound(Math.abs(m), as) || m === 0) {
+    return as
+  }
+  if (m < 0) {
+    const [f, s] = splitAt(-m)(as)
+    return concat(s, f)
+  } else {
+    return rotate(m - len)(as)
+  }
+}
+
+/**
+ * @internal
+ */
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray<A> => {
+  const j = Math.max(0, Math.floor(n))
+  const out: NonEmptyArray<A> = [f(0)]
+  for (let i = 1; i < j; i++) {
+    out.push(f(i))
+  }
+  return out
 }
 
 // -------------------------------------------------------------------------------------

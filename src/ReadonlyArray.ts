@@ -23,7 +23,7 @@ import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as N from './number'
 import * as O from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
+import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
@@ -83,17 +83,7 @@ export const append = RNEA.append
  * @category constructors
  * @since 2.5.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => {
-  if (n <= 0) {
-    return empty
-  }
-  const m = Math.floor(n)
-  const out: Array<A> = []
-  for (let i = 0; i < m; i++) {
-    out.push(f(i))
-  }
-  return out
-}
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(n, f))
 
 /**
  * Create a `ReadonlyArray` containing a range of integers, including both endpoints.
@@ -934,17 +924,9 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArr
  * @category combinators
  * @since 2.5.0
  */
-export const rotate = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const len = as.length
-  if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return as
-  }
-  const m = Math.round(n) % len
-  if (n < 0) {
-    return rotate(len + m)(as)
-  } else {
-    return as.slice(-m).concat(as.slice(0, len - m))
-  }
+export const rotate = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.rotate(n)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 // TODO: remove non-curried overloading in v3
@@ -999,22 +981,8 @@ export function elem<A>(E: Eq<A>): (a: A, as?: ReadonlyArray<A>) => boolean | ((
  * @since 2.5.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const elemS = elem(E)
-  return (as) => {
-    const len = as.length
-    if (len <= 1) {
-      return as
-    }
-    const r: Array<A> = []
-    let i = 0
-    for (; i < len; i++) {
-      const a = as[i]
-      if (!elemS(a, r)) {
-        r.push(a)
-      }
-    }
-    return len === r.length ? as : r
-  }
+  const f = RNEA.uniq(E)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
@@ -1049,8 +1017,8 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  * @since 2.5.0
  */
 export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const M = getOrdMonoid<B>()
-  return sort(ords.reduce(M.concat, M.empty))
+  const f = RNEA.sortBy(ords)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
@@ -1202,13 +1170,13 @@ export function union<A>(
 export function union<A>(
   E: Eq<A>
 ): (xs: ReadonlyArray<A>, ys?: ReadonlyArray<A>) => ReadonlyArray<A> | ((ys: ReadonlyArray<A>) => ReadonlyArray<A>) {
-  const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
+  const unionE = RNEA.union(E)
+  return (first, second?) => {
+    if (second === undefined) {
       const unionE = union(E)
-      return (ys) => unionE(ys, xs)
+      return (ys) => unionE(ys, first)
     }
-    return xs.concat(ys.filter((a) => !elemE(a, xs)))
+    return isNonEmpty(first) && isNonEmpty(second) ? unionE(first, second) : isNonEmpty(first) ? first : second
   }
 }
 

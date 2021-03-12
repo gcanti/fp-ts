@@ -1,7 +1,10 @@
 import * as assert from 'assert'
+import * as B from '../src/boolean'
+import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as Se from '../src/Semigroup'
 import * as S from '../src/string'
@@ -503,5 +506,120 @@ describe('ReadonlyNonEmptyArray', () => {
     // n out of bounds
     assertSingleChunk([1, 2], -1)
     assertSingleChunk([1, 2], 3)
+  })
+
+  it('rotate', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.rotate(1)(singleton), singleton)
+    assert.strictEqual(_.rotate(2)(singleton), singleton)
+    assert.strictEqual(_.rotate(-1)(singleton), singleton)
+    assert.strictEqual(_.rotate(-2)(singleton), singleton)
+    const two: _.ReadonlyNonEmptyArray<number> = [1, 2]
+    assert.strictEqual(_.rotate(2)(two), two)
+    assert.strictEqual(_.rotate(0)(two), two)
+    assert.strictEqual(_.rotate(-2)(two), two)
+
+    U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
+    U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    U.deepStrictEqual(_.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    U.deepStrictEqual(_.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(7)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-7)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(2.2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-2.2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+  })
+
+  it('uniq', () => {
+    interface A {
+      readonly a: string
+      readonly b: number
+    }
+
+    const eqA = pipe(
+      N.Eq,
+      Eq.contramap((f: A) => f.b)
+    )
+    const arrA: A = { a: 'a', b: 1 }
+    const arrB: A = { a: 'b', b: 1 }
+    const arrC: A = { a: 'c', b: 2 }
+    const arrD: A = { a: 'd', b: 2 }
+    const arrUniq: _.ReadonlyNonEmptyArray<A> = [arrA, arrC]
+
+    U.deepStrictEqual(_.uniq(eqA)(arrUniq), arrUniq)
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
+    U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
+    U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+    U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+    U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+    U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+
+    const as: _.ReadonlyNonEmptyArray<number> = [1]
+    assert.strictEqual(_.uniq(N.Eq)(as), as)
+  })
+
+  it('sortBy', () => {
+    interface X {
+      readonly a: string
+      readonly b: number
+      readonly c: boolean
+    }
+    const byName = pipe(
+      S.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
+    )
+    const byAge = pipe(
+      N.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.b)
+    )
+    const f = _.sortBy([byName, byAge])
+    const xs: _.ReadonlyNonEmptyArray<X> = [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 2, c: true }
+    ]
+    U.deepStrictEqual(f(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true }
+    ])
+    const sortByAgeByName = _.sortBy([byAge, byName])
+    U.deepStrictEqual(sortByAgeByName(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 3, c: true }
+    ])
+
+    U.deepStrictEqual(_.sortBy([])(xs), xs)
+  })
+
+  it('union', () => {
+    const concat = _.union(N.Eq)
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+  })
+
+  it('makeBy', () => {
+    const double = (n: number): number => n * 2
+    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    // If `n` (must be a natural number) is non positive return `[f(0)]`.
+    U.deepStrictEqual(_.makeBy(0, double), [0])
+    U.deepStrictEqual(_.makeBy(-1, double), [0])
   })
 })

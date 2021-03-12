@@ -780,13 +780,20 @@ describe('ReadonlyArray', () => {
   })
 
   it('rotate', () => {
+    assert.strictEqual(_.rotate(0)(_.empty), _.empty)
     assert.strictEqual(_.rotate(1)(_.empty), _.empty)
+
     const singleton: ReadonlyArray<number> = [1]
     assert.strictEqual(_.rotate(1)(singleton), singleton)
-    U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
+    assert.strictEqual(_.rotate(2)(singleton), singleton)
+    assert.strictEqual(_.rotate(-1)(singleton), singleton)
+    assert.strictEqual(_.rotate(-2)(singleton), singleton)
     const two: ReadonlyArray<number> = [1, 2]
     assert.strictEqual(_.rotate(2)(two), two)
     assert.strictEqual(_.rotate(0)(two), two)
+    assert.strictEqual(_.rotate(-2)(two), two)
+
+    U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
     U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
     U.deepStrictEqual(_.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
     U.deepStrictEqual(_.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
@@ -912,7 +919,8 @@ describe('ReadonlyArray', () => {
       { a: 'b', b: 3, c: true }
     ])
 
-    U.deepStrictEqual(_.sortBy([])(xs), xs)
+    assert.strictEqual(f(_.empty), _.empty)
+    assert.strictEqual(_.sortBy([])(xs), xs)
   })
 
   it('chop', () => {
@@ -1053,12 +1061,18 @@ describe('ReadonlyArray', () => {
   })
 
   it('union', () => {
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [3, 4]), [1, 2, 3, 4])
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [2, 3]), [1, 2, 3])
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [1, 2]), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 2])), [1, 2])
+    const concat = _.union(N.Eq)
+    const two: ReadonlyArray<number> = [1, 2]
+    U.deepStrictEqual(concat(two, [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat(two, [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat(two, [1, 2]), [1, 2])
+    U.deepStrictEqual(pipe(two, concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe(two, concat([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe(two, concat([1, 2])), [1, 2])
+
+    assert.strictEqual(pipe(two, concat(_.empty)), two)
+    assert.strictEqual(pipe(_.empty, concat(two)), two)
+    assert.strictEqual(pipe(_.empty, concat(_.empty)), _.empty)
   })
 
   it('intersection', () => {
