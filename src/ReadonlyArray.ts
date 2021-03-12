@@ -8,7 +8,6 @@ import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
-import * as _ from './internal'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
@@ -20,13 +19,14 @@ import { Endomorphism, flow, identity, Lazy, pipe, Predicate, Refinement } from 
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
 import * as N from './number'
 import { Option } from './Option'
-import { fromCompare, getMonoid as getOrdMonoid, Ord } from './Ord'
+import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
@@ -1056,8 +1056,8 @@ export const uniq = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) 
  * @since 3.0.0
  */
 export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
-  const M = getOrdMonoid<B>()
-  return sort(ords.reduce((a, acc) => M.concat(acc)(a), M.empty))
+  const f = RNEA.sortBy(ords)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**

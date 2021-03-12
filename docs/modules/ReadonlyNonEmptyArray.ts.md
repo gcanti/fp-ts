@@ -57,16 +57,24 @@ Added in v3.0.0
   - [group](#group)
   - [groupBy](#groupby)
   - [intersperse](#intersperse)
+  - [modifyHead](#modifyhead)
+  - [modifyLast](#modifylast)
   - [prependAll](#prependall)
   - [reverse](#reverse)
+  - [rotate](#rotate)
   - [sort](#sort)
+  - [sortBy](#sortby)
   - [splitAt](#splitat)
+  - [uniq](#uniq)
+  - [updateHead](#updatehead)
+  - [updateLast](#updatelast)
   - [zip](#zip)
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
   - [makeBy](#makeby)
   - [range](#range)
+  - [replicate](#replicate)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -523,6 +531,30 @@ assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4]
 
 Added in v3.0.0
 
+## modifyHead
+
+Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## modifyLast
+
+Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
 ## prependAll
 
 Prepend an element to every member of an array
@@ -554,6 +586,27 @@ export declare const reverse: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEm
 
 Added in v3.0.0
 
+## rotate
+
+Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+
+**Signature**
+
+```ts
+export declare const rotate: (n: number) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+```
+
+Added in v3.0.0
+
 ## sort
 
 Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a new `ReadonlyNonEmptyArray`.
@@ -562,6 +615,62 @@ Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, creating a n
 
 ```ts
 export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## sortBy
+
+Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+etc...
+
+**Signature**
+
+```ts
+export declare const sortBy: <B>(
+  ords: readonly Ord<B>[]
+) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { contramap } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+interface Person {
+  name: string
+  age: number
+}
+
+const byName = pipe(
+  S.Ord,
+  contramap((p: Person) => p.name)
+)
+
+const byAge = pipe(
+  N.Ord,
+  contramap((p: Person) => p.age)
+)
+
+const sortByNameByAge = RNEA.sortBy([byName, byAge])
+
+const persons: RNEA.ReadonlyNonEmptyArray<Person> = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 },
+]
+
+assert.deepStrictEqual(sortByNameByAge(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+])
 ```
 
 Added in v3.0.0
@@ -577,6 +686,51 @@ If `n` is out of bounds or `n = 0`, the input is returned.
 export declare const splitAt: (
   n: number
 ) => <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyNonEmptyArray<A>, readonly A[]]
+```
+
+Added in v3.0.0
+
+## uniq
+
+Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+```
+
+Added in v3.0.0
+
+## updateHead
+
+Change the head, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateHead: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## updateLast
+
+Change the last element, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateLast: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0
@@ -659,6 +813,28 @@ export declare const range: (start: number, end: number) => ReadonlyNonEmptyArra
 import { range } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+```
+
+Added in v3.0.0
+
+## replicate
+
+Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const replicate: <A>(n: number, a: A) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 ```
 
 Added in v3.0.0

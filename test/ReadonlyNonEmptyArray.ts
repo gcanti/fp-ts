@@ -1,13 +1,14 @@
 import * as assert from 'assert'
-import * as N from '../src/number'
+import * as B from '../src/boolean'
+import * as Eq from '../src/Eq'
 import { Endomorphism, identity, pipe, tuple } from '../src/function'
 import * as M from '../src/Monoid'
+import * as N from '../src/number'
 import * as O from '../src/Option'
+import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
-import * as U from './util'
 import * as S from '../src/string'
-import * as Eq from '../src/Eq'
-import * as B from '../src/boolean'
+import * as U from './util'
 
 describe('ReadonlyNonEmptyArray', () => {
   describe('pipeables', () => {
@@ -557,5 +558,43 @@ describe('ReadonlyNonEmptyArray', () => {
 
     const as: _.ReadonlyNonEmptyArray<number> = [1]
     assert.strictEqual(_.uniq(N.Eq)(as), as)
+  })
+
+  it('sortBy', () => {
+    interface X {
+      readonly a: string
+      readonly b: number
+      readonly c: boolean
+    }
+    const byName = pipe(
+      S.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
+    )
+    const byAge = pipe(
+      N.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.b)
+    )
+    const f = _.sortBy([byName, byAge])
+    const xs: _.ReadonlyNonEmptyArray<X> = [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 2, c: true }
+    ]
+    U.deepStrictEqual(f(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true }
+    ])
+    const sortByAgeByName = _.sortBy([byAge, byName])
+    U.deepStrictEqual(sortByAgeByName(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 3, c: true }
+    ])
+
+    U.deepStrictEqual(_.sortBy([])(xs), xs)
   })
 })

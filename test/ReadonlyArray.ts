@@ -889,7 +889,8 @@ describe('ReadonlyArray', () => {
       { a: 'b', b: 3, c: true }
     ])
 
-    U.deepStrictEqual(_.sortBy([])(xs), xs)
+    assert.strictEqual(f(_.empty), _.empty)
+    assert.strictEqual(_.sortBy([])(xs), xs)
   })
 
   it('chop', () => {
