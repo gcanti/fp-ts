@@ -23,12 +23,20 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+  - `EitherT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
   - `OptionT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `ReaderT`
     - add overloads for `Kind2`, `Kind3`, `Kind4`
   - `ReadonlyMap`
     - sort keys in `getShow`
   - `ReadonlySet`
     - sort keys in `getShow`
+  - `StateT`
+    - add overloads for `Kind2`, `Kind3`
+  - `TheseT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
 
 # 2.10.0-rc.4
 

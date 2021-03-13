@@ -79,11 +79,29 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export declare function alt<M extends URIS4>(
+  M: Monad4<M>
+): <S, R, ME, E, A>(
+  second: Lazy<Kind4<M, S, R, ME, Either<E, A>>>
+) => (first: Kind4<M, S, R, ME, Either<E, A>>) => Kind4<M, S, R, ME, Either<E, A>>
+export declare function alt<M extends URIS3>(
+  M: Monad3<M>
+): <R, ME, E, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export declare function alt<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <R, E, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
 export declare function alt<M extends URIS2>(
   M: Monad2<M>
 ): <ME, E, A>(
   second: Lazy<Kind2<M, ME, Either<E, A>>>
 ) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export declare function alt<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E, A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
 export declare function alt<M extends URIS>(
   M: Monad1<M>
 ): <E, A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
@@ -99,10 +117,34 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function altValidation<M extends URIS4, E>(
+  M: Monad4<M>,
+  S: Semigroup<E>
+): <S, R, ME, A>(
+  second: Lazy<Kind4<M, S, R, ME, Either<E, A>>>
+) => (first: Kind4<M, S, R, ME, Either<E, A>>) => Kind4<M, S, R, ME, Either<E, A>>
+export declare function altValidation<M extends URIS3, E>(
+  M: Monad3<M>,
+  S: Semigroup<E>
+): <R, ME, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export declare function altValidation<M extends URIS3, ME, E>(
+  M: Monad3C<M, ME>,
+  S: Semigroup<E>
+): <R, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
 export declare function altValidation<M extends URIS2, E>(
   M: Monad2<M>,
   S: Semigroup<E>
-): <R, A>(second: Lazy<Kind2<M, R, Either<E, A>>>) => (first: Kind2<M, R, Either<E, A>>) => Kind2<M, R, Either<E, A>>
+): <ME, A>(
+  second: Lazy<Kind2<M, ME, Either<E, A>>>
+) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export declare function altValidation<M extends URIS2, ME, E>(
+  M: Monad2C<M, ME>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
 export declare function altValidation<M extends URIS, E>(
   M: Monad1<M>,
   S: Semigroup<E>
@@ -120,9 +162,29 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function ap<F extends URIS4>(
+  F: Apply4<F>
+): <S, R, FE, E, A>(
+  fa: Kind4<F, S, R, FE, Either<E, A>>
+) => <B>(fab: Kind4<F, S, R, FE, Either<E, (a: A) => B>>) => Kind4<F, S, R, FE, Either<E, B>>
+export declare function ap<F extends URIS3>(
+  F: Apply3<F>
+): <R, FE, E, A>(
+  fa: Kind3<F, R, FE, Either<E, A>>
+) => <B>(fab: Kind3<F, R, FE, Either<E, (a: A) => B>>) => Kind3<F, R, FE, Either<E, B>>
+export declare function ap<F extends URIS3, FE>(
+  F: Apply3C<F, FE>
+): <R, E, A>(
+  fa: Kind3<F, R, FE, Either<E, A>>
+) => <B>(fab: Kind3<F, R, FE, Either<E, (a: A) => B>>) => Kind3<F, R, FE, Either<E, B>>
 export declare function ap<F extends URIS2>(
   F: Apply2<F>
 ): <FE, E, A>(
+  fa: Kind2<F, FE, Either<E, A>>
+) => <B>(fab: Kind2<F, FE, Either<E, (a: A) => B>>) => Kind2<F, FE, Either<E, B>>
+export declare function ap<F extends URIS2, FE>(
+  F: Apply2C<F, FE>
+): <E, A>(
   fa: Kind2<F, FE, Either<E, A>>
 ) => <B>(fab: Kind2<F, FE, Either<E, (a: A) => B>>) => Kind2<F, FE, Either<E, B>>
 export declare function ap<F extends URIS>(
@@ -140,9 +202,30 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function bimap<F extends URIS4>(
+  F: Functor4<F>
+): <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <S, R, FE>(fea: Kind4<F, S, R, FE, Either<E, A>>) => Kind4<F, S, R, FE, Either<G, B>>
+export declare function bimap<F extends URIS3>(
+  F: Functor3<F>
+): <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R, FE>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
+export declare function bimap<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, B>>
 export declare function bimap<F extends URIS2>(
   F: Functor2<F>
 ): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <FE>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
+export declare function bimap<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, B>>
 export declare function bimap<F extends URIS>(
   F: Functor1<F>
 ): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind<F, Either<E, A>>) => Kind<F, Either<G, B>>
@@ -158,11 +241,29 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function chain<M extends URIS4>(
+  M: Monad4<M>
+): <A, S, R, ME, E, B>(
+  f: (a: A) => Kind4<M, S, R, ME, Either<E, B>>
+) => (ma: Kind4<M, S, R, ME, Either<E, A>>) => Kind4<M, S, R, ME, Either<E, B>>
+export declare function chain<M extends URIS3>(
+  M: Monad3<M>
+): <A, R, ME, E, B>(
+  f: (a: A) => Kind3<M, R, ME, Either<E, B>>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, B>>
+export declare function chain<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <A, R, E, B>(
+  f: (a: A) => Kind3<M, R, ME, Either<E, B>>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, B>>
 export declare function chain<M extends URIS2>(
   M: Monad2<M>
 ): <A, ME, E, B>(
   f: (a: A) => Kind2<M, ME, Either<E, B>>
 ) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, B>>
+export declare function chain<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <A, E, B>(f: (a: A) => Kind2<M, ME, Either<E, B>>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, B>>
 export declare function chain<M extends URIS>(
   M: Monad1<M>
 ): <A, E, B>(f: (a: A) => Kind<M, Either<E, B>>) => (ma: Kind<M, Either<E, A>>) => Kind<M, Either<E, B>>
@@ -178,9 +279,23 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function getOrElse<M extends URIS4>(
+  M: Monad4<M>
+): <E, S, R, ME, A>(
+  onLeft: (e: E) => Kind4<M, S, R, ME, A>
+) => (ma: Kind4<M, S, R, ME, Either<E, A>>) => Kind4<M, S, R, ME, A>
+export declare function getOrElse<M extends URIS3>(
+  M: Monad3<M>
+): <E, R, ME, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
+export declare function getOrElse<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <E, R, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
 export declare function getOrElse<M extends URIS2>(
   M: Monad2<M>
 ): <E, ME, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
+export declare function getOrElse<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
 export declare function getOrElse<M extends URIS>(
   M: Monad1<M>
 ): <E, A>(onLeft: (e: E) => Kind<M, A>) => (ma: Kind<M, Either<E, A>>) => Kind<M, A>
@@ -196,7 +311,19 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function left<F extends URIS4>(
+  F: Pointed4<F>
+): <E, S, R, FE, A = never>(e: E) => Kind4<F, S, R, FE, Either<E, A>>
+export declare function left<F extends URIS3>(
+  F: Pointed3<F>
+): <E, R, FE, A = never>(e: E) => Kind3<F, R, FE, Either<E, A>>
+export declare function left<F extends URIS3, FE>(
+  F: Pointed3C<F, FE>
+): <E, R, A = never>(e: E) => Kind3<F, R, FE, Either<E, A>>
 export declare function left<F extends URIS2>(F: Pointed2<F>): <E, FE, A = never>(e: E) => Kind2<F, FE, Either<E, A>>
+export declare function left<F extends URIS2, FE>(
+  F: Pointed2C<F, FE>
+): <E, A = never>(e: E) => Kind2<F, FE, Either<E, A>>
 export declare function left<F extends URIS>(F: Pointed1<F>): <E, A = never>(e: E) => Kind<F, Either<E, A>>
 export declare function left<F>(F: Pointed<F>): <E, A = never>(e: E) => HKT<F, Either<E, A>>
 ```
@@ -208,9 +335,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function leftF<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, FE, E, A = never>(fe: Kind4<F, S, R, FE, E>) => Kind4<F, S, R, FE, Either<E, A>>
+export declare function leftF<F extends URIS3>(
+  F: Functor3<F>
+): <R, FE, E, A = never>(fe: Kind3<F, R, FE, E>) => Kind3<F, R, FE, Either<E, A>>
+export declare function leftF<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <R, E, A = never>(fe: Kind3<F, R, FE, E>) => Kind3<F, R, FE, Either<E, A>>
 export declare function leftF<F extends URIS2>(
   F: Functor2<F>
 ): <FE, E, A = never>(fe: Kind2<F, FE, E>) => Kind2<F, FE, Either<E, A>>
+export declare function leftF<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, A = never>(fe: Kind2<F, FE, E>) => Kind2<F, FE, Either<E, A>>
 export declare function leftF<F extends URIS>(F: Functor1<F>): <E, A = never>(fe: Kind<F, E>) => Kind<F, Either<E, A>>
 export declare function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>>
 ```
@@ -222,9 +361,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function map<F extends URIS4>(
+  F: Functor4<F>
+): <A, B>(f: (a: A) => B) => <S, R, FE, E>(fa: Kind4<F, S, R, FE, Either<E, A>>) => Kind4<F, S, R, FE, Either<E, B>>
+export declare function map<F extends URIS3>(
+  F: Functor3<F>
+): <A, B>(f: (a: A) => B) => <R, FE, E>(fa: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<E, B>>
+export declare function map<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<E, B>>
 export declare function map<F extends URIS2>(
   F: Functor2<F>
 ): <A, B>(f: (a: A) => B) => <FE, E>(fa: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<E, B>>
+export declare function map<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<E, B>>
 export declare function map<F extends URIS>(
   F: Functor1<F>
 ): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Either<E, A>>) => Kind<F, Either<E, B>>
@@ -240,9 +391,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function mapLeft<F extends URIS4>(
+  F: Functor4<F>
+): <E, G>(f: (e: E) => G) => <S, R, FE, A>(fea: Kind4<F, S, R, FE, Either<E, A>>) => Kind4<F, S, R, FE, Either<G, A>>
+export declare function mapLeft<F extends URIS3>(
+  F: Functor3<F>
+): <E, G>(f: (e: E) => G) => <R, FE, A>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
+export declare function mapLeft<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, G>(f: (e: E) => G) => <R, A>(fea: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS2>(
   F: Functor2<F>
 ): <E, G>(f: (e: E) => G) => <FE, A>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
+export declare function mapLeft<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, G>(f: (e: E) => G) => <A>(fea: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<G, A>>
 export declare function mapLeft<F extends URIS>(
   F: Functor1<F>
 ): <E, G>(f: (e: E) => G) => <A>(fea: Kind<F, Either<E, A>>) => Kind<F, Either<G, A>>
@@ -258,18 +421,42 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function match<M extends URIS4>(
+  M: Chain4<M>
+): <E, S, R, FE, B, A>(
+  onLeft: (e: E) => Kind4<M, S, R, FE, B>,
+  onRight: (a: A) => Kind4<M, S, R, FE, B>
+) => (ma: Kind4<M, S, R, FE, Either<E, A>>) => Kind4<M, S, R, FE, B>
+export declare function match<M extends URIS3>(
+  M: Chain3<M>
+): <E, R, FE, B, A>(
+  onLeft: (e: E) => Kind3<M, R, FE, B>,
+  onRight: (a: A) => Kind3<M, R, FE, B>
+) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
+export declare function match<M extends URIS3, FE>(
+  M: Chain3C<M, FE>
+): <E, R, B, A>(
+  onLeft: (e: E) => Kind3<M, R, FE, B>,
+  onRight: (a: A) => Kind3<M, R, FE, B>
+) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
 export declare function match<M extends URIS2>(
   M: Chain2<M>
-): <E, ME, R, A>(
-  onLeft: (e: E) => Kind2<M, ME, R>,
-  onRight: (a: A) => Kind2<M, ME, R>
-) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, R>
+): <E, FE, B, A>(
+  onLeft: (e: E) => Kind2<M, FE, B>,
+  onRight: (a: A) => Kind2<M, FE, B>
+) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
+export declare function match<M extends URIS2, FE>(
+  M: Chain2C<M, FE>
+): <E, B, A>(
+  onLeft: (e: E) => Kind2<M, FE, B>,
+  onRight: (a: A) => Kind2<M, FE, B>
+) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
 export declare function match<M extends URIS>(
   M: Chain1<M>
-): <E, R, A>(onLeft: (e: E) => Kind<M, R>, onRight: (a: A) => Kind<M, R>) => (ma: Kind<M, Either<E, A>>) => Kind<M, R>
+): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
 export declare function match<M>(
   M: Chain<M>
-): <E, R, A>(onLeft: (e: E) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => (ma: HKT<M, Either<E, A>>) => HKT<M, R>
+): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```
 
 Added in v2.10.0
@@ -279,9 +466,29 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function orElse<M extends URIS4>(
+  M: Monad4<M>
+): <E1, S, R, ME, E2, A>(
+  onLeft: (e: E1) => Kind4<M, S, R, ME, Either<E2, A>>
+) => (ma: Kind4<M, S, R, ME, Either<E1, A>>) => Kind4<M, S, R, ME, Either<E2, A>>
+export declare function orElse<M extends URIS3>(
+  M: Monad3<M>
+): <E1, R, ME, E2, A>(
+  onLeft: (e: E1) => Kind3<M, R, ME, Either<E2, A>>
+) => (ma: Kind3<M, R, ME, Either<E1, A>>) => Kind3<M, R, ME, Either<E2, A>>
+export declare function orElse<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <E1, R, E2, A>(
+  onLeft: (e: E1) => Kind3<M, R, ME, Either<E2, A>>
+) => (ma: Kind3<M, R, ME, Either<E1, A>>) => Kind3<M, R, ME, Either<E2, A>>
 export declare function orElse<M extends URIS2>(
   M: Monad2<M>
 ): <E1, ME, E2, A>(
+  onLeft: (e: E1) => Kind2<M, ME, Either<E2, A>>
+) => (ma: Kind2<M, ME, Either<E1, A>>) => Kind2<M, ME, Either<E2, A>>
+export declare function orElse<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E1, E2, A>(
   onLeft: (e: E1) => Kind2<M, ME, Either<E2, A>>
 ) => (ma: Kind2<M, ME, Either<E1, A>>) => Kind2<M, ME, Either<E2, A>>
 export declare function orElse<M extends URIS>(
@@ -299,7 +506,19 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function right<F extends URIS4>(
+  F: Pointed4<F>
+): <A, S, R, FE, E = never>(a: A) => Kind4<F, S, R, FE, Either<E, A>>
+export declare function right<F extends URIS3>(
+  F: Pointed3<F>
+): <A, R, FE, E = never>(a: A) => Kind3<F, R, FE, Either<E, A>>
+export declare function right<F extends URIS3, FE>(
+  F: Pointed3C<F, FE>
+): <A, R, E = never>(a: A) => Kind3<F, R, FE, Either<E, A>>
 export declare function right<F extends URIS2>(F: Pointed2<F>): <A, FE, E = never>(a: A) => Kind2<F, FE, Either<E, A>>
+export declare function right<F extends URIS2, FE>(
+  F: Pointed2C<F, FE>
+): <A, E = never>(a: A) => Kind2<F, FE, Either<E, A>>
 export declare function right<F extends URIS>(F: Pointed1<F>): <A, E = never>(a: A) => Kind<F, Either<E, A>>
 export declare function right<F>(F: Pointed<F>): <A, E = never>(a: A) => HKT<F, Either<E, A>>
 ```
@@ -311,9 +530,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function rightF<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, FE, A, E = never>(fa: Kind4<F, S, R, FE, A>) => Kind4<F, S, R, FE, Either<E, A>>
+export declare function rightF<F extends URIS3>(
+  F: Functor3<F>
+): <R, FE, A, E = never>(fa: Kind3<F, R, FE, A>) => Kind3<F, R, FE, Either<E, A>>
+export declare function rightF<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <R, A, E = never>(fa: Kind3<F, R, FE, A>) => Kind3<F, R, FE, Either<E, A>>
 export declare function rightF<F extends URIS2>(
   F: Functor2<F>
 ): <FE, A, E = never>(fa: Kind2<F, FE, A>) => Kind2<F, FE, Either<E, A>>
+export declare function rightF<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <A, E = never>(fa: Kind2<F, FE, A>) => Kind2<F, FE, Either<E, A>>
 export declare function rightF<F extends URIS>(F: Functor1<F>): <A, E = never>(fa: Kind<F, A>) => Kind<F, Either<E, A>>
 export declare function rightF<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F, Either<E, A>>
 ```
@@ -325,9 +556,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function swap<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, FE, E, A>(ma: Kind4<F, S, R, FE, Either<E, A>>) => Kind4<F, S, R, FE, Either<A, E>>
+export declare function swap<F extends URIS3>(
+  F: Functor3<F>
+): <R, FE, E, A>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<A, E>>
+export declare function swap<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <R, E, A>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, Either<A, E>>
 export declare function swap<F extends URIS2>(
   F: Functor2<F>
 ): <FE, E, A>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<A, E>>
+export declare function swap<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, A>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, Either<A, E>>
 export declare function swap<F extends URIS>(F: Functor1<F>): <E, A>(ma: Kind<F, Either<E, A>>) => Kind<F, Either<A, E>>
 export declare function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>>
 ```
@@ -339,9 +582,21 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function toUnion<F extends URIS4>(
+  F: Functor4<F>
+): <S, R, FE, E, A>(fa: Kind4<F, S, R, FE, Either<E, A>>) => Kind4<F, S, R, FE, E | A>
+export declare function toUnion<F extends URIS3>(
+  F: Functor3<F>
+): <R, FE, E, A>(fa: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, E | A>
+export declare function toUnion<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <R, E, A>(fa: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, E | A>
 export declare function toUnion<F extends URIS2>(
   F: Functor2<F>
-): <R, E, A>(fa: Kind2<F, R, Either<E, A>>) => Kind2<F, R, E | A>
+): <FE, E, A>(fa: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, E | A>
+export declare function toUnion<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, A>(fa: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, E | A>
 export declare function toUnion<F extends URIS>(F: Functor1<F>): <E, A>(fa: Kind<F, Either<E, A>>) => Kind<F, E | A>
 export declare function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => HKT<F, E | A>
 ```
