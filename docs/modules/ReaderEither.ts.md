@@ -595,10 +595,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, R, B, A>(
-  onLeft: (e: E) => R.Reader<R, B>,
-  onRight: (a: A) => R.Reader<R, B>
-) => (ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, B>
+export declare const match: <E, FE, B, A>(
+  onLeft: (e: E) => R.Reader<FE, B>,
+  onRight: (a: A) => R.Reader<FE, B>
+) => (ma: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, B>
 ```
 
 Added in v3.0.0
@@ -767,7 +767,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: R.Reader<R, E.Either<E, A>>) => R.Reader<R, E | A>
+export declare const toUnion: <FE, E, A>(fa: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, E | A>
 ```
 
 Added in v3.0.0

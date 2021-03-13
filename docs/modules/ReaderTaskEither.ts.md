@@ -886,10 +886,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, R, B, A>(
-  onLeft: (e: E) => RT.ReaderTask<R, B>,
-  onRight: (a: A) => RT.ReaderTask<R, B>
-) => (ma: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, B>
+export declare const match: <E, FE, B, A>(
+  onLeft: (e: E) => RT.ReaderTask<FE, B>,
+  onRight: (a: A) => RT.ReaderTask<FE, B>
+) => (ma: RT.ReaderTask<FE, E.Either<E, A>>) => RT.ReaderTask<FE, B>
 ```
 
 Added in v3.0.0
@@ -1101,7 +1101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <R, E, A>(fa: RT.ReaderTask<R, E.Either<E, A>>) => RT.ReaderTask<R, E | A>
+export declare const toUnion: <FE, E, A>(fa: RT.ReaderTask<FE, E.Either<E, A>>) => RT.ReaderTask<FE, E | A>
 ```
 
 Added in v3.0.0
