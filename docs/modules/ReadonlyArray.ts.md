@@ -69,6 +69,8 @@ Added in v3.0.0
   - [dropLeftWhile](#dropleftwhile)
   - [dropRight](#dropright)
   - [flap](#flap)
+  - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependAll](#prependall)
@@ -89,6 +91,7 @@ Added in v3.0.0
   - [append](#append)
   - [comprehension](#comprehension)
   - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
@@ -710,6 +713,28 @@ export declare const flap: <A>(a: A) => <B>(fab: readonly ((a: A) => B)[]) => re
 
 Added in v3.0.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
 ## intersection
 
 Creates a `ReadonlyArray` of unique values that are included in all given `ReadonlyArray`s using a `Eq` for equality
@@ -1190,6 +1215,16 @@ Transforms an `Either` to a `ReadonlyArray`.
 
 ```ts
 export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
 ```
 
 Added in v3.0.0

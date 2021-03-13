@@ -1122,8 +1122,9 @@ describe('ReadonlyArray', () => {
   })
 
   it('fromOptionK', () => {
-    const f = _.fromOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
-    U.strictEqual(f(0), _.empty)
-    U.deepStrictEqual(f(1), [1])
+    const f = (n: number) => (n > 0 ? O.some(n) : O.none)
+    const g = _.fromOptionK(f)
+    U.strictEqual(g(0), _.empty)
+    U.deepStrictEqual(g(1), [1])
   })
 })
