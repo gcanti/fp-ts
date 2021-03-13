@@ -1248,18 +1248,6 @@ export function difference<A>(
   }
 }
 
-/**
- * @category Pointed
- * @since 2.5.0
- */
-export const of: Pointed1<URI>['of'] = RNEA.of
-
-/**
- * @category Alternative
- * @since 2.7.0
- */
-export const zero: Alternative1<URI>['zero'] = () => empty
-
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
@@ -1340,6 +1328,18 @@ const _wilt: Witherable1<URI>['wilt'] = <F>(
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category Pointed
+ * @since 2.5.0
+ */
+export const of: Pointed1<URI>['of'] = RNEA.of
+
+/**
+ * @category Alternative
+ * @since 2.7.0
+ */
+export const zero: Alternative1<URI>['zero'] = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).

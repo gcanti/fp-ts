@@ -22,7 +22,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
 import * as O from './Option'
-import { getMonoid as getOrdMonoid, Ord } from './Ord'
+import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Semigroup } from './Semigroup'
@@ -41,7 +41,7 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
  *
  * @example
  * import { prepend } from 'fp-ts/Array'
@@ -55,7 +55,7 @@ import Option = O.Option
 export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> = NEA.prepend
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
  *
  * @example
  * import { append } from 'fp-ts/Array'
@@ -82,16 +82,7 @@ export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = N
  * @category constructors
  * @since 2.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
-  if (n <= 0) {
-    return []
-  }
-  const out: Array<A> = []
-  for (let i = 0; i < n; i++) {
-    out.push(f(i))
-  }
-  return out
-}
+export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => (n <= 0 ? [] : NEA.makeBy(n, f))
 
 /**
  * Create an `Array` containing a range of integers, including both endpoints.
@@ -868,17 +859,9 @@ export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
  * @category combinators
  * @since 2.0.0
  */
-export const rotate = (n: number) => <A>(as: Array<A>): Array<A> => {
-  const len = as.length
-  if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return copy(as)
-  }
-  const m = Math.round(n) % len
-  if (n < 0) {
-    return rotate(len + m)(as)
-  } else {
-    return as.slice(-m).concat(as.slice(0, len - m))
-  }
+export const rotate = (n: number): (<A>(as: Array<A>) => Array<A>) => {
+  const f = NEA.rotate(n)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 // TODO: remove non-curried overloading in v3
@@ -917,22 +900,8 @@ export const elem: <A>(
  * @since 2.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
-  const elemS = elem(E)
-  return (as) => {
-    const len = as.length
-    if (len <= 1) {
-      return as
-    }
-    const r: Array<A> = []
-    let i = 0
-    for (; i < len; i++) {
-      const a = as[i]
-      if (!elemS(a, r)) {
-        r.push(a)
-      }
-    }
-    return len === r.length ? as : r
-  }
+  const f = NEA.uniq(E)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**
@@ -967,8 +936,8 @@ export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
  * @since 2.0.0
  */
 export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: Array<A>) => Array<A>) => {
-  const M = getOrdMonoid<B>()
-  return sort(ords.reduce(M.concat, M.empty))
+  const f = NEA.sortBy(ords)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**
@@ -1111,13 +1080,17 @@ export function union<A>(
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
 export function union<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<A> | ((ys: Array<A>) => Array<A>) {
-  const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
+  const unionE = NEA.union(E)
+  return (first, second?) => {
+    if (second === undefined) {
       const unionE = union(E)
-      return (ys) => unionE(ys, xs)
+      return (ys) => unionE(ys, first)
     }
-    return xs.concat(ys.filter((a) => !elemE(a, xs)))
+    return isNonEmpty(first) && isNonEmpty(second)
+      ? unionE(first, second)
+      : isNonEmpty(first)
+      ? copy(first)
+      : copy(second)
   }
 }
 
@@ -1184,12 +1157,6 @@ export function difference<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<
     return xs.filter((a) => !elemE(a, ys))
   }
 }
-
-/**
- * @category Pointed
- * @since 2.0.0
- */
-export const of: Pointed1<URI>['of'] = NEA.of
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -1284,6 +1251,18 @@ const _wilt: Witherable1<URI>['wilt'] = <F>(
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category Pointed
+ * @since 2.0.0
+ */
+export const of: Pointed1<URI>['of'] = NEA.of
+
+/**
+ * @category Alternative
+ * @since 2.7.0
+ */
+export const zero: Alternative1<URI>['zero'] = () => []
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1611,12 +1590,6 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<
   }
   return out
 }
-
-/**
- * @category Alternative
- * @since 2.7.0
- */
-export const zero: Alternative1<URI>['zero'] = () => []
 
 // -------------------------------------------------------------------------------------
 // instances

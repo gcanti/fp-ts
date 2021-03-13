@@ -1321,7 +1321,7 @@ Added in v2.9.0
 
 ## append
 
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
 
 **Signature**
 
@@ -1365,7 +1365,7 @@ Added in v2.0.0
 
 ## prepend
 
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
 
 **Signature**
 

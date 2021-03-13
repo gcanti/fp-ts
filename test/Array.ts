@@ -742,6 +742,9 @@ describe('Array', () => {
   })
 
   it('rotate', () => {
+    U.deepStrictEqual(_.rotate(0)([]), [])
+    U.deepStrictEqual(_.rotate(1)([]), [])
+
     U.deepStrictEqual(_.rotate(1)([1]), [1])
     U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
     U.deepStrictEqual(_.rotate(2)([1, 2]), [1, 2])
@@ -842,14 +845,14 @@ describe('Array', () => {
       N.Ord,
       Ord.contramap((p: Person) => p.age)
     )
-    const sortByNameByAge = _.sortBy([byName, byAge])
+    const f = _.sortBy([byName, byAge])
     const persons: Array<Person> = [
       { name: 'a', age: 1 },
       { name: 'b', age: 3 },
       { name: 'c', age: 2 },
       { name: 'b', age: 2 }
     ]
-    U.deepStrictEqual(sortByNameByAge(persons), [
+    U.deepStrictEqual(f(persons), [
       { name: 'a', age: 1 },
       { name: 'b', age: 2 },
       { name: 'b', age: 3 },
@@ -863,6 +866,7 @@ describe('Array', () => {
       { name: 'b', age: 3 }
     ])
 
+    U.deepStrictEqual(f([]), [])
     U.deepStrictEqual(_.sortBy([])(persons), persons)
   })
 
@@ -1001,12 +1005,18 @@ describe('Array', () => {
   })
 
   it('union', () => {
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [3, 4]), [1, 2, 3, 4])
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [2, 3]), [1, 2, 3])
-    U.deepStrictEqual(_.union(N.Eq)([1, 2], [1, 2]), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([3, 4])), [1, 2, 3, 4])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([2, 3])), [1, 2, 3])
-    U.deepStrictEqual(pipe([1, 2], _.union(N.Eq)([1, 2])), [1, 2])
+    const concat = _.union(N.Eq)
+    const two: Array<number> = [1, 2]
+    U.deepStrictEqual(concat(two, [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat(two, [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat(two, [1, 2]), [1, 2])
+    U.deepStrictEqual(pipe(two, concat([3, 4])), [1, 2, 3, 4])
+    U.deepStrictEqual(pipe(two, concat([2, 3])), [1, 2, 3])
+    U.deepStrictEqual(pipe(two, concat([1, 2])), [1, 2])
+
+    U.deepStrictEqual(pipe(two, concat([])), two)
+    U.deepStrictEqual(pipe([], concat(two)), two)
+    U.deepStrictEqual(pipe([], concat([])), [])
   })
 
   it('intersection', () => {
