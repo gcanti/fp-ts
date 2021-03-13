@@ -357,7 +357,7 @@ export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (isOutOfBo
  * @since 2.0.0
  */
 export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> =>
-  isOutOfBound(n, as) ? as : n === 0 ? [] : as.slice(-n)
+  isOutOfBound(n, as) ? copy(as) : n === 0 ? [] : as.slice(-n)
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -750,7 +750,7 @@ export const lefts = <E, A>(as: Array<Either<E, A>>): Array<E> => {
  * @since 2.0.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: Array<A>): Array<A> =>
-  as.length <= 1 ? as : as.slice().sort(O.compare)
+  as.length <= 1 ? copy(as) : as.slice().sort(O.compare)
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
@@ -845,7 +845,7 @@ export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
  */
 export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
   const len = as.length
-  return len === 0 ? as : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
+  return len === 0 ? copy(as) : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
 }
 
 /**
