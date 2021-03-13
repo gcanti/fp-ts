@@ -604,4 +604,24 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe([1, 2], concat([2, 3])), [1, 2, 3])
     U.deepStrictEqual(pipe([1, 2], concat([1, 2])), [1, 2])
   })
+
+  it('matchLeft', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchLeft((head, tail) => [head, tail])
+      ),
+      [1, [2, 3]]
+    )
+  })
+
+  it('matchRight', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchRight((init, last) => [init, last])
+      ),
+      [[1, 2], 3]
+    )
+  })
 })

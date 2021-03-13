@@ -186,6 +186,20 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
  */
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
 
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(head(as), tail(as))
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(init(as), last(as))
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
