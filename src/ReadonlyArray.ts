@@ -166,6 +166,14 @@ export const matchRight: <B, A>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromOptionK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (
+  ...a: A
+): ReadonlyArray<B> => fromOption(f(...a))
+
+/**
  * `ReadonlyArray` comprehension.
  *
  * ```

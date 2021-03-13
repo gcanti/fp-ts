@@ -1120,4 +1120,10 @@ describe('ReadonlyArray', () => {
     U.strictEqual(_.fromOption(O.none), _.empty)
     U.deepStrictEqual(_.fromOption(O.some(1)), [1])
   })
+
+  it('fromOptionK', () => {
+    const f = _.fromOptionK((n: number) => (n > 0 ? O.some(n) : O.none))
+    U.strictEqual(f(0), _.empty)
+    U.deepStrictEqual(f(1), [1])
+  })
 })
