@@ -773,8 +773,9 @@ describe('ReadonlyArray', () => {
     const empty: ReadonlyArray<number> = []
     assert.strictEqual(_.intersperse(0)(empty), empty)
     assert.strictEqual(_.intersperse(0)(_.empty), _.empty)
+    const singleton = [1]
+    assert.strictEqual(_.intersperse(0)(singleton), singleton)
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
-    U.deepStrictEqual(_.intersperse(0)([1]), [1])
     U.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })

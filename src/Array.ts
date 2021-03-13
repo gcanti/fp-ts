@@ -843,9 +843,9 @@ export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
-  const len = as.length
-  return len === 0 ? copy(as) : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
+export const intersperse = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
+  const f = NEA.intersperse(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**

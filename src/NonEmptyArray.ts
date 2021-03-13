@@ -448,7 +448,7 @@ export const prependAll = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArra
  */
 export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
+  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : copy(as)
 }
 
 /**

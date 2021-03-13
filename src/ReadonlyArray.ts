@@ -908,9 +908,9 @@ export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArr
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse = <A>(middle: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const len = as.length
-  return len === 0 ? as : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
+export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.intersperse(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**

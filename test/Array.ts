@@ -686,9 +686,9 @@ describe('Array', () => {
   })
 
   it('intersperse', () => {
-    U.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
     U.deepStrictEqual(_.intersperse(0)([]), [])
     U.deepStrictEqual(_.intersperse(0)([1]), [1])
+    U.deepStrictEqual(_.intersperse(0)([1, 2, 3]), [1, 0, 2, 0, 3])
     U.deepStrictEqual(_.intersperse(0)([1, 2]), [1, 0, 2])
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
