@@ -736,7 +736,7 @@ Places an element in between members of a `ReadonlyArray`
 **Signature**
 
 ```ts
-export declare const intersperse: <A>(a: A) => (as: readonly A[]) => readonly A[]
+export declare const intersperse: <A>(middle: A) => (as: readonly A[]) => readonly A[]
 ```
 
 **Example**

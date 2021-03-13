@@ -960,9 +960,9 @@ export const prependAll = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArr
  * @category combinators
  * @since 3.0.0
  */
-export const intersperse = <A>(a: A) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const len = as.length
-  return len === 0 ? as : prepend(as[0])(prependAll(a)(as.slice(1, len)))
+export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyArray<A>) => {
+  const f = RNEA.intersperse(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : as)
 }
 
 /**
