@@ -23,6 +23,7 @@ high state of flux, you're at risk of it changing without notice.
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+    - fix `matchLeft`, `matchRight` type parameter order
   - `EitherT`
     - add overloads for `Kind2`, `Kind3`, `Kind4`
   - `OptionT`

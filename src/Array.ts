@@ -129,8 +129,8 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @category destructors
  * @since 2.10.0
  */
-export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Array<A>) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onCons(NEA.head(as), NEA.tail(as)) : onEmpty()
+export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>): B =>
+  isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty()
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -138,7 +138,10 @@ export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Array<
  * @category destructors
  * @since 2.0.0
  */
-export const foldLeft = matchLeft
+export const foldLeft: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: Array<A>) => B
+) => (as: Array<A>) => B = matchLeft
 
 /**
  * Break an array into its initial elements and the last element
@@ -146,8 +149,8 @@ export const foldLeft = matchLeft
  * @category destructors
  * @since 2.10.0
  */
-export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: Array<A>, last: A) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onCons(NEA.init(as), NEA.last(as)) : onEmpty()
+export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>): B =>
+  isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty()
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -155,7 +158,10 @@ export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: Array<A>, last
  * @category destructors
  * @since 2.0.0
  */
-export const foldRight = matchRight
+export const foldRight: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: Array<A>, last: A) => B
+) => (as: Array<A>) => B = matchRight
 
 // -------------------------------------------------------------------------------------
 // combinators

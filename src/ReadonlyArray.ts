@@ -130,9 +130,9 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @category destructors
  * @since 2.10.0
  */
-export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
+export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B) => (
   as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+): B => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -140,7 +140,10 @@ export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Readon
  * @category destructors
  * @since 2.5.0
  */
-export const foldLeft = matchLeft
+export const foldLeft: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B
+) => (as: ReadonlyArray<A>) => B = matchLeft
 
 /**
  * Break an array into its initial elements and the last element.
@@ -148,9 +151,9 @@ export const foldLeft = matchLeft
  * @category destructors
  * @since 2.10.0
  */
-export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => B) => (
   as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
+): B => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -158,7 +161,10 @@ export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<
  * @category destructors
  * @since 2.5.0
  */
-export const foldRight = matchRight
+export const foldRight: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: ReadonlyArray<A>, last: A) => B
+) => (as: ReadonlyArray<A>) => B = matchRight
 
 // -------------------------------------------------------------------------------------
 // combinators

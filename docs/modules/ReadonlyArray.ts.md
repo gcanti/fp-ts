@@ -1472,7 +1472,7 @@ Alias of [`matchLeft`](#matchLeft).
 ```ts
 export declare const foldLeft: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: readonly A[]) => B
+  onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1487,7 +1487,7 @@ Alias of [`matchRight`](#matchRight).
 ```ts
 export declare const foldRight: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (init: readonly A[], last: A) => B
+  onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1500,9 +1500,9 @@ Break an array into its first element and remaining elements.
 **Signature**
 
 ```ts
-export declare const matchLeft: <A, B>(
+export declare const matchLeft: <B, A>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: readonly A[]) => B
+  onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1527,9 +1527,9 @@ Break an array into its initial elements and the last element.
 **Signature**
 
 ```ts
-export declare const matchRight: <A, B>(
+export declare const matchRight: <B, A>(
   onEmpty: Lazy<B>,
-  onCons: (init: readonly A[], last: A) => B
+  onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
 
