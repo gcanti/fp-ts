@@ -44,6 +44,12 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
+
+/**
  * Transforms an `Either` to a `ReadonlyArray`.
  *
  * @category constructors

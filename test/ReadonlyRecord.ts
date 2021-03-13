@@ -280,7 +280,7 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.upsertAt('c', 3)), { a: 1, b: 2, c: 3 })
     // should return the same reference when nothing changed
     const x = { a: 1 }
-    assert.strictEqual(pipe(x, _.upsertAt('a', 1)), x)
+    U.strictEqual(pipe(x, _.upsertAt('a', 1)), x)
     // should create a new key when the value is `undefined`
     U.deepStrictEqual(pipe({}, _.upsertAt('a', undefined)), { a: undefined })
   })

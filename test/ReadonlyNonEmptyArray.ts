@@ -161,7 +161,7 @@ describe('ReadonlyNonEmptyArray', () => {
     const sort = _.sort(N.Ord)
     U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
     const singleton: _.ReadonlyNonEmptyArray<number> = [1]
-    assert.strictEqual(sort(singleton), singleton)
+    U.strictEqual(sort(singleton), singleton)
   })
 
   it('prependAll', () => {
@@ -179,7 +179,7 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('reverse', () => {
     const singleton: _.ReadonlyNonEmptyArray<number> = [1]
-    assert.strictEqual(_.reverse(singleton), singleton)
+    U.strictEqual(_.reverse(singleton), singleton)
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
@@ -206,13 +206,13 @@ describe('ReadonlyNonEmptyArray', () => {
     // should return the same reference if nothing changed
     const r1 = _.updateAt(0, a1)(arr)
     if (O.isSome(r1)) {
-      assert.strictEqual(r1.value, arr)
+      U.strictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
     const r2 = _.updateAt(2, a3)(arr)
     if (O.isSome(r2)) {
-      assert.strictEqual(r2.value, arr)
+      U.strictEqual(r2.value, arr)
     } else {
       assert.fail('is not a Some')
     }
@@ -314,7 +314,7 @@ describe('ReadonlyNonEmptyArray', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
     const bs = _.fromReadonlyArray(as)
     U.deepStrictEqual(bs, O.some(as))
-    assert.strictEqual((bs as any).value, as)
+    U.strictEqual((bs as any).value, as)
   })
 
   it('concatAll', () => {
@@ -377,8 +377,8 @@ describe('ReadonlyNonEmptyArray', () => {
   it('splitAt', () => {
     const assertEmptySecond = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
       const [first, second] = _.splitAt(n)(input)
-      assert.strictEqual(first, input)
-      assert.strictEqual(second, _.empty)
+      U.strictEqual(first, input)
+      U.strictEqual(second, _.empty)
     }
 
     U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
@@ -410,8 +410,8 @@ describe('ReadonlyNonEmptyArray', () => {
 
     const assertSingleChunk = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
       const chunks = _.chunksOf(n)(input)
-      assert.strictEqual(chunks.length, 1)
-      assert.strictEqual(_.head(chunks), input)
+      U.strictEqual(chunks.length, 1)
+      U.strictEqual(_.head(chunks), input)
     }
     // n = 0
     assertSingleChunk([1, 2], 0)
@@ -500,14 +500,14 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('rotate', () => {
     const singleton: _.ReadonlyNonEmptyArray<number> = [1]
-    assert.strictEqual(_.rotate(1)(singleton), singleton)
-    assert.strictEqual(_.rotate(2)(singleton), singleton)
-    assert.strictEqual(_.rotate(-1)(singleton), singleton)
-    assert.strictEqual(_.rotate(-2)(singleton), singleton)
+    U.strictEqual(_.rotate(1)(singleton), singleton)
+    U.strictEqual(_.rotate(2)(singleton), singleton)
+    U.strictEqual(_.rotate(-1)(singleton), singleton)
+    U.strictEqual(_.rotate(-2)(singleton), singleton)
     const two: _.ReadonlyNonEmptyArray<number> = [1, 2]
-    assert.strictEqual(_.rotate(2)(two), two)
-    assert.strictEqual(_.rotate(0)(two), two)
-    assert.strictEqual(_.rotate(-2)(two), two)
+    U.strictEqual(_.rotate(2)(two), two)
+    U.strictEqual(_.rotate(0)(two), two)
+    U.strictEqual(_.rotate(-2)(two), two)
 
     U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
     U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
@@ -557,7 +557,7 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
 
     const as: _.ReadonlyNonEmptyArray<number> = [1]
-    assert.strictEqual(_.uniq(N.Eq)(as), as)
+    U.strictEqual(_.uniq(N.Eq)(as), as)
   })
 
   it('sortBy', () => {
