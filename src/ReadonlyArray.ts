@@ -87,7 +87,17 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
 // -------------------------------------------------------------------------------------
 
 /**
- * Break a `ReadonlyArray` into its first element and remaining elements
+ * Less strict version of [`matchLeft`](#matchLeft).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => C) => (
+  as: ReadonlyArray<A>
+): B | C => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+
+/**
+ * Break a `ReadonlyArray` into its first element and remaining elements.
  *
  * @example
  * import { matchLeft } from 'fp-ts/ReadonlyArray'
@@ -98,19 +108,31 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @category destructors
  * @since 3.0.0
  */
-export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: ReadonlyArray<A>) => B) => (
-  as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+export const matchLeft: <B, A>(
+  onEmpty: Lazy<B>,
+  onCons: (head: A, tail: ReadonlyArray<A>) => B
+) => (as: ReadonlyArray<A>) => B = matchLeftW
 
 /**
- * Break a `ReadonlyArray` into its initial elements and the last element
+ * Less strict version of [`matchRight`](#matchRight).
  *
  * @category destructors
  * @since 3.0.0
  */
-export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => B) => (
+export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onCons: (init: ReadonlyArray<A>, last: A) => C) => (
   as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
+): B | C => (isNonEmpty(as) ? onCons(RNEA.init(as), RNEA.last(as)) : onEmpty())
+
+/**
+ * Break a `ReadonlyArray` into its initial elements and the last element.
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchRight: <B, A>(
+  onEmpty: Lazy<B>,
+  onCons: (init: ReadonlyArray<A>, last: A) => B
+) => (as: ReadonlyArray<A>) => B = matchRightW
 
 // -------------------------------------------------------------------------------------
 // combinators
