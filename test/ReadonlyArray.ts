@@ -1107,4 +1107,13 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.fromEither(E.right(1)), [1])
     assert.strictEqual(_.fromEither(E.left('a')), _.empty)
   })
+
+  it('match', () => {
+    const f = _.match(
+      () => 'empty',
+      (as) => `nonEmpty ${as.length}`
+    )
+    U.deepStrictEqual(pipe(_.empty, f), 'empty')
+    U.deepStrictEqual(pipe([1, 2, 3], f), 'nonEmpty 3')
+  })
 })

@@ -81,6 +81,8 @@ Added in v3.0.0
   - [apSecond](#apsecond)
   - [chainFirst](#chainfirst)
 - [destructors](#destructors)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
 - [instances](#instances)
@@ -916,6 +918,26 @@ export declare const chainFirst: <A, B>(
 Added in v3.0.0
 
 # destructors
+
+## matchLeft
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v3.0.0
+
+## matchRight
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v3.0.0
 
 ## unappend
 
