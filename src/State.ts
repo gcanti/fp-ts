@@ -4,6 +4,8 @@
 import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { Endomorphism } from './Endomorphism'
+import { FromState2 } from './FromState'
 import { identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { Monad2 } from './Monad'
@@ -47,7 +49,7 @@ export const put: <S>(s: S) => State<S, void> = (s) => () => [undefined, s]
  * @category constructors
  * @since 3.0.0
  */
-export const modify: <S>(f: (s: S) => S) => State<S, void> = (f) => (s) => [undefined, f(s)]
+export const modify: <S>(f: Endomorphism<S>) => State<S, void> = (f) => (s) => [undefined, f(s)]
 
 /**
  * Get a value which depends on the current state
@@ -228,6 +230,14 @@ export const Monad: Monad2<URI> = {
 export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromState: FromState2<URI> = {
+  fromState: identity
+}
 
 // -------------------------------------------------------------------------------------
 // utils

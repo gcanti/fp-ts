@@ -95,6 +95,7 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromReader](#fromreader)
+  - [FromState](#fromstate)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -672,7 +673,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, S, E>(fa: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -704,7 +705,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromState: <S, A, R, E>(sa: State<S, A>) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
+export declare const fromState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -736,7 +737,7 @@ Get the current state
 **Signature**
 
 ```ts
-export declare const get: <S, R, E>() => ST.StateT3<'ReaderTaskEither', S, R, E, S>
+export declare const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S>
 ```
 
 Added in v3.0.0
@@ -748,7 +749,7 @@ Get a value which depends on the current state
 **Signature**
 
 ```ts
-export declare const gets: <S, A, R, E>(f: (s: S) => A) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
+export declare const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -810,7 +811,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S, R, E>(f: Endomorphism<S>) => ST.StateT3<'ReaderTaskEither', S, R, E, void>
+export declare const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -822,7 +823,7 @@ Set the state
 **Signature**
 
 ```ts
-export declare const put: <S, R, E>(s: S) => ST.StateT3<'ReaderTaskEither', S, R, E, void>
+export declare const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void>
 ```
 
 Added in v3.0.0
@@ -1020,6 +1021,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromReader: FromReader4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## FromState
+
+**Signature**
+
+```ts
+export declare const FromState: FromState4<'StateReaderTaskEither'>
 ```
 
 Added in v3.0.0

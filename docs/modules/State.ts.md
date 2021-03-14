@@ -36,6 +36,7 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
+  - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -158,7 +159,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S>(f: (s: S) => S) => State<S, void>
+export declare const modify: <S>(f: Endomorphism<S>) => State<S, void>
 ```
 
 Added in v3.0.0
@@ -260,6 +261,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Chain: Chain2<'State'>
+```
+
+Added in v3.0.0
+
+## FromState
+
+**Signature**
+
+```ts
+export declare const FromState: FromState2<'State'>
 ```
 
 Added in v3.0.0

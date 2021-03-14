@@ -7,6 +7,7 @@ import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import { Either } from './Either'
+import { Endomorphism } from './Endomorphism'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -19,13 +20,14 @@ import {
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
 import { ask as ask_, asks as asks_, FromReader4 } from './FromReader'
+import { FromState4, get as get_, put as put_, modify as modify_, gets as gets_ } from './FromState'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe } from './function'
+import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -141,8 +143,9 @@ export const leftIO = <E, S, R, A = never>(me: IO<E>): StateReaderTaskEither<S, 
  * @category constructors
  * @since 3.0.0
  */
-export const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = (sa) =>
-  flow(sa, RTE.right)
+export const rightState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  ST.fromState(RTE.Pointed)
 
 /**
  * @category constructors
@@ -160,54 +163,6 @@ export const fromReaderTaskEither =
   ST.fromF(RTE.Functor)
 
 /**
- * Get the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const get =
-  /*#__PURE__*/
-  ST.get(RTE.Pointed)
-
-/**
- * Set the state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const put =
-  /*#__PURE__*/
-  ST.put(RTE.Pointed)
-
-/**
- * Modify the state by applying a function to the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const modify =
-  /*#__PURE__*/
-  ST.modify(RTE.Pointed)
-
-/**
- * Get a value which depends on the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const gets =
-  /*#__PURE__*/
-  ST.gets(RTE.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromState =
-  /*#__PURE__*/
-  ST.fromState(RTE.Pointed)
-
-/**
  * @category constructors
  * @since 3.0.0
  */
@@ -217,7 +172,61 @@ export const fromEither: FromEither4<URI>['fromEither'] = (e) => (_.isLeft(e) ? 
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader: FromReader4<URI>['fromReader'] = rightReader
+export const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A> = rightReader
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = rightState
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromState: FromState4<URI> = {
+  fromState
+}
+
+/**
+ * Get the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
+  /*#__PURE__*/
+  get_(FromState)
+
+/**
+ * Set the state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  put_(FromState)
+
+/**
+ * Modify the state by applying a function to the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  modify_(FromState)
+
+/**
+ * Get a value which depends on the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  gets_(FromState)
 
 /**
  * @category constructors

@@ -3,9 +3,10 @@
  *
  * @since 3.0.0
  */
-import { identity } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import { Reader } from './Reader'
+import * as R from './Reader'
+
+import Reader = R.Reader
 
 // -------------------------------------------------------------------------------------
 // model
@@ -71,7 +72,7 @@ export function ask<F extends URIS3, E>(F: FromReader3C<F, E>): <R>() => Kind3<F
 export function ask<F extends URIS2>(F: FromReader2<F>): <R>() => Kind2<F, R, R>
 export function ask<F>(F: FromReader<F>): <R>() => HKT2<F, R, R>
 export function ask<F>(F: FromReader<F>): <R>() => HKT2<F, R, R> {
-  return <R>() => F.fromReader<R, R>(identity)
+  return () => F.fromReader(R.ask())
 }
 
 /**
