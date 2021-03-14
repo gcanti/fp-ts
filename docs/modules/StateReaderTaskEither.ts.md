@@ -41,6 +41,7 @@ Added in v3.0.0
   - [chainReaderK](#chainreaderk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
+  - [chainStateK](#chainstatek)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -53,6 +54,7 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
+  - [fromStateK](#fromstatek)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
@@ -398,7 +400,7 @@ Added in v3.0.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -425,6 +427,18 @@ Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
 export declare const chainReaderTaskEitherKW: <A, R, E2, B>(
   f: (a: A) => RTE.ReaderTaskEither<R, E2, B>
 ) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainStateK
+
+**Signature**
+
+```ts
+export declare const chainStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -568,9 +582,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => Reader<R, B>
-) => <S, E>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0
@@ -583,6 +597,18 @@ Added in v3.0.0
 export declare const fromReaderTaskEitherK: <A extends readonly unknown[], R, E, B>(
   f: (...a: A) => RTE.ReaderTaskEither<R, E, B>
 ) => <S>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## fromStateK
+
+**Signature**
+
+```ts
+export declare const fromStateK: <A extends readonly unknown[], S, B>(
+  f: (...a: A) => State<S, B>
+) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v3.0.0

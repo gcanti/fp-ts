@@ -740,7 +740,9 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderK =
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
   fromReaderK_(FromReader)
 
@@ -748,7 +750,9 @@ export const fromReaderK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK =
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
 

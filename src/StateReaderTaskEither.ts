@@ -26,7 +26,15 @@ import {
   FromReader4,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { FromState4, get as get_, gets as gets_, modify as modify_, put as put_ } from './FromState'
+import {
+  FromState4,
+  get as get_,
+  gets as gets_,
+  modify as modify_,
+  put as put_,
+  fromStateK as fromStateK_,
+  chainStateK as chainStateK_
+} from './FromState'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -185,54 +193,6 @@ export const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTa
  * @since 3.0.0
  */
 export const fromState: <S, A, R, E = never>(ma: State<S, A>) => StateReaderTaskEither<S, R, E, A> = rightState
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export const FromState: FromState4<URI> = {
-  fromState
-}
-
-/**
- * Get the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
-  /*#__PURE__*/
-  get_(FromState)
-
-/**
- * Set the state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  put_(FromState)
-
-/**
- * Modify the state by applying a function to the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  modify_(FromState)
-
-/**
- * Get a value which depends on the current state
- *
- * @category constructors
- * @since 3.0.0
- */
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  gets_(FromState)
 
 /**
  * @category constructors
@@ -564,6 +524,74 @@ export const Chain: Chain4<URI> = {
  * @category instances
  * @since 3.0.0
  */
+export const FromState: FromState4<URI> = {
+  fromState
+}
+
+/**
+ * Get the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
+  /*#__PURE__*/
+  get_(FromState)
+
+/**
+ * Set the state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  put_(FromState)
+
+/**
+ * Modify the state by applying a function to the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  modify_(FromState)
+
+/**
+ * Get a value which depends on the current state
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  gets_(FromState)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
+  f: (...a: A) => State<S, B>
+) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  fromStateK_(FromState)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  chainStateK_(FromState, Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const Monad: Monad4<URI> = {
   map,
   of,
@@ -692,7 +720,9 @@ export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderK =
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
   fromReaderK_(FromReader)
 
@@ -700,7 +730,9 @@ export const fromReaderK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK =
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
 

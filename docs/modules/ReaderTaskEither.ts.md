@@ -404,7 +404,7 @@ Added in v3.0.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -542,7 +542,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => <E>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

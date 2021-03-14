@@ -7,7 +7,7 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
-import { State } from '../src/State'
+import * as S from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -164,13 +164,13 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('rightState', async () => {
-    const s: State<unknown, number> = (s) => [1, s]
+    const s: S.State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.rightState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
   })
 
   it('leftState', async () => {
-    const s: State<unknown, number> = (s) => [1, s]
+    const s: S.State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.leftState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.left(1))
   })
@@ -182,7 +182,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromState', async () => {
-    const s: State<unknown, number> = (s) => [1, s]
+    const s: S.State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
   })
@@ -349,5 +349,18 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('a'))
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+  })
+
+  it('fromStateK', async () => {
+    const ma = _.fromStateK((n: number): S.State<number, number> => (s) => [n * 2, s + 1])
+    U.deepStrictEqual(await ma(3)(2)({})(), E.right([6, 3] as const))
+  })
+
+  it('chainStateK', async () => {
+    const f = _.chainStateK((n: number): S.State<number, number> => (s) => [n * 2, s + 1])
+    const right: _.StateReaderTaskEither<number, unknown, never, number> = _.right(3)
+    U.deepStrictEqual(await pipe(right, f)(2)({})(), E.right([6, 3] as const))
+    const left: _.StateReaderTaskEither<number, unknown, string, number> = _.left('a')
+    U.deepStrictEqual(await pipe(left, f)(2)({})(), E.left('a'))
   })
 })
