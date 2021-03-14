@@ -18,6 +18,8 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0-rc.5
 
 - **Breaking Change** (with respect to `2.10.0-rc`)
+  - `ReaderT`
+    - remove `ask`, `asks`
   - `OptionT`
     - rename `none` to `zero` and change signature
   - `Semigroup`

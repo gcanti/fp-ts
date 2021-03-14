@@ -60,17 +60,13 @@ export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
  * @category constructors
  * @since 2.3.0
  */
-export const ask: <R>() => ReaderTask<R, R> =
-  /*#__PURE__*/
-  RT.ask(T.Pointed)
+export const ask = <R>(): ReaderTask<R, R> => T.of
 
 /**
  * @category constructors
  * @since 2.3.0
  */
-export const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A> =
-  /*#__PURE__*/
-  RT.asks(T.Pointed)
+export const asks = <R, A = never>(f: (r: R) => A): ReaderTask<R, A> => flow(f, T.of)
 
 /**
  * @category constructors

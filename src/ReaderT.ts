@@ -131,38 +131,6 @@ export function chain<M>(
 /**
  * @since 2.10.0
  */
-export function ask<F extends URIS4>(F: Pointed4<F>): <R, S, FR, FE>() => Reader<R, Kind4<F, S, FR, FE, R>>
-export function ask<F extends URIS3>(F: Pointed3<F>): <R, FR, FE>() => Reader<R, Kind3<F, FR, FE, R>>
-export function ask<F extends URIS3, FE>(F: Pointed3C<F, FE>): <R, FR>() => Reader<R, Kind3<F, FR, FE, R>>
-export function ask<F extends URIS2>(F: Pointed2<F>): <R, FE>() => Reader<R, Kind2<F, FE, R>>
-export function ask<F extends URIS2, FE>(F: Pointed2C<F, FE>): <R>() => Reader<R, Kind2<F, FE, R>>
-export function ask<F extends URIS>(F: Pointed1<F>): <R>() => Reader<R, Kind<F, R>>
-export function ask<F>(F: Pointed<F>): <R>() => Reader<R, HKT<F, R>>
-export function ask<F>(F: Pointed<F>): <R>() => Reader<R, HKT<F, R>> {
-  return () => F.of
-}
-
-/**
- * @since 2.10.0
- */
-export function asks<F extends URIS4>(
-  F: Pointed4<F>
-): <R, A, S, FR, FE>(f: (r: R) => A) => Reader<R, Kind4<F, S, FR, FE, A>>
-export function asks<F extends URIS3>(F: Pointed3<F>): <R, A, FR, FE>(f: (r: R) => A) => Reader<R, Kind3<F, FR, FE, A>>
-export function asks<F extends URIS3, FE>(
-  F: Pointed3C<F, FE>
-): <R, A, FR>(f: (r: R) => A) => Reader<R, Kind3<F, FR, FE, A>>
-export function asks<F extends URIS2>(F: Pointed2<F>): <R, A, FE>(f: (r: R) => A) => Reader<R, Kind2<F, FE, A>>
-export function asks<F extends URIS2, FE>(F: Pointed2C<F, FE>): <R, A>(f: (r: R) => A) => Reader<R, Kind2<F, FE, A>>
-export function asks<F extends URIS>(F: Pointed1<F>): <R, A>(f: (r: R) => A) => Reader<R, Kind<F, A>>
-export function asks<F>(F: Pointed<F>): <R, A>(f: (r: R) => A) => Reader<R, HKT<F, A>>
-export function asks<F>(F: Pointed<F>): <R, A>(f: (r: R) => A) => Reader<R, HKT<F, A>> {
-  return (f) => flow(f, F.of)
-}
-
-/**
- * @since 2.10.0
- */
 export function fromReader<F extends URIS4>(
   F: Pointed4<F>
 ): <R, A, S, FR, FE>(ma: Reader<R, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -334,8 +302,8 @@ export function getReaderM<M>(M: Monad<M>): ReaderM<M> {
     ap: (fab, fa) => pipe(fab, _ap(fa)),
     of: of(M),
     chain: (ma, f) => pipe(ma, _chain(f)),
-    ask: ask(M),
-    asks: asks(M),
+    ask: () => M.of,
+    asks: (f) => flow(f, M.of),
     local: (ma, f) => (q) => ma(f(q)),
     fromReader: fromReader(M),
     fromM: (ma) => () => ma

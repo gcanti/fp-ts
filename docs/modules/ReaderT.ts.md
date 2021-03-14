@@ -18,8 +18,6 @@ Added in v2.0.0
   - [~~ReaderT~~ (interface)](#readert-interface)
 - [utils](#utils)
   - [ap](#ap)
-  - [ask](#ask)
-  - [asks](#asks)
   - [chain](#chain)
   - [fromReader](#fromreader)
   - [map](#map)
@@ -110,46 +108,6 @@ export declare function ap<F extends URIS>(
 export declare function ap<F>(
   F: Apply<F>
 ): <R, A>(fa: Reader<R, HKT<F, A>>) => <B>(fab: Reader<R, HKT<F, (a: A) => B>>) => Reader<R, HKT<F, B>>
-```
-
-Added in v2.10.0
-
-## ask
-
-**Signature**
-
-```ts
-export declare function ask<F extends URIS4>(F: Pointed4<F>): <R, S, FR, FE>() => Reader<R, Kind4<F, S, FR, FE, R>>
-export declare function ask<F extends URIS3>(F: Pointed3<F>): <R, FR, FE>() => Reader<R, Kind3<F, FR, FE, R>>
-export declare function ask<F extends URIS3, FE>(F: Pointed3C<F, FE>): <R, FR>() => Reader<R, Kind3<F, FR, FE, R>>
-export declare function ask<F extends URIS2>(F: Pointed2<F>): <R, FE>() => Reader<R, Kind2<F, FE, R>>
-export declare function ask<F extends URIS2, FE>(F: Pointed2C<F, FE>): <R>() => Reader<R, Kind2<F, FE, R>>
-export declare function ask<F extends URIS>(F: Pointed1<F>): <R>() => Reader<R, Kind<F, R>>
-export declare function ask<F>(F: Pointed<F>): <R>() => Reader<R, HKT<F, R>>
-```
-
-Added in v2.10.0
-
-## asks
-
-**Signature**
-
-```ts
-export declare function asks<F extends URIS4>(
-  F: Pointed4<F>
-): <R, A, S, FR, FE>(f: (r: R) => A) => Reader<R, Kind4<F, S, FR, FE, A>>
-export declare function asks<F extends URIS3>(
-  F: Pointed3<F>
-): <R, A, FR, FE>(f: (r: R) => A) => Reader<R, Kind3<F, FR, FE, A>>
-export declare function asks<F extends URIS3, FE>(
-  F: Pointed3C<F, FE>
-): <R, A, FR>(f: (r: R) => A) => Reader<R, Kind3<F, FR, FE, A>>
-export declare function asks<F extends URIS2>(F: Pointed2<F>): <R, A, FE>(f: (r: R) => A) => Reader<R, Kind2<F, FE, A>>
-export declare function asks<F extends URIS2, FE>(
-  F: Pointed2C<F, FE>
-): <R, A>(f: (r: R) => A) => Reader<R, Kind2<F, FE, A>>
-export declare function asks<F extends URIS>(F: Pointed1<F>): <R, A>(f: (r: R) => A) => Reader<R, Kind<F, A>>
-export declare function asks<F>(F: Pointed<F>): <R, A>(f: (r: R) => A) => Reader<R, HKT<F, A>>
 ```
 
 Added in v2.10.0
