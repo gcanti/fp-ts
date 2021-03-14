@@ -1,0 +1,107 @@
+---
+title: FromThese.ts
+nav_order: 39
+parent: Modules
+---
+
+## FromThese overview
+
+The `FromThese` type class represents those data types which support errors and warnings.
+
+Added in v3.0.0
+
+---
+
+<h2 class="text-delta">Table of contents</h2>
+
+- [type classes](#type-classes)
+  - [FromThese (interface)](#fromthese-interface)
+  - [FromThese2 (interface)](#fromthese2-interface)
+  - [FromThese2C (interface)](#fromthese2c-interface)
+  - [FromThese3 (interface)](#fromthese3-interface)
+  - [FromThese3C (interface)](#fromthese3c-interface)
+  - [FromThese4 (interface)](#fromthese4-interface)
+
+---
+
+# type classes
+
+## FromThese (interface)
+
+**Signature**
+
+```ts
+export interface FromThese<F> {
+  readonly URI?: F
+  readonly fromThese: <E, A>(e: These<E, A>) => HKT2<F, E, A>
+}
+```
+
+Added in v3.0.0
+
+## FromThese2 (interface)
+
+**Signature**
+
+```ts
+export interface FromThese2<F extends URIS2> {
+  readonly URI?: F
+  readonly fromThese: <E, A>(e: These<E, A>) => Kind2<F, E, A>
+}
+```
+
+Added in v3.0.0
+
+## FromThese2C (interface)
+
+**Signature**
+
+```ts
+export interface FromThese2C<F extends URIS2, E> {
+  readonly URI?: F
+  readonly _E?: E
+  readonly fromThese: <A>(e: These<E, A>) => Kind2<F, E, A>
+}
+```
+
+Added in v3.0.0
+
+## FromThese3 (interface)
+
+**Signature**
+
+```ts
+export interface FromThese3<F extends URIS3> {
+  readonly URI?: F
+  readonly fromThese: <E, A, R>(e: These<E, A>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## FromThese3C (interface)
+
+**Signature**
+
+```ts
+export interface FromThese3C<F extends URIS3, E> {
+  readonly URI?: F
+  readonly _E?: E
+  readonly fromThese: <A, R>(e: These<E, A>) => Kind3<F, R, E, A>
+}
+```
+
+Added in v3.0.0
+
+## FromThese4 (interface)
+
+**Signature**
+
+```ts
+export interface FromThese4<F extends URIS4> {
+  readonly URI?: F
+  readonly fromThese: <E, A, S, R>(e: These<E, A>) => Kind4<F, S, R, E, A>
+}
+```
+
+Added in v3.0.0

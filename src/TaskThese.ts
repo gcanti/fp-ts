@@ -13,6 +13,7 @@ import {
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
+import { FromThese2 } from './FromThese'
 import { flow } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -106,6 +107,12 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
  * @since 3.0.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromThese: FromThese2<URI>['fromThese'] = T.of
 
 /**
  * @category constructors
@@ -326,6 +333,14 @@ export const fromOptionK =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromThese: FromThese2<URI> = {
+  fromThese
+}
 
 /**
  * @category instances

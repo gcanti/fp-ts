@@ -32,6 +32,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
+import { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -513,6 +514,14 @@ export const fromOptionK =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromThese: FromThese2<URI> = {
+  fromThese: identity
+}
 
 /**
  * @category instances
