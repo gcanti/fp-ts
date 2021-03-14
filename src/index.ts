@@ -56,6 +56,7 @@ import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
+import * as object from './object'
 import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
@@ -312,6 +313,10 @@ export {
    * @since 3.0.0
    */
   number,
+  /**
+   * @since 3.0.0
+   */
+  object,
   /**
    * @since 3.0.0
    */

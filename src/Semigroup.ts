@@ -217,28 +217,6 @@ export const last = <A = never>(): Semigroup<A> => ({
   concat: (a) => () => a
 })
 
-/**
- * Return a semigroup which works like `Object.assign`.
- *
- * @example
- * import * as S from 'fp-ts/Semigroup'
- * import { pipe } from 'fp-ts/function'
- *
- * interface Person {
- *   name: string
- *   age: number
- * }
- *
- * const S1 = S.assign<Person>()
- * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
- *
- * @category instances
- * @since 3.0.0
- */
-export const assign = <A extends object = never>(): Semigroup<A> => ({
-  concat: (second) => (first) => Object.assign({}, first, second)
-})
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
