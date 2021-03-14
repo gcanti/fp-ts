@@ -27,6 +27,7 @@ Added in v3.0.0
   - [Predicate (interface)](#predicate-interface)
   - [Refinement (interface)](#refinement-interface)
   - [absurd](#absurd)
+  - [apply](#apply)
   - [constFalse](#constfalse)
   - [constNull](#constnull)
   - [constTrue](#consttrue)
@@ -246,6 +247,16 @@ Added in v3.0.0
 
 ```ts
 export declare const absurd: <A>(_: never) => A
+```
+
+Added in v3.0.0
+
+## apply
+
+**Signature**
+
+```ts
+export declare const apply: <A>(a: A) => <B>(f: (a: A) => B) => B
 ```
 
 Added in v3.0.0

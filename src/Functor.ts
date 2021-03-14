@@ -11,7 +11,7 @@
  *
  * @since 3.0.0
  */
-import { tuple } from './function'
+import { tuple, apply } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
@@ -103,7 +103,7 @@ export function flap<F extends URIS2>(
 export function flap<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
 export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
 export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B> {
-  return (a) => F.map((f) => f(a))
+  return (a) => F.map(apply(a))
 }
 
 /**
