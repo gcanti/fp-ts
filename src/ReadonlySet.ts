@@ -3,15 +3,16 @@
  */
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
-import { identity, not, Predicate, Refinement } from './function'
+import { identity, Refinement } from './function'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
+import { not, Predicate } from './Predicate'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
-import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -54,7 +55,7 @@ export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): Readon
  * If no, inserts the value to the set
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>) => {
   const elemE = elem(E)

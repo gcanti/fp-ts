@@ -28,7 +28,8 @@ export const getBooleanAlgebra = <B>(BA: BooleanAlgebra<B>) => <A = never>(): Bo
  * Unary functions form a semigroup as long as you can provide a semigroup for the codomain.
  *
  * @example
- * import { Predicate, pipe, getSemigroup } from 'fp-ts/function'
+ * import { Predicate } from 'fp-ts/Predicate'
+ * import { pipe, getSemigroup } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
@@ -150,13 +151,6 @@ export interface Lazy<A> {
 /**
  * @since 3.0.0
  */
-export interface Predicate<A> {
-  (a: A): boolean
-}
-
-/**
- * @since 3.0.0
- */
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
@@ -189,11 +183,6 @@ export const identity = <A>(a: A): A => a
  * @since 3.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
-
-/**
- * @since 3.0.0
- */
-export const not = <A>(predicate: Predicate<A>): Predicate<A> => (a) => !predicate(a)
 
 /**
  * @since 3.0.0

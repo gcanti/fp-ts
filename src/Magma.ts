@@ -6,7 +6,8 @@
  * @since 3.0.0
  */
 
-import { Endomorphism, Predicate } from './function'
+import { Endomorphism } from './function'
+import { Predicate } from './Predicate'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -11,9 +11,10 @@
  */
 import { Contravariant1 } from './Contravariant'
 import { Eq } from './Eq'
-import { Endomorphism, flow, Predicate } from './function'
+import { Endomorphism, flow } from './function'
 import { Monoid } from './Monoid'
 import { Ordering } from './Ordering'
+import { Predicate } from './Predicate'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------

@@ -24,12 +24,12 @@ import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import {
+  chainEitherK as chainEitherK_,
   FromEither1,
-  fromPredicate as fromPredicate_,
   fromEitherK as fromEitherK_,
-  chainEitherK as chainEitherK_
+  fromPredicate as fromPredicate_
 } from './FromEither'
-import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { constNull, constUndefined, flow, identity, Lazy, pipe, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -37,6 +37,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
+import { Predicate } from './Predicate'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'

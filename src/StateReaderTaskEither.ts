@@ -7,7 +7,6 @@ import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import { Either } from './Either'
-import * as _ from './internal'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -25,12 +24,14 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { flow, identity, pipe, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
 import { Pointed4 } from './Pointed'
+import { Predicate } from './Predicate'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'

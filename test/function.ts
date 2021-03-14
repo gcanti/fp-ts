@@ -15,13 +15,6 @@ describe('function', () => {
     U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
   })
 
-  it('not', () => {
-    const n = _.not(Boolean)
-    U.deepStrictEqual(n(false), true)
-    U.deepStrictEqual(n(1), false)
-    U.deepStrictEqual(n(''), true)
-  })
-
   it('unsafeCoerce', () => {
     U.deepStrictEqual(_.unsafeCoerce, _.identity)
   })

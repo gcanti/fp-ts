@@ -62,6 +62,7 @@ import * as optionT from './OptionT'
 import * as ord from './Ord'
 import * as ordering from './Ordering'
 import * as pointed from './Pointed'
+import * as predicate from './Predicate'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
@@ -338,6 +339,10 @@ export {
    * @since 3.0.0
    */
   pointed,
+  /**
+   * @since 3.0.0
+   */
+  predicate,
   /**
    * @since 3.0.0
    */
