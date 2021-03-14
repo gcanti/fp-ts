@@ -16,9 +16,6 @@ describe('object', () => {
       bar: '123'
     }
     const S = _.getAssignSemigroup<T>()
-    const result = pipe(foo, S.concat(bar))
-    const expected = Object.assign({}, foo, bar)
-    U.deepStrictEqual(result.foo, expected.foo)
-    U.deepStrictEqual(result.bar, expected.bar)
+    U.deepStrictEqual(pipe(foo, S.concat(bar)), Object.assign({}, foo, bar))
   })
 })

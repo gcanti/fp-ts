@@ -11,29 +11,20 @@ import { Semigroup } from './Semigroup'
  * Return a semigroup which works like `Object.assign`.
  *
  * @example
- * import { assign } from 'fp-ts/object'
+ * import { getAssignSemigroup } from 'fp-ts/object'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
- *   name: string
- *   age: number
+ *   readonly name: string
+ *   readonly age: number
  * }
  *
- * const S = assign<Person>()
+ * const S = getAssignSemigroup<Person>()
  * assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
  *
  * @category instances
  * @since 3.0.0
  */
 export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
-  concat: assign
+  concat: (second) => (first) => Object.assign({}, first, second)
 })
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
-/**
- * @since 3.0.0
- */
-export const assign = <A extends object>(second: A) => (first: A): A => Object.assign({}, first, second)
