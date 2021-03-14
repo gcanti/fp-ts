@@ -24,12 +24,8 @@ Added in v2.0.0
   - [execute](#execute)
   - [fromF](#fromf)
   - [fromState](#fromstate)
-  - [get](#get)
-  - [gets](#gets)
   - [map](#map)
-  - [modify](#modify)
   - [of](#of)
-  - [put](#put)
   - [~~StateM1~~ (interface)](#statem1-interface)
   - [~~StateM2C~~ (interface)](#statem2c-interface)
   - [~~StateM2~~ (interface)](#statem2-interface)
@@ -232,38 +228,6 @@ export declare function fromState<F>(F: Pointed<F>): <S, A>(sa: State<S, A>) => 
 
 Added in v2.10.0
 
-## get
-
-**Signature**
-
-```ts
-export declare function get<F extends URIS3>(F: Pointed3<F>): <S, R, E>() => StateT3<F, S, R, E, S>
-export declare function get<F extends URIS3, E>(F: Pointed3C<F, E>): <S, R>() => StateT3<F, S, R, E, S>
-export declare function get<F extends URIS2>(F: Pointed2<F>): <S, E>() => StateT2<F, S, E, S>
-export declare function get<F extends URIS2, E>(F: Pointed2C<F, E>): <S>() => StateT2<F, S, E, S>
-export declare function get<F extends URIS>(F: Pointed1<F>): <S>() => StateT1<F, S, S>
-export declare function get<F>(F: Pointed<F>): <S>() => StateT<F, S, S>
-```
-
-Added in v2.10.0
-
-## gets
-
-**Signature**
-
-```ts
-export declare function gets<F extends URIS3>(F: Pointed3<F>): <S, A, R, E>(f: (s: S) => A) => StateT3<F, S, R, E, A>
-export declare function gets<F extends URIS3, E>(
-  F: Pointed3C<F, E>
-): <S, A, R>(f: (s: S) => A) => StateT3<F, S, R, E, A>
-export declare function gets<F extends URIS2>(F: Pointed2<F>): <S, A, E>(f: (s: S) => A) => StateT2<F, S, E, A>
-export declare function gets<F extends URIS2, E>(F: Pointed2C<F, E>): <S, A>(f: (s: S) => A) => StateT2<F, S, E, A>
-export declare function gets<F extends URIS>(F: Pointed1<F>): <S, A>(f: (s: S) => A) => StateT1<F, S, A>
-export declare function gets<F>(F: Pointed<F>): <S, A>(f: (s: S) => A) => StateT<F, S, A>
-```
-
-Added in v2.10.0
-
 ## map
 
 **Signature**
@@ -289,27 +253,6 @@ export declare function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <S>(fa:
 
 Added in v2.10.0
 
-## modify
-
-**Signature**
-
-```ts
-export declare function modify<F extends URIS3>(
-  F: Pointed3<F>
-): <S, R, E>(f: Endomorphism<S>) => StateT3<F, S, R, E, void>
-export declare function modify<F extends URIS3, E>(
-  F: Pointed3C<F, E>
-): <S, R>(f: Endomorphism<S>) => StateT3<F, S, R, E, void>
-export declare function modify<F extends URIS2>(F: Pointed2<F>): <S, E>(f: Endomorphism<S>) => StateT2<F, S, E, void>
-export declare function modify<F extends URIS2, E>(
-  F: Pointed2C<F, E>
-): <S>(f: Endomorphism<S>) => StateT2<F, S, E, void>
-export declare function modify<F extends URIS>(F: Pointed1<F>): <S>(f: Endomorphism<S>) => StateT1<F, S, void>
-export declare function modify<F>(F: Pointed<F>): <S>(f: Endomorphism<S>) => StateT<F, S, void>
-```
-
-Added in v2.10.0
-
 ## of
 
 **Signature**
@@ -321,21 +264,6 @@ export declare function of<F extends URIS2>(F: Pointed2<F>): <A, S, E>(a: A) => 
 export declare function of<F extends URIS2, E>(F: Pointed2C<F, E>): <A, S>(a: A) => StateT2<F, S, E, A>
 export declare function of<F extends URIS>(F: Pointed1<F>): <A, S>(a: A) => StateT1<F, S, A>
 export declare function of<F>(F: Pointed<F>): <A, S>(a: A) => StateT<F, S, A>
-```
-
-Added in v2.10.0
-
-## put
-
-**Signature**
-
-```ts
-export declare function put<F extends URIS3>(F: Pointed3<F>): <S, R, E>(s: S) => StateT3<F, S, R, E, void>
-export declare function put<F extends URIS3, E>(F: Pointed3C<F, E>): <S, R>(s: S) => StateT3<F, S, R, E, void>
-export declare function put<F extends URIS2>(F: Pointed2<F>): <S, E>(s: S) => StateT2<F, S, E, void>
-export declare function put<F extends URIS2, E>(F: Pointed2C<F, E>): <S>(s: S) => StateT2<F, S, E, void>
-export declare function put<F extends URIS>(F: Pointed1<F>): <S>(s: S) => StateT1<F, S, void>
-export declare function put<F>(F: Pointed<F>): <S>(s: S) => StateT<F, S, void>
 ```
 
 Added in v2.10.0

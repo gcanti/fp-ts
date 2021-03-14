@@ -2,7 +2,7 @@
  * @since 2.0.0
  */
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
-import { Endomorphism, pipe } from './function'
+import { pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
@@ -129,58 +129,6 @@ export function chain<M>(
   M: Chain<M>
 ): <A, S, B>(f: (a: A) => StateT<M, S, B>) => (ma: StateT<M, S, A>) => StateT<M, S, B> {
   return (f) => (ma) => (s) => M.chain(ma(s), ([a, s1]) => f(a)(s1))
-}
-
-/**
- * @since 2.10.0
- */
-export function get<F extends URIS3>(F: Pointed3<F>): <S, R, E>() => StateT3<F, S, R, E, S>
-export function get<F extends URIS3, E>(F: Pointed3C<F, E>): <S, R>() => StateT3<F, S, R, E, S>
-export function get<F extends URIS2>(F: Pointed2<F>): <S, E>() => StateT2<F, S, E, S>
-export function get<F extends URIS2, E>(F: Pointed2C<F, E>): <S>() => StateT2<F, S, E, S>
-export function get<F extends URIS>(F: Pointed1<F>): <S>() => StateT1<F, S, S>
-export function get<F>(F: Pointed<F>): <S>() => StateT<F, S, S>
-export function get<F>(F: Pointed<F>): <S>() => StateT<F, S, S> {
-  return () => (s) => F.of([s, s])
-}
-
-/**
- * @since 2.10.0
- */
-export function put<F extends URIS3>(F: Pointed3<F>): <S, R, E>(s: S) => StateT3<F, S, R, E, void>
-export function put<F extends URIS3, E>(F: Pointed3C<F, E>): <S, R>(s: S) => StateT3<F, S, R, E, void>
-export function put<F extends URIS2>(F: Pointed2<F>): <S, E>(s: S) => StateT2<F, S, E, void>
-export function put<F extends URIS2, E>(F: Pointed2C<F, E>): <S>(s: S) => StateT2<F, S, E, void>
-export function put<F extends URIS>(F: Pointed1<F>): <S>(s: S) => StateT1<F, S, void>
-export function put<F>(F: Pointed<F>): <S>(s: S) => StateT<F, S, void>
-export function put<F>(F: Pointed<F>): <S>(s: S) => StateT<F, S, void> {
-  return (s) => () => F.of([undefined, s])
-}
-
-/**
- * @since 2.10.0
- */
-export function modify<F extends URIS3>(F: Pointed3<F>): <S, R, E>(f: Endomorphism<S>) => StateT3<F, S, R, E, void>
-export function modify<F extends URIS3, E>(F: Pointed3C<F, E>): <S, R>(f: Endomorphism<S>) => StateT3<F, S, R, E, void>
-export function modify<F extends URIS2>(F: Pointed2<F>): <S, E>(f: Endomorphism<S>) => StateT2<F, S, E, void>
-export function modify<F extends URIS2, E>(F: Pointed2C<F, E>): <S>(f: Endomorphism<S>) => StateT2<F, S, E, void>
-export function modify<F extends URIS>(F: Pointed1<F>): <S>(f: Endomorphism<S>) => StateT1<F, S, void>
-export function modify<F>(F: Pointed<F>): <S>(f: Endomorphism<S>) => StateT<F, S, void>
-export function modify<F>(F: Pointed<F>): <S>(f: Endomorphism<S>) => StateT<F, S, void> {
-  return (f) => (s) => F.of([undefined, f(s)])
-}
-
-/**
- * @since 2.10.0
- */
-export function gets<F extends URIS3>(F: Pointed3<F>): <S, A, R, E>(f: (s: S) => A) => StateT3<F, S, R, E, A>
-export function gets<F extends URIS3, E>(F: Pointed3C<F, E>): <S, A, R>(f: (s: S) => A) => StateT3<F, S, R, E, A>
-export function gets<F extends URIS2>(F: Pointed2<F>): <S, A, E>(f: (s: S) => A) => StateT2<F, S, E, A>
-export function gets<F extends URIS2, E>(F: Pointed2C<F, E>): <S, A>(f: (s: S) => A) => StateT2<F, S, E, A>
-export function gets<F extends URIS>(F: Pointed1<F>): <S, A>(f: (s: S) => A) => StateT1<F, S, A>
-export function gets<F>(F: Pointed<F>): <S, A>(f: (s: S) => A) => StateT<F, S, A>
-export function gets<F>(F: Pointed<F>): <S, A>(f: (s: S) => A) => StateT<F, S, A> {
-  return (f) => (s) => F.of([f(s), s])
 }
 
 /**
@@ -409,10 +357,10 @@ export function getStateM<M>(M: Monad<M>): StateM<M> {
     ap: (fab, fa) => pipe(fab, _ap(fa)),
     of: of(M),
     chain: (ma, f) => pipe(ma, _chain(f)),
-    get: get(M),
-    put: put(M),
-    modify: modify(M),
-    gets: gets(M),
+    get: () => (s) => M.of([s, s]),
+    put: (s) => () => M.of([undefined, s]),
+    modify: (f) => (s) => M.of([undefined, f(s)]),
+    gets: (f) => (s) => M.of([f(s), s]),
     fromState: fromState(M),
     fromM: fromF(M),
     evalState: (fa, s) => pipe(fa, _evaluate(s)),

@@ -18,12 +18,14 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0-rc.5
 
 - **Breaking Change** (with respect to `2.10.0-rc`)
-  - `ReaderT`
-    - remove `ask`, `asks`
   - `OptionT`
     - rename `none` to `zero` and change signature
+  - `ReaderT`
+    - remove `ask`, `asks` (they will be derived from the `FromReader` type-class in `2.11`)
   - `Semigroup`
     - move `assign` to `object` module and rename to `getAssignSemigroup`
+  - `ReaderT`
+    - remove `get`, `put`, `modify`, `gets` (they will be derived from the `FromState` type-class in `2.11`)
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)

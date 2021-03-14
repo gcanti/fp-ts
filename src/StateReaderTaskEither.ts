@@ -175,9 +175,7 @@ export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) =
  * @category constructors
  * @since 2.0.0
  */
-export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
-  /*#__PURE__*/
-  ST.get(RTE.Pointed)
+export const get = <S, R, E = never>(): StateReaderTaskEither<S, R, E, S> => (s) => RTE.of([s, s])
 
 /**
  * Set the state
@@ -185,9 +183,7 @@ export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
  * @category constructors
  * @since 2.0.0
  */
-export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  ST.put(RTE.Pointed)
+export const put = <S, R, E = never>(s: S): StateReaderTaskEither<S, R, E, void> => () => RTE.of([undefined, s])
 
 /**
  * Modify the state by applying a function to the current state
@@ -195,9 +191,8 @@ export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void
  * @category constructors
  * @since 2.0.0
  */
-export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  ST.modify(RTE.Pointed)
+export const modify = <S, R, E = never>(f: (s: S) => S): StateReaderTaskEither<S, R, E, void> => (s) =>
+  RTE.of([undefined, f(s)])
 
 /**
  * Get a value which depends on the current state
@@ -205,9 +200,8 @@ export const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<
  * @category constructors
  * @since 2.0.0
  */
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  ST.gets(RTE.Pointed)
+export const gets = <S, R, E = never, A = never>(f: (s: S) => A): StateReaderTaskEither<S, R, E, A> => (s) =>
+  RTE.of([f(s), s])
 
 /**
  * @category constructors
