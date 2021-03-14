@@ -54,11 +54,14 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [fromState](#fromstate)
@@ -91,6 +94,7 @@ Added in v3.0.0
   - [Chain](#chain-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -582,6 +586,30 @@ Added in v3.0.0
 
 # constructors
 
+## ask
+
+Reads the current context.
+
+**Signature**
+
+```ts
+export declare const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R>
+```
+
+Added in v3.0.0
+
+## asks
+
+Projects a value from the global context in a `ReaderEither`.
+
+**Signature**
+
+```ts
+export declare const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
 ## fromEither
 
 **Signature**
@@ -635,6 +663,16 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <S, R>(a: A) => StateReaderTaskEither<S, R, A, B>
   <A>(predicate: Predicate<A>): <S, R>(a: A) => StateReaderTaskEither<S, R, A, A>
 }
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A, S, E>(fa: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -972,6 +1010,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIO: FromIO4<'StateReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader4<'StateReaderTaskEither'>
 ```
 
 Added in v3.0.0

@@ -29,6 +29,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
+import { ask as ask_, asks as asks_, FromReader3 } from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -176,13 +177,7 @@ export const leftIO: <E, R, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> = () => TE.right
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> = (f) => flow(TE.right, TE.map(f))
+export const fromReader: FromReader3<URI>['fromReader'] = rightReader
 
 /**
  * @category constructors
@@ -706,6 +701,34 @@ export const chainTaskK =
 export const chainFirstTaskK =
   /*#__PURE__*/
   chainFirstTaskK_(FromTask, Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader3<URI> = {
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const ask: <R, E = never>() => ReaderTaskEither<R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
 
 /**
  * @category instances

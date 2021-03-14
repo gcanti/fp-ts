@@ -5,6 +5,7 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import { ask as ask_, asks as asks_, FromReader2 } from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -47,14 +48,6 @@ export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader =
-  /*#__PURE__*/
-  RT.fromReader(T.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const fromIO: FromIO2<URI>['fromIO'] =
   /*#__PURE__*/
   flow(T.fromIO, fromTask)
@@ -63,17 +56,9 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  * @category constructors
  * @since 3.0.0
  */
-export const ask =
+export const fromReader: FromReader2<URI>['fromReader'] =
   /*#__PURE__*/
-  RT.ask(T.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asks =
-  /*#__PURE__*/
-  RT.asks(T.Pointed)
+  RT.fromReader(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -320,6 +305,34 @@ export const chainIOK =
 export const chainFirstIOK =
   /*#__PURE__*/
   chainFirstIOK_(FromIO, Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader2<URI> = {
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const ask =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderTask`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asks =
+  /*#__PURE__*/
+  asks_(FromReader)
 
 /**
  * @category instances

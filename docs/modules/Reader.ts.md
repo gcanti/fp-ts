@@ -51,6 +51,7 @@ Added in v3.0.0
   - [Category](#category-1)
   - [Chain](#chain-1)
   - [Choice](#choice-1)
+  - [FromReader](#fromreader)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
@@ -266,7 +267,7 @@ Added in v3.0.0
 
 ## ask
 
-Reads the current context
+Reads the current context.
 
 **Signature**
 
@@ -278,7 +279,7 @@ Added in v3.0.0
 
 ## asks
 
-Projects a value from the global context in a Reader
+Projects a value from the global context in a `Reader`.
 
 **Signature**
 
@@ -393,6 +394,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Choice: Choice2<'Reader'>
+```
+
+Added in v3.0.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader2<'Reader'>
 ```
 
 Added in v3.0.0

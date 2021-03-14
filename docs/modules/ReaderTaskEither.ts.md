@@ -61,6 +61,7 @@ Added in v3.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
@@ -94,6 +95,7 @@ Added in v3.0.0
   - [Chain](#chain-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -583,6 +585,8 @@ Added in v3.0.0
 
 ## ask
 
+Reads the current context.
+
 **Signature**
 
 ```ts
@@ -592,6 +596,8 @@ export declare const ask: <R, E = never>() => ReaderTaskEither<R, E, R>
 Added in v3.0.0
 
 ## asks
+
+Projects a value from the global context in a `ReaderEither`.
 
 **Signature**
 
@@ -654,6 +660,16 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderTaskEither<R, A, B>
   <A>(predicate: Predicate<A>): <R>(a: A) => ReaderTaskEither<R, A, A>
 }
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -997,6 +1013,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIO: FromIO3<'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader3<'ReaderTaskEither'>
 ```
 
 Added in v3.0.0

@@ -15,6 +15,7 @@ import { Semigroupoid2 } from './Semigroupoid'
 import * as E from './Either'
 import { Strong2 } from './Strong'
 import * as _ from './internal'
+import { FromReader2 } from './FromReader'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -33,7 +34,7 @@ export interface Reader<R, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Reads the current context
+ * Reads the current context.
  *
  * @category constructors
  * @since 3.0.0
@@ -41,7 +42,7 @@ export interface Reader<R, A> {
 export const ask: <R>() => Reader<R, R> = () => identity
 
 /**
- * Projects a value from the global context in a Reader
+ * Projects a value from the global context in a `Reader`.
  *
  * @category constructors
  * @since 3.0.0
@@ -178,6 +179,14 @@ declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly Reader: Reader<E, A>
   }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader2<URI> = {
+  fromReader: identity
 }
 
 /**

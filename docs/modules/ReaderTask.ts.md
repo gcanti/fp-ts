@@ -48,6 +48,7 @@ Added in v3.0.0
   - [ApplySeq](#applyseq)
   - [Chain](#chain-1)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
@@ -236,20 +237,24 @@ Added in v3.0.0
 
 ## ask
 
+Reads the current context.
+
 **Signature**
 
 ```ts
-export declare const ask: <R>() => R.Reader<R, T.Task<R>>
+export declare const ask: <R>() => ReaderTask<R, R>
 ```
 
 Added in v3.0.0
 
 ## asks
 
+Projects a value from the global context in a `ReaderTask`.
+
 **Signature**
 
 ```ts
-export declare const asks: <R, A>(f: (r: R) => A) => R.Reader<R, T.Task<A>>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -269,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(ma: R.Reader<R, A>) => R.Reader<R, T.Task<A>>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -401,6 +406,16 @@ Added in v3.0.0
 
 ```ts
 export declare const FromIO: FromIO2<'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader2<'ReaderTask'>
 ```
 
 Added in v3.0.0

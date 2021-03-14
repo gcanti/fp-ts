@@ -18,6 +18,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
+import { ask as ask_, asks as asks_, FromReader4 } from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -211,6 +212,12 @@ export const fromState =
  * @since 3.0.0
  */
 export const fromEither: FromEither4<URI>['fromEither'] = (e) => (_.isLeft(e) ? left(e.left) : right(e.right))
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromReader: FromReader4<URI>['fromReader'] = rightReader
 
 /**
  * @category constructors
@@ -637,6 +644,34 @@ export const chainTaskK =
 export const chainFirstTaskK =
   /*#__PURE__*/
   chainFirstTaskK_(FromTask, Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader4<URI> = {
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
 
 /**
  * @category instances

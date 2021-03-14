@@ -20,6 +20,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
+import { FromReader3, ask as ask_, asks as asks_ } from './FromReader'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
@@ -84,19 +85,13 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, 
  * @category constructors
  * @since 3.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => _.right
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, _.right)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const fromEither: FromEither3<URI>['fromEither'] = R.of
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -480,6 +475,34 @@ export const Alt: Alt3<URI> = {
   map,
   alt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader3<URI> = {
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const ask: <R, E = never>() => ReaderEither<R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
 
 /**
  * @category instances
