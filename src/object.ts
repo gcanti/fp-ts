@@ -3,11 +3,9 @@
  */
 import { Semigroup } from './Semigroup'
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const assign = <A extends object>(second: A) => (first: A): A => Object.assign({}, first, second)
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * Return a semigroup which works like `Object.assign`.
@@ -30,3 +28,12 @@ export const assign = <A extends object>(second: A) => (first: A): A => Object.a
 export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
   concat: assign
 })
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const assign = <A extends object>(second: A) => (first: A): A => Object.assign({}, first, second)

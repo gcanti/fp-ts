@@ -10,6 +10,10 @@ import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 import { Magma } from './Magma'
 
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
 /**
  * @category instances
  * @since 3.0.0
