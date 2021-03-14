@@ -151,13 +151,6 @@ export interface Lazy<A> {
 /**
  * @since 3.0.0
  */
-export interface Refinement<A, B extends A> {
-  (a: A): a is B
-}
-
-/**
- * @since 3.0.0
- */
 export interface Endomorphism<A> {
   (a: A): A
 }

@@ -29,7 +29,7 @@ import {
   fromEitherK as fromEitherK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { constNull, constUndefined, flow, identity, Lazy, pipe, Refinement } from './function'
+import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -38,6 +38,7 @@ import { Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'

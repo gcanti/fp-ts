@@ -32,7 +32,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { flow, identity, Lazy, pipe, Refinement } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -41,6 +41,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
