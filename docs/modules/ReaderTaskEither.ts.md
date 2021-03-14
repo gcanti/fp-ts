@@ -38,6 +38,7 @@ Added in v3.0.0
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainReaderK](#chainreaderk)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -48,6 +49,7 @@ Added in v3.0.0
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromReaderK](#fromreaderk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [orElse](#orelse)
@@ -395,6 +397,18 @@ export declare const chainOptionK: <E>(
 
 Added in v3.0.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
 ## chainTaskEitherK
 
 **Signature**
@@ -519,6 +533,16 @@ Added in v3.0.0
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => <E>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0

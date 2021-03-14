@@ -5,7 +5,13 @@ import { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { ask as ask_, asks as asks_, FromReader2 } from './FromReader'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader2,
+  fromReaderK as fromReaderK_
+} from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -333,6 +339,22 @@ export const ask =
 export const asks =
   /*#__PURE__*/
   asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromReaderK =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainReaderK =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

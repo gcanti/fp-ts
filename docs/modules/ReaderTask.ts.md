@@ -26,9 +26,11 @@ Added in v3.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
+  - [chainReaderK](#chainreaderk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [fromIOK](#fromiok)
+  - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -191,6 +193,16 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTa
 
 Added in v3.0.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
 ## chainTaskK
 
 **Signature**
@@ -219,6 +231,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => ReaderTask<E, B>
+```
+
+Added in v3.0.0
+
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0

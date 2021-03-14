@@ -19,8 +19,14 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
-import { ask as ask_, asks as asks_, FromReader4 } from './FromReader'
-import { FromState4, get as get_, put as put_, modify as modify_, gets as gets_ } from './FromState'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader4,
+  fromReaderK as fromReaderK_
+} from './FromReader'
+import { FromState4, get as get_, gets as gets_, modify as modify_, put as put_ } from './FromState'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -681,6 +687,22 @@ export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> =
 export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromReaderK =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainReaderK =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

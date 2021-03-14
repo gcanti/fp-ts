@@ -230,4 +230,15 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(Sep.left(s2)({}), E.left(''))
     U.deepStrictEqual(Sep.right(s2)({}), E.right(1))
   })
+
+  it('fromReaderK', () => {
+    const ma = _.fromReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(ma(3)(2), E.right(6))
+  })
+
+  it('chainReaderK', () => {
+    const f = _.chainReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(6))
+    U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
+  })
 })

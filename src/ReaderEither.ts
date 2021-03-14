@@ -20,10 +20,15 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromReader3, ask as ask_, asks as asks_ } from './FromReader'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader3,
+  fromReaderK as fromReaderK_
+} from './FromReader'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
-import * as _ from './internal'
 import { Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -503,6 +508,22 @@ export const ask: <R, E = never>() => ReaderEither<R, E, R> =
 export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromReaderK =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainReaderK =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

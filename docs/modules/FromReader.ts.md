@@ -14,6 +14,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [chainReaderK](#chainreaderk)
+  - [fromReaderK](#fromreaderk)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -25,6 +28,61 @@ Added in v3.0.0
   - [FromReader4 (interface)](#fromreader4-interface)
 
 ---
+
+# combinators
+
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare function chainReaderK<M extends URIS4>(
+  F: FromReader4<M>,
+  M: Chain4<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, E>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+export declare function chainReaderK<M extends URIS3>(
+  F: FromReader3<M>,
+  M: Chain3<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <E>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export declare function chainReaderK<M extends URIS3, E>(
+  F: FromReader3C<M, E>,
+  M: Chain3C<M, E>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+export declare function chainReaderK<M extends URIS2>(
+  F: FromReader2<M>,
+  M: Chain2<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind2<M, R, A>) => Kind2<M, R, B>
+export declare function chainReaderK<M>(
+  F: FromReader<M>,
+  M: Chain<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: HKT2<M, R, A>) => HKT2<M, R, B>
+```
+
+Added in v3.0.0
+
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare function fromReaderK<F extends URIS4>(
+  F: FromReader4<F>
+): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => <S, E>(...a: A) => Kind4<F, S, R, E, B>
+export declare function fromReaderK<F extends URIS3>(
+  F: FromReader3<F>
+): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => <E>(...a: A) => Kind3<F, R, E, B>
+export declare function fromReaderK<F extends URIS3, E>(
+  F: FromReader3C<F, E>
+): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => (...a: A) => Kind3<F, R, E, B>
+export declare function fromReaderK<F extends URIS2>(
+  F: FromReader2<F>
+): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => (...a: A) => Kind2<F, R, B>
+export declare function fromReaderK<F>(
+  F: FromReader<F>
+): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => (...a: A) => HKT2<F, R, B>
+```
+
+Added in v3.0.0
 
 # constructors
 
