@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 83
+nav_order: 84
 parent: Modules
 ---
 
@@ -64,7 +64,6 @@ Added in v2.0.0
   - [~~getJoinSemigroup~~](#getjoinsemigroup)
   - [~~getMeetSemigroup~~](#getmeetsemigroup)
 - [instances](#instances)
-  - [assign](#assign)
   - [first](#first)
   - [last](#last)
   - [semigroupVoid](#semigroupvoid)
@@ -330,32 +329,6 @@ Added in v2.0.0
 
 # instances
 
-## assign
-
-Return a semigroup which works like `Object.assign`.
-
-**Signature**
-
-```ts
-export declare const assign: <A extends object = never>() => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as Se from 'fp-ts/Semigroup'
-
-interface Person {
-  readonly name: string
-  readonly age: number
-}
-
-const S = Se.assign<Person>()
-assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
-```
-
-Added in v2.10.0
-
 ## first
 
 Always return the first argument.
@@ -444,7 +417,7 @@ Added in v2.0.0
 
 ## ~~getObjectSemigroup~~
 
-Use `assign` instead.
+Use `object.getAssignSemigroup` instead.
 
 **Signature**
 

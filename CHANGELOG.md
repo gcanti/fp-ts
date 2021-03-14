@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
 - **Breaking Change** (with respect to `2.10.0-rc`)
   - `OptionT`
     - rename `none` to `zero` and change signature
+  - `Semigroup`
+    - move `assign` to `object` module and rename to `getAssignSemigroup`
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
