@@ -2,7 +2,8 @@
  * @since 3.0.0
  */
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
-import { Endomorphism, flow, pipe } from './function'
+import { Endomorphism } from './Endomorphism'
+import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'

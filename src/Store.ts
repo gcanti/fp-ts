@@ -2,8 +2,9 @@
  * @since 3.0.0
  */
 import { Comonad2 } from './Comonad'
+import { Endomorphism } from './Endomorphism'
 import { Extend2 } from './Extend'
-import { Endomorphism, identity, pipe } from './function'
+import { identity, pipe } from './function'
 import {
   flap as flap_,
   Functor as Functor_,

@@ -10,8 +10,9 @@
  * @since 3.0.0
  */
 import { Contravariant1 } from './Contravariant'
+import { Endomorphism } from './Endomorphism'
 import { Eq } from './Eq'
-import { Endomorphism, flow } from './function'
+import { flow } from './function'
 import { Monoid } from './Monoid'
 import { Ordering } from './Ordering'
 import { Predicate } from './Predicate'

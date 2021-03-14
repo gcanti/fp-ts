@@ -5,7 +5,7 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism } from './function'
+import { Endomorphism } from './Endomorphism'
 import { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------

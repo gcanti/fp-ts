@@ -15,7 +15,8 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism, identity } from './function'
+import { Endomorphism } from './Endomorphism'
+import { identity } from './function'
 import * as M from './Magma'
 import * as O from './Ord'
 

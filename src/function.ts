@@ -109,27 +109,6 @@ export const getRing = <B, A>(R: Ring<B>): Ring<(a: A) => B> => {
   }
 }
 
-/**
- * Endomorphism form a `Semigroup` where the `concat` operation is the usuale function composition.
- *
- * @category instances
- * @since 3.0.0
- */
-export const getEndomorphismSemigroup = <A = never>(): Semigroup<Endomorphism<A>> => ({
-  concat: (second) => (first) => flow(first, second)
-})
-
-/**
- * Endomorphism form a `Monoid` where the `empty` value is the identity function.
- *
- * @category instances
- * @since 3.0.0
- */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: getEndomorphismSemigroup<A>().concat,
-  empty: identity
-})
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -146,13 +125,6 @@ export const apply = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
  */
 export interface Lazy<A> {
   (): A
-}
-
-/**
- * @since 3.0.0
- */
-export interface Endomorphism<A> {
-  (a: A): A
 }
 
 /**

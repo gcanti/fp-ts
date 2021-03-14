@@ -22,7 +22,7 @@
  * @since 3.0.0
  */
 import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
-import { Endomorphism } from './function'
+import { Endomorphism } from './Endomorphism'
 
 // -------------------------------------------------------------------------------------
 // model

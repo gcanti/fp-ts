@@ -1,7 +1,7 @@
 import * as _ from '../src/Eq'
 import { pipe } from '../src/function'
 import { concatAll } from '../src/Monoid'
-import { deepStrictEqual } from './util'
+import * as U from './util'
 import * as B from '../src/boolean'
 import * as S from '../src/string'
 import * as N from '../src/number'
@@ -13,19 +13,19 @@ describe('Eq', () => {
         S.Eq,
         _.contramap((p: Person) => p.name)
       )
-      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), true)
-      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
-      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
-      deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 2 }), false)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), true)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
+      U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 2 }), false)
     })
   })
 
   it('tuple', () => {
     const E = _.tuple(S.Eq, N.Eq, B.Eq)
-    deepStrictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
-    deepStrictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
-    deepStrictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
-    deepStrictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true])(['a', 1, true]), true)
+    U.deepStrictEqual(E.equals(['a', 1, true])(['b', 1, true]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true])(['a', 2, true]), false)
+    U.deepStrictEqual(E.equals(['a', 1, true])(['a', 1, false]), false)
   })
 
   interface Person {
@@ -45,9 +45,9 @@ describe('Eq', () => {
     const a1 = { x: 1 }
     const a2 = { x: 1 }
     S1.equals(a1)(a1)
-    deepStrictEqual(nbCall, 0)
+    U.deepStrictEqual(nbCall, 0)
     S1.equals(a1)(a2)
-    deepStrictEqual(nbCall, 1)
+    U.deepStrictEqual(nbCall, 1)
   })
 
   it('struct', () => {
@@ -55,14 +55,14 @@ describe('Eq', () => {
       name: S.Eq,
       age: N.Eq
     })
-    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
-    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), false)
-    deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 1 }), true)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'a', age: 2 }), false)
+    U.deepStrictEqual(E.equals({ name: 'a', age: 1 })({ name: 'b', age: 1 }), false)
   })
 
   it('eqStrict', () => {
-    deepStrictEqual(_.EqStrict.equals(1)(1), true)
-    deepStrictEqual(_.EqStrict.equals(1)('a'), false)
+    U.deepStrictEqual(_.EqStrict.equals(1)(1), true)
+    U.deepStrictEqual(_.EqStrict.equals(1)('a'), false)
   })
 
   it('getMonoid', () => {
@@ -72,9 +72,9 @@ describe('Eq', () => {
     const eqSnd: _.Eq<T> = _.contramap((x: T) => x[1])(N.Eq)
     const eq3rd: _.Eq<T> = _.contramap((x: T) => x[2])(B.Eq)
     const eq = concatAll(M)([eqFst, eqSnd, eq3rd])
-    deepStrictEqual(eq.equals(['a', 1, true])(['a', 1, true]), true)
-    deepStrictEqual(eq.equals(['a', 1, true])(['b', 1, true]), false)
-    deepStrictEqual(eq.equals(['a', 1, true])(['a', 2, true]), false)
-    deepStrictEqual(eq.equals(['a', 1, true])(['a', 1, false]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true])(['a', 1, true]), true)
+    U.deepStrictEqual(eq.equals(['a', 1, true])(['b', 1, true]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true])(['a', 2, true]), false)
+    U.deepStrictEqual(eq.equals(['a', 1, true])(['a', 1, false]), false)
   })
 })

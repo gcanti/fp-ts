@@ -149,13 +149,6 @@ describe('function', () => {
     )
   })
 
-  it('getEndomorphismMonoid', () => {
-    const M = _.getEndomorphismMonoid<number>()
-    const inc = (n: number) => n + 1
-    const f = _.pipe(inc, M.concat(U.double))
-    U.deepStrictEqual(f(3), 8)
-  })
-
   it('getSemiring', () => {
     const S = _.getSemiring<number, string>(N.Field)
     const f1 = (s: string): number => s.length
