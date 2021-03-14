@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 43
+nav_order: 46
 parent: Modules
 ---
 
@@ -38,6 +38,7 @@ Added in v3.0.0
   - [distributiveLattice](#distributivelattice)
   - [either](#either)
   - [eitherT](#eithert)
+  - [endomorphism](#endomorphism)
   - [eq](#eq)
   - [extend](#extend)
   - [field](#field)
@@ -47,6 +48,8 @@ Added in v3.0.0
   - [foldableWithIndex](#foldablewithindex)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [function](#function)
   - [functor](#functor)
@@ -67,11 +70,13 @@ Added in v3.0.0
   - [monoid](#monoid)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
+  - [object](#object)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
   - [ordering](#ordering)
   - [pointed](#pointed)
+  - [predicate](#predicate)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
@@ -84,6 +89,7 @@ Added in v3.0.0
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
   - [readonlyRecord](#readonlyrecord)
   - [readonlySet](#readonlyset)
+  - [refinement](#refinement)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
@@ -108,6 +114,7 @@ Added in v3.0.0
   - [tree](#tree)
   - [tuple2](#tuple2)
   - [unfoldable](#unfoldable)
+  - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
 
@@ -365,6 +372,16 @@ export declare const eitherT: typeof eitherT
 
 Added in v3.0.0
 
+## endomorphism
+
+**Signature**
+
+```ts
+export declare const endomorphism: typeof endomorphism
+```
+
+Added in v3.0.0
+
 ## eq
 
 **Signature**
@@ -451,6 +468,26 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIO: typeof fromIO
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: typeof fromReader
+```
+
+Added in v3.0.0
+
+## fromState
+
+**Signature**
+
+```ts
+export declare const fromState: typeof fromState
 ```
 
 Added in v3.0.0
@@ -655,6 +692,16 @@ export declare const number: typeof number
 
 Added in v3.0.0
 
+## object
+
+**Signature**
+
+```ts
+export declare const object: typeof object
+```
+
+Added in v3.0.0
+
 ## option
 
 **Signature**
@@ -701,6 +748,16 @@ Added in v3.0.0
 
 ```ts
 export declare const pointed: typeof pointed
+```
+
+Added in v3.0.0
+
+## predicate
+
+**Signature**
+
+```ts
+export declare const predicate: typeof predicate
 ```
 
 Added in v3.0.0
@@ -821,6 +878,16 @@ Added in v3.0.0
 
 ```ts
 export declare const readonlySet: typeof readonlySet
+```
+
+Added in v3.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: typeof refinement
 ```
 
 Added in v3.0.0
@@ -1061,6 +1128,16 @@ Added in v3.0.0
 
 ```ts
 export declare const unfoldable: typeof unfoldable
+```
+
+Added in v3.0.0
+
+## void
+
+**Signature**
+
+```ts
+export declare const void: typeof void_
 ```
 
 Added in v3.0.0

@@ -1,6 +1,6 @@
 ---
 title: function.ts
-nav_order: 36
+nav_order: 39
 parent: Modules
 ---
 
@@ -14,18 +14,13 @@ Added in v3.0.0
 
 - [instances](#instances)
   - [getBooleanAlgebra](#getbooleanalgebra)
-  - [getEndomorphismMonoid](#getendomorphismmonoid)
-  - [getEndomorphismSemigroup](#getendomorphismsemigroup)
   - [getMonoid](#getmonoid)
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
 - [utils](#utils)
-  - [Endomorphism (interface)](#endomorphism-interface)
   - [FunctionN (interface)](#functionn-interface)
   - [Lazy (interface)](#lazy-interface)
-  - [Predicate (interface)](#predicate-interface)
-  - [Refinement (interface)](#refinement-interface)
   - [absurd](#absurd)
   - [apply](#apply)
   - [constFalse](#constfalse)
@@ -40,7 +35,6 @@ Added in v3.0.0
   - [hole](#hole)
   - [identity](#identity)
   - [increment](#increment)
-  - [not](#not)
   - [pipe](#pipe)
   - [tuple](#tuple)
   - [tupled](#tupled)
@@ -61,30 +55,6 @@ export declare const getBooleanAlgebra: <B>(BA: BooleanAlgebra<B>) => <A = never
 
 Added in v3.0.0
 
-## getEndomorphismMonoid
-
-Endomorphism form a `Monoid` where the `empty` value is the identity function.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
-```
-
-Added in v3.0.0
-
-## getEndomorphismSemigroup
-
-Endomorphism form a `Semigroup` where the `concat` operation is the usuale function composition.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismSemigroup: <A = never>() => Semigroup<Endomorphism<A>>
-```
-
-Added in v3.0.0
-
 ## getMonoid
 
 Unary functions form a monoid as long as you can provide a monoid for the codomain.
@@ -98,7 +68,8 @@ export declare const getMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
 **Example**
 
 ```ts
-import { Predicate, getMonoid, pipe } from 'fp-ts/function'
+import { Predicate } from 'fp-ts/Predicate'
+import { getMonoid, pipe } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -140,7 +111,8 @@ export declare const getSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semi
 **Example**
 
 ```ts
-import { Predicate, pipe, getSemigroup } from 'fp-ts/function'
+import { Predicate } from 'fp-ts/Predicate'
+import { pipe, getSemigroup } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -171,18 +143,6 @@ Added in v3.0.0
 
 # utils
 
-## Endomorphism (interface)
-
-**Signature**
-
-```ts
-export interface Endomorphism<A> {
-  (a: A): A
-}
-```
-
-Added in v3.0.0
-
 ## FunctionN (interface)
 
 **Signature**
@@ -212,30 +172,6 @@ A _thunk_
 ```ts
 export interface Lazy<A> {
   (): A
-}
-```
-
-Added in v3.0.0
-
-## Predicate (interface)
-
-**Signature**
-
-```ts
-export interface Predicate<A> {
-  (a: A): boolean
-}
-```
-
-Added in v3.0.0
-
-## Refinement (interface)
-
-**Signature**
-
-```ts
-export interface Refinement<A, B extends A> {
-  (a: A): a is B
 }
 ```
 
@@ -468,16 +404,6 @@ Added in v3.0.0
 
 ```ts
 export declare const increment: (n: number) => number
-```
-
-Added in v3.0.0
-
-## not
-
-**Signature**
-
-```ts
-export declare const not: <A>(predicate: Predicate<A>) => Predicate<A>
 ```
 
 Added in v3.0.0

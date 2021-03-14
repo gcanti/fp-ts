@@ -1,5 +1,5 @@
 /**
- * Lift a computation from the `Task` monad
+ * Lift a computation from the `Task` monad.
  *
  * @since 3.0.0
  */

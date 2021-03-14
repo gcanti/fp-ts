@@ -1,12 +1,12 @@
 ---
 title: FromIO.ts
-nav_order: 34
+nav_order: 35
 parent: Modules
 ---
 
 ## FromIO overview
 
-Lift a computation from the `IO` monad
+Lift a computation from the `IO` monad.
 
 Added in v3.0.0
 

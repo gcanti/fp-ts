@@ -1,5 +1,5 @@
 /**
- * Lift a computation from the `IO` monad
+ * Lift a computation from the `IO` monad.
  *
  * @since 3.0.0
  */

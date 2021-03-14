@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 75
+nav_order: 81
 parent: Modules
 ---
 
@@ -36,7 +36,6 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
 - [instances](#instances)
-  - [assign](#assign)
   - [first](#first)
   - [last](#last)
 - [type classes](#type-classes)
@@ -220,33 +219,6 @@ assert.deepStrictEqual(pipe(1, S.concat(2)), 1)
 Added in v3.0.0
 
 # instances
-
-## assign
-
-Return a semigroup which works like `Object.assign`.
-
-**Signature**
-
-```ts
-export declare const assign: <A extends object = never>() => Semigroup<A>
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/Semigroup'
-import { pipe } from 'fp-ts/function'
-
-interface Person {
-  name: string
-  age: number
-}
-
-const S1 = S.assign<Person>()
-assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S1.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
-```
-
-Added in v3.0.0
 
 ## first
 

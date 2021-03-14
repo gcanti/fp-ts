@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 73
+nav_order: 78
 parent: Modules
 ---
 
@@ -231,7 +231,7 @@ If no, inserts the value to the set
 export declare const toggle: <A>(E: Eq<A>) => (a: A) => (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## union
 

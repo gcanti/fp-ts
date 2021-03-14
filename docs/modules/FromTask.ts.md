@@ -1,12 +1,12 @@
 ---
 title: FromTask.ts
-nav_order: 35
+nav_order: 38
 parent: Modules
 ---
 
 ## FromTask overview
 
-Lift a computation from the `Task` monad
+Lift a computation from the `Task` monad.
 
 Added in v3.0.0
 

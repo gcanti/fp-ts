@@ -56,7 +56,8 @@ export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a:
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
  *
  * @example
- * import { Predicate, getMonoid, pipe } from 'fp-ts/function'
+ * import { Predicate } from 'fp-ts/Predicate'
+ * import { getMonoid, pipe } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
