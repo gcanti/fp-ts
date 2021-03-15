@@ -7,13 +7,14 @@ import { Bifunctor2 } from './Bifunctor'
 import { Chain2C } from './Chain'
 import {
   FromEither2,
+  fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
-import { FromThese2 } from './FromThese'
+import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
@@ -335,12 +336,28 @@ export const fromPredicate =
   fromPredicate_(FromEither)
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const FromThese: FromThese2<URI> = {
   fromThese
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromTheseK =
+  /*#__PURE__*/
+  fromTheseK_(FromThese)
 
 /**
  * @category instances

@@ -21,9 +21,11 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [flap](#flap)
+  - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
+  - [fromTheseK](#fromthesek)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
@@ -130,6 +132,16 @@ export declare const flap: <A>(a: A) => <E, B>(fab: TaskThese<E, (a: A) => B>) =
 
 Added in v3.0.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
 ## fromIOK
 
 **Signature**
@@ -158,6 +170,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskThese<E, B>
+```
+
+Added in v3.0.0
+
+## fromTheseK
+
+**Signature**
+
+```ts
+export declare const fromTheseK: <A, E, B>(f: (...a: A) => TH.These<E, B>) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0

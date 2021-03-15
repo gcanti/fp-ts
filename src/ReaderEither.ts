@@ -564,24 +564,6 @@ export const chainOptionK =
   chainOptionK_(FromEither, Chain)
 
 /**
- * @category combinators
- * @since 3.0.0
- */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
-
-/**
- * Less strict version of [`chainEitherK`](#chainEitherK).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainEitherKW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
-
-/**
  * Derivable from `FromEither`.
  *
  * @category constructors
@@ -621,6 +603,24 @@ export const filterOrElseW: {
 export const fromEitherK =
   /*#__PURE__*/
   fromEitherK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainEitherK`](#chainEitherK).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherKW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
 
 // -------------------------------------------------------------------------------------
 // do notation
