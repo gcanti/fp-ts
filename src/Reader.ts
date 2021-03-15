@@ -16,6 +16,7 @@ import * as E from './Either'
 import { Strong2 } from './Strong'
 import * as _ from './internal'
 import { FromReader2 } from './FromReader'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -423,13 +424,35 @@ export const apTW: <R2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => [f(0, as[0])(r), ...as.slice(1).map((a, i) => f(i + 1, a)(r))]
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
-  as: ReadonlyArray<A>
-): Reader<R, ReadonlyArray<B>> => (r) => as.map((a, i) => f(i, a)(r))
+export const traverseReadonlyArrayWithIndex = <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, R, B>(
+  f: (a: A) => Reader<R, B>
+): ((as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -439,6 +462,17 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(f: (index: number, a: A)
 export const traverseReadonlyArray = <A, R, B>(
   f: (a: A) => Reader<R, B>
 ): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <R, A>(
+  as: ReadonlyNonEmptyArray<Reader<R, A>>
+) => Reader<R, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

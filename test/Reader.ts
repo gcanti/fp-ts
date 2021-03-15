@@ -1,6 +1,7 @@
 import { pipe } from '../src/function'
 import * as _ from '../src/Reader'
 import * as U from './util'
+import * as RA from '../src/ReadonlyArray'
 
 interface Env {
   readonly count: number
@@ -107,7 +108,21 @@ describe('Reader', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))({}), [1, 'b'])
   })
 
-  it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceReadonlyArray)(undefined), [1, 2])
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
+    U.deepStrictEqual(pipe([1, 2], f)({}), [1, 2])
+  })
+
+  it('traverseReadonlyArray', () => {
+    const f = _.traverseReadonlyArray((a: number) => _.of(a))
+    U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
+    U.deepStrictEqual(pipe([1, 2], f)({}), [1, 2])
+    U.deepStrictEqual(pipe([1, 2], f)({}), [1, 2])
+  })
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: number) => _.of(a + i))
+    U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
+    U.deepStrictEqual(pipe([1, 2], f)({}), [1, 3])
   })
 })
