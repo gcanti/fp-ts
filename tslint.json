@@ -11,6 +11,7 @@
     "no-console": true,
     "array-type": [true, "generic"],
     "readonly-keyword": true,
-    "readonly-array": false
+    "readonly-array": false,
+    "strict-type-predicates": false
   }
 }
