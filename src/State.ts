@@ -8,8 +8,11 @@ import { Endomorphism } from './Endomorphism'
 import { FromState2 } from './FromState'
 import { identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { Monad2 } from './Monad'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -309,22 +312,45 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
-  as: ReadonlyArray<A>
-): State<S, ReadonlyArray<B>> => (s) => {
-  let out = s
-  const bs: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): State<S, ReadonlyNonEmptyArray<B>> => (s) => {
+  const [b, s2] = f(0, as[0])(s)
+  const bs: NonEmptyArray<B> = [b]
+  let out = s2
+  for (let i = 1; i < as.length; i++) {
     const [b, s2] = f(i, as[i])(out)
     bs.push(b)
     out = s2
   }
   return [bs, out]
 }
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, S, B>(
+  f: (a: A) => State<S, B>
+): ((as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -334,6 +360,17 @@ export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A)
 export const traverseReadonlyArray = <A, S, B>(
   f: (a: A) => State<S, B>
 ): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <S, A>(
+  as: ReadonlyNonEmptyArray<State<S, A>>
+) => State<S, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.
