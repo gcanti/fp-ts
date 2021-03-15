@@ -793,10 +793,12 @@ export const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex: <A, E, B>(
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = (f) =>
-  flow(I.traverseReadonlyArrayWithIndex(f), I.map(E.sequenceReadonlyArray))
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.

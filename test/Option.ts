@@ -426,9 +426,16 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceReadonlyArray), _.some([1, 2]))
-    U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceReadonlyArray), _.none)
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
+    U.deepStrictEqual(pipe([1, 2], f), _.some([1, 2] as const))
+  })
+
+  it('traverseReadonlyArray', () => {
+    const f = _.traverseReadonlyArray((a: number) => (a > 0 ? _.some(a) : _.none))
+    U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+    U.deepStrictEqual(pipe([1, 2], f), _.some([1, 2]))
+    U.deepStrictEqual(pipe([1, -2], f), _.none)
   })
 
   it('tryCatchK', () => {

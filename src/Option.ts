@@ -35,9 +35,11 @@ import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
@@ -1154,15 +1156,19 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
-  as: ReadonlyArray<A>
-): Option<ReadonlyArray<B>> => {
-  const out = []
-  for (let i = 0; i < as.length; i++) {
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Option<ReadonlyNonEmptyArray<B>> => {
+  const o = f(0, as[0])
+  if (isNone(o)) {
+    return none
+  }
+  const out: NonEmptyArray<B> = [o.value]
+  for (let i = 1; i < as.length; i++) {
     const o = f(i, as[i])
     if (isNone(o)) {
       return none
@@ -1173,6 +1179,28 @@ export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) =>
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => Option<B>
+): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, B>(
+  f: (a: A) => Option<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+
+/**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
@@ -1180,6 +1208,17 @@ export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) =>
 export const traverseReadonlyArray = <A, B>(
   f: (a: A) => Option<B>
 ): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <A>(
+  as: ReadonlyNonEmptyArray<Option<A>>
+) => Option<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

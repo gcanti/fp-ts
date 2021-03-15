@@ -62,10 +62,6 @@ describe('IO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))(), [1, 'b'])
   })
 
-  it('sequenceReadonlyArray', () => {
-    U.strictEqual(pipe(RA.empty, _.sequenceReadonlyArray)(), RA.empty)
-  })
-
   it('traverseReadonlyNonEmptyArray', () => {
     const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
     U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
@@ -73,11 +69,14 @@ describe('IO', () => {
 
   it('traverseReadonlyArray', () => {
     const f = _.traverseReadonlyArray((a: number) => _.of(a))
+    U.strictEqual(pipe(RA.empty, f)(), RA.empty)
+    U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
     U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
   })
 
-  it('traverseReadonlyNonEmptyArrayWithIndex', () => {
-    const f = _.traverseReadonlyNonEmptyArrayWithIndex((i, a: number) => _.of(a + i))
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: number) => _.of(a + i))
+    U.strictEqual(pipe(RA.empty, f)(), RA.empty)
     U.deepStrictEqual(pipe([1, 2], f)(), [1, 3])
   })
 
