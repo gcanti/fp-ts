@@ -21,6 +21,7 @@ import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from '.
 import { Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 import * as _ from './internal'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -288,13 +289,35 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): IO<ReadonlyNonEmptyArray<B>> => () => [f(0, as[0])(), ...as.slice(1).map((a, i) => f(i + 1, a)())]
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
-  as: ReadonlyArray<A>
-): IO<ReadonlyArray<B>> => () => as.map((a, i) => f(i, a)())
+export const traverseReadonlyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => IO<B>
+): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, B>(
+  f: (a: A) => IO<B>
+): ((as: ReadonlyNonEmptyArray<A>) => IO<ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
@@ -303,6 +326,15 @@ export const traverseReadonlyArrayWithIndex = <A, B>(f: (index: number, a: A) =>
  */
 export const traverseReadonlyArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) =>
   traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<IO<A>>) => IO<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

@@ -519,12 +519,22 @@ describe('Either', () => {
     U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArray), _.right(RA.empty))
   })
 
-  it('sequenceReadonlyNonEmptyArray', () => {
-    U.deepStrictEqual(
-      pipe([_.right(1), _.right(2)] as const, _.sequenceReadonlyNonEmptyArray),
-      _.right([1, 2] as const)
-    )
-    U.deepStrictEqual(pipe([_.right(1), _.left('a')] as const, _.sequenceReadonlyNonEmptyArray), _.left('a'))
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: number) => (a > 0 ? _.right(a) : _.left('a')))
+    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 2] as const))
+    U.deepStrictEqual(pipe([1, -2], f), _.left('a'))
+  })
+
+  it('traverseReadonlyArray', () => {
+    const f = _.traverseReadonlyArray((a: number) => (a > 0 ? _.right(a) : _.left('a')))
+    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 2] as const))
+    U.deepStrictEqual(pipe([1, -2], f), _.left('a'))
+  })
+
+  it('traverseReadonlyNonEmptyArrayWithIndex', () => {
+    const f = _.traverseReadonlyNonEmptyArrayWithIndex((i, a: number) => (a > 0 ? _.right(a + i) : _.left('a')))
+    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 3] as const))
+    U.deepStrictEqual(pipe([1, -2], f), _.left('a'))
   })
 
   it('toUnion', () => {

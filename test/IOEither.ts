@@ -412,6 +412,8 @@ describe('IOEither', () => {
   })
 
   it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArray)(), E.right(RA.empty))
+
     // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const right = (n: number): _.IOEither<string, number> =>
@@ -430,7 +432,15 @@ describe('IOEither', () => {
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
   })
 
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: number) => (a > 0 ? _.right(a) : _.left('a')))
+    U.deepStrictEqual(pipe([1, 2], f)(), E.right([1, 2] as const))
+    U.deepStrictEqual(pipe([1, -2], f)(), E.left('a'))
+  })
+
   it('sequenceReadonlyArraySeq', () => {
+    U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArraySeq)(), E.right(RA.empty))
+
     // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const right = (n: number): _.IOEither<string, number> =>
@@ -447,6 +457,12 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
     U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+  })
+
+  it('traverseReadonlyNonEmptyArraySeq', () => {
+    const f = _.traverseReadonlyNonEmptyArraySeq((a: number) => (a > 0 ? _.right(a) : _.left('a')))
+    U.deepStrictEqual(pipe([1, 2], f)(), E.right([1, 2] as const))
+    U.deepStrictEqual(pipe([1, -2], f)(), E.left('a'))
   })
 
   it('tryCatchK', () => {

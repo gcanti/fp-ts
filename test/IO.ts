@@ -2,6 +2,7 @@ import { pipe } from '../src/function'
 import * as _ from '../src/IO'
 import * as U from './util'
 import * as E from '../src/Either'
+import * as RA from '../src/ReadonlyArray'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -62,14 +63,22 @@ describe('IO', () => {
   })
 
   it('sequenceReadonlyArray', () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number | string> = []
-    const append = (n: number): _.IO<number> => () => {
-      log.push(n)
-      return n
-    }
-    U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceReadonlyArray)(), [1, 2])
-    U.deepStrictEqual(log, [1, 2])
+    U.strictEqual(pipe(RA.empty, _.sequenceReadonlyArray)(), RA.empty)
+  })
+
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
+    U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
+  })
+
+  it('traverseReadonlyArray', () => {
+    const f = _.traverseReadonlyArray((a: number) => _.of(a))
+    U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
+  })
+
+  it('traverseReadonlyNonEmptyArrayWithIndex', () => {
+    const f = _.traverseReadonlyNonEmptyArrayWithIndex((i, a: number) => _.of(a + i))
+    U.deepStrictEqual(pipe([1, 2], f)(), [1, 3])
   })
 
   it('chainRec', () => {
