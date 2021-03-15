@@ -518,7 +518,7 @@ describe('Either', () => {
   it('traverseReadonlyArrayWithIndex', () => {
     const f = _.traverseReadonlyArrayWithIndex((i, a: number) => (a > 0 ? _.right(a + i) : _.left('a')))
     U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
-    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 3] as const))
+    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 3]))
     U.deepStrictEqual(pipe([1, -2], f), _.left('a'))
   })
 

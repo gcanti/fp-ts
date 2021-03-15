@@ -117,7 +117,6 @@ describe('Reader', () => {
     const f = _.traverseReadonlyArray((a: number) => _.of(a))
     U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
     U.deepStrictEqual(pipe([1, 2], f)({}), [1, 2])
-    U.deepStrictEqual(pipe([1, 2], f)({}), [1, 2])
   })
 
   it('traverseReadonlyArrayWithIndex', () => {
