@@ -1,11 +1,45 @@
+import { pipe } from '../src/function'
 import * as _ from '../src/Predicate'
 import * as U from './util'
 
-describe('function', () => {
+const isPositive: _.Predicate<number> = (n) => n > 0
+const isNegative: _.Predicate<number> = (n) => n < 0
+const lt2: _.Predicate<number> = (n) => n < 2
+
+describe('Predicate', () => {
+  it('contramap', () => {
+    type A = {
+      readonly a: number
+    }
+    const predicate = pipe(
+      isPositive,
+      _.contramap((a: A) => a.a)
+    )
+    U.deepStrictEqual(predicate({ a: -1 }), false)
+    U.deepStrictEqual(predicate({ a: 0 }), false)
+    U.deepStrictEqual(predicate({ a: 1 }), true)
+  })
+
   it('not', () => {
-    const n = _.not(Boolean)
-    U.deepStrictEqual(n(false), true)
-    U.deepStrictEqual(n(1), false)
-    U.deepStrictEqual(n(''), true)
+    const predicate = _.not(isPositive)
+    U.deepStrictEqual(predicate(1), false)
+    U.deepStrictEqual(predicate(0), true)
+    U.deepStrictEqual(predicate(-1), true)
+  })
+
+  it('getMonoidAny', () => {
+    const M = _.getMonoidAny<number>()
+    const predicate = pipe(isPositive, M.concat(isNegative))
+    U.deepStrictEqual(predicate(0), false)
+    U.deepStrictEqual(predicate(-1), true)
+    U.deepStrictEqual(predicate(1), true)
+  })
+
+  it('getMonoidAll', () => {
+    const M = _.getMonoidAll<number>()
+    const predicate = pipe(isPositive, M.concat(lt2))
+    U.deepStrictEqual(predicate(0), false)
+    U.deepStrictEqual(predicate(-2), false)
+    U.deepStrictEqual(predicate(1), true)
   })
 })

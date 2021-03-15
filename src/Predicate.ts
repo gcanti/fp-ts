@@ -1,6 +1,10 @@
 /**
  * @since 3.0.0
  */
+import { Contravariant1 } from './Contravariant'
+import { constFalse, constTrue } from './function'
+import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -14,6 +18,74 @@ export interface Predicate<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category Contravariant
+ * @since 3.0.0
+ */
+export const contramap: Contravariant1<URI>['contramap'] = (f) => (predicate) => (b) => predicate(f(b))
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export type URI = 'Predicate'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly Predicate: Predicate<A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroupAny = <A = never>(): Semigroup<Predicate<A>> => ({
+  concat: or
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonoidAny = <A = never>(): Monoid<Predicate<A>> => ({
+  concat: getSemigroupAny<A>().concat,
+  empty: constFalse
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getSemigroupAll = <A = never>(): Semigroup<Predicate<A>> => ({
+  concat: and
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
+  concat: getSemigroupAll<A>().concat,
+  empty: constTrue
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Contravariant: Contravariant1<URI> = {
+  contramap
+}
+
+// -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
 
@@ -21,3 +93,13 @@ export interface Predicate<A> {
  * @since 3.0.0
  */
 export const not = <A>(predicate: Predicate<A>): Predicate<A> => (a) => !predicate(a)
+
+/**
+ * @since 3.0.0
+ */
+export const or = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) || second(a)
+
+/**
+ * @since 3.0.0
+ */
+export const and = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) && second(a)
