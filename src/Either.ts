@@ -38,9 +38,11 @@ import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
@@ -1121,7 +1123,7 @@ export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boo
  */
 export const Do: Either<never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -1175,7 +1177,7 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Either<never, readonly []> = of([])
+export const ApT: Either<never, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
@@ -1205,15 +1207,19 @@ export const apTW: <E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
-  as: ReadonlyArray<A>
-): Either<E, ReadonlyArray<B>> => {
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Either<E, ReadonlyNonEmptyArray<B>> => {
+  const e = f(0, as[0])
+  if (isLeft(e)) {
+    return e
+  }
+  const out: NonEmptyArray<B> = [e.right]
+  for (let i = 1; i < as.length; i++) {
     const e = f(i, as[i])
     if (isLeft(e)) {
       return e
@@ -1224,6 +1230,28 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A)
 }
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, E, B>(
+  f: (a: A) => Either<E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => Either<E, ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+
+/**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
  *
  * @since 3.0.0
@@ -1231,6 +1259,17 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(f: (index: number, a: A)
 export const traverseReadonlyArray = <A, E, B>(
   f: (a: A) => Either<E, B>
 ): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <E, A>(
+  as: ReadonlyNonEmptyArray<Either<E, A>>
+) => Either<E, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(Applicative)`.

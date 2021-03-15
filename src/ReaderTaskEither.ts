@@ -44,6 +44,7 @@ import {
 } from './FromTask'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
@@ -901,7 +902,7 @@ export const bracket = <R, E, A, B>(
  */
 export const Do: ReaderTaskEither<unknown, never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -959,7 +960,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderTaskEither<unknown, never, readonly []> = of([])
+export const ApT: ReaderTaskEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

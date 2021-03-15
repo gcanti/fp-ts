@@ -693,7 +693,7 @@ export const bracket = <E, A, B>(
  */
 export const Do: IOEither<never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -747,7 +747,7 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: IOEither<never, readonly []> = of([])
+export const ApT: IOEither<never, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

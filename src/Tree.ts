@@ -30,6 +30,7 @@ import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -588,7 +589,7 @@ export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(
  */
 export const Do: Tree<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -622,7 +623,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Tree<readonly []> = of([])
+export const ApT: Tree<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

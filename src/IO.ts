@@ -233,7 +233,7 @@ export const ChainRec: ChainRec1<URI> = {
  */
 export const Do: IO<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -267,7 +267,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: IO<readonly []> = of([])
+export const ApT: IO<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

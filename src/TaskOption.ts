@@ -590,7 +590,7 @@ export const Filterable: Filterable1<URI> = {
  */
 export const Do: TaskOption<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -624,7 +624,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: TaskOption<readonly []> = of([])
+export const ApT: TaskOption<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

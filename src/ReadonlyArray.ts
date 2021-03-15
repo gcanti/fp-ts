@@ -314,7 +314,7 @@ export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
  * @category guards
  * @since 3.0.0
  */
-export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -2017,7 +2017,7 @@ export const fromEitherK =
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyArray<never> = RNEA.empty
+export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
 
 /**
  * Check if a predicate holds true for every `ReadonlyArray` member.
@@ -2061,7 +2061,7 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as i
  */
 export const Do: ReadonlyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -2095,7 +2095,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyArray<readonly []> = of([])
+export const ApT: ReadonlyArray<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

@@ -1099,7 +1099,7 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
  */
 export const Do: Option<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -1133,7 +1133,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Option<readonly []> = of([])
+export const ApT: Option<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

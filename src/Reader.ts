@@ -367,7 +367,7 @@ export const bindW: <N extends string, A, R2, B>(
  */
 export const Do: Reader<unknown, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -393,7 +393,7 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Reader<unknown, readonly []> = of([])
+export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

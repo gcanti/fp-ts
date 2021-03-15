@@ -29,6 +29,7 @@ import {
 } from './FromReader'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { Monad3 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
@@ -631,7 +632,7 @@ export const chainEitherKW: <E2, A, B>(
  */
 export const Do: ReaderEither<unknown, never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -689,7 +690,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderEither<unknown, never, readonly []> = of([])
+export const ApT: ReaderEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

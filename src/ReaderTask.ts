@@ -20,6 +20,7 @@ import {
 } from './FromTask'
 import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
@@ -398,7 +399,7 @@ export const chainFirstTaskK =
  */
 export const Do: ReaderTask<unknown, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -456,7 +457,7 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderTask<unknown, readonly []> = of([])
+export const ApT: ReaderTask<unknown, readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

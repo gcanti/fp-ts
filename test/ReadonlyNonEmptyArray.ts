@@ -7,6 +7,7 @@ import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
+import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import * as U from './util'
@@ -379,7 +380,7 @@ describe('ReadonlyNonEmptyArray', () => {
     const assertEmptySecond = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
       const [first, second] = _.splitAt(n)(input)
       U.strictEqual(first, input)
-      U.strictEqual(second, _.empty)
+      U.strictEqual(second, RA.empty)
     }
 
     U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])

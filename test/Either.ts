@@ -2,6 +2,7 @@ import * as _ from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -515,8 +516,15 @@ describe('Either', () => {
   })
 
   it('sequenceReadonlyArray', () => {
-    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceReadonlyArray), _.right([1, 2]))
-    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceReadonlyArray), _.left('a'))
+    U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArray), _.right(RA.empty))
+  })
+
+  it('sequenceReadonlyNonEmptyArray', () => {
+    U.deepStrictEqual(
+      pipe([_.right(1), _.right(2)] as const, _.sequenceReadonlyNonEmptyArray),
+      _.right([1, 2] as const)
+    )
+    U.deepStrictEqual(pipe([_.right(1), _.left('a')] as const, _.sequenceReadonlyNonEmptyArray), _.left('a'))
   })
 
   it('toUnion', () => {

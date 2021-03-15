@@ -3,6 +3,7 @@
  */
 import { Either, Left, Right } from './Either'
 import { None, Option, Some } from './Option'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 /** @internal */
 export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
@@ -27,3 +28,12 @@ export const none: Option<never> = { _tag: 'None' }
 
 /** @internal */
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
+
+/** @internal */
+export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+
+/** @internal */
+export const emptyReadonlyArray: readonly [] = []
+
+/** @internal */
+export const emptyRecord: {} = {}

@@ -59,11 +59,6 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 /**
  * @internal
  */
-export const empty: ReadonlyArray<never> = []
-
-/**
- * @internal
- */
 export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
 
 /**
@@ -74,7 +69,7 @@ export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyA
 /**
  * @internal
  */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
 
 /**
  * @internal
@@ -415,7 +410,7 @@ export function comprehension<A, R>(
           chain((head) => go(append(head)(as), tail(input)))
         )
       : [f(...as)]
-  return go(empty, input)
+  return go(_.emptyReadonlyArray, input)
 }
 
 /**
@@ -657,7 +652,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
 export const splitAt = (n: number) => <A>(
   as: ReadonlyNonEmptyArray<A>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
-  n < 1 || n >= as.length ? [as, empty] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+  n < 1 || n >= as.length ? [as, _.emptyReadonlyArray] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1069,7 +1064,7 @@ export const Comonad: Comonad1<URI> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 3.0.0
@@ -1103,7 +1098,7 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyNonEmptyArray<readonly []> = of([])
+export const ApT: ReadonlyNonEmptyArray<readonly []> = of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
