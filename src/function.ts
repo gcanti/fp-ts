@@ -700,3 +700,8 @@ export function pipe(
  * @since 3.0.0
  */
 export const hole: <T>() => T = absurd as any
+
+/**
+ * @since 3.0.0
+ */
+export const SK = <A, B>(_: A, b: B): B => b

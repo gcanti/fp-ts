@@ -10,7 +10,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable as Foldable_, Foldable1, Foldable2, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, pipe } from './function'
+import { flow, pipe, SK } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -403,7 +403,7 @@ export function sequence<F>(
 export function sequence<F>(
   F: Applicative<F>
 ): <A>(ta: ReadonlyRecord<string, HKT<F, A>>) => HKT<F, ReadonlyRecord<string, A>> {
-  return traverseWithIndex(F)(_.SK)
+  return traverseWithIndex(F)(SK)
 }
 
 /**

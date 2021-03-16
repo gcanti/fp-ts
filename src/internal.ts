@@ -37,12 +37,3 @@ export const emptyReadonlyArray: readonly [] = []
 
 /** @internal */
 export const emptyRecord: {} = {}
-
-// /** @internal */
-// export const K = <A, B>(a: A, _: B): A => a
-
-// /** @internal */
-// export const S = <A, B, C>(f: (a: A) => (b: B) => C, g: (a: A) => B, a: A) => f(a)(g(a))
-
-/** @internal */
-export const SK = <A, B>(_: A, b: B): B => b
