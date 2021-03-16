@@ -13,7 +13,7 @@
  * @since 3.0.0
  */
 import { Alt1 } from './Alt'
-import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
+import { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
@@ -812,7 +812,7 @@ export const reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightW
  * @since 3.0.0
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (as: ReadonlyNonEmptyArray<A>) => HKT<F, ReadonlyNonEmptyArray<B>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
@@ -822,13 +822,13 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @since 3.0.0
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: ApplicativeHKT<F>
+  F: Applicative_<F>
 ): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)((_, a) => a)
 
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: ApplicativeHKT<F>) => <
+export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: Applicative_<F>) => <
   A,
   B
 >(
