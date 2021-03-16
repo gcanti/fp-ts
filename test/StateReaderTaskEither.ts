@@ -140,7 +140,6 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('applicativeReaderTaskEitherSeq', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
@@ -330,7 +329,6 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('sequenceReadonlyArray', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
       _.rightIO(() => {

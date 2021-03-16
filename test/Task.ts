@@ -9,7 +9,6 @@ export const assertTask = <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: Readon
   f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>,
   expected: C
 ) => {
-  // tslint:disable-next-line: readonly-array
   const log: Array<A | B> = []
   const withLog: <X extends A | B>(ma: _.Task<X>) => _.Task<X> = _.chainFirst((x) =>
     _.fromIO(() => {
@@ -162,7 +161,6 @@ describe('Task', () => {
     })
 
     it('sequenceReadonlyArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.Task<number> =>
         _.delay(n % 2 === 0 ? 50 : 100)(
@@ -177,7 +175,6 @@ describe('Task', () => {
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.Task<number> =>
         _.delay(n % 2 === 0 ? 50 : 100)(

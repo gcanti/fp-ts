@@ -265,7 +265,6 @@ describe('ReaderTaskEither', () => {
   })
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -368,7 +367,6 @@ describe('ReaderTaskEither', () => {
   })
 
   it('sequenceReadonlyArray', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
       _.rightIO(() => {
@@ -387,7 +385,6 @@ describe('ReaderTaskEither', () => {
   })
 
   it('sequenceReadonlyArraySeq', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
       _.rightIO(() => {

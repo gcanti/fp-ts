@@ -145,8 +145,18 @@ describe('ReaderTask', () => {
       U.deepStrictEqual(await pipe(input, f)(undefined)(), ['a0', 'b1'])
     })
 
+    it('traverseReadonlyNonEmptyArray', async () => {
+      const f = _.traverseReadonlyNonEmptyArray(_.of)
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), input)
+    })
+
+    it('traverseReadonlyNonEmptyArraySeq', async () => {
+      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), input)
+    })
+
     it('sequenceReadonlyArray', async () => {
-      // tslint:disable-next-line: readonly-array
+      U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArray)(undefined)(), RA.empty)
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(
@@ -163,7 +173,7 @@ describe('ReaderTask', () => {
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      // tslint:disable-next-line: readonly-array
+      U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArraySeq)(undefined)(), RA.empty)
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(

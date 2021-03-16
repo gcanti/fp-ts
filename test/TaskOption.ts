@@ -164,7 +164,6 @@ describe('TaskOption', () => {
   })
 
   it('sequenceReadonlyArray', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const some = (n: number): _.TaskOption<number> =>
       _.fromIO(() => {
@@ -186,7 +185,6 @@ describe('TaskOption', () => {
   })
 
   it('sequenceReadonlyArraySeq', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<number | string> = []
     const some = (n: number): _.TaskOption<number> =>
       _.fromIO(() => {

@@ -243,7 +243,6 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativePar', () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
     const a = _.rightIO<number, string>(() => log.push('a'))
@@ -258,7 +257,6 @@ describe('IOEither', () => {
   })
 
   it('ApplicativeSeq', () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const tuple = <A>(a: A) => <B>(b: B) => <C>(c: C): readonly [A, B, C] => [a, b, c]
     const a = _.rightIO<number, string>(() => log.push('a'))
@@ -337,7 +335,6 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -454,7 +451,6 @@ describe('IOEither', () => {
     it('sequenceReadonlyArray', () => {
       U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArray)(), E.right(RA.empty))
 
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
         _.rightIO(() => {
@@ -475,7 +471,6 @@ describe('IOEither', () => {
     it('sequenceReadonlyArraySeq', () => {
       U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArraySeq)(), E.right(RA.empty))
 
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
         _.rightIO(() => {

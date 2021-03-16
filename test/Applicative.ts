@@ -8,7 +8,6 @@ import * as S from '../src/string'
 
 describe('Applicative', () => {
   it('getApplicativeMonoid', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     // const a = _.right('a')
     const right = (s: string, millis: number): TE.TaskEither<string, string> =>

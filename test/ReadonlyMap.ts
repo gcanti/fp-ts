@@ -896,7 +896,6 @@ describe('ReadonlyMap', () => {
 
     it('traverseWithIndex should sort the keys', () => {
       const TWI = _.getTraversableWithIndex(S.Ord)
-      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): IO.IO<void> => () => {
         log.push(message)
