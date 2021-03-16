@@ -7,6 +7,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import * as U from './util'
 import { separated } from '../src/Separated'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const p = (n: number): boolean => n > 2
 
@@ -426,18 +427,6 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
-    U.deepStrictEqual(pipe([1, 2], f), _.some([1, 2] as const))
-  })
-
-  it('traverseReadonlyArray', () => {
-    const f = _.traverseReadonlyArray((a: number) => (a > 0 ? _.some(a) : _.none))
-    U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
-    U.deepStrictEqual(pipe([1, 2], f), _.some([1, 2]))
-    U.deepStrictEqual(pipe([1, -2], f), _.none)
-  })
-
   it('tryCatchK', () => {
     const f = _.tryCatchK((s: string) => {
       const len = s.length
@@ -448,5 +437,28 @@ describe('Option', () => {
     })
     U.deepStrictEqual(f('a'), _.some(1))
     U.deepStrictEqual(f(''), _.none)
+  })
+
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.some(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f), _.none)
+    })
+
+    it('traverseReadonlyNonEmptyArray', () => {
+      const f = _.traverseReadonlyNonEmptyArray(_.of)
+      U.deepStrictEqual(pipe(input, f), _.some(input))
+    })
+
+    it('traverseReadonlyArray', () => {
+      const f = _.traverseReadonlyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.some(input))
+      U.deepStrictEqual(pipe(['a', ''], f), _.none)
+    })
   })
 })

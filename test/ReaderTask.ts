@@ -137,57 +137,46 @@ describe('ReaderTask', () => {
   })
 
   describe('array utils', () => {
-    const range = RNEA.range(0, 10)
-
-    it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, RA.map(_.of), _.sequenceReadonlyArray)(undefined)(), range)
-    })
-    it('traverseReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(range, _.traverseReadonlyArray(_.of))(undefined)(), range)
-    })
+    const input: RNEA.ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {
-      U.deepStrictEqual(
-        await pipe(
-          RA.replicate(3, 1),
-          _.traverseReadonlyArrayWithIndex((index, _data) => _.of(index))
-        )(undefined)(),
-        [0, 1, 2]
-      )
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(), RA.empty)
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), ['a0', 'b1'])
     })
-  })
 
-  it('sequenceReadonlyArray', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number> = []
-    const append = (n: number): _.ReaderTask<undefined, number> =>
-      _.fromTask(
-        T.delay(n % 2 === 0 ? 50 : 100)(
-          T.fromIO(() => {
-            log.push(n)
-            return n
-          })
+    it('sequenceReadonlyArray', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number> = []
+      const append = (n: number): _.ReaderTask<undefined, number> =>
+        _.fromTask(
+          T.delay(n % 2 === 0 ? 50 : 100)(
+            T.fromIO(() => {
+              log.push(n)
+              return n
+            })
+          )
         )
-      )
-    const as = RA.makeBy(4, append)
-    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(undefined)(), [0, 1, 2, 3])
-    U.deepStrictEqual(log, [0, 2, 1, 3])
-  })
+      const as = RA.makeBy(4, append)
+      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(undefined)(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 2, 1, 3])
+    })
 
-  it('sequenceReadonlyArraySeq', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number> = []
-    const append = (n: number): _.ReaderTask<undefined, number> =>
-      _.fromTask(
-        T.delay(n % 2 === 0 ? 50 : 100)(
-          T.fromIO(() => {
-            log.push(n)
-            return n
-          })
+    it('sequenceReadonlyArraySeq', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number> = []
+      const append = (n: number): _.ReaderTask<undefined, number> =>
+        _.fromTask(
+          T.delay(n % 2 === 0 ? 50 : 100)(
+            T.fromIO(() => {
+              log.push(n)
+              return n
+            })
+          )
         )
-      )
-    const as = RA.makeBy(4, append)
-    U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(undefined)(), [0, 1, 2, 3])
-    U.deepStrictEqual(log, [0, 1, 2, 3])
+      const as = RA.makeBy(4, append)
+      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(undefined)(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 1, 2, 3])
+    })
   })
 })

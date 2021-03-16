@@ -22,6 +22,7 @@ import { Monad1 } from './Monad'
 import { Pointed1 } from './Pointed'
 import * as _ from './internal'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -295,7 +296,13 @@ export const apT =
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
   as: ReadonlyNonEmptyArray<A>
-): IO<ReadonlyNonEmptyArray<B>> => () => [f(0, as[0])(), ...as.slice(1).map((a, i) => f(i + 1, a)())]
+): IO<ReadonlyNonEmptyArray<B>> => () => {
+  const out: NonEmptyArray<B> = [f(0, as[0])()]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i])())
+  }
+  return out
+}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.

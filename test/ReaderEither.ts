@@ -7,6 +7,7 @@ import * as S from '../src/string'
 import * as U from './util'
 import * as Sep from '../src/Separated'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -191,24 +192,6 @@ describe('ReaderEither', () => {
     )
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
-    U.deepStrictEqual(pipe([1, 2], f)({}), E.right([1, 2] as const))
-  })
-
-  it('traverseReadonlyArray', () => {
-    const f = _.traverseReadonlyArray((a: number) => _.of(a))
-    U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
-    U.deepStrictEqual(pipe([1, 2], f)({}), E.right([1, 2] as const))
-  })
-
-  it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: number) => (a > 0 ? _.right(a + i) : _.left('a')))
-    U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
-    U.deepStrictEqual(pipe([1, 2], f)({}), E.right([1, 3]))
-    U.deepStrictEqual(pipe([1, -2], f)({}), E.left('a'))
-  })
-
   it('getCompactable', () => {
     const C = _.getCompactable(S.Monoid)
     U.deepStrictEqual(C.compact(_.of(O.some('a')))({}), E.right('a'))
@@ -254,5 +237,27 @@ describe('ReaderEither', () => {
     const f = _.chainReaderK((n: number): R.Reader<number, number> => (c) => n * c)
     U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(6))
     U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
+  })
+
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f)({}), E.right(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f)({}), E.left('e'))
+    })
+
+    it('traverseReadonlyNonEmptyArray', () => {
+      const f = _.traverseReadonlyNonEmptyArray(_.of)
+      U.deepStrictEqual(pipe(input, f)({}), E.right(input))
+    })
+
+    it('traverseReadonlyArray', () => {
+      const f = _.traverseReadonlyArray(_.of)
+      U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f)({}), E.right(input))
+    })
   })
 })

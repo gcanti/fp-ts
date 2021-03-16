@@ -3,6 +3,7 @@ import * as _ from '../src/IO'
 import * as U from './util'
 import * as E from '../src/Either'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -62,25 +63,29 @@ describe('IO', () => {
     U.deepStrictEqual(pipe(_.of(1), _.tupled, _.apT(_.of('b')))(), [1, 'b'])
   })
 
-  it('traverseReadonlyNonEmptyArray', () => {
-    const f = _.traverseReadonlyNonEmptyArray((a: number) => _.of(a))
-    U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
-  })
-
-  it('traverseReadonlyArray', () => {
-    const f = _.traverseReadonlyArray((a: number) => _.of(a))
-    U.strictEqual(pipe(RA.empty, f)(), RA.empty)
-    U.deepStrictEqual(pipe([1, 2], f)(), [1, 2])
-  })
-
-  it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: number) => _.of(a + i))
-    U.strictEqual(pipe(RA.empty, f)(), RA.empty)
-    U.deepStrictEqual(pipe([1, 2], f)(), [1, 3])
-  })
-
   it('chainRec', () => {
     const f = (n: number) => (n < 15000 ? _.of(E.left(n + 1)) : _.of(E.right('ok ' + n)))
     U.deepStrictEqual(_.ChainRec.chainRec(f)(0)(), 'ok 15000')
+  })
+
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      U.strictEqual(pipe(RA.empty, f)(), RA.empty)
+      U.deepStrictEqual(pipe(input, f)(), ['a0', 'b1'])
+    })
+
+    it('traverseReadonlyNonEmptyArray', () => {
+      const f = _.traverseReadonlyNonEmptyArray(_.of)
+      U.deepStrictEqual(pipe(input, f)(), input)
+    })
+
+    it('traverseReadonlyArray', () => {
+      const f = _.traverseReadonlyArray(_.of)
+      U.strictEqual(pipe(RA.empty, f)(), RA.empty)
+      U.deepStrictEqual(pipe(input, f)(), input)
+    })
   })
 })

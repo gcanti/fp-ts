@@ -3,6 +3,7 @@ import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -515,13 +516,6 @@ describe('Either', () => {
     U.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
-  it('traverseReadonlyArrayWithIndex', () => {
-    const f = _.traverseReadonlyArrayWithIndex((i, a: number) => (a > 0 ? _.right(a + i) : _.left('a')))
-    U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
-    U.deepStrictEqual(pipe([1, 2], f), _.right([1, 3]))
-    U.deepStrictEqual(pipe([1, -2], f), _.left('a'))
-  })
-
   it('toUnion', () => {
     U.deepStrictEqual(_.toUnion(_.right(1)), 1)
     U.deepStrictEqual(_.toUnion(_.left('a')), 'a')
@@ -568,5 +562,16 @@ describe('Either', () => {
       ),
       _.right(5)
     )
+  })
+
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.right(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
+    })
   })
 })

@@ -17,6 +17,7 @@ import { Strong2 } from './Strong'
 import * as _ from './internal'
 import { FromReader2 } from './FromReader'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -430,7 +431,13 @@ export const apTW: <R2, B>(
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
   as: ReadonlyNonEmptyArray<A>
-): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => [f(0, as[0])(r), ...as.slice(1).map((a, i) => f(i + 1, a)(r))]
+): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => {
+  const out: NonEmptyArray<B> = [f(0, as[0])(r)]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i])(r))
+  }
+  return out
+}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
