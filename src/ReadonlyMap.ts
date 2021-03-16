@@ -607,7 +607,7 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
   }
 
   const sequence = <F>(F: Applicative<F>): (<A>(ta: ReadonlyMap<K, HKT<F, A>>) => HKT<F, ReadonlyMap<K, A>>) => {
-    return TWI.traverseWithIndex(F)((_, a) => a)
+    return TWI.traverseWithIndex(F)(_.SK)
   }
 
   return {

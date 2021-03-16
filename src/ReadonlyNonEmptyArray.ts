@@ -823,7 +823,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
   F: Applicative_<F>
-): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)((_, a) => a)
+): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)(_.SK)
 
 /**
  * @since 3.0.0

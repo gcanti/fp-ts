@@ -403,7 +403,7 @@ export function sequence<F>(
 export function sequence<F>(
   F: Applicative<F>
 ): <A>(ta: ReadonlyRecord<string, HKT<F, A>>) => HKT<F, ReadonlyRecord<string, A>> {
-  return traverseWithIndex(F)((_, a) => a)
+  return traverseWithIndex(F)(_.SK)
 }
 
 /**
