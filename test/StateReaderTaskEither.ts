@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
@@ -352,11 +352,6 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.left('e'))
     })
 
-    it('traverseReadonlyNonEmptyArray', async () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(await pipe(input, f)(undefined)(undefined)(), E.right([input, undefined] as const))
-    })
-
     it('sequenceReadonlyArray', async () => {
       const log: Array<number | string> = []
       const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
@@ -370,11 +365,17 @@ describe('StateReaderTaskEither', () => {
           return s
         })
       U.deepStrictEqual(
-        await pipe([right(1), right(2)], _.sequenceReadonlyArray)(undefined)(undefined)(),
+        await pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndex(SK))(undefined)(undefined)(),
         E.right([[1, 2], undefined] as const)
       )
-      U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('a'))
-      U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(undefined)(undefined)(), E.left('b'))
+      U.deepStrictEqual(
+        await pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndex(SK))(undefined)(undefined)(),
+        E.left('a')
+      )
+      U.deepStrictEqual(
+        await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndex(SK))(undefined)(undefined)(),
+        E.left('b')
+      )
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })

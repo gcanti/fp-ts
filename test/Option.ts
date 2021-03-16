@@ -448,17 +448,5 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(input, f), _.some(['a0', 'b1']))
       U.deepStrictEqual(pipe(['a', ''], f), _.none)
     })
-
-    it('traverseReadonlyNonEmptyArray', () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(pipe(input, f), _.some(input))
-    })
-
-    it('traverseReadonlyArray', () => {
-      const f = _.traverseReadonlyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
-      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
-      U.deepStrictEqual(pipe(input, f), _.some(input))
-      U.deepStrictEqual(pipe(['a', ''], f), _.none)
-    })
   })
 })

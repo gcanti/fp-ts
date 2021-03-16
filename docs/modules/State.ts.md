@@ -50,11 +50,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyNonEmptyArray](#sequencereadonlynonemptyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
@@ -404,46 +400,6 @@ export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <S, A>(as: readonly State<S, A>[]) => State<S, readonly A[]>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyNonEmptyArray: <S, A>(
-  as: ReadonlyNonEmptyArray<State<S, A>>
-) => State<S, ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v3.0.0
-
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -454,20 +410,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
   f: (index: number, a: A) => State<S, B>
 ) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, S, B>(
-  f: (a: A) => State<S, B>
-) => (as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

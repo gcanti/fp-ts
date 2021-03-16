@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { identity, pipe } from '../src/function'
+import { identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as S from '../src/string'
@@ -475,16 +475,6 @@ describe('TaskEither', () => {
       U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
     })
 
-    it('traverseReadonlyNonEmptyArray', async () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), E.right(input))
-    })
-
-    it('traverseReadonlyNonEmptyArraySeq', async () => {
-      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), E.right(input))
-    })
-
     it('sequenceReadonlyArray', async () => {
       const log: Array<number | string> = []
       const right = (n: number): _.TaskEither<string, number> =>
@@ -497,9 +487,9 @@ describe('TaskEither', () => {
           log.push(s)
           return s
         })
-      U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.right([1, 2]))
-      U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
-      U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndex(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndex(SK))(), E.left('a'))
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndex(SK))(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
@@ -515,9 +505,9 @@ describe('TaskEither', () => {
           log.push(s)
           return s
         })
-      U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceReadonlyArraySeq)(), E.right([1, 2]))
-      U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
-      U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('a'))
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })

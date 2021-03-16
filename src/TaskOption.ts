@@ -21,7 +21,7 @@ import {
   FromTask1,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy } from './function'
+import { flow, identity, Lazy, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { Monad1 } from './Monad'
 import * as O from './Option'
@@ -654,7 +654,7 @@ export const apT =
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
-  flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(O.sequenceReadonlyNonEmptyArray))
+  flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(O.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -667,45 +667,6 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyNonEmptyArray = <A, B>(
-  f: (a: A) => TaskOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
-  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyArray = <A, B>(
-  f: (a: A) => TaskOption<B>
-): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativePar)`.
- *
- * @since 3.0.0
- */
-export const sequenceReadonlyNonEmptyArray: <A>(
-  as: ReadonlyNonEmptyArray<TaskOption<A>>
-) => TaskOption<ReadonlyNonEmptyArray<A>> =
-  /*#__PURE__*/
-  traverseReadonlyNonEmptyArray(identity)
-
-/**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
- *
- * @since 3.0.0
- */
-export const sequenceReadonlyArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseReadonlyArray(identity)
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
@@ -742,42 +703,3 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyNonEmptyArraySeq = <A, B>(
-  f: (a: A) => TaskOption<B>
-): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
-  traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const traverseReadonlyArraySeq = <A, B>(
-  f: (a: A) => TaskOption<B>
-): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const sequenceReadonlyNonEmptyArraySeq: <A>(
-  as: ReadonlyNonEmptyArray<TaskOption<A>>
-) => TaskOption<ReadonlyNonEmptyArray<A>> =
-  /*#__PURE__*/
-  traverseReadonlyNonEmptyArraySeq(identity)
-
-/**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
- *
- * @since 3.0.0
- */
-export const sequenceReadonlyArraySeq: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseReadonlyArraySeq(identity)

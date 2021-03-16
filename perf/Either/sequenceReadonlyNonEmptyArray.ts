@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/Either'
-import { pipe } from '../../src/function'
+import { pipe, SK } from '../../src/function'
 
 /*
  */
@@ -15,7 +15,7 @@ suite
     pipe(as, RNEA.sequence(_.Applicative))
   })
   .add('_.sequenceReadonlyNonEmptyArray', function () {
-    pipe(as, _.sequenceReadonlyNonEmptyArray)
+    pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(SK))
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

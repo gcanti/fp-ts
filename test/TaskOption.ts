@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe, SK } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
@@ -189,23 +189,6 @@ describe('TaskOption', () => {
       U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
     })
 
-    it('traverseReadonlyNonEmptyArray', async () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), O.some(input))
-    })
-
-    it('traverseReadonlyNonEmptyArraySeq', async () => {
-      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), O.some(input))
-    })
-
-    it('traverseReadonlyArray', async () => {
-      const f = _.traverseReadonlyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
-      U.deepStrictEqual(await pipe(RA.empty, f)(), O.some(RA.empty))
-      U.deepStrictEqual(await pipe(input, f)(), O.some(input))
-      U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
-    })
-
     it('sequenceReadonlyArray', async () => {
       const log: Array<number | string> = []
       const some = (n: number): _.TaskOption<number> =>
@@ -221,9 +204,9 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceReadonlyArray)(), O.some([1, 2]))
-      U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceReadonlyArray)(), O.none)
-      U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceReadonlyArray)(), O.none)
+      U.deepStrictEqual(await pipe([some(1), some(2)], _.traverseReadonlyArrayWithIndex(SK))(), O.some([1, 2]))
+      U.deepStrictEqual(await pipe([some(3), none('a')], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
+      U.deepStrictEqual(await pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
@@ -242,9 +225,9 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceReadonlyArraySeq)(), O.some([1, 2]))
-      U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceReadonlyArraySeq)(), O.none)
-      U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceReadonlyArraySeq)(), O.none)
+      U.deepStrictEqual(await pipe([some(1), some(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.some([1, 2]))
+      U.deepStrictEqual(await pipe([some(3), none('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.none)
+      U.deepStrictEqual(await pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })

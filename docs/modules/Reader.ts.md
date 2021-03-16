@@ -70,11 +70,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyNonEmptyArray](#sequencereadonlynonemptyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
@@ -597,46 +593,6 @@ export declare const bindW: <N extends string, A, R2, B>(
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <R, A>(as: readonly Reader<R, A>[]) => Reader<R, readonly A[]>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyNonEmptyArray: <R, A>(
-  as: ReadonlyNonEmptyArray<Reader<R, A>>
-) => Reader<R, ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, R, B>(
-  f: (a: A) => Reader<R, B>
-) => (as: readonly A[]) => Reader<R, readonly B[]>
-```
-
-Added in v3.0.0
-
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -647,20 +603,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => Reader<R, B>
 ) => (as: readonly A[]) => Reader<R, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, R, B>(
-  f: (a: A) => Reader<R, B>
-) => (as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

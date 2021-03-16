@@ -126,11 +126,7 @@ Added in v3.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyNonEmptyArray](#sequencereadonlynonemptyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
@@ -1412,46 +1408,6 @@ assert.strictEqual(f(E.right(3)), true)
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyNonEmptyArray: <E, A>(
-  as: ReadonlyNonEmptyArray<Either<E, A>>
-) => Either<E, ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v3.0.0
-
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1462,20 +1418,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => Either<E, B>
 ) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
-  f: (a: A) => Either<E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => Either<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

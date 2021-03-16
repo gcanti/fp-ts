@@ -94,11 +94,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceReadonlyArray](#sequencereadonlyarray)
-  - [sequenceReadonlyNonEmptyArray](#sequencereadonlynonemptyarray)
-  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
-  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
@@ -959,48 +955,6 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 
 Added in v3.0.0
 
-## sequenceReadonlyArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyArray: <R, E, A>(
-  as: readonly ReaderEither<R, E, A>[]
-) => ReaderEither<R, E, readonly A[]>
-```
-
-Added in v3.0.0
-
-## sequenceReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceReadonlyNonEmptyArray: <R, E, A>(
-  as: ReadonlyNonEmptyArray<ReaderEither<R, E, A>>
-) => ReaderEither<R, E, ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyArray: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v3.0.0
-
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1011,20 +965,6 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
 ) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v3.0.0
-
-## traverseReadonlyNonEmptyArray
-
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseReadonlyNonEmptyArray: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

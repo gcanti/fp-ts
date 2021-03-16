@@ -117,16 +117,5 @@ describe('Reader', () => {
       U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
       U.deepStrictEqual(pipe(input, f)({}), ['a0', 'b1'])
     })
-
-    it('traverseReadonlyNonEmptyArray', () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(pipe(input, f)({}), input)
-    })
-
-    it('traverseReadonlyArray', () => {
-      const f = _.traverseReadonlyArray(_.of)
-      U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
-      U.deepStrictEqual(pipe(input, f)({}), input)
-    })
   })
 })

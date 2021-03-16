@@ -573,10 +573,5 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(input, f), _.right(['a0', 'b1']))
       U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
     })
-
-    it('traverseReadonlyArray', () => {
-      const f = _.traverseReadonlyArray(_.of)
-      U.deepStrictEqual(pipe(input, f), _.right(input))
-    })
   })
 })

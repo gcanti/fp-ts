@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderTask'
@@ -145,18 +145,8 @@ describe('ReaderTask', () => {
       U.deepStrictEqual(await pipe(input, f)(undefined)(), ['a0', 'b1'])
     })
 
-    it('traverseReadonlyNonEmptyArray', async () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(await pipe(input, f)(undefined)(), input)
-    })
-
-    it('traverseReadonlyNonEmptyArraySeq', async () => {
-      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
-      U.deepStrictEqual(await pipe(input, f)(undefined)(), input)
-    })
-
     it('sequenceReadonlyArray', async () => {
-      U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArray)(undefined)(), RA.empty)
+      U.deepStrictEqual(await pipe(RA.empty, _.traverseReadonlyArrayWithIndex(SK))(undefined)(), RA.empty)
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(
@@ -168,12 +158,12 @@ describe('ReaderTask', () => {
           )
         )
       const as = RA.makeBy(4, append)
-      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(undefined)(), [0, 1, 2, 3])
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndex(SK))(undefined)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 2, 1, 3])
     })
 
     it('sequenceReadonlyArraySeq', async () => {
-      U.deepStrictEqual(await pipe(RA.empty, _.sequenceReadonlyArraySeq)(undefined)(), RA.empty)
+      U.deepStrictEqual(await pipe(RA.empty, _.traverseReadonlyArrayWithIndexSeq(SK))(undefined)(), RA.empty)
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(
@@ -185,7 +175,7 @@ describe('ReaderTask', () => {
           )
         )
       const as = RA.makeBy(4, append)
-      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(undefined)(), [0, 1, 2, 3])
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndexSeq(SK))(undefined)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })
   })

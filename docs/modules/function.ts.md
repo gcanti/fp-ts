@@ -21,6 +21,7 @@ Added in v3.0.0
 - [utils](#utils)
   - [FunctionN (interface)](#functionn-interface)
   - [Lazy (interface)](#lazy-interface)
+  - [SK](#sk)
   - [absurd](#absurd)
   - [apply](#apply)
   - [constFalse](#constfalse)
@@ -173,6 +174,18 @@ A _thunk_
 export interface Lazy<A> {
   (): A
 }
+```
+
+Added in v3.0.0
+
+## SK
+
+`SK` function (SKI combinator calculus).
+
+**Signature**
+
+```ts
+export declare const SK: <A, B>(_: A, b: B) => B
 ```
 
 Added in v3.0.0

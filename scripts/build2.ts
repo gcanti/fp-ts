@@ -3,7 +3,7 @@ import G from 'glob'
 import * as path from 'path'
 import * as Console from '../src/Console'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { flow, pipe, SK } from '../src/function'
 import * as RA from '../src/ReadonlyArray'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -76,7 +76,7 @@ const getModule = (name: string): TE.TaskEither<Error, Module> =>
     )
   )
 
-const getModules = pipe(getNames, TE.chain(TE.traverseReadonlyArray(getModule)))
+const getModules = pipe(getNames, TE.chain(TE.traverseReadonlyArrayWithIndex(flow(SK, getModule))))
 
 const getModulePackageJson = (module: Module): string => `{
   "main": "./${module.name}.js",
@@ -94,7 +94,7 @@ const writeModule = (module: Module): TE.TaskEither<Error, void> =>
     TE.chain(() => writeFile(`./dist/${module.name}/package.json`, getModulePackageJson(module)))
   )
 
-const writeModules = pipe(getModules, TE.chainFirst(TE.traverseReadonlyArray(writeModule)))
+const writeModules = pipe(getModules, TE.chainFirst(TE.traverseReadonlyArrayWithIndex(flow(SK, writeModule))))
 
 const moveFile = (from: string, to: string) =>
   pipe(

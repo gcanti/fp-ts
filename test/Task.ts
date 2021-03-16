@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
@@ -150,16 +150,6 @@ describe('Task', () => {
       U.deepStrictEqual(await pipe(input, f)(), ['a0', 'b1'])
     })
 
-    it('traverseReadonlyNonEmptyArray', async () => {
-      const f = _.traverseReadonlyNonEmptyArray(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), input)
-    })
-
-    it('traverseReadonlyNonEmptyArraySeq', async () => {
-      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
-      U.deepStrictEqual(await pipe(input, f)(), input)
-    })
-
     it('sequenceReadonlyArray', async () => {
       const log: Array<number> = []
       const append = (n: number): _.Task<number> =>
@@ -170,7 +160,7 @@ describe('Task', () => {
           })
         )
       const as = RA.makeBy(4, append)
-      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArray)(), [0, 1, 2, 3])
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndex(SK))(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 2, 1, 3])
     })
 
@@ -184,7 +174,7 @@ describe('Task', () => {
           })
         )
       const as = RA.makeBy(4, append)
-      U.deepStrictEqual(await pipe(as, _.sequenceReadonlyArraySeq)(), [0, 1, 2, 3])
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndexSeq(SK))(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })
   })

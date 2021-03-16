@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { identity, pipe } from '../src/function'
+import { identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as S from '../src/string'
@@ -436,20 +436,8 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
     })
 
-    it('traverseReadonlyNonEmptyArray', () => {
-      const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-      U.deepStrictEqual(pipe(input, f)(), E.right(input))
-      U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
-    })
-
-    it('traverseReadonlyNonEmptyArraySeq', () => {
-      const f = _.traverseReadonlyNonEmptyArraySeq((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
-      U.deepStrictEqual(pipe(input, f)(), E.right(input))
-      U.deepStrictEqual(pipe(['a', ''], f)(), E.left('e'))
-    })
-
     it('sequenceReadonlyArray', () => {
-      U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArray)(), E.right(RA.empty))
+      U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndex(SK))(), E.right(RA.empty))
 
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
@@ -462,14 +450,14 @@ describe('IOEither', () => {
           log.push(s)
           return s
         })
-      U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceReadonlyArray)(), E.right([1, 2]))
-      U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceReadonlyArray)(), E.left('a'))
-      U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceReadonlyArray)(), E.left('b'))
+      U.deepStrictEqual(pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndex(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndex(SK))(), E.left('a'))
+      U.deepStrictEqual(pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndex(SK))(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceReadonlyArraySeq', () => {
-      U.deepStrictEqual(pipe(RA.empty, _.sequenceReadonlyArraySeq)(), E.right(RA.empty))
+      U.deepStrictEqual(pipe(RA.empty, _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right(RA.empty))
 
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
@@ -482,9 +470,9 @@ describe('IOEither', () => {
           log.push(s)
           return s
         })
-      U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceReadonlyArraySeq)(), E.right([1, 2]))
-      U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceReadonlyArraySeq)(), E.left('a'))
-      U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceReadonlyArraySeq)(), E.left('b'))
+      U.deepStrictEqual(pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('a'))
+      U.deepStrictEqual(pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })

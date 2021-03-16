@@ -702,6 +702,8 @@ export function pipe(
 export const hole: <T>() => T = absurd as any
 
 /**
+ * `SK` function (SKI combinator calculus).
+ *
  * @since 3.0.0
  */
 export const SK = <A, B>(_: A, b: B): B => b

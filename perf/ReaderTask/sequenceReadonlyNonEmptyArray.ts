@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/ReaderTask'
-import { pipe } from '../../src/function'
+import { pipe, SK } from '../../src/function'
 
 /*
  RNEA.sequence(_.ApplicativeSeq) x 255 ops/sec ±6.38% (35 runs sampled)
@@ -18,7 +18,7 @@ suite
     await pipe(as, RNEA.sequence(_.ApplicativeSeq))(undefined)()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.sequenceReadonlyNonEmptyArray)(undefined)()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(SK))(undefined)()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console
