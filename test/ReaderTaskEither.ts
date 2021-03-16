@@ -7,11 +7,13 @@ import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as Sep from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
-import * as Sep from '../src/Separated'
 
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
@@ -403,6 +405,32 @@ describe('ReaderTaskEither', () => {
   })
 
   describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', async () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(), E.right(RA.empty))
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), E.right(['a0', 'b1']))
+      U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.left('e'))
+    })
+
+    it('traverseReadonlyArrayWithIndexSeq', async () => {
+      const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(), E.right(RA.empty))
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), E.right(['a0', 'b1']))
+      U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(), E.left('e'))
+    })
+
+    it('traverseReadonlyNonEmptyArray', async () => {
+      const f = _.traverseReadonlyNonEmptyArray(_.of)
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), E.right(input))
+    })
+
+    it('traverseReadonlyNonEmptyArraySeq', async () => {
+      const f = _.traverseReadonlyNonEmptyArraySeq(_.of)
+      U.deepStrictEqual(await pipe(input, f)(undefined)(), E.right(input))
+    })
+
     it('sequenceReadonlyArray', async () => {
       const log: Array<number | string> = []
       const right = (n: number): _.ReaderTaskEither<undefined, string, number> =>
