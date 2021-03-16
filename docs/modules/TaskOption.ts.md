@@ -94,10 +94,16 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [sequenceReadonlyNonEmptyArray](#sequencereadonlynonemptyarray)
+  - [sequenceReadonlyNonEmptyArraySeq](#sequencereadonlynonemptyarrayseq)
   - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [tupled](#tupled)
 
 ---
@@ -855,6 +861,34 @@ export declare const sequenceReadonlyArraySeq: <A>(as: readonly TaskOption<A>[])
 
 Added in v3.0.0
 
+## sequenceReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyNonEmptyArray: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyNonEmptyArraySeq
+
+Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyNonEmptyArraySeq: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArray
 
 Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
@@ -907,6 +941,62 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, B>(
+  f: (a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArraySeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArraySeq: <A, B>(
+  f: (a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

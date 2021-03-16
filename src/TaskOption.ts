@@ -32,6 +32,8 @@ import * as _ from './internal'
 
 import Task = T.Task
 import Option = O.Option
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -645,14 +647,36 @@ export const apT =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
+  flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(O.sequenceReadonlyNonEmptyArray))
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
   f: (index: number, a: A) => TaskOption<B>
-): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) =>
-  flow(T.traverseReadonlyArrayWithIndex(f), T.map(O.sequenceReadonlyArray))
+): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, B>(
+  f: (a: A) => TaskOption<B>
+): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
@@ -664,6 +688,17 @@ export const traverseReadonlyArray = <A, B>(
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArray: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArray(identity)
+
+/**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 3.0.0
@@ -673,19 +708,19 @@ export const sequenceReadonlyArray: <A>(as: ReadonlyArray<TaskOption<A>>) => Tas
   traverseReadonlyArray(identity)
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
-  as: ReadonlyArray<A>
-): TaskOption<ReadonlyArray<B>> => () =>
-  as.reduce<Promise<Option<Array<B>>>>(
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => TaskOption<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): TaskOption<ReadonlyNonEmptyArray<B>> => () =>
+  as.slice(1).reduce<Promise<Option<NonEmptyArray<B>>>>(
     (acc, a, i) =>
       acc.then((obs) =>
         _.isNone(obs)
           ? acc
-          : f(i, a)().then((ob) => {
+          : f(i + 1, a)().then((ob) => {
               if (_.isNone(ob)) {
                 return ob
               }
@@ -693,8 +728,30 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A)
               return obs
             })
       ),
-    Promise.resolve(_.some([]))
+    f(0, as[0])().then(O.map((b) => [b]))
   )
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArraySeq = <A, B>(
+  f: (a: A) => TaskOption<B>
+): ((as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>) =>
+  traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
@@ -704,6 +761,17 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(f: (index: number, a: A)
 export const traverseReadonlyArraySeq = <A, B>(
   f: (a: A) => TaskOption<B>
 ): ((as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#sequence(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyNonEmptyArraySeq: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArraySeq(identity)
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
