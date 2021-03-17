@@ -10,7 +10,7 @@ import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { flow, pipe, SK } from './function'
+import { flow, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -606,14 +606,9 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
     return (f) => traverseWithIndexF((_, a) => f(a))
   }
 
-  const sequence = <F>(F: Applicative<F>): (<A>(ta: ReadonlyMap<K, HKT<F, A>>) => HKT<F, ReadonlyMap<K, A>>) => {
-    return TWI.traverseWithIndex(F)(SK)
-  }
-
   return {
     map,
-    traverse,
-    sequence
+    traverse
   }
 }
 

@@ -152,7 +152,7 @@ describe('StateReaderTaskEither', () => {
       append('start 2'),
       _.chain(() => append('end 2'))
     )
-    const sequence = RA.sequence(_.Applicative)
+    const sequence = RA.traverse(_.Applicative)(<S, R, E, A>(a: _.StateReaderTaskEither<S, R, E, A>) => a)
     U.deepStrictEqual(await sequence([t1, t2])({})({})(), E.right([[2, 4], {}] as const))
     U.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })

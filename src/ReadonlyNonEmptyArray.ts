@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, SK, tuple } from './function'
+import { identity, Lazy, pipe, tuple } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -821,13 +821,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
 /**
  * @since 3.0.0
  */
-export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: Applicative_<F>
-): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)(SK)
-
-/**
- * @since 3.0.0
- */
 export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: Applicative_<F>) => <
   A,
   B
@@ -1024,8 +1017,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

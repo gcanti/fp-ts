@@ -38,7 +38,6 @@ Added in v3.0.0
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
@@ -319,33 +318,6 @@ export declare function mapWithIndex<K extends string, A, B>(
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare function sequence<F extends URIS3>(
-  F: Applicative3<F>
-): <K extends string, R, E, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <K extends string, R, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS2>(
-  F: Applicative2<F>
-): <K extends string, E, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export declare function sequence<F extends URIS>(
-  F: Applicative1<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind<F, A>>) => Kind<F, ReadonlyRecord<K, A>>
-export declare function sequence<F>(
-  F: Applicative<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, HKT<F, A>>) => HKT<F, ReadonlyRecord<K, A>>
-```
-
-Added in v3.0.0
 
 ## traverse
 

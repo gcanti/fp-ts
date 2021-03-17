@@ -74,12 +74,6 @@ describe('Tuple2', () => {
       U.deepStrictEqual(traverse([2, 'a']), O.some(_.tuple2(2, 'a')))
       U.deepStrictEqual(traverse([1, 'a']), O.none)
     })
-
-    it('sequence', () => {
-      const sequence = _.sequence(O.Applicative)
-      U.deepStrictEqual(sequence([O.some(1), 'a']), O.some(_.tuple2(1, 'a')))
-      U.deepStrictEqual(sequence([O.none, 'a']), O.none)
-    })
   })
 
   describe('instances', () => {

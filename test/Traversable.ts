@@ -23,10 +23,4 @@ describe('Traversable', () => {
       O.none
     )
   })
-
-  it('sequence', () => {
-    const sequence = _.sequence(R.Traversable, RA.Traversable)(O.Applicative)
-    deepStrictEqual(pipe({ a: [O.some(1), O.some(2)], b: [O.some(3)] }, sequence), O.some({ a: [1, 2], b: [3] }))
-    deepStrictEqual(pipe({ a: [O.some(1), O.none], b: [O.some(3)] }, sequence), O.none)
-  })
 })

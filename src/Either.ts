@@ -562,31 +562,6 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative_<F>) =
   ta: Either<E, A>
 ): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right)))
 
-/**
- * Evaluate each monadic action in the structure from left to right, and collect the results.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as E from 'fp-ts/Either'
- * import * as O from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   pipe(E.right(O.some('a')), E.sequence(O.Applicative)),
- *   O.some(E.right('a')),
- *  )
- *
- * assert.deepStrictEqual(
- *   pipe(E.right(O.none), E.sequence(O.Applicative)),
- *   O.none
- * )
- *
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative_<F>) => <E, A>(
-  ma: Either<E, HKT<F, A>>
-): HKT<F, Either<E, A>> => (isLeft(ma) ? F.of(left(ma.left)) : pipe(ma.right, F.map(right)))
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -913,8 +888,7 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

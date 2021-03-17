@@ -49,7 +49,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainFirstW](#chainfirstw)
@@ -371,30 +370,6 @@ export declare const of: <A, E = never>(a: A) => Either<E, A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-Evaluate each monadic action in the structure from left to right, and collect the results.
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence2<'Either'>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.some(E.right('a')))
-
-assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
-```
-
-Added in v3.0.0
 
 ## traverse
 

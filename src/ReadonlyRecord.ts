@@ -10,7 +10,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable as Foldable_, Foldable1, Foldable2, Foldable3, Foldable4 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { flow, pipe, SK } from './function'
+import { flow, pipe } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -376,34 +376,6 @@ export function traverse<F>(
 ): <A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
-}
-
-/**
- * @category Traversable
- * @since 3.0.0
- */
-export function sequence<F extends URIS3>(
-  F: Applicative3<F>
-): <K extends string, R, E, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export function sequence<F extends URIS3, E>(
-  F: Applicative3C<F, E>
-): <K extends string, R, A>(ta: ReadonlyRecord<K, Kind3<F, R, E, A>>) => Kind3<F, R, E, ReadonlyRecord<K, A>>
-export function sequence<F extends URIS2>(
-  F: Applicative2<F>
-): <K extends string, E, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export function sequence<F extends URIS2, E>(
-  F: Applicative2C<F, E>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind2<F, E, A>>) => Kind2<F, E, ReadonlyRecord<K, A>>
-export function sequence<F extends URIS>(
-  F: Applicative1<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, Kind<F, A>>) => Kind<F, ReadonlyRecord<K, A>>
-export function sequence<F>(
-  F: Applicative<F>
-): <K extends string, A>(ta: ReadonlyRecord<K, HKT<F, A>>) => HKT<F, ReadonlyRecord<K, A>>
-export function sequence<F>(
-  F: Applicative<F>
-): <A>(ta: ReadonlyRecord<string, HKT<F, A>>) => HKT<F, ReadonlyRecord<string, A>> {
-  return traverseWithIndex(F)(SK)
 }
 
 /**
@@ -790,8 +762,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

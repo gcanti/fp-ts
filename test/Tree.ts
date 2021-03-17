@@ -17,13 +17,6 @@ describe('Tree', () => {
     U.deepStrictEqual(pipe(fa, _.traverse(O.Applicative)(O.some)), O.some(fa))
   })
 
-  it('sequence', () => {
-    U.deepStrictEqual(
-      _.sequence(O.Applicative)(_.make(O.some('a'), [_.make(O.some('b')), _.make(O.some('c'))])),
-      O.some(_.make('a', [_.make('b'), _.make('c')]))
-    )
-  })
-
   it('map', () => {
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])

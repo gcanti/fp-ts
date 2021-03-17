@@ -122,13 +122,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
 ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => flow(f, F.map(id))
 
 /**
- * @since 3.0.0
- */
-export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: Applicative_<F>
-): (<A>(ta: Identity<HKT<F, A>>) => HKT<F, Identity<A>>) => F.map(id)
-
-/**
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
@@ -304,8 +297,7 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

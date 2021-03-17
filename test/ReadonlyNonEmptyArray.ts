@@ -31,12 +31,6 @@ describe('ReadonlyNonEmptyArray', () => {
       )
     })
 
-    it('sequence', () => {
-      const sequence = _.sequence(O.Applicative)
-      U.deepStrictEqual(sequence([O.some(1), O.some(2), O.some(3)]), O.some([1, 2, 3] as const))
-      U.deepStrictEqual(sequence([O.none, O.some(2), O.some(3)]), O.none)
-    })
-
     it('traverseWithIndex', () => {
       U.deepStrictEqual(
         pipe(

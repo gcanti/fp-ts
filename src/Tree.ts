@@ -17,6 +17,7 @@ import {
   Applicative4
 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
@@ -24,13 +25,12 @@ import { Foldable1 } from './Foldable'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as _ from './internal'
 import { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -335,13 +335,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
 }
 
 /**
- * @since 3.0.0
- */
-export const sequence: Traversable1<URI>['sequence'] = <F>(
-  F: Applicative_<F>
-): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => traverse(F)(identity)
-
-/**
  * @category Pointed
  * @since 3.0.0
  */
@@ -507,8 +500,7 @@ export const Foldable: Foldable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

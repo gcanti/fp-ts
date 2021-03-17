@@ -86,7 +86,6 @@ Added in v3.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
-  - [sequence](#sequence)
   - [toTuple2](#totuple2)
   - [traverse](#traverse)
 
@@ -682,16 +681,6 @@ import { none, some } from 'fp-ts/Option'
 assert.deepStrictEqual(getRightOnly(left('a')), none)
 assert.deepStrictEqual(getRightOnly(right(1)), some(1))
 assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence2<'These'>
 ```
 
 Added in v3.0.0

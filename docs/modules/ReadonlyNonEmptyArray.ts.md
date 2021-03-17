@@ -120,7 +120,6 @@ Added in v3.0.0
   - [max](#max)
   - [min](#min)
   - [modifyAt](#modifyat)
-  - [sequence](#sequence)
   - [tail](#tail)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -1328,16 +1327,6 @@ export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
 ) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyNonEmptyArray'>
 ```
 
 Added in v3.0.0

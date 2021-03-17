@@ -168,12 +168,6 @@ describe('Option', () => {
       )
     })
 
-    it('sequence', () => {
-      const sequence = _.sequence(RA.Applicative)
-      U.deepStrictEqual(sequence(_.some([1, 2])), [_.some(1), _.some(2)])
-      U.deepStrictEqual(sequence(_.none), [_.none])
-    })
-
     it('wither', async () => {
       const wither = _.wither(T.ApplicativePar)((n: number) => T.of(p(n) ? _.some(n + 1) : _.none))
       U.deepStrictEqual(await pipe(_.none, wither)(), _.none)

@@ -65,7 +65,6 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [sequence](#sequence)
   - [traverse](#traverse)
   - [tupled](#tupled)
 
@@ -522,16 +521,6 @@ Added in v3.0.0
 
 ```ts
 export declare const bindTo: <N>(name: N) => <A>(fa: A) => { [K in N]: A }
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Identity'>
 ```
 
 Added in v3.0.0

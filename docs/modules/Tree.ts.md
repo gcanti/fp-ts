@@ -76,7 +76,6 @@ Added in v3.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
-  - [sequence](#sequence)
   - [traverse](#traverse)
   - [tupled](#tupled)
 
@@ -705,16 +704,6 @@ Tests whether a value is a member of a `Tree`.
 
 ```ts
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Tree<A>) => boolean
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Tree'>
 ```
 
 Added in v3.0.0

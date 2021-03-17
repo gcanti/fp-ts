@@ -611,14 +611,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(F: Applicative_<F>) =
 ): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative_<F>) => <A>(
-  ta: Option<HKT<F, A>>
-): HKT<F, Option<A>> => (isNone(ta) ? F.of(none) : pipe(ta.value, F.map(some)))
-
-/**
  * @category Witherable
  * @since 3.0.0
  */
@@ -963,8 +955,7 @@ export const Filterable: Filterable1<URI> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
-import * as RNEA from '../../src/ReadonlyNonEmptyArray'
+import { pipe } from '../../src/function'
 import * as _ from '../../src/ReaderTask'
-import { pipe, SK } from '../../src/function'
+import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 
 /*
  RNEA.sequence(_.ApplicativeSeq) x 255 ops/sec ±6.38% (35 runs sampled)
@@ -11,14 +11,14 @@ Fastest is _.sequenceReadonlyNonEmptyArray
 
 const suite = new Benchmark.Suite()
 
-const as = pipe(RNEA.range(0, 1000), RNEA.map(_.of))
+const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('RNEA.sequence(_.ApplicativeSeq)', async function () {
-    await pipe(as, RNEA.sequence(_.ApplicativeSeq))(undefined)()
+    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.of))(undefined)()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(SK))(undefined)()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.of))(undefined)()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

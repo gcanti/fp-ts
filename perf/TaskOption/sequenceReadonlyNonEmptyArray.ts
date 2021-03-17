@@ -1,21 +1,21 @@
 import * as Benchmark from 'benchmark'
+import { pipe } from '../../src/function'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/TaskOption'
-import { pipe, SK } from '../../src/function'
 
 /*
  */
 
 const suite = new Benchmark.Suite()
 
-const as = pipe(RNEA.range(0, 1000), RNEA.map(_.of))
+const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('RNEA.sequence(_.ApplicativeSeq)', async function () {
-    await pipe(as, RNEA.sequence(_.ApplicativeSeq))()
+    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.of))()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
-    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(SK))()
+    await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.of))()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

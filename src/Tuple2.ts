@@ -142,17 +142,6 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) =>
     F.map((b) => [b, snd(t)])
   )
 
-/**
- * @since 3.0.0
- */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: Applicative<F>) => <A, E>(
-  t: Tuple2<E, HKT<F, A>>
-): HKT<F, Tuple2<E, A>> =>
-  pipe(
-    fst(t),
-    F.map((a) => [a, snd(t)])
-  )
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -241,8 +230,7 @@ export const Foldable: Foldable2<URI> = {
  */
 export const Traversable: Traversable2<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

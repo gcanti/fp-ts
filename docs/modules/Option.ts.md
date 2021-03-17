@@ -51,7 +51,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [Witherable](#witherable)
   - [wilt](#wilt)
@@ -361,16 +360,6 @@ export declare const of: <A>(a: A) => Option<A>
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Option'>
-```
-
-Added in v3.0.0
 
 ## traverse
 

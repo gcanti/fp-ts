@@ -175,6 +175,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `extends string` constraint from `pop`
     - remove `extends string` constraint from `updateAt`
     - remove `extends string` constraint from `modifyAt`
+    - remove `sequence`
   - `ReadonlySet`
     - make `isSubset` pipeable
     - make `elem` pipeable
@@ -206,6 +207,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `tracks` curried
   - `Traversable`
     - drop `Foldable` dependency
+    - drop `sequence` operation
   - `TraversableWithIndex`
     - drop `Traversable` dependency
   - `Tree`

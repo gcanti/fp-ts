@@ -48,8 +48,10 @@ export const singleton = <A>(a: A): NonEmptyArray<A> => [a]
 /** @internal */
 export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
 
+/** @internal */
 export const head = <A>(as: ReadonlyNonEmptyArray<A>): A => as[0]
 
+/** @internal */
 export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(1)
 
 // -------------------------------------------------------------------------------------

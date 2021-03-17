@@ -49,7 +49,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [Tuple2 (type alias)](#tuple2-type-alias)
   - [fst](#fst)
-  - [sequence](#sequence)
   - [snd](#snd)
   - [traverse](#traverse)
   - [tuple2](#tuple2)
@@ -353,16 +352,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fst: <A, E>(t: Tuple2<E, A>) => A
-```
-
-Added in v3.0.0
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence2<'Tuple2'>
 ```
 
 Added in v3.0.0

@@ -1547,25 +1547,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
 }
 
 /**
- * @category Traversable
- * @since 3.0.0
- */
-export const sequence: Traversable1<URI>['sequence'] = <F>(F: Applicative_<F>) => <A>(
-  ta: ReadonlyArray<HKT<F, A>>
-): HKT<F, ReadonlyArray<A>> => {
-  return pipe(
-    ta,
-    reduce(F.of(zero()), (fas, fa) =>
-      pipe(
-        fas,
-        F.map((as) => (a: A) => append(a)(as)),
-        F.ap(fa)
-      )
-    )
-  )
-}
-
-/**
  * @category TraversableWithIndex
  * @since 3.0.0
  */
@@ -1963,8 +1944,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  */
 export const Traversable: Traversable1<URI> = {
   map,
-  traverse,
-  sequence
+  traverse
 }
 
 /**

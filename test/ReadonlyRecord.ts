@@ -180,12 +180,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(_.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }), O.none)
     })
 
-    it('sequence', () => {
-      const sequence = _.sequence(O.Applicative)
-      U.deepStrictEqual(sequence({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
-      U.deepStrictEqual(sequence({ a: O.none, b: O.some(2) }), O.none)
-    })
-
     it('traverseWithIndex', () => {
       const traverseWithIndex = _.traverseWithIndex(O.Applicative)(
         (k, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)

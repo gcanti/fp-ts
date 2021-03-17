@@ -51,7 +51,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
-  - [sequence](#sequence)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
@@ -476,16 +475,6 @@ export declare const of: <A>(a: A) => readonly A[]
 Added in v3.0.0
 
 # Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'ReadonlyArray'>
-```
-
-Added in v3.0.0
 
 ## traverse
 
