@@ -808,7 +808,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): IOEither<E, ReadonlyNonEmptyArray<B>> => () => {
-  const e = f(0, as[0])()
+  const e = f(0, _.head(as))()
   if (_.isLeft(e)) {
     return e
   }

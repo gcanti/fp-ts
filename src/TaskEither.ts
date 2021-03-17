@@ -1042,7 +1042,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): TaskEither<E, ReadonlyNonEmptyArray<B>> => () =>
-  as.slice(1).reduce<Promise<Either<E, NonEmptyArray<B>>>>(
+  _.tail(as).reduce<Promise<Either<E, NonEmptyArray<B>>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
         _.isLeft(ebs)
@@ -1055,7 +1055,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: nu
               return ebs
             })
       ),
-    f(0, as[0])().then(E.map(_.singleton))
+    f(0, _.head(as))().then(E.map(_.singleton))
   )
 
 /**

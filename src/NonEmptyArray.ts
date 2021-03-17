@@ -6,6 +6,7 @@
  * @since 3.0.0
  */
 import * as RNEA from './ReadonlyNonEmptyArray'
+import * as _ from './internal'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -30,4 +31,7 @@ export interface NonEmptyArray<A> extends Array<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]
+export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [
+  _.head(as),
+  ..._.tail(as)
+]

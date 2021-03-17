@@ -432,7 +432,7 @@ export const apTW: <R2, B>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => {
-  const out: NonEmptyArray<B> = [f(0, as[0])(r)]
+  const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i])(r))
   }

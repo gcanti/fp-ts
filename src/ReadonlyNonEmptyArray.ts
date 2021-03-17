@@ -538,7 +538,7 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
 export const zipWith = <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) => C) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<C> => {
-  const cs: NEA.NonEmptyArray<C> = [f(as[0], bs[0])]
+  const cs: NEA.NonEmptyArray<C> = [f(head(as), head(bs))]
   const len = Math.min(as.length, bs.length)
   for (let i = 1; i < len; i++) {
     cs[i] = f(as[i], bs[i])
@@ -582,7 +582,7 @@ export const unzip = <A, B>(
  * @since 3.0.0
  */
 export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const out: NEA.NonEmptyArray<A> = [middle, as[0]]
+  const out: NEA.NonEmptyArray<A> = [middle, head(as)]
   for (let i = 1; i < as.length; i++) {
     out.push(middle, as[i])
   }
@@ -603,7 +603,7 @@ export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Read
  */
 export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? prepend(as[0])(prependAll(middle)(rest)) : as
+  return isNonEmpty(rest) ? prepend(head(as))(prependAll(middle)(rest)) : as
 }
 
 /**
@@ -848,7 +848,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
 /**
  * @since 3.0.0
  */
-export const extract: Comonad1<URI>['extract'] = (as) => as[0]
+export const extract: Comonad1<URI>['extract'] = _.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -1126,7 +1126,7 @@ export const head: <A>(as: ReadonlyNonEmptyArray<A>) => A = extract
 /**
  * @since 3.0.0
  */
-export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(1)
+export const tail: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A> = _.tail
 
 /**
  * @since 3.0.0

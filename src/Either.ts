@@ -1214,7 +1214,7 @@ export const apTW: <E2, B>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): Either<E, ReadonlyNonEmptyArray<B>> => {
-  const e = f(0, as[0])
+  const e = f(0, _.head(as))
   if (isLeft(e)) {
     return e
   }

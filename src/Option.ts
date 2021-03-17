@@ -1163,7 +1163,7 @@ export const apT =
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Option<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): Option<ReadonlyNonEmptyArray<B>> => {
-  const o = f(0, as[0])
+  const o = f(0, _.head(as))
   if (isNone(o)) {
     return none
   }

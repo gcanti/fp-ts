@@ -297,7 +297,7 @@ export const apT =
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): IO<ReadonlyNonEmptyArray<B>> => () => {
-  const out: NonEmptyArray<B> = [f(0, as[0])()]
+  const out: NonEmptyArray<B> = [f(0, _.head(as))()]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i])())
   }

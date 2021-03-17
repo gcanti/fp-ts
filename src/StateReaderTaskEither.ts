@@ -948,7 +948,7 @@ export const apTW: <S, R2, E2, B>(
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (as: ReadonlyNonEmptyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>> => (s) => (r) => () =>
-  as.slice(1).reduce<Promise<Either<E, [NonEmptyArray<B>, S]>>>(
+  _.tail(as).reduce<Promise<Either<E, [NonEmptyArray<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
         _.isLeft(ebs)
@@ -966,7 +966,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, R, E, B>(
               return ebs
             })
       ),
-    f(0, as[0])(s)(r)().then(E.map(([b, s]) => [[b], s]))
+    f(0, _.head(as))(s)(r)().then(E.map(([b, s]) => [[b], s]))
   )
 
 /**

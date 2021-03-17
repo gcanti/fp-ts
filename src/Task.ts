@@ -440,7 +440,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): Task<ReadonlyNonEmptyArray<B>> => () =>
-  as.slice(1).reduce<Promise<NonEmptyArray<B>>>(
+  _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
     (acc, a, i) =>
       acc.then((bs) =>
         f(i + 1, a)().then((b) => {
@@ -448,7 +448,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: numbe
           return bs
         })
       ),
-    f(0, as[0])().then(_.singleton)
+    f(0, _.head(as))().then(_.singleton)
   )
 
 /**

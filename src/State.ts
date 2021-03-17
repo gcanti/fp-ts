@@ -319,7 +319,7 @@ export const apT =
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): State<S, ReadonlyNonEmptyArray<B>> => (s) => {
-  const [b, s2] = f(0, as[0])(s)
+  const [b, s2] = f(0, _.head(as))(s)
   const bs: NonEmptyArray<B> = [b]
   let out = s2
   for (let i = 1; i < as.length; i++) {
