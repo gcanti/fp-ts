@@ -16,7 +16,7 @@ import { FilterableWithIndex1, PredicateWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_, fromPredicate as fromPredicate_ } from './FromEither'
-import { flow, identity, Lazy, pipe } from './function'
+import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -38,7 +38,7 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { Witherable1 } from './Witherable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -1565,30 +1565,6 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
   )
 
 /**
- * @category Witherable
- * @since 3.0.0
- */
-export const wither: Witherable1<URI>['wither'] = <F>(
-  F: Applicative_<F>
-): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseF = traverse(F)
-  return (f) => flow(traverseF(f), F.map(compact))
-}
-
-/**
- * @category Witherable
- * @since 3.0.0
- */
-export const wilt: Witherable1<URI>['wilt'] = <F>(
-  F: Applicative_<F>
-): (<A, B, C>(
-  f: (a: A) => HKT<F, Either<B, C>>
-) => (fa: ReadonlyArray<A>) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
-  const traverseF = traverse(F)
-  return (f) => flow(traverseF(f), F.map(separate))
-}
-
-/**
  * @category Unfoldable
  * @since 3.0.0
  */
@@ -1954,6 +1930,22 @@ export const Traversable: Traversable1<URI> = {
 export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   traverseWithIndex
 }
+
+/**
+ * @category Witherable
+ * @since 3.0.0
+ */
+export const wither: Witherable1<URI>['wither'] =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+
+/**
+ * @category Witherable
+ * @since 3.0.0
+ */
+export const wilt: Witherable1<URI>['wilt'] =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances

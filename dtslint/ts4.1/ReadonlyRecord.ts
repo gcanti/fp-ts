@@ -124,8 +124,8 @@ _.traverseWithIndex(O.Applicative)((_k: 'a' | 'b', n: number) => O.some(n))(r1) 
 _.traverse(O.Applicative)((n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
 _.traverse(O.Applicative)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-_.sequence(O.Applicative)(do1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.sequence(O.Applicative)(ro1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+pipe(do1, _.traverse(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(ro1, _.traverse(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 _.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 _.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>

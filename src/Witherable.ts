@@ -4,10 +4,13 @@
  * @since 3.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Compactable, Compactable1, Compactable2C } from './Compactable'
 import { Either } from './Either'
+import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
 import { Separated } from './Separated'
+import { Traversable, Traversable1, Traversable2C } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -274,4 +277,48 @@ export interface Wilt3<W extends URIS3> {
   <F>(F: Applicative<F>): <A, B, C>(
     f: (a: A) => HKT<F, Either<B, C>>
   ) => <R, E>(wa: Kind3<W, R, E, A>) => HKT<F, Separated<Kind3<W, R, E, B>, Kind3<W, R, E, C>>>
+}
+
+// -------------------------------------------------------------------------------------
+// defaults
+// -------------------------------------------------------------------------------------
+
+/**
+ * Return a `wilt` implementation from `Traversable` and `Compactable`.
+ *
+ * @category defaults
+ * @since 3.0.0
+ */
+export function wiltDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wilt']
+export function wiltDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wilt']
+export function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt']
+export function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt'] {
+  return <F>(
+    F: Applicative<F>
+  ): (<A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (wa: HKT<W, A>) => HKT<F, Separated<HKT<W, B>, HKT<W, C>>>) => {
+    const traverseF = T.traverse(F)
+    return (f) => flow(traverseF(f), F.map(C.separate))
+  }
+}
+
+/**
+ * Return a `wither` implementation from `Traversable` and `Compactable`.
+ *
+ * @category defaults
+ * @since 3.0.0
+ */
+export function witherDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wither']
+export function witherDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wither']
+export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither']
+export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither'] {
+  return <F>(F: Applicative<F>): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ta: HKT<W, A>) => HKT<F, HKT<W, B>>) => {
+    const traverseF = T.traverse(F)
+    return (f) => flow(traverseF(f), F.map(C.compact))
+  }
 }

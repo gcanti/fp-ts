@@ -42,10 +42,10 @@ import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
-import { separated, Separated } from './Separated'
+import { separated } from './Separated'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
-import { Witherable1 } from './Witherable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -610,29 +610,6 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(F: Applicative_<F>) =
   ta: Option<A>
 ): HKT<F, Option<B>> => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
-/**
- * @category Witherable
- * @since 3.0.0
- */
-export const wither: Witherable1<URI>['wither'] = <F>(F: Applicative_<F>) => <A, B>(f: (a: A) => HKT<F, Option<B>>) => (
-  fa: Option<A>
-): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
-
-/**
- * @category Witherable
- * @since 3.0.0
- */
-export const wilt: Witherable1<URI>['wilt'] = <F>(F: Applicative_<F>) => <A, B, C>(
-  f: (a: A) => HKT<F, Either<B, C>>
-) => (fa: Option<A>): HKT<F, Separated<Option<B>, Option<C>>> => {
-  return isNone(fa)
-    ? F.of(defaultSeparated)
-    : pipe(
-        f(fa.value),
-        F.map((e) => separated(getLeft(e), getRight(e)))
-      )
-}
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -957,6 +934,22 @@ export const Traversable: Traversable1<URI> = {
   map,
   traverse
 }
+
+/**
+ * @category Witherable
+ * @since 3.0.0
+ */
+export const wither: Witherable1<URI>['wither'] =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+
+/**
+ * @category Witherable
+ * @since 3.0.0
+ */
+export const wilt: Witherable1<URI>['wilt'] =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances

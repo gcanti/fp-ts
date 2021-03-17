@@ -48,7 +48,7 @@ import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
-import { Witherable2C } from './Witherable'
+import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -699,26 +699,9 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
  */
 export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
   const C = getCompactable(M)
-
-  const wither = <F>(
-    F: Applicative_<F>
-  ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (ma: Either<E, A>) => HKT<F, Either<E, B>>) => {
-    const traverseF = traverse(F)
-    return (f) => flow(traverseF(f), F.map(C.compact))
-  }
-
-  const wilt = <F>(
-    F: Applicative_<F>
-  ): (<A, B, C>(
-    f: (a: A) => HKT<F, Either<B, C>>
-  ) => (ma: Either<E, A>) => HKT<F, Separated<Either<E, B>, Either<E, C>>>) => {
-    const traverseF = traverse(F)
-    return (f) => flow(traverseF(f), F.map(C.separate))
-  }
-
   return {
-    wither,
-    wilt
+    wither: witherDefault(Traversable, C),
+    wilt: wiltDefault(Traversable, C)
   }
 }
 
