@@ -1,12 +1,11 @@
 import * as path from 'path'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
+import * as J from '../src/Json'
 import * as RTE from '../src/ReaderTaskEither'
-import * as RA from '../src/ReadonlyArray'
 import * as TE from '../src/TaskEither'
 import { FileSystem, fileSystem } from './FileSystem'
 import { run } from './run'
-import * as J from '../src/Json'
 
 interface Build<A> extends RTE.ReaderTaskEither<FileSystem, Error, A> {}
 
@@ -34,18 +33,18 @@ export const FILES: ReadonlyArray<string> = ['CHANGELOG.md', 'LICENSE', 'README.
 export const copyFiles: Build<ReadonlyArray<void>> = (C) =>
   pipe(
     FILES,
-    RA.traverse(TE.ApplicativePar)((from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
+    TE.traverseArrayWithIndex((_, from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
   )
 
-const traverse = RA.traverse(TE.ApplicativePar)
-
-export const makeModules: Build<void> = (C) =>
-  pipe(
+export const makeModules: Build<void> = (C) => {
+  const makeSingleModuleC = makeSingleModule(C)
+  return pipe(
     C.glob(`${OUTPUT_FOLDER}/lib/*.js`),
     TE.map(getModules),
-    TE.chain(traverse(makeSingleModule(C))),
+    TE.chain(TE.traverseArrayWithIndex((_, a) => makeSingleModuleC(a))),
     TE.map(() => undefined)
   )
+}
 
 function getModules(paths: ReadonlyArray<string>): ReadonlyArray<string> {
   return paths.map((filePath) => path.basename(filePath, '.js')).filter((x) => x !== 'index')
