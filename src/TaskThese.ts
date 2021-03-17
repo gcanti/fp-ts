@@ -17,6 +17,7 @@ import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
 import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow } from './function'
 import { flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
@@ -402,3 +403,12 @@ export const fromTaskK =
 export const toTuple2 =
   /*#__PURE__*/
   TT.toTuple2(T.Functor)
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: TaskThese<never, readonly []> = of(_.emptyReadonlyArray)

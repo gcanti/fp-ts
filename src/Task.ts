@@ -448,7 +448,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: numbe
           return bs
         })
       ),
-    f(0, as[0])().then((b) => [b])
+    f(0, as[0])().then(_.singleton)
   )
 
 /**

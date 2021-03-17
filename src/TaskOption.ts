@@ -689,7 +689,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: numbe
               return obs
             })
       ),
-    f(0, as[0])().then(O.map((b) => [b]))
+    f(0, as[0])().then(O.map(_.singleton))
   )
 
 /**

@@ -1055,7 +1055,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: nu
               return ebs
             })
       ),
-    f(0, as[0])().then(E.map((b) => [b]))
+    f(0, as[0])().then(E.map(_.singleton))
   )
 
 /**

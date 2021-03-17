@@ -36,6 +36,7 @@ import { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad2C } from './Monad'
 import { isNone, none, Option, some } from './Option'
 import { Pointed2 } from './Pointed'
@@ -622,3 +623,12 @@ export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? s
  * @since 3.0.0
  */
 export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? some(fa.right) : none)
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)

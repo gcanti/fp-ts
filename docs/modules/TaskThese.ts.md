@@ -61,6 +61,7 @@ Added in v3.0.0
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [toTuple2](#totuple2)
 
 ---
@@ -510,6 +511,16 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
 Added in v3.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskThese<never, readonly []>
+```
+
+Added in v3.0.0
 
 ## toTuple2
 

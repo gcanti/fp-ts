@@ -81,6 +81,7 @@ Added in v3.0.0
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
 - [utils](#utils)
+  - [ApT](#apt)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
@@ -582,6 +583,16 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 Added in v3.0.0
 
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: These<never, readonly []>
+```
+
+Added in v3.0.0
 
 ## getLeft
 

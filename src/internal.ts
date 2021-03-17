@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import { Either, Left, Right } from './Either'
+import { NonEmptyArray } from './NonEmptyArray'
 import { None, Option, Some } from './Option'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
@@ -37,3 +38,6 @@ export const emptyReadonlyArray: readonly [] = []
 
 /** @internal */
 export const emptyRecord: {} = {}
+
+/** @internal */
+export const singleton = <A>(a: A): NonEmptyArray<A> => [a]
