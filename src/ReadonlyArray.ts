@@ -490,16 +490,19 @@ export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
+    const out: Array<A> = []
+    for (const a of as) {
+      if (!predicate(a)) {
+        break
+      }
+      out.push(a)
     }
-    return init
+    const len = out.length
+    return len === as.length ? as : len === 0 ? empty : out
   }
 }
 
-const spanIndexUncurry = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number => {
+const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number => {
   const l = as.length
   let i = 0
   for (; i < l; i++) {
@@ -534,16 +537,7 @@ export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Rea
 export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
 export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
-    }
-    const l = as.length
-    const rest = Array(l - i)
-    for (let j = i; j < l; j++) {
-      rest[j - i] = as[j]
-    }
+    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
     return { init, rest }
   }
 }
@@ -600,13 +594,8 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @since 3.0.0
  */
 export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const i = spanIndexUncurry(as, predicate)
-  const l = as.length
-  const rest = Array(l - i)
-  for (let j = i; j < l; j++) {
-    rest[j - i] = as[j]
-  }
-  return rest
+  const i = spanLeftIndex(as, predicate)
+  return i === 0 ? as : i === as.length ? empty : as.slice(i)
 }
 
 /**
@@ -1150,18 +1139,18 @@ export const chop = <A, B>(
 }
 
 /**
- * Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
- * If `n` is out of bounds, the input is returned.
+ * Splits a `ReadonlyArray` into two pieces, the first piece has max `n` elements.
  *
  * @example
  * import { splitAt } from 'fp-ts/ReadonlyArray'
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const splitAt = (n: number) => <A>(as: ReadonlyArray<A>): readonly [ReadonlyArray<A>, ReadonlyArray<A>] =>
-  n === 0 ? [empty, as] : isNonEmpty(as) ? RNEA.splitAt(n)(as) : [empty, empty]
+  n >= 1 && isNonEmpty(as) ? RNEA.splitAt(n)(as) : isEmpty(as) ? [as, empty] : [empty, as]
 
 /**
  * Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of

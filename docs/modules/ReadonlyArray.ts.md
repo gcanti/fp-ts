@@ -80,6 +80,7 @@ Added in v3.0.0
   - [scanRight](#scanright)
   - [sort](#sort)
   - [sortBy](#sortby)
+  - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [union](#union)
@@ -173,7 +174,6 @@ Added in v3.0.0
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
-  - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
   - [tupled](#tupled)
@@ -961,6 +961,29 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
   { name: 'b', age: 2 },
   { name: 'b', age: 3 },
   { name: 'c', age: 2 },
+])
+```
+
+Added in v3.0.0
+
+## splitAt
+
+Splits a `ReadonlyArray` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
 ])
 ```
 
@@ -2452,30 +2475,6 @@ export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray
 import { spanLeft } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
-```
-
-Added in v3.0.0
-
-## splitAt
-
-Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
-If `n` is out of bounds, the input is returned.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
 ```
 
 Added in v3.0.0
