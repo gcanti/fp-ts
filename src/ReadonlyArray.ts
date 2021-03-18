@@ -177,6 +177,9 @@ export const foldRight: <A, B>(
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
   as: ReadonlyArray<A>
 ): ReadonlyArray<B> => {
+  if (isEmpty(as)) {
+    return empty
+  }
   const out: Array<B> = []
   for (let i = 0; i < as.length; i++) {
     out.push(...f(i, as[i]))

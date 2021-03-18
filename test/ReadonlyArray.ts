@@ -130,13 +130,11 @@ describe('ReadonlyArray', () => {
     })
 
     it('chainWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          [1, 2, 3],
-          _.chainWithIndex((i, n) => [n + i])
-        ),
-        [1, 3, 5]
-      )
+      const f = _.chainWithIndex((i, n: number) => [n + i])
+      U.deepStrictEqual(pipe([1, 2, 3], f), [1, 3, 5])
+      U.strictEqual(pipe(_.empty, f), _.empty)
+      const empty: ReadonlyArray<number> = []
+      U.strictEqual(pipe(empty, f), _.empty)
     })
 
     it('chainFirst', () => {
