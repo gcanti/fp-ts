@@ -380,16 +380,18 @@ export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
+    const out: Array<A> = []
+    for (const a of as) {
+      if (!predicate(a)) {
+        break
+      }
+      out.push(a)
     }
-    return init
+    return out
   }
 }
 
-const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
+const spanLeftIndex = <A>(as: Array<A>, predicate: Predicate<A>): number => {
   const l = as.length
   let i = 0
   for (; i < l; i++) {
@@ -427,16 +429,7 @@ export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Arr
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
-    }
-    const l = as.length
-    const rest = Array(l - i)
-    for (let j = i; j < l; j++) {
-      rest[j - i] = as[j]
-    }
+    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
     return { init, rest }
   }
 }
@@ -485,7 +478,7 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @since 2.0.0
  */
 export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  const i = spanIndexUncurry(as, predicate)
+  const i = spanLeftIndex(as, predicate)
   const l = as.length
   const out = Array(l - i)
   for (let j = i; j < l; j++) {
@@ -985,7 +978,7 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Ar
  * @since 2.0.0
  */
 export const splitAt = (n: number) => <A>(as: Array<A>): [Array<A>, Array<A>] =>
-  n === 0 ? [[], as] : isNonEmpty(as) ? NEA.splitAt(n)(as) : [[], []]
+  n >= 1 && isNonEmpty(as) ? NEA.splitAt(n)(as) : isEmpty(as) ? [copy(as), []] : [[], copy(as)]
 
 /**
  * Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of

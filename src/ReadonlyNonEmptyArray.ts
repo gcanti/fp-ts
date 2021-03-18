@@ -494,16 +494,17 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
 }
 
 /**
- * Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has `n` elements.
- * If `n` is out of bounds or `n = 0`, the input is returned.
+ * Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` elements.
  *
  * @category combinators
  * @since 2.10.0
  */
 export const splitAt = (n: number) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] =>
-  n < 1 || n >= as.length ? [as, empty] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+): readonly [ReadonlyNonEmptyArray<A>, ReadonlyArray<A>] => {
+  const m = Math.max(1, n)
+  return m >= as.length ? [as, empty] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+}
 
 /**
  * Splits a `ReadonlyNonEmptyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of

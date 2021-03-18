@@ -498,8 +498,10 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: N
  * @category combinators
  * @since 2.10.0
  */
-export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] =>
-  n < 1 || n > as.length ? [copy(as), []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] => {
+  const m = Math.max(1, n)
+  return m >= as.length ? [copy(as), []] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+}
 
 /**
  * @category combinators

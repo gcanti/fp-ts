@@ -662,8 +662,7 @@ Added in v2.5.0
 
 ## splitAt
 
-Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has `n` elements.
-If `n` is out of bounds or `n = 0`, the input is returned.
+Splits a `ReadonlyNonEmptyArray` into two pieces, the first piece has max `n` elements.
 
 **Signature**
 

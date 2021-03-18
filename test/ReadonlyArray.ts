@@ -456,15 +456,35 @@ describe('ReadonlyArray', () => {
   })
 
   it('spanLeft', () => {
-    U.deepStrictEqual(_.spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    const f = _.spanLeft((n: number) => n % 2 === 1)
+    const assertSpanLeft = (
+      input: ReadonlyArray<number>,
+      expectedInit: ReadonlyArray<number>,
+      expectedRest: ReadonlyArray<number>
+    ) => {
+      const { init, rest } = f(input)
+      U.strictEqual(init, expectedInit)
+      U.strictEqual(rest, expectedRest)
+    }
+    U.deepStrictEqual(f([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    const empty: ReadonlyArray<number> = []
+    assertSpanLeft(empty, empty, _.empty)
+    assertSpanLeft(_.empty, _.empty, _.empty)
+    const inputAll: ReadonlyArray<number> = [1, 3]
+    assertSpanLeft(inputAll, inputAll, _.empty)
+    const inputNone: ReadonlyArray<number> = [2, 4]
+    assertSpanLeft(inputNone, _.empty, inputNone)
   })
 
   it('takeLeftWhile', () => {
     const f = (n: number) => n % 2 === 0
     U.deepStrictEqual(_.takeLeftWhile(f)([2, 4, 3, 6]), [2, 4])
-    U.deepStrictEqual(_.takeLeftWhile(f)([]), [])
-    U.deepStrictEqual(_.takeLeftWhile(f)([1, 2, 4]), [])
-    U.deepStrictEqual(_.takeLeftWhile(f)([2, 4]), [2, 4])
+    const empty: ReadonlyArray<number> = []
+    U.strictEqual(_.takeLeftWhile(f)(empty), empty)
+    U.strictEqual(_.takeLeftWhile(f)(_.empty), _.empty)
+    U.strictEqual(_.takeLeftWhile(f)([1, 2, 4]), _.empty)
+    const input: ReadonlyArray<number> = [2, 4]
+    U.strictEqual(_.takeLeftWhile(f)(input), input)
   })
 
   it('dropLeft', () => {
@@ -933,18 +953,35 @@ describe('ReadonlyArray', () => {
   })
 
   it('splitAt', () => {
-    U.deepStrictEqual(_.splitAt(2)([]), [[], []])
+    const assertSplitAt = (
+      input: ReadonlyArray<number>,
+      index: number,
+      expectedInit: ReadonlyArray<number>,
+      expectedRest: ReadonlyArray<number>
+    ) => {
+      const [init, rest] = _.splitAt(index)(input)
+      U.strictEqual(init, expectedInit)
+      U.strictEqual(rest, expectedRest)
+    }
     U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
+    const two: ReadonlyArray<number> = [1, 2]
+    assertSplitAt(two, 2, two, _.empty)
     U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
       [1, 2],
       [3, 4, 5]
     ])
     // zero
-    U.deepStrictEqual(_.splitAt(0)([1, 2]), [[], [1, 2]])
+    const empty: ReadonlyArray<number> = []
+    assertSplitAt(_.empty, 0, _.empty, _.empty)
+    assertSplitAt(empty, 0, empty, _.empty)
+    assertSplitAt(two, 0, _.empty, two)
     // out of bounds
-    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+    assertSplitAt(_.empty, -1, _.empty, _.empty)
+    assertSplitAt(empty, -1, empty, _.empty)
+    assertSplitAt(two, -1, _.empty, two)
+    assertSplitAt(two, 3, two, _.empty)
+    assertSplitAt(_.empty, 3, _.empty, _.empty)
+    assertSplitAt(empty, 3, empty, _.empty)
   })
 
   describe('chunksOf', () => {
@@ -955,12 +992,21 @@ describe('ReadonlyArray', () => {
         [3, 4],
         [5, 6]
       ])
-      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
       U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
-      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      // out of bounds
+      U.deepStrictEqual(_.chunksOf(0)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+      U.deepStrictEqual(_.chunksOf(-1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+      const assertSingleChunk = (input: ReadonlyArray<number>, n: number) => {
+        const chunks = _.chunksOf(n)(input)
+        U.strictEqual(chunks.length, 1)
+        U.strictEqual(chunks[0], input)
+      }
+      // n = length
+      assertSingleChunk([1, 2], 2)
+      // n out of bounds
+      assertSingleChunk([1, 2], 3)
     })
 
     // #897

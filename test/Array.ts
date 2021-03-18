@@ -450,7 +450,20 @@ describe('Array', () => {
   })
 
   it('spanLeft', () => {
-    U.deepStrictEqual(_.spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    const f = _.spanLeft((n: number) => n % 2 === 1)
+    const assertSpanLeft = (input: Array<number>, expectedInit: Array<number>, expectedRest: Array<number>) => {
+      const { init, rest } = f(input)
+      U.deepStrictEqual(init, expectedInit)
+      U.deepStrictEqual(rest, expectedRest)
+    }
+    U.deepStrictEqual(f([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    const empty: Array<number> = []
+    assertSpanLeft(empty, empty, [])
+    assertSpanLeft([], [], [])
+    const inputAll: Array<number> = [1, 3]
+    assertSpanLeft(inputAll, inputAll, [])
+    const inputNone: Array<number> = [2, 4]
+    assertSpanLeft(inputNone, [], inputNone)
   })
 
   it('takeLeftWhile', () => {
@@ -883,18 +896,35 @@ describe('Array', () => {
   })
 
   it('splitAt', () => {
-    U.deepStrictEqual(_.splitAt(2)([]), [[], []])
+    const assertSplitAt = (
+      input: Array<number>,
+      index: number,
+      expectedInit: Array<number>,
+      expectedRest: Array<number>
+    ) => {
+      const [init, rest] = _.splitAt(index)(input)
+      U.deepStrictEqual(init, expectedInit)
+      U.deepStrictEqual(rest, expectedRest)
+    }
     U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
+    const two: Array<number> = [1, 2]
+    assertSplitAt(two, 2, two, [])
     U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
       [1, 2],
       [3, 4, 5]
     ])
     // zero
-    U.deepStrictEqual(_.splitAt(0)([1, 2]), [[], [1, 2]])
+    const empty: Array<number> = []
+    assertSplitAt([], 0, [], [])
+    assertSplitAt(empty, 0, empty, [])
+    assertSplitAt(two, 0, [], two)
     // out of bounds
-    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+    assertSplitAt([], -1, [], [])
+    assertSplitAt(empty, -1, empty, [])
+    assertSplitAt(two, -1, [], two)
+    assertSplitAt(two, 3, two, [])
+    assertSplitAt([], 3, [], [])
+    assertSplitAt(empty, 3, empty, [])
   })
 
   describe('chunksOf', () => {
@@ -905,12 +935,21 @@ describe('Array', () => {
         [3, 4],
         [5, 6]
       ])
-      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
       U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
-      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
+      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+      // out of bounds
+      U.deepStrictEqual(_.chunksOf(0)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+      U.deepStrictEqual(_.chunksOf(-1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+      const assertSingleChunk = (input: Array<number>, n: number) => {
+        const chunks = _.chunksOf(n)(input)
+        U.deepStrictEqual(chunks.length, 1)
+        U.deepStrictEqual(chunks[0], input)
+      }
+      // n = length
+      assertSingleChunk([1, 2], 2)
+      // n out of bounds
+      assertSingleChunk([1, 2], 3)
     })
 
     // #897
