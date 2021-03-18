@@ -1302,27 +1302,15 @@ export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray
 /**
  * @since 3.0.0
  */
-export const chainWithIndex: <A, B>(
-  f: (i: number, a: A) => ReadonlyArray<B>
-) => (ma: ReadonlyArray<A>) => ReadonlyArray<B> = (f) => (ma) => {
-  let outLen = 0
-  const l = ma.length
-  const temp = new Array(l)
-  for (let i = 0; i < l; i++) {
-    const e = ma[i]
-    const arr = f(i, e)
-    outLen += arr.length
-    temp[i] = arr
+export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
+  as: ReadonlyArray<A>
+): ReadonlyArray<B> => {
+  if (isEmpty(as)) {
+    return empty
   }
-  const out = Array(outLen)
-  let start = 0
-  for (let i = 0; i < l; i++) {
-    const arr = temp[i]
-    const l = arr.length
-    for (let j = 0; j < l; j++) {
-      out[j + start] = arr[j]
-    }
-    start += l
+  const out: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    out.push(...f(i, as[i]))
   }
   return out
 }
