@@ -3,7 +3,7 @@ import { isDeepStrictEqual } from 'util'
 import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
-import { identity, pipe, tuple } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -13,6 +13,7 @@ import * as _ from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
+import { make } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
@@ -986,7 +987,7 @@ describe('ReadonlyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        tuple
+        make
       ),
       [
         [1, 'a'],
@@ -1003,7 +1004,7 @@ describe('ReadonlyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        tuple,
+        make,
         (a, b) => (a + b.length) % 2 === 0
       ),
       [

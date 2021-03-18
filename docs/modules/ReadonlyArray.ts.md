@@ -1174,7 +1174,7 @@ export declare function comprehension<A, R>(
 
 ```ts
 import { comprehension } from 'fp-ts/ReadonlyArray'
-import { tuple } from 'fp-ts/function'
+import { make } from 'fp-ts/tuple'
 
 assert.deepStrictEqual(
   comprehension(
@@ -1182,7 +1182,7 @@ assert.deepStrictEqual(
       [1, 2, 3],
       ['a', 'b'],
     ],
-    tuple,
+    make,
     (a, b) => (a + b.length) % 2 === 0
   ),
   [

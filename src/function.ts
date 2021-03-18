@@ -333,11 +333,6 @@ export function flow(
 /**
  * @since 3.0.0
  */
-export const tuple = <T extends ReadonlyArray<any>>(...t: T): T => t
-
-/**
- * @since 3.0.0
- */
 export const increment = (n: number): number => n + 1
 
 /**

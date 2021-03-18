@@ -1,13 +1,14 @@
-import { pipe, tuple } from '../src/function'
+import { pipe } from '../src/function'
 import * as _ from '../src/State'
 import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { make } from '../src/tuple'
 
 describe('State', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const x = (s: number) => tuple(s - 1, s + 1)
+      const x = (s: number) => make(s - 1, s + 1)
       U.deepStrictEqual(pipe(x, _.map(U.double))(0), [-2, 1])
     })
 
@@ -24,14 +25,14 @@ describe('State', () => {
     })
 
     it('chain', () => {
-      const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
-      const x = (s: number) => tuple(s - 1, s + 1)
+      const f = (_n: number) => (s: number) => make(s - 1, s + 1)
+      const x = (s: number) => make(s - 1, s + 1)
       U.deepStrictEqual(pipe(x, _.chain(f))(0), [0, 2])
     })
 
     it('chainFirst', () => {
-      const f = (_n: number) => (s: number) => tuple(s - 1, s + 1)
-      const x = (s: number) => tuple(s - 1, s + 1)
+      const f = (_n: number) => (s: number) => make(s - 1, s + 1)
+      const x = (s: number) => make(s - 1, s + 1)
       U.deepStrictEqual(pipe(x, _.chainFirst(f))(0), [-1, 2])
     })
 

@@ -113,6 +113,7 @@ Added in v3.0.0
   - [traversable](#traversable)
   - [traversableWithIndex](#traversablewithindex)
   - [tree](#tree)
+  - [tuple](#tuple)
   - [tuple2](#tuple2)
   - [unfoldable](#unfoldable)
   - [void](#void)
@@ -1119,6 +1120,16 @@ Added in v3.0.0
 
 ```ts
 export declare const tree: typeof tree
+```
+
+Added in v3.0.0
+
+## tuple
+
+**Signature**
+
+```ts
+export declare const tuple: typeof tuple
 ```
 
 Added in v3.0.0

@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as B from '../src/boolean'
 import { Endomorphism } from '../src/Endomorphism'
 import * as Eq from '../src/Eq'
-import { identity, pipe, tuple } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -10,6 +10,7 @@ import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
+import { make } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyNonEmptyArray', () => {
@@ -449,7 +450,7 @@ describe('ReadonlyNonEmptyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        tuple
+        make
       ),
       [
         [1, 'a'],

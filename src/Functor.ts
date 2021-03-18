@@ -11,8 +11,9 @@
  *
  * @since 3.0.0
  */
-import { tuple, apply } from './function'
+import { apply } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { make } from './tuple'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -178,5 +179,5 @@ export function tupled<F extends URIS2, E>(F: Functor2C<F, E>): <A>(fa: Kind2<F,
 export function tupled<F extends URIS>(F: Functor1<F>): <A>(fa: Kind<F, A>) => Kind<F, readonly [A]>
 export function tupled<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]>
 export function tupled<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]> {
-  return F.map(tuple)
+  return F.map(make)
 }

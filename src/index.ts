@@ -102,6 +102,7 @@ import * as traced from './Traced'
 import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
+import * as tuple from './tuple'
 import * as tuple2 from './Tuple2'
 import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
@@ -508,6 +509,10 @@ export {
    * @since 3.0.0
    */
   tree,
+  /**
+   * @since 3.0.0
+   */
+  tuple,
   /**
    * @since 3.0.0
    */

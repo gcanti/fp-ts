@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, tuple } from './function'
+import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -37,6 +37,7 @@ import * as Se from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { make } from './tuple'
 
 import Semigroup = Se.Semigroup
 
@@ -364,9 +365,9 @@ export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
  *
  * @example
  * import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { tuple } from 'fp-ts/function'
+ * import { make } from 'fp-ts/tuple'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], make), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [2, 'a'],
@@ -552,7 +553,7 @@ export const zipWith = <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) =
  */
 export const zip = <B>(bs: ReadonlyNonEmptyArray<B>) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<readonly [A, B]> => pipe(as, zipWith(bs, tuple))
+): ReadonlyNonEmptyArray<readonly [A, B]> => pipe(as, zipWith(bs, make))
 
 /**
  * @since 3.0.0

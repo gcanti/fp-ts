@@ -37,7 +37,6 @@ Added in v3.0.0
   - [identity](#identity)
   - [increment](#increment)
   - [pipe](#pipe)
-  - [tuple](#tuple)
   - [tupled](#tupled)
   - [unsafeCoerce](#unsafecoerce)
   - [untupled](#untupled)
@@ -675,16 +674,6 @@ assert.strictEqual(double(len('aaa')), 6)
 
 // with pipe
 assert.strictEqual(pipe('aaa', len, double), 6)
-```
-
-Added in v3.0.0
-
-## tuple
-
-**Signature**
-
-```ts
-export declare const tuple: <T extends readonly any[]>(...t: T) => T
 ```
 
 Added in v3.0.0
