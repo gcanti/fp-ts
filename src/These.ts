@@ -38,8 +38,10 @@ import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad2C } from './Monad'
-import { isNone, none, Option, some } from './Option'
+import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
@@ -98,7 +100,7 @@ export const both = <E, A>(left: E, right: A): These<E, A> => ({ _tag: 'Both', l
  * @since 3.0.0
  */
 export const leftOrBoth = <E>(e: Lazy<E>) => <A>(ma: Option<A>): These<E, A> =>
-  isNone(ma) ? left(e()) : both(e(), ma.value)
+  _.isNone(ma) ? left(e()) : both(e(), ma.value)
 
 /**
  * @example
@@ -112,7 +114,7 @@ export const leftOrBoth = <E>(e: Lazy<E>) => <A>(ma: Option<A>): These<E, A> =>
  * @since 3.0.0
  */
 export const rightOrBoth = <A>(a: Lazy<A>) => <E>(me: Option<E>): These<E, A> =>
-  isNone(me) ? right(a()) : both(me.value, a())
+  _.isNone(me) ? right(a()) : both(me.value, a())
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
@@ -130,13 +132,13 @@ export const rightOrBoth = <A>(a: Lazy<A>) => <E>(me: Option<E>): These<E, A> =>
  * @since 3.0.0
  */
 export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
-  isNone(fe)
-    ? isNone(fa)
-      ? none
-      : some(right(fa.value))
-    : isNone(fa)
-    ? some(left(fe.value))
-    : some(both(fe.value, fa.value))
+  _.isNone(fe)
+    ? _.isNone(fa)
+      ? _.none
+      : _.some(right(fa.value))
+    : _.isNone(fa)
+    ? _.some(left(fe.value))
+    : _.some(both(fe.value, fa.value))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -559,7 +561,7 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
  * @since 3.0.0
  */
 export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
-  isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
+  isLeft(fa) ? _.some(fa.left) : isRight(fa) ? _.none : _.some(fa.left)
 
 /**
  * Returns an `A` value if possible
@@ -575,7 +577,7 @@ export const getLeft = <E, A>(fa: These<E, A>): Option<E> =>
  * @since 3.0.0
  */
 export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
-  isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
+  isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.right) : _.some(fa.right)
 
 /**
  * Returns the `E` value if and only if the value is constructed with `Left`
@@ -590,7 +592,7 @@ export const getRight = <E, A>(fa: These<E, A>): Option<A> =>
  *
  * @since 3.0.0
  */
-export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? some(fa.left) : none)
+export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? _.some(fa.left) : _.none)
 
 /**
  * Returns the `A` value if and only if the value is constructed with `Right`
@@ -605,7 +607,7 @@ export const getLeftOnly = <E, A>(fa: These<E, A>): Option<E> => (isLeft(fa) ? s
  *
  * @since 3.0.0
  */
-export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? some(fa.right) : none)
+export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ? _.some(fa.right) : _.none)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -615,3 +617,49 @@ export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ?
  * @since 3.0.0
  */
 export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+  let e: Option<E> = _.none
+  const t = f(0, _.head(as))
+  if (isLeft(t)) {
+    return t
+  }
+  if (isBoth(t)) {
+    e = _.some(t.left)
+  }
+  const out: NonEmptyArray<B> = [t.right]
+  for (let i = 1; i < as.length; i++) {
+    const t = f(i, as[i])
+    if (isLeft(t)) {
+      return t
+    }
+    if (isBoth(t)) {
+      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(t.left)(e.value))
+    }
+    out.push(t.right)
+  }
+  return _.isNone(e) ? right(out) : both(e.value, out)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}

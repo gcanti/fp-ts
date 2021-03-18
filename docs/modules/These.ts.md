@@ -88,6 +88,8 @@ Added in v3.0.0
   - [getRightOnly](#getrightonly)
   - [toTuple2](#totuple2)
   - [traverse](#traverse)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -715,6 +717,36 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: Traverse2<'These'>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
