@@ -11,8 +11,8 @@ const suite = new Benchmark.Suite()
 const as = pipe(RNEA.range(0, 1000))
 
 suite
-  .add('RNEA.sequence(_.ApplicativeSeq)', async function () {
-    await pipe(as, RNEA.traverse(_.ApplicativeSeq)(_.of))()
+  .add('RNEA.traverse(_.ApplicativePar)', async function () {
+    await pipe(as, RNEA.traverse(_.ApplicativePar)(_.of))()
   })
   .add('_.sequenceReadonlyNonEmptyArray', async function () {
     await pipe(as, _.traverseReadonlyNonEmptyArrayWithIndex(_.of))()

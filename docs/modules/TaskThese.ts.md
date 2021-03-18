@@ -63,6 +63,10 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [toTuple2](#totuple2)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
 
 ---
 
@@ -528,6 +532,66 @@ Added in v3.0.0
 
 ```ts
 export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
