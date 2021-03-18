@@ -1120,7 +1120,7 @@ Added in v2.0.0
 
 ## splitAt
 
-Splits an array into two pieces, the first piece has `n` elements.
+Splits an `Array` into two pieces, the first piece has max `n` elements.
 
 **Signature**
 

@@ -591,6 +591,8 @@ Added in v2.0.0
 
 ## splitAt
 
+Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
+
 **Signature**
 
 ```ts

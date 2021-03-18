@@ -477,15 +477,8 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  const i = spanLeftIndex(as, predicate)
-  const l = as.length
-  const out = Array(l - i)
-  for (let j = i; j < l; j++) {
-    out[j - i] = as[j]
-  }
-  return out
-}
+export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> =>
+  as.slice(spanLeftIndex(as, predicate))
 
 /**
  * Find the first index for which a predicate holds
@@ -967,7 +960,7 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Ar
 }
 
 /**
- * Splits an array into two pieces, the first piece has `n` elements.
+ * Splits an `Array` into two pieces, the first piece has max `n` elements.
  *
  * @example
  * import { splitAt } from 'fp-ts/Array'

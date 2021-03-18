@@ -495,6 +495,8 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: N
 }
 
 /**
+ * Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
+ *
  * @category combinators
  * @since 2.10.0
  */

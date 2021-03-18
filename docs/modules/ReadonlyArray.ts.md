@@ -999,7 +999,7 @@ Added in v2.5.0
 
 ## scanLeft
 
-Same as `reduce` but it carries over the intermediate steps
+Same as `reduce` but it carries over the intermediate steps.
 
 **Signature**
 

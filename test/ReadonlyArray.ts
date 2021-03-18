@@ -530,13 +530,16 @@ describe('ReadonlyArray', () => {
   })
 
   it('dropLeftWhile', () => {
-    const f = (n: number) => n % 2 === 0
-    const g = (n: number) => n % 2 === 1
-    U.deepStrictEqual(_.dropLeftWhile(f)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
-    U.deepStrictEqual(_.dropLeftWhile(g)([1, 3, 2, 4, 5]), [2, 4, 5])
-    U.deepStrictEqual(_.dropLeftWhile(f)([]), [])
-    U.deepStrictEqual(_.dropLeftWhile(f)([2, 4, 1]), [1])
-    U.deepStrictEqual(_.dropLeftWhile(f)([2, 4]), [])
+    const f = _.dropLeftWhile((n: number) => n > 0)
+    U.strictEqual(f(_.empty), _.empty)
+    const empty: ReadonlyArray<number> = []
+    U.strictEqual(f(empty), empty)
+    U.strictEqual(f([1, 2]), _.empty)
+    const x1: ReadonlyArray<number> = [-1, -2]
+    U.strictEqual(f(x1), x1)
+    const x2: ReadonlyArray<number> = [-1, 2]
+    U.strictEqual(f(x2), x2)
+    U.deepStrictEqual(f([1, -2, 3]), [-2, 3])
   })
 
   it('init', () => {

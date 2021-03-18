@@ -185,7 +185,7 @@ export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) =
 }
 
 /**
- * Same as `reduce` but it carries over the intermediate steps
+ * Same as `reduce` but it carries over the intermediate steps.
  *
  * @example
  * import { scanLeft } from 'fp-ts/ReadonlyArray'
@@ -501,12 +501,7 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  */
 export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
   const i = spanLeftIndex(as, predicate)
-  const l = as.length
-  const out = Array(l - i)
-  for (let j = i; j < l; j++) {
-    out[j - i] = as[j]
-  }
-  return out
+  return i === 0 ? as : i === as.length ? empty : as.slice(i)
 }
 
 /**

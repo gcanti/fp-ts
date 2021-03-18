@@ -509,13 +509,12 @@ describe('Array', () => {
   })
 
   it('dropLeftWhile', () => {
-    const f = (n: number) => n % 2 === 0
-    const g = (n: number) => n % 2 === 1
-    U.deepStrictEqual(_.dropLeftWhile(f)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
-    U.deepStrictEqual(_.dropLeftWhile(g)([1, 3, 2, 4, 5]), [2, 4, 5])
-    U.deepStrictEqual(_.dropLeftWhile(f)([]), [])
-    U.deepStrictEqual(_.dropLeftWhile(f)([2, 4, 1]), [1])
-    U.deepStrictEqual(_.dropLeftWhile(f)([2, 4]), [])
+    const f = _.dropLeftWhile((n: number) => n > 0)
+    U.deepStrictEqual(f([]), [])
+    U.deepStrictEqual(f([1, 2]), [])
+    U.deepStrictEqual(f([-1, -2]), [-1, -2])
+    U.deepStrictEqual(f([-1, 2]), [-1, 2])
+    U.deepStrictEqual(f([1, -2, 3]), [-2, 3])
   })
 
   it('init', () => {
