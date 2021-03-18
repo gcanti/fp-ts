@@ -134,7 +134,7 @@ describe('These', () => {
   })
 
   it('getSemigroup', () => {
-    const TS = _.getSemigroup(S.Monoid, N.MonoidSum)
+    const TS = _.getSemigroup(S.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.left('b'))), _.left('ab'))
     U.deepStrictEqual(pipe(_.left('a'), TS.concat(_.right(2))), _.both('a', 2))
     U.deepStrictEqual(pipe(_.right(2), TS.concat(_.left('a'))), _.both('a', 2))
