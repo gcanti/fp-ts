@@ -39,7 +39,6 @@ Added in v2.5.0
   - [singleton](#singleton)
 - [destructors](#destructors)
   - [toMap](#tomap)
-  - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -71,6 +70,7 @@ Added in v2.5.0
   - [modifyAt](#modifyat)
   - [pop](#pop)
   - [size](#size)
+  - [toReadonlyArray](#toreadonlyarray)
   - [updateAt](#updateat)
   - [values](#values)
 
@@ -343,18 +343,6 @@ export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
 
 Added in v2.5.0
 
-## toReadonlyArray
-
-Get a sorted of the key/value pairs contained in a map
-
-**Signature**
-
-```ts
-export declare function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>
-```
-
-Added in v2.5.0
-
 ## toUnfoldable
 
 Unfolds a map into a list of key/value pairs
@@ -613,7 +601,7 @@ Added in v2.5.0
 
 ## keys
 
-Get a sorted array of the keys contained in a map
+Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
 
 **Signature**
 
@@ -711,6 +699,18 @@ export declare function size<K, A>(d: ReadonlyMap<K, A>): number
 
 Added in v2.5.0
 
+## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => readonly (readonly [K, A])[]
+```
+
+Added in v2.5.0
+
 ## updateAt
 
 **Signature**
@@ -723,7 +723,7 @@ Added in v2.5.0
 
 ## values
 
-Get a sorted array of the values contained in a map
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
 
 **Signature**
 

@@ -454,6 +454,8 @@ export const elem: <A>(
 } = RS.elem
 
 /**
+ * Get a sorted `Array` of the values contained in a `Set`.
+ *
  * @since 2.0.0
  */
 export const toArray = <A>(O: Ord<A>) => (set: Set<A>): Array<A> => {

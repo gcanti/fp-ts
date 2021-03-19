@@ -39,7 +39,6 @@ Added in v2.5.0
   - [fromRecord](#fromrecord)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toReadonlyArray](#toreadonlyarray)
   - [toRecord](#torecord)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
@@ -84,6 +83,7 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
+  - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [updateAt](#updateat)
@@ -340,16 +340,6 @@ export declare const singleton: <A>(k: string, a: A) => Readonly<Record<string, 
 Added in v2.5.0
 
 # destructors
-
-## toReadonlyArray
-
-**Signature**
-
-```ts
-export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
-```
-
-Added in v2.5.0
 
 ## toRecord
 
@@ -946,6 +936,18 @@ Added in v2.5.0
 
 ```ts
 export declare function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean
+```
+
+Added in v2.5.0
+
+## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const toReadonlyArray: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
 ```
 
 Added in v2.5.0

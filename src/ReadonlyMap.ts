@@ -141,7 +141,7 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
 }
 
 /**
- * Get a sorted array of the keys contained in a map
+ * Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
  *
  * @since 2.5.0
  */
@@ -149,7 +149,7 @@ export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K
   Array.from(m.keys()).sort(O.compare)
 
 /**
- * Get a sorted array of the values contained in a map
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *
  * @since 2.5.0
  */
@@ -172,14 +172,12 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
 }
 
 /**
- * Get a sorted of the key/value pairs contained in a map
+ * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
  *
- * @category destructors
  * @since 2.5.0
  */
-export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]> {
-  return collect(O)((k, a) => [k, a] as const)
-}
+export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>) =>
+  collect(O)((k, a) => [k, a] as const)
 
 /**
  * Unfolds a map into a list of key/value pairs

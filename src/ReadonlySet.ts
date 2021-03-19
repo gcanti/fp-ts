@@ -546,6 +546,8 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
 }
 
 /**
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
+ *
  * @since 2.5.0
  */
 export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): ReadonlyArray<A> => {

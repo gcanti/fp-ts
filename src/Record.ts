@@ -78,6 +78,8 @@ export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Rec
 }
 
 /**
+ * Get a sorted `Array` of the key/value pairs contained in a `Record`.
+ *
  * @since 2.0.0
  */
 export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =

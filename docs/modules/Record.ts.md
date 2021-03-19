@@ -848,6 +848,8 @@ Added in v2.0.0
 
 ## toArray
 
+Get a sorted `Array` of the key/value pairs contained in a `Record`.
+
 **Signature**
 
 ```ts

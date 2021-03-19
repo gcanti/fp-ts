@@ -73,14 +73,14 @@ export const elem: <A>(
 } = RM.elem
 
 /**
- * Get a sorted array of the keys contained in a map
+ * Get a sorted `Array` of the keys contained in a `Map`.
  *
  * @since 2.0.0
  */
 export const keys = <K>(O: Ord<K>) => <A>(m: Map<K, A>): Array<K> => Array.from(m.keys()).sort(O.compare)
 
 /**
- * Get a sorted array of the values contained in a map
+ * Get a sorted `Array` of the values contained in a `Map`.
  *
  * @since 2.0.0
  */
@@ -102,7 +102,7 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K
 }
 
 /**
- * Get a sorted of the key/value pairs contained in a map
+ * Get a sorted `Array` of the key/value pairs contained in a `Map`.
  *
  * @since 2.0.0
  */

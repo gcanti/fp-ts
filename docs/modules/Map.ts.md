@@ -482,7 +482,7 @@ Added in v2.0.0
 
 ## keys
 
-Get a sorted array of the keys contained in a map
+Get a sorted `Array` of the keys contained in a `Map`.
 
 **Signature**
 
@@ -584,7 +584,7 @@ Added in v2.0.0
 
 ## toArray
 
-Get a sorted of the key/value pairs contained in a map
+Get a sorted `Array` of the key/value pairs contained in a `Map`.
 
 **Signature**
 
@@ -622,7 +622,7 @@ Added in v2.0.0
 
 ## values
 
-Get a sorted array of the values contained in a map
+Get a sorted `Array` of the values contained in a `Map`.
 
 **Signature**
 

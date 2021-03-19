@@ -114,7 +114,8 @@ export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (
 }
 
 /**
- * @category destructors
+ * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
+ *
  * @since 2.5.0
  */
 export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]> =
