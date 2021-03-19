@@ -64,7 +64,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Tuple2<E, A>) => Tuple2<G, B>
+export declare const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (t: Tuple2<E, A>) => Tuple2<G, B>
 ```
 
 Added in v3.0.0

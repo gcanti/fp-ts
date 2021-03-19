@@ -73,7 +73,10 @@ export const swap = <A, E>(t: Tuple2<E, A>): Tuple2<A, E> => [snd(t), fst(t)]
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(snd(fa))]
+export const bimap = <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (t: Tuple2<E, A>): Tuple2<G, B> => [
+  mapFst(fst(t)),
+  mapSnd(snd(t))
+]
 
 /**
  * Map a function over the second component of a `Tuple2`.
