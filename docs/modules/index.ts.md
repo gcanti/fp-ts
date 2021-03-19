@@ -73,6 +73,7 @@ Added in v2.0.0
   - [monoid](#monoid)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
+  - [object](#object)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
@@ -723,6 +724,16 @@ Added in v2.0.0
 
 ```ts
 export declare const number: typeof number
+```
+
+Added in v2.10.0
+
+## object
+
+**Signature**
+
+```ts
+export declare const object: typeof object
 ```
 
 Added in v2.10.0

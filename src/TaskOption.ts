@@ -60,23 +60,7 @@ export const some: <A>(a: A) => TaskOption<A> =
  * @category constructors
  * @since 2.10.0
  */
-export const none: TaskOption<never> =
-  /*#__PURE__*/
-  OT.none(T.Pointed)
-
-/**
- * @category constructors
- * @since 2.10.0
- */
 export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
-
-/**
- * @category constructors
- * @since 2.10.0
- */
-export const fromNullable =
-  /*#__PURE__*/
-  OT.fromNullable(T.Pointed)
 
 /**
  * @category constructors
@@ -93,22 +77,6 @@ export const fromPredicate =
 export const fromEither =
   /*#__PURE__*/
   OT.fromEither(T.Pointed)
-
-/**
- * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
- *
- * Note: `f` should never `throw` errors, they are not caught.
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @category constructors
- * @since 2.10.0
- */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
-  f().then(
-    (a) => O.some(a),
-    () => O.none
-  )
 
 /**
  * @category constructors
@@ -180,13 +148,37 @@ export const getOrElse =
 export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A | B = getOrElse as any
 
 // -------------------------------------------------------------------------------------
-// combinators
+// interop
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category interop
+ * @since 2.10.0
+ */
+export const fromNullable =
+  /*#__PURE__*/
+  OT.fromNullable(T.Pointed)
+
+/**
+ * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
+ *
+ * Note: `f` should never `throw` errors, they are not caught.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @category interop
+ * @since 2.10.0
+ */
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
+  f().then(
+    (a) => O.some(a),
+    () => O.none
+  )
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskOption`.
  *
- * @category combinators
+ * @category interop
  * @since 2.10.0
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
@@ -194,7 +186,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
 ): ((...a: A) => TaskOption<B>) => (...a) => tryCatch(() => f(...a))
 
 /**
- * @category combinators
+ * @category interop
  * @since 2.10.0
  */
 export const fromNullableK =
@@ -202,12 +194,16 @@ export const fromNullableK =
   OT.fromNullableK(T.Pointed)
 
 /**
- * @category combinators
+ * @category interop
  * @since 2.10.0
  */
 export const chainNullableK =
   /*#__PURE__*/
   OT.chainNullableK(T.Monad)
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * @category combinators
@@ -292,7 +288,17 @@ export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>)
  * @category Alternative
  * @since 2.10.0
  */
-export const zero: Alternative1<URI>['zero'] = () => none
+export const zero: Alternative1<URI>['zero'] =
+  /*#__PURE__*/
+  OT.zero(T.Pointed)
+
+/**
+ * @category constructors
+ * @since 2.10.0
+ */
+export const none: TaskOption<never> =
+  /*#__PURE__*/
+  zero()
 
 /**
  * @category Compactable

@@ -1,4 +1,5 @@
 import * as B from '../src/boolean'
+import { increment } from '../src/function'
 import { concatAll, getEndomorphismMonoid, tuple, max, min, reverse } from '../src/Monoid'
 import * as N from '../src/number'
 import * as S from '../src/string'
@@ -19,9 +20,7 @@ describe('Monoid', () => {
   it('getEndomorphismMonoid', () => {
     // tslint:disable-next-line: deprecation
     const M = getEndomorphismMonoid<number>()
-    const double = (n: number) => n * 2
-    const inc = (n: number) => n + 1
-    const f = M.concat(double, inc)
+    const f = M.concat(U.double, increment)
     U.deepStrictEqual(f(3), 8)
   })
 

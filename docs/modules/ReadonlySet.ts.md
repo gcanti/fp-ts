@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -461,6 +461,8 @@ export declare const some: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>)
 Added in v2.5.0
 
 ## toReadonlyArray
+
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
 
 **Signature**
 

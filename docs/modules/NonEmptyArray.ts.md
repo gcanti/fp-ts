@@ -6,7 +6,16 @@ parent: Modules
 
 ## NonEmptyArray overview
 
-Data structure which represents non-empty arrays
+Data structure which represents non-empty arrays.
+
+```ts
+export type NonEmptyArray<A> = Array<A> & {
+  0: A
+}
+```
+
+Note that you don't need any conversion, a `NonEmptyArray` is an `Array`,
+so all `Array`'s APIs can be used with a `NonEmptyArray` without further ado.
 
 Added in v2.0.0
 
@@ -45,8 +54,6 @@ Added in v2.0.0
   - [concat](#concat)
   - [copy](#copy)
   - [duplicate](#duplicate)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
   - [flap](#flap)
   - [flatten](#flatten)
   - [foldMap](#foldmap)
@@ -65,12 +72,12 @@ Added in v2.0.0
   - [updateAt](#updateat)
   - [zip](#zip)
   - [zipWith](#zipwith)
+  - [~~filterWithIndex~~](#filterwithindex)
+  - [~~filter~~](#filter)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
-  - [append](#append)
   - [fromArray](#fromarray)
   - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
-  - [prepend](#prepend)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
@@ -78,8 +85,6 @@ Added in v2.0.0
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
   - [~~unsnoc~~](#unsnoc)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -382,31 +387,6 @@ export declare const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEm
 
 Added in v2.5.0
 
-## filter
-
-**Signature**
-
-```ts
-export declare function filter<A, B extends A>(
-  refinement: Refinement<A, B>
-): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
-## filterWithIndex
-
-**Signature**
-
-```ts
-export declare const filterWithIndex: <A>(
-  predicate: (i: number, a: A) => boolean
-) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
-```
-
-Added in v2.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -611,6 +591,8 @@ Added in v2.0.0
 
 ## splitAt
 
+Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
+
 **Signature**
 
 ```ts
@@ -664,6 +646,35 @@ export declare const zipWith: <A, B, C>(
 
 Added in v2.5.1
 
+## ~~filterWithIndex~~
+
+Use `Array`'s `filterWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const filterWithIndex: <A>(
+  predicate: (i: number, a: A) => boolean
+) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## ~~filter~~
+
+Use `Array`'s `filter` instead.
+
+**Signature**
+
+```ts
+export declare function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
 ## ~~prependToAll~~
 
 Use `prependAll` instead.
@@ -677,27 +688,6 @@ export declare const prependToAll: <A>(middle: A) => (as: NonEmptyArray<A>) => N
 Added in v2.9.0
 
 # constructors
-
-## append
-
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const append: <A>(end: A) => (init: A[]) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { append } from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
 
 ## fromArray
 
@@ -721,30 +711,9 @@ export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArr
 
 Added in v2.10.0
 
-## prepend
-
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
-
-**Signature**
-
-```ts
-export declare const prepend: <A>(head: A) => (tail: A[]) => NonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import { prepend } from 'fp-ts/NonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
-```
-
-Added in v2.10.0
-
 ## ~~cons~~
 
-Use `prepend` instead.
+Use `Array`'s `prepend` instead.
 
 **Signature**
 
@@ -757,7 +726,7 @@ Added in v2.0.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use `Array`'s `append` instead.
 
 **Signature**
 
@@ -832,20 +801,6 @@ export declare const unsnoc: <A>(as: NonEmptyArray<A>) => [A[], A]
 ```
 
 Added in v2.9.0
-
-# guards
-
-## isNonEmpty
-
-Test whether a `Array` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: A[]) => as is NonEmptyArray<A>
-```
-
-Added in v2.10.0
 
 # instances
 

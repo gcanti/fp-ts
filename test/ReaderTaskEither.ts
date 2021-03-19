@@ -18,13 +18,11 @@ import { left, right } from '../src/Separated'
 describe('ReaderTaskEither', () => {
   describe('pipeables', () => {
     it('map', async () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(await pipe(_.right(1), _.map(double))({})(), E.right(2))
+      U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))({})(), E.right(2))
     })
 
     it('ap', async () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(await pipe(_.right(double), _.ap(_.right(1)))({})(), E.right(2))
+      U.deepStrictEqual(await pipe(_.right(U.double), _.ap(_.right(1)))({})(), E.right(2))
     })
 
     it('apFirst', async () => {
@@ -63,9 +61,8 @@ describe('ReaderTaskEither', () => {
     })
 
     it('mapLeft', async () => {
-      const len = (s: string): number => s.length
-      U.deepStrictEqual(await pipe(_.right(1), _.mapLeft(len))({})(), E.right(1))
-      U.deepStrictEqual(await pipe(_.left('err'), _.mapLeft(len))({})(), E.left(3))
+      U.deepStrictEqual(await pipe(_.right(1), _.mapLeft(S.size))({})(), E.right(1))
+      U.deepStrictEqual(await pipe(_.left('err'), _.mapLeft(S.size))({})(), E.left(3))
     })
 
     it('alt', async () => {
@@ -163,12 +160,11 @@ describe('ReaderTaskEither', () => {
   })
 
   it('local', async () => {
-    const len = (s: string): number => s.length
     U.deepStrictEqual(
       await pipe(
         _.asks((n: number) => n + 1),
         // tslint:disable-next-line: deprecation
-        _.local(len)
+        _.local(S.size)
       )('aaa')(),
       E.right(4)
     )

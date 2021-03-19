@@ -36,6 +36,7 @@ has_toc: false
 - [fp-ts-lcg](https://github.com/no-day/fp-ts-lcg) - A seeded pseudorandom number generator
 - [fp-ts-graph](https://github.com/no-day/fp-ts-graph) - Immutable, functional graph data structure
 - [fp-ts-bigint](https://github.com/ericcrosson/fp-ts-bigint) - Opt-in BigInt functions
+- [fp-ts-generators](https://github.com/no-day/fp-ts-generators) - Seeded pseudorandom generators for structured data
 
 ## Bindings
 

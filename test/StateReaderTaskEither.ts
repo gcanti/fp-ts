@@ -1,4 +1,4 @@
-import * as U from './util'
+import * as assert from 'assert'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
@@ -10,9 +10,10 @@ import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
-import * as assert from 'assert'
+import * as U from './util'
 
 const state: unknown = {}
 
@@ -44,14 +45,12 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('map', async () => {
-      const len = (s: string): number => s.length
-      const e = await pipe(_.right('aaa'), _.map(len), _.evaluate(state))({})()
+      const e = await pipe(_.right('aaa'), _.map(S.size), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right(3))
     })
 
     it('ap', async () => {
-      const len = (s: string): number => s.length
-      const e = await pipe(_.right(len), _.ap(_.right('aaa')), _.evaluate(state))({})()
+      const e = await pipe(_.right(S.size), _.ap(_.right('aaa')), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right(3))
     })
 
@@ -84,10 +83,9 @@ describe('StateReaderTaskEither', () => {
 
     it('bimap', async () => {
       const gt2 = (n: number): boolean => n > 2
-      const len = (s: string): number => s.length
-      const e1 = await pipe(_.right('aaa'), _.bimap(gt2, len), _.evaluate(state))({})()
+      const e1 = await pipe(_.right('aaa'), _.bimap(gt2, S.size), _.evaluate(state))({})()
       U.deepStrictEqual(e1, E.right(3))
-      const e2 = await pipe(_.left(3), _.bimap(gt2, len), _.evaluate(state))({})()
+      const e2 = await pipe(_.left(3), _.bimap(gt2, S.size), _.evaluate(state))({})()
       U.deepStrictEqual(e2, E.left(true))
     })
 
@@ -303,13 +301,11 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('modify', async () => {
-    const double = (n: number) => n * 2
-    assert.deepStrictEqual(await _.modify(double)(1)({})(), E.right([undefined, 2]))
+    assert.deepStrictEqual(await _.modify(U.double)(1)({})(), E.right([undefined, 2]))
   })
 
   it('gets', async () => {
-    const double = (n: number) => n * 2
-    U.deepStrictEqual(await _.gets(double)(1)({})(), E.right([2, 1]))
+    U.deepStrictEqual(await _.gets(U.double)(1)({})(), E.right([2, 1]))
   })
 
   it('do notation', async () => {

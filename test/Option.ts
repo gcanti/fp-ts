@@ -13,21 +13,18 @@ const p = (n: number): boolean => n > 2
 describe('Option', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.some(2), _.map(double)), _.some(4))
-      U.deepStrictEqual(pipe(_.none, _.map(double)), _.none)
+      U.deepStrictEqual(pipe(_.some(2), _.map(U.double)), _.some(4))
+      U.deepStrictEqual(pipe(_.none, _.map(U.double)), _.none)
     })
 
     it('flap', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.some(double), _.flap(2)), _.some(4))
+      U.deepStrictEqual(pipe(_.some(U.double), _.flap(2)), _.some(4))
       U.deepStrictEqual(pipe(_.none, _.flap(2)), _.none)
     })
 
     it('ap', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.some(double), _.ap(_.some(2))), _.some(4))
-      U.deepStrictEqual(pipe(_.some(double), _.ap(_.none)), _.none)
+      U.deepStrictEqual(pipe(_.some(U.double), _.ap(_.some(2))), _.some(4))
+      U.deepStrictEqual(pipe(_.some(U.double), _.ap(_.none)), _.none)
       U.deepStrictEqual(pipe(_.none, _.ap(_.some(2))), _.none)
       U.deepStrictEqual(pipe(_.none, _.ap(_.none)), _.none)
     })

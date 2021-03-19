@@ -54,14 +54,11 @@ export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {
 export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>> {
   return {
     show: (m) => {
-      let elements = ''
+      const entries: Array<string> = []
       m.forEach((a, k) => {
-        elements += `[${SK.show(k)}, ${SA.show(a)}], `
+        entries.push(`[${SK.show(k)}, ${SA.show(a)}]`)
       })
-      if (elements !== '') {
-        elements = elements.substring(0, elements.length - 2)
-      }
-      return `new Map([${elements}])`
+      return `new Map([${entries.sort().join(', ')}])`
     }
   }
 }
@@ -144,7 +141,7 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
 }
 
 /**
- * Get a sorted array of the keys contained in a map
+ * Get a sorted `ReadonlyArray` of the keys contained in a `ReadonlyMap`.
  *
  * @since 2.5.0
  */
@@ -152,7 +149,7 @@ export const keys = <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>): ReadonlyArray<K
   Array.from(m.keys()).sort(O.compare)
 
 /**
- * Get a sorted array of the values contained in a map
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
  *
  * @since 2.5.0
  */
@@ -175,14 +172,12 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
 }
 
 /**
- * Get a sorted of the key/value pairs contained in a map
+ * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
  *
- * @category destructors
  * @since 2.5.0
  */
-export function toReadonlyArray<K>(O: Ord<K>): <A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]> {
-  return collect(O)((k, a) => [k, a] as const)
-}
+export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => ReadonlyArray<readonly [K, A]>) =>
+  collect(O)((k, a) => [k, a] as const)
 
 /**
  * Unfolds a map into a list of key/value pairs
@@ -199,9 +194,9 @@ export function toUnfoldable<K, F>(
   ord: Ord<K>,
   U: Unfoldable<F>
 ): <A>(d: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
-  const toArrayO = toReadonlyArray(ord)
+  const toReadonlyArrayO = toReadonlyArray(ord)
   return (d) => {
-    const kas = toArrayO(d)
+    const kas = toReadonlyArrayO(d)
     const len = kas.length
     return U.unfold(0, (b) => (b < len ? O.some([kas[b], b + 1]) : O.none))
   }
@@ -272,8 +267,13 @@ export const modifyAt = <K>(
     if (O.isNone(found)) {
       return O.none
     }
+    const [fk, fv] = found.value
+    const next = f(fv)
+    if (next === fv) {
+      return O.some(m)
+    }
     const r = new Map(m)
-    r.set(found.value[0], f(found.value[1]))
+    r.set(fk, next)
     return O.some(r)
   }
 }
@@ -398,7 +398,9 @@ export function isSubmap<K, A>(
 /**
  * @since 2.5.0
  */
-export const empty: ReadonlyMap<never, never> = new Map<never, never>()
+export const empty: ReadonlyMap<never, never> =
+  // the type annotation here is intended (otherwise it doesn't type-check)
+  new Map<never, never>()
 
 /**
  * @category instances

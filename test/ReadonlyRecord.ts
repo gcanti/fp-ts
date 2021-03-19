@@ -19,10 +19,9 @@ const noPrototype = Object.create(null)
 describe('ReadonlyRecord', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(double)), { k1: 2, k2: 4 })
-      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(double)), { a: 2, b: 4 })
-      U.deepStrictEqual(_.Functor.map({ a: 1, b: 2 }, double), { a: 2, b: 4 })
+      U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(U.double)), { k1: 2, k2: 4 })
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(U.double)), { a: 2, b: 4 })
+      U.deepStrictEqual(_.Functor.map({ a: 1, b: 2 }, U.double), { a: 2, b: 4 })
     })
 
     it('reduce', () => {
@@ -421,6 +420,16 @@ describe('ReadonlyRecord', () => {
     const x: _.ReadonlyRecord<string, number> = { a: 1 }
     U.deepStrictEqual(_.modifyAt('b', (n: number) => n * 2)(x), O.none)
     U.deepStrictEqual(_.modifyAt('a', (n: number) => n * 2)(x), O.some({ a: 2 }))
+    // should return the same reference if nothing changed
+    const input: _.ReadonlyRecord<string, number> = { a: 1 }
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
+    )
   })
 
   it('fromRecord', () => {

@@ -1,11 +1,11 @@
 import { pipe, identity } from '../../src/function'
 import * as _ from '../../src/ReadonlyRecord'
 import * as O from '../../src/Option'
-import * as A from '../../src/Array'
+import * as RA from '../../src/ReadonlyArray'
 import * as E from '../../src/Either'
-import { monoidString } from '../../src/Monoid'
-import { eqNumber } from '../../src/Eq'
-import { semigroupSum, getFirstSemigroup } from '../../src/Semigroup'
+import * as N from '../../src/number'
+import * as S from '../../src/string'
+import { getFirstSemigroup } from '../../src/Semigroup'
 import { Foldable } from '../../src/Foldable'
 import { HKT } from '../../src/HKT'
 
@@ -111,8 +111,8 @@ _.map((n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a" | "b", boolea
 _.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
 _.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-_.foldMapWithIndex(monoidString)((k: string, _n) => k)(d1) // $ExpectType string
-_.foldMapWithIndex(monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
@@ -145,18 +145,18 @@ _.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Readon
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
-_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Readonly<Record<string, number>>
-_.fromFoldable(getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Readonly<Record<string, number>>
+_.fromFoldable(getFirstSemigroup<number>(), RA.Foldable)(arr1) // $ExpectType Readonly<Record<string, number>>
+_.fromFoldable(getFirstSemigroup<number>(), RA.Foldable)(arr2) // $ExpectType Readonly<Record<string, number>>
 
 type Keys = 'key1' | 'key2'
-_.getMonoid(semigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
-_.getMonoid<Keys, number>(semigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
+_.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
+_.getMonoid<Keys, number>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
 
-_.getEq<Keys, number>(eqNumber) // $ExpectType Eq<Readonly<Record<Keys, number>>>
-_.getEq(eqNumber) // $ExpectType Eq<Readonly<Record<string, number>>>
+_.getEq<Keys, number>(N.Eq) // $ExpectType Eq<Readonly<Record<Keys, number>>>
+_.getEq(N.Eq) // $ExpectType Eq<Readonly<Record<string, number>>>
 
-_.toUnfoldable(A.array)({ a: 1 }) // $ExpectType (readonly ["a", number])[]
-_.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType (readonly ["a" | "b", number])[]
+_.toUnfoldable(RA.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
+_.toUnfoldable(RA.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
 
 declare const fromFoldableF1: Foldable<'Test'>
 declare const fromFoldableInput1: HKT<'Test', ['a' | 'b', number]>
@@ -166,8 +166,8 @@ _.fromFoldable(getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) 
 // isSubrecord
 //
 
-_.isSubrecord(eqNumber)(recordString, recordString) // $ExpectType boolean
-_.isSubrecord(eqNumber)(recordString) // $ExpectType (me: Readonly<Record<string, number>>) => boolean
+_.isSubrecord(N.Eq)(recordString, recordString) // $ExpectType boolean
+_.isSubrecord(N.Eq)(recordString) // $ExpectType (me: Readonly<Record<string, number>>) => boolean
 
 //
 // lookup
@@ -180,5 +180,5 @@ _.lookup('a') // $ExpectType <A>(r: Readonly<Record<string, A>>) => Option<A>
 // elem
 //
 
-_.elem(eqNumber)(1, recordString) // $ExpectType boolean
-_.elem(eqNumber)(1) // $ExpectType (fa: Readonly<Record<string, number>>) => boolean
+_.elem(N.Eq)(1, recordString) // $ExpectType boolean
+_.elem(N.Eq)(1) // $ExpectType (fa: Readonly<Record<string, number>>) => boolean

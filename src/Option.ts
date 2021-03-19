@@ -123,22 +123,6 @@ export const none: Option<never> = { _tag: 'None' }
 export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 
 /**
- * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
- * returns the value wrapped in a `Some`.
- *
- * @example
- * import { none, some, fromNullable } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(fromNullable(undefined), none)
- * assert.deepStrictEqual(fromNullable(null), none)
- * assert.deepStrictEqual(fromNullable(1), some(1))
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
-
-/**
  * Returns a *smart constructor* based on the given predicate.
  *
  * @example
@@ -156,34 +140,6 @@ export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a:
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
   return (a) => (predicate(a) ? some(a) : none)
-}
-
-/**
- * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
- * `Some`.
- *
- * See also [`tryCatchK`](#tryCatchK).
- *
- * @example
- * import { none, some, tryCatch } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   tryCatch(() => {
- *     throw new Error()
- *   }),
- *   none
- * )
- * assert.deepStrictEqual(tryCatch(() => 1), some(1))
- *
- * @category constructors
- * @since 2.0.0
- */
-export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
-  try {
-    return some(f())
-  } catch (e) {
-    return none
-  }
 }
 
 /**
@@ -289,64 +245,6 @@ export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<
 export const fold = match
 
 /**
- * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
- *
- * @example
- * import { some, none, toNullable } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.strictEqual(
- *   pipe(
- *     some(1),
- *     toNullable
- *   ),
- *   1
- * )
- * assert.strictEqual(
- *   pipe(
- *     none,
- *     toNullable
- *   ),
- *   null
- * )
- *
- * @category destructors
- * @since 2.0.0
- */
-export const toNullable: <A>(ma: Option<A>) => A | null =
-  /*#__PURE__*/
-  match(constNull, identity)
-
-/**
- * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
- *
- * @example
- * import { some, none, toUndefined } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.strictEqual(
- *   pipe(
- *     some(1),
- *     toUndefined
- *   ),
- *   1
- * )
- * assert.strictEqual(
- *   pipe(
- *     none,
- *     toUndefined
- *   ),
- *   undefined
- * )
- *
- * @category destructors
- * @since 2.0.0
- */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined =
-  /*#__PURE__*/
-  match(constUndefined, identity)
-
-/**
  * Less strict version of [`getOrElse`](#getOrElse).
  *
  * @category destructors
@@ -382,13 +280,57 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
 // -------------------------------------------------------------------------------------
-// combinators
+// interop
 // -------------------------------------------------------------------------------------
+
+/**
+ * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+ * returns the value wrapped in a `Some`.
+ *
+ * @example
+ * import { none, some, fromNullable } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(fromNullable(undefined), none)
+ * assert.deepStrictEqual(fromNullable(null), none)
+ * assert.deepStrictEqual(fromNullable(1), some(1))
+ *
+ * @category interop
+ * @since 2.0.0
+ */
+export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? none : some(a as NonNullable<A>))
+
+/**
+ * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
+ * `Some`.
+ *
+ * See also [`tryCatchK`](#tryCatchK).
+ *
+ * @example
+ * import { none, some, tryCatch } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   tryCatch(() => {
+ *     throw new Error()
+ *   }),
+ *   none
+ * )
+ * assert.deepStrictEqual(tryCatch(() => 1), some(1))
+ *
+ * @category interop
+ * @since 2.0.0
+ */
+export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
+  try {
+    return some(f())
+  } catch (e) {
+    return none
+  }
+}
 
 /**
  * Converts a function that may throw to one returning a `Option`.
  *
- * @category combinators
+ * @category interop
  * @since 2.10.0
  */
 export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B): ((...a: A) => Option<B>) => (...a) =>
@@ -410,7 +352,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => B
  * assert.deepStrictEqual(g('1'), some(1))
  * assert.deepStrictEqual(g('a'), none)
  *
- * @category combinators
+ * @category interop
  * @since 2.9.0
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
@@ -458,11 +400,69 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  *   none
  * )
  *
- * @category combinators
+ * @category interop
  * @since 2.9.0
  */
 export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
   isNone(ma) ? none : fromNullable(f(ma.value))
+
+/**
+ * Extracts the value out of the structure, if it exists. Otherwise returns `null`.
+ *
+ * @example
+ * import { some, none, toNullable } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     toNullable
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     toNullable
+ *   ),
+ *   null
+ * )
+ *
+ * @category interop
+ * @since 2.0.0
+ */
+export const toNullable: <A>(ma: Option<A>) => A | null =
+  /*#__PURE__*/
+  match(constNull, identity)
+
+/**
+ * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
+ *
+ * @example
+ * import { some, none, toUndefined } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     toUndefined
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     toUndefined
+ *   ),
+ *   undefined
+ * )
+ *
+ * @category interop
+ * @since 2.0.0
+ */
+export const toUndefined: <A>(ma: Option<A>) => A | undefined =
+  /*#__PURE__*/
+  match(constUndefined, identity)
 
 // -------------------------------------------------------------------------------------
 // non-pipeables

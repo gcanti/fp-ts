@@ -30,13 +30,11 @@ describe('TaskEither', () => {
   })
 
   it('map', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.right(1), _.map(double))(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))(), E.right(2))
   })
 
   it('ap', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(U.double), _.ap(_.right(1)))(), E.right(2))
   })
 
   it('apFirst', async () => {
@@ -97,8 +95,7 @@ describe('TaskEither', () => {
   })
 
   it('mapLeft', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.left(1), _.mapLeft(double))(), E.left(2))
+    U.deepStrictEqual(await pipe(_.left(1), _.mapLeft(U.double))(), E.left(2))
   })
 
   // -------------------------------------------------------------------------------------

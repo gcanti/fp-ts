@@ -22,7 +22,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
 import * as O from './Option'
-import { getMonoid as getOrdMonoid, Ord } from './Ord'
+import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
 import { Semigroup } from './Semigroup'
@@ -41,7 +41,7 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
  *
  * @example
  * import { prepend } from 'fp-ts/Array'
@@ -55,7 +55,7 @@ import Option = O.Option
 export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> = NEA.prepend
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+ * Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
  *
  * @example
  * import { append } from 'fp-ts/Array'
@@ -69,7 +69,9 @@ export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> =
 export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
 
 /**
- * Return a list of length `n` with element `i` initialized with `f(i)`
+ * Return a `Array` of length `n` with element `i` initialized with `f(i)`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { makeBy } from 'fp-ts/Array'
@@ -80,19 +82,10 @@ export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = N
  * @category constructors
  * @since 2.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
-  if (n <= 0) {
-    return []
-  }
-  const out: Array<A> = []
-  for (let i = 0; i < n; i++) {
-    out.push(f(i))
-  }
-  return out
-}
+export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => (n <= 0 ? [] : NEA.makeBy(n, f))
 
 /**
- * Create an array containing a range of integers, including both endpoints
+ * Create an `Array` containing a range of integers, including both endpoints.
  *
  * @example
  * import { range } from 'fp-ts/Array'
@@ -102,10 +95,13 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
  * @category constructors
  * @since 2.0.0
  */
-export const range = (start: number, end: number): Array<number> => makeBy(end - start + 1, (i) => start + i)
+export const range = (start: number, end: number): Array<number> =>
+  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
 
 /**
- * Create an array containing a value repeated the specified number of times
+ * Create a `Array` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { replicate } from 'fp-ts/Array'
@@ -133,8 +129,8 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @category destructors
  * @since 2.10.0
  */
-export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Array<A>) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onCons(NEA.head(as), NEA.tail(as)) : onEmpty()
+export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>): B =>
+  isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty()
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -142,7 +138,10 @@ export const matchLeft = <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: Array<
  * @category destructors
  * @since 2.0.0
  */
-export const foldLeft = matchLeft
+export const foldLeft: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: Array<A>) => B
+) => (as: Array<A>) => B = matchLeft
 
 /**
  * Break an array into its initial elements and the last element
@@ -150,8 +149,8 @@ export const foldLeft = matchLeft
  * @category destructors
  * @since 2.10.0
  */
-export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: Array<A>, last: A) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onCons(NEA.init(as), NEA.last(as)) : onEmpty()
+export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>): B =>
+  isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty()
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -159,7 +158,10 @@ export const matchRight = <A, B>(onEmpty: Lazy<B>, onCons: (init: Array<A>, last
  * @category destructors
  * @since 2.0.0
  */
-export const foldRight = matchRight
+export const foldRight: <A, B>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: Array<A>, last: A) => B
+) => (as: Array<A>) => B = matchRight
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -333,8 +335,9 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
 export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.some(NEA.init(as)) : O.none)
 
 /**
- * Keep only a number of elements from the start of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { takeLeft } from 'fp-ts/Array'
@@ -344,11 +347,12 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
  * @category combinators
  * @since 2.0.0
  */
-export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? [] : as.slice(0, n))
+export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (isOutOfBound(n, as) ? copy(as) : as.slice(0, n))
 
 /**
- * Keep only a number of elements from the end of an array, creating a new array.
- * `n` must be a natural number
+ * Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { takeRight } from 'fp-ts/Array'
@@ -358,7 +362,8 @@ export const takeLeft = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? 
  * @category combinators
  * @since 2.0.0
  */
-export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> => (n <= 0 ? [] : as.slice(-n))
+export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> =>
+  isOutOfBound(n, as) ? copy(as) : n === 0 ? [] : as.slice(-n)
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -375,16 +380,18 @@ export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
+    const out: Array<A> = []
+    for (const a of as) {
+      if (!predicate(a)) {
+        break
+      }
+      out.push(a)
     }
-    return init
+    return out
   }
 }
 
-const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
+const spanLeftIndex = <A>(as: Array<A>, predicate: Predicate<A>): number => {
   const l = as.length
   let i = 0
   for (; i < l; i++) {
@@ -422,22 +429,15 @@ export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Arr
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A> {
   return (as) => {
-    const i = spanIndexUncurry(as, predicate)
-    const init = Array(i)
-    for (let j = 0; j < i; j++) {
-      init[j] = as[j]
-    }
-    const l = as.length
-    const rest = Array(l - i)
-    for (let j = i; j < l; j++) {
-      rest[j - i] = as[j]
-    }
+    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
     return { init, rest }
   }
 }
 
 /**
- * Drop a number of elements from the start of an array, creating a new array
+ * Drop a max number of elements from the start of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { dropLeft } from 'fp-ts/Array'
@@ -447,10 +447,13 @@ export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(n, as.length)
+export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> =>
+  n <= 0 || isEmpty(as) ? copy(as) : n >= as.length ? [] : as.slice(n, as.length)
 
 /**
- * Drop a number of elements from the end of an array, creating a new array
+ * Drop a max number of elements from the end of an `Array`, creating a new `Array`.
+ *
+ * **Note**. `n` is normalized to a non negative integer.
  *
  * @example
  * import { dropRight } from 'fp-ts/Array'
@@ -460,7 +463,8 @@ export const dropLeft = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(n
  * @category combinators
  * @since 2.0.0
  */
-export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(0, as.length - n)
+export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
+  n <= 0 || isEmpty(as) ? copy(as) : n >= as.length ? [] : as.slice(0, as.length - n)
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
@@ -473,15 +477,8 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> => as.slice(
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  const i = spanIndexUncurry(as, predicate)
-  const l = as.length
-  const out = Array(l - i)
-  for (let j = i; j < l; j++) {
-    out[j - i] = as[j]
-  }
-  return out
-}
+export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> =>
+  as.slice(spanLeftIndex(as, predicate))
 
 /**
  * Find the first index for which a predicate holds
@@ -745,7 +742,7 @@ export const lefts = <E, A>(as: Array<Either<E, A>>): Array<E> => {
  * @since 2.0.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: Array<A>): Array<A> =>
-  as.length <= 1 ? as : as.slice().sort(O.compare)
+  as.length <= 1 ? copy(as) : as.slice().sort(O.compare)
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
@@ -838,13 +835,13 @@ export const prependAll = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
  * @category combinators
  * @since 2.9.0
  */
-export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
-  const len = as.length
-  return len === 0 ? as : pipe(as.slice(1, len), prependAll(middle), prepend(as[0]))
+export const intersperse = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
+  const f = NEA.intersperse(middle)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**
- * Rotate an array to the right by `n` steps
+ * Rotate a `Array` by `n` steps.
  *
  * @example
  * import { rotate } from 'fp-ts/Array'
@@ -854,15 +851,9 @@ export const intersperse = <A>(middle: A) => (as: Array<A>): Array<A> => {
  * @category combinators
  * @since 2.0.0
  */
-export const rotate = (n: number) => <A>(as: Array<A>): Array<A> => {
-  const len = as.length
-  if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return as
-  } else if (n < 0) {
-    return rotate(len + n)(as)
-  } else {
-    return as.slice(-n).concat(as.slice(0, len - n))
-  }
+export const rotate = (n: number): (<A>(as: Array<A>) => Array<A>) => {
+  const f = NEA.rotate(n)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 // TODO: remove non-curried overloading in v3
@@ -901,22 +892,8 @@ export const elem: <A>(
  * @since 2.0.0
  */
 export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
-  const elemS = elem(E)
-  return (as) => {
-    const len = as.length
-    if (len <= 1) {
-      return as
-    }
-    const r: Array<A> = []
-    let i = 0
-    for (; i < len; i++) {
-      const a = as[i]
-      if (!elemS(a, r)) {
-        r.push(a)
-      }
-    }
-    return len === r.length ? as : r
-  }
+  const f = NEA.uniq(E)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**
@@ -951,8 +928,8 @@ export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => {
  * @since 2.0.0
  */
 export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: Array<A>) => Array<A>) => {
-  const M = getOrdMonoid<B>()
-  return sort(ords.reduce(M.concat, M.empty))
+  const f = NEA.sortBy(ords)
+  return (as) => (isNonEmpty(as) ? f(as) : copy(as))
 }
 
 /**
@@ -983,17 +960,18 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]): ((as: Ar
 }
 
 /**
- * Splits an array into two pieces, the first piece has `n` elements.
+ * Splits an `Array` into two pieces, the first piece has max `n` elements.
  *
  * @example
  * import { splitAt } from 'fp-ts/Array'
  *
  * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const splitAt = (n: number) => <A>(as: Array<A>): [Array<A>, Array<A>] =>
-  n === 0 ? [[], as] : isNonEmpty(as) ? NEA.splitAt(n)(as) : [[], []]
+  n >= 1 && isNonEmpty(as) ? NEA.splitAt(n)(as) : isEmpty(as) ? [copy(as), []] : [[], copy(as)]
 
 /**
  * Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
@@ -1011,6 +989,7 @@ export const splitAt = (n: number) => <A>(as: Array<A>): [Array<A>, Array<A>] =>
  *
  * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
+ * @category combinators
  * @since 2.0.0
  */
 export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A>>) => {
@@ -1019,7 +998,7 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
 }
 
 /**
- * Array comprehension
+ * `Array` comprehension.
  *
  * ```
  * [ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
@@ -1036,7 +1015,7 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
  *   [3, 'b']
  * ])
  *
- * @category constructors
+ * @category combinators
  * @since 2.0.0
  */
 export function comprehension<A, B, C, D, R>(
@@ -1049,25 +1028,26 @@ export function comprehension<A, B, C, R>(
   f: (a: A, b: B, c: C) => R,
   g?: (a: A, b: B, c: C) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
 export function comprehension<A, B, R>(
   input: [Array<A>, Array<B>],
   f: (a: A, b: B) => R,
   g?: (a: A, b: B) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
-export function comprehension<R>(
-  input: Array<Array<any>>,
-  f: (...xs: Array<any>) => R,
-  g: (...xs: Array<any>) => boolean = () => true
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+export function comprehension<A, R>(
+  input: Array<Array<A>>,
+  f: (...xs: Array<A>) => R,
+  g: (...xs: Array<A>) => boolean = () => true
 ): Array<R> {
-  const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> => {
-    if (input.length === 0) {
-      return g(...scope) ? [f(...scope)] : []
-    } else {
-      return _chain(input[0], (x) => go(pipe(scope, append(x)), input.slice(1)))
-    }
-  }
+  const go = (scope: Array<A>, input: Array<Array<A>>): Array<R> =>
+    isNonEmpty(input)
+      ? pipe(
+          NEA.head(input),
+          chain((x) => go(pipe(scope, append(x)), NEA.tail(input)))
+        )
+      : g(...scope)
+      ? [f(...scope)]
+      : []
   return go([], input)
 }
 
@@ -1092,13 +1072,17 @@ export function union<A>(
   (xs: Array<A>, ys: Array<A>): Array<A>
 }
 export function union<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<A> | ((ys: Array<A>) => Array<A>) {
-  const elemE = elem(E)
-  return (xs, ys?) => {
-    if (ys === undefined) {
+  const unionE = NEA.union(E)
+  return (first, second?) => {
+    if (second === undefined) {
       const unionE = union(E)
-      return (ys) => unionE(ys, xs)
+      return (ys) => unionE(ys, first)
     }
-    return xs.concat(ys.filter((a) => !elemE(a, xs)))
+    return isNonEmpty(first) && isNonEmpty(second)
+      ? unionE(first, second)
+      : isNonEmpty(first)
+      ? copy(first)
+      : copy(second)
   }
 }
 
@@ -1165,12 +1149,6 @@ export function difference<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<
     return xs.filter((a) => !elemE(a, ys))
   }
 }
-
-/**
- * @category Pointed
- * @since 2.0.0
- */
-export const of: Pointed1<URI>['of'] = (a) => [a]
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -1265,6 +1243,18 @@ const _wilt: Witherable1<URI>['wilt'] = <F>(
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category Pointed
+ * @since 2.0.0
+ */
+export const of: Pointed1<URI>['of'] = NEA.of
+
+/**
+ * @category Alternative
+ * @since 2.7.0
+ */
+export const zero: Alternative1<URI>['zero'] = () => []
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1592,12 +1582,6 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<
   }
   return out
 }
-
-/**
- * @category Alternative
- * @since 2.7.0
- */
-export const zero: Alternative1<URI>['zero'] = () => []
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -2008,13 +1992,6 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
 // -------------------------------------------------------------------------------------
 
 /**
- * An empty array
- *
- * @since 2.0.0
- */
-export const empty: Array<never> = []
-
-/**
  * @since 2.9.0
  */
 export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.every
@@ -2022,7 +1999,7 @@ export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = 
 /**
  * @since 2.9.0
  */
-export const some: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = RA.some
+export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmptyArray<A> => as.some(predicate)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -2063,6 +2040,14 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use a new `[]` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const empty: Array<never> = []
 
 /**
  * Use `prepend` instead.

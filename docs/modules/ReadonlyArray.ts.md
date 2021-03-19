@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -66,6 +66,8 @@ Added in v2.5.0
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
+  - [chunksOf](#chunksof)
+  - [comprehension](#comprehension)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
@@ -83,17 +85,17 @@ Added in v2.5.0
   - [scanRight](#scanright)
   - [sort](#sort)
   - [sortBy](#sortby)
+  - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [union](#union)
   - [uniq](#uniq)
+  - [unzip](#unzip)
   - [zip](#zip)
   - [zipWith](#zipwith)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
-  - [comprehension](#comprehension)
-  - [fromArray](#fromarray)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [range](#range)
@@ -135,6 +137,9 @@ Added in v2.5.0
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
   - [~~readonlyArray~~](#readonlyarray)
+- [interop](#interop)
+  - [fromArray](#fromarray)
+  - [toArray](#toarray)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -145,7 +150,6 @@ Added in v2.5.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [empty](#empty)
@@ -168,11 +172,8 @@ Added in v2.5.0
   - [size](#size)
   - [some](#some)
   - [spanLeft](#spanleft)
-  - [splitAt](#splitat)
   - [tail](#tail)
   - [takeRight](#takeright)
-  - [toArray](#toarray)
-  - [unzip](#unzip)
   - [updateAt](#updateat)
 
 ---
@@ -644,6 +645,93 @@ assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4
 
 Added in v2.5.0
 
+## chunksOf
+
+Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the `ReadonlyArray`. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that:
+
+```ts
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
+```
+
+whenever `n` evenly divides the length of `as`.
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly RNEA.ReadonlyNonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { chunksOf } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+```
+
+Added in v2.5.0
+
+## comprehension
+
+`ReadonlyArray` comprehension.
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, C, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, B, R>(
+  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): ReadonlyArray<R>
+export declare function comprehension<A, R>(
+  input: readonly [ReadonlyArray<A>],
+  f: (a: A) => R,
+  g?: (a: A) => boolean
+): ReadonlyArray<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/ReadonlyArray'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.5.0
+
 ## difference
 
 Creates an array of array values not included in the other given array using a `Eq` for equality
@@ -674,7 +762,9 @@ Added in v2.5.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an array, creating a new array
+Drop a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -685,9 +775,13 @@ export declare const dropLeft: (n: number) => <A>(as: readonly A[]) => readonly 
 **Example**
 
 ```ts
-import { dropLeft } from 'fp-ts/ReadonlyArray'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.dropLeft(2)), [3])
+assert.strictEqual(pipe(input, RA.dropLeft(0)), input)
+assert.strictEqual(pipe(input, RA.dropLeft(-1)), input)
 ```
 
 Added in v2.5.0
@@ -714,7 +808,9 @@ Added in v2.5.0
 
 ## dropRight
 
-Drop a number of elements from the end of an array, creating a new array
+Drop a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -725,9 +821,13 @@ export declare const dropRight: (n: number) => <A>(as: readonly A[]) => readonly
 **Example**
 
 ```ts
-import { dropRight } from 'fp-ts/ReadonlyArray'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.dropRight(2)), [1])
+assert.strictEqual(pipe(input, RA.dropRight(0)), input)
+assert.strictEqual(pipe(input, RA.dropRight(-1)), input)
 ```
 
 Added in v2.5.0
@@ -879,7 +979,7 @@ Added in v2.5.0
 
 ## rotate
 
-Rotate an array to the right by `n` steps
+Rotate a `ReadonlyArray` by `n` steps.
 
 **Signature**
 
@@ -899,7 +999,7 @@ Added in v2.5.0
 
 ## scanLeft
 
-Same as `reduce` but it carries over the intermediate steps
+Same as `reduce` but it carries over the intermediate steps.
 
 **Signature**
 
@@ -1012,10 +1112,34 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v2.5.0
 
+## splitAt
+
+Splits a `ReadonlyArray` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
+])
+```
+
+Added in v2.5.0
+
 ## takeLeft
 
-Keep only a number of elements from the start of a `ReadonlyArray`, creating a new `ReadonlyArray`.
-The input `n` must be a natural number.
+Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1026,9 +1150,15 @@ export declare const takeLeft: (n: number) => <A>(as: readonly A[]) => readonly 
 **Example**
 
 ```ts
-import { takeLeft } from 'fp-ts/ReadonlyArray'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.takeLeft(2)), [1, 2])
+
+// out of bounds
+assert.strictEqual(pipe(input, RA.takeLeft(4)), input)
+assert.strictEqual(pipe(input, RA.takeLeft(-1)), input)
 ```
 
 Added in v2.5.0
@@ -1100,6 +1230,36 @@ import { uniq } from 'fp-ts/ReadonlyArray'
 import * as N from 'fp-ts/number'
 
 assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+```
+
+Added in v2.5.0
+
+## unzip
+
+The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
+
+**Signature**
+
+```ts
+export declare const unzip: <A, B>(as: readonly (readonly [A, B])[]) => readonly [readonly A[], readonly B[]]
+```
+
+**Example**
+
+```ts
+import { unzip } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(
+  unzip([
+    [1, 'a'],
+    [2, 'b'],
+    [3, 'c'],
+  ]),
+  [
+    [1, 2, 3],
+    ['a', 'b', 'c'],
+  ]
+)
 ```
 
 Added in v2.5.0
@@ -1190,83 +1350,11 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v2.10.0
 
-## comprehension
-
-Array comprehension
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>, ReadonlyArray<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, C, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>, ReadonlyArray<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => R,
-  g?: (a: A) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, B, R>(
-  input: readonly [ReadonlyArray<A>, ReadonlyArray<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): ReadonlyArray<R>
-export declare function comprehension<A, R>(
-  input: readonly [ReadonlyArray<A>],
-  f: (a: A) => boolean,
-  g?: (a: A) => R
-): ReadonlyArray<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/ReadonlyArray'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v2.5.0
-
-## fromArray
-
-**Signature**
-
-```ts
-export declare const fromArray: <A>(as: A[]) => readonly A[]
-```
-
-Added in v2.5.0
-
 ## makeBy
 
-Return a list of length `n` with element `i` initialized with `f(i)`
+Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1308,7 +1396,7 @@ Added in v2.10.0
 
 ## range
 
-Create an array containing a range of integers, including both endpoints
+Create a `ReadonlyArray` containing a range of integers, including both endpoints.
 
 **Signature**
 
@@ -1328,7 +1416,9 @@ Added in v2.5.0
 
 ## replicate
 
-Create an array containing a value repeated the specified number of times
+Create a `ReadonlyArray` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1381,7 +1471,7 @@ Alias of [`matchLeft`](#matchLeft).
 ```ts
 export declare const foldLeft: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: readonly A[]) => B
+  onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1396,7 +1486,7 @@ Alias of [`matchRight`](#matchRight).
 ```ts
 export declare const foldRight: <A, B>(
   onEmpty: Lazy<B>,
-  onCons: (init: readonly A[], last: A) => B
+  onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1409,9 +1499,9 @@ Break an array into its first element and remaining elements.
 **Signature**
 
 ```ts
-export declare const matchLeft: <A, B>(
+export declare const matchLeft: <B, A>(
   onEmpty: Lazy<B>,
-  onCons: (head: A, tail: readonly A[]) => B
+  onNonEmpty: (head: A, tail: readonly A[]) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1436,9 +1526,9 @@ Break an array into its initial elements and the last element.
 **Signature**
 
 ```ts
-export declare const matchRight: <A, B>(
+export declare const matchRight: <B, A>(
   onEmpty: Lazy<B>,
-  onCons: (init: readonly A[], last: A) => B
+  onNonEmpty: (init: readonly A[], last: A) => B
 ) => (as: readonly A[]) => B
 ```
 
@@ -1783,6 +1873,28 @@ export declare const readonlyArray: FunctorWithIndex1<'ReadonlyArray', number> &
 
 Added in v2.5.0
 
+# interop
+
+## fromArray
+
+**Signature**
+
+```ts
+export declare const fromArray: <A>(as: A[]) => readonly A[]
+```
+
+Added in v2.5.0
+
+## toArray
+
+**Signature**
+
+```ts
+export declare const toArray: <A>(as: readonly A[]) => A[]
+```
+
+Added in v2.5.0
+
 # unsafe
 
 ## unsafeDeleteAt
@@ -1875,34 +1987,6 @@ export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly {
 ```
 
 Added in v2.8.0
-
-## chunksOf
-
-Splits a `ReadonlyArray` into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the `ReadonlyArray`. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
-definition of `chunksOf`; it satisfies the property that:
-
-```ts
-chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
-```
-
-whenever `n` evenly divides the length of `as`.
-
-**Signature**
-
-```ts
-export declare const chunksOf: (n: number) => <A>(as: readonly A[]) => readonly RNEA.ReadonlyNonEmptyArray<A>[]
-```
-
-**Example**
-
-```ts
-import { chunksOf } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.5.0
 
 ## deleteAt
 
@@ -2375,7 +2459,7 @@ Check if a predicate holds true for any array member.
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 **Example**
@@ -2416,30 +2500,6 @@ assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { 
 
 Added in v2.5.0
 
-## splitAt
-
-Splits a `ReadonlyArray` into two pieces, the first piece has `n` elements.
-If `n` is out of bounds, the input is returned.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: readonly A[]) => readonly [readonly A[], readonly A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
-```
-
-Added in v2.5.0
-
 ## tail
 
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
@@ -2464,8 +2524,9 @@ Added in v2.5.0
 
 ## takeRight
 
-Keep only a number of elements from the end of a `ReadonlyArray`, creating a new `ReadonlyArray`.
-The input `n` must be a natural number.
+Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -2476,49 +2537,15 @@ export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly
 **Example**
 
 ```ts
-import { takeRight } from 'fp-ts/ReadonlyArray'
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
-```
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
 
-Added in v2.5.0
-
-## toArray
-
-**Signature**
-
-```ts
-export declare const toArray: <A>(as: readonly A[]) => A[]
-```
-
-Added in v2.5.0
-
-## unzip
-
-The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
-
-**Signature**
-
-```ts
-export declare const unzip: <A, B>(as: readonly (readonly [A, B])[]) => readonly [readonly A[], readonly B[]]
-```
-
-**Example**
-
-```ts
-import { unzip } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(
-  unzip([
-    [1, 'a'],
-    [2, 'b'],
-    [3, 'c'],
-  ]),
-  [
-    [1, 2, 3],
-    ['a', 'b', 'c'],
-  ]
-)
+// out of bounds
+assert.strictEqual(pipe(input, RA.takeRight(4)), input)
+assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
 ```
 
 Added in v2.5.0

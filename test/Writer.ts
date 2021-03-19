@@ -6,9 +6,8 @@ import * as _ from '../src/Writer'
 describe('Writer', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
       const x: _.Writer<string, number> = () => [1, 'a']
-      U.deepStrictEqual(pipe(x, _.map(double))(), [2, 'a'])
+      U.deepStrictEqual(pipe(x, _.map(U.double))(), [2, 'a'])
     })
   })
 

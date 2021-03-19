@@ -34,14 +34,11 @@ export function toSet<A>(s: ReadonlySet<A>): Set<A> {
 export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
   return {
     show: (s) => {
-      let elements = ''
+      const entries: Array<string> = []
       s.forEach((a) => {
-        elements += S.show(a) + ', '
+        entries.push(S.show(a))
       })
-      if (elements !== '') {
-        elements = elements.substring(0, elements.length - 2)
-      }
-      return `new Set([${elements}])`
+      return `new Set([${entries.sort().join(', ')}])`
     }
   }
 }
@@ -316,16 +313,16 @@ export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
  * @since 2.5.0
  */
 export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B {
-  const toArrayO = toReadonlyArray(O)
-  return (b, f) => (fa) => toArrayO(fa).reduce(f, b)
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (b, f) => (fa) => toReadonlyArrayO(fa).reduce(f, b)
 }
 
 /**
  * @since 2.5.0
  */
 export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: ReadonlySet<A>) => M {
-  const toArrayO = toReadonlyArray(O)
-  return (f) => (fa) => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
 }
 
 /**
@@ -549,6 +546,8 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
 }
 
 /**
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
+ *
  * @since 2.5.0
  */
 export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): ReadonlyArray<A> => {

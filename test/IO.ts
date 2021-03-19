@@ -7,13 +7,11 @@ import * as N from '../src/number'
 describe('IO', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.of(1), _.map(double))(), 2)
+      U.deepStrictEqual(pipe(_.of(1), _.map(U.double))(), 2)
     })
 
     it('ap', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(), 2)
+      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))(), 2)
     })
 
     it('apFirst', () => {

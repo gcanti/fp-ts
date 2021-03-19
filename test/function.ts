@@ -178,8 +178,7 @@ describe('function', () => {
 
   it('getEndomorphismMonoid', () => {
     const M = _.getEndomorphismMonoid<number>()
-    const double = (n: number) => n * 2
-    const f = M.concat(_.increment, double)
+    const f = M.concat(_.increment, U.double)
     U.deepStrictEqual(f(3), 8)
   })
 })

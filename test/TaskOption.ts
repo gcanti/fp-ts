@@ -10,14 +10,12 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.some(1), _.map(double))(), O.some(2))
+    U.deepStrictEqual(await pipe(_.some(1), _.map(U.double))(), O.some(2))
   })
 
   it('ap', async () => {
-    const double = (n: number) => n * 2
-    U.deepStrictEqual(await pipe(_.some(double), _.ap(_.some(2)))(), O.some(4))
-    U.deepStrictEqual(await pipe(_.some(double), _.ap(_.none))(), O.none)
+    U.deepStrictEqual(await pipe(_.some(U.double), _.ap(_.some(2)))(), O.some(4))
+    U.deepStrictEqual(await pipe(_.some(U.double), _.ap(_.none))(), O.none)
     U.deepStrictEqual(await pipe(_.none, _.ap(_.some(2)))(), O.none)
     U.deepStrictEqual(await pipe(_.none, _.ap(_.none))(), O.none)
   })

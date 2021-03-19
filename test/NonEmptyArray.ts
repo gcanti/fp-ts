@@ -77,8 +77,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('ap', () => {
-    const double = (n: number) => n * 2
-    const fab: _.NonEmptyArray<(n: number) => number> = [double, double]
+    const fab: _.NonEmptyArray<(n: number) => number> = [U.double, U.double]
     U.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
@@ -169,9 +168,7 @@ describe('NonEmptyArray', () => {
   it('sort', () => {
     const sort = _.sort(N.Ord)
     U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
-    // should optimize `1`-length `ReadonlyNonEmptyArray`s
-    const singleton: _.NonEmptyArray<number> = [1]
-    assert.strictEqual(sort(singleton), singleton)
+    U.deepStrictEqual(sort([1]), [1])
   })
 
   it('prependAll', () => {
@@ -242,9 +239,18 @@ describe('NonEmptyArray', () => {
   })
 
   it('modifyAt', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
-    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4]))
+    // should not return the same reference if nothing changed
+    const input: _.NonEmptyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(1, identity),
+        O.map((out) => out === input)
+      ),
+      O.some(false)
+    )
   })
 
   it('copy', () => {
@@ -288,8 +294,10 @@ describe('NonEmptyArray', () => {
     )
 
     // refinements
+    // tslint:disable-next-line: deprecation
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
     U.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)]))
+    // tslint:disable-next-line: deprecation
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
     U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]))
   })
@@ -298,10 +306,12 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(
       pipe(
         [1, 2, 3],
+        // tslint:disable-next-line: deprecation
         _.filterWithIndex((i) => i % 2 === 0)
       ),
       O.some([1, 3])
     )
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 
@@ -423,5 +433,54 @@ describe('NonEmptyArray', () => {
         ['a', 'b', 'c']
       ]
     )
+  })
+
+  it('splitAt', () => {
+    const assertSplitAt = (
+      input: _.NonEmptyArray<number>,
+      index: number,
+      expectedInit: ReadonlyArray<number>,
+      expectedRest: ReadonlyArray<number>
+    ) => {
+      const [init, rest] = _.splitAt(index)(input)
+      U.deepStrictEqual(init, expectedInit)
+      U.deepStrictEqual(rest, expectedRest)
+    }
+
+    const two: _.NonEmptyArray<number> = [1, 2]
+    U.deepStrictEqual(_.splitAt(1)(two), [[1], [2]])
+    assertSplitAt(two, 2, two, [])
+    const singleton: _.NonEmptyArray<number> = [1]
+    assertSplitAt(singleton, 1, singleton, [])
+
+    // out of bounds
+    assertSplitAt(singleton, 0, singleton, [])
+    assertSplitAt(singleton, 2, singleton, [])
+    U.deepStrictEqual(_.splitAt(0)(two), [[1], [2]])
+    assertSplitAt(two, 3, two, [])
+  })
+
+  it('chunksOf', () => {
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+      [1, 2],
+      [3, 4],
+      [5, 6]
+    ])
+    U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    // out of bounds
+    U.deepStrictEqual(_.chunksOf(0)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    U.deepStrictEqual(_.chunksOf(-1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+    const assertSingleChunk = (input: _.NonEmptyArray<number>, n: number) => {
+      const chunks = _.chunksOf(n)(input)
+      U.deepStrictEqual(chunks.length, 1)
+      U.deepStrictEqual(_.head(chunks), input)
+    }
+    // n = length
+    assertSingleChunk([1, 2], 2)
+    // n out of bounds
+    assertSingleChunk([1, 2], 3)
   })
 })

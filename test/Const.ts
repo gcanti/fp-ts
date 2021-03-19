@@ -8,14 +8,12 @@ describe('Const', () => {
   describe('pipeables', () => {
     it('map', () => {
       const fa = _.make('foo')
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(fa, _.map(double)), fa)
+      U.deepStrictEqual(pipe(fa, _.map(U.double)), fa)
     })
 
     it('contramap', () => {
       const fa: _.Const<string, number> = _.make('foo')
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(fa, _.contramap(double)), fa)
+      U.deepStrictEqual(pipe(fa, _.contramap(U.double)), fa)
     })
 
     it('bimap', () => {

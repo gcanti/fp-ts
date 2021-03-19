@@ -1,7 +1,10 @@
 import * as assert from 'assert'
+import * as B from '../src/boolean'
+import * as Eq from '../src/Eq'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import * as Ord from '../src/Ord'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as Se from '../src/Semigroup'
 import * as S from '../src/string'
@@ -78,8 +81,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('ap', () => {
-    const double = (n: number) => n * 2
-    const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [double, double]
+    const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [U.double, U.double]
     U.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
@@ -150,11 +152,11 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('group', () => {
-    U.deepStrictEqual(_.group(N.Ord)([]), [])
+    U.deepStrictEqual(_.group(N.Eq)([]), [])
 
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1]), [[1], [2], [1, 1]])
+    U.deepStrictEqual(_.group(N.Eq)([1, 2, 1, 1]), [[1], [2], [1, 1]])
 
-    U.deepStrictEqual(_.group(N.Ord)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
+    U.deepStrictEqual(_.group(N.Eq)([1, 2, 1, 1, 3]), [[1], [2], [1, 1], [3]])
   })
 
   it('groupSort', () => {
@@ -177,7 +179,7 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(sort([3, 2, 1]), [1, 2, 3])
     // should optimize `1`-length `ReadonlyNonEmptyArray`s
     const singleton: _.ReadonlyNonEmptyArray<number> = [1]
-    assert.strictEqual(sort(singleton), singleton)
+    U.strictEqual(sort(singleton), singleton)
   })
 
   it('prependAll', () => {
@@ -194,6 +196,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('reverse', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    U.strictEqual(_.reverse(singleton), singleton)
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })
 
@@ -253,9 +257,18 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('modifyAt', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
-    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4] as const))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4] as const))
+    // should return the same reference if nothing changed
+    const input: _.ReadonlyNonEmptyArray<number> = [1, 2, 3]
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(1, identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
+    )
   })
 
   it('filter', () => {
@@ -274,14 +287,18 @@ describe('ReadonlyNonEmptyArray', () => {
     assert.deepStrictEqual(_.filter(({ x }) => x !== 10)([a1, a2, a3]), O.some([a1, a2, a3]))
 
     // refinements
+    // tslint:disable-next-line: deprecation
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
     assert.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)]))
+    // tslint:disable-next-line: deprecation
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
     assert.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]))
   })
 
   it('filterWithIndex', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(_.filterWithIndex((i) => i % 2 === 0)([1, 2, 3]), O.some([1, 3]))
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 
@@ -371,7 +388,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('fromArray', () => {
-    assert.strictEqual(_.fromArray([]), O.none)
+    U.strictEqual(_.fromArray([]), O.none)
     // tslint:disable-next-line: readonly-array
     const as = [1, 2, 3]
     const bs = _.fromArray(as)
@@ -383,7 +400,7 @@ describe('ReadonlyNonEmptyArray', () => {
     const as: ReadonlyArray<number> = [1, 2, 3]
     const bs = _.fromReadonlyArray(as)
     U.deepStrictEqual(bs, O.some(as))
-    assert.strictEqual((bs as any).value, as)
+    U.strictEqual((bs as any).value, as)
   })
 
   it('concatAll', () => {
@@ -442,33 +459,165 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('splitAt', () => {
-    U.deepStrictEqual(_.splitAt(1)([1, 2]), [[1], [2]])
-    U.deepStrictEqual(_.splitAt(2)([1, 2]), [[1, 2], []])
-    U.deepStrictEqual(_.splitAt(2)([1, 2, 3, 4, 5]), [
-      [1, 2],
-      [3, 4, 5]
-    ])
-    // zero
-    U.deepStrictEqual(_.splitAt(0)([1]), [[1], []])
+    const assertSplitAt = (
+      input: _.ReadonlyNonEmptyArray<number>,
+      index: number,
+      expectedInit: ReadonlyArray<number>,
+      expectedRest: ReadonlyArray<number>
+    ) => {
+      const [init, rest] = _.splitAt(index)(input)
+      U.strictEqual(init, expectedInit)
+      U.strictEqual(rest, expectedRest)
+    }
+
+    const two: _.ReadonlyNonEmptyArray<number> = [1, 2]
+    U.deepStrictEqual(_.splitAt(1)(two), [[1], [2]])
+    assertSplitAt(two, 2, two, _.empty)
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    assertSplitAt(singleton, 1, singleton, _.empty)
+
     // out of bounds
-    U.deepStrictEqual(_.splitAt(2)([1]), [[1], []])
-    U.deepStrictEqual(_.splitAt(-1)([1]), [[1], []])
+    assertSplitAt(singleton, 0, singleton, _.empty)
+    assertSplitAt(singleton, 2, singleton, _.empty)
+    U.deepStrictEqual(_.splitAt(0)(two), [[1], [2]])
+    assertSplitAt(two, 3, two, _.empty)
   })
 
-  describe('chunksOf', () => {
-    it('should split a `ReadonlyNonEmptyArray` into length-n pieces', () => {
-      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-      U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
-        [1, 2],
-        [3, 4],
-        [5, 6]
-      ])
-      U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(6)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
-      U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
-      U.deepStrictEqual(_.chunksOf(0)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(10)([1, 2]), [[1, 2]])
-      U.deepStrictEqual(_.chunksOf(-1)([1, 2]), [[1, 2]])
-    })
+  it('chunksOf', () => {
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    U.deepStrictEqual(_.chunksOf(2)([1, 2, 3, 4, 5, 6]), [
+      [1, 2],
+      [3, 4],
+      [5, 6]
+    ])
+    U.deepStrictEqual(_.chunksOf(1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    U.deepStrictEqual(_.chunksOf(5)([1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    // out of bounds
+    U.deepStrictEqual(_.chunksOf(0)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    U.deepStrictEqual(_.chunksOf(-1)([1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+
+    const assertSingleChunk = (input: _.ReadonlyNonEmptyArray<number>, n: number) => {
+      const chunks = _.chunksOf(n)(input)
+      U.strictEqual(chunks.length, 1)
+      U.strictEqual(_.head(chunks), input)
+    }
+    // n = length
+    assertSingleChunk([1, 2], 2)
+    // n out of bounds
+    assertSingleChunk([1, 2], 3)
+  })
+
+  it('rotate', () => {
+    const singleton: _.ReadonlyNonEmptyArray<number> = [1]
+    U.strictEqual(_.rotate(1)(singleton), singleton)
+    U.strictEqual(_.rotate(2)(singleton), singleton)
+    U.strictEqual(_.rotate(-1)(singleton), singleton)
+    U.strictEqual(_.rotate(-2)(singleton), singleton)
+    const two: _.ReadonlyNonEmptyArray<number> = [1, 2]
+    U.strictEqual(_.rotate(2)(two), two)
+    U.strictEqual(_.rotate(0)(two), two)
+    U.strictEqual(_.rotate(-2)(two), two)
+
+    U.deepStrictEqual(_.rotate(1)([1, 2]), [2, 1])
+    U.deepStrictEqual(_.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    U.deepStrictEqual(_.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    U.deepStrictEqual(_.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(7)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-7)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+
+    U.deepStrictEqual(_.rotate(2.2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    U.deepStrictEqual(_.rotate(-2.2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+  })
+
+  it('uniq', () => {
+    interface A {
+      readonly a: string
+      readonly b: number
+    }
+
+    const eqA = pipe(
+      N.Eq,
+      Eq.contramap((f: A) => f.b)
+    )
+    const arrA: A = { a: 'a', b: 1 }
+    const arrB: A = { a: 'b', b: 1 }
+    const arrC: A = { a: 'c', b: 2 }
+    const arrD: A = { a: 'd', b: 2 }
+    const arrUniq: _.ReadonlyNonEmptyArray<A> = [arrA, arrC]
+
+    U.deepStrictEqual(_.uniq(eqA)(arrUniq), arrUniq)
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrA, arrC]), [arrA, arrC])
+    U.deepStrictEqual(_.uniq(eqA)([arrC, arrA]), [arrC, arrA])
+    U.deepStrictEqual(_.uniq(B.Eq)([true, false, true, false]), [true, false])
+    U.deepStrictEqual(_.uniq(N.Eq)([-0, -0]), [-0])
+    U.deepStrictEqual(_.uniq(N.Eq)([0, -0]), [0])
+    U.deepStrictEqual(_.uniq(N.Eq)([1]), [1])
+    U.deepStrictEqual(_.uniq(N.Eq)([2, 1, 2]), [2, 1])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 1]), [1, 2])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(N.Eq)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'a']), ['a', 'b'])
+    U.deepStrictEqual(_.uniq(S.Eq)(['a', 'b', 'A']), ['a', 'b', 'A'])
+
+    const as: _.ReadonlyNonEmptyArray<number> = [1]
+    U.strictEqual(_.uniq(N.Eq)(as), as)
+  })
+
+  it('sortBy', () => {
+    interface X {
+      readonly a: string
+      readonly b: number
+      readonly c: boolean
+    }
+    const byName = pipe(
+      S.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.a)
+    )
+    const byAge = pipe(
+      N.Ord,
+      Ord.contramap((p: { readonly a: string; readonly b: number }) => p.b)
+    )
+    const f = _.sortBy([byName, byAge])
+    const xs: _.ReadonlyNonEmptyArray<X> = [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 2, c: true }
+    ]
+    U.deepStrictEqual(f(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'b', b: 3, c: true },
+      { a: 'c', b: 2, c: true }
+    ])
+    const sortByAgeByName = _.sortBy([byAge, byName])
+    U.deepStrictEqual(sortByAgeByName(xs), [
+      { a: 'a', b: 1, c: true },
+      { a: 'b', b: 2, c: true },
+      { a: 'c', b: 2, c: true },
+      { a: 'b', b: 3, c: true }
+    ])
+
+    U.deepStrictEqual(_.sortBy([])(xs), xs)
+  })
+
+  it('union', () => {
+    const concat = _.union(N.Eq)
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+  })
+
+  it('makeBy', () => {
+    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
+    // If `n` (must be a natural number) is non positive return `[f(0)]`.
+    U.deepStrictEqual(_.makeBy(0, U.double), [0])
+    U.deepStrictEqual(_.makeBy(-1, U.double), [0])
   })
 })

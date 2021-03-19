@@ -1,7 +1,6 @@
-import * as assert from 'assert'
+import * as B from '../src/boolean'
 import * as N from '../src/number'
 import * as _ from '../src/Semigroup'
-import * as B from '../src/boolean'
 import * as S from '../src/string'
 import * as U from './util'
 
@@ -32,25 +31,6 @@ describe('Semigroup', () => {
     U.deepStrictEqual(_.max(N.Ord).concat(1, 2), 2)
   })
 
-  it('assign', () => {
-    type T = {
-      readonly foo?: number
-      readonly bar: string
-    }
-    const foo: T = {
-      foo: 123,
-      bar: '456'
-    }
-    const bar: T = {
-      bar: '123'
-    }
-    const S = _.assign<T>()
-    const result = S.concat(foo, bar)
-    const expected = Object.assign({}, foo, bar)
-    U.deepStrictEqual(result.foo, expected.foo)
-    U.deepStrictEqual(result.bar, expected.bar)
-  })
-
   it('first', () => {
     U.deepStrictEqual(_.first<number>().concat(1, 2), 1)
   })
@@ -66,7 +46,7 @@ describe('Semigroup', () => {
 
   it('intercalate', () => {
     const IS = _.intercalate(' ')(S.Semigroup)
-    assert.strictEqual(IS.concat('a', 'b'), 'a b')
-    assert.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
+    U.strictEqual(IS.concat('a', 'b'), 'a b')
+    U.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
   })
 })

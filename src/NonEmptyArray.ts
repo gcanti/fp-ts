@@ -1,5 +1,14 @@
 /**
- * Data structure which represents non-empty arrays
+ * Data structure which represents non-empty arrays.
+ *
+ * ```ts
+ * export type NonEmptyArray<A> = Array<A> & {
+ *   0: A
+ * }
+ * ```
+ *
+ * Note that you don't need any conversion, a `NonEmptyArray` is an `Array`,
+ * so all `Array`'s APIs can be used with a `NonEmptyArray` without further ado.
  *
  * @since 2.0.0
  */
@@ -18,7 +27,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import * as O from './Option'
-import { Ord } from './Ord'
+import { Ord, getMonoid } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import * as Se from './Semigroup'
@@ -44,48 +53,118 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// guards
+// internal
 // -------------------------------------------------------------------------------------
 
 /**
- * Test whether a `Array` is non empty.
- *
- * @category guards
- * @since 2.10.0
+ * @internal
  */
 export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length > 0
 
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
+/**
+ * @internal
+ */
+export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
 
 /**
- * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { prepend } from 'fp-ts/NonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
 
 /**
- * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
- *
- * @example
- * import { append } from 'fp-ts/NonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
- *
- * @category constructors
- * @since 2.10.0
+ * @internal
  */
 export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => concat(init, [end])
+
+/**
+ * @internal
+ */
+export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
+  if (isNonEmpty(as)) {
+    const xs = fromReadonlyNonEmptyArray(as)
+    xs.splice(i, 0, a)
+    return xs
+  }
+  return [a]
+}
+
+/**
+ * @internal
+ */
+export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  const xs = fromReadonlyNonEmptyArray(as)
+  xs[i] = a
+  return xs
+}
+
+/**
+ * @internal
+ */
+export const uniq = <A>(E: Eq<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  if (as.length === 1) {
+    return copy(as)
+  }
+  const out: NonEmptyArray<A> = [head(as)]
+  const rest = tail(as)
+  for (const a of rest) {
+    if (out.every((o) => !E.equals(o, a))) {
+      out.push(a)
+    }
+  }
+  return out
+}
+
+/**
+ * @internal
+ */
+export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>) => {
+  if (isNonEmpty(ords)) {
+    const M = getMonoid<B>()
+    return sort(ords.reduce(M.concat, M.empty))
+  }
+  return copy
+}
+
+/**
+ * @internal
+ */
+export const union = <A>(E: Eq<A>): Semigroup<NonEmptyArray<A>>['concat'] => {
+  const uniqE = uniq(E)
+  return (first, second) => uniqE(concat(first, second))
+}
+
+/**
+ * @internal
+ */
+export const rotate = (n: number) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => {
+  const len = as.length
+  const m = Math.round(n) % len
+  if (isOutOfBound(Math.abs(m), as) || m === 0) {
+    return copy(as)
+  }
+  if (m < 0) {
+    const [f, s] = splitAt(-m)(as)
+    return concat(s, f)
+  } else {
+    return rotate(m - len)(as)
+  }
+}
+
+/**
+ * @internal
+ */
+export const makeBy = <A>(n: number, f: (i: number) => A): NonEmptyArray<A> => {
+  const j = Math.max(0, Math.floor(n))
+  const out: NonEmptyArray<A> = [f(0)]
+  for (let i = 1; i < j; i++) {
+    out.push(f(i))
+  }
+  return out
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -100,6 +179,10 @@ export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonE
  * @since 2.0.0
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? O.some(as) : O.none)
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
 
 /**
  * Return the tuple of the `head` and the `tail`.
@@ -127,61 +210,26 @@ export const unprepend = <A>(as: NonEmptyArray<A>): [A, Array<A>] => [head(as), 
  */
 export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), last(as)]
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
+// TODO: curry in v3
 /**
- * @since 2.0.0
+ * @category combinators
+ * @since 2.2.0
  */
-export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
-
-/**
- * @since 2.0.0
- */
-export const tail = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(1)
+export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
+export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
+  return first.concat(second)
+}
 
 /**
  * @category combinators
  * @since 2.0.0
  */
 export const reverse = <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => [last(as), ...as.slice(0, -1).reverse()]
-
-/**
- * @since 2.0.0
- */
-export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
-
-/**
- * @since 2.0.0
- */
-export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
-
-/**
- * Builds a `Semigroup` instance for `NonEmptyArray`
- *
- * @category instances
- * @since 2.0.0
- */
-export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
-  concat
-})
-
-/**
- * @example
- * import { getEq } from 'fp-ts/NonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * const E = getEq(N.Eq)
- * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
- * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
- *
- * @category instances
- * @since 2.0.0
- */
-export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -282,41 +330,11 @@ export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string
 }
 
 /**
- * @since 2.0.0
- */
-export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
-
-/**
- * Get all but the last element of a non empty array, creating a new array.
- *
- * @example
- * import { init } from 'fp-ts/NonEmptyArray'
- *
- * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
- * assert.deepStrictEqual(init([1]), [])
- *
- * @since 2.2.0
- */
-export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
-
-/**
  * @category combinators
  * @since 2.0.0
  */
 export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<A> =>
-  as.length === 1 ? as : (as.slice().sort(O.compare) as any)
-
-/**
- * @internal
- */
-export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): NonEmptyArray<A> => {
-  if (isNonEmpty(as)) {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs.splice(i, 0, a)
-    return xs
-  }
-  return [a]
-}
+  as.slice().sort(O.compare) as any
 
 /**
  * @category combinators
@@ -333,24 +351,6 @@ export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<
   modifyAt(i, () => a)
 
 /**
- * @internal
- */
-export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
-
-/**
- * @internal
- */
-export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmptyArray<A> => {
-  if (as[i] === a) {
-    return as
-  } else {
-    const xs = fromReadonlyNonEmptyArray(as)
-    xs[i] = a
-    return xs
-  }
-}
-
-/**
  * @category combinators
  * @since 2.0.0
  */
@@ -364,44 +364,10 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>)
 export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyNonEmptyArray
 
 /**
- * @category combinators
- * @since 2.0.0
- */
-export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
-export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
-export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
-  return filterWithIndex((_, a) => predicate(a))
-}
-
-/**
- * @category combinators
- * @since 2.0.0
- */
-export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
-  as: NonEmptyArray<A>
-): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
-
-/**
  * @category Pointed
  * @since 2.0.0
  */
 export const of: Pointed1<URI>['of'] = (a) => [a]
-
-// TODO: curry in v3
-/**
- * @category combinators
- * @since 2.2.0
- */
-export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
-export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
-export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
-  return first.concat(second)
-}
-
-/**
- * @since 2.10.0
- */
-export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
 /**
  * @category combinators
@@ -482,7 +448,7 @@ export const prependAll = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArra
  */
 export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
   const rest = tail(as)
-  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
+  return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : copy(as)
 }
 
 /**
@@ -529,11 +495,15 @@ export const chop = <A, B>(f: (as: NonEmptyArray<A>) => [B, Array<A>]) => (as: N
 }
 
 /**
+ * Splits a `NonEmptyArray` into two pieces, the first piece has max `n` elements.
+ *
  * @category combinators
  * @since 2.10.0
  */
-export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] =>
-  n < 1 || n > as.length ? [as, []] : [pipe(as.slice(1, n), prepend(head(as))), as.slice(n)]
+export const splitAt = (n: number) => <A>(as: NonEmptyArray<A>): [NonEmptyArray<A>, Array<A>] => {
+  const m = Math.max(1, n)
+  return m >= as.length ? [copy(as), []] : [pipe(as.slice(1, m), prepend(head(as))), as.slice(m)]
+}
 
 /**
  * @category combinators
@@ -749,7 +719,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 /**
  * @since 2.7.0
  */
-export const extract: Comonad1<URI>['extract'] = head
+export const extract: Comonad1<URI>['extract'] = RNEA.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -772,6 +742,36 @@ declare module './HKT' {
     readonly [URI]: NonEmptyArray<A>
   }
 }
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = RNEA.getShow
+
+/**
+ * Builds a `Semigroup` instance for `NonEmptyArray`
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
+  concat
+})
+
+/**
+ * @example
+ * import { getEq } from 'fp-ts/NonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * const E = getEq(N.Eq)
+ * assert.strictEqual(E.equals([1, 2], [1, 2]), true)
+ * assert.strictEqual(E.equals([1, 2], [1, 3]), false)
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
 
 /**
  * @category instances
@@ -1008,8 +1008,80 @@ export const apS =
   apS_(Apply)
 
 // -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export const head: <A>(nea: NonEmptyArray<A>) => A = RNEA.head
+
+/**
+ * @since 2.0.0
+ */
+export const tail = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(1)
+
+/**
+ * @since 2.0.0
+ */
+export const last: <A>(nea: NonEmptyArray<A>) => A = RNEA.last
+
+/**
+ * Get all but the last element of a non empty array, creating a new array.
+ *
+ * @example
+ * import { init } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
+ * assert.deepStrictEqual(init([1]), [])
+ *
+ * @since 2.2.0
+ */
+export const init = <A>(as: NonEmptyArray<A>): Array<A> => as.slice(0, -1)
+
+/**
+ * @since 2.0.0
+ */
+export const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.min
+
+/**
+ * @since 2.0.0
+ */
+export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
+
+/**
+ * @since 2.10.0
+ */
+export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
+
+// -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `Array`'s `filter` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  // tslint:disable-next-line: deprecation
+  return filterWithIndex((_, a) => predicate(a))
+}
+
+/**
+ * Use `Array`'s `filterWithIndex` instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
+  as: NonEmptyArray<A>
+): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
 
 /**
  * Use `unprepend` instead.
@@ -1030,7 +1102,7 @@ export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
 export const unsnoc: <A>(as: NonEmptyArray<A>) => [Array<A>, A] = unappend
 
 /**
- * Use `prepend` instead.
+ * Use `Array`'s `prepend` instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1044,7 +1116,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 }
 
 /**
- * Use `append` instead.
+ * Use `Array`'s `append` instead.
  *
  * @category constructors
  * @since 2.0.0

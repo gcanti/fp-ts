@@ -274,8 +274,12 @@ export const getOrElseW: <R2, E, B>(
   onLeft: (e: E) => ReaderTask<R2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = getOrElse as any
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category destructors
+ * @category interop
  * @since 2.10.0
  */
 export const toUnion =
@@ -450,7 +454,7 @@ export const apW: <R2, E2, A>(
  * @category Pointed
  * @since 2.7.0
  */
-export const of = right
+export const of: <R, E = never, A = never>(a: A) => ReaderTaskEither<R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

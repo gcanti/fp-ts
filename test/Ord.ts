@@ -1,12 +1,11 @@
-import * as U from './util'
-import { sort } from '../src/ReadonlyArray'
-import * as _ from '../src/Ord'
-import { concatAll } from '../src/Monoid'
-import { pipe } from '../src/function'
 import * as B from '../src/boolean'
-import * as S from '../src/string'
+import { pipe } from '../src/function'
+import { concatAll } from '../src/Monoid'
 import * as N from '../src/number'
-import * as assert from 'assert'
+import * as _ from '../src/Ord'
+import { sort } from '../src/ReadonlyArray'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('Ord', () => {
   it('tuple', () => {
@@ -124,7 +123,7 @@ describe('Ord', () => {
     U.deepStrictEqual(min({ a: 2 }, { a: 1 }), { a: 1 })
     const first = { a: 1 }
     const second = { a: 1 }
-    assert.strictEqual(min(first, second), first)
+    U.strictEqual(min(first, second), first)
   })
 
   it('max', () => {
@@ -139,6 +138,6 @@ describe('Ord', () => {
     U.deepStrictEqual(max({ a: 2 }, { a: 1 }), { a: 2 })
     const first = { a: 1 }
     const second = { a: 1 }
-    assert.strictEqual(max(first, second), first)
+    U.strictEqual(max(first, second), first)
   })
 })

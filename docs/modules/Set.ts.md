@@ -1,6 +1,6 @@
 ---
 title: Set.ts
-nav_order: 87
+nav_order: 88
 parent: Modules
 ---
 
@@ -410,6 +410,8 @@ export declare const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => bool
 Added in v2.0.0
 
 ## toArray
+
+Get a sorted `Array` of the values contained in a `Set`.
 
 **Signature**
 

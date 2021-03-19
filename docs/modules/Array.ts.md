@@ -66,6 +66,8 @@ Added in v2.0.0
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
   - [chop](#chop)
+  - [chunksOf](#chunksof)
+  - [comprehension](#comprehension)
   - [copy](#copy)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -85,6 +87,7 @@ Added in v2.0.0
   - [scanRight](#scanright)
   - [sort](#sort)
   - [sortBy](#sortby)
+  - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
   - [takeRight](#takeright)
@@ -95,7 +98,6 @@ Added in v2.0.0
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
-  - [comprehension](#comprehension)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [range](#range)
@@ -156,10 +158,8 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [chunksOf](#chunksof)
   - [deleteAt](#deleteat)
   - [elem](#elem)
-  - [empty](#empty)
   - [every](#every)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
@@ -170,9 +170,9 @@ Added in v2.0.0
   - [modifyAt](#modifyat)
   - [size](#size)
   - [some](#some)
-  - [splitAt](#splitat)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [~~empty~~](#empty)
 
 ---
 
@@ -635,6 +635,89 @@ assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4
 
 Added in v2.0.0
 
+## chunksOf
+
+Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that
+
+```ts
+chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
+```
+
+whenever `n` evenly divides the length of `xs`.
+
+**Signature**
+
+```ts
+export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
+```
+
+**Example**
+
+```ts
+import { chunksOf } from 'fp-ts/Array'
+
+assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+```
+
+Added in v2.0.0
+
+## comprehension
+
+`Array` comprehension.
+
+```
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
+```
+
+**Signature**
+
+```ts
+export declare function comprehension<A, B, C, D, R>(
+  input: [Array<A>, Array<B>, Array<C>, Array<D>],
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
+): Array<R>
+export declare function comprehension<A, B, C, R>(
+  input: [Array<A>, Array<B>, Array<C>],
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
+): Array<R>
+export declare function comprehension<A, B, R>(
+  input: [Array<A>, Array<B>],
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
+): Array<R>
+export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
+```
+
+**Example**
+
+```ts
+import { comprehension } from 'fp-ts/Array'
+import { tuple } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  comprehension(
+    [
+      [1, 2, 3],
+      ['a', 'b'],
+    ],
+    tuple,
+    (a, b) => (a + b.length) % 2 === 0
+  ),
+  [
+    [1, 'a'],
+    [1, 'b'],
+    [3, 'a'],
+    [3, 'b'],
+  ]
+)
+```
+
+Added in v2.0.0
+
 ## copy
 
 **Signature**
@@ -675,7 +758,9 @@ Added in v2.0.0
 
 ## dropLeft
 
-Drop a number of elements from the start of an array, creating a new array
+Drop a max number of elements from the start of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -715,7 +800,9 @@ Added in v2.0.0
 
 ## dropRight
 
-Drop a number of elements from the end of an array, creating a new array
+Drop a max number of elements from the end of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -901,7 +988,7 @@ Added in v2.0.0
 
 ## rotate
 
-Rotate an array to the right by `n` steps
+Rotate a `Array` by `n` steps.
 
 **Signature**
 
@@ -1031,10 +1118,34 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 
 Added in v2.0.0
 
+## splitAt
+
+Splits an `Array` into two pieces, the first piece has max `n` elements.
+
+**Signature**
+
+```ts
+export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
+```
+
+**Example**
+
+```ts
+import { splitAt } from 'fp-ts/Array'
+
+assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
+  [1, 2],
+  [3, 4, 5],
+])
+```
+
+Added in v2.0.0
+
 ## takeLeft
 
-Keep only a number of elements from the start of an array, creating a new array.
-`n` must be a natural number
+Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1075,8 +1186,9 @@ Added in v2.0.0
 
 ## takeRight
 
-Keep only a number of elements from the end of an array, creating a new array.
-`n` must be a natural number
+Keep only a max number of elements from the end of an `Array`, creating a new `Array`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1209,7 +1321,7 @@ Added in v2.9.0
 
 ## append
 
-Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
 
 **Signature**
 
@@ -1228,65 +1340,11 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v2.10.0
 
-## comprehension
-
-Array comprehension
-
-```
-[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
-```
-
-**Signature**
-
-```ts
-export declare function comprehension<A, B, C, D, R>(
-  input: [Array<A>, Array<B>, Array<C>, Array<D>],
-  f: (a: A, b: B, c: C, d: D) => R,
-  g?: (a: A, b: B, c: C, d: D) => boolean
-): Array<R>
-export declare function comprehension<A, B, C, R>(
-  input: [Array<A>, Array<B>, Array<C>],
-  f: (a: A, b: B, c: C) => R,
-  g?: (a: A, b: B, c: C) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
-export declare function comprehension<A, B, R>(
-  input: [Array<A>, Array<B>],
-  f: (a: A, b: B) => R,
-  g?: (a: A, b: B) => boolean
-): Array<R>
-export declare function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R>
-```
-
-**Example**
-
-```ts
-import { comprehension } from 'fp-ts/Array'
-import { tuple } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  comprehension(
-    [
-      [1, 2, 3],
-      ['a', 'b'],
-    ],
-    tuple,
-    (a, b) => (a + b.length) % 2 === 0
-  ),
-  [
-    [1, 'a'],
-    [1, 'b'],
-    [3, 'a'],
-    [3, 'b'],
-  ]
-)
-```
-
-Added in v2.0.0
-
 ## makeBy
 
-Return a list of length `n` with element `i` initialized with `f(i)`
+Return a `Array` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1307,7 +1365,7 @@ Added in v2.0.0
 
 ## prepend
 
-Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
+Prepend an element to the front of a `Array`, creating a new `NonEmptyArray`.
 
 **Signature**
 
@@ -1328,7 +1386,7 @@ Added in v2.10.0
 
 ## range
 
-Create an array containing a range of integers, including both endpoints
+Create an `Array` containing a range of integers, including both endpoints.
 
 **Signature**
 
@@ -1348,7 +1406,9 @@ Added in v2.0.0
 
 ## replicate
 
-Create an array containing a value repeated the specified number of times
+Create a `Array` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a non negative integer.
 
 **Signature**
 
@@ -1523,7 +1583,7 @@ Alias of [`matchLeft`](#matchLeft).
 **Signature**
 
 ```ts
-export declare const foldLeft: <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
+export declare const foldLeft: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1535,7 +1595,7 @@ Alias of [`matchRight`](#matchRight).
 **Signature**
 
 ```ts
-export declare const foldRight: <A, B>(onEmpty: Lazy<B>, onCons: (init: A[], last: A) => B) => (as: A[]) => B
+export declare const foldRight: <A, B>(onEmpty: Lazy<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.0.0
@@ -1613,7 +1673,7 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export declare const matchLeft: <A, B>(onEmpty: Lazy<B>, onCons: (head: A, tail: A[]) => B) => (as: A[]) => B
+export declare const matchLeft: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: A[]) => B) => (as: A[]) => B
 ```
 
 **Example**
@@ -1637,7 +1697,7 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export declare const matchRight: <A, B>(onEmpty: Lazy<B>, onCons: (init: A[], last: A) => B) => (as: A[]) => B
+export declare const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
 Added in v2.10.0
@@ -2122,34 +2182,6 @@ export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { [K in N]: A }[]
 
 Added in v2.8.0
 
-## chunksOf
-
-Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
-the array. Note that `chunksOf(n)([])` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
-definition of `chunksOf`; it satisfies the property that
-
-```ts
-chunksOf(n)(xs).concat(chunksOf(n)(ys)) == chunksOf(n)(xs.concat(ys)))
-```
-
-whenever `n` evenly divides the length of `xs`.
-
-**Signature**
-
-```ts
-export declare const chunksOf: (n: number) => <A>(as: A[]) => NEA.NonEmptyArray<A>[]
-```
-
-**Example**
-
-```ts
-import { chunksOf } from 'fp-ts/Array'
-
-assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
-```
-
-Added in v2.0.0
-
 ## deleteAt
 
 Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -2193,18 +2225,6 @@ import { pipe } from 'fp-ts/function'
 
 assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(2)), true)
 assert.strictEqual(pipe([1, 2, 3], elem(N.Eq)(0)), false)
-```
-
-Added in v2.0.0
-
-## empty
-
-An empty array
-
-**Signature**
-
-```ts
-export declare const empty: never[]
 ```
 
 Added in v2.0.0
@@ -2388,33 +2408,10 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => as is NEA.NonEmptyArray<A>
 ```
 
 Added in v2.9.0
-
-## splitAt
-
-Splits an array into two pieces, the first piece has `n` elements.
-
-**Signature**
-
-```ts
-export declare const splitAt: (n: number) => <A>(as: A[]) => [A[], A[]]
-```
-
-**Example**
-
-```ts
-import { splitAt } from 'fp-ts/Array'
-
-assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [
-  [1, 2],
-  [3, 4, 5],
-])
-```
-
-Added in v2.0.0
 
 ## unzip
 
@@ -2464,6 +2461,18 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1)([]), none)
+```
+
+Added in v2.0.0
+
+## ~~empty~~
+
+Use a new `[]` instead.
+
+**Signature**
+
+```ts
+export declare const empty: never[]
 ```
 
 Added in v2.0.0

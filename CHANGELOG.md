@@ -15,6 +15,57 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.5
+
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - `OptionT`
+    - rename `none` to `zero` and change signature
+  - `ReaderT`
+    - remove `ask`, `asks` (they will be derived from the `FromReader` type-class in `2.11`)
+  - `Semigroup`
+    - move `assign` to `object` module and rename to `getAssignSemigroup`
+  - `ReaderT`
+    - remove `get`, `put`, `modify`, `gets` (they will be derived from the `FromState` type-class in `2.11`)
+- **Polish**
+  - `Array` / `ReadonlyArray`
+    - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+    - fix `matchLeft`, `matchRight` type parameter order
+  - `EitherT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `OptionT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `ReaderT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `ReadonlyMap`
+    - sort keys in `getShow`
+  - `ReadonlySet`
+    - sort keys in `getShow`
+  - `StateT`
+    - add overloads for `Kind2`, `Kind3`
+  - `TheseT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+
+# 2.10.0-rc.4
+
+- **Deprecations**
+  - `Array`
+    - deprecate `empty`
+  - `Map`
+    - deprecate `empty`
+  - `NonEmptyArray`
+    - deprecate `filter` in favour of `Array`'s `filter`
+    - deprecate `filterWithIndex` in favour of `Array`'s `filterWithIndex`
+  - `ReadonlyNonEmptyArray`
+    - deprecate `filter` in favour of `ReadonlyArray`'s `filter`
+    - deprecate `filterWithIndex` in favour of `ReadonlyArray`'s `filterWithIndex`
+  - `Record`
+    - deprecate `empty`
+- **Polish**
+  - `NonEmptyArray`
+    - remove duplicated `append`, `prepend`, `isNonEmpty`
+  - `ReadonlyNonEmptyArray`
+    - remove duplicated `append`, `prepend`, `isNonEmpty`
+
 # 2.10.0-rc.3
 
 - **Deprecations**

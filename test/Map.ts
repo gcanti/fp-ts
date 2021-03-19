@@ -61,7 +61,6 @@ describe('Map', () => {
     U.deepStrictEqual(_.size(emptyMap), 0)
     U.deepStrictEqual(_.size(a1), 1)
 
-    U.deepStrictEqual(_.size(_.empty), 0)
     U.deepStrictEqual(_.size(new Map()), 0)
     U.deepStrictEqual(_.size(new Map([['a', 1]])), 1)
   })
@@ -72,7 +71,6 @@ describe('Map', () => {
     U.deepStrictEqual(_.isEmpty(emptyMap), true)
     U.deepStrictEqual(_.isEmpty(a1), false)
 
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
     U.deepStrictEqual(_.isEmpty(new Map()), true)
     U.deepStrictEqual(_.isEmpty(new Map([['a', 1]])), false)
   })
@@ -377,7 +375,7 @@ describe('Map', () => {
 
     // tslint:disable-next-line: deprecation
     const insert = _.insertAt(eqKey)
-    U.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))
+    U.deepStrictEqual(insert({ id: 1 }, { value: 1 })(new Map()), new Map([[{ id: 1 }, { value: 1 }]]))
     const x = insert({ id: 1 }, value1)(repo)
     U.deepStrictEqual(
       x,
@@ -530,11 +528,6 @@ describe('Map', () => {
     U.deepStrictEqual(pipe(new Map([[{ id: 3 }, { value: 3 }]]), isSubmap(repo)), false)
   })
 
-  it('empty', () => {
-    U.deepStrictEqual(_.empty, new Map<string, number>())
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
-  })
-
   it('singleton', () => {
     U.deepStrictEqual(
       _.singleton('k1', 0),
@@ -665,8 +658,7 @@ describe('Map', () => {
           ['k1', 2],
           ['k2', 4]
         ])
-        const double = (n: number): number => n * 2
-        U.deepStrictEqual(pipe(d1, _.map(double)), expected)
+        U.deepStrictEqual(pipe(d1, _.map(U.double)), expected)
       })
     })
 
@@ -920,7 +912,7 @@ describe('Map', () => {
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await wither(_.empty, f)(), _.empty)
+      U.deepStrictEqual(await wither(new Map(), f)(), new Map())
       U.deepStrictEqual(
         await wither(
           new Map([
@@ -936,7 +928,7 @@ describe('Map', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await wilt(_.empty, f)(), separated(_.empty, _.empty))
+      U.deepStrictEqual(await wilt(new Map(), f)(), separated(new Map(), new Map()))
       U.deepStrictEqual(
         await wilt(
           new Map([
@@ -1045,8 +1037,8 @@ describe('Map', () => {
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
     U.deepStrictEqual(Sh.show(m2), `new Map([[{ id: "a" }, "b"]])`)
     const m3 = new Map<User, string>([
-      [{ id: 'a' }, 'b'],
-      [{ id: 'c' }, 'd']
+      [{ id: 'c' }, 'd'],
+      [{ id: 'a' }, 'b']
     ])
     U.deepStrictEqual(Sh.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })
@@ -1072,6 +1064,16 @@ describe('Map', () => {
       O.some(
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
+    )
+    // should not return the same reference if nothing changed
+    const input: Map<string, number> = new Map([['a', 1]])
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(S.Eq)('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(false)
     )
   })
 

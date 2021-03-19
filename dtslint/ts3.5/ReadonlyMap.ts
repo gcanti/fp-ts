@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReadonlyMap'
-import { eqString, eqNumber } from '../../src/Eq'
+import * as N from '../../src/number'
+import * as S from '../../src/string'
 
 //
 // FilterableWithIndex overloadings
@@ -16,33 +17,33 @@ FWI.partitionWithIndex(_.empty as ReadonlyMap<'a' | 'b', string | number>, isStr
 // member
 //
 
-_.member(eqString)('a', new Map()) // $ExpectType boolean
-_.member(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => boolean
+_.member(S.Eq)('a', new Map()) // $ExpectType boolean
+_.member(S.Eq)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => boolean
 
 //
 // elem
 //
 
-_.elem(eqString)('a', new Map()) // $ExpectType boolean
-_.elem(eqString)('a') // $ExpectType <K>(m: ReadonlyMap<K, string>) => boolean
+_.elem(S.Eq)('a', new Map()) // $ExpectType boolean
+_.elem(S.Eq)('a') // $ExpectType <K>(m: ReadonlyMap<K, string>) => boolean
 
 //
 // lookup
 //
 
-_.lookup(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<number>
-_.lookup(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<A>
+_.lookup(S.Eq)('a', new Map([['a', 1]])) // $ExpectType Option<number>
+_.lookup(S.Eq)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<A>
 
 //
 // lookupWithKey
 //
 
-_.lookupWithKey(eqString)('a', new Map([['a', 1]])) // $ExpectType Option<readonly [string, number]>
-_.lookupWithKey(eqString)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<readonly [string, A]>
+_.lookupWithKey(S.Eq)('a', new Map([['a', 1]])) // $ExpectType Option<readonly [string, number]>
+_.lookupWithKey(S.Eq)('a') // $ExpectType <A>(m: ReadonlyMap<string, A>) => Option<readonly [string, A]>
 
 //
 // isSubmap
 //
 
-_.isSubmap(eqString, eqNumber)(new Map([['a', 1]]), new Map([['a', 1]])) // $ExpectType boolean
-_.isSubmap(eqString, eqNumber)(new Map([['a', 1]])) // $ExpectType (me: ReadonlyMap<string, number>) => boolean
+_.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]]), new Map([['a', 1]])) // $ExpectType boolean
+_.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]])) // $ExpectType (me: ReadonlyMap<string, number>) => boolean

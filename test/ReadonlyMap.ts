@@ -54,14 +54,13 @@ const repo = new Map<Key, Value>([
 describe('ReadonlyMap', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
       U.deepStrictEqual(
         pipe(
           new Map<string, number>([
             ['k1', 1],
             ['k2', 2]
           ]),
-          _.map(double)
+          _.map(U.double)
         ),
         new Map<string, number>([
           ['k1', 2],
@@ -1081,8 +1080,8 @@ describe('ReadonlyMap', () => {
     const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
     U.deepStrictEqual(Sh.show(m2), `new Map([[{ id: "a" }, "b"]])`)
     const m3 = new Map<User, string>([
-      [{ id: 'a' }, 'b'],
-      [{ id: 'c' }, 'd']
+      [{ id: 'c' }, 'd'],
+      [{ id: 'a' }, 'b']
     ])
     U.deepStrictEqual(Sh.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })
@@ -1108,6 +1107,16 @@ describe('ReadonlyMap', () => {
       O.some(
         new Map<User, number>([[{ id: 'a' }, 2]])
       )
+    )
+    // should return the same reference if nothing changed
+    const input: ReadonlyMap<string, number> = new Map([['a', 1]])
+    U.deepStrictEqual(
+      pipe(
+        input,
+        _.modifyAt(S.Eq)('a', identity),
+        O.map((out) => out === input)
+      ),
+      O.some(true)
     )
   })
 

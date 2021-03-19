@@ -78,6 +78,8 @@ export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Rec
 }
 
 /**
+ * Get a sorted `Array` of the key/value pairs contained in a `Record`.
+ *
  * @since 2.0.0
  */
 export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
@@ -142,13 +144,20 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 /**
  * @since 2.0.0
  */
-export const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>> = RR.updateAt
+export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A>) => Option<Record<K, A>>) =>
+  modifyAt(k, () => a)
 
 /**
  * @since 2.0.0
  */
-export const modifyAt: <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>> =
-  RR.modifyAt
+export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
+  if (!has(k, r)) {
+    return O.none
+  }
+  const out: Record<K, A> = Object.assign({}, r)
+  out[k] = f(r[k])
+  return O.some(out)
+}
 
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map
@@ -208,11 +217,6 @@ export const lookup: {
   (k: string): <A>(r: Record<string, A>) => Option<A>
   <A>(k: string, r: Record<string, A>): Option<A>
 } = RR.lookup
-
-/**
- * @since 2.0.0
- */
-export const empty: Record<string, never> = {}
 
 /**
  * Map a record passing the keys to the iterating function
@@ -841,6 +845,14 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use a new `{}` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const empty: Record<string, never> = {}
 
 /**
  * Use `upsertAt` instead.

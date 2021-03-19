@@ -5,14 +5,12 @@ import * as _ from '../src/State'
 describe('State', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number) => n * 2
       const x = (s: number) => tuple(s - 1, s + 1)
-      U.deepStrictEqual(pipe(x, _.map(double))(0), [-2, 1])
+      U.deepStrictEqual(pipe(x, _.map(U.double))(0), [-2, 1])
     })
 
     it('ap', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))(0), [2, 0])
+      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))(0), [2, 0])
     })
 
     it('apFirst', () => {
@@ -67,13 +65,11 @@ describe('State', () => {
   })
 
   it('modify', () => {
-    const double = (n: number) => n * 2
-    U.deepStrictEqual(_.modify(double)(1), [undefined, 2])
+    U.deepStrictEqual(_.modify(U.double)(1), [undefined, 2])
   })
 
   it('gets', () => {
-    const double = (n: number) => n * 2
-    U.deepStrictEqual(_.gets(double)(1), [2, 1])
+    U.deepStrictEqual(_.gets(U.double)(1), [2, 1])
   })
 
   it('do notation', () => {

@@ -23,15 +23,13 @@ describe('Tree', () => {
   })
 
   it('map', () => {
-    const double = (n: number): number => n * 2
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
-    U.deepStrictEqual(pipe(fa, _.map(double)), expected)
+    U.deepStrictEqual(pipe(fa, _.map(U.double)), expected)
   })
 
   it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = _.of(double)
+    const fab = _.of(U.double)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
     U.deepStrictEqual(pipe(fab, _.ap(fa)), expected)

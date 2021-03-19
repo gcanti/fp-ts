@@ -14,8 +14,7 @@ describe('ReadonlyTuple', () => {
     })
 
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.map(double)), [2, 'a'])
+      U.deepStrictEqual(pipe([1, 'a'] as const, _.map(U.double)), [2, 'a'])
     })
 
     it('extract', () => {
@@ -28,14 +27,11 @@ describe('ReadonlyTuple', () => {
     })
 
     it('bimap', () => {
-      const double = (n: number): number => n * 2
-      const len = (s: string): number => s.length
-      U.deepStrictEqual(pipe([1, 'a'], _.bimap(len, double)), [2, 1])
+      U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
     })
 
     it('mapLeft', () => {
-      const len = (s: string): number => s.length
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapLeft(len)), [1, 1])
+      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapLeft(S.size)), [1, 1])
     })
 
     it('duplicate', () => {
@@ -85,8 +81,7 @@ describe('ReadonlyTuple', () => {
 
   it('getApply', () => {
     const apply = _.getApply(S.Monoid)
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(apply.ap([double, 'a'], [1, 'b']), [2, 'ab'])
+    U.deepStrictEqual(apply.ap([U.double, 'a'], [1, 'b']), [2, 'ab'])
   })
 
   it('getApplicative', () => {
