@@ -55,8 +55,14 @@ Added in v3.0.0
   - [getWitherable](#getwitherable)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [getDifferenceMagma](#getdifferencemagma)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -67,6 +73,7 @@ Added in v3.0.0
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
+  - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
 
@@ -483,6 +490,18 @@ export declare const collect: <K>(O: Ord<K>) => <A, B>(f: (k: K, a: A) => B) => 
 
 Added in v3.0.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <K>(
+  E: Eq<K>
+) => <A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `ReadonlyMap`.
@@ -503,6 +522,59 @@ An empty `ReadonlyMap`.
 
 ```ts
 export declare const empty: ReadonlyMap<never, never>
+```
+
+Added in v3.0.0
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -634,6 +706,19 @@ export declare function toUnfoldable<F extends URIS>(
 export declare function toUnfoldable<F>(
   U: Unfoldable<F>
 ): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
+```
+
+Added in v3.0.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0

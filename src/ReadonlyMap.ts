@@ -652,6 +652,35 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
   }
 }
 
+/**
+ * @since 3.0.0
+ */
+export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
+  concat: union(E, S)
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
+  concat: getUnionSemigroup(E, S).concat,
+  empty
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
+  concat: intersection(E, S)
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A>> => ({
+  concat: difference(E)
+})
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -827,11 +856,115 @@ export function toUnfoldable<F>(
   U: Unfoldable<F>
 ): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]> {
   return (o) => {
-    const toReadonlyArray_ = toReadonlyArray(o)
+    const toReadonlyArrayO = toReadonlyArray(o)
     return (m) => {
-      const arr = toReadonlyArray_(m)
+      const arr = toReadonlyArrayO(m)
       const len = arr.length
       return U.unfold(0, (b) => (b < len ? _.some([arr[b], b + 1]) : _.none))
     }
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const union = <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const lookupE = lookup(E)
+  return (second) => (first) => {
+    if (isEmpty(first)) {
+      return second
+    }
+    if (isEmpty(second)) {
+      return first
+    }
+    const out: Map<K, A> = new Map()
+    const firstEntries = first.entries()
+    let e: Next<readonly [K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = firstEntries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(second)
+      if (_.isSome(oka)) {
+        out.set(k, M.concat(oka.value)(a))
+      } else {
+        out.set(k, a)
+      }
+    }
+    const secondEntries = second.entries()
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = secondEntries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(out)
+      if (_.isNone(oka)) {
+        out.set(k, a)
+      }
+    }
+    return out
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const intersection = <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const lookupE = lookup(E)
+  return (second) => (first) => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return empty
+    }
+    const out: Map<K, A> = new Map()
+    const entries = first.entries()
+    let e: Next<readonly [K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(second)
+      if (_.isSome(oka)) {
+        out.set(k, M.concat(oka.value)(a))
+      }
+    }
+    return out
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const difference = <K>(
+  E: Eq<K>
+): (<A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const memberE = member(E)
+  return <A>(second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => {
+    if (isEmpty(first)) {
+      return second
+    }
+    if (isEmpty(second)) {
+      return first
+    }
+    const out: Map<K, A> = new Map()
+    const firstEntries = first.entries()
+    let e: Next<readonly [K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = firstEntries.next()).done) {
+      const [k, a] = e.value
+      if (!memberE(k)(second)) {
+        out.set(k, a)
+      }
+    }
+    const secondEntries = second.entries()
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = secondEntries.next()).done) {
+      const [k, a] = e.value
+      if (!memberE(k)(first)) {
+        out.set(k, a)
+      }
+    }
+    return out
   }
 }
