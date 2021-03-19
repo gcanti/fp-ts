@@ -76,12 +76,14 @@ export const swap = <A, E>(t: Tuple2<E, A>): Tuple2<A, E> => [snd(t), fst(t)]
 export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => [g(fst(fa)), f(snd(fa))]
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Map a function over the second component of a `Tuple2`.
+ *
+ * This is the `mapLeft` operation of the `Bifunctor` instance.
  *
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapSnd: Bifunctor2<URI>['mapLeft'] =
   /*#__PURE__*/
   mapLeftDefault<URI>(bimap)
 
@@ -164,17 +166,18 @@ declare module './HKT' {
  */
 export const Bifunctor: Bifunctor2<URI> = {
   bimap,
-  mapLeft
+  mapLeft: mapSnd
 }
 
 /**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
+ * Map a function over the first component of a `Tuple2`.
+ *
+ * This is the `map` operation of the `Functor` instance.
  *
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const mapFst: Functor2<URI>['map'] =
   /*#__PURE__*/
   map_<URI>(Bifunctor)
 
@@ -183,7 +186,7 @@ export const map: Functor2<URI>['map'] =
  * @since 3.0.0
  */
 export const Functor: Functor2<URI> = {
-  map
+  map: mapFst
 }
 
 /**
@@ -209,7 +212,7 @@ export const Semigroupoid: Semigroupoid2<URI> = {
  * @since 3.0.0
  */
 export const Comonad: Comonad2<URI> = {
-  map,
+  map: mapFst,
   extend,
   extract
 }
@@ -229,7 +232,7 @@ export const Foldable: Foldable2<URI> = {
  * @since 3.0.0
  */
 export const Traversable: Traversable2<URI> = {
-  map,
+  map: mapFst,
   traverse
 }
 
@@ -246,7 +249,7 @@ export const getPointed = <M>(M: Monoid<M>): Pointed2C<URI, M> => ({
  * @since 3.0.0
  */
 export const getApply = <S>(S: Semigroup<S>): Apply2C<URI, S> => ({
-  map,
+  map: mapFst,
   ap: (fa) => (fab) => [fst(fab)(fst(fa)), S.concat(snd(fa))(snd(fab))]
 })
 
@@ -258,7 +261,7 @@ export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
-    map,
+    map: mapFst,
     ap: A.ap,
     of: P.of
   }
@@ -270,7 +273,7 @@ export const getApplicative = <M>(M: Monoid<M>): Applicative2C<URI, M> => {
  */
 export const getChain = <S>(S: Semigroup<S>): Chain2C<URI, S> => {
   return {
-    map,
+    map: mapFst,
     chain: (f) => (ma) => {
       const [b, s] = f(fst(ma))
       return [b, S.concat(s)(snd(ma))]
@@ -286,7 +289,7 @@ export const getMonad = <M>(M: Monoid<M>): Monad2C<URI, M> => {
   const P = getPointed(M)
   const C = getChain(M)
   return {
-    map,
+    map: mapFst,
     chain: C.chain,
     of: P.of
   }

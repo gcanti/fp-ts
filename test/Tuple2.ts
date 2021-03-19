@@ -18,8 +18,8 @@ describe('Tuple2', () => {
       U.deepStrictEqual(pipe(_.make(1, 'a'), _.compose([true, 2])), [true, 'a'])
     })
 
-    it('map', () => {
-      U.deepStrictEqual(pipe(_.make(1, 'a'), _.map(U.double)), [2, 'a'])
+    it('mapFst', () => {
+      U.deepStrictEqual(pipe(_.make(1, 'a'), _.mapFst(U.double)), [2, 'a'])
     })
 
     it('extract', () => {
@@ -36,8 +36,8 @@ describe('Tuple2', () => {
       U.deepStrictEqual(pipe([1, 'a'], f), [2, 1])
     })
 
-    it('mapLeft', () => {
-      const f = _.mapLeft(S.size)
+    it('mapSnd', () => {
+      const f = _.mapSnd(S.size)
       U.deepStrictEqual(pipe(_.make(1, 'a'), f), [1, 1])
     })
 
