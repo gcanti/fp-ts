@@ -13,8 +13,8 @@ describe('ReadonlyTuple', () => {
       U.deepStrictEqual(pipe([true, 2] as const, _.compose([1, 'a'])), [true, 'a'])
     })
 
-    it('map', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.map(U.double)), [2, 'a'])
+    it('mapFst', () => {
+      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapFst(U.double)), [2, 'a'])
     })
 
     it('extract', () => {
@@ -30,8 +30,8 @@ describe('ReadonlyTuple', () => {
       U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
     })
 
-    it('mapLeft', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapLeft(S.size)), [1, 1])
+    it('mapSnd', () => {
+      U.deepStrictEqual(pipe([1, 'a'] as const, _.mapSnd(S.size)), [1, 1])
     })
 
     it('duplicate', () => {

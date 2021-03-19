@@ -13,8 +13,8 @@ describe('Tuple', () => {
       U.deepStrictEqual(pipe([true, 2] as [boolean, number], _.compose([1, 'a'])), [true, 'a'])
     })
 
-    it('map', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as [number, string], _.map(U.double)), [2, 'a'])
+    it('mapFst', () => {
+      U.deepStrictEqual(pipe([1, 'a'] as [number, string], _.mapFst(U.double)), [2, 'a'])
     })
 
     it('extract', () => {
@@ -30,8 +30,8 @@ describe('Tuple', () => {
       U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
     })
 
-    it('mapLeft', () => {
-      U.deepStrictEqual(pipe([1, 'a'] as [number, string], _.mapLeft(S.size)), [1, 1])
+    it('mapSnd', () => {
+      U.deepStrictEqual(pipe([1, 'a'] as [number, string], _.mapSnd(S.size)), [1, 1])
     })
 
     it('duplicate', () => {
