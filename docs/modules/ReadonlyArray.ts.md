@@ -145,7 +145,6 @@ Added in v3.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
-  - [Spanned (interface)](#spanned-interface)
   - [apS](#aps)
   - [apT](#apt)
   - [bind](#bind)
@@ -557,10 +556,7 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
-  return RA.chop((as) => {
-    const { init, rest } = pipe(as, RA.spanLeft(E.equals(as[0])))
-    return [init, rest]
-  })
+  return RA.chop((as) => pipe(as, RA.spanLeft(E.equals(as[0]))))
 }
 assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
 ```
@@ -1890,19 +1886,6 @@ export declare const Do: readonly {}[]
 
 Added in v3.0.0
 
-## Spanned (interface)
-
-**Signature**
-
-```ts
-export interface Spanned<I, R> {
-  readonly init: ReadonlyArray<I>
-  readonly rest: ReadonlyArray<R>
-}
-```
-
-Added in v3.0.0
-
 ## apS
 
 **Signature**
@@ -2467,8 +2450,12 @@ Split a `ReadonlyArray` into two parts:
 **Signature**
 
 ```ts
-export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
-export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
+export declare function spanLeft<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<B>, ReadonlyArray<A>]
+export declare function spanLeft<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
 ```
 
 **Example**
@@ -2476,7 +2463,10 @@ export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray
 ```ts
 import { spanLeft } from 'fp-ts/ReadonlyArray'
 
-assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [
+  [1, 3],
+  [2, 4, 5],
+])
 ```
 
 Added in v3.0.0

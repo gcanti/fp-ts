@@ -136,6 +136,7 @@ high state of flux, you're at risk of it changing without notice.
     - make `difference` pipeable
     - make `makeBy` pipeable
     - make `replicate` pipeable
+    - `spanLeft` now returns a `Tuple2` instead of a `Spanned`
     - remove `unsafeInsertAt`
     - remove `unsafeUpdateAt`
     - remove `unsafeDeleteAt`

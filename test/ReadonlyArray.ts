@@ -441,11 +441,14 @@ describe('ReadonlyArray', () => {
       expectedInit: ReadonlyArray<number>,
       expectedRest: ReadonlyArray<number>
     ) => {
-      const { init, rest } = f(input)
+      const [init, rest] = f(input)
       U.strictEqual(init, expectedInit)
       U.strictEqual(rest, expectedRest)
     }
-    U.deepStrictEqual(f([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    U.deepStrictEqual(f([1, 3, 2, 4, 5]), [
+      [1, 3],
+      [2, 4, 5]
+    ])
     const empty: ReadonlyArray<number> = []
     assertSpanLeft(empty, empty, _.empty)
     assertSpanLeft(_.empty, _.empty, _.empty)

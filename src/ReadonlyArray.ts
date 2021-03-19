@@ -516,14 +516,6 @@ const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number
 }
 
 /**
- * @since 3.0.0
- */
-export interface Spanned<I, R> {
-  readonly init: ReadonlyArray<I>
-  readonly rest: ReadonlyArray<R>
-}
-
-/**
  * Split a `ReadonlyArray` into two parts:
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
  * 2. the remaining elements
@@ -531,17 +523,20 @@ export interface Spanned<I, R> {
  * @example
  * import { spanLeft } from 'fp-ts/ReadonlyArray'
  *
- * assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+ * assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [[1, 3], [2, 4, 5]])
  *
  * @since 3.0.0
  */
-export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
-export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
-export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> {
-  return (as) => {
-    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
-    return { init, rest }
-  }
+export function spanLeft<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<B>, ReadonlyArray<A>]
+export function spanLeft<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
+export function spanLeft<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>] {
+  return (as) => splitAt(spanLeftIndex(as, predicate))(as)
 }
 
 /**
@@ -1123,10 +1118,7 @@ export const sortBy = <B>(ords: ReadonlyArray<Ord<B>>): (<A extends B>(as: Reado
  * import { pipe } from 'fp-ts/function'
  *
  * const group = <A>(E: Eq<A>): ((as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>>) => {
- *   return RA.chop(as => {
- *     const { init, rest } = pipe(as, RA.spanLeft(E.equals(as[0])))
- *     return [init, rest]
- *   })
+ *   return RA.chop(as => pipe(as, RA.spanLeft(E.equals(as[0]))))
  * }
  * assert.deepStrictEqual(group(N.Eq)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
