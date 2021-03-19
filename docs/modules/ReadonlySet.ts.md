@@ -437,6 +437,8 @@ Added in v3.0.0
 
 ## toReadonlyArray
 
+Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
+
 **Signature**
 
 ```ts

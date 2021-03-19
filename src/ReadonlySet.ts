@@ -493,6 +493,8 @@ export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa
 }
 
 /**
+ * Get a sorted `ReadonlyArray` of the values contained in a `ReadonlySet`.
+ *
  * @since 3.0.0
  */
 export const toReadonlyArray = <A>(O: Ord<A>) => (s: ReadonlySet<A>): ReadonlyArray<A> => {

@@ -946,6 +946,8 @@ Added in v3.0.0
 
 ## toReadonlyArray
 
+Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
+
 **Signature**
 
 ```ts
