@@ -359,4 +359,72 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(_.has('a', x), true)
     U.deepStrictEqual(_.has('b', x), false)
   })
+
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(S.Semigroup)
+    const x: _.ReadonlyRecord<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: _.ReadonlyRecord<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.strictEqual(pipe(x, M.concat(M.empty)), x)
+    U.strictEqual(pipe(M.empty, M.concat(x)), x)
+    U.strictEqual(pipe(x, M.concat({})), x)
+    U.strictEqual(pipe({}, M.concat(x)), x)
+    U.deepStrictEqual(pipe(x, M.concat(y)), {
+      a: 'a1',
+      b: 'b1b2',
+      c: 'c1c2',
+      d: 'd2'
+    })
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const M = _.getIntersectionSemigroup(S.Semigroup)
+    const x: _.ReadonlyRecord<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: _.ReadonlyRecord<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.strictEqual(pipe(x, M.concat(_.empty)), _.empty)
+    U.strictEqual(pipe(_.empty, M.concat(x)), _.empty)
+    U.strictEqual(pipe(x, M.concat({})), _.empty)
+    U.strictEqual(pipe({}, M.concat(x)), _.empty)
+    U.deepStrictEqual(pipe(x, M.concat(y)), {
+      b: 'b1b2',
+      c: 'c1c2'
+    })
+  })
+
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma<string>()
+    const x: _.ReadonlyRecord<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: _.ReadonlyRecord<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.strictEqual(pipe(x, M.concat(_.empty)), x)
+    U.strictEqual(pipe(_.empty, M.concat(x)), x)
+    U.strictEqual(pipe(x, M.concat({})), x)
+    U.strictEqual(pipe({}, M.concat(x)), x)
+    U.deepStrictEqual(pipe(x, M.concat(y)), {
+      a: 'a1',
+      d: 'd2'
+    })
+  })
 })

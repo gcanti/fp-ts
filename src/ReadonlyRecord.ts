@@ -774,6 +774,35 @@ export const Witherable: Witherable1<URI> = {
   wilt
 }
 
+/**
+ * @since 3.0.0
+ */
+export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
+  concat: union(S)
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> => ({
+  concat: getUnionSemigroup(S).concat,
+  empty
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
+  concat: intersection(S)
+})
+
+/**
+ * @since 3.0.0
+ */
+export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
+  concat: difference
+})
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -929,4 +958,76 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((fa: ReadonlyRecord<string, A>) =>
     }
     return false
   }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const union = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => (
+  first: ReadonlyRecord<string, A>
+): ReadonlyRecord<string, A> => {
+  if (isEmpty(first)) {
+    return second
+  }
+  if (isEmpty(second)) {
+    return first
+  }
+  const out: Record<string, A> = {}
+  for (const k in first) {
+    if (has(k, second)) {
+      out[k] = M.concat(second[k])(first[k])
+    } else {
+      out[k] = first[k]
+    }
+  }
+  for (const k in second) {
+    if (!has(k, out)) {
+      out[k] = second[k]
+    }
+  }
+  return out
+}
+
+/**
+ * @since 3.0.0
+ */
+export const intersection = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => (
+  first: ReadonlyRecord<string, A>
+): ReadonlyRecord<string, A> => {
+  if (isEmpty(first) || isEmpty(second)) {
+    return empty
+  }
+  const out: Record<string, A> = {}
+  for (const k in first) {
+    if (has(k, second)) {
+      out[k] = M.concat(second[k])(first[k])
+    }
+  }
+  return out
+}
+
+/**
+ * @since 3.0.0
+ */
+export const difference = <A>(second: ReadonlyRecord<string, A>) => (
+  first: ReadonlyRecord<string, A>
+): ReadonlyRecord<string, A> => {
+  if (isEmpty(first)) {
+    return second
+  }
+  if (isEmpty(second)) {
+    return first
+  }
+  const out: Record<string, A> = {}
+  for (const k in first) {
+    if (!has(k, second)) {
+      out[k] = first[k]
+    }
+  }
+  for (const k in second) {
+    if (!has(k, first)) {
+      out[k] = second[k]
+    }
+  }
+  return out
 }

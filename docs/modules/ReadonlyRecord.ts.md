@@ -74,10 +74,16 @@ Added in v3.0.0
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [getDifferenceMagma](#getdifferencemagma)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [has](#has)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -86,6 +92,7 @@ Added in v3.0.0
   - [some](#some)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
+  - [union](#union)
 
 ---
 
@@ -755,6 +762,18 @@ assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
 
 Added in v3.0.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(
+  second: Readonly<Record<string, A>>
+) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v3.0.0
+
 ## elem
 
 Tests whether a value is a member of a `ReadonlyRecord`.
@@ -789,6 +808,46 @@ export declare const every: <A>(predicate: Predicate<A>) => (r: Readonly<Record<
 
 Added in v3.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>() => Magma<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
 ## has
 
 Test whether or not a key exists in a `ReadonlyRecord`.
@@ -799,6 +858,18 @@ Note. This function is not pipeable because is a custom type guard.
 
 ```ts
 export declare const has: <K extends string>(k: string, r: Readonly<Record<K, unknown>>) => k is K
+```
+
+Added in v3.0.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -896,6 +967,18 @@ export declare function toUnfoldable<F extends URIS>(
 export declare function toUnfoldable<F>(
   U: Unfoldable<F>
 ): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
+```
+
+Added in v3.0.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
