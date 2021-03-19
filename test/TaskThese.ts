@@ -18,18 +18,20 @@ describe('TaskThese', () => {
   })
 
   it('bimap', async () => {
-    const f = (e: string) => e + e
-    const g = (a: number) => a + 1
-    U.deepStrictEqual(await pipe(_.right(1), _.bimap(f, g))(), TH.right(2))
-    U.deepStrictEqual(await pipe(_.left('a'), _.bimap(f, g))(), TH.left('aa'))
-    U.deepStrictEqual(await pipe(_.both('a', 1), _.bimap(f, g))(), TH.both('aa', 2))
+    const f = _.bimap(
+      (e: string) => e + e,
+      (a: number) => a + 1
+    )
+    U.deepStrictEqual(await pipe(_.right(1), f)(), TH.right(2))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.left('aa'))
+    U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 2))
   })
 
   it('mapLeft', async () => {
-    const f = (e: string) => e + e
-    U.deepStrictEqual(await pipe(_.right(1), _.mapLeft(f))(), TH.right(1))
-    U.deepStrictEqual(await pipe(_.left('a'), _.mapLeft(f))(), TH.left('aa'))
-    U.deepStrictEqual(await pipe(_.both('a', 1), _.mapLeft(f))(), TH.both('aa', 1))
+    const f = _.mapLeft((e: string) => e + e)
+    U.deepStrictEqual(await pipe(_.right(1), f)(), TH.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), TH.left('aa'))
+    U.deepStrictEqual(await pipe(_.both('a', 1), f)(), TH.both('aa', 1))
   })
 
   // -------------------------------------------------------------------------------------

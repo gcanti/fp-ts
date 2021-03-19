@@ -1,4 +1,4 @@
-import { pipe } from '../src/function'
+import { flow, pipe } from '../src/function'
 import * as _ from '../src/IO'
 import * as U from './util'
 import * as E from '../src/Either'
@@ -30,7 +30,7 @@ describe('IO', () => {
     })
 
     it('chain', () => {
-      const f = (n: number) => _.of(n * 2)
+      const f = flow(U.double, _.of)
       U.deepStrictEqual(pipe(_.of(1), _.chain(f))(), 2)
     })
 
@@ -39,7 +39,7 @@ describe('IO', () => {
     })
 
     it('chainFirst', () => {
-      const f = (n: number) => _.of(n * 2)
+      const f = flow(U.double, _.of)
       U.deepStrictEqual(pipe(_.of(1), _.chainFirst(f))(), 1)
     })
   })

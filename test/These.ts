@@ -18,17 +18,17 @@ describe('These', () => {
   })
 
   it('bimap', () => {
-    const len = (s: string): number => s.length
-    U.deepStrictEqual(pipe(_.left('a'), _.bimap(len, U.double)), _.left(1))
-    U.deepStrictEqual(pipe(_.right(2), _.bimap(len, U.double)), _.right(4))
-    U.deepStrictEqual(pipe(_.both('foo', 1), _.bimap(len, U.double)), _.both(3, 2))
+    const f = _.bimap(S.size, U.double)
+    U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
+    U.deepStrictEqual(pipe(_.right(2), f), _.right(4))
+    U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 2))
   })
 
   it('mapLeft', () => {
-    const len = (s: string): number => s.length
-    U.deepStrictEqual(pipe(_.left('a'), _.mapLeft(len)), _.left(1))
-    U.deepStrictEqual(pipe(_.right(2), _.mapLeft(len)), _.right(2))
-    U.deepStrictEqual(pipe(_.both('foo', 1), _.mapLeft(len)), _.both(3, 1))
+    const f = _.mapLeft(S.size)
+    U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
+    U.deepStrictEqual(pipe(_.right(2), f), _.right(2))
+    U.deepStrictEqual(pipe(_.both('foo', 1), f), _.both(3, 1))
   })
 
   it('reduce', () => {
@@ -180,9 +180,8 @@ describe('These', () => {
   // -------------------------------------------------------------------------------------
 
   it('match', () => {
-    const len = (s: string) => s.length
-    const f = (s: string, n: number) => len(s) + U.double(n)
-    const match = _.match(len, U.double, f)
+    const f = (s: string, n: number) => S.size(s) + U.double(n)
+    const match = _.match(S.size, U.double, f)
     U.deepStrictEqual(match(_.left('foo')), 3)
     U.deepStrictEqual(match(_.right(1)), 2)
     U.deepStrictEqual(match(_.both('foo', 1)), 5)

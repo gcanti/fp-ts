@@ -1,5 +1,5 @@
 import * as _ from '../src/Either'
-import { identity, pipe } from '../src/function'
+import { flow, identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
@@ -8,14 +8,10 @@ import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
+import { gt, geq } from '../src/Ord'
 
 describe('Either', () => {
   describe('pipeables', () => {
-    it('mapLeft', () => {
-      U.deepStrictEqual(pipe(_.right('bar'), _.mapLeft(U.double)), _.right('bar'))
-      U.deepStrictEqual(pipe(_.left(2), _.mapLeft(U.double)), _.left(4))
-    })
-
     it('alt', () => {
       const assertAlt = (
         a: _.Either<string, number>,
@@ -37,9 +33,9 @@ describe('Either', () => {
     })
 
     it('map', () => {
-      const f = (s: string): number => s.length
-      U.deepStrictEqual(pipe(_.right('abc'), _.map(f)), _.right(3))
-      U.deepStrictEqual(pipe(_.left('s'), _.map(f)), _.left('s'))
+      const f = _.map(S.size)
+      U.deepStrictEqual(pipe(_.right('abc'), f), _.right(3))
+      U.deepStrictEqual(pipe(_.left('s'), f), _.left('s'))
     })
 
     it('ap', () => {
@@ -68,21 +64,21 @@ describe('Either', () => {
     })
 
     it('chain', () => {
-      const f = (s: string): _.Either<string, number> => _.right(s.length)
-      U.deepStrictEqual(pipe(_.right('abc'), _.chain(f)), _.right(3))
-      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chain(f)), _.left('maError'))
+      const f = _.chain<string, string, number>(flow(S.size, _.of))
+      U.deepStrictEqual(pipe(_.right('abc'), f), _.right(3))
+      U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
     it('chainFirst', () => {
-      const f = (s: string): _.Either<string, number> => _.right(s.length)
-      U.deepStrictEqual(pipe(_.right('abc'), _.chainFirst(f)), _.right('abc'))
-      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirst(f)), _.left('maError'))
+      const f = _.chainFirst<string, string, number>(flow(S.size, _.of))
+      U.deepStrictEqual(pipe(_.right('abc'), f), _.right('abc'))
+      U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
     it('chainFirstW', () => {
-      const f = (s: string): _.Either<boolean, number> => _.right(s.length)
-      U.deepStrictEqual(pipe(_.right('abc'), _.chainFirstW(f)), _.right('abc'))
-      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.chainFirstW(f)), _.left('maError'))
+      const f = _.chainFirstW<string, string, number>(flow(S.size, _.of))
+      U.deepStrictEqual(pipe(_.right('abc'), f), _.right('abc'))
+      U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
     it('duplicate', () => {
@@ -111,14 +107,20 @@ describe('Either', () => {
     })
 
     it('bimap', () => {
-      const f = (s: string): number => s.length
-      const g = (n: number): boolean => n > 2
-      U.deepStrictEqual(pipe(_.right(1), _.bimap(f, g)), _.right(false))
+      const f = _.bimap(S.size, gt(N.Ord)(2))
+      U.deepStrictEqual(pipe(_.right(1), f), _.right(false))
+    })
+
+    it('mapLeft', () => {
+      const f = _.mapLeft(U.double)
+      U.deepStrictEqual(pipe(_.right('a'), f), _.right('a'))
+      U.deepStrictEqual(pipe(_.left(1), f), _.left(2))
     })
 
     it('foldMap', () => {
-      U.deepStrictEqual(pipe(_.right('a'), _.foldMap(S.Monoid)(identity)), 'a')
-      U.deepStrictEqual(pipe(_.left(1), _.foldMap(S.Monoid)(identity)), '')
+      const f = _.foldMap(S.Monoid)((s: string) => s)
+      U.deepStrictEqual(pipe(_.right('a'), f), 'a')
+      U.deepStrictEqual(pipe(_.left(1), f), '')
     })
 
     it('reduce', () => {
@@ -191,7 +193,7 @@ describe('Either', () => {
   })
 
   it('filterOrElse', () => {
-    const f = (n: number): boolean => n > 10
+    const f = gt(N.Ord)(10)
     U.deepStrictEqual(
       pipe(
         _.right(12),
@@ -277,7 +279,7 @@ describe('Either', () => {
   })
 
   it('fromPredicate', () => {
-    const f = _.fromPredicate((n: number) => n >= 2)
+    const f = _.fromPredicate(geq(N.Ord)(2))
     U.deepStrictEqual(f(3), _.right(3))
     U.deepStrictEqual(f(1), _.left(1))
   })

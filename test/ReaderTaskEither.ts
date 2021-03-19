@@ -1,8 +1,10 @@
 import * as E from '../src/Either'
-import { pipe, SK } from '../src/function'
+import { flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
+import * as N from '../src/number'
 import * as O from '../src/Option'
+import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RT from '../src/ReaderTask'
@@ -55,16 +57,15 @@ describe('ReaderTaskEither', () => {
     })
 
     it('bimap', async () => {
-      const f = (s: string): number => s.length
-      const g = (n: number): boolean => n > 2
-      U.deepStrictEqual(await pipe(_.right(1), _.bimap(f, g))({})(), E.right(false))
-      U.deepStrictEqual(await pipe(_.left('error'), _.bimap(f, g))({})(), E.left(5))
+      const f = _.bimap(S.size, gt(N.Ord)(2))
+      U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(false))
+      U.deepStrictEqual(await pipe(_.left('error'), f)({})(), E.left(5))
     })
 
     it('mapLeft', async () => {
-      const len = (s: string): number => s.length
-      U.deepStrictEqual(await pipe(_.right(1), _.mapLeft(len))({})(), E.right(1))
-      U.deepStrictEqual(await pipe(_.left('err'), _.mapLeft(len))({})(), E.left(3))
+      const f = _.mapLeft(S.size)
+      U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
+      U.deepStrictEqual(await pipe(_.left('err'), f)({})(), E.left(3))
     })
 
     it('alt', async () => {
@@ -325,17 +326,17 @@ describe('ReaderTaskEither', () => {
   })
 
   it('chainEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
+    const f = flow(S.size, E.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(undefined)(), E.right(1))
   })
 
   it('chainIOEitherK', async () => {
-    const f = (s: string) => IE.right(s.length)
+    const f = flow(S.size, IE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(undefined)(), E.right(1))
   })
 
   it('chainTaskEitherK', async () => {
-    const f = (s: string) => TE.right(s.length)
+    const f = flow(S.size, TE.of)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
   })
 

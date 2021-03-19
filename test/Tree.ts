@@ -1,5 +1,5 @@
 import * as Eq from '../src/Eq'
-import { identity, pipe } from '../src/function'
+import { flow, identity, pipe } from '../src/function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
 import * as _ from '../src/Tree'
@@ -39,14 +39,14 @@ describe('Tree', () => {
   })
 
   it('chain', () => {
-    const f = (n: number) => _.of(n * 2)
+    const f = flow(U.double, _.of)
     const fa = _.make(1, [_.make(2), _.make(3)])
     const expected = _.make(2, [_.make(4), _.make(6)])
     U.deepStrictEqual(pipe(fa, _.chain(f)), expected)
   })
 
   it('chainFirst', () => {
-    const f = (n: number) => _.of(n * 2)
+    const f = flow(U.double, _.of)
     const fa = _.make(1, [_.make(2), _.make(3)])
     U.deepStrictEqual(pipe(fa, _.chainFirst(f)), fa)
   })

@@ -1,8 +1,9 @@
-import { pipe } from '../src/function'
+import { flow, pipe } from '../src/function'
 import * as _ from '../src/Reader'
-import * as U from './util'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as S from '../src/string'
+import * as U from './util'
 
 interface Env {
   readonly count: number
@@ -27,12 +28,12 @@ describe('Reader', () => {
     })
 
     it('chain', () => {
-      const f = (s: string): _.Reader<object, number> => _.of(s.length)
+      const f = flow(S.size, _.of)
       U.deepStrictEqual(pipe(_.of('foo'), _.chain(f))({}), 3)
     })
 
     it('chainFirst', () => {
-      const f = (s: string): _.Reader<object, number> => _.of(s.length)
+      const f = flow(S.size, _.of)
       U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
     })
 
@@ -41,8 +42,7 @@ describe('Reader', () => {
     })
 
     it('compose', () => {
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(len, _.compose(U.double))('aaa'), 6)
+      U.deepStrictEqual(pipe(S.size, _.compose(U.double))('aaa'), 6)
     })
 
     it('promap', () => {

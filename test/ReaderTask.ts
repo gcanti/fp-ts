@@ -1,9 +1,10 @@
-import { pipe, SK } from '../src/function'
+import { flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderTask'
 import * as RA from '../src/ReadonlyArray'
 import * as RNEA from '../src/ReadonlyNonEmptyArray'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
 
@@ -29,12 +30,12 @@ describe('ReaderTask', () => {
   })
 
   it('chain', async () => {
-    const f = (a: string) => _.of(a.length)
+    const f = flow(S.size, _.of)
     U.deepStrictEqual(await pipe(_.of('foo'), _.chain(f))({})(), 3)
   })
 
   it('chainFirst', async () => {
-    const f = (a: string) => _.of(a.length)
+    const f = flow(S.size, _.of)
     U.deepStrictEqual(await pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
   })
 
@@ -75,27 +76,27 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('chainIOK', async () => {
-    const f = (s: string) => I.of(s.length)
+    const f = flow(S.size, I.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(undefined)(), 1)
   })
 
   it('chainTaskK', async () => {
-    const f = (s: string) => T.of(s.length)
+    const f = flow(S.size, T.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.chainTaskK(f))(undefined)(), 1)
   })
 
   it('chainFirstTaskK', async () => {
-    const f = (s: string) => T.of(s.length)
+    const f = flow(S.size, T.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstTaskK(f))(undefined)(), 'a')
   })
 
   it('fromIOK', async () => {
-    const f = _.fromIOK((s: string) => I.of(s.length))
+    const f = _.fromIOK(flow(S.size, I.of))
     U.deepStrictEqual(await pipe(_.of('a'), _.chain(f))({})(), 1)
   })
 
   it('fromTaskK', async () => {
-    const f = _.fromTaskK((s: string) => T.of(s.length))
+    const f = _.fromTaskK(flow(S.size, T.of))
     U.deepStrictEqual(await pipe(_.of('a'), _.chain(f))({})(), 1)
   })
 

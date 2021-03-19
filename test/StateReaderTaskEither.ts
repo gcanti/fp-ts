@@ -1,15 +1,18 @@
 import * as E from '../src/Either'
-import { pipe, SK } from '../src/function'
+import { flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
+import * as N from '../src/number'
 import * as O from '../src/Option'
+import { gt } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
 import * as RTE from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
-import * as S from '../src/State'
+import { State } from '../src/State'
 import * as _ from '../src/StateReaderTaskEither'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as U from './util'
@@ -39,14 +42,12 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('map', async () => {
-      const len = (s: string): number => s.length
-      const e = await pipe(_.right('aaa'), _.map(len), _.evaluate(state))({})()
+      const e = await pipe(_.right('aaa'), _.map(S.size), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right(3))
     })
 
     it('ap', async () => {
-      const len = (s: string): number => s.length
-      const e = await pipe(_.right(len), _.ap(_.right('aaa')), _.evaluate(state))({})()
+      const e = await pipe(_.right(S.size), _.ap(_.right('aaa')), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right(3))
     })
 
@@ -78,22 +79,18 @@ describe('StateReaderTaskEither', () => {
     })
 
     it('bimap', async () => {
-      const gt2 = (n: number): boolean => n > 2
-      const len = (s: string): number => s.length
-      const e1 = await pipe(_.right('aaa'), _.bimap(gt2, len), _.evaluate(state))({})()
-      U.deepStrictEqual(e1, E.right(3))
-      const e2 = await pipe(_.left(3), _.bimap(gt2, len), _.evaluate(state))({})()
-      U.deepStrictEqual(e2, E.left(true))
+      const f = _.bimap(gt(N.Ord)(2), S.size)
+      U.deepStrictEqual(await pipe(_.right('aaa'), f, _.evaluate(state))({})(), E.right(3))
+      U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
     it('mapLeft', async () => {
-      const gt2 = (n: number): boolean => n > 2
-      const e = await pipe(_.left(3), _.mapLeft(gt2), _.evaluate(state))({})()
-      U.deepStrictEqual(e, E.left(true))
+      const f = _.mapLeft(gt(N.Ord)(2))
+      U.deepStrictEqual(await pipe(_.left(3), f, _.evaluate(state))({})(), E.left(true))
     })
 
     it('fromPredicate', async () => {
-      const f = _.fromPredicate((n: number) => n >= 2)
+      const f = _.fromPredicate(gt(N.Ord)(2))
       U.deepStrictEqual(await pipe(f(3), _.evaluate(state))({})(), E.right(3))
       U.deepStrictEqual(await pipe(f(1), _.evaluate(state))({})(), E.left(1))
     })
@@ -164,13 +161,13 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('rightState', async () => {
-    const s: S.State<unknown, number> = (s) => [1, s]
+    const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.rightState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
   })
 
   it('leftState', async () => {
-    const s: S.State<unknown, number> = (s) => [1, s]
+    const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.leftState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.left(1))
   })
@@ -182,7 +179,7 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromState', async () => {
-    const s: S.State<unknown, number> = (s) => [1, s]
+    const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
   })
@@ -263,25 +260,25 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('chainEitherK', async () => {
-    const f = (s: string) => E.right(s.length)
+    const f = flow(S.size, E.of)
     const x = await pipe(_.right('a'), _.chainEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
   it('chainIOEitherK', async () => {
-    const f = (s: string) => IE.right(s.length)
+    const f = flow(S.size, IE.of)
     const x = await pipe(_.right('a'), _.chainIOEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
   it('chainTaskEitherK', async () => {
-    const f = (s: string) => TE.right(s.length)
+    const f = flow(S.size, TE.of)
     const x = await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
 
   it('chainReaderTaskEitherK', async () => {
-    const f = (s: string) => RTE.right(s.length)
+    const f = flow(S.size, RTE.of)
     const x = await pipe(_.right('a'), _.chainReaderTaskEitherK(f))(undefined)(undefined)()
     U.deepStrictEqual(x, E.right([1, undefined] as const))
   })
@@ -330,12 +327,12 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('fromStateK', async () => {
-    const ma = _.fromStateK((n: number): S.State<number, number> => (s) => [n * 2, s + 1])
+    const ma = _.fromStateK((n: number): State<number, number> => (s) => [n * 2, s + 1])
     U.deepStrictEqual(await ma(3)(2)({})(), E.right([6, 3] as const))
   })
 
   it('chainStateK', async () => {
-    const f = _.chainStateK((n: number): S.State<number, number> => (s) => [n * 2, s + 1])
+    const f = _.chainStateK((n: number): State<number, number> => (s) => [n * 2, s + 1])
     const right: _.StateReaderTaskEither<number, unknown, never, number> = _.right(3)
     U.deepStrictEqual(await pipe(right, f)(2)({})(), E.right([6, 3] as const))
     const left: _.StateReaderTaskEither<number, unknown, string, number> = _.left('a')

@@ -17,16 +17,13 @@ describe('Const', () => {
     })
 
     it('bimap', () => {
-      const fa: _.Const<string, number> = _.make('a')
-      const f = (s: string): string => s.toUpperCase()
-      const g = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(fa, _.bimap(f, g)), _.make('A'))
+      const f = _.bimap(S.toUpperCase, U.double)
+      U.deepStrictEqual(pipe(_.make('a'), f), _.make('A'))
     })
 
     it('mapLeft', () => {
-      const fa: _.Const<string, number> = _.make('a')
-      const f = (s: string): string => s.toUpperCase()
-      U.deepStrictEqual(pipe(fa, _.mapLeft(f)), _.make('A'))
+      const f = _.mapLeft(S.toUpperCase)
+      U.deepStrictEqual(pipe(_.make('a'), f), _.make('A'))
     })
   })
 

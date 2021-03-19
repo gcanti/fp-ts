@@ -1,13 +1,15 @@
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { flow, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as S from '../src/string'
+import * as N from '../src/number'
 import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
 import * as O from '../src/Option'
 import * as Sep from '../src/Separated'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { gt } from '../src/Ord'
 
 describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
@@ -86,14 +88,15 @@ describe('IOEither', () => {
   })
 
   it('bimap', () => {
-    const f = (s: string): number => s.length
-    const g = (n: number): boolean => n > 2
-    U.deepStrictEqual(pipe(_.right(1), _.bimap(f, g))(), E.right(false))
-    U.deepStrictEqual(pipe(_.left('foo'), _.bimap(f, g))(), E.left(3))
+    const f = _.bimap(S.size, gt(N.Ord)(2))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(false))
+    U.deepStrictEqual(pipe(_.left('aaa'), f)(), E.left(3))
   })
 
   it('mapLeft', () => {
-    U.deepStrictEqual(pipe(_.left(1), _.mapLeft(U.double))(), E.left(2))
+    const f = _.mapLeft(U.double)
+    U.deepStrictEqual(pipe(_.right('a'), f)(), E.right('a'))
+    U.deepStrictEqual(pipe(_.left(1), f)(), E.left(2))
   })
 
   // -------------------------------------------------------------------------------------
@@ -181,7 +184,7 @@ describe('IOEither', () => {
   })
 
   it('chainEitherK', () => {
-    const f = (s: string) => E.right(s.length)
+    const f = flow(S.size, E.of)
     const x = pipe(_.right('a'), _.chainEitherK(f))()
     U.deepStrictEqual(x, E.right(1))
   })

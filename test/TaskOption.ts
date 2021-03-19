@@ -6,6 +6,7 @@ import * as T from '../src/Task'
 import * as _ from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
+import * as S from '../src/string'
 
 const a: _.TaskOption<string> = pipe(_.of<string>('a'), T.delay(100))
 const b: _.TaskOption<string> = _.of('b')
@@ -23,7 +24,7 @@ describe('TaskOption', () => {
   })
 
   it('ap', async () => {
-    await assertPar((a, b) => pipe(a, _.map(U.add), _.ap(b)), O.some('ab'))
+    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.concat), _.ap(b)), O.some('ba'))
   })
 
   it('apFirst', async () => {
@@ -72,13 +73,13 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(U.add), _.ApplySeq.ap(b)), O.some('ab'))
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(U.add), _.ApplicativeSeq.ap(b)), O.some('ab'))
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), O.some('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), O.some('ba'))
   })
 
   it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(U.add), _.ApplyPar.ap(b)), O.some('ab'))
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(U.add), _.ApplicativePar.ap(b)), O.some('ab'))
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), O.some('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), O.some('ba'))
   })
 
   // -------------------------------------------------------------------------------------

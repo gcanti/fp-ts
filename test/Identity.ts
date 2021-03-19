@@ -21,13 +21,11 @@ describe('Identity', () => {
     })
 
     it('chain', () => {
-      const f = (n: number) => n * 2
-      U.deepStrictEqual(pipe(1, _.chain(f)), 2)
+      U.deepStrictEqual(pipe(1, _.chain(U.double)), 2)
     })
 
     it('chainFirst', () => {
-      const f = (n: number) => n * 2
-      U.deepStrictEqual(pipe(1, _.chainFirst(f)), 1)
+      U.deepStrictEqual(pipe(1, _.chainFirst(U.double)), 1)
     })
 
     it('reduce', () => {
@@ -67,8 +65,7 @@ describe('Identity', () => {
     })
 
     it('extend', () => {
-      const f = (fa: _.Identity<string>): number => fa.length
-      U.deepStrictEqual(pipe('foo', _.extend(f)), 3)
+      U.deepStrictEqual(pipe('foo', _.extend(S.size)), 3)
     })
 
     it('duplicate', () => {

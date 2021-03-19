@@ -1,14 +1,13 @@
 import { pipe } from '../src/function'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/Store'
+import * as S from '../src/string'
 import { deepStrictEqual } from './util'
-
-const len = (s: string): number => s.length
 
 describe('Store', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+      const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
       deepStrictEqual(
         _.extract(
           pipe(
@@ -21,7 +20,7 @@ describe('Store', () => {
     })
 
     it('extend', () => {
-      const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+      const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
       deepStrictEqual(
         _.extract(
           pipe(
@@ -41,18 +40,18 @@ describe('Store', () => {
     })
 
     it('duplicate', () => {
-      const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+      const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
       deepStrictEqual(_.extract(_.extract(pipe(wa, _.duplicate))), 1)
     })
   })
 
   it('seek', () => {
-    const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+    const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
     deepStrictEqual(_.extract(pipe(wa, _.seek('aa'))), 2)
   })
 
   it('seeks', () => {
-    const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+    const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
     deepStrictEqual(
       _.extract(
         pipe(
@@ -65,7 +64,7 @@ describe('Store', () => {
   })
 
   it('peeks', () => {
-    const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+    const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
     deepStrictEqual(
       pipe(
         wa,
@@ -76,7 +75,7 @@ describe('Store', () => {
   })
 
   it('experiment', () => {
-    const wa: _.Store<string, number> = { peek: len, pos: 'a' }
+    const wa: _.Store<string, number> = { peek: S.size, pos: 'a' }
     deepStrictEqual(
       pipe(
         wa,

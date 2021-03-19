@@ -1,13 +1,15 @@
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { flow, pipe } from '../src/function'
+import * as N from '../src/number'
 import * as O from '../src/Option'
+import { geq } from '../src/Ord'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import * as S from '../src/string'
-import * as U from './util'
-import * as Sep from '../src/Separated'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as Sep from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -48,29 +50,29 @@ describe('ReaderEither', () => {
     })
 
     it('chainFirst', () => {
-      const f = (n: number) => _.right(n * 2)
+      const f = flow(U.double, _.of)
       U.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))
     })
 
     it('chainFirstW', () => {
-      const f = (n: number): _.ReaderEither<unknown, boolean, number> => _.right(n * 2)
-      U.deepStrictEqual(pipe(_.right<number, unknown, string>(1), _.chainFirstW(f))({}), E.right(1))
+      const f = flow(U.double, _.of)
+      U.deepStrictEqual(pipe(_.right(1), _.chainFirstW(f))({}), E.right(1))
     })
 
     it('flatten', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
     })
 
-    it('mapLeft', () => {
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(_.right(1), _.mapLeft(len))({}), E.right(1))
-      U.deepStrictEqual(pipe(_.left('aa'), _.mapLeft(len))({}), E.left(2))
+    it('bimap', () => {
+      const f = _.bimap(S.size, U.double)
+      U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(2))
+      U.deepStrictEqual(pipe(_.left('aaa'), f)({}), E.left(3))
     })
 
-    it('bimap', () => {
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(_.right(1), _.bimap(len, U.double))({}), E.right(2))
-      U.deepStrictEqual(pipe(_.left('aaa'), _.bimap(len, U.double))({}), E.left(3))
+    it('mapLeft', () => {
+      const f = _.mapLeft(S.size)
+      U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+      U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left(2))
     })
 
     it('fromOption', () => {
@@ -91,7 +93,7 @@ describe('ReaderEither', () => {
     })
 
     it('fromPredicate', () => {
-      const f = _.fromPredicate((n: number) => n >= 2)
+      const f = _.fromPredicate(geq(N.Ord)(2))
       U.deepStrictEqual(f(3)({}), E.right(3))
       U.deepStrictEqual(f(1)({}), E.left(1))
     })

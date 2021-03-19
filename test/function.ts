@@ -5,9 +5,10 @@ import * as B from '../src/boolean'
 import * as RA from '../src/ReadonlyArray'
 import { concatAll } from '../src/Monoid'
 import * as N from '../src/number'
+import { geq, lt } from '../src/Ord'
 
-const f = (n: number) => n + 1
-const g = (n: number) => n * 2
+const f = _.increment
+const g = U.double
 
 describe('function', () => {
   it('flip', () => {
@@ -84,8 +85,6 @@ describe('function', () => {
   })
 
   it('pipe', () => {
-    const f = (n: number) => n + 1
-    const g = (n: number) => n * 2
     U.deepStrictEqual(_.pipe(2), 2)
     U.deepStrictEqual(_.pipe(2, f), 3)
     U.deepStrictEqual(_.pipe(2, f, g), 6)
@@ -112,8 +111,8 @@ describe('function', () => {
 
   it('getBooleanAlgebra', () => {
     const BA = _.getBooleanAlgebra(B.BooleanAlgebra)<number>()
-    const f = (n: number) => n >= 0
-    const g = (n: number) => n < 2
+    const f = geq(N.Ord)(0)
+    const g = lt(N.Ord)(2)
     U.deepStrictEqual(_.pipe(f, BA.implies(g))(1), true)
     U.deepStrictEqual(_.pipe(f, BA.implies(g))(-1), true)
 

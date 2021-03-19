@@ -94,3 +94,8 @@ export const isEmpty = (s: string): boolean => s.length === 0
  * @since 3.0.0
  */
 export const size = (s: string): number => s.length
+
+/**
+ * @since 3.0.0
+ */
+export const toUpperCase = (s: string): string => s.toUpperCase()

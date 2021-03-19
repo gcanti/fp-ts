@@ -37,7 +37,7 @@ export type Tuple2<E, A> = readonly [A, E]
 /**
  * @since 3.0.0
  */
-export const tuple2 = <A, E>(a: A, e: E): Tuple2<E, A> => [a, e]
+export const make = <A, E>(a: A, e: E): Tuple2<E, A> => [a, e]
 
 // -------------------------------------------------------------------------------------
 // utils

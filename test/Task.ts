@@ -1,9 +1,10 @@
-import { pipe, SK } from '../src/function'
+import { flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as _ from '../src/Task'
 import * as U from './util'
+import * as S from '../src/string'
 
 export const assertTask = <A, B>(a: _.Task<A>, b: _.Task<B>, expectedLog: ReadonlyArray<A | B>) => async <C>(
   f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>,
@@ -36,7 +37,7 @@ describe('Task', () => {
   })
 
   it('ap', async () => {
-    await assertPar((a, b) => pipe(_.of(U.add), _.ap(a), _.ap(b)), 'ab')
+    await assertPar((a, b) => pipe(_.of(S.Semigroup.concat), _.ap(a), _.ap(b)), 'ba')
   })
 
   it('apFirst', async () => {
@@ -80,13 +81,13 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(U.add), _.ApplySeq.ap(b)), 'ab')
-    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(U.add), _.ApplicativeSeq.ap(b)), 'ab')
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), 'ba')
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), 'ba')
   })
 
   it('ApplicativePar', async () => {
-    await assertPar((a, b) => pipe(a, _.ApplyPar.map(U.add), _.ApplyPar.ap(b)), 'ab')
-    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(U.add), _.ApplicativePar.ap(b)), 'ab')
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), 'ba')
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), 'ba')
   })
 
   it('getRaceMonoid', async () => {
@@ -102,12 +103,12 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
 
   it('chainIOK', async () => {
-    const f = (s: string) => I.of(s.length)
+    const f = flow(S.size, I.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.chainIOK(f))(), 1)
   })
 
   it('chainFirstIOK', async () => {
-    const f = (s: string) => I.of(s.length)
+    const f = flow(S.size, I.of)
     U.deepStrictEqual(await pipe(_.of('a'), _.chainFirstIOK(f))(), 'a')
   })
 
