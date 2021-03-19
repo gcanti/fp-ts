@@ -67,14 +67,15 @@ export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
  * const double = (n: number): number => n * 2
- * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+ * assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(n, f))
+export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(f)(n))
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
@@ -83,13 +84,14 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+ * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
+export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(() => a)
 
 // -------------------------------------------------------------------------------------
 // destructors

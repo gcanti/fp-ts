@@ -108,14 +108,15 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  *
  * @example
  * import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
  * const double = (n: number): number => n * 2
- * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+ * assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray<A> => {
+export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyNonEmptyArray<A> => {
   const j = Math.max(0, Math.floor(n))
   const out: NEA.NonEmptyArray<A> = [f(0)]
   for (let i = 1; i < j; i++) {
@@ -131,13 +132,14 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray
  *
  * @example
  * import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+ * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
  *
  * @category constructors
  * @since 3.0.0
  */
-export const replicate = <A>(n: number, a: A): ReadonlyNonEmptyArray<A> => makeBy(n, () => a)
+export const replicate = <A>(a: A): ((n: number) => ReadonlyNonEmptyArray<A>) => makeBy(() => a)
 
 /**
  * Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
@@ -151,7 +153,7 @@ export const replicate = <A>(n: number, a: A): ReadonlyNonEmptyArray<A> => makeB
  * @since 3.0.0
  */
 export const range = (start: number, end: number): ReadonlyNonEmptyArray<number> =>
-  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
+  start <= end ? makeBy((i) => start + i)(end - start + 1) : [start]
 
 // -------------------------------------------------------------------------------------
 // destructors

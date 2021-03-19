@@ -1008,17 +1008,19 @@ describe('ReadonlyArray', () => {
   })
 
   it('makeBy', () => {
-    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
-    U.strictEqual(_.makeBy(0, U.double), _.empty)
-    U.strictEqual(_.makeBy(-1, U.double), _.empty)
-    U.deepStrictEqual(_.makeBy(2.2, U.double), [0, 2])
+    const f = _.makeBy(U.double)
+    U.deepStrictEqual(pipe(5, f), [0, 2, 4, 6, 8])
+    U.strictEqual(pipe(0, f), _.empty)
+    U.strictEqual(pipe(-1, f), _.empty)
+    U.deepStrictEqual(pipe(2.2, f), [0, 2])
   })
 
   it('replicate', () => {
-    U.strictEqual(_.replicate(0, 'a'), _.empty)
-    U.strictEqual(_.replicate(-1, 'a'), _.empty)
-    U.deepStrictEqual(_.replicate(3, 'a'), ['a', 'a', 'a'])
-    U.deepStrictEqual(_.replicate(2.2, 'a'), ['a', 'a'])
+    const f = _.replicate('a')
+    U.strictEqual(pipe(0, f), _.empty)
+    U.deepStrictEqual(pipe(3, f), ['a', 'a', 'a'])
+    U.strictEqual(pipe(-1, f), _.empty)
+    U.deepStrictEqual(pipe(2.2, f), ['a', 'a'])
   })
 
   it('comprehension', () => {

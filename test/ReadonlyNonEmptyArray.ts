@@ -420,10 +420,11 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('makeBy', () => {
-    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
+    const f = _.makeBy(U.double)
+    U.deepStrictEqual(f(5), [0, 2, 4, 6, 8])
     // If `n` (must be a natural number) is non positive return `[f(0)]`.
-    U.deepStrictEqual(_.makeBy(0, U.double), [0])
-    U.deepStrictEqual(_.makeBy(-1, U.double), [0])
+    U.deepStrictEqual(f(0), [0])
+    U.deepStrictEqual(f(-1), [0])
   })
 
   it('range', () => {
@@ -489,9 +490,10 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('replicate', () => {
-    U.deepStrictEqual(_.replicate(0, 'a'), ['a'])
-    U.deepStrictEqual(_.replicate(1, 'a'), ['a'])
-    U.deepStrictEqual(_.replicate(2, 'a'), ['a', 'a'])
+    const f = _.replicate('a')
+    U.deepStrictEqual(pipe(0, f), ['a'])
+    U.deepStrictEqual(pipe(1, f), ['a'])
+    U.deepStrictEqual(pipe(2, f), ['a', 'a'])
   })
 
   it('rotate', () => {

@@ -134,6 +134,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `union` pipeable
     - make `intersection` pipeable
     - make `difference` pipeable
+    - make `makeBy` pipeable
+    - make `replicate` pipeable
     - remove `unsafeInsertAt`
     - remove `unsafeUpdateAt`
     - remove `unsafeDeleteAt`
@@ -158,6 +160,8 @@ high state of flux, you're at risk of it changing without notice.
     - make `snoc` pipeable
     - make `zipWith` pipeable
     - make `zip` pipeable
+    - make `makeBy` pipeable
+    - make `replicate` pipeable
     - rename `toReadonlyArray` to `toArray`
     - rename `fromArray`
     - drop `group` overloading involving `ReadonlyArray`

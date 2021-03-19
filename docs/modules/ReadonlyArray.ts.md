@@ -1263,16 +1263,17 @@ Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
 **Signature**
 
 ```ts
-export declare const makeBy: <A>(n: number, f: (i: number) => A) => readonly A[]
+export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => readonly A[]
 ```
 
 **Example**
 
 ```ts
 import { makeBy } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
 const double = (n: number): number => n * 2
-assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
 ```
 
 Added in v3.0.0
@@ -1307,15 +1308,16 @@ Create a `ReadonlyArray` containing a value repeated the specified number of tim
 **Signature**
 
 ```ts
-export declare const replicate: <A>(n: number, a: A) => readonly A[]
+export declare const replicate: <A>(a: A) => (n: number) => readonly A[]
 ```
 
 **Example**
 
 ```ts
 import { replicate } from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
 ```
 
 Added in v3.0.0
