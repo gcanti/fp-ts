@@ -22,6 +22,7 @@ Added in v3.0.0
   - [empty](#empty)
   - [isEmpty](#isempty)
   - [size](#size)
+  - [toUpperCase](#touppercase)
 
 ---
 
@@ -135,6 +136,16 @@ Calculate the number of characters in a `string`.
 
 ```ts
 export declare const size: (s: string) => number
+```
+
+Added in v3.0.0
+
+## toUpperCase
+
+**Signature**
+
+```ts
+export declare const toUpperCase: (s: string) => string
 ```
 
 Added in v3.0.0

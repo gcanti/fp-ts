@@ -306,7 +306,7 @@ export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
  *
  * @since 3.0.0
  */
-export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
+export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
 
 /**
  * Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`

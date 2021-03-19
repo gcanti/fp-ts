@@ -1952,7 +1952,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => readonly B[]) => (as: readonly A[]) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -2304,7 +2304,7 @@ Test whether a `ReadonlyArray` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(as: readonly A[]) => boolean
+export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
 ```
 
 **Example**

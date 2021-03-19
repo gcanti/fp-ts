@@ -49,9 +49,9 @@ Added in v3.0.0
 - [utils](#utils)
   - [Tuple2 (type alias)](#tuple2-type-alias)
   - [fst](#fst)
+  - [make](#make)
   - [snd](#snd)
   - [traverse](#traverse)
-  - [tuple2](#tuple2)
 
 ---
 
@@ -356,6 +356,16 @@ export declare const fst: <A, E>(t: Tuple2<E, A>) => A
 
 Added in v3.0.0
 
+## make
+
+**Signature**
+
+```ts
+export declare const make: <A, E>(a: A, e: E) => Tuple2<E, A>
+```
+
+Added in v3.0.0
+
 ## snd
 
 **Signature**
@@ -372,16 +382,6 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: Traverse2<'Tuple2'>
-```
-
-Added in v3.0.0
-
-## tuple2
-
-**Signature**
-
-```ts
-export declare const tuple2: <A, E>(a: A, e: E) => Tuple2<E, A>
 ```
 
 Added in v3.0.0
