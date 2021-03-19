@@ -143,11 +143,11 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
 /* istanbul ignore next */
 const _compose: Semigroupoid2<URI>['compose'] = (bc, ab) => pipe(bc, compose(ab))
 /* istanbul ignore next */
-const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, mapFst(f))
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */
-const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapSnd(f))
 /* istanbul ignore next */
 const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
 /* istanbul ignore next */
@@ -175,18 +175,29 @@ function _traverse<F>(F: Applicative<F>): <A, S, B>(ta: [A, S], f: (a: A) => HKT
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (fa) => [
-  g(fst(fa)),
-  f(snd(fa))
-]
+export const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G] = (f, g) => (
+  fa
+) => [g(fst(fa)), f(snd(fa))]
 
 /**
- * Map a function over the first type argument of a bifunctor.
+ * Map a function over the first component of a `Tuple`.
  *
- * @category Bifunctor
+ * This is the `map` operation of the `Functor` instance.
+ *
+ * @category Functor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) => (fa) => [fst(fa), f(snd(fa))]
+export const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) => (fa) => [f(fst(fa)), snd(fa)]
+
+/**
+ * Map a function over the second component of a `Tuple`.
+ *
+ * This is the `mapLeft` operation of the `Bifunctor` instance.
+ *
+ * @category Bifunctor
+ * @since 2.10.0
+ */
+export const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = (f) => (fa) => [fst(fa), f(snd(fa))]
 
 /**
  * @category Semigroupoid
@@ -221,15 +232,6 @@ export const extract: <E, A>(wa: [A, E]) => A = RT.extract
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M = RT.foldMap
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = (f) => (fa) => [f(fst(fa)), snd(fa)]
 
 /**
  * @category Foldable
@@ -360,6 +362,22 @@ export const Traversable: Traversable2<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `mapFst` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
+
+/**
+ * Use `mapSnd` instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G] = mapSnd
 
 /**
  * Use small, specific instances instead.

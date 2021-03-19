@@ -26,6 +26,13 @@ high state of flux, you're at risk of it changing without notice.
     - move `assign` to `object` module and rename to `getAssignSemigroup`
   - `ReaderT`
     - remove `get`, `put`, `modify`, `gets` (they will be derived from the `FromState` type-class in `2.11`)
+- **Deprecation**
+  - `Tuple`
+    - deprecate `mapLeft` in favour of `mapSnd`
+    - deprecate `map` in favour of `mapFst`
+  - `ReadonlyTuple`
+    - deprecate `mapLeft` in favour of `mapSnd`
+    - deprecate `map` in favour of `mapFst`
 - **Polish**
   - `Array` / `ReadonlyArray`
     - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)

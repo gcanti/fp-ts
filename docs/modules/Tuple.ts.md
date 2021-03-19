@@ -14,7 +14,7 @@ Added in v2.0.0
 
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
-  - [mapLeft](#mapleft)
+  - [mapSnd](#mapsnd)
 - [Extend](#extend)
   - [extend](#extend)
 - [Extract](#extract)
@@ -24,7 +24,7 @@ Added in v2.0.0
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
 - [Functor](#functor)
-  - [map](#map)
+  - [mapFst](#mapfst)
 - [Semigroupoid](#semigroupoid)
   - [compose](#compose)
 - [combinators](#combinators)
@@ -52,6 +52,8 @@ Added in v2.0.0
 - [utils](#utils)
   - [sequence](#sequence)
   - [traverse](#traverse)
+  - [~~mapLeft~~](#mapleft)
+  - [~~map~~](#map)
 
 ---
 
@@ -64,22 +66,24 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G]
+export declare const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (fa: [A, E]) => [B, G]
 ```
 
 Added in v2.0.0
 
-## mapLeft
+## mapSnd
 
-Map a function over the first type argument of a bifunctor.
+Map a function over the second component of a `Tuple`.
+
+This is the `mapLeft` operation of the `Bifunctor` instance.
 
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
 ```
 
-Added in v2.0.0
+Added in v2.10.0
 
 # Extend
 
@@ -139,15 +143,16 @@ Added in v2.0.0
 
 # Functor
 
-## map
+## mapFst
 
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
+Map a function over the first component of a `Tuple`.
+
+This is the `map` operation of the `Functor` instance.
 
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+export declare const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
 ```
 
 Added in v2.0.0
@@ -391,3 +396,27 @@ export declare const traverse: PipeableTraverse2<'Tuple'>
 ```
 
 Added in v2.6.3
+
+## ~~mapLeft~~
+
+Use `mapSnd` instead.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: [A, E]) => [A, G]
+```
+
+Added in v2.0.0
+
+## ~~map~~
+
+Use `mapFst` instead.
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E]
+```
+
+Added in v2.0.0
