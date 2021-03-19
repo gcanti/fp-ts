@@ -9,13 +9,11 @@ import * as S from '../src/string'
 describe('Identity', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(1, _.map(double)), 2)
+      U.deepStrictEqual(pipe(1, _.map(U.double)), 2)
     })
 
     it('ap', () => {
-      const double = (n: number): number => n * 2
-      const fab = double
+      const fab = U.double
       U.deepStrictEqual(pipe(fab, _.ap(1)), 2)
     })
 

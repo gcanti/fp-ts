@@ -77,8 +77,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('ap', () => {
-    const double = (n: number) => n * 2
-    const fab: _.NonEmptyArray<(n: number) => number> = [double, double]
+    const fab: _.NonEmptyArray<(n: number) => number> = [U.double, U.double]
     U.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
@@ -240,9 +239,8 @@ describe('NonEmptyArray', () => {
   })
 
   it('modifyAt', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
-    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4]))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4]))
     // should not return the same reference if nothing changed
     const input: _.NonEmptyArray<number> = [1, 2, 3]
     U.deepStrictEqual(

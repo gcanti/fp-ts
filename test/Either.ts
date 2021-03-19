@@ -11,9 +11,8 @@ import { separated } from '../src/Separated'
 describe('Either', () => {
   describe('pipeables', () => {
     it('mapLeft', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.right('bar'), _.mapLeft(double)), _.right('bar'))
-      U.deepStrictEqual(pipe(_.left(2), _.mapLeft(double)), _.left(4))
+      U.deepStrictEqual(pipe(_.right('bar'), _.mapLeft(U.double)), _.right('bar'))
+      U.deepStrictEqual(pipe(_.left(2), _.mapLeft(U.double)), _.left(4))
     })
 
     it('alt', () => {

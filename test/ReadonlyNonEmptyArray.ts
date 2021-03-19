@@ -81,8 +81,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('ap', () => {
-    const double = (n: number) => n * 2
-    const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [double, double]
+    const fab: _.ReadonlyNonEmptyArray<(n: number) => number> = [U.double, U.double]
     U.deepStrictEqual(pipe(fab, _.ap([1, 2])), [2, 4, 2, 4])
   })
 
@@ -258,9 +257,8 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('modifyAt', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.modifyAt(1, double)([1]), O.none)
-    U.deepStrictEqual(_.modifyAt(1, double)([1, 2]), O.some([1, 4] as const))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2]), O.some([1, 4] as const))
     // should return the same reference if nothing changed
     const input: _.ReadonlyNonEmptyArray<number> = [1, 2, 3]
     U.deepStrictEqual(
@@ -617,10 +615,9 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('makeBy', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
+    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
     // If `n` (must be a natural number) is non positive return `[f(0)]`.
-    U.deepStrictEqual(_.makeBy(0, double), [0])
-    U.deepStrictEqual(_.makeBy(-1, double), [0])
+    U.deepStrictEqual(_.makeBy(0, U.double), [0])
+    U.deepStrictEqual(_.makeBy(-1, U.double), [0])
   })
 })

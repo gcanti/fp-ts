@@ -1,12 +1,13 @@
-import * as U from './util'
 import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as R from '../src/Reader'
-import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReaderTask'
+import * as RA from '../src/ReadonlyArray'
 import { semigroupString } from '../src/Semigroup'
+import * as S from '../src/string'
 import * as T from '../src/Task'
+import * as U from './util'
 
 describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
@@ -14,13 +15,11 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.of(1), _.map(double))({})(), 2)
+    U.deepStrictEqual(await pipe(_.of(1), _.map(U.double))({})(), 2)
   })
 
   it('ap', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(_.of(double), _.ap(_.of(1)))({})(), 2)
+    U.deepStrictEqual(await pipe(_.of(U.double), _.ap(_.of(1)))({})(), 2)
   })
 
   it('apFirst', async () => {
@@ -79,12 +78,11 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('local', async () => {
-    const len = (s: string): number => s.length
     U.deepStrictEqual(
       await pipe(
         _.asks((n: number) => n + 1),
         // tslint:disable-next-line: deprecation
-        _.local(len)
+        _.local(S.size)
       )('aaa')(),
       4
     )

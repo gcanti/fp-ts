@@ -50,13 +50,11 @@ describe('IOEither', () => {
     })
 
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.right(1), _.map(double))(), E.right(2))
+      U.deepStrictEqual(pipe(_.right(1), _.map(U.double))(), E.right(2))
     })
 
     it('ap', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))(), E.right(2))
+      U.deepStrictEqual(pipe(_.right(U.double), _.ap(_.right(1)))(), E.right(2))
     })
 
     it('ApplicativePar', () => {
@@ -127,8 +125,7 @@ describe('IOEither', () => {
     })
 
     it('mapLeft', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.left(1), _.mapLeft(double))(), E.left(2))
+      U.deepStrictEqual(pipe(_.left(1), _.mapLeft(U.double))(), E.left(2))
     })
 
     it('filterOrElse', () => {

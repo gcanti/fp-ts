@@ -658,8 +658,7 @@ describe('Map', () => {
           ['k1', 2],
           ['k2', 4]
         ])
-        const double = (n: number): number => n * 2
-        U.deepStrictEqual(pipe(d1, _.map(double)), expected)
+        U.deepStrictEqual(pipe(d1, _.map(U.double)), expected)
       })
     })
 

@@ -678,9 +678,8 @@ describe('ReadonlyArray', () => {
   })
 
   it('modifyAt', () => {
-    const double = (x: number): number => x * 2
-    U.deepStrictEqual(_.modifyAt(1, double)([1, 2, 3]), O.some([1, 4, 3]))
-    U.deepStrictEqual(_.modifyAt(1, double)([]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)([1, 2, 3]), O.some([1, 4, 3]))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([]), O.none)
     // should return the same reference if nothing changed
     const input: ReadonlyArray<number> = [1, 2, 3]
     U.deepStrictEqual(
@@ -1042,11 +1041,10 @@ describe('ReadonlyArray', () => {
   })
 
   it('makeBy', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
-    U.strictEqual(_.makeBy(0, double), _.empty)
-    U.strictEqual(_.makeBy(-1, double), _.empty)
-    U.deepStrictEqual(_.makeBy(2.2, double), [0, 2])
+    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
+    U.strictEqual(_.makeBy(0, U.double), _.empty)
+    U.strictEqual(_.makeBy(-1, U.double), _.empty)
+    U.deepStrictEqual(_.makeBy(2.2, U.double), [0, 2])
   })
 
   it('replicate', () => {

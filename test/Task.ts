@@ -37,8 +37,7 @@ describe('Task', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(await pipe(delay(1, 2), _.map(double))(), 4)
+    U.deepStrictEqual(await pipe(delay(1, 2), _.map(U.double))(), 4)
   })
 
   it('ap', async () => {

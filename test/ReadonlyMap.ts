@@ -54,14 +54,13 @@ const repo = new Map<Key, Value>([
 describe('ReadonlyMap', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
       U.deepStrictEqual(
         pipe(
           new Map<string, number>([
             ['k1', 1],
             ['k2', 2]
           ]),
-          _.map(double)
+          _.map(U.double)
         ),
         new Map<string, number>([
           ['k1', 2],

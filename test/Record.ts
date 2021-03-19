@@ -19,14 +19,13 @@ const noPrototype = Object.create(null)
 describe('Record', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(double)), { k1: 2, k2: 4 })
-      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(double)), { a: 2, b: 4 })
+      U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(U.double)), { k1: 2, k2: 4 })
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(U.double)), { a: 2, b: 4 })
     })
 
     it('mapWithIndex', () => {
-      const double = (_: string, n: number): number => n * 2
-      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.mapWithIndex(double)), { a: 2, b: 4 })
+      const doubleWithIndex = (_: string, n: number): number => n * 2
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.mapWithIndex(doubleWithIndex)), { a: 2, b: 4 })
     })
 
     it('reduce', () => {

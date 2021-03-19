@@ -1,6 +1,7 @@
 import * as U from './util'
 import { pipe } from '../src/function'
 import * as N from '../src/number'
+import * as S from '../src/string'
 import * as _ from '../src/Reader'
 
 interface Env {
@@ -10,13 +11,11 @@ interface Env {
 describe('Reader', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.of(1), _.map(double))({}), 2)
+      U.deepStrictEqual(pipe(_.of(1), _.map(U.double))({}), 2)
     })
 
     it('ap', () => {
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.of(double), _.ap(_.of(1)))({}), 2)
+      U.deepStrictEqual(pipe(_.of(U.double), _.ap(_.of(1)))({}), 2)
     })
 
     it('apFirst', () => {
@@ -42,9 +41,7 @@ describe('Reader', () => {
     })
 
     it('compose', () => {
-      const double = (n: number) => n * 2
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(double, _.compose(len))('aaa'), 6)
+      U.deepStrictEqual(pipe(U.double, _.compose(S.size))('aaa'), 6)
     })
 
     it('promap', () => {

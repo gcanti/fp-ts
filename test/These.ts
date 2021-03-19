@@ -9,25 +9,24 @@ import * as _ from '../src/These'
 describe('These', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.left(2), _.map(double)), _.left(2))
-      U.deepStrictEqual(pipe(_.right(2), _.map(double)), _.right(4))
-      U.deepStrictEqual(pipe(_.both(1, 2), _.map(double)), _.both(1, 4))
+      const f = _.map(U.double)
+      U.deepStrictEqual(pipe(_.left(2), f), _.left(2))
+      U.deepStrictEqual(pipe(_.right(2), f), _.right(4))
+      U.deepStrictEqual(pipe(_.both(1, 2), f), _.both(1, 4))
     })
 
     it('bimap', () => {
-      const len = (s: string): number => s.length
-      const double = (n: number): number => n * 2
-      U.deepStrictEqual(pipe(_.left('a'), _.bimap(len, double)), _.left(1))
-      U.deepStrictEqual(pipe(_.right(2), _.bimap(len, double)), _.right(4))
-      U.deepStrictEqual(pipe(_.both('foo', 1), _.bimap(len, double)), _.both(3, 2))
+      const f = _.bimap(S.size, U.double)
+      U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
+      U.deepStrictEqual(pipe(_.right(2), f), _.right(4))
+      U.deepStrictEqual(pipe(_.both('aaa', 1), f), _.both(3, 2))
     })
 
     it('mapLeft', () => {
-      const len = (s: string): number => s.length
-      U.deepStrictEqual(pipe(_.left('a'), _.mapLeft(len)), _.left(1))
-      U.deepStrictEqual(pipe(_.right(2), _.mapLeft(len)), _.right(2))
-      U.deepStrictEqual(pipe(_.both('foo', 1), _.mapLeft(len)), _.both(3, 1))
+      const f = _.mapLeft(S.size)
+      U.deepStrictEqual(pipe(_.left('a'), f), _.left(1))
+      U.deepStrictEqual(pipe(_.right(2), f), _.right(2))
+      U.deepStrictEqual(pipe(_.both('aaa', 1), f), _.both(3, 1))
     })
 
     it('reduce', () => {
@@ -157,10 +156,8 @@ describe('These', () => {
   })
 
   it('fold', () => {
-    const double = (n: number) => n * 2
-    const len = (s: string) => s.length
-    const f = (s: string, n: number) => len(s) + double(n)
-    const fold = _.fold(len, double, f)
+    const f = (s: string, n: number) => S.size(s) + U.double(n)
+    const fold = _.fold(S.size, U.double, f)
     U.deepStrictEqual(fold(_.left('foo')), 3)
     U.deepStrictEqual(fold(_.right(1)), 2)
     U.deepStrictEqual(fold(_.both('foo', 1)), 5)

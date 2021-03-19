@@ -21,11 +21,10 @@ describe('IORef', () => {
   })
 
   it('modify', () => {
-    const double = (n: number): number => n * 2
     const ref = new IORef(1)
     U.deepStrictEqual(
       pipe(
-        ref.modify(double),
+        ref.modify(U.double),
         I.chain(() => ref.read)
       )(),
       2

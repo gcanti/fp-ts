@@ -650,9 +650,8 @@ describe('Array', () => {
 
   it('modifyAt', () => {
     const as: Array<number> = [1, 2, 3]
-    const double = (x: number): number => x * 2
-    U.deepStrictEqual(_.modifyAt(1, double)(as), O.some([1, 4, 3]))
-    U.deepStrictEqual(_.modifyAt(1, double)([]), O.none)
+    U.deepStrictEqual(_.modifyAt(1, U.double)(as), O.some([1, 4, 3]))
+    U.deepStrictEqual(_.modifyAt(1, U.double)([]), O.none)
     // should not return the same reference if nothing changed
     const input: Array<number> = [1, 2, 3]
     U.deepStrictEqual(
@@ -975,10 +974,9 @@ describe('Array', () => {
   })
 
   it('makeBy', () => {
-    const double = (n: number): number => n * 2
-    U.deepStrictEqual(_.makeBy(5, double), [0, 2, 4, 6, 8])
-    U.deepStrictEqual(_.makeBy(0, double), [])
-    U.deepStrictEqual(_.makeBy(-1, double), [])
+    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
+    U.deepStrictEqual(_.makeBy(0, U.double), [])
+    U.deepStrictEqual(_.makeBy(-1, U.double), [])
   })
 
   it('range', () => {

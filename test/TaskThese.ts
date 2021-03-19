@@ -13,8 +13,7 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', async () => {
-    const double = (n: number) => n * 2
-    U.deepStrictEqual(await pipe(_.right(1), _.map(double))(), TH.right(2))
+    U.deepStrictEqual(await pipe(_.right(1), _.map(U.double))(), TH.right(2))
   })
 
   it('bimap', async () => {

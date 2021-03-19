@@ -12,8 +12,7 @@ import { left, right } from '../src/Separated'
 describe('ReaderEither', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.right(1), _.map(double))({}), E.right(2))
+      U.deepStrictEqual(pipe(_.right(1), _.map(U.double))({}), E.right(2))
     })
 
     it('alt', () => {
@@ -34,8 +33,7 @@ describe('ReaderEither', () => {
     })
 
     it('ap', () => {
-      const double = (n: number) => n * 2
-      U.deepStrictEqual(pipe(_.right(double), _.ap(_.right(1)))({}), E.right(2))
+      U.deepStrictEqual(pipe(_.right(U.double), _.ap(_.right(1)))({}), E.right(2))
     })
 
     it('apFirst', () => {
@@ -61,16 +59,13 @@ describe('ReaderEither', () => {
     })
 
     it('mapLeft', () => {
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(_.right(1), _.mapLeft(len))({}), E.right(1))
-      U.deepStrictEqual(pipe(_.left('aa'), _.mapLeft(len))({}), E.left(2))
+      U.deepStrictEqual(pipe(_.right(1), _.mapLeft(S.size))({}), E.right(1))
+      U.deepStrictEqual(pipe(_.left('aa'), _.mapLeft(S.size))({}), E.left(2))
     })
 
     it('bimap', () => {
-      const double = (n: number) => n * 2
-      const len = (s: string) => s.length
-      U.deepStrictEqual(pipe(_.right(1), _.bimap(len, double))({}), E.right(2))
-      U.deepStrictEqual(pipe(_.left('aaa'), _.bimap(len, double))({}), E.left(3))
+      U.deepStrictEqual(pipe(_.right(1), _.bimap(S.size, U.double))({}), E.right(2))
+      U.deepStrictEqual(pipe(_.left('aaa'), _.bimap(S.size, U.double))({}), E.left(3))
     })
 
     it('fromOption', () => {
