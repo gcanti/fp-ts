@@ -1,17 +1,17 @@
 /**
  * @since 2.0.0
  */
+import * as RA from './ReadonlyArray'
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
 import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import * as E from './Either'
-import { constVoid, flow, Lazy, pipe, tuple } from './function'
+import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Semigroup } from './Semigroup'
-import * as O from './Option'
 
 import Either = E.Either
 
@@ -627,7 +627,6 @@ export function bracketT<F>(F: Monad<F>) {
 // tslint:disable: deprecation
 
 import URI = E.URI
-import { readonlyArray as RA } from '.'
 
 /**
  * @category model
