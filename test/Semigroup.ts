@@ -47,4 +47,11 @@ describe('Semigroup', () => {
     const S = _.constant('a')
     U.strictEqual(S.concat('b')('c'), 'a')
   })
+
+  it('struct', () => {
+    // should ignore non own properties
+    const semigroups = Object.create({ a: 1 })
+    const s = _.struct(semigroups)
+    U.deepStrictEqual(s.concat({})({}), {})
+  })
 })

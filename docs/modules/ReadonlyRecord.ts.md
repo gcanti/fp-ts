@@ -175,7 +175,7 @@ Added in v3.0.0
 ```ts
 export declare function filterMapWithIndex<K extends string, A, B>(
   f: (key: K, a: A) => Option<B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0
@@ -187,10 +187,10 @@ Added in v3.0.0
 ```ts
 export declare function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 ```
 
 Added in v3.0.0
@@ -202,7 +202,7 @@ Added in v3.0.0
 ```ts
 export declare function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
 ```
 
 Added in v3.0.0
@@ -214,10 +214,10 @@ Added in v3.0.0
 ```ts
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 ```
 
 Added in v3.0.0
@@ -263,7 +263,7 @@ Added in v3.0.0
 ```ts
 export declare function foldMapWithIndex<M>(
   M: Monoid<M>
-): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
+): <K extends string, A>(f: (k: K, a: A) => M) => (r: ReadonlyRecord<K, A>) => M
 ```
 
 Added in v3.0.0
@@ -276,7 +276,7 @@ Added in v3.0.0
 export declare function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
-): (fa: ReadonlyRecord<K, A>) => B
+): (r: ReadonlyRecord<K, A>) => B
 ```
 
 Added in v3.0.0
@@ -289,7 +289,7 @@ Added in v3.0.0
 export declare function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => B
+): (r: ReadonlyRecord<K, A>) => B
 ```
 
 Added in v3.0.0
@@ -303,7 +303,7 @@ Map a `ReadonlyRecord` passing the values to the iterating function.
 **Signature**
 
 ```ts
-export declare function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+export declare function map<A, B>(f: (a: A) => B): <K extends string>(r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
 Added in v3.0.0
@@ -319,7 +319,7 @@ Map a `ReadonlyRecord` passing both the keys and values to the iterating functio
 ```ts
 export declare function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 ```
 
 Added in v3.0.0
@@ -781,7 +781,7 @@ Tests whether a value is a member of a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Readonly<Record<string, A>>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0

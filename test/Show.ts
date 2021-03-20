@@ -1,17 +1,20 @@
-import { struct, tuple } from '../src/Show'
-import { deepStrictEqual } from './util'
-import * as S from '../src/string'
 import * as N from '../src/number'
+import * as _ from '../src/Show'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('Show', () => {
   it('struct', () => {
-    deepStrictEqual(struct({}).show({}), '{}')
-    deepStrictEqual(struct({ a: S.Show }).show({ a: 'a' }), '{ a: "a" }')
-    deepStrictEqual(struct({ a: S.Show, b: N.Show }).show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
+    U.deepStrictEqual(_.struct({ a: S.Show }).show({ a: 'a' }), '{ a: "a" }')
+    U.deepStrictEqual(_.struct({ a: S.Show, b: N.Show }).show({ a: 'a', b: 1 }), '{ a: "a", b: 1 }')
+    // should ignore non own properties
+    const shows = Object.create({ a: 1 })
+    const s = _.struct(shows)
+    U.deepStrictEqual(s.show({}), '{}')
   })
 
   it('tuple', () => {
-    const Sh = tuple(S.Show, N.Show)
-    deepStrictEqual(Sh.show(['a', 1]), '["a", 1]')
+    const Sh = _.tuple(S.Show, N.Show)
+    U.deepStrictEqual(Sh.show(['a', 1]), '["a", 1]')
   })
 })

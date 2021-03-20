@@ -17,6 +17,7 @@
  */
 import { Endomorphism } from './Endomorphism'
 import { identity } from './function'
+import * as _ from './internal'
 import * as M from './Magma'
 import * as O from './Ord'
 
@@ -129,9 +130,10 @@ export const struct = <A>(
 ): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
   concat: (second) => (first) => {
     const r: A = {} as any
-    // tslint:disable-next-line: forin
-    for (const key in semigroups) {
-      r[key] = semigroups[key].concat(second[key])(first[key])
+    for (const k in semigroups) {
+      if (_.hasOwnProperty.call(semigroups, k)) {
+        r[k] = semigroups[k].concat(second[k])(first[k])
+      }
     }
     return r
   }

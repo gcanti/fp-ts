@@ -16,6 +16,7 @@
  * @since 3.0.0
  */
 import { Bounded } from './Bounded'
+import * as _ from './internal'
 import * as S from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -126,9 +127,10 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
  */
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
   const empty: A = {} as any
-  // tslint:disable-next-line: forin
-  for (const key in monoids) {
-    empty[key] = monoids[key].empty
+  for (const k in monoids) {
+    if (_.hasOwnProperty.call(monoids, k)) {
+      empty[k] = monoids[k].empty
+    }
   }
   return {
     concat: S.struct(monoids).concat,

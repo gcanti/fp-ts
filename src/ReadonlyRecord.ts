@@ -84,7 +84,7 @@ export function fromFoldable<F>(
   return <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) =>
     F.reduce<Record<string, B>, A>({}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = _hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
+      r[k] = _.hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
       return r
     })
 }
@@ -100,7 +100,7 @@ export function fromFoldable<F>(
  * @since 3.0.0
  */
 export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
-  if (!_hasOwnProperty.call(r, k)) {
+  if (!_.hasOwnProperty.call(r, k)) {
     const out: Record<string, A> = Object.assign({}, r)
     out[k] = a
     return _.some(out)
@@ -115,7 +115,7 @@ export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  * @since 3.0.0
  */
 export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-  if (_hasOwnProperty.call(r, k) && r[k] === a) {
+  if (_.hasOwnProperty.call(r, k) && r[k] === a) {
     return r
   }
   const out: Record<string, A> = Object.assign({}, r)
@@ -160,7 +160,7 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => (
  * @since 3.0.0
  */
 export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
-  if (!_hasOwnProperty.call(r, k)) {
+  if (!_.hasOwnProperty.call(r, k)) {
     return _.none
   }
   const out: Record<string, A> = Object.assign({}, r)
@@ -209,11 +209,12 @@ export function mapWithIndex<K extends string, A, B>(
 export function mapWithIndex<A, B>(
   f: (k: string, a: A) => B
 ): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
-  return (fa) => {
+  return (r) => {
     const out: Record<string, B> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      out[key] = f(key, fa[key])
+    for (const k in r) {
+      if (_.hasOwnProperty.call(r, k)) {
+        out[k] = f(k, r[k])
+      }
     }
     return out
   }
@@ -385,19 +386,20 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
 export function partitionMapWithIndex<A, B, C>(
   f: (key: string, a: A) => Either<B, C>
 ): (r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> {
-  return (fa) => {
+  return (r) => {
     const left: Record<string, B> = {}
     const right: Record<string, C> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const e = f(key, fa[key])
-      switch (e._tag) {
-        case 'Left':
-          left[key] = e.left
-          break
-        case 'Right':
-          right[key] = e.right
-          break
+    for (const k in r) {
+      if (_.hasOwnProperty.call(r, k)) {
+        const e = f(k, r[k])
+        switch (e._tag) {
+          case 'Left':
+            left[k] = e.left
+            break
+          case 'Right':
+            right[k] = e.right
+            break
+        }
       }
     }
     return separated(left, right)
@@ -417,16 +419,17 @@ export function partitionWithIndex<K extends string, A>(
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
 ): (r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> {
-  return (fa) => {
+  return (r) => {
     const left: Record<string, A> = {}
     const right: Record<string, A> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const a = fa[key]
-      if (predicateWithIndex(key, a)) {
-        right[key] = a
-      } else {
-        left[key] = a
+    for (const k in r) {
+      if (_.hasOwnProperty.call(r, k)) {
+        const a = r[k]
+        if (predicateWithIndex(k, a)) {
+          right[k] = a
+        } else {
+          left[k] = a
+        }
       }
     }
     return separated(left, right)
@@ -443,16 +446,17 @@ export function filterMapWithIndex<K extends string, A, B>(
 export function filterMapWithIndex<A, B>(
   f: (key: string, a: A) => Option<B>
 ): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
-  return (fa) => {
-    const r: Record<string, B> = {}
-    const keys = Object.keys(fa)
-    for (const key of keys) {
-      const optionB = f(key, fa[key])
-      if (_.isSome(optionB)) {
-        r[key] = optionB.value
+  return (r) => {
+    const out: Record<string, B> = {}
+    for (const k in r) {
+      if (_.hasOwnProperty.call(r, k)) {
+        const ob = f(k, r[k])
+        if (_.isSome(ob)) {
+          out[k] = ob.value
+        }
       }
     }
-    return r
+    return out
   }
 }
 
@@ -473,7 +477,7 @@ export function filterWithIndex<A>(
     const out: Record<string, A> = {}
     let changed = false
     for (const key in fa) {
-      if (_hasOwnProperty.call(fa, key)) {
+      if (_.hasOwnProperty.call(fa, key)) {
         const a = fa[key]
         if (predicateWithIndex(key, a)) {
           out[key] = a
@@ -541,17 +545,18 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => reduceRightW
  * @since 3.0.0
  */
 export const compact: Compactable1<URI>['compact'] = <A>(
-  fa: Readonly<Record<string, Option<A>>>
+  r: Readonly<Record<string, Option<A>>>
 ): Readonly<Record<string, A>> => {
-  const r: Record<string, A> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const optionA = fa[key]
-    if (_.isSome(optionA)) {
-      r[key] = optionA.value
+  const out: Record<string, A> = {}
+  for (const k in r) {
+    if (_.hasOwnProperty.call(r, k)) {
+      const oa = r[k]
+      if (_.isSome(oa)) {
+        out[k] = oa.value
+      }
     }
   }
-  return r
+  return out
 }
 
 /**
@@ -559,20 +564,18 @@ export const compact: Compactable1<URI>['compact'] = <A>(
  * @since 3.0.0
  */
 export const separate: Compactable1<URI>['separate'] = <A, B>(
-  fa: Readonly<Record<string, Either<A, B>>>
+  r: Readonly<Record<string, Either<A, B>>>
 ): Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>> => {
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const e = fa[key]
-    switch (e._tag) {
-      case 'Left':
-        left[key] = e.left
-        break
-      case 'Right':
-        right[key] = e.right
-        break
+  for (const k in r) {
+    if (_.hasOwnProperty.call(r, k)) {
+      const e = r[k]
+      if (_.isLeft(e)) {
+        left[k] = e.left
+      } else {
+        right[k] = e.right
+      }
     }
   }
   return separated(left, right)
@@ -639,12 +642,11 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       if (isEmpty(second)) {
         return first
       }
-      const keys = Object.keys(second)
-      const len = keys.length
       const r: Record<string, A> = Object.assign({}, first)
-      for (let i = 0; i < len; i++) {
-        const k = keys[i]
-        r[k] = _hasOwnProperty.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
+      for (const k in second) {
+        if (_.hasOwnProperty.call(second, k)) {
+          r[k] = _.hasOwnProperty.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
+        }
       }
       return r
     },
@@ -817,9 +819,10 @@ export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(
  * @since 3.0.0
  */
 export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
-  // tslint:disable-next-line: forin
-  for (const _ in r) {
-    return false
+  for (const k in r) {
+    if (_.hasOwnProperty.call(r, k)) {
+      return false
+    }
   }
   return true
 }
@@ -882,8 +885,6 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
   }
 }
 
-const _hasOwnProperty = Object.prototype.hasOwnProperty
-
 /**
  * Test whether or not a key exists in a `ReadonlyRecord`.
  *
@@ -891,7 +892,7 @@ const _hasOwnProperty = Object.prototype.hasOwnProperty
  *
  * @since 3.0.0
  */
-export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _hasOwnProperty.call(r, k)
+export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.hasOwnProperty.call(r, k)
 
 /**
  * Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
@@ -902,7 +903,7 @@ export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) 
   first: ReadonlyRecord<string, A>
 ): boolean => {
   for (const k in first) {
-    if (!_hasOwnProperty.call(second, k) || !E.equals(second[k])(first[k])) {
+    if (!_.hasOwnProperty.call(second, k) || !E.equals(second[k])(first[k])) {
       return false
     }
   }
@@ -915,7 +916,7 @@ export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) 
  * @since 3.0.0
  */
 export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
-  _hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
+  _.hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
 
 /**
  * An empty `ReadonlyRecord`.

@@ -37,4 +37,11 @@ describe('Monoid', () => {
     U.deepStrictEqual(pipe('a', M.concat(M.empty)), 'a')
     U.deepStrictEqual(pipe(M.empty, M.concat('a')), 'a')
   })
+
+  it('struct', () => {
+    // should ignore non own properties
+    const monoids = Object.create({ a: 1 })
+    const s = _.struct(monoids)
+    U.deepStrictEqual(s.empty, {})
+  })
 })

@@ -63,3 +63,10 @@ export const emptyReadonlyArray: readonly [] = []
 
 /** @internal */
 export const emptyRecord: {} = {}
+
+// -------------------------------------------------------------------------------------
+// Record
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export const hasOwnProperty = Object.prototype.hasOwnProperty
