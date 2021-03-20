@@ -778,9 +778,11 @@ export function bracket<E, A, B>(
  * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
  * whether the body action throws (\*) or returns.
  *
+ * Errors are collected in a `ReadonlyArray` as both `use` and `release` can fail with a successfully acquired resource.
+ *
  * (\*) i.e. returns a `Left`
  *
- * @since
+ * @since 2.11.0
  */
 export function bracket<G, B>(
   acquire: IOEither<G, B>,

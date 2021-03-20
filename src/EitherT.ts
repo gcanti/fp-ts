@@ -531,6 +531,16 @@ export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => H
   return (fa) => F.map(fa, E.toUnion)
 }
 
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * Errors are collected in a `ReadonlyArray` as both `use` and `release` can fail with a successfully acquired resource.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 2.11.0
+ */
 export function bracketT<F extends URIS4>(
   F: Monad4<F>
 ): <S, R, ME, G, B>(
