@@ -1404,7 +1404,6 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
 export const stringifyJSON = <E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> =>
   tryCatch(() => {
     const s = JSON.stringify(u)
-    // tslint:disable-next-line: strict-type-predicates
     if (typeof s !== 'string') {
       throw new Error('Converting unsupported structure to JSON')
     }
