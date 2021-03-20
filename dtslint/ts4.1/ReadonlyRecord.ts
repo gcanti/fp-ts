@@ -40,10 +40,10 @@ if (_.has(keyString, r1)) {
 // collect
 //
 
-_.collect((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType readonly number[]
-_.collect((_k: 'a', n: number) => n)(l1) // $ExpectType readonly number[]
-_.collect((_k, n: number) => n)(d1) // $ExpectType readonly number[]
-_.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType readonly number[]
+_.collect(S.Ord)((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType readonly number[]
+_.collect(S.Ord)((_k: 'a', n: number) => n)(l1) // $ExpectType readonly number[]
+_.collect(S.Ord)((_k, n: number) => n)(d1) // $ExpectType readonly number[]
+_.collect(S.Ord)((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType readonly number[]
 
 //
 // insertAt
@@ -109,23 +109,23 @@ _.map((n: number) => n > 2)(r1) // $ExpectType Readonly<Record<"a" | "b", boolea
 // reduceWithIndex
 //
 
-_.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
-_.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.reduceWithIndex(S.Ord)('', (k: string, _n) => k)(d1) // $ExpectType string
+_.reduceWithIndex(S.Ord)('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-_.foldMapWithIndex(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
-_.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+_.foldMapWithIndex(S.Ord)(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(S.Ord)(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-_.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
-_.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
+_.reduceRightWithIndex(S.Ord)('', (k: string, _n, _b) => k)(d1) // $ExpectType string
+_.reduceRightWithIndex(S.Ord)('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
-_.traverseWithIndex(O.Applicative)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.traverseWithIndex(O.Applicative)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+_.traverseWithIndex(S.Ord)(O.Applicative)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.traverseWithIndex(S.Ord)(O.Applicative)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-_.traverse(O.Applicative)((n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
-_.traverse(O.Applicative)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+_.traverse(S.Ord)(O.Applicative)((n: number) => O.some(n))(d1) // $ExpectType Option<Readonly<Record<string, number>>>
+_.traverse(S.Ord)(O.Applicative)((n: number) => O.some(n))(r1) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
-pipe(do1, _.traverse(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<string, number>>>
-pipe(ro1, _.traverse(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
+pipe(do1, _.traverse(S.Ord)(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<string, number>>>
+pipe(ro1, _.traverse(S.Ord)(O.Applicative)(identity)) // $ExpectType Option<Readonly<Record<"a" | "b", number>>>
 
 _.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
 _.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Readonly<Record<string, string>>, Readonly<Record<string, number>>>
@@ -139,9 +139,6 @@ _.filterMapWithIndex((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType
 _.filterWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Readonly<Record<string, number>>
 _.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Readonly<Record<string, number>>
 
-declare const arr1: Array<[string, number]>
-declare const arr2: Array<['a' | 'b', number]>
-
 type Keys = 'key1' | 'key2'
 _.getMonoid(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<string, number>>>
 _.getMonoid<number, Keys>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<Keys, number>>>
@@ -149,8 +146,8 @@ _.getMonoid<number, Keys>(N.SemigroupSum) // $ExpectType Monoid<Readonly<Record<
 _.getEq<number, Keys>(N.Eq) // $ExpectType Eq<Readonly<Record<Keys, number>>>
 _.getEq(N.Eq) // $ExpectType Eq<Readonly<Record<string, number>>>
 
-_.toUnfoldable(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
-_.toUnfoldable(A.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
+_.toUnfoldable(S.Ord)(A.Unfoldable)({ a: 1 }) // $ExpectType readonly (readonly ["a", number])[]
+_.toUnfoldable(S.Ord)(A.Unfoldable)({ a: 1, b: 2 }) // $ExpectType readonly (readonly ["a" | "b", number])[]
 
 //
 // isSubrecord

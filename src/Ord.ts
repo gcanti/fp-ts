@@ -243,6 +243,13 @@ export const Contravariant: Contravariant1<URI> = {
 /**
  * @since 3.0.0
  */
+export const trivial: Ord<unknown> = {
+  compare: () => () => 0
+}
+
+/**
+ * @since 3.0.0
+ */
 export const equals = <A>(O: Ord<A>): Eq<A>['equals'] => (second: A) => (first: A) =>
   first === second || O.compare(second)(first) === 0
 

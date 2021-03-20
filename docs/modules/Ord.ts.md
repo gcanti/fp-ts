@@ -44,6 +44,7 @@ Added in v3.0.0
   - [lt](#lt)
   - [max](#max)
   - [min](#min)
+  - [trivial](#trivial)
 
 ---
 
@@ -474,6 +475,16 @@ import * as N from 'fp-ts/number'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe(5, min(N.Ord)(6)), 5)
+```
+
+Added in v3.0.0
+
+## trivial
+
+**Signature**
+
+```ts
+export declare const trivial: Ord<unknown>
 ```
 
 Added in v3.0.0

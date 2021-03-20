@@ -7,7 +7,7 @@ import { deepStrictEqual } from './util'
 
 describe('FoldableWithIndex', () => {
   it('reduceWithIndex', () => {
-    const reduce = _.reduceWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
+    const reduce = _.reduceWithIndex(R.getFoldableWithIndex(S.Ord), RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -18,7 +18,7 @@ describe('FoldableWithIndex', () => {
   })
 
   it('foldMapWithIndex', () => {
-    const foldMap = _.foldMapWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
+    const foldMap = _.foldMapWithIndex(R.getFoldableWithIndex(S.Ord), RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
@@ -29,7 +29,7 @@ describe('FoldableWithIndex', () => {
   })
 
   it('reduceRightWithIndex', () => {
-    const reduce = _.reduceRightWithIndex(R.FoldableWithIndex, RA.FoldableWithIndex)
+    const reduce = _.reduceRightWithIndex(R.getFoldableWithIndex(S.Ord), RA.FoldableWithIndex)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

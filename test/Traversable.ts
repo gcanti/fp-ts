@@ -3,11 +3,12 @@ import * as _ from '../src/Traversable'
 import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'
 import * as O from '../src/Option'
+import * as S from '../src/string'
 import { deepStrictEqual } from './util'
 
 describe('Traversable', () => {
   it('traverse', () => {
-    const traverse = _.traverse(R.Traversable, RA.Traversable)
+    const traverse = _.traverse(R.getTraversable(S.Ord), RA.Traversable)
     deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },

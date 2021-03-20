@@ -22,30 +22,24 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(U.double)), { a: 2, b: 4 })
     })
 
-    it('reduce', () => {
-      U.deepStrictEqual(
-        pipe(
-          { k1: 'a', k2: 'b' },
-          _.reduce('', (b, a) => b + a)
-        ),
-        'ab'
-      )
-      U.deepStrictEqual(
-        pipe(
-          { k2: 'b', k1: 'a' },
-          _.reduce('', (b, a) => b + a)
-        ),
-        'ab'
-      )
-    })
+    describe('getFoldable', () => {
+      const F = _.getFoldable(S.Ord)
 
-    it('foldMap', () => {
-      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
-    })
+      it('reduce', () => {
+        const f = F.reduce('', (b, a) => b + a)
+        U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, f), 'ab')
+        U.deepStrictEqual(pipe({ k2: 'b', k1: 'a' }, f), 'ab')
+      })
 
-    it('reduceRight', () => {
-      const f = (a: string, acc: string) => acc + a
-      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight('', f)), 'ba')
+      it('foldMap', () => {
+        const f = F.foldMap(S.Monoid)
+        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, f(identity)), 'ab')
+      })
+
+      it('reduceRight', () => {
+        const f = F.reduceRight('', (a: string, acc: string) => acc + a)
+        U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, f), 'ba')
+      })
     })
 
     it('compact', () => {
@@ -102,40 +96,19 @@ describe('ReadonlyRecord', () => {
     })
 
     it('reduceWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          { k1: 'a', k2: 'b' },
-          _.reduceWithIndex('', (k, b, a) => b + k + a)
-        ),
-        'k1ak2b'
-      )
-      U.deepStrictEqual(
-        pipe(
-          { k2: 'b', k1: 'a' },
-          _.reduceWithIndex('', (k, b, a) => b + k + a)
-        ),
-        'k1ak2b'
-      )
+      const f = _.reduceWithIndex(S.Ord)('', (k, b, a) => b + k + a)
+      U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, f), 'k1ak2b')
+      U.deepStrictEqual(pipe({ k2: 'b', k1: 'a' }, f), 'k1ak2b')
     })
 
     it('foldMapWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          { k1: 'a', k2: 'b' },
-          _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
-        ),
-        'k1ak2b'
-      )
+      const f = _.foldMapWithIndex(S.Ord)(S.Monoid)((k, a) => k + a)
+      U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, f), 'k1ak2b')
     })
 
     it('reduceRightWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          { k1: 'a', k2: 'b' },
-          _.reduceRightWithIndex('', (k, a, b) => b + k + a)
-        ),
-        'k2bk1a'
-      )
+      const f = _.reduceRightWithIndex(S.Ord)('', (k, a, b) => b + k + a)
+      U.deepStrictEqual(pipe({ k1: 'a', k2: 'b' }, f), 'k2bk1a')
     })
 
     it('partitionMapWithIndex', () => {
@@ -174,14 +147,18 @@ describe('ReadonlyRecord', () => {
 
     it('traverse', () => {
       U.deepStrictEqual(
-        _.traverse(O.Applicative)((n: number) => (n <= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
+        _.traverse(S.Ord)(O.Applicative)((n: number) => (n <= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
         O.some({ a: 1, b: 2 })
       )
-      U.deepStrictEqual(_.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }), O.none)
+      U.deepStrictEqual(
+        _.traverse(S.Ord)(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }),
+        O.none
+      )
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = _.traverseWithIndex(O.Applicative)(
+      const T = _.getTraversableWithIndex(S.Ord)
+      const traverseWithIndex = T.traverseWithIndex(O.Applicative)(
         (k, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
       )
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
@@ -230,18 +207,19 @@ describe('ReadonlyRecord', () => {
   })
 
   it('toReadonlyArray', () => {
-    U.deepStrictEqual(_.toReadonlyArray({ a: 1, b: 2 }), [
+    const f = _.toReadonlyArray(S.Ord)
+    U.deepStrictEqual(f({ a: 1, b: 2 }), [
       ['a', 1],
       ['b', 2]
     ])
-    U.deepStrictEqual(_.toReadonlyArray({ b: 2, a: 1 }), [
+    U.deepStrictEqual(f({ b: 2, a: 1 }), [
       ['a', 1],
       ['b', 2]
     ])
   })
 
   it('toUnfoldable', () => {
-    U.deepStrictEqual(_.toUnfoldable(RA.Unfoldable)({ a: 1 }), [['a', 1]])
+    U.deepStrictEqual(_.toUnfoldable(S.Ord)(RA.Unfoldable)({ a: 1 }), [['a', 1]])
   })
 
   it('traverseWithIndex should sort the keys', () => {
@@ -252,7 +230,7 @@ describe('ReadonlyRecord', () => {
 
     pipe(
       { b: append('b'), a: append('a') },
-      _.traverseWithIndex(IO.Applicative)((_, io) => io)
+      _.traverseWithIndex(S.Ord)(IO.Applicative)((_, io) => io)
     )()
     U.deepStrictEqual(log, ['a', 'b'])
   })
