@@ -768,12 +768,39 @@ export const fromEitherK =
  *
  * @since 2.0.0
  */
-export const bracket = <E, A, B>(
+export function bracket<E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> =>
-  pipe(
+): IOEither<E, B>
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since
+ */
+export function bracket<G, B>(
+  acquire: IOEither<G, B>,
+  release: (fb: IOEither<G, B>) => IOEither<G, void>
+): <E, A>(kleisli: (b: B) => IOEither<E, A>) => IOEither<ReadonlyArray<E | G>, A>
+
+export function bracket<G, B, A>(
+  acquire: IOEither<G, B>,
+  useOrRelease: ((a: B) => IOEither<G, A>) | ((fb: IOEither<G, B>) => IOEither<G, void>),
+  release?: (a: B, e: Either<G, A>) => IOEither<G, void>
+) {
+  // new signature
+  if (release === undefined) {
+    const _release = useOrRelease as (fb: IOEither<G, B>) => IOEither<G, void>
+    return <E>(kleisli: (b: B) => IOEither<E, A>) => ET.bracketT(I.Monad)(acquire, _release)(kleisli)
+  }
+
+  const use = useOrRelease as (a: B) => IOEither<G, A>
+  // previous signature
+  return pipe(
     acquire,
     chain((a) =>
       pipe(
@@ -787,6 +814,7 @@ export const bracket = <E, A, B>(
       )
     )
   )
+}
 
 // -------------------------------------------------------------------------------------
 // do notation
