@@ -719,6 +719,26 @@ export const apTW: <R2, E2, B>(
 ) => ReaderEither<R1 & R2, E1 | E2, readonly [...A, B]> = apT as any
 
 // -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+ * whether the body action throws (\*) or returns.
+ *
+ * (\*) i.e. returns a `Left`
+ *
+ * @since 3.0.0
+ */
+export const bracket: <R, E, A, B>(
+  aquire: ReaderEither<R, E, A>,
+  use: (a: A) => ReaderEither<R, E, B>,
+  release: (a: A, e: Either<E, B>) => ReaderEither<R, E, void>
+) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  ET.bracket(R.Monad)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 

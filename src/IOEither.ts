@@ -666,25 +666,13 @@ export const fromEitherK =
  *
  * @since 3.0.0
  */
-export const bracket = <E, A, B>(
+export const bracket: <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> =>
-  pipe(
-    acquire,
-    chain((a) =>
-      pipe(
-        use(a),
-        I.chain((e) =>
-          pipe(
-            release(a, e),
-            chain(() => fromEither(e))
-          )
-        )
-      )
-    )
-  )
+) => IOEither<E, B> =
+  /*#__PURE__*/
+  ET.bracket(I.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

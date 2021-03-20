@@ -879,20 +879,15 @@ export const Alt: Alt3<URI> = {
  *
  * (\*) i.e. returns a `Left`
  *
- * Derivable from `FromEither`.
- *
  * @since 3.0.0
  */
-export const bracket = <R, E, A, B>(
+export const bracket: <R, E, A, B>(
   aquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-): ReaderTaskEither<R, E, B> => (r) =>
-  TE.bracket(
-    aquire(r),
-    (a) => use(a)(r),
-    (a, e) => release(a, e)(r)
-  )
+) => ReaderTaskEither<R, E, B> =
+  /*#__PURE__*/
+  ET.bracket(RT.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

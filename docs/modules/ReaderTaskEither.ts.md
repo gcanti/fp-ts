@@ -1299,8 +1299,6 @@ whether the body action throws (\*) or returns.
 
 (\*) i.e. returns a `Left`
 
-Derivable from `FromEither`.
-
 **Signature**
 
 ```ts

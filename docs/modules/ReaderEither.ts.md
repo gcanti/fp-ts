@@ -94,6 +94,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [bracket](#bracket)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
@@ -951,6 +952,25 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
 ) => ReaderEither<R1 & R2, E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v3.0.0
+
+## bracket
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare const bracket: <R, E, A, B>(
+  aquire: ReaderEither<R, E, A>,
+  use: (a: A) => ReaderEither<R, E, B>,
+  release: (a: A, e: E.Either<E, B>) => ReaderEither<R, E, void>
+) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0

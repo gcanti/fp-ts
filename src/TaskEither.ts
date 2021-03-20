@@ -894,25 +894,13 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  *
  * @since 3.0.0
  */
-export const bracket = <E, A, B>(
+export const bracket: <E, A, B>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B> =>
-  pipe(
-    acquire,
-    chain((a) =>
-      pipe(
-        use(a),
-        T.chain((e) =>
-          pipe(
-            release(a, e),
-            chain(() => fromEither(e))
-          )
-        )
-      )
-    )
-  )
+) => TaskEither<E, B> =
+  /*#__PURE__*/
+  ET.bracket(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

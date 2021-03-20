@@ -17,6 +17,7 @@ Added in v3.0.0
   - [altValidation](#altvalidation)
   - [ap](#ap)
   - [bimap](#bimap)
+  - [bracket](#bracket)
   - [chain](#chain)
   - [getOrElse](#getorelse)
   - [left](#left)
@@ -192,6 +193,43 @@ export declare function bimap<F extends URIS>(
 export declare function bimap<F>(
   F: Functor<F>
 ): <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: HKT<F, Either<E, A>>) => HKT<F, Either<G, B>>
+```
+
+Added in v3.0.0
+
+## bracket
+
+**Signature**
+
+```ts
+export declare function bracket<M extends URIS2>(
+  M: Monad2<M>
+): <ME, E, A, B>(
+  acquire: Kind2<M, ME, Either<E, A>>,
+  use: (a: A) => Kind2<M, ME, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => Kind2<M, ME, Either<E, void>>
+) => Kind2<M, ME, Either<E, B>>
+export declare function bracket<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E, A, B>(
+  acquire: Kind2<M, ME, Either<E, A>>,
+  use: (a: A) => Kind2<M, ME, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => Kind2<M, ME, Either<E, void>>
+) => Kind2<M, ME, Either<E, B>>
+export declare function bracket<M extends URIS>(
+  M: Monad1<M>
+): <E, A, B>(
+  acquire: Kind<M, Either<E, A>>,
+  use: (a: A) => Kind<M, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => Kind<M, Either<E, void>>
+) => Kind<M, Either<E, B>>
+export declare function bracket<M>(
+  M: Monad<M>
+): <E, A, B>(
+  acquire: HKT<M, Either<E, A>>,
+  use: (a: A) => HKT<M, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => HKT<M, Either<E, void>>
+) => HKT<M, Either<E, B>>
 ```
 
 Added in v3.0.0
