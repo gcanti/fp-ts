@@ -18,7 +18,7 @@ describe('Foldable', () => {
     deepStrictEqual(_.toReadonlyArray(O.Foldable)(O.none), [])
 
     // Tree
-    deepStrictEqual(_.toReadonlyArray(T.Foldable)(T.make(1, [T.make(2, []), T.make(3, []), T.make(4, [])])), [
+    deepStrictEqual(_.toReadonlyArray(T.Foldable)(T.tree(1, [T.tree(2, []), T.tree(3, []), T.tree(4, [])])), [
       1,
       2,
       3,

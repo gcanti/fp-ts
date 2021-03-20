@@ -13,18 +13,18 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [make](#make)
+  - [tuple](#tuple)
 
 ---
 
 # utils
 
-## make
+## tuple
 
 **Signature**
 
 ```ts
-export declare const make: <T extends readonly unknown[]>(...t: T) => T
+export declare const tuple: <T extends readonly unknown[]>(...t: T) => T
 ```
 
 Added in v3.0.0

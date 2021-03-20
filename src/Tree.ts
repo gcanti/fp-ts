@@ -59,7 +59,7 @@ export interface Tree<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const make = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
+export const tree = <A>(value: A, forest: Forest<A> = RA.empty): Tree<A> => ({
   value,
   forest
 })
@@ -187,13 +187,13 @@ export function unfoldForestM<M>(
  * This is also known as the catamorphism on trees.
  *
  * @example
- * import { fold, make } from 'fp-ts/Tree'
+ * import { fold, tree } from 'fp-ts/Tree'
  * import * as N from 'fp-ts/number'
  * import { concatAll } from 'fp-ts/Monoid'
  * import { pipe } from 'fp-ts/function'
  * import { isEmpty } from 'fp-ts/ReadonlyArray'
  *
- * const t = make(1, [make(2), make(3)])
+ * const t = tree(1, [tree(2), tree(3)])
  *
  * const sum = concatAll(N.MonoidSum)
  *
@@ -338,7 +338,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => make(a)
+export const of: Pointed1<URI>['of'] = (a) => tree(a)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -363,8 +363,8 @@ declare module './HKT' {
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
     return RA.isEmpty(t.forest)
-      ? `make(${S.show(t.value)})`
-      : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+      ? `tree(${S.show(t.value)})`
+      : `tree(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
   return {
     show
@@ -552,12 +552,12 @@ export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { make, drawTree } from 'fp-ts/Tree'
+ * import { tree, drawTree } from 'fp-ts/Tree'
  *
- * const fa = make('a', [
- *   make('b'),
- *   make('c'),
- *   make('d', [make('e'), make('f')])
+ * const fa = tree('a', [
+ *   tree('b'),
+ *   tree('c'),
+ *   tree('d', [tree('e'), tree('f')])
  * ])
  *
  * assert.strictEqual(drawTree(fa), `a

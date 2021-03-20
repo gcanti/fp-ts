@@ -1,6 +1,6 @@
 import { pipe } from '../src/function'
 import * as S from '../src/string'
-import { make } from '../src/tuple'
+import { tuple } from '../src/tuple'
 import * as _ from '../src/Writer'
 import * as U from './util'
 
@@ -31,7 +31,7 @@ describe('Writer', () => {
   })
 
   it('pass', () => {
-    U.deepStrictEqual(_.pass(() => [make(1, (w: string) => w + 'b'), 'a'])(), [1, 'ab'])
+    U.deepStrictEqual(_.pass(() => [tuple(1, (w: string) => w + 'b'), 'a'])(), [1, 'ab'])
   })
 
   it('listens', () => {

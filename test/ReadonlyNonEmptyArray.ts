@@ -10,7 +10,7 @@ import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
-import { make } from '../src/tuple'
+import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyNonEmptyArray', () => {
@@ -450,7 +450,7 @@ describe('ReadonlyNonEmptyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        make
+        tuple
       ),
       [
         [1, 'a'],

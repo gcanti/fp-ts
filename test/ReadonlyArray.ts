@@ -13,7 +13,7 @@ import * as _ from '../src/ReadonlyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import { make } from '../src/tuple'
+import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyArray', () => {
@@ -1037,7 +1037,7 @@ describe('ReadonlyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        make
+        tuple
       ),
       [
         [1, 'a'],
@@ -1054,7 +1054,7 @@ describe('ReadonlyArray', () => {
           [1, 2, 3],
           ['a', 'b']
         ],
-        make,
+        tuple,
         (a, b) => (a + b.length) % 2 === 0
       ),
       [

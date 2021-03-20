@@ -187,9 +187,9 @@ export const fromOptionK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) =>
  *
  * @example
  * import { comprehension } from 'fp-ts/ReadonlyArray'
- * import { make } from 'fp-ts/tuple'
+ * import { tuple } from 'fp-ts/tuple'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], make, (a, b) => (a + b.length) % 2 === 0), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [3, 'a'],

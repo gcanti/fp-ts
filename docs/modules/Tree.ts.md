@@ -37,7 +37,7 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [flap](#flap)
 - [constructors](#constructors)
-  - [make](#make)
+  - [tree](#tree)
   - [unfoldForest](#unfoldforest)
   - [unfoldForestM](#unfoldforestm)
   - [unfoldTree](#unfoldtree)
@@ -208,12 +208,12 @@ Added in v3.0.0
 
 # constructors
 
-## make
+## tree
 
 **Signature**
 
 ```ts
-export declare const make: <A>(value: A, forest?: Forest<A>) => Tree<A>
+export declare const tree: <A>(value: A, forest?: Forest<A>) => Tree<A>
 ```
 
 Added in v3.0.0
@@ -404,13 +404,13 @@ export declare const fold: <A, B>(f: (a: A, bs: readonly B[]) => B) => (tree: Tr
 **Example**
 
 ```ts
-import { fold, make } from 'fp-ts/Tree'
+import { fold, tree } from 'fp-ts/Tree'
 import * as N from 'fp-ts/number'
 import { concatAll } from 'fp-ts/Monoid'
 import { pipe } from 'fp-ts/function'
 import { isEmpty } from 'fp-ts/ReadonlyArray'
 
-const t = make(1, [make(2), make(3)])
+const t = tree(1, [tree(2), tree(3)])
 
 const sum = concatAll(N.MonoidSum)
 
@@ -679,9 +679,9 @@ export declare const drawTree: (tree: Tree<string>) => string
 **Example**
 
 ```ts
-import { make, drawTree } from 'fp-ts/Tree'
+import { tree, drawTree } from 'fp-ts/Tree'
 
-const fa = make('a', [make('b'), make('c'), make('d', [make('e'), make('f')])])
+const fa = tree('a', [tree('b'), tree('c'), tree('d', [tree('e'), tree('f')])])
 
 assert.strictEqual(
   drawTree(fa),

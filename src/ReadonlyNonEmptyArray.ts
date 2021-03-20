@@ -37,7 +37,7 @@ import * as Se from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
-import { make } from './tuple'
+import { tuple } from './tuple'
 
 import Semigroup = Se.Semigroup
 
@@ -367,9 +367,9 @@ export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
  *
  * @example
  * import { comprehension } from 'fp-ts/ReadonlyNonEmptyArray'
- * import { make } from 'fp-ts/tuple'
+ * import { tuple } from 'fp-ts/tuple'
  *
- * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], make), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [2, 'a'],
@@ -555,7 +555,7 @@ export const zipWith = <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) =
  */
 export const zip = <B>(bs: ReadonlyNonEmptyArray<B>) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<readonly [A, B]> => pipe(as, zipWith(bs, make))
+): ReadonlyNonEmptyArray<readonly [A, B]> => pipe(as, zipWith(bs, tuple))
 
 /**
  * @since 3.0.0

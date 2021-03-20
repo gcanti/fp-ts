@@ -168,10 +168,10 @@ export function reduceRight<F, G>(
  * @example
  * import { reduceE } from 'fp-ts/Foldable'
  * import { Chain, some } from 'fp-ts/Option'
- * import { make, Foldable } from 'fp-ts/Tree'
+ * import { tree, Foldable } from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
+ * const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
  * assert.deepStrictEqual(pipe(t, reduceE(Foldable)(Chain)(some(0), (b, a) => (a > 2 ? some(b + a) : some(b)))), some(7))
  *
  * @since 3.0.0
@@ -228,7 +228,7 @@ export function reduceE<F>(
  * import * as T from 'fp-ts/Tree'
  * import { pipe } from 'fp-ts/function'
  *
- * const t = T.make('a', [T.make('b', []), T.make('c', []), T.make('d', [])])
+ * const t = T.tree('a', [T.tree('b', []), T.tree('c', []), T.tree('d', [])])
  * assert.strictEqual(pipe(t, intercalate(T.Foldable)(Monoid)('|')), 'a|b|c|d')
  *
  * @since 3.0.0
@@ -263,9 +263,9 @@ export function intercalate<F>(F: Foldable<F>): <M>(M: Monoid<M>) => (sep: M) =>
  *
  * @example
  * import { toReadonlyArray } from 'fp-ts/Foldable'
- * import { Foldable, make } from 'fp-ts/Tree'
+ * import { Foldable, tree } from 'fp-ts/Tree'
  *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
+ * const t = tree(1, [tree(2, []), tree(3, []), tree(4, [])])
  * assert.deepStrictEqual(toReadonlyArray(Foldable)(t), [1, 2, 3, 4])
  *
  * @since 3.0.0
