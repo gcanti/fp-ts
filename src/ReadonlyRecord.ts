@@ -192,8 +192,8 @@ export const pop = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<read
  * @category Functor
  * @since 3.0.0
  */
-export function map<A, B>(f: (a: A) => B): <K extends string>(fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
-export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
+export function map<A, B>(f: (a: A) => B): <K extends string>(r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+export function map<A, B>(f: (a: A) => B): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
   return mapWithIndex((_, a) => f(a))
 }
 
@@ -205,10 +205,10 @@ export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => Re
  */
 export function mapWithIndex<K extends string, A, B>(
   f: (k: K, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<K, B>
 export function mapWithIndex<A, B>(
   f: (k: string, a: A) => B
-): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
+): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
   return (fa) => {
     const out: Record<string, B> = {}
     const keys = Object.keys(fa)
@@ -226,8 +226,8 @@ export function mapWithIndex<A, B>(
 export function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
-): (fa: ReadonlyRecord<K, A>) => B
-export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B {
+): (r: ReadonlyRecord<K, A>) => B
+export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (r: ReadonlyRecord<string, A>) => B {
   return (fa) => {
     let out = b
     const ks = keys(fa)
@@ -246,10 +246,10 @@ export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (f
  */
 export function foldMapWithIndex<M>(
   M: Monoid<M>
-): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
+): <K extends string, A>(f: (k: K, a: A) => M) => (r: ReadonlyRecord<K, A>) => M
 export function foldMapWithIndex<M>(
   M: Monoid<M>
-): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M {
+): <A>(f: (k: string, a: A) => M) => (r: ReadonlyRecord<string, A>) => M {
   return (f) => (fa) => {
     let out = M.empty
     const ks = keys(fa)
@@ -269,11 +269,8 @@ export function foldMapWithIndex<M>(
 export function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
-): (fa: ReadonlyRecord<K, A>) => B
-export function reduceRightWithIndex<A, B>(
-  b: B,
-  f: (k: string, a: A, b: B) => B
-): (fa: ReadonlyRecord<string, A>) => B {
+): (r: ReadonlyRecord<K, A>) => B
+export function reduceRightWithIndex<A, B>(b: B, f: (k: string, a: A, b: B) => B): (r: ReadonlyRecord<string, A>) => B {
   return (fa) => {
     let out = b
     const ks = keys(fa)
@@ -384,10 +381,10 @@ export function traverse<F>(
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
   f: (key: K, a: A) => Either<B, C>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>
 export function partitionMapWithIndex<A, B, C>(
   f: (key: string, a: A) => Either<B, C>
-): (fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> {
+): (r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> {
   return (fa) => {
     const left: Record<string, B> = {}
     const right: Record<string, C> = {}
@@ -413,13 +410,13 @@ export function partitionMapWithIndex<A, B, C>(
  */
 export function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
-): (fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> {
+): (r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>> {
   return (fa) => {
     const left: Record<string, A> = {}
     const right: Record<string, A> = {}
@@ -442,10 +439,10 @@ export function partitionWithIndex<A>(
  */
 export function filterMapWithIndex<K extends string, A, B>(
   f: (key: K, a: A) => Option<B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export function filterMapWithIndex<A, B>(
   f: (key: string, a: A) => Option<B>
-): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
+): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> {
   return (fa) => {
     const r: Record<string, B> = {}
     const keys = Object.keys(fa)
@@ -465,13 +462,13 @@ export function filterMapWithIndex<A, B>(
  */
 export function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
-): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
+): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 export function filterWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
-): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
+): (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
   return (fa) => {
     const out: Record<string, A> = {}
     let changed = false
@@ -819,7 +816,13 @@ export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(
  *
  * @since 3.0.0
  */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => RA.isEmpty(Object.keys(r))
+export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
+  // tslint:disable-next-line: forin
+  for (const _ in r) {
+    return false
+  }
+  return true
+}
 
 /**
  * @since 3.0.0
@@ -950,7 +953,7 @@ export const some = <A>(predicate: (a: A) => boolean) => (r: ReadonlyRecord<stri
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A): ((fa: ReadonlyRecord<string, A>) => boolean) => {
+export const elem = <A>(E: Eq<A>) => (a: A): ((r: ReadonlyRecord<string, A>) => boolean) => {
   const predicate = E.equals(a)
   return (fa) => {
     for (const k in fa) {
