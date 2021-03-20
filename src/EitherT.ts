@@ -3,14 +3,15 @@
  */
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'
 import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import * as E from './Either'
-import { flow, Lazy, pipe } from './function'
+import { constVoid, flow, Lazy, pipe, tuple } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import * as O from './Option'
 
 import Either = E.Either
 
@@ -529,34 +530,62 @@ export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => H
   return (fa) => F.map(fa, E.toUnion)
 }
 
+export function bracketT<F>(
+  F: Monad<F>
+): <G, B>(
+  acquire: HKT<F, Either<G, B>>,
+  release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<ReadonlyArray<E | G>, A>>
 export function bracketT<F extends URIS>(
   F: Monad1<F>
-): <E, B>(
-  acquire: Kind<F, Either<E, B>>,
-  release: (fa: Kind<F, Either<E, B>>) => Kind<F, Either<E, void>>
-) => <A>(kleisli: (resource: B) => Kind<F, Either<E, A>>) => Kind<F, Either<E, A>>
-export function bracketT<F>(
-  F: Monad<F>
-): <E, B>(
-  acquire: HKT<F, Either<E, B>>,
-  release: (fa: HKT<F, Either<E, B>>) => HKT<F, Either<E, void>>
-) => <A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<E, A>>
+): <G, B>(
+  acquire: Kind<F, Either<G, B>>,
+  release: (fa: Kind<F, Either<G, B>>) => Kind<F, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind<F, Either<E, A>>) => Kind<F, Either<ReadonlyArray<E | G>, A>>
 
-export function bracketT<F>(
-  F: Monad<F>
-): <E, B>(
-  acquire: HKT<F, Either<E, B>>,
-  release: (fa: HKT<F, Either<E, B>>) => HKT<F, Either<E, void>>
-) => <A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<E, A>> {
-  return (acquire, release) => (kleisli) =>
-    F.chain(acquire, (eb) =>
-      F.chain(pipe(F.of(eb), chain(F)(kleisli)), (ea) =>
-        F.map(
-          release(F.of(eb)),
-          E.chain(() => ea)
-        )
+export function bracketT<F>(F: Monad<F>) {
+  return <G, B>(acquire: HKT<F, Either<G, B>>, release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>) => <
+    E,
+    A
+  >(
+    kleisli: (resource: B) => HKT<F, Either<E, A>>
+  ): HKT<F, Either<ReadonlyArray<E | G>, A>> => {
+    // two errors when aquire succeeds but kelisli and release fail.
+    // one error when any other combination of {acquire,kleisli,release} succeeds.
+    // zero errors when everything succeeds, which is not an error at all.
+    const FEmapLeft = mapLeft(F)
+    const FEchain = chain(F)
+    const apv = E.getApplicativeValidation(RA.getSemigroup<Readonly<E | G>>())
+
+    return F.chain(acquire, (gb) => {
+      const gxb = pipe(
+        gb,
+        E.mapLeft((e) => [e] as ReadonlyArray<E | G>)
       )
-    )
+      const kleisli_ = flow(
+        kleisli,
+        FEmapLeft((e) => [e] as ReadonlyArray<E | G>)
+      )
+
+      const fegxa = pipe(F.of(gxb), FEchain(kleisli_))
+      const result = F.chain(fegxa, (egxa) => {
+        return F.map(release(F.of(gb)), (gv) => {
+          const gxv = pipe(
+            gv,
+            E.mapLeft((e) => [e] as ReadonlyArray<E | G>)
+          )
+          const apeqxa = pipe(
+            egxa,
+            E.map((a) => (r: void) => a)
+          )
+          const re = apv.ap(apeqxa, gxv)
+          return re
+        })
+      })
+
+      return result
+    })
+  }
 }
 
 // -------------------------------------------------------------------------------------
@@ -566,6 +595,7 @@ export function bracketT<F>(
 // tslint:disable: deprecation
 
 import URI = E.URI
+import { readonlyArray as RA } from '.'
 
 /**
  * @category model
