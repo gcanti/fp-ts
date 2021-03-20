@@ -43,6 +43,9 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
+  - [getEq](#geteq)
+  - [getMonoid](#getmonoid)
+  - [getShow](#getshow)
   - [~~record~~](#record)
 - [utils](#utils)
   - [collect](#collect)
@@ -54,9 +57,6 @@ Added in v2.0.0
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
-  - [getEq](#geteq)
-  - [getMonoid](#getmonoid)
-  - [getShow](#getshow)
   - [has](#has)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
@@ -363,6 +363,48 @@ export declare const Witherable: Witherable1<'Record'>
 
 Added in v2.7.0
 
+## getEq
+
+**Signature**
+
+```ts
+export declare const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>>
+```
+
+Added in v2.0.0
+
+## getMonoid
+
+Returns a `Monoid` instance for `Record`s given a `Semigroup` instance for their values.
+
+**Signature**
+
+```ts
+export declare const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>>
+```
+
+**Example**
+
+```ts
+import { SemigroupSum } from 'fp-ts/number'
+import { getMonoid } from 'fp-ts/Record'
+
+const M = getMonoid(SemigroupSum)
+assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+```
+
+Added in v2.0.0
+
+## getShow
+
+**Signature**
+
+```ts
+export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
+```
+
+Added in v2.0.0
+
 ## ~~record~~
 
 Use small, specific instances instead.
@@ -383,7 +425,7 @@ Added in v2.0.0
 
 ## collect
 
-Map a record into an array
+Map a `Record` into an `Array`.
 
 **Signature**
 
@@ -407,7 +449,7 @@ Added in v2.0.0
 
 ## deleteAt
 
-Delete a key and value from a map
+Delete a key and value from a `Record`.
 
 **Signature**
 
@@ -482,7 +524,7 @@ Added in v2.0.0
 
 ## fromFoldable
 
-Create a record from a foldable collection of key/value pairs, using the
+Create a `Record` from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
 
 **Signature**
@@ -510,7 +552,7 @@ Added in v2.0.0
 
 ## fromFoldableMap
 
-Create a record from a foldable collection using the specified functions to
+Create a `Record` from a foldable collection using the specified functions to
 
 - map to key/value pairs
 - combine values for duplicate keys.
@@ -571,48 +613,6 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
-## getEq
-
-**Signature**
-
-```ts
-export declare const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>>
-```
-
-Added in v2.0.0
-
-## getMonoid
-
-Returns a `Monoid` instance for records given a `Semigroup` instance for their values
-
-**Signature**
-
-```ts
-export declare const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>>
-```
-
-**Example**
-
-```ts
-import { SemigroupSum } from 'fp-ts/number'
-import { getMonoid } from 'fp-ts/Record'
-
-const M = getMonoid(SemigroupSum)
-assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
-```
-
-Added in v2.0.0
-
-## getShow
-
-**Signature**
-
-```ts
-export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
-```
-
-Added in v2.0.0
-
 ## has
 
 Test whether or not a key exists in a `Record`.
@@ -629,7 +629,7 @@ Added in v2.10.0
 
 ## isEmpty
 
-Test whether a record is empty
+Test whether a `Record` is empty.
 
 **Signature**
 
@@ -641,7 +641,7 @@ Added in v2.0.0
 
 ## isSubrecord
 
-Test whether one record contains all of the keys and values contained in another record
+Test whether one `Record` contains all of the keys and values contained in another `Record`.
 
 **Signature**
 
@@ -668,7 +668,7 @@ Added in v2.0.0
 
 ## lookup
 
-Lookup the value for a key in a record
+Lookup the value for a key in a `Record`.
 
 **Signature**
 
@@ -683,7 +683,7 @@ Added in v2.0.0
 
 ## map
 
-Map a record passing the values to the iterating function
+Map a `Record` passing the values to the iterating function.
 
 **Signature**
 
@@ -695,7 +695,7 @@ Added in v2.0.0
 
 ## mapWithIndex
 
-Map a record passing the keys to the iterating function
+Map a `Record` passing the keys to the iterating function.
 
 **Signature**
 
@@ -747,7 +747,7 @@ Added in v2.0.0
 
 ## pop
 
-Delete a key and value from a map, returning the value as well as the subsequent map
+Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
 
 **Signature**
 
@@ -814,7 +814,7 @@ Added in v2.0.0
 
 ## singleton
 
-Create a record with one key/value pair
+Create a `Record` with one key/value pair.
 
 **Signature**
 
@@ -826,7 +826,7 @@ Added in v2.0.0
 
 ## size
 
-Calculate the number of key/value pairs in a record
+Calculate the number of key/value pairs in a `Record`.
 
 **Signature**
 
@@ -860,7 +860,7 @@ Added in v2.0.0
 
 ## toUnfoldable
 
-Unfolds a record into a list of key/value pairs
+Unfolds a `Record` into a list of key/value pairs.
 
 **Signature**
 

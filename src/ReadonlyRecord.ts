@@ -37,8 +37,12 @@ import Option = O.Option
  */
 export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category interop
  * @since 2.5.0
  */
 export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
@@ -46,7 +50,7 @@ export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord
 }
 
 /**
- * @category destructors
+ * @category interop
  * @since 2.5.0
  */
 export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> {
@@ -54,27 +58,14 @@ export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K
 }
 
 /**
- * @category instances
- * @since 2.5.0
- */
-export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
-  return {
-    show: (r) => {
-      const elements = collect((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
-      return elements === '' ? '{}' : `{ ${elements} }`
-    }
-  }
-}
-
-/**
- * Calculate the number of key/value pairs in a record
+ * Calculate the number of key/value pairs in a `ReadonlyRecord`,
  *
  * @since 2.5.0
  */
 export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
 
 /**
- * Test whether a record is empty
+ * Test whether a `ReadonlyRecord` is empty.
  *
  * @since 2.5.0
  */
@@ -94,7 +85,7 @@ export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyA
   (Object.keys(r) as any).sort()
 
 /**
- * Map a record into an array
+ * Map a `ReadonlyRecord` into an `ReadonlyArray`.
  *
  * @example
  * import { collect } from 'fp-ts/ReadonlyRecord'
@@ -127,7 +118,7 @@ export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => 
   collect((k, a) => [k, a])
 
 /**
- * Unfolds a record into a list of key/value pairs
+ * Unfolds a `ReadonlyRecord` into a list of key/value pairs.
  *
  * @category destructors
  * @since 2.5.0
@@ -171,7 +162,7 @@ export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
 export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.hasOwnProperty.call(r, k)
 
 /**
- * Delete a key and value from a map
+ * Delete a key and value from a `ReadonlyRecord`.
  *
  * @category combinators
  * @since 2.5.0
@@ -226,7 +217,7 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
 }
 
 /**
- * Delete a key and value from a map, returning the value as well as the subsequent map
+ * Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
  *
  * @since 2.5.0
  */
@@ -245,7 +236,7 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
 
 // TODO: remove non-curried overloading in v3
 /**
- * Test whether one record contains all of the keys and values contained in another record
+ * Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
  *
  * @since 2.5.0
  */
@@ -275,54 +266,9 @@ export function isSubrecord<A>(
   }
 }
 
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
-export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
-  const isSubrecordE = isSubrecord(E)
-  return fromEquals((x, y) => isSubrecordE(x)(y) && isSubrecordE(y)(x))
-}
-
-/**
- * Returns a `Monoid` instance for records given a `Semigroup` instance for their values
- *
- * @example
- * import { SemigroupSum } from 'fp-ts/number'
- * import { getMonoid } from 'fp-ts/ReadonlyRecord'
- *
- * const M = getMonoid(SemigroupSum)
- * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
- *
- * @category instances
- * @since 2.5.0
- */
-export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
-export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
-  return {
-    concat: (first, second) => {
-      if (isEmpty(first)) {
-        return second
-      }
-      if (isEmpty(second)) {
-        return first
-      }
-      const r: Record<string, A> = Object.assign({}, first)
-      for (const k in second) {
-        if (_.hasOwnProperty.call(second, k)) {
-          r[k] = _.hasOwnProperty.call(first, k) ? S.concat(first[k], second[k]) : second[k]
-        }
-      }
-      return r
-    },
-    empty
-  }
-}
-
 // TODO: remove non-curried overloading in v3
 /**
- * Lookup the value for a key in a record
+ * Lookup the value for a key in a `ReadonlyRecord`.
  *
  * @since 2.5.0
  */
@@ -344,7 +290,7 @@ export function lookup<A>(
 export const empty: ReadonlyRecord<string, never> = {}
 
 /**
- * Map a record passing the keys to the iterating function
+ * Map a `ReadonlyRecord` passing the keys to the iterating function.
  *
  * @category combinators
  * @since 2.5.0
@@ -367,7 +313,7 @@ export function mapWithIndex<A, B>(
 }
 
 /**
- * Map a record passing the values to the iterating function
+ * Map a `ReadonlyRecord` passing the values to the iterating function.
  *
  * @category combinators
  * @since 2.5.0
@@ -442,7 +388,7 @@ export function reduceRightWithIndex<A, B>(
 }
 
 /**
- * Create a record with one key/value pair
+ * Create a `ReadonlyRecord` with one key/value pair.
  *
  * @category constructors
  * @since 2.5.0
@@ -701,7 +647,7 @@ export function filterWithIndex<A>(
 }
 
 /**
- * Create a record from a foldable collection of key/value pairs, using the
+ * Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
  * @since 2.5.0
@@ -731,7 +677,7 @@ export function fromFoldable<F, A>(
 }
 
 /**
- * Create a record from a foldable collection using the specified functions to
+ * Create a `ReadonlyRecord` from a foldable collection using the specified functions to:
  *
  * - map to key/value pairs
  * - combine values for duplicate keys.
@@ -1062,6 +1008,64 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind<A> {
     readonly [URI]: ReadonlyRecord<string, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>> {
+  return {
+    show: (r) => {
+      const elements = collect((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
+      return elements === '' ? '{}' : `{ ${elements} }`
+    }
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<K, A>>
+export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
+  const isSubrecordE = isSubrecord(E)
+  return fromEquals((x, y) => isSubrecordE(x)(y) && isSubrecordE(y)(x))
+}
+
+/**
+ * Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance for their values.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ * import { getMonoid } from 'fp-ts/ReadonlyRecord'
+ *
+ * const M = getMonoid(SemigroupSum)
+ * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ *
+ * @category instances
+ * @since 2.5.0
+ */
+export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<ReadonlyRecord<K, A>>
+export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> {
+  return {
+    concat: (first, second) => {
+      if (isEmpty(first)) {
+        return second
+      }
+      if (isEmpty(second)) {
+        return first
+      }
+      const r: Record<string, A> = Object.assign({}, first)
+      for (const k in second) {
+        if (_.hasOwnProperty.call(second, k)) {
+          r[k] = _.hasOwnProperty.call(first, k) ? S.concat(first[k], second[k]) : second[k]
+        }
+      }
+      return r
+    },
+    empty
   }
 }
 

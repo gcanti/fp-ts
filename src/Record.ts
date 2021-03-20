@@ -32,19 +32,14 @@ import Option = O.Option
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 2.0.0
- */
-export const getShow: <A>(S: Show<A>) => Show<Record<string, A>> = RR.getShow
-
-/**
- * Calculate the number of key/value pairs in a record
+ * Calculate the number of key/value pairs in a `Record`.
  *
  * @since 2.0.0
  */
 export const size: (r: Record<string, unknown>) => number = RR.size
 
 /**
- * Test whether a record is empty
+ * Test whether a `Record` is empty.
  *
  * @since 2.0.0
  */
@@ -56,7 +51,7 @@ export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
 export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = RR.keys as any
 
 /**
- * Map a record into an array
+ * Map a `Record` into an `Array`.
  *
  * @example
  * import { collect } from 'fp-ts/Record'
@@ -87,7 +82,7 @@ export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
   collect((k, a) => [k, a])
 
 /**
- * Unfolds a record into a list of key/value pairs
+ * Unfolds a `Record` into a list of key/value pairs.
  *
  * @since 2.0.0
  */
@@ -123,7 +118,7 @@ export const has: <K extends string>(k: string, r: Record<K, unknown>) => k is K
 const _hasOwnProperty = Object.prototype.hasOwnProperty
 
 /**
- * Delete a key and value from a map
+ * Delete a key and value from a `Record`.
  *
  * @since 2.0.0
  */
@@ -160,7 +155,7 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: 
 }
 
 /**
- * Delete a key and value from a map, returning the value as well as the subsequent map
+ * Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
  *
  * @since 2.0.0
  */
@@ -177,7 +172,7 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
 
 // TODO: remove non-curried overloading in v3
 /**
- * Test whether one record contains all of the keys and values contained in another record
+ * Test whether one `Record` contains all of the keys and values contained in another `Record`.
  *
  * @since 2.0.0
  */
@@ -188,28 +183,9 @@ export const isSubrecord: <A>(
   (me: Record<string, A>, that: Record<string, A>): boolean
 } = RR.isSubrecord
 
-/**
- * @since 2.0.0
- */
-export const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>> = RR.getEq
-
-/**
- * Returns a `Monoid` instance for records given a `Semigroup` instance for their values
- *
- * @example
- * import { SemigroupSum } from 'fp-ts/number'
- * import { getMonoid } from 'fp-ts/Record'
- *
- * const M = getMonoid(SemigroupSum)
- * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
- *
- * @since 2.0.0
- */
-export const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>> = RR.getMonoid
-
 // TODO: remove non-curried overloading in v3
 /**
- * Lookup the value for a key in a record
+ * Lookup the value for a key in a `Record`.
  *
  * @since 2.0.0
  */
@@ -219,7 +195,7 @@ export const lookup: {
 } = RR.lookup
 
 /**
- * Map a record passing the keys to the iterating function
+ * Map a `Record` passing the keys to the iterating function.
  *
  * @since 2.0.0
  */
@@ -227,7 +203,7 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
   RR.mapWithIndex
 
 /**
- * Map a record passing the values to the iterating function
+ * Map a `Record` passing the values to the iterating function.
  *
  * @since 2.0.0
  */
@@ -255,7 +231,7 @@ export const reduceRightWithIndex: <K extends string, A, B>(
 ) => (fa: Record<K, A>) => B = RR.reduceRightWithIndex
 
 /**
- * Create a record with one key/value pair
+ * Create a `Record` with one key/value pair.
  *
  * @since 2.0.0
  */
@@ -411,7 +387,7 @@ export function filterWithIndex<A>(
 }
 
 /**
- * Create a record from a foldable collection of key/value pairs, using the
+ * Create a `Record` from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
  * @since 2.0.0
@@ -434,7 +410,7 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 }
 
 /**
- * Create a record from a foldable collection using the specified functions to
+ * Create a `Record` from a foldable collection using the specified functions to
  *
  * - map to key/value pairs
  * - combine values for duplicate keys.
@@ -687,6 +663,33 @@ declare module './HKT' {
     readonly [URI]: Record<string, A>
   }
 }
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getShow: <A>(S: Show<A>) => Show<Record<string, A>> = RR.getShow
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>> = RR.getEq
+
+/**
+ * Returns a `Monoid` instance for `Record`s given a `Semigroup` instance for their values.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ * import { getMonoid } from 'fp-ts/Record'
+ *
+ * const M = getMonoid(SemigroupSum)
+ * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>> = RR.getMonoid
 
 /**
  * @category instances

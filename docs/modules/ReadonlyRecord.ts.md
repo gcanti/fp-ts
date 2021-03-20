@@ -36,10 +36,8 @@ Added in v2.5.0
   - [upsertAt](#upsertat)
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
-  - [fromRecord](#fromrecord)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toRecord](#torecord)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -58,6 +56,9 @@ Added in v2.5.0
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [~~readonlyRecord~~](#readonlyrecord)
+- [interop](#interop)
+  - [fromRecord](#fromrecord)
+  - [toRecord](#torecord)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -229,7 +230,7 @@ Added in v2.6.5
 
 ## deleteAt
 
-Delete a key and value from a map
+Delete a key and value from a `ReadonlyRecord`.
 
 **Signature**
 
@@ -267,7 +268,7 @@ Added in v2.10.0
 
 ## map
 
-Map a record passing the values to the iterating function
+Map a `ReadonlyRecord` passing the values to the iterating function.
 
 **Signature**
 
@@ -279,7 +280,7 @@ Added in v2.5.0
 
 ## mapWithIndex
 
-Map a record passing the keys to the iterating function
+Map a `ReadonlyRecord` passing the keys to the iterating function.
 
 **Signature**
 
@@ -317,19 +318,9 @@ Added in v2.5.0
 
 # constructors
 
-## fromRecord
-
-**Signature**
-
-```ts
-export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
-```
-
-Added in v2.5.0
-
 ## singleton
 
-Create a record with one key/value pair
+Create a `ReadonlyRecord` with one key/value pair.
 
 **Signature**
 
@@ -341,19 +332,9 @@ Added in v2.5.0
 
 # destructors
 
-## toRecord
-
-**Signature**
-
-```ts
-export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
-```
-
-Added in v2.5.0
-
 ## toUnfoldable
 
-Unfolds a record into a list of key/value pairs
+Unfolds a `ReadonlyRecord` into a list of key/value pairs.
 
 **Signature**
 
@@ -502,7 +483,7 @@ Added in v2.5.0
 
 ## getMonoid
 
-Returns a `Monoid` instance for records given a `Semigroup` instance for their values
+Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance for their values.
 
 **Signature**
 
@@ -548,6 +529,28 @@ export declare const readonlyRecord: FunctorWithIndex1<'ReadonlyRecord', string>
 
 Added in v2.5.0
 
+# interop
+
+## fromRecord
+
+**Signature**
+
+```ts
+export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
+```
+
+Added in v2.5.0
+
+## toRecord
+
+**Signature**
+
+```ts
+export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
+```
+
+Added in v2.5.0
+
 # model
 
 ## ReadonlyRecord (type alias)
@@ -564,7 +567,7 @@ Added in v2.5.0
 
 ## collect
 
-Map a record into an array
+Map a `ReadonlyRecord` into an `ReadonlyArray`.
 
 **Signature**
 
@@ -652,7 +655,7 @@ Added in v2.5.0
 
 ## fromFoldable
 
-Create a record from a foldable collection of key/value pairs, using the
+Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
 specified `Magma` to combine values for duplicate keys.
 
 **Signature**
@@ -680,7 +683,7 @@ Added in v2.5.0
 
 ## fromFoldableMap
 
-Create a record from a foldable collection using the specified functions to
+Create a `ReadonlyRecord` from a foldable collection using the specified functions to:
 
 - map to key/value pairs
 - combine values for duplicate keys.
@@ -759,7 +762,7 @@ Added in v2.10.0
 
 ## isEmpty
 
-Test whether a record is empty
+Test whether a `ReadonlyRecord` is empty.
 
 **Signature**
 
@@ -771,7 +774,7 @@ Added in v2.5.0
 
 ## isSubrecord
 
-Test whether one record contains all of the keys and values contained in another record
+Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
 
 **Signature**
 
@@ -798,7 +801,7 @@ Added in v2.5.0
 
 ## lookup
 
-Lookup the value for a key in a record
+Lookup the value for a key in a `ReadonlyRecord`.
 
 **Signature**
 
@@ -851,7 +854,7 @@ Added in v2.5.0
 
 ## pop
 
-Delete a key and value from a map, returning the value as well as the subsequent map
+Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
 
 **Signature**
 
@@ -920,7 +923,7 @@ Added in v2.5.0
 
 ## size
 
-Calculate the number of key/value pairs in a record
+Calculate the number of key/value pairs in a `ReadonlyRecord`,
 
 **Signature**
 
