@@ -530,18 +530,50 @@ export function toUnion<F>(F: Functor<F>): <E, A>(fa: HKT<F, Either<E, A>>) => H
   return (fa) => F.map(fa, E.toUnion)
 }
 
-export function bracketT<F>(
-  F: Monad<F>
+export function bracketT<F extends URIS4>(
+  F: Monad4<F>
+): <S, R, ME, G, B>(
+  acquire: Kind4<F, S, R, ME, Either<G, B>>,
+  release: (fa: Kind4<F, S, R, ME, Either<G, B>>) => Kind4<F, S, R, ME, Either<G, void>>
+) => <E, A>(
+  kleisli: (resource: B) => Kind4<F, S, R, ME, Either<E, A>>
+) => Kind4<F, S, R, ME, Either<ReadonlyArray<E | G>, A>>
+export function bracketT<F extends URIS3, ME>(
+  F: Monad3C<F, ME>
+): <R, G, B>(
+  acquire: Kind3<F, R, ME, Either<G, B>>,
+  release: (fa: Kind3<F, R, ME, Either<G, B>>) => Kind3<F, R, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, Either<ReadonlyArray<E | G>, A>>
+export function bracketT<F extends URIS3>(
+  F: Monad3<F>
+): <R, ME, G, B>(
+  acquire: Kind3<F, R, ME, Either<G, B>>,
+  release: (fa: Kind3<F, R, ME, Either<G, B>>) => Kind3<F, R, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, Either<ReadonlyArray<E | G>, A>>
+export function bracketT<F extends URIS2, ME>(
+  F: Monad2C<F, ME>
 ): <G, B>(
-  acquire: HKT<F, Either<G, B>>,
-  release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>
-) => <E, A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<ReadonlyArray<E | G>, A>>
+  acquire: Kind2<F, ME, Either<G, B>>,
+  release: (fa: Kind2<F, ME, Either<G, B>>) => Kind2<F, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind2<F, ME, Either<E, A>>) => Kind2<F, ME, Either<ReadonlyArray<E | G>, A>>
+export function bracketT<F extends URIS2>(
+  F: Monad2<F>
+): <ME, G, B>(
+  acquire: Kind2<F, ME, Either<G, B>>,
+  release: (fa: Kind2<F, ME, Either<G, B>>) => Kind2<F, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind2<F, ME, Either<E, A>>) => Kind2<F, ME, Either<ReadonlyArray<E | G>, A>>
 export function bracketT<F extends URIS>(
   F: Monad1<F>
 ): <G, B>(
   acquire: Kind<F, Either<G, B>>,
   release: (fa: Kind<F, Either<G, B>>) => Kind<F, Either<G, void>>
 ) => <E, A>(kleisli: (resource: B) => Kind<F, Either<E, A>>) => Kind<F, Either<ReadonlyArray<E | G>, A>>
+export function bracketT<F>(
+  F: Monad<F>
+): <G, B>(
+  acquire: HKT<F, Either<G, B>>,
+  release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<ReadonlyArray<E | G>, A>>
 
 export function bracketT<F>(F: Monad<F>) {
   return <G, B>(acquire: HKT<F, Either<G, B>>, release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>) => <
@@ -576,7 +608,7 @@ export function bracketT<F>(F: Monad<F>) {
           )
           const apeqxa = pipe(
             egxa,
-            E.map((a) => (r: void) => a)
+            E.map((a) => (_: void) => a)
           )
           const re = apv.ap(apeqxa, gxv)
           return re
