@@ -8,6 +8,7 @@
  *
  * @since 2.0.0
  */
+import * as _ from './internal'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
 // -------------------------------------------------------------------------------------
@@ -33,9 +34,10 @@ export interface Show<A> {
 export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
   show: (a) => {
     let s = '{'
-    // tslint:disable-next-line: forin
-    for (const key in shows) {
-      s += ` ${key}: ${shows[key].show(a[key])},`
+    for (const k in shows) {
+      if (_.hasOwnProperty.call(shows, k)) {
+        s += ` ${k}: ${shows[k].show(a[k])},`
+      }
     }
     if (s.length > 1) {
       s = s.slice(0, -1) + ' '

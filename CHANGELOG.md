@@ -51,6 +51,8 @@ high state of flux, you're at risk of it changing without notice.
     - add overloads for `Kind2`, `Kind3`
   - `TheseT`
     - add overloads for `Kind2`, `Kind3`, `Kind4`
+- **Internal**
+  - add `internal` module
 
 # 2.10.0-rc.4
 

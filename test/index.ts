@@ -15,14 +15,14 @@ const getExportName = (name: string): string => {
   if (name === 'TaskEither') {
     return 'taskEither'
   }
-  if (name === 'StrMap') {
-    return 'strmap'
-  }
   return name.substring(0, 1).toLowerCase() + name.substring(1)
 }
 
 function getModuleNames(): ReadonlyArray<string> {
-  return glob.sync('./src/**/*.ts').map((file) => path.parse(file).name)
+  return glob
+    .sync('./src/**/*.ts')
+    .map((file) => path.parse(file).name)
+    .filter((name) => name !== 'internal')
 }
 
 describe('index', () => {

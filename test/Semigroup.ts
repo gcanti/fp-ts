@@ -49,4 +49,10 @@ describe('Semigroup', () => {
     U.strictEqual(IS.concat('a', 'b'), 'a b')
     U.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
   })
+
+  it('struct', () => {
+    // should ignore non own properties
+    const S = _.struct(Object.create({ a: 1 }))
+    U.deepStrictEqual(S.concat({}, {}), {})
+  })
 })

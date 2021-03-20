@@ -37,7 +37,8 @@
  *
  * @since 2.0.0
  */
-import { identity, getSemigroup } from './function'
+import { getSemigroup, identity } from './function'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import * as Or from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
@@ -149,9 +150,10 @@ export const struct = <A>(
 ): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
   concat: (first, second) => {
     const r: A = {} as any
-    // tslint:disable-next-line: forin
-    for (const key in semigroups) {
-      r[key] = semigroups[key].concat(first[key], second[key])
+    for (const k in semigroups) {
+      if (_.hasOwnProperty.call(semigroups, k)) {
+        r[k] = semigroups[k].concat(first[k], second[k])
+      }
     }
     return r
   }
