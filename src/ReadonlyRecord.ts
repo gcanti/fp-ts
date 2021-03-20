@@ -50,7 +50,7 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
  * @category constructors
  * @since 3.0.0
  */
-export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [k]: a } as any)
+export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [k]: a })
 
 /**
  * Create a `ReadonlyRecord` from a `Foldable` collection of key/value pairs, using the
