@@ -1085,11 +1085,15 @@ whether the body action throws (\*) or returns.
 **Signature**
 
 ```ts
-export declare const bracket: <E, A, B>(
+export declare function bracket<E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B>
+  release: (a: A, e: Either<E, B>) => IOEither<E, void>
+): IOEither<E, B>
+export declare function bracket<G, B>(
+  acquire: IOEither<G, B>,
+  release: (fb: IOEither<G, B>) => IOEither<G, void>
+): <E, A>(kleisli: (b: B) => IOEither<E, A>) => IOEither<ReadonlyArray<E | G>, A>
 ```
 
 Added in v2.0.0

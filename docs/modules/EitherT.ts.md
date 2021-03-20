@@ -21,6 +21,7 @@ Added in v2.0.0
   - [altValidation](#altvalidation)
   - [ap](#ap)
   - [bimap](#bimap)
+  - [bracketT](#brackett)
   - [chain](#chain)
   - [getOrElse](#getorelse)
   - [left](#left)
@@ -235,6 +236,66 @@ export declare function bimap<F>(
 ```
 
 Added in v2.10.0
+
+## bracketT
+
+Make sure that a resource is cleaned up in the event of an exception (\*). The release action is called regardless of
+whether the body action throws (\*) or returns.
+
+Errors are collected in a `ReadonlyArray` as both `use` and `release` can fail with a successfully acquired resource.
+
+(\*) i.e. returns a `Left`
+
+**Signature**
+
+```ts
+export declare function bracketT<F extends URIS4>(
+  F: Monad4<F>
+): <S, R, ME, G, B>(
+  acquire: Kind4<F, S, R, ME, Either<G, B>>,
+  release: (fa: Kind4<F, S, R, ME, Either<G, B>>) => Kind4<F, S, R, ME, Either<G, void>>
+) => <E, A>(
+  kleisli: (resource: B) => Kind4<F, S, R, ME, Either<E, A>>
+) => Kind4<F, S, R, ME, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F extends URIS3, ME>(
+  F: Monad3C<F, ME>
+): <R, G, B>(
+  acquire: Kind3<F, R, ME, Either<G, B>>,
+  release: (fa: Kind3<F, R, ME, Either<G, B>>) => Kind3<F, R, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F extends URIS3>(
+  F: Monad3<F>
+): <R, ME, G, B>(
+  acquire: Kind3<F, R, ME, Either<G, B>>,
+  release: (fa: Kind3<F, R, ME, Either<G, B>>) => Kind3<F, R, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F extends URIS2, ME>(
+  F: Monad2C<F, ME>
+): <G, B>(
+  acquire: Kind2<F, ME, Either<G, B>>,
+  release: (fa: Kind2<F, ME, Either<G, B>>) => Kind2<F, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind2<F, ME, Either<E, A>>) => Kind2<F, ME, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F extends URIS2>(
+  F: Monad2<F>
+): <ME, G, B>(
+  acquire: Kind2<F, ME, Either<G, B>>,
+  release: (fa: Kind2<F, ME, Either<G, B>>) => Kind2<F, ME, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind2<F, ME, Either<E, A>>) => Kind2<F, ME, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F extends URIS>(
+  F: Monad1<F>
+): <G, B>(
+  acquire: Kind<F, Either<G, B>>,
+  release: (fa: Kind<F, Either<G, B>>) => Kind<F, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => Kind<F, Either<E, A>>) => Kind<F, Either<ReadonlyArray<E | G>, A>>
+export declare function bracketT<F>(
+  F: Monad<F>
+): <G, B>(
+  acquire: HKT<F, Either<G, B>>,
+  release: (fa: HKT<F, Either<G, B>>) => HKT<F, Either<G, void>>
+) => <E, A>(kleisli: (resource: B) => HKT<F, Either<E, A>>) => HKT<F, Either<ReadonlyArray<E | G>, A>>
+```
+
+Added in v2.11.0
 
 ## chain
 
