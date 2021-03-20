@@ -6,12 +6,13 @@ import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeComposit
 import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import * as E from './Either'
-import { flow, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Semigroup } from './Semigroup'
+import * as O from './Option'
 
 import Either = E.Either
 
@@ -583,40 +584,51 @@ export function bracketT<F>(F: Monad<F>) {
     kleisli: (resource: B) => HKT<F, Either<E, A>>
   ): HKT<F, Either<ReadonlyArray<E | G>, A>> => {
     // two errors when aquire succeeds but kelisli and release fail.
-    // one error when any other combination of {acquire,kleisli,release} succeeds.
-    // zero errors when everything succeeds, which is not an error at all.
+    // one error when any other combination of {acquire,kleisli,release} fails.
+    // zero errors when everything succeeds.
     const FEmapLeft = mapLeft(F)
     const FEchain = chain(F)
-    const apv = E.getApplicativeValidation(RA.getSemigroup<Readonly<E | G>>())
+    const applicative = E.getApplicativeValidation(RA.getSemigroup<Readonly<E | G>>())
+    // cast E to E | G
+    const kleisli_ = flow(
+      kleisli,
+      FEmapLeft((e) => e as E | G)
+    )
 
-    return F.chain(acquire, (gb) => {
-      const gxb = pipe(
-        gb,
-        E.mapLeft((e) => [e] as ReadonlyArray<E | G>)
-      )
-      const kleisli_ = flow(
-        kleisli,
-        FEmapLeft((e) => [e] as ReadonlyArray<E | G>)
-      )
-
-      const fegxa = pipe(F.of(gxb), FEchain(kleisli_))
-      const result = F.chain(fegxa, (egxa) => {
-        return F.map(release(F.of(gb)), (gv) => {
-          const gxv = pipe(
-            gv,
-            E.mapLeft((e) => [e] as ReadonlyArray<E | G>)
+    return F.chain(acquire, (gb: E.Either<E | G, B>) =>
+      F.chain(
+        pipe(
+          F.of(gb),
+          FEchain(kleisli_),
+          FEmapLeft((eg): ReadonlyArray<E | G> => [eg])
+        ),
+        // When resource is not acquired, ensure nothing is released
+        (egxa) =>
+          pipe(
+            gb,
+            // is releasable.
+            O.fromPredicate(E.isRight),
+            // release the resource
+            O.map((gb) =>
+              F.map(
+                pipe(
+                  release(F.of(gb)),
+                  FEmapLeft((g): ReadonlyArray<E | G> => [g])
+                ),
+                (gxv) =>
+                  applicative.ap(
+                    pipe(
+                      egxa,
+                      E.map((a) => () => a)
+                    ),
+                    gxv
+                  )
+              )
+            ),
+            O.getOrElseW(() => F.of(egxa))
           )
-          const apeqxa = pipe(
-            egxa,
-            E.map((a) => (_: void) => a)
-          )
-          const re = apv.ap(apeqxa, gxv)
-          return re
-        })
-      })
-
-      return result
-    })
+      )
+    )
   }
 }
 
@@ -627,6 +639,7 @@ export function bracketT<F>(F: Monad<F>) {
 // tslint:disable: deprecation
 
 import URI = E.URI
+import { readonlyArray } from '.'
 
 /**
  * @category model
