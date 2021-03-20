@@ -1,15 +1,15 @@
-import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as RA from '../src/ReadonlyArray'
-import * as N from '../src/number'
-import * as S from '../src/string'
 import { left, right } from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('IOEither', () => {
   describe('pipeables', () => {
@@ -284,56 +284,126 @@ describe('IOEither', () => {
   })
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
-    let log: Array<string> = []
+    describe('3 argument implementation', () => {
+      // tslint:disable-next-line: readonly-array
+      let log: Array<string> = []
 
-    const acquireFailure = _.left('acquire failure')
-    const acquireSuccess = _.right({ res: 'acquire success' })
-    const useSuccess = () => _.right('use success')
-    const useFailure = () => _.left('use failure')
-    const releaseSuccess = () =>
-      _.rightIO(() => {
-        log.push('release success')
+      const acquireFailure = _.left('acquire failure')
+      const acquireSuccess = _.right({ res: 'acquire success' })
+      const useSuccess = () => _.right('use success')
+      const useFailure = () => _.left('use failure')
+      const releaseSuccess = () =>
+        _.rightIO(() => {
+          log.push('release success')
+        })
+      const releaseFailure = () => _.left('release failure')
+
+      beforeEach(() => {
+        log = []
       })
-    const releaseFailure = () => _.left('release failure')
 
-    beforeEach(() => {
-      log = []
+      it('should return the acquire error if acquire fails', () => {
+        const e = _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+        U.deepStrictEqual(e, E.left('acquire failure'))
+      })
+
+      it('body and release must not be called if acquire fails', () => {
+        _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+        U.deepStrictEqual(log, [])
+      })
+
+      it('should return the use error if use fails and release does not', () => {
+        const e = _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+        U.deepStrictEqual(e, E.left('use failure'))
+      })
+
+      it('should return the release error if both use and release fail', () => {
+        const e = _.bracket(acquireSuccess, useFailure, releaseFailure)()
+        U.deepStrictEqual(e, E.left('release failure'))
+      })
+
+      it('release must be called if the body returns', () => {
+        _.bracket(acquireSuccess, useSuccess, releaseSuccess)()
+        U.deepStrictEqual(log, ['release success'])
+      })
+
+      it('release must be called if the body throws', () => {
+        _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+        U.deepStrictEqual(log, ['release success'])
+      })
+
+      it('should return the release error if release fails', () => {
+        const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
+        U.deepStrictEqual(e, E.left('release failure'))
+      })
     })
 
-    it('should return the acquire error if acquire fails', () => {
-      const e = _.bracket(acquireFailure, useSuccess, releaseSuccess)()
-      U.deepStrictEqual(e, E.left('acquire failure'))
-    })
+    describe('2 argument implemention with piped use kleisli', () => {
+      // tslint:disable-next-line: readonly-array
 
-    it('body and release must not be called if acquire fails', () => {
-      _.bracket(acquireFailure, useSuccess, releaseSuccess)()
-      U.deepStrictEqual(log, [])
-    })
+      type Resource = 'initial' | 'acquired' | 'released'
+      let resource: Resource = 'initial'
 
-    it('should return the use error if use fails and release does not', () => {
-      const e = _.bracket(acquireSuccess, useFailure, releaseSuccess)()
-      U.deepStrictEqual(e, E.left('use failure'))
-    })
+      beforeEach(() => {
+        resource = 'initial'
+      })
 
-    it('should return the release error if both use and release fail', () => {
-      const e = _.bracket(acquireSuccess, useFailure, releaseFailure)()
-      U.deepStrictEqual(e, E.left('release failure'))
-    })
+      const acquire = pipe(_.rightIO((): Resource => (resource = 'acquired')))
+      const unacquire = pipe(_.left('unacquired'))
 
-    it('release must be called if the body returns', () => {
-      _.bracket(acquireSuccess, useSuccess, releaseSuccess)()
-      U.deepStrictEqual(log, ['release success'])
-    })
+      const release: _.IOEither<string, void> = pipe(
+        _.rightIO(() => {
+          resource = 'released'
+        })
+      )
+      const unrelease = pipe(_.left('unreleased'))
 
-    it('release must be called if the body throws', () => {
-      _.bracket(acquireSuccess, useFailure, releaseSuccess)()
-      U.deepStrictEqual(log, ['release success'])
-    })
+      const kleisli = (r: Resource) => _.right(r + ', used')
+      const unkleisli = (r: Resource) => _.left(r + ', unused')
 
-    it('should return the release error if release fails', () => {
-      const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
-      U.deepStrictEqual(e, E.left('release failure'))
+      it('should acquire, use and release succesfully', () => {
+        const bracket = _.bracket(
+          acquire,
+          _.chain(() => release)
+        )
+        const result = bracket(kleisli)()
+
+        U.deepStrictEqual(result, E.right('acquired, used'))
+        U.strictEqual(resource, 'released')
+      })
+
+      it('should use unsuccessfully, but acquire and release successfully', () => {
+        const bracket = _.bracket(
+          acquire,
+          _.chain(() => release)
+        )
+        const result = bracket(unkleisli)()
+
+        U.deepStrictEqual(result, E.left(['acquired, unused']))
+        U.strictEqual(resource, 'released')
+      })
+
+      it('should use and release unsuccessfully, but acquire successfully', () => {
+        const bracket = _.bracket(
+          acquire,
+          _.chain(() => unrelease)
+        )
+        const result = bracket(unkleisli)()
+
+        U.deepStrictEqual(result, E.left(['acquired, unused', 'unreleased']))
+        U.strictEqual(resource, 'acquired')
+      })
+
+      it('should acquire unsuccessfully, calling release with Left and not calling use', () => {
+        const bracket = _.bracket(
+          unacquire,
+          _.chain(() => release)
+        )
+
+        const result = bracket(kleisli)()
+        U.deepStrictEqual(result, E.left(['unacquired']))
+        U.strictEqual(resource, 'initial')
+      })
     })
   })
 
