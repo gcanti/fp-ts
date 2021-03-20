@@ -53,7 +53,7 @@ export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
 /**
  * @since 2.0.0
  */
-export const keys = <K extends string>(r: Record<K, unknown>): Array<K> => (Object.keys(r) as any).sort()
+export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = RR.keys as any
 
 /**
  * Map a record into an array

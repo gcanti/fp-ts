@@ -98,7 +98,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(r: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0
@@ -109,7 +109,7 @@ Added in v2.5.0
 
 ```ts
 export declare const separate: <A, B>(
-  fa: Readonly<Record<string, Either<A, B>>>
+  r: Readonly<Record<string, Either<A, B>>>
 ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
 ```
 
@@ -764,7 +764,7 @@ Test whether a record is empty
 **Signature**
 
 ```ts
-export declare function isEmpty(r: ReadonlyRecord<string, unknown>): boolean
+export declare const isEmpty: (r: ReadonlyRecord<string, unknown>) => boolean
 ```
 
 Added in v2.5.0
@@ -925,7 +925,7 @@ Calculate the number of key/value pairs in a record
 **Signature**
 
 ```ts
-export declare function size(r: ReadonlyRecord<string, unknown>): number
+export declare const size: (r: ReadonlyRecord<string, unknown>) => number
 ```
 
 Added in v2.5.0

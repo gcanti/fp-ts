@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { left, right } from '../src/Either'
+import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
@@ -52,10 +52,16 @@ describe('ReadonlyRecord', () => {
 
     it('compact', () => {
       U.deepStrictEqual(_.compact({ foo: O.none, bar: O.some(123) }), { bar: 123 })
+      // should ignore non own properties
+      const o: _.ReadonlyRecord<string, O.Option<number>> = Object.create({ a: 1 })
+      U.deepStrictEqual(pipe(o, _.compact), {})
     })
 
     it('separate', () => {
-      U.deepStrictEqual(_.separate({ foo: left(123), bar: right(123) }), separated({ foo: 123 }, { bar: 123 }))
+      U.deepStrictEqual(_.separate({ foo: E.left(123), bar: E.right(123) }), separated({ foo: 123 }, { bar: 123 }))
+      // should ignore non own properties
+      const o: _.ReadonlyRecord<string, E.Either<string, number>> = Object.create({ a: 1 })
+      U.deepStrictEqual(pipe(o, _.separate), separated({}, {}))
     })
 
     it('filter', () => {
@@ -92,7 +98,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
       U.deepStrictEqual(pipe({}, _.partitionMap(f)), separated({}, {}))
       U.deepStrictEqual(pipe({ a: 1, b: 3 }, _.partitionMap(f)), separated({ a: 0 }, { b: 4 }))
     })
@@ -135,33 +141,27 @@ describe('ReadonlyRecord', () => {
     })
 
     it('partitionMapWithIndex', () => {
-      assert.deepStrictEqual(
-        pipe(
-          { a: 1, b: 2 },
-          _.partitionMapWithIndex((k, a: number) => (a > 1 ? right(a) : left(k)))
-        ),
-        separated({ a: 'a' }, { b: 2 })
-      )
+      const f = _.partitionMapWithIndex((k, a: number) => (a > 1 ? E.right(a) : E.left(k)))
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), separated({ a: 'a' }, { b: 2 }))
+      // should ignore non own properties
+      const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
+      U.deepStrictEqual(pipe(o, f), separated({}, {}))
     })
 
     it('partitionWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          { a: 1, b: 2 },
-          _.partitionWithIndex((_, a: number) => a > 1)
-        ),
-        separated({ a: 1 }, { b: 2 })
-      )
+      const f = _.partitionWithIndex((_, a: number) => a > 1)
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), separated({ a: 1 }, { b: 2 }))
+      // should ignore non own properties
+      const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
+      U.deepStrictEqual(pipe(o, f), separated({}, {}))
     })
 
     it('filterMapWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          { a: 1, b: 2 },
-          _.filterMapWithIndex((_, a: number) => (a > 1 ? O.some(a) : O.none))
-        ),
-        { b: 2 }
-      )
+      const f = _.filterMapWithIndex((_, a: number) => (a > 1 ? O.some(a) : O.none))
+      U.deepStrictEqual(pipe({ a: 1, b: 2 }, f), { b: 2 })
+      // should ignore non own properties
+      const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
+      U.deepStrictEqual(pipe(o, f), {})
     })
 
     it('filterWithIndex', () => {
@@ -203,7 +203,7 @@ describe('ReadonlyRecord', () => {
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? E.right(n + 1) : E.left(n - 1)))
       U.deepStrictEqual(await pipe({}, wilt)(), separated({}, {}))
       U.deepStrictEqual(await pipe({ a: 1, b: 3 }, wilt)(), separated({ a: 0 }, { b: 4 }))
     })
@@ -217,6 +217,11 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(M.concat(d1, M.empty), d1)
     U.deepStrictEqual(M.concat(M.empty, d2), d2)
     U.deepStrictEqual(M.concat(d1, {}), d1)
+    // should ignore non own properties
+    const o = Object.create({ a: 1 })
+    o.k2 = 2
+    o.k3 = 4
+    U.deepStrictEqual(M.concat(d1, o), { k1: 1, k2: 5, k3: 4 })
   })
 
   it('getEq', () => {
@@ -301,8 +306,11 @@ describe('ReadonlyRecord', () => {
   })
 
   it('isEmpty', () => {
+    U.deepStrictEqual(_.isEmpty(_.empty), true)
     U.deepStrictEqual(_.isEmpty({}), true)
     U.deepStrictEqual(_.isEmpty({ a: 1 }), false)
+    // should ignore non own properties
+    U.deepStrictEqual(_.isEmpty(Object.create({ a: 1 })), true)
   })
 
   it('insertAt', () => {
@@ -444,5 +452,17 @@ describe('ReadonlyRecord', () => {
     const bs = _.toRecord(as)
     U.deepStrictEqual(bs, as)
     assert.notStrictEqual(bs, as)
+  })
+
+  it('mapWithIndex', () => {
+    // should ignore non own properties
+    const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
+    U.deepStrictEqual(
+      pipe(
+        o,
+        _.mapWithIndex((_, a) => U.double(a))
+      ),
+      {}
+    )
   })
 })

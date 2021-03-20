@@ -34,6 +34,7 @@ import { FromEither2 } from './FromEither'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -83,7 +84,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category guards
  * @since 2.0.0
  */
-export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
+export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.

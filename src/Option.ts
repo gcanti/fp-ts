@@ -32,6 +32,7 @@ import { Foldable1 } from './Foldable'
 import { constNull, constUndefined, flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -86,7 +87,7 @@ export type Option<A> = None | Some<A>
  * @category guards
  * @since 2.0.0
  */
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
+export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
 
 /**
  * Returns `true` if the option is `None`, `false` otherwise.
