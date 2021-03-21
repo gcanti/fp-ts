@@ -108,7 +108,10 @@ export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, 
  * @category destructors
  * @since 3.0.0
  */
-export const match =
+export const match: <E, R, B, A>(
+  onLeft: (e: E) => Reader<R, B>,
+  onRight: (a: A) => Reader<R, B>
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
   ET.match(R.Monad)
 
@@ -127,7 +130,7 @@ export const matchW: <E, R2, B, A, R3, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse =
+export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
   /*#__PURE__*/
   ET.getOrElse(R.Monad)
 
@@ -149,7 +152,7 @@ export const getOrElseW: <E, R2, B>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion =
+export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
   /*#__PURE__*/
   ET.toUnion(R.Functor)
 
@@ -161,7 +164,9 @@ export const toUnion =
  * @category combinators
  * @since 3.0.0
  */
-export const orElse =
+export const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderEither<R, E2, A>
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
   /*#__PURE__*/
   ET.orElse(R.Monad)
 
@@ -207,7 +212,7 @@ export const orLeft: <E1, R, E2>(
  * @category combinators
  * @since 3.0.0
  */
-export const swap =
+export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E> =
   /*#__PURE__*/
   ET.swap(R.Functor)
 
@@ -544,7 +549,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
  * @since 3.0.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => R.Reader<R, B>
+  f: (...a: A) => Reader<R, B>
 ) => <E = never>(...a: A) => ReaderEither<R, E, B> =
   /*#__PURE__*/
   fromReaderK_(FromReader)
@@ -554,7 +559,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @since 3.0.0
  */
 export const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
+  f: (a: A) => Reader<R, B>
 ) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)

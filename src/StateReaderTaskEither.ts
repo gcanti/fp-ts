@@ -841,7 +841,7 @@ export const fromEitherK =
  *
  * @since 3.0.0
  */
-export const evaluate =
+export const evaluate: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   ST.evaluate(RTE.Functor)
 
@@ -850,7 +850,7 @@ export const evaluate =
  *
  * @since 3.0.0
  */
-export const execute =
+export const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, S> =
   /*#__PURE__*/
   ST.execute(RTE.Functor)
 

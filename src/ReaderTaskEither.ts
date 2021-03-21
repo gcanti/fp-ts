@@ -213,7 +213,10 @@ export const fromTask: FromTask3<URI>['fromTask'] = rightTask
  * @category destructors
  * @since 3.0.0
  */
-export const match =
+export const match: <E, R, B, A>(
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
   ET.match(RT.Monad)
 
@@ -232,7 +235,9 @@ export const matchW: <E, R2, B, A, R3, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse =
+export const getOrElse: <E, R, A>(
+  onLeft: (e: E) => ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
   ET.getOrElse(RT.Monad)
 
@@ -254,7 +259,7 @@ export const getOrElseW: <E, R2, B>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion =
+export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, E | A> =
   /*#__PURE__*/
   ET.toUnion(RT.Functor)
 
@@ -266,7 +271,9 @@ export const toUnion =
  * @category combinators
  * @since 3.0.0
  */
-export const orElse =
+export const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
+) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> =
   /*#__PURE__*/
   ET.orElse(RT.Monad)
 
@@ -312,7 +319,7 @@ export const orLeft: <E1, R, E2>(
  * @category combinators
  * @since 3.0.0
  */
-export const swap =
+export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> =
   /*#__PURE__*/
   ET.swap(RT.Functor)
 

@@ -577,9 +577,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, ME, E2, A>(
-  onLeft: (e: E1) => RT.ReaderTask<ME, E.Either<E2, A>>
-) => (ma: RT.ReaderTask<ME, E.Either<E1, A>>) => RT.ReaderTask<ME, E.Either<E2, A>>
+export declare const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
+) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
 ```
 
 Added in v3.0.0
@@ -639,7 +639,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <FE, E, A>(ma: RT.ReaderTask<FE, E.Either<E, A>>) => RT.ReaderTask<FE, E.Either<A, E>>
+export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E>
 ```
 
 Added in v3.0.0
@@ -939,9 +939,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, ME, A>(
-  onLeft: (e: E) => RT.ReaderTask<ME, A>
-) => (ma: RT.ReaderTask<ME, E.Either<E, A>>) => RT.ReaderTask<ME, A>
+export declare const getOrElse: <E, R, A>(
+  onLeft: (e: E) => RT.ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -965,10 +965,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, FE, B, A>(
-  onLeft: (e: E) => RT.ReaderTask<FE, B>,
-  onRight: (a: A) => RT.ReaderTask<FE, B>
-) => (ma: RT.ReaderTask<FE, E.Either<E, A>>) => RT.ReaderTask<FE, B>
+export declare const match: <E, R, B, A>(
+  onLeft: (e: E) => RT.ReaderTask<R, B>,
+  onRight: (a: A) => RT.ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -1190,7 +1190,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <FE, E, A>(fa: RT.ReaderTask<FE, E.Either<E, A>>) => RT.ReaderTask<FE, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, E | A>
 ```
 
 Added in v3.0.0

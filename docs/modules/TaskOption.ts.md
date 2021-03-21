@@ -290,7 +290,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -332,7 +332,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => O.Option<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -354,7 +356,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => T.Task<O.Option<A>>
+export declare const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -385,8 +387,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => T.Task<O.Option<B>>
-  <A>(predicate: Predicate<A>): (a: A) => T.Task<O.Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 
@@ -397,7 +399,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => T.Task<O.Option<A>>
+export declare const fromTask: <A>(ma: T.Task<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -486,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: T.Task<O.Option<A>>) => T.Task<A>
+export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
 ```
 
 Added in v3.0.0
@@ -498,7 +500,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: O.Option<A>) => B | A
+export declare const getOrElseW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -511,7 +513,7 @@ Added in v3.0.0
 export declare const match: <B, A>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<B>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B>
+) => (ma: TaskOption<A>) => T.Task<B>
 ```
 
 Added in v3.0.0
@@ -526,7 +528,7 @@ Less strict version of [`match`](#match).
 export declare const matchW: <B, A, C>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<C>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B | C>
+) => (ma: TaskOption<A>) => T.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -692,7 +694,7 @@ Added in v3.0.0
 ```ts
 export declare const chainNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
 ```
 
 Added in v3.0.0
@@ -702,7 +704,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
+export declare const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>>
 ```
 
 Added in v3.0.0
@@ -712,9 +714,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromNullableK: <A, B>(
+export declare const fromNullableK: <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
+) => (...a: A) => TaskOption<NonNullable<B>>
 ```
 
 Added in v3.0.0

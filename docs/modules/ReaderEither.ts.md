@@ -400,9 +400,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, ME, E2, A>(
-  onLeft: (e: E1) => R.Reader<ME, E.Either<E2, A>>
-) => (ma: R.Reader<ME, E.Either<E1, A>>) => R.Reader<ME, E.Either<E2, A>>
+export declare const orElse: <E1, R, E2, A>(
+  onLeft: (e: E1) => ReaderEither<R, E2, A>
+) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
 Added in v3.0.0
@@ -462,7 +462,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <FE, E, A>(ma: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, E.Either<A, E>>
+export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
 ```
 
 Added in v3.0.0
@@ -650,9 +650,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, ME, A>(
-  onLeft: (e: E) => R.Reader<ME, A>
-) => (ma: R.Reader<ME, E.Either<E, A>>) => R.Reader<ME, A>
+export declare const getOrElse: <E, R, A>(
+  onLeft: (e: E) => R.Reader<R, A>
+) => (ma: ReaderEither<R, E, A>) => R.Reader<R, A>
 ```
 
 Added in v3.0.0
@@ -676,10 +676,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, FE, B, A>(
-  onLeft: (e: E) => R.Reader<FE, B>,
-  onRight: (a: A) => R.Reader<FE, B>
-) => (ma: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, B>
+export declare const match: <E, R, B, A>(
+  onLeft: (e: E) => R.Reader<R, B>,
+  onRight: (a: A) => R.Reader<R, B>
+) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -858,7 +858,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <FE, E, A>(fa: R.Reader<FE, E.Either<E, A>>) => R.Reader<FE, E | A>
+export declare const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => R.Reader<R, E | A>
 ```
 
 Added in v3.0.0

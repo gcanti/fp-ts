@@ -4,7 +4,7 @@ import * as _ from '../../src/tuple'
 // make
 //
 
-_.make() // $ExpectType []
-_.make(1) // $ExpectType [number]
-_.make(1, 'a') // $ExpectType [number, string]
-_.make(1, 'a', true) // $ExpectType [number, string, boolean]
+_.tuple() // $ExpectType []
+_.tuple(1) // $ExpectType [number]
+_.tuple(1, 'a') // $ExpectType [number, string]
+_.tuple(1, 'a', true) // $ExpectType [number, string, boolean]

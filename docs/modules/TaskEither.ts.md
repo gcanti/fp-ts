@@ -528,8 +528,8 @@ See also [alt](#alt).
 
 ```ts
 export declare const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => T.Task<E.Either<E2, A>>
-) => (ma: T.Task<E.Either<E1, A>>) => T.Task<E.Either<E2, A>>
+  onLeft: (e: E1) => TaskEither<E2, A>
+) => (ma: TaskEither<E1, A>) => TaskEither<E2, A>
 ```
 
 **Example**
@@ -603,7 +603,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: T.Task<E.Either<E, A>>) => T.Task<E.Either<A, E>>
+export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 ```
 
 Added in v3.0.0
@@ -803,7 +803,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: T.Task<E.Either<E, A>>) => T.Task<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
 ```
 
 Added in v3.0.0
@@ -828,7 +828,7 @@ Added in v3.0.0
 export declare const match: <E, B, A>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<B>
-) => (ma: T.Task<E.Either<E, A>>) => T.Task<B>
+) => (ma: TaskEither<E, A>) => T.Task<B>
 ```
 
 Added in v3.0.0
@@ -1040,7 +1040,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: T.Task<E.Either<E, A>>) => T.Task<E | A>
+export declare const toUnion: <E, A>(fa: TaskEither<E, A>) => T.Task<E | A>
 ```
 
 Added in v3.0.0

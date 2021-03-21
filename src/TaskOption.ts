@@ -7,6 +7,7 @@ import { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
+import { Either } from './Either'
 import {
   filter as filter_,
   Filterable1,
@@ -23,17 +24,19 @@ import {
 } from './FromTask'
 import { flow, identity, Lazy, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
+import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
+import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import * as T from './Task'
-import * as _ from './internal'
 
 import Task = T.Task
 import Option = O.Option
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -67,7 +70,10 @@ export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate =
+export const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
+} =
   /*#__PURE__*/
   OT.fromPredicate(T.Pointed)
 
@@ -75,7 +81,7 @@ export const fromPredicate =
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither =
+export const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A> =
   /*#__PURE__*/
   OT.fromEither(T.Pointed)
 
@@ -89,7 +95,7 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask =
+export const fromTask: <A>(ma: Task<A>) => TaskOption<A> =
   /*#__PURE__*/
   OT.fromF(T.Functor)
 
@@ -101,7 +107,7 @@ export const fromTask =
  * @category destructors
  * @since 3.0.0
  */
-export const match =
+export const match: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
   /*#__PURE__*/
   OT.match(T.Monad)
 
@@ -112,15 +118,15 @@ export const match =
  * @since 3.0.0
  */
 export const matchW: <B, A, C>(
-  onNone: () => T.Task<B>,
-  onSome: (a: A) => T.Task<C>
-) => (ma: T.Task<Option<A>>) => T.Task<B | C> = match as any
+  onNone: () => Task<B>,
+  onSome: (a: A) => Task<C>
+) => (ma: TaskOption<A>) => Task<B | C> = match as any
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse =
+export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Task<A> =
   /*#__PURE__*/
   OT.getOrElse(T.Monad)
 
@@ -130,7 +136,7 @@ export const getOrElse =
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A | B = getOrElse as any
+export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -140,7 +146,7 @@ export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A |
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable =
+export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> =
   /*#__PURE__*/
   OT.fromNullable(T.Pointed)
 
@@ -174,7 +180,9 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 3.0.0
  */
-export const fromNullableK =
+export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskOption<NonNullable<B>> =
   /*#__PURE__*/
   OT.fromNullableK(T.Pointed)
 
@@ -182,7 +190,9 @@ export const fromNullableK =
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK =
+export const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>> =
   /*#__PURE__*/
   OT.chainNullableK(T.Monad)
 
@@ -194,7 +204,9 @@ export const chainNullableK =
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK =
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => TaskOption<B> =
   /*#__PURE__*/
   OT.fromOptionK(T.Monad)
 
@@ -202,7 +214,7 @@ export const fromOptionK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainOptionK =
+export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/
   OT.chainOptionK(T.Monad)
 

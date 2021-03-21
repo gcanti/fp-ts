@@ -106,7 +106,7 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  * @category destructors
  * @since 3.0.0
  */
-export const match =
+export const match: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
   ET.match(I.Monad)
 
@@ -125,7 +125,7 @@ export const matchW: <E, B, A, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse =
+export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
   /*#__PURE__*/
   ET.getOrElse(I.Monad)
 
@@ -170,7 +170,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion =
+export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> =
   /*#__PURE__*/
   ET.toUnion(I.Functor)
 
@@ -182,7 +182,7 @@ export const toUnion =
  * @category combinators
  * @since 3.0.0
  */
-export const orElse =
+export const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A> =
   /*#__PURE__*/
   ET.orElse(I.Monad)
 
@@ -224,7 +224,7 @@ export const orLeft: <E1, E2>(onLeft: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1,
  * @category combinators
  * @since 3.0.0
  */
-export const swap =
+export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
   /*#__PURE__*/
   ET.swap(I.Functor)
 

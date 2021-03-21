@@ -76,7 +76,7 @@ pipe(
 // spanLeft
 //
 
-// $ExpectType readonly [readonly number[], readonly unknown[]]
+// $ExpectType readonly [init: readonly number[], rest: readonly unknown[]]
 pipe(
   rus,
   _.spanLeft((u: unknown): u is number => typeof u === 'number')

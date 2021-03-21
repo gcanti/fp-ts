@@ -401,9 +401,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => I.IO<E.Either<E2, A>>
-) => (ma: I.IO<E.Either<E1, A>>) => I.IO<E.Either<E2, A>>
+export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0
@@ -459,7 +457,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(ma: I.IO<E.Either<E, A>>) => I.IO<E.Either<A, E>>
+export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 ```
 
 Added in v3.0.0
@@ -617,7 +615,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: I.IO<E.Either<E, A>>) => I.IO<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
 ```
 
 Added in v3.0.0
@@ -642,7 +640,7 @@ Added in v3.0.0
 export declare const match: <E, B, A>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<B>
-) => (ma: I.IO<E.Either<E, A>>) => I.IO<B>
+) => (ma: IOEither<E, A>) => I.IO<B>
 ```
 
 Added in v3.0.0
@@ -841,7 +839,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUnion: <E, A>(fa: I.IO<E.Either<E, A>>) => I.IO<E | A>
+export declare const toUnion: <E, A>(fa: IOEither<E, A>) => I.IO<E | A>
 ```
 
 Added in v3.0.0
