@@ -25,9 +25,11 @@ export interface AssertParSeq {
     MT: FromTask3<F>,
     run: (fa: Kind3<F, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
-  <F extends URIS2>(F: Apply2<F>, MT: FromTask2<F>, run: (fa: Kind2<F, unknown, unknown>) => Promise<unknown>): Promise<
-    void
-  >
+  <F extends URIS2>(
+    F: Apply2<F>,
+    MT: FromTask2<F>,
+    run: (fa: Kind2<F, unknown, unknown>) => Promise<unknown>
+  ): Promise<void>
   <F extends URIS2, E>(
     F: Apply2C<F, E>,
     MT: FromTask2<F>,
