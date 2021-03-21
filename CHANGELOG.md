@@ -17,6 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.5
 
+- **Bug Fix**
+  - `TaskOption`
+    - fix `getOrElseW` signature
 - **Breaking Change** (with respect to `2.10.0-rc`)
   - `OptionT`
     - rename `none` to `zero` and change signature

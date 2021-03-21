@@ -145,7 +145,7 @@ export const getOrElse =
  * @category destructors
  * @since 2.10.0
  */
-export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: Option<A>) => A | B = getOrElse as any
+export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
 
 // -------------------------------------------------------------------------------------
 // interop

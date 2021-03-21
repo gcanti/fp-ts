@@ -530,7 +530,7 @@ export declare const filterOrElse: {
 **Example**
 
 ```ts
-import { filterOrElse, left, right } from 'fp-ts/Either'
+import { filterOrElse as filterOrElse, left, right } from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
