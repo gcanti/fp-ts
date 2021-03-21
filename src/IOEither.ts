@@ -193,7 +193,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
  * @category interop
  * @since 2.10.0
  */
-export const toUnion =
+export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> =
   /*#__PURE__*/
   ET.toUnion(I.Functor)
 

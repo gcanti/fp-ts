@@ -227,7 +227,7 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
  * @category constructors
  * @since 2.10.0
  */
-export const fromState =
+export const fromState: <S, A, R, E = never>(sa: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   ST.fromState(RTE.Pointed)
 

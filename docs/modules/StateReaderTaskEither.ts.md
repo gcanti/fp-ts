@@ -746,7 +746,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromState: <S, A, R, E>(sa: State<S, A>) => ST.StateT3<'ReaderTaskEither', S, R, E, A>
+export declare const fromState: <S, A, R, E = never>(sa: State<S, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.10.0

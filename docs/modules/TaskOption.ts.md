@@ -109,7 +109,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<T.Task<O.Option<A>>>) => (first: T.Task<O.Option<A>>) => T.Task<O.Option<A>>
+export declare const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -145,7 +145,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const ap: <A>(fa: T.Task<O.Option<A>>) => <B>(fab: T.Task<O.Option<(a: A) => B>>) => T.Task<O.Option<B>>
+export declare const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -179,7 +179,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filter: <A>(predicate: Predicate<A>) => (fga: T.Task<O.Option<A>>) => T.Task<O.Option<A>>
+export declare const filter: <A>(predicate: Predicate<A>) => (fga: TaskOption<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -189,7 +189,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fga: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fga: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -201,7 +201,7 @@ Added in v2.10.0
 ```ts
 export declare const partition: <A>(
   predicate: Predicate<A>
-) => (fga: T.Task<O.Option<A>>) => Separated<T.Task<O.Option<A>>, T.Task<O.Option<A>>>
+) => (fga: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
 ```
 
 Added in v2.10.0
@@ -213,7 +213,7 @@ Added in v2.10.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: T.Task<O.Option<A>>) => Separated<T.Task<O.Option<B>>, T.Task<O.Option<C>>>
+) => (fa: TaskOption<A>) => Separated<TaskOption<B>, TaskOption<C>>
 ```
 
 Added in v2.10.0
@@ -228,7 +228,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -240,7 +240,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const chain: <A, B>(f: (a: A) => T.Task<O.Option<B>>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+export declare const chain: <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -337,7 +337,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<B>>
+export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: TaskOption<A>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -391,7 +391,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <A, B>(f: (...a: A) => O.Option<B>) => (...a: A) => T.Task<O.Option<B>>
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => O.Option<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -413,7 +415,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => T.Task<O.Option<A>>
+export declare const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -444,8 +446,8 @@ Added in v2.10.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => T.Task<O.Option<B>>
-  <A>(predicate: Predicate<A>): (a: A) => T.Task<O.Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 
@@ -493,7 +495,7 @@ Alias of [`match`](#match).
 export declare const fold: <B, A>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<B>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B>
+) => (ma: TaskOption<A>) => T.Task<B>
 ```
 
 Added in v2.10.0
@@ -518,7 +520,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: T.Task<O.Option<A>>) => T.Task<A>
+export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
 ```
 
 Added in v2.10.0
@@ -543,7 +545,7 @@ Added in v2.10.0
 export declare const match: <B, A>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<B>
-) => (ma: T.Task<O.Option<A>>) => T.Task<B>
+) => (ma: TaskOption<A>) => T.Task<B>
 ```
 
 Added in v2.10.0
@@ -744,7 +746,7 @@ Added in v2.10.0
 ```ts
 export declare const chainNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: T.Task<O.Option<A>>) => T.Task<O.Option<NonNullable<B>>>
+) => (ma: TaskOption<A>) => TaskOption<NonNullable<B>>
 ```
 
 Added in v2.10.0
@@ -754,7 +756,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromNullable: <A>(a: A) => T.Task<O.Option<NonNullable<A>>>
+export declare const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>>
 ```
 
 Added in v2.10.0
@@ -764,9 +766,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromNullableK: <A, B>(
+export declare const fromNullableK: <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => T.Task<O.Option<NonNullable<B>>>
+) => (...a: A) => TaskOption<NonNullable<B>>
 ```
 
 Added in v2.10.0

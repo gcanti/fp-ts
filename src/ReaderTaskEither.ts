@@ -282,7 +282,7 @@ export const getOrElseW: <R2, E, B>(
  * @category interop
  * @since 2.10.0
  */
-export const toUnion =
+export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, E | A> =
   /*#__PURE__*/
   ET.toUnion(RT.Functor)
 
