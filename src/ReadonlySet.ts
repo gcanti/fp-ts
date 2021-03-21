@@ -248,7 +248,6 @@ export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Reado
     const values = set.values()
     let e: Next<A>
     const r = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -293,7 +292,6 @@ export function partition<A>(
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -319,7 +317,6 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
   const right = new Set<C>()
   const hasB = elem(EB)
   const hasC = elem(EC)
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = values.next()).done) {
     const v = f(e.value)
     switch (v._tag) {
@@ -435,7 +432,6 @@ export const some = <A>(predicate: Predicate<A>) => (s: ReadonlySet<A>): boolean
   const values = s.values()
   let e: Next<A>
   let found = false
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!found && !(e = values.next()).done) {
     found = predicate(e.value)
   }
@@ -468,7 +464,6 @@ export const elem = <A>(E: Eq<A>) => (a: A): ((s: ReadonlySet<A>) => boolean) =>
     const values = set.values()
     let e: Next<A>
     let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!found && !(e = values.next()).done) {
       found = predicate(e.value)
     }
@@ -490,6 +485,14 @@ export const reduce = <A>(O: Ord<A>): (<B>(b: B, f: (b: B, a: A) => B) => (fa: R
 export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
   const toReadonlyArrayO = toReadonlyArray(O)
   return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
+}
+
+/**
+ * @since 3.0.0
+ */
+export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B) => {
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (b, f) => (fa) => toReadonlyArrayO(fa).reduceRight((b, a) => f(a, b), b)
 }
 
 /**

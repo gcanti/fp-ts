@@ -231,7 +231,6 @@ export const mapWithIndex = <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K
   const out = new Map<K, B>()
   const entries = m.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
     out.set(key, f(key, a))
@@ -247,7 +246,6 @@ export const compact: Compactable2<URI>['compact'] = <K, A>(m: ReadonlyMap<K, Op
   const out = new Map<K, A>()
   const entries = m.entries()
   let e: Next<readonly [K, Option<A>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
     if (_.isSome(oa)) {
@@ -268,7 +266,6 @@ export const separate: Compactable2<URI>['separate'] = <K, A, B>(
   const right = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, Either<A, B>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
     if (_.isLeft(ei)) {
@@ -320,7 +317,6 @@ export const filterWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (m: Readonl
   const out = new Map<K, A>()
   const entries = m.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     if (p(k, a)) {
@@ -340,7 +336,6 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
@@ -362,7 +357,6 @@ export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
   const right = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     if (p(k, a)) {
@@ -385,7 +379,6 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
   const right = new Map<K, C>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
@@ -456,7 +449,6 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       const r = new Map(first)
       const entries = second.entries()
       let e: Next<readonly [K, A]>
-      // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const oka = lookupWithKeyS(k)(first)
@@ -727,7 +719,6 @@ export const elem = <A>(E: Eq<A>) => (a: A): (<K>(m: ReadonlyMap<K, A>) => boole
   return (m) => {
     const values = m.values()
     let e: Next<A>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = e.value
       if (predicate(v)) {
@@ -780,7 +771,6 @@ export const lookupWithKey = <K>(E: Eq<K>) => (k: K): (<A>(m: ReadonlyMap<K, A>)
   return <A>(m: ReadonlyMap<K, A>) => {
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicate(k)) {
@@ -814,7 +804,6 @@ export const isSubmap = <K, A>(
   return (second) => (first) => {
     const entries = first.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const oka = lookupWithKeyS(k)(second)
@@ -883,7 +872,6 @@ export const union = <K, A>(
     const out: Map<K, A> = new Map()
     const firstEntries = first.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = firstEntries.next()).done) {
       const [k, a] = e.value
       const oka = lookupE(k)(second)
@@ -894,7 +882,6 @@ export const union = <K, A>(
       }
     }
     const secondEntries = second.entries()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = secondEntries.next()).done) {
       const [k, a] = e.value
       const oka = lookupE(k)(out)
@@ -921,7 +908,6 @@ export const intersection = <K, A>(
     const out: Map<K, A> = new Map()
     const entries = first.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const oka = lookupE(k)(second)
@@ -950,7 +936,6 @@ export const difference = <K>(
     const out: Map<K, A> = new Map()
     const firstEntries = first.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = firstEntries.next()).done) {
       const [k, a] = e.value
       if (!memberE(k)(second)) {
@@ -958,7 +943,6 @@ export const difference = <K>(
       }
     }
     const secondEntries = second.entries()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = secondEntries.next()).done) {
       const [k, a] = e.value
       if (!memberE(k)(first)) {
