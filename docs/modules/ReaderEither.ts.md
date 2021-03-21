@@ -41,7 +41,10 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
   - [orElse](#orelse)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
+  - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -404,6 +407,30 @@ export declare const orElse: <E1, ME, E2, A>(
 
 Added in v3.0.0
 
+## orElseFirst
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderEither<R, E, B>
+) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## orElseFirstW
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, R, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R, E2, B>
+) => <A>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## orElseW
 
 Less strict version of [`orElse`](#orElse).
@@ -414,6 +441,18 @@ Less strict version of [`orElse`](#orElse).
 export declare const orElseW: <E1, R1, E2, B>(
   onLeft: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
+```
+
+Added in v3.0.0
+
+## orLeft
+
+**Signature**
+
+```ts
+export declare const orLeft: <E1, R, E2>(
+  onLeft: (e: E1) => R.Reader<R, E2>
+) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
 Added in v3.0.0

@@ -45,7 +45,10 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
+  - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -405,6 +408,28 @@ export declare const orElse: <E1, E2, A>(
 
 Added in v3.0.0
 
+## orElseFirst
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v3.0.0
+
+## orElseFirstW
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## orElseW
 
 Less strict version of [`orElse`](#orElse).
@@ -415,6 +440,16 @@ Less strict version of [`orElse`](#orElse).
 export declare const orElseW: <E1, E2, B>(
   onLeft: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
+```
+
+Added in v3.0.0
+
+## orLeft
+
+**Signature**
+
+```ts
+export declare const orLeft: <E1, E2>(onLeft: (e: E1) => I.IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A>
 ```
 
 Added in v3.0.0

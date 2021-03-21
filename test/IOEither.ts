@@ -479,4 +479,17 @@ describe('IOEither', () => {
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })
+
+  it('orLeft', () => {
+    const f = _.orLeft((e: string) => I.of(e + '!'))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a!'))
+  })
+
+  it('orElseFirst', () => {
+    const f = _.orElseFirst((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
 })
