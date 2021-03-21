@@ -2452,10 +2452,10 @@ Split a `ReadonlyArray` into two parts:
 ```ts
 export declare function spanLeft<A, B extends A>(
   refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<B>, ReadonlyArray<A>]
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<A>]
 export declare function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
 ```
 
 **Example**

@@ -529,13 +529,13 @@ const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number
  */
 export function spanLeft<A, B extends A>(
   refinement: Refinement<A, B>
-): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<B>, ReadonlyArray<A>]
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<A>]
 export function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>]
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
 export function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [ReadonlyArray<A>, ReadonlyArray<A>] {
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>] {
   return (as) => splitAt(spanLeftIndex(as, predicate))(as)
 }
 
