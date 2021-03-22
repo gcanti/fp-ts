@@ -10,6 +10,7 @@ import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as N from '../src/number'
 import * as T from '../src/Task'
+import * as TO from '../src/TaskOption'
 import * as _ from '../src/TaskEither'
 import * as S from '../src/string'
 import { left, right } from '../src/Separated'
@@ -466,6 +467,23 @@ describe('TaskEither', () => {
       await pipe(
         some(1),
         _.fromOption(() => 'none')
+      )(),
+      E.right(1)
+    )
+  })
+
+  it('fromTaskOption', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        TO.none,
+        _.fromTaskOption(() => 'none')
+      )(),
+      E.left('none')
+    )
+    U.deepStrictEqual(
+      await pipe(
+        TO.some(1),
+        _.fromTaskOption(() => 'none')
       )(),
       E.right(1)
     )

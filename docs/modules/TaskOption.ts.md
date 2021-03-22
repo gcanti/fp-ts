@@ -53,6 +53,7 @@ Added in v2.10.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -462,6 +463,16 @@ export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: <A>(e: TaskEither<unknown, A>) => TaskOption<A>
+```
+
+Added in v2.11.0
 
 ## none
 

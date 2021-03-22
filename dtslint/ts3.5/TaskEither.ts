@@ -1,6 +1,7 @@
 import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
+import * as TO from '../../src/TaskOption'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
@@ -42,6 +43,16 @@ pipe(
 pipe(
   _.right<string, string>('a'),
   _.chainIOEitherKW(() => IOE.right<number, number>(1))
+)
+
+//
+// fromTaskOption
+//
+
+// $ExpectType TaskEither<string, number>
+pipe(
+  TO.some(1),
+  _.fromTaskOption(() => 'a')
 )
 
 //

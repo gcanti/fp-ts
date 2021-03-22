@@ -2,6 +2,7 @@ import * as U from './util'
 import { pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as T from '../src/Task'
+import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 
 describe('TaskOption', () => {
@@ -116,6 +117,15 @@ describe('TaskOption', () => {
     const f = _.fromPredicate(p)
     U.deepStrictEqual(await f(1)(), O.none)
     U.deepStrictEqual(await f(3)(), O.some(3))
+  })
+
+  it('fromTaskEither', async () => {
+    const pl = TE.left('a')
+    const pr = TE.right('a')
+    const fl = _.fromTaskEither(pl)
+    const fr = _.fromTaskEither(pr)
+    U.deepStrictEqual(await fl(), O.none)
+    U.deepStrictEqual(await fr(), O.some('a'))
   })
 
   // -------------------------------------------------------------------------------------
