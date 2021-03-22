@@ -1359,7 +1359,7 @@ Less strict version of [`append`](#append).
 **Signature**
 
 ```ts
-export declare const appendW: <A, B>(end: B) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A | B>
+export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v2.11.0
@@ -1415,7 +1415,7 @@ Less strict version of [`prepend`](#prepend).
 **Signature**
 
 ```ts
-export declare const prependW: <A, B>(head: B) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A | B>
+export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v2.11.0

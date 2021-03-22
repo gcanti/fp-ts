@@ -73,22 +73,23 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
 /**
  * @internal
  */
-export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
+export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => prependW(head)(tail)
 
 /**
  * @internal
  */
-export const prependW = <A, B>(head: B) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
+export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> =>
+  concatW([head], tail)
 
 /**
  * @internal
  */
-export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => appendW(end)(init)
 
 /**
  * @internal
  */
-export const appendW = <A, B>(end: B) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => concatW(init, [end])
+export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => concatW(init, [end])
 
 /**
  * @internal
