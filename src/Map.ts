@@ -727,7 +727,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
         const key = ks[i]
         const a = ta.get(key)!
         fm = F.ap(
-          F.map(fm, (m) => (b: B) => new Map(m).set(key, b)),
+          F.map(fm, (m) => (b: B) => m.set(key, b)),
           f(key, a)
         )
       }

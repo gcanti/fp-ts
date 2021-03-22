@@ -914,14 +914,14 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
     F: Applicative<F>
   ): (<A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, ReadonlyMap<K, B>>) => {
     return <A, B>(ta: ReadonlyMap<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
-      let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
+      let fm: HKT<F, Map<K, B>> = F.of(new Map())
       const ks = keysO(ta)
       const len = ks.length
       for (let i = 0; i < len; i++) {
         const key = ks[i]
         const a = ta.get(key)!
         fm = F.ap(
-          F.map(fm, (m) => (b: B) => new Map(m).set(key, b)),
+          F.map(fm, (m) => (b: B) => m.set(key, b)),
           f(key, a)
         )
       }

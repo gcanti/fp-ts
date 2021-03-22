@@ -950,6 +950,7 @@ describe('ReadonlyMap', () => {
           ])
         )
       )
+      U.deepStrictEqual(_.empty, new Map<never, never>())
     })
 
     it('wither', async () => {
