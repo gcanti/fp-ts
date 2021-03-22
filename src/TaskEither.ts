@@ -60,6 +60,7 @@ import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
+import { TaskOption } from './TaskOption'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -827,6 +828,13 @@ export const fromOptionK =
 export const chainOptionK =
   /*#__PURE__*/
   chainOptionK_(FromEither, Chain)
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+  T.map(E.fromOption(onNone))
 
 /**
  * @category combinators

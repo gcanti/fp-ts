@@ -70,6 +70,7 @@ Added in v2.0.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -715,6 +716,16 @@ export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v2.7.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A>
+```
+
+Added in v2.11.0
 
 ## left
 

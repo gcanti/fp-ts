@@ -32,6 +32,7 @@ import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
 import { Separated } from './Separated'
 import * as T from './Task'
+import { TaskEither } from './TaskEither'
 
 import Task = T.Task
 import Option = O.Option
@@ -96,6 +97,14 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
 export const fromTask: FromTask1<URI>['fromTask'] =
   /*#__PURE__*/
   OT.fromF(T.Functor)
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromTaskEither: <A>(e: TaskEither<unknown, A>) => TaskOption<A> =
+  /*#__PURE__*/
+  T.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
