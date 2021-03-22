@@ -43,25 +43,27 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getFunctorWithIndex](#getfunctorwithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
-  - [getDifferenceMagma](#getdifferencemagma)
-  - [getIntersectionSemigroup](#getintersectionsemigroup)
-  - [getUnionMonoid](#getunionmonoid)
-  - [getUnionSemigroup](#getunionsemigroup)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -70,12 +72,20 @@ Added in v3.0.0
   - [lookupWithKey](#lookupwithkey)
   - [member](#member)
   - [modifyAt](#modifyat)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
+  - [traverse](#traverse)
+  - [traverseWithIndex](#traversewithindex)
   - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
+  - [wilt](#wilt)
+  - [wither](#wither)
 
 ---
 
@@ -376,12 +386,22 @@ export type URI = 'ReadonlyMap'
 
 Added in v3.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 ## getEq
 
 **Signature**
 
 ```ts
-export declare const getEq: <K, A>(EK: Eq<K>, SA: Eq<A>) => Eq<ReadonlyMap<K, A>>
+export declare const getEq: <K, A>(EK: Eq<K>, EA: Eq<A>) => Eq<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -426,6 +446,16 @@ export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'R
 
 Added in v3.0.0
 
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 ## getMonoid
 
 Get a `Monoid` instance for `ReadonlyMap` given a `Semigroup` instance for its values.
@@ -464,6 +494,26 @@ Added in v3.0.0
 
 ```ts
 export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v3.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -526,42 +576,24 @@ export declare const empty: ReadonlyMap<never, never>
 
 Added in v3.0.0
 
-## getDifferenceMagma
+## foldMap
 
 **Signature**
 
 ```ts
-export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyMap<K, A>) => M
 ```
 
 Added in v3.0.0
 
-## getIntersectionSemigroup
+## foldMapWithIndex
 
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## getUnionMonoid
-
-**Signature**
-
-```ts
-export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
-```
-
-Added in v3.0.0
-
-## getUnionSemigroup
-
-**Signature**
-
-```ts
-export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (i: K, a: A) => M) => (fa: ReadonlyMap<K, A>) => M
 ```
 
 Added in v3.0.0
@@ -669,6 +701,50 @@ export declare const modifyAt: <K>(
 
 Added in v3.0.0
 
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (i: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B
+```
+
+Added in v3.0.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (i: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B
+```
+
+Added in v3.0.0
+
 ## size
 
 Calculate the number of key/value pairs in a `ReadonlyMap`.
@@ -710,6 +786,26 @@ export declare function toUnfoldable<F>(
 
 Added in v3.0.0
 
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <K>(O: Ord<K>) => Traverse2C<'ReadonlyMap', K>
+```
+
+Added in v3.0.0
+
+## traverseWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseWithIndex: <K>(O: Ord<K>) => TraverseWithIndex2C<'ReadonlyMap', K, K>
+```
+
+Added in v3.0.0
+
 ## union
 
 **Signature**
@@ -743,6 +839,26 @@ Get a sorted `ReadonlyArray` of the values contained in a `ReadonlyMap`.
 
 ```ts
 export declare const values: <A>(O: Ord<A>) => <K>(m: ReadonlyMap<K, A>) => readonly A[]
+```
+
+Added in v3.0.0
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: <K>(O: Ord<K>) => Wilt2C<'ReadonlyMap', K>
+```
+
+Added in v3.0.0
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: <K>(O: Ord<K>) => Wither2C<'ReadonlyMap', K>
 ```
 
 Added in v3.0.0

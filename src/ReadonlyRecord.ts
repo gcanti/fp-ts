@@ -767,6 +767,7 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
@@ -774,6 +775,7 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>> => ({
@@ -782,6 +784,7 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
@@ -789,6 +792,7 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Readonly
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({

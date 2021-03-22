@@ -53,13 +53,17 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -70,10 +74,6 @@ Added in v3.0.0
   - [every](#every)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
-  - [getDifferenceMagma](#getdifferencemagma)
-  - [getIntersectionSemigroup](#getintersectionsemigroup)
-  - [getUnionMonoid](#getunionmonoid)
-  - [getUnionSemigroup](#getunionsemigroup)
   - [has](#has)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
@@ -504,6 +504,16 @@ export declare const Witherable: Witherable1<'ReadonlyRecord'>
 
 Added in v3.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>() => Magma<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
 ## getEq
 
 **Signature**
@@ -530,6 +540,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v3.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -583,6 +603,26 @@ Added in v3.0.0
 
 ```ts
 export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v3.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0
@@ -694,46 +734,6 @@ Added in v3.0.0
 export declare const foldMapWithIndex: (
   O: Ord<string>
 ) => <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (r: Readonly<Record<K, A>>) => M
-```
-
-Added in v3.0.0
-
-## getDifferenceMagma
-
-**Signature**
-
-```ts
-export declare const getDifferenceMagma: <A>() => Magma<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## getIntersectionSemigroup
-
-**Signature**
-
-```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## getUnionMonoid
-
-**Signature**
-
-```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
-```
-
-Added in v3.0.0
-
-## getUnionSemigroup
-
-**Signature**
-
-```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0

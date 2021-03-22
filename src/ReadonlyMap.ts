@@ -425,8 +425,8 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
  * @category instances
  * @since 3.0.0
  */
-export const getEq = <K, A>(EK: Eq<K>, SA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
-  const isSubmapSKSA = isSubmap(EK, SA)
+export const getEq = <K, A>(EK: Eq<K>, EA: Eq<A>): Eq<ReadonlyMap<K, A>> => {
+  const isSubmapSKSA = isSubmap(EK, EA)
   return fromEquals((second) => (first) => isSubmapSKSA(first)(second) && isSubmapSKSA(second)(first))
 }
 
@@ -522,18 +522,86 @@ export const getFilterableWithIndex = <K = never>(): FilterableWithIndex2C<URI, 
 })
 
 /**
+ * @since 3.0.0
+ */
+export const reduce = <K>(O: Ord<K>): Foldable2C<URI, K>['reduce'] => {
+  const reduceWithIndexO = reduceWithIndex(O)
+  return (b, f) => reduceWithIndexO(b, (_, b, a) => f(b, a))
+}
+
+/**
+ * @since 3.0.0
+ */
+export const foldMap = <K>(O: Ord<K>): Foldable2C<URI, K>['foldMap'] => {
+  const foldMapWithIndexO = foldMapWithIndex(O)
+  return (M) => {
+    const foldMapWithIndexOM = foldMapWithIndexO(M)
+    return (f) => foldMapWithIndexOM((_, a) => f(a))
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const reduceRight = <K>(O: Ord<K>): Foldable2C<URI, K>['reduceRight'] => {
+  const reduceRightWithIndexO = reduceRightWithIndex(O)
+  return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
+}
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
-  const FWI = getFoldableWithIndex(O)
   return {
-    reduce: (b, f) => FWI.reduceWithIndex(b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = FWI.foldMapWithIndex(M)
-      return (f) => foldMapWithIndexM((_, a) => f(a))
-    },
-    reduceRight: (b, f) => FWI.reduceRightWithIndex(b, (_, a, b) => f(a, b))
+    reduce: reduce(O),
+    foldMap: foldMap(O),
+    reduceRight: reduceRight(O)
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const reduceWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K>['reduceWithIndex'] => {
+  const keysO = keys(O)
+  return (b, f) => (m) => {
+    let out = b
+    for (const k of keysO(m)) {
+      out = f(k, out, m.get(k)!)
+    }
+    return out
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const foldMapWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K>['foldMapWithIndex'] => {
+  const keysO = keys(O)
+  return (M) => (f) => (m) => {
+    let out = M.empty
+    for (const k of keysO(m)) {
+      out = M.concat(f(k, m.get(k)!))(out)
+    }
+    return out
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const reduceRightWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K>['reduceRightWithIndex'] => {
+  const keysO = keys(O)
+  return (b, f) => (m) => {
+    let out = b
+    const ks = keysO(m)
+    const len = ks.length
+    for (let i = len - 1; i >= 0; i--) {
+      const k = ks[i]
+      out = f(k, m.get(k)!, out)
+    }
+    return out
   }
 }
 
@@ -542,45 +610,21 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
  * @since 3.0.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
-  const keysO = keys(O)
-
-  const reduceWithIndex = <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = f(k, out, fa.get(k)!)
-    }
-    return out
-  }
-
-  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (fa: ReadonlyMap<K, A>): M => {
-    let out: M = M.empty
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = M.concat(f(k, fa.get(k)!))(out)
-    }
-    return out
-  }
-
-  const reduceRightWithIndex = <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, fa.get(k)!, out)
-    }
-    return out
-  }
-
   return {
-    reduceWithIndex,
-    foldMapWithIndex,
-    reduceRightWithIndex
+    reduceWithIndex: reduceWithIndex(O),
+    foldMapWithIndex: foldMapWithIndex(O),
+    reduceRightWithIndex: reduceRightWithIndex(O)
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const traverse = <K>(O: Ord<K>): Traversable2C<URI, K>['traverse'] => {
+  const traverseWithIndexO = traverseWithIndex(O)
+  return <F>(F: Applicative<F>) => {
+    const traverseWithIndexOF = traverseWithIndexO(F)
+    return <A, B>(f: (a: A) => HKT<F, B>) => traverseWithIndexOF<A, B>((_, a) => f(a))
   }
 }
 
@@ -589,18 +633,28 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, 
  * @since 3.0.0
  */
 export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
-  const TWI = getTraversableWithIndex(O)
-
-  const traverse = <F>(
-    F: Applicative<F>
-  ): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => HKT<F, ReadonlyMap<K, B>>) => {
-    const traverseWithIndexF = TWI.traverseWithIndex(F)
-    return (f) => traverseWithIndexF((_, a) => f(a))
-  }
-
   return {
     map,
-    traverse
+    traverse: traverse(O)
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const traverseWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K>['traverseWithIndex'] => {
+  const keysO = keys(O)
+  return <F>(F: Applicative<F>) => <A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: ReadonlyMap<K, A>) => {
+    let fm: HKT<F, Map<K, B>> = F.of(new Map())
+    for (const k of keysO(ta)) {
+      const a = ta.get(k)!
+      fm = pipe(
+        fm,
+        F.map((m) => (b: B) => m.set(k, b)),
+        F.ap(f(k, a))
+      )
+    }
+    return fm
   }
 }
 
@@ -609,27 +663,23 @@ export const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
  * @since 3.0.0
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
-  const keysO = keys(O)
-  const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(f: (k: K, a: A) => HKT<F, B>) => (
-    ta: ReadonlyMap<K, A>
-  ): HKT<F, ReadonlyMap<K, B>> => {
-    let fm: HKT<F, ReadonlyMap<K, B>> = F.of(empty)
-    const ks = keysO(ta)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const key = ks[i]
-      const a = ta.get(key)!
-      fm = pipe(
-        fm,
-        F.map((m) => (b: B) => new Map(m).set(key, b)),
-        F.ap(f(key, a))
-      )
-    }
-    return fm
-  }
   return {
-    traverseWithIndex
+    traverseWithIndex: traverseWithIndex(O)
   }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const wither = <K>(O: Ord<K>): Witherable2C<URI, K>['wither'] => {
+  return witherDefault(getTraversable(O), Compactable)
+}
+
+/**
+ * @since 3.0.0
+ */
+export const wilt = <K>(O: Ord<K>): Witherable2C<URI, K>['wilt'] => {
+  return wiltDefault(getTraversable(O), Compactable)
 }
 
 /**
@@ -637,14 +687,14 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
  * @since 3.0.0
  */
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
-  const T = getTraversable(O)
   return {
-    wither: witherDefault(T, Compactable),
-    wilt: wiltDefault(T, Compactable)
+    wither: wither(O),
+    wilt: wilt(O)
   }
 }
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
@@ -652,6 +702,7 @@ export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Re
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
@@ -660,6 +711,7 @@ export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<Readonly
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => ({
@@ -667,6 +719,7 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
 })
 
 /**
+ * @category instances
  * @since 3.0.0
  */
 export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A>> => ({

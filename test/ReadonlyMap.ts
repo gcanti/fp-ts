@@ -892,6 +892,8 @@ describe('ReadonlyMap', () => {
           ])
         )
       )
+      // should not change `empty`
+      U.deepStrictEqual(_.empty, new Map<never, never>())
     })
 
     it('traverseWithIndex should sort the keys', () => {
