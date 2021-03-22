@@ -38,10 +38,12 @@ Added in v3.0.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -49,6 +51,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
   - [none](#none)
   - [some](#some)
 - [derivable combinators](#derivable-combinators)
@@ -295,6 +298,18 @@ export declare const chainOptionK: <A, B>(f: (a: A) => O.Option<B>) => (ma: Task
 
 Added in v3.0.0
 
+## chainTaskEitherK
+
+**Signature**
+
+```ts
+export declare const chainTaskEitherK: <A, B>(
+  f: (a: A) => TaskEither<unknown, B>
+) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
 ## chainTaskK
 
 **Signature**
@@ -334,6 +349,18 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionK: <A extends readonly unknown[], B>(
   f: (...a: A) => O.Option<B>
+) => (...a: A) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## fromTaskEitherK
+
+**Signature**
+
+```ts
+export declare const fromTaskEitherK: <A extends readonly unknown[], B>(
+  f: (...a: A) => TaskEither<unknown, B>
 ) => (...a: A) => TaskOption<B>
 ```
 
@@ -400,6 +427,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A>(ma: T.Task<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0

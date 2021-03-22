@@ -709,7 +709,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A>
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0

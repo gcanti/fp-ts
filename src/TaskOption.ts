@@ -34,6 +34,7 @@ import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import * as T from './Task'
+import { TaskEither } from './TaskEither'
 
 import Task = T.Task
 import Option = O.Option
@@ -84,6 +85,14 @@ export const fromPredicate: {
 export const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A> =
   /*#__PURE__*/
   OT.fromEither(T.Pointed)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> =
+  /*#__PURE__*/
+  T.map(O.fromEither)
 
 /**
  * @category constructors
@@ -218,6 +227,14 @@ export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: TaskOption<A>)
   /*#__PURE__*/
   OT.chainOptionK(T.Monad)
 
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => TaskEither<unknown, B>
+): ((...a: A) => TaskOption<B>) => flow(f, fromTaskEither)
+
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
@@ -254,6 +271,14 @@ export const of: Pointed1<URI>['of'] = some
 export const chain: Chain1<URI>['chain'] =
   /*#__PURE__*/
   OT.chain(T.Monad)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainTaskEitherK: <A, B>(f: (a: A) => TaskEither<unknown, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/
+  flow(fromTaskEitherK, chain)
 
 /**
  * Derivable from `Chain`.

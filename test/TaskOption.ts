@@ -3,6 +3,7 @@ import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as T from '../src/Task'
+import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
@@ -231,5 +232,12 @@ describe('TaskOption', () => {
       U.deepStrictEqual(await pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
+  })
+
+  it('chainTaskEitherK', async () => {
+    const f = _.chainTaskEitherK((n: number) => (n > 0 ? TE.right(n * 2) : TE.left('a')))
+    U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
+    U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
+    U.deepStrictEqual(await pipe(_.none, f)(), O.none)
   })
 })

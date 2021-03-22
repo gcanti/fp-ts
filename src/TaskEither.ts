@@ -139,7 +139,7 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromTaskOption = <E>(onNone: Lazy<E>): (<A>(e: TaskOption<A>) => TaskEither<E, A>) =>
+export const fromTaskOption = <E>(onNone: Lazy<E>): (<A>(fa: TaskOption<A>) => TaskEither<E, A>) =>
   T.map(E.fromOption(onNone))
 
 /**
