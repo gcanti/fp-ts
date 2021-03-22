@@ -833,9 +833,8 @@ export const chainOptionK =
  * @category constructors
  * @since 2.11.0
  */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  (onNone) => T.map(E.fromOption(onNone))
+export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
+  T.map(E.fromOption(onNone))
 
 /**
  * @category combinators
