@@ -128,18 +128,21 @@ describe('ReadonlySet', () => {
   })
 
   it('reduce', () => {
-    deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([1, 2, 3])), '123')
-    deepStrictEqual(_.reduce(N.Ord)('', (b, a) => b + a)(new Set([3, 2, 1])), '123')
+    const f = _.reduce(N.Ord)('', (b, a) => b + a)
+    deepStrictEqual(f(new Set([1, 2, 3])), '123')
+    deepStrictEqual(f(new Set([3, 2, 1])), '123')
   })
 
   it('foldMap', () => {
-    deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
-    deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
+    const f = _.foldMap(N.Ord)(getMonoid<number>())((a) => [a])
+    deepStrictEqual(f(new Set([1, 2, 3])), [1, 2, 3])
+    deepStrictEqual(f(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('reduceRight', () => {
-    deepStrictEqual(_.reduceRight(N.Ord)('', (a, b) => b + a)(new Set([1, 2, 3])), '321')
-    deepStrictEqual(_.reduceRight(N.Ord)('', (a, b) => b + a)(new Set([3, 2, 1])), '321')
+    const f = _.reduceRight(N.Ord)('', (a, b) => b + a)
+    deepStrictEqual(f(new Set([1, 2, 3])), '321')
+    deepStrictEqual(f(new Set([3, 2, 1])), '321')
   })
 
   it('singleton', () => {

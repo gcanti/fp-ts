@@ -49,6 +49,7 @@ Added in v3.0.0
   - [isEmpty](#isempty)
   - [isSubset](#issubset)
   - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [size](#size)
   - [some](#some)
   - [toReadonlyArray](#toreadonlyarray)
@@ -374,7 +375,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
+export declare const foldMap: <A>(O: Ord<A>) => <M>(M: Monoid<M>) => (f: (a: A) => M) => (fa: ReadonlySet<A>) => M
 ```
 
 Added in v3.0.0
@@ -409,6 +410,16 @@ Added in v3.0.0
 
 ```ts
 export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B
+```
+
+Added in v3.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B
 ```
 
 Added in v3.0.0

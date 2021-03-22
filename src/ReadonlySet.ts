@@ -482,7 +482,7 @@ export const reduce = <A>(O: Ord<A>): (<B>(b: B, f: (b: B, a: A) => B) => (fa: R
 /**
  * @since 3.0.0
  */
-export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
+export const foldMap = <A>(O: Ord<A>) => <M>(M: Monoid<M>): ((f: (a: A) => M) => (fa: ReadonlySet<A>) => M) => {
   const toReadonlyArrayO = toReadonlyArray(O)
   return (f) => (fa) => toReadonlyArrayO(fa).reduce((b, a) => M.concat(f(a))(b), M.empty)
 }
