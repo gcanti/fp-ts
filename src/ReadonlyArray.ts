@@ -56,6 +56,14 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 export const prepend = RNEA.prepend
 
 /**
+ * Less strict version of [`prepend`](#prepend).
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const prependW = RNEA.prependW
+
+/**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
@@ -68,6 +76,14 @@ export const prepend = RNEA.prepend
  * @since 2.10.0
  */
 export const append = RNEA.append
+
+/**
+ * Less strict version of [`append`](#append).
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const appendW = RNEA.appendW
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.

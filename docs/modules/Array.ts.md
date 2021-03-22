@@ -98,8 +98,10 @@ Added in v2.0.0
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
+  - [appendW](#appendw)
   - [makeBy](#makeby)
   - [prepend](#prepend)
+  - [prependW](#prependw)
   - [range](#range)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
@@ -1340,6 +1342,18 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v2.10.0
 
+## appendW
+
+Less strict version of [`append`](#append).
+
+**Signature**
+
+```ts
+export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
+
 ## makeBy
 
 Return a `Array` of length `n` with element `i` initialized with `f(i)`.
@@ -1383,6 +1397,18 @@ assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
 ```
 
 Added in v2.10.0
+
+## prependW
+
+Less strict version of [`prepend`](#prepend).
+
+**Signature**
+
+```ts
+export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
 
 ## range
 

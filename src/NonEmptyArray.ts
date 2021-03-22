@@ -74,7 +74,17 @@ export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => [he
 /**
  * @internal
  */
+export const prependW = <A, B>(head: B) => (tail: Array<A>): NonEmptyArray<A | B> => [head, ...tail]
+
+/**
+ * @internal
+ */
 export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => concat(init, [end])
+
+/**
+ * @internal
+ */
+export const appendW = <A, B>(end: B) => (init: Array<A>): NonEmptyArray<A | B> => concatW(init, [end])
 
 /**
  * @internal
@@ -223,6 +233,16 @@ export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyAr
 export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
 export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
   return first.concat(second)
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export function concatW<A, B>(first: Array<A>, second: NonEmptyArray<B>): NonEmptyArray<A | B>
+export function concatW<A, B>(first: NonEmptyArray<A>, second: Array<B>): NonEmptyArray<A | B>
+export function concatW<A, B>(first: Array<A>, second: Array<B>): Array<A | B> {
+  return [...first, ...second]
 }
 
 /**

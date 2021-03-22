@@ -366,6 +366,7 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('alt / concat', () => {
     U.deepStrictEqual(_.concat(['a'], []), ['a'])
+    U.deepStrictEqual(_.concatW(['a'], [1]), ['a', 1])
     U.deepStrictEqual(
       pipe(
         ['a'],

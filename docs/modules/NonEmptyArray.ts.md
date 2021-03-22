@@ -52,6 +52,7 @@ Added in v2.0.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [concat](#concat)
+  - [concatW](#concatw)
   - [copy](#copy)
   - [duplicate](#duplicate)
   - [flap](#flap)
@@ -364,6 +365,17 @@ export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): No
 ```
 
 Added in v2.2.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare function concatW<A, B>(first: Array<A>, second: NonEmptyArray<B>): NonEmptyArray<A | B>
+export declare function concatW<A, B>(first: NonEmptyArray<A>, second: Array<B>): NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
 
 ## copy
 

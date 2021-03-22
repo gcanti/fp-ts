@@ -55,6 +55,14 @@ import Option = O.Option
 export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> = NEA.prepend
 
 /**
+ * Less strict version of [`prepend`](#prepend).
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const prependW: <A, B>(head: B) => (tail: Array<A>) => NEA.NonEmptyArray<A | B> = NEA.prependW
+
+/**
  * Append an element to the end of a `Array`, creating a new `NonEmptyArray`.
  *
  * @example
@@ -67,6 +75,14 @@ export const prepend: <A>(head: A) => (tail: Array<A>) => NEA.NonEmptyArray<A> =
  * @since 2.10.0
  */
 export const append: <A>(end: A) => (init: Array<A>) => NEA.NonEmptyArray<A> = NEA.append
+
+/**
+ * Less strict version of [`append`](#append).
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const appendW: <A, B>(end: B) => (init: Array<A>) => NEA.NonEmptyArray<A | B> = NEA.appendW
 
 /**
  * Return a `Array` of length `n` with element `i` initialized with `f(i)`.

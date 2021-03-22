@@ -6,6 +6,13 @@ declare const neas: _.NonEmptyArray<string>
 declare const nens: _.NonEmptyArray<number>
 declare const netns: _.NonEmptyArray<[number, string]>
 
+// concat
+
+_.concat(neas, neas) // $ExpectType NonEmptyArray<string>
+_.concat(neas, neas) // $ExpectType NonEmptyArray<string>
+_.concatW(neas, nens) // $ExpectType NonEmptyArray<string | number>
+_.concatW(nens, neas) // $ExpectType NonEmptyArray<string | number>
+
 //
 // zip
 //
