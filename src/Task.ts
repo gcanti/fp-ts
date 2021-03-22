@@ -28,6 +28,7 @@ import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -464,24 +465,30 @@ export const apS =
  *
  * @since 2.9.0
  */
-export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyArray<A>
-): Task<ReadonlyArray<B>> => () => Promise.all(as.map((x, i) => f(i, x)()))
+export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => <C>(
+  as: ReadonlyArray<A> & { readonly 0?: C }
+): Task<C extends A ? ReadonlyNonEmptyArray<B> : ReadonlyArray<B>> => () =>
+  Promise.all(as.map((x, i) => f(i, x)())) as any
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
  *
  * @since 2.9.0
  */
-export const traverseArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) =>
-  traverseArrayWithIndex((_, a) => f(a))
+export const traverseArray = <A, B>(
+  f: (a: A) => Task<B>
+): (<C>(
+  as: ReadonlyArray<A> & { readonly 0?: C }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
  *
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+export const sequenceArray: <A, B>(
+  arr: ReadonlyArray<Task<A>> & { readonly 0?: Task<B> }
+) => Task<Task<B> extends Task<A> ? ReadonlyNonEmptyArray<A> : ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 
@@ -490,9 +497,9 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArr
  *
  * @since 2.9.0
  */
-export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyArray<A>
-): Task<ReadonlyArray<B>> => () =>
+export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => <C>(
+  as: ReadonlyArray<A> & { readonly 0?: C }
+): Task<C extends A ? ReadonlyNonEmptyArray<B> : ReadonlyArray<B>> => () =>
   as.reduce<Promise<Array<B>>>(
     (acc, a, i) =>
       acc.then((bs) =>
@@ -502,22 +509,27 @@ export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => Task
         })
       ),
     Promise.resolve([])
-  )
+  ) as any
 
 /**
  * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
  *
  * @since 2.9.0
  */
-export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) =>
-  traverseSeqArrayWithIndex((_, a) => f(a))
+export const traverseSeqArray = <A, B>(
+  f: (a: A) => Task<B>
+): (<C>(
+  as: ReadonlyArray<A> & { readonly 0?: C }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
  * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
  *
  * @since 2.9.0
  */
-export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
+export const sequenceSeqArray: <A, B>(
+  arr: ReadonlyArray<Task<A>> & { readonly 0?: Task<B> }
+) => Task<Task<B> extends Task<A> ? ReadonlyNonEmptyArray<A> : ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
 

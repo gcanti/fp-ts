@@ -595,7 +595,9 @@ Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const sequenceArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+export declare const sequenceArray: <A, B>(
+  arr: readonly Task<A>[] & { readonly 0?: Task<B> | undefined }
+) => Task<Task<B> extends Task<A> ? ReadonlyNonEmptyArray<A> : readonly A[]>
 ```
 
 Added in v2.9.0
@@ -607,7 +609,9 @@ Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 **Signature**
 
 ```ts
-export declare const sequenceSeqArray: <A>(arr: readonly Task<A>[]) => Task<readonly A[]>
+export declare const sequenceSeqArray: <A, B>(
+  arr: readonly Task<A>[] & { readonly 0?: Task<B> | undefined }
+) => Task<Task<B> extends Task<A> ? ReadonlyNonEmptyArray<A> : readonly A[]>
 ```
 
 Added in v2.9.0
@@ -619,7 +623,11 @@ Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 **Signature**
 
 ```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
+export declare const traverseArray: <A, B>(
+  f: (a: A) => Task<B>
+) => <C>(
+  as: readonly A[] & { readonly 0?: C | undefined }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : readonly B[]>
 ```
 
 Added in v2.9.0
@@ -633,7 +641,9 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 ```ts
 export declare const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: readonly A[]) => Task<readonly B[]>
+) => <C>(
+  as: readonly A[] & { readonly 0?: C | undefined }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : readonly B[]>
 ```
 
 Added in v2.9.0
@@ -645,7 +655,11 @@ Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, B>(f: (a: A) => Task<B>) => (as: readonly A[]) => Task<readonly B[]>
+export declare const traverseSeqArray: <A, B>(
+  f: (a: A) => Task<B>
+) => <C>(
+  as: readonly A[] & { readonly 0?: C | undefined }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : readonly B[]>
 ```
 
 Added in v2.9.0
@@ -659,7 +673,9 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Task<B>
-) => (as: readonly A[]) => Task<readonly B[]>
+) => <C>(
+  as: readonly A[] & { readonly 0?: C | undefined }
+) => Task<C extends A ? ReadonlyNonEmptyArray<B> : readonly B[]>
 ```
 
 Added in v2.9.0
