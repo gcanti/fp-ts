@@ -349,6 +349,14 @@ export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
   isOutOfBound(i, as) ? _.none : _.some(as[i])
 
 /**
+ * Less strict version of [`prepend`](#prepend)
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const prependW: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.prependW
+
+/**
  * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
@@ -360,7 +368,15 @@ export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
  * @category constructors
  * @since 3.0.0
  */
-export const prepend = RNEA.prepend
+export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RNEA.prepend
+
+/**
+ * Less strict version of [`append`](#append)
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const appendW: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.appendW
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -374,7 +390,7 @@ export const prepend = RNEA.prepend
  * @category constructors
  * @since 3.0.0
  */
-export const append = RNEA.append
+export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RNEA.append
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.

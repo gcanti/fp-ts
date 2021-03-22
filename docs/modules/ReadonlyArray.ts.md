@@ -89,12 +89,14 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
+  - [appendW](#appendw)
   - [comprehension](#comprehension)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
+  - [prependW](#prependw)
   - [replicate](#replicate)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
@@ -1156,6 +1158,18 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v3.0.0
 
+## appendW
+
+Less strict version of [`append`](#append)
+
+**Signature**
+
+```ts
+export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
+```
+
+Added in v3.0.0
+
 ## comprehension
 
 `ReadonlyArray` comprehension.
@@ -1291,6 +1305,18 @@ import { prepend } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], prepend(0)), [0, 1, 2, 3])
+```
+
+Added in v3.0.0
+
+## prependW
+
+Less strict version of [`prepend`](#prepend)
+
+**Signature**
+
+```ts
+export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v3.0.0
