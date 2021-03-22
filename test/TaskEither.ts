@@ -3,7 +3,8 @@ import { flow, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
-import { none, some } from '../src/Option'
+import * as O from '../src/Option'
+import * as TO from '../src/TaskOption'
 import { geq, gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
@@ -188,7 +189,7 @@ describe('TaskEither', () => {
     const C = _.getCompactable(S.Monoid)
 
     it('compact', async () => {
-      U.deepStrictEqual(await C.compact(_.right(some(1)))(), E.right(1))
+      U.deepStrictEqual(await C.compact(_.right(O.some(1)))(), E.right(1))
     })
 
     it('separate', async () => {
@@ -439,14 +440,14 @@ describe('TaskEither', () => {
   it('fromOption', async () => {
     U.deepStrictEqual(
       await pipe(
-        none,
+        O.none,
         _.fromOption(() => 'none')
       )(),
       E.left('none')
     )
     U.deepStrictEqual(
       await pipe(
-        some(1),
+        O.some(1),
         _.fromOption(() => 'none')
       )(),
       E.right(1)
@@ -511,5 +512,12 @@ describe('TaskEither', () => {
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
+  })
+
+  it('chainTaskOptionK', async () => {
+    const f = _.chainTaskOptionK(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
   })
 })

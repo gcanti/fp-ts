@@ -56,6 +56,7 @@ import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
+import { TaskOption } from './TaskOption'
 
 import Either = E.Either
 import Task = T.Task
@@ -133,6 +134,13 @@ export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fr
  * @since 3.0.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromTaskOption = <E>(onNone: Lazy<E>): (<A>(e: TaskOption<A>) => TaskEither<E, A>) =>
+  T.map(E.fromOption(onNone))
 
 /**
  * @category constructors
@@ -315,9 +323,29 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
  * @category combinators
  * @since 3.0.0
  */
+export const fromTaskOptionK = <E>(
+  onNone: Lazy<E>
+): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
+  const from = fromTaskOption(onNone)
+  return (f) => flow(f, from)
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainTaskOptionK = <E>(
+  onNone: Lazy<E>
+): (<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>) =>
+  flow(fromTaskOptionK(onNone), chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
 export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
-): ((...a: A) => TaskEither<E, B>) => (...a) => fromIOEither(f(...a))
+): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
@@ -325,9 +353,9 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOEitherKW: <A, E2, B>(
+export const chainIOEitherKW = <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
+): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => chainW(fromIOEitherK(f))
 
 /**
  * @category combinators

@@ -46,6 +46,7 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
+  - [chainTaskOptionK](#chaintaskoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -54,6 +55,7 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
+  - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
@@ -67,6 +69,7 @@ Added in v3.0.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -422,6 +425,18 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: Ta
 
 Added in v3.0.0
 
+## chainTaskOptionK
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
 ## filterOrElse
 
 **Signature**
@@ -514,6 +529,18 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## fromTaskOptionK
+
+**Signature**
+
+```ts
+export declare const fromTaskOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v3.0.0
@@ -673,6 +700,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
