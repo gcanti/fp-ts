@@ -1173,4 +1173,14 @@ describe('ReadonlyArray', () => {
     U.strictEqual(g(0), _.empty)
     U.deepStrictEqual(g(1), [1])
   })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe([1], _.concatW(['a'])), [1, 'a'])
+    const as = [1, 2, 3]
+    U.strictEqual(pipe(_.empty, _.concatW(as)), as)
+    U.strictEqual(pipe(as, _.concatW(_.empty)), as)
+    const empty: ReadonlyArray<string> = []
+    U.strictEqual(pipe(empty, _.concatW(as)), as)
+    U.strictEqual(pipe(as, _.concatW(empty)), as)
+  })
 })

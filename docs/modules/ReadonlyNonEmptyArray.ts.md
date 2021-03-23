@@ -51,6 +51,8 @@ Added in v3.0.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -423,6 +425,34 @@ assert.deepStrictEqual(
     [3, 'b'],
   ]
 )
+```
+
+Added in v3.0.0
+
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: {
+  <A>(second: ReadonlyNonEmptyArray<A>): (first: readonly A[]) => ReadonlyNonEmptyArray<A>
+  <A>(second: readonly A[]): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+}
+```
+
+Added in v3.0.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export declare function concatW<B>(
+  second: ReadonlyArray<B>
+): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
 ```
 
 Added in v3.0.0

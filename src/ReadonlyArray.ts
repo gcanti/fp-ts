@@ -240,21 +240,14 @@ export function comprehension<A, R>(
  * @category combinators
  * @since 3.0.0
  */
-export const concatW: {
-  <B>(second: ReadonlyNonEmptyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
-  <B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
-  <B>(second: ReadonlyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyArray<A | B>
-} = RNEA.concatW
+export const concatW = <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+  isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const concat: {
-  <A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-  <A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-  <A>(second: ReadonlyArray<A>): (first: ReadonlyArray<A>) => ReadonlyArray<A>
-} = concatW
+export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = concatW
 
 /**
  * Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
@@ -1638,7 +1631,7 @@ export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlyArray<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyArray<A>> => ({
-  concat: (second) => (first) => (isEmpty(first) ? second : isEmpty(second) ? first : first.concat(second))
+  concat
 })
 
 /**

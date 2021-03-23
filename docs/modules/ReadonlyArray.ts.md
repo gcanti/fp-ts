@@ -570,11 +570,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const concat: {
-  <A>(second: RNEA.ReadonlyNonEmptyArray<A>): (first: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
-  <A>(second: readonly A[]): (first: RNEA.ReadonlyNonEmptyArray<A>) => RNEA.ReadonlyNonEmptyArray<A>
-  <A>(second: readonly A[]): (first: readonly A[]) => readonly A[]
-}
+export declare const concat: <A>(second: readonly A[]) => (first: readonly A[]) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -584,11 +580,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const concatW: {
-  <B>(second: RNEA.ReadonlyNonEmptyArray<B>): <A>(first: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
-  <B>(second: readonly B[]): <A>(first: RNEA.ReadonlyNonEmptyArray<A>) => RNEA.ReadonlyNonEmptyArray<B | A>
-  <B>(second: readonly B[]): <A>(first: readonly A[]) => readonly (B | A)[]
-}
+export declare const concatW: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
 Added in v3.0.0

@@ -3,15 +3,11 @@ import { pipe } from '../../src/function'
 import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
-import { ReadonlyNonEmptyArray } from '../../src/ReadonlyNonEmptyArray'
 
 declare const rus: ReadonlyArray<unknown>
-declare const rns: ReadonlyArray<number>
 declare const rss: ReadonlyArray<string>
+declare const rns: ReadonlyArray<number>
 declare const rtns: ReadonlyArray<readonly [number, string]>
-
-declare const rnns: ReadonlyNonEmptyArray<number>
-declare const rnss: ReadonlyNonEmptyArray<string>
 
 //
 // zip
@@ -222,20 +218,16 @@ pipe(rns, _.appendW('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
 // concat
 //
 
-_.concat(rns)(rns) // $ExpectType readonly number[]
-_.concat(rns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
-_.concat(rnns)(rns) // $ExpectType ReadonlyNonEmptyArray<number>
-_.concat(rnns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
-pipe(rns, _.concat(rns)) // $ExpectType readonly number[]
-pipe(rns, _.concat(rnns)) // $ExpectType ReadonlyNonEmptyArray<number>
-pipe(rnns, _.concat(rns)) // $ExpectType ReadonlyNonEmptyArray<number>
-pipe(rnns, _.concat(rnns)) // $ExpectType ReadonlyNonEmptyArray<number>
+_.concat(rss)(rss) // $ExpectType readonly string[]
+pipe(rss, _.concat(rss)) // $ExpectType readonly string[]
 
-// //
-// // concatW
-// //
+//
+// concatW
+//
 
-// _.concatW(rns)(rns) // $ExpectType readonly number[]
-// _.concatW(rns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
-// _.concatW(rnns)(rns) // $ExpectType ReadonlyNonEmptyArray<number>
-// const x = pipe(rns, _.concatW(rns)) // $ExpectType readonly number[]
+_.concatW(rss)(rss) // $ExpectType readonly string[]
+_.concatW(rss)(rns) // $ExpectType readonly (string | number)[]
+_.concatW(rns)(rss) // $ExpectType readonly (string | number)[]
+pipe(rss, _.concatW(rss)) // $ExpectType readonly string[]
+pipe(rss, _.concatW(rns)) // $ExpectType readonly (string | number)[]
+pipe(rns, _.concatW(rss)) // $ExpectType readonly (string | number)[]

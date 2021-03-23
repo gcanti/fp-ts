@@ -84,3 +84,25 @@ pipe(
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
 )
+
+//
+// concat
+//
+
+_.concat(ras)(rneas) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concat(rneas)(ras) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(ras, _.concat(rneas)) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(rneas, _.concat(ras)) // $ExpectType ReadonlyNonEmptyArray<string>
+
+//
+// concatW
+//
+
+_.concatW(ras)(rneas) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concatW(rneas)(ras) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concatW(ras)(rnens) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.concatW(rnens)(ras) // $ExpectType ReadonlyNonEmptyArray<string | number>
+pipe(ras, _.concatW(rneas)) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(rneas, _.concatW(ras)) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(ras, _.concatW(rnens)) // $ExpectType ReadonlyNonEmptyArray<string | number>
+pipe(rnens, _.concatW(ras)) // $ExpectType ReadonlyNonEmptyArray<string | number>

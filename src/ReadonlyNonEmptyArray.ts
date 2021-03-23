@@ -82,22 +82,6 @@ export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmpty
  */
 export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
 
-/**
- * @internal
- */
-export function concatW<B>(
-  second: ReadonlyNonEmptyArray<B>
-): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
-export function concatW<B>(
-  second: ReadonlyArray<B>
-): {
-  <A>(first: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A | B>
-  <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B>
-}
-export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyArray<A>) => ReadonlyArray<A | B> {
-  return <A>(first: ReadonlyArray<A | B>) => first.concat(second)
-}
-
 // -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
@@ -214,6 +198,29 @@ export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(
+  second: ReadonlyArray<B>
+): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(first: ReadonlyNonEmptyArray<A | B>) => first.concat(second)
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const concat: {
+  <A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+  <A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+} = concatW
+
+/**
  * Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
  *
  * @example
@@ -303,7 +310,7 @@ export const sortBy = <B>(
  */
 export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
   const uniqE = uniq(E)
-  return (second) => (first) => uniqE(concatW(second)(first))
+  return (second) => (first) => uniqE(concat(second)(first))
 }
 
 /**
@@ -326,7 +333,7 @@ export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): Readonly
   }
   if (m < 0) {
     const [f, s] = splitAt(-m)(as)
-    return concatW(f)(s)
+    return concat(f)(s)
   } else {
     return rotate(m - len)(as)
   }
@@ -886,7 +893,7 @@ export const getShow = <A>(S: Show<A>): Show<ReadonlyNonEmptyArray<A>> => ({
  * @since 3.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> => ({
-  concat: concatW
+  concat
 })
 
 /**
