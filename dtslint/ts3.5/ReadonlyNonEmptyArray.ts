@@ -2,6 +2,7 @@ import * as _ from '../../src/ReadonlyNonEmptyArray'
 import { pipe } from '../../src/function'
 import { Ord } from '../../src/Ord'
 
+declare const ras: ReadonlyArray<string>
 declare const rneas: _.ReadonlyNonEmptyArray<string>
 declare const rnens: _.ReadonlyNonEmptyArray<number>
 declare const rnetns: _.ReadonlyNonEmptyArray<[number, string]>
