@@ -106,3 +106,10 @@ _.filter(isNumber1)(neasn)
 pipe(neasn, _.filter(isNumber2))
 // $ExpectType Option<ReadonlyNonEmptyArray<number>>
 _.filter(isNumber2)(neasn)
+
+//
+// concat
+//
+
+_.concat(ras, rneas) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concat(rneas, ras) // $ExpectType ReadonlyNonEmptyArray<string>
