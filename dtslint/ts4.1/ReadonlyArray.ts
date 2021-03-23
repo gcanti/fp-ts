@@ -3,11 +3,15 @@ import { pipe } from '../../src/function'
 import * as N from '../../src/number'
 import { Ord } from '../../src/Ord'
 import * as E from '../../src/Either'
+import { ReadonlyNonEmptyArray } from '../../src/ReadonlyNonEmptyArray'
 
 declare const rus: ReadonlyArray<unknown>
 declare const rns: ReadonlyArray<number>
 declare const rss: ReadonlyArray<string>
 declare const rtns: ReadonlyArray<readonly [number, string]>
+
+declare const rnns: ReadonlyNonEmptyArray<number>
+declare const rnss: ReadonlyNonEmptyArray<string>
 
 //
 // zip
@@ -119,12 +123,6 @@ pipe([1, 2], _.union(N.Eq)([3, 4])) // $ExpectType readonly number[]
 pipe([1, 2], _.zip(['a', 'b'])) // $ExpectType readonly (readonly [number, string])[]
 
 //
-// cons
-//
-
-_.prepend(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
-
-//
 // sort
 //
 
@@ -191,3 +189,53 @@ pipe(
 
 // $ExpectType Either<readonly number[], ReadonlyNonEmptyArray<number>>
 pipe(rns, E.fromPredicate(_.some((n) => n > 0)))
+
+//
+// prepend
+//
+
+_.prepend(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
+pipe(rns, _.prepend(0)) // $ExpectType ReadonlyNonEmptyArray<number>
+
+//
+// prependW
+//
+
+_.prependW('a') // $ExpectType <A>(tail: readonly A[]) => ReadonlyNonEmptyArray<string | A>
+pipe(rns, _.prependW('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+
+//
+// append
+//
+
+_.append(0) // $ExpectType (init: readonly number[]) => ReadonlyNonEmptyArray<number>
+pipe(rns, _.append(0)) // $ExpectType ReadonlyNonEmptyArray<number>
+
+//
+// appendW
+//
+
+_.appendW('a') // $ExpectType <A>(init: readonly A[]) => ReadonlyNonEmptyArray<string | A>
+pipe(rns, _.appendW('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+
+//
+// concat
+//
+
+_.concat(rns)(rns) // $ExpectType readonly number[]
+_.concat(rns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
+_.concat(rnns)(rns) // $ExpectType ReadonlyNonEmptyArray<number>
+_.concat(rnns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
+pipe(rns, _.concat(rns)) // $ExpectType readonly number[]
+pipe(rns, _.concat(rnns)) // $ExpectType ReadonlyNonEmptyArray<number>
+pipe(rnns, _.concat(rns)) // $ExpectType ReadonlyNonEmptyArray<number>
+pipe(rnns, _.concat(rnns)) // $ExpectType ReadonlyNonEmptyArray<number>
+
+// //
+// // concatW
+// //
+
+// _.concatW(rns)(rns) // $ExpectType readonly number[]
+// _.concatW(rns)(rnns) // $ExpectType ReadonlyNonEmptyArray<number>
+// _.concatW(rnns)(rns) // $ExpectType ReadonlyNonEmptyArray<number>
+// const x = pipe(rns, _.concatW(rns)) // $ExpectType readonly number[]
