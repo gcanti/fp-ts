@@ -973,6 +973,16 @@ describe('Array', () => {
     })
   })
 
+  it('prepend', () => {
+    U.deepStrictEqual(pipe(['a', 'b'], _.prepend('c')), ['c', 'a', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.prependW(3)), [3, 'a', 'b'])
+  })
+
+  it('append', () => {
+    U.deepStrictEqual(pipe(['a', 'b'], _.append('c')), ['a', 'b', 'c'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.appendW(3)), ['a', 'b', 3])
+  })
+
   it('makeBy', () => {
     U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
     U.deepStrictEqual(_.makeBy(0, U.double), [])

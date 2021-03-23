@@ -9,6 +9,16 @@ declare const rns: ReadonlyArray<number>
 declare const rss: ReadonlyArray<string>
 declare const rtns: ReadonlyArray<readonly [number, string]>
 
+// prepend
+
+pipe(rss, _.prepend('a')) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(rss, _.prependW(1)) // $ExpectType ReadonlyNonEmptyArray<string | number>
+
+// append
+
+pipe(rss, _.append('a')) // $ExpectType ReadonlyNonEmptyArray<string>
+pipe(rss, _.appendW(1)) // $ExpectType ReadonlyNonEmptyArray<string | number>
+
 //
 // zip
 //

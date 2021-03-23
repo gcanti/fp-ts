@@ -69,12 +69,22 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i 
 /**
  * @internal
  */
-export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => [head, ...tail]
+export const prependW = <B>(head: B) => <A>(tail: Array<A>): NonEmptyArray<A | B> => [head, ...tail]
 
 /**
  * @internal
  */
-export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => concat(init, [end])
+export const prepend: <A>(head: A) => (tail: Array<A>) => NonEmptyArray<A> = prependW
+
+/**
+ * @internal
+ */
+export const appendW = <B>(end: B) => <A>(init: Array<A>): NonEmptyArray<A | B> => [...init, end] as any
+
+/**
+ * @internal
+ */
+export const append: <A>(end: A) => (init: Array<A>) => NonEmptyArray<A> = appendW
 
 /**
  * @internal

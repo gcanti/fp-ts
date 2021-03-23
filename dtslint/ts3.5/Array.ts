@@ -9,6 +9,16 @@ declare const ns: Array<number>
 declare const ss: Array<string>
 declare const tns: Array<[number, string]>
 
+// prepend
+
+pipe(ss, _.prepend('a')) // $ExpectType NonEmptyArray<string>
+pipe(ss, _.prependW(1)) // $ExpectType NonEmptyArray<string | number>
+
+// append
+
+pipe(ss, _.append('a')) // $ExpectType NonEmptyArray<string>
+pipe(ss, _.appendW(1)) // $ExpectType NonEmptyArray<string | number>
+
 //
 // zip
 //
