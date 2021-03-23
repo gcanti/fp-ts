@@ -69,22 +69,22 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i 
 /**
  * @internal
  */
-export const prepend = <A>(head: A) => (tail: Array<A>): NonEmptyArray<A> => prependW(head)(tail)
+export const prependW = <B>(head: B) => <A>(tail: Array<A>): NonEmptyArray<A | B> => [head, ...tail]
 
 /**
  * @internal
  */
-export const prependW = <B>(head: B) => <A>(tail: Array<A>): NonEmptyArray<A | B> => concatW([head], tail)
+export const prepend: <A>(head: A) => (tail: Array<A>) => NonEmptyArray<A> = prependW
 
 /**
  * @internal
  */
-export const append = <A>(end: A) => (init: Array<A>): NonEmptyArray<A> => appendW(end)(init)
+export const appendW = <B>(end: B) => <A>(init: Array<A>): NonEmptyArray<A | B> => [...init, end] as any
 
 /**
  * @internal
  */
-export const appendW = <B>(end: B) => <A>(init: Array<A>): NonEmptyArray<A | B> => concatW(init, [end])
+export const append: <A>(end: A) => (init: Array<A>) => NonEmptyArray<A> = appendW
 
 /**
  * @internal
@@ -233,16 +233,6 @@ export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyAr
 export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
 export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
   return first.concat(second)
-}
-
-/**
- * @category combinators
- * @since 2.11.0
- */
-export function concatW<A, B>(first: Array<A>, second: NonEmptyArray<B>): NonEmptyArray<A | B>
-export function concatW<A, B>(first: NonEmptyArray<A>, second: Array<B>): NonEmptyArray<A | B>
-export function concatW<A, B>(first: Array<A>, second: Array<B>): Array<A | B> {
-  return [...first, ...second]
 }
 
 /**

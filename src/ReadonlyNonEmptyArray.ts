@@ -73,23 +73,22 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
 /**
  * @internal
  */
-export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => prependW(head)(tail)
+export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
 
 /**
  * @internal
  */
-export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> =>
-  concatW([head], tail)
+export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = prependW
 
 /**
  * @internal
  */
-export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => appendW(end)(init)
+export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [...init, end] as any
 
 /**
  * @internal
  */
-export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => concatW(init, [end])
+export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = appendW
 
 /**
  * @internal
@@ -248,16 +247,6 @@ export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray
 export function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyArray<A>): ReadonlyArray<A> {
   return first.concat(second)
-}
-
-/**
- * @category combinators
- * @since 2.11.0
- */
-export function concatW<A, B>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<B>): ReadonlyNonEmptyArray<A | B>
-export function concatW<A, B>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<B>): ReadonlyNonEmptyArray<A | B>
-export function concatW<A, B>(first: ReadonlyArray<A>, second: ReadonlyArray<B>): ReadonlyArray<A | B> {
-  return [...first, ...second]
 }
 
 /**

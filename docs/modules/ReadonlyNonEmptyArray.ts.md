@@ -61,7 +61,6 @@ Added in v2.5.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [concat](#concat)
-  - [concatW](#concatw)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -473,23 +472,6 @@ export declare function concat<A>(first: ReadonlyNonEmptyArray<A>, second: Reado
 ```
 
 Added in v2.5.0
-
-## concatW
-
-**Signature**
-
-```ts
-export declare function concatW<A, B>(
-  first: ReadonlyArray<A>,
-  second: ReadonlyNonEmptyArray<B>
-): ReadonlyNonEmptyArray<A | B>
-export declare function concatW<A, B>(
-  first: ReadonlyNonEmptyArray<A>,
-  second: ReadonlyArray<B>
-): ReadonlyNonEmptyArray<A | B>
-```
-
-Added in v2.11.0
 
 ## duplicate
 
