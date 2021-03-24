@@ -11,7 +11,7 @@
  *
  * @since 3.0.0
  */
-import { apply } from './function'
+import { apply, flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { tuple } from './tuple'
 
@@ -129,7 +129,7 @@ export function map<F, G>(
   F: Functor<F>,
   G: Functor<G>
 ): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
-  return (f) => F.map(G.map(f))
+  return flow(G.map, F.map)
 }
 
 // -------------------------------------------------------------------------------------

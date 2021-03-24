@@ -4,7 +4,7 @@
  * @since 3.0.0
  */
 import { Either } from './Either'
-import { pipe } from './function'
+import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
@@ -291,7 +291,7 @@ export function filterMap<F, G>(
   F: Functor<F>,
   G: Filterable<G>
 ): <A, B>(f: (a: A) => Option<B>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
-  return (f) => F.map(G.filterMap(f))
+  return flow(G.filterMap, F.map)
 }
 
 /**
@@ -368,15 +368,5 @@ export function partitionMap<F, G>(
   G: Filterable<G>
 ): <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, C>>> {
   const _filterMap = filterMap(F, G)
-  return (f) => (fga) =>
-    separated(
-      pipe(
-        fga,
-        _filterMap((a) => getLeft(f(a)))
-      ),
-      pipe(
-        fga,
-        _filterMap((a) => getRight(f(a)))
-      )
-    )
+  return (f) => (fga) => separated(pipe(fga, _filterMap(flow(f, getLeft))), pipe(fga, _filterMap(flow(f, getRight))))
 }

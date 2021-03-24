@@ -71,7 +71,7 @@ export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Read
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => (r) => f(fa(r))
+export const map: Functor2<URI>['map'] = (f) => (fa) => flow(fa, f)
 
 /**
  * Less strict version of [`ap`](#ap).

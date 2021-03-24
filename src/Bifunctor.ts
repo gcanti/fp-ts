@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { identity } from './function'
-import { Functor4, Functor3, Functor3C, Functor2, Functor2C, Functor } from './Functor'
+import { Functor, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------

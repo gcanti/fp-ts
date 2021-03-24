@@ -1274,16 +1274,28 @@ export const alt: Alt1<URI>['alt'] = altW
 export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
+ * @since 3.0.0
+ */
+export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
+  as: ReadonlyArray<A>
+): ReadonlyArray<B> => {
+  if (isEmpty(as)) {
+    return empty
+  }
+  const out: Array<B> = []
+  for (let i = 0; i < as.length; i++) {
+    out.push(...f(i, as[i]))
+  }
+  return out
+}
+
+/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = (f) => (ma) =>
-  pipe(
-    ma,
-    chainWithIndex((_, a) => f(a))
-  )
+export const chain: Chain1<URI>['chain'] = (f) => chainWithIndex((_, a) => f(a))
 
 /**
  * Removes one level of nesting
@@ -1303,29 +1315,13 @@ export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray
   chain(identity)
 
 /**
- * @since 3.0.0
- */
-export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyArray<B>) => (
-  as: ReadonlyArray<A>
-): ReadonlyArray<B> => {
-  if (isEmpty(as)) {
-    return empty
-  }
-  const out: Array<B> = []
-  for (let i = 0; i < as.length; i++) {
-    out.push(...f(i, as[i]))
-  }
-  return out
-}
-
-/**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => fa.map((a) => f(a))
+export const map: Functor1<URI>['map'] = (f) => (fa) => fa.map((a) => f(a)) // <= intended eta expansion
 
 /**
  * @category FunctorWithIndex

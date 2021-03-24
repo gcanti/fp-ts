@@ -350,9 +350,7 @@ export function chainNullableK<M>(
 export function chainNullableK<M>(
   M: Monad<M>
 ): <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Option<A>>) => HKT<M, Option<NonNullable<B>>> {
-  const chainM = chain(M)
-  const fromNullableKM = fromNullableK(M)
-  return (f) => chainM(fromNullableKM(f))
+  return flow(fromNullableK(M), chain(M))
 }
 
 /**
@@ -382,9 +380,7 @@ export function chainOptionK<M>(
 export function chainOptionK<M>(
   M: Monad<M>
 ): <A, B>(f: (a: A) => Option<B>) => (ma: HKT<M, Option<A>>) => HKT<M, Option<B>> {
-  const chainM = chain(M)
-  const fromOptionKM = fromOptionK(M)
-  return (f) => chainM(fromOptionKM(f))
+  return flow(fromOptionK(M), chain(M))
 }
 
 // -------------------------------------------------------------------------------------

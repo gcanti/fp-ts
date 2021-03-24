@@ -233,7 +233,7 @@ export const fromNullableK = <E>(
   f: (...a: A) => B | null | undefined
 ) => (...a: A) => Either<E, NonNullable<B>>) => {
   const from = fromNullable(e)
-  return (f) => (...a) => from(f(...a))
+  return (f) => flow(f, from)
 }
 
 /**
@@ -242,10 +242,8 @@ export const fromNullableK = <E>(
  */
 export const chainNullableK = <E>(
   e: Lazy<E>
-): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) => {
-  const from = fromNullableK(e)
-  return (f) => chain(from(f))
-}
+): (<A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>) =>
+  flow(fromNullableK(e), chain)
 
 /**
  * Constructs a new `Either` from a function that might throw.

@@ -10,7 +10,7 @@ import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { flow, identity as id } from './function'
+import { apply, flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -40,7 +40,7 @@ export type Identity<A> = A
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => f(fa)
+export const map: Functor1<URI>['map'] = identity
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -48,13 +48,13 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => f(fa)
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => (fab) => fab(fa)
+export const ap: Apply1<URI>['ap'] = apply
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = id
+export const of: Pointed1<URI>['of'] = identity
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -74,7 +74,7 @@ export const extend: Extend1<URI>['extend'] = (f) => (wa) => f(wa)
  * @category Extract
  * @since 3.0.0
  */
-export const extract: Comonad1<URI>['extract'] = id
+export const extract: Comonad1<URI>['extract'] = identity
 
 /**
  * Derivable from `Extend`.
@@ -84,7 +84,7 @@ export const extract: Comonad1<URI>['extract'] = id
  */
 export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
   /*#__PURE__*/
-  extend(id)
+  extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -94,7 +94,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
  */
 export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
   /*#__PURE__*/
-  chain(id)
+  chain(identity)
 
 /**
  * @category Foldable
@@ -119,7 +119,7 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => (fa) => f(fa
  */
 export const traverse: Traversable1<URI>['traverse'] = <F>(
   F: Applicative_<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => flow(f, F.map(id))
+): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Identity<A>) => HKT<F, Identity<B>>) => (f) => flow(f, F.map(identity))
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -127,7 +127,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @category Alt
  * @since 3.0.0
  */
-export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => id
+export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -164,13 +164,13 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
+export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = identity
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
+export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = identity
 
 /**
  * @category instances

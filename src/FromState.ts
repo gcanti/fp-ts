@@ -101,7 +101,7 @@ export function modify<F extends URIS3, E>(F: FromState3C<F, E>): <S>(f: Endomor
 export function modify<F extends URIS2>(F: FromState2<F>): <S>(f: Endomorphism<S>) => Kind2<F, S, void>
 export function modify<F>(F: FromState<F>): <S>(f: Endomorphism<S>) => HKT2<F, S, void>
 export function modify<F>(F: FromState<F>): <S>(f: Endomorphism<S>) => HKT2<F, S, void> {
-  return (f) => F.fromState(S.modify(f))
+  return flow(S.modify, F.fromState)
 }
 
 /**
@@ -114,7 +114,7 @@ export function gets<F extends URIS3, E>(F: FromState3C<F, E>): <S, A>(f: (s: S)
 export function gets<F extends URIS2>(F: FromState2<F>): <S, A>(f: (s: S) => A) => Kind2<F, S, A>
 export function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A>
 export function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A> {
-  return (f) => F.fromState(S.gets(f))
+  return flow(S.gets, F.fromState)
 }
 
 // -------------------------------------------------------------------------------------

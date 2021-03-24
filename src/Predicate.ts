@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import { Contravariant1 } from './Contravariant'
-import { constFalse, constTrue } from './function'
+import { constFalse, constTrue, flow } from './function'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 
@@ -25,7 +25,7 @@ export interface Predicate<A> {
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant1<URI>['contramap'] = (f) => (predicate) => (b) => predicate(f(b))
+export const contramap: Contravariant1<URI>['contramap'] = (f) => (predicate) => flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
 // instances

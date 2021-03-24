@@ -14,7 +14,7 @@ import { BooleanAlgebra } from './BooleanAlgebra'
 import { Bounded } from './Bounded'
 import { Contravariant2 } from './Contravariant'
 import { Eq } from './Eq'
-import { identity, unsafeCoerce } from './function'
+import { flow, identity, unsafeCoerce } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HeytingAlgebra } from './HeytingAlgebra'
 import { Monoid } from './Monoid'
@@ -60,7 +60,7 @@ export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f) => (fa) => make(f(fa))
+export const bimap: Bifunctor2<URI>['bimap'] = (f) => flow(f, make)
 
 /**
  * Map a function over the first type argument of a bifunctor.
