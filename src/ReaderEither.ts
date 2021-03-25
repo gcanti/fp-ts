@@ -117,20 +117,12 @@ export const fromEither: FromEither3<URI>['fromEither'] = R.of
  * @category destructors
  * @since 2.10.0
  */
-export const match: <R, E, A, B>(
-  onLeft: (e: E) => Reader<R, B>,
-  onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
+export const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  ET.match(R.Monad)
-
-/**
- * Alias of [`match`](#match).
- *
- * @category destructors
- * @since 2.0.0
- */
-export const fold = match
+  ET.match(R.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -138,18 +130,48 @@ export const fold = match
  * @category destructors
  * @since 2.10.0
  */
-export const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => Reader<R2, B>,
-  onRight: (a: A) => Reader<R3, C>
-) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = match as any
+export const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
- * Alias of [`matchW`](#matchW).
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchE: <R, E, A, B>(
+  onLeft: (e: E) => Reader<R, B>,
+  onRight: (a: A) => Reader<R, B>
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
+  /*#__PURE__*/
+  ET.matchE(R.Monad)
+
+/**
+ * Alias of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = matchE
+
+/**
+ * Less strict version of [`matchE`](#matchE).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = matchW
+export const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => Reader<R2, B>,
+  onRight: (a: A) => Reader<R3, C>
+) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = matchE as any
+
+/**
+ * Alias of [`matchEW`](#matchEW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchEW
 
 /**
  * @category destructors

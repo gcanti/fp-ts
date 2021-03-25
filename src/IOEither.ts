@@ -116,17 +116,9 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  * @category destructors
  * @since 2.10.0
  */
-export const match: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  ET.match(I.Monad)
-
-/**
- * Alias of [`match`](#match).
- *
- * @category destructors
- * @since 2.0.0
- */
-export const fold = match
+  ET.match(I.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -135,17 +127,44 @@ export const fold = match
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C>(
-  onLeft: (e: E) => IO<B>,
-  onRight: (a: A) => IO<C>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
 ) => (ma: IOEither<E, A>) => IO<B | C> = match as any
 
 /**
- * Alias of [`matchW`](#matchW).
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchE: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+  /*#__PURE__*/
+  ET.matchE(I.Monad)
+
+/**
+ * Alias of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = matchE
+
+/**
+ * Less strict version of [`matchE`](#matchE).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = matchW
+export const matchEW: <E, B, A, C>(
+  onLeft: (e: E) => IO<B>,
+  onRight: (a: A) => IO<C>
+) => (ma: IOEither<E, A>) => IO<B | C> = matchE as any
+
+/**
+ * Alias of [`matchEW`](#matchEW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchEW
 
 /**
  * @category destructors

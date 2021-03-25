@@ -28,6 +28,7 @@ Added in v2.0.0
   - [map](#map)
   - [mapLeft](#mapleft)
   - [match](#match)
+  - [matchE](#matche)
   - [orElse](#orelse)
   - [right](#right)
   - [rightF](#rightf)
@@ -377,34 +378,64 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function match<M extends URIS3>(
+export declare function match<F extends URIS3>(
+  F: Functor3<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R, ME>(ma: Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, B>
+export declare function match<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <R>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, B>
+export declare function match<F extends URIS2>(
+  F: Functor2<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <FE>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export declare function match<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export declare function match<F extends URIS>(
+  F: Functor1<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind<F, Either<E, A>>) => Kind<F, B>
+export declare function match<F>(
+  F: Functor<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: HKT<F, Either<E, A>>) => HKT<F, B>
+```
+
+Added in v3.0.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare function matchE<M extends URIS3>(
   M: Chain3<M>
 ): <E, R, FE, B, A>(
   onLeft: (e: E) => Kind3<M, R, FE, B>,
   onRight: (a: A) => Kind3<M, R, FE, B>
 ) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export declare function match<M extends URIS3, FE>(
+export declare function matchE<M extends URIS3, FE>(
   M: Chain3C<M, FE>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind3<M, R, FE, B>,
   onRight: (a: A) => Kind3<M, R, FE, B>
 ) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export declare function match<M extends URIS2>(
+export declare function matchE<M extends URIS2>(
   M: Chain2<M>
 ): <E, FE, B, A>(
   onLeft: (e: E) => Kind2<M, FE, B>,
   onRight: (a: A) => Kind2<M, FE, B>
 ) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export declare function match<M extends URIS2, FE>(
+export declare function matchE<M extends URIS2, FE>(
   M: Chain2C<M, FE>
 ): <E, B, A>(
   onLeft: (e: E) => Kind2<M, FE, B>,
   onRight: (a: A) => Kind2<M, FE, B>
 ) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export declare function match<M extends URIS>(
+export declare function matchE<M extends URIS>(
   M: Chain1<M>
 ): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
-export declare function match<M>(
+export declare function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```

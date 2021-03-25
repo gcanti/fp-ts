@@ -220,20 +220,12 @@ export const fromEither: FromEither3<URI>['fromEither'] = RT.of
  * @category destructors
  * @since 2.10.0
  */
-export const match: <R, E, A, B>(
-  onLeft: (e: E) => ReaderTask<R, B>,
-  onRight: (a: A) => ReaderTask<R, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
+export const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.match(RT.Chain)
-
-/**
- * Alias of [`match`](#match).
- *
- * @category destructors
- * @since 2.0.0
- */
-export const fold = match
+  ET.match(RT.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -241,18 +233,48 @@ export const fold = match
  * @category destructors
  * @since 2.10.0
  */
-export const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => ReaderTask<R2, B>,
-  onRight: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = match as any
+export const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = match as any
 
 /**
- * Alias of [`matchW`](#matchW).
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchE: <R, E, A, B>(
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
+  /*#__PURE__*/
+  ET.matchE(RT.Chain)
+
+/**
+ * Alias of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.0.0
+ */
+export const fold = matchE
+
+/**
+ * Less strict version of [`matchE`](#matchE).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = matchW
+export const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => ReaderTask<R2, B>,
+  onRight: (a: A) => ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = matchE as any
+
+/**
+ * Alias of [`matchEW`](#matchEW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchEW
 
 /**
  * @category destructors

@@ -453,4 +453,22 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await left(s2)({})(), E.left(''))
     U.deepStrictEqual(await right(s2)({})(), E.right(1))
   })
+
+  it('match', async () => {
+    const f = _.match(
+      () => 'left',
+      () => 'right'
+    )
+    U.deepStrictEqual(await f(_.right(1))({})(), 'right')
+    U.deepStrictEqual(await f(_.left(''))({})(), 'left')
+  })
+
+  it('matchE', async () => {
+    const f = _.matchE(
+      () => RT.of('left'),
+      () => RT.of('right')
+    )
+    U.deepStrictEqual(await f(_.right(1))({})(), 'right')
+    U.deepStrictEqual(await f(_.left(''))({})(), 'left')
+  })
 })
