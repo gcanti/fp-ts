@@ -64,6 +64,8 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -593,7 +595,7 @@ Added in v2.0.0
 
 ## fold
 
-Alias of [`match`](#match).
+Alias of [`matchE`](#matchE).
 
 **Signature**
 
@@ -608,7 +610,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchEW`](#matchEW).
 
 **Signature**
 
@@ -652,10 +654,38 @@ Added in v2.6.0
 **Signature**
 
 ```ts
-export declare const match: <R, E, A, B>(
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderEither<R, E, A>) => R.Reader<R, B>
+```
+
+Added in v2.10.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare const matchE: <R, E, A, B>(
   onLeft: (e: E) => R.Reader<R, B>,
   onRight: (a: A) => R.Reader<R, B>
 ) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B>
+```
+
+Added in v2.10.0
+
+## matchEW
+
+Less strict version of [`matchE`](#matchE).
+
+**Signature**
+
+```ts
+export declare const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => R.Reader<R2, B>,
+  onRight: (a: A) => R.Reader<R3, C>
+) => <R1>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2 & R3, B | C>
 ```
 
 Added in v2.10.0
@@ -667,10 +697,10 @@ Less strict version of [`match`](#match).
 **Signature**
 
 ```ts
-export declare const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => R.Reader<R2, B>,
-  onRight: (a: A) => R.Reader<R3, C>
-) => <R1>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2 & R3, B | C>
+export declare const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: R.Reader<R, E.Either<E, A>>) => R.Reader<R, B | C>
 ```
 
 Added in v2.10.0

@@ -18,10 +18,20 @@ high state of flux, you're at risk of it changing without notice.
 # 2.10.0-rc.6
 
 - **Breaking Change** (with respect to `2.10.0-rc`)
+  - `EitherT`
+    - rename `match` to `matchE` and add `match`
+  - `IOEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
   - `OptionT`
     - rename `match` to `matchE` and add `match`
+  - `ReaderEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `ReaderTaskEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
   - `TheseT`
     - rename `match` to `matchE` and add `match`
+  - `TaskEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
   - `TaskOption`
     - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
   - `TaskThese`

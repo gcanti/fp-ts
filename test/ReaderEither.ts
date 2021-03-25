@@ -254,4 +254,22 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(left(s2)({}), E.left(''))
     U.deepStrictEqual(right(s2)({}), E.right(1))
   })
+
+  it('match', () => {
+    const f = _.match(
+      () => 'left',
+      () => 'right'
+    )
+    U.deepStrictEqual(f(_.right(1))({}), 'right')
+    U.deepStrictEqual(f(_.left('a'))({}), 'left')
+  })
+
+  it('matchE', () => {
+    const f = _.matchE(
+      () => R.of('left'),
+      () => R.of('right')
+    )
+    U.deepStrictEqual(f(_.right(1))({}), 'right')
+    U.deepStrictEqual(f(_.left('a'))({}), 'left')
+  })
 })

@@ -68,6 +68,8 @@ Added in v2.0.0
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -594,7 +596,7 @@ Added in v2.0.0
 
 ## fold
 
-Alias of [`match`](#match).
+Alias of [`matchE`](#matchE).
 
 **Signature**
 
@@ -609,7 +611,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchEW`](#matchEW).
 
 **Signature**
 
@@ -649,10 +651,35 @@ Added in v2.6.0
 **Signature**
 
 ```ts
-export declare const match: <E, A, B>(
+export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => I.IO<B>
+```
+
+Added in v2.10.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare const matchE: <E, A, B>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<B>
 ) => (ma: IOEither<E, A>) => I.IO<B>
+```
+
+Added in v2.10.0
+
+## matchEW
+
+Less strict version of [`matchE`](#matchE).
+
+**Signature**
+
+```ts
+export declare const matchEW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 
 Added in v2.10.0
@@ -665,8 +692,8 @@ Less strict version of [`match`](#match).
 
 ```ts
 export declare const matchW: <E, B, A, C>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<C>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
 ) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 

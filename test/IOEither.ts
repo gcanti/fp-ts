@@ -512,4 +512,26 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.toUnion(_.right(1))(), 1)
     U.deepStrictEqual(_.toUnion(_.left('a'))(), 'a')
   })
+
+  // -------------------------------------------------------------------------------------
+  // destructors
+  // -------------------------------------------------------------------------------------
+
+  it('match', () => {
+    const f = _.match(
+      () => 'left',
+      () => 'right'
+    )
+    U.deepStrictEqual(f(_.right(1))(), 'right')
+    U.deepStrictEqual(f(_.left(1))(), 'left')
+  })
+
+  it('matchE', () => {
+    const f = _.matchE(
+      () => I.of('left'),
+      () => I.of('right')
+    )
+    U.deepStrictEqual(f(_.right(1))(), 'right')
+    U.deepStrictEqual(f(_.left(1))(), 'left')
+  })
 })
