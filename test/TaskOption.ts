@@ -124,38 +124,33 @@ describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
 
   it('match', async () => {
-    const match = _.match(
+    const f = _.match(
       () => 'none',
       (a) => `some(${a})`
     )
-    U.deepStrictEqual(await pipe(_.some(1), match)(), 'some(1)')
-    U.deepStrictEqual(await pipe(_.none, match)(), 'none')
+    U.deepStrictEqual(await pipe(_.some(1), f)(), 'some(1)')
+    U.deepStrictEqual(await pipe(_.none, f)(), 'none')
   })
 
   it('matchE', async () => {
-    const matchE = _.matchE(
+    const f = _.matchE(
       () => T.of('none'),
       (a) => T.of(`some(${a})`)
     )
-    U.deepStrictEqual(await pipe(_.some(1), matchE)(), 'some(1)')
-    U.deepStrictEqual(await pipe(_.none, matchE)(), 'none')
+    U.deepStrictEqual(await pipe(_.some(1), f)(), 'some(1)')
+    U.deepStrictEqual(await pipe(_.none, f)(), 'none')
   })
 
   it('getOrElse', async () => {
-    U.deepStrictEqual(
-      await pipe(
-        _.some(1),
-        _.getOrElse(() => T.of(2))
-      )(),
-      1
-    )
-    U.deepStrictEqual(
-      await pipe(
-        _.none,
-        _.getOrElse(() => T.of(2))
-      )(),
-      2
-    )
+    const f = _.getOrElse(() => 2)
+    U.deepStrictEqual(await pipe(_.some(1), f)(), 1)
+    U.deepStrictEqual(await pipe(_.none, f)(), 2)
+  })
+
+  it('getOrElseE', async () => {
+    const f = _.getOrElseE(() => T.of(2))
+    U.deepStrictEqual(await pipe(_.some(1), f)(), 1)
+    U.deepStrictEqual(await pipe(_.none, f)(), 2)
   })
 
   // -------------------------------------------------------------------------------------

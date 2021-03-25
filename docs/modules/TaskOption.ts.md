@@ -61,6 +61,8 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
+  - [getOrElseEW](#getorelseew)
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchE](#matche)
@@ -527,7 +529,29 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
+export declare const getOrElse: <A>(onNone: Lazy<A>) => (fa: TaskOption<A>) => T.Task<A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare const getOrElseE: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
+```
+
+Added in v3.0.0
+
+## getOrElseEW
+
+Less strict version of [`getOrElseE`](#getOrElseE).
+
+**Signature**
+
+```ts
+export declare const getOrElseEW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -539,7 +563,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
+export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0

@@ -118,7 +118,7 @@ export const fromTask: <A>(ma: Task<A>) => TaskOption<A> =
  */
 export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOption<A>) => Task<B> =
   /*#__PURE__*/
-  OT.match(T.Monad)
+  OT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -154,9 +154,9 @@ export const matchEW: <B, A, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Task<A> =
+export const getOrElse: <A>(onNone: Lazy<A>) => (fa: TaskOption<A>) => Task<A> =
   /*#__PURE__*/
-  OT.getOrElse(T.Monad)
+  OT.getOrElse(T.Functor)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -164,7 +164,23 @@ export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Tas
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
+export const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseE: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Task<A> =
+  /*#__PURE__*/
+  OT.getOrElseE(T.Monad)
+
+/**
+ * Less strict version of [`getOrElseE`](#getOrElseE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseEW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElseE as any
 
 // -------------------------------------------------------------------------------------
 // interop

@@ -25,6 +25,7 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
   - [map](#map)
   - [match](#match)
   - [matchE](#matche)
@@ -408,25 +409,53 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<M extends URIS4>(
+export declare function getOrElse<F extends URIS4>(
+  F: Functor4<F>
+): <A>(onNone: Lazy<A>) => <S, R, E>(fa: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, A>
+export declare function getOrElse<F extends URIS3>(
+  F: Functor3<F>
+): <A>(onNone: Lazy<A>) => <R, E>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
+export declare function getOrElse<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <A>(onNone: Lazy<A>) => <R>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
+export declare function getOrElse<F extends URIS2>(
+  F: Functor2<F>
+): <A>(onNone: Lazy<A>) => <E>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
+export declare function getOrElse<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <A>(onNone: Lazy<A>) => (fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
+export declare function getOrElse<F extends URIS>(
+  F: Functor1<F>
+): <A>(onNone: Lazy<A>) => (fa: Kind<F, Option<A>>) => Kind<F, A>
+export declare function getOrElse<F>(F: Functor<F>): <A>(onNone: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare function getOrElseE<M extends URIS4>(
   M: Monad4<M>
 ): <S, R, E, A>(onNone: Lazy<Kind4<M, S, R, E, A>>) => (fa: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, A>
-export declare function getOrElse<M extends URIS3>(
+export declare function getOrElseE<M extends URIS3>(
   M: Monad3<M>
 ): <R, E, A>(onNone: Lazy<Kind3<M, R, E, A>>) => (fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
-export declare function getOrElse<M extends URIS3, E>(
+export declare function getOrElseE<M extends URIS3, E>(
   M: Monad3C<M, E>
 ): <R, A>(onNone: Lazy<Kind3<M, R, E, A>>) => (fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
-export declare function getOrElse<M extends URIS2>(
+export declare function getOrElseE<M extends URIS2>(
   M: Monad2<M>
 ): <E, A>(onNone: Lazy<Kind2<M, E, A>>) => (fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
-export declare function getOrElse<M extends URIS2, E>(
+export declare function getOrElseE<M extends URIS2, E>(
   M: Monad2C<M, E>
 ): <A>(onNone: Lazy<Kind2<M, E, A>>) => (fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
-export declare function getOrElse<M extends URIS>(
+export declare function getOrElseE<M extends URIS>(
   M: Monad1<M>
 ): <A>(onNone: Lazy<Kind<M, A>>) => (fa: Kind<M, Option<A>>) => Kind<M, A>
-export declare function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
+export declare function getOrElseE<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
 ```
 
 Added in v3.0.0
@@ -464,27 +493,27 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<M extends URIS4>(
-  M: Chain4<M>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, B>
-export declare function match<M extends URIS3>(
-  M: Chain3<M>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export declare function match<M extends URIS3, E>(
-  M: Chain3C<M, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export declare function match<M extends URIS2>(
-  M: Chain2<M>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export declare function match<M extends URIS2, E>(
-  M: Chain2C<M, E>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export declare function match<M extends URIS>(
-  M: Chain1<M>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<M, Option<A>>) => Kind<M, B>
-export declare function match<M>(
-  M: Chain<M>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<M, Option<A>>) => HKT<M, B>
+export declare function match<F extends URIS4>(
+  F: Functor4<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
+export declare function match<F extends URIS3>(
+  F: Functor3<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export declare function match<F extends URIS2>(
+  F: Functor2<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export declare function match<F extends URIS>(
+  F: Functor1<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
+export declare function match<F>(
+  F: Functor<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
 ```
 
 Added in v3.0.0
