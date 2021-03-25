@@ -15,6 +15,14 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.6
+
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - `OptionT`
+    - rename `match` to `matchE` and add `match`
+  - `TaskOption`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+
 # 2.10.0-rc.5
 
 - **Bug Fix**
