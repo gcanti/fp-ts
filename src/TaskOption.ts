@@ -116,7 +116,7 @@ export const fromTask: <A>(ma: Task<A>) => TaskOption<A> =
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
+export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOption<A>) => Task<B> =
   /*#__PURE__*/
   OT.match(T.Monad)
 
@@ -127,9 +127,28 @@ export const match: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => 
  * @since 3.0.0
  */
 export const matchW: <B, A, C>(
+  onNone: () => B,
+  onSome: (a: A) => C
+) => (ma: TaskOption<A>) => Task<B | C> = match as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
+  /*#__PURE__*/
+  OT.matchE(T.Monad)
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchEW: <B, A, C>(
   onNone: () => Task<B>,
   onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = match as any
+) => (ma: TaskOption<A>) => Task<B | C> = matchE as any
 
 /**
  * @category destructors

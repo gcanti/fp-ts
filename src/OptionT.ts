@@ -247,41 +247,71 @@ export function fromEither<F>(F: Pointed<F>): <A>(e: Either<unknown, A>) => HKT<
  */
 export function match<M extends URIS4>(
   M: Chain4<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, B>
+export function match<M extends URIS3>(
+  M: Chain3<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
+export function match<M extends URIS3, E>(
+  M: Chain3C<M, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
+export function match<M extends URIS2>(
+  M: Chain2<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
+export function match<M extends URIS2, E>(
+  M: Chain2C<M, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
+export function match<M extends URIS>(
+  M: Chain1<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<M, Option<A>>) => Kind<M, B>
+export function match<M>(
+  M: Chain<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<M, Option<A>>) => HKT<M, B>
+export function match<M>(
+  M: Chain<M>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
+  return flow(O.match, M.map)
+}
+
+/**
+ * @since 3.0.0
+ */
+export function matchE<M extends URIS4>(
+  M: Chain4<M>
 ): <S, R, E, B, A>(
   onNone: () => Kind4<M, S, R, E, B>,
   onSome: (a: A) => Kind4<M, S, R, E, B>
 ) => (ma: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, B>
-export function match<M extends URIS3>(
+export function matchE<M extends URIS3>(
   M: Chain3<M>
 ): <R, E, B, A>(
   onNone: () => Kind3<M, R, E, B>,
   onSome: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export function match<M extends URIS3, E>(
+export function matchE<M extends URIS3, E>(
   M: Chain3C<M, E>
 ): <R, B, A>(
   onNone: () => Kind3<M, R, E, B>,
   onSome: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export function match<M extends URIS2>(
+export function matchE<M extends URIS2>(
   M: Chain2<M>
 ): <E, B, A>(
   onNone: () => Kind2<M, E, B>,
   onSome: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export function match<M extends URIS2, E>(
+export function matchE<M extends URIS2, E>(
   M: Chain2C<M, E>
 ): <B, A>(
   onNone: () => Kind2<M, E, B>,
   onSome: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export function match<M extends URIS>(
+export function matchE<M extends URIS>(
   M: Chain1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
   return flow(O.match, M.chain)
