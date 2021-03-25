@@ -17,6 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.10.0-rc.6
 
+- **Bug Fix**
+  - `ReadonlyNonEmptyArray`
+    - remove circular dependency on `NonEmptyArray`, closes #1443
 - **Breaking Change** (with respect to `2.10.0-rc`)
   - `EitherT`
     - rename `match` to `matchE` and add `match`
