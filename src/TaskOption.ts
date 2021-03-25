@@ -105,17 +105,9 @@ export const fromTask: FromTask1<URI>['fromTask'] =
  * @category destructors
  * @since 2.10.0
  */
-export const match: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
+export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOption<A>) => Task<B> =
   /*#__PURE__*/
-  OT.match(T.Chain)
-
-/**
- * Alias of [`match`](#match).
- *
- * @category destructors
- * @since 2.10.0
- */
-export const fold = match
+  OT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -123,18 +115,45 @@ export const fold = match
  * @category destructors
  * @since 2.10.0
  */
-export const matchW: <B, C, A>(
-  onNone: () => Task<B>,
-  onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = fold as any
+export const matchW: <B, A, C>(
+  onNone: () => B,
+  onSome: (a: A) => C
+) => (ma: TaskOption<A>) => Task<B | C> = match as any
 
 /**
- * Alias of [`matchW`](#matchW).
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) => (ma: TaskOption<A>) => Task<B> =
+  /*#__PURE__*/
+  OT.matchE(T.Chain)
+
+/**
+ * Alias of [`matchE`](#matchE).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = matchW
+export const fold = matchE
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchEW: <B, C, A>(
+  onNone: () => Task<B>,
+  onSome: (a: A) => Task<C>
+) => (ma: TaskOption<A>) => Task<B | C> = matchE as any
+
+/**
+ * Alias of [`matchEW`](#matchEW).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const foldW = matchEW
 
 /**
  * @category destructors
