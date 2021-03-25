@@ -3,9 +3,9 @@
  *
  * @since 3.0.0
  */
-import { BoundedLattice } from './BoundedLattice'
+import type { BoundedLattice } from './BoundedLattice'
 import { DistributiveLattice, getMinMaxDistributiveLattice } from './DistributiveLattice'
-import { Ord } from './Ord'
+import type { Ord } from './Ord'
 
 // -------------------------------------------------------------------------------------
 // model

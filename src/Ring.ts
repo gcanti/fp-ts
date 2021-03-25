@@ -9,8 +9,8 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism } from './Endomorphism'
-import { Semiring } from './Semiring'
+import type { Endomorphism } from './Endomorphism'
+import type { Semiring } from './Semiring'
 
 // -------------------------------------------------------------------------------------
 // model

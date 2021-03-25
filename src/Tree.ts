@@ -7,7 +7,7 @@
  *
  * @since 3.0.0
  */
-import {
+import type {
   Applicative as Applicative_,
   Applicative1,
   Applicative2,
@@ -18,19 +18,19 @@ import {
 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { Comonad1 } from './Comonad'
+import type { Comonad1 } from './Comonad'
 import { Eq, fromEquals } from './Eq'
-import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
+import type { Extend1 } from './Extend'
+import type { Foldable1 } from './Foldable'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
-import { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
-import { Pointed1 } from './Pointed'
+import type { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
+import type { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
-import { Show } from './Show'
-import { Traversable1 } from './Traversable'
+import type { Show } from './Show'
+import type { Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model

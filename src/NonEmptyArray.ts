@@ -5,10 +5,8 @@
  *
  * @since 3.0.0
  */
-import * as RNEA from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import * as _ from './internal'
-
-import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model

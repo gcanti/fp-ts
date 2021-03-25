@@ -1,13 +1,13 @@
 /**
  * @since 3.0.0
  */
-import { Alt4 } from './Alt'
-import { Applicative4 } from './Applicative'
+import type { Alt4 } from './Alt'
+import type { Applicative4 } from './Applicative'
 import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { Bifunctor4, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
-import { Endomorphism } from './Endomorphism'
+import type { Endomorphism } from './Endomorphism'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -44,21 +44,21 @@ import {
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import { IO } from './IO'
-import { IOEither } from './IOEither'
-import { Monad4 } from './Monad'
-import { NonEmptyArray } from './NonEmptyArray'
-import { Pointed4 } from './Pointed'
-import { Predicate } from './Predicate'
-import { Reader } from './Reader'
-import { ReaderEither } from './ReaderEither'
+import type { IO } from './IO'
+import type { IOEither } from './IOEither'
+import type { Monad4 } from './Monad'
+import type { NonEmptyArray } from './NonEmptyArray'
+import type { Pointed4 } from './Pointed'
+import type { Predicate } from './Predicate'
+import type { Reader } from './Reader'
+import type { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Refinement } from './Refinement'
-import { State } from './State'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
+import type { State } from './State'
 import * as ST from './StateT'
-import { Task } from './Task'
-import { TaskEither } from './TaskEither'
+import type { Task } from './Task'
+import type { TaskEither } from './TaskEither'
 
 // -------------------------------------------------------------------------------------
 // model

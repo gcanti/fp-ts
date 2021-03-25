@@ -4,10 +4,10 @@
  *
  * @since 3.0.0
  */
-import { Alt2, Alt2C } from './Alt'
-import { Applicative2, Applicative2C } from './Applicative'
+import type { Alt2, Alt2C } from './Alt'
+import type { Applicative2, Applicative2C } from './Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import type { Bifunctor2 } from './Bifunctor'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
@@ -28,14 +28,14 @@ import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
-import { Monad2 } from './Monad'
-import { Monoid } from './Monoid'
-import { NonEmptyArray } from './NonEmptyArray'
-import { Pointed2 } from './Pointed'
-import { Predicate } from './Predicate'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import type { Monad2 } from './Monad'
+import type { Monoid } from './Monoid'
+import type { NonEmptyArray } from './NonEmptyArray'
+import type { Pointed2 } from './Pointed'
+import type { Predicate } from './Predicate'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
+import type { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import IO = I.IO

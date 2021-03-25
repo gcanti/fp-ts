@@ -1,10 +1,10 @@
 /**
  * @since 3.0.0
  */
-import { Alt3, Alt3C } from './Alt'
-import { Applicative3, Applicative3C } from './Applicative'
+import type { Alt3, Alt3C } from './Alt'
+import type { Applicative3, Applicative3C } from './Applicative'
 import { ap as ap_, apFirst as apFirst_, Apply3, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { Bifunctor3 } from './Bifunctor'
+import type { Bifunctor3 } from './Bifunctor'
 import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
 import * as E from './Either'
@@ -30,14 +30,14 @@ import {
 import { flow, identity, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import { Monad3 } from './Monad'
-import { Monoid } from './Monoid'
-import { Pointed3 } from './Pointed'
-import { Predicate } from './Predicate'
+import type { Monad3 } from './Monad'
+import type { Monoid } from './Monoid'
+import type { Pointed3 } from './Pointed'
+import type { Predicate } from './Predicate'
 import * as R from './Reader'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
+import type { Semigroup } from './Semigroup'
 
 import Either = E.Either
 import Reader = R.Reader

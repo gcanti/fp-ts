@@ -1,13 +1,13 @@
 /**
  * @since 3.0.0
  */
-import { Alt1 } from './Alt'
-import { Alternative1 } from './Alternative'
-import { Applicative1 } from './Applicative'
+import type { Alt1 } from './Alt'
+import type { Alternative1 } from './Alternative'
+import type { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
-import { Either } from './Either'
+import type { Either } from './Either'
 import {
   filter as filter_,
   Filterable1,
@@ -25,16 +25,16 @@ import {
 import { flow, identity, Lazy, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import { Monad1 } from './Monad'
-import { NonEmptyArray } from './NonEmptyArray'
+import type { Monad1 } from './Monad'
+import type { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
-import { Pointed1 } from './Pointed'
-import { Predicate } from './Predicate'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Refinement } from './Refinement'
+import type { Pointed1 } from './Pointed'
+import type { Predicate } from './Predicate'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
 import * as T from './Task'
-import { TaskEither } from './TaskEither'
+import type { TaskEither } from './TaskEither'
 
 import Task = T.Task
 import Option = O.Option

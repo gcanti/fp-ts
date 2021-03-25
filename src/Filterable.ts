@@ -3,13 +3,13 @@
  *
  * @since 3.0.0
  */
-import { Either } from './Either'
+import type { Either } from './Either'
 import { flow, pipe } from './function'
-import { Functor, Functor1, Functor2 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { Functor, Functor1, Functor2 } from './Functor'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
-import { Predicate } from './Predicate'
-import { Refinement } from './Refinement'
+import type { Predicate } from './Predicate'
+import type { Refinement } from './Refinement'
 import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------

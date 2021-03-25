@@ -6,7 +6,7 @@
  *
  * @since 3.0.0
  */
-import {
+import type {
   Applicative,
   Applicative1,
   Applicative2,
@@ -16,8 +16,8 @@ import {
   Applicative4
 } from './Applicative'
 import { flow } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model

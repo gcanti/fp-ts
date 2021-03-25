@@ -6,9 +6,9 @@
 import { Either, fromOption } from './Either'
 import { constVoid, flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
-import { separated, Separated, right } from './Separated'
+import { right, Separated, separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
 // model

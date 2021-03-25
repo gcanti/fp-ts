@@ -11,18 +11,18 @@
  *
  * @since 3.0.0
  */
-import { Applicative1 } from './Applicative'
+import type { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { ChainRec1 } from './ChainRec'
-import { FromIO1 } from './FromIO'
+import type { ChainRec1 } from './ChainRec'
+import type { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { Monad1 } from './Monad'
-import { Pointed1 } from './Pointed'
+import type { Monad1 } from './Monad'
+import type { Pointed1 } from './Pointed'
 import * as _ from './internal'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { NonEmptyArray } from './NonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model

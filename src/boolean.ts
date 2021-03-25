@@ -1,9 +1,9 @@
 /**
  * @since 3.0.0
  */
-import { Lazy } from './function'
-import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
+import type { Lazy } from './function'
+import type { Monoid } from './Monoid'
+import type { Semigroup } from './Semigroup'
 import * as E from './Eq'
 import * as BA from './BooleanAlgebra'
 import * as O from './Ord'

@@ -7,22 +7,22 @@
  *
  * @since 3.0.0
  */
-import { Applicative2C } from './Applicative'
-import { Apply2C } from './Apply'
+import type { Applicative2C } from './Applicative'
+import type { Apply2C } from './Apply'
 import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
-import { BooleanAlgebra } from './BooleanAlgebra'
-import { Bounded } from './Bounded'
-import { Contravariant2 } from './Contravariant'
-import { Eq } from './Eq'
+import type { BooleanAlgebra } from './BooleanAlgebra'
+import type { Bounded } from './Bounded'
+import type { Contravariant2 } from './Contravariant'
+import type { Eq } from './Eq'
 import { flow, identity, unsafeCoerce } from './function'
 import { flap as flap_, Functor2 } from './Functor'
-import { HeytingAlgebra } from './HeytingAlgebra'
-import { Monoid } from './Monoid'
-import { Ord } from './Ord'
-import { Ring } from './Ring'
-import { Semigroup } from './Semigroup'
-import { Semiring } from './Semiring'
-import { Show } from './Show'
+import type { HeytingAlgebra } from './HeytingAlgebra'
+import type { Monoid } from './Monoid'
+import type { Ord } from './Ord'
+import type { Ring } from './Ring'
+import type { Semigroup } from './Semigroup'
+import type { Semiring } from './Semiring'
+import type { Show } from './Show'
 
 // -------------------------------------------------------------------------------------
 // model

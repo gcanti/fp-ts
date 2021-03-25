@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Applicative2 } from './Applicative'
+import type { Applicative2 } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
@@ -21,11 +21,11 @@ import {
 import { flow, identity, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import { Monad2 } from './Monad'
-import { Pointed2 } from './Pointed'
+import type { Monad2 } from './Monad'
+import type { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import * as T from './Task'
 
 // -------------------------------------------------------------------------------------

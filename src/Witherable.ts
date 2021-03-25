@@ -3,14 +3,14 @@
  *
  * @since 3.0.0
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable, Compactable1, Compactable2C } from './Compactable'
-import { Either } from './Either'
+import type { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import type { Compactable, Compactable1, Compactable2C } from './Compactable'
+import type { Either } from './Either'
 import { flow } from './function'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
-import { Separated } from './Separated'
-import { Traversable, Traversable1, Traversable2C } from './Traversable'
+import type { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import type { Option } from './Option'
+import type { Separated } from './Separated'
+import type { Traversable, Traversable1, Traversable2C } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model

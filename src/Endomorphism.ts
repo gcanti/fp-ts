@@ -3,8 +3,8 @@
  */
 
 import { flow, identity } from './function'
-import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
+import type { Monoid } from './Monoid'
+import type { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -1,9 +1,9 @@
 /**
  * @since 3.0.0
  */
-import { Comonad2C } from './Comonad'
+import type { Comonad2C } from './Comonad'
 import { flap as flap_, Functor2 } from './Functor'
-import { Monoid } from './Monoid'
+import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // model

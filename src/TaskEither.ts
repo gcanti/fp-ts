@@ -8,8 +8,8 @@
  *
  * @since 3.0.0
  */
-import { Alt2, Alt2C } from './Alt'
-import { Applicative2, Applicative2C } from './Applicative'
+import type { Alt2, Alt2C } from './Alt'
+import type { Applicative2, Applicative2C } from './Applicative'
 import {
   ap as ap_,
   apFirst as apFirst_,
@@ -19,7 +19,7 @@ import {
   apSecond as apSecond_,
   apT as apT_
 } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
+import type { Bifunctor2 } from './Bifunctor'
 import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
 import * as E from './Either'
@@ -45,18 +45,18 @@ import {
 import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import { IO } from './IO'
-import { IOEither } from './IOEither'
-import { Monad2 } from './Monad'
-import { Monoid } from './Monoid'
-import { NonEmptyArray } from './NonEmptyArray'
-import { Pointed2 } from './Pointed'
-import { Predicate } from './Predicate'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import type { IO } from './IO'
+import type { IOEither } from './IOEither'
+import type { Monad2 } from './Monad'
+import type { Monoid } from './Monoid'
+import type { NonEmptyArray } from './NonEmptyArray'
+import type { Pointed2 } from './Pointed'
+import type { Predicate } from './Predicate'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
+import type { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { TaskOption } from './TaskOption'
+import type { TaskOption } from './TaskOption'
 
 import Either = E.Either
 import Task = T.Task

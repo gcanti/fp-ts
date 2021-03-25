@@ -21,8 +21,8 @@
  *
  * @since 3.0.0
  */
-import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
-import { Endomorphism } from './Endomorphism'
+import type { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
+import type { Endomorphism } from './Endomorphism'
 
 // -------------------------------------------------------------------------------------
 // model

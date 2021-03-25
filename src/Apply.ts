@@ -13,9 +13,9 @@
  * @since 3.0.0
  */
 import { flow, pipe } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { reverse, Semigroup } from './Semigroup'
+import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Semigroup, reverse } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

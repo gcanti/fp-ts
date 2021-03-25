@@ -15,7 +15,7 @@
  *
  * @since 3.0.0
  */
-import { Bounded } from './Bounded'
+import type { Bounded } from './Bounded'
 import * as _ from './internal'
 import * as S from './Semigroup'
 

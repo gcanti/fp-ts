@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Semigroup } from './Semigroup'
+import type { Semigroup } from './Semigroup'
 import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------

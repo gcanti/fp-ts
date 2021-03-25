@@ -12,8 +12,8 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monoid } from './Monoid'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // model

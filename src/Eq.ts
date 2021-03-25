@@ -9,11 +9,11 @@
  *
  * @since 3.0.0
  */
-import { Contravariant1 } from './Contravariant'
+import type { Contravariant1 } from './Contravariant'
 import { flow } from './function'
-import { Monoid } from './Monoid'
-import { Ord } from './Ord'
-import { Semigroup } from './Semigroup'
+import type { Monoid } from './Monoid'
+import type { Ord } from './Ord'
+import type { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -3,9 +3,9 @@
  *
  * @since 3.0.0
  */
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
-import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
-import { Task } from './Task'
+import type { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import type { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
+import type { Task } from './Task'
 import { flow } from './function'
 import { Chain4, Chain3, Chain3C, Chain2, Chain2C, Chain1, Chain, chainFirst } from './Chain'
 

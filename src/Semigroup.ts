@@ -15,7 +15,7 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism } from './Endomorphism'
+import type { Endomorphism } from './Endomorphism'
 import { identity } from './function'
 import * as _ from './internal'
 import * as M from './Magma'

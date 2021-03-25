@@ -12,31 +12,31 @@
  *
  * @since 3.0.0
  */
-import { Alt1 } from './Alt'
-import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import type { Alt1 } from './Alt'
+import type { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { Comonad1 } from './Comonad'
-import { Endomorphism } from './Endomorphism'
+import type { Comonad1 } from './Comonad'
+import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
-import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
+import type { Extend1 } from './Extend'
+import type { Foldable1 } from './Foldable'
+import type { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT } from './HKT'
+import type { FunctorWithIndex1 } from './FunctorWithIndex'
+import type { HKT } from './HKT'
 import * as _ from './internal'
-import { Monad1 } from './Monad'
-import * as NEA from './NonEmptyArray'
-import { Option } from './Option'
+import type { Monad1 } from './Monad'
+import { fromReadonlyNonEmptyArray, NonEmptyArray } from './NonEmptyArray'
+import type { Option } from './Option'
 import { getMonoid, Ord } from './Ord'
-import { Pointed1 } from './Pointed'
-import { ReadonlyRecord } from './ReadonlyRecord'
+import type { Pointed1 } from './Pointed'
+import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
-import { Show } from './Show'
-import { Traversable1 } from './Traversable'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
+import type { Show } from './Show'
+import type { Traversable1 } from './Traversable'
+import type { TraversableWithIndex1 } from './TraversableWithIndex'
 import { tuple } from './tuple'
 
 import Semigroup = Se.Semigroup
@@ -112,7 +112,7 @@ export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEm
  */
 export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyNonEmptyArray<A> => {
   const j = Math.max(0, Math.floor(n))
-  const out: NEA.NonEmptyArray<A> = [f(0)]
+  const out: NonEmptyArray<A> = [f(0)]
   for (let i = 1; i < j; i++) {
     out.push(f(i))
   }
@@ -236,7 +236,7 @@ export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNon
   if (as.length === 1) {
     return as
   }
-  const out: NEA.NonEmptyArray<A> = [head(as)]
+  const out: NonEmptyArray<A> = [head(as)]
   const rest = tail(as)
   for (const a of rest) {
     if (out.every((o) => !E.equals(o)(a))) {
@@ -463,7 +463,7 @@ export const group = <B>(E: Eq<B>) => <A extends B>(
     as,
     chop((as) => {
       const h = head(as)
-      const out: NEA.NonEmptyArray<A> = [h]
+      const out: NonEmptyArray<A> = [h]
       let i = 1
       for (; i < as.length; i++) {
         const a = as[i]
@@ -495,7 +495,7 @@ export const group = <B>(E: Eq<B>) => <A extends B>(
 export const groupBy = <A>(f: (a: A) => string) => (
   as: ReadonlyArray<A>
 ): ReadonlyRecord<string, ReadonlyNonEmptyArray<A>> => {
-  const out: Record<string, NEA.NonEmptyArray<A>> = {}
+  const out: Record<string, NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
     if (Object.prototype.hasOwnProperty.call(out, k)) {
@@ -546,7 +546,7 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   if (next === prev) {
     return _.some(as)
   }
-  const out = NEA.fromReadonlyNonEmptyArray(as)
+  const out = fromReadonlyNonEmptyArray(as)
   out[i] = next
   return _.some(out)
 }
@@ -558,7 +558,7 @@ export const modifyAt = <A>(i: number, f: (a: A) => A) => (
 export const zipWith = <B, A, C>(bs: ReadonlyNonEmptyArray<B>, f: (a: A, b: B) => C) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<C> => {
-  const cs: NEA.NonEmptyArray<C> = [f(head(as), head(bs))]
+  const cs: NonEmptyArray<C> = [f(head(as), head(bs))]
   const len = Math.min(as.length, bs.length)
   for (let i = 1; i < len; i++) {
     cs[i] = f(as[i], bs[i])
@@ -580,8 +580,8 @@ export const zip = <B>(bs: ReadonlyNonEmptyArray<B>) => <A>(
 export const unzip = <A, B>(
   abs: ReadonlyNonEmptyArray<readonly [A, B]>
 ): readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>] => {
-  const fa: NEA.NonEmptyArray<A> = [abs[0][0]]
-  const fb: NEA.NonEmptyArray<B> = [abs[0][1]]
+  const fa: NonEmptyArray<A> = [abs[0][0]]
+  const fb: NonEmptyArray<B> = [abs[0][1]]
   for (let i = 1; i < abs.length; i++) {
     fa[i] = abs[i][0]
     fb[i] = abs[i][1]
@@ -602,7 +602,7 @@ export const unzip = <A, B>(
  * @since 3.0.0
  */
 export const prependAll = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
-  const out: NEA.NonEmptyArray<A> = [middle, head(as)]
+  const out: NonEmptyArray<A> = [middle, head(as)]
   for (let i = 1; i < as.length; i++) {
     out.push(middle, as[i])
   }
@@ -633,7 +633,7 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NEA.NonEmptyArray<B> = NEA.fromReadonlyNonEmptyArray(f(0, head(as)))
+  const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
   for (let i = 1; i < as.length; i++) {
     out.push(...f(i, as[i]))
   }
@@ -652,7 +652,7 @@ export const chop = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => readonly [B, Rea
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   const [b, rest] = f(as)
-  const out: NEA.NonEmptyArray<B> = [b]
+  const out: NonEmptyArray<B> = [b]
   let next: ReadonlyArray<A> = rest
   while (isNonEmpty(next)) {
     const [b, rest] = f(next)
@@ -733,7 +733,7 @@ export const extend: Extend1<URI>['extend'] = <A, B>(f: (as: ReadonlyNonEmptyArr
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   let next: ReadonlyArray<A> = tail(as)
-  const out: NEA.NonEmptyArray<B> = [f(as)]
+  const out: NonEmptyArray<B> = [f(as)]
   while (isNonEmpty(next)) {
     out.push(f(next))
     next = tail(next)
@@ -777,7 +777,7 @@ export const map: Functor1<URI>['map'] = (f) => mapWithIndex((_, a) => f(a))
 export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = <A, B>(f: (i: number, a: A) => B) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NEA.NonEmptyArray<B> = [f(0, head(as))]
+  const out: NonEmptyArray<B> = [f(0, head(as))]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i]))
   }

@@ -6,7 +6,7 @@
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { IO } from './IO'
+import type { IO } from './IO'
 
 // -------------------------------------------------------------------------------------
 // model

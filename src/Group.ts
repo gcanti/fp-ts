@@ -5,8 +5,8 @@
  *
  * @since 3.0.0
  */
-import { Endomorphism } from './Endomorphism'
-import { Monoid } from './Monoid'
+import type { Endomorphism } from './Endomorphism'
+import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // model

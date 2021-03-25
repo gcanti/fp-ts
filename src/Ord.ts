@@ -9,14 +9,14 @@
  *
  * @since 3.0.0
  */
-import { Contravariant1 } from './Contravariant'
-import { Endomorphism } from './Endomorphism'
-import { Eq } from './Eq'
+import type { Contravariant1 } from './Contravariant'
+import type { Endomorphism } from './Endomorphism'
+import type { Eq } from './Eq'
 import { flow } from './function'
-import { Monoid } from './Monoid'
-import { Ordering } from './Ordering'
-import { Predicate } from './Predicate'
-import { Semigroup } from './Semigroup'
+import type { Monoid } from './Monoid'
+import type { Ordering } from './Ordering'
+import type { Predicate } from './Predicate'
+import type { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model

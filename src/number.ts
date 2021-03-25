@@ -6,9 +6,9 @@ import * as E from './Eq'
 import * as F from './Field'
 import * as O from './Ord'
 import * as S from './Show'
-import { Semigroup } from './Semigroup'
-import { Monoid } from './Monoid'
-import { Magma } from './Magma'
+import type { Semigroup } from './Semigroup'
+import type { Monoid } from './Monoid'
+import type { Magma } from './Magma'
 
 // -------------------------------------------------------------------------------------
 // instances

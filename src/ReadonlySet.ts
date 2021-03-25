@@ -1,19 +1,19 @@
 /**
  * @since 3.0.0
  */
-import { Either } from './Either'
+import type { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { identity } from './function'
 import * as _ from './internal'
-import { Magma } from './Magma'
-import { Monoid } from './Monoid'
-import { Option } from './Option'
-import { Ord } from './Ord'
+import type { Magma } from './Magma'
+import type { Monoid } from './Monoid'
+import type { Option } from './Option'
+import type { Ord } from './Ord'
 import { not, Predicate } from './Predicate'
-import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import type { Refinement } from './Refinement'
+import type { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
-import { Show } from './Show'
+import type { Show } from './Show'
 
 // -------------------------------------------------------------------------------------
 // constructors

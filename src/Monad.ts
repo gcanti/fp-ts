@@ -11,9 +11,9 @@
  *
  * @since 3.0.0
  */
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import { URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
+import type { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import type { URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 
 // -------------------------------------------------------------------------------------
 // model

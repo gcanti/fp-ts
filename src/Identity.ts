@@ -1,23 +1,23 @@
 /**
  * @since 3.0.0
  */
-import { Alt1 } from './Alt'
-import { Applicative as Applicative_, Applicative1 } from './Applicative'
+import type { Alt1 } from './Alt'
+import type { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec1, tailRec } from './ChainRec'
-import { Comonad1 } from './Comonad'
-import { Eq } from './Eq'
-import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
+import type { Comonad1 } from './Comonad'
+import type { Eq } from './Eq'
+import type { Extend1 } from './Extend'
+import type { Foldable1 } from './Foldable'
 import { apply, flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import * as _ from './internal'
-import { Monad1 } from './Monad'
-import { Pointed1 } from './Pointed'
-import { Show } from './Show'
-import { Traversable1 } from './Traversable'
+import type { Monad1 } from './Monad'
+import type { Pointed1 } from './Pointed'
+import type { Show } from './Show'
+import type { Traversable1 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model

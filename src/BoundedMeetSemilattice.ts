@@ -5,7 +5,7 @@
  *
  * @since 3.0.0
  */
-import { MeetSemilattice } from './MeetSemilattice'
+import type { MeetSemilattice } from './MeetSemilattice'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -19,32 +19,32 @@
  *
  * @since 3.0.0
  */
-import { Applicative, Applicative2C } from './Applicative'
-import { Apply2C } from './Apply'
+import type { Applicative, Applicative2C } from './Applicative'
+import type { Apply2C } from './Apply'
 import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
-import { Chain2C } from './Chain'
+import type { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
-import { Foldable2 } from './Foldable'
+import type { Foldable2 } from './Foldable'
 import {
   FromEither2,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromThese2 } from './FromThese'
+import type { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import * as _ from './internal'
-import { Monad2C } from './Monad'
-import { NonEmptyArray } from './NonEmptyArray'
-import { Option } from './Option'
-import { Pointed2 } from './Pointed'
-import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import { Semigroup } from './Semigroup'
-import { Show } from './Show'
-import { Traversable2 } from './Traversable'
+import type { Monad2C } from './Monad'
+import type { NonEmptyArray } from './NonEmptyArray'
+import type { Option } from './Option'
+import type { Pointed2 } from './Pointed'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Semigroup } from './Semigroup'
+import type { Show } from './Show'
+import type { Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model

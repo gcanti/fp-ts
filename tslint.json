@@ -12,6 +12,7 @@
     "array-type": [true, "generic"],
     "readonly-keyword": true,
     "readonly-array": false,
-    "strict-type-predicates": false
+    "strict-type-predicates": false,
+    "no-duplicate-imports": true
   }
 }

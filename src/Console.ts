@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { IO } from './IO'
+import type { IO } from './IO'
 
 /**
  * @since 3.0.0

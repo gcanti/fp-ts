@@ -10,7 +10,7 @@
  *
  * @since 3.0.0
  */
-import { HeytingAlgebra } from './HeytingAlgebra'
+import type { HeytingAlgebra } from './HeytingAlgebra'
 
 // -------------------------------------------------------------------------------------
 // model

@@ -1,14 +1,14 @@
 /**
  * @since 3.0.0
  */
-import { Applicative2C } from './Applicative'
-import { Apply2C } from './Apply'
-import { Chain2C } from './Chain'
+import type { Applicative2C } from './Applicative'
+import type { Apply2C } from './Apply'
+import type { Chain2C } from './Chain'
 import { flap as flap_, Functor2 } from './Functor'
-import { Monad2C } from './Monad'
-import { Monoid } from './Monoid'
-import { Pointed2C } from './Pointed'
-import { Semigroup } from './Semigroup'
+import type { Monad2C } from './Monad'
+import type { Monoid } from './Monoid'
+import type { Pointed2C } from './Pointed'
+import type { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
