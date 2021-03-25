@@ -140,7 +140,7 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
  */
 export const match =
   /*#__PURE__*/
-  TT.match(T.Monad)
+  TT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).

@@ -286,56 +286,56 @@ export function mapLeft<F>(
 /**
  * @since 3.0.0
  */
-export function match<M extends URIS3>(
-  M: Chain3<M>
+export function match<F extends URIS3>(
+  F: Functor3<F>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => <R, ME>(ma: Kind3<M, R, ME, These<E, A>>) => Kind3<M, R, ME, B>
-export function match<M extends URIS3, ME>(
-  M: Chain3C<M, ME>
+) => <R, FE>(ma: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, B>
+export function match<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => <R>(ma: Kind3<M, R, ME, These<E, A>>) => Kind3<M, R, ME, B>
-export function match<M extends URIS2>(
-  M: Chain2<M>
+) => <R>(ma: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, B>
+export function match<F extends URIS2>(
+  F: Functor2<F>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => <ME>(ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, B>
-export function match<M extends URIS2, ME>(
-  M: Chain2C<M, ME>
+) => <FE>(ma: Kind2<F, FE, These<E, A>>) => Kind2<F, FE, B>
+export function match<M extends URIS2, FE>(
+  F: Functor2C<M, FE>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, B>
-export function match<M extends URIS>(
-  M: Chain1<M>
+) => (ma: Kind2<M, FE, These<E, A>>) => Kind2<M, FE, B>
+export function match<F extends URIS>(
+  F: Functor1<F>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (ma: Kind<M, These<E, A>>) => Kind<M, B>
-export function match<M>(
-  M: Chain<M>
+) => (ma: Kind<F, These<E, A>>) => Kind<F, B>
+export function match<F>(
+  F: Functor<F>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (ma: HKT<M, These<E, A>>) => HKT<M, B>
-export function match<M>(
-  M: Chain<M>
+) => (ma: HKT<F, These<E, A>>) => HKT<F, B>
+export function match<F>(
+  F: Functor<F>
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (ma: HKT<M, These<E, A>>) => HKT<M, B> {
-  return flow(T.match, M.map)
+) => (ma: HKT<F, These<E, A>>) => HKT<F, B> {
+  return flow(T.match, F.map)
 }
 
 /**
