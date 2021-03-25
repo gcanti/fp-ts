@@ -150,4 +150,26 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await f(_.left('a'))(), ['a', 2])
     U.deepStrictEqual(await f(_.both('a', 1))(), ['a', 1])
   })
+
+  it('match', async () => {
+    const match = _.match(
+      (e) => `left ${e}`,
+      (a) => `right ${a}`,
+      (e, a) => `both ${e} ${a}`
+    )
+    U.deepStrictEqual(await pipe(_.right(1), match)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.left('a'), match)(), 'left a')
+    U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
+  })
+
+  it('matchE', async () => {
+    const matchE = _.matchE(
+      (e) => T.of(`left ${e}`),
+      (a) => T.of(`right ${a}`),
+      (e, a) => T.of(`both ${e} ${a}`)
+    )
+    U.deepStrictEqual(await pipe(_.right(1), matchE)(), 'right 1')
+    U.deepStrictEqual(await pipe(_.left('a'), matchE)(), 'left a')
+    U.deepStrictEqual(await pipe(_.both('a', 1), matchE)(), 'both a 1')
+  })
 })
