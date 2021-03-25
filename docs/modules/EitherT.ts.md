@@ -20,11 +20,13 @@ Added in v3.0.0
   - [bracket](#bracket)
   - [chain](#chain)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
   - [left](#left)
   - [leftF](#leftf)
   - [map](#map)
   - [mapLeft](#mapleft)
   - [match](#match)
+  - [matchE](#matche)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orLeft](#orleft)
@@ -252,22 +254,49 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<M extends URIS3>(
+export declare function getOrElse<F extends URIS3>(
+  F: Functor3<F>
+): <E, A>(onLeft: (e: E) => A) => <R, ME>(ma: Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, A>
+export declare function getOrElse<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, A>(onLeft: (e: E) => A) => <R>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, A>
+export declare function getOrElse<F extends URIS2>(
+  F: Functor2<F>
+): <E, A>(onLeft: (e: E) => A) => <FE>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, A>
+export declare function getOrElse<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, A>(onLeft: (e: E) => A) => (ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, A>
+export declare function getOrElse<F extends URIS>(
+  F: Functor1<F>
+): <E, A>(onLeft: (e: E) => A) => (ma: Kind<F, Either<E, A>>) => Kind<F, A>
+export declare function getOrElse<F>(
+  F: Functor<F>
+): <E, A>(onLeft: (e: E) => A) => (ma: HKT<F, Either<E, A>>) => HKT<F, A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare function getOrElseE<M extends URIS3>(
   M: Monad3<M>
 ): <E, R, ME, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
-export declare function getOrElse<M extends URIS3, ME>(
+export declare function getOrElseE<M extends URIS3, ME>(
   M: Monad3C<M, ME>
 ): <E, R, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
-export declare function getOrElse<M extends URIS2>(
+export declare function getOrElseE<M extends URIS2>(
   M: Monad2<M>
 ): <E, ME, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
-export declare function getOrElse<M extends URIS2, ME>(
+export declare function getOrElseE<M extends URIS2, ME>(
   M: Monad2C<M, ME>
 ): <E, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
-export declare function getOrElse<M extends URIS>(
+export declare function getOrElseE<M extends URIS>(
   M: Monad1<M>
 ): <E, A>(onLeft: (e: E) => Kind<M, A>) => (ma: Kind<M, Either<E, A>>) => Kind<M, A>
-export declare function getOrElse<M>(
+export declare function getOrElseE<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A>
 ```
@@ -377,34 +406,64 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function match<M extends URIS3>(
-  M: Chain3<M>
-): <E, R, FE, B, A>(
-  onLeft: (e: E) => Kind3<M, R, FE, B>,
-  onRight: (a: A) => Kind3<M, R, FE, B>
-) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export declare function match<M extends URIS3, FE>(
-  M: Chain3C<M, FE>
-): <E, R, B, A>(
-  onLeft: (e: E) => Kind3<M, R, FE, B>,
-  onRight: (a: A) => Kind3<M, R, FE, B>
-) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export declare function match<M extends URIS2>(
-  M: Chain2<M>
-): <E, FE, B, A>(
-  onLeft: (e: E) => Kind2<M, FE, B>,
-  onRight: (a: A) => Kind2<M, FE, B>
-) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export declare function match<M extends URIS2, FE>(
-  M: Chain2C<M, FE>
+export declare function match<F extends URIS3>(
+  F: Functor3<F>
 ): <E, B, A>(
-  onLeft: (e: E) => Kind2<M, FE, B>,
-  onRight: (a: A) => Kind2<M, FE, B>
-) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export declare function match<M extends URIS>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R, ME>(ma: Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, B>
+export declare function match<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <R>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, B>
+export declare function match<F extends URIS2>(
+  F: Functor2<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <FE>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export declare function match<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export declare function match<F extends URIS>(
+  F: Functor1<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind<F, Either<E, A>>) => Kind<F, B>
+export declare function match<F>(
+  F: Functor<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: HKT<F, Either<E, A>>) => HKT<F, B>
+```
+
+Added in v3.0.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare function matchE<M extends URIS3>(
+  M: Chain3<M>
+): <E, R, ME, B, A>(
+  onLeft: (e: E) => Kind3<M, R, ME, B>,
+  onRight: (a: A) => Kind3<M, R, ME, B>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, B>
+export declare function matchE<M extends URIS3, ME>(
+  M: Chain3C<M, ME>
+): <E, R, B, A>(
+  onLeft: (e: E) => Kind3<M, R, ME, B>,
+  onRight: (a: A) => Kind3<M, R, ME, B>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, B>
+export declare function matchE<M extends URIS2>(
+  M: Chain2<M>
+): <E, ME, B, A>(
+  onLeft: (e: E) => Kind2<M, ME, B>,
+  onRight: (a: A) => Kind2<M, ME, B>
+) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, B>
+export declare function matchE<M extends URIS2, ME>(
+  M: Chain2C<M, ME>
+): <E, B, A>(
+  onLeft: (e: E) => Kind2<M, ME, B>,
+  onRight: (a: A) => Kind2<M, ME, B>
+) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, B>
+export declare function matchE<M extends URIS>(
   M: Chain1<M>
 ): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
-export declare function match<M>(
+export declare function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
 ```

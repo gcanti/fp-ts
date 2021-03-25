@@ -119,18 +119,33 @@ describe('ReaderEither', () => {
   })
 
   it('match', () => {
-    const match = _.match(
-      (s: string) => R.of(s.length),
-      (n: number) => R.of(n * 2)
+    const f = _.match(
+      () => 'left',
+      () => 'right'
     )
-    U.deepStrictEqual(match(_.right(1))({}), 2)
-    U.deepStrictEqual(match(_.left('aaa'))({}), 3)
+    U.deepStrictEqual(f(_.right(1))({}), 'right')
+    U.deepStrictEqual(f(_.left('a'))({}), 'left')
+  })
+
+  it('matchE', () => {
+    const f = _.matchE(
+      () => R.of('left'),
+      () => R.of('right')
+    )
+    U.deepStrictEqual(f(_.right(1))({}), 'right')
+    U.deepStrictEqual(f(_.left('a'))({}), 'left')
   })
 
   it('getOrElse', () => {
-    const getOrElse = _.getOrElse((s: string) => R.of(s.length))
-    U.deepStrictEqual(getOrElse(_.right(1))({}), 1)
-    U.deepStrictEqual(getOrElse(_.left('aaa'))({}), 3)
+    const f = _.getOrElse(() => 2)
+    U.deepStrictEqual(f(_.right(1))({}), 1)
+    U.deepStrictEqual(f(_.left('a'))({}), 2)
+  })
+
+  it('getOrElseE', () => {
+    const f = _.getOrElseE(() => R.of(2))
+    U.deepStrictEqual(f(_.right(1))({}), 1)
+    U.deepStrictEqual(f(_.left('a'))({}), 2)
   })
 
   it('orElse', () => {

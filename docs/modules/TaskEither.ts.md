@@ -83,8 +83,12 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
+  - [getOrElseEW](#getorelseew)
   - [getOrElseW](#getorelsew)
   - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -840,7 +844,29 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: TaskEither<E, A>) => T.Task<A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare const getOrElseE: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
+```
+
+Added in v3.0.0
+
+## getOrElseEW
+
+Less strict version of [`getOrElseE`](#getOrElseE).
+
+**Signature**
+
+```ts
+export declare const getOrElseEW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -852,7 +878,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -862,10 +888,35 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
+export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: TaskEither<E, A>) => T.Task<B>
+```
+
+Added in v3.0.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare const matchE: <E, B, A>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<B>
 ) => (ma: TaskEither<E, A>) => T.Task<B>
+```
+
+Added in v3.0.0
+
+## matchEW
+
+Less strict version of [`matchE`](#matchE).
+
+**Signature**
+
+```ts
+export declare const matchEW: <E, B, A, C>(
+  onLeft: (e: E) => T.Task<B>,
+  onRight: (a: A) => T.Task<C>
+) => (ma: TaskEither<E, A>) => T.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -878,8 +929,8 @@ Less strict version of [`match`](#match).
 
 ```ts
 export declare const matchW: <E, B, A, C>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<C>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
 ) => (ma: TaskEither<E, A>) => T.Task<B | C>
 ```
 

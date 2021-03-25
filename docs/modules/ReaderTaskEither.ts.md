@@ -87,8 +87,12 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
+  - [getOrElseEW](#getorelseew)
   - [getOrElseW](#getorelsew)
   - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -939,9 +943,33 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, R, A>(
+export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare const getOrElseE: <E, R, A>(
   onLeft: (e: E) => RT.ReaderTask<R, A>
 ) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## getOrElseEW
+
+Less strict version of [`getOrElseE`](#getOrElseE).
+
+**Signature**
+
+```ts
+export declare const getOrElseEW: <E, R2, B>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
 ```
 
 Added in v3.0.0
@@ -953,9 +981,9 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <E, R2, B>(
-  onLeft: (e: E) => RT.ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2, B | A>
+export declare const getOrElseW: <E, B>(
+  onLeft: (e: E) => B
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | A>
 ```
 
 Added in v3.0.0
@@ -965,10 +993,38 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, R, B, A>(
+export declare const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare const matchE: <E, R, B, A>(
   onLeft: (e: E) => RT.ReaderTask<R, B>,
   onRight: (a: A) => RT.ReaderTask<R, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## matchEW
+
+Less strict version of [`matchE`](#matchE).
+
+**Signature**
+
+```ts
+export declare const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => RT.ReaderTask<R2, B>,
+  onRight: (a: A) => RT.ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
 ```
 
 Added in v3.0.0
@@ -980,10 +1036,10 @@ Less strict version of [`match`](#match).
 **Signature**
 
 ```ts
-export declare const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => RT.ReaderTask<R2, B>,
-  onRight: (a: A) => RT.ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
+export declare const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0

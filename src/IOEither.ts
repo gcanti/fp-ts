@@ -106,9 +106,9 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
+export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  ET.match(I.Monad)
+  ET.match(I.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -117,17 +117,36 @@ export const match: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>)
  * @since 3.0.0
  */
 export const matchW: <E, B, A, C>(
-  onLeft: (e: E) => IO<B>,
-  onRight: (a: A) => IO<C>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
 ) => (ma: IOEither<E, A>) => IO<B | C> = match as any
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
+export const matchE: <E, B, A>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>) => (ma: IOEither<E, A>) => IO<B> =
   /*#__PURE__*/
-  ET.getOrElse(I.Monad)
+  ET.matchE(I.Monad)
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchEW: <E, B, A, C>(
+  onLeft: (e: E) => IO<B>,
+  onRight: (a: A) => IO<C>
+) => (ma: IOEither<E, A>) => IO<B | C> = matchE as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: IOEither<E, A>) => IO<A> =
+  /*#__PURE__*/
+  ET.getOrElse(I.Functor)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -135,7 +154,23 @@ export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) 
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
+export const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseE: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> =
+  /*#__PURE__*/
+  ET.getOrElseE(I.Monad)
+
+/**
+ * Less strict version of [`getOrElseE`](#getOrElseE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseEW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElseE as any
 
 // -------------------------------------------------------------------------------------
 // interop

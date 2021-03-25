@@ -154,25 +154,33 @@ describe('IOEither', () => {
   // -------------------------------------------------------------------------------------
 
   it('match', () => {
-    U.deepStrictEqual(
-      _.match(
-        () => I.of('left'),
-        () => I.of('right')
-      )(_.right(1))(),
-      'right'
+    const f = _.match(
+      () => 'left',
+      () => 'right'
     )
-    U.deepStrictEqual(
-      _.match(
-        () => I.of('left'),
-        () => I.of('right')
-      )(_.left(1))(),
-      'left'
+    U.deepStrictEqual(f(_.right(1))(), 'right')
+    U.deepStrictEqual(f(_.left(1))(), 'left')
+  })
+
+  it('matchE', () => {
+    const f = _.matchE(
+      () => I.of('left'),
+      () => I.of('right')
     )
+    U.deepStrictEqual(f(_.right(1))(), 'right')
+    U.deepStrictEqual(f(_.left(1))(), 'left')
   })
 
   it('getOrElse', () => {
-    U.deepStrictEqual(_.getOrElse(() => I.of(2))(_.right(1))(), 1)
-    U.deepStrictEqual(_.getOrElse(() => I.of(2))(_.left(1))(), 2)
+    const f = _.getOrElse(() => 2)
+    U.deepStrictEqual(f(_.right(1))(), 1)
+    U.deepStrictEqual(f(_.left('a'))(), 2)
+  })
+
+  it('getOrElseE', () => {
+    const f = _.getOrElseE(() => I.of(2))
+    U.deepStrictEqual(f(_.right(1))(), 1)
+    U.deepStrictEqual(f(_.left('a'))(), 2)
   })
 
   // -------------------------------------------------------------------------------------

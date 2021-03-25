@@ -66,8 +66,12 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
+  - [getOrElseE](#getorelsee)
+  - [getOrElseEW](#getorelseew)
   - [getOrElseW](#getorelsew)
   - [match](#match)
+  - [matchE](#matche)
+  - [matchEW](#matchew)
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
@@ -615,7 +619,29 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
+export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: IOEither<E, A>) => I.IO<A>
+```
+
+Added in v3.0.0
+
+## getOrElseE
+
+**Signature**
+
+```ts
+export declare const getOrElseE: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
+```
+
+Added in v3.0.0
+
+## getOrElseEW
+
+Less strict version of [`getOrElseE`](#getOrElseE).
+
+**Signature**
+
+```ts
+export declare const getOrElseEW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -627,7 +653,7 @@ Less strict version of [`getOrElse`](#getOrElse).
 **Signature**
 
 ```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
+export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
 ```
 
 Added in v3.0.0
@@ -637,10 +663,35 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
+export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => I.IO<B>
+```
+
+Added in v3.0.0
+
+## matchE
+
+**Signature**
+
+```ts
+export declare const matchE: <E, B, A>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<B>
 ) => (ma: IOEither<E, A>) => I.IO<B>
+```
+
+Added in v3.0.0
+
+## matchEW
+
+Less strict version of [`matchE`](#matchE).
+
+**Signature**
+
+```ts
+export declare const matchEW: <E, B, A, C>(
+  onLeft: (e: E) => I.IO<B>,
+  onRight: (a: A) => I.IO<C>
+) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -653,8 +704,8 @@ Less strict version of [`match`](#match).
 
 ```ts
 export declare const matchW: <E, B, A, C>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<C>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
 ) => (ma: IOEither<E, A>) => I.IO<B | C>
 ```
 

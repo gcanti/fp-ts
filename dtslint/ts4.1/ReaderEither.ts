@@ -7,10 +7,20 @@ import { pipe } from '../../src/function'
 // getOrElseW
 //
 
+// $ExpectType Reader<{ a: string; }, string | null>
+pipe(
+  _.right<string, { a: string }, string>('a'),
+  _.getOrElseW(() => null)
+)
+
+//
+// getOrElseEW
+//
+
 // $ExpectType Reader<{ a: string; } & { b: number; }, string | null>
 pipe(
   _.right<string, { a: string }, string>('a'),
-  _.getOrElseW(() => R.of<null, { b: number }>(null))
+  _.getOrElseEW(() => R.of<null, { b: number }>(null))
 )
 
 //

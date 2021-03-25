@@ -10,7 +10,17 @@ import { pipe } from '../../src/function'
 // $ExpectType IO<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseW(() => IO.of(null))
+  _.getOrElseW(() => null)
+)
+
+//
+// getOrElseEW
+//
+
+// $ExpectType IO<string | null>
+pipe(
+  _.right('a'),
+  _.getOrElseEW(() => IO.of(null))
 )
 
 //

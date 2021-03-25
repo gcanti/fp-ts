@@ -192,29 +192,33 @@ describe('ReaderTaskEither', () => {
   })
 
   it('match', async () => {
-    const match = _.match(
-      (l: string) => R.of(T.of(l.length)),
-      (a: number) => R.of(T.of(a * 2))
+    const f = _.match(
+      () => 'left',
+      () => 'right'
     )
-    U.deepStrictEqual(await match(_.right(1))({})(), 2)
-    U.deepStrictEqual(await match(_.left('err'))({})(), 3)
+    U.deepStrictEqual(await f(_.right(1))({})(), 'right')
+    U.deepStrictEqual(await f(_.left(''))({})(), 'left')
+  })
+
+  it('matchE', async () => {
+    const f = _.matchE(
+      () => RT.of('left'),
+      () => RT.of('right')
+    )
+    U.deepStrictEqual(await f(_.right(1))({})(), 'right')
+    U.deepStrictEqual(await f(_.left(''))({})(), 'left')
   })
 
   it('getOrElse', async () => {
-    U.deepStrictEqual(
-      await pipe(
-        _.right(1),
-        _.getOrElse((l: string) => R.of(T.of(l.length)))
-      )({})(),
-      1
-    )
-    U.deepStrictEqual(
-      await pipe(
-        _.left('err'),
-        _.getOrElse((l: string) => R.of(T.of(l.length)))
-      )({})(),
-      3
-    )
+    const f = _.getOrElse(() => 2)
+    U.deepStrictEqual(await f(_.right(1))({})(), 1)
+    U.deepStrictEqual(await f(_.left('a'))({})(), 2)
+  })
+
+  it('getOrElseE', async () => {
+    const f = _.getOrElseE(() => RT.of(2))
+    U.deepStrictEqual(await f(_.right(1))({})(), 1)
+    U.deepStrictEqual(await f(_.left('a'))({})(), 2)
   })
 
   it('orElse', async () => {

@@ -108,12 +108,12 @@ export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, 
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, R, B, A>(
-  onLeft: (e: E) => Reader<R, B>,
-  onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
+export const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  ET.match(R.Monad)
+  ET.match(R.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -121,18 +121,40 @@ export const match: <E, R, B, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => Reader<R2, B>,
-  onRight: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, E.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = match as any
+export const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
+export const matchE: <E, R, B, A>(
+  onLeft: (e: E) => Reader<R, B>,
+  onRight: (a: A) => Reader<R, B>
+) => (ma: ReaderEither<R, E, A>) => Reader<R, B> =
   /*#__PURE__*/
-  ET.getOrElse(R.Monad)
+  ET.matchE(R.Monad)
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => Reader<R2, B>,
+  onRight: (a: A) => Reader<R3, C>
+) => <R1>(ma: Reader<R1, E.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = matchE as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => A) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, A> =
+  /*#__PURE__*/
+  ET.getOrElse(R.Functor)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -140,9 +162,27 @@ export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: Reader
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW: <E, R2, B>(
+export const getOrElseW: <E, B>(
+  onLeft: (e: E) => B
+) => <R, A>(ma: ReaderEither<R, E, A>) => Reader<R, A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseE: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: ReaderEither<R, E, A>) => Reader<R, A> =
+  /*#__PURE__*/
+  ET.getOrElseE(R.Monad)
+
+/**
+ * Less strict version of [`getOrElseE`](#getOrElseE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseEW: <E, R2, B>(
   onLeft: (e: E) => Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElse as any
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElseE as any
 
 // -------------------------------------------------------------------------------------
 // interop

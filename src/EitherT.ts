@@ -13,6 +13,10 @@ import { Semigroup } from './Semigroup'
 
 import Either = E.Either
 
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 3.0.0
  */
@@ -82,6 +86,10 @@ export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F,
 export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>> {
   return F.map(E.left)
 }
+
+// -------------------------------------------------------------------------------------
+// type class members
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0
@@ -270,37 +278,113 @@ export function mapLeft<F>(
 /**
  * @since 3.0.0
  */
-export function match<M extends URIS3>(
-  M: Chain3<M>
-): <E, R, FE, B, A>(
-  onLeft: (e: E) => Kind3<M, R, FE, B>,
-  onRight: (a: A) => Kind3<M, R, FE, B>
-) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export function match<M extends URIS3, FE>(
-  M: Chain3C<M, FE>
-): <E, R, B, A>(
-  onLeft: (e: E) => Kind3<M, R, FE, B>,
-  onRight: (a: A) => Kind3<M, R, FE, B>
-) => (ma: Kind3<M, R, FE, Either<E, A>>) => Kind3<M, R, FE, B>
-export function match<M extends URIS2>(
-  M: Chain2<M>
-): <E, FE, B, A>(
-  onLeft: (e: E) => Kind2<M, FE, B>,
-  onRight: (a: A) => Kind2<M, FE, B>
-) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export function match<M extends URIS2, FE>(
-  M: Chain2C<M, FE>
+export function altValidation<M extends URIS3, E>(
+  M: Monad3<M>,
+  S: Semigroup<E>
+): <R, ME, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export function altValidation<M extends URIS3, ME, E>(
+  M: Monad3C<M, ME>,
+  S: Semigroup<E>
+): <R, A>(
+  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
+) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export function altValidation<M extends URIS2, E>(
+  M: Monad2<M>,
+  S: Semigroup<E>
+): <ME, A>(
+  second: Lazy<Kind2<M, ME, Either<E, A>>>
+) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export function altValidation<M extends URIS2, ME, E>(
+  M: Monad2C<M, ME>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export function altValidation<M extends URIS, E>(
+  M: Monad1<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
+export function altValidation<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
+export function altValidation<M, E>(
+  M: Monad<M>,
+  S: Semigroup<E>
+): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
+  const rightM = right(M)
+  return (second) => (first) =>
+    pipe(first, M.chain(E.match((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), rightM)))
+}
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export function match<F extends URIS3>(
+  F: Functor3<F>
 ): <E, B, A>(
-  onLeft: (e: E) => Kind2<M, FE, B>,
-  onRight: (a: A) => Kind2<M, FE, B>
-) => (ma: Kind2<M, FE, Either<E, A>>) => Kind2<M, FE, B>
-export function match<M extends URIS>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R, ME>(ma: Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, B>
+export function match<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <R>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, B>
+export function match<F extends URIS2>(
+  F: Functor2<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => <FE>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export function match<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, B>
+export function match<F extends URIS>(
+  F: Functor1<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Kind<F, Either<E, A>>) => Kind<F, B>
+export function match<F>(
+  F: Functor<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: HKT<F, Either<E, A>>) => HKT<F, B>
+export function match<F>(
+  F: Functor<F>
+): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: HKT<F, Either<E, A>>) => HKT<F, B> {
+  return flow(E.match, F.map)
+}
+
+/**
+ * @since 3.0.0
+ */
+export function matchE<M extends URIS3>(
+  M: Chain3<M>
+): <E, R, ME, B, A>(
+  onLeft: (e: E) => Kind3<M, R, ME, B>,
+  onRight: (a: A) => Kind3<M, R, ME, B>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, B>
+export function matchE<M extends URIS3, ME>(
+  M: Chain3C<M, ME>
+): <E, R, B, A>(
+  onLeft: (e: E) => Kind3<M, R, ME, B>,
+  onRight: (a: A) => Kind3<M, R, ME, B>
+) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, B>
+export function matchE<M extends URIS2>(
+  M: Chain2<M>
+): <E, ME, B, A>(
+  onLeft: (e: E) => Kind2<M, ME, B>,
+  onRight: (a: A) => Kind2<M, ME, B>
+) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, B>
+export function matchE<M extends URIS2, ME>(
+  M: Chain2C<M, ME>
+): <E, B, A>(
+  onLeft: (e: E) => Kind2<M, ME, B>,
+  onRight: (a: A) => Kind2<M, ME, B>
+) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, B>
+export function matchE<M extends URIS>(
   M: Chain1<M>
 ): <E, B, A>(onLeft: (e: E) => Kind<M, B>, onRight: (a: A) => Kind<M, B>) => (ma: Kind<M, Either<E, A>>) => Kind<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(onLeft: (e: E) => HKT<M, B>, onRight: (a: A) => HKT<M, B>) => (ma: HKT<M, Either<E, A>>) => HKT<M, B> {
   return flow(E.match, M.chain)
@@ -309,29 +393,56 @@ export function match<M>(
 /**
  * @since 3.0.0
  */
-export function getOrElse<M extends URIS3>(
+export function getOrElse<F extends URIS3>(
+  F: Functor3<F>
+): <E, A>(onLeft: (e: E) => A) => <R, ME>(ma: Kind3<F, R, ME, Either<E, A>>) => Kind3<F, R, ME, A>
+export function getOrElse<F extends URIS3, FE>(
+  F: Functor3C<F, FE>
+): <E, A>(onLeft: (e: E) => A) => <R>(ma: Kind3<F, R, FE, Either<E, A>>) => Kind3<F, R, FE, A>
+export function getOrElse<F extends URIS2>(
+  F: Functor2<F>
+): <E, A>(onLeft: (e: E) => A) => <FE>(ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, A>
+export function getOrElse<F extends URIS2, FE>(
+  F: Functor2C<F, FE>
+): <E, A>(onLeft: (e: E) => A) => (ma: Kind2<F, FE, Either<E, A>>) => Kind2<F, FE, A>
+export function getOrElse<F extends URIS>(
+  F: Functor1<F>
+): <E, A>(onLeft: (e: E) => A) => (ma: Kind<F, Either<E, A>>) => Kind<F, A>
+export function getOrElse<F>(F: Functor<F>): <E, A>(onLeft: (e: E) => A) => (ma: HKT<F, Either<E, A>>) => HKT<F, A>
+export function getOrElse<F>(F: Functor<F>): <E, A>(onLeft: (e: E) => A) => (ma: HKT<F, Either<E, A>>) => HKT<F, A> {
+  return flow(E.getOrElse, F.map)
+}
+
+/**
+ * @since 3.0.0
+ */
+export function getOrElseE<M extends URIS3>(
   M: Monad3<M>
 ): <E, R, ME, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
-export function getOrElse<M extends URIS3, ME>(
+export function getOrElseE<M extends URIS3, ME>(
   M: Monad3C<M, ME>
 ): <E, R, A>(onLeft: (e: E) => Kind3<M, R, ME, A>) => (ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
-export function getOrElse<M extends URIS2>(
+export function getOrElseE<M extends URIS2>(
   M: Monad2<M>
 ): <E, ME, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
-export function getOrElse<M extends URIS2, ME>(
+export function getOrElseE<M extends URIS2, ME>(
   M: Monad2C<M, ME>
 ): <E, A>(onLeft: (e: E) => Kind2<M, ME, A>) => (ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
-export function getOrElse<M extends URIS>(
+export function getOrElseE<M extends URIS>(
   M: Monad1<M>
 ): <E, A>(onLeft: (e: E) => Kind<M, A>) => (ma: Kind<M, Either<E, A>>) => Kind<M, A>
-export function getOrElse<M>(
+export function getOrElseE<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A>
-export function getOrElse<M>(
+export function getOrElseE<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A> {
   return (onLeft) => M.chain(E.match(onLeft, M.of))
 }
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * @since 3.0.0
@@ -449,6 +560,10 @@ export function orElseFirst<M>(
     )
 }
 
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
 /**
  * @since 3.0.0
  */
@@ -468,48 +583,6 @@ export function swap<F extends URIS>(F: Functor1<F>): <E, A>(ma: Kind<F, Either<
 export function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>>
 export function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, Either<E, A>>) => HKT<F, Either<A, E>> {
   return F.map(E.swap)
-}
-
-/**
- * @since 3.0.0
- */
-export function altValidation<M extends URIS3, E>(
-  M: Monad3<M>,
-  S: Semigroup<E>
-): <R, ME, A>(
-  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
-) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
-export function altValidation<M extends URIS3, ME, E>(
-  M: Monad3C<M, ME>,
-  S: Semigroup<E>
-): <R, A>(
-  second: Lazy<Kind3<M, R, ME, Either<E, A>>>
-) => (first: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
-export function altValidation<M extends URIS2, E>(
-  M: Monad2<M>,
-  S: Semigroup<E>
-): <ME, A>(
-  second: Lazy<Kind2<M, ME, Either<E, A>>>
-) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
-export function altValidation<M extends URIS2, ME, E>(
-  M: Monad2C<M, ME>,
-  S: Semigroup<E>
-): <A>(second: Lazy<Kind2<M, ME, Either<E, A>>>) => (first: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
-export function altValidation<M extends URIS, E>(
-  M: Monad1<M>,
-  S: Semigroup<E>
-): <A>(second: Lazy<Kind<M, Either<E, A>>>) => (first: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
-export function altValidation<M, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
-export function altValidation<M, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-): <A>(second: Lazy<HKT<M, Either<E, A>>>) => (first: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
-  const rightM = right(M)
-  return (second) => (first) =>
-    pipe(first, M.chain(E.match((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), rightM)))
 }
 
 /**

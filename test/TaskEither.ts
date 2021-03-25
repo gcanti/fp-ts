@@ -520,4 +520,34 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
     U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
   })
+
+  it('match', async () => {
+    const f = _.match(
+      () => 'left',
+      () => 'right'
+    )
+    U.deepStrictEqual(await f(_.right(1))(), 'right')
+    U.deepStrictEqual(await f(_.left(''))(), 'left')
+  })
+
+  it('matchE', async () => {
+    const f = _.matchE(
+      () => T.of('left'),
+      () => T.of('right')
+    )
+    U.deepStrictEqual(await f(_.right(1))(), 'right')
+    U.deepStrictEqual(await f(_.left(''))(), 'left')
+  })
+
+  it('getOrElse', async () => {
+    const f = _.getOrElse(() => 2)
+    U.deepStrictEqual(await f(_.right(1))(), 1)
+    U.deepStrictEqual(await f(_.left('a'))(), 2)
+  })
+
+  it('getOrElseE', async () => {
+    const f = _.getOrElseE(() => T.of(2))
+    U.deepStrictEqual(await f(_.right(1))(), 1)
+    U.deepStrictEqual(await f(_.left('a'))(), 2)
+  })
 })

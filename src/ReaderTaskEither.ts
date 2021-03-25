@@ -213,12 +213,12 @@ export const fromTask: FromTask3<URI>['fromTask'] = rightTask
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, R, B, A>(
-  onLeft: (e: E) => ReaderTask<R, B>,
-  onRight: (a: A) => ReaderTask<R, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
+export const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.match(RT.Monad)
+  ET.match(RT.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -226,20 +226,40 @@ export const match: <E, R, B, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchW: <E, R2, B, A, R3, C>(
-  onLeft: (e: E) => ReaderTask<R2, B>,
-  onRight: (a: A) => ReaderTask<R3, C>
-) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = match as any
+export const matchW: <E, B, A, C>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = match as any
 
 /**
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, R, A>(
-  onLeft: (e: E) => ReaderTask<R, A>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> =
+export const matchE: <E, R, B, A>(
+  onLeft: (e: E) => ReaderTask<R, B>,
+  onRight: (a: A) => ReaderTask<R, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> =
   /*#__PURE__*/
-  ET.getOrElse(RT.Monad)
+  ET.matchE(RT.Monad)
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchEW: <E, R2, B, A, R3, C>(
+  onLeft: (e: E) => ReaderTask<R2, B>,
+  onRight: (a: A) => ReaderTask<R3, C>
+) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = matchE as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElse: <E, A>(onLeft: (e: E) => A) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  ET.getOrElse(RT.Functor)
 
 /**
  * Less strict version of [`getOrElse`](#getOrElse).
@@ -247,9 +267,29 @@ export const getOrElse: <E, R, A>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseW: <E, R2, B>(
+export const getOrElseW: <E, B>(
+  onLeft: (e: E) => B
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseE: <E, R, A>(
+  onLeft: (e: E) => ReaderTask<R, A>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> =
+  /*#__PURE__*/
+  ET.getOrElseE(RT.Monad)
+
+/**
+ * Less strict version of [`getOrElseE`](#getOrElseE).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const getOrElseEW: <E, R2, B>(
   onLeft: (e: E) => ReaderTask<R2, B>
-) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = getOrElse as any
+) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = getOrElseE as any
 
 // -------------------------------------------------------------------------------------
 // interop

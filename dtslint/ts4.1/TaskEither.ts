@@ -11,7 +11,17 @@ import { pipe } from '../../src/function'
 // $ExpectType Task<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseW(() => T.of(null))
+  _.getOrElseW(() => null)
+)
+
+//
+// getOrElseEW
+//
+
+// $ExpectType Task<string | null>
+pipe(
+  _.right('a'),
+  _.getOrElseEW(() => T.of(null))
 )
 
 //
