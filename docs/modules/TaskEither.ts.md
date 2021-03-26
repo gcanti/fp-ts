@@ -63,6 +63,8 @@ Added in v2.0.0
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
+  - [swapped](#swapped)
+  - [swappedW](#swappedw)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
@@ -651,6 +653,32 @@ export declare const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E>
 ```
 
 Added in v2.0.0
+
+## swapped
+
+**Signature**
+
+```ts
+export declare const swapped: <E, A>(
+  f: (fa: TaskEither<A, E>) => TaskEither<A, E>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.11.0
+
+## swappedW
+
+Less strict version of [`swapped`](#swapped).
+
+**Signature**
+
+```ts
+export declare const swappedW: <E1, E2, A1, A2>(
+  f: (fa: TaskEither<A1, E1>) => TaskEither<A2, E2>
+) => (ma: TaskEither<E1, A1>) => TaskEither<E2, A2>
+```
+
+Added in v2.11.0
 
 # constructors
 

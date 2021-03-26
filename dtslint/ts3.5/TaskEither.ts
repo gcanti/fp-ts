@@ -46,6 +46,57 @@ pipe(
 )
 
 //
+// swapped
+//
+
+// $ExpectType TaskEither<number, string>
+pipe(
+  _.right<number, string>('foo'),
+  _.swapped(
+    _.mapLeft((a) => `${a}bar`)
+  )
+)
+
+// $ExpectType TaskEither<number, string>
+pipe(
+  _.left<number, string>(1),
+  _.swapped(
+    _.map((a) => a + 1)
+  )
+)
+
+//
+// swappedW
+//
+
+// $ExpectType TaskEither<number, number>
+pipe(
+  _.right<number, string>('foo'),
+  _.swappedW(
+    _.mapLeft((a) => a.length)
+  )
+)
+
+// $ExpectType TaskEither<string, string>
+pipe(
+  _.left<number, string>(1),
+  _.swappedW(
+    _.map(String)
+  )
+)
+
+// $ExpectType TaskEither<string, number>
+pipe(
+  _.left<number, string>(1),
+  _.swappedW(
+    _.bimap(
+      (a) => a.length,
+      String
+    )
+  )
+)
+
+//
 // fromTaskOption
 //
 

@@ -777,6 +777,24 @@ export const chainFirstW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirst as any
 
 /**
+ * Less strict version of [`swapped`](#swapped).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const swappedW: <E1, E2, A1, A2>(
+  f: (fa: TaskEither<A1, E1>) => TaskEither<A2, E2>
+) => (ma: TaskEither<E1, A1>) => TaskEither<E2, A2> = (f) => flow(swap, f, swap)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const swapped: <E, A>(
+  f: (fa: TaskEither<A, E>) => TaskEither<A, E>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A> = swappedW
+
+/**
  * @category instances
  * @since 2.7.0
  */

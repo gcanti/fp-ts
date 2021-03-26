@@ -83,6 +83,19 @@ describe('TaskEither', () => {
     )
   })
 
+  it('swapped', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.swapped(_.mapLeft((a) => `${a}bar`)))(),
+      E.right('foobar')
+    )
+    U.deepStrictEqual(await pipe(_.left<number, string>(1), _.swapped(_.map((a) => a + 1)))(), E.left(2))
+  })
+
+  it('swappedW', async () => {
+    U.deepStrictEqual(await pipe(_.right<number, string>('foo'), _.swappedW(_.mapLeft((a) => a.length)))(), E.right(3))
+    U.deepStrictEqual(await pipe(_.left<number, string>(1), _.swappedW(_.map(String)))(), E.left('1'))
+  })
+
   it('flatten', async () => {
     U.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
   })
