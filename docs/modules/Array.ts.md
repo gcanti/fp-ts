@@ -99,6 +99,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
@@ -1350,6 +1352,27 @@ Less strict version of [`append`](#append).
 
 ```ts
 export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(ma: O.Option<A>) => A[]
+```
+
+Added in v2.11.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
 ```
 
 Added in v2.11.0

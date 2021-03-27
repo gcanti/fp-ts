@@ -4,7 +4,7 @@ import * as _ from '../src/Array'
 import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
-import { identity, pipe, Predicate, tuple } from '../src/function'
+import { identity, pipe, Refinement, Predicate, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
@@ -1114,5 +1114,24 @@ describe('Array', () => {
 
   it('copy', () => {
     U.deepStrictEqual(pipe([1, 2, 3], _.copy), [1, 2, 3])
+  })
+
+  describe('fromPredicate', () => {
+    it('can create an array from a Refinement', () => {
+      const refinement: Refinement<unknown, string> = (a): a is string => typeof a === 'string'
+      U.deepStrictEqual(_.fromPredicate(refinement)('hello'), ['hello'])
+      U.deepStrictEqual(_.fromPredicate(refinement)(null), [])
+    })
+
+    it('can create an array from a Predicate', () => {
+      const predicate = (a: string) => a.length > 0
+      U.deepStrictEqual(_.fromPredicate(predicate)('hi'), ['hi'])
+      U.deepStrictEqual(_.fromPredicate(predicate)(''), [])
+    })
+  })
+
+  it('fromOption', () => {
+    U.deepStrictEqual(_.fromOption(O.some('hello')), ['hello'])
+    U.deepStrictEqual(_.fromOption(O.none), [])
   })
 })
