@@ -1064,6 +1064,41 @@ export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
  */
 export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
+/**
+ * Break an array into its first element and remaining elements
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchLeft = <A, B>(f: (head: A, tail: Array<A>) => B) => (as: NonEmptyArray<A>): B => f(head(as), tail(as))
+
+/**
+ * Break an array into its initial elements and the last element
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchRight = <A, B>(f: (init: Array<A>, last: A) => B) => (as: NonEmptyArray<A>): B =>
+  f(init(as), last(as))
+
+/**
+ * Modifies the first element of the array
+ *
+ * @since 2.11.0
+ */
+export const modifyHead = <A>(f: (a: A) => A): ((nea: NonEmptyArray<A>) => NonEmptyArray<A>) => {
+  return matchLeft((head, tail) => pipe(tail, prepend(f(head))))
+}
+
+/**
+ * Modifies the last element of the array
+ *
+ * @since 2.11.0
+ */
+export const modifyLast = <A>(f: (a: A) => A): ((nea: NonEmptyArray<A>) => NonEmptyArray<A>) => {
+  return matchRight((init, last) => pipe(init, append(f(last))))
+}
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
