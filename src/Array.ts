@@ -129,6 +129,24 @@ export const range = (start: number, end: number): Array<number> =>
  */
 export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
 
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
+  return (a) => (predicate(a) ? [a] : [])
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromOption = <A>(ma: Option<A>): Array<A> => {
+  return O.isSome(ma) ? [ma.value] : []
+}
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
