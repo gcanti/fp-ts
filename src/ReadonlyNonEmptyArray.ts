@@ -1116,6 +1116,42 @@ export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
  */
 export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>): A => as.reduce(S.concat)
 
+/**
+ * Break an array into its first element and remaining elements
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(head(as), tail(as))
+
+/**
+ * Break an array into its initial elements and the last element
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(init(as), last(as))
+
+/**
+ * Modifies the first element of the array
+ *
+ * @since 2.11.0
+ */
+export const modifyHead = <A>(f: (a: A) => A): ((nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
+  return matchLeft((head, tail) => pipe(tail, prepend(f(head))))
+}
+
+/**
+ * Modifies the last element of the array
+ *
+ * @since 2.11.0
+ */
+export const modifyLast = <A>(f: (a: A) => A): ((nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
+  return matchRight((init, last) => pipe(init, append(f(last))))
+}
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

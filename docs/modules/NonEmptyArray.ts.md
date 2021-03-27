@@ -81,6 +81,8 @@ Added in v2.0.0
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
@@ -119,6 +121,8 @@ Added in v2.0.0
   - [last](#last)
   - [max](#max)
   - [min](#min)
+  - [modifyHead](#modifyhead)
+  - [modifyLast](#modifylast)
   - [sequence](#sequence)
   - [tail](#tail)
   - [traverse](#traverse)
@@ -738,6 +742,30 @@ Added in v2.0.0
 
 # destructors
 
+## matchLeft
+
+Break an array into its first element and remaining elements
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: A[]) => B) => (as: NonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break an array into its initial elements and the last element
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: A[], last: A) => B) => (as: NonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
 ## unappend
 
 Return the tuple of the `init` and the `last`.
@@ -1157,6 +1185,30 @@ export declare const min: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A
 ```
 
 Added in v2.0.0
+
+## modifyHead
+
+Modifies the first element of the array
+
+**Signature**
+
+```ts
+export declare const modifyHead: <A>(f: (a: A) => A) => (nea: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## modifyLast
+
+Modifies the last element of the array
+
+**Signature**
+
+```ts
+export declare const modifyLast: <A>(f: (a: A) => A) => (nea: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## sequence
 

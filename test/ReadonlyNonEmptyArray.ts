@@ -620,4 +620,20 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(_.makeBy(0, U.double), [0])
     U.deepStrictEqual(_.makeBy(-1, U.double), [0])
   })
+
+  it('matchLeft', () => {
+    U.deepStrictEqual(_.matchLeft((head, tail) => [head, tail])([1, 2, 3]), [1, [2, 3]])
+  })
+
+  it('matchRight', () => {
+    U.deepStrictEqual(_.matchRight((init, last) => [init, last])([1, 2, 3]), [[1, 2], 3])
+  })
+
+  it('modifyHead', () => {
+    U.deepStrictEqual(_.modifyHead((x: number) => x + 10)([1, 2, 3]), [11, 2, 3])
+  })
+
+  it('modifyLast', () => {
+    U.deepStrictEqual(_.modifyLast((x: number) => x + 10)([1, 2, 3]), [1, 2, 13])
+  })
 })
