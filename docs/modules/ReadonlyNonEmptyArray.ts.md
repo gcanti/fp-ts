@@ -86,6 +86,8 @@ Added in v2.5.0
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
@@ -125,6 +127,8 @@ Added in v2.5.0
   - [last](#last)
   - [max](#max)
   - [min](#min)
+  - [modifyHead](#modifyhead)
+  - [modifyLast](#modifylast)
   - [tail](#tail)
   - [~~fold~~](#fold)
 
@@ -825,6 +829,30 @@ Added in v2.5.0
 
 # destructors
 
+## matchLeft
+
+Break an array into its first element and remaining elements
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break an array into its initial elements and the last element
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
 ## unappend
 
 Return the tuple of the `init` and the `last`.
@@ -1245,6 +1273,30 @@ export declare const min: <A>(O: Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
+
+## modifyHead
+
+Modifies the first element of the array
+
+**Signature**
+
+```ts
+export declare const modifyHead: <A>(f: (a: A) => A) => (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## modifyLast
+
+Modifies the last element of the array
+
+**Signature**
+
+```ts
+export declare const modifyLast: <A>(f: (a: A) => A) => (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## tail
 
