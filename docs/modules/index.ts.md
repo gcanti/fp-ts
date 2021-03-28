@@ -73,7 +73,6 @@ Added in v2.0.0
   - [monoid](#monoid)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
-  - [object](#object)
   - [option](#option)
   - [optionT](#optiont)
   - [ord](#ord)
@@ -107,6 +106,7 @@ Added in v2.0.0
   - [store](#store)
   - [string](#string)
   - [strong](#strong)
+  - [struct](#struct)
   - [task](#task)
   - [taskEither](#taskeither)
   - [taskOption](#taskoption)
@@ -728,16 +728,6 @@ export declare const number: typeof number
 
 Added in v2.10.0
 
-## object
-
-**Signature**
-
-```ts
-export declare const object: typeof object
-```
-
-Added in v2.10.0
-
 ## option
 
 **Signature**
@@ -1067,6 +1057,16 @@ export declare const strong: typeof strong
 ```
 
 Added in v2.0.0
+
+## struct
+
+**Signature**
+
+```ts
+export declare const struct: typeof struct
+```
+
+Added in v2.10.0
 
 ## task
 

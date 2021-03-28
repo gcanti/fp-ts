@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.0-rc.7
+
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - rename module `object` to `struct`
+
 # 2.10.0-rc.6
 
 - **Bug Fix**

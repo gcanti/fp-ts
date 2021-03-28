@@ -1,7 +1,7 @@
-import * as _ from '../src/object'
+import * as _ from '../src/struct'
 import * as U from './util'
 
-describe('object', () => {
+describe('struct', () => {
   it('getAssignSemigroup', () => {
     type T = {
       readonly foo?: number
