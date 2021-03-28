@@ -124,42 +124,6 @@ export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
 })
 
 /**
- * Given a struct of semigroups returns a semigroup for the struct.
- *
- * @example
- * import { struct } from 'fp-ts/Semigroup'
- * import * as N from 'fp-ts/number'
- *
- * interface Point {
- *   readonly x: number
- *   readonly y: number
- * }
- *
- * const S = struct<Point>({
- *   x: N.SemigroupSum,
- *   y: N.SemigroupSum
- * })
- *
- * assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
- *
- * @category combinators
- * @since 2.10.0
- */
-export const struct = <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
-  concat: (first, second) => {
-    const r: A = {} as any
-    for (const k in semigroups) {
-      if (_.hasOwnProperty.call(semigroups, k)) {
-        r[k] = semigroups[k].concat(first[k], second[k])
-      }
-    }
-    return r
-  }
-})
-
-/**
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
@@ -306,7 +270,7 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
 ) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `struct` instead.
+ * Use `struct.getSemigroup` instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -314,7 +278,19 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
  */
 export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-) => Semigroup<O> = struct
+) => Semigroup<O> = <A>(
+  semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<{ readonly [K in keyof A]: A[K] }> => ({
+  concat: (first, second) => {
+    const r: A = {} as any
+    for (const k in semigroups) {
+      if (_.hasOwnProperty.call(semigroups, k)) {
+        r[k] = semigroups[k].concat(first[k], second[k])
+      }
+    }
+    return r
+  }
+})
 
 /**
  * Use `reverse` instead.

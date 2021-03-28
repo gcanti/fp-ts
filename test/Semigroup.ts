@@ -50,9 +50,13 @@ describe('Semigroup', () => {
     U.strictEqual(IS.concat(IS.concat('a', 'b'), 'c'), IS.concat('a', IS.concat('b', 'c')))
   })
 
-  it('struct', () => {
+  it('getStructSemigroup', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.getStructSemigroup({ a: S.Semigroup }).concat({ a: 'a' }, { a: 'b' }), { a: 'ab' })
+
     // should ignore non own properties
-    const S = _.struct(Object.create({ a: 1 }))
-    U.deepStrictEqual(S.concat({}, {}), {})
+    // tslint:disable-next-line: deprecation
+    const s = _.getStructSemigroup(Object.create({ a: 1 }))
+    U.deepStrictEqual(s.concat({}, {}), {})
   })
 })

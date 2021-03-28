@@ -50,8 +50,9 @@ describe('Eq', () => {
     U.deepStrictEqual(nbCall, 1)
   })
 
-  it('struct', () => {
-    const E = _.struct<Person>({
+  it('getStructEq', () => {
+    // tslint:disable-next-line: deprecation
+    const E = _.getStructEq<Person>({
       name: S.Eq,
       age: N.Eq
     })

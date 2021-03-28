@@ -45,7 +45,6 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [reverse](#reverse)
-  - [struct](#struct)
   - [tuple](#tuple)
   - [~~getDualMonoid~~](#getdualmonoid)
   - [~~getStructMonoid~~](#getstructmonoid)
@@ -95,37 +94,6 @@ assert.deepStrictEqual(reverse(S.Monoid).concat('a', 'b'), 'ba')
 
 Added in v2.10.0
 
-## struct
-
-Given a struct of monoids returns a monoid for the struct.
-
-**Signature**
-
-```ts
-export declare const struct: <A>(monoids: { [K in keyof A]: Monoid<A[K]> }) => Monoid<{ readonly [K in keyof A]: A[K] }>
-```
-
-**Example**
-
-```ts
-import { struct } from 'fp-ts/Monoid'
-import * as N from 'fp-ts/number'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const M = struct<Point>({
-  x: N.MonoidSum,
-  y: N.MonoidSum,
-})
-
-assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
-Added in v2.10.0
-
 ## tuple
 
 Given a tuple of monoids returns a monoid for the tuple.
@@ -169,7 +137,7 @@ Added in v2.0.0
 
 ## ~~getStructMonoid~~
 
-Use `struct` instead.
+Use `struct.getMonoid` instead.
 
 **Signature**
 

@@ -117,41 +117,6 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
 })
 
 /**
- * Given a struct of monoids returns a monoid for the struct.
- *
- * @example
- * import { struct } from 'fp-ts/Monoid'
- * import * as N from 'fp-ts/number'
- *
- * interface Point {
- *   readonly x: number
- *   readonly y: number
- * }
- *
- * const M = struct<Point>({
- *   x: N.MonoidSum,
- *   y: N.MonoidSum
- * })
- *
- * assert.deepStrictEqual(M.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
- *
- * @category combinators
- * @since 2.10.0
- */
-export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
-  const empty: A = {} as any
-  for (const k in monoids) {
-    if (_.hasOwnProperty.call(monoids, k)) {
-      empty[k] = monoids[k].empty
-    }
-  }
-  return {
-    concat: Se.struct(monoids).concat,
-    empty
-  }
-}
-
-/**
  * Given a tuple of monoids returns a monoid for the tuple.
  *
  * @example
@@ -222,7 +187,7 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
 ) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `struct` instead.
+ * Use `struct.getMonoid` instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -230,7 +195,19 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
  */
 export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-) => Monoid<O> = struct
+) => Monoid<O> = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
+  const empty: A = {} as any
+  for (const k in monoids) {
+    if (_.hasOwnProperty.call(monoids, k)) {
+      empty[k] = monoids[k].empty
+    }
+  }
+  return {
+    // tslint:disable-next-line: deprecation
+    concat: Se.getStructSemigroup(monoids).concat,
+    empty
+  }
+}
 
 /**
  * Use `reverse` instead.
