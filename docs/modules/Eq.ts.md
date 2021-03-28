@@ -23,7 +23,6 @@ Added in v2.0.0
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
 - [combinators](#combinators)
-  - [struct](#struct)
   - [tuple](#tuple)
   - [~~getStructEq~~](#getstructeq)
   - [~~getTupleEq~~](#gettupleeq)
@@ -62,16 +61,6 @@ Added in v2.0.0
 
 # combinators
 
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(eqs: { [K in keyof A]: Eq<A[K]> }) => Eq<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v2.10.0
-
 ## tuple
 
 Given a tuple of `Eq`s returns a `Eq` for the tuple
@@ -101,7 +90,7 @@ Added in v2.10.0
 
 ## ~~getStructEq~~
 
-Use `struct` instead.
+Use `struct.getEq` instead.
 
 **Signature**
 

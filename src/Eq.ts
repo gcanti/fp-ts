@@ -46,20 +46,6 @@ export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
- * @since 2.10.0
- */
-export const struct = <A>(eqs: { [K in keyof A]: Eq<A[K]> }): Eq<{ readonly [K in keyof A]: A[K] }> =>
-  fromEquals((first, second) => {
-    for (const key in eqs) {
-      if (!eqs[key].equals(first[key], second[key])) {
-        return false
-      }
-    }
-    return true
-  })
-
-/**
  * Given a tuple of `Eq`s returns a `Eq` for the tuple
  *
  * @example
@@ -174,13 +160,23 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 ) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> = tuple
 
 /**
- * Use `struct` instead.
+ * Use `struct.getEq` instead.
  *
  * @category combinators
  * @since 2.0.0
  * @deprecated
  */
-export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O> = struct
+export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O> = <A>(
+  eqs: { [K in keyof A]: Eq<A[K]> }
+): Eq<{ readonly [K in keyof A]: A[K] }> =>
+  fromEquals((first, second) => {
+    for (const key in eqs) {
+      if (!eqs[key].equals(first[key], second[key])) {
+        return false
+      }
+    }
+    return true
+  })
 
 /**
  * Use `eqStrict` instead

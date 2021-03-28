@@ -31,26 +31,6 @@ export interface Show<A> {
  * @category combinators
  * @since 2.10.0
  */
-export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
-  show: (a) => {
-    let s = '{'
-    for (const k in shows) {
-      if (_.hasOwnProperty.call(shows, k)) {
-        s += ` ${k}: ${shows[k].show(a[k])},`
-      }
-    }
-    if (s.length > 1) {
-      s = s.slice(0, -1) + ' '
-    }
-    s += '}'
-    return s
-  }
-})
-
-/**
- * @category combinators
- * @since 2.10.0
- */
 export const tuple = <A extends ReadonlyArray<unknown>>(
   ...shows: { [K in keyof A]: Show<A[K]> }
 ): Show<Readonly<A>> => ({
@@ -73,7 +53,7 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
 ) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> = tuple
 
 /**
- * Use `struct` instead.
+ * Use `struct.getShow` instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -81,7 +61,21 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
  */
 export const getStructShow: <O extends ReadonlyRecord<string, any>>(
   shows: { [K in keyof O]: Show<O[K]> }
-) => Show<O> = struct
+) => Show<O> = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonly [K in keyof A]: A[K] }> => ({
+  show: (a) => {
+    let s = '{'
+    for (const k in shows) {
+      if (_.hasOwnProperty.call(shows, k)) {
+        s += ` ${k}: ${shows[k].show(a[k])},`
+      }
+    }
+    if (s.length > 1) {
+      s = s.slice(0, -1) + ' '
+    }
+    s += '}'
+    return s
+  }
+})
 
 /**
  * Use `boolean.Show` instead.

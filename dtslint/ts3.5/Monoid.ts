@@ -4,13 +4,6 @@ import * as N from '../../src/number'
 import * as B from '../../src/boolean'
 
 //
-// struct
-//
-
-// $ExpectType Monoid<{ readonly a: string; readonly b: number; readonly c: boolean; }>
-_.struct({ a: S.Monoid, b: N.MonoidSum, c: B.MonoidAll })
-
-//
 // tuple
 //
 

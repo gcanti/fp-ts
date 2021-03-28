@@ -1,7 +1,8 @@
 import * as U from './util'
 import * as B from '../src/boolean'
 import { pipe } from '../src/function'
-import { struct, Monoid } from '../src/Monoid'
+import { getMonoid } from '../src/struct'
+import { Monoid } from '../src/Monoid'
 import * as _ from '../src/Traced'
 
 // Adapted from https://chshersh.github.io/posts/2019-03-25-comonadic-builders
@@ -12,7 +13,7 @@ interface Settings {
   readonly settingsTravis: boolean
 }
 
-const M: Monoid<Settings> = struct({
+const M: Monoid<Settings> = getMonoid({
   settingsHasLibrary: B.MonoidAny,
   settingsGitHub: B.MonoidAny,
   settingsTravis: B.MonoidAny

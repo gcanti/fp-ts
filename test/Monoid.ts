@@ -45,10 +45,14 @@ describe('Monoid', () => {
     U.deepStrictEqual(M.concat(M.empty, 'a'), 'a')
   })
 
-  it('struct', () => {
+  it('getStructMonoid', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.getStructMonoid({ a: S.Monoid }).empty, { a: '' })
+
     // should ignore non own properties
-    const monoids = Object.create({ a: 1 })
-    const s = _.struct(monoids)
+    const monoids1 = Object.create({ a: 1 })
+    // tslint:disable-next-line: deprecation
+    const s = _.getStructMonoid(monoids1)
     U.deepStrictEqual(s.empty, {})
   })
 })

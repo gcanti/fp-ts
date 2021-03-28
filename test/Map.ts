@@ -8,7 +8,8 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as Se from '../src/Semigroup'
-import { struct, Show } from '../src/Show'
+import * as St from '../src/struct'
+import { Show } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as assert from 'assert'
@@ -41,7 +42,7 @@ const ordKey = Ord.fromCompare<Key>((x, y) => N.Ord.compare(x.id % 3, y.id % 3))
 
 const eqValue: Eq<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
 
-const semigroupValue = Se.struct({ value: N.SemigroupSum })
+const semigroupValue = St.getSemigroup({ value: N.SemigroupSum })
 
 const key1 = { id: 1 }
 const value1 = { value: 1 }
@@ -1030,7 +1031,7 @@ describe('Map', () => {
   })
 
   it('getShow', () => {
-    const showUser: Show<User> = struct({ id: S.Show })
+    const showUser: Show<User> = St.getShow({ id: S.Show })
     const Sh = _.getShow(showUser, S.Show)
     const m1 = new Map<User, string>([])
     U.deepStrictEqual(Sh.show(m1), `new Map([])`)

@@ -51,7 +51,6 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [intercalate](#intercalate)
   - [reverse](#reverse)
-  - [struct](#struct)
   - [tuple](#tuple)
   - [~~getDualSemigroup~~](#getdualsemigroup)
   - [~~getIntercalateSemigroup~~](#getintercalatesemigroup)
@@ -131,39 +130,6 @@ assert.deepStrictEqual(reverse(S.Semigroup).concat('a', 'b'), 'ba')
 
 Added in v2.10.0
 
-## struct
-
-Given a struct of semigroups returns a semigroup for the struct.
-
-**Signature**
-
-```ts
-export declare const struct: <A>(
-  semigroups: { [K in keyof A]: Semigroup<A[K]> }
-) => Semigroup<{ readonly [K in keyof A]: A[K] }>
-```
-
-**Example**
-
-```ts
-import { struct } from 'fp-ts/Semigroup'
-import * as N from 'fp-ts/number'
-
-interface Point {
-  readonly x: number
-  readonly y: number
-}
-
-const S = struct<Point>({
-  x: N.SemigroupSum,
-  y: N.SemigroupSum,
-})
-
-assert.deepStrictEqual(S.concat({ x: 1, y: 2 }, { x: 3, y: 4 }), { x: 4, y: 6 })
-```
-
-Added in v2.10.0
-
 ## tuple
 
 Given a tuple of semigroups returns a semigroup for the tuple.
@@ -219,7 +185,7 @@ Added in v2.5.0
 
 ## ~~getStructSemigroup~~
 
-Use `struct` instead.
+Use `struct.getSemigroup` instead.
 
 **Signature**
 

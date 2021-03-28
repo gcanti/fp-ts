@@ -4,6 +4,7 @@ import { left, right } from '../src/Either'
 import * as Eq from '../src/Eq'
 import { pipe } from '../src/function'
 import { none, some as optionSome } from '../src/Option'
+import { getEq } from '../src/struct'
 import * as _ from '../src/Set'
 import * as S from '../src/string'
 import * as N from '../src/number'
@@ -109,8 +110,8 @@ describe('Set', () => {
       _.partitionMap(N.Eq, S.Eq)((n: number) => (n % 2 === 0 ? left(n) : right(`${n}`)))(new Set([1, 2, 3])),
       separated(new Set([2]), new Set(['1', '3']))
     )
-    const SL = Eq.struct({ value: N.Eq })
-    const SR = Eq.struct({ value: S.Eq })
+    const SL = getEq({ value: N.Eq })
+    const SR = getEq({ value: S.Eq })
     U.deepStrictEqual(
       _.partitionMap(
         SL,

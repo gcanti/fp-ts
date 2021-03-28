@@ -20,7 +20,6 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
-  - [struct](#struct)
   - [tuple](#tuple)
   - [~~getStructShow~~](#getstructshow)
   - [~~getTupleShow~~](#gettupleshow)
@@ -34,16 +33,6 @@ Added in v2.0.0
 ---
 
 # combinators
-
-## struct
-
-**Signature**
-
-```ts
-export declare const struct: <A>(shows: { [K in keyof A]: Show<A[K]> }) => Show<{ readonly [K in keyof A]: A[K] }>
-```
-
-Added in v2.10.0
 
 ## tuple
 
@@ -59,7 +48,7 @@ Added in v2.10.0
 
 ## ~~getStructShow~~
 
-Use `struct` instead.
+Use `struct.getShow` instead.
 
 **Signature**
 
