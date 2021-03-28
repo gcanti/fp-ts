@@ -1,10 +1,10 @@
 ---
-title: object.ts
-nav_order: 61
+title: struct.ts
+nav_order: 92
 parent: Modules
 ---
 
-## object overview
+## struct overview
 
 Added in v3.0.0
 
@@ -28,13 +28,13 @@ Return a semigroup which works like `Object.assign`.
 **Signature**
 
 ```ts
-export declare const getAssignSemigroup: <A extends object = never>() => Semigroup<A>
+export declare const getAssignSemigroup: <A = never>() => Semigroup<A>
 ```
 
 **Example**
 
 ```ts
-import { getAssignSemigroup } from 'fp-ts/object'
+import { getAssignSemigroup } from 'fp-ts/struct'
 import { pipe } from 'fp-ts/function'
 
 interface Person {
@@ -57,7 +57,7 @@ Creates a new object by recursively evolving a shallow copy of `a`, according to
 **Signature**
 
 ```ts
-export declare const evolve: <A extends object, F extends { [K in keyof A]: (a: A[K]) => unknown }>(
+export declare const evolve: <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(
   transformations: F
 ) => (a: A) => { [K in keyof F]: ReturnType<F[K]> }
 ```
@@ -66,7 +66,7 @@ export declare const evolve: <A extends object, F extends { [K in keyof A]: (a: 
 
 ```ts
 import { pipe } from 'fp-ts/function'
-import { evolve } from 'fp-ts/object'
+import { evolve } from 'fp-ts/struct'
 
 assert.deepStrictEqual(
   pipe(

@@ -12,7 +12,7 @@ import * as _ from './internal'
  * Return a semigroup which works like `Object.assign`.
  *
  * @example
- * import { getAssignSemigroup } from 'fp-ts/object'
+ * import { getAssignSemigroup } from 'fp-ts/struct'
  * import { pipe } from 'fp-ts/function'
  *
  * interface Person {
@@ -26,7 +26,7 @@ import * as _ from './internal'
  * @category instances
  * @since 3.0.0
  */
-export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
+export const getAssignSemigroup = <A = never>(): Semigroup<A> => ({
   concat: (second) => (first) => Object.assign({}, first, second)
 })
 
@@ -39,7 +39,7 @@ export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => 
  *
  * @example
  * import { pipe } from 'fp-ts/function'
- * import { evolve } from 'fp-ts/object'
+ * import { evolve } from 'fp-ts/struct'
  *
  * assert.deepStrictEqual(
  *   pipe(
@@ -54,7 +54,7 @@ export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => 
  *
  * @since 3.0.0
  */
-export const evolve = <A extends object, F extends { [K in keyof A]: (a: A[K]) => unknown }>(transformations: F) => (
+export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(transformations: F) => (
   a: A
 ): { [K in keyof F]: ReturnType<F[K]> } => {
   const out: Record<string, unknown> = {}

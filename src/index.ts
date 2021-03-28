@@ -60,7 +60,6 @@ import * as monad from './Monad'
 import * as monoid from './Monoid'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
-import * as object from './object'
 import * as option from './Option'
 import * as optionT from './OptionT'
 import * as ord from './Ord'
@@ -92,6 +91,7 @@ import * as stateT from './StateT'
 import * as store from './Store'
 import * as string from './string'
 import * as strong from './Strong'
+import * as struct from './struct'
 import * as task from './Task'
 import * as taskEither from './TaskEither'
 import * as taskOption from './TaskOption'
@@ -340,7 +340,7 @@ export {
   /**
    * @since 3.0.0
    */
-  object,
+  struct,
   /**
    * @since 3.0.0
    */
