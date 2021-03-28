@@ -30,7 +30,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArray<A>) => NonEmptyArray<A>
+export declare const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v3.0.0
