@@ -180,6 +180,8 @@ export const unprepend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [A, Readonl
 export const unappend = <A>(as: ReadonlyNonEmptyArray<A>): readonly [ReadonlyArray<A>, A] => [init(as), last(as)]
 
 /**
+ * Break a `ReadonlyArray` into its first element and remaining elements.
+ *
  * @category destructors
  * @since 3.0.0
  */
@@ -187,6 +189,8 @@ export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (a
   f(head(as), tail(as))
 
 /**
+ * Break a `ReadonlyArray` into its initial elements and the last element.
+ *
  * @category destructors
  * @since 3.0.0
  */

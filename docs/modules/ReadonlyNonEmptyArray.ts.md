@@ -951,6 +951,8 @@ Added in v3.0.0
 
 ## matchLeft
 
+Break a `ReadonlyArray` into its first element and remaining elements.
+
 **Signature**
 
 ```ts
@@ -960,6 +962,8 @@ export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) =>
 Added in v3.0.0
 
 ## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
 
 **Signature**
 
