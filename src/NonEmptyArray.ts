@@ -21,7 +21,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { Endomorphism, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -1065,7 +1065,7 @@ export const max: <A>(ord: Ord<A>) => (nea: NonEmptyArray<A>) => A = RNEA.max
 export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as.reduce(S.concat)
 
 /**
- * Break an array into its first element and remaining elements
+ * Break an `Array` into its first element and remaining elements.
  *
  * @category destructors
  * @since 2.11.0
@@ -1073,7 +1073,7 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as
 export const matchLeft = <A, B>(f: (head: A, tail: Array<A>) => B) => (as: NonEmptyArray<A>): B => f(head(as), tail(as))
 
 /**
- * Break an array into its initial elements and the last element
+ * Break an `Array` into its initial elements and the last element.
  *
  * @category destructors
  * @since 2.11.0
@@ -1082,22 +1082,22 @@ export const matchRight = <A, B>(f: (init: Array<A>, last: A) => B) => (as: NonE
   f(init(as), last(as))
 
 /**
- * Modifies the first element of the array
+ * Apply a function to the head, creating a new `NonEmptyArray`.
  *
  * @since 2.11.0
  */
-export const modifyHead = <A>(f: (a: A) => A): ((nea: NonEmptyArray<A>) => NonEmptyArray<A>) => {
-  return matchLeft((head, tail) => pipe(tail, prepend(f(head))))
-}
+export const modifyHead = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> => [
+  f(head(as)),
+  ...tail(as)
+]
 
 /**
- * Modifies the last element of the array
+ * Apply a function to the last element, creating a new `NonEmptyArray`.
  *
  * @since 2.11.0
  */
-export const modifyLast = <A>(f: (a: A) => A): ((nea: NonEmptyArray<A>) => NonEmptyArray<A>) => {
-  return matchRight((init, last) => pipe(init, append(f(last))))
-}
+export const modifyLast = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> =>
+  pipe(init(as), append(f(last(as))))
 
 // -------------------------------------------------------------------------------------
 // deprecated

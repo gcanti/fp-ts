@@ -744,7 +744,7 @@ Added in v2.0.0
 
 ## matchLeft
 
-Break an array into its first element and remaining elements
+Break an `Array` into its first element and remaining elements.
 
 **Signature**
 
@@ -756,7 +756,7 @@ Added in v2.11.0
 
 ## matchRight
 
-Break an array into its initial elements and the last element
+Break an `Array` into its initial elements and the last element.
 
 **Signature**
 
@@ -1188,24 +1188,24 @@ Added in v2.0.0
 
 ## modifyHead
 
-Modifies the first element of the array
+Apply a function to the head, creating a new `NonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare const modifyHead: <A>(f: (a: A) => A) => (nea: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.11.0
 
 ## modifyLast
 
-Modifies the last element of the array
+Apply a function to the last element, creating a new `NonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare const modifyLast: <A>(f: (a: A) => A) => (nea: NonEmptyArray<A>) => NonEmptyArray<A>
+export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>) => NonEmptyArray<A>
 ```
 
 Added in v2.11.0

@@ -15,6 +15,22 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11
+
+- **New Feature**
+  - `Array`
+    - add `prependW`, `appendW` (@thewilkybarkid)
+  - `NonEmptyArray`
+    - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+  - `ReadonlyArray`
+    - add `prependW`, `appendW` (@thewilkybarkid)
+  - `ReadonlyNonEmptyArray`
+    - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+  - `TaskEither`
+    - add `fromTaskOption` (@thewilkybarkid)
+  - `TaskOption`
+    - add `fromTaskEither` (@thewilkybarkid)
+
 # 2.10.0-rc.5
 
 - **Bug Fix**

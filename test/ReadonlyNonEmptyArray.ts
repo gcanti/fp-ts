@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as B from '../src/boolean'
 import * as Eq from '../src/Eq'
-import { identity, pipe } from '../src/function'
+import { Endomorphism, identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
@@ -622,18 +622,36 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('matchLeft', () => {
-    U.deepStrictEqual(_.matchLeft((head, tail) => [head, tail])([1, 2, 3]), [1, [2, 3]])
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchLeft((head, tail) => [head, tail])
+      ),
+      [1, [2, 3]]
+    )
   })
 
   it('matchRight', () => {
-    U.deepStrictEqual(_.matchRight((init, last) => [init, last])([1, 2, 3]), [[1, 2], 3])
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchRight((init, last) => [init, last])
+      ),
+      [[1, 2], 3]
+    )
   })
 
   it('modifyHead', () => {
-    U.deepStrictEqual(_.modifyHead((x: number) => x + 10)([1, 2, 3]), [11, 2, 3])
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyHead(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyHead(f)), ['a!', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyHead(f)), ['a!', 'b', 'c'])
   })
 
   it('modifyLast', () => {
-    U.deepStrictEqual(_.modifyLast((x: number) => x + 10)([1, 2, 3]), [1, 2, 13])
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyLast(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyLast(f)), ['a', 'b!'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyLast(f)), ['a', 'b', 'c!'])
   })
 })

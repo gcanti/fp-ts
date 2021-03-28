@@ -831,7 +831,7 @@ Added in v2.5.0
 
 ## matchLeft
 
-Break an array into its first element and remaining elements
+Break a `ReadonlyArray` into its first element and remaining elements.
 
 **Signature**
 
@@ -843,7 +843,7 @@ Added in v2.11.0
 
 ## matchRight
 
-Break an array into its initial elements and the last element
+Break a `ReadonlyArray` into its initial elements and the last element.
 
 **Signature**
 
@@ -1276,24 +1276,24 @@ Added in v2.5.0
 
 ## modifyHead
 
-Modifies the first element of the array
+Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare const modifyHead: <A>(f: (a: A) => A) => (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.11.0
 
 ## modifyLast
 
-Modifies the last element of the array
+Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
 
 **Signature**
 
 ```ts
-export declare const modifyLast: <A>(f: (a: A) => A) => (nea: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.11.0
