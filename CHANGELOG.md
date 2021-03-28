@@ -20,6 +20,7 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
+    - add `fromOption`, `fromPredicate` (@cdimitroulas)
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
   - `ReadonlyArray`
