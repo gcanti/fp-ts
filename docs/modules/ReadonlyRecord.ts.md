@@ -572,7 +572,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <A>(S: Show<A>) => Show<Readonly<Record<string, A>>>
+export declare const getShow: (O: Ord<string>) => <A>(S: Show<A>) => Show<Readonly<Record<string, A>>>
 ```
 
 Added in v3.0.0

@@ -6,6 +6,7 @@ import * as B from '../src/boolean'
 import * as S from '../src/string'
 import * as N from '../src/number'
 import * as U from './util'
+import * as RR from '../src/ReadonlyRecord'
 
 describe('Ord', () => {
   it('tuple', () => {
@@ -129,5 +130,17 @@ describe('Ord', () => {
     const equals = _.equals(N.Ord)
     U.deepStrictEqual(equals(1)(1), true)
     U.deepStrictEqual(equals(1)(2), false)
+  })
+
+  it('trivial', () => {
+    const toReadonlyArray = RR.toReadonlyArray(_.trivial)
+    U.deepStrictEqual(toReadonlyArray({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
+    U.deepStrictEqual(toReadonlyArray({ b: 2, a: 1 }), [
+      ['b', 2],
+      ['a', 1]
+    ])
   })
 })

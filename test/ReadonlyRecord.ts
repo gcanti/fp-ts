@@ -334,10 +334,11 @@ describe('ReadonlyRecord', () => {
   })
 
   it('getShow', () => {
-    const Sh = _.getShow(S.Show)
+    const Sh = _.getShow(S.Ord)(S.Show)
     U.deepStrictEqual(Sh.show({}), `{}`)
     U.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
     U.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+    U.deepStrictEqual(Sh.show({ b: 'b', a: 'a' }), `{ "a": "a", "b": "b" }`)
   })
 
   it('singleton', () => {

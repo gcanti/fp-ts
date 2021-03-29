@@ -18,7 +18,7 @@ import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
 import * as O from './Option'
-import { Ord, trivial } from './Ord'
+import { Ord } from './Ord'
 import type { Predicate } from './Predicate'
 import type { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
@@ -592,12 +592,15 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<ReadonlyRecord<string, A>> => {
-  const f = collect(trivial)((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)
-  return {
-    show: (r) => {
-      const elements = f(r).join(', ')
-      return elements === '' ? '{}' : `{ ${elements} }`
+export const getShow = (O: Ord<string>): (<A>(S: Show<A>) => Show<ReadonlyRecord<string, A>>) => {
+  const collectO = collect(O)
+  return <A>(S: Show<A>) => {
+    const f = collectO((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)
+    return {
+      show: (r: Readonly<Record<string, A>>) => {
+        const elements = f(r).join(', ')
+        return elements === '' ? '{}' : `{ ${elements} }`
+      }
     }
   }
 }
