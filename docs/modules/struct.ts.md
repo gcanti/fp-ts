@@ -89,7 +89,8 @@ Accesses a property of an object
 **Signature**
 
 ```ts
-export declare const prop: <Path extends string>(path: Path) => <Value, Rest>(obj: Record<Path, Value> & Rest) => Value
+export declare function prop<Path extends string, Value, Rest>(path: Path, obj: Record<Path, Value> & Rest): Value
+export declare function prop<Path extends string, Value, Rest>(path: Path): (obj: Record<Path, Value> & Rest) => Value
 ```
 
 **Example**

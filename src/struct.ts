@@ -82,5 +82,12 @@ export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(tr
  *
  * @since 2.11.0
  */
-export const prop = <Path extends string>(path: Path) => <Value, Rest>(obj: Record<Path, Value> & Rest): Value =>
-  obj[path]
+export function prop<Path extends string, Value, Rest>(path: Path, obj: Record<Path, Value> & Rest): Value
+export function prop<Path extends string, Value, Rest>(path: Path): (obj: Record<Path, Value> & Rest) => Value
+export function prop<Path extends string, Value, Rest>(path: Path, obj?: Record<Path, Value & Rest>) {
+  if (typeof obj === 'object') {
+    return obj[path]
+  }
+
+  return (obj: Record<Path, Value> & Rest) => obj[path]
+}
