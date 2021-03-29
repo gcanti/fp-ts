@@ -745,26 +745,22 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
  * @category Witherable
  * @since 3.0.0
  */
-export const wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(getTraversable(trivial), Compactable)
+export const wither = (O: Ord<string>): Witherable1<URI>['wither'] => witherDefault(getTraversable(O), Compactable)
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
-export const wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(getTraversable(trivial), Compactable)
+export const wilt = (O: Ord<string>): Witherable1<URI>['wilt'] => wiltDefault(getTraversable(O), Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Witherable: Witherable1<URI> = {
-  wither,
-  wilt
-}
+export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
+  wither: wither(O),
+  wilt: wilt(O)
+})
 
 /**
  * @category instances

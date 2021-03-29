@@ -52,7 +52,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
@@ -64,6 +63,7 @@ Added in v3.0.0
   - [getTraversableWithIndex](#gettraversablewithindex)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+  - [getWitherable](#getwitherable)
 - [model](#model)
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
@@ -272,7 +272,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wilt: Wilt1<'ReadonlyRecord'>
+export declare const wilt: (O: Ord<string>) => Witherable1<URI>['wilt']
 ```
 
 Added in v3.0.0
@@ -282,7 +282,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wither: Wither1<'ReadonlyRecord'>
+export declare const wither: (O: Ord<string>) => Witherable1<URI>['wither']
 ```
 
 Added in v3.0.0
@@ -494,16 +494,6 @@ export type URI = 'ReadonlyRecord'
 
 Added in v3.0.0
 
-## Witherable
-
-**Signature**
-
-```ts
-export declare const Witherable: Witherable1<'ReadonlyRecord'>
-```
-
-Added in v3.0.0
-
 ## getDifferenceMagma
 
 **Signature**
@@ -623,6 +613,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v3.0.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
 ```
 
 Added in v3.0.0
