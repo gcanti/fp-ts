@@ -136,7 +136,7 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await pipe(_.both('a', 1), match)(), 'both a 1')
   })
 
-  it('match', async () => {
+  it('matchE', async () => {
     const matchE = _.matchE(
       (e) => T.of(`left ${e}`),
       (a) => T.of(`right ${a}`),

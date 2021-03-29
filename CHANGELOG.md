@@ -17,7 +17,7 @@ high state of flux, you're at risk of it changing without notice.
 
 # 3.0.0-alpha.16
 
-- **Breaking Change**
+- **Breaking Change** (with respect to `2.x`)
 
   - bump minimum typescript version (4.1.x+)
   - make type class members pipeables
