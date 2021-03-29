@@ -6,7 +6,7 @@
  * @since 2.0.0
  */
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
+import { none, some, Option } from './Option'
 import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } from './Traversable'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
@@ -545,4 +545,35 @@ export interface PipeableWilt3<W extends URIS3> {
   <F>(F: Applicative<F>): <A, B, C>(
     f: (a: A) => HKT<F, Either<B, C>>
   ) => <WR, WE>(wa: Kind3<W, WR, WE, A>) => HKT<F, Separated<Kind3<W, WR, WE, B>, Kind3<W, WR, WE, C>>>
+}
+
+/**
+ * @since 2.11.0
+ */
+export function filterE<G extends URIS>(
+  W: Witherable1<G>
+): {
+  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (as: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS>(F: Applicative1<F>): <A>(
+    predicate: (a: A) => Kind<F, boolean>
+  ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
+  <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
+} {
+  return <F>(
+    F: Applicative<F>
+  ): (<A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>) => {
+    const witherF = W.wither(F)
+    return (predicate) => (ga) => witherF(ga, (a) => F.map(predicate(a), (b) => (b ? some(a) : none)))
+  }
 }
