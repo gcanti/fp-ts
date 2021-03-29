@@ -43,6 +43,7 @@ Added in v2.0.0
   - [Wither2 (interface)](#wither2-interface)
   - [Wither2C (interface)](#wither2c-interface)
   - [Wither3 (interface)](#wither3-interface)
+  - [filterE](#filtere)
 
 ---
 
@@ -691,3 +692,32 @@ export interface Wither3<W extends URIS3> {
 ```
 
 Added in v2.0.0
+
+## filterE
+
+**Signature**
+
+```ts
+export declare function filterE<G extends URIS>(
+  W: Witherable1<G>
+): {
+  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (as: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS>(F: Applicative1<F>): <A>(
+    predicate: (a: A) => Kind<F, boolean>
+  ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
+  <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
+}
+```
+
+Added in v2.11.0
