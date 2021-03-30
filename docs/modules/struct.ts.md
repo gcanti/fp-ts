@@ -10,7 +10,7 @@ A 'struct' is a heterogeneous `ReadonlyRecord`, often an `interface`.
 Many of these functions have a `Record._WithIndex` counterpart.
 e.g. struct.mapS <-> Record.mapWithIndex
 
-Added in v2.10.0
+Added in v3.0.0
 
 ---
 
@@ -31,8 +31,6 @@ Added in v2.10.0
   - [unCompact](#uncompact)
   - [wiltS](#wilts)
   - [witherS](#withers)
-- [destructors](#destructors)
-  - [keys](#keys)
 - [instances](#instances)
   - [getAssignSemigroup](#getassignsemigroup)
 
@@ -68,7 +66,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## filterMapS
 
@@ -78,9 +76,12 @@ filter & trasform a corresponding struct of values.
 **Signature**
 
 ```ts
-export declare const filterMapS: <A, C extends { [K in keyof A]: (v: A[K]) => Option<unknown> }>(
-  f: C
-) => (fa: NonEmpty<A>) => { [K in keyof A]?: (ReturnType<C[K]> extends Option<infer A> ? A : never) | undefined }
+export declare const filterMapS: <A, B extends { [K in keyof A]?: ((v: A[K]) => Option<unknown>) | undefined }>(
+  f: B
+) => (
+  fa: NonEmpty<A>
+) => { [K in Exclude<keyof A, keyof B>]: A[K] } &
+  { [K in keyof B]?: (B[K] extends (a: never) => Option<infer A> ? A : never) | undefined }
 ```
 
 **Example**
@@ -92,17 +93,17 @@ import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     filterMapS({
       a: () => O.none,
       b: (n) => (n === 1 ? O.some(n + 1) : O.none),
     })
   ),
-  { b: 2 }
+  { b: 2, c: 'abc' }
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## filterS
 
@@ -112,9 +113,12 @@ a corresponding struct of values.
 **Signature**
 
 ```ts
-export declare const filterS: <A, B extends { [K in keyof A]: Predicate<A[K]> | Refinement<A[K], any> }>(
+export declare const filterS: <A, B extends { [K in keyof A]?: Predicate<A[K]> | Refinement<A[K], any> | undefined }>(
   predicates: B
-) => (fa: NonEmpty<A>) => { [K in keyof A]?: (B[K] extends (a: any) => a is infer C ? C : A[K]) | undefined }
+) => (
+  fa: NonEmpty<A>
+) => { [K in Exclude<keyof A, keyof B>]: A[K] } &
+  { [K in Extract<keyof B, keyof A>]?: (B[K] extends (a: any) => a is infer C ? C : A[K]) | undefined }
 ```
 
 **Example**
@@ -125,17 +129,17 @@ import { filterS } from 'fp-ts/struct'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     filterS({
       a: (a) => a === 'b',
       b: (b): b is 1 => b === 1,
     })
   ),
-  { b: 1 } as const
+  { b: 1, c: 'abc' } as const
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## foldMapS
 
@@ -147,7 +151,7 @@ fold a corresponding struct of values into a single value.
 ```ts
 export declare const foldMapS: (
   O: Ord<string>
-) => <M>(M: Monoid<M>) => <A>(f: { [key in keyof A]: (a: A[key]) => M }) => (fa: NonEmpty<A>) => M
+) => <M>(M: Monoid<M>) => <A>(f: { [key in keyof A]?: ((a: A[key]) => M) | undefined }) => (fa: NonEmpty<A>) => M
 ```
 
 **Example**
@@ -159,7 +163,7 @@ import * as S from 'fp-ts/string'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     foldMapS(S.Ord)(S.Monoid)({
       a: identity,
       b: (b) => b.toString(),
@@ -169,7 +173,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## mapS
 
@@ -178,9 +182,9 @@ Given a struct of functions map a corresponding struct of values.
 **Signature**
 
 ```ts
-export declare const mapS: <A, B extends { [k in keyof A]: (val: A[k]) => unknown }>(
+export declare const mapS: <A, B extends { [k in keyof A]?: ((val: A[k]) => unknown) | undefined }>(
   f: B
-) => (a: NonEmpty<A>) => { [key in keyof A]: ReturnType<B[key]> }
+) => (a: NonEmpty<A>) => { [key in keyof A]: B[key] extends (a: never) => infer C ? C : A[key] }
 ```
 
 **Example**
@@ -191,17 +195,17 @@ import { mapS } from 'fp-ts/struct'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: true, c: 'abc' },
     mapS({
-      a: (a) => a.length,
-      b: (b) => b * 2,
+      a: (s) => s.length,
+      b: (b) => !b,
     })
   ),
-  { a: 1, b: 2 }
+  { a: 1, b: false, c: 'abc' }
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## partitionMapS
 
@@ -212,13 +216,17 @@ into a failing `left` struct and a passing `right` struct.
 **Signature**
 
 ```ts
-export declare const partitionMapS: <R, B extends { [K in keyof R]: (val: R[K]) => Either<unknown, unknown> }>(
+export declare const partitionMapS: <
+  R,
+  B extends { [K in keyof R]?: ((val: R[K]) => Either<unknown, unknown>) | undefined }
+>(
   f: B
 ) => (
   fa: NonEmpty<R>
 ) => Separated<
-  { [K in keyof R]?: (ReturnType<B[K]> extends Either<infer E, unknown> ? E : never) | undefined },
-  { [K in keyof R]?: (ReturnType<B[K]> extends Either<unknown, infer A> ? A : never) | undefined }
+  { [K in keyof B]?: (B[K] extends (a: any) => Either<infer E, unknown> ? E : never) | undefined },
+  { [K in Exclude<keyof R, keyof B>]: R[K] } &
+    { [K in keyof B]?: (B[K] extends (a: any) => Either<unknown, infer A> ? A : never) | undefined }
 >
 ```
 
@@ -232,17 +240,17 @@ import { separated } from 'fp-ts/Separated'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     partitionMapS({
       a: () => E.left('fail'),
       b: (n) => (n === 1 ? E.right(n + 1) : E.left(n - 1)),
     })
   ),
-  separated({ a: 'fail' }, { b: 2 })
+  separated({ a: 'fail' }, { b: 2, c: 'abc' })
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## partitionS
 
@@ -253,11 +261,18 @@ and a passing `right` struct.
 **Signature**
 
 ```ts
-export declare const partitionS: <R, B extends { [K in keyof R]: Predicate<R[K]> | Refinement<R[K], any> }>(
+export declare const partitionS: <
+  R,
+  B extends { [K in keyof R]?: Predicate<R[K]> | Refinement<R[K], R[K]> | undefined }
+>(
   f: B
 ) => (
   fa: NonEmpty<R>
-) => Separated<Partial<R>, { [K in keyof R]?: (B[K] extends (a: any) => a is infer C ? C : R[K]) | undefined }>
+) => Separated<
+  { [K in Extract<keyof B, keyof R>]?: R[K] | undefined },
+  { [K in Exclude<keyof R, keyof B>]: R[K] } &
+    { [K in Extract<keyof B, keyof R>]?: (B[K] extends (a: any) => a is infer C ? C : R[K]) | undefined }
+>
 ```
 
 **Example**
@@ -269,17 +284,17 @@ import { separated } from 'fp-ts/Separated'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'b', b: 1 },
+    { a: 'b', b: 1, c: 'abc' },
     partitionS({
       a: (s) => s === 'a',
       b: (n): n is 1 => n === 1,
     })
   ),
-  separated({ a: 'b' }, { b: 1 } as const)
+  separated({ a: 'b' }, { b: 1, c: 'abc' } as const)
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## reduceS
 
@@ -291,7 +306,7 @@ down to a single value.
 ```ts
 export declare const reduceS: (
   O: Ord<string>
-) => <A, B>(b: B, f: { [K in keyof A]: (b: B, a: A[K]) => B }) => (fa: NonEmpty<A>) => B
+) => <A, B>(b: B, f: { [K in keyof A]?: ((b: B, a: A[K]) => B) | undefined }) => (fa: NonEmpty<A>) => B
 ```
 
 **Example**
@@ -304,7 +319,7 @@ import { reverse } from 'fp-ts/Ord'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     reduceS(Ord)('', {
       a: (acc, cur) => acc + cur,
       b: (acc, cur) => acc + cur.toString(),
@@ -315,7 +330,7 @@ assert.deepStrictEqual(
 
 assert.deepStrictEqual(
   pipe(
-    { a: 'a', b: 1 },
+    { a: 'a', b: 1, c: 'abc' },
     reduceS(reverse(Ord))('', {
       a: (acc, cur) => acc + cur,
       b: (acc, cur) => acc + cur.toString(),
@@ -325,7 +340,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## separateS
 
@@ -356,7 +371,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## traverseS
 
@@ -375,7 +390,7 @@ export declare function traverseS(
     R,
     E,
     A,
-    B extends { [key in keyof A]: (val: A[key]) => Kind4<F, S, R, E, unknown> }
+    B extends { [key in keyof A]?: (val: A[key]) => Kind4<F, S, R, E, unknown> }
   >(
     f: B
   ) => (
@@ -386,10 +401,10 @@ export declare function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind4<F, S, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind4<F, S, R, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS3>(F: Apply3<F>): <R, E, A, B extends { [key in keyof A]: (val: A[key]) => Kind3<F, R, E, unknown> }>(
+  <F extends URIS3>(F: Apply3<F>): <R, E, A, B extends { [key in keyof A]?: (val: A[key]) => Kind3<F, R, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -398,13 +413,13 @@ export declare function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind3<F, R, E, infer C> ? C : A[key]
     }
   >
   <F extends URIS3, E>(F: Apply3C<F, E>): <
     R,
     A,
-    B extends { [key in keyof A]: (val: A[key]) => Kind3<F, R, E, unknown> }
+    B extends { [key in keyof A]?: (val: A[key]) => Kind3<F, R, E, unknown> }
   >(
     f: B
   ) => (
@@ -414,10 +429,10 @@ export declare function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind3<F, R, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS2>(F: Apply2<F>): <E, A, B extends { [key in keyof A]: (val: A[key]) => Kind2<F, E, unknown> }>(
+  <F extends URIS2>(F: Apply2<F>): <E, A, B extends { [key in keyof A]?: (val: A[key]) => Kind2<F, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -425,10 +440,10 @@ export declare function traverseS(
     F,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind2<F, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS2, E>(F: Apply2C<F, E>): <A, B extends { [key in keyof A]: (val: A[key]) => Kind2<F, E, unknown> }>(
+  <F extends URIS2, E>(F: Apply2C<F, E>): <A, B extends { [key in keyof A]?: (val: A[key]) => Kind2<F, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -436,27 +451,27 @@ export declare function traverseS(
     F,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind2<F, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS>(F: Apply1<F>): <A, B extends { [key in keyof A]: (val: A[key]) => Kind<F, unknown> }>(
+  <F extends URIS>(F: Apply1<F>): <A, B extends { [key in keyof A]?: (val: A[key]) => Kind<F, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
   ) => Kind<
     F,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind<F, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind<F, infer C> ? C : A[key]
     }
   >
-  <F>(F: Apply<F>): <A, B extends { [key in keyof A]: (val: A[key]) => HKT<F, unknown> }>(
+  <F>(F: Apply<F>): <A, B extends { [key in keyof A]?: (val: A[key]) => HKT<F, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
   ) => HKT<
     F,
     {
-      [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => HKT<F, infer C> ? C : A[key]
     }
   >
 }
@@ -472,17 +487,17 @@ import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   pipe(
-    { a: 1, b: 'b' },
+    { a: 1, b: 'b', c: 'abc' },
     traverseS(Ord)(O.Apply)({
       a: (n) => (n <= 2 ? O.some(n.toString()) : O.none),
       b: (b) => (b.length <= 2 ? O.some(b.length) : O.none),
     })
   ),
-  O.some({ a: '1', b: 1 })
+  O.some({ a: '1', b: 1, c: 'abc' })
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## traverseS\_
 
@@ -512,7 +527,8 @@ export declare function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind4<F, S, R, E, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS3>(F: Apply3<F>): <
     R,
@@ -528,7 +544,8 @@ export declare function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS3, E>(F: Apply3C<F, E>): <
     R,
@@ -543,7 +560,8 @@ export declare function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS2>(F: Apply2<F>): <
     E,
@@ -557,7 +575,8 @@ export declare function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS2, E>(F: Apply2C<F, E>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -570,7 +589,8 @@ export declare function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS>(F: Apply1<F>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -582,7 +602,8 @@ export declare function traverseS_(
     F,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind<F, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F>(F: Apply<F>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -594,7 +615,8 @@ export declare function traverseS_(
     F,
     {
       [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
-    }
+    } &
+      { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
 }
 ```
@@ -615,7 +637,7 @@ assert.deepStrictEqual(traverseS_(Ord)(O.Apply)({ a: 1, b: 'b' }, f), O.some({ a
 assert.deepStrictEqual(traverseS_(Ord)(O.Apply)({ a: 3, b: '2' }, f), O.none)
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## unCompact
 
@@ -642,7 +664,7 @@ assert.deepStrictEqual(unCompact({ foo: 123, bar: undefined, baz: 'abc' }), {
 })
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## wiltS
 
@@ -815,7 +837,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
+Added in v3.0.0
 
 ## witherS
 
@@ -956,19 +978,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v2.10.0
-
-# destructors
-
-## keys
-
-**Signature**
-
-```ts
-export declare const keys: (O: Ord<string>) => <A>(r: A) => readonly (keyof A)[]
-```
-
-Added in v2.10.0
+Added in v3.0.0
 
 # instances
 

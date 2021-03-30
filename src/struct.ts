@@ -4,14 +4,14 @@
  * Many of these functions have a `Record._WithIndex` counterpart.
  * e.g. struct.mapS <-> Record.mapWithIndex
  *
- * @since 2.10.0
+ * @since 3.0.0
  */
 import { pipe } from './function'
 import { URIS3, Kind3, URIS2, Kind2, URIS, Kind, URIS4, Kind4, HKT } from './HKT'
 import * as R from './ReadonlyRecord'
-import { Option, fromNullable } from './Option'
+import { Option, fromNullable, some } from './Option'
 import { Monoid } from './Monoid'
-import { Either } from './Either'
+import { Either, right } from './Either'
 import { Separated } from './Separated'
 import { Ord } from './Ord'
 import { Ord as StringOrd } from './string'
@@ -26,9 +26,9 @@ type RR = Readonly<Record<string, unknown>>
 
 /**
  * @category destructors
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const keys = (O: Ord<string>) => <A>(r: A): ReadonlyArray<keyof A> =>
+const keys = (O: Ord<string>) => <A>(r: A): ReadonlyArray<keyof A> =>
   Object.keys(r).sort((first, second) => O.compare(second)(first)) as Array<keyof A>
 
 /**
@@ -40,21 +40,25 @@ export const keys = (O: Ord<string>) => <A>(r: A): ReadonlyArray<keyof A> =>
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: true, c: 'abc' },
  *     mapS({
- *       a: (a) => a.length,
- *       b: (b) => b * 2
+ *       a: (s) => s.length,
+ *       b: (b) => !b,
  *     })
  *   ),
- *   { a: 1, b: 2 }
+ *   { a: 1, b: false, c: 'abc' }
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const mapS = <A, B extends { [k in keyof A]: (val: A[k]) => unknown }>(f: B) => (
+export const mapS = <A, B extends { [k in keyof A]?: (val: A[k]) => unknown }>(f: B) => (
   a: NonEmpty<A>
-): { [key in keyof A]: ReturnType<B[key]> } => R.mapWithIndex((k, r) => f[k as keyof A](r as any))(a as RR) as any
+): { [key in keyof A]: B[key] extends (a: never) => infer C ? C : A[key] } =>
+  R.mapWithIndex((k, r) => {
+    const fk = f[k as keyof A]
+    return fk ? fk(r as any) : r
+  })(a as RR) as any
 
 /**
  * Given a struct of functions reduce a corresponding struct of values
@@ -68,7 +72,7 @@ export const mapS = <A, B extends { [k in keyof A]: (val: A[k]) => unknown }>(f:
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: 'abc' },
  *     reduceS(Ord)('', {
  *       a: (acc, cur) => acc + cur,
  *       b: (acc, cur) => acc + cur.toString()
@@ -79,7 +83,7 @@ export const mapS = <A, B extends { [k in keyof A]: (val: A[k]) => unknown }>(f:
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: 'abc' },
  *     reduceS(reverse(Ord))('', {
  *       a: (acc, cur) => acc + cur,
  *       b: (acc, cur) => acc + cur.toString()
@@ -89,11 +93,14 @@ export const mapS = <A, B extends { [k in keyof A]: (val: A[k]) => unknown }>(f:
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const reduceS = (O: Ord<string>) => <A, B>(b: B, f: { [K in keyof A]: (b: B, a: A[K]) => B }) => (
+export const reduceS = (O: Ord<string>) => <A, B>(b: B, f: { [K in keyof A]?: (b: B, a: A[K]) => B }) => (
   fa: NonEmpty<A>
-): B => R.reduceWithIndex(O)(b, (k, b, v) => f[k as keyof A](b, v as any))(fa as RR)
+): B => R.reduceWithIndex(O)(b, (k, b, v) => {
+  const fk = f[k as keyof A]
+  return fk ? fk(b, v as any) : b
+})(fa as RR)
 
 /**
  * Given a monoid and a struct of functions outputting its type parameter,
@@ -106,7 +113,7 @@ export const reduceS = (O: Ord<string>) => <A, B>(b: B, f: { [K in keyof A]: (b:
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: 'abc' },
  *     foldMapS(S.Ord)(S.Monoid)({
  *       a: identity,
  *       b: (b) => b.toString()
@@ -116,13 +123,16 @@ export const reduceS = (O: Ord<string>) => <A, B>(b: B, f: { [K in keyof A]: (b:
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const foldMapS = (O: Ord<string>) => <M>(M: Monoid<M>) => <A>(
   f: {
-    [key in keyof A]: (a: A[key]) => M
+    [key in keyof A]?: (a: A[key]) => M
   }
-) => (fa: NonEmpty<A>): M => R.foldMapWithIndex(O)(M)((k, v) => f[k as keyof A](v as any))(fa as RR)
+) => (fa: NonEmpty<A>): M => R.foldMapWithIndex(O)(M)((k, v) => {
+  const fk = f[k as keyof A]
+  return fk ? fk(v as any) : M.empty
+})(fa as RR)
 
 /**
  * Given a struct of predicates, filter & potentially refine
@@ -134,23 +144,28 @@ export const foldMapS = (O: Ord<string>) => <M>(M: Monoid<M>) => <A>(
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: 'abc' },
  *     filterS({
  *       a: (a) => a === 'b',
  *       b: (b): b is 1 => b === 1
  *     })
  *   ),
- *   { b: 1 } as const
+ *   { b: 1, c: 'abc' } as const
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const filterS = <A, B extends { [K in keyof A]: Predicate<A[K]> | Refinement<A[K], any> }>(predicates: B) => (
+export const filterS = <A, B extends { [K in keyof A]?: Predicate<A[K]> | Refinement<A[K], any> }>(predicates: B) => (
   fa: NonEmpty<A>
 ): {
-  [K in keyof A]?: B[K] extends (a: any) => a is infer C ? C : A[K]
-} => R.filterWithIndex((k, v) => predicates[k as keyof A](v as any))(fa as RR) as any
+  [K in Exclude<keyof A, keyof B>]: A[K]
+} & {
+  [K in Extract<keyof B, keyof A>]?: B[K] extends (a: any) => a is infer C ? C : A[K]
+} => R.filterWithIndex((k, v) => {
+  const p = predicates[k as keyof A]
+  return p ? p(v as any) : v as any
+})(fa as RR) as any
 
 /**
  * Given a struct mapping to heterogeneous Optional values,
@@ -163,23 +178,28 @@ export const filterS = <A, B extends { [K in keyof A]: Predicate<A[K]> | Refinem
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: "abc" },
  *     filterMapS({
  *       a: () => O.none,
  *       b: (n) => n === 1 ? O.some(n + 1) : O.none
  *     })
  *   ),
- *   { b: 2 }
+ *   { b: 2, c: "abc" }
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const filterMapS = <A, C extends { [K in keyof A]: (v: A[K]) => Option<unknown> }>(f: C) => (
+export const filterMapS = <A, B extends { [K in keyof A]?: (v: A[K]) => Option<unknown> }>(f: B) => (
   fa: NonEmpty<A>
 ): {
-  [K in keyof A]?: ReturnType<C[K]> extends Option<infer A> ? A : never
-} => R.filterMapWithIndex((k, v) => f[k as keyof A](v as any))(fa as RR) as any
+  [K in Exclude<keyof A, keyof B>]: A[K]
+} & {
+  [K in keyof B]?: B[K] extends (a: never) => Option<infer A> ? A : never 
+} => R.filterMapWithIndex((k, v) => {
+  const fk = f[k as keyof A]
+  return fk ? fk(v as any) : some(v)
+})(fa as RR) as any
 
 /**
  * Given a struct of predicates, split & potentially refine
@@ -193,22 +213,35 @@ export const filterMapS = <A, C extends { [K in keyof A]: (v: A[K]) => Option<un
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'b', b: 1 },
+ *     { a: 'b', b: 1, c: 'abc' },
  *     partitionS({
  *       a: (s) => s === 'a',
  *       b: (n): n is 1 => n === 1,
  *     })
  *   ),
- *   separated({ a: 'b' }, { b: 1 } as const)
+ *   separated({ a: 'b' }, { b: 1, c: 'abc' } as const)
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const partitionS = <R, B extends { [K in keyof R]: Predicate<R[K]> | Refinement<R[K], any> }>(f: B) => (
+export const partitionS = <
+  R,
+  B extends { [K in keyof R]?: Predicate<R[K]> | Refinement<R[K], R[K]> }
+>(f: B) => (
   fa: NonEmpty<R>
-): Separated<Partial<R>, { [K in keyof R]?: B[K] extends (a: any) => a is infer C ? C : R[K] }> =>
-  R.partitionWithIndex((k, v) => f[k as keyof R](v as any))(fa as RR) as any
+): Separated<
+  { [K in Extract<keyof B, keyof R>]?: R[K] },
+  {
+    [K in Exclude<keyof R, keyof B>]: R[K]
+  } & {
+    [K in Extract<keyof B, keyof R>]?:
+      B[K] extends (a: any) => a is infer C ? C : R[K]
+  }
+> => R.partitionWithIndex((k, v) => {
+  const fk = f[k as keyof R]
+  return fk ? fk(v as any) : true
+})(fa as RR) as any
 
 /**
  * Given a struct mapping to heterogeneous Optional values,
@@ -223,24 +256,40 @@ export const partitionS = <R, B extends { [K in keyof R]: Predicate<R[K]> | Refi
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 'a', b: 1 },
+ *     { a: 'a', b: 1, c: 'abc' },
  *     partitionMapS({
  *       a: () => E.left('fail'),
  *       b: (n) => n === 1 ? E.right(n + 1) : E.left(n - 1)
  *     })
  *   ),
- *   separated({ a: 'fail' }, { b: 2 })
+ *   separated({ a: 'fail' }, { b: 2, c: 'abc' })
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
-export const partitionMapS = <R, B extends { [K in keyof R]: (val: R[K]) => Either<unknown, unknown> }>(f: B) => (
+export const partitionMapS = <R, B extends { [K in keyof R]?: (val: R[K]) => Either<unknown, unknown> }>(f: B) => (
   fa: NonEmpty<R>
 ): Separated<
-  { [K in keyof R]?: ReturnType<B[K]> extends Either<infer E, unknown> ? E : never },
-  { [K in keyof R]?: ReturnType<B[K]> extends Either<unknown, infer A> ? A : never }
-> => R.partitionMapWithIndex((k, v) => f[k as keyof R](v as any))(fa as RR) as any
+  {
+    [K in keyof B]?:
+      B[K] extends (a: any) => Either<infer E, unknown> ? E : never 
+  },
+  {
+    [K in Exclude<keyof R, keyof B>]: R[K] 
+  } & {
+    [K in keyof B]?: B[K] extends (a: any) => Either<unknown, infer A> ? A : never
+  }
+> => R.partitionMapWithIndex((k, v) => {
+  const fk = f[k as keyof R]
+  if (fk) {
+    const r = fk(v as any)
+    return r
+  } else {
+    const r = right(v)
+    return r
+  }
+})(fa as RR) as any
 
 /**
  * Given a heterogeneous struct of Options, eliminate
@@ -261,7 +310,7 @@ export const partitionMapS = <R, B extends { [K in keyof R]: (val: R[K]) => Eith
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const compactS: <A>(r: { [K in keyof A]: Option<A[K]> }) => Partial<A> = R.compact as any
 
@@ -280,7 +329,7 @@ export const compactS: <A>(r: { [K in keyof A]: Option<A[K]> }) => Partial<A> = 
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const unCompact = <A>(
   a: NonEmpty<A>
@@ -310,7 +359,7 @@ export const unCompact = <A>(
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const separateS: <R extends R.ReadonlyRecord<string, Either<unknown, unknown>>>(
   r: R
@@ -332,17 +381,17 @@ export const separateS: <R extends R.ReadonlyRecord<string, Either<unknown, unkn
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     { a: 1, b: 'b' },
+ *     { a: 1, b: 'b', c: 'abc' },
  *     traverseS(Ord)(O.Apply)({
  *       a: (n) => n <= 2 ? O.some(n.toString()) : O.none,
  *       b: (b) => b.length <= 2 ? O.some(b.length) : O.none
  *     })
  *   ),
- *   O.some({ a: '1', b: 1 })
+ *   O.some({ a: '1', b: 1, c: 'abc' })
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export function traverseS(
   O: Ord<string>
@@ -352,7 +401,7 @@ export function traverseS(
     R,
     E,
     A,
-    B extends { [key in keyof A]: (val: A[key]) => Kind4<F, S, R, E, unknown> }
+    B extends { [key in keyof A]?: (val: A[key]) => Kind4<F, S, R, E, unknown> }
   >(
     f: B
   ) => (
@@ -363,10 +412,10 @@ export function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind4<F, S, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind4<F, S, R, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS3>(F: Apply3<F>): <R, E, A, B extends { [key in keyof A]: (val: A[key]) => Kind3<F, R, E, unknown> }>(
+  <F extends URIS3>(F: Apply3<F>): <R, E, A, B extends { [key in keyof A]?: (val: A[key]) => Kind3<F, R, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -375,13 +424,13 @@ export function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind3<F, R, E, infer C> ? C : A[key]
     }
   >
   <F extends URIS3, E>(F: Apply3C<F, E>): <
     R,
     A,
-    B extends { [key in keyof A]: (val: A[key]) => Kind3<F, R, E, unknown> }
+    B extends { [key in keyof A]?: (val: A[key]) => Kind3<F, R, E, unknown> }
   >(
     f: B
   ) => (
@@ -391,10 +440,10 @@ export function traverseS(
     R,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind3<F, R, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS2>(F: Apply2<F>): <E, A, B extends { [key in keyof A]: (val: A[key]) => Kind2<F, E, unknown> }>(
+  <F extends URIS2>(F: Apply2<F>): <E, A, B extends { [key in keyof A]?: (val: A[key]) => Kind2<F, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -402,10 +451,10 @@ export function traverseS(
     F,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind2<F, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS2, E>(F: Apply2C<F, E>): <A, B extends { [key in keyof A]: (val: A[key]) => Kind2<F, E, unknown> }>(
+  <F extends URIS2, E>(F: Apply2C<F, E>): <A, B extends { [key in keyof A]?: (val: A[key]) => Kind2<F, E, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
@@ -413,27 +462,27 @@ export function traverseS(
     F,
     E,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind2<F, E, infer C> ? C : A[key]
     }
   >
-  <F extends URIS>(F: Apply1<F>): <A, B extends { [key in keyof A]: (val: A[key]) => Kind<F, unknown> }>(
+  <F extends URIS>(F: Apply1<F>): <A, B extends { [key in keyof A]?: (val: A[key]) => Kind<F, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
   ) => Kind<
     F,
     {
-      [key in keyof B]: ReturnType<B[key]> extends Kind<F, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => Kind<F, infer C> ? C : A[key]
     }
   >
-  <F>(F: Apply<F>): <A, B extends { [key in keyof A]: (val: A[key]) => HKT<F, unknown> }>(
+  <F>(F: Apply<F>): <A, B extends { [key in keyof A]?: (val: A[key]) => HKT<F, unknown> }>(
     f: B
   ) => (
     ta: NonEmpty<A>
   ) => HKT<
     F,
     {
-      [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
+      [key in keyof A]: B[key] extends (a: never) => HKT<F, infer C> ? C : A[key]
     }
   >
 }
@@ -441,34 +490,43 @@ export function traverseS(
   O: Ord<string>
 ): <F>(
   F: Apply<F>
-) => <A extends R.ReadonlyRecord<string, unknown>, B extends { [key in keyof A]: (val: A[key]) => HKT<F, unknown> }>(
+) => <A extends R.ReadonlyRecord<string, unknown>, B extends { [key in keyof A]?: (val: A[key]) => HKT<F, unknown> }>(
   f: B
 ) => (
   ta: NonEmpty<A>
 ) => HKT<
   F,
   {
-    [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
+    [key in keyof A]: B[key] extends (a: never) => HKT<F, infer C> ? C : A[key]
   }
 > {
-  return <F>(F: Apply<F>) => <A, B extends { [key in keyof A]: (val: A[key]) => HKT<F, unknown> }>(f: B) => (
+  return <F>(F: Apply<F>) => <A, B extends { [key in keyof A]?: (val: A[key]) => HKT<F, unknown> }>(f: B) => (
     ta: NonEmpty<A>
   ) => {
     const ks = keys(O)(ta) as Array<keyof A>
     const length = ks.length
-    let fr = F.map((r) => ({ [ks[0]]: r }))(f[ks[0]](ta[ks[0]] as any)) as HKT<
+    const fk = f[ks[0]]
+    let fr = F.map((r) => ({ [ks[0]]: r }))(fk ? fk(ta[ks[0]] as any) : ta[ks[0]] as any) as HKT<
       F,
       {
-        [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
+        [key in keyof B]: B[key] extends (a: never) => HKT<F, infer C> ? C : never
       }
     >
     for (let i = 1; i < length; i++) {
-      fr = F.ap(f[ks[i]](ta[ks[i]] as any))(
-        F.map((r: any) => (b: any) => {
-          r[ks[i]] = b
+      const fk = f[ks[i]]
+      if (fk){
+        fr = F.ap(fk(ta[ks[i]] as any))(
+          F.map((r: any) => (b: any) => {
+            r[ks[i]] = b
+            return r
+          })(fr)
+        )
+      } else {
+        fr = F.map((r: any) => {
+          r[ks[i]] = ta[ks[i]]
           return r
         })(fr)
-      )
+      }
     }
     return fr as any
   }
@@ -499,7 +557,7 @@ export function traverseS(
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export function traverseS_(
   O: Ord<string>
@@ -520,7 +578,7 @@ export function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind4<F, S, R, E, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS3>(F: Apply3<F>): <
     R,
@@ -536,7 +594,7 @@ export function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS3, E>(F: Apply3C<F, E>): <
     R,
@@ -551,7 +609,7 @@ export function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind3<F, R, E, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS2>(F: Apply2<F>): <
     E,
@@ -565,7 +623,7 @@ export function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS2, E>(F: Apply2C<F, E>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -578,7 +636,7 @@ export function traverseS_(
     E,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind2<F, E, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F extends URIS>(F: Apply1<F>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -590,7 +648,7 @@ export function traverseS_(
     F,
     {
       [key in keyof B]: ReturnType<B[key]> extends Kind<F, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
   <F>(F: Apply<F>): <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -602,7 +660,7 @@ export function traverseS_(
     F,
     {
       [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
-    }
+    } & { [key in Exclude<keyof A, keyof B>]: A[key] }
   >
 }
 export function traverseS_(
@@ -616,7 +674,7 @@ export function traverseS_(
   F,
   {
     [key in keyof B]: ReturnType<B[key]> extends HKT<F, infer C> ? C : never
-  }
+  } & { [key in Exclude<keyof A, keyof B>]: A[key] }
 > {
   return <F>(F: Apply<F>) => <
     B extends R.ReadonlyRecord<string, (v: never) => unknown>,
@@ -649,7 +707,7 @@ export function traverseS_(
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const witherS = (
   O: Ord<string>
@@ -757,7 +815,7 @@ export const witherS = (
  * )
  *
  * @category combinators
- * @since 2.10.0
+ * @since 3.0.0
  */
 export const wiltS = (
   O: Ord<string>
@@ -878,3 +936,13 @@ export const wiltS = (
 export const getAssignSemigroup = <A = never>(): Semigroup<A> => ({
   concat: (second) => (first) => Object.assign({}, first, second)
 })
+
+
+declare const user: { userId: string; position: string; age: number; }
+const seniorManager: { userId: string; position?: "manager"; age?: number } = pipe(
+  user,
+  filterS({
+    position: (p): p is 'manager' => p === 'manager',
+    age: a => a > 50
+  })
+)

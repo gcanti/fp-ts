@@ -1,7 +1,6 @@
 import { pipe, identity } from '../../src/function'
 import * as _ from '../../src/struct'
 import * as O from '../../src/Option'
-import * as N from '../../src/number'
 import * as S from '../../src/string'
 import * as E from '../../src/Either'
 import * as Tr from '../../src/Tree'

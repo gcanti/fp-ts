@@ -1,5 +1,5 @@
 import * as E from '../src/Either'
-import { flow, identity, pipe } from '../src/function'
+import { flow, pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as _ from '../src/struct'
 import { separated } from '../src/Separated'
@@ -18,14 +18,13 @@ describe('struct', () => {
     it('mapS', () => {
       U.deepStrictEqual(
         pipe(
-          { a: 'a', b: 1, c: true },
+          { a: 'a', b: true, c: 'abc' },
           _.mapS({
             a: (s) => s.length,
-            b: (b) => b > 0,
-            c: (c) => !c
+            b: (b) => !b,
           })
         ),
-        { a: 1, b: true, c: false }
+        { a: 1, b: false, c: 'abc' }
       )
       // should ignore non own properties
       const x: Record<'b', number> = Object.create({ a: 1 })
@@ -36,7 +35,7 @@ describe('struct', () => {
     it('reduceS', () => {
       U.deepStrictEqual(
         pipe(
-          { a: 'a', b: 1 },
+          { a: 'a', b: 1, c: 'abc' },
           _.reduceS(S.Ord)('', {
             a: (acc, cur) => acc + cur,
             b: (acc, cur) => acc + cur.toString()
@@ -46,7 +45,7 @@ describe('struct', () => {
       )
       U.deepStrictEqual(
         pipe(
-          { b: 1, a: 'a' },
+          { b: 1, a: 'a', c: 'abc' },
           _.reduceS(S.Ord)('', {
             a: (acc, cur) => acc + cur,
             b: (acc, cur) => acc + cur.toString()
@@ -56,7 +55,7 @@ describe('struct', () => {
       )
       U.deepStrictEqual(
         pipe(
-          { a: 'a', b: 1 },
+          { a: 'a', b: 1, c: 'abc' },
           _.reduceS(reverse(S.Ord))('', {
             a: (acc, cur) => acc + cur,
             b: (acc, cur) => acc + cur.toString()
@@ -68,14 +67,23 @@ describe('struct', () => {
 
     it('foldMapS', () => {
       U.deepStrictEqual(
-        pipe({ a: 'a', b: 1 }, _.foldMapS(S.Ord)(S.Monoid)({ a: identity, b: (b) => b.toString() })),
+        pipe({ a: 'a', b: 1 }, _.foldMapS(S.Ord)(S.Monoid)({ a: (a) => a, b: (b) => b.toString() })),
         'a1'
       )
     })
 
     it('filterS', () => {
-      const d = { a: 'a', b: 1 }
-      U.deepStrictEqual(pipe(d, _.filterS({ a: (a) => a === 'b', b: (b) => b === 1 })), { b: 1 })
+      const d = { a: 'a', b: 1, c: 'abc' }
+      U.deepStrictEqual(
+        pipe(
+          d,
+          _.filterS({
+            a: (a) => a === 'b',
+            b: (b) => b === 1
+          })
+        ),
+          { b: 1, c: 'abc' }
+        )
       U.deepStrictEqual(pipe({ a: 1, b: 'foo' }, _.filterS({ a: np, b: sp })), { a: 1 })
 
       const pass = { a: 1, b: 'a' } as const
@@ -89,13 +97,13 @@ describe('struct', () => {
     it('filterMapS', () => {
       U.deepStrictEqual(
         pipe(
-          { a: 'a', b: 1 },
+          { a: 'a', b: 1, c: 'abc' },
           _.filterMapS({
             a: () => O.none,
             b: (n) => (np(n) ? O.some(n + 1) : O.none)
           })
         ),
-        { b: 2 }
+        { b: 2, c: 'abc' }
       )
 
       const x: { readonly a: number; readonly b: string } = Object.assign(Object.create({ c: true }), {
@@ -107,8 +115,8 @@ describe('struct', () => {
 
     it('partitionS', () => {
       U.deepStrictEqual(
-        pipe({ a: 'b', b: 1 }, _.partitionS({ a: sp, b: np })),
-        separated({ a: 'b' }, { b: 1 } as const)
+        pipe({ a: 'b', b: 1, c: 'abc' }, _.partitionS({ a: sp, b: np })),
+        separated({ a: 'b' }, { b: 1, c: 'abc' } as const)
       )
 
       const x: { readonly a: number; readonly b: string } = Object.assign(Object.create({ c: true }), {
@@ -123,18 +131,18 @@ describe('struct', () => {
       const f = (n: number) => (np(n) ? E.right(n + 1) : E.left(n - 1))
       U.deepStrictEqual(
         pipe(
-          { a: 'a', b: 1 },
+          { a: 'a', b: 1, c: 'abc' },
           _.partitionMapS({
             a: () => E.left('fail'),
             b: f
           })
         ),
-        separated({ a: 'fail' }, { b: 2 })
+        separated({ a: 'fail' }, { b: 2, c: 'abc' })
       )
 
       const x: { readonly a: number; readonly b: string } = Object.assign(Object.create({ c: true }), {
         a: 1,
-        b: 'foo'
+        b: 'foo',
       })
       U.deepStrictEqual(
         pipe(
@@ -190,13 +198,13 @@ describe('struct', () => {
     it('traverseS', () => {
       U.deepStrictEqual(
         pipe(
-          { a: 1, b: 'b' },
+          { a: 1, b: 'b', c: 'abc' },
           _.traverseS(S.Ord)(O.Apply)({
             a: (n) => (n <= 2 ? O.some(n.toString()) : O.none),
             b: (b) => (b.length <= 2 ? O.some(b.length) : O.none)
           })
         ),
-        O.some({ a: '1', b: 1 })
+        O.some({ a: '1', b: 1, c: 'abc' })
       )
       U.deepStrictEqual(
         pipe(
@@ -243,7 +251,7 @@ describe('struct', () => {
         a: (n: number) => (n <= 2 ? O.some(n.toString()) : O.none),
         b: (b: string) => (b.length <= 2 ? O.some(b.length) : O.none)
       }
-      U.deepStrictEqual(_.traverseS_(S.Ord)(O.Apply)({ a: 1, b: 'b' }, f), O.some({ a: '1', b: 1 }))
+      U.deepStrictEqual(_.traverseS_(S.Ord)(O.Apply)({ a: 1, b: 'b', c: 'abc' }, f), O.some({ a: '1', b: 1, c: 'abc' }))
       U.deepStrictEqual(_.traverseS_(S.Ord)(O.Apply)({ a: 3, b: '2' }, f), O.none)
     })
   })
