@@ -31,7 +31,7 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, Witherable1, filterE as filterE_ } from './Witherable'
 
 import NonEmptyArray = NEA.NonEmptyArray
 import Option = O.Option
@@ -1993,6 +1993,15 @@ export const Witherable: Witherable1<URI> = {
   wither: _wither,
   wilt: _wilt
 }
+
+/**
+ * Filter values inside a context.
+ *
+ * @since 2.11.0
+ */
+export const filterE =
+  /*#__PURE__*/
+  filterE_(Witherable)
 
 // -------------------------------------------------------------------------------------
 // unsafe

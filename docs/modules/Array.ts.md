@@ -165,6 +165,7 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
+  - [filterE](#filtere)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
@@ -2287,6 +2288,18 @@ export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
 ```
 
 Added in v2.9.0
+
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: FilterE1<'Array'>
+```
+
+Added in v2.11.0
 
 ## findIndex
 

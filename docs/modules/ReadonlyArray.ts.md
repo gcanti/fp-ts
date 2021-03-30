@@ -156,6 +156,7 @@ Added in v2.5.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filterE](#filtere)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
   - [findIndex](#findindex)
@@ -2101,6 +2102,38 @@ assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
 ```
 
 Added in v2.9.0
+
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: FilterE1<'ReadonlyArray'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as T from 'fp-ts/Task'
+
+const filterE = RA.filterE(T.ApplicativePar)
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      [-1, 2, 3],
+      filterE((n) => T.of(n > 0))
+    )(),
+    [2, 3]
+  )
+}
+test()
+```
+
+Added in v2.11.0
 
 ## findFirst
 

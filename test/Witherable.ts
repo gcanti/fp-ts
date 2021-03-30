@@ -1,25 +1,26 @@
-import * as U from './util'
-import * as T from '../src/Task'
+import { pipe } from '../src/function'
 import * as RT from '../src/ReaderTask'
-import * as _ from '../src/Witherable'
 import * as RA from '../src/ReadonlyArray'
 import * as RR from '../src/ReadonlyRecord'
+import * as T from '../src/Task'
+import * as _ from '../src/Witherable'
+import * as U from './util'
 
 describe('Witherable', () => {
   describe('filterE', () => {
+    const filterERA = _.filterE(RA.Witherable)
+    const filterERR = _.filterE(RR.Witherable)
+
     it('Applicative1', async () => {
-      const filterEArray = _.filterE(RA.Witherable)(T.ApplicativePar)((n: number) => T.of(n % 2 === 0))
-      U.deepStrictEqual(await filterEArray([1, 2])(), [2])
-
-      const filterERecord = _.filterE(RR.Witherable)(T.ApplicativePar)((n: number) => T.of(n % 2 === 0))
-      U.deepStrictEqual(await filterERecord({ a: 1, b: 2 })(), { b: 2 })
+      const f = (n: number) => T.of(n % 2 === 0)
+      U.deepStrictEqual(await pipe([1, 2], filterERA(T.ApplicativePar)(f))(), [2])
+      U.deepStrictEqual(await pipe({ a: 1, b: 2 }, filterERR(T.ApplicativePar)(f))(), { b: 2 })
     })
-    it('Applicative2', async () => {
-      const filterEArray = _.filterE(RA.Witherable)(RT.ApplicativePar)((n: number) => RT.of(n % 2 === 0))
-      U.deepStrictEqual(await filterEArray([1, 2])({})(), [2])
 
-      const filterERecord = _.filterE(RR.Witherable)(RT.ApplicativePar)((n: number) => RT.of(n % 2 === 0))
-      U.deepStrictEqual(await filterERecord({ a: 1, b: 2 })({})(), { b: 2 })
+    it('Applicative2', async () => {
+      const f = (n: number) => RT.of(n % 2 === 0)
+      U.deepStrictEqual(await pipe([1, 2], filterERA(RT.ApplicativePar)(f))({})(), [2])
+      U.deepStrictEqual(await pipe({ a: 1, b: 2 }, filterERR(RT.ApplicativePar)(f))({})(), { b: 2 })
     })
   })
 })

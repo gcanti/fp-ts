@@ -23,7 +23,7 @@ import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, Witherable1, filterE as filterE_ } from './Witherable'
 
 import Option = O.Option
 
@@ -1222,6 +1222,32 @@ export const Witherable: Witherable1<URI> = {
   wither: _wither,
   wilt: _wilt
 }
+
+/**
+ * Filter values inside a context.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as RR from 'fp-ts/ReadonlyRecord'
+ * import * as T from 'fp-ts/Task'
+ *
+ * const filterE = RR.filterE(T.ApplicativePar)
+ * async function test() {
+ *   assert.deepStrictEqual(
+ *     await pipe(
+ *       { a: -1, b: 2, c: 3 },
+ *       filterE((n) => T.of(n > 0))
+ *     )(),
+ *     { b: 2, c: 3 }
+ *   )
+ * }
+ * test()
+ *
+ * @since 2.11.0
+ */
+export const filterE =
+  /*#__PURE__*/
+  filterE_(Witherable)
 
 // -------------------------------------------------------------------------------------
 // deprecated

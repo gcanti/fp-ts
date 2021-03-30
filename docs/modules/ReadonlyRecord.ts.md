@@ -66,6 +66,7 @@ Added in v2.5.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filterE](#filtere)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
@@ -625,6 +626,38 @@ export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<st
 ```
 
 Added in v2.5.0
+
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: FilterE1<'ReadonlyRecord'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RR from 'fp-ts/ReadonlyRecord'
+import * as T from 'fp-ts/Task'
+
+const filterE = RR.filterE(T.ApplicativePar)
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(
+      { a: -1, b: 2, c: 3 },
+      filterE((n) => T.of(n > 0))
+    )(),
+    { b: 2, c: 3 }
+  )
+}
+test()
+```
+
+Added in v2.11.0
 
 ## filterWithIndex
 

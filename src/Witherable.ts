@@ -550,18 +550,16 @@ export interface PipeableWilt3<W extends URIS3> {
 /**
  * @since 2.11.0
  */
-export function filterE<G extends URIS>(
-  W: Witherable1<G>
-): {
+export interface FilterE1<G extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
     predicate: (a: A) => Kind3<F, R, E, boolean>
-  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
   <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
     predicate: (a: A) => Kind3<F, R, E, boolean>
-  ) => (as: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
   <F extends URIS2>(F: Applicative2<F>): <A, E>(
     predicate: (a: A) => Kind2<F, E, boolean>
-  ) => (as: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
   <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
     predicate: (a: A) => Kind2<F, E, boolean>
   ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
@@ -569,10 +567,23 @@ export function filterE<G extends URIS>(
     predicate: (a: A) => Kind<F, boolean>
   ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
   <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
-} {
-  return <F>(
-    F: Applicative<F>
-  ): (<A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>) => {
+}
+
+/**
+ * Filter values inside a `F` context.
+ *
+ * See `ReadonlyArray`'s `filterE` for an example of usage.
+ *
+ * @since 2.11.0
+ */
+export function filterE<G extends URIS>(W: Witherable1<G>): FilterE1<G>
+export function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>>
+export function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>> {
+  return (F) => {
     const witherF = W.wither(F)
     return (predicate) => (ga) => witherF(ga, (a) => F.map(predicate(a), (b) => (b ? some(a) : none)))
   }

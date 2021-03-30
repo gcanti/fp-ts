@@ -52,6 +52,7 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
+  - [filterE](#filtere)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -482,6 +483,18 @@ export declare const every: <A>(predicate: Predicate<A>) => (r: Record<string, A
 ```
 
 Added in v2.0.0
+
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: FilterE1<'Record'>
+```
+
+Added in v2.11.0
 
 ## filterMapWithIndex
 

@@ -21,16 +21,24 @@ high state of flux, you're at risk of it changing without notice.
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)
+    - add `filterE`
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
+    - add `filterE`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+  - `ReadonlyRecord`
+    - add `filterE`
+  - `Record`
+    - add `filterE`
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
   - `TaskOption`
     - add `fromTaskEither` (@thewilkybarkid)
+  - `Witherable`
+    - add `filterE`, #1458 (@vinassefranche)
 
 # 2.10.0-rc.5
 
