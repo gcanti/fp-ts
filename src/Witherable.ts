@@ -330,7 +330,7 @@ export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherab
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export interface FilterE1<G extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
@@ -356,7 +356,7 @@ export interface FilterE1<G extends URIS> {
  *
  * See `ReadonlyArray`'s `filterE` for an example of usage.
  *
- * @since 2.11.0
+ * @since 3.0.0
  */
 export function filterE<G extends URIS>(W: Witherable1<G>): FilterE1<G>
 export function filterE<G>(

@@ -6,6 +6,7 @@ import type { Alternative1 } from './Alternative'
 import type { Applicative as Applicative_, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import { ChainRec1 } from './ChainRec'
 import type { Compactable1 } from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
@@ -1952,7 +1953,7 @@ export const Witherable: Witherable1<URI> = {
  * }
  * test()
  *
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const filterE =
   /*#__PURE__*/
@@ -1981,6 +1982,74 @@ export const fromPredicate =
 export const fromEitherK =
   /*#__PURE__*/
   fromEitherK_(FromEither)
+
+/**
+ * @category ChainRec
+ * @since 3.0.0
+ */
+export const chainRecDepthFirst: ChainRec1<URI>['chainRec'] = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (
+  a: A
+): ReadonlyArray<B> => {
+  const todo: Array<Either<A, B>> = [...f(a)]
+  const out: Array<B> = []
+
+  while (todo.length > 0) {
+    const e = todo.shift()!
+    if (_.isLeft(e)) {
+      todo.unshift(...f(e.left))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  return out
+}
+
+/**
+ * @category ChainRec
+ * @since 3.0.0
+ */
+export const chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (
+  a: A
+): ReadonlyArray<B> => {
+  const initial = f(a)
+  const todo: Array<Either<A, B>> = []
+  const out: Array<B> = []
+
+  function go(e: Either<A, B>): void {
+    if (_.isLeft(e)) {
+      f(e.left).forEach((v) => todo.push(v))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  for (const e of initial) {
+    go(e)
+  }
+
+  while (todo.length > 0) {
+    go(todo.shift()!)
+  }
+
+  return out
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ChainRecDepthFirst: ChainRec1<URI> = {
+  chainRec: chainRecDepthFirst
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const ChainRecBreadthFirst: ChainRec1<URI> = {
+  chainRec: chainRecBreadthFirst
+}
 
 // -------------------------------------------------------------------------------------
 // utils

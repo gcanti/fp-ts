@@ -21,6 +21,9 @@ Added in v3.0.0
   - [ap](#ap)
 - [Chain](#chain)
   - [chain](#chain)
+- [ChainRec](#chainrec)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -119,6 +122,8 @@ Added in v3.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
+  - [ChainRecBreadthFirst](#chainrecbreadthfirst)
+  - [ChainRecDepthFirst](#chainrecdepthfirst)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -247,6 +252,28 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => readonly B[]) => (ma: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+# ChainRec
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v3.0.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -1586,6 +1613,26 @@ export declare const Chain: Chain1<'ReadonlyArray'>
 
 Added in v3.0.0
 
+## ChainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecBreadthFirst: ChainRec1<'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
+## ChainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecDepthFirst: ChainRec1<'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
 ## Compactable
 
 **Signature**
@@ -2100,7 +2147,7 @@ async function test() {
 test()
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## findFirst
 

@@ -67,7 +67,7 @@ export interface FilterE1<G extends URIS> {
 }
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 # defaults
 
@@ -457,4 +457,4 @@ export declare function filterE<G>(
 ): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>>
 ```
 
-Added in v2.11.0
+Added in v3.0.0

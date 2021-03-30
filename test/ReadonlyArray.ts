@@ -1188,4 +1188,188 @@ describe('ReadonlyArray', () => {
     const f = (n: number) => T.of(n % 2 === 0)
     U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
   })
+
+  describe('ChainRec', () => {
+    it('chainRecDepthFirst', () => {
+      const chainRec = _.chainRecDepthFirst
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec(() => [])
+        ),
+        []
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec(() => [E.right('a')])
+        ),
+        ['a']
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [1, 2, 3, 4, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return [E.left(a + 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [5, 4, 3, 2, 1]
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return a % 2 === 0 ? [E.right(a), E.left(a + 1)] : [E.left(a + 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [2, 4, 5, 3, 1]
+      )
+      U.deepStrictEqual(
+        pipe(
+          0,
+          chainRec((a) => {
+            if (a === 0) {
+              return [E.right(a), E.left(a - 1), E.left(a + 1)]
+            } else if (0 < a && a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else if (-5 < a && a < 0) {
+              return [E.right(a), E.left(a - 1)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [0, -1, -2, -3, -4, -5, 1, 2, 3, 4, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          0,
+          chainRec((a) => {
+            if (a === 0) {
+              return [E.left(a - 1), E.right(a), E.left(a + 1)]
+            } else if (0 < a && a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else if (-5 < a && a < 0) {
+              return [E.left(a - 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]
+      )
+    })
+
+    it('chainRecBreadthFirst', () => {
+      const chainRec = _.chainRecBreadthFirst
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec(() => [])
+        ),
+        []
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec(() => [E.right('a')])
+        ),
+        ['a']
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [1, 2, 3, 4, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return [E.left(a + 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [1, 2, 3, 4, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          1,
+          chainRec((a) => {
+            if (a < 5) {
+              return a % 2 === 0 ? [E.right(a), E.left(a + 1)] : [E.left(a + 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [1, 2, 3, 4, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          0,
+          chainRec((a) => {
+            if (a === 0) {
+              return [E.right(a), E.left(a - 1), E.left(a + 1)]
+            } else if (0 < a && a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else if (-5 < a && a < 0) {
+              return [E.right(a), E.left(a - 1)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
+      )
+      U.deepStrictEqual(
+        pipe(
+          0,
+          chainRec((a) => {
+            if (a === 0) {
+              return [E.left(a - 1), E.right(a), E.left(a + 1)]
+            } else if (0 < a && a < 5) {
+              return [E.right(a), E.left(a + 1)]
+            } else if (-5 < a && a < 0) {
+              return [E.left(a - 1), E.right(a)]
+            } else {
+              return [E.right(a)]
+            }
+          })
+        ),
+        [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
+      )
+    })
+  })
 })
