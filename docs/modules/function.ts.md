@@ -25,6 +25,7 @@ Added in v2.0.0
   - [Lazy (interface)](#lazy-interface)
   - [Predicate (interface)](#predicate-interface)
   - [Refinement (interface)](#refinement-interface)
+  - [SK](#sk)
   - [absurd](#absurd)
   - [constFalse](#constfalse)
   - [constNull](#constnull)
@@ -226,6 +227,16 @@ export interface Refinement<A, B extends A> {
 ```
 
 Added in v2.0.0
+
+## SK
+
+**Signature**
+
+```ts
+export declare const SK: <A, B>(_: A, b: B) => B
+```
+
+Added in v2.11.0
 
 ## absurd
 
