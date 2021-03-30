@@ -14,6 +14,8 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [FilterE1 (interface)](#filtere1-interface)
 - [defaults](#defaults)
   - [wiltDefault](#wiltdefault)
   - [witherDefault](#witherdefault)
@@ -34,8 +36,38 @@ Added in v3.0.0
   - [Wither2 (interface)](#wither2-interface)
   - [Wither2C (interface)](#wither2c-interface)
   - [Wither3 (interface)](#wither3-interface)
+  - [filterE](#filtere)
 
 ---
+
+# combinators
+
+## FilterE1 (interface)
+
+**Signature**
+
+```ts
+export interface FilterE1<G extends URIS> {
+  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS>(F: Applicative1<F>): <A>(
+    predicate: (a: A) => Kind<F, boolean>
+  ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
+  <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
+}
+```
+
+Added in v2.11.0
 
 # defaults
 
@@ -409,3 +441,20 @@ export interface Wither3<W extends URIS3> {
 ```
 
 Added in v3.0.0
+
+## filterE
+
+Filter values inside a `F` context.
+
+See `ReadonlyArray`'s `filterE` for an example of usage.
+
+**Signature**
+
+```ts
+export declare function filterE<G extends URIS>(W: Witherable1<G>): FilterE1<G>
+export declare function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>>
+```
+
+Added in v2.11.0

@@ -38,7 +38,7 @@ import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
 import type { TraversableWithIndex1 } from './TraversableWithIndex'
 import type { Unfoldable1 } from './Unfoldable'
-import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import { wiltDefault, Witherable1, witherDefault, filterE as filterE_ } from './Witherable'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -1931,6 +1931,32 @@ export const Witherable: Witherable1<URI> = {
   wither,
   wilt
 }
+
+/**
+ * Filter values inside a context.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import * as T from 'fp-ts/Task'
+ *
+ * const filterE = RA.filterE(T.ApplicativePar)
+ * async function test() {
+ *   assert.deepStrictEqual(
+ *     await pipe(
+ *       [-1, 2, 3],
+ *       filterE((n) => T.of(n > 0))
+ *     )(),
+ *     [2, 3]
+ *   )
+ * }
+ * test()
+ *
+ * @since 2.11.0
+ */
+export const filterE =
+  /*#__PURE__*/
+  filterE_(Witherable)
 
 /**
  * @category instances

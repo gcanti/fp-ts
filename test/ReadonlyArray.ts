@@ -1183,4 +1183,9 @@ describe('ReadonlyArray', () => {
     U.strictEqual(pipe(empty, _.concatW(as)), as)
     U.strictEqual(pipe(as, _.concatW(empty)), as)
   })
+
+  it('filterE', async () => {
+    const f = (n: number) => T.of(n % 2 === 0)
+    U.deepStrictEqual(await pipe([1, 2], _.filterE(T.ApplicativePar)(f))(), [2])
+  })
 })
