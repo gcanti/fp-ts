@@ -181,4 +181,8 @@ describe('function', () => {
     const f = M.concat(_.increment, U.double)
     U.deepStrictEqual(f(3), 8)
   })
+
+  it('apply', () => {
+    U.deepStrictEqual(_.pipe(U.double, _.apply(1)), 2)
+  })
 })
