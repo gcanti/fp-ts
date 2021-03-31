@@ -30,10 +30,11 @@ import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } f
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { isNone, none, Option, some } from './Option'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -295,7 +296,7 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> & MonadThrow2C<URI
  * @since 2.0.0
  */
 export function getLeft<E, A>(fa: These<E, A>): Option<E> {
-  return isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
+  return isLeft(fa) ? _.some(fa.left) : isRight(fa) ? _.none : _.some(fa.left)
 }
 
 /**
@@ -313,7 +314,7 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  * @since 2.0.0
  */
 export function getRight<E, A>(fa: These<E, A>): Option<A> {
-  return isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
+  return isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.right) : _.some(fa.right)
 }
 
 /**
@@ -359,7 +360,7 @@ export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
  * @since 2.0.0
  */
 export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
-  return (ma) => (isNone(ma) ? left(e) : both(e, ma.value))
+  return (ma) => (_.isNone(ma) ? left(e) : both(e, ma.value))
 }
 
 // TODO: make lazy in v3
@@ -375,7 +376,7 @@ export function leftOrBoth<E>(e: E): <A>(ma: Option<A>) => These<E, A> {
  * @since 2.0.0
  */
 export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
-  return (me) => (isNone(me) ? right(a) : both(me.value, a))
+  return (me) => (_.isNone(me) ? right(a) : both(me.value, a))
 }
 
 /**
@@ -393,7 +394,7 @@ export function rightOrBoth<A>(a: A): <E>(me: Option<E>) => These<E, A> {
  * @since 2.0.0
  */
 export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
-  return isLeft(fa) ? some(fa.left) : none
+  return isLeft(fa) ? _.some(fa.left) : _.none
 }
 
 /**
@@ -411,7 +412,7 @@ export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
  * @since 2.0.0
  */
 export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
-  return isRight(fa) ? some(fa.right) : none
+  return isRight(fa) ? _.some(fa.right) : _.none
 }
 
 /**
@@ -430,13 +431,13 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * @since 2.0.0
  */
 export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
-  return isNone(fe)
-    ? isNone(fa)
-      ? none
-      : some(right(fa.value))
-    : isNone(fa)
-    ? some(left(fe.value))
-    : some(both(fe.value, fa.value))
+  return _.isNone(fe)
+    ? _.isNone(fa)
+      ? _.none
+      : _.some(right(fa.value))
+    : _.isNone(fa)
+    ? _.some(left(fe.value))
+    : _.some(both(fe.value, fa.value))
 }
 
 // -------------------------------------------------------------------------------------
