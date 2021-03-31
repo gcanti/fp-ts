@@ -60,6 +60,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid` (@anthonyjoeseph)
     - add `getIntersectionSemigroup` (@anthonyjoeseph)
     - add `getDifferenceMagma` (@anthonyjoeseph)
+  - `Record`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
   - `TaskOption`

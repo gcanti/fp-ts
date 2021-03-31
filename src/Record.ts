@@ -571,6 +571,49 @@ export const elem: <A>(
   (a: A, fa: Record<string, A>): boolean
 } = RR.elem
 
+/**
+ * @since 2.11.0
+ */
+export const union = <A>(
+  M: Magma<A>
+): ((second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>) => {
+  const unionM = RR.union(M)
+  return (second) => (first) => {
+    if (isEmpty(first)) {
+      return { ...second }
+    }
+    if (isEmpty(second)) {
+      return { ...first }
+    }
+    return unionM(second)(first)
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
+  first: Record<string, A>
+): Record<string, A> => {
+  if (isEmpty(first) || isEmpty(second)) {
+    return {}
+  }
+  return RR.intersection(M)(second)(first)
+}
+
+/**
+ * @since 2.11.0
+ */
+export const difference = <A>(second: Record<string, A>) => (first: Record<string, A>): Record<string, A> => {
+  if (isEmpty(first)) {
+    return { ...second }
+  }
+  if (isEmpty(second)) {
+    return { ...first }
+  }
+  return RR.difference(second)(first)
+}
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
@@ -993,6 +1036,45 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
   partitionMap: _partitionMap,
   wither: _wither,
   wilt: _wilt
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<string, A>> => {
+  const unionS = union(S)
+  return {
+    concat: (first, second) => unionS(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<Record<string, A>> => ({
+  concat: getUnionSemigroup(S).concat,
+  empty: {}
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<string, A>> => {
+  const intersectionS = intersection(S)
+  return {
+    concat: (first, second) => intersectionS(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
+  concat: (first, second) => difference(second)(first)
 })
 
 // -------------------------------------------------------------------------------------

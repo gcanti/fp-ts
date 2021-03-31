@@ -526,4 +526,72 @@ describe('Record', () => {
       O.some(false)
     )
   })
+
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(S.Semigroup)
+    const x: Record<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: Record<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.deepStrictEqual(M.concat(x, M.empty), x)
+    U.deepStrictEqual(M.concat(M.empty, x), x)
+    U.deepStrictEqual(M.concat(x, {}), x)
+    U.deepStrictEqual(M.concat({}, x), x)
+    U.deepStrictEqual(M.concat(x, y), {
+      a: 'a1',
+      b: 'b1b2',
+      c: 'c1c2',
+      d: 'd2'
+    })
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const M = _.getIntersectionSemigroup(S.Semigroup)
+    const x: Record<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: Record<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.deepStrictEqual(M.concat(x, {}), {})
+    U.deepStrictEqual(M.concat(x, {}), {})
+    U.deepStrictEqual(M.concat(x, {}), {})
+    U.deepStrictEqual(M.concat(x, {}), {})
+    U.deepStrictEqual(M.concat(x, y), {
+      b: 'b1b2',
+      c: 'c1c2'
+    })
+  })
+
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma<string>()
+    const x: Record<string, string> = {
+      a: 'a1',
+      b: 'b1',
+      c: 'c1'
+    }
+    const y: Record<string, string> = {
+      b: 'b2',
+      c: 'c2',
+      d: 'd2'
+    }
+    U.deepStrictEqual(M.concat({}, x), x)
+    U.deepStrictEqual(M.concat(x, {}), x)
+    U.deepStrictEqual(M.concat({}, x), x)
+    U.deepStrictEqual(M.concat(x, {}), x)
+    U.deepStrictEqual(M.concat(x, y), {
+      a: 'a1',
+      d: 'd2'
+    })
+  })
 })

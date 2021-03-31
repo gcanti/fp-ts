@@ -1481,9 +1481,12 @@ export const getWitherable: (O: Ord<string>) => Witherable1<URI> = (O) => ({
  * @category instances
  * @since 2.11.0
  */
-export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
-  concat: (first, second) => union(S)(second)(first)
-})
+export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => {
+  const unionS = union(S)
+  return {
+    concat: (first, second) => unionS(second)(first)
+  }
+}
 
 /**
  * @category instances
@@ -1498,9 +1501,12 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string
  * @category instances
  * @since 2.11.0
  */
-export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => ({
-  concat: (first, second) => intersection(S)(second)(first)
-})
+export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<string, A>> => {
+  const intersectionS = intersection(S)
+  return {
+    concat: (first, second) => intersectionS(second)(first)
+  }
+}
 
 /**
  * @category instances
