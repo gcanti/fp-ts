@@ -24,6 +24,7 @@ import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
 import * as TT from './TheseT'
+import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 
 import These = TH.These
 import Task = T.Task
@@ -119,6 +120,12 @@ export const fromTask: FromTask2<URI>['fromTask'] = rightTask
  * @since 2.10.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromThese: FromThese2<URI>['fromThese'] = T.of
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -407,6 +414,23 @@ export const fromOptionK =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromThese: FromThese2<URI> = {
+  URI,
+  fromThese
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromTheseK =
+  /*#__PURE__*/
+  fromTheseK_(FromThese)
 
 /**
  * @category instances

@@ -27,6 +27,7 @@ import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
 import { FromEither2, fromOption as fromOption_, fromOptionK as fromOptionK_ } from './FromEither'
+import { FromThese2 } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -600,6 +601,15 @@ export const Bifunctor: Bifunctor2<URI> = {
   URI,
   bimap: _bimap,
   mapLeft: _mapLeft
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromThese: FromThese2<URI> = {
+  URI,
+  fromThese: identity
 }
 
 /**

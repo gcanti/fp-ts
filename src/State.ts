@@ -2,12 +2,13 @@
  * @since 2.0.0
  */
 import { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import { FromState2 } from './FromState'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
-import { Pointed2 } from './Pointed'
 import { Monad2 } from './Monad'
+import { Pointed2 } from './Pointed'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -254,6 +255,14 @@ export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>
   /*#__PURE__*/
   chainFirst_(Chain)
 
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromState: FromState2<URI> = {
+  URI,
+  fromState: identity
+}
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------

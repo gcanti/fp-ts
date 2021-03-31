@@ -43,6 +43,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `Predicate` module
   - add `Refinement` module
   - add `FromState` module
+  - add `FromThese` module
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)

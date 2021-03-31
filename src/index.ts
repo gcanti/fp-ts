@@ -40,6 +40,7 @@ import * as fromEither from './FromEither'
 import * as fromIO from './FromIO'
 import * as fromState from './FromState'
 import * as fromTask from './FromTask'
+import * as fromThese from './FromThese'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -265,6 +266,10 @@ export {
    * @since 2.10.0
    */
   fromTask,
+  /**
+   * @since 2.11.0
+   */
+  fromThese,
   /**
    * @since 2.0.0
    */
