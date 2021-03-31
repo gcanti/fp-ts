@@ -1,10 +1,10 @@
 ---
-title: object.ts
-nav_order: 63
+title: struct.ts
+nav_order: 96
 parent: Modules
 ---
 
-## object overview
+## struct overview
 
 Added in v2.10.0
 
@@ -32,7 +32,7 @@ export declare const getAssignSemigroup: <A extends object = never>() => Semigro
 **Example**
 
 ```ts
-import { getAssignSemigroup } from 'fp-ts/object'
+import { getAssignSemigroup } from 'fp-ts/struct'
 
 interface Person {
   readonly name: string

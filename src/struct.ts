@@ -11,7 +11,7 @@ import { getObjectSemigroup, Semigroup } from './Semigroup'
  * Return a semigroup which works like `Object.assign`.
  *
  * @example
- * import { getAssignSemigroup } from 'fp-ts/object'
+ * import { getAssignSemigroup } from 'fp-ts/struct'
  *
  * interface Person {
  *   readonly name: string

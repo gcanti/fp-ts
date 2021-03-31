@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 92
+nav_order: 91
 parent: Modules
 ---
 
