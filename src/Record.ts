@@ -21,7 +21,7 @@ import * as RR from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
 import { Separated } from './Separated'
 import { Show } from './Show'
-import { Ord as OrdString } from './string'
+import * as S from './string'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -47,13 +47,15 @@ export const size: (r: Record<string, unknown>) => number = RR.size
  */
 export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
 
+const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Array<K> =>
+  (Object.keys(r) as any).sort(O.compare)
+
 /**
  * @since 2.0.0
  */
-export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = RR.keys as any
-
-const keysWithOrd = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): ReadonlyArray<K> =>
-  (Object.keys(r) as any).sort(O.compare)
+export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> =
+  /*#__PURE__*/
+  keys_(S.Ord)
 
 /**
  * Map a `Record` into an `Array`.
@@ -93,7 +95,7 @@ export function collect(
   }
   return (f: (k: string, a: unknown) => unknown) => (r: Record<string, unknown>) => {
     const out: Array<unknown> = []
-    for (const key of keysWithOrd(arg)(r)) {
+    for (const key of keys_(arg)(r)) {
       out.push(f(key, r[key]))
     }
     return out
@@ -107,7 +109,7 @@ export function collect(
  */
 export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
   /*#__PURE__*/
-  collect(OrdString)((k, a) => [k, a])
+  collect(S.Ord)((k, a) => [k, a])
 
 /**
  * Unfolds a `Record` into a list of key/value pairs.
@@ -681,7 +683,6 @@ export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M
 /**
  * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
  * @deprecated
  */
 export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
@@ -724,7 +725,6 @@ export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (f
 /**
  * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
  * @deprecated
  */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
@@ -748,7 +748,6 @@ export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) 
 /**
  * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
  * @deprecated
  */
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
@@ -880,9 +879,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString)
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord)
 }
 
 /**
@@ -905,12 +904,12 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString)
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -982,9 +981,9 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence
 }
@@ -1014,12 +1013,12 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
   traverse: _traverse,
   sequence,
   traverseWithIndex: _traverseWithIndex
@@ -1054,9 +1053,9 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence,
   compact,
@@ -1133,9 +1132,9 @@ export const record: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence,
   compact,
@@ -1145,9 +1144,9 @@ export const record: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,

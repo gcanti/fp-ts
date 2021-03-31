@@ -787,15 +787,9 @@ Added in v2.5.0
 export declare function foldMapWithIndex(
   O: Ord<string>
 ): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-export declare function foldMapWithIndex(
-  O: Ord<string>
-): <M>(M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 export declare function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-export declare function foldMapWithIndex<M>(
-  M: Monoid<M>
-): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 ```
 
 Added in v2.5.0
@@ -1035,17 +1029,10 @@ Added in v2.5.0
 export declare function reduceRightWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: ReadonlyRecord<K, A>) => B
-export declare function reduceRightWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
 export declare function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export declare function reduceRightWithIndex<A, B>(
-  b: B,
-  f: (k: string, a: A, b: B) => B
-): (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0
@@ -1058,23 +1045,10 @@ Added in v2.5.0
 export declare function reduceWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
-export declare function reduceWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 export declare function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export declare function reduceWithIndex<A, B>(
-  b: B,
-  f: (k: string, b: B, a: A) => B
-): (fa: ReadonlyRecord<string, A>) => B
-export declare function reduceWithIndex(
-  O: Ord<string>
-): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
-export declare function reduceWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0

@@ -21,7 +21,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
-import { Ord as OrdString } from './string'
+import * as S from './string'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -80,14 +80,15 @@ export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
   return true
 }
 
+const keys_ = (O: Ord<string>) => <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
+  (Object.keys(r) as any).sort(O.compare)
+
 /**
  * @since 2.5.0
  */
-export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
-  (Object.keys(r) as any).sort()
-
-const keysWithOrd = (O: Ord<string>) => <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
-  (Object.keys(r) as any).sort(O.compare)
+export const keys: <K extends string>(r: ReadonlyRecord<K, unknown>) => ReadonlyArray<K> =
+  /*#__PURE__*/
+  keys_(S.Ord)
 
 /**
  * Map a `ReadonlyRecord` into an `ReadonlyArray`.
@@ -129,7 +130,7 @@ export function collect(
   }
   return <K extends string, A, B>(f: (k: K, a: A) => B) => (r: ReadonlyRecord<K, A>) => {
     const out: Array<B> = []
-    for (const key of keysWithOrd(O)(r)) {
+    for (const key of keys_(O)(r)) {
       out.push(f(key, r[key]))
     }
     return out
@@ -143,7 +144,7 @@ export function collect(
  */
 export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]> =
   /*#__PURE__*/
-  collect(OrdString)((k, a) => [k, a])
+  collect(S.Ord)((k, a) => [k, a])
 
 /**
  * Unfolds a `ReadonlyRecord` into a list of key/value pairs.
@@ -357,9 +358,6 @@ export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => Re
 export function reduceWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
-export function reduceWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 /**
  * Use the overload constrained by `Ord` instead.
  *
@@ -369,13 +367,6 @@ export function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
-export function reduceWithIndex(
-  O: Ord<string>
-): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
-export function reduceWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 export function reduceWithIndex(
   ...args: [Ord<string>] | [unknown, (k: string, b: unknown, a: unknown) => unknown]
 ):
@@ -398,7 +389,7 @@ export function reduceWithIndex(
   }
   return (b, f) => (fa) => {
     let out = b
-    const ks = keysWithOrd(args[0])(fa)
+    const ks = keys_(args[0])(fa)
     const len = ks.length
     for (let i = 0; i < len; i++) {
       const k = ks[i]
@@ -414,9 +405,6 @@ export function reduceWithIndex(
 export function foldMapWithIndex(
   O: Ord<string>
 ): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-export function foldMapWithIndex(
-  O: Ord<string>
-): <M>(M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 /**
  * Use the overload constrained by `Ord` instead.
  *
@@ -425,9 +413,6 @@ export function foldMapWithIndex(
 export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-export function foldMapWithIndex<M>(
-  M: Monoid<M>
-): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 export function foldMapWithIndex(
   arg: Ord<string> | Monoid<unknown>
 ):
@@ -438,7 +423,7 @@ export function foldMapWithIndex(
   if ('compare' in arg) {
     return (M: Monoid<unknown>) => (f: (k: string, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => {
       let out = M.empty
-      const ks = keysWithOrd(arg)(fa)
+      const ks = keys_(arg)(fa)
       const len = ks.length
       for (let i = 0; i < len; i++) {
         const k = ks[i]
@@ -465,9 +450,6 @@ export function foldMapWithIndex(
 export function reduceRightWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: ReadonlyRecord<K, A>) => B
-export function reduceRightWithIndex(
-  O: Ord<string>
-): <A, B>(b: B, f: (k: string, a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
 /**
  * Use the overload constrained by `Ord` instead.
  *
@@ -477,7 +459,6 @@ export function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export function reduceRightWithIndex<A, B>(b: B, f: (k: string, a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
 export function reduceRightWithIndex(
   ...args: [Ord<string>] | [unknown, (k: string, a: unknown, b: unknown) => unknown]
 ):
@@ -500,7 +481,7 @@ export function reduceRightWithIndex(
   }
   return (b, f) => (fa) => {
     let out = b
-    const ks = keysWithOrd(args[0])(fa)
+    const ks = keys_(args[0])(fa)
     const len = ks.length
     for (let i = len - 1; i >= 0; i--) {
       const k = ks[i]
@@ -1132,12 +1113,9 @@ export const partitionMap: <A, B, C>(
  * @since 2.5.0
  */
 export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
-
 /**
- * Use other overload instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
- * @since 2.5.0
  * @deprecated
  */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Readonly<Record<string, A>>) => B
@@ -1160,12 +1138,9 @@ export function reduce(
 export function foldMap(
   O: Ord<string>
 ): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
-
 /**
- * Use the other overload instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
- * @since 2.5.0
  * @deprecated
  */
 export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
@@ -1193,9 +1168,8 @@ export function reduceRight(
   O: Ord<string>
 ): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
 /**
- * Use the other overload instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @category Foldable
  * @deprecated
  */
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Readonly<Record<string, A>>) => B
@@ -1278,7 +1252,7 @@ declare module './HKT' {
  */
 export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<ReadonlyRecord<string, A>>
 /**
- * Use the other overload instead
+ * Use the overload constrained by `Ord` instead.
  *
  * @category instances
  * @deprecated
@@ -1387,9 +1361,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString)
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord)
 }
 
 /**
@@ -1412,12 +1386,12 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString)
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -1489,9 +1463,9 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence
 }
@@ -1521,12 +1495,12 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
   traverse: _traverse,
   sequence,
   traverseWithIndex: _traverseWithIndex
@@ -1561,9 +1535,9 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence,
   compact,
@@ -1672,9 +1646,9 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(OrdString),
-  foldMap: _foldMap(OrdString),
-  reduceRight: _reduceRight(OrdString),
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
   traverse: _traverse,
   sequence,
   compact,
@@ -1684,9 +1658,9 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex: _reduceWithIndex(OrdString),
-  foldMapWithIndex: _foldMapWithIndex(OrdString),
-  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,

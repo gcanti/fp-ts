@@ -43,6 +43,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `SK` (@cdimitroulas)
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+  - `Ord`
+    - add `trivial` instance
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
