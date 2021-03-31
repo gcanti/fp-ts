@@ -24,7 +24,7 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, Refinement } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -38,6 +38,7 @@ import { Predicate } from './Predicate'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
+import { Refinement } from './Refinement'
 import { State } from './State'
 import * as ST from './StateT'
 import { Task } from './Task'

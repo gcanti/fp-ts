@@ -3,11 +3,12 @@
  */
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
-import { identity, Refinement } from './function'
+import { identity } from './function'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
 import { not, Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'

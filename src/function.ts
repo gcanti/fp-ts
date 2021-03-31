@@ -127,13 +127,6 @@ export interface Lazy<A> {
 }
 
 /**
- * @since 2.0.0
- */
-export interface Refinement<A, B extends A> {
-  (a: A): a is B
-}
-
-/**
  * @example
  * import { FunctionN } from 'fp-ts/function'
  *
@@ -730,6 +723,16 @@ export const SK = <A, B>(_: A, b: B): B => b
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `Refinement` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface Refinement<A, B extends A> {
+  (a: A): a is B
+}
 
 /**
  * Use `Predicate` module instead.

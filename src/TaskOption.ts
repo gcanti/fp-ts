@@ -22,7 +22,7 @@ import {
   FromTask1,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, Refinement } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -32,6 +32,7 @@ import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { Separated } from './Separated'
 import * as T from './Task'
 import { TaskEither } from './TaskEither'

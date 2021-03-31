@@ -33,7 +33,7 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { flow, identity, pipe, Refinement } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
@@ -42,6 +42,7 @@ import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 
 import Reader = R.Reader

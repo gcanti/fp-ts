@@ -23,6 +23,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getEndomorphismMonoid`, use `Endomorphism` module instead.
     - deprecate `Predicate`, use `Predicate` module instead.
     - deprecate `not`, use `Predicate` module instead.
+    - deprecate `Refinement`, use `Refinement` module instead.
   - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
     - `collect`
     - `reduce`
@@ -40,6 +41,7 @@ high state of flux, you're at risk of it changing without notice.
 - **New Feature**
   - add `Endomorphism` module
   - add `Predicate` module
+  - add `Refinement` module
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)

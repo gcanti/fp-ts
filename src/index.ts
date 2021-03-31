@@ -84,6 +84,7 @@ import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as readonlyTuple from './ReadonlyTuple'
 import * as record from './Record'
+import * as refinement from './Refinement'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupoid from './Semigroupoid'
@@ -439,6 +440,10 @@ export {
    * @since 2.0.0
    */
   record,
+  /**
+   * @since 2.11.0
+   */
+  refinement,
   /**
    * @since 2.0.0
    */

@@ -41,7 +41,7 @@ import {
   FromTask3,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe, Refinement } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -56,6 +56,7 @@ import { Predicate } from './Predicate'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RT from './ReaderTask'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TE from './TaskEither'

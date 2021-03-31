@@ -48,7 +48,7 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, Refinement } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -60,6 +60,7 @@ import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import { TaskOption } from './TaskOption'
