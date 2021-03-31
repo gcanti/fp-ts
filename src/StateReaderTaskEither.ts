@@ -43,6 +43,15 @@ import { State } from './State'
 import * as ST from './StateT'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
+import {
+  chainStateK as chainStateK_,
+  FromState4,
+  fromStateK as fromStateK_,
+  get as get_,
+  gets as gets_,
+  modify as modify_,
+  put as put_
+} from './FromState'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -50,6 +59,7 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
+import { Endomorphism } from './Endomorphism'
 
 /**
  * @category model
@@ -171,40 +181,6 @@ export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateRe
 export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   ST.fromF(RTE.Functor)
-
-/**
- * Get the current state
- *
- * @category constructors
- * @since 2.0.0
- */
-export const get = <S, R, E = never>(): StateReaderTaskEither<S, R, E, S> => (s) => RTE.of([s, s])
-
-/**
- * Set the state
- *
- * @category constructors
- * @since 2.0.0
- */
-export const put = <S, R, E = never>(s: S): StateReaderTaskEither<S, R, E, void> => () => RTE.of([undefined, s])
-
-/**
- * Modify the state by applying a function to the current state
- *
- * @category constructors
- * @since 2.0.0
- */
-export const modify = <S, R, E = never>(f: (s: S) => S): StateReaderTaskEither<S, R, E, void> => (s) =>
-  RTE.of([undefined, f(s)])
-
-/**
- * Get a value which depends on the current state
- *
- * @category constructors
- * @since 2.0.0
- */
-export const gets = <S, R, E = never, A = never>(f: (s: S) => A): StateReaderTaskEither<S, R, E, A> => (s) =>
-  RTE.of([f(s), s])
 
 /**
  * @category constructors
@@ -591,6 +567,75 @@ export const Chain: Chain4<URI> = {
   ap: _ap,
   chain: _chain
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromState: FromState4<URI> = {
+  URI,
+  fromState
+}
+
+/**
+ * Get the current state
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
+  /*#__PURE__*/
+  get_(FromState)
+
+/**
+ * Set the state
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  put_(FromState)
+
+/**
+ * Modify the state by applying a function to the current state
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void> =
+  /*#__PURE__*/
+  modify_(FromState)
+
+/**
+ * Get a value which depends on the current state
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  gets_(FromState)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
+  f: (...a: A) => State<S, B>
+) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  fromStateK_(FromState)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  chainStateK_(FromState, Chain)
 
 /**
  * @category instances

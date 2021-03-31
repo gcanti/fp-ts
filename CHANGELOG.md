@@ -42,6 +42,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `Endomorphism` module
   - add `Predicate` module
   - add `Refinement` module
+  - add `FromState` module
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)
@@ -79,6 +80,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
+  - `StateReaderTaskEither`
+    - add `fromStateK`
+    - add `chainStateK`
   - `struct`
     - add `evolve`
   - `TaskEither`
