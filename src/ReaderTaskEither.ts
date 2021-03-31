@@ -41,7 +41,7 @@ import {
   FromTask3,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe, Predicate, Refinement } from './function'
+import { flow, identity, pipe, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -52,6 +52,7 @@ import { MonadTask3, MonadTask3C } from './MonadTask'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Pointed3 } from './Pointed'
+import { Predicate } from './Predicate'
 import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RT from './ReaderTask'

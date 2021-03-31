@@ -16,6 +16,7 @@ describe('function', () => {
   })
 
   it('not', () => {
+    // tslint:disable-next-line: deprecation
     const n = _.not(Boolean)
     U.deepStrictEqual(n(false), true)
     U.deepStrictEqual(n(1), false)

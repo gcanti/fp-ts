@@ -1,15 +1,16 @@
 /**
  * @since 2.0.0
  */
-import { separated, Separated } from './Separated'
 import { Either } from './Either'
 import { Eq } from './Eq'
-import { identity, Predicate, Refinement } from './function'
+import { identity, Refinement } from './function'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
+import { Predicate } from './Predicate'
 import * as RS from './ReadonlySet'
 import { Semigroup } from './Semigroup'
+import { separated, Separated } from './Separated'
 import { Show } from './Show'
 
 /**

@@ -6,10 +6,11 @@
 
 import { Chain, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
 import { Either } from './Either'
-import { flow, Lazy, Predicate, Refinement } from './function'
+import { flow, Lazy, Refinement } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
 import { Option } from './Option'
+import { Predicate } from './Predicate'
 
 // -------------------------------------------------------------------------------------
 // model

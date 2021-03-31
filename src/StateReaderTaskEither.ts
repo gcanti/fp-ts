@@ -24,7 +24,7 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { flow, identity, Lazy, pipe, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -34,6 +34,7 @@ import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { Pointed4 } from './Pointed'
+import { Predicate } from './Predicate'
 import { Reader } from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'

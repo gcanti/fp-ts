@@ -6,6 +6,7 @@
  * @since 2.0.0
  */
 import {
+  compact,
   Compactable,
   Compactable1,
   Compactable2,
@@ -20,11 +21,10 @@ import {
   CompactableComposition21,
   CompactableComposition22,
   CompactableComposition23,
-  compact,
   separate
 } from './Compactable'
 import { Either } from './Either'
-import { pipe, Predicate, Refinement } from './function'
+import { pipe, Refinement } from './function'
 import {
   Functor,
   Functor1,
@@ -44,6 +44,7 @@ import {
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
+import { Predicate } from './Predicate'
 import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------

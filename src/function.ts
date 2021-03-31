@@ -55,7 +55,7 @@ export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a:
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
  *
  * @example
- * import { Predicate, getMonoid } from 'fp-ts/function'
+ * import { Predicate, getMonoid } from 'fp-ts/Predicate'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
@@ -129,13 +129,6 @@ export interface Lazy<A> {
 /**
  * @since 2.0.0
  */
-export interface Predicate<A> {
-  (a: A): boolean
-}
-
-/**
- * @since 2.0.0
- */
 export interface Refinement<A, B extends A> {
   (a: A): a is B
 }
@@ -163,13 +156,6 @@ export function identity<A>(a: A): A {
  * @since 2.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
-
-/**
- * @since 2.0.0
- */
-export function not<A>(predicate: Predicate<A>): Predicate<A> {
-  return (a) => !predicate(a)
-}
 
 /**
  * @since 2.0.0
@@ -744,6 +730,27 @@ export const SK = <A, B>(_: A, b: B): B => b
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `Predicate` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface Predicate<A> {
+  (a: A): boolean
+}
+
+/**
+ * Use `Predicate` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
+export function not<A>(predicate: Predicate<A>): Predicate<A> {
+  return (a) => !predicate(a)
+}
 
 /**
  * Use `Endomorphism` module instead.

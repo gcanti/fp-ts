@@ -21,6 +21,28 @@ export interface Endomorphism<A> {
 // instances
 // -------------------------------------------------------------------------------------
 
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const URI = 'Endomorphism'
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Endomorphism<A>
+  }
+}
+
 /**
  * Endomorphism form a `Semigroup` where the `concat` operation is the usual function composition.
  *
