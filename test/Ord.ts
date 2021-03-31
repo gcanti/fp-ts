@@ -4,6 +4,7 @@ import { concatAll } from '../src/Monoid'
 import * as N from '../src/number'
 import * as _ from '../src/Ord'
 import { sort } from '../src/ReadonlyArray'
+import * as RR from '../src/ReadonlyRecord'
 import * as S from '../src/string'
 import * as U from './util'
 
@@ -139,5 +140,23 @@ describe('Ord', () => {
     const first = { a: 1 }
     const second = { a: 1 }
     U.strictEqual(max(first, second), first)
+  })
+
+  it('equals', () => {
+    const equals = _.equals(N.Ord)
+    U.deepStrictEqual(equals(1)(1), true)
+    U.deepStrictEqual(equals(1)(2), false)
+  })
+
+  it('trivial', () => {
+    const toReadonlyArray = RR.collect(_.trivial)((k, a) => [k, a])
+    U.deepStrictEqual(toReadonlyArray({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
+    U.deepStrictEqual(toReadonlyArray({ b: 2, a: 1 }), [
+      ['b', 2],
+      ['a', 1]
+    ])
   })
 })

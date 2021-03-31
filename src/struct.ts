@@ -50,7 +50,7 @@ export const getAssignSemigroup: <A extends object = never>() => Semigroup<A> = 
  *   { a: 1, b: 2 }
  * )
  *
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(transformations: F) => (
   a: A

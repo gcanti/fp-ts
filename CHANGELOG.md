@@ -41,10 +41,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `ChainRecBreadthFirst` instance (@qlonik)
   - `function`
     - add `SK` (@cdimitroulas)
+    - add `apply`
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
   - `Ord`
     - add `trivial` instance
+    - add `equals`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
@@ -68,6 +70,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
+  - `struct`
+    - add `evolve`
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
   - `TaskOption`

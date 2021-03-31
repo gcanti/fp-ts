@@ -332,7 +332,7 @@ export function altValidation<M, E>(
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.11.0
  */
 export function match<F extends URIS3>(
   F: Functor3<F>

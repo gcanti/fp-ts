@@ -124,7 +124,7 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const apply = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
 
