@@ -871,20 +871,6 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getFoldable` instead.
- *
- * @category instances
- * @since 2.7.0
- * @deprecated
- */
-export const Foldable: Foldable1<URI> = {
-  URI,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord)
-}
-
-/**
  * @category instances
  * @since 2.11.0
  */
@@ -894,23 +880,6 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
   foldMap: _foldMap(O),
   reduceRight: _reduceRight(O)
 })
-
-/**
- * Use `getFoldableWithIndex` instead.
- *
- * @category instances
- * @since 2.7.0
- * @deprecated
- */
-export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
-  URI,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  reduceWithIndex: _reduceWithIndex(S.Ord),
-  foldMapWithIndex: _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: _reduceRightWithIndex(S.Ord)
-}
 
 /**
  * @category instances
@@ -972,23 +941,6 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getTraversable` instead.
- *
- * @category instances
- * @since 2.7.0
- * @deprecated
- */
-export const Traversable: Traversable1<URI> = {
-  URI,
-  map: _map,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
-  sequence
-}
-
-/**
  * @category instances
  * @since 2.11.0
  */
@@ -1001,28 +953,6 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
   traverse: _traverse,
   sequence
 })
-
-/**
- * Use the `getTraversableWithIndex` instead.
- *
- * @category instances
- * @since 2.7.0
- * @deprecated
- */
-export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
-  URI,
-  map: _map,
-  mapWithIndex: _mapWithIndex,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  reduceWithIndex: _reduceWithIndex(S.Ord),
-  foldMapWithIndex: _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
-  traverse: _traverse,
-  sequence,
-  traverseWithIndex: _traverseWithIndex
-}
 
 /**
  * @category instances
@@ -1042,31 +972,6 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
   sequence,
   traverseWithIndex: _traverseWithIndex
 })
-
-/**
- * Use `getWitherable` instead.
- *
- * @category instances
- * @since 2.7.0
- * @deprecated
- */
-export const Witherable: Witherable1<URI> = {
-  URI,
-  map: _map,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
-  sequence,
-  compact,
-  separate,
-  filter: _filter,
-  filterMap: _filterMap,
-  partition: _partition,
-  partitionMap: _partitionMap,
-  wither: _wither,
-  wilt: _wilt
-}
 
 /**
  * @category instances
@@ -1093,6 +998,101 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `getFoldable` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const Foldable: Foldable1<URI> = {
+  URI,
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord)
+}
+
+/**
+ * Use `getFoldableWithIndex` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
+  URI,
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord)
+}
+
+/**
+ * Use `getTraversable` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const Traversable: Traversable1<URI> = {
+  URI,
+  map: _map,
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  traverse: _traverse,
+  sequence
+}
+
+/**
+ * Use the `getTraversableWithIndex` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
+  URI,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  reduceWithIndex: _reduceWithIndex(S.Ord),
+  foldMapWithIndex: _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
+  traverse: _traverse,
+  sequence,
+  traverseWithIndex: _traverseWithIndex
+}
+
+/**
+ * Use `getWitherable` instead.
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
+export const Witherable: Witherable1<URI> = {
+  URI,
+  map: _map,
+  reduce: _reduce(S.Ord),
+  foldMap: _foldMap(S.Ord),
+  reduceRight: _reduceRight(S.Ord),
+  traverse: _traverse,
+  sequence,
+  compact,
+  separate,
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt
+}
 
 /**
  * Use a new `{}` instead.
