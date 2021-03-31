@@ -16,10 +16,12 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
+import { Ord } from './Ord'
 import * as RR from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
 import { Separated } from './Separated'
 import { Show } from './Show'
+import { Ord as OrdString } from './string'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -51,25 +53,58 @@ export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
 export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = RR.keys as any
 
 /**
+ *
+ * @internal
+ * @since 2.11.0
+ */
+const keysWithOrd = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): ReadonlyArray<K> =>
+  (Object.keys(r) as any).sort(O.compare)
+
+/**
  * Map a `Record` into an `Array`.
  *
  * @example
  * import { collect } from 'fp-ts/Record'
+ * import { Ord } from 'fp-ts/string'
  *
  * const x: { readonly a: string, readonly b: boolean } = { a: 'c', b: false }
  * assert.deepStrictEqual(
- *   collect((key, val) => ({ key: key, value: val }))(x),
+ *   collect(Ord)((key, val) => ({ key: key, value: val }))(x),
  *   [{ key: 'a', value: 'c' }, { key: 'b', value: false }]
  * )
  *
  * @since 2.0.0
  */
-export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>): Array<B> => {
-  const out: Array<B> = []
-  for (const key of keys(r)) {
-    out.push(f(key, r[key]))
+export function collect(O: Ord<string>): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => Array<B>
+
+/**
+ * Use the other overload
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B>
+export function collect(
+  arg: Ord<string> | ((k: string, a: unknown) => unknown)
+):
+  | ((r: Record<string, unknown>) => Array<unknown>)
+  | ((f: (k: string, a: unknown) => unknown) => (r: Record<string, unknown>) => Array<unknown>) {
+  if (typeof arg === 'function') {
+    return (r: Record<string, unknown>) => {
+      const out: Array<unknown> = []
+      for (const key of keys(r)) {
+        out.push(arg(key, r[key]))
+      }
+      return out
+    }
   }
-  return out
+  return (f: (k: string, a: unknown) => unknown) => (r: Record<string, unknown>) => {
+    const out: Array<unknown> = []
+    for (const key of keysWithOrd(arg)(r)) {
+      out.push(f(key, r[key]))
+    }
+    return out
+  }
 }
 
 /**
@@ -79,7 +114,7 @@ export const collect = <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Rec
  */
 export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
   /*#__PURE__*/
-  collect((k, a) => [k, a])
+  collect(OrdString)((k, a) => [k, a])
 
 /**
  * Unfolds a `Record` into a list of key/value pairs.
@@ -210,25 +245,84 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
 export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B> = RR.map
 
 /**
- * @since 2.0.0
+ * @since 2.11.0
  */
-export const reduceWithIndex: <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: Record<K, A>) => B =
-  RR.reduceWithIndex
+export function reduceWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: Record<K, A>) => B
+
+/**
+ * Use the other overload
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B
+export function reduceWithIndex(
+  ...args: [Ord<string>] | [unknown, (k: unknown, b: unknown, a: unknown) => unknown]
+):
+  | ((b: unknown, f: (k: unknown, b: unknown, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((fa: Record<string, unknown>) => unknown) {
+  if (args.length === 2) {
+    // tslint:disable-next-line: deprecation
+    return RR.reduceWithIndex(args[0], args[1])
+  }
+  return RR.reduceWithIndex(args[0])
+}
 
 /**
  * @since 2.0.0
  */
-export const foldMapWithIndex: <M>(
+export function foldMapWithIndex(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+
+/**
+ * Use the other overload
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function foldMapWithIndex<M>(
   M: Monoid<M>
-) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M = RR.foldMapWithIndex
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+export function foldMapWithIndex(
+  arg: Ord<string> | Monoid<unknown>
+):
+  | ((M: Monoid<unknown>) => (f: (k: string, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((f: (k: string, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown) {
+  if ('compare' in arg) {
+    return RR.foldMapWithIndex(arg)
+  }
+  // tslint:disable-next-line: deprecation
+  return RR.foldMapWithIndex(arg)
+}
 
 /**
- * @since 2.0.0
+ * @since 2.11.0
  */
-export const reduceRightWithIndex: <K extends string, A, B>(
-  b: B,
-  f: (k: K, a: A, b: B) => B
-) => (fa: Record<K, A>) => B = RR.reduceRightWithIndex
+export function reduceRightWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: Record<K, A>) => B
+
+/**
+ * Use the other overload
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function reduceRightWithIndex<K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B): (fa: Record<K, A>) => B
+export function reduceRightWithIndex(
+  ...args: [Ord<string>] | [unknown, (k: string, a: unknown, b: unknown) => unknown]
+):
+  | ((b: unknown, f: (k: string, a: unknown, b: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((fa: Record<string, unknown>) => unknown) {
+  if (args.length === 2) {
+    // tslint:disable-next-line: deprecation
+    return RR.reduceRightWithIndex(args[0], args[1])
+  }
+  return RR.reduceRightWithIndex(args[0])
+}
 
 /**
  * Create a `Record` with one key/value pair.
@@ -497,14 +591,14 @@ const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
 const _mapWithIndex: FunctorWithIndex1<URI, string>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
 /* istanbul ignore next */
-const _reduce: Foldable1<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+const _reduce = (O: Ord<string>): Foldable1<URI>['reduce'] => (fa, b, f) => pipe(fa, reduce(O)(b, f))
 /* istanbul ignore next */
-const _foldMap: Foldable1<URI>['foldMap'] = (M) => {
-  const foldMapM = foldMap(M)
-  return (fa, f) => pipe(fa, foldMapM(f))
+const _foldMap = (O: Ord<string>): Foldable1<URI>['foldMap'] => (M) => {
+  const foldMapOM = foldMap(O)(M)
+  return (fa, f) => pipe(fa, foldMapOM(f))
 }
 /* istanbul ignore next */
-const _reduceRight: Foldable1<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _reduceRight = (O: Ord<string>): Foldable1<URI>['reduceRight'] => (fa, b, f) => pipe(fa, reduceRight(O)(b, f))
 /* istanbul ignore next */
 const _traverse = <F>(
   F: Applicative<F>
@@ -524,16 +618,16 @@ const _partition = <A>(
 /* istanbul ignore next */
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
 /* istanbul ignore next */
-const _reduceWithIndex: FoldableWithIndex1<URI, string>['reduceWithIndex'] = (fa, b, f) =>
-  pipe(fa, reduceWithIndex(b, f))
+const _reduceWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['reduceWithIndex'] => (fa, b, f) =>
+  pipe(fa, reduceWithIndex(O)(b, f))
 /* istanbul ignore next */
-const _foldMapWithIndex: FoldableWithIndex1<URI, string>['foldMapWithIndex'] = (M) => {
-  const foldMapWithIndexM = foldMapWithIndex(M)
-  return (fa, f) => pipe(fa, foldMapWithIndexM(f))
+const _foldMapWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['foldMapWithIndex'] => (M) => {
+  const foldMapWithIndexOM = foldMapWithIndex(O)(M)
+  return (fa, f) => pipe(fa, foldMapWithIndexOM(f))
 }
 /* istanbul ignore next */
-const _reduceRightWithIndex: FoldableWithIndex1<URI, string>['reduceRightWithIndex'] = (fa, b, f) =>
-  pipe(fa, reduceRightWithIndex(b, f))
+const _reduceRightWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['reduceRightWithIndex'] => (fa, b, f) =>
+  pipe(fa, reduceRightWithIndex(O)(b, f))
 /* istanbul ignore next */
 const _partitionMapWithIndex = <A, B, C>(
   fa: Record<string, A>,
@@ -596,7 +690,27 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>
  * @category Foldable
  * @since 2.0.0
  */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M = RR.foldMap
+export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+
+/**
+ * Use the other overload
+ *
+ * @category Foldable
+ * @since 2.0.0
+ * @deprecated
+ */
+export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export function foldMap(
+  O: Ord<string> | Monoid<unknown>
+):
+  | ((M: Monoid<unknown>) => (f: (a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((f: (a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown) {
+  if ('compare' in O) {
+    return RR.foldMap(O)
+  }
+  // tslint:disable-next-line: deprecation
+  return RR.foldMap(O)
+}
 
 /**
  * @category Filterable
@@ -621,13 +735,52 @@ export const partitionMap: <A, B, C>(
  * @category Foldable
  * @since 2.0.0
  */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B = RR.reduce
+export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
 
+/**
+ * Use the other overload
+ *
+ * @category Foldable
+ * @since 2.0.0
+ * @deprecated
+ */
+export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
+export function reduce(
+  ...args: [Ord<string>] | [unknown, (b: unknown, a: unknown) => unknown]
+):
+  | ((b: unknown, f: (b: unknown, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((fa: Record<string, unknown>) => unknown) {
+  if (args.length === 2) {
+    // tslint:disable-next-line: deprecation
+    return RR.reduce(args[0], args[1])
+  }
+  return RR.reduce(args[0])
+}
 /**
  * @category Foldable
  * @since 2.0.0
  */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B = RR.reduceRight
+export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+
+/**
+ * Use the other overload
+ *
+ * @category Foldable
+ * @since 2.0.0
+ * @deprecated
+ */
+export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
+export function reduceRight(
+  ...args: [Ord<string>] | [unknown, (a: unknown, b: unknown) => unknown]
+):
+  | ((b: unknown, f: (a: unknown, b: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
+  | ((fa: Record<string, unknown>) => unknown) {
+  if (args.length === 2) {
+    // tslint:disable-next-line: deprecation
+    return RR.reduceRight(args[0], args[1])
+  }
+  return RR.reduceRight(args[0])
+}
 
 /**
  * @category Compactable
@@ -668,7 +821,25 @@ declare module './HKT' {
  * @category instances
  * @since 2.0.0
  */
-export const getShow: <A>(S: Show<A>) => Show<Record<string, A>> = RR.getShow
+export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, A>>
+
+/**
+ * Use the other overload
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export function getShow<A>(S: Show<A>): Show<Record<string, A>>
+export function getShow(
+  arg: Ord<string> | Show<unknown>
+): ((S: Show<unknown>) => Show<Record<string, unknown>>) | Show<Record<string, unknown>> {
+  if ('compare' in arg) {
+    return RR.getShow(arg)
+  }
+  // tslint:disable-next-line: deprecation
+  return RR.getShow(arg)
+}
 
 /**
  * @category instances
@@ -721,29 +892,60 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
+ * Use `getFoldable` instead
+ *
  * @category instances
  * @since 2.7.0
+ * @deprecated
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString)
 }
 
 /**
  * @category instances
  * @since 2.7.0
  */
+export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
+  URI,
+  reduce: _reduce(O),
+  foldMap: _foldMap(O),
+  reduceRight: _reduceRight(O)
+})
+
+/**
+ * Use `getFoldableWithIndex` instead
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  reduceWithIndex: _reduceWithIndex,
-  foldMapWithIndex: _foldMapWithIndex,
-  reduceRightWithIndex: _reduceRightWithIndex
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString),
+  reduceWithIndex: _reduceWithIndex(OrdString),
+  foldMapWithIndex: _foldMapWithIndex(OrdString),
+  reduceRightWithIndex: _reduceRightWithIndex(OrdString)
 }
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string> => ({
+  URI,
+  reduce: _reduce(O),
+  foldMap: _foldMap(O),
+  reduceRight: _reduceRight(O),
+  reduceWithIndex: _reduceWithIndex(O),
+  foldMapWithIndex: _foldMapWithIndex(O),
+  reduceRightWithIndex: _reduceRightWithIndex(O)
+})
 
 /**
  * @category instances
@@ -791,33 +993,52 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
+ * Use `getTraversable` instead
+ *
  * @category instances
  * @since 2.7.0
+ * @deprecated
  */
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString),
   traverse: _traverse,
   sequence
 }
-
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
+  URI,
+  map: _map,
+  reduce: _reduce(O),
+  foldMap: _foldMap(O),
+  reduceRight: _reduceRight(O),
+  traverse: _traverse,
+  sequence
+})
+
+/**
+ * Use the `getTraversableWithIndex` instead
+ *
+ * @category instances
  * @since 2.7.0
+ * @deprecated
  */
 export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  reduceWithIndex: _reduceWithIndex,
-  foldMapWithIndex: _foldMapWithIndex,
-  reduceRightWithIndex: _reduceRightWithIndex,
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString),
+  reduceWithIndex: _reduceWithIndex(OrdString),
+  foldMapWithIndex: _foldMapWithIndex(OrdString),
+  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
   traverse: _traverse,
   sequence,
   traverseWithIndex: _traverseWithIndex
@@ -827,12 +1048,34 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
  * @category instances
  * @since 2.7.0
  */
+export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<URI, string> => ({
+  URI,
+  map: _map,
+  mapWithIndex: _mapWithIndex,
+  reduce: _reduce(O),
+  foldMap: _foldMap(O),
+  reduceRight: _reduceRight(O),
+  reduceWithIndex: _reduceWithIndex(O),
+  foldMapWithIndex: _foldMapWithIndex(O),
+  reduceRightWithIndex: _reduceRightWithIndex(O),
+  traverse: _traverse,
+  sequence,
+  traverseWithIndex: _traverseWithIndex
+})
+
+/**
+ * Use `getWitherable` instead
+ *
+ * @category instances
+ * @since 2.7.0
+ * @deprecated
+ */
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString),
   traverse: _traverse,
   sequence,
   compact,
@@ -844,6 +1087,28 @@ export const Witherable: Witherable1<URI> = {
   wither: _wither,
   wilt: _wilt
 }
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
+  URI,
+  map: _map,
+  reduce: _reduce(O),
+  foldMap: _foldMap(O),
+  reduceRight: _reduceRight(O),
+  traverse: _traverse,
+  sequence,
+  compact,
+  separate,
+  filter: _filter,
+  filterMap: _filterMap,
+  partition: _partition,
+  partitionMap: _partitionMap,
+  wither: _wither,
+  wilt: _wilt
+})
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -887,9 +1152,9 @@ export const record: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
+  reduce: _reduce(OrdString),
+  foldMap: _foldMap(OrdString),
+  reduceRight: _reduceRight(OrdString),
   traverse: _traverse,
   sequence,
   compact,
@@ -899,9 +1164,9 @@ export const record: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex: _reduceWithIndex,
-  foldMapWithIndex: _foldMapWithIndex,
-  reduceRightWithIndex: _reduceRightWithIndex,
+  reduceWithIndex: _reduceWithIndex(OrdString),
+  foldMapWithIndex: _foldMapWithIndex(OrdString),
+  reduceRightWithIndex: _reduceRightWithIndex(OrdString),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
