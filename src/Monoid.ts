@@ -33,7 +33,8 @@
  * @since 2.0.0
  */
 import { Bounded } from './Bounded'
-import { Endomorphism, getEndomorphismMonoid as getEM, getMonoid } from './function'
+import { getMonoid as getFM } from './function'
+import { Endomorphism, getMonoid as getEM } from './Endomorphism'
 import * as _ from './internal'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
@@ -300,12 +301,10 @@ export const monoidAny: Monoid<boolean> = {
  * @since 2.0.0
  * @deprecated
  */
-export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getMonoid
+export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getFM
 
 /**
- * Use `function.getEndomorphismMonoid` instead.
- *
- * **Note**. The execution order in `function.getEndomorphismMonoid` is reversed.
+ * Use `Endomorphism` module instead. **Note**. The execution order in the `Endomorphism` module is reversed.
  *
  * @category instances
  * @since 2.0.0

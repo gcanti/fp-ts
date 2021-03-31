@@ -28,6 +28,7 @@ import * as date from './Date'
 import * as distributiveLattice from './DistributiveLattice'
 import * as either from './Either'
 import * as eitherT from './EitherT'
+import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
 import * as extend from './Extend'
 import * as field from './Field'
@@ -217,6 +218,10 @@ export {
    * @since 2.0.0
    */
   eitherT,
+  /**
+   * @since 2.11.0
+   */
+  endomorphism,
   /**
    * @since 2.0.0
    */

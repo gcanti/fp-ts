@@ -1,5 +1,6 @@
 import * as assert from 'assert'
-import { Endomorphism, identity, pipe } from '../src/function'
+import { Endomorphism } from '../src/Endomorphism'
+import { identity, pipe } from '../src/function'
 import * as _ from '../src/NonEmptyArray'
 import * as N from '../src/number'
 import * as O from '../src/Option'

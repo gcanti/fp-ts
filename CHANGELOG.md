@@ -18,6 +18,9 @@ high state of flux, you're at risk of it changing without notice.
 # 2.11
 
 - **Deprecation**
+  - `function`
+    - deprecate `Endomorphism`, use `Endomorphism` module instead.
+    - deprecate `getEndomorphismMonoid`, use `Endomorphism` module instead.
   - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
     - `collect`
     - `reduce`
@@ -33,6 +36,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `TraversableWithIndex` in favour of `getTraversableWithIndex` (@anthonyjoeseph)
     - deprecate `Witherable` in favour of `getWitherable` (@anthonyjoeseph)
 - **New Feature**
+  - add `Endomorphism` module
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)
