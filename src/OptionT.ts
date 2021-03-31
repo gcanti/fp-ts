@@ -318,43 +318,73 @@ export function fromEither<F>(F: Pointed<F>): <A>(e: Either<unknown, A>) => HKT<
 /**
  * @since 2.10.0
  */
-export function match<M extends URIS4>(
+export function match<F extends URIS4>(
+  F: Functor4<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, B>
+export function match<F extends URIS3>(
+  F: Functor3<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R, E>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export function match<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <R>(ma: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, B>
+export function match<F extends URIS2>(
+  F: Functor2<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => <E>(ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export function match<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind2<F, E, Option<A>>) => Kind2<F, E, B>
+export function match<F extends URIS>(
+  F: Functor1<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: Kind<F, Option<A>>) => Kind<F, B>
+export function match<F>(
+  F: Functor<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B>
+export function match<F>(
+  F: Functor<F>
+): <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: HKT<F, Option<A>>) => HKT<F, B> {
+  return (onNone, onSome) => (ma) => F.map(ma, O.match(onNone, onSome))
+}
+
+/**
+ * @since 2.10.0
+ */
+export function matchE<M extends URIS4>(
   M: Chain4<M>
 ): <S, R, E, B, A>(
   onNone: () => Kind4<M, S, R, E, B>,
   onSome: (a: A) => Kind4<M, S, R, E, B>
 ) => (ma: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, B>
-export function match<M extends URIS3>(
+export function matchE<M extends URIS3>(
   M: Chain3<M>
 ): <R, E, B, A>(
   onNone: () => Kind3<M, R, E, B>,
   onSome: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export function match<M extends URIS3, E>(
+export function matchE<M extends URIS3, E>(
   M: Chain3C<M, E>
 ): <R, B, A>(
   onNone: () => Kind3<M, R, E, B>,
   onSome: (a: A) => Kind3<M, R, E, B>
 ) => (ma: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, B>
-export function match<M extends URIS2>(
+export function matchE<M extends URIS2>(
   M: Chain2<M>
 ): <E, B, A>(
   onNone: () => Kind2<M, E, B>,
   onSome: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export function match<M extends URIS2, E>(
+export function matchE<M extends URIS2, E>(
   M: Chain2C<M, E>
 ): <B, A>(
   onNone: () => Kind2<M, E, B>,
   onSome: (a: A) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, Option<A>>) => Kind2<M, E, B>
-export function match<M extends URIS>(
+export function matchE<M extends URIS>(
   M: Chain1<M>
 ): <B, A>(onNone: () => Kind<M, B>, onSome: (a: A) => Kind<M, B>) => (ma: Kind<M, Option<A>>) => Kind<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <B, A>(onNone: () => HKT<M, B>, onSome: (a: A) => HKT<M, B>) => (ma: HKT<M, Option<A>>) => HKT<M, B> {
   return (onNone, onSome) => (ma) => M.chain(ma, O.match(onNone, onSome))
@@ -624,7 +654,7 @@ export function getOptionM<M>(M: Monad<M>): OptionM<M> {
   const mapM = map(M)
   const chainM = chain(M)
   const altM = alt(M)
-  const foldM = match(M)
+  const foldM = matchE(M)
   const getOrElseM = getOrElse(M)
   const zeroM = zero(M)
 

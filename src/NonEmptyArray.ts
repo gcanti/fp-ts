@@ -25,9 +25,10 @@ import { Endomorphism, identity, Lazy, pipe, Predicate, Refinement } from './fun
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import * as O from './Option'
-import { Ord, getMonoid } from './Ord'
+import { getMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
 import * as Se from './Semigroup'
@@ -180,7 +181,8 @@ export const makeBy = <A>(n: number, f: (i: number) => A): NonEmptyArray<A> => {
  * @category constructors
  * @since 2.10.0
  */
-export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]
+export const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => NonEmptyArray<A> =
+  _.fromReadonlyNonEmptyArray
 
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array

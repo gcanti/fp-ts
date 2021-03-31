@@ -25,10 +25,11 @@ import { Endomorphism, identity, Lazy, pipe, Predicate, Refinement, SK } from '.
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
-import { NonEmptyArray, fromReadonlyNonEmptyArray } from './NonEmptyArray'
+import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
-import { Ord, getMonoid } from './Ord'
+import { getMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
@@ -95,7 +96,7 @@ export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmpty
  */
 export const unsafeInsertAt = <A>(i: number, a: A, as: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => {
   if (isNonEmpty(as)) {
-    const xs = fromReadonlyNonEmptyArray(as)
+    const xs = _.fromReadonlyNonEmptyArray(as)
     xs.splice(i, 0, a)
     return xs
   }
@@ -109,7 +110,7 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
   if (as[i] === a) {
     return as
   } else {
-    const xs = fromReadonlyNonEmptyArray(as)
+    const xs = _.fromReadonlyNonEmptyArray(as)
     xs[i] = a
     return xs
   }
@@ -474,7 +475,7 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
 export const chainWithIndex = <A, B>(f: (i: number, a: A) => ReadonlyNonEmptyArray<B>) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
-  const out: NonEmptyArray<B> = fromReadonlyNonEmptyArray(f(0, head(as)))
+  const out: NonEmptyArray<B> = _.fromReadonlyNonEmptyArray(f(0, head(as)))
   for (let i = 1; i < as.length; i++) {
     out.push(...f(i, as[i]))
   }

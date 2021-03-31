@@ -2,7 +2,9 @@
  * @since 2.10.0
  */
 import { Either, Left } from './Either'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Option, Some } from './Option'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // Option
@@ -24,3 +26,10 @@ export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Le
 
 /** @internal */
 export const hasOwnProperty = Object.prototype.hasOwnProperty
+
+// -------------------------------------------------------------------------------------
+// NonEmptyArray
+// -------------------------------------------------------------------------------------
+
+/** @internal */
+export const fromReadonlyNonEmptyArray = <A>(as: ReadonlyNonEmptyArray<A>): NonEmptyArray<A> => [as[0], ...as.slice(1)]

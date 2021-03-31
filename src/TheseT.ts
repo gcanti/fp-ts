@@ -1,13 +1,13 @@
 /**
  * @since 2.4.0
  */
-import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { ap as ap_, Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C } from './Apply'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { flow, Lazy, pipe } from './function'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map as map_ } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
-import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, map as map_ } from './Functor'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './These'
 
@@ -16,9 +16,6 @@ import These = T.These
 /**
  * @since 2.10.0
  */
-export function right<F extends URIS4>(
-  F: Pointed4<F>
-): <A, S, R, FE, E = never>(a: A) => Kind4<F, S, R, FE, These<E, A>>
 export function right<F extends URIS3>(F: Pointed3<F>): <A, R, FE, E = never>(a: A) => Kind3<F, R, FE, These<E, A>>
 export function right<F extends URIS3, FE>(F: Pointed3C<F, FE>): <A, R, E = never>(a: A) => Kind3<F, R, FE, These<E, A>>
 export function right<F extends URIS2>(F: Pointed2<F>): <A, FE, E = never>(a: A) => Kind2<F, FE, These<E, A>>
@@ -32,7 +29,6 @@ export function right<F>(F: Pointed<F>): <A, E = never>(a: A) => HKT<F, These<E,
 /**
  * @since 2.10.0
  */
-export function left<F extends URIS4>(F: Pointed4<F>): <E, S, R, FE, A = never>(e: E) => Kind4<F, S, R, FE, These<E, A>>
 export function left<F extends URIS3>(F: Pointed3<F>): <E, R, FE, A = never>(e: E) => Kind3<F, R, FE, These<E, A>>
 export function left<F extends URIS3, FE>(F: Pointed3C<F, FE>): <E, R, A = never>(e: E) => Kind3<F, R, FE, These<E, A>>
 export function left<F extends URIS2>(F: Pointed2<F>): <E, FE, A = never>(e: E) => Kind2<F, FE, These<E, A>>
@@ -46,7 +42,6 @@ export function left<F>(F: Pointed<F>): <E, A = never>(e: E) => HKT<F, These<E, 
 /**
  * @since 2.10.0
  */
-export function both<F extends URIS4>(F: Pointed4<F>): <E, A, S, R, FE>(e: E, a: A) => Kind4<F, S, R, FE, These<E, A>>
 export function both<F extends URIS3>(F: Pointed3<F>): <E, A, R, FE>(e: E, a: A) => Kind3<F, R, FE, These<E, A>>
 export function both<F extends URIS3, FE>(F: Pointed3C<F, FE>): <E, A, R>(e: E, a: A) => Kind3<F, R, FE, These<E, A>>
 export function both<F extends URIS2>(F: Pointed2<F>): <E, A, FE>(e: E, a: A) => Kind2<F, FE, These<E, A>>
@@ -60,9 +55,6 @@ export function both<F>(F: Pointed<F>): <E, A = never>(e: E, a: A) => HKT<F, The
 /**
  * @since 2.10.0
  */
-export function rightF<F extends URIS4>(
-  F: Functor4<F>
-): <S, R, FE, A, E = never>(fa: Kind4<F, S, R, FE, A>) => Kind4<F, S, R, FE, These<E, A>>
 export function rightF<F extends URIS3>(
   F: Functor3<F>
 ): <R, FE, A, E = never>(fa: Kind3<F, R, FE, A>) => Kind3<F, R, FE, These<E, A>>
@@ -84,9 +76,6 @@ export function rightF<F>(F: Functor<F>): <A, E = never>(fa: HKT<F, A>) => HKT<F
 /**
  * @since 2.10.0
  */
-export function leftF<F extends URIS4>(
-  F: Functor4<F>
-): <S, R, FE, E, A = never>(fe: Kind4<F, S, R, FE, E>) => Kind4<F, S, R, FE, These<E, A>>
 export function leftF<F extends URIS3>(
   F: Functor3<F>
 ): <R, FE, E, A = never>(fe: Kind3<F, R, FE, E>) => Kind3<F, R, FE, These<E, A>>
@@ -108,9 +97,6 @@ export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F,
 /**
  * @since 2.10.0
  */
-export function map<F extends URIS4>(
-  F: Functor4<F>
-): <A, B>(f: (a: A) => B) => <S, R, FE, E>(fa: Kind4<F, S, R, FE, These<E, A>>) => Kind4<F, S, R, FE, These<E, B>>
 export function map<F extends URIS3>(
   F: Functor3<F>
 ): <A, B>(f: (a: A) => B) => <R, FE, E>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, These<E, B>>
@@ -134,12 +120,6 @@ export function map<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, 
 /**
  * @since 2.10.0
  */
-export function ap<F extends URIS4, E>(
-  F: Apply4<F>,
-  S: Semigroup<E>
-): <S, R, FE, A>(
-  fa: Kind4<F, S, R, FE, These<E, A>>
-) => <B>(fab: Kind4<F, S, R, FE, These<E, (a: A) => B>>) => Kind4<F, S, R, FE, These<E, B>>
 export function ap<F extends URIS3, E>(
   F: Apply3<F>,
   S: Semigroup<E>
@@ -178,12 +158,6 @@ export function ap<F, E>(
 /**
  * @since 2.10.0
  */
-export function chain<M extends URIS4, E>(
-  M: Monad4<M>,
-  S: Semigroup<E>
-): <A, S, R, ME, B>(
-  f: (a: A) => Kind4<M, S, R, ME, These<E, B>>
-) => (ma: Kind4<M, S, R, ME, These<E, A>>) => Kind4<M, S, R, ME, These<E, B>>
 export function chain<M extends URIS3, E>(
   M: Monad3<M>,
   S: Semigroup<E>
@@ -236,12 +210,6 @@ export function chain<M, E>(
 /**
  * @since 2.10.0
  */
-export function bimap<F extends URIS4>(
-  F: Functor4<F>
-): <E, G, A, B>(
-  f: (e: E) => G,
-  g: (a: A) => B
-) => <S, R, FE>(fea: Kind4<F, S, R, FE, These<E, A>>) => Kind4<F, S, R, FE, These<G, B>>
 export function bimap<F extends URIS3>(
   F: Functor3<F>
 ): <E, G, A, B>(
@@ -275,9 +243,6 @@ export function bimap<F>(
 /**
  * @since 2.10.0
  */
-export function mapLeft<F extends URIS4>(
-  F: Functor4<F>
-): <E, G>(f: (e: E) => G) => <S, R, FE, A>(fea: Kind4<F, S, R, FE, These<E, A>>) => Kind4<F, S, R, FE, These<G, A>>
 export function mapLeft<F extends URIS3>(
   F: Functor3<F>
 ): <E, G>(f: (e: E) => G) => <R, FE, A>(fea: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, These<G, A>>
@@ -305,56 +270,104 @@ export function mapLeft<F>(
 /**
  * @since 2.10.0
  */
-export function match<M extends URIS4>(
-  M: Chain4<M>
-): <E, S, R, ME, B, A>(
-  onLeft: (e: E) => Kind4<M, S, R, ME, B>,
-  onRight: (a: A) => Kind4<M, S, R, ME, B>,
-  onBoth: (e: E, a: A) => Kind4<M, S, R, ME, B>
-) => (ma: Kind4<M, S, R, ME, These<E, A>>) => Kind4<M, S, R, ME, B>
-export function match<M extends URIS3>(
+export function match<F extends URIS3>(
+  F: Functor3<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => <S, R>(ma: Kind3<F, S, R, These<E, A>>) => Kind3<F, S, R, B>
+export function match<F extends URIS3, R>(
+  F: Functor3C<F, R>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => <S>(ma: Kind3<F, S, R, These<E, A>>) => Kind3<F, S, R, B>
+export function match<F extends URIS2>(
+  F: Functor2<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => <R>(ma: Kind2<F, R, These<E, A>>) => Kind2<F, R, B>
+export function match<M extends URIS2, R>(
+  F: Functor2C<M, R>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (ma: Kind2<M, R, These<E, A>>) => Kind2<M, R, B>
+export function match<F extends URIS>(
+  F: Functor1<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (ma: Kind<F, These<E, A>>) => Kind<F, B>
+export function match<F>(
+  F: Functor<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (ma: HKT<F, These<E, A>>) => HKT<F, B>
+export function match<F>(
+  F: Functor<F>
+): <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
+) => (ma: HKT<F, These<E, A>>) => HKT<F, B> {
+  return (onLeft, onRight, onBoth) => (ma) => F.map(ma, T.match(onLeft, onRight, onBoth))
+}
+
+/**
+ * @since 2.10.0
+ */
+export function matchE<M extends URIS3>(
   M: Chain3<M>
 ): <E, R, ME, B, A>(
   onLeft: (e: E) => Kind3<M, R, ME, B>,
   onRight: (a: A) => Kind3<M, R, ME, B>,
   onBoth: (e: E, a: A) => Kind3<M, R, ME, B>
 ) => (ma: Kind3<M, R, ME, These<E, A>>) => Kind3<M, R, ME, B>
-export function match<M extends URIS3, ME>(
+export function matchE<M extends URIS3, ME>(
   M: Chain3C<M, ME>
 ): <E, R, B, A>(
   onLeft: (e: E) => Kind3<M, R, ME, B>,
   onRight: (a: A) => Kind3<M, R, ME, B>,
   onBoth: (e: E, a: A) => Kind3<M, R, ME, B>
 ) => (ma: Kind3<M, R, ME, These<E, A>>) => Kind3<M, R, ME, B>
-export function match<M extends URIS2>(
+export function matchE<M extends URIS2>(
   M: Chain2<M>
 ): <E, ME, B, A>(
   onLeft: (e: E) => Kind2<M, ME, B>,
   onRight: (a: A) => Kind2<M, ME, B>,
   onBoth: (e: E, a: A) => Kind2<M, ME, B>
 ) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, B>
-export function match<M extends URIS2, ME>(
+export function matchE<M extends URIS2, ME>(
   M: Chain2C<M, ME>
 ): <E, B, A>(
   onLeft: (e: E) => Kind2<M, ME, B>,
   onRight: (a: A) => Kind2<M, ME, B>,
   onBoth: (e: E, a: A) => Kind2<M, ME, B>
 ) => (ma: Kind2<M, ME, These<E, A>>) => Kind2<M, ME, B>
-export function match<M extends URIS>(
+export function matchE<M extends URIS>(
   M: Chain1<M>
 ): <E, B, A>(
   onLeft: (e: E) => Kind<M, B>,
   onRight: (a: A) => Kind<M, B>,
   onBoth: (e: E, a: A) => Kind<M, B>
 ) => (ma: Kind<M, These<E, A>>) => Kind<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
   onRight: (a: A) => HKT<M, B>,
   onBoth: (e: E, a: A) => HKT<M, B>
 ) => (ma: HKT<M, These<E, A>>) => HKT<M, B>
-export function match<M>(
+export function matchE<M>(
   M: Chain<M>
 ): <E, B, A>(
   onLeft: (e: E) => HKT<M, B>,
@@ -367,9 +380,6 @@ export function match<M>(
 /**
  * @since 2.10.0
  */
-export function swap<F extends URIS4>(
-  F: Functor4<F>
-): <S, R, FE, E, A>(ma: Kind4<F, S, R, FE, These<E, A>>) => Kind4<F, S, R, FE, These<A, E>>
 export function swap<F extends URIS3>(
   F: Functor3<F>
 ): <R, FE, E, A>(ma: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, These<A, E>>
@@ -391,12 +401,6 @@ export function swap<F>(F: Functor<F>): <E, A>(ma: HKT<F, These<E, A>>) => HKT<F
 /**
  * @since 2.10.0
  */
-export function toTuple2<F extends URIS4>(
-  F: Functor4<F>
-): <E, A>(
-  e: Lazy<E>,
-  a: Lazy<A>
-) => <S, R, FE>(fa: Kind4<F, S, R, FE, These<E, A>>) => Kind4<F, S, R, FE, readonly [E, A]>
 export function toTuple2<F extends URIS3>(
   F: Functor3<F>
 ): <E, A>(e: Lazy<E>, a: Lazy<A>) => <R, FE>(fa: Kind3<F, R, FE, These<E, A>>) => Kind3<F, R, FE, readonly [E, A]>
@@ -559,7 +563,7 @@ export function getTheseM<M>(M: Monad<M>): TheseM<M> {
   const _map = map(M)
   const _bimap = bimap(M)
   const _mapLeft = mapLeft(M)
-  const _fold = match(M)
+  const _fold = matchE(M)
   const _toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: HKT<M, T.These<E, A>>) => HKT<M, [E, A]> = toTuple2(M) as any
   const of = right(M)
 

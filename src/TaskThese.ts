@@ -129,20 +129,12 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
  * @since 2.10.0
  */
 export const match: <E, B, A>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>,
-  onBoth: (e: E, a: A) => Task<B>
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B,
+  onBoth: (e: E, a: A) => B
 ) => (fa: TaskThese<E, A>) => Task<B> =
   /*#__PURE__*/
-  TT.match(T.Monad)
-
-/**
- * Alias of [`match`](#match).
- *
- * @category destructors
- * @since 2.4.0
- */
-export const fold = match
+  TT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -151,18 +143,50 @@ export const fold = match
  * @since 2.10.0
  */
 export const matchW: <E, B, A, C, D>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (ma: TaskThese<E, A>) => T.Task<B | C | D> = match as any
+
+/**
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchE: <E, B, A>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<B>,
+  onBoth: (e: E, a: A) => Task<B>
+) => (fa: TaskThese<E, A>) => Task<B> =
+  /*#__PURE__*/
+  TT.matchE(T.Monad)
+
+/**
+ * Alias of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.4.0
+ */
+export const fold = matchE
+
+/**
+ * Less strict version of [`matchE`](#matchE).
+ *
+ * @category destructors
+ * @since 2.10.0
+ */
+export const matchEW: <E, B, A, C, D>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<C>,
   onBoth: (e: E, a: A) => Task<D>
 ) => (fa: TaskThese<E, A>) => Task<B | C | D> = fold as any
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchEW`](#matchEW).
  *
  * @category destructors
  * @since 2.10.0
  */
-export const foldW = matchW
+export const foldW = matchEW
 
 // -------------------------------------------------------------------------------------
 // combinators

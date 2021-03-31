@@ -556,4 +556,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
+
+  it('match', async () => {
+    const f = _.match(
+      () => 'left',
+      () => 'right'
+    )
+    U.deepStrictEqual(await f(_.right(1))(), 'right')
+    U.deepStrictEqual(await f(_.left(''))(), 'left')
+  })
+
+  it('matchE', async () => {
+    const f = _.matchE(
+      () => T.of('left'),
+      () => T.of('right')
+    )
+    U.deepStrictEqual(await f(_.right(1))(), 'right')
+    U.deepStrictEqual(await f(_.left(''))(), 'left')
+  })
 })

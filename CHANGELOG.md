@@ -65,6 +65,36 @@ high state of flux, you're at risk of it changing without notice.
   - `Witherable`
     - add `filterE`, #1458 (@vinassefranche)
 
+# 2.10.0-rc.7
+
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - rename module `object` to `struct`
+
+# 2.10.0-rc.6
+
+- **Bug Fix**
+  - `ReadonlyNonEmptyArray`
+    - remove circular dependency on `NonEmptyArray`, closes #1443
+- **Breaking Change** (with respect to `2.10.0-rc`)
+  - `EitherT`
+    - rename `match` to `matchE` and add `match`
+  - `IOEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `OptionT`
+    - rename `match` to `matchE` and add `match`
+  - `ReaderEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `ReaderTaskEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `TheseT`
+    - rename `match` to `matchE` and add `match`
+  - `TaskEither`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `TaskOption`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+  - `TaskThese`
+    - rename `match` / `matchW` to `matchE` / `matchWE` and add `match` / `matchW`
+
 # 2.10.0-rc.5
 
 - **Bug Fix**

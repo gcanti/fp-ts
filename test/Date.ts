@@ -39,9 +39,7 @@ describe('Date', () => {
 
   it('create', () => {
     const d1 = _.create()
-    const m2 = new Date().getTime()
     U.deepStrictEqual(d1 instanceof Date, true)
-    U.deepStrictEqual(d1.getTime(), m2)
   })
 
   it('now', () => {
