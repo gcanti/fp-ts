@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 75
+nav_order: 80
 parent: Modules
 ---
 
@@ -43,6 +43,7 @@ Added in v2.0.0
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainReaderK](#chainreaderk)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -54,6 +55,7 @@ Added in v2.0.0
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromReaderK](#fromreaderk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [orElse](#orelse)
@@ -68,6 +70,7 @@ Added in v2.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
@@ -100,6 +103,7 @@ Added in v2.0.0
   - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -469,6 +473,18 @@ export declare const chainOptionK: <E>(
 
 Added in v2.10.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
 ## chainTaskEitherK
 
 **Signature**
@@ -611,6 +627,18 @@ export declare const fromOptionK: <E>(
 
 Added in v2.10.0
 
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
 ## fromTaskEitherK
 
 **Signature**
@@ -687,6 +715,8 @@ Added in v2.0.0
 
 ## ask
 
+Reads the current context.
+
 **Signature**
 
 ```ts
@@ -697,10 +727,12 @@ Added in v2.0.0
 
 ## asks
 
+Projects a value from the global context in a `ReaderEither`.
+
 **Signature**
 
 ```ts
-export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
+export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -757,6 +789,16 @@ export declare const fromPredicate: {
 ```
 
 Added in v2.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
 
 ## fromReaderEither
 
@@ -1093,6 +1135,16 @@ export declare const FromIO: FromIO3<'ReaderTaskEither'>
 ```
 
 Added in v2.10.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader3<'ReaderTaskEither'>
+```
+
+Added in v2.11.0
 
 ## FromTask
 

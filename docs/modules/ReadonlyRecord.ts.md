@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 79
+nav_order: 84
 parent: Modules
 ---
 
@@ -111,7 +111,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(r: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(r: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0
@@ -149,7 +149,7 @@ Added in v2.5.0
 
 ```ts
 export declare const filterMap: <A, B>(
-  f: (a: A) => O.Option<B>
+  f: (a: A) => Option<B>
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
 ```
 
@@ -973,7 +973,7 @@ Added in v2.5.0
 export declare const modifyAt: <A>(
   k: string,
   f: (a: A) => A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v2.5.0
@@ -1206,7 +1206,7 @@ Added in v2.11.0
 export declare const updateAt: <A>(
   k: string,
   a: A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v2.5.0

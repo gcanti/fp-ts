@@ -1,6 +1,6 @@
 ---
 title: Monoid.ts
-nav_order: 60
+nav_order: 64
 parent: Modules
 ---
 
@@ -56,7 +56,6 @@ Added in v2.0.0
   - [~~getJoinMonoid~~](#getjoinmonoid)
   - [~~getMeetMonoid~~](#getmeetmonoid)
 - [instances](#instances)
-  - [monoidVoid](#monoidvoid)
   - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
   - [~~getFunctionMonoid~~](#getfunctionmonoid)
   - [~~monoidAll~~](#monoidall)
@@ -64,6 +63,7 @@ Added in v2.0.0
   - [~~monoidProduct~~](#monoidproduct)
   - [~~monoidString~~](#monoidstring)
   - [~~monoidSum~~](#monoidsum)
+  - [~~monoidVoid~~](#monoidvoid)
 - [type classes](#type-classes)
   - [Monoid (interface)](#monoid-interface)
 - [utils](#utils)
@@ -273,21 +273,9 @@ Added in v2.0.0
 
 # instances
 
-## monoidVoid
-
-**Signature**
-
-```ts
-export declare const monoidVoid: Monoid<void>
-```
-
-Added in v2.0.0
-
 ## ~~getEndomorphismMonoid~~
 
-Use `function.getEndomorphismMonoid` instead.
-
-**Note**. The execution order in `function.getEndomorphismMonoid` is reversed.
+Use `Endomorphism` module instead. **Note**. The execution order in the `Endomorphism` module is reversed.
 
 **Signature**
 
@@ -363,6 +351,18 @@ Use `number.MonoidSum` instead.
 
 ```ts
 export declare const monoidSum: Monoid<number>
+```
+
+Added in v2.0.0
+
+## ~~monoidVoid~~
+
+Use `void` module instead.
+
+**Signature**
+
+```ts
+export declare const monoidVoid: Monoid<void>
 ```
 
 Added in v2.0.0

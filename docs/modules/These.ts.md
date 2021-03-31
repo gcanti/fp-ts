@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 101
+nav_order: 107
 parent: Modules
 ---
 
@@ -70,6 +70,7 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
+  - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
@@ -544,6 +545,16 @@ export declare const FromEither: FromEither2<'These'>
 ```
 
 Added in v2.10.0
+
+## FromThese
+
+**Signature**
+
+```ts
+export declare const FromThese: FromThese2<'These'>
+```
+
+Added in v2.11.0
 
 ## Functor
 

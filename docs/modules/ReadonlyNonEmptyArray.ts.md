@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 78
+nav_order: 83
 parent: Modules
 ---
 
@@ -619,7 +619,7 @@ Added in v2.9.0
 export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -698,7 +698,7 @@ Added in v2.5.1
 export declare const updateAt: <A>(
   i: number,
   a: A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -742,7 +742,7 @@ Use `ReadonlyArray`'s `filterWithIndex` instead.
 ```ts
 export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -771,7 +771,7 @@ Use `ReadonlyArray`'s `insertAt` instead.
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -797,7 +797,7 @@ Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the 
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1136,7 +1136,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0

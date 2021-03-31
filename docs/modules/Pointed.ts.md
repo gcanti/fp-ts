@@ -1,6 +1,6 @@
 ---
 title: Pointed.ts
-nav_order: 68
+nav_order: 72
 parent: Modules
 ---
 

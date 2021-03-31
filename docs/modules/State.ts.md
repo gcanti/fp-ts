@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 90
+nav_order: 96
 parent: Modules
 ---
 
@@ -35,6 +35,7 @@ Added in v2.0.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
+  - [FromState](#fromstate)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
@@ -262,6 +263,16 @@ export declare const Chain: Chain2<'State'>
 ```
 
 Added in v2.10.0
+
+## FromState
+
+**Signature**
+
+```ts
+export declare const FromState: FromState2<'State'>
+```
+
+Added in v2.11.0
 
 ## Functor
 

@@ -1,6 +1,6 @@
 ---
 title: pipeable.ts
-nav_order: 67
+nav_order: 71
 parent: Modules
 ---
 

@@ -401,7 +401,7 @@ export declare function match<F>(
 ): <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: HKT<F, Either<E, A>>) => HKT<F, B>
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## matchE
 

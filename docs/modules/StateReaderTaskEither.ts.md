@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 91
+nav_order: 97
 parent: Modules
 ---
 
@@ -43,8 +43,10 @@ Added in v2.0.0
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainReaderK](#chainreaderk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
+  - [chainStateK](#chainstatek)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -56,15 +58,20 @@ Added in v2.0.0
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromReaderK](#fromreaderk)
   - [fromReaderTaskEitherK](#fromreadertaskeitherk)
+  - [fromStateK](#fromstatek)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
+  - [ask](#ask)
+  - [asks](#asks)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [fromState](#fromstate)
@@ -92,6 +99,8 @@ Added in v2.0.0
   - [Chain](#chain)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
+  - [FromState](#fromstate)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -454,6 +463,18 @@ export declare const chainOptionK: <E>(
 
 Added in v2.10.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
+
 ## chainReaderTaskEitherK
 
 **Signature**
@@ -479,6 +500,18 @@ export declare const chainReaderTaskEitherKW: <R, E2, A, B>(
 ```
 
 Added in v2.6.1
+
+## chainStateK
+
+**Signature**
+
+```ts
+export declare const chainStateK: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
 
 ## chainTaskEitherK
 
@@ -628,6 +661,18 @@ export declare const fromOptionK: <E>(
 
 Added in v2.10.0
 
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
+
 ## fromReaderTaskEitherK
 
 **Signature**
@@ -639,6 +684,18 @@ export declare function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unkn
 ```
 
 Added in v2.4.0
+
+## fromStateK
+
+**Signature**
+
+```ts
+export declare const fromStateK: <A extends readonly unknown[], S, B>(
+  f: (...a: A) => State<S, B>
+) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v2.11.0
 
 ## fromTaskEitherK
 
@@ -665,6 +722,30 @@ export declare const fromTaskK: <A, B>(
 Added in v2.10.0
 
 # constructors
+
+## ask
+
+Reads the current context.
+
+**Signature**
+
+```ts
+export declare const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R>
+```
+
+Added in v2.11.0
+
+## asks
+
+Projects a value from the global context in a `ReaderEither`.
+
+**Signature**
+
+```ts
+export declare const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
 
 ## fromEither
 
@@ -718,6 +799,16 @@ export declare const fromPredicate: {
 ```
 
 Added in v2.4.4
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
 
 ## fromReaderEither
 
@@ -852,7 +943,7 @@ Modify the state by applying a function to the current state
 **Signature**
 
 ```ts
-export declare const modify: <S, R, E = never>(f: (s: S) => S) => StateReaderTaskEither<S, R, E, void>
+export declare const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void>
 ```
 
 Added in v2.0.0
@@ -990,6 +1081,26 @@ export declare const FromIO: FromIO4<'StateReaderTaskEither'>
 ```
 
 Added in v2.10.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader4<'StateReaderTaskEither'>
+```
+
+Added in v2.11.0
+
+## FromState
+
+**Signature**
+
+```ts
+export declare const FromState: FromState4<'StateReaderTaskEither'>
+```
+
+Added in v2.11.0
 
 ## FromTask
 

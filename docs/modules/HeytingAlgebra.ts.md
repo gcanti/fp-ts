@@ -1,6 +1,6 @@
 ---
 title: HeytingAlgebra.ts
-nav_order: 41
+nav_order: 45
 parent: Modules
 ---
 

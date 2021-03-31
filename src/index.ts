@@ -38,6 +38,7 @@ import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromEither from './FromEither'
 import * as fromIO from './FromIO'
+import * as fromReader from './FromReader'
 import * as fromState from './FromState'
 import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
@@ -259,6 +260,10 @@ export {
    * @since 2.10.0
    */
   fromIO,
+  /**
+   * @since 2.11.0
+   */
+  fromReader,
   /**
    * @since 2.11.0
    */

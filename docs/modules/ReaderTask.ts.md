@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 74
+nav_order: 79
 parent: Modules
 ---
 
@@ -29,10 +29,12 @@ Added in v2.3.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
+  - [chainReaderK](#chainreaderk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
+  - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [~~local~~](#local)
 - [constructors](#constructors)
@@ -48,6 +50,7 @@ Added in v2.3.0
   - [ApplySeq](#applyseq)
   - [Chain](#chain)
   - [FromIO](#fromio)
+  - [FromReader](#fromreader)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
@@ -239,6 +242,16 @@ export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTa
 
 Added in v2.4.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.11.0
+
 ## chainTaskK
 
 **Signature**
@@ -283,6 +296,16 @@ export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => R
 
 Added in v2.4.0
 
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderTask<R, B>
+```
+
+Added in v2.11.0
+
 ## fromTaskK
 
 **Signature**
@@ -309,6 +332,8 @@ Added in v2.3.0
 
 ## ask
 
+Reads the current context.
+
 **Signature**
 
 ```ts
@@ -319,10 +344,12 @@ Added in v2.3.0
 
 ## asks
 
+Projects a value from the global context in a `ReaderTask`.
+
 **Signature**
 
 ```ts
-export declare const asks: <R, A = never>(f: (r: R) => A) => ReaderTask<R, A>
+export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -418,6 +445,16 @@ export declare const FromIO: FromIO2<'ReaderTask'>
 ```
 
 Added in v2.10.0
+
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader2<'ReaderTask'>
+```
+
+Added in v2.11.0
 
 ## FromTask
 

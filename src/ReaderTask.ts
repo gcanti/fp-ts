@@ -12,6 +12,13 @@ import {
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader2,
+  fromReaderK as fromReaderK_
+} from './FromReader'
+import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
   FromTask2,
@@ -56,18 +63,6 @@ export interface ReaderTask<R, A> {
 export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
   /*#__PURE__*/
   RT.fromReader(T.Pointed)
-
-/**
- * @category constructors
- * @since 2.3.0
- */
-export const ask = <R>(): ReaderTask<R, R> => T.of
-
-/**
- * @category constructors
- * @since 2.3.0
- */
-export const asks = <R, A = never>(f: (r: R) => A): ReaderTask<R, A> => flow(f, T.of)
 
 /**
  * @category constructors
@@ -382,6 +377,51 @@ export const chainIOK =
 export const chainFirstIOK =
   /*#__PURE__*/
   chainFirstIOK_(FromIO, Chain)
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader2<URI> = {
+  URI,
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 2.3.0
+ */
+export const ask =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderTask`.
+ *
+ * @category constructors
+ * @since 2.3.0
+ */
+export const asks =
+  /*#__PURE__*/
+  asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderK =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderK =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

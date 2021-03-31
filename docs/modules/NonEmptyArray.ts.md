@@ -1,6 +1,6 @@
 ---
 title: NonEmptyArray.ts
-nav_order: 61
+nav_order: 65
 parent: Modules
 ---
 
@@ -518,7 +518,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => O.Option<NonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -548,7 +548,7 @@ Added in v2.9.0
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -620,7 +620,7 @@ Added in v2.5.1
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
+export declare const updateAt: <A>(i: number, a: A) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -659,7 +659,7 @@ Use `Array`'s `filterWithIndex` instead.
 ```ts
 export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-) => (as: NonEmptyArray<A>) => O.Option<NonEmptyArray<A>>
+) => (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0
@@ -700,7 +700,7 @@ Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty ar
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[]) => O.Option<NonEmptyArray<A>>
+export declare const fromArray: <A>(as: A[]) => Option<NonEmptyArray<A>>
 ```
 
 Added in v2.0.0

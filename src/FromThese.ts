@@ -4,8 +4,8 @@
  * @since 2.11.0
  */
 import { flow } from './function'
-import type { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import type { These } from './These'
+import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import { These } from './These'
 
 // -------------------------------------------------------------------------------------
 // model

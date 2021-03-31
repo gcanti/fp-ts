@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 100
+nav_order: 106
 parent: Modules
 ---
 
@@ -24,6 +24,7 @@ Added in v2.4.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
+  - [fromTheseK](#fromthesek)
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
@@ -33,6 +34,7 @@ Added in v2.4.0
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
+  - [fromThese](#fromthese)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -51,6 +53,7 @@ Added in v2.4.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
+  - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [URI](#uri)
@@ -170,6 +173,16 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v2.10.0
 
+## fromTheseK
+
+**Signature**
+
+```ts
+export declare const fromTheseK: <A, E, B>(f: (...a: A) => TH.These<E, B>) => (...a: A) => TaskThese<E, B>
+```
+
+Added in v2.11.0
+
 ## swap
 
 **Signature**
@@ -254,6 +267,16 @@ export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v2.7.0
+
+## fromThese
+
+**Signature**
+
+```ts
+export declare const fromThese: <E, A>(e: TH.These<E, A>) => TaskThese<E, A>
+```
+
+Added in v2.11.0
 
 ## left
 
@@ -450,6 +473,16 @@ export declare const FromTask: FromTask2<'TaskThese'>
 ```
 
 Added in v2.10.0
+
+## FromThese
+
+**Signature**
+
+```ts
+export declare const FromThese: FromThese2<'TaskThese'>
+```
+
+Added in v2.11.0
 
 ## Functor
 

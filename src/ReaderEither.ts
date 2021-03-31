@@ -33,6 +33,13 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader3,
+  fromReaderK as fromReaderK_
+} from './FromReader'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
@@ -98,19 +105,13 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
  * @category constructors
  * @since 2.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => _.right
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, _.right)
-
-/**
- * @category constructors
- * @since 2.0.0
- */
 export const fromEither: FromEither3<URI>['fromEither'] = R.of
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -612,6 +613,55 @@ export const Alt: Alt3<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader3<URI> = {
+  URI,
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const ask: <R, E = never>() => ReaderEither<R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <E = never>(...a: A) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

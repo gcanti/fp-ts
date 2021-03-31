@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 82
+nav_order: 87
 parent: Modules
 ---
 
@@ -38,13 +38,17 @@ Added in v2.0.0
   - [FunctorWithIndex](#functorwithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~FoldableWithIndex~~](#foldablewithindex)
   - [~~Foldable~~](#foldable)
@@ -55,6 +59,7 @@ Added in v2.0.0
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
   - [elem](#elem)
   - [every](#every)
   - [filterMapWithIndex](#filtermapwithindex)
@@ -63,6 +68,7 @@ Added in v2.0.0
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -83,6 +89,7 @@ Added in v2.0.0
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
+  - [union](#union)
   - [updateAt](#updateat)
   - [~~empty~~](#empty)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
@@ -97,7 +104,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Record<string, O.Option<A>>) => Record<string, A>
+export declare const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A>
 ```
 
 Added in v2.0.0
@@ -134,7 +141,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: Record<string, A>) => Record<string, B>
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
 ```
 
 Added in v2.0.0
@@ -323,6 +330,16 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>() => Magma<Record<string, A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -349,6 +366,16 @@ Added in v2.11.0
 
 ```ts
 export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
 ```
 
 Added in v2.11.0
@@ -402,6 +429,26 @@ Added in v2.11.0
 
 ```ts
 export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Record<string, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
 ```
 
 Added in v2.11.0
@@ -536,6 +583,16 @@ export declare function deleteAt<K extends string>(
 
 Added in v2.0.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
 ## elem
 
 **Signature**
@@ -564,7 +621,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filterMapWithIndex: <K extends string, A, B>(
-  f: (key: K, a: A) => O.Option<B>
+  f: (key: K, a: A) => Option<B>
 ) => (fa: Record<K, A>) => Record<string, B>
 ```
 
@@ -705,6 +762,18 @@ export declare const has: <K extends string>(k: string, r: Record<K, unknown>) =
 
 Added in v2.10.0
 
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
 ## isEmpty
 
 Test whether a `Record` is empty.
@@ -752,8 +821,8 @@ Lookup the value for a key in a `Record`.
 
 ```ts
 export declare const lookup: {
-  (k: string): <A>(r: Record<string, A>) => O.Option<A>
-  <A>(k: string, r: Record<string, A>): O.Option<A>
+  (k: string): <A>(r: Record<string, A>) => Option<A>
+  <A>(k: string, r: Record<string, A>): Option<A>
 }
 ```
 
@@ -791,7 +860,7 @@ Added in v2.0.0
 export declare const modifyAt: <A>(
   k: string,
   f: (a: A) => A
-) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
+) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
 ```
 
 Added in v2.0.0
@@ -1015,12 +1084,24 @@ export declare function traverseWithIndex<F>(
 
 Added in v2.0.0
 
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
 ## updateAt
 
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
+export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
 ```
 
 Added in v2.0.0

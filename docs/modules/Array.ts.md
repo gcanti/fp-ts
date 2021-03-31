@@ -243,7 +243,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: O.Option<A>[]) => A[]
+export declare const compact: <A>(fa: Option<A>[]) => A[]
 ```
 
 Added in v2.0.0
@@ -290,7 +290,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: A[]) => B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -325,7 +325,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => O.Option<B>) => (fa: A[]) => B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -526,7 +526,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
 ```
 
 Added in v2.6.6
@@ -1364,7 +1364,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(ma: O.Option<A>) => A[]
+export declare const fromOption: <A>(ma: Option<A>) => A[]
 ```
 
 Added in v2.11.0
@@ -1544,7 +1544,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -1606,7 +1606,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -1659,7 +1659,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const head: <A>(as: A[]) => O.Option<A>
+export declare const head: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1681,7 +1681,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare const init: <A>(as: A[]) => O.Option<A[]>
+export declare const init: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1703,7 +1703,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const last: <A>(as: A[]) => O.Option<A>
+export declare const last: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1785,7 +1785,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: A[]) => O.Option<A[]>
+export declare const tail: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -2261,7 +2261,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const deleteAt: (i: number) => <A>(as: A[]) => O.Option<A[]>
+export declare const deleteAt: (i: number) => <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -2382,7 +2382,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => O.Option<NEA.NonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NEA.NonEmptyArray<A>>
 ```
 
 **Example**
@@ -2435,7 +2435,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare const lookup: { (i: number): <A>(as: A[]) => O.Option<A>; <A>(i: number, as: A[]): O.Option<A> }
+export declare const lookup: { (i: number): <A>(as: A[]) => Option<A>; <A>(i: number, as: A[]): Option<A> }
 ```
 
 **Example**
@@ -2459,7 +2459,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => O.Option<A[]>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -2534,7 +2534,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => O.Option<A[]>
+export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**

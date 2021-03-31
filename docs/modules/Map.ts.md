@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 54
+nav_order: 58
 parent: Modules
 ---
 

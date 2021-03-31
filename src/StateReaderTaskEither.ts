@@ -7,6 +7,7 @@ import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_ } from 
 import { Bifunctor4 } from './Bifunctor'
 import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
+import { Endomorphism } from './Endomorphism'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
@@ -18,6 +19,22 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainReaderK as chainReaderK_,
+  FromReader4,
+  fromReaderK as fromReaderK_
+} from './FromReader'
+import {
+  chainStateK as chainStateK_,
+  FromState4,
+  fromStateK as fromStateK_,
+  get as get_,
+  gets as gets_,
+  modify as modify_,
+  put as put_
+} from './FromState'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
@@ -43,15 +60,6 @@ import { State } from './State'
 import * as ST from './StateT'
 import { Task } from './Task'
 import { TaskEither } from './TaskEither'
-import {
-  chainStateK as chainStateK_,
-  FromState4,
-  fromStateK as fromStateK_,
-  get as get_,
-  gets as gets_,
-  modify as modify_,
-  put as put_
-} from './FromState'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -59,7 +67,6 @@ import {
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
-import { Endomorphism } from './Endomorphism'
 
 /**
  * @category model
@@ -181,6 +188,12 @@ export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateRe
 export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   ST.fromF(RTE.Functor)
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A> = rightReader
 
 /**
  * @category constructors
@@ -737,6 +750,55 @@ export const Alt: Alt4<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader4<URI> = {
+  URI,
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
 
 /**
  * @category instances

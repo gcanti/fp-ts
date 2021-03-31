@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 84
+nav_order: 90
 parent: Modules
 ---
 
@@ -66,7 +66,6 @@ Added in v2.0.0
 - [instances](#instances)
   - [first](#first)
   - [last](#last)
-  - [semigroupVoid](#semigroupvoid)
   - [~~getFirstSemigroup~~](#getfirstsemigroup)
   - [~~getFunctionSemigroup~~](#getfunctionsemigroup)
   - [~~getLastSemigroup~~](#getlastsemigroup)
@@ -76,6 +75,7 @@ Added in v2.0.0
   - [~~semigroupProduct~~](#semigroupproduct)
   - [~~semigroupString~~](#semigroupstring)
   - [~~semigroupSum~~](#semigroupsum)
+  - [~~semigroupVoid~~](#semigroupvoid)
 - [type classes](#type-classes)
   - [Semigroup (interface)](#semigroup-interface)
 - [utils](#utils)
@@ -369,16 +369,6 @@ assert.deepStrictEqual(S.last<number>().concat(1, 2), 2)
 
 Added in v2.10.0
 
-## semigroupVoid
-
-**Signature**
-
-```ts
-export declare const semigroupVoid: Semigroup<void>
-```
-
-Added in v2.0.0
-
 ## ~~getFirstSemigroup~~
 
 Use `first` instead.
@@ -483,6 +473,18 @@ Use `number.SemigroupSum` instead.
 
 ```ts
 export declare const semigroupSum: Semigroup<number>
+```
+
+Added in v2.0.0
+
+## ~~semigroupVoid~~
+
+Use `void` module instead.
+
+**Signature**
+
+```ts
+export declare const semigroupVoid: Semigroup<void>
 ```
 
 Added in v2.0.0

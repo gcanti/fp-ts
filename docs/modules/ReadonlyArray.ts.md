@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 76
+nav_order: 81
 parent: Modules
 ---
 
@@ -243,7 +243,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: readonly O.Option<A>[]) => readonly A[]
+export declare const compact: <A>(fa: readonly Option<A>[]) => readonly A[]
 ```
 
 Added in v2.5.0
@@ -290,7 +290,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: readonly A[]) => readonly B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -327,9 +327,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(
-  f: (i: number, a: A) => O.Option<B>
-) => (fa: readonly A[]) => readonly B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: readonly A[]) => readonly B[]
 ```
 
 Added in v2.5.0
@@ -532,7 +530,7 @@ Added in v2.6.3
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => readonly A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => readonly A[]
 ```
 
 Added in v2.6.6
@@ -2044,7 +2042,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const deleteAt: (i: number) => <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2197,7 +2195,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<B>
 ```
 
 **Example**
@@ -2311,7 +2309,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: readonly A[]) => O.Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<B>
 ```
 
 **Example**
@@ -2340,7 +2338,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const head: <A>(as: readonly A[]) => O.Option<A>
+export declare const head: <A>(as: readonly A[]) => Option<A>
 ```
 
 **Example**
@@ -2362,7 +2360,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare const init: <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const init: <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2384,7 +2382,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<RNEA.ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<RNEA.ReadonlyNonEmptyArray<A>>
 ```
 
 **Example**
@@ -2437,7 +2435,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const last: <A>(as: readonly A[]) => O.Option<A>
+export declare const last: <A>(as: readonly A[]) => Option<A>
 ```
 
 **Example**
@@ -2505,7 +2503,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2588,7 +2586,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: readonly A[]) => O.Option<readonly A[]>
+export declare const tail: <A>(as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
@@ -2638,7 +2636,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<readonly A[]>
+export declare const updateAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<readonly A[]>
 ```
 
 **Example**
