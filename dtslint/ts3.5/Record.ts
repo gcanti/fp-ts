@@ -66,6 +66,11 @@ _.collect((_k: 'a', n: number) => n)(l1) // $ExpectType number[]
 _.collect((_k, n: number) => n)(d1) // $ExpectType number[]
 _.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType number[]
 
+_.collect(S.Ord)((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType number[]
+_.collect(S.Ord)((_k: 'a', n: number) => n)(l1) // $ExpectType number[]
+_.collect(S.Ord)((_k, n: number) => n)(d1) // $ExpectType number[]
+_.collect(S.Ord)((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType number[]
+
 //
 // toArray
 //
@@ -117,11 +122,20 @@ _.map((n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 // reduceWithIndex
 //
 
+_.reduceWithIndex(S.Ord)('', (k: string, _n) => k)(d1) // $ExpectType string
+_.reduceWithIndex(S.Ord)('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+
 _.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
 _.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
+_.foldMapWithIndex(S.Ord)(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
+_.foldMapWithIndex(S.Ord)(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+
 _.foldMapWithIndex(S.Monoid)((k: string, _n) => k)(d1) // $ExpectType string
 _.foldMapWithIndex(S.Monoid)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
+
+_.reduceRightWithIndex(S.Ord)('', (k: string, _n, _b) => k)(d1) // $ExpectType string
+_.reduceRightWithIndex(S.Ord)('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
 _.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
 _.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string

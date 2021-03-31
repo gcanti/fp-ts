@@ -18,6 +18,19 @@ const noPrototype = Object.create(null)
 
 describe('Record', () => {
   describe('pipeables', () => {
+    it('collect', () => {
+      const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
+      U.deepStrictEqual(_.collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [
+        { key: 'a', value: 'c' },
+        { key: 'b', value: false }
+      ])
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(_.collect((key, val) => ({ key: key, value: val }))(x), [
+        { key: 'a', value: 'c' },
+        { key: 'b', value: false }
+      ])
+    })
+
     it('map', () => {
       U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(U.double)), { k1: 2, k2: 4 })
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(U.double)), { a: 2, b: 4 })
@@ -32,6 +45,22 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
+          _.reduce(S.Ord)('', (b, a) => b + a)
+        ),
+        'ab'
+      )
+      U.deepStrictEqual(
+        pipe(
+          { k2: 'b', k1: 'a' },
+          _.reduce(S.Ord)('', (b, a) => b + a)
+        ),
+        'ab'
+      )
+
+      U.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          // tslint:disable-next-line: deprecation
           _.reduce('', (b, a) => b + a)
         ),
         'ab'
@@ -39,6 +68,7 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k2: 'b', k1: 'a' },
+          // tslint:disable-next-line: deprecation
           _.reduce('', (b, a) => b + a)
         ),
         'ab'
@@ -46,11 +76,20 @@ describe('Record', () => {
     })
 
     it('foldMap', () => {
+      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Ord)(S.Monoid)(identity)), 'ab')
+      U.deepStrictEqual(_.getFoldable(S.Ord).foldMap(S.Monoid)({ a: 'a', b: 'b' }, identity), 'ab')
+
+      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(_.Foldable.foldMap(S.Monoid)({ a: 'a', b: 'b' }, identity), 'ab')
     })
 
     it('reduceRight', () => {
       const f = (a: string, acc: string) => acc + a
+      U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight(S.Ord)('', f)), 'ba')
+
+      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight('', f)), 'ba')
     })
 
@@ -105,6 +144,22 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
+          _.reduceWithIndex(S.Ord)('', (k, b, a) => b + k + a)
+        ),
+        'k1ak2b'
+      )
+      U.deepStrictEqual(
+        pipe(
+          { k2: 'b', k1: 'a' },
+          _.reduceWithIndex(S.Ord)('', (k, b, a) => b + k + a)
+        ),
+        'k1ak2b'
+      )
+
+      U.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          // tslint:disable-next-line: deprecation
           _.reduceWithIndex('', (k, b, a) => b + k + a)
         ),
         'k1ak2b'
@@ -112,6 +167,7 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k2: 'b', k1: 'a' },
+          // tslint:disable-next-line: deprecation
           _.reduceWithIndex('', (k, b, a) => b + k + a)
         ),
         'k1ak2b'
@@ -122,8 +178,26 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
+          _.foldMapWithIndex(S.Ord)(S.Monoid)((k, a) => k + a)
+        ),
+        'k1ak2b'
+      )
+      U.deepStrictEqual(
+        _.getFoldableWithIndex(S.Ord).foldMapWithIndex(S.Monoid)({ k1: 'a', k2: 'b' }, (k, a) => k + a),
+        'k1ak2b'
+      )
+
+      U.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          // tslint:disable-next-line: deprecation
           _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
         ),
+        'k1ak2b'
+      )
+      U.deepStrictEqual(
+        // tslint:disable-next-line: deprecation
+        _.FoldableWithIndex.foldMapWithIndex(S.Monoid)({ k1: 'a', k2: 'b' }, (k, a) => k + a),
         'k1ak2b'
       )
     })
@@ -132,6 +206,14 @@ describe('Record', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
+          _.reduceRightWithIndex(S.Ord)('', (k, a, b) => b + k + a)
+        ),
+        'k2bk1a'
+      )
+      U.deepStrictEqual(
+        pipe(
+          { k1: 'a', k2: 'b' },
+          // tslint:disable-next-line: deprecation
           _.reduceRightWithIndex('', (k, a, b) => b + k + a)
         ),
         'k2bk1a'
@@ -186,11 +268,11 @@ describe('Record', () => {
       U.deepStrictEqual(_.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }), O.none)
 
       U.deepStrictEqual(
-        _.Traversable.traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n <= 2 ? O.some(n) : O.none)),
+        _.getTraversable(S.Ord).traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n <= 2 ? O.some(n) : O.none)),
         O.some({ a: 1, b: 2 })
       )
       U.deepStrictEqual(
-        _.Traversable.traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n >= 2 ? O.some(n) : O.none)),
+        _.getTraversable(S.Ord).traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n >= 2 ? O.some(n) : O.none)),
         O.none
       )
     })
@@ -199,20 +281,33 @@ describe('Record', () => {
       const sequence = _.sequence(O.Applicative)
       U.deepStrictEqual(sequence({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
       U.deepStrictEqual(sequence({ a: O.none, b: O.some(2) }), O.none)
+
+      U.deepStrictEqual(
+        // tslint:disable-next-line: deprecation
+        _.record.sequence(O.Applicative)({ a: O.some(1), b: O.some(2) }),
+        O.some({ a: 1, b: 2 })
+      )
     })
 
     it('traverseWithIndex', () => {
-      const traverseWithIndex = _.traverseWithIndex(O.Applicative)(
-        (k, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
-      )
+      const f = (k: string, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
+      const traverseWithIndex = _.traverseWithIndex(O.Applicative)(f)
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
       U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
+
+      U.deepStrictEqual(
+        _.getTraversableWithIndex(S.Ord).traverseWithIndex(O.Applicative)({ b: 2 }, f),
+        O.some({ b: 2 })
+      )
     })
 
     it('wither', async () => {
-      const wither = _.wither(T.ApplicativePar)((n: number) => T.of(p(n) ? O.some(n + 1) : O.none))
+      const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
+      const wither = _.wither(T.ApplicativePar)(f)
       U.deepStrictEqual(await pipe({}, wither)(), {})
       U.deepStrictEqual(await pipe({ a: 1, b: 3 }, wither)(), { b: 4 })
+
+      U.deepStrictEqual(await _.getWitherable(S.Ord).wither(T.ApplicativePar)({ a: 1, b: 3 }, f)(), { b: 4 })
     })
 
     it('wilt', async () => {
@@ -382,10 +477,16 @@ describe('Record', () => {
   })
 
   it('getShow', () => {
-    const Sh = _.getShow(S.Show)
+    const Sh = _.getShow(S.Ord)(S.Show)
     U.deepStrictEqual(Sh.show({}), `{}`)
     U.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
     U.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+
+    // tslint:disable-next-line: deprecation
+    const DepSh = _.getShow(S.Show)
+    U.deepStrictEqual(DepSh.show({}), `{}`)
+    U.deepStrictEqual(DepSh.show({ a: 'a' }), `{ "a": "a" }`)
+    U.deepStrictEqual(DepSh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 
   it('singleton', () => {

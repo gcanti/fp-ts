@@ -34,18 +34,23 @@ Added in v2.0.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FilterableWithIndex](#filterablewithindex)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
-  - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable-1)
   - [getEq](#geteq)
+  - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getWitherable](#getwitherable)
+  - [~~FoldableWithIndex~~](#foldablewithindex)
+  - [~~Foldable~~](#foldable)
+  - [~~TraversableWithIndex~~](#traversablewithindex)
+  - [~~Traversable~~](#traversable)
+  - [~~Witherable~~](#witherable)
   - [~~record~~](#record)
 - [utils](#utils)
   - [collect](#collect)
@@ -168,7 +173,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export declare function foldMap(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
 ```
 
 Added in v2.0.0
@@ -178,7 +186,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+export declare function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
 ```
 
 Added in v2.0.0
@@ -188,7 +197,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+export declare function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
 ```
 
 Added in v2.0.0
@@ -273,26 +283,6 @@ export declare const FilterableWithIndex: FilterableWithIndex1<'Record', string>
 
 Added in v2.7.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: Foldable1<'Record'>
-```
-
-Added in v2.7.0
-
-## FoldableWithIndex
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
 ## Functor
 
 **Signature**
@@ -309,26 +299,6 @@ Added in v2.7.0
 
 ```ts
 export declare const FunctorWithIndex: FunctorWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## Traversable
-
-**Signature**
-
-```ts
-export declare const Traversable: Traversable1<'Record'>
-```
-
-Added in v2.7.0
-
-## TraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
 ```
 
 Added in v2.7.0
@@ -353,16 +323,6 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## Witherable
-
-**Signature**
-
-```ts
-export declare const Witherable: Witherable1<'Record'>
-```
-
-Added in v2.7.0
-
 ## getEq
 
 **Signature**
@@ -372,6 +332,26 @@ export declare const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>>
 ```
 
 Added in v2.0.0
+
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
+```
+
+Added in v2.7.0
+
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v2.7.0
 
 ## getMonoid
 
@@ -400,10 +380,101 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
+export declare function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, A>>
+export declare function getShow<A>(S: Show<A>): Show<Record<string, A>>
 ```
 
 Added in v2.0.0
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+```
+
+Added in v2.11.0
+
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.7.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
+```
+
+Added in v2.7.0
+
+## ~~FoldableWithIndex~~
+
+Use `getFoldableWithIndex` instead
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Foldable~~
+
+Use `getFoldable` instead
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~TraversableWithIndex~~
+
+Use the `getTraversableWithIndex` instead
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Traversable~~
+
+Use `getTraversable` instead
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~Witherable~~
+
+Use `getWitherable` instead
+
+**Signature**
+
+```ts
+export declare const Witherable: Witherable1<'Record'>
+```
+
+Added in v2.7.0
 
 ## ~~record~~
 
@@ -430,16 +501,20 @@ Map a `Record` into an `Array`.
 **Signature**
 
 ```ts
-export declare const collect: <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => B[]
+export declare function collect(
+  O: Ord<string>
+): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => Array<B>
+export declare function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B>
 ```
 
 **Example**
 
 ```ts
 import { collect } from 'fp-ts/Record'
+import { Ord } from 'fp-ts/string'
 
 const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
-assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
+assert.deepStrictEqual(collect(Ord)((key, val) => ({ key: key, value: val }))(x), [
   { key: 'a', value: 'c' },
   { key: 'b', value: false },
 ])
@@ -515,9 +590,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const foldMapWithIndex: <M>(
+export declare function foldMapWithIndex(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+export declare function foldMapWithIndex<M>(
   M: Monoid<M>
-) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
 ```
 
 Added in v2.0.0
@@ -764,26 +842,32 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <K extends string, A, B>(
+export declare function reduceRightWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: Record<K, A>) => B
+export declare function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
-) => (fa: Record<K, A>) => B
+): (fa: Record<K, A>) => B
 ```
 
-Added in v2.0.0
+Added in v2.11.0
 
 ## reduceWithIndex
 
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <K extends string, A, B>(
+export declare function reduceWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: Record<K, A>) => B
+export declare function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
-) => (fa: Record<K, A>) => B
+): (fa: Record<K, A>) => B
 ```
 
-Added in v2.0.0
+Added in v2.11.0
 
 ## sequence
 
