@@ -92,7 +92,7 @@ export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
  * @category guards
  * @since 2.0.0
  */
-export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === 'Right'
+export const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A> = _.isRight
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -105,7 +105,7 @@ export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === '
  * @category constructors
  * @since 2.0.0
  */
-export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
+export const left: <E = never, A = never>(e: E) => Either<E, A> = _.left
 
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -114,7 +114,7 @@ export const left = <E = never, A = never>(e: E): Either<E, A> => ({ _tag: 'Left
  * @category constructors
  * @since 2.0.0
  */
-export const right = <E = never, A = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
 
 /**
  * @example
@@ -1265,7 +1265,7 @@ export function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boo
  */
 export const Do: Either<never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

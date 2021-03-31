@@ -10,6 +10,7 @@ import {
 import * as E from './Either'
 import { Lazy } from './function'
 import { HKT, Kind, Kind2, URIS, URIS2 } from './HKT'
+import * as _ from './internal'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Semigroup } from './Semigroup'
 
@@ -99,10 +100,10 @@ export function getValidationM<E, M>(S: Semigroup<E>, M: Monad<M>): ValidationM<
     map: A.map,
     ap: A.ap,
     of: A.of,
-    chain: (ma, f) => M.chain(ma, (e) => (E.isLeft(e) ? M.of(E.left(e.left)) : f(e.right))),
+    chain: (ma, f) => M.chain(ma, (e) => (_.isLeft(e) ? M.of(_.left(e.left)) : f(e.right))),
     alt: (me, that) =>
       M.chain(me, (e1) =>
-        E.isRight(e1) ? M.of(e1) : M.map(that(), (e2) => (E.isLeft(e2) ? E.left(S.concat(e1.left, e2.left)) : e2))
+        _.isRight(e1) ? M.of(e1) : M.map(that(), (e2) => (_.isLeft(e2) ? _.left(S.concat(e1.left, e2.left)) : e2))
       )
   }
 }

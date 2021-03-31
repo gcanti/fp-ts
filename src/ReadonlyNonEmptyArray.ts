@@ -28,7 +28,7 @@ import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
-import * as O from './Option'
+import { Option } from './Option'
 import { getMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { ReadonlyRecord } from './ReadonlyRecord'
@@ -38,7 +38,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 import Semigroup = Se.Semigroup
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -59,12 +58,12 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 /**
  * @internal
  */
-export const empty: ReadonlyArray<never> = []
+export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
 
 /**
  * @internal
  */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
 
 /**
  * @internal
@@ -194,7 +193,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray
  * @since 2.5.0
  */
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  isNonEmpty(as) ? O.some(as) : O.none
+  isNonEmpty(as) ? _.some(as) : _.none
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -377,7 +376,7 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) =>
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as)))
 
 /**
  * @category combinators
@@ -584,7 +583,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @category Pointed
  * @since 2.5.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = _.singleton
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -773,7 +772,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
  * @category Comonad
  * @since 2.6.3
  */
-export const extract: Comonad1<URI>['extract'] = (as) => as[0]
+export const extract: Comonad1<URI>['extract'] = _.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -1037,7 +1036,7 @@ export const Comonad: Comonad1<URI> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0
@@ -1076,7 +1075,7 @@ export const head: <A>(as: ReadonlyNonEmptyArray<A>) => A = extract
 /**
  * @since 2.5.0
  */
-export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(1)
+export const tail: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A> = _.tail
 
 /**
  * @since 2.5.0
@@ -1236,7 +1235,7 @@ export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A
  * @deprecated
  */
 export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+  i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
  * Use `prependAll` instead.

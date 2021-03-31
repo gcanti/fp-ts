@@ -19,11 +19,12 @@ import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as N from './number'
-import * as O from './Option'
+import { Option } from './Option'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
@@ -33,9 +34,8 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1, filterE as filterE_ } from './Witherable'
+import { filterE as filterE_, PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
-import Option = O.Option
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNE
 export function lookup(i: number): <A>(as: ReadonlyArray<A>) => Option<A>
 export function lookup<A>(i: number, as: ReadonlyArray<A>): Option<A>
 export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as: ReadonlyArray<A>) => Option<A>) {
-  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? O.none : O.some(as[i])
+  return as === undefined ? (as) => lookup(i, as) : isOutOfBound(i, as) ? _.none : _.some(as[i])
 }
 
 /**
@@ -312,7 +312,7 @@ export function lookup<A>(i: number, as?: ReadonlyArray<A>): Option<A> | (<A>(as
  *
  * @since 2.5.0
  */
-export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.head(as)) : O.none)
+export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.some(RNEA.head(as)) : _.none)
 
 /**
  * Get the last element in an array, or `None` if the array is empty
@@ -326,7 +326,7 @@ export const head = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.
  *
  * @since 2.5.0
  */
-export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.some(RNEA.last(as)) : O.none)
+export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? _.some(RNEA.last(as)) : _.none)
 
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
@@ -341,7 +341,7 @@ export const last = <A>(as: ReadonlyArray<A>): Option<A> => (isNonEmpty(as) ? O.
  * @since 2.5.0
  */
 export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? O.some(RNEA.tail(as)) : O.none
+  isNonEmpty(as) ? _.some(RNEA.tail(as)) : _.none
 
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
@@ -356,7 +356,7 @@ export const tail = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
  * @since 2.5.0
  */
 export const init = <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isNonEmpty(as) ? O.some(RNEA.init(as)) : O.none
+  isNonEmpty(as) ? _.some(RNEA.init(as)) : _.none
 
 /**
  * Keep only a max number of elements from the start of an `ReadonlyArray`, creating a new `ReadonlyArray`.
@@ -539,10 +539,10 @@ export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
 export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): Option<number> => {
   for (let i = 0; i < as.length; i++) {
     if (predicate(as[i])) {
-      return O.some(i)
+      return _.some(i)
     }
   }
-  return O.none
+  return _.none
 }
 
 /**
@@ -567,10 +567,10 @@ export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) =>
   return (as) => {
     for (let i = 0; i < as.length; i++) {
       if (predicate(as[i])) {
-        return O.some(as[i])
+        return _.some(as[i])
       }
     }
-    return O.none
+    return _.none
   }
 }
 
@@ -596,11 +596,11 @@ export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) =>
 export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>): Option<B> => {
   for (let i = 0; i < as.length; i++) {
     const out = f(as[i])
-    if (O.isSome(out)) {
+    if (_.isSome(out)) {
       return out
     }
   }
-  return O.none
+  return _.none
 }
 
 /**
@@ -625,10 +625,10 @@ export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
   return (as) => {
     for (let i = as.length - 1; i >= 0; i--) {
       if (predicate(as[i])) {
-        return O.some(as[i])
+        return _.some(as[i])
       }
     }
-    return O.none
+    return _.none
   }
 }
 
@@ -654,11 +654,11 @@ export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => 
 export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<A>): Option<B> => {
   for (let i = as.length - 1; i >= 0; i--) {
     const out = f(as[i])
-    if (O.isSome(out)) {
+    if (_.isSome(out)) {
       return out
     }
   }
-  return O.none
+  return _.none
 }
 
 /**
@@ -682,10 +682,10 @@ export const findLastMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray<
 export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): Option<number> => {
   for (let i = as.length - 1; i >= 0; i--) {
     if (predicate(as[i])) {
-      return O.some(i)
+      return _.some(i)
     }
   }
-  return O.none
+  return _.none
 }
 
 /**
@@ -699,7 +699,7 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>> =
+export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => Option<ReadonlyNonEmptyArray<A>> =
   // tslint:disable-next-line: deprecation
   RNEA.insertAt
 
@@ -731,7 +731,7 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyArray<A>) => Option<
  * @since 2.5.0
  */
 export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as))
+  isOutOfBound(i, as) ? _.none : _.some(unsafeDeleteAt(i, as))
 
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
@@ -748,7 +748,7 @@ export const deleteAt = (i: number) => <A>(as: ReadonlyArray<A>): Option<Readonl
  * @since 2.5.0
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: ReadonlyArray<A>): Option<ReadonlyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
+  isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * Reverse an array, creating a new array
@@ -1506,7 +1506,7 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
-    if (O.isSome(optionB)) {
+    if (_.isSome(optionB)) {
       out.push(optionB.value)
     }
   }
@@ -1751,7 +1751,7 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Readon
   let bb: B = b
   while (true) {
     const mt = f(bb)
-    if (O.isSome(mt)) {
+    if (_.isSome(mt)) {
       const [a, b] = mt.value
       out.push(a)
       bb = b
@@ -2302,7 +2302,7 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as i
  */
 export const Do: ReadonlyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

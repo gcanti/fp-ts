@@ -113,7 +113,7 @@ export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
  * @category constructors
  * @since 2.0.0
  */
-export const none: Option<never> = { _tag: 'None' }
+export const none: Option<never> = _.none
 
 /**
  * Constructs a `Some`. Represents an optional value that exists.
@@ -121,7 +121,7 @@ export const none: Option<never> = { _tag: 'None' }
  * @category constructors
  * @since 2.0.0
  */
-export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
+export const some: <A>(a: A) => Option<A> = _.some
 
 /**
  * Returns a *smart constructor* based on the given predicate.
@@ -1220,7 +1220,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
  */
 export const Do: Option<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

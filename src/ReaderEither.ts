@@ -35,6 +35,7 @@ import {
 } from './FromEither'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
@@ -42,8 +43,8 @@ import { Pointed3 } from './Pointed'
 import * as R from './Reader'
 import { Semigroup } from './Semigroup'
 
-import Either = E.Either
 import Reader = R.Reader
+import Either = E.Either
 
 // -------------------------------------------------------------------------------------
 // model
@@ -95,13 +96,13 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
  * @category constructors
  * @since 2.0.0
  */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
+export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => _.right
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
+export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, _.right)
 
 /**
  * @category constructors
@@ -133,7 +134,7 @@ export const match: <E, B, A>(
 export const matchW: <E, B, A, C>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = match as any
+) => <R>(ma: Reader<R, Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
  * @category destructors
@@ -722,7 +723,7 @@ export const fromEitherK =
  */
 export const Do: ReaderEither<unknown, never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

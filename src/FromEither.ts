@@ -5,12 +5,11 @@
  */
 
 import { Chain, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import * as E from './Either'
+import { Either } from './Either'
 import { flow, Lazy, Predicate, Refinement } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
+import * as _ from './internal'
 import { Option } from './Option'
-
-import Either = E.Either
 
 // -------------------------------------------------------------------------------------
 // model
@@ -96,7 +95,7 @@ export function fromOption<F extends URIS2, E>(
 ): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A> {
-  return (onNone) => flow(E.fromOption(onNone), F.fromEither)
+  return (onNone) => (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
 }
 
 /**
@@ -144,8 +143,8 @@ export function fromPredicate<F>(
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 } {
-  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) =>
-    flow(E.fromPredicate(predicate, onFalse), F.fromEither)
+  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) =>
+    F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
 }
 
 // -------------------------------------------------------------------------------------
@@ -351,6 +350,6 @@ export function filterOrElse<M extends URIS2>(
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 } {
-  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
-    M.chain(ma, flow(E.fromPredicate(predicate, onFalse), F.fromEither))
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
+    M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))
 }

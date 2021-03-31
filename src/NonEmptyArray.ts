@@ -27,7 +27,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
-import * as O from './Option'
+import { Option } from './Option'
 import { getMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RNEA from './ReadonlyNonEmptyArray'
@@ -37,7 +37,6 @@ import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 import Semigroup = Se.Semigroup
-import Option = O.Option
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
@@ -190,7 +189,7 @@ export const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => Non
  * @category constructors
  * @since 2.0.0
  */
-export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? O.some(as) : O.none)
+export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? _.some(as) : _.none)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -353,7 +352,7 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: NonEmptyArray<A>): NonEm
  * @since 2.0.0
  */
 export const insertAt = <A>(i: number, a: A) => (as: Array<A>): Option<NonEmptyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+  i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
  * @category combinators
@@ -367,7 +366,7 @@ export const updateAt = <A>(i: number, a: A): ((as: NonEmptyArray<A>) => Option<
  * @since 2.0.0
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: NonEmptyArray<A>): Option<NonEmptyArray<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
+  isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * @category combinators
@@ -992,7 +991,7 @@ export const Comonad: Comonad1<URI> = {
  */
 export const Do: NonEmptyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

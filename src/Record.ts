@@ -13,9 +13,10 @@ import { pipe, Predicate, Refinement } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import * as O from './Option'
+import { Option } from './Option'
 import { Ord } from './Ord'
 import * as RR from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
@@ -26,8 +27,6 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
-
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -124,7 +123,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: Record<string, A>) => 
   return (r) => {
     const sas = toArray(r)
     const len = sas.length
-    return U.unfold(0, (b) => (b < len ? O.some([sas[b], b + 1]) : O.none))
+    return U.unfold(0, (b) => (b < len ? _.some([sas[b], b + 1]) : _.none))
   }
 }
 
@@ -177,11 +176,11 @@ export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A
  */
 export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
   if (!has(k, r)) {
-    return O.none
+    return _.none
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = f(r[k])
-  return O.some(out)
+  return _.some(out)
 }
 
 /**
@@ -196,7 +195,7 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
   const deleteAtk = deleteAt(k)
   return (r) => {
     const oa = lookup(k, r)
-    return O.isNone(oa) ? O.none : O.some([oa.value, deleteAtk(r)])
+    return _.isNone(oa) ? _.none : _.some([oa.value, deleteAtk(r)])
   }
 }
 
@@ -451,7 +450,7 @@ export function partitionWithIndex<A>(
  * @since 2.0.0
  */
 export const filterMapWithIndex: <K extends string, A, B>(
-  f: (key: K, a: A) => O.Option<B>
+  f: (key: K, a: A) => Option<B>
 ) => (fa: Record<K, A>) => Record<string, B> = RR.filterMapWithIndex
 
 /**

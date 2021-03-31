@@ -3,7 +3,8 @@
  */
 import { Alt1 } from './Alt'
 import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_ } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Eq } from './Eq'
@@ -12,12 +13,12 @@ import { Foldable1 } from './Foldable'
 import { identity as id, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as _ from './internal'
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -383,7 +384,7 @@ export const ChainRec: ChainRec1<URI> = {
  */
 export const Do: Identity<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

@@ -12,17 +12,18 @@
  * @since 2.0.0
  */
 import { Applicative1, getApplicativeMonoid } from './Applicative'
-import { apFirst as apFirst_, Apply1, apSecond as apSecond_, apS as apS_, getApplySemigroup } from './Apply'
+import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, getApplySemigroup } from './Apply'
+import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec1 } from './ChainRec'
 import { FromIO1 } from './FromIO'
 import { constant, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
+import * as _ from './internal'
+import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
 import { Semigroup } from './Semigroup'
-import { Monad1 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -277,7 +278,7 @@ export const FromIO: FromIO1<URI> = {
  */
 export const Do: IO<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

@@ -43,6 +43,7 @@ import {
 } from './FromTask'
 import { flow, identity, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3, Monad3C } from './Monad'
@@ -1024,7 +1025,7 @@ export function bracket<R, E, A, B>(
  */
 export const Do: ReaderTaskEither<unknown, never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

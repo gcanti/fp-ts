@@ -26,6 +26,7 @@ import {
 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad4 } from './Monad'
@@ -933,13 +934,13 @@ export const traverseArrayWithIndex = <S, R, E, A, B>(
   as.reduce<Promise<Either<E, [Array<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
-        E.isLeft(ebs)
+        _.isLeft(ebs)
           ? acc
           : f(
               i,
               a
             )(s)(r)().then((eb) => {
-              if (E.isLeft(eb)) {
+              if (_.isLeft(eb)) {
                 return eb
               }
               const [b, s] = eb.right
@@ -948,7 +949,7 @@ export const traverseArrayWithIndex = <S, R, E, A, B>(
               return ebs
             })
       ),
-    Promise.resolve(E.right([[], s]))
+    Promise.resolve(_.right([[], s]))
   )
 
 /**

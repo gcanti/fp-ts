@@ -16,7 +16,7 @@ import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import * as O from './Option'
+import { Option } from './Option'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
@@ -26,8 +26,6 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
-
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -162,7 +160,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
   return (r) => {
     const sas = toReadonlyArray(r)
     const len = sas.length
-    return U.unfold(0, (b) => (b < len ? O.some([sas[b], b + 1]) : O.none))
+    return U.unfold(0, (b) => (b < len ? _.some([sas[b], b + 1]) : _.none))
   }
 }
 
@@ -217,14 +215,14 @@ export const updateAt = <A>(k: string, a: A) => <K extends string>(
   r: ReadonlyRecord<K, A>
 ): Option<ReadonlyRecord<K, A>> => {
   if (!has(k, r)) {
-    return O.none
+    return _.none
   }
   if (r[k] === a) {
-    return O.some(r)
+    return _.some(r)
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = a
-  return O.some(out)
+  return _.some(out)
 }
 
 /**
@@ -234,15 +232,15 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
   r: ReadonlyRecord<K, A>
 ): Option<ReadonlyRecord<K, A>> => {
   if (!has(k, r)) {
-    return O.none
+    return _.none
   }
   const next = f(r[k])
   if (next === r[k]) {
-    return O.some(r)
+    return _.some(r)
   }
   const out: Record<K, A> = Object.assign({}, r)
   out[k] = next
-  return O.some(out)
+  return _.some(out)
 }
 
 /**
@@ -259,7 +257,7 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
   const deleteAtk = deleteAt(k)
   return (r) => {
     const oa = lookup(k, r)
-    return O.isNone(oa) ? O.none : O.some([oa.value, deleteAtk(r)])
+    return _.isNone(oa) ? _.none : _.some([oa.value, deleteAtk(r)])
   }
 }
 
@@ -310,7 +308,7 @@ export function lookup<A>(
   if (r === undefined) {
     return (r) => lookup(k, r)
   }
-  return _.hasOwnProperty.call(r, k) ? O.some(r[k]) : O.none
+  return _.hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
 }
 
 /**

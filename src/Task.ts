@@ -23,6 +23,7 @@ import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIO
 import { FromTask1 } from './FromTask'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -428,7 +429,7 @@ export const never: Task<never> = () => new Promise((_) => undefined)
  */
 export const Do: Task<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

@@ -2,19 +2,20 @@
  * @since 2.0.0
  */
 import { Applicative2, getApplicativeMonoid } from './Applicative'
-import { apFirst as apFirst_, Apply2, apSecond as apSecond_, apS as apS_, getApplySemigroup } from './Apply'
+import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, getApplySemigroup } from './Apply'
 import { Category2 } from './Category'
+import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Choice2 } from './Choice'
 import * as E from './Either'
 import { constant, flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import * as _ from './internal'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
-import { Monad2 } from './Monad'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -176,13 +177,13 @@ export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
  * @category Choice
  * @since 2.10.0
  */
-export const left: Choice2<URI>['left'] = (pab) => E.fold((a) => E.left(pab(a)), E.right)
+export const left: Choice2<URI>['left'] = (pab) => E.fold((a) => _.left(pab(a)), E.right)
 
 /**
  * @category Choice
  * @since 2.10.0
  */
-export const right: Choice2<URI>['right'] = (pbc) => E.fold(E.left, (b) => E.right(pbc(b)))
+export const right: Choice2<URI>['right'] = (pbc) => E.fold(E.left, (b) => _.right(pbc(b)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -394,7 +395,7 @@ export const bindW: <N extends string, A, R2, B>(
  */
 export const Do: Reader<unknown, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

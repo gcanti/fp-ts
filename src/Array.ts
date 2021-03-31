@@ -19,10 +19,11 @@ import { identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
-import * as O from './Option'
+import { Option } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import * as RA from './ReadonlyArray'
@@ -32,10 +33,9 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1, filterE as filterE_ } from './Witherable'
+import { filterE as filterE_, PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
 
 import NonEmptyArray = NEA.NonEmptyArray
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -145,7 +145,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
  * @since 2.11.0
  */
 export const fromOption = <A>(ma: Option<A>): Array<A> => {
-  return O.isSome(ma) ? [ma.value] : []
+  return _.isSome(ma) ? [ma.value] : []
 }
 
 // -------------------------------------------------------------------------------------
@@ -352,7 +352,7 @@ export const last: <A>(as: Array<A>) => Option<A> = RA.last
  * @category destructors
  * @since 2.0.0
  */
-export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.some(NEA.tail(as)) : O.none)
+export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.some(NEA.tail(as)) : _.none)
 
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
@@ -367,7 +367,7 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.s
  * @category destructors
  * @since 2.0.0
  */
-export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? O.some(NEA.init(as)) : O.none)
+export const init = <A>(as: Array<A>): Option<Array<A>> => (isNonEmpty(as) ? _.some(NEA.init(as)) : _.none)
 
 /**
  * Keep only a max number of elements from the start of an `Array`, creating a new `Array`.
@@ -657,7 +657,7 @@ export const copy = <A>(as: Array<A>): Array<A> => as.slice()
  * @since 2.0.0
  */
 export const insertAt = <A>(i: number, a: A) => (as: Array<A>): Option<NonEmptyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+  i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -686,7 +686,7 @@ export const updateAt = <A>(i: number, a: A): ((as: Array<A>) => Option<Array<A>
  * @since 2.0.0
  */
 export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeDeleteAt(i, as))
+  isOutOfBound(i, as) ? _.none : _.some(unsafeDeleteAt(i, as))
 
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
@@ -703,7 +703,7 @@ export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> =>
  * @since 2.0.0
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (as: Array<A>): Option<Array<A>> =>
-  isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as))
+  isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as))
 
 /**
  * Reverse an array, creating a new array
@@ -1349,7 +1349,7 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
   const out: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
-    if (O.isSome(optionB)) {
+    if (_.isSome(optionB)) {
       out.push(optionB.value)
     }
   }
@@ -1611,7 +1611,7 @@ export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<
   let bb: B = b
   while (true) {
     const mt = f(bb)
-    if (O.isSome(mt)) {
+    if (_.isSome(mt)) {
       const [a, b] = mt.value
       out.push(a)
       bb = b
@@ -2082,7 +2082,7 @@ export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmp
  */
 export const Do: Array<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

@@ -19,6 +19,7 @@ import {
 } from './FromTask'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
@@ -425,7 +426,7 @@ export const chainFirstTaskK =
  */
 export const Do: ReaderTask<unknown, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0

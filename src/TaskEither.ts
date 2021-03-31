@@ -50,6 +50,7 @@ import {
 } from './FromTask'
 import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
@@ -256,7 +257,7 @@ export const getOrElseW: <E, B>(
  * @since 2.0.0
  */
 export const tryCatch = <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
-  f().then(E.right, (reason) => E.left(onRejected(reason)))
+  f().then(_.right, (reason) => _.left(onRejected(reason)))
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
@@ -1029,7 +1030,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
     const args = Array.prototype.slice.call(arguments)
     return () =>
       new Promise((resolve) => {
-        const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
+        const cbResolver = (e: L, r: R) => (e != null ? resolve(_.left(e)) : resolve(_.right(r)))
         f.apply(null, args.concat(cbResolver))
       })
   }
@@ -1072,7 +1073,7 @@ export const bracket = <E, A, B>(
  */
 export const Do: TaskEither<never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0
@@ -1162,17 +1163,17 @@ export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => T
   as.reduce<Promise<Either<E, Array<B>>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
-        E.isLeft(ebs)
+        _.isLeft(ebs)
           ? acc
           : f(i, a)().then((eb) => {
-              if (E.isLeft(eb)) {
+              if (_.isLeft(eb)) {
                 return eb
               }
               ebs.right.push(eb.right)
               return ebs
             })
       ),
-    Promise.resolve(E.right([]))
+    Promise.resolve(_.right([]))
   )
 
 /**

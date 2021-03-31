@@ -3,7 +3,7 @@
  */
 import { Applicative } from './Applicative'
 import { Compactable2 } from './Compactable'
-import { Either, isLeft } from './Either'
+import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
@@ -12,6 +12,7 @@ import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { pipe, Predicate, Refinement } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
@@ -122,7 +123,7 @@ export function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K,
   return (d) => {
     const kas = toArrayO(d)
     const len = kas.length
-    return U.unfold(0, (b) => (b < len ? O.some([kas[b], b + 1]) : O.none))
+    return U.unfold(0, (b) => (b < len ? _.some([kas[b], b + 1]) : _.none))
   }
 }
 
@@ -138,7 +139,7 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
       const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
+      if (_.isNone(found)) {
         const out = new Map(m)
         out.set(k, a)
         return out
@@ -162,7 +163,7 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: Map<K, A>) => Map<K, A>
   const lookupWithKeyE = lookupWithKey(E)
   return (k) => (m) => {
     const found = lookupWithKeyE(k, m)
-    if (O.isSome(found)) {
+    if (_.isSome(found)) {
       const r = new Map(m)
       r.delete(found.value[0])
       return r
@@ -186,12 +187,12 @@ export const modifyAt = <K>(E: Eq<K>): (<A>(k: K, f: (a: A) => A) => (m: Map<K, 
   const lookupWithKeyE = lookupWithKey(E)
   return (k, f) => (m) => {
     const found = lookupWithKeyE(k, m)
-    if (O.isNone(found)) {
-      return O.none
+    if (_.isNone(found)) {
+      return _.none
     }
     const r = new Map(m)
     r.set(found.value[0], f(found.value[1]))
-    return O.some(r)
+    return _.some(r)
   }
 }
 
@@ -245,10 +246,10 @@ export function lookupWithKey<K>(
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (E.equals(ka, k)) {
-        return O.some([ka, a])
+        return _.some([ka, a])
       }
     }
-    return O.none
+    return _.none
   }
 }
 
@@ -308,7 +309,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
-        if (O.isSome(mxOptA)) {
+        if (_.isSome(mxOptA)) {
           r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
         } else {
           r.set(k, a)
@@ -355,7 +356,7 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
     const lookupWithKeyE = lookupWithKey(E)
     return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyE(k, b)
-      if (O.isSome(bOpt)) {
+      if (_.isSome(bOpt)) {
         b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
         b.set(k, a)
@@ -392,7 +393,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
@@ -436,7 +437,7 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
-    if (O.isSome(o)) {
+    if (_.isSome(o)) {
       m.set(k, o.value)
     }
   }
@@ -493,7 +494,7 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
-    if (O.isSome(oa)) {
+    if (_.isSome(oa)) {
       m.set(k, oa.value)
     }
   }
@@ -561,7 +562,7 @@ export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
