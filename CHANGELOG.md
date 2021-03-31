@@ -17,18 +17,47 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.11
 
+- **Deprecation**
+  - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
+    - `collect`
+    - `reduce`
+    - `foldMap`
+    - `reduceRight`
+    - `reduceWithIndex`
+    - `foldMapWithIndex`
+    - `reduceRightWithIndex`
+    - `getShow`
+    - deprecate `Foldable` in favour of `getFoldable` (@anthonyjoeseph)
+    - deprecate `FoldableWithIndex` in favour of `getFoldableWithIndex` (@anthonyjoeseph)
+    - deprecate `Traversable` in favour of `getTraversable` (@anthonyjoeseph)
+    - deprecate `TraversableWithIndex` in favour of `getTraversableWithIndex` (@anthonyjoeseph)
+    - deprecate `Witherable` in favour of `getWitherable` (@anthonyjoeseph)
 - **New Feature**
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)
     - add `filterE`
+    - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `ChainRecBreadthFirst` instance (@qlonik)
+  - `function`
+    - add `SK` (@cdimitroulas)
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
+    - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `ChainRecBreadthFirst` instance (@qlonik)
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+  - `ReadonlyRecord`
+    - add `union` (@anthonyjoeseph)
+    - add `intersection` (@anthonyjoeseph)
+    - add `difference` (@anthonyjoeseph)
+    - add `getUnionSemigroup` (@anthonyjoeseph)
+    - add `getUnionMonoid` (@anthonyjoeseph)
+    - add `getIntersectionSemigroup` (@anthonyjoeseph)
+    - add `getDifferenceMagma` (@anthonyjoeseph)
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
   - `TaskOption`

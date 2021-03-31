@@ -52,11 +52,6 @@ export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
  */
 export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = RR.keys as any
 
-/**
- *
- * @internal
- * @since 2.11.0
- */
 const keysWithOrd = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): ReadonlyArray<K> =>
   (Object.keys(r) as any).sort(O.compare)
 
@@ -76,11 +71,9 @@ const keysWithOrd = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>
  * @since 2.0.0
  */
 export function collect(O: Ord<string>): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => Array<B>
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.0.0
  * @deprecated
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B>
@@ -245,16 +238,14 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
 export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B> = RR.map
 
 /**
- * @since 2.11.0
+ * @since 2.0.0
  */
 export function reduceWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: Record<K, A>) => B
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.0.0
  * @deprecated
  */
 export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B
@@ -276,11 +267,9 @@ export function reduceWithIndex(
 export function foldMapWithIndex(
   O: Ord<string>
 ): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.0.0
  * @deprecated
  */
 export function foldMapWithIndex<M>(
@@ -299,16 +288,14 @@ export function foldMapWithIndex(
 }
 
 /**
- * @since 2.11.0
+ * @since 2.0.0
  */
 export function reduceRightWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: Record<K, A>) => B
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.0.0
  * @deprecated
  */
 export function reduceRightWithIndex<K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B): (fa: Record<K, A>) => B
@@ -691,12 +678,10 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>
  * @since 2.0.0
  */
 export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
  * @category Foldable
- * @since 2.0.0
  * @deprecated
  */
 export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
@@ -736,12 +721,10 @@ export const partitionMap: <A, B, C>(
  * @since 2.0.0
  */
 export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
  * @category Foldable
- * @since 2.0.0
  * @deprecated
  */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
@@ -756,17 +739,16 @@ export function reduce(
   }
   return RR.reduce(args[0])
 }
+
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
  * @category Foldable
- * @since 2.0.0
  * @deprecated
  */
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
@@ -822,12 +804,10 @@ declare module './HKT' {
  * @since 2.0.0
  */
 export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, A>>
-
 /**
- * Use the other overload
+ * Use the overload constrained by `Ord` instead.
  *
  * @category instances
- * @since 2.0.0
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<Record<string, A>>
@@ -892,7 +872,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getFoldable` instead
+ * Use `getFoldable` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -907,7 +887,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.11.0
  */
 export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
   URI,
@@ -917,7 +897,7 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
 })
 
 /**
- * Use `getFoldableWithIndex` instead
+ * Use `getFoldableWithIndex` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -935,7 +915,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.11.0
  */
 export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string> => ({
   URI,
@@ -993,7 +973,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getTraversable` instead
+ * Use `getTraversable` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1008,6 +988,7 @@ export const Traversable: Traversable1<URI> = {
   traverse: _traverse,
   sequence
 }
+
 /**
  * @category instances
  * @since 2.11.0
@@ -1023,7 +1004,7 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
 })
 
 /**
- * Use the `getTraversableWithIndex` instead
+ * Use the `getTraversableWithIndex` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1046,7 +1027,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.11.0
  */
 export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<URI, string> => ({
   URI,
@@ -1064,7 +1045,7 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
 })
 
 /**
- * Use `getWitherable` instead
+ * Use `getWitherable` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1090,7 +1071,7 @@ export const Witherable: Witherable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.11.0
  */
 export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
   URI,

@@ -223,7 +223,7 @@ export declare function reduceRight(
 export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Readonly<Record<string, A>>) => B
 ```
 
-Added in v2.11.0
+Added in v2.5.0
 
 # Witherable
 
@@ -470,7 +470,7 @@ Added in v2.5.0
 export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getFoldableWithIndex
 
@@ -577,7 +577,7 @@ Added in v2.11.0
 
 ## ~~FoldableWithIndex~~
 
-Use `getFoldableWithIndex` instead
+Use `getFoldableWithIndex` instead.
 
 **Signature**
 
@@ -589,7 +589,7 @@ Added in v2.7.0
 
 ## ~~Foldable~~
 
-Use `getFoldable` instead
+Use `getFoldable` instead.
 
 **Signature**
 
@@ -601,7 +601,7 @@ Added in v2.7.0
 
 ## ~~TraversableWithIndex~~
 
-Use `getTraversableWithIndex` instead
+Use `getTraversableWithIndex` instead.
 
 **Signature**
 
@@ -613,7 +613,7 @@ Added in v2.7.0
 
 ## ~~Traversable~~
 
-Use `getTraversable` instead
+Use `getTraversable` instead.
 
 **Signature**
 
@@ -625,7 +625,7 @@ Added in v2.7.0
 
 ## ~~Witherable~~
 
-Use `getWitherable` instead
+Use `getWitherable` instead.
 
 **Signature**
 
@@ -715,7 +715,7 @@ assert.deepStrictEqual(collect(Ord)((key, val) => ({ key: key, value: val }))(x)
 ])
 ```
 
-Added in v2.11.0
+Added in v2.5.0
 
 ## difference
 
@@ -798,7 +798,7 @@ export declare function foldMapWithIndex<M>(
 ): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 ```
 
-Added in v2.11.0
+Added in v2.5.0
 
 ## fromFoldable
 
@@ -1048,7 +1048,7 @@ export declare function reduceRightWithIndex<A, B>(
 ): (fa: ReadonlyRecord<string, A>) => B
 ```
 
-Added in v2.11.0
+Added in v2.5.0
 
 ## reduceWithIndex
 
@@ -1077,7 +1077,7 @@ export declare function reduceWithIndex(
 ): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 ```
 
-Added in v2.11.0
+Added in v2.5.0
 
 ## sequence
 

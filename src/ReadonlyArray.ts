@@ -2134,9 +2134,8 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 }
 
 /**
- * Exposing depth first recursion by default
  * @category instances
- * @since 2.10.0
+ * @since 2.11.0
  */
 export const ChainRecDepthFirst: ChainRec1<URI> = {
   URI,
@@ -2148,7 +2147,7 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
 
 /**
  * @category instances
- * @since 2.10.0
+ * @since 2.11.0
  */
 export const ChainRecBreadthFirst: ChainRec1<URI> = {
   URI,

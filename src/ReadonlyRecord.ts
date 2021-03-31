@@ -86,11 +86,6 @@ export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
 export const keys = <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
   (Object.keys(r) as any).sort()
 
-/**
- *
- * @internal
- * @since 2.11.0
- */
 const keysWithOrd = (O: Ord<string>) => <K extends string>(r: ReadonlyRecord<K, unknown>): ReadonlyArray<K> =>
   (Object.keys(r) as any).sort(O.compare)
 
@@ -107,17 +102,15 @@ const keysWithOrd = (O: Ord<string>) => <K extends string>(r: ReadonlyRecord<K, 
  *   [{ key: 'a', value: 'c' }, { key: 'b', value: false }]
  * )
  *
- * @since 2.11.0
+ * @since 2.5.0
  */
 export function collect(
   O: Ord<string>
 ): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
-
 /**
- * Use the other overload instead
+ * Use the overload constrained by `Ord` instead.
  *
  * @deprecated
- * @since 2.5.0
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
 export function collect(
@@ -359,7 +352,7 @@ export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => Re
 }
 
 /**
- * @since 2.11.0
+ * @since 2.5.0
  */
 export function reduceWithIndex(
   O: Ord<string>
@@ -367,11 +360,9 @@ export function reduceWithIndex(
 export function reduceWithIndex(
   O: Ord<string>
 ): <A, B>(b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
-
 /**
- * Use the other overloads instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.5.0
  * @deprecated
  */
 export function reduceWithIndex<K extends string, A, B>(
@@ -379,10 +370,6 @@ export function reduceWithIndex<K extends string, A, B>(
   f: (k: K, b: B, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => B
 export function reduceWithIndex<A, B>(b: B, f: (k: string, b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
-
-/**
- * @since 2.11.0
- */
 export function reduceWithIndex(
   O: Ord<string>
 ): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
@@ -422,7 +409,7 @@ export function reduceWithIndex(
 }
 
 /**
- * @since 2.11.0
+ * @since 2.5.0
  */
 export function foldMapWithIndex(
   O: Ord<string>
@@ -430,11 +417,9 @@ export function foldMapWithIndex(
 export function foldMapWithIndex(
   O: Ord<string>
 ): <M>(M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
-
 /**
- * Use the other overloads instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.5.0
  * @deprecated
  */
 export function foldMapWithIndex<M>(
@@ -443,7 +428,6 @@ export function foldMapWithIndex<M>(
 export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
-
 export function foldMapWithIndex(
   arg: Ord<string> | Monoid<unknown>
 ):
@@ -476,7 +460,7 @@ export function foldMapWithIndex(
 }
 
 /**
- * @since 2.11.0
+ * @since 2.5.0
  */
 export function reduceRightWithIndex(
   O: Ord<string>
@@ -484,11 +468,9 @@ export function reduceRightWithIndex(
 export function reduceRightWithIndex(
   O: Ord<string>
 ): <A, B>(b: B, f: (k: string, a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
-
 /**
- * Use the other overloads instead
+ * Use the overload constrained by `Ord` instead.
  *
- * @since 2.5.0
  * @deprecated
  */
 export function reduceRightWithIndex<K extends string, A, B>(
@@ -1205,17 +1187,15 @@ export function foldMap(
 
 /**
  * @category Foldable
- * @since 2.11.0
+ * @since 2.5.0
  */
 export function reduceRight(
   O: Ord<string>
 ): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
-
 /**
  * Use the other overload instead
  *
  * @category Foldable
- * @since 2.5.0
  * @deprecated
  */
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Readonly<Record<string, A>>) => B
@@ -1297,12 +1277,10 @@ declare module './HKT' {
  * @since 2.5.0
  */
 export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<ReadonlyRecord<string, A>>
-
 /**
  * Use the other overload instead
  *
  * @category instances
- * @since 2.5.0
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
@@ -1401,7 +1379,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getFoldable` instead
+ * Use `getFoldable` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1416,7 +1394,7 @@ export const Foldable: Foldable1<URI> = {
 
 /**
  * @category instances
- * @since 2.7.0
+ * @since 2.11.0
  */
 export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
   URI,
@@ -1426,7 +1404,7 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
 })
 
 /**
- * Use `getFoldableWithIndex` instead
+ * Use `getFoldableWithIndex` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1502,7 +1480,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
- * Use `getTraversable` instead
+ * Use `getTraversable` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1533,7 +1511,7 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
 })
 
 /**
- * Use `getTraversableWithIndex` instead
+ * Use `getTraversableWithIndex` instead.
  *
  * @category instances
  * @since 2.7.0
@@ -1574,7 +1552,7 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
 })
 
 /**
- * Use `getWitherable` instead
+ * Use `getWitherable` instead.
  *
  * @category instances
  * @since 2.7.0

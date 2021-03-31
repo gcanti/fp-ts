@@ -341,7 +341,7 @@ Added in v2.0.0
 export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getFoldableWithIndex
 
@@ -351,7 +351,7 @@ Added in v2.7.0
 export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getMonoid
 
@@ -404,7 +404,7 @@ Added in v2.11.0
 export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getWitherable
 
@@ -414,11 +414,11 @@ Added in v2.7.0
 export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## ~~FoldableWithIndex~~
 
-Use `getFoldableWithIndex` instead
+Use `getFoldableWithIndex` instead.
 
 **Signature**
 
@@ -430,7 +430,7 @@ Added in v2.7.0
 
 ## ~~Foldable~~
 
-Use `getFoldable` instead
+Use `getFoldable` instead.
 
 **Signature**
 
@@ -442,7 +442,7 @@ Added in v2.7.0
 
 ## ~~TraversableWithIndex~~
 
-Use the `getTraversableWithIndex` instead
+Use the `getTraversableWithIndex` instead.
 
 **Signature**
 
@@ -454,7 +454,7 @@ Added in v2.7.0
 
 ## ~~Traversable~~
 
-Use `getTraversable` instead
+Use `getTraversable` instead.
 
 **Signature**
 
@@ -466,7 +466,7 @@ Added in v2.7.0
 
 ## ~~Witherable~~
 
-Use `getWitherable` instead
+Use `getWitherable` instead.
 
 **Signature**
 
@@ -851,7 +851,7 @@ export declare function reduceRightWithIndex<K extends string, A, B>(
 ): (fa: Record<K, A>) => B
 ```
 
-Added in v2.11.0
+Added in v2.0.0
 
 ## reduceWithIndex
 
@@ -867,7 +867,7 @@ export declare function reduceWithIndex<K extends string, A, B>(
 ): (fa: Record<K, A>) => B
 ```
 
-Added in v2.11.0
+Added in v2.0.0
 
 ## sequence
 

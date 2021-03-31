@@ -117,6 +117,8 @@ Added in v2.5.0
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
+  - [ChainRecBreadthFirst](#chainrecbreadthfirst)
+  - [ChainRecDepthFirst](#chainrecdepthfirst)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
@@ -1626,6 +1628,26 @@ export declare const Chain: Chain1<'ReadonlyArray'>
 ```
 
 Added in v2.10.0
+
+## ChainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecBreadthFirst: ChainRec1<'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
+## ChainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecDepthFirst: ChainRec1<'ReadonlyArray'>
+```
+
+Added in v2.11.0
 
 ## Compactable
 

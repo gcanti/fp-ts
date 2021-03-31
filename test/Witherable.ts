@@ -3,13 +3,14 @@ import * as RT from '../src/ReaderTask'
 import * as RA from '../src/ReadonlyArray'
 import * as RR from '../src/ReadonlyRecord'
 import * as T from '../src/Task'
+import * as S from '../src/string'
 import * as _ from '../src/Witherable'
 import * as U from './util'
 
 describe('Witherable', () => {
   describe('filterE', () => {
     const filterERA = _.filterE(RA.Witherable)
-    const filterERR = _.filterE(RR.Witherable)
+    const filterERR = _.filterE(RR.getWitherable(S.Ord))
 
     it('Applicative1', async () => {
       const f = (n: number) => T.of(n % 2 === 0)
