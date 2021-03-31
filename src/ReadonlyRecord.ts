@@ -27,7 +27,7 @@ import * as S from './string'
 import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1043,23 +1043,6 @@ const _traverseWithIndex = <F>(
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-/* istanbul ignore next */
-const _wither = <F>(
-  F: Applicative<F>
-): (<A, B>(fa: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const _wilt = <F>(
-  F: Applicative<F>
-): (<A, B, C>(
-  fa: ReadonlyRecord<string, A>,
-  f: (a: A) => HKT<F, Either<B, C>>
-) => HKT<F, Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -1459,23 +1442,26 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
  * @category instances
  * @since 2.11.0
  */
-export const getWitherable: (O: Ord<string>) => Witherable1<URI> = (O) => ({
-  URI,
-  map: _map,
-  reduce: _reduce(O),
-  foldMap: _foldMap(O),
-  reduceRight: _reduceRight(O),
-  traverse: _traverse,
-  sequence,
-  compact,
-  separate,
-  filter: _filter,
-  filterMap: _filterMap,
-  partition: _partition,
-  partitionMap: _partitionMap,
-  wither: _wither,
-  wilt: _wilt
-})
+export const getWitherable = (O: Ord<string>): Witherable1<URI> => {
+  const T = getTraversable(O)
+  return {
+    URI,
+    map: _map,
+    reduce: _reduce(O),
+    foldMap: _foldMap(O),
+    reduceRight: _reduceRight(O),
+    traverse: T.traverse,
+    sequence: T.sequence,
+    compact,
+    separate,
+    filter: _filter,
+    filterMap: _filterMap,
+    partition: _partition,
+    partitionMap: _partitionMap,
+    wither: witherDefault(T, Compactable),
+    wilt: wiltDefault(T, Compactable)
+  }
+}
 
 /**
  * @category instances
@@ -1589,6 +1575,11 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   sequence,
   traverseWithIndex: _traverseWithIndex
 }
+
+// tslint:disable-next-line: deprecation
+const _wither = witherDefault(Traversable, Compactable)
+// tslint:disable-next-line: deprecation
+const _wilt = wiltDefault(Traversable, Compactable)
 
 /**
  * Use `getWitherable` instead.

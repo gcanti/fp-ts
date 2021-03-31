@@ -35,7 +35,14 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { filterE as filterE_, PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import {
+  filterE as filterE_,
+  PipeableWilt1,
+  PipeableWither1,
+  Witherable1,
+  wiltDefault,
+  witherDefault
+} from './Witherable'
 
 import NonEmptyArray = NEA.NonEmptyArray
 
@@ -1263,20 +1270,6 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
 /* istanbul ignore next */
-const _wither: Witherable1<URI>['wither'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const _wilt: Witherable1<URI>['wilt'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B, C>(fa: Array<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Array<B>, Array<C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
-/* istanbul ignore next */
 const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecDepthFirst.chainRec as any
 /* istanbul ignore next */
 const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecBreadthFirst.chainRec as any
@@ -1589,8 +1582,8 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 export const wither: PipeableWither1<URI> = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: Array<A>) => HKT<F, Array<B>>) => {
-  const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), compact)
+  const _witherF = _wither(F)
+  return (f) => (fa) => _witherF(fa, f)
 }
 
 /**
@@ -1600,8 +1593,8 @@ export const wither: PipeableWither1<URI> = <F>(
 export const wilt: PipeableWilt1<URI> = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (fa: Array<A>) => HKT<F, Separated<Array<B>, Array<C>>>) => {
-  const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), separate)
+  const _wiltF = _wilt(F)
+  return (f) => (fa) => _wiltF(fa, f)
 }
 
 /**
@@ -1978,6 +1971,9 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   sequence,
   traverseWithIndex: _traverseWithIndex
 }
+
+const _wither: Witherable1<URI>['wither'] = witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances

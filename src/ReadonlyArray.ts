@@ -36,7 +36,14 @@ import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
-import { filterE as filterE_, PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import {
+  filterE as filterE_,
+  PipeableWilt1,
+  PipeableWither1,
+  Witherable1,
+  wiltDefault,
+  witherDefault
+} from './Witherable'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -1323,23 +1330,6 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-/* istanbul ignore next */
-const _wither: Witherable1<URI>['wither'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(ta: ReadonlyArray<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyArray<B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const _wilt: Witherable1<URI>['wilt'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B, C>(
-  fa: ReadonlyArray<A>,
-  f: (a: A) => HKT<F, Either<B, C>>
-) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
 const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
   a: A,
   f: (a: A) => ReadonlyArray<Either<A, B>>
@@ -1727,8 +1717,8 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
 export const wither: PipeableWither1<URI> = <F>(
   F: ApplicativeHKT<F>
 ): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: ReadonlyArray<A>) => HKT<F, ReadonlyArray<B>>) => {
-  const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), compact)
+  const _witherF = _wither(F)
+  return (f) => (fa) => _witherF(fa, f)
 }
 
 /**
@@ -1740,8 +1730,8 @@ export const wilt: PipeableWilt1<URI> = <F>(
 ): (<A, B, C>(
   f: (a: A) => HKT<F, Either<B, C>>
 ) => (fa: ReadonlyArray<A>) => HKT<F, Separated<ReadonlyArray<B>, ReadonlyArray<C>>>) => {
-  const traverseF = traverse(F)
-  return (f) => (fa) => F.map(pipe(fa, traverseF(f)), separate)
+  const _wiltF = _wilt(F)
+  return (f) => (fa) => _wiltF(fa, f)
 }
 
 /**
@@ -2158,6 +2148,9 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   chain: _chain,
   chainRec: _chainRecBreadthFirst
 }
+
+const _wither: Witherable1<URI>['wither'] = witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances

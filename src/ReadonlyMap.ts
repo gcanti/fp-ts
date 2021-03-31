@@ -26,7 +26,7 @@ import { Show } from './Show'
 import { Traversable2C } from './Traversable'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable2C } from './Witherable'
+import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 import Option = O.Option
 
@@ -985,21 +985,8 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     foldMapWithIndex: TWI.foldMapWithIndex,
     reduceRightWithIndex: TWI.reduceRightWithIndex,
     traverseWithIndex: TWI.traverseWithIndex,
-    wilt: <F>(
-      F: Applicative<F>
-    ): (<A, B, C>(
-      wa: ReadonlyMap<K, A>,
-      f: (a: A) => HKT<F, Either<B, C>>
-    ) => HKT<F, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
-      const traverseF = TWI.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), separate)
-    },
-    wither: <F>(
-      F: Applicative<F>
-    ): (<A, B>(wa: ReadonlyMap<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, ReadonlyMap<K, B>>) => {
-      const traverseF = TWI.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), compact)
-    }
+    wilt: wiltDefault(TWI, Compactable),
+    wither: witherDefault(TWI, Compactable)
   }
 }
 

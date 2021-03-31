@@ -98,6 +98,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromTaskEither` (@thewilkybarkid)
   - `Witherable`
     - add `filterE`, #1458 (@vinassefranche)
+    - add `wiltDefault`
+    - add `witherDefault`
 
 # 2.10.0-rc.7
 

@@ -44,7 +44,7 @@ import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
-import { PipeableWilt1, PipeableWither1, Witherable1 } from './Witherable'
+import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -498,20 +498,6 @@ const _partition: Filterable1<URI>['partition'] = <A>(fa: Option<A>, predicate: 
   pipe(fa, partition(predicate))
 /* istanbul ignore next */
 const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
-/* istanbul ignore next */
-const _wither: Witherable1<URI>['wither'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>) => {
-  const witherF = wither(F)
-  return (fa, f) => pipe(fa, witherF(f))
-}
-/* istanbul ignore next */
-const _wilt: Witherable1<URI>['wilt'] = <F>(
-  F: ApplicativeHKT<F>
-): (<A, B, C>(fa: Option<A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
-  const wiltF = wilt(F)
-  return (fa, f) => pipe(fa, wiltF(f))
-}
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -725,18 +711,22 @@ export const sequence: Traversable1<URI>['sequence'] = <F>(F: ApplicativeHKT<F>)
  * @category Witherable
  * @since 2.6.5
  */
-export const wither: PipeableWither1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, Option<B>>) => (
-  fa: Option<A>
-): HKT<F, Option<B>> => (isNone(fa) ? F.of(none) : f(fa.value))
+export const wither: PipeableWither1<URI> = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B>(f: (a: A) => HKT<F, Option<B>>) => (fa: Option<A>) => HKT<F, Option<B>>) => {
+  const _witherF = _wither(F)
+  return (f) => (fa) => _witherF(fa, f)
+}
 
 /**
  * @category Witherable
  * @since 2.6.5
  */
-export const wilt: PipeableWilt1<URI> = <F>(F: ApplicativeHKT<F>) => <A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (
-  fa: Option<A>
-): HKT<F, Separated<Option<B>, Option<C>>> => {
-  return isNone(fa) ? F.of(defaultSeparated) : F.map(f(fa.value), (e) => separated(getLeft(e), getRight(e)))
+export const wilt: PipeableWilt1<URI> = <F>(
+  F: ApplicativeHKT<F>
+): (<A, B, C>(f: (a: A) => HKT<F, Either<B, C>>) => (fa: Option<A>) => HKT<F, Separated<Option<B>, Option<C>>>) => {
+  const _wiltF = _wilt(F)
+  return (f) => (fa) => _wiltF(fa, f)
 }
 
 // -------------------------------------------------------------------------------------
@@ -1100,6 +1090,14 @@ export const Traversable: Traversable1<URI> = {
   traverse: _traverse,
   sequence
 }
+
+const _wither: Witherable1<URI>['wither'] =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+
+const _wilt: Witherable1<URI>['wilt'] =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
