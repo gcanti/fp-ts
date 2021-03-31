@@ -178,15 +178,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
     empty: monoids.map((m) => m.empty)
   } as any)
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const monoidVoid: Monoid<void> = {
-  concat: Se.semigroupVoid.concat,
-  empty: undefined
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -210,6 +201,19 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `void` module instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidVoid: Monoid<void> = {
+  // tslint:disable-next-line: deprecation
+  concat: Se.semigroupVoid.concat,
+  empty: undefined
+}
 
 /**
  * Use `tuple` instead.

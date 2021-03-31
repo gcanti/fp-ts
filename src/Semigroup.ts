@@ -232,12 +232,6 @@ export const first = <A = never>(): Semigroup<A> => ({ concat: identity })
  */
 export const last = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -264,6 +258,15 @@ export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `void` module instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
 
 /**
  * Use `object.getAssignSemigroup` instead.

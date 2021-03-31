@@ -24,6 +24,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Predicate`, use `Predicate` module instead.
     - deprecate `not`, use `Predicate` module instead.
     - deprecate `Refinement`, use `Refinement` module instead.
+  - `Monoid`
+    - deprecate `monoidVoid`, use `void` module instead.
   - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
     - `collect`
     - `reduce`
@@ -38,12 +40,15 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Traversable` in favour of `getTraversable` (@anthonyjoeseph)
     - deprecate `TraversableWithIndex` in favour of `getTraversableWithIndex` (@anthonyjoeseph)
     - deprecate `Witherable` in favour of `getWitherable` (@anthonyjoeseph)
+  - `Semigroup`
+    - deprecate `semigroupVoid`, use `void` module instead.
 - **New Feature**
   - add `Endomorphism` module
   - add `Predicate` module
   - add `Refinement` module
   - add `FromState` module
   - add `FromThese` module
+  - add `void` module
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)

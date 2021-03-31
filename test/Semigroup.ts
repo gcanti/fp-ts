@@ -36,6 +36,7 @@ describe('Semigroup', () => {
   })
 
   it('semigroupVoid', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.semigroupVoid.concat(undefined, undefined), undefined)
   })
 
