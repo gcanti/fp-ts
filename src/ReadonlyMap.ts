@@ -741,6 +741,48 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => {
+  const unionES = union(E, S)
+  return {
+    concat: (first, second) => unionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
+  concat: getUnionSemigroup(E, S).concat,
+  empty
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<ReadonlyMap<K, A>> => {
+  const intersectionES = intersection(E, S)
+  return {
+    concat: (first, second) => intersectionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A>> => {
+  const differenceE = difference(E)
+  return {
+    concat: (first, second) => differenceE(second)(first)
+  }
+}
+
+/**
+ * @category instances
  * @since 2.5.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -987,6 +1029,109 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     traverseWithIndex: TWI.traverseWithIndex,
     wilt: wiltDefault(TWI, Compactable),
     wither: witherDefault(TWI, Compactable)
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const union = <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const lookupE = lookup(E)
+  return (second) => (first) => {
+    if (isEmpty(first)) {
+      return second
+    }
+    if (isEmpty(second)) {
+      return first
+    }
+    const out: Map<K, A> = new Map()
+    const firstEntries = first.entries()
+    let e: Next<readonly [K, A]>
+    while (!(e = firstEntries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(second)
+      if (_.isSome(oka)) {
+        out.set(k, M.concat(a, oka.value))
+      } else {
+        out.set(k, a)
+      }
+    }
+    const secondEntries = second.entries()
+    while (!(e = secondEntries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(out)
+      if (_.isNone(oka)) {
+        out.set(k, a)
+      }
+    }
+    return out
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const intersection = <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+): ((second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const lookupE = lookup(E)
+  return (second) => (first) => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return empty
+    }
+    const out: Map<K, A> = new Map()
+    const entries = first.entries()
+    let e: Next<readonly [K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const oka = lookupE(k)(second)
+      if (_.isSome(oka)) {
+        out.set(k, M.concat(a, oka.value))
+      }
+    }
+    return out
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const difference = <K>(
+  E: Eq<K>
+): (<A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>) => {
+  const memberE = member(E)
+  return <A>(second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => {
+    if (isEmpty(first)) {
+      return second
+    }
+    if (isEmpty(second)) {
+      return first
+    }
+    const out: Map<K, A> = new Map()
+    const firstEntries = first.entries()
+    let e: Next<readonly [K, A]>
+    while (!(e = firstEntries.next()).done) {
+      const [k, a] = e.value
+      if (!memberE(k)(second)) {
+        out.set(k, a)
+      }
+    }
+    const secondEntries = second.entries()
+    while (!(e = secondEntries.next()).done) {
+      const [k, a] = e.value
+      if (!memberE(k)(first)) {
+        out.set(k, a)
+      }
+    }
+    return out
   }
 }
 

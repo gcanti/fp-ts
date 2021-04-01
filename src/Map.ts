@@ -597,6 +597,48 @@ declare module './HKT' {
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Map<K, A>> => {
+  const unionES = union(E, S)
+  return {
+    concat: (first, second) => unionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<Map<K, A>> => ({
+  concat: getUnionSemigroup(E, S).concat,
+  empty: new Map()
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Map<K, A>> => {
+  const intersectionES = intersection(E, S)
+  return {
+    concat: (first, second) => intersectionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<Map<K, A>> => {
+  const differenceE = difference(E)
+  return {
+    concat: (first, second) => differenceE(second)(first)
+  }
+}
+
+/**
+ * @category instances
  * @since 2.0.0
  */
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
@@ -797,6 +839,57 @@ export const Filterable: Filterable2<URI> = {
   filterMap: _filterMap,
   partition: _partition,
   partitionMap: _partitionMap
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+const copy = <K, A>(m: Map<K, A>): Map<K, A> => new Map(m)
+
+/**
+ * @since 2.11.0
+ */
+export const union = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const unionEM = RM.union(E, M)
+  return (second) => (first) => {
+    if (isEmpty(first)) {
+      return copy(second)
+    }
+    if (isEmpty(second)) {
+      return copy(first)
+    }
+    return unionEM(second)(first) as any
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const intersection = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const intersectionEM = RM.intersection(E, M)
+  return (second) => (first) => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return new Map()
+    }
+    return intersectionEM(second)(first) as any
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const differenceE = RM.difference(E)
+  return <A>(second: Map<K, A>) => (first: Map<K, A>) => {
+    if (isEmpty(first)) {
+      return copy(second)
+    }
+    if (isEmpty(second)) {
+      return copy(first)
+    }
+    return differenceE(second)(first) as any
+  }
 }
 
 // -------------------------------------------------------------------------------------

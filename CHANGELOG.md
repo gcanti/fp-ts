@@ -68,6 +68,14 @@ high state of flux, you're at risk of it changing without notice.
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`
+  - `Map`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
@@ -93,6 +101,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromEither`
     - add `FromEither` instance
     - add `fromEitherK`
+  - `ReadonlyMap`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`

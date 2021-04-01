@@ -1089,4 +1089,77 @@ describe('Map', () => {
       aa3
     )
   })
+
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, M.empty), x)
+    U.deepStrictEqual(M.concat(M.empty, x), x)
+    U.deepStrictEqual(M.concat(x, new Map()), x)
+    U.deepStrictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2'],
+        [{ id: 'd' }, 'd2']
+      ])
+    )
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const M = _.getIntersectionSemigroup(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, new Map()), new Map())
+    U.deepStrictEqual(M.concat(new Map(), x), new Map())
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2']
+      ])
+    )
+  })
+
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(eqUser)<string>()
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, new Map()), x)
+    U.deepStrictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'd' }, 'd2']
+      ])
+    )
+  })
 })
