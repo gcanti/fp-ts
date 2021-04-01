@@ -30,7 +30,14 @@ import { Eq } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { FromEither2 } from './FromEither'
+import {
+  chainOptionK as chainOptionK_,
+  filterOrElse as filterOrElse_,
+  FromEither2,
+  fromOption as fromOption_,
+  fromOptionK as fromOptionK_,
+  fromPredicate as fromPredicate_
+} from './FromEither'
 import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -38,7 +45,6 @@ import * as _ from './internal'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
@@ -117,67 +123,6 @@ export const left: <E = never, A = never>(e: E) => Either<E, A> = _.left
  * @since 2.0.0
  */
 export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
-
-/**
- * @example
- * import { fromOption, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import { none, some } from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     some(1),
- *     fromOption(() => 'error')
- *   ),
- *   right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     none,
- *     fromOption(() => 'error')
- *   ),
- *   left('error')
- * )
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A> = (onNone) => (ma) =>
-  ma._tag === 'None' ? left(onNone()) : right(ma.value)
-
-/**
- * @example
- * import { fromPredicate, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     1,
- *     fromPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     -1,
- *     fromPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   left('error')
- * )
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
-} = <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) => (predicate(a) ? right(a) : left(onFalse(a)))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -384,28 +329,6 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
 // -------------------------------------------------------------------------------------
 
 /**
- * @category combinators
- * @since 2.10.0
- */
-export const fromOptionK = <E>(
-  onNone: Lazy<E>
-): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>) => {
-  const from = fromOption(onNone)
-  return (f) => flow(f, from)
-}
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const chainOptionK = <E>(
-  onNone: Lazy<E>
-): (<A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>) => {
-  const from = fromOptionK(onNone)
-  return (f) => chain(from(f))
-}
-
-/**
  * Returns a `Right` if is a `Left` (and vice versa).
  *
  * @category combinators
@@ -431,64 +354,6 @@ export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: 
  * @since 2.0.0
  */
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @category combinators
- * @since 2.9.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
-} = <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): (<E1>(ma: Either<E1, A>) => Either<E1 | E2, A>) =>
-  chainW((a) => (predicate(a) ? right(a) : left(onFalse(a))))
-
-/**
- * @example
- * import { filterOrElse as filterOrElse, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     right(1),
- *     filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     right(-1),
- *     filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   left('error')
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     left('a'),
- *     filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   left('a')
- * )
- *
- * @category combinators
- * @since 2.0.0
- */
-export const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
-} = filterOrElseW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -1202,6 +1067,133 @@ export const FromEither: FromEither2<URI> = {
   URI,
   fromEither: identity
 }
+
+/**
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as O from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some(1),
+ *     E.fromOption(() => 'error')
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.none,
+ *     E.fromOption(() => 'error')
+ *   ),
+ *   E.left('error')
+ * )
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+/**
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     1,
+ *     E.fromPredicate((n) => n > 0)
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     -1,
+ *     E.fromPredicate((n) => n > 0)
+ *   ),
+ *   E.left(-1)
+ * )
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  chainOptionK_(FromEither, Chain)
+
+/**
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(-1),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.left('error')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.left('a')
+ * )
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_(FromEither, Chain)
+
+/**
+ * Less strict version of [`filterOrElse`](#filterOrElse).
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
+} = filterOrElse
 
 // -------------------------------------------------------------------------------------
 // utils

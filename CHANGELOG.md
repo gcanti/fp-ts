@@ -60,6 +60,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
+  - `Either`
+    - add `chainOptionK`
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`

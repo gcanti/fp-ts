@@ -87,6 +87,7 @@ export interface FromEither4<F extends URIS4> {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category constructors
  * @since 2.10.0
  */
 export function fromOption<F extends URIS4>(
@@ -110,6 +111,7 @@ export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma:
 }
 
 /**
+ * @category constructors
  * @since 2.10.0
  */
 export function fromPredicate<F extends URIS4>(
@@ -163,6 +165,7 @@ export function fromPredicate<F>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category combinators
  * @since 2.10.0
  */
 export function fromOptionK<F extends URIS4>(
@@ -206,6 +209,7 @@ export function fromOptionK<F>(
 }
 
 /**
+ * @category combinators
  * @since 2.10.0
  */
 export function chainOptionK<F extends URIS4>(
@@ -244,6 +248,7 @@ export function chainOptionK<F extends URIS2>(
 }
 
 /**
+ * @category combinators
  * @since 2.10.0
  */
 export function fromEitherK<F extends URIS4>(
@@ -274,6 +279,7 @@ export function fromEitherK<F>(
 }
 
 /**
+ * @category combinators
  * @since 2.10.0
  */
 export function chainEitherK<M extends URIS4>(
@@ -313,6 +319,7 @@ export function chainEitherK<M extends URIS2>(
 }
 
 /**
+ * @category combinators
  * @since 2.10.0
  */
 export function filterOrElse<M extends URIS4>(
