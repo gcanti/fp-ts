@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import * as A from '../../src/Array'
+import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/StateReaderTaskEither'
 import { pipe } from '../../src/function'
 
@@ -11,11 +11,11 @@ Fastest is _.sequenceArray
 
 const suite = new Benchmark.Suite()
 
-const as = pipe(A.range(0, 1000), A.map(_.of))
+const as = pipe(RNEA.range(0, 1000), RNEA.map(_.of))
 
 suite
   .add('A.sequence(_.Applicative)', function () {
-    pipe(as, A.sequence(_.Applicative))
+    pipe(as, RNEA.sequence(_.Applicative))
   })
   .add('_.sequenceArray', function () {
     pipe(as, _.sequenceArray)
