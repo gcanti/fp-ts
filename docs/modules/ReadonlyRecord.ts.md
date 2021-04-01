@@ -29,10 +29,13 @@ Added in v2.5.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
   - [filterMapWithIndex](#filtermapwithindex)
   - [flap](#flap)
+  - [intersection](#intersection)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
+  - [union](#union)
   - [upsertAt](#upsertat)
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
@@ -72,7 +75,6 @@ Added in v2.5.0
   - [ReadonlyRecord (type alias)](#readonlyrecord-type-alias)
 - [utils](#utils)
   - [collect](#collect)
-  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
@@ -81,7 +83,6 @@ Added in v2.5.0
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
-  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -98,7 +99,6 @@ Added in v2.5.0
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
-  - [union](#union)
   - [updateAt](#updateat)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
 
@@ -263,6 +263,18 @@ export declare function deleteAt<K extends string>(
 
 Added in v2.5.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(
+  second: Readonly<Record<string, A>>
+) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
+
 ## filterMapWithIndex
 
 **Signature**
@@ -286,6 +298,18 @@ export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) 
 ```
 
 Added in v2.10.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
 
 ## map
 
@@ -312,6 +336,18 @@ export declare function mapWithIndex<K extends string, A, B>(
 ```
 
 Added in v2.5.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
 
 ## upsertAt
 
@@ -717,18 +753,6 @@ assert.deepStrictEqual(collect(Ord)((key, val) => ({ key: key, value: val }))(x)
 
 Added in v2.5.0
 
-## difference
-
-**Signature**
-
-```ts
-export declare const difference: <A>(
-  second: Readonly<Record<string, A>>
-) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-Added in v2.11.0
-
 ## elem
 
 **Signature**
@@ -900,18 +924,6 @@ export declare const has: <K extends string>(k: string, r: Readonly<Record<K, un
 ```
 
 Added in v2.10.0
-
-## intersection
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-Added in v2.11.0
 
 ## isEmpty
 
@@ -1185,18 +1197,6 @@ export declare function traverseWithIndex<F>(
 ```
 
 Added in v2.5.0
-
-## union
-
-**Signature**
-
-```ts
-export declare const union: <A>(
-  M: Magma<A>
-) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-```
-
-Added in v2.11.0
 
 ## updateAt
 

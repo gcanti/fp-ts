@@ -76,6 +76,7 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -99,6 +100,7 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
+  - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
@@ -138,6 +140,7 @@ Added in v2.0.0
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
@@ -148,11 +151,15 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [~~array~~](#array)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
@@ -863,6 +870,16 @@ export declare const flatten: <A>(mma: A[][]) => A[]
 
 Added in v2.5.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
+```
+
+Added in v2.11.0
+
 ## intersection
 
 Creates an array of unique values that are included in all given arrays using a `Eq` for equality
@@ -1359,12 +1376,24 @@ export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray
 
 Added in v2.11.0
 
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: Either<E, A>) => A[]
+```
+
+Added in v2.11.0
+
 ## fromOption
 
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(ma: Option<A>) => A[]
+export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
 ```
 
 Added in v2.11.0
@@ -1946,6 +1975,16 @@ export declare const FoldableWithIndex: FoldableWithIndex1<'Array', number>
 
 Added in v2.7.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Array'>
+```
+
+Added in v2.11.0
+
 ## Functor
 
 **Signature**
@@ -2046,6 +2085,16 @@ export declare const Witherable: Witherable1<'Array'>
 
 Added in v2.7.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<A[]>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 Derives an `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -2070,6 +2119,16 @@ assert.strictEqual(E.equals(['a'], []), false)
 ```
 
 Added in v2.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -2138,6 +2197,26 @@ export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 ```
 
 Added in v2.0.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<A[]>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
+```
+
+Added in v2.11.0
 
 ## ~~array~~
 

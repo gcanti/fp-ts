@@ -28,10 +28,12 @@ Added in v2.0.0
   - [fromArray](#fromarray)
   - [singleton](#singleton)
 - [instances](#instances)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -235,6 +237,16 @@ Added in v2.0.0
 
 # instances
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<Set<A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -250,7 +262,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>>
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>>
 ```
 
 Added in v2.0.0
@@ -270,10 +282,20 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>>
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>>
 ```
 
 Added in v2.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>>
+```
+
+Added in v2.11.0
 
 # utils
 

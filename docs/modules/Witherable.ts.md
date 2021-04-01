@@ -16,6 +16,9 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [defaults](#defaults)
+  - [wiltDefault](#wiltdefault)
+  - [witherDefault](#witherdefault)
 - [type classes](#type-classes)
   - [Witherable (interface)](#witherable-interface)
   - [Witherable1 (interface)](#witherable1-interface)
@@ -47,6 +50,50 @@ Added in v2.0.0
   - [filterE](#filtere)
 
 ---
+
+# defaults
+
+## wiltDefault
+
+Return a `wilt` implementation from `Traversable` and `Compactable`.
+
+**Signature**
+
+```ts
+export declare function wiltDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2<W>
+): Witherable2C<W, E>['wilt']
+export declare function wiltDefault<W extends URIS2, E>(
+  T: Traversable2<W>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wilt']
+export declare function wiltDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wilt']
+export declare function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt']
+```
+
+Added in v3.0.0
+
+## witherDefault
+
+Return a `wither` implementation from `Traversable` and `Compactable`.
+
+**Signature**
+
+```ts
+export declare function witherDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2<W>
+): Witherable2C<W, E>['wither']
+export declare function witherDefault<W extends URIS2, E>(
+  T: Traversable2<W>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wither']
+export declare function witherDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wither']
+export declare function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither']
+```
+
+Added in v3.0.0
 
 # type classes
 

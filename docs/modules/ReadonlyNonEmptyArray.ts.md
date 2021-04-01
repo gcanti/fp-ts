@@ -64,6 +64,7 @@ Added in v2.5.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
   - [groupSort](#groupsort)
@@ -73,6 +74,7 @@ Added in v2.5.0
   - [reverse](#reverse)
   - [sort](#sort)
   - [splitAt](#splitat)
+  - [union](#union)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zip](#zip)
@@ -513,6 +515,16 @@ export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArr
 
 Added in v2.5.0
 
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.11.0
+
 ## group
 
 Group equal, consecutive elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
@@ -677,6 +689,18 @@ export declare const splitAt: (
 ```
 
 Added in v2.10.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  E: Eq<A>
+) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## unzip
 

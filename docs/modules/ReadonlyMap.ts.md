@@ -46,21 +46,27 @@ Added in v2.5.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getFunctorWithIndex](#getfunctorwithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~readonlyMap~~](#readonlymap)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -71,6 +77,7 @@ Added in v2.5.0
   - [pop](#pop)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
+  - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
 
@@ -414,6 +421,16 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -464,6 +481,16 @@ export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'R
 
 Added in v2.10.0
 
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getMonoid
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
@@ -506,6 +533,26 @@ export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithI
 
 Added in v2.10.0
 
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getWitherable
 
 **Signature**
@@ -542,6 +589,18 @@ export declare function collect<K>(
 
 Added in v2.5.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <K>(
+  E: Eq<K>
+) => <A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
+
 ## elem
 
 Test whether or not a value is a member of a map
@@ -568,6 +627,19 @@ export declare const empty: ReadonlyMap<never, never>
 ```
 
 Added in v2.5.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
 
 ## isEmpty
 
@@ -710,6 +782,19 @@ export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
 
 ## updateAt
 

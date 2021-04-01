@@ -1098,22 +1098,28 @@ export const fromOption =
 
 /**
  * @example
- * import * as E from 'fp-ts/Either'
+ * import { fromPredicate, left, right } from 'fp-ts/Either'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
  *     1,
- *     E.fromPredicate((n) => n > 0)
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
  *   ),
- *   E.right(1)
+ *   right(1)
  * )
  * assert.deepStrictEqual(
  *   pipe(
  *     -1,
- *     E.fromPredicate((n) => n > 0)
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
  *   ),
- *   E.left(-1)
+ *   left('error')
  * )
  *
  * @category constructors

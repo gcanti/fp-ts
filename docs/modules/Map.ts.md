@@ -41,17 +41,23 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~map\_~~](#map_)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -64,6 +70,7 @@ Added in v2.0.0
   - [size](#size)
   - [toArray](#toarray)
   - [toUnfoldable](#tounfoldable)
+  - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
   - [~~empty~~](#empty)
@@ -345,6 +352,16 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<Map<K, A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -374,6 +391,16 @@ export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C
 ```
 
 Added in v2.10.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<Map<K, A>>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -406,6 +433,26 @@ export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithI
 ```
 
 Added in v2.10.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<Map<K, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<Map<K, A>>
+```
+
+Added in v2.11.0
 
 ## getWitherable
 
@@ -441,6 +488,16 @@ export declare function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (
 
 Added in v2.0.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <K>(E: Eq<K>) => <A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
+
 ## elem
 
 Test whether or not a value is a member of a map
@@ -452,6 +509,19 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 ```
 
 Added in v2.0.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
 
 ## isEmpty
 
@@ -609,6 +679,16 @@ export declare function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d
 ```
 
 Added in v2.0.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <K, A>(E: Eq<K>, M: Magma<A>) => (second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
 
 ## updateAt
 

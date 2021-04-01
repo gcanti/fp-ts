@@ -28,7 +28,10 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [difference](#difference)
   - [flap](#flap)
+  - [intersection](#intersection)
+  - [union](#union)
   - [upsertAt](#upsertat)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -59,7 +62,6 @@ Added in v2.0.0
 - [utils](#utils)
   - [collect](#collect)
   - [deleteAt](#deleteat)
-  - [difference](#difference)
   - [elem](#elem)
   - [every](#every)
   - [filterMapWithIndex](#filtermapwithindex)
@@ -68,7 +70,6 @@ Added in v2.0.0
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
-  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubrecord](#issubrecord)
   - [keys](#keys)
@@ -89,7 +90,6 @@ Added in v2.0.0
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
-  - [union](#union)
   - [updateAt](#updateat)
   - [~~empty~~](#empty)
   - [~~hasOwnProperty (function)~~](#hasownproperty-function)
@@ -234,6 +234,16 @@ Added in v2.6.5
 
 # combinators
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -245,6 +255,30 @@ export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) =>
 ```
 
 Added in v2.10.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
 
 ## upsertAt
 
@@ -583,16 +617,6 @@ export declare function deleteAt<K extends string>(
 
 Added in v2.0.0
 
-## difference
-
-**Signature**
-
-```ts
-export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-Added in v2.11.0
-
 ## elem
 
 **Signature**
@@ -761,18 +785,6 @@ export declare const has: <K extends string>(k: string, r: Record<K, unknown>) =
 ```
 
 Added in v2.10.0
-
-## intersection
-
-**Signature**
-
-```ts
-export declare const intersection: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-Added in v2.11.0
 
 ## isEmpty
 
@@ -1083,18 +1095,6 @@ export declare function traverseWithIndex<F>(
 ```
 
 Added in v2.0.0
-
-## union
-
-**Signature**
-
-```ts
-export declare const union: <A>(
-  M: Magma<A>
-) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
-```
-
-Added in v2.11.0
 
 ## updateAt
 

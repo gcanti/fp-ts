@@ -502,7 +502,7 @@ export declare const chainOptionK: <E>(
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.10.0
+Added in v2.11.0
 
 ## duplicate
 
@@ -522,7 +522,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
@@ -530,38 +530,38 @@ export declare const filterOrElse: {
 **Example**
 
 ```ts
-import { filterOrElse as filterOrElse, left, right } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
-    right(1),
-    filterOrElse(
+    E.right(1),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  right(1)
+  E.right(1)
 )
 assert.deepStrictEqual(
   pipe(
-    right(-1),
-    filterOrElse(
+    E.right(-1),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  left('error')
+  E.left('error')
 )
 assert.deepStrictEqual(
   pipe(
-    left('a'),
-    filterOrElse(
+    E.left('a'),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  left('a')
+  E.left('a')
 )
 ```
 
@@ -625,9 +625,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
+export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```
 
 Added in v2.10.0
@@ -683,23 +681,23 @@ export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => E
 **Example**
 
 ```ts
-import { fromOption, left, right } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
-import { none, some } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 
 assert.deepStrictEqual(
   pipe(
-    some(1),
-    fromOption(() => 'error')
+    O.some(1),
+    E.fromOption(() => 'error')
   ),
-  right(1)
+  E.right(1)
 )
 assert.deepStrictEqual(
   pipe(
-    none,
-    fromOption(() => 'error')
+    O.none,
+    E.fromOption(() => 'error')
   ),
-  left('error')
+  E.left('error')
 )
 ```
 
@@ -711,7 +709,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
 }
 ```

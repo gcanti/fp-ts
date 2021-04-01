@@ -75,6 +75,7 @@ Added in v2.5.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependAll](#prependall)
@@ -97,6 +98,9 @@ Added in v2.5.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
@@ -125,6 +129,7 @@ Added in v2.5.0
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
@@ -135,11 +140,15 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [~~readonlyArray~~](#readonlyarray)
 - [interop](#interop)
   - [fromArray](#fromarray)
@@ -871,6 +880,16 @@ export declare const flatten: <A>(mma: readonly (readonly A[])[]) => readonly A[
 
 Added in v2.5.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
 ## intersection
 
 Creates an array of unique values that are included in all given arrays using a `Eq` for equality
@@ -1365,6 +1384,39 @@ export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.Rea
 
 Added in v2.11.0
 
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
+```
+
+Added in v2.11.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
+```
+
+Added in v2.11.0
+
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1707,6 +1759,16 @@ export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyArray', numb
 
 Added in v2.7.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
 ## Functor
 
 **Signature**
@@ -1807,6 +1869,16 @@ export declare const Witherable: Witherable1<'ReadonlyArray'>
 
 Added in v2.7.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<readonly A[]>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 Derives an `Eq` over the `ReadonlyArray` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1831,6 +1903,16 @@ assert.strictEqual(E.equals(['a'], []), false)
 ```
 
 Added in v2.5.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -1899,6 +1981,26 @@ export declare const getShow: <A>(S: Show<A>) => Show<readonly A[]>
 ```
 
 Added in v2.5.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<readonly A[]>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
+```
+
+Added in v2.11.0
 
 ## ~~readonlyArray~~
 

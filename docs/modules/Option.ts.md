@@ -61,10 +61,12 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
   - [fromEither](#fromeither)
@@ -93,6 +95,7 @@ Added in v2.0.0
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
   - [Foldable](#foldable-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
@@ -456,6 +459,16 @@ export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) =
 
 Added in v2.0.0
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.11.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -506,6 +519,16 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 ```
 
 Added in v2.0.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Option<B>
+```
+
+Added in v2.11.0
 
 ## ~~mapNullable~~
 
@@ -886,6 +909,16 @@ export declare const Foldable: Foldable1<'Option'>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Option'>
+```
+
+Added in v2.11.0
 
 ## Functor
 

@@ -58,6 +58,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
   - [groupSort](#groupsort)
@@ -68,6 +69,7 @@ Added in v2.0.0
   - [reverse](#reverse)
   - [sort](#sort)
   - [splitAt](#splitat)
+  - [union](#union)
   - [unzip](#unzip)
   - [updateAt](#updateat)
   - [zip](#zip)
@@ -437,6 +439,16 @@ export declare const foldMapWithIndex: <S>(
 
 Added in v2.0.0
 
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<NonEmptyArray<A>>
+```
+
+Added in v2.11.0
+
 ## group
 
 Group equal, consecutive elements of an array into non empty arrays.
@@ -604,6 +616,16 @@ export declare const splitAt: (n: number) => <A>(as: NonEmptyArray<A>) => [NonEm
 ```
 
 Added in v2.10.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(E: Eq<A>) => (second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## unzip
 
