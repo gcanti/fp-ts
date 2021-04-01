@@ -59,7 +59,10 @@ Added in v2.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [orElse](#orelse)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
+  - [orLeft](#orleft)
   - [swap](#swap)
   - [~~local~~](#local)
 - [constructors](#constructors)
@@ -673,6 +676,30 @@ export declare const orElse: <R, E1, A, E2>(
 
 Added in v2.0.0
 
+## orElseFirst
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderTaskEither<R, E, B>
+) => <A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## orElseFirstW
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, R, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, B>
+) => <A>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## orElseW
 
 Less strict version of [`orElse`](#orElse).
@@ -686,6 +713,18 @@ export declare const orElseW: <E1, R1, E2, B>(
 ```
 
 Added in v2.10.0
+
+## orLeft
+
+**Signature**
+
+```ts
+export declare const orLeft: <E1, R, E2>(
+  onLeft: (e: E1) => RT.ReaderTask<R, E2>
+) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A>
+```
+
+Added in v3.0.0
 
 ## swap
 

@@ -250,6 +250,43 @@ describe('ReaderTaskEither', () => {
     )
   })
 
+  it('orElseW', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right(1),
+        _.orElseW((s: string) => _.right(s.length))
+      )({})(),
+      E.right(1)
+    )
+    U.deepStrictEqual(
+      await pipe(
+        _.left('error'),
+        _.orElseW((s) => _.right(s.length))
+      )({})(),
+      E.right(5)
+    )
+  })
+
+  it('orElseFirst', async () => {
+    const f = _.orElseFirst((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)({})(), E.left('aa!'))
+  })
+
+  it('orElseFirstW', async () => {
+    const f = _.orElseFirstW((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)({})(), E.left('aa!'))
+  })
+
+  it('orLeft', async () => {
+    const f = _.orLeft((s: string) => RT.of(s + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), f)({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)({})(), E.left('a!'))
+  })
+
   describe('MonadIO', () => {
     it('fromIO', async () => {
       U.deepStrictEqual(await _.fromIO(() => 1)({})(), E.right(1))

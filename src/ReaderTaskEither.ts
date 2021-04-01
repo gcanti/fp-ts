@@ -337,6 +337,34 @@ export const orElseW: <E1, R1, E2, B>(
 
 /**
  * @category combinators
+ * @since 3.0.0
+ */
+export const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderTaskEither<R, E, B>
+) => <A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/
+  ET.orElseFirst(RT.Monad)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseFirstW: <E1, R, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R, E2, B>
+) => <A>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orLeft: <E1, R, E2>(
+  onLeft: (e: E1) => ReaderTask<R, E2>
+) => <A>(fa: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> =
+  /*#__PURE__*/
+  ET.orLeft(RT.Monad)
+
+/**
+ * @category combinators
  * @since 2.0.0
  */
 export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, A, E> =
