@@ -16,6 +16,56 @@ pipe(
 )
 
 //
+// orElse
+//
+
+// $ExpectType TaskEither<number, never>
+pipe(
+  _.left('a'),
+  _.orElse((a) => _.left(a.length))
+)
+
+//
+// orElseW
+//
+
+// $ExpectType TaskEither<never, string | number>
+pipe(
+  _.left<string, string>('a'),
+  _.orElseW((a) => _.right(a.length))
+)
+
+//
+// orElseFirst
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirst((a) => _.right(a.length))
+)
+
+//
+// orElseFirstW
+//
+
+// $ExpectType TaskEither<string | number, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstW((a) => _.left(a.length))
+)
+
+//
+// orLeft
+//
+
+// $ExpectType TaskEither<number, never>
+pipe(
+  _.left('a'),
+  _.orLeft((a) => T.of(a.length))
+)
+
+//
 // chainW
 //
 
