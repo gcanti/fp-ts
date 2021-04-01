@@ -56,6 +56,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `filterE`
     - add `ChainRecDepthFirst` instance (@qlonik)
     - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`
@@ -69,6 +73,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `filterE`
     - add `ChainRecDepthFirst` instance (@qlonik)
     - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
   - `ReadonlyRecord`

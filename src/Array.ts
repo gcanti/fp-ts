@@ -20,6 +20,7 @@ import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
+import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import * as NEA from './NonEmptyArray'
@@ -39,8 +40,8 @@ import {
   filterE as filterE_,
   PipeableWilt1,
   PipeableWither1,
-  Witherable1,
   wiltDefault,
+  Witherable1,
   witherDefault
 } from './Witherable'
 
@@ -1707,6 +1708,48 @@ export const getEq: <A>(E: Eq<A>) => Eq<Array<A>> = RA.getEq
  * @since 2.0.0
  */
 export const getOrd: <A>(O: Ord<A>) => Ord<Array<A>> = RA.getOrd
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<Array<A>> => {
+  const unionE = union(E)
+  return {
+    concat: (first, second) => unionE(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<Array<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty: []
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<Array<A>> => {
+  const intersectionE = intersection(E)
+  return {
+    concat: (first, second) => intersectionE(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<Array<A>> => {
+  const differenceE = difference(E)
+  return {
+    concat: (first, second) => differenceE(second)(first)
+  }
+}
 
 /**
  * @category instances

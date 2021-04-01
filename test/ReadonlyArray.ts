@@ -1150,6 +1150,32 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([1, 2])), [])
   })
 
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(N.Eq)
+    const two: ReadonlyArray<number> = [1, 2]
+    U.deepStrictEqual(M.concat(two, [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(M.concat(two, [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(M.concat(two, [1, 2]), [1, 2])
+
+    U.strictEqual(M.concat(two, M.empty), two)
+    U.strictEqual(M.concat(M.empty, two), two)
+    U.strictEqual(M.concat(M.empty, M.empty), M.empty)
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const concat = _.getIntersectionSemigroup(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [2])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+  })
+
+  it('getDifferenceMagma', () => {
+    const concat = _.getDifferenceMagma(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [])
+  })
+
   it('should be safe when calling map with a binary function', () => {
     interface Foo {
       readonly bar: () => number
