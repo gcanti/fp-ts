@@ -82,12 +82,8 @@ export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(tr
  *
  * @since 2.11.0
  */
-export function prop<Path extends string, Value, Rest>(path: Path, obj: Record<Path, Value> & Rest): Value
-export function prop<Path extends string, Value, Rest>(path: Path): (obj: Record<Path, Value> & Rest) => Value
-export function prop<Path extends string, Value, Rest>(path: Path, obj?: Record<Path, Value & Rest>) {
-  if (typeof obj === 'object') {
-    return obj[path]
-  }
-
-  return (obj: Record<Path, Value> & Rest) => obj[path]
-}
+export const prop = <Path extends keyof A extends never ? string : keyof A, A>(path: Path) => <
+  B extends { [k in Path]: unknown }
+>(
+  obj: keyof A extends never ? B : A
+) => (obj as B)[path] as Path extends keyof A ? A[Path] : B[Path]
