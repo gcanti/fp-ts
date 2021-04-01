@@ -119,7 +119,16 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
 }
 
 /**
- * @internal
+ * Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+ *
+ * @example
+ * import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   if (as.length === 1) {
@@ -136,7 +145,43 @@ export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNon
 }
 
 /**
- * @internal
+ * Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+ * etc...
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { contramap } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ *
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
+ *
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
+ *
+ * const sortByNameByAge = RNEA.sortBy([byName, byAge])
+ *
+ * const persons: RNEA.ReadonlyNonEmptyArray<Person> = [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 },
+ *   { name: 'b', age: 2 }
+ * ]
+ *
+ * assert.deepStrictEqual(sortByNameByAge(persons), [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 2 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 }
+ * ])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const sortBy = <B>(
   ords: ReadonlyArray<Ord<B>>
@@ -160,7 +205,16 @@ export const union = <A>(
 }
 
 /**
- * @internal
+ * Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+ *
+ * @example
+ * import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   const len = as.length
@@ -212,6 +266,22 @@ export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyNonEmptyA
   }
   return out
 }
+
+/**
+ * Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const replicate = <A>(a: A): ((n: number) => ReadonlyNonEmptyArray<A>) => makeBy(() => a)
 
 /**
  * Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
@@ -270,6 +340,20 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(
+  second: ReadonlyArray<B>
+): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(first: ReadonlyNonEmptyArray<A | B>) => first.concat(second)
+}
 
 /**
  * @category combinators
@@ -1188,12 +1272,28 @@ export const modifyHead = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<
 ]
 
 /**
+ * Change the head, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateHead = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyHead(() => a)
+
+/**
  * Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
  *
  * @since 2.11.0
  */
 export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
   pipe(init(as), append(f(last(as))))
+
+/**
+ * Change the last element, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
 
 // -------------------------------------------------------------------------------------
 // deprecated

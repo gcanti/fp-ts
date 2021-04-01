@@ -525,4 +525,27 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(pipe(['a', 'b'], _.modifyLast(f)), ['a', 'b!'])
     U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyLast(f)), ['a', 'b', 'c!'])
   })
+
+  it('replicate', () => {
+    const f = _.replicate('a')
+    U.deepStrictEqual(pipe(0, f), ['a'])
+    U.deepStrictEqual(pipe(1, f), ['a'])
+    U.deepStrictEqual(pipe(2, f), ['a', 'a'])
+  })
+
+  it('updateHead', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateHead('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateHead('d')), ['d', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateHead('d')), ['d', 'b', 'c'])
+  })
+
+  it('updateLast', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateLast('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateLast('d')), ['a', 'd'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateLast('d')), ['a', 'b', 'd'])
+  })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe(['a'], _.concatW(['b'])), ['a', 'b'])
+  })
 })

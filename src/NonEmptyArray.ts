@@ -111,7 +111,16 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): NonEmp
 }
 
 /**
- * @internal
+ * Remove duplicates from a `NonEmptyArray`, keeping the first occurrence of an element.
+ *
+ * @example
+ * import { uniq } from 'fp-ts/NonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const uniq = <A>(E: Eq<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> => {
   if (as.length === 1) {
@@ -128,7 +137,43 @@ export const uniq = <A>(E: Eq<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> =>
 }
 
 /**
- * @internal
+ * Sort the elements of a `NonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+ * etc...
+ *
+ * @example
+ * import * as NEA from 'fp-ts/NonEmptyArray'
+ * import { contramap } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ *
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
+ *
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
+ *
+ * const sortByNameByAge = NEA.sortBy([byName, byAge])
+ *
+ * const persons: NEA.NonEmptyArray<Person> = [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 },
+ *   { name: 'b', age: 2 }
+ * ]
+ *
+ * assert.deepStrictEqual(sortByNameByAge(persons), [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 2 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 }
+ * ])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray<A>) => NonEmptyArray<A>) => {
   if (isNonEmpty(ords)) {
@@ -148,7 +193,16 @@ export const union = <A>(E: Eq<A>): ((second: NonEmptyArray<A>) => (first: NonEm
 }
 
 /**
- * @internal
+ * Rotate a `NonEmptyArray` by `n` steps.
+ *
+ * @example
+ * import { rotate } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const rotate = (n: number) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A> => {
   const len = as.length
@@ -208,6 +262,22 @@ export const makeBy = <A>(f: (i: number) => A) => (n: number): NonEmptyArray<A> 
 }
 
 /**
+ * Create a `NonEmptyArray` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { replicate } from 'fp-ts/NonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const replicate = <A>(a: A): ((n: number) => ReadonlyNonEmptyArray<A>) => makeBy(() => a)
+
+/**
  * Create a `NonEmptyArray` containing a range of integers, including both endpoints.
  *
  * @example
@@ -254,6 +324,16 @@ export const unappend = <A>(as: NonEmptyArray<A>): [Array<A>, A] => [init(as), l
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export function concatW<B>(second: NonEmptyArray<B>): <A>(first: Array<A>) => NonEmptyArray<A | B>
+export function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => NonEmptyArray<A | B>
+export function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => Array<A | B> {
+  return <A>(first: NonEmptyArray<A | B>) => first.concat(second)
+}
 
 // TODO: curry in v3
 /**
@@ -1134,12 +1214,28 @@ export const modifyHead = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): Non
 ]
 
 /**
+ * Change the head, creating a new `NonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateHead = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyHead(() => a)
+
+/**
  * Apply a function to the last element, creating a new `NonEmptyArray`.
  *
  * @since 2.11.0
  */
 export const modifyLast = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): NonEmptyArray<A> =>
   pipe(init(as), append(f(last(as))))
+
+/**
+ * Change the last element, creating a new `NonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateLast = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyLast(() => a)
 
 // -------------------------------------------------------------------------------------
 // deprecated
