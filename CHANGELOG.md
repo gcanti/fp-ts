@@ -87,6 +87,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid` (@anthonyjoeseph)
     - add `getIntersectionSemigroup` (@anthonyjoeseph)
     - add `getDifferenceMagma` (@anthonyjoeseph)
+  - `ReadonlySet`
+    - add `getUnionSemigroup`
+    - add `getDifferenceMagma`
   - `Record`
     - add `union`
     - add `intersection`
@@ -94,6 +97,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionSemigroup`
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+  - `Set`
+    - add `getUnionSemigroup`
     - add `getDifferenceMagma`
   - `StateReaderTaskEither`
     - add `fromStateK`

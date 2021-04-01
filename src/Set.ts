@@ -4,6 +4,7 @@
 import { Either } from './Either'
 import { Eq } from './Eq'
 import { identity } from './function'
+import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
@@ -255,24 +256,36 @@ export function difference<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> |
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.11.0
  */
-export function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>> {
-  return {
-    concat: union(E),
-    empty: new Set()
-  }
-}
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<Set<A>> => ({
+  concat: union(E)
+})
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> {
-  return {
-    concat: intersection(E)
-  }
-}
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<Set<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty: new Set()
+})
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<Set<A>> => ({
+  concat: intersection(E)
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<Set<A>> => ({
+  concat: difference(E)
+})
 
 /**
  * @since 2.0.0

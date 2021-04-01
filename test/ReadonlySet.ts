@@ -140,6 +140,11 @@ describe('ReadonlySet', () => {
     U.deepStrictEqual(IS.concat(_.empty, new Set([1, 3])), _.empty)
   })
 
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(N.Eq)
+    U.deepStrictEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+  })
+
   it('difference', () => {
     U.deepStrictEqual(_.difference(N.Eq)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
 

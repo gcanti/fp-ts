@@ -4,6 +4,7 @@
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
 import { identity } from './function'
+import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
@@ -292,24 +293,36 @@ export function difference<A>(
 
 /**
  * @category instances
- * @since 2.5.0
+ * @since 2.11.0
  */
-export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
-  return {
-    concat: union(E),
-    empty
-  }
-}
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
+  concat: union(E)
+})
 
 /**
  * @category instances
  * @since 2.5.0
  */
-export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
-  return {
-    concat: intersection(E)
-  }
-}
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty
+})
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
+  concat: intersection(E)
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
+  concat: difference(E)
+})
 
 /**
  * @since 2.5.0
