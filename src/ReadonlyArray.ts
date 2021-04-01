@@ -141,6 +141,12 @@ export const range = (start: number, end: number): ReadonlyArray<number> =>
  */
 export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () => a)
 
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------

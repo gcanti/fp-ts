@@ -154,9 +154,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
  * @category constructors
  * @since 2.11.0
  */
-export const fromOption = <A>(ma: Option<A>): Array<A> => {
-  return _.isSome(ma) ? [ma.value] : []
-}
+export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? [] : [ma.value])
 
 // -------------------------------------------------------------------------------------
 // destructors
