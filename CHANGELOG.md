@@ -50,6 +50,10 @@ high state of flux, you're at risk of it changing without notice.
   - add `FromThese` module
   - add `void` module
   - add `FromReader` module
+  - `Alt`
+    - add `altAll`
+  - `Alternative`
+    - add `altAll`
   - `Array`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `fromOption`, `fromPredicate` (@cdimitroulas)

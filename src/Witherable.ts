@@ -557,7 +557,7 @@ export interface PipeableWilt3<W extends URIS3> {
  * Return a `wilt` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
- * @since 3.0.0
+ * @since 2.11.0
  */
 export function wiltDefault<W extends URIS2, E>(T: Traversable2C<W, E>, C: Compactable2<W>): Witherable2C<W, E>['wilt']
 export function wiltDefault<W extends URIS2, E>(T: Traversable2<W>, C: Compactable2C<W, E>): Witherable2C<W, E>['wilt']
@@ -576,7 +576,7 @@ export function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable
  * Return a `wither` implementation from `Traversable` and `Compactable`.
  *
  * @category defaults
- * @since 3.0.0
+ * @since 2.11.0
  */
 export function witherDefault<W extends URIS2, E>(
   T: Traversable2C<W, E>,

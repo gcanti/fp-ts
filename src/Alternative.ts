@@ -14,7 +14,7 @@
  *
  * @since 2.0.0
  */
-import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4 } from './Alt'
+import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4, altAll as altAll_ } from './Alt'
 import {
   Applicative,
   Applicative1,
@@ -84,4 +84,30 @@ export interface Alternative3C<F extends URIS3, E> extends Applicative3C<F, E>, 
  */
 export interface Alternative4<F extends URIS4> extends Applicative4<F>, Alt4<F> {
   readonly zero: <S, R, E, A>() => Kind4<F, S, R, E, A>
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export function altAll<F extends URIS4>(
+  F: Alternative4<F>
+): <S, R, E, A>(as: ReadonlyArray<Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
+export function altAll<F extends URIS3>(
+  F: Alternative3<F>
+): <R, E, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+export function altAll<F extends URIS3, E>(
+  F: Alternative3C<F, E>
+): <R, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+export function altAll<F extends URIS2>(F: Alternative2<F>): <E, A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
+export function altAll<F extends URIS2, E>(
+  F: Alternative2C<F, E>
+): <A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
+export function altAll<F extends URIS>(F: Alternative1<F>): <A>(as: ReadonlyArray<Kind<F, A>>) => Kind<F, A>
+export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A>
+export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A> {
+  return altAll_(F)(F.zero())
 }
