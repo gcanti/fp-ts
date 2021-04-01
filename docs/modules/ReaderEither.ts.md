@@ -501,7 +501,7 @@ export declare const orElseFirst: <E, R, B>(
 ) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## orElseFirstW
 
@@ -513,7 +513,7 @@ export declare const orElseFirstW: <E1, R, E2, B>(
 ) => <A>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A>
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## orElseW
 
@@ -539,7 +539,7 @@ export declare const orLeft: <E1, R, E2>(
 ) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## swap
 
