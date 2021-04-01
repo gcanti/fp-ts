@@ -243,6 +243,30 @@ export const orElseW: <E1, E2, B>(
 
 /**
  * @category combinators
+ * @since 2.11.0
+ */
+export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> =
+  /*#__PURE__*/
+  ET.orElseFirst(I.Monad)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const orLeft: <E1, E2>(onLeft: (e: E1) => IO<E2>) => <A>(fa: IOEither<E1, A>) => IOEither<E2, A> =
+  /*#__PURE__*/
+  ET.orLeft(I.Monad)
+
+/**
+ * @category combinators
  * @since 2.0.0
  */
 export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =

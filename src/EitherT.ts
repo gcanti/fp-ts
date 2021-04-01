@@ -466,6 +466,82 @@ export function orElse<M>(
   return (onLeft) => (ma) => M.chain(ma, (e) => (E.isLeft(e) ? onLeft(e.left) : M.of(e)))
 }
 
+/**
+ * @since 2.11.0
+ */
+export function orElseFirst<M extends URIS3>(
+  M: Monad3<M>
+): <E, R, ME, B>(
+  onLeft: (e: E) => Kind3<M, R, ME, Either<E, B>>
+) => <A>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export function orElseFirst<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <E, R, B>(
+  onLeft: (e: E) => Kind3<M, R, ME, Either<E, B>>
+) => <A>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, Either<E, A>>
+export function orElseFirst<M extends URIS2>(
+  M: Monad2<M>
+): <E, ME, B>(
+  onLeft: (e: E) => Kind2<M, ME, Either<E, B>>
+) => <A>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export function orElseFirst<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E, B>(
+  onLeft: (e: E) => Kind2<M, ME, Either<E, B>>
+) => <A>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, Either<E, A>>
+export function orElseFirst<M extends URIS>(
+  M: Monad1<M>
+): <E, B>(onLeft: (e: E) => Kind<M, Either<E, B>>) => <A>(ma: Kind<M, Either<E, A>>) => Kind<M, Either<E, A>>
+export function orElseFirst<M>(
+  M: Monad<M>
+): <E, B>(onLeft: (e: E) => HKT<M, Either<E, B>>) => <A>(ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>>
+export function orElseFirst<M>(
+  M: Monad<M>
+): <E, B>(onLeft: (e: E) => HKT<M, Either<E, B>>) => <A>(ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, A>> {
+  const orElseM = orElse(M)
+  return (onLeft) => orElseM((e) => M.map(onLeft(e), (eb) => (E.isLeft(eb) ? eb : E.left(e))))
+}
+
+/**
+ * @since 2.11.0
+ */
+export function orLeft<M extends URIS3>(
+  M: Monad3<M>
+): <E1, R, ME, E2>(
+  onLeft: (e: E1) => Kind3<M, R, ME, E2>
+) => <A>(fa: Kind3<M, R, ME, Either<E1, A>>) => Kind3<M, R, ME, Either<E2, A>>
+export function orLeft<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <E1, R, E2>(
+  onLeft: (e: E1) => Kind3<M, R, ME, E2>
+) => <A>(fa: Kind3<M, R, ME, Either<E1, A>>) => Kind3<M, R, ME, Either<E2, A>>
+export function orLeft<M extends URIS2>(
+  M: Monad2<M>
+): <E1, ME, E2>(
+  onLeft: (e: E1) => Kind2<M, ME, E2>
+) => <A>(fa: Kind2<M, ME, Either<E1, A>>) => Kind2<M, ME, Either<E2, A>>
+export function orLeft<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <E1, E2>(onLeft: (e: E1) => Kind2<M, ME, E2>) => <A>(fa: Kind2<M, ME, Either<E1, A>>) => Kind2<M, ME, Either<E2, A>>
+export function orLeft<M extends URIS>(
+  M: Monad1<M>
+): <E1, E2>(onLeft: (e: E1) => Kind<M, E2>) => <A>(fa: Kind<M, Either<E1, A>>) => Kind<M, Either<E2, A>>
+export function orLeft<M>(
+  M: Monad<M>
+): <E1, E2>(onLeft: (e: E1) => HKT<M, E2>) => <A>(fa: HKT<M, Either<E1, A>>) => HKT<M, Either<E2, A>>
+export function orLeft<M>(
+  M: Monad<M>
+): <E1, E2>(onLeft: (e: E1) => HKT<M, E2>) => <A>(fa: HKT<M, Either<E1, A>>) => HKT<M, Either<E2, A>> {
+  return (onLeft) => (ma) =>
+    M.chain(
+      ma,
+      E.match(
+        (e) => M.map(onLeft(e), E.left),
+        (a) => M.of(E.right(a))
+      )
+    )
+}
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
