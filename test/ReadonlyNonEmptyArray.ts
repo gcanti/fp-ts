@@ -609,7 +609,7 @@ describe('ReadonlyNonEmptyArray', () => {
   })
 
   it('union', () => {
-    const concat = _.union(N.Eq)
+    const concat = _.getUnionSemigroup(N.Eq).concat
     U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
     U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
     U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])

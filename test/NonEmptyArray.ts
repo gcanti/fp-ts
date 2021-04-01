@@ -198,6 +198,13 @@ describe('NonEmptyArray', () => {
     })
   })
 
+  it('union', () => {
+    const concat = _.getUnionSemigroup(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+  })
+
   it('insertAt', () => {
     const make = (x: number) => ({ x })
     const a1 = make(1)

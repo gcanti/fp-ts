@@ -1198,9 +1198,9 @@ export function union<A>(
   return (first, second?) => {
     if (second === undefined) {
       const unionE = union(E)
-      return (ys) => unionE(ys, first)
+      return (second) => unionE(second, first)
     }
-    return isNonEmpty(first) && isNonEmpty(second) ? unionE(first, second) : isNonEmpty(first) ? first : second
+    return isNonEmpty(first) && isNonEmpty(second) ? unionE(second)(first) : isNonEmpty(first) ? first : second
   }
 }
 

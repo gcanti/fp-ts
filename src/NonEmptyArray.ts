@@ -139,11 +139,12 @@ export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray
 }
 
 /**
- * @internal
+ * @category combinators
+ * @since 2.11.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<NonEmptyArray<A>>['concat'] => {
+export const union = <A>(E: Eq<A>): ((second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (first, second) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(concat(first, second))
 }
 
 /**
@@ -786,6 +787,17 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ({
  * @since 2.0.0
  */
 export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = RNEA.getEq
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<NonEmptyArray<A>> => {
+  const unionE = union(E)
+  return {
+    concat: (first, second) => unionE(second)(first)
+  }
+}
 
 /**
  * @category instances

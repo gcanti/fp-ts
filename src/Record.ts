@@ -573,6 +573,7 @@ export const elem: <A>(
 } = RR.elem
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const union = <A>(
@@ -591,6 +592,7 @@ export const union = <A>(
 }
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
@@ -603,6 +605,7 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
 }
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const difference = <A>(second: Record<string, A>) => (first: Record<string, A>): Record<string, A> => {

@@ -1121,10 +1121,10 @@ export function union<A>(E: Eq<A>): (xs: Array<A>, ys?: Array<A>) => Array<A> | 
   return (first, second?) => {
     if (second === undefined) {
       const unionE = union(E)
-      return (ys) => unionE(ys, first)
+      return (second) => unionE(second, first)
     }
     return isNonEmpty(first) && isNonEmpty(second)
-      ? unionE(first, second)
+      ? unionE(second)(first)
       : isNonEmpty(first)
       ? copy(first)
       : copy(second)

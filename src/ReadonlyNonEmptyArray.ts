@@ -149,11 +149,14 @@ export const sortBy = <B>(
 }
 
 /**
- * @internal
+ * @category combinators
+ * @since 2.11.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
+export const union = <A>(
+  E: Eq<A>
+): ((second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (first, second) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(concat(first, second))
 }
 
 /**
@@ -831,6 +834,17 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> =
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
   fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => {
+  const unionE = union(E)
+  return {
+    concat: (first, second) => unionE(second)(first)
+  }
+}
 
 /**
  * @category instances

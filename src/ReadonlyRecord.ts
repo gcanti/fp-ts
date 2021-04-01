@@ -900,6 +900,7 @@ export function elem<A>(
 }
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const union = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => (
@@ -928,6 +929,7 @@ export const union = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => 
 }
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const intersection = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => (
@@ -946,6 +948,7 @@ export const intersection = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, 
 }
 
 /**
+ * @category combinators
  * @since 2.11.0
  */
 export const difference = <A>(second: ReadonlyRecord<string, A>) => (

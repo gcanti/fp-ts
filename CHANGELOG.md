@@ -65,6 +65,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `apply`
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+    - add `union`
+    - add `getUnionSemigroup`
   - `Ord`
     - add `trivial` instance
     - add `equals`
@@ -79,6 +81,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `getDifferenceMagma`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+    - add `union`
+    - add `getUnionSemigroup`
   - `ReadonlyRecord`
     - add `union` (@anthonyjoeseph)
     - add `intersection` (@anthonyjoeseph)
