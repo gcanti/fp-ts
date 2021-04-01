@@ -135,7 +135,7 @@ describe('ReaderEither', () => {
   })
 
   it('orElseW', () => {
-    const orElse = _.orElse((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
+    const orElse = _.orElseW((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
     U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
   })
 
