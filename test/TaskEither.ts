@@ -392,6 +392,43 @@ describe('TaskEither', () => {
     )
   })
 
+  it('orElseW', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.left('foo'),
+        _.orElse((l) => _.right(l.length))
+      )(),
+      E.right(3)
+    )
+    U.deepStrictEqual(
+      await pipe(
+        _.right(1),
+        _.orElse(() => _.right(2))
+      )(),
+      E.right(1)
+    )
+  })
+
+  it('orElseFirst', async () => {
+    const f = _.orElseFirst((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('orElseFirstW', async () => {
+    const f = _.orElseFirstW((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('orLeft', async () => {
+    const f = _.orLeft((e: string) => T.of(e + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a!'))
+  })
+
   it('swap', async () => {
     U.deepStrictEqual(await _.swap(_.right(1))(), E.left(1))
     U.deepStrictEqual(await _.swap(_.left('a'))(), E.right('a'))
