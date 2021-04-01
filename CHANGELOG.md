@@ -80,6 +80,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
     - add `fromOption`
+    - add `fromPredicate`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`

@@ -11,6 +11,7 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import { Predicate } from '../src/Predicate'
 import * as _ from '../src/ReadonlyArray'
+import { Refinement } from '../src/Refinement'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -1377,5 +1378,24 @@ describe('ReadonlyArray', () => {
         [0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5]
       )
     })
+  })
+
+  describe('fromPredicate', () => {
+    it('can create an array from a Refinement', () => {
+      const refinement: Refinement<unknown, string> = (a): a is string => typeof a === 'string'
+      U.deepStrictEqual(_.fromPredicate(refinement)('hello'), ['hello'])
+      U.deepStrictEqual(_.fromPredicate(refinement)(null), [])
+    })
+
+    it('can create an array from a Predicate', () => {
+      const predicate = (a: string) => a.length > 0
+      U.deepStrictEqual(_.fromPredicate(predicate)('hi'), ['hi'])
+      U.deepStrictEqual(_.fromPredicate(predicate)(''), [])
+    })
+  })
+
+  it('fromOption', () => {
+    U.deepStrictEqual(_.fromOption(O.some('hello')), ['hello'])
+    U.deepStrictEqual(_.fromOption(O.none), [])
   })
 })

@@ -145,6 +145,16 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @category constructors
  * @since 2.11.0
  */
+export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A> {
+  return (a) => (predicate(a) ? [a] : empty)
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
 export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
 
 // -------------------------------------------------------------------------------------
