@@ -68,6 +68,12 @@ high state of flux, you're at risk of it changing without notice.
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`
+  - `Magma`
+    - add `reverse`
+    - add `filterFirst`
+    - add `filterSecond`
+    - add `endo`
+    - add `concatAll`
   - `Map`
     - add `union`
     - add `intersection`
