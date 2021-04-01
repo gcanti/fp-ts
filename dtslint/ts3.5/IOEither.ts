@@ -14,6 +14,56 @@ pipe(
 )
 
 //
+// orElse
+//
+
+// $ExpectType IOEither<number, never>
+pipe(
+  _.left('a'),
+  _.orElse((a) => _.left(a.length))
+)
+
+//
+// orElseW
+//
+
+// $ExpectType IOEither<never, string | number>
+pipe(
+  _.left<string, string>('a'),
+  _.orElseW((a) => _.right(a.length))
+)
+
+//
+// orElseFirst
+//
+
+// $ExpectType IOEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirst((a) => _.right(a.length))
+)
+
+//
+// orElseFirstW
+//
+
+// $ExpectType IOEither<string | number, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstW((a) => _.left(a.length))
+)
+
+//
+// orLeft
+//
+
+// $ExpectType IOEither<number, never>
+pipe(
+  _.left('a'),
+  _.orLeft((a) => IO.of(a.length))
+)
+
+//
 // chainW
 //
 
