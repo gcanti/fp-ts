@@ -16,6 +16,7 @@ Added in v2.10.0
   - [Bounded](#bounded)
   - [Eq](#eq)
   - [Field](#field)
+  - [MagmaSub](#magmasub)
   - [MonoidProduct](#monoidproduct)
   - [MonoidSum](#monoidsum)
   - [Ord](#ord)
@@ -56,6 +57,16 @@ export declare const Field: F.Field<number>
 ```
 
 Added in v2.10.0
+
+## MagmaSub
+
+**Signature**
+
+```ts
+export declare const MagmaSub: Magma<number>
+```
+
+Added in v2.11.0
 
 ## MonoidProduct
 

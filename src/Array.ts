@@ -110,21 +110,7 @@ export const appendW: <A, B>(end: B) => (init: Array<A>) => NEA.NonEmptyArray<A 
  * @category constructors
  * @since 2.0.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => (n <= 0 ? [] : NEA.makeBy(n, f))
-
-/**
- * Create an `Array` containing a range of integers, including both endpoints.
- *
- * @example
- * import { range } from 'fp-ts/Array'
- *
- * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
- *
- * @category constructors
- * @since 2.0.0
- */
-export const range = (start: number, end: number): Array<number> =>
-  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
+export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => (n <= 0 ? [] : NEA.makeBy(f)(n))
 
 /**
  * Create a `Array` containing a value repeated the specified number of times.
@@ -2177,6 +2163,15 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `NonEmptyArray` module instead.
+ *
+ * @category constructors
+ * @since 2.0.0
+ * @deprecated
+ */
+export const range = NEA.range
 
 /**
  * Use a new `[]` instead.

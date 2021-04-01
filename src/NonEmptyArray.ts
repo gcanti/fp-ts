@@ -164,18 +164,6 @@ export const rotate = (n: number) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A>
   }
 }
 
-/**
- * @internal
- */
-export const makeBy = <A>(n: number, f: (i: number) => A): NonEmptyArray<A> => {
-  const j = Math.max(0, Math.floor(n))
-  const out: NonEmptyArray<A> = [f(0)]
-  for (let i = 1; i < j; i++) {
-    out.push(f(i))
-  }
-  return out
-}
-
 // -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
@@ -194,6 +182,44 @@ export const fromReadonlyNonEmptyArray: <A>(as: ReadonlyNonEmptyArray<A>) => Non
  * @since 2.0.0
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (isNonEmpty(as) ? _.some(as) : _.none)
+
+/**
+ * Return a `NonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { makeBy } from 'fp-ts/NonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const double = (n: number): number => n * 2
+ * assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const makeBy = <A>(f: (i: number) => A) => (n: number): NonEmptyArray<A> => {
+  const j = Math.max(0, Math.floor(n))
+  const out: NonEmptyArray<A> = [f(0)]
+  for (let i = 1; i < j; i++) {
+    out.push(f(i))
+  }
+  return out
+}
+
+/**
+ * Create a `NonEmptyArray` containing a range of integers, including both endpoints.
+ *
+ * @example
+ * import { range } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const range = (start: number, end: number): NonEmptyArray<number> =>
+  start <= end ? makeBy((i) => start + i)(end - start + 1) : [start]
 
 // -------------------------------------------------------------------------------------
 // destructors

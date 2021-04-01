@@ -48,6 +48,7 @@ Added in v2.5.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
@@ -446,6 +447,16 @@ export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) =>
 ```
 
 Added in v2.5.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B
+```
+
+Added in v2.11.0
 
 ## separate
 

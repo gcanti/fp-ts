@@ -615,13 +615,6 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
   })
 
-  it('makeBy', () => {
-    U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
-    // If `n` (must be a natural number) is non positive return `[f(0)]`.
-    U.deepStrictEqual(_.makeBy(0, U.double), [0])
-    U.deepStrictEqual(_.makeBy(-1, U.double), [0])
-  })
-
   it('matchLeft', () => {
     U.deepStrictEqual(
       pipe(
@@ -654,5 +647,25 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(pipe(['a'], _.modifyLast(f)), ['a!'])
     U.deepStrictEqual(pipe(['a', 'b'], _.modifyLast(f)), ['a', 'b!'])
     U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyLast(f)), ['a', 'b', 'c!'])
+  })
+
+  it('makeBy', () => {
+    const f = _.makeBy(U.double)
+    U.deepStrictEqual(f(5), [0, 2, 4, 6, 8])
+    // If `n` (must be a natural number) is non positive return `[f(0)]`.
+    U.deepStrictEqual(f(0), [0])
+    U.deepStrictEqual(f(-1), [0])
+  })
+
+  it('range', () => {
+    U.deepStrictEqual(_.range(0, 0), [0])
+    U.deepStrictEqual(_.range(0, 1), [0, 1])
+    U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
+    U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
+    U.deepStrictEqual(_.range(-1, 0), [-1, 0])
+    U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
+    // out of bound
+    U.deepStrictEqual(_.range(2, 1), [2])
+    U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 })

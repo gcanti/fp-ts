@@ -72,7 +72,7 @@ export declare function wiltDefault<W extends URIS>(T: Traversable1<W>, C: Compa
 export declare function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt']
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## witherDefault
 
@@ -93,7 +93,7 @@ export declare function witherDefault<W extends URIS>(T: Traversable1<W>, C: Com
 export declare function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither']
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 # type classes
 

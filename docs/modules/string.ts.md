@@ -22,6 +22,7 @@ Added in v2.10.0
   - [empty](#empty)
   - [isEmpty](#isempty)
   - [size](#size)
+  - [toUpperCase](#touppercase)
 
 ---
 
@@ -136,3 +137,13 @@ export declare const size: (s: string) => number
 ```
 
 Added in v2.10.0
+
+## toUpperCase
+
+**Signature**
+
+```ts
+export declare const toUpperCase: (s: string) => string
+```
+
+Added in v2.11.0

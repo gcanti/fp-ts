@@ -80,6 +80,8 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [fromArray](#fromarray)
   - [fromReadonlyNonEmptyArray](#fromreadonlynonemptyarray)
+  - [makeBy](#makeby)
+  - [range](#range)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
@@ -736,6 +738,50 @@ export declare const fromReadonlyNonEmptyArray: <A>(as: RNEA.ReadonlyNonEmptyArr
 ```
 
 Added in v2.10.0
+
+## makeBy
+
+Return a `NonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { makeBy } from 'fp-ts/NonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+const double = (n: number): number => n * 2
+assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
+```
+
+Added in v2.11.0
+
+## range
+
+Create a `NonEmptyArray` containing a range of integers, including both endpoints.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => NonEmptyArray<number>
+```
+
+**Example**
+
+```ts
+import { range } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+```
+
+Added in v2.11.0
 
 ## ~~cons~~
 

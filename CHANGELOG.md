@@ -18,6 +18,8 @@ high state of flux, you're at risk of it changing without notice.
 # 2.11
 
 - **Deprecation**
+  - `Array`
+    - deprecate `range`, use `NonEmptyArray` module instead.
   - `function`
     - deprecate `Endomorphism`, use `Endomorphism` module instead.
     - deprecate `getEndomorphismMonoid`, use `Endomorphism` module instead.
@@ -26,6 +28,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Refinement`, use `Refinement` module instead.
   - `Monoid`
     - deprecate `monoidVoid`, use `void` module instead.
+  - `ReadonlyArray`
+    - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
   - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
     - `collect`
     - `reduce`
@@ -90,6 +94,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
     - add `getUnionSemigroup`
+    - add `makeBy`
+    - add `range`
   - `number`
     - add `MagmaSub`
   - `Option`
@@ -125,6 +131,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
     - add `getUnionSemigroup`
+    - add `makeBy`
+    - add `range`
   - `ReadonlyRecord`
     - add `union` (@anthonyjoeseph)
     - add `intersection` (@anthonyjoeseph)

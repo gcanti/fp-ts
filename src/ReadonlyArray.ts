@@ -111,21 +111,7 @@ export const appendW = RNEA.appendW
  * @category constructors
  * @since 2.5.0
  */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(n, f))
-
-/**
- * Create a `ReadonlyArray` containing a range of integers, including both endpoints.
- *
- * @example
- * import { range } from 'fp-ts/ReadonlyArray'
- *
- * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
- *
- * @category constructors
- * @since 2.5.0
- */
-export const range = (start: number, end: number): ReadonlyArray<number> =>
-  start <= end ? makeBy(end - start + 1, (i) => start + i) : [start]
+export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(f)(n))
 
 /**
  * Create a `ReadonlyArray` containing a value repeated the specified number of times.
@@ -2412,6 +2398,15 @@ export const apS =
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `ReadonlyNonEmptyArray` module instead.
+ *
+ * @category constructors
+ * @since 2.5.0
+ * @deprecated
+ */
+export const range = RNEA.range
 
 /**
  * Use `prepend` instead.

@@ -85,6 +85,8 @@ Added in v2.5.0
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
+  - [makeBy](#makeby)
+  - [range](#range)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
@@ -825,6 +827,50 @@ export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<Readonly
 ```
 
 Added in v2.5.0
+
+## makeBy
+
+Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+const double = (n: number): number => n * 2
+assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
+```
+
+Added in v2.11.0
+
+## range
+
+Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => ReadonlyNonEmptyArray<number>
+```
+
+**Example**
+
+```ts
+import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+```
+
+Added in v2.11.0
 
 ## ~~cons~~
 

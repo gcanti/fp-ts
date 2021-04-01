@@ -106,9 +106,9 @@ Added in v2.0.0
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
-  - [range](#range)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
+  - [~~range~~](#range)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
   - [findFirst](#findfirst)
@@ -1465,26 +1465,6 @@ export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArr
 
 Added in v2.11.0
 
-## range
-
-Create an `Array` containing a range of integers, including both endpoints.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => Array<number>
-```
-
-**Example**
-
-```ts
-import { range } from 'fp-ts/Array'
-
-assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
-```
-
-Added in v2.0.0
-
 ## replicate
 
 Create a `Array` containing a value repeated the specified number of times.
@@ -1515,6 +1495,18 @@ Use `prepend` instead.
 
 ```ts
 export declare const cons: typeof NEA.cons
+```
+
+Added in v2.0.0
+
+## ~~range~~
+
+Use `NonEmptyArray` module instead.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => NEA.NonEmptyArray<number>
 ```
 
 Added in v2.0.0

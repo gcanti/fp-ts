@@ -104,9 +104,9 @@ Added in v2.5.0
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
-  - [range](#range)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
+  - [~~range~~](#range)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
@@ -1473,26 +1473,6 @@ export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.R
 
 Added in v2.11.0
 
-## range
-
-Create a `ReadonlyArray` containing a range of integers, including both endpoints.
-
-**Signature**
-
-```ts
-export declare const range: (start: number, end: number) => ReadonlyArray<number>
-```
-
-**Example**
-
-```ts
-import { range } from 'fp-ts/ReadonlyArray'
-
-assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
-```
-
-Added in v2.5.0
-
 ## replicate
 
 Create a `ReadonlyArray` containing a value repeated the specified number of times.
@@ -1523,6 +1503,18 @@ Use `prepend` instead.
 
 ```ts
 export declare const cons: typeof RNEA.cons
+```
+
+Added in v2.5.0
+
+## ~~range~~
+
+Use `ReadonlyNonEmptyArray` module instead.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => RNEA.ReadonlyNonEmptyArray<number>
 ```
 
 Added in v2.5.0
