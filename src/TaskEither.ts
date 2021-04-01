@@ -353,6 +353,26 @@ export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
 
 /**
  * @category combinators
+ * @since 2.11.0
+ */
+export const fromTaskOptionK = <E>(
+  onNone: Lazy<E>
+): (<A extends ReadonlyArray<unknown>, B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>) => {
+  const from = fromTaskOption(onNone)
+  return (f) => flow(f, from)
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainTaskOptionK = <E>(
+  onNone: Lazy<E>
+): (<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>) =>
+  flow(fromTaskOptionK(onNone), chain)
+
+/**
+ * @category combinators
  * @since 2.4.0
  */
 export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(

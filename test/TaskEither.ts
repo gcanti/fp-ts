@@ -611,4 +611,11 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await f(_.right(1))(), 'right')
     U.deepStrictEqual(await f(_.left(''))(), 'left')
   })
+
+  it('chainTaskOptionK', async () => {
+    const f = _.chainTaskOptionK(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
+  })
 })

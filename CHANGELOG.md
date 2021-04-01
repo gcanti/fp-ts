@@ -152,6 +152,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `evolve`
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
+    - add `fromTaskOptionK`
+    - add `chainTaskOptionK`
   - `TaskOption`
     - add `fromTaskEither` (@thewilkybarkid)
   - `Witherable`
