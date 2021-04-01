@@ -69,6 +69,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
     - add `getUnionSemigroup`
+  - `Option`
+    - add `FromEither` instance
+    - add `fromEitherK`
+    - add `chainEitherK`
   - `Ord`
     - add `trivial` instance
     - add `equals`

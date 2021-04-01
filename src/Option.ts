@@ -29,6 +29,7 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
+import { chainEitherK as chainEitherK_, FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
@@ -1133,6 +1134,31 @@ export const MonadThrow: MonadThrow1<URI> = {
   chain: _chain,
   throwError
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
