@@ -337,7 +337,7 @@ export const orElseW: <E1, R1, E2, B>(
 
 /**
  * @category combinators
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const orElseFirst: <E, R, B>(
   onLeft: (e: E) => ReaderTaskEither<R, E, B>
@@ -347,7 +347,7 @@ export const orElseFirst: <E, R, B>(
 
 /**
  * @category combinators
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const orElseFirstW: <E1, R, E2, B>(
   onLeft: (e: E1) => ReaderTaskEither<R, E2, B>
@@ -355,7 +355,7 @@ export const orElseFirstW: <E1, R, E2, B>(
 
 /**
  * @category combinators
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const orLeft: <E1, R, E2>(
   onLeft: (e: E1) => ReaderTask<R, E2>
