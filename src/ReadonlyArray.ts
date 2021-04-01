@@ -15,6 +15,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
@@ -156,6 +157,14 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArr
  * @since 2.11.0
  */
 export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
+
+/**
+ * Transforms an `Either` to a `ReadonlyArray`.
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -2258,6 +2267,23 @@ export const Witherable: Witherable1<URI> = {
 export const filterE =
   /*#__PURE__*/
   filterE_(Witherable)
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // unsafe

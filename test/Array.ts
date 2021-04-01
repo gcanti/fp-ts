@@ -1162,4 +1162,9 @@ describe('Array', () => {
     U.deepStrictEqual(_.fromOption(O.some('hello')), ['hello'])
     U.deepStrictEqual(_.fromOption(O.none), [])
   })
+
+  it('fromEither', () => {
+    U.deepStrictEqual(_.fromEither(E.right(1)), [1])
+    U.deepStrictEqual(_.fromEither(E.left('a')), [])
+  })
 })
