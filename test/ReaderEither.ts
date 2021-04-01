@@ -134,6 +134,31 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
   })
 
+  it('orElseW', () => {
+    const orElse = _.orElse((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
+    U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
+  })
+
+  it('orElseFirst', () => {
+    const f = _.orElseFirst((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left('aa!'))
+  })
+
+  it('orElseFirstW', () => {
+    const f = _.orElseFirstW((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left('aa!'))
+  })
+
+  it('orLeft', () => {
+    const f = _.orLeft((s: string) => R.of(s + '!'))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a!'))
+  })
+
   describe('getSemigroup', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
