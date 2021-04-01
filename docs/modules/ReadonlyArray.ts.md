@@ -68,6 +68,8 @@ Added in v2.5.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
@@ -76,6 +78,7 @@ Added in v2.5.0
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [prependAll](#prependall)
@@ -111,8 +114,12 @@ Added in v2.5.0
 - [destructors](#destructors)
   - [foldLeft](#foldleft)
   - [foldRight](#foldright)
+  - [match](#match)
   - [matchLeft](#matchleft)
+  - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
+  - [matchRightW](#matchrightw)
+  - [matchW](#matchw)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -744,6 +751,26 @@ assert.deepStrictEqual(
 
 Added in v2.5.0
 
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <A>(second: readonly A[]) => (first: readonly A[]) => readonly A[]
+```
+
+Added in v2.11.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly (B | A)[]
+```
+
+Added in v2.11.0
+
 ## difference
 
 Creates an array of array values not included in the other given array using a `Eq` for equality
@@ -886,6 +913,18 @@ Added in v2.5.0
 
 ```ts
 export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => readonly B[]
 ```
 
 Added in v2.11.0
@@ -1563,9 +1602,22 @@ export declare const foldRight: <A, B>(
 
 Added in v2.5.0
 
+## match
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
+) => (as: readonly A[]) => B
+```
+
+Added in v2.11.0
+
 ## matchLeft
 
-Break an array into its first element and remaining elements.
+Break a `ReadonlyArray` into its first element and remaining elements.
 
 **Signature**
 
@@ -1590,9 +1642,24 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v2.10.0
 
+## matchLeftW
+
+Less strict version of [`matchLeft`](#matchLeft).
+
+**Signature**
+
+```ts
+export declare const matchLeftW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: readonly A[]) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v2.11.0
+
 ## matchRight
 
-Break an array into its initial elements and the last element.
+Break a `ReadonlyArray` into its initial elements and the last element.
 
 **Signature**
 
@@ -1604,6 +1671,36 @@ export declare const matchRight: <B, A>(
 ```
 
 Added in v2.10.0
+
+## matchRightW
+
+Less strict version of [`matchRight`](#matchRight).
+
+**Signature**
+
+```ts
+export declare const matchRightW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: readonly A[], last: A) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v2.11.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
+) => (as: readonly A[]) => B | C
+```
+
+Added in v2.11.0
 
 # guards
 
@@ -2497,7 +2594,7 @@ Test whether a `ReadonlyArray` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(as: readonly A[]) => boolean
+export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
 ```
 
 **Example**

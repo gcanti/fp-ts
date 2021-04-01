@@ -71,6 +71,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromEither`
     - add `FromEither` instance
     - add `fromEitherK`
+    - make `isEmpty` a user defined guard
+    - add `concat` / `concatW`
+    - add `match`, `matchW`, `matchLeftW`, `matchRightW`
+    - add `fromOptionK`
   - `Either`
     - add `chainOptionK`
   - `function`
@@ -119,6 +123,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromEither`
     - add `FromEither` instance
     - add `fromEitherK`
+    - make `isEmpty` a user defined guard
+    - add `concat` / `concatW`
+    - add `match`, `matchW`, `matchLeftW`, `matchRightW`
+    - add `fromOptionK`
   - `ReadonlyMap`
     - add `union`
     - add `intersection`

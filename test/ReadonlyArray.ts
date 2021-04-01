@@ -1411,4 +1411,30 @@ describe('ReadonlyArray', () => {
     U.deepStrictEqual(_.fromEither(E.right(1)), [1])
     U.strictEqual(_.fromEither(E.left('a')), _.empty)
   })
+
+  it('match', () => {
+    const f = _.match(
+      () => 'empty',
+      (as) => `nonEmpty ${as.length}`
+    )
+    U.deepStrictEqual(pipe(_.empty, f), 'empty')
+    U.deepStrictEqual(pipe([1, 2, 3], f), 'nonEmpty 3')
+  })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe([1], _.concatW(['a'])), [1, 'a'])
+    const as = [1, 2, 3]
+    U.strictEqual(pipe(_.empty, _.concatW(as)), as)
+    U.strictEqual(pipe(as, _.concatW(_.empty)), as)
+    const empty: ReadonlyArray<string> = []
+    U.strictEqual(pipe(empty, _.concatW(as)), as)
+    U.strictEqual(pipe(as, _.concatW(empty)), as)
+  })
+
+  it('fromOptionK', () => {
+    const f = (n: number) => (n > 0 ? O.some(n) : O.none)
+    const g = _.fromOptionK(f)
+    U.strictEqual(g(0), _.empty)
+    U.deepStrictEqual(g(1), [1])
+  })
 })

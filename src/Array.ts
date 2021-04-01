@@ -141,10 +141,10 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
  * @category constructors
  * @since 2.11.0
  */
-export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? [] : [ma.value])
+export const fromOption = <A>(ma: Option<A>): Array<A> => (_.isNone(ma) ? [] : [ma.value])
 
 /**
- * Transforms an `Either` to a `ReadonlyArray`.
+ * Transforms an `Either` to a `Array`.
  *
  * @category constructors
  * @since 2.11.0
@@ -156,7 +156,34 @@ export const fromEither = <E, A>(e: Either<E, A>): Array<A> => (_.isLeft(e) ? []
 // -------------------------------------------------------------------------------------
 
 /**
- * Break an array into its first element and remaining elements
+ * Less strict version of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => C) => (as: Array<A>): B | C =>
+  isNonEmpty(as) ? onNonEmpty(as) : onEmpty()
+
+/**
+ * Less strict version of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => B) => (as: Array<A>) => B = matchW
+
+/**
+ * Less strict version of [`matchLeft`](#matchLeft).
+ *
+ * @category destructors
+ * @since 3.0.0
+ */
+export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => C) => (
+  as: Array<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty())
+
+/**
+ * Break an `Array` into its first element and remaining elements.
  *
  * @example
  * import { matchLeft } from 'fp-ts/Array'
@@ -167,8 +194,10 @@ export const fromEither = <E, A>(e: Either<E, A>): Array<A> => (_.isLeft(e) ? []
  * @category destructors
  * @since 2.10.0
  */
-export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty()
+export const matchLeft: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: Array<A>) => B
+) => (as: Array<A>) => B = matchLeftW
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -182,13 +211,25 @@ export const foldLeft: <A, B>(
 ) => (as: Array<A>) => B = matchLeft
 
 /**
- * Break an array into its initial elements and the last element
+ * Less strict version of [`matchRight`](#matchRight).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => C) => (
+  as: Array<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty())
+
+/**
+ * Break an `Array` into its initial elements and the last element.
  *
  * @category destructors
  * @since 2.10.0
  */
-export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, last: A) => B) => (as: Array<A>): B =>
-  isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty()
+export const matchRight: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: Array<A>, last: A) => B
+) => (as: Array<A>) => B = matchRightW
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -269,7 +310,7 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>): N
  *
  * @since 2.0.0
  */
-export const isEmpty: <A>(as: Array<A>) => boolean = RA.isEmpty
+export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
 
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
@@ -1036,6 +1077,13 @@ export const chunksOf = (n: number): (<A>(as: Array<A>) => Array<NonEmptyArray<A
 }
 
 /**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromOptionK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A): Array<B> =>
+  fromOption(f(...a))
+
+/**
  * `Array` comprehension.
  *
  * ```
@@ -1088,6 +1136,19 @@ export function comprehension<A, R>(
       : []
   return go([], input)
 }
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const concatW = <B>(second: Array<B>) => <A>(first: Array<A>): Array<A | B> =>
+  isEmpty(first) ? copy(second) : isEmpty(second) ? copy(first) : (first as Array<A | B>).concat(second)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const concat: <A>(second: Array<A>) => (first: Array<A>) => Array<A> = concatW
 
 // TODO: remove non-curried overloading in v3
 /**

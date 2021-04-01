@@ -68,6 +68,8 @@ Added in v2.0.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [copy](#copy)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -77,6 +79,7 @@ Added in v2.0.0
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -120,8 +123,12 @@ Added in v2.0.0
   - [head](#head)
   - [init](#init)
   - [last](#last)
+  - [match](#match)
   - [matchLeft](#matchleft)
+  - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
+  - [matchRightW](#matchrightw)
+  - [matchW](#matchw)
   - [spanLeft](#spanleft)
   - [tail](#tail)
 - [guards](#guards)
@@ -732,6 +739,26 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <A>(second: A[]) => (first: A[]) => A[]
+```
+
+Added in v2.11.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <B>(second: B[]) => <A>(first: A[]) => (B | A)[]
+```
+
+Added in v2.11.0
+
 ## copy
 
 **Signature**
@@ -876,6 +903,16 @@ Added in v2.5.0
 
 ```ts
 export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
+```
+
+Added in v2.11.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => B[]
 ```
 
 Added in v2.11.0
@@ -1378,7 +1415,7 @@ Added in v2.11.0
 
 ## fromEither
 
-Transforms an `Either` to a `ReadonlyArray`.
+Transforms an `Either` to a `Array`.
 
 **Signature**
 
@@ -1393,7 +1430,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
+export declare const fromOption: <A>(ma: Option<A>) => A[]
 ```
 
 Added in v2.11.0
@@ -1739,9 +1776,21 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v2.0.0
 
+## match
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
+```
+
+Added in v2.11.0
+
 ## matchLeft
 
-Break an array into its first element and remaining elements
+Break an `Array` into its first element and remaining elements.
 
 **Signature**
 
@@ -1763,9 +1812,24 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v2.10.0
 
+## matchLeftW
+
+Less strict version of [`matchLeft`](#matchLeft).
+
+**Signature**
+
+```ts
+export declare const matchLeftW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: A[]) => C
+) => (as: A[]) => B | C
+```
+
+Added in v3.0.0
+
 ## matchRight
 
-Break an array into its initial elements and the last element
+Break an `Array` into its initial elements and the last element.
 
 **Signature**
 
@@ -1774,6 +1838,36 @@ export declare const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: A[]
 ```
 
 Added in v2.10.0
+
+## matchRightW
+
+Less strict version of [`matchRight`](#matchRight).
+
+**Signature**
+
+```ts
+export declare const matchRightW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: A[], last: A) => C
+) => (as: A[]) => B | C
+```
+
+Added in v2.11.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: NEA.NonEmptyArray<A>) => C
+) => (as: A[]) => B | C
+```
+
+Added in v2.11.0
 
 ## spanLeft
 
@@ -2474,7 +2568,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(as: A[]) => boolean
+export declare const isEmpty: <A>(as: A[]) => as is []
 ```
 
 **Example**

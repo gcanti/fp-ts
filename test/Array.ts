@@ -1175,4 +1175,28 @@ describe('Array', () => {
     U.deepStrictEqual(_.fromEither(E.right(1)), [1])
     U.deepStrictEqual(_.fromEither(E.left('a')), [])
   })
+
+  it('match', () => {
+    const f = _.match(
+      () => 'empty',
+      (as) => `nonEmpty ${as.length}`
+    )
+    U.deepStrictEqual(pipe([], f), 'empty')
+    U.deepStrictEqual(pipe([1, 2, 3], f), 'nonEmpty 3')
+  })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe([1], _.concatW(['a'])), [1, 'a'])
+    const as = [1, 2, 3]
+    const empty: Array<string> = []
+    U.deepStrictEqual(pipe(empty, _.concatW(as)), as)
+    U.deepStrictEqual(pipe(as, _.concatW(empty)), as)
+  })
+
+  it('fromOptionK', () => {
+    const f = (n: number) => (n > 0 ? O.some(n) : O.none)
+    const g = _.fromOptionK(f)
+    U.deepStrictEqual(g(0), [])
+    U.deepStrictEqual(g(1), [1])
+  })
 })

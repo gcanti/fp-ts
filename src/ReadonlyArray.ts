@@ -157,7 +157,36 @@ export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft
 // -------------------------------------------------------------------------------------
 
 /**
- * Break an array into its first element and remaining elements.
+ * Less strict version of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) => (
+  as: ReadonlyArray<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
+
+/**
+ * @category destructors
+ * @since 2.11.0
+ */
+export const match: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyArray<A>) => B = matchW
+
+/**
+ * Less strict version of [`matchLeft`](#matchLeft).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) => (
+  as: ReadonlyArray<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+
+/**
+ * Break a `ReadonlyArray` into its first element and remaining elements.
  *
  * @example
  * import { matchLeft } from 'fp-ts/ReadonlyArray'
@@ -168,9 +197,10 @@ export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft
  * @category destructors
  * @since 2.10.0
  */
-export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B) => (
-  as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
+export const matchLeft: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B
+) => (as: ReadonlyArray<A>) => B = matchLeftW
 
 /**
  * Alias of [`matchLeft`](#matchLeft).
@@ -184,14 +214,25 @@ export const foldLeft: <A, B>(
 ) => (as: ReadonlyArray<A>) => B = matchLeft
 
 /**
- * Break an array into its initial elements and the last element.
+ * Less strict version of [`matchRight`](#matchRight).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) => (
+  as: ReadonlyArray<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
+
+/**
+ * Break a `ReadonlyArray` into its initial elements and the last element.
  *
  * @category destructors
  * @since 2.10.0
  */
-export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => B) => (
-  as: ReadonlyArray<A>
-): B => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
+export const matchRight: <B, A>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: ReadonlyArray<A>, last: A) => B
+) => (as: ReadonlyArray<A>) => B = matchRightW
 
 /**
  * Alias of [`matchRight`](#matchRight).
@@ -277,7 +318,7 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
  *
  * @since 2.5.0
  */
-export const isEmpty = <A>(as: ReadonlyArray<A>): boolean => as.length === 0
+export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
 
 /**
  * Test whether a `ReadonlyArray` is non empty.
@@ -1125,6 +1166,14 @@ export const chunksOf = (n: number): (<A>(as: ReadonlyArray<A>) => ReadonlyArray
 }
 
 /**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromOptionK = <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (
+  ...a: A
+): ReadonlyArray<B> => fromOption(f(...a))
+
+/**
  * `ReadonlyArray` comprehension.
  *
  * ```
@@ -1181,6 +1230,19 @@ export function comprehension<A, R>(
       : empty
   return go(empty, input)
 }
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const concatW = <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+  isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = concatW
 
 // TODO: remove non-curried overloading in v3
 /**
