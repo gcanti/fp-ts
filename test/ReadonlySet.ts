@@ -161,6 +161,12 @@ describe('ReadonlySet', () => {
     U.deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
   })
 
+  it('reduceRight', () => {
+    const f = _.reduceRight(N.Ord)('', (a, b) => b + a)
+    U.deepStrictEqual(f(new Set([1, 2, 3])), '321')
+    U.deepStrictEqual(f(new Set([3, 2, 1])), '321')
+  })
+
   it('singleton', () => {
     U.deepStrictEqual(_.singleton(1), new Set([1]))
   })

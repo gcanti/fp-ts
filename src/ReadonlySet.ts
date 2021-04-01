@@ -341,6 +341,14 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
 }
 
 /**
+ * @since 2.11.0
+ */
+export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B) => {
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (b, f) => (fa) => toReadonlyArrayO(fa).reduceRight((b, a) => f(a, b), b)
+}
+
+/**
  * Create a set with one element
  *
  * @category constructors
