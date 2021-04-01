@@ -29,4 +29,8 @@ describe('string', () => {
     U.deepStrictEqual(_.size(''), 0)
     U.deepStrictEqual(_.size('a'), 1)
   })
+
+  it('toUpperCase', () => {
+    U.deepStrictEqual(_.toUpperCase('a'), 'A')
+  })
 })
