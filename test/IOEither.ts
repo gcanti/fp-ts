@@ -251,6 +251,19 @@ describe('IOEither', () => {
     U.deepStrictEqual(_.orElse(() => _.right(2))(_.right(1))(), E.right(1))
   })
 
+  it('orElseFirst', () => {
+    const f = _.orElseFirst((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('orLeft', () => {
+    const f = _.orLeft((e: string) => I.of(e + '!'))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a!'))
+  })
+
   it('tryCatch', () => {
     U.deepStrictEqual(_.tryCatch(() => 1, E.toError)(), E.right(1))
     U.deepStrictEqual(
