@@ -8,6 +8,7 @@ import * as O from './Ord'
 import * as S from './Show'
 import { Semigroup, semigroupProduct, semigroupSum } from './Semigroup'
 import { Monoid, monoidProduct, monoidSum } from './Monoid'
+import { Magma } from './Magma'
 
 /**
  * @category instances
@@ -43,6 +44,14 @@ export const Field: F.Field<number> = F.fieldNumber
  */
 // tslint:disable-next-line: deprecation
 export const Show: S.Show<number> = S.showNumber
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const MagmaSub: Magma<number> = {
+  concat: Field.sub
+}
 
 /**
  * `number` semigroup under addition.

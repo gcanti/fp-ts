@@ -80,6 +80,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
     - add `getUnionSemigroup`
+  - `number`
+    - add `MagmaSub`
   - `Option`
     - add `FromEither` instance
     - add `fromEitherK`
