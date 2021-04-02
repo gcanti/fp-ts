@@ -146,43 +146,43 @@ export declare function apS<F extends URIS4>(
 ): <N extends string, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind4<F, S, R, E, B>
-) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F extends URIS3>(
   F: Apply3<F>
 ): <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind3<F, R, E, B>
-) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F extends URIS3, E>(
   F: Apply3C<F, E>
 ): <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
   fb: Kind3<F, R, E, B>
-) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F extends URIS2>(
   F: Apply2<F>
 ): <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Kind2<F, E, B>
-) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F extends URIS2, E>(
   F: Apply2C<F, E>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Kind2<F, E, B>
-) => (fa: Kind2<F, E, A>) => Kind2<F, E, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F extends URIS>(
   F: Apply1<F>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Kind<F, B>
-) => (fa: Kind<F, A>) => Kind<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: Kind<F, A>) => Kind<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export declare function apS<F>(
   F: Apply<F>
 ): <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: HKT<F, B>
-) => (fa: HKT<F, A>) => HKT<F, { [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.10.0

@@ -895,7 +895,12 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => StateReaderTaskEither<
+  S,
+  R1 & R2,
+  E1 | E2,
+  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
+> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -916,7 +921,12 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => StateReaderTaskEither<
+  S,
+  R1 & R2,
+  E1 | E2,
+  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
+> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

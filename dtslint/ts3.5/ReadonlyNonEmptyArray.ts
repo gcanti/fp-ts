@@ -83,7 +83,7 @@ pipe(
 // Do
 //
 
-// $ExpectType ReadonlyNonEmptyArray<{ a: number; b: string; }>
+// $ExpectType ReadonlyNonEmptyArray<{ readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.of(1)),

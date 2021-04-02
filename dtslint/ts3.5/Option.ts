@@ -53,7 +53,7 @@ _.option.partition(_.some<string | number>('a'), isString) // $ExpectType Separa
 // Do
 //
 
-// $ExpectType Option<{ a: number; b: string; }>
+// $ExpectType Option<{ readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.of(1)),

@@ -170,7 +170,7 @@ pipe(x2s, _.sortBy([ord2, ord3])) // $ExpectType X2[]
 // Do
 //
 
-// $ExpectType { a: number; b: string; }[]
+// $ExpectType { readonly a: number; readonly b: string; }[]
 pipe(
   _.Do,
   _.bind('a', () => _.of(1)),
