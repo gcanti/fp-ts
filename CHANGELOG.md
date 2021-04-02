@@ -94,6 +94,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
+    - add `getFoldable`
+    - add `foldMap`
+    - add `reduceRight`
+    - add `reduceWithIndex`
+    - add `foldMapWithIndex`
+    - add `reduceRightWithIndex`
   - `NonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`
@@ -135,6 +141,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
     - add `getDifferenceMagma`
+    - add `reduce`
+    - add `foldMap`
+    - add `reduceRight`
+    - add `reduceWithIndex`
+    - add `foldMapWithIndex`
+    - add `reduceRightWithIndex`
   - `ReadonlyNonEmptyArray`
     - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
     - add `union`

@@ -7,7 +7,7 @@ import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
@@ -692,57 +692,57 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 }
 
 /**
+ * @since 2.11.0
+ */
+export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B = RM.reduce
+
+/**
+ * @since 2.11.0
+ */
+export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M = RM.foldMap
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B = RM.reduceRight
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
+  return {
+    ...RM.getFoldable(O),
+    URI
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B =
+  RM.reduceWithIndex
+
+/**
+ * @since 2.11.0
+ */
+export const foldMapWithIndex: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M =
+  RM.foldMapWithIndex
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRightWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B =
+  RM.reduceRightWithIndex
+
+/**
  * @category instances
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
-  const keysO = keys(O)
-
-  const reduceWithIndex = <B, A>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = f(k, out, fa.get(k)!)
-    }
-    return out
-  }
-
-  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
-    let out: M = M.empty
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = M.concat(out, f(k, fa.get(k)!))
-    }
-    return out
-  }
-
-  const reduceRightWithIndex = <B, A>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, fa.get(k)!, out)
-    }
-    return out
-  }
-
   return {
-    URI,
-    _E: undefined as any,
-    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-    },
-    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
-    reduceWithIndex,
-    foldMapWithIndex,
-    reduceRightWithIndex
+    ...RM.getFoldableWithIndex(O),
+    URI
   }
 }
 

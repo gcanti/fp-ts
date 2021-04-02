@@ -860,17 +860,100 @@ export const Filterable: Filterable2<URI> = {
 }
 
 /**
+ * @since 2.11.0
+ */
+export const reduce = <K>(O: Ord<K>): (<B, A>(b: B, f: (b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B) => {
+  const reduceWithIndexO = reduceWithIndex(O)
+  return (b, f) => reduceWithIndexO(b, (_, b, a) => f(b, a))
+}
+
+/**
+ * @since 2.11.0
+ */
+export const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: ReadonlyMap<K, A>) => M) => {
+  const foldMapWithIndexO = foldMapWithIndex(O)
+  return (M) => {
+    const foldMapWithIndexOM = foldMapWithIndexO(M)
+    return (f) => foldMapWithIndexOM((_, a) => f(a))
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRight = <K>(O: Ord<K>): (<B, A>(b: B, f: (a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B) => {
+  const reduceRightWithIndexO = reduceRightWithIndex(O)
+  return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
+}
+
+/**
  * @category instances
  * @since 2.10.0
  */
 export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
-  const FWI = getFoldableWithIndex(O)
+  const reduceO = reduce(O)
+  const foldMapO = foldMap(O)
+  const reduceRightO = reduceRight(O)
   return {
     URI,
     _E: undefined as any,
-    reduce: FWI.reduce,
-    foldMap: FWI.foldMap,
-    reduceRight: FWI.reduceRight
+    reduce: (fa, b, f) => pipe(fa, reduceO(b, f)),
+    foldMap: (M) => {
+      const foldMapOM = foldMapO(M)
+      return (fa, f) => pipe(fa, foldMapOM(f))
+    },
+    reduceRight: (fa, b, f) => pipe(fa, reduceRightO(b, f))
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const reduceWithIndex = <K>(
+  O: Ord<K>
+): (<B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B) => {
+  const keysO = keys(O)
+  return (b, f) => (m) => {
+    let out = b
+    for (const k of keysO(m)) {
+      out = f(k, out, m.get(k)!)
+    }
+    return out
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const foldMapWithIndex = <K>(
+  O: Ord<K>
+): (<M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: ReadonlyMap<K, A>) => M) => {
+  const keysO = keys(O)
+  return (M) => (f) => (m) => {
+    let out = M.empty
+    for (const k of keysO(m)) {
+      out = M.concat(out, f(k, m.get(k)!))
+    }
+    return out
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRightWithIndex = <K>(
+  O: Ord<K>
+): (<B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B) => {
+  const keysO = keys(O)
+  return (b, f) => (m) => {
+    let out = b
+    const ks = keysO(m)
+    const len = ks.length
+    for (let i = len - 1; i >= 0; i--) {
+      const k = ks[i]
+      out = f(k, m.get(k)!, out)
+    }
+    return out
   }
 }
 
@@ -879,53 +962,22 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
-  const keysO = keys(O)
-
-  const reduceWithIndex = <B, A>(fa: ReadonlyMap<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = f(k, out, fa.get(k)!)
-    }
-    return out
-  }
-
-  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => M): M => {
-    let out: M = M.empty
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = M.concat(out, f(k, fa.get(k)!))
-    }
-    return out
-  }
-
-  const reduceRightWithIndex = <B, A>(fa: ReadonlyMap<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, fa.get(k)!, out)
-    }
-    return out
-  }
-
+  const F = getFoldable(O)
+  const reduceWithIndexO = reduceWithIndex(O)
+  const foldMapWithIndexO = foldMapWithIndex(O)
+  const reduceRightWithIndexO = reduceRightWithIndex(O)
   return {
     URI,
     _E: undefined as any,
-    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+    reduce: F.reduce,
+    foldMap: F.foldMap,
+    reduceRight: F.reduceRight,
+    reduceWithIndex: (fa, b, f) => pipe(fa, reduceWithIndexO(b, f)),
+    foldMapWithIndex: (M) => {
+      const foldMapWithIndexOM = foldMapWithIndexO(M)
+      return (fa, f) => pipe(fa, foldMapWithIndexOM(f))
     },
-    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
-    reduceWithIndex,
-    foldMapWithIndex,
-    reduceRightWithIndex
+    reduceRightWithIndex: (fa, b, f) => pipe(fa, reduceRightWithIndexO(b, f))
   }
 }
 

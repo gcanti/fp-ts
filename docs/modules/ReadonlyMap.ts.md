@@ -66,6 +66,8 @@ Added in v2.5.0
   - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -75,6 +77,10 @@ Added in v2.5.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [pop](#pop)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [union](#union)
@@ -628,6 +634,28 @@ export declare const empty: ReadonlyMap<never, never>
 
 Added in v2.5.0
 
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: ReadonlyMap<K, A>) => M
+```
+
+Added in v2.11.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: ReadonlyMap<K, A>) => M
+```
+
+Added in v2.11.0
+
 ## intersection
 
 **Signature**
@@ -758,6 +786,50 @@ export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) =>
 ```
 
 Added in v2.5.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
 
 ## size
 

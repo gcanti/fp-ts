@@ -44,6 +44,7 @@ Added in v2.0.0
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
@@ -57,6 +58,8 @@ Added in v2.0.0
   - [collect](#collect)
   - [difference](#difference)
   - [elem](#elem)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
@@ -66,6 +69,10 @@ Added in v2.0.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [pop](#pop)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [singleton](#singleton)
   - [size](#size)
   - [toArray](#toarray)
@@ -382,6 +389,16 @@ export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex
 
 Added in v2.0.0
 
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'Map', K>
+```
+
+Added in v2.11.0
+
 ## getFoldableWithIndex
 
 **Signature**
@@ -510,6 +527,28 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 
 Added in v2.0.0
 
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
 ## intersection
 
 **Signature**
@@ -627,6 +666,48 @@ export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<
 ```
 
 Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
 
 ## singleton
 

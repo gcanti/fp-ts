@@ -741,25 +741,14 @@ describe('Map', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(ordUser)
-
-    it('mapWithIndex', () => {
-      const mapWithIndex = W.mapWithIndex
-      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
-      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
-      U.deepStrictEqual(
-        mapWithIndex(aa1, (k, a) => a + k.id.length),
-        aa3
-      )
-    })
-
+  describe('getFoldable', () => {
+    const F = _.getFoldable(ordUser)
     it('reduce', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
       ])
-      const reduceO = W.reduce
+      const reduceO = F.reduce
       U.deepStrictEqual(
         reduceO(d1, '', (b, a) => b + a),
         'ab'
@@ -775,7 +764,7 @@ describe('Map', () => {
     })
 
     it('foldMap', () => {
-      const foldMapOM = W.foldMap(S.Monoid)
+      const foldMapOM = F.foldMap(S.Monoid)
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'a' }, 'b']
@@ -784,7 +773,7 @@ describe('Map', () => {
     })
 
     it('reduceRight', () => {
-      const reduceRightO = W.reduceRight
+      const reduceRightO = F.reduceRight
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'b' }, 'b']
@@ -792,6 +781,20 @@ describe('Map', () => {
       const init = ''
       const f = (a: string, acc: string) => acc + a
       U.deepStrictEqual(reduceRightO(m, init, f), 'ba')
+    })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(ordUser)
+
+    it('mapWithIndex', () => {
+      const mapWithIndex = W.mapWithIndex
+      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+      U.deepStrictEqual(
+        mapWithIndex(aa1, (k, a) => a + k.id.length),
+        aa3
+      )
     })
 
     it('reduceWithIndex', () => {
