@@ -495,7 +495,7 @@ Added in v2.10.0
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
 }
 ```
@@ -548,7 +548,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <E, A, B>(f: (...a: A) => E.Either<E, B>) => (...a: A) => TaskEither<E, B>
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => E.Either<E, B>
+) => (...a: A) => TaskEither<E, B>
 ```
 
 Added in v2.4.0
@@ -701,7 +703,7 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 }
 ```
