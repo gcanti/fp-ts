@@ -838,7 +838,9 @@ export const bind =
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -857,7 +859,9 @@ export const apS =
 export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

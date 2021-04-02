@@ -383,7 +383,9 @@ export const bind =
 export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <R1>(
+  fa: Reader<R1, A>
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -409,7 +411,9 @@ export const apS =
 export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <R1>(
+  fa: Reader<R1, A>
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils
