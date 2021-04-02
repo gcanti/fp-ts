@@ -152,7 +152,9 @@ describe('NonEmptyArray', () => {
   })
 
   it('groupSort', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([]), [])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 

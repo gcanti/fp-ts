@@ -399,30 +399,6 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
 }
 
 /**
- * Sort and then group the elements of an array into non empty arrays.
- *
- * @example
- * import { groupSort } from 'fp-ts/NonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
- *
- * @category combinators
- * @since 2.0.0
- */
-export function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
-}
-export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
-  const sortO = sort(O)
-  const groupO = group(O)
-  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : [])
-}
-
-/**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
  * function on each element, and grouping the results according to values returned
  *
@@ -1240,6 +1216,25 @@ export const updateLast = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * This is just `sort` followed by `group`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+}
+export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
+  const sortO = sort(O)
+  const groupO = group(O)
+  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : [])
+}
 
 /**
  * Use `Array`'s `filter` instead.

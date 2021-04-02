@@ -28,8 +28,12 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Refinement`, use `Refinement` module instead.
   - `Monoid`
     - deprecate `monoidVoid`, use `void` module instead.
+  - `NonEmptyArray`
+    - deprecate `groupSort` (it's just `sort` followed by `group`)
   - `ReadonlyArray`
     - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
+  - `ReadonlyNonEmptyArray`
+    - deprecate `groupSort` (it's just `sort` followed by `group`)
   - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
     - `collect`
     - `reduce`

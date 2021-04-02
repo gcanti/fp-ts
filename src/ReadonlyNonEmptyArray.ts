@@ -419,30 +419,6 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
 }
 
 /**
- * Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
- *
- * @example
- * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
- *
- * @category combinators
- * @since 2.5.0
- */
-export function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
-}
-export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
-  const sortO = sort(O)
-  const groupO = group(O)
-  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
-}
-
-/**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
  * function on each element, and grouping the results according to values returned
  *
@@ -1298,6 +1274,25 @@ export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * This is just `sort` followed by `group`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
+export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
+  const sortO = sort(O)
+  const groupO = group(O)
+  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
+}
 
 /**
  * Use `ReadonlyArray`'s `filter` instead.

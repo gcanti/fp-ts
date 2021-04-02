@@ -68,7 +68,6 @@ Added in v2.5.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
-  - [groupSort](#groupsort)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
   - [prependAll](#prependall)
@@ -87,6 +86,7 @@ Added in v2.5.0
   - [zipWith](#zipwith)
   - [~~filterWithIndex~~](#filterwithindex)
   - [~~filter~~](#filter)
+  - [~~groupSort~~](#groupsort)
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
@@ -601,32 +601,6 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']
 
 Added in v2.5.0
 
-## groupSort
-
-Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
-
-**Signature**
-
-```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
-}
-```
-
-**Example**
-
-```ts
-import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
-```
-
-Added in v2.5.0
-
 ## intersperse
 
 Places an element in between members of a `ReadonlyNonEmptyArray`.
@@ -930,6 +904,23 @@ export declare function filter<A, B extends A>(
 export declare function filter<A>(
   predicate: Predicate<A>
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## ~~groupSort~~
+
+This is just `sort` followed by `group`.
+
+**Signature**
+
+```ts
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 ```
 
 Added in v2.5.0

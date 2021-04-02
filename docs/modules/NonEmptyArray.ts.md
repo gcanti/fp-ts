@@ -62,7 +62,6 @@ Added in v2.0.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
-  - [groupSort](#groupsort)
   - [insertAt](#insertat)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
@@ -82,6 +81,7 @@ Added in v2.0.0
   - [zipWith](#zipwith)
   - [~~filterWithIndex~~](#filterwithindex)
   - [~~filter~~](#filter)
+  - [~~groupSort~~](#groupsort)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [fromArray](#fromarray)
@@ -519,32 +519,6 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']
 
 Added in v2.0.0
 
-## groupSort
-
-Sort and then group the elements of an array into non empty arrays.
-
-**Signature**
-
-```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
-  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
-}
-```
-
-**Example**
-
-```ts
-import { groupSort } from 'fp-ts/NonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
-```
-
-Added in v2.0.0
-
 ## insertAt
 
 **Signature**
@@ -837,6 +811,23 @@ export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
 export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+```
+
+Added in v2.0.0
+
+## ~~groupSort~~
+
+This is just `sort` followed by `group`.
+
+**Signature**
+
+```ts
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: NonEmptyArray<A>): NonEmptyArray<NonEmptyArray<A>>
+  <A extends B>(as: Array<A>): Array<NonEmptyArray<A>>
+}
 ```
 
 Added in v2.0.0
