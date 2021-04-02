@@ -173,6 +173,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `wiltDefault`
     - add `witherDefault`
 
+# 2.10.0-rc.8
+
+- **Polish**
+  - the scope in `bindTo`, `bind`, `bindW`, `apS`, `apSW` is now correctly `readonly`
+  - fix `FromEither` type parameter order
+
 # 2.10.0-rc.7
 
 - **Breaking Change** (with respect to `2.10.0-rc`)

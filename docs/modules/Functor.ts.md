@@ -201,25 +201,25 @@ Added in v2.0.0
 ```ts
 export declare function bindTo<F extends URIS4>(
   F: Functor4<F>
-): <N extends string>(name: N) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { [K in N]: A }>
+): <N extends string>(name: N) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { readonly [K in N]: A }>
 export declare function bindTo<F extends URIS3>(
   F: Functor3<F>
-): <N extends string>(name: N) => <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in N]: A }>
+): <N extends string>(name: N) => <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in N]: A }>
 export declare function bindTo<F extends URIS3, E>(
   F: Functor3C<F, E>
-): <N extends string>(name: N) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { [K in N]: A }>
+): <N extends string>(name: N) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in N]: A }>
 export declare function bindTo<F extends URIS2>(
   F: Functor2<F>
-): <N extends string>(name: N) => <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, { [K in N]: A }>
+): <N extends string>(name: N) => <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in N]: A }>
 export declare function bindTo<F extends URIS2, E>(
   F: Functor2C<F, E>
-): <N extends string>(name: N) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, { [K in N]: A }>
+): <N extends string>(name: N) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in N]: A }>
 export declare function bindTo<F extends URIS>(
   F: Functor1<F>
-): <N extends string>(name: N) => <A>(fa: Kind<F, A>) => Kind<F, { [K in N]: A }>
+): <N extends string>(name: N) => <A>(fa: Kind<F, A>) => Kind<F, { readonly [K in N]: A }>
 export declare function bindTo<F>(
   F: Functor<F>
-): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { [K in N]: A }>
+): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { readonly [K in N]: A }>
 ```
 
 Added in v2.10.0

@@ -5,7 +5,7 @@ import { pipe } from '../../src/function'
 // Do
 //
 
-// $ExpectType ReaderTask<unknown, { a: number; b: string; }>
+// $ExpectType ReaderTask<unknown, { readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.of<unknown, number>(1)),

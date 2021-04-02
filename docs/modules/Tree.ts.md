@@ -600,7 +600,7 @@ Added in v2.9.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
-) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -613,7 +613,7 @@ Added in v2.8.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
-) => (ma: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -623,7 +623,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }>
 ```
 
 Added in v2.8.0

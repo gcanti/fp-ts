@@ -618,7 +618,7 @@ Added in v2.9.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<E, B>
-) => (fa: ReaderTask<E, A>) => ReaderTask<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -631,7 +631,7 @@ Added in v2.8.0
 export declare const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -644,7 +644,7 @@ Added in v2.8.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<E, B>
-) => (ma: ReaderTask<E, A>) => ReaderTask<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -654,7 +654,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N]: A }>
 ```
 
 Added in v2.8.0
@@ -667,7 +667,7 @@ Added in v2.8.0
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

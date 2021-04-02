@@ -2297,7 +2297,7 @@ Added in v2.10.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: B[]
-) => (fa: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v2.8.0
@@ -2310,7 +2310,7 @@ Added in v2.8.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B[]
-) => (ma: A[]) => { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (ma: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v2.8.0
@@ -2320,7 +2320,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { [K in N]: A }[]
+export declare const bindTo: <N>(name: N) => <A>(fa: A[]) => { readonly [K in N]: A }[]
 ```
 
 Added in v2.8.0

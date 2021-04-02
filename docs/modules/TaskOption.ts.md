@@ -870,7 +870,7 @@ Added in v2.10.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
-) => (fa: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.10.0
@@ -883,7 +883,7 @@ Added in v2.10.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
-) => (ma: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.10.0
@@ -893,7 +893,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
 ```
 
 Added in v2.10.0

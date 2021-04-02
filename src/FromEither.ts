@@ -60,7 +60,7 @@ export interface FromEither2C<F extends URIS2, E> {
  */
 export interface FromEither3<F extends URIS3> {
   readonly URI: F
-  readonly fromEither: <R, E, A>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: <E, A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -70,7 +70,7 @@ export interface FromEither3<F extends URIS3> {
 export interface FromEither3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromEither: <R, A>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: <A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -79,7 +79,7 @@ export interface FromEither3C<F extends URIS3, E> {
  */
 export interface FromEither4<F extends URIS4> {
   readonly URI: F
-  readonly fromEither: <S, R, E, A>(e: Either<E, A>) => Kind4<F, S, R, E, A>
+  readonly fromEither: <E, A, S, R>(e: Either<E, A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -92,10 +92,10 @@ export interface FromEither4<F extends URIS4> {
  */
 export function fromOption<F extends URIS4>(
   F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
+): <E>(onNone: Lazy<E>) => <A, S, R>(ma: Option<A>) => Kind4<F, S, R, E, A>
 export function fromOption<F extends URIS3>(
   F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+): <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
 export function fromOption<F extends URIS3, E>(
   F: FromEither3C<F, E>
 ): (onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
@@ -117,14 +117,14 @@ export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma:
 export function fromPredicate<F extends URIS4>(
   F: FromEither4<F>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, A>
 }
 export function fromPredicate<F extends URIS3>(
   F: FromEither3<F>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
 }
 export function fromPredicate<F extends URIS3, E>(
   F: FromEither3C<F, E>
@@ -135,8 +135,8 @@ export function fromPredicate<F extends URIS3, E>(
 export function fromPredicate<F extends URIS2>(
   F: FromEither2<F>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
 export function fromPredicate<F extends URIS2, E>(
   F: FromEither2C<F, E>
@@ -147,16 +147,16 @@ export function fromPredicate<F extends URIS2, E>(
 export function fromPredicate<F>(
   F: FromEither<F>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 }
 export function fromPredicate<F>(
   F: FromEither<F>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
 } {
-  return <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) =>
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (a: A) =>
     F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a)))
 }
 
@@ -253,16 +253,16 @@ export function chainOptionK<F extends URIS2>(
  */
 export function fromEitherK<F extends URIS4>(
   F: FromEither4<F>
-): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => <S, R>(...a: A) => Kind4<F, S, R, E, B>
 export function fromEitherK<F extends URIS3>(
   F: FromEither3<F>
-): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
 export function fromEitherK<F extends URIS3, E>(
   F: FromEither3C<F, E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => <R>(...a: A) => Kind3<F, R, E, B>
 export function fromEitherK<F extends URIS2>(
   F: FromEither2<F>
-): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
 export function fromEitherK<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
@@ -271,10 +271,10 @@ export function fromEitherK<F extends URIS>(
 ): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind<F, B>
 export function fromEitherK<F>(
   F: FromEither<F>
-): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
 export function fromEitherK<F>(
   F: FromEither<F>
-): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B> {
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B> {
   return (f) => flow(f, F.fromEither)
 }
 
@@ -285,11 +285,11 @@ export function fromEitherK<F>(
 export function chainEitherK<M extends URIS4>(
   F: FromEither4<M>,
   M: Chain4<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, B>
 export function chainEitherK<M extends URIS3>(
   F: FromEither3<M>,
   M: Chain3<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export function chainEitherK<M extends URIS3, E>(
   F: FromEither3C<M, E>,
   M: Chain3C<M, E>
@@ -297,7 +297,7 @@ export function chainEitherK<M extends URIS3, E>(
 export function chainEitherK<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
 export function chainEitherK<M extends URIS2, E>(
   F: FromEither2C<M, E>,
   M: Chain2C<M, E>
@@ -309,11 +309,11 @@ export function chainEitherK<M extends URIS>(
 export function chainEitherK<M>(
   F: FromEither<M>,
   M: Chain<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, B>
 export function chainEitherK<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B> {
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B> {
   const fromEitherKF = fromEitherK(F)
   return (f) => (ma) => M.chain(ma, fromEitherKF(f))
 }
@@ -326,19 +326,19 @@ export function filterOrElse<M extends URIS4>(
   F: FromEither4<M>,
   M: Chain4<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: Kind4<M, S, R, E, A>
   ) => Kind4<M, S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
 }
 export function filterOrElse<M extends URIS3>(
   F: FromEither3<M>,
   M: Chain3<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: Kind3<M, R, E, A>
   ) => Kind3<M, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
 export function filterOrElse<M extends URIS3, E>(
   F: FromEither3C<M, E>,
@@ -351,8 +351,8 @@ export function filterOrElse<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export function filterOrElse<M extends URIS2, E>(
   F: FromEither2C<M, E>,
@@ -365,15 +365,15 @@ export function filterOrElse<M extends URIS2>(
   F: FromEither<M>,
   M: Chain<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
 }
 export function filterOrElse<M extends URIS2>(
   F: FromEither2<M>,
   M: Chain2<M>
 ): {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 } {
   return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => (ma: Kind2<M, E, A>): Kind2<M, E, A> =>
     M.chain(ma, (a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))

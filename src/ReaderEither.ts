@@ -40,12 +40,13 @@ import {
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { flow, identity, pipe } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
@@ -105,7 +106,7 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] = R.of
+export const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A> = R.of
 
 /**
  * @category constructors
@@ -717,7 +718,7 @@ export const FromEither: FromEither3<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption =
+export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A> =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -741,7 +742,9 @@ export const chainOptionK =
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK =
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
 
@@ -759,7 +762,10 @@ export const chainEitherKW: <E2, A, B>(
  * @category constructors
  * @since 2.0.0
  */
-export const fromPredicate =
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+} =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -767,7 +773,12 @@ export const fromPredicate =
  * @category combinators
  * @since 2.0.0
  */
-export const filterOrElse =
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+    ma: ReaderEither<R, E, A>
+  ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+} =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
 
@@ -790,7 +801,9 @@ export const filterOrElseW: {
  * @category combinators
  * @since 2.4.0
  */
-export const fromEitherK =
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => E.Either<E, B>
+) => <R>(...a: A) => ReaderEither<R, E, B> =
   /*#__PURE__*/
   fromEitherK_(FromEither)
 
@@ -827,7 +840,7 @@ export const bindW: <N extends string, A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -848,7 +861,7 @@ export const apSW: <A, N extends string, R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
   fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

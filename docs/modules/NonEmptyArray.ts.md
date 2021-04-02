@@ -1306,7 +1306,7 @@ Added in v2.9.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: NonEmptyArray<B>
-) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -1319,7 +1319,7 @@ Added in v2.8.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => NonEmptyArray<B>
-) => (ma: NonEmptyArray<A>) => NonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0
@@ -1329,7 +1329,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <A>(fa: NonEmptyArray<A>) => NonEmptyArray<{ readonly [K in N]: A }>
 ```
 
 Added in v2.8.0

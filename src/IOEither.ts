@@ -45,6 +45,7 @@ import { Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
@@ -727,7 +728,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption =
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A> =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -751,7 +752,7 @@ export const chainOptionK =
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK =
+export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B> =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
 
@@ -769,7 +770,10 @@ export const chainEitherKW: <E2, A, B>(
  * @category constructors
  * @since 2.0.0
  */
-export const fromPredicate =
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+} =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -777,7 +781,10 @@ export const fromPredicate =
  * @category combinators
  * @since 2.0.0
  */
-export const filterOrElse =
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
+} =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
 
@@ -798,7 +805,9 @@ export const filterOrElseW: {
  * @category combinators
  * @since 2.4.0
  */
-export const fromEitherK =
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => E.Either<E, B>
+) => (...a: A) => IOEither<E, B> =
   /*#__PURE__*/
   fromEitherK_(FromEither)
 
@@ -865,7 +874,9 @@ export const bind =
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -884,7 +895,9 @@ export const apS =
 export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils

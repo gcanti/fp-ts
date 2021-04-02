@@ -50,6 +50,7 @@ import { Monad4 } from './Monad'
 import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
+import { Option } from './Option'
 import { Pointed4 } from './Pointed'
 import { Predicate } from './Predicate'
 import { Reader } from './Reader'
@@ -199,7 +200,7 @@ export const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTa
  * @category constructors
  * @since 2.0.0
  */
-export const fromEither: FromEither4<URI>['fromEither'] =
+export const fromEither: <S, R, E, A>(e: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   E.match((e) => left(e), right)
 
@@ -813,7 +814,7 @@ export const FromEither: FromEither4<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const fromOption =
+export const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -837,7 +838,9 @@ export const chainOptionK =
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK =
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
 
@@ -855,7 +858,12 @@ export const chainEitherKW: <E2, A, B>(
  * @category constructors
  * @since 2.4.4
  */
-export const fromPredicate =
+export const fromPredicate: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+    a: A
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
+} =
   /*#__PURE__*/
   fromPredicate_(FromEither)
 
@@ -863,7 +871,14 @@ export const fromPredicate =
  * @category combinators
  * @since 2.4.4
  */
-export const filterOrElse =
+export const filterOrElse: {
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+    ma: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
+    ma: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, A>
+} =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
 
@@ -886,7 +901,9 @@ export const filterOrElseW: {
  * @category combinators
  * @since 2.4.0
  */
-export const fromEitherK =
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => E.Either<E, B>
+) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> =
   /*#__PURE__*/
   fromEitherK_(FromEither)
 
@@ -1005,7 +1022,12 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => StateReaderTaskEither<
+  S,
+  R1 & R2,
+  E1 | E2,
+  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
+> = bind as any
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1026,7 +1048,12 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => StateReaderTaskEither<
+  S,
+  R1 & R2,
+  E1 | E2,
+  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
+> = apS as any
 
 // -------------------------------------------------------------------------------------
 // array utils
