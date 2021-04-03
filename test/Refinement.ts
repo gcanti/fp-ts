@@ -10,6 +10,14 @@ export const number = (u: unknown): u is number => typeof u === 'number'
 
 export const boolean = (u: unknown): u is boolean => typeof u === 'boolean'
 
+interface NonEmptyStringBrand {
+  readonly NonEmptyString: unique symbol
+}
+
+type NonEmptyString = string & NonEmptyStringBrand
+
+const NonEmptyString: _.Refinement<string, NonEmptyString> = (s): s is NonEmptyString => s.length > 0
+
 describe('Refinement', () => {
   it('not', () => {
     const r1: _.Refinement<string | number, string> = string
@@ -38,7 +46,7 @@ describe('Refinement', () => {
     U.deepStrictEqual(r({ a: 'a', b: 1 }), true)
   })
 
-  it('getRefinement', () => {
+  it('fromOptionK', () => {
     const f = (s: string | number): O.Option<string> => (typeof s === 'string' ? O.some(s) : O.none)
     const isString = _.fromOptionK(f)
     U.deepStrictEqual(isString('s'), true)
@@ -49,5 +57,22 @@ describe('Refinement', () => {
     const isA = _.fromOptionK<C, A>((c) => (c.type === 'A' ? O.some(c) : O.none))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
+  })
+
+  it('zero', () => {
+    const refinement = _.zero()
+    U.strictEqual(refinement('a'), false)
+  })
+
+  it('id', () => {
+    const refinement = _.id<string>()
+    U.strictEqual(refinement('a'), true)
+  })
+
+  it('compose', () => {
+    const refinement = pipe(string, _.compose(NonEmptyString))
+    U.strictEqual(refinement('a'), true)
+    U.strictEqual(refinement(null), false)
+    U.strictEqual(refinement(''), false)
   })
 })
