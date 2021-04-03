@@ -77,6 +77,7 @@ Added in v2.5.0
   - [flatten](#flatten)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
+  - [lefts](#lefts)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
@@ -166,7 +167,6 @@ Added in v2.5.0
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
@@ -915,6 +915,27 @@ assert.deepStrictEqual(intersperse(9)([1, 2, 3, 4]), [1, 9, 2, 9, 3, 9, 4])
 ```
 
 Added in v2.9.0
+
+## lefts
+
+Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+
+**Signature**
+
+```ts
+export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
+```
+
+**Example**
+
+```ts
+import { lefts } from 'fp-ts/ReadonlyArray'
+import { left, right } from 'fp-ts/Either'
+
+assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+```
+
+Added in v2.5.0
 
 ## prependAll
 
@@ -2367,27 +2388,6 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
-```
-
-Added in v2.5.0
-
-## lefts
-
-Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
-
-**Signature**
-
-```ts
-export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
-```
-
-**Example**
-
-```ts
-import { lefts } from 'fp-ts/ReadonlyArray'
-import { left, right } from 'fp-ts/Either'
-
-assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v2.5.0
