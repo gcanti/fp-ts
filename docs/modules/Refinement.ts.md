@@ -12,6 +12,8 @@ Added in v2.11.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [fromOptionK](#fromoptionk)
 - [utils](#utils)
   - [Refinement (interface)](#refinement-interface)
   - [and](#and)
@@ -19,6 +21,21 @@ Added in v2.11.0
   - [or](#or)
 
 ---
+
+# constructors
+
+## fromOptionK
+
+Returns a `Refinement` from a `Option` returning function.
+This function ensures that a custom type guard definition is type-safe.
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A, B extends A>(getOption: (a: A) => Option<B>) => Refinement<A, B>
+```
+
+Added in v2.11.0
 
 # utils
 

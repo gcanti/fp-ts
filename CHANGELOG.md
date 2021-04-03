@@ -30,6 +30,8 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `monoidVoid`, use `void` module instead.
   - `NonEmptyArray`
     - deprecate `groupSort` (it's just `sort` followed by `group`)
+  - `Option`
+    - deprecate `getRefinement`, use `Refinement` module instead.
   - `ReadonlyArray`
     - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
   - `ReadonlyNonEmptyArray`

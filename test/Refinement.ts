@@ -1,4 +1,5 @@
 import { pipe } from '../src/function'
+import * as O from '../src/Option'
 import { ReadonlyRecord } from '../src/ReadonlyRecord'
 import * as _ from '../src/Refinement'
 import * as U from './util'
@@ -35,5 +36,18 @@ describe('Refinement', () => {
     U.deepStrictEqual(r({ a: 'a', b: 'b' }), false)
     U.deepStrictEqual(r({ a: 1, b: 2 }), false)
     U.deepStrictEqual(r({ a: 'a', b: 1 }), true)
+  })
+
+  it('getRefinement', () => {
+    const f = (s: string | number): O.Option<string> => (typeof s === 'string' ? O.some(s) : O.none)
+    const isString = _.fromOptionK(f)
+    U.deepStrictEqual(isString('s'), true)
+    U.deepStrictEqual(isString(1), false)
+    type A = { readonly type: 'A' }
+    type B = { readonly type: 'B' }
+    type C = A | B
+    const isA = _.fromOptionK<C, A>((c) => (c.type === 'A' ? O.some(c) : O.none))
+    U.deepStrictEqual(isA({ type: 'A' }), true)
+    U.deepStrictEqual(isA({ type: 'B' }), false)
   })
 })

@@ -132,10 +132,10 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [getRefinement](#getrefinement)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [~~getRefinement~~](#getrefinement)
 
 ---
 
@@ -1545,30 +1545,6 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-## getRefinement
-
-Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
-This function ensures that a custom type guard definition is type-safe.
-
-```ts
-import { some, none, getRefinement } from 'fp-ts/Option'
-
-type A = { type: 'A' }
-type B = { type: 'B' }
-type C = A | B
-
-const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
-const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
-```
-
-**Signature**
-
-```ts
-export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
-```
-
-Added in v2.0.0
-
 ## sequenceArray
 
 Equivalent to `ReadonlyArray#sequence(Applicative)`.
@@ -1606,3 +1582,15 @@ export declare const traverseArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+## ~~getRefinement~~
+
+Use `Refinement` module instead.
+
+**Signature**
+
+```ts
+export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
+```
+
+Added in v2.0.0

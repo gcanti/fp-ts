@@ -1,6 +1,8 @@
 /**
  * @since 2.11.0
  */
+import { Option } from './Option'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -11,6 +13,21 @@
  */
 export interface Refinement<A, B extends A> {
   (a: A): a is B
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns a `Refinement` from a `Option` returning function.
+ * This function ensures that a custom type guard definition is type-safe.
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromOptionK = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
+  return (a: A): a is B => _.isSome(getOption(a))
 }
 
 // -------------------------------------------------------------------------------------
