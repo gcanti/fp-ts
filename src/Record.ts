@@ -140,7 +140,7 @@ export const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
 /**
  * Test whether or not a key exists in a `Record`.
  *
- * Note. This function is not pipeable because is a custom type guard.
+ * Note. This function is not pipeable because is a `Refinement`.
  *
  * @since 2.10.0
  */

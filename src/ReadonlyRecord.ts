@@ -184,7 +184,7 @@ export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
 /**
  * Test whether or not a key exists in a `ReadonlyRecord`.
  *
- * Note. This function is not pipeable because is a custom type guard.
+ * Note. This function is not pipeable because is a `Refinement`.
  *
  * @since 2.10.0
  */

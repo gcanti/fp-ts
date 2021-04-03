@@ -8,6 +8,17 @@ import { Lazy } from './function'
 import { Monoid, monoidAll, monoidAny } from './Monoid'
 import * as O from './Ord'
 import * as S from './Show'
+import { Refinement } from './Refinement'
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 2.11.0
+ */
+export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolean => typeof u === 'boolean'
 
 // -------------------------------------------------------------------------------------
 // destructors

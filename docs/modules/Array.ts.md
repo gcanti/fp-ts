@@ -131,8 +131,6 @@ Added in v2.0.0
   - [matchW](#matchw)
   - [spanLeft](#spanleft)
   - [tail](#tail)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
@@ -168,6 +166,9 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [~~array~~](#array)
+- [refinements](#refinements)
+  - [isEmpty](#isempty)
+  - [isNonEmpty](#isnonempty)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -185,7 +186,6 @@ Added in v2.0.0
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
-  - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
@@ -1915,20 +1915,6 @@ assert.deepStrictEqual(tail([]), none)
 
 Added in v2.0.0
 
-# guards
-
-## isNonEmpty
-
-Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## Alt
@@ -2324,6 +2310,40 @@ export declare const array: FunctorWithIndex1<'Array', number> &
 
 Added in v2.0.0
 
+# refinements
+
+## isEmpty
+
+Test whether an array is empty
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(as: A[]) => as is []
+```
+
+**Example**
+
+```ts
+import { isEmpty } from 'fp-ts/Array'
+
+assert.strictEqual(isEmpty([]), true)
+```
+
+Added in v2.0.0
+
+## isNonEmpty
+
+Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+Added in v2.0.0
+
 # unsafe
 
 ## unsafeDeleteAt
@@ -2557,26 +2577,6 @@ import { insertAt } from 'fp-ts/Array'
 import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
-```
-
-Added in v2.0.0
-
-## isEmpty
-
-Test whether an array is empty
-
-**Signature**
-
-```ts
-export declare const isEmpty: <A>(as: A[]) => as is []
-```
-
-**Example**
-
-```ts
-import { isEmpty } from 'fp-ts/Array'
-
-assert.strictEqual(isEmpty([]), true)
 ```
 
 Added in v2.0.0

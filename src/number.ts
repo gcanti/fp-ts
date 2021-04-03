@@ -9,6 +9,21 @@ import * as S from './Show'
 import { Semigroup, semigroupProduct, semigroupSum } from './Semigroup'
 import { Monoid, monoidProduct, monoidSum } from './Monoid'
 import { Magma } from './Magma'
+import { Refinement } from './Refinement'
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 2.11.0
+ */
+export const isNumber: Refinement<unknown, number> = (u: unknown): u is number => typeof u === 'number'
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

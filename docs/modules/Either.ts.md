@@ -80,9 +80,6 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -125,6 +122,9 @@ Added in v2.0.0
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
+- [refinements](#refinements)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -909,32 +909,6 @@ export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) =
 
 Added in v2.10.0
 
-# guards
-
-## isLeft
-
-Returns `true` if the either is an instance of `Left`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
-```
-
-Added in v2.0.0
-
-## isRight
-
-Returns `true` if the either is an instance of `Right`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## Alt
@@ -1436,6 +1410,32 @@ export interface Right<A> {
   readonly _tag: 'Right'
   readonly right: A
 }
+```
+
+Added in v2.0.0
+
+# refinements
+
+## isLeft
+
+Returns `true` if the either is an instance of `Left`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
+```
+
+Added in v2.0.0
+
+## isRight
+
+Returns `true` if the either is an instance of `Right`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
 ```
 
 Added in v2.0.0

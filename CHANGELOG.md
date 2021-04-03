@@ -81,6 +81,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `concat` / `concatW`
     - add `match`, `matchW`, `matchLeftW`, `matchRightW`
     - add `fromOptionK`
+  - `boolean`
+    - add `isBoolean`
   - `Either`
     - add `chainOptionK`
   - `function`
@@ -114,6 +116,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `range`
   - `number`
     - add `MagmaSub`
+    - add `isNumber`
+  - `string`
+    - add `isString`
   - `Option`
     - add `FromEither` instance
     - add `fromEitherK`

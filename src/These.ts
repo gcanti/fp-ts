@@ -61,6 +61,44 @@ export interface Both<E, A> {
  */
 export type These<E, A> = Either<E, A> | Both<E, A>
 
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns `true` if the these is an instance of `Left`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
+  return fa._tag === 'Left'
+}
+
+/**
+ * Returns `true` if the these is an instance of `Right`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
+  return fa._tag === 'Right'
+}
+
+/**
+ * Returns `true` if the these is an instance of `Both`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
+  return fa._tag === 'Both'
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
 /**
  * @category constructors
  * @since 2.0.0
@@ -316,36 +354,6 @@ export function getLeft<E, A>(fa: These<E, A>): Option<E> {
  */
 export function getRight<E, A>(fa: These<E, A>): Option<A> {
   return isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.right) : _.some(fa.right)
-}
-
-/**
- * Returns `true` if the these is an instance of `Left`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
-  return fa._tag === 'Left'
-}
-
-/**
- * Returns `true` if the these is an instance of `Right`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
-  return fa._tag === 'Right'
-}
-
-/**
- * Returns `true` if the these is an instance of `Both`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
-  return fa._tag === 'Both'
 }
 
 // TODO: make lazy in v3

@@ -82,9 +82,6 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isNone](#isnone)
-  - [isSome](#issome)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
@@ -125,6 +122,9 @@ Added in v2.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
+- [refinements](#refinements)
+  - [isNone](#isnone)
+  - [isSome](#issome)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -774,50 +774,6 @@ export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => 
 
 Added in v2.10.0
 
-# guards
-
-## isNone
-
-Returns `true` if the option is `None`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isNone: <A>(fa: Option<A>) => fa is None
-```
-
-**Example**
-
-```ts
-import { some, none, isNone } from 'fp-ts/Option'
-
-assert.strictEqual(isNone(some(1)), false)
-assert.strictEqual(isNone(none), true)
-```
-
-Added in v2.0.0
-
-## isSome
-
-Returns `true` if the option is an instance of `Some`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
-```
-
-**Example**
-
-```ts
-import { some, none, isSome } from 'fp-ts/Option'
-
-assert.strictEqual(isSome(some(1)), true)
-assert.strictEqual(isSome(none), false)
-```
-
-Added in v2.0.0
-
 # instances
 
 ## Alt
@@ -1429,6 +1385,50 @@ export interface Some<A> {
   readonly _tag: 'Some'
   readonly value: A
 }
+```
+
+Added in v2.0.0
+
+# refinements
+
+## isNone
+
+Returns `true` if the option is `None`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isNone: <A>(fa: Option<A>) => fa is None
+```
+
+**Example**
+
+```ts
+import { some, none, isNone } from 'fp-ts/Option'
+
+assert.strictEqual(isNone(some(1)), false)
+assert.strictEqual(isNone(none), true)
+```
+
+Added in v2.0.0
+
+## isSome
+
+Returns `true` if the option is an instance of `Some`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+```
+
+**Example**
+
+```ts
+import { some, none, isSome } from 'fp-ts/Option'
+
+assert.strictEqual(isSome(some(1)), true)
+assert.strictEqual(isSome(none), false)
 ```
 
 Added in v2.0.0

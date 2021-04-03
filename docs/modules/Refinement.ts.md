@@ -89,7 +89,7 @@ Added in v2.11.0
 ## fromOptionK
 
 Returns a `Refinement` from a `Option` returning function.
-This function ensures that a custom type guard definition is type-safe.
+This function ensures that a `Refinement` definition is type-safe.
 
 **Signature**
 

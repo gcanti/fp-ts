@@ -6,6 +6,17 @@ import * as M from './Monoid'
 import * as S from './Semigroup'
 import * as O from './Ord'
 import * as Sh from './Show'
+import { Refinement } from './Refinement'
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 2.11.0
+ */
+export const isString: Refinement<unknown, string> = (u: unknown): u is string => typeof u === 'string'
 
 // -------------------------------------------------------------------------------------
 // instances

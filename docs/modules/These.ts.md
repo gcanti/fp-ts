@@ -62,10 +62,6 @@ Added in v2.0.0
   - [getRightOnly](#getrightonly)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isBoth](#isboth)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
@@ -87,6 +83,10 @@ Added in v2.0.0
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
+- [refinements](#refinements)
+  - [isBoth](#isboth)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [utils](#utils)
   - [sequence](#sequence)
   - [toTuple2](#totuple2)
@@ -476,44 +476,6 @@ export declare const matchW: <E, B, A, C, D>(
 
 Added in v2.10.0
 
-# guards
-
-## isBoth
-
-Returns `true` if the these is an instance of `Both`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
-```
-
-Added in v2.0.0
-
-## isLeft
-
-Returns `true` if the these is an instance of `Left`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
-```
-
-Added in v2.0.0
-
-## isRight
-
-Returns `true` if the these is an instance of `Right`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## Bifunctor
@@ -710,6 +672,44 @@ Added in v2.0.0
 
 ```ts
 export type These<E, A> = Either<E, A> | Both<E, A>
+```
+
+Added in v2.0.0
+
+# refinements
+
+## isBoth
+
+Returns `true` if the these is an instance of `Both`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
+```
+
+Added in v2.0.0
+
+## isLeft
+
+Returns `true` if the these is an instance of `Left`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
+```
+
+Added in v2.0.0
+
+## isRight
+
+Returns `true` if the these is an instance of `Right`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
 ```
 
 Added in v2.0.0

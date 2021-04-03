@@ -83,13 +83,13 @@ export interface Right<A> {
 export type Either<E, A> = Left<E> | Right<A>
 
 // -------------------------------------------------------------------------------------
-// guards
+// refinements
 // -------------------------------------------------------------------------------------
 
 /**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise.
  *
- * @category guards
+ * @category refinements
  * @since 2.0.0
  */
 export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
@@ -97,7 +97,7 @@ export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.
  *
- * @category guards
+ * @category refinements
  * @since 2.0.0
  */
 export const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A> = _.isRight

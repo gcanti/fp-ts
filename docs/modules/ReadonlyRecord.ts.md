@@ -915,7 +915,7 @@ Added in v2.5.0
 
 Test whether or not a key exists in a `ReadonlyRecord`.
 
-Note. This function is not pipeable because is a custom type guard.
+Note. This function is not pipeable because is a `Refinement`.
 
 **Signature**
 

@@ -23,6 +23,8 @@ Added in v2.10.0
   - [SemigroupProduct](#semigroupproduct)
   - [SemigroupSum](#semigroupsum)
   - [Show](#show)
+- [refinements](#refinements)
+  - [isNumber](#isnumber)
 
 ---
 
@@ -171,3 +173,15 @@ export declare const Show: S.Show<number>
 ```
 
 Added in v2.10.0
+
+# refinements
+
+## isNumber
+
+**Signature**
+
+```ts
+export declare const isNumber: Refinement<unknown, number>
+```
+
+Added in v2.11.0

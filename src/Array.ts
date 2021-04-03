@@ -49,6 +49,31 @@ import {
 import NonEmptyArray = NEA.NonEmptyArray
 
 // -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test whether an array is empty
+ *
+ * @example
+ * import { isEmpty } from 'fp-ts/Array'
+ *
+ * assert.strictEqual(isEmpty([]), true)
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
+
+/**
+ * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = NEA.isNonEmpty
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -299,26 +324,6 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>): N
   }
   return out
 }
-
-/**
- * Test whether an array is empty
- *
- * @example
- * import { isEmpty } from 'fp-ts/Array'
- *
- * assert.strictEqual(isEmpty([]), true)
- *
- * @since 2.0.0
- */
-export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
-
-/**
- * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
- *
- * @category guards
- * @since 2.0.0
- */
-export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = NEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `Array`.

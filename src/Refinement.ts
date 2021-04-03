@@ -21,7 +21,7 @@ export interface Refinement<A, B extends A> {
 
 /**
  * Returns a `Refinement` from a `Option` returning function.
- * This function ensures that a custom type guard definition is type-safe.
+ * This function ensures that a `Refinement` definition is type-safe.
  *
  * @category constructors
  * @since 2.11.0

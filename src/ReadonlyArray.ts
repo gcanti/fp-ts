@@ -50,6 +50,31 @@ import {
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test whether a `ReadonlyArray` is empty.
+ *
+ * @example
+ * import { isEmpty } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.strictEqual(isEmpty([]), true)
+ *
+ * @category refinements
+ * @since 2.5.0
+ */
+export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
+
+/**
+ * Test whether a `ReadonlyArray` is non empty.
+ *
+ * @category refinements
+ * @since 2.5.0
+ */
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
+
+// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -307,26 +332,6 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
   }
   return out
 }
-
-/**
- * Test whether a `ReadonlyArray` is empty.
- *
- * @example
- * import { isEmpty } from 'fp-ts/ReadonlyArray'
- *
- * assert.strictEqual(isEmpty([]), true)
- *
- * @since 2.5.0
- */
-export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
-
-/**
- * Test whether a `ReadonlyArray` is non empty.
- *
- * @category guards
- * @since 2.5.0
- */
-export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.

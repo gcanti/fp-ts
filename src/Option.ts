@@ -75,7 +75,7 @@ export interface Some<A> {
 export type Option<A> = None | Some<A>
 
 // -------------------------------------------------------------------------------------
-// guards
+// refinements
 // -------------------------------------------------------------------------------------
 
 /**
@@ -87,7 +87,7 @@ export type Option<A> = None | Some<A>
  * assert.strictEqual(isSome(some(1)), true)
  * assert.strictEqual(isSome(none), false)
  *
- * @category guards
+ * @category refinements
  * @since 2.0.0
  */
 export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
@@ -101,7 +101,7 @@ export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
  * assert.strictEqual(isNone(some(1)), false)
  * assert.strictEqual(isNone(none), true)
  *
- * @category guards
+ * @category refinements
  * @since 2.0.0
  */
 export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'

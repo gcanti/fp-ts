@@ -2,13 +2,10 @@ import { pipe } from '../src/function'
 import * as O from '../src/Option'
 import { ReadonlyRecord } from '../src/ReadonlyRecord'
 import * as _ from '../src/Refinement'
+import * as S from '../src/string'
+import * as N from '../src/number'
+import * as B from '../src/boolean'
 import * as U from './util'
-
-export const string = (u: unknown): u is string => typeof u === 'string'
-
-export const number = (u: unknown): u is number => typeof u === 'number'
-
-export const boolean = (u: unknown): u is boolean => typeof u === 'boolean'
 
 interface NonEmptyStringBrand {
   readonly NonEmptyString: unique symbol
@@ -20,14 +17,14 @@ const NonEmptyString: _.Refinement<string, NonEmptyString> = (s): s is NonEmptyS
 
 describe('Refinement', () => {
   it('not', () => {
-    const r1: _.Refinement<string | number, string> = string
+    const r1: _.Refinement<string | number, string> = S.isString
     const r2 = _.not(r1)
     U.deepStrictEqual(r2('a'), false)
     U.deepStrictEqual(r2(1), true)
   })
 
   it('or', () => {
-    const r = pipe(string, _.or(number), _.or(boolean))
+    const r = pipe(S.isString, _.or(N.isNumber), _.or(B.isBoolean))
     U.deepStrictEqual(r({}), false)
     U.deepStrictEqual(r('a'), true)
     U.deepStrictEqual(r(1), true)
@@ -35,8 +32,8 @@ describe('Refinement', () => {
   })
 
   it('and', () => {
-    const ra = (r: ReadonlyRecord<string, unknown>): r is { readonly a: string } => string(r['a'])
-    const rb = (r: ReadonlyRecord<string, unknown>): r is { readonly b: number } => number(r['b'])
+    const ra = (r: ReadonlyRecord<string, unknown>): r is { readonly a: string } => S.isString(r['a'])
+    const rb = (r: ReadonlyRecord<string, unknown>): r is { readonly b: number } => N.isNumber(r['b'])
     const r = pipe(ra, _.and(rb))
     U.deepStrictEqual(r({ a: 'a' }), false)
     U.deepStrictEqual(r({ b: 1 }), false)
@@ -70,7 +67,7 @@ describe('Refinement', () => {
   })
 
   it('compose', () => {
-    const refinement = pipe(string, _.compose(NonEmptyString))
+    const refinement = pipe(S.isString, _.compose(NonEmptyString))
     U.strictEqual(refinement('a'), true)
     U.strictEqual(refinement(null), false)
     U.strictEqual(refinement(''), false)

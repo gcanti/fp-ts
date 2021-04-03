@@ -18,6 +18,8 @@ Added in v2.10.0
   - [Ord](#ord)
   - [Semigroup](#semigroup)
   - [Show](#show)
+- [refinements](#refinements)
+  - [isString](#isstring)
 - [utils](#utils)
   - [empty](#empty)
   - [isEmpty](#isempty)
@@ -99,6 +101,18 @@ export declare const Show: Sh.Show<string>
 ```
 
 Added in v2.10.0
+
+# refinements
+
+## isString
+
+**Signature**
+
+```ts
+export declare const isString: Refinement<unknown, string>
+```
+
+Added in v2.11.0
 
 # utils
 

@@ -121,8 +121,6 @@ Added in v2.5.0
   - [matchRight](#matchright)
   - [matchRightW](#matchrightw)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative-1)
@@ -161,6 +159,9 @@ Added in v2.5.0
 - [interop](#interop)
   - [fromArray](#fromarray)
   - [toArray](#toarray)
+- [refinements](#refinements)
+  - [isEmpty](#isempty)
+  - [isNonEmpty](#isnonempty)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -185,7 +186,6 @@ Added in v2.5.0
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
-  - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [lookup](#lookup)
@@ -1723,20 +1723,6 @@ export declare const matchW: <B, A, C>(
 
 Added in v2.11.0
 
-# guards
-
-## isNonEmpty
-
-Test whether a `ReadonlyArray` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
-
 # instances
 
 ## Alt
@@ -2150,6 +2136,40 @@ Added in v2.5.0
 
 ```ts
 export declare const toArray: <A>(as: readonly A[]) => A[]
+```
+
+Added in v2.5.0
+
+# refinements
+
+## isEmpty
+
+Test whether a `ReadonlyArray` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
+```
+
+**Example**
+
+```ts
+import { isEmpty } from 'fp-ts/ReadonlyArray'
+
+assert.strictEqual(isEmpty([]), true)
+```
+
+Added in v2.5.0
+
+## isNonEmpty
+
+Test whether a `ReadonlyArray` is non empty.
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -2604,26 +2624,6 @@ import { insertAt } from 'fp-ts/ReadonlyArray'
 import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
-```
-
-Added in v2.5.0
-
-## isEmpty
-
-Test whether a `ReadonlyArray` is empty.
-
-**Signature**
-
-```ts
-export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
-```
-
-**Example**
-
-```ts
-import { isEmpty } from 'fp-ts/ReadonlyArray'
-
-assert.strictEqual(isEmpty([]), true)
 ```
 
 Added in v2.5.0
