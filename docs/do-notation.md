@@ -53,3 +53,27 @@ main = do
   print y
   return (x, y)
 ```
+
+Note that due to the lack of type-classes in Typescript, when working with `fp-ts` we need to
+import everything from the appropriate module. In the previous example, we use specific `Do`,
+`bind`, `map` and `chainFirst` functions imported from the `Task` module as we were working
+with the `Task` type.
+
+If we were to write the same code using the `IO` monad, we would need to import everything from the `IO`
+module like so:
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as IO from 'fp-ts/IO'
+
+declare const print: (s: string) => IO.IO<void>
+declare const readLine: IO.IO<string>
+
+const mainDo: IO.IO<{ x: string, y: string }> = pipe(
+  IO.Do,
+  IO.bind('x', () => readLine),
+  IO.bind('y', () => readLine),
+  IO.chainFirst(({ x }) => print(x)),
+  IO.chainFirst(({ y }) => print(y)),
+)
+```
