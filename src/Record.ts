@@ -617,58 +617,46 @@ export const difference = <A>(second: Record<string, A>) => (first: Record<strin
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-/* istanbul ignore next */
-const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const _mapWithIndex: FunctorWithIndex1<URI, string>['mapWithIndex'] = (fa, f) => pipe(fa, mapWithIndex(f))
-/* istanbul ignore next */
-const _reduce = (O: Ord<string>): Foldable1<URI>['reduce'] => (fa, b, f) => pipe(fa, reduce(O)(b, f))
-/* istanbul ignore next */
-const _foldMap = (O: Ord<string>): Foldable1<URI>['foldMap'] => (M) => {
-  const foldMapOM = foldMap(O)(M)
-  return (fa, f) => pipe(fa, foldMapOM(f))
-}
-/* istanbul ignore next */
-const _reduceRight = (O: Ord<string>): Foldable1<URI>['reduceRight'] => (fa, b, f) => pipe(fa, reduceRight(O)(b, f))
-/* istanbul ignore next */
-const _filter = <A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> => pipe(fa, filter(predicate))
-/* istanbul ignore next */
-const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
-/* istanbul ignore next */
-const _partition = <A>(
-  fa: Record<string, A>,
-  predicate: Predicate<A>
-): Separated<Record<string, A>, Record<string, A>> => pipe(fa, partition(predicate))
-/* istanbul ignore next */
-const _partitionMap: Filterable1<URI>['partitionMap'] = (fa, f) => pipe(fa, partitionMap(f))
-/* istanbul ignore next */
-const _reduceWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['reduceWithIndex'] => (fa, b, f) =>
-  pipe(fa, reduceWithIndex(O)(b, f))
-/* istanbul ignore next */
-const _foldMapWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['foldMapWithIndex'] => (M) => {
-  const foldMapWithIndexOM = foldMapWithIndex(O)(M)
-  return (fa, f) => pipe(fa, foldMapWithIndexOM(f))
-}
-/* istanbul ignore next */
-const _reduceRightWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string>['reduceRightWithIndex'] => (fa, b, f) =>
-  pipe(fa, reduceRightWithIndex(O)(b, f))
-/* istanbul ignore next */
-const _partitionMapWithIndex = <A, B, C>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<B, C>
-): Separated<Record<string, B>, Record<string, C>> => pipe(fa, partitionMapWithIndex(f))
-/* istanbul ignore next */
-const _partitionWithIndex = <A>(fa: Record<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
-  pipe(fa, partitionWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const _filterMapWithIndex = <A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>) =>
-  pipe(fa, filterMapWithIndex(f))
-/* istanbul ignore next */
-const _filterWithIndex = <A>(fa: Record<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
-  pipe(fa, filterWithIndex(predicateWithIndex))
+const _map = RR._map
+const _mapWithIndex = RR._mapWithIndex
+const _reduce = RR._reduce
+const _foldMap = RR._foldMap
+const _reduceRight = RR._reduceRight
+const _filter = RR._filter
+const _filterMap = RR._filterMap
+const _partition = RR._partition
+const _partitionMap = RR._partitionMap
+const _reduceWithIndex = RR._reduceWithIndex
+const _foldMapWithIndex = RR._foldMapWithIndex
+const _reduceRightWithIndex = RR._reduceRightWithIndex
+const _partitionMapWithIndex = RR._partitionMapWithIndex
+const _partitionWithIndex = RR._partitionWithIndex
+const _filterMapWithIndex = RR._filterMapWithIndex
+const _filterWithIndex = RR._filterWithIndex
 const _traverse = RR._traverse
 const _sequence = RR._sequence
-const _traverseWithIndex = RR._traverseWithIndex
+const _traverseWithIndex = (O: Ord<string>) => <F>(
+  F: Applicative<F>
+): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
+  const keysO = keys_(O)
+  return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
+    const ks = keysO(ta)
+    if (ks.length === 0) {
+      return F.of({})
+    }
+    let fr: HKT<F, Record<string, B>> = F.of({})
+    for (const key of ks) {
+      fr = F.ap(
+        F.map(fr, (r) => (b: B) => {
+          r[key] = b
+          return r
+        }),
+        f(key, ta[key])
+      )
+    }
+    return fr
+  }
+}
 
 // -------------------------------------------------------------------------------------
 // type class members

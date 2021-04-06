@@ -299,6 +299,7 @@ describe('Record', () => {
       const traverseWithIndex = _.traverseWithIndex(O.Applicative)(f)
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
       U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
+      U.deepStrictEqual(pipe({}, traverseWithIndex), O.some({}))
     })
 
     it('getTraversableWithIndex', () => {
@@ -306,6 +307,7 @@ describe('Record', () => {
       const f = (k: string, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
       U.deepStrictEqual(TWI.traverseWithIndex(O.Applicative)({ b: 2 }, f), O.some({ b: 2 }))
       U.deepStrictEqual(TWI.traverseWithIndex(O.Applicative)({ a: 1, b: 2 }, f), O.none)
+      U.deepStrictEqual(TWI.traverseWithIndex(O.Applicative)({}, f), O.some({}))
       // should respect the order
       U.deepStrictEqual(
         pipe(TWI.traverseWithIndex(O.Applicative)({ b: 2, c: 1 }, f), O.map(Object.keys)),
