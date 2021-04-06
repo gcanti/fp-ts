@@ -4,6 +4,7 @@ import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import { reverse } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyRecord'
 import * as Se from '../src/Semigroup'
@@ -248,14 +249,18 @@ describe('ReadonlyRecord', () => {
         O.some({ a: 1, b: 2 })
       )
       U.deepStrictEqual(_.traverse(O.Applicative)((n: number) => (n >= 2 ? O.some(n) : O.none))({ a: 1, b: 2 }), O.none)
+    })
 
+    it('getTraversable', () => {
+      const T = _.getTraversable(reverse(S.Ord))
+      const f = (n: number) => (n <= 2 ? O.some(n) : O.none)
+      U.deepStrictEqual(T.traverse(O.Applicative)({ a: 1, b: 2 }, f), O.some({ a: 1, b: 2 }))
+      U.deepStrictEqual(T.traverse(O.Applicative)({ a: 1, b: 3 }, f), O.none)
+      // should respect the order
+      U.deepStrictEqual(pipe(T.traverse(O.Applicative)({ b: 2, a: 1 }, f), O.map(Object.keys)), O.some(['b', 'a']))
       U.deepStrictEqual(
-        _.getTraversable(S.Ord).traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n <= 2 ? O.some(n) : O.none)),
-        O.some({ a: 1, b: 2 })
-      )
-      U.deepStrictEqual(
-        _.getTraversable(S.Ord).traverse(O.Applicative)({ a: 1, b: 2 }, (n: number) => (n >= 2 ? O.some(n) : O.none)),
-        O.none
+        pipe(T.sequence(O.Applicative)({ b: O.some(2), a: O.some(1) }), O.map(Object.keys)),
+        O.some(['b', 'a'])
       )
     })
 
@@ -276,10 +281,17 @@ describe('ReadonlyRecord', () => {
       const traverseWithIndex = _.traverseWithIndex(O.Applicative)(f)
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
       U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
+    })
 
+    it('getTraversableWithIndex', () => {
+      const TWI = _.getTraversableWithIndex(reverse(S.Ord))
+      const f = (k: string, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
+      U.deepStrictEqual(TWI.traverseWithIndex(O.Applicative)({ b: 2 }, f), O.some({ b: 2 }))
+      U.deepStrictEqual(TWI.traverseWithIndex(O.Applicative)({ a: 1, b: 2 }, f), O.none)
+      // should respect the order
       U.deepStrictEqual(
-        _.getTraversableWithIndex(S.Ord).traverseWithIndex(O.Applicative)({ b: 2 }, f),
-        O.some({ b: 2 })
+        pipe(TWI.traverseWithIndex(O.Applicative)({ b: 2, c: 1 }, f), O.map(Object.keys)),
+        O.some(['c', 'b'])
       )
     })
 

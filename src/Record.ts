@@ -636,13 +636,6 @@ const _foldMap = (O: Ord<string>): Foldable1<URI>['foldMap'] => (M) => {
 /* istanbul ignore next */
 const _reduceRight = (O: Ord<string>): Foldable1<URI>['reduceRight'] => (fa, b, f) => pipe(fa, reduceRight(O)(b, f))
 /* istanbul ignore next */
-const _traverse = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-/* istanbul ignore next */
 const _filter = <A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> => pipe(fa, filter(predicate))
 /* istanbul ignore next */
 const _filterMap: Filterable1<URI>['filterMap'] = (fa, f) => pipe(fa, filterMap(f))
@@ -678,13 +671,9 @@ const _filterMapWithIndex = <A, B>(fa: Record<string, A>, f: (key: string, a: A)
 /* istanbul ignore next */
 const _filterWithIndex = <A>(fa: Record<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
   pipe(fa, filterWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const _traverseWithIndex = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (ta, f) => pipe(ta, traverseWithIndexF(f))
-}
+const _traverse = RR._traverse
+const _sequence = RR._sequence
+const _traverseWithIndex = RR._traverseWithIndex
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -980,8 +969,8 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
   reduce: _reduce(O),
   foldMap: _foldMap(O),
   reduceRight: _reduceRight(O),
-  traverse: _traverse,
-  sequence
+  traverse: _traverse(O),
+  sequence: _sequence(O)
 })
 
 /**
@@ -998,9 +987,9 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
   reduceWithIndex: _reduceWithIndex(O),
   foldMapWithIndex: _foldMapWithIndex(O),
   reduceRightWithIndex: _reduceRightWithIndex(O),
-  traverse: _traverse,
-  sequence,
-  traverseWithIndex: _traverseWithIndex
+  traverse: _traverse(O),
+  sequence: _sequence(O),
+  traverseWithIndex: _traverseWithIndex(O)
 })
 
 /**
@@ -1115,7 +1104,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence
 }
 
@@ -1136,9 +1125,9 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   reduceWithIndex: _reduceWithIndex(S.Ord),
   foldMapWithIndex: _foldMapWithIndex(S.Ord),
   reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
-  traverseWithIndex: _traverseWithIndex
+  traverseWithIndex: _traverseWithIndex(S.Ord)
 }
 
 // tslint:disable-next-line: deprecation
@@ -1159,7 +1148,7 @@ export const Witherable: Witherable1<URI> = {
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1212,7 +1201,7 @@ export const record: FunctorWithIndex1<URI, string> &
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1228,7 +1217,7 @@ export const record: FunctorWithIndex1<URI, string> &
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex: _traverseWithIndex,
+  traverseWithIndex: _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }

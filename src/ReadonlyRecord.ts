@@ -9,7 +9,7 @@ import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
 import { Foldable as FoldableHKT, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, pipe, SK } from './function'
+import { flow, identity, pipe, SK } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
@@ -533,23 +533,8 @@ export function traverseWithIndex<F>(
 export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
-  return <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => {
-    const ks = keys(ta)
-    if (ks.length === 0) {
-      return F.of(empty)
-    }
-    let fr: HKT<F, Record<string, B>> = F.of({})
-    for (const key of ks) {
-      fr = F.ap(
-        F.map(fr, (r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
-        f(key, ta[key])
-      )
-    }
-    return fr
-  }
+  const traverseWithIndexOF = _traverseWithIndex(S.Ord)(F)
+  return (f) => (ta) => traverseWithIndexOF(ta, f)
 }
 
 /**
@@ -584,8 +569,8 @@ export function traverse<F>(
 export function traverse<F>(
   F: Applicative<F>
 ): <A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (f) => traverseWithIndexF((_, a) => f(a))
+  const traverseOF = _traverse(S.Ord)(F)
+  return (f) => (ta) => traverseOF(ta, f)
 }
 
 /**
@@ -612,7 +597,7 @@ export function sequence<F>(
 export function sequence<F>(
   F: Applicative<F>
 ): <A>(ta: ReadonlyRecord<string, HKT<F, A>>) => HKT<F, ReadonlyRecord<string, A>> {
-  return traverseWithIndex(F)(SK)
+  return _sequence(S.Ord)(F)
 }
 
 /**
@@ -993,13 +978,6 @@ const _foldMap: (O: Ord<string>) => Foldable1<URI>['foldMap'] = (O) => (M) => {
 const _reduceRight: (O: Ord<string>) => Foldable1<URI>['reduceRight'] = (O) => (fa, b, f) =>
   pipe(fa, reduceRight(O)(b, f))
 /* istanbul ignore next */
-const _traverse = <F>(
-  F: Applicative<F>
-): (<A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-/* istanbul ignore next */
 const _filter = <A>(fa: ReadonlyRecord<string, A>, predicate: Predicate<A>): ReadonlyRecord<string, A> =>
   pipe(fa, filter(predicate))
 /* istanbul ignore next */
@@ -1039,12 +1017,51 @@ const _filterMapWithIndex = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: strin
 /* istanbul ignore next */
 const _filterWithIndex = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
   pipe(fa, filterWithIndex(predicateWithIndex))
-/* istanbul ignore next */
-const _traverseWithIndex = <F>(
+
+/** @internal */
+export const _traverse = (
+  O: Ord<string>
+): (<F>(
+  F: Applicative<F>
+) => <A, B>(ta: ReadonlyRecord<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
+  const traverseWithIndexO = _traverseWithIndex(O)
+  return (F) => {
+    const traverseWithIndexOF = traverseWithIndexO(F)
+    return (ta, f) => traverseWithIndexOF(ta, flow(SK, f))
+  }
+}
+/** @internal */
+export const _sequence = (
+  O: Ord<string>
+): (<F>(F: Applicative<F>) => <A>(ta: ReadonlyRecord<string, HKT<F, A>>) => HKT<F, ReadonlyRecord<string, A>>) => {
+  const traverseO = _traverse(O)
+  return (F) => {
+    const traverseOF = traverseO(F)
+    return (ta) => traverseOF(ta, identity)
+  }
+}
+/** @internal */
+export const _traverseWithIndex = (O: Ord<string>) => <F>(
   F: Applicative<F>
 ): (<A, B>(ta: ReadonlyRecord<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, ReadonlyRecord<string, B>>) => {
-  const traverseWithIndexF = traverseWithIndex(F)
-  return (ta, f) => pipe(ta, traverseWithIndexF(f))
+  const keysO = keys_(O)
+  return <A, B>(ta: ReadonlyRecord<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
+    const ks = keysO(ta)
+    if (ks.length === 0) {
+      return F.of(empty)
+    }
+    let fr: HKT<F, Record<string, B>> = F.of({})
+    for (const key of ks) {
+      fr = F.ap(
+        F.map(fr, (r) => (b: B) => {
+          r[key] = b
+          return r
+        }),
+        f(key, ta[key])
+      )
+    }
+    return fr
+  }
 }
 
 // -------------------------------------------------------------------------------------
@@ -1418,8 +1435,8 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
   reduce: _reduce(O),
   foldMap: _foldMap(O),
   reduceRight: _reduceRight(O),
-  traverse: _traverse,
-  sequence
+  traverse: _traverse(O),
+  sequence: _sequence(O)
 })
 
 /**
@@ -1436,9 +1453,9 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
   reduceWithIndex: _reduceWithIndex(O),
   foldMapWithIndex: _foldMapWithIndex(O),
   reduceRightWithIndex: _reduceRightWithIndex(O),
-  traverse: _traverse,
-  sequence,
-  traverseWithIndex: _traverseWithIndex
+  traverse: _traverse(O),
+  sequence: _sequence(O),
+  traverseWithIndex: _traverseWithIndex(O)
 })
 
 /**
@@ -1553,7 +1570,7 @@ export const Traversable: Traversable1<URI> = {
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence
 }
 
@@ -1574,9 +1591,9 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   reduceWithIndex: _reduceWithIndex(S.Ord),
   foldMapWithIndex: _foldMapWithIndex(S.Ord),
   reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
-  traverseWithIndex: _traverseWithIndex
+  traverseWithIndex: _traverseWithIndex(S.Ord)
 }
 
 // tslint:disable-next-line: deprecation
@@ -1597,7 +1614,7 @@ export const Witherable: Witherable1<URI> = {
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1649,7 +1666,7 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   reduce: _reduce(S.Ord),
   foldMap: _foldMap(S.Ord),
   reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse,
+  traverse: _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1665,7 +1682,7 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex: _traverseWithIndex,
+  traverseWithIndex: _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }
