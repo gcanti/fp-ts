@@ -1002,7 +1002,7 @@ const _reduceRightWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
 const _partitionMapWithIndex = <A, B, C>(
   fa: ReadonlyRecord<string, A>,
   f: (key: string, a: A) => Either<B, C>
-): Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> => pipe(fa, partitionMapWithIndex(f))
+): Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> => pipe(fa, partitionMapWithIndex(f))
 /* istanbul ignore next */
 const _partitionWithIndex = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
   pipe(fa, partitionWithIndex(predicateWithIndex))
@@ -1068,9 +1068,9 @@ export const _traverseWithIndex = (O: Ord<string>) => <F>(
  * @since 2.5.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
-} = <A>(predicate: Predicate<A>): ((fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>) =>
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B>
+  <A>(predicate: Predicate<A>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>
+} = <A>(predicate: Predicate<A>): ((fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) =>
   filterWithIndex((_, a) => predicate(a))
 
 /**
@@ -1079,7 +1079,7 @@ export const filter: {
  */
 export const filterMap: <A, B>(
   f: (a: A) => Option<B>
-) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>> = (f) => filterMapWithIndex((_, a) => f(a))
+) => (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
@@ -1087,14 +1087,14 @@ export const filterMap: <A, B>(
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+    fa: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
   <A>(predicate: Predicate<A>): (
-    fa: Readonly<Record<string, A>>
-  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
+    fa: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 } = <A>(
   predicate: Predicate<A>
-): ((fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>) =>
+): ((fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
   partitionWithIndex((_, a) => predicate(a))
 
 /**
@@ -1103,25 +1103,24 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (f) =>
+) => (fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, C>> = (f) =>
   partitionMapWithIndex((_, a) => f(a))
-
 /**
  * @category Foldable
  * @since 2.5.0
  */
-export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
+export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
 /**
  * Use the overload constrained by `Ord` instead.
  *
  * @deprecated
  */
-export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Readonly<Record<string, A>>) => B
+export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
 export function reduce(
   ...args: [Ord<string>] | [unknown, (b: unknown, A: unknown) => unknown]
 ):
-  | ((b: unknown, f: (b: unknown, a: unknown) => unknown) => (fa: Readonly<Record<string, unknown>>) => unknown)
-  | ((fa: Readonly<Record<string, unknown>>) => unknown) {
+  | ((b: unknown, f: (b: unknown, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
+  | ((fa: ReadonlyRecord<string, unknown>) => unknown) {
   if (args.length === 1) {
     return (b: unknown, f: (b: unknown, a: unknown) => unknown) => reduceWithIndex(args[0])(b, (_, b, a) => f(b, a))
   }
@@ -1135,18 +1134,18 @@ export function reduce(
  */
 export function foldMap(
   O: Ord<string>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 /**
  * Use the overload constrained by `Ord` instead.
  *
  * @deprecated
  */
-export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
+export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 export function foldMap(
   arg: Ord<string> | Monoid<unknown>
 ):
-  | ((M: Monoid<unknown>) => (f: (a: unknown) => unknown) => (fa: Readonly<Record<string, unknown>>) => unknown)
-  | ((f: (a: unknown) => unknown) => (fa: Readonly<Record<string, unknown>>) => unknown) {
+  | ((M: Monoid<unknown>) => (f: (a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
+  | ((f: (a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown) {
   if ('compare' in arg) {
     return (M: Monoid<unknown>) => {
       const foldMapWithIndexM = foldMapWithIndex(arg)(M)
@@ -1162,20 +1161,18 @@ export function foldMap(
  * @category Foldable
  * @since 2.5.0
  */
-export function reduceRight(
-  O: Ord<string>
-): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
+export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
 /**
  * Use the overload constrained by `Ord` instead.
  *
  * @deprecated
  */
-export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Readonly<Record<string, A>>) => B
+export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
 export function reduceRight(
   ...args: [Ord<string>] | [unknown, (a: unknown, b: unknown) => unknown]
 ):
-  | ((b: unknown, f: (a: unknown, b: unknown) => unknown) => (fa: Readonly<Record<string, unknown>>) => unknown)
-  | ((fa: Readonly<Record<string, unknown>>) => unknown) {
+  | ((b: unknown, f: (a: unknown, b: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
+  | ((fa: ReadonlyRecord<string, unknown>) => unknown) {
   if (args.length === 2) {
     // tslint:disable-next-line: deprecation
     return reduceRightWithIndex(args[0], (_, a, b) => args[1](a, b))
@@ -1187,7 +1184,7 @@ export function reduceRight(
  * @category Compactable
  * @since 2.5.0
  */
-export const compact = <A>(r: Readonly<Record<string, Option<A>>>): Readonly<Record<string, A>> => {
+export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const k in r) {
     if (_.hasOwnProperty.call(r, k)) {
@@ -1205,8 +1202,8 @@ export const compact = <A>(r: Readonly<Record<string, Option<A>>>): Readonly<Rec
  * @since 2.5.0
  */
 export const separate = <A, B>(
-  r: Readonly<Record<string, Either<A, B>>>
-): Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>> => {
+  r: ReadonlyRecord<string, Either<A, B>>
+): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>> => {
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
   for (const k in r) {
@@ -1628,10 +1625,7 @@ export const Witherable: Witherable1<URI> = {
  * @since 2.5.0
  * @deprecated
  */
-export const insertAt: <A>(
-  k: string,
-  a: A
-) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>> = upsertAt
+export const insertAt: <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> = upsertAt
 
 /**
  * Use `has` instead.

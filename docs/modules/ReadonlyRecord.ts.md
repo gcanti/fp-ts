@@ -193,8 +193,8 @@ Added in v2.5.0
 ```ts
 export declare function foldMap(
   O: Ord<string>
-): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
-export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
+export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 ```
 
 Added in v2.5.0
@@ -206,8 +206,8 @@ Added in v2.5.0
 ```ts
 export declare function reduce(
   O: Ord<string>
-): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
-export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Readonly<Record<string, A>>) => B
+): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0
@@ -219,8 +219,8 @@ Added in v2.5.0
 ```ts
 export declare function reduceRight(
   O: Ord<string>
-): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
-export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Readonly<Record<string, A>>) => B
+): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0
