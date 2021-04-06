@@ -114,23 +114,18 @@ export function collect(
  * @deprecated
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
-export function collect(
-  O: Ord<string> | ((k: string, a: unknown) => unknown)
+export function collect<A, B>(
+  O: Ord<string> | ((k: string, a: A) => B)
 ):
   | (<K extends string, A, B>(f: (k: K, a: A) => B) => (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>)
-  | ((r: ReadonlyRecord<string, unknown>) => ReadonlyArray<unknown>) {
+  | ((r: ReadonlyRecord<string, A>) => ReadonlyArray<B>) {
   if (typeof O === 'function') {
-    return (r: ReadonlyRecord<string, unknown>) => {
-      const out: Array<unknown> = []
-      for (const key of keys(r)) {
-        out.push(O(key, r[key]))
-      }
-      return out
-    }
+    return collect(S.Ord)(O)
   }
+  const keysO = keys_(O)
   return <K extends string, A, B>(f: (k: K, a: A) => B) => (r: ReadonlyRecord<K, A>) => {
     const out: Array<B> = []
-    for (const key of keys_(O)(r)) {
+    for (const key of keysO(r)) {
       out.push(f(key, r[key]))
     }
     return out

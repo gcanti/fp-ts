@@ -80,23 +80,18 @@ export function collect(O: Ord<string>): <K extends string, A, B>(f: (k: K, a: A
  * @deprecated
  */
 export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B>
-export function collect(
-  arg: Ord<string> | ((k: string, a: unknown) => unknown)
+export function collect<A, B>(
+  O: Ord<string> | ((k: string, a: A) => B)
 ):
-  | ((r: Record<string, unknown>) => Array<unknown>)
-  | ((f: (k: string, a: unknown) => unknown) => (r: Record<string, unknown>) => Array<unknown>) {
-  if (typeof arg === 'function') {
-    return (r: Record<string, unknown>) => {
-      const out: Array<unknown> = []
-      for (const key of keys(r)) {
-        out.push(arg(key, r[key]))
-      }
-      return out
-    }
+  | (<K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => Array<B>)
+  | ((r: Record<string, A>) => Array<B>) {
+  if (typeof O === 'function') {
+    return collect(S.Ord)(O)
   }
-  return (f: (k: string, a: unknown) => unknown) => (r: Record<string, unknown>) => {
-    const out: Array<unknown> = []
-    for (const key of keys_(arg)(r)) {
+  const keysO = keys_(O)
+  return <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => {
+    const out: Array<B> = []
+    for (const key of keysO(r)) {
       out.push(f(key, r[key]))
     }
     return out
