@@ -93,6 +93,22 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
 
+/**
+ * Less strict version of [`asksE`](#asksE).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksEW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksEW
+
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------

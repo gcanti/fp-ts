@@ -53,7 +53,7 @@ import { MonadThrow4 } from './MonadThrow'
 import { Option } from './Option'
 import { Pointed4 } from './Pointed'
 import { Predicate } from './Predicate'
-import { Reader } from './Reader'
+import * as R from './Reader'
 import { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import { Refinement } from './Refinement'
@@ -68,6 +68,7 @@ import { TaskEither } from './TaskEither'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
 import Either = E.Either
+import Reader = R.Reader
 
 /**
  * @category model
@@ -237,7 +238,27 @@ export const fromState: <S, A, R, E = never>(sa: State<S, A>) => StateReaderTask
  */
 export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
   ma: StateReaderTaskEither<S, R1, E, A>
-): StateReaderTaskEither<S, R2, E, A> => (s) => (r2) => ma(s)(f(r2))
+): StateReaderTaskEither<S, R2, E, A> => flow(ma, R.local(f))
+
+/**
+ * Less strict version of [`asksE`](#asksE).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksEW = <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+): StateReaderTaskEither<S, R1 & R2, E, A> => (s) => (r) => f(r)(s)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksE: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = asksEW
 
 /**
  * @category combinators

@@ -378,4 +378,13 @@ describe('StateReaderTaskEither', () => {
       E.right(tuple(4, {}))
     )
   })
+
+  it('asksE', async () => {
+    interface Env {
+      readonly count: number
+    }
+    const e: Env = { count: 0 }
+    const f = (e: Env) => _.of(e.count + 1)
+    U.deepStrictEqual(await _.asksE(f)({})(e)(), E.right(tuple(1, {})))
+  })
 })

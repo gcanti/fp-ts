@@ -63,6 +63,22 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (r2) =>
   ma(f(r2))
 
+/**
+ * Less strict version of [`asksE`](#asksE).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksEW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksEW
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------

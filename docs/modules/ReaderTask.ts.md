@@ -25,6 +25,8 @@ Added in v2.3.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
@@ -194,6 +196,30 @@ export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: Re
 ```
 
 Added in v2.3.0
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## asksEW
+
+Less strict version of [`asksE`](#asksE).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## chainFirst
 

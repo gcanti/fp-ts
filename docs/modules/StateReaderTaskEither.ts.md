@@ -33,6 +33,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -329,6 +331,34 @@ export declare const apSecond: <S, R, E, B>(
 
 Added in v2.0.0
 
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.11.0
+
+## asksEW
+
+Less strict version of [`asksE`](#asksE).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+) => StateReaderTaskEither<S, R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainEitherK
 
 **Signature**
@@ -470,7 +500,7 @@ Added in v2.10.0
 
 ```ts
 export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => Reader<R, B>
+  f: (a: A) => R.Reader<R, B>
 ) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -668,7 +698,7 @@ Added in v2.10.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => Reader<R, B>
+  f: (...a: A) => R.Reader<R, B>
 ) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -823,7 +853,7 @@ Added in v2.4.4
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromReader: <R, A, S, E = never>(ma: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.11.0

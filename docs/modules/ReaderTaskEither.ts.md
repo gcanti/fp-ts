@@ -33,6 +33,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -342,6 +344,32 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksEW
+
+Less strict version of [`asksE`](#asksE).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
 
 ## chainEitherK
 

@@ -126,6 +126,14 @@ high state of flux, you're at risk of it changing without notice.
   - `Ord`
     - add `trivial` instance
     - add `equals`
+  - `Reader`
+    - add `asksEW`, `asksW`
+  - `ReaderEither`
+    - add `asksEW`, `asksW`
+  - `ReaderTask`
+    - add `asksEW`, `asksW`
+  - `ReaderTaskEither`
+    - add `asksEW`, `asksW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
@@ -190,6 +198,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromStateK`
     - add `chainStateK`
     - add `local`
+    - add `asksEW`, `asksW`
   - `string`
     - add `toUpperCase`
   - `struct`

@@ -37,6 +37,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainFirst](#chainfirst)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -263,6 +265,30 @@ export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader
 ```
 
 Added in v2.0.0
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.11.0
+
+## asksEW
+
+Less strict version of [`asksE`](#asksE).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## chainFirst
 

@@ -223,6 +223,22 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
   R.local
 
 /**
+ * Less strict version of [`asksE`](#asksE).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = R.asksEW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> = asksEW
+
+/**
  * @category combinators
  * @since 2.0.0
  */
