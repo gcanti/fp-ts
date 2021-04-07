@@ -397,17 +397,16 @@ export function foldMapWithIndex(
 export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
-export function foldMapWithIndex(
-  arg: Ord<string> | Monoid<unknown>
+export function foldMapWithIndex<M>(
+  arg: Ord<string> | Monoid<M>
 ):
-  | ((
-      M: Monoid<unknown>
-    ) => (f: (k: string, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
-  | ((f: (k: string, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown) {
+  | ((M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M)
+  | (<A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M) {
   if ('compare' in arg) {
-    return (M: Monoid<unknown>) => (f: (k: string, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => {
+    const keysO = keys_(arg)
+    return (M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => {
       let out = M.empty
-      const ks = keys_(arg)(fa)
+      const ks = keysO(fa)
       const len = ks.length
       for (let i = 0; i < len; i++) {
         const k = ks[i]
@@ -416,16 +415,7 @@ export function foldMapWithIndex(
       return out
     }
   }
-  return (f: (k: string, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => {
-    let out = arg.empty
-    const ks = keys(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = arg.concat(out, f(k, fa[k]))
-    }
-    return out
-  }
+  return foldMapWithIndex(S.Ord)(arg)
 }
 
 /**

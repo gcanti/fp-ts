@@ -267,16 +267,12 @@ export function foldMapWithIndex(
 export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
-export function foldMapWithIndex(
-  arg: Ord<string> | Monoid<unknown>
+export function foldMapWithIndex<M>(
+  arg: Ord<string> | Monoid<M>
 ):
-  | ((M: Monoid<unknown>) => (f: (k: string, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((f: (k: string, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown) {
-  if ('compare' in arg) {
-    return RR.foldMapWithIndex(arg)
-  }
-  // tslint:disable-next-line: deprecation
-  return RR.foldMapWithIndex(arg)
+  | ((M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: Record<string, A>) => M)
+  | (<A>(f: (k: string, a: A) => M) => (fa: Record<string, A>) => M) {
+  return 'compare' in arg ? RR.foldMapWithIndex(arg) : RR.foldMapWithIndex(S.Ord)(arg)
 }
 
 /**
