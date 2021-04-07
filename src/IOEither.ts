@@ -279,16 +279,16 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
 // -------------------------------------------------------------------------------------
 
 /* istanbul ignore next */
-const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
 /* istanbul ignore next */
-const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Applicative2<URI>['ap'] = (fab, fa) =>
+const _ap: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
 /* istanbul ignore next */

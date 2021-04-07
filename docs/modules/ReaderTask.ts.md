@@ -36,7 +36,7 @@ Added in v2.3.0
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
-  - [~~local~~](#local)
+  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -316,9 +316,10 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v2.4.0
 
-## ~~local~~
+## local
 
-Use `Reader`'s `local` instead.
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
 
 **Signature**
 

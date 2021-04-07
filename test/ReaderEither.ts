@@ -211,11 +211,7 @@ describe('ReaderEither', () => {
   })
 
   it('local', () => {
-    U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.local((n: number) => ({ a: n }))((r: { readonly a: number }) => E.right(r.a))(1),
-      E.right(1)
-    )
+    U.deepStrictEqual(_.local((n: number) => ({ a: n }))((r: { readonly a: number }) => E.right(r.a))(1), E.right(1))
   })
 
   it('getApplicativeReaderValidation', () => {

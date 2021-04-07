@@ -317,6 +317,17 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
+
+/**
  * @category combinators
  * @since 2.0.0
  */
@@ -428,15 +439,15 @@ export const chainTaskEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const _map: Monad3<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _apPar: Monad3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Monad3<URI>['ap'] = (fab, fa) =>
+const _map: Functor3<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply3<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply3<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain: Monad3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Chain3<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 /* istanbul ignore next */
 const _alt: Alt3<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 /* istanbul ignore next */
@@ -899,7 +910,7 @@ export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A
  * @since 2.11.0
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => R.Reader<R, B>
+  f: (...a: A) => Reader<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
   fromReaderK_(FromReader)
@@ -909,7 +920,7 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @since 2.11.0
  */
 export const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
+  f: (a: A) => Reader<R, B>
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
@@ -1351,14 +1362,3 @@ export function getReaderTaskValidation<E>(
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
 }
-
-/**
- * Use `Reader`'s `local` instead.
- *
- * @category combinators
- * @since 2.0.0
- * @deprecated
- */
-export const local: <R2, R1>(
-  f: (r2: R2) => R1
-) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local

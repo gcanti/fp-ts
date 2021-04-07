@@ -97,14 +97,14 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _apPar: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Monad1<URI>['ap'] = (fab, fa) =>
+const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // type class members

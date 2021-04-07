@@ -81,21 +81,30 @@ export const fromIO: FromIO2<URI>['fromIO'] =
   flow(T.fromIO, fromTask)
 
 // -------------------------------------------------------------------------------------
-// non-pipeables
+// combinators
 // -------------------------------------------------------------------------------------
 
-const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _apPar: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Monad2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.3.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
 
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
+
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
+const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -644,12 +653,3 @@ export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
-
-/**
- * Use `Reader`'s `local` instead.
- *
- * @category combinators
- * @since 2.3.0
- * @deprecated
- */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
