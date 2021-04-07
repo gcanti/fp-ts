@@ -743,16 +743,10 @@ export function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) 
  * @deprecated
  */
 export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
-export function reduceRight(
-  ...args: [Ord<string>] | [unknown, (a: unknown, b: unknown) => unknown]
-):
-  | ((b: unknown, f: (a: unknown, b: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((fa: Record<string, unknown>) => unknown) {
-  if (args.length === 2) {
-    // tslint:disable-next-line: deprecation
-    return RR.reduceRight(args[0], args[1])
-  }
-  return RR.reduceRight(args[0])
+export function reduceRight<A, B>(
+  ...args: [Ord<string>] | [B, (a: A, b: B) => B]
+): ((b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
+  return args.length === 2 ? RR.reduceRight(S.Ord)(...args) : RR.reduceRight(args[0])
 }
 
 /**
