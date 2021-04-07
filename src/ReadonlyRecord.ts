@@ -398,12 +398,12 @@ export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
 export function foldMapWithIndex<M>(
-  arg: Ord<string> | Monoid<M>
+  O: Ord<string> | Monoid<M>
 ):
   | ((M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M)
   | (<A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => M) {
-  if ('compare' in arg) {
-    const keysO = keys_(arg)
+  if ('compare' in O) {
+    const keysO = keys_(O)
     return (M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => {
       let out: M = M.empty
       const ks = keysO(fa)
@@ -415,7 +415,7 @@ export function foldMapWithIndex<M>(
       return out
     }
   }
-  return foldMapWithIndex(S.Ord)(arg)
+  return foldMapWithIndex(S.Ord)(O)
 }
 
 /**
@@ -1241,24 +1241,18 @@ export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<ReadonlyRecord<
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
-export function getShow(
-  arg: Ord<string> | Show<unknown>
-): ((S: Show<unknown>) => Show<ReadonlyRecord<string, unknown>>) | Show<ReadonlyRecord<string, unknown>> {
-  if ('compare' in arg) {
-    return (S: Show<unknown>) => ({
-      show: (r: ReadonlyRecord<string, unknown>) => {
-        const elements = collect(arg)((k, a: unknown) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
+export function getShow<A>(
+  O: Ord<string> | Show<A>
+): ((S: Show<A>) => Show<ReadonlyRecord<string, A>>) | Show<ReadonlyRecord<string, A>> {
+  if ('compare' in O) {
+    return (S: Show<A>) => ({
+      show: (r: ReadonlyRecord<string, A>) => {
+        const elements = collect(O)((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)(r).join(', ')
         return elements === '' ? '{}' : `{ ${elements} }`
       }
     })
   }
-  return {
-    show: (r: ReadonlyRecord<string, unknown>) => {
-      // tslint:disable-next-line: deprecation
-      const elements = collect((k, a: unknown) => `${JSON.stringify(k)}: ${arg.show(a)}`)(r).join(', ')
-      return elements === '' ? '{}' : `{ ${elements} }`
-    }
-  }
+  return getShow(S.Ord)(O)
 }
 
 /**

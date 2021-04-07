@@ -19,6 +19,19 @@ const noPrototype = Object.create(null)
 
 describe('ReadonlyRecord', () => {
   describe('pipeables', () => {
+    it('collect', () => {
+      const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
+      U.deepStrictEqual(_.collect(S.Ord)((key, val) => ({ key: key, value: val }))(x), [
+        { key: 'a', value: 'c' },
+        { key: 'b', value: false }
+      ])
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(_.collect((key, val) => ({ key: key, value: val }))(x), [
+        { key: 'a', value: 'c' },
+        { key: 'b', value: false }
+      ])
+    })
+
     it('map', () => {
       U.deepStrictEqual(pipe({ k1: 1, k2: 2 }, _.map(U.double)), { k1: 2, k2: 4 })
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, _.map(U.double)), { a: 2, b: 4 })

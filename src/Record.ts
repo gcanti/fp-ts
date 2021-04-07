@@ -268,11 +268,11 @@ export function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
 export function foldMapWithIndex<M>(
-  arg: Ord<string> | Monoid<M>
+  O: Ord<string> | Monoid<M>
 ):
   | ((M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: Record<string, A>) => M)
   | (<A>(f: (k: string, a: A) => M) => (fa: Record<string, A>) => M) {
-  return 'compare' in arg ? RR.foldMapWithIndex(arg) : RR.foldMapWithIndex(S.Ord)(arg)
+  return 'compare' in O ? RR.foldMapWithIndex(O) : RR.foldMapWithIndex(S.Ord)(O)
 }
 
 /**
@@ -780,14 +780,10 @@ export function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, 
  * @deprecated
  */
 export function getShow<A>(S: Show<A>): Show<Record<string, A>>
-export function getShow(
-  arg: Ord<string> | Show<unknown>
-): ((S: Show<unknown>) => Show<Record<string, unknown>>) | Show<Record<string, unknown>> {
-  if ('compare' in arg) {
-    return RR.getShow(arg)
-  }
-  // tslint:disable-next-line: deprecation
-  return RR.getShow(arg)
+export function getShow<A>(
+  O: Ord<string> | Show<A>
+): ((S: Show<A>) => Show<Record<string, A>>) | Show<Record<string, A>> {
+  return 'compare' in O ? RR.getShow(O) : RR.getShow(S.Ord)(O)
 }
 
 /**
