@@ -189,6 +189,7 @@ high state of flux, you're at risk of it changing without notice.
   - `StateReaderTaskEither`
     - add `fromStateK`
     - add `chainStateK`
+    - add `local`
   - `string`
     - add `toUpperCase`
   - `struct`

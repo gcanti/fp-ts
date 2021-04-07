@@ -229,6 +229,17 @@ export const fromState: <S, A, R, E = never>(sa: State<S, A>) => StateReaderTask
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
+  ma: StateReaderTaskEither<S, R1, E, A>
+): StateReaderTaskEither<S, R2, E, A> => (s) => (r2) => ma(s)(f(r2))
+
+/**
  * @category combinators
  * @since 2.4.0
  */

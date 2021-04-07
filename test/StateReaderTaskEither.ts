@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe, tuple } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
@@ -367,5 +367,15 @@ describe('StateReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(right, f)(2)({})(), E.right([6, 3]))
     const left: _.StateReaderTaskEither<number, unknown, string, number> = _.left('a')
     U.deepStrictEqual(await pipe(left, f)(2)({})(), E.left('a'))
+  })
+
+  it('local', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.asks((n: number) => n + 1),
+        _.local(S.size)
+      )({})('aaa')(),
+      E.right(tuple(4, {}))
+    )
   })
 })
