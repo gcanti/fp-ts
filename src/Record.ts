@@ -247,16 +247,10 @@ export function reduceWithIndex(
  * @deprecated
  */
 export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B
-export function reduceWithIndex(
-  ...args: [Ord<string>] | [unknown, (k: unknown, b: unknown, a: unknown) => unknown]
-):
-  | ((b: unknown, f: (k: unknown, b: unknown, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((fa: Record<string, unknown>) => unknown) {
-  if (args.length === 2) {
-    // tslint:disable-next-line: deprecation
-    return RR.reduceWithIndex(args[0], args[1])
-  }
-  return RR.reduceWithIndex(args[0])
+export function reduceWithIndex<A, B>(
+  ...args: [Ord<string>] | [B, (k: string, b: B, a: A) => B]
+): ((b: B, f: (k: string, b: B, a: A) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
+  return args.length === 1 ? RR.reduceWithIndex(args[0]) : RR.reduceWithIndex(S.Ord)(...args)
 }
 
 /**
@@ -710,7 +704,7 @@ export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>
 export function reduce<A, B>(
   ...args: [Ord<string>] | [B, (b: B, a: A) => B]
 ): ((b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
-  return args.length === 2 ? RR.reduce(S.Ord)(...args) : RR.reduce(args[0])
+  return args.length === 1 ? RR.reduce(args[0]) : RR.reduce(S.Ord)(...args)
 }
 
 /**
@@ -746,7 +740,7 @@ export function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<strin
 export function reduceRight<A, B>(
   ...args: [Ord<string>] | [B, (a: A, b: B) => B]
 ): ((b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
-  return args.length === 2 ? RR.reduceRight(S.Ord)(...args) : RR.reduceRight(args[0])
+  return args.length === 1 ? RR.reduceRight(args[0]) : RR.reduceRight(S.Ord)(...args)
 }
 
 /**

@@ -362,29 +362,18 @@ export function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export function reduceWithIndex(
-  ...args: [Ord<string>] | [unknown, (k: string, b: unknown, a: unknown) => unknown]
+export function reduceWithIndex<A, B>(
+  ...args: [Ord<string>] | [B, (k: string, b: B, a: A) => B]
 ):
-  | ((
-      b: unknown,
-      f: (k: string, b: unknown, a: unknown) => unknown
-    ) => (fa: ReadonlyRecord<string, unknown>) => unknown)
-  | ((fa: ReadonlyRecord<string, unknown>) => unknown) {
+  | ((b: B, f: (k: string, b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B)
+  | ((fa: ReadonlyRecord<string, A>) => B) {
   if (args.length === 2) {
-    return (fa: ReadonlyRecord<string, unknown>) => {
-      let out = args[0]
-      const ks = keys(fa)
-      const len = ks.length
-      for (let i = 0; i < len; i++) {
-        const k = ks[i]
-        out = args[1](k, out, fa[k])
-      }
-      return out
-    }
+    return reduceWithIndex(S.Ord)(...args)
   }
+  const keysO = keys_(args[0])
   return (b, f) => (fa) => {
-    let out = b
-    const ks = keys_(args[0])(fa)
+    let out: B = b
+    const ks = keysO(fa)
     const len = ks.length
     for (let i = 0; i < len; i++) {
       const k = ks[i]
