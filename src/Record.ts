@@ -678,29 +678,6 @@ export const filter: {
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
 
 /**
- * @category Foldable
- * @since 2.0.0
- */
-export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
-/**
- * Use the overload constrained by `Ord` instead.
- *
- * @deprecated
- */
-export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
-export function foldMap(
-  O: Ord<string> | Monoid<unknown>
-):
-  | ((M: Monoid<unknown>) => (f: (a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((f: (a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown) {
-  if ('compare' in O) {
-    return RR.foldMap(O)
-  }
-  // tslint:disable-next-line: deprecation
-  return RR.foldMap(O)
-}
-
-/**
  * @category Filterable
  * @since 2.0.0
  */
@@ -734,6 +711,25 @@ export function reduce<A, B>(
   ...args: [Ord<string>] | [B, (b: B, a: A) => B]
 ): ((b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
   return args.length === 2 ? RR.reduce(S.Ord)(...args) : RR.reduce(args[0])
+}
+
+/**
+ * @category Foldable
+ * @since 2.0.0
+ */
+export function foldMap(O: Ord<string>): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+/**
+ * Use the overload constrained by `Ord` instead.
+ *
+ * @deprecated
+ */
+export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export function foldMap<M>(
+  O: Ord<string> | Monoid<M>
+):
+  | ((M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M)
+  | (<A>(f: (a: A) => M) => (fa: Record<string, A>) => M) {
+  return 'compare' in O ? RR.foldMap(O) : RR.foldMap(S.Ord)(O)
 }
 
 /**

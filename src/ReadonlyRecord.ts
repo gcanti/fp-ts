@@ -1164,20 +1164,19 @@ export function foldMap(
  * @deprecated
  */
 export function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
-export function foldMap(
-  arg: Ord<string> | Monoid<unknown>
+export function foldMap<M>(
+  O: Ord<string> | Monoid<M>
 ):
-  | ((M: Monoid<unknown>) => (f: (a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
-  | ((f: (a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown) {
-  if ('compare' in arg) {
-    return (M: Monoid<unknown>) => {
-      const foldMapWithIndexM = foldMapWithIndex(arg)(M)
-      return (f: (a: unknown) => unknown) => foldMapWithIndexM((_, a) => f(a))
+  | ((M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M)
+  | (<A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M) {
+  if ('compare' in O) {
+    const foldMapWithIndexO = foldMapWithIndex(O)
+    return (M: Monoid<M>) => {
+      const foldMapWithIndexM = foldMapWithIndexO(M)
+      return <A>(f: (a: A) => M): ((fa: ReadonlyRecord<string, A>) => M) => foldMapWithIndexM((_, a) => f(a))
     }
   }
-  // tslint:disable-next-line: deprecation
-  const foldMapWithIndexM = foldMapWithIndex(arg)
-  return (f: (a: unknown) => unknown) => foldMapWithIndexM((_, a) => f(a))
+  return foldMap(S.Ord)(O)
 }
 
 /**
