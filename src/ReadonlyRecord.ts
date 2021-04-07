@@ -1141,16 +1141,14 @@ export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (f
  * @deprecated
  */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
-export function reduce(
-  ...args: [Ord<string>] | [unknown, (b: unknown, A: unknown) => unknown]
-):
-  | ((b: unknown, f: (b: unknown, a: unknown) => unknown) => (fa: ReadonlyRecord<string, unknown>) => unknown)
-  | ((fa: ReadonlyRecord<string, unknown>) => unknown) {
+export function reduce<A, B>(
+  ...args: [Ord<string>] | [B, (b: B, a: A) => B]
+): ((b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B) | ((fa: ReadonlyRecord<string, A>) => B) {
   if (args.length === 1) {
-    return (b: unknown, f: (b: unknown, a: unknown) => unknown) => reduceWithIndex(args[0])(b, (_, b, a) => f(b, a))
+    const reduceWithIndexO = reduceWithIndex(args[0])
+    return (b: B, f: (b: B, a: A) => B) => reduceWithIndexO(b, (_, b, a) => f(b, a))
   }
-  // tslint:disable-next-line: deprecation
-  return reduceWithIndex(args[0], (_, b, a) => args[1](b, a))
+  return reduce(S.Ord)(...args)
 }
 
 /**

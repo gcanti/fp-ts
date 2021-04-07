@@ -730,16 +730,10 @@ export function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (f
  * @deprecated
  */
 export function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
-export function reduce(
-  ...args: [Ord<string>] | [unknown, (b: unknown, a: unknown) => unknown]
-):
-  | ((b: unknown, f: (b: unknown, a: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((fa: Record<string, unknown>) => unknown) {
-  if (args.length === 2) {
-    // tslint:disable-next-line: deprecation
-    return RR.reduce(args[0], args[1])
-  }
-  return RR.reduce(args[0])
+export function reduce<A, B>(
+  ...args: [Ord<string>] | [B, (b: B, a: A) => B]
+): ((b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
+  return args.length === 2 ? RR.reduce(S.Ord)(...args) : RR.reduce(args[0])
 }
 
 /**
