@@ -287,16 +287,10 @@ export function reduceRightWithIndex(
  * @deprecated
  */
 export function reduceRightWithIndex<K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B): (fa: Record<K, A>) => B
-export function reduceRightWithIndex(
-  ...args: [Ord<string>] | [unknown, (k: string, a: unknown, b: unknown) => unknown]
-):
-  | ((b: unknown, f: (k: string, a: unknown, b: unknown) => unknown) => (fa: Record<string, unknown>) => unknown)
-  | ((fa: Record<string, unknown>) => unknown) {
-  if (args.length === 2) {
-    // tslint:disable-next-line: deprecation
-    return RR.reduceRightWithIndex(args[0], args[1])
-  }
-  return RR.reduceRightWithIndex(args[0])
+export function reduceRightWithIndex<A, B>(
+  ...args: [Ord<string>] | [B, (k: string, a: A, b: B) => B]
+): ((b: B, f: (k: string, a: A, b: B) => B) => (fa: Record<string, A>) => B) | ((fa: Record<string, A>) => B) {
+  return args.length === 1 ? RR.reduceRightWithIndex(args[0]) : RR.reduceRightWithIndex(S.Ord)(...args)
 }
 
 /**

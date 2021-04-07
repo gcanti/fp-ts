@@ -405,7 +405,7 @@ export function foldMapWithIndex<M>(
   if ('compare' in arg) {
     const keysO = keys_(arg)
     return (M: Monoid<M>) => <A>(f: (k: string, a: A) => M) => (fa: ReadonlyRecord<string, A>) => {
-      let out = M.empty
+      let out: M = M.empty
       const ks = keysO(fa)
       const len = ks.length
       for (let i = 0; i < len; i++) {
@@ -433,29 +433,18 @@ export function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
 ): (fa: ReadonlyRecord<K, A>) => B
-export function reduceRightWithIndex(
-  ...args: [Ord<string>] | [unknown, (k: string, a: unknown, b: unknown) => unknown]
+export function reduceRightWithIndex<A, B>(
+  ...args: [Ord<string>] | [B, (k: string, a: A, b: B) => B]
 ):
-  | ((
-      b: unknown,
-      f: (k: string, a: unknown, b: unknown) => unknown
-    ) => (fa: ReadonlyRecord<string, unknown>) => unknown)
-  | ((fa: ReadonlyRecord<string, unknown>) => unknown) {
+  | ((b: B, f: (k: string, a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B)
+  | ((fa: ReadonlyRecord<string, A>) => B) {
   if (args.length === 2) {
-    return (fa: ReadonlyRecord<string, unknown>) => {
-      let out = args[0]
-      const ks = keys(fa)
-      const len = ks.length
-      for (let i = len - 1; i >= 0; i--) {
-        const k = ks[i]
-        out = args[1](k, fa[k], out)
-      }
-      return out
-    }
+    return reduceRightWithIndex(S.Ord)(...args)
   }
+  const keysO = keys_(args[0])
   return (b, f) => (fa) => {
-    let out = b
-    const ks = keys_(args[0])(fa)
+    let out: B = b
+    const ks = keysO(fa)
     const len = ks.length
     for (let i = len - 1; i >= 0; i--) {
       const k = ks[i]
