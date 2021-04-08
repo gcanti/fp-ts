@@ -19,6 +19,9 @@ Added in v2.0.0
   - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [ChainRec](#chainrec)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -249,6 +252,28 @@ export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
 ```
 
 Added in v2.0.0
+
+# ChainRec
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
 
 # Compactable
 

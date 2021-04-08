@@ -1410,54 +1410,10 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
-  a: A,
-  f: (a: A) => ReadonlyArray<Either<A, B>>
-): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
-  const todo: Array<Either<A, B>> = [...f(a)]
-  // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
-
-  while (todo.length > 0) {
-    const e = todo.shift()!
-    if (e._tag === 'Left') {
-      todo.unshift(...f(e.left))
-    } else {
-      result.push(e.right)
-    }
-  }
-
-  return result
-}
-const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
-  a: A,
-  f: (a: A) => ReadonlyArray<Either<A, B>>
-): ReadonlyArray<B> => {
-  const initial = f(a)
-  // tslint:disable-next-line: readonly-array
-  const todo: Array<Either<A, B>> = []
-  // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
-
-  function go(e: Either<A, B>): void {
-    if (e._tag === 'Left') {
-      f(e.left).forEach((v) => todo.push(v))
-    } else {
-      result.push(e.right)
-    }
-  }
-
-  for (const e of initial) {
-    go(e)
-  }
-
-  while (todo.length > 0) {
-    go(todo.shift()!)
-  }
-
-  return result
-}
+/** @internal */
+export const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecDepthFirst(f))
+/** @internal */
+export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecBreadthFirst(f))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -2248,6 +2204,26 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 }
 
 /**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecDepthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
+  const todo: Array<Either<A, B>> = [...f(a)]
+  const out: Array<B> = []
+
+  while (todo.length > 0) {
+    const e = todo.shift()!
+    if (_.isLeft(e)) {
+      todo.unshift(...f(e.left))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  return out
+}
+
+/**
  * @category instances
  * @since 2.11.0
  */
@@ -2257,6 +2233,34 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   ap: _ap,
   chain: _chain,
   chainRec: _chainRecDepthFirst
+}
+
+/**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecBreadthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
+  const initial = f(a)
+  const todo: Array<Either<A, B>> = []
+  const out: Array<B> = []
+
+  function go(e: Either<A, B>): void {
+    if (_.isLeft(e)) {
+      f(e.left).forEach((v) => todo.push(v))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  for (const e of initial) {
+    go(e)
+  }
+
+  while (todo.length > 0) {
+    go(todo.shift()!)
+  }
+
+  return out
 }
 
 /**

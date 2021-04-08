@@ -69,7 +69,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromOption`, `fromPredicate` (@cdimitroulas)
     - add `filterE`
     - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `chainRecDepthFirst`
     - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `chainRecBreadthFirst`
     - add `getUnionSemigroup`
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`
@@ -138,7 +140,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
     - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `chainRecDepthFirst`
     - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `chainRecBreadthFirst`
     - add `getUnionSemigroup`
     - add `getUnionMonoid`
     - add `getIntersectionSemigroup`

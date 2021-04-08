@@ -1329,10 +1329,8 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-/* istanbul ignore next */
-const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecDepthFirst.chainRec as any
-/* istanbul ignore next */
-const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecBreadthFirst.chainRec as any
+const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecDepthFirst as any
+const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFirst as any
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -2100,6 +2098,14 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecDepthFirst: <A, B>(
+  f: (a: A) => Array<Either<A, B>>
+) => (a: A) => Array<B> = RA.chainRecDepthFirst as any
+
+/**
  * @category instances
  * @since 2.11.0
  */
@@ -2110,6 +2116,14 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   chain: _chain,
   chainRec: _chainRecDepthFirst
 }
+
+/**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecBreadthFirst: <A, B>(
+  f: (a: A) => Array<Either<A, B>>
+) => (a: A) => Array<B> = RA.chainRecBreadthFirst as any
 
 /**
  * @category instances
