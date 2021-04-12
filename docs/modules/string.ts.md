@@ -22,6 +22,7 @@ Added in v3.0.0
   - [empty](#empty)
   - [isEmpty](#isempty)
   - [size](#size)
+  - [toLowerCase](#tolowercase)
   - [toUpperCase](#touppercase)
 
 ---
@@ -140,12 +141,22 @@ export declare const size: (s: string) => number
 
 Added in v3.0.0
 
+## toLowerCase
+
+**Signature**
+
+```ts
+export declare const toLowerCase: <S extends string>(s: S) => Lowercase<S>
+```
+
+Added in v3.0.0
+
 ## toUpperCase
 
 **Signature**
 
 ```ts
-export declare const toUpperCase: (s: string) => string
+export declare const toUpperCase: <S extends string>(s: S) => Uppercase<S>
 ```
 
 Added in v3.0.0

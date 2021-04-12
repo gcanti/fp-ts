@@ -98,4 +98,9 @@ export const size = (s: string): number => s.length
 /**
  * @since 3.0.0
  */
-export const toUpperCase = (s: string): string => s.toUpperCase()
+export const toUpperCase = <S extends string>(s: S): Uppercase<S> => s.toUpperCase() as any
+
+/**
+ * @since 3.0.0
+ */
+export const toLowerCase = <S extends string>(s: S): Lowercase<S> => s.toLowerCase() as any

@@ -22,6 +22,7 @@ describe('Const', () => {
     })
 
     it('mapLeft', () => {
+      // @ts-ignore
       const f = _.mapLeft(S.toUpperCase)
       U.deepStrictEqual(pipe(_.make('a'), f), _.make('A'))
     })
