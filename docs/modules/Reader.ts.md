@@ -40,6 +40,7 @@ Added in v2.0.0
   - [asksE](#askse)
   - [asksEW](#asksew)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [flatten](#flatten)
   - [local](#local)
@@ -304,6 +305,22 @@ export declare const chainFirst: <A, E, B>(f: (a: A) => Reader<E, B>) => (first:
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainFirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## flap
 
