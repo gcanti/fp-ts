@@ -371,6 +371,18 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
+ * Less strict version of [`chainFirst`](#chainFirst).
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = chainFirst as any
+
+/**
  * @category instances
  * @since 2.10.0
  */

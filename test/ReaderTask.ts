@@ -41,6 +41,11 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
   })
 
+  it('chainFirstW', async () => {
+    const f = (a: string) => _.of(a.length)
+    U.deepStrictEqual(await pipe(_.of<object, string>('foo'), _.chainFirstW(f))({})(), 'foo')
+  })
+
   it('flatten', async () => {
     U.deepStrictEqual(await pipe(_.of(_.of('a')), _.flatten)({})(), 'a')
   })
