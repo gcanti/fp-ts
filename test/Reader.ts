@@ -36,6 +36,11 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
     })
 
+    it('chainFirstW', () => {
+      const f = (s: string) => _.of(s.length)
+      U.deepStrictEqual(pipe(_.of<object, string>('foo'), _.chainFirstW(f))({}), 'foo')
+    })
+
     it('chain', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
     })
