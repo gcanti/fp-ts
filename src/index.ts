@@ -112,6 +112,7 @@ import * as validationT from './ValidationT'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
+import * as ixApply from './IxApply'
 export {
   /**
    * @since 2.0.0
@@ -297,6 +298,10 @@ export {
    * @since 2.0.0
    */
   ioRef,
+  /**
+   * @since 2.10.0
+   */
+  ixApply,
   /**
    * @since 2.0.0
    */
