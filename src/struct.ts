@@ -12,13 +12,15 @@ type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (x
 
 type EnsureLiteral<K extends string> = string extends K ? never : [K] extends [UnionToIntersection<K>] ? K : never
 
-type TestLiteral<K extends string> = string extends K ? unknown : [K] extends [UnionToIntersection<K>] ? K : unknown
+type TestLiteral<K> = string extends K ? unknown : [K] extends [UnionToIntersection<K>] ? K : unknown
 
-type EnsureLiteralTuple<A extends Array<string>> = unknown extends {
+type EnsureLiteralTuple<A extends Array<unknown>> = unknown extends {
   [Key in keyof A]: A[Key] extends string ? TestLiteral<A[Key]> : unknown
 }[number]
   ? never
   : A
+
+type EnsureStringKey<A> = keyof A extends string ? keyof A : never
 
 type EnsurePropertyNotExist<T, K extends string> = keyof T extends never ? T : K extends keyof T ? never : T
 
@@ -44,14 +46,16 @@ type EnsurePropertyNotExist<T, K extends string> = keyof T extends never ? T : K
  *
  * @since 3.0.0
  */
-export const pick = <Keys extends Array<string>>(...ks: EnsureLiteralTuple<Keys>) => <
-  A extends { readonly [key in Keys[number]]: unknown }
->(
-  x: A
-): { readonly [K in Keys[number]]: A[K] } => {
-  const o = {} as { [K in Keys[number]]: A[K] }
+export const pick = <Obj1, Keys extends keyof Obj1 extends never ? Array<string> : Array<keyof Obj1>>(
+  ...ks: keyof Obj1 extends never ? EnsureLiteralTuple<Keys> : Keys
+) => <Obj2 extends { readonly [key in Keys[number]]: unknown }>(
+  x: keyof Obj1 extends never ? Obj2 : Obj1
+): keyof Obj1 extends never
+  ? { readonly [K in Keys[number]]: Obj2[K] }
+  : { readonly [K in Extract<Keys[number], keyof Obj1>]: Obj1[K] } => {
+  const o: any = {}
   /* eslint-disable */
-  for (const k of ks as Array<Keys[number]>) {
+  for (const k of ks as Array<string & keyof Obj1>) {
     o[k] = x[k]
   }
   /* eslint-enable */
@@ -76,18 +80,20 @@ export const pick = <Keys extends Array<string>>(...ks: EnsureLiteralTuple<Keys>
  *
  * @since 3.0.0
  */
-export const omit = <Keys extends Array<string>>(...ks: EnsureLiteralTuple<Keys>) => <
-  A extends { readonly [key in Keys[number]]: unknown }
->(
-  x: A
-): { readonly [K in Exclude<keyof A, Keys[number]>]: A[K] } => {
+export const omit = <Obj1, Keys extends keyof Obj1 extends never ? Array<string> : Array<keyof Obj1>>(
+  ...ks: keyof Obj1 extends never ? EnsureLiteralTuple<Keys> : Keys
+) => <Obj2 extends { readonly [key in Keys[number]]: unknown }>(
+  x: keyof Obj1 extends never ? Obj2 : Obj1
+): keyof Obj1 extends never
+  ? { readonly [K in Exclude<keyof Obj2, Keys[number]>]: Obj2[K] }
+  : { readonly [K in Exclude<keyof Obj1, Keys[number]>]: Obj1[K] } => {
   const o: any = {}
-  for (const k of Object.keys(x) as Array<Keys[number]>) {
+  for (const k of Object.keys(x) as Array<string & keyof Obj1>) {
     if (!ks.includes(k)) {
       o[k] = x[k]
     }
   }
-  return o as { [K in Exclude<keyof A, Keys[number]>]: A[K] }
+  return o
 }
 
 /**
@@ -108,7 +114,7 @@ export const omit = <Keys extends Array<string>>(...ks: EnsureLiteralTuple<Keys>
  * @since 3.0.0
  */
 export const insertAt: <Key extends string, Obj1, Val>(
-  prop: Key extends keyof Obj1 ? never : Key,
+  prop: Exclude<EnsureLiteral<Key>, keyof Obj1>,
   value: Val
 ) => <Obj2 extends { readonly [k in string as k extends Key ? never : k]: unknown }>(
   obj: keyof Obj1 extends never ? EnsurePropertyNotExist<Obj2, Key> : Obj1
@@ -137,9 +143,14 @@ export const insertAt: <Key extends string, Obj1, Val>(
  *
  * @since 3.0.0
  */
-export const renameAt = <Obj1, OldKey extends keyof Obj1 extends never ? string : keyof Obj1, NewKey extends string>(
-  from: OldKey,
-  to: Exclude<NewKey, keyof Obj1>
+
+export const renameAt = <
+  Obj1,
+  OldKey extends keyof Obj1 extends never ? string : EnsureStringKey<Obj1>,
+  NewKey extends string
+>(
+  from: keyof Obj1 extends never ? EnsureLiteral<OldKey> : OldKey,
+  to: Exclude<EnsureLiteral<NewKey>, keyof Obj1>
 ) => <Obj2 extends { readonly [k in OldKey]: unknown }>(
   obj: keyof Obj1 extends never ? EnsurePropertyNotExist<Obj2, NewKey> : Obj1
 ): OldKey extends keyof Obj1
@@ -292,8 +303,8 @@ export const getAssignSemigroup = <A = never>(): Semigroup<A> => ({
  *
  * @since 3.0.0
  */
-export const mapAt: <Obj1, Key extends keyof Obj1 extends never ? string : keyof Obj1, ValOut, ValIn>(
-  prop: Key extends string ? EnsureLiteral<Key> : never,
+export const mapAt: <Obj1, Key extends keyof Obj1 extends never ? string : EnsureStringKey<Obj1>, ValOut, ValIn>(
+  prop: keyof Obj1 extends never ? EnsureLiteral<Key> : Key,
   f: Key extends keyof Obj1 ? (ap: Obj1[Key]) => ValOut : (ap: ValIn) => ValOut
 ) => <Obj2 extends { [k in Key]: ValIn }>(
   a: keyof Obj1 extends never ? Obj2 : Obj1
@@ -312,18 +323,20 @@ export const mapAt: <Obj1, Key extends keyof Obj1 extends never ? string : keyof
  * import { pipe } from 'fp-ts/function'
  * import { modifyAt } from 'fp-ts/struct'
  *
+ * const modified = pipe(
+ *   { a: 'a', b: 1, c: true },
+ *   modifyAt('c', (c) => !c)
+ * )
+ *
  * assert.deepStrictEqual(
- *   pipe(
- *     { a: 'a', b: 1, c: true },
- *     modifyAt('c', (c) => !c)
- *   ),
+ *   modified,
  *   { a: 'a', b: 1, c: false }
  * )
  *
  * @since 3.0.0
  */
-export const modifyAt: <Obj1, Key extends keyof Obj1 extends never ? string : keyof Obj1, Val>(
-  prop: Key extends string ? EnsureLiteral<Key> : never,
+export const modifyAt: <Obj1, Key extends keyof Obj1 extends never ? string : EnsureStringKey<Obj1>, Val>(
+  prop: keyof Obj1 extends never ? EnsureLiteral<Key> : Key,
   f: Key extends keyof Obj1 ? (o: Obj1[Key]) => Obj1[Key] : (o: Val) => Val
 ) => <Obj2 extends { [k in Key]: Val }>(
   o: keyof Obj1 extends never ? Obj2 : Obj1
@@ -336,19 +349,21 @@ export const modifyAt: <Obj1, Key extends keyof Obj1 extends never ? string : ke
  * import { pipe } from 'fp-ts/function'
  * import { updateAt } from 'fp-ts/struct'
  *
+ * const updated = pipe(
+ *   { a: 'a', b: 1, c: true },
+ *   updateAt('c', false)
+ * )
+ *
  * assert.deepStrictEqual(
- *   pipe(
- *     { a: 'a', b: 1, c: true },
- *     updateAt('c', false)
- *   ),
+ *   updated,
  *   { a: 'a', b: 1, c: false }
  * )
  *
  * @since 3.0.0
  */
-export const updateAt: <Obj1, Key extends keyof Obj1 extends never ? string : keyof Obj1, Val>(
-  prop: Key extends string ? EnsureLiteral<Key> : never,
+export const updateAt: <Obj1, Key extends keyof Obj1 extends never ? string : EnsureStringKey<Obj1>, Val>(
+  prop: keyof Obj1 extends never ? EnsureLiteral<Key> : Key,
   ap: Key extends keyof Obj1 ? Obj1[Key] : Val
 ) => <Obj2 extends { [k in Key]: Val }>(
   o: keyof Obj1 extends never ? Obj2 : Obj1
-) => keyof Obj1 extends never ? Obj2 : Obj1 = (prop, ap) => modifyAt(prop, constant(ap) as any)
+) => keyof Obj1 extends never ? Obj2 : Obj1 = (prop, ap) => modifyAt(prop as never, constant(ap) as never)
