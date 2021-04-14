@@ -307,6 +307,10 @@ export {
    */
   ixChain,
   /**
+   * @since 2.10.0
+   */
+  ixStateT,
+  /**
    * @since 2.0.0
    */
   joinSemilattice,
