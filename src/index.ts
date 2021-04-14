@@ -113,6 +113,9 @@ import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
 import * as ixApply from './IxApply'
+import * as ixChain from './IxChain'
+import * as ixStateT from './IxStateT'
+import * as ixState from './IxState'
 export {
   /**
    * @since 2.0.0
@@ -310,6 +313,10 @@ export {
    * @since 2.10.0
    */
   ixStateT,
+  /**
+   * @since 2.10.0
+   */
+  ixState,
   /**
    * @since 2.0.0
    */
