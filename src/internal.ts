@@ -24,8 +24,17 @@ export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Le
 // Record
 // -------------------------------------------------------------------------------------
 
-/** @internal */
-export const hasOwnProperty = Object.prototype.hasOwnProperty
+const _hasOwnProperty = Object.prototype.hasOwnProperty
+
+/**
+ * This wrapper is needed to workaround https://github.com/gcanti/fp-ts/issues/1249.
+ *
+ * @internal
+ */
+export function hasOwnProperty(this: any, k: string, r?: object) {
+  /* istanbul ignore next */
+  return _hasOwnProperty.call(r === undefined ? this : r, k)
+}
 
 // -------------------------------------------------------------------------------------
 // NonEmptyArray
