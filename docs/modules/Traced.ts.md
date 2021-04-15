@@ -105,7 +105,7 @@ Added in v2.0.0
 
 ## ~~traced~~
 
-Use `Functor` instead.
+Use [`Functor`](#Functor) instead.
 
 **Signature**
 

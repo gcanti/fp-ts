@@ -211,7 +211,7 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -222,7 +222,7 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
 ) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `struct` instead.
+ * Use [`struct`](#struct) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -233,7 +233,7 @@ export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
 ) => Monoid<O> = struct
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -242,7 +242,7 @@ export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
 export const getDualMonoid = reverse
 
 /**
- * Use `max` instead.
+ * Use [`max`](#max) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -251,7 +251,7 @@ export const getDualMonoid = reverse
 export const getJoinMonoid = max
 
 /**
- * Use `min` instead.
+ * Use [`min`](#min) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -260,7 +260,7 @@ export const getJoinMonoid = max
 export const getMeetMonoid = min
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatAll) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -268,7 +268,7 @@ export const getMeetMonoid = min
 export const fold = concatAll
 
 /**
- * Use `boolean.MonoidAll` instead.
+ * Use [`MonoidAll`](./boolean.ts.html#MonoidAll) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -281,7 +281,7 @@ export const monoidAll: Monoid<boolean> = {
 }
 
 /**
- * Use `boolean.MonoidAny` instead.
+ * Use [`MonoidAny`](./boolean.ts.html#MonoidAny) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -294,7 +294,7 @@ export const monoidAny: Monoid<boolean> = {
 }
 
 /**
- * Use `function.getMonoid` instead.
+ * Use [`getMonoid`](./function.ts.html#getMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -303,9 +303,9 @@ export const monoidAny: Monoid<boolean> = {
 export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getMonoid
 
 /**
- * Use `function.getEndomorphismMonoid` instead.
+ * Use [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) instead.
  *
- * **Note**. The execution order in `function.getEndomorphismMonoid` is reversed.
+ * **Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) is reversed.
  *
  * @category instances
  * @since 2.0.0
@@ -314,7 +314,7 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => reverse(getEM())
 
 /**
- * Use `string.Monoid` instead.
+ * Use [`Monoid`](./string.ts.html#Monoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -327,7 +327,7 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
- * Use `number.MonoidSum` instead.
+ * Use [`MonoidSum`](./number.ts.html#MonoidSum) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -340,6 +340,8 @@ export const monoidSum: Monoid<number> = {
 }
 
 /**
+ * Use [`MonoidProduct`](./number.ts.html#MonoidProduct) instead.
+ *
  * @category instances
  * @since 2.0.0
  * @deprecated

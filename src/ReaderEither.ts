@@ -840,10 +840,7 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -854,7 +851,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEi
   getApplySemigroup_(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -865,10 +862,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E
   getApplicativeMonoid(Applicative)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -878,7 +872,7 @@ export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
   getApplySemigroup_(R.Apply)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeReaderValidation` and `getAltReaderValidation` instead.
+ * Use [`getApplicativeReaderValidation`](#getApplicativeReaderValidation) and [`getAltReaderValidation`](#getAltReaderValidation) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -904,7 +898,7 @@ export function getReaderValidation<E>(
 }
 
 /**
- * Use `Reader`'s `local` instead.
+ * Use [`local`](./Reader.ts.html#local) instead.
  *
  * @category combinators
  * @since 2.0.0

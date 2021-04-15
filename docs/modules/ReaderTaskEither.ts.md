@@ -673,7 +673,7 @@ Added in v2.0.0
 
 ## ~~local~~
 
-Use `Reader`'s `local` instead.
+Use [`local`](./Reader.ts.html#local) instead.
 
 **Signature**
 
@@ -1228,7 +1228,7 @@ Added in v2.10.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1240,7 +1240,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
 are concatenated using the provided `Semigroup`
@@ -1255,7 +1255,7 @@ Added in v2.0.0
 
 ## ~~getReaderTaskValidation~~
 
-Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+Use [`getApplicativeReaderTaskValidation`](#getApplicativeReaderTaskValidation) and [`getAltReaderTaskValidation`](#getAltReaderTaskValidation) instead.
 
 **Signature**
 
@@ -1269,10 +1269,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

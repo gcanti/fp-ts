@@ -51,6 +51,8 @@ export function lcm<A>(E: Eq<A>, F: Field<A>): (x: A, y: A) => A {
 // -------------------------------------------------------------------------------------
 
 /**
+ * Use [`Field`](./number.ts.html#Field) instead.
+ *
  * @category instances
  * @since 2.0.0
  * @deprecated

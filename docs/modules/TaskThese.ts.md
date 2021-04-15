@@ -533,7 +533,7 @@ Added in v2.4.0
 
 ## ~~bifunctorTaskThese~~
 
-Use `Bifunctor` instead.
+Use [`Bifunctor`](#Bifunctor) instead.
 
 **Signature**
 
@@ -545,7 +545,7 @@ Added in v2.7.0
 
 ## ~~functorTaskThese~~
 
-Use `Functor` instead.
+Use [`Functor`](#Functor) instead.
 
 **Signature**
 
@@ -557,7 +557,7 @@ Added in v2.7.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -605,7 +605,7 @@ Added in v2.10.0
 
 ## ~~toTuple~~
 
-Use `toTuple2` instead.
+Use [`toTuple2`](#toTuple2) instead.
 
 **Signature**
 

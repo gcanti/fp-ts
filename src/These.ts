@@ -673,7 +673,7 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `toTuple2` instead.
+ * Use [`toTuple2`](#toTuple2) instead.
  *
  * @since 2.0.0
  * @deprecated

@@ -602,7 +602,12 @@ Added in v2.0.0
 
 ## ~~getTraversableComposition~~
 
-Returns the composition of two traversables
+Use
+
+- [`traverse`](#traverse)
+- [`sequence`](#sequence)
+
+instead.
 
 **Signature**
 

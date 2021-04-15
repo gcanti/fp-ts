@@ -648,7 +648,7 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use `Array`'s `filterWithIndex` instead.
+Use [`filterWithIndex`](./Array.ts.html#filterWithIndex) instead.
 
 **Signature**
 
@@ -662,7 +662,7 @@ Added in v2.0.0
 
 ## ~~filter~~
 
-Use `Array`'s `filter` instead.
+Use [`filter`](./Array.ts.html#filter) instead.
 
 **Signature**
 
@@ -677,7 +677,7 @@ Added in v2.0.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependAll) instead.
 
 **Signature**
 
@@ -713,7 +713,7 @@ Added in v2.10.0
 
 ## ~~cons~~
 
-Use `Array`'s `prepend` instead.
+Use [`prepend`](./Array.ts.html#prepend) instead.
 
 **Signature**
 
@@ -726,7 +726,7 @@ Added in v2.0.0
 
 ## ~~snoc~~
 
-Use `Array`'s `append` instead.
+Use [`append`](./Array.ts.html#append) instead.
 
 **Signature**
 
@@ -780,7 +780,7 @@ Added in v2.9.0
 
 ## ~~uncons~~
 
-Use `unprepend` instead.
+Use [`unprepend`](#unprepend) instead.
 
 **Signature**
 
@@ -792,7 +792,7 @@ Added in v2.9.0
 
 ## ~~unsnoc~~
 
-Use `unappend` instead.
+Use [`unappend`](#unappend) instead.
 
 **Signature**
 
@@ -1200,7 +1200,7 @@ Added in v2.6.3
 
 ## ~~fold~~
 
-Use `concatAll` instead.
+Use [`concatAll`](#concatAll) instead.
 
 **Signature**
 

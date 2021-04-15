@@ -1198,7 +1198,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
@@ -1212,7 +1212,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTa
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1223,10 +1223,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<
   getApplicativeMonoid(ApplicativeSeq)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1236,7 +1233,7 @@ export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEith
   getApplySemigroup_(RT.ApplySeq)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+ * Use [`getApplicativeReaderTaskValidation`](#getApplicativeReaderTaskValidation) and [`getAltReaderTaskValidation`](#getAltReaderTaskValidation) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -1273,7 +1270,7 @@ export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Eithe
 }
 
 /**
- * Use `Reader`'s `local` instead.
+ * Use [`local`](./Reader.ts.html#local) instead.
  *
  * @category combinators
  * @since 2.0.0

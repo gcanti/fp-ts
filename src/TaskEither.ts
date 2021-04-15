@@ -1244,10 +1244,7 @@ export const taskEitherSeq: typeof taskEither = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1258,7 +1255,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1269,10 +1266,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
   getApplicativeMonoid(ApplicativeSeq)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1282,7 +1276,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
   getApplySemigroup_(T.ApplySeq)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeTaskValidation` and `getAltTaskValidation` instead.
+ * Use [`getApplicativeTaskValidation`](#getApplicativeTaskValidation) and [`getAltTaskValidation`](#getAltTaskValidation) instead.
  *
  * @category instances
  * @since 2.0.0

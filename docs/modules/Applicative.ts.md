@@ -314,7 +314,7 @@ Added in v2.0.0
 
 ## ~~getApplicativeComposition~~
 
-Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
+Use [`ap`](./Apply.ts.html#ap) instead.
 
 **Signature**
 

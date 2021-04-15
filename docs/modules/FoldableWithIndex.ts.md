@@ -346,6 +346,14 @@ Added in v2.0.0
 
 ## ~~getFoldableWithIndexComposition~~
 
+Use
+
+- [reduceWithIndex](#reduceWithIndex)
+- [foldMapWithIndex](#foldMapWithIndex)
+- [reduceRightWithIndex](#reduceRightWithIndex)
+
+instead.
+
 **Signature**
 
 ```ts

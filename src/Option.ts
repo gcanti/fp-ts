@@ -1292,6 +1292,8 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
 // -------------------------------------------------------------------------------------
 
 /**
+ * Use [`chainNullableK`](#chainNullableK) instead.
+ *
  * @category combinators
  * @since 2.0.0
  * @deprecated
@@ -1336,7 +1338,7 @@ export const option: Monad1<URI> &
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1347,7 +1349,7 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
   getApplySemigroup_(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0

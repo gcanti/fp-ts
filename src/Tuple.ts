@@ -364,7 +364,7 @@ export const Traversable: Traversable2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `mapFst` instead.
+ * Use [`mapFst`](#mapFst) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -372,7 +372,7 @@ export const Traversable: Traversable2<URI> = {
 export const map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E] = mapFst
 
 /**
- * Use `mapSnd` instead.
+ * Use [`mapSnd`](#mapSnd) instead.
  *
  * @since 2.0.0
  * @deprecated

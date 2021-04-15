@@ -276,6 +276,8 @@ export interface FunctorComposition23C<F extends URIS2, G extends URIS3, E> {
 }
 
 /**
+ * Use [`map`](#map) instead.
+ *
  * @since 2.0.0
  * @deprecated
  */

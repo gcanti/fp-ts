@@ -774,7 +774,7 @@ Added in v2.0.0
 
 ## ~~parseJSON~~
 
-Use the `Json.parse` module instead.
+Use [`parse`](./Json.ts.html#parse) instead.
 
 **Signature**
 
@@ -786,7 +786,7 @@ Added in v2.0.0
 
 ## ~~stringifyJSON~~
 
-Use the `Json.stringify` module instead.
+Use [`stringify`](./Json.ts.html#stringify) instead.
 
 **Signature**
 
@@ -1222,7 +1222,7 @@ Added in v2.0.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1234,7 +1234,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
 are concatenated using the provided `Semigroup`
@@ -1249,7 +1249,7 @@ Added in v2.0.0
 
 ## ~~getValidationMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1261,7 +1261,7 @@ Added in v2.0.0
 
 ## ~~getValidationSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -1273,7 +1273,7 @@ Added in v2.0.0
 
 ## ~~getValidation~~
 
-Use `getApplicativeValidation` and `getAltValidation` instead.
+Use [`getApplicativeValidation`](#getApplicativeValidation) and [`getAltValidation`](#getAltValidation) instead.
 
 **Signature**
 
@@ -1604,7 +1604,7 @@ Added in v2.9.0
 
 ## ~~JsonArray~~ (interface)
 
-Use the `Json` module instead.
+Use [`Json`](./Json.ts.html) module instead.
 
 **Signature**
 
@@ -1616,7 +1616,7 @@ Added in v2.6.7
 
 ## ~~JsonRecord~~ (interface)
 
-Use the `Json` module instead.
+Use [`Json`](./Json.ts.html) module instead.
 
 **Signature**
 
@@ -1631,7 +1631,7 @@ Added in v2.6.7
 
 ## ~~Json~~ (type alias)
 
-Use the `Json` module instead.
+Use [`Json`](./Json.ts.html) module instead.
 
 **Signature**
 

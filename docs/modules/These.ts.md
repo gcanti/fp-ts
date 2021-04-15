@@ -765,7 +765,7 @@ Added in v2.6.3
 
 ## ~~toTuple~~
 
-Use `toTuple2` instead.
+Use [`toTuple2`](#toTuple2) instead.
 
 **Signature**
 

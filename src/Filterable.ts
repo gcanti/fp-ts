@@ -615,6 +615,15 @@ export interface FilterableComposition23C<F extends URIS2, G extends URIS3, E>
 }
 
 /**
+ * Use
+ *
+ * - [`filter`](#filter)
+ * - [`filterMap`](#filterMap)
+ * - [`partition`](#partition)
+ * - [`partitionMap`](#partitionMap)
+ *
+ * instead.
+ *
  * @since 2.0.0
  * @deprecated
  */

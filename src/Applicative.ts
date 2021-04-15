@@ -235,7 +235,7 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, E> 
 }
 
 /**
- * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
+ * Use [`ap`](./Apply.ts.html#ap) instead.
  *
  * @since 2.0.0
  * @deprecated

@@ -1061,7 +1061,7 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: NonEmptyArray<A>): A => as
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `Array`'s `filter` instead.
+ * Use [`filter`](./Array.ts.html#filter) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -1075,7 +1075,7 @@ export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Op
 }
 
 /**
- * Use `Array`'s `filterWithIndex` instead.
+ * Use [`filterWithIndex`](./Array.ts.html#filterWithIndex) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -1086,7 +1086,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 ): Option<NonEmptyArray<A>> => fromArray(as.filter((a, i) => predicate(i, a)))
 
 /**
- * Use `unprepend` instead.
+ * Use [`unprepend`](#unprepend) instead.
  *
  * @category destructors
  * @since 2.9.0
@@ -1095,7 +1095,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
 
 /**
- * Use `unappend` instead.
+ * Use [`unappend`](#unappend) instead.
  *
  * @category destructors
  * @since 2.9.0
@@ -1104,7 +1104,7 @@ export const uncons: <A>(as: NonEmptyArray<A>) => [A, Array<A>] = unprepend
 export const unsnoc: <A>(as: NonEmptyArray<A>) => [Array<A>, A] = unappend
 
 /**
- * Use `Array`'s `prepend` instead.
+ * Use [`prepend`](./Array.ts.html#prepend) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1118,7 +1118,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 }
 
 /**
- * Use `Array`'s `append` instead.
+ * Use [`append`](./Array.ts.html#append) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1127,7 +1127,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, append(end))
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependAll) instead.
  *
  * @category combinators
  * @since 2.9.0
@@ -1136,7 +1136,7 @@ export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, 
 export const prependToAll = prependAll
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatAll) instead.
  *
  * @since 2.5.0
  * @deprecated

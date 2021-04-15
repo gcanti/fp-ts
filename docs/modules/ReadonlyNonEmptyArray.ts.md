@@ -731,7 +731,7 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use `ReadonlyArray`'s `filterWithIndex` instead.
+Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
 
 **Signature**
 
@@ -745,7 +745,7 @@ Added in v2.5.0
 
 ## ~~filter~~
 
-Use `ReadonlyArray`'s `filter` instead.
+Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
 
 **Signature**
 
@@ -762,7 +762,7 @@ Added in v2.5.0
 
 ## ~~insertAt~~
 
-Use `ReadonlyArray`'s `insertAt` instead.
+Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
 
 **Signature**
 
@@ -774,7 +774,7 @@ Added in v2.5.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependAll) instead.
 
 **Signature**
 
@@ -800,7 +800,7 @@ Added in v2.5.0
 
 ## ~~cons~~
 
-Use `ReadonlyArray`'s `prepend` instead.
+Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
 
 **Signature**
 
@@ -813,7 +813,7 @@ Added in v2.5.0
 
 ## ~~snoc~~
 
-Use `ReadonlyArray`'s `append` instead.
+Use [`append`](./ReadonlyArray.ts.html#append) instead.
 
 **Signature**
 
@@ -867,7 +867,7 @@ Added in v2.9.0
 
 ## ~~uncons~~
 
-Use `unprepend` instead.
+Use [`unprepend`](#unprepend) instead.
 
 **Signature**
 
@@ -879,7 +879,7 @@ Added in v2.10.0
 
 ## ~~unsnoc~~
 
-Use `unappend` instead.
+Use [`unappend`](#unappend) instead.
 
 **Signature**
 
@@ -1264,7 +1264,7 @@ Added in v2.5.0
 
 ## ~~fold~~
 
-Use `concatAll` instead.
+Use [`concatAll`](#concatAll) instead.
 
 **Signature**
 

@@ -1049,7 +1049,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 }
 
 /**
- * Use `evaluate` instead
+ * Use [`evaluate`](#evaluate) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -1065,7 +1065,7 @@ export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
   )
 
 /**
- * Use `execute` instead
+ * Use [`execute`](#execute) instead
  *
  * @since 2.0.0
  * @deprecated

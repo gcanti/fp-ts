@@ -70,7 +70,7 @@ export const negate = <A>(R: Ring<A>) => (a: A) => R.sub(R.zero, a)
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -81,7 +81,7 @@ export const getTupleRing: <T extends ReadonlyArray<Ring<any>>>(
 ) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `function.getRing` instead.
+ * Use [`getRing`](./function.ts.html#getRing) instead.
  *
  * @category instances
  * @since 2.0.0

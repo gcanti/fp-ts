@@ -1111,7 +1111,7 @@ Added in v2.1.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1123,10 +1123,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -1138,10 +1135,7 @@ Added in v2.0.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -1153,7 +1147,7 @@ Added in v2.0.0
 
 ## ~~getTaskValidation~~
 
-Use `getApplicativeTaskValidation` and `getAltTaskValidation` instead.
+Use [`getApplicativeTaskValidation`](#getApplicativeTaskValidation) and [`getAltTaskValidation`](#getAltTaskValidation) instead.
 
 **Signature**
 

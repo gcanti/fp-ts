@@ -1338,7 +1338,7 @@ Added in v2.5.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependAll) instead.
 
 **Signature**
 
@@ -1459,7 +1459,7 @@ Added in v2.5.0
 
 ## ~~cons~~
 
-Use `prepend` instead.
+Use [`prepend`](#prepend) instead.
 
 **Signature**
 
@@ -1471,7 +1471,7 @@ Added in v2.5.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use [`append`](#append) instead.
 
 **Signature**
 

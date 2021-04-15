@@ -306,7 +306,7 @@ Added in v2.10.0
 
 ## ~~insertAt~~
 
-Use `upsertAt` instead.
+Use [`upsertAt`](#upsertAt) instead.
 
 **Signature**
 
@@ -1042,7 +1042,7 @@ Added in v2.5.0
 
 ## ~~hasOwnProperty (function)~~
 
-Use `has` instead.
+Use [`has`](#has) instead.
 
 **Signature**
 

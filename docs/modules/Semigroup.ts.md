@@ -195,7 +195,7 @@ Added in v2.10.0
 
 ## ~~getDualSemigroup~~
 
-Use `reverse` instead.
+Use [`reverse`](#reverse) instead.
 
 **Signature**
 
@@ -207,7 +207,7 @@ Added in v2.0.0
 
 ## ~~getIntercalateSemigroup~~
 
-Use `intercalate` instead.
+Use [`intercalate`](#intercalate) instead.
 
 **Signature**
 
@@ -219,7 +219,7 @@ Added in v2.5.0
 
 ## ~~getStructSemigroup~~
 
-Use `struct` instead.
+Use [`struct`](#struct) instead.
 
 **Signature**
 
@@ -233,7 +233,7 @@ Added in v2.0.0
 
 ## ~~getTupleSemigroup~~
 
-Use `tuple` instead.
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
@@ -305,7 +305,7 @@ Added in v2.10.0
 
 ## ~~getJoinSemigroup~~
 
-Use `max` instead.
+Use [`max`](#max) instead.
 
 **Signature**
 
@@ -317,7 +317,7 @@ Added in v2.0.0
 
 ## ~~getMeetSemigroup~~
 
-Use `min` instead.
+Use [`min`](#min) instead.
 
 **Signature**
 
@@ -381,7 +381,7 @@ Added in v2.0.0
 
 ## ~~getFirstSemigroup~~
 
-Use `first` instead.
+Use [`first`](#first) instead.
 
 **Signature**
 
@@ -393,7 +393,7 @@ Added in v2.0.0
 
 ## ~~getFunctionSemigroup~~
 
-Use `function.getSemigroup` instead.
+Use [`getSemigroup`](./function.ts.html#getSemigroup) instead.
 
 **Signature**
 
@@ -405,7 +405,7 @@ Added in v2.0.0
 
 ## ~~getLastSemigroup~~
 
-Use `last` instead.
+Use [`last`](#last) instead.
 
 **Signature**
 
@@ -417,7 +417,7 @@ Added in v2.0.0
 
 ## ~~getObjectSemigroup~~
 
-Use `object.getAssignSemigroup` instead.
+Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
 
 **Signature**
 
@@ -429,7 +429,7 @@ Added in v2.0.0
 
 ## ~~semigroupAll~~
 
-Use `boolean.SemigroupAll` instead.
+Use [`SemigroupAll`](./boolean.ts.html#SemigroupAll) instead.
 
 **Signature**
 
@@ -441,7 +441,7 @@ Added in v2.0.0
 
 ## ~~semigroupAny~~
 
-Use `boolean.SemigroupAny` instead.
+Use [`SemigroupAny`](./boolean.ts.html#SemigroupAny) instead.
 
 **Signature**
 
@@ -453,7 +453,7 @@ Added in v2.0.0
 
 ## ~~semigroupProduct~~
 
-Use `number.SemigroupProduct` instead.
+Use [`SemigroupProduct`](./number.ts.html#SemigroupProduct) instead.
 
 **Signature**
 
@@ -465,7 +465,7 @@ Added in v2.0.0
 
 ## ~~semigroupString~~
 
-Use `string.Semigroup` instead.
+Use [`Semigroup`](./string.ts.html#Semigroup) instead.
 
 **Signature**
 
@@ -477,7 +477,7 @@ Added in v2.0.0
 
 ## ~~semigroupSum~~
 
-Use `number.SemigroupSum` instead.
+Use [`SemigroupSum`](./number.ts.html#SemigroupSum) instead.
 
 **Signature**
 
@@ -529,7 +529,7 @@ Added in v2.10.0
 
 ## ~~fold~~
 
-Use `concatAll` instead.
+Use [`concatAll`](#concatAll) instead.
 
 **Signature**
 

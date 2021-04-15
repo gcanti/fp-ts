@@ -346,7 +346,7 @@ export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, 
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `evaluate` instead
+ * Use [`evaluate`](#evaluate) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -354,7 +354,7 @@ export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, 
 export const evalState: <S, A>(ma: State<S, A>, s: S) => A = (ma, s) => ma(s)[0]
 
 /**
- * Use `execute` instead
+ * Use [`execute`](#execute) instead
  *
  * @since 2.0.0
  * @deprecated

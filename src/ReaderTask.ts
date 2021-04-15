@@ -574,7 +574,7 @@ export const readerTaskSeq: typeof readerTask = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -585,7 +585,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -605,7 +605,7 @@ export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
 }
 
 /**
- * Use `Reader`'s `local` instead.
+ * Use [`local`](./Reader.ts.html#local) instead.
  *
  * @category combinators
  * @since 2.3.0

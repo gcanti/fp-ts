@@ -291,6 +291,14 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
 }
 
 /**
+ * Use
+ *
+ * - [reduceWithIndex](#reduceWithIndex)
+ * - [foldMapWithIndex](#foldMapWithIndex)
+ * - [reduceRightWithIndex](#reduceRightWithIndex)
+ *
+ * instead.
+ *
  * @since 2.0.0
  * @deprecated
  */

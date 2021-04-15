@@ -1358,7 +1358,7 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
 // -------------------------------------------------------------------------------------
 
 /**
- * Use the `Json` module instead.
+ * Use [`Json`](./Json.ts.html) module instead.
  *
  * @since 2.6.7
  * @deprecated
@@ -1367,7 +1367,7 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
 
 /**
- * Use the `Json` module instead.
+ * Use [`Json`](./Json.ts.html) module instead.
  *
  * @since 2.6.7
  * @deprecated
@@ -1378,7 +1378,7 @@ export interface JsonRecord {
 }
 
 /**
- * Use the `Json` module instead.
+ * Use [`Json`](./Json.ts.html) module instead.
  *
  * @since 2.6.7
  * @deprecated
@@ -1387,7 +1387,7 @@ export interface JsonRecord {
 export interface JsonArray extends ReadonlyArray<Json> {}
 
 /**
- * Use the `Json.parse` module instead.
+ * Use [`parse`](./Json.ts.html#parse) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1399,7 +1399,7 @@ export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either
 }
 
 /**
- * Use the `Json.stringify` module instead.
+ * Use [`stringify`](./Json.ts.html#stringify) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -1448,7 +1448,7 @@ export const either: Monad2<URI> &
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
@@ -1462,7 +1462,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A
   getApplySemigroup_(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1473,7 +1473,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
   getApplicativeMonoid(Applicative)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1483,7 +1483,7 @@ export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
   getApplySemigroup_(getApplicativeValidation(SE))(SA)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1493,7 +1493,7 @@ export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Mono
   getApplicativeMonoid(getApplicativeValidation(SE))(MA)
 
 /**
- * Use `getApplicativeValidation` and `getAltValidation` instead.
+ * Use [`getApplicativeValidation`](#getApplicativeValidation) and [`getAltValidation`](#getAltValidation) instead.
  *
  * @category instances
  * @since 2.0.0

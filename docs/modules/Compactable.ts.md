@@ -369,7 +369,7 @@ Added in v2.0.0
 
 ## ~~Separated~~ (interface)
 
-Use `Separated.Separated` instead.
+Use [`Separated`](./Separated.ts.html#Separated) instead.
 
 **Signature**
 
@@ -383,6 +383,8 @@ export interface Separated<A, B> {
 Added in v2.0.0
 
 ## ~~getCompactableComposition~~
+
+Use [`compact`](#compact) and [`separate`](#separate) instead.
 
 **Signature**
 

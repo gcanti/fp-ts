@@ -895,7 +895,7 @@ Added in v2.1.0
 
 ## ~~Applicative~~
 
-Use `ApplicativePar` instead
+Use [`ApplicativePar`](#ApplicativePar) instead
 
 **Signature**
 
@@ -907,7 +907,7 @@ Added in v2.7.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -919,10 +919,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -934,7 +931,7 @@ Added in v2.0.0
 
 ## ~~getIOValidation~~
 
-Use `getApplicativeIOValidation` and `getAltIOValidation`.
+Use [`getApplicativeIOValidation`](#getApplicativeIOValidation) and [`getAltIOValidation`](#getAltIOValidation).
 
 **Signature**
 
@@ -948,10 +945,7 @@ Added in v2.0.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

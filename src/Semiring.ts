@@ -43,7 +43,7 @@ export interface Semiring<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `function.getSemiring` instead.
+ * Use [`getSemiring`](./function.ts.html#getSemiring) instead.
  *
  * @category instances
  * @since 2.0.0

@@ -1228,7 +1228,7 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertAt) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1240,7 +1240,7 @@ export const insertAt: <A>(
 ) => (r: Readonly<Record<string, A>>) => Readonly<Record<string, A>> = upsertAt
 
 /**
- * Use `has` instead.
+ * Use [`has`](#has) instead.
  *
  * @since 2.5.0
  * @deprecated

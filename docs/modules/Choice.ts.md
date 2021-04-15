@@ -195,7 +195,7 @@ Added in v2.10.0
 
 ## ~~fanin~~
 
-Use `fanIn` instead.
+Use [`fanIn`](#fanIn) instead.
 
 **Signature**
 
@@ -215,7 +215,7 @@ Added in v2.0.0
 
 ## ~~splitChoice~~
 
-Use `split` instead.
+Use [`split`](#split) instead.
 
 **Signature**
 

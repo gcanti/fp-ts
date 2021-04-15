@@ -2220,7 +2220,7 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `prepend` instead.
+ * Use [`prepend`](#prepend) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -2230,7 +2230,7 @@ export const apS =
 export const cons = RNEA.cons
 
 /**
- * Use `append` instead.
+ * Use [`append`](#append) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -2240,7 +2240,7 @@ export const cons = RNEA.cons
 export const snoc = RNEA.snoc
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependAll) instead.
  *
  * @category combinators
  * @since 2.9.0

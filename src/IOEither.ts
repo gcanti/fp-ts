@@ -946,7 +946,7 @@ export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOE
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `ApplicativePar` instead
+ * Use [`ApplicativePar`](#ApplicativePar) instead
  *
  * @since 2.7.0
  * @category instances
@@ -979,10 +979,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -993,7 +990,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E,
   getApplySemigroup_(ApplyPar)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1004,10 +1001,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> =
   getApplicativeMonoid(ApplicativePar)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1017,7 +1011,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =
   getApplySemigroup_(I.Apply)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeIOValidation` and `getAltIOValidation`.
+ * Use [`getApplicativeIOValidation`](#getApplicativeIOValidation) and [`getAltIOValidation`](#getAltIOValidation).
  *
  * @category instances
  * @since 2.0.0

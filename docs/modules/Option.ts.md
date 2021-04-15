@@ -509,6 +509,8 @@ Added in v2.0.0
 
 ## ~~mapNullable~~
 
+Use [`chainNullableK`](#chainNullableK) instead.
+
 **Signature**
 
 ```ts
@@ -1128,7 +1130,7 @@ Added in v2.0.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1140,7 +1142,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

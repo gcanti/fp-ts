@@ -295,7 +295,7 @@ Added in v2.4.0
 
 ## ~~local~~
 
-Use `Reader`'s `local` instead.
+Use [`local`](./Reader.ts.html#local) instead.
 
 **Signature**
 
@@ -501,7 +501,7 @@ Added in v2.3.0
 
 ## ~~getMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -513,7 +513,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

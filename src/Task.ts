@@ -563,7 +563,7 @@ export const taskSeq: typeof task = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -574,7 +574,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> =
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
  *

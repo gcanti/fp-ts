@@ -858,7 +858,7 @@ export const Witherable: Witherable1<URI> = {
 export const empty: Record<string, never> = {}
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertAt) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -866,7 +866,7 @@ export const empty: Record<string, never> = {}
 export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<string, A> = upsertAt
 
 /**
- * Use `has` instead.
+ * Use [`has`](#has) instead.
  *
  * @since 2.0.0
  * @deprecated

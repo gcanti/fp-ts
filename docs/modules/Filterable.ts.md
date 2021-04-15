@@ -726,6 +726,15 @@ Added in v2.0.0
 
 ## ~~getFilterableComposition~~
 
+Use
+
+- [`filter`](#filter)
+- [`filterMap`](#filterMap)
+- [`partition`](#partition)
+- [`partitionMap`](#partitionMap)
+
+instead.
+
 **Signature**
 
 ```ts

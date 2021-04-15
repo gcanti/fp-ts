@@ -459,7 +459,7 @@ export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `Functor` instead.
+ * Use [`Functor`](#Functor) instead.
  *
  * @category instances
  * @since 2.7.0
@@ -471,7 +471,7 @@ export const functorTaskThese: Functor2<URI> = {
 }
 
 /**
- * Use `Bifunctor` instead.
+ * Use [`Bifunctor`](#Bifunctor) instead.
  *
  * @category instances
  * @since 2.7.0
@@ -484,7 +484,7 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
 }
 
 /**
- * Use `toTuple2` instead.
+ * Use [`toTuple2`](#toTuple2) instead.
  *
  * @since 2.4.0
  * @deprecated
@@ -510,7 +510,7 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.4.0
