@@ -15,6 +15,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.2
+
+- **Bug Fix**
+  - `Record`
+    - `hasOwnProperty` should be an alias of `ReadonlyRecord.hasOwnProperty`
+
 # 2.10.1
 
 - **Bug Fix**

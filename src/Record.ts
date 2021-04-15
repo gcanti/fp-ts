@@ -871,7 +871,8 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
  * @since 2.0.0
  * @deprecated
  */
-export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.has
+// tslint:disable-next-line: deprecation
+export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
 
 /**
  * Use small, specific instances instead.
