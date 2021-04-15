@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.1
+
+- **Bug Fix**
+  - rename `hasOwnProperty` in `internal` module, #1481 (@OliverJAsh)
+
 # 2.10.0
 
 - **Deprecations**
