@@ -35,7 +35,7 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonl
   show: (a) => {
     let s = '{'
     for (const k in shows) {
-      if (_.hasOwnProperty.call(shows, k)) {
+      if (_.has.call(shows, k)) {
         s += ` ${k}: ${shows[k].show(a[k])},`
       }
     }
