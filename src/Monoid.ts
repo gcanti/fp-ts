@@ -141,7 +141,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
   const empty: A = {} as any
   for (const k in monoids) {
-    if (_.hasOwnProperty.call(monoids, k)) {
+    if (_.has.call(monoids, k)) {
       empty[k] = monoids[k].empty
     }
   }

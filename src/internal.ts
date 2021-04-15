@@ -25,7 +25,7 @@ export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Le
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const hasOwnProperty = Object.prototype.hasOwnProperty
+export const has = Object.prototype.hasOwnProperty
 
 // -------------------------------------------------------------------------------------
 // NonEmptyArray
