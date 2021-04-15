@@ -201,7 +201,7 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 }
 
 /**
- * Use [`mapWithIndex`](#mapWithIndex) instead.
+ * Use [`mapWithIndex`](#mapwithindex) instead.
  *
  * @since 2.0.0
  * @deprecated

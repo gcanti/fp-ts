@@ -478,7 +478,7 @@ Added in v2.0.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst)
+Less strict version of [`chainFirst`](#chainfirst)
 
 Derivable from `Chain`.
 
@@ -569,7 +569,7 @@ Added in v2.0.0
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 
@@ -646,7 +646,7 @@ Added in v2.0.0
 
 ## orElseW
 
-Less strict version of [`orElse`](#orElse).
+Less strict version of [`orElse`](#orelse).
 
 **Signature**
 
@@ -812,7 +812,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchW`](#matchww).
 
 **Signature**
 
@@ -858,7 +858,7 @@ Added in v2.0.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -1273,7 +1273,7 @@ Added in v2.0.0
 
 ## ~~getValidation~~
 
-Use [`getApplicativeValidation`](#getApplicativeValidation) and [`getAltValidation`](#getAltValidation) instead.
+Use [`getApplicativeValidation`](#getapplicativevalidation) and [`getAltValidation`](#getaltvalidation) instead.
 
 **Signature**
 
@@ -1356,7 +1356,7 @@ Added in v2.10.0
 
 Constructs a new `Either` from a function that might throw.
 
-See also [`tryCatchK`](#tryCatchK).
+See also [`tryCatchK`](#trycatchk).
 
 **Signature**
 

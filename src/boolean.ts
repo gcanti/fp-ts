@@ -23,7 +23,7 @@ export const matchW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boole
   value ? onTrue() : onFalse()
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchW`](#matchw).
  *
  * @category destructors
  * @since 2.10.0

@@ -260,7 +260,7 @@ export const getJoinMonoid = max
 export const getMeetMonoid = min
 
 /**
- * Use [`concatAll`](#concatAll) instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -268,7 +268,7 @@ export const getMeetMonoid = min
 export const fold = concatAll
 
 /**
- * Use [`MonoidAll`](./boolean.ts.html#MonoidAll) instead.
+ * Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
  *
  * @category instances
  * @since 2.0.0

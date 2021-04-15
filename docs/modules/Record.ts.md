@@ -967,7 +967,7 @@ Added in v2.0.0
 
 ## ~~insertAt~~
 
-Use [`upsertAt`](#upsertAt) instead.
+Use [`upsertAt`](#upsertat) instead.
 
 **Signature**
 

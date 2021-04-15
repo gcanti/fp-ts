@@ -1127,7 +1127,7 @@ export function cons<A>(head: A, tail?: Array<A>): NonEmptyArray<A> | ((tail: Ar
 export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, append(end))
 
 /**
- * Use [`prependAll`](#prependAll) instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0
@@ -1136,7 +1136,7 @@ export const snoc = <A>(init: Array<A>, end: A): NonEmptyArray<A> => pipe(init, 
 export const prependToAll = prependAll
 
 /**
- * Use [`concatAll`](#concatAll) instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.5.0
  * @deprecated

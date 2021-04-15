@@ -185,7 +185,7 @@ Added in v2.10.0
 
 ## ~~fanout~~
 
-Use [`fanOut`](#fanOut) instead.
+Use [`fanOut`](#fanout) instead.
 
 **Signature**
 

@@ -45,7 +45,7 @@ Added in v2.2.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchW`](#matchw).
 
 **Signature**
 

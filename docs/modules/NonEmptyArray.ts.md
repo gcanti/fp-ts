@@ -677,7 +677,7 @@ Added in v2.0.0
 
 ## ~~prependToAll~~
 
-Use [`prependAll`](#prependAll) instead.
+Use [`prependAll`](#prependall) instead.
 
 **Signature**
 
@@ -1200,7 +1200,7 @@ Added in v2.6.3
 
 ## ~~fold~~
 
-Use [`concatAll`](#concatAll) instead.
+Use [`concatAll`](#concatall) instead.
 
 **Signature**
 

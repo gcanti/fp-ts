@@ -103,7 +103,7 @@ export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C,
 }
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchW`](#matchw).
  *
  * @category destructors
  * @since 2.10.0
@@ -673,7 +673,7 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`toTuple2`](#toTuple2) instead.
+ * Use [`toTuple2`](#totuple2) instead.
  *
  * @since 2.0.0
  * @deprecated

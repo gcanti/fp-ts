@@ -135,7 +135,7 @@ export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Re
 ): B => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.5.0
@@ -156,7 +156,7 @@ export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyAr
 ): B => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.5.0
@@ -2240,7 +2240,7 @@ export const cons = RNEA.cons
 export const snoc = RNEA.snoc
 
 /**
- * Use [`prependAll`](#prependAll) instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0

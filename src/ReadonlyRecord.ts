@@ -1228,7 +1228,7 @@ export const Witherable: Witherable1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`upsertAt`](#upsertAt) instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.5.0

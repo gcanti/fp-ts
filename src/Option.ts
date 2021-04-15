@@ -180,7 +180,7 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
 /**
  * Transforms an `Either` to an `Option` discarding the error.
  *
- * Alias of [getRight](#getRight)
+ * Alias of [getRight](#getright)
  *
  * @category constructors
  * @since 2.0.0
@@ -201,7 +201,7 @@ export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Op
   isNone(ma) ? onNone() : onSome(ma.value)
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchW`](#matchw).
  *
  * @category destructors
  * @since 2.10.0
@@ -246,7 +246,7 @@ export const match: <A, B>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<
 export const fold = match
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -304,7 +304,7 @@ export const fromNullable = <A>(a: A): Option<NonNullable<A>> => (a == null ? no
  * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
  * `Some`.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import { none, some, tryCatch } from 'fp-ts/Option'
@@ -1292,7 +1292,7 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`chainNullableK`](#chainNullableK) instead.
+ * Use [`chainNullableK`](#chainnullablek) instead.
  *
  * @category combinators
  * @since 2.0.0

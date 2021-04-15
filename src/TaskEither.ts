@@ -186,7 +186,7 @@ export const matchE: <E, A, B>(
   ET.matchE(T.Monad)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.0.0
@@ -194,7 +194,7 @@ export const matchE: <E, A, B>(
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -205,7 +205,7 @@ export const matchEW: <E, B, A, C>(
 ) => (ma: TaskEither<E, A>) => Task<B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -221,7 +221,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
   ET.getOrElse(T.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -239,7 +239,7 @@ export const getOrElseW: <E, B>(
  *
  * Note: `f` should never `throw` errors, they are not caught.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import { left, right } from 'fp-ts/Either'
@@ -307,7 +307,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: T
   ET.orElse(T.Monad)
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -333,7 +333,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
- * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+ * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -461,7 +461,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  *
  * In case of `TaskEither` returns `fa` if is a `Right` or the value returned by `that` otherwise.
  *
- * See also [orElse](#orElse).
+ * See also [orElse](#orelse).
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -784,7 +784,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -857,7 +857,7 @@ export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEi
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -889,7 +889,7 @@ export const filterOrElse: {
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -1276,7 +1276,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
   getApplySemigroup_(T.ApplySeq)(E.getSemigroup(S))
 
 /**
- * Use [`getApplicativeTaskValidation`](#getApplicativeTaskValidation) and [`getAltTaskValidation`](#getAltTaskValidation) instead.
+ * Use [`getApplicativeTaskValidation`](#getapplicativetaskvalidation) and [`getAltTaskValidation`](#getalttaskvalidation) instead.
  *
  * @category instances
  * @since 2.0.0

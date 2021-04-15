@@ -214,7 +214,7 @@ Added in v2.10.0
 
 ## ~~writer~~
 
-Use [`Functor`](#Functor) instead.
+Use [`Functor`](#functor) instead.
 
 **Signature**
 

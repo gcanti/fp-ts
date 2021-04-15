@@ -191,7 +191,7 @@ export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchW`](#matchww).
  *
  * @category destructors
  * @since 2.10.0
@@ -243,7 +243,7 @@ export const match: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma:
 export const fold: <E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = match
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -304,7 +304,7 @@ export const fromNullable = <E>(e: E) => <A>(a: A): Either<E, NonNullable<A>> =>
 /**
  * Constructs a new `Either` from a function that might throw.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -414,7 +414,7 @@ export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
 }
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -431,7 +431,7 @@ export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: 
 export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -1118,7 +1118,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, 
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
+ * Less strict version of [`chainFirst`](#chainfirst)
  *
  * Derivable from `Chain`.
  *
@@ -1493,7 +1493,7 @@ export const getValidationMonoid = <E, A>(SE: Semigroup<E>, MA: Monoid<A>): Mono
   getApplicativeMonoid(getApplicativeValidation(SE))(MA)
 
 /**
- * Use [`getApplicativeValidation`](#getApplicativeValidation) and [`getAltValidation`](#getAltValidation) instead.
+ * Use [`getApplicativeValidation`](#getapplicativevalidation) and [`getAltValidation`](#getaltvalidation) instead.
  *
  * @category instances
  * @since 2.0.0

@@ -148,7 +148,7 @@ export const matchE: <R, E, A, B>(
   ET.matchE(R.Monad)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.0.0
@@ -156,7 +156,7 @@ export const matchE: <R, E, A, B>(
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -167,7 +167,7 @@ export const matchEW: <E, R2, B, A, R3, C>(
 ) => <R1>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2 & R3, B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -183,7 +183,7 @@ export const getOrElse: <E, R, A>(onLeft: (e: E) => Reader<R, A>) => (ma: Reader
   ET.getOrElse(R.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -219,7 +219,7 @@ export const orElse: <E1, R, E2, A>(
   ET.orElse(R.Monad)
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -580,7 +580,7 @@ export const chainFirst: <R, E, A, B>(
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst)
+ * Less strict version of [`chainFirst`](#chainfirst)
  *
  * Derivable from `Chain`.
  *
@@ -668,7 +668,7 @@ export const chainEitherK: <E, A, B>(
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -702,7 +702,7 @@ export const filterOrElse: {
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -872,7 +872,7 @@ export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderEither<R
   getApplySemigroup_(R.Apply)(E.getSemigroup(S))
 
 /**
- * Use [`getApplicativeReaderValidation`](#getApplicativeReaderValidation) and [`getAltReaderValidation`](#getAltReaderValidation) instead.
+ * Use [`getApplicativeReaderValidation`](#getapplicativereadervalidation) and [`getAltReaderValidation`](#getaltreadervalidation) instead.
  *
  * @category instances
  * @since 2.3.0

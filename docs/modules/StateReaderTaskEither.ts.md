@@ -333,7 +333,7 @@ Added in v2.4.0
 
 ## chainEitherKW
 
-Less strict version of [`chainEitherK`](#chainEitherK).
+Less strict version of [`chainEitherK`](#chaineitherk).
 
 **Signature**
 
@@ -388,7 +388,7 @@ Added in v2.10.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst).
+Less strict version of [`chainFirst`](#chainfirst).
 
 Derivable from `Chain`.
 
@@ -416,7 +416,7 @@ Added in v2.4.0
 
 ## chainIOEitherKW
 
-Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+Less strict version of [`chainIOEitherK`](#chainioeitherk).
 
 **Signature**
 
@@ -468,7 +468,7 @@ Added in v2.4.0
 
 ## chainReaderTaskEitherKW
 
-Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
+Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
 
 **Signature**
 
@@ -494,7 +494,7 @@ Added in v2.4.0
 
 ## chainTaskEitherKW
 
-Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
 
 **Signature**
 
@@ -537,7 +537,7 @@ Added in v2.4.4
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 

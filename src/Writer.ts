@@ -255,7 +255,7 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 
 /**
- * Use [`Functor`](#Functor) instead.
+ * Use [`Functor`](#functor) instead.
  *
  * @category instances
  * @since 2.0.0

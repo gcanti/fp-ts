@@ -561,7 +561,7 @@ export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): Readonly
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`fromReadonlyArray`](#fromReadonlyArray) instead.
+ * Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
  *
  * @category constructors
  * @since 2.5.0

@@ -350,7 +350,7 @@ Added in v2.4.0
 
 ## chainEitherKW
 
-Less strict version of [`chainEitherK`](#chainEitherK).
+Less strict version of [`chainEitherK`](#chaineitherk).
 
 **Signature**
 
@@ -405,7 +405,7 @@ Added in v2.10.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst).
+Less strict version of [`chainFirst`](#chainfirst).
 
 Derivable from `Chain`.
 
@@ -433,7 +433,7 @@ Added in v2.4.0
 
 ## chainIOEitherKW
 
-Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+Less strict version of [`chainIOEitherK`](#chainioeitherk).
 
 **Signature**
 
@@ -483,7 +483,7 @@ Added in v2.4.0
 
 ## chainTaskEitherKW
 
-Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
 
 **Signature**
 
@@ -524,7 +524,7 @@ Added in v2.0.0
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 
@@ -649,7 +649,7 @@ Added in v2.0.0
 
 ## orElseW
 
-Less strict version of [`orElse`](#orElse).
+Less strict version of [`orElse`](#orelse).
 
 **Signature**
 
@@ -894,7 +894,7 @@ Added in v2.0.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -909,7 +909,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -936,7 +936,7 @@ Added in v2.0.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -976,7 +976,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -1255,7 +1255,7 @@ Added in v2.0.0
 
 ## ~~getReaderTaskValidation~~
 
-Use [`getApplicativeReaderTaskValidation`](#getApplicativeReaderTaskValidation) and [`getAltReaderTaskValidation`](#getAltReaderTaskValidation) instead.
+Use [`getApplicativeReaderTaskValidation`](#getapplicativereadertaskvalidation) and [`getAltReaderTaskValidation`](#getaltreadertaskvalidation) instead.
 
 **Signature**
 

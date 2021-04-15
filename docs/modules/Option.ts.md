@@ -509,7 +509,7 @@ Added in v2.0.0
 
 ## ~~mapNullable~~
 
-Use [`chainNullableK`](#chainNullableK) instead.
+Use [`chainNullableK`](#chainnullablek) instead.
 
 **Signature**
 
@@ -525,7 +525,7 @@ Added in v2.0.0
 
 Transforms an `Either` to an `Option` discarding the error.
 
-Alias of [getRight](#getRight)
+Alias of [getRight](#getright)
 
 **Signature**
 
@@ -643,7 +643,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchW`](#matchw).
 
 **Signature**
 
@@ -689,7 +689,7 @@ Added in v2.0.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -1326,7 +1326,7 @@ Added in v2.0.0
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in a
 `Some`.
 
-See also [`tryCatchK`](#tryCatchK).
+See also [`tryCatchK`](#trycatchk).
 
 **Signature**
 

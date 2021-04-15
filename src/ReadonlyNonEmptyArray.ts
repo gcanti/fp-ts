@@ -1193,7 +1193,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
   i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
 
 /**
- * Use [`prependAll`](#prependAll) instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0
@@ -1202,7 +1202,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
 export const prependToAll = prependAll
 
 /**
- * Use [`concatAll`](#concatAll) instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.5.0
  * @deprecated

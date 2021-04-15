@@ -311,7 +311,7 @@ Added in v2.0.0
 
 ## ~~monoidAll~~
 
-Use [`MonoidAll`](./boolean.ts.html#MonoidAll) instead.
+Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
 
 **Signature**
 
@@ -411,7 +411,7 @@ Added in v2.10.0
 
 ## ~~fold~~
 
-Use [`concatAll`](#concatAll) instead.
+Use [`concatAll`](#concatall) instead.
 
 **Signature**
 

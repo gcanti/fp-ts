@@ -729,9 +729,9 @@ Added in v2.0.0
 Use
 
 - [`filter`](#filter)
-- [`filterMap`](#filterMap)
+- [`filterMap`](#filtermap)
 - [`partition`](#partition)
-- [`partitionMap`](#partitionMap)
+- [`partitionMap`](#partitionmap)
 
 instead.
 

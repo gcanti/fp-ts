@@ -348,9 +348,9 @@ Added in v2.0.0
 
 Use
 
-- [reduceWithIndex](#reduceWithIndex)
-- [foldMapWithIndex](#foldMapWithIndex)
-- [reduceRightWithIndex](#reduceRightWithIndex)
+- [reduceWithIndex](#reducewithindex)
+- [foldMapWithIndex](#foldmapwithindex)
+- [reduceRightWithIndex](#reducerightwithindex)
 
 instead.
 

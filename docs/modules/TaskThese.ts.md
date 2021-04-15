@@ -319,7 +319,7 @@ Added in v2.4.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -335,7 +335,7 @@ Added in v2.4.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -379,7 +379,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -533,7 +533,7 @@ Added in v2.4.0
 
 ## ~~bifunctorTaskThese~~
 
-Use [`Bifunctor`](#Bifunctor) instead.
+Use [`Bifunctor`](#bifunctor) instead.
 
 **Signature**
 
@@ -545,7 +545,7 @@ Added in v2.7.0
 
 ## ~~functorTaskThese~~
 
-Use [`Functor`](#Functor) instead.
+Use [`Functor`](#functor) instead.
 
 **Signature**
 
@@ -605,7 +605,7 @@ Added in v2.10.0
 
 ## ~~toTuple~~
 
-Use [`toTuple2`](#toTuple2) instead.
+Use [`toTuple2`](#totuple2) instead.
 
 **Signature**
 

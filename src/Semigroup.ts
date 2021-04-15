@@ -353,7 +353,7 @@ export const getMeetSemigroup = min
 export const getIntercalateSemigroup = intercalate
 
 /**
- * Use [`concatAll`](#concatAll) instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.0.0
  * @deprecated

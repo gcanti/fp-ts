@@ -1005,7 +1005,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 // -------------------------------------------------------------------------------------
 
 /**
- * Use [`upsertAt`](#upsertAt) instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.5.0

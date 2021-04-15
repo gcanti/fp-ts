@@ -133,7 +133,7 @@ export const matchLeft = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Ar
   isNonEmpty(as) ? onNonEmpty(NEA.head(as), NEA.tail(as)) : onEmpty()
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.0.0
@@ -153,7 +153,7 @@ export const matchRight = <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: Array<A>, 
   isNonEmpty(as) ? onNonEmpty(NEA.init(as), NEA.last(as)) : onEmpty()
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.0.0

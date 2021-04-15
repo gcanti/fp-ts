@@ -529,7 +529,7 @@ Added in v2.10.0
 
 ## ~~fold~~
 
-Use [`concatAll`](#concatAll) instead.
+Use [`concatAll`](#concatall) instead.
 
 **Signature**
 

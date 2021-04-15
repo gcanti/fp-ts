@@ -325,7 +325,7 @@ export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
 export const getDualOrd = reverse
 
 /**
- * Use [`Contravariant`](#Contravariant) instead.
+ * Use [`Contravariant`](#contravariant) instead.
  *
  * @category instances
  * @since 2.0.0

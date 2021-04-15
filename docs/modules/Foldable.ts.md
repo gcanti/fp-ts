@@ -501,7 +501,7 @@ Added in v2.0.0
 
 ## ~~foldM~~
 
-Use [`reduceM`](#reduceM) instead
+Use [`reduceM`](#reducem) instead
 
 **Signature**
 
@@ -539,8 +539,8 @@ Added in v2.0.0
 Use
 
 - [reduce](#reduce)
-- [foldMap](#foldMap)
-- [reduceRight](#reduceRight)
+- [foldMap](#foldmap)
+- [reduceRight](#reduceright)
 
 instead.
 
@@ -582,7 +582,7 @@ Added in v2.0.0
 
 ## ~~toArray~~
 
-Use [`toReadonlyArray`](#toReadonlyArray) instead
+Use [`toReadonlyArray`](#toreadonlyarray) instead
 
 **Signature**
 

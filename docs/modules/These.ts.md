@@ -339,7 +339,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchW).
+Alias of [`matchW`](#matchw).
 
 **Signature**
 
@@ -765,7 +765,7 @@ Added in v2.6.3
 
 ## ~~toTuple~~
 
-Use [`toTuple2`](#toTuple2) instead.
+Use [`toTuple2`](#totuple2) instead.
 
 **Signature**
 

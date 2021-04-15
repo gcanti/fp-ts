@@ -183,7 +183,7 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O> = struct
 
 /**
- * Use [`eqStrict`](#eqStrict) instead
+ * Use [`eqStrict`](#eqstrict) instead
  *
  * @since 2.0.0
  * @deprecated

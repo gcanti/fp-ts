@@ -265,7 +265,7 @@ Added in v2.0.0
 
 ## ~~getFunctorWithIndexComposition~~
 
-Use [`mapWithIndex`](#mapWithIndex) instead.
+Use [`mapWithIndex`](#mapwithindex) instead.
 
 **Signature**
 

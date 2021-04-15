@@ -277,7 +277,7 @@ Added in v2.0.0
 
 ## ~~strictEqual~~
 
-Use [`eqStrict`](#eqStrict) instead
+Use [`eqStrict`](#eqstrict) instead
 
 **Signature**
 

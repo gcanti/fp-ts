@@ -858,7 +858,7 @@ export const Witherable: Witherable1<URI> = {
 export const empty: Record<string, never> = {}
 
 /**
- * Use [`upsertAt`](#upsertAt) instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @since 2.0.0
  * @deprecated

@@ -253,7 +253,7 @@ Added in v2.0.0
 
 ## ~~insertAt~~
 
-Use [`upsertAt`](#upsertAt) instead.
+Use [`upsertAt`](#upsertat) instead.
 
 **Signature**
 
@@ -419,7 +419,7 @@ Added in v2.0.0
 
 ## ~~map\_~~
 
-Use [`Filterable`](#Filterable) instead.
+Use [`Filterable`](#filterable) instead.
 
 **Signature**
 

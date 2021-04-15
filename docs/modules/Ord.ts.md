@@ -324,7 +324,7 @@ Added in v2.0.0
 
 ## ~~ord~~
 
-Use [`Contravariant`](#Contravariant) instead.
+Use [`Contravariant`](#contravariant) instead.
 
 **Signature**
 
