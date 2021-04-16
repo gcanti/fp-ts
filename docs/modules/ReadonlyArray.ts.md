@@ -1424,7 +1424,7 @@ Added in v2.5.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependall) instead.
 
 **Signature**
 
@@ -1582,7 +1582,7 @@ Added in v2.5.0
 
 ## ~~cons~~
 
-Use `prepend` instead.
+Use [`prepend`](#prepend) instead.
 
 **Signature**
 
@@ -1606,7 +1606,7 @@ Added in v2.5.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use [`append`](#append) instead.
 
 **Signature**
 
@@ -1620,7 +1620,7 @@ Added in v2.5.0
 
 ## foldLeft
 
-Alias of [`matchLeft`](#matchLeft).
+Alias of [`matchLeft`](#matchleft).
 
 **Signature**
 
@@ -1635,7 +1635,7 @@ Added in v2.5.0
 
 ## foldRight
 
-Alias of [`matchRight`](#matchRight).
+Alias of [`matchRight`](#matchright).
 
 **Signature**
 

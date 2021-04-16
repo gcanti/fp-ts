@@ -228,7 +228,7 @@ export const matchLeft: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchLeftW
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.5.0
@@ -260,7 +260,7 @@ export const matchRight: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchRightW
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.5.0
@@ -2481,7 +2481,7 @@ export const apS =
 export const range = RNEA.range
 
 /**
- * Use `prepend` instead.
+ * Use [`prepend`](#prepend) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -2491,7 +2491,7 @@ export const range = RNEA.range
 export const cons = RNEA.cons
 
 /**
- * Use `append` instead.
+ * Use [`append`](#append) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -2501,7 +2501,7 @@ export const cons = RNEA.cons
 export const snoc = RNEA.snoc
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0

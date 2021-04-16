@@ -1295,7 +1295,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 }
 
 /**
- * Use `ReadonlyArray`'s `filter` instead.
+ * Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1311,7 +1311,7 @@ export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A
 }
 
 /**
- * Use `ReadonlyArray`'s `filterWithIndex` instead.
+ * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1322,7 +1322,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 ): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
 
 /**
- * Use `unprepend` instead.
+ * Use [`unprepend`](#unprepend) instead.
  *
  * @category destructors
  * @since 2.10.0
@@ -1331,7 +1331,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyArray<A>] = unprepend
 
 /**
- * Use `unappend` instead.
+ * Use [`unappend`](#unappend) instead.
  *
  * @category destructors
  * @since 2.10.0
@@ -1340,7 +1340,7 @@ export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyA
 export const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyArray<A>, A] = unappend
 
 /**
- * Use `ReadonlyArray`'s `prepend` instead.
+ * Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -1357,7 +1357,7 @@ export function cons<A>(
 }
 
 /**
- * Use `ReadonlyArray`'s `append` instead.
+ * Use [`append`](./ReadonlyArray.ts.html#append) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -1366,7 +1366,7 @@ export function cons<A>(
 export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
 
 /**
- * Use `ReadonlyArray`'s `insertAt` instead.
+ * Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1376,7 +1376,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
   i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0
@@ -1385,7 +1385,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
 export const prependToAll = prependAll
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.5.0
  * @deprecated

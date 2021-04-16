@@ -48,13 +48,13 @@ Added in v2.0.0
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
-  - [local](#local)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
   - [swap](#swap)
+  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -346,7 +346,7 @@ Added in v2.4.0
 
 ## chainEitherKW
 
-Less strict version of [`chainEitherK`](#chainEitherK).
+Less strict version of [`chainEitherK`](#chaineitherk).
 
 **Signature**
 
@@ -377,7 +377,7 @@ Added in v2.0.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst)
+Less strict version of [`chainFirst`](#chainfirst)
 
 Derivable from `Chain`.
 
@@ -432,7 +432,7 @@ Added in v2.0.0
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 
@@ -509,19 +509,6 @@ export declare const fromReaderK: <A extends readonly unknown[], R, B>(
 
 Added in v2.11.0
 
-## local
-
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v2.0.0
-
 ## orElse
 
 **Signature**
@@ -560,7 +547,7 @@ Added in v2.11.0
 
 ## orElseW
 
-Less strict version of [`orElse`](#orElse).
+Less strict version of [`orElse`](#orelse).
 
 **Signature**
 
@@ -590,6 +577,18 @@ Added in v2.11.0
 
 ```ts
 export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
+```
+
+Added in v2.0.0
+
+## ~~local~~
+
+Use [`local`](./Reader.ts.html#local) instead.
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
 ```
 
 Added in v2.0.0
@@ -707,7 +706,7 @@ Added in v2.0.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -722,7 +721,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -749,7 +748,7 @@ Added in v2.0.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -789,7 +788,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -991,7 +990,7 @@ Added in v2.10.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -1003,10 +1002,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
-are concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 
@@ -1018,7 +1014,7 @@ Added in v2.0.0
 
 ## ~~getReaderValidation~~
 
-Use `getApplicativeReaderValidation` and `getAltReaderValidation` instead.
+Use [`getApplicativeReaderValidation`](#getapplicativereadervalidation) and [`getAltReaderValidation`](#getaltreadervalidation) instead.
 
 **Signature**
 
@@ -1032,10 +1028,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

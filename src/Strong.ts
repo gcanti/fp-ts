@@ -161,7 +161,7 @@ export function fanOut<F>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `split` instead.
+ * Use [`split`](#split) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -188,7 +188,7 @@ export function splitStrong<F>(
 }
 
 /**
- * Use `fanOut` instead.
+ * Use [`fanOut`](#fanout) instead.
  *
  * @since 2.0.0
  * @deprecated

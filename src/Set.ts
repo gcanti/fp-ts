@@ -489,7 +489,7 @@ export const toArray = <A>(O: Ord<A>) => (set: Set<A>): Array<A> => {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `isSubset` instead.
+ * Use [`isSubset`](#issubset) instead.
  *
  * @since 2.0.0
  * @deprecated

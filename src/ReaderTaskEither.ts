@@ -254,7 +254,7 @@ export const matchE: <R, E, A, B>(
   ET.matchE(RT.Chain)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.0.0
@@ -262,7 +262,7 @@ export const matchE: <R, E, A, B>(
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -273,7 +273,7 @@ export const matchEW: <E, R2, B, A, R3, C>(
 ) => <R1>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2 & R3, B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -291,7 +291,7 @@ export const getOrElse: <R, E, A>(
   ET.getOrElse(RT.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -315,17 +315,6 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
-
-/**
- * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
- * `contramap`).
- *
- * @category combinators
- * @since 2.0.0
- */
-export const local: <R2, R1>(
-  f: (r2: R2) => R1
-) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
 
 /**
  * Less strict version of [`asksE`](#asksE).
@@ -355,7 +344,7 @@ export const orElse: <R, E1, A, E2>(
   ET.orElse(RT.Monad)
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -409,7 +398,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromIOEither)
 
 /**
- * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+ * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -435,7 +424,7 @@ export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromTaskEither)
 
 /**
- * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+ * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -862,7 +851,7 @@ export const chainFirst: <R, E, A, B>(
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -986,7 +975,7 @@ export const chainEitherK: <E, A, B>(
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -1020,7 +1009,7 @@ export const filterOrElse: {
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -1306,7 +1295,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
@@ -1320,7 +1309,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTa
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1331,10 +1320,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<
   getApplicativeMonoid(ApplicativeSeq)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1344,7 +1330,7 @@ export const getSemigroup = <R, E, A>(S: Semigroup<A>): Semigroup<ReaderTaskEith
   getApplySemigroup_(RT.ApplySeq)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+ * Use [`getApplicativeReaderTaskValidation`](#getapplicativereadertaskvalidation) and [`getAltReaderTaskValidation`](#getaltreadertaskvalidation) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -1379,3 +1365,14 @@ export function getReaderTaskValidation<E>(
 export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> {
   return ma(r)()
 }
+
+/**
+ * Use [`local`](./Reader.ts.html#local) instead.
+ *
+ * @category combinators
+ * @since 2.0.0
+ * @deprecated
+ */
+export const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local

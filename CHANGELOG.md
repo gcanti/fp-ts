@@ -218,6 +218,607 @@ high state of flux, you're at risk of it changing without notice.
     - add `wiltDefault`
     - add `witherDefault`
 
+# 2.10.2
+
+- **Bug Fix**
+  - `Record`
+    - `hasOwnProperty` should be an alias of `ReadonlyRecord.hasOwnProperty`
+
+# 2.10.1
+
+- **Bug Fix**
+  - rename `hasOwnProperty` in `internal` module, #1481 (@OliverJAsh)
+
+# 2.10.0
+
+- **Deprecations**
+  - deprecate `pipeable` module, use the specific helpers instead
+  - deprecate `ValidationT` module, use `EitherT` instead
+  - deprecate "mega instances", use small, specific instances instead
+  - deprecate the old monad transformers, use the specific helpers instead
+  - `Applicative`
+    - deprecate `getApplicativeComposition`, use `ap` helper instead
+  - `Array`
+    - deprecate `prependToAll`, use `prependAll` instead
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+    - deprecate `empty`
+  - `BooleanAlgebra`
+    - deprecate `booleanAlgebraBoolean`, use `boolean.BooleanAlgebra` instead
+    - deprecate `getFunctionBooleanAlgebra`, use `function.getBooleanAlgebra` instead
+    - deprecate `getDualBooleanAlgebra`, use `reverse` instead
+  - `Bounded`
+    - deprecate `boundedNumber`, use `number.Bounded` instead
+  - `Choice`
+    - deprecate `splitChoice` in favour of `split`
+    - deprecate `fanin` in favour of `fanIn`
+  - `Compactable`
+    - deprecate `getCompactableComposition`, use `compact`, `separate` helpers instead
+    - deprecate `Separated`, use `Separated.Separated` instead
+  - `Either`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getValidationSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getValidationMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getValidation`, use `getApplicativeValidation` and `getAltValidation` instead
+    - deprecate `Json` type, use the `Json` module instead
+    - deprecate `parseJSON` type, use the `Json` module instead
+    - deprecate `stringifyJSON` type, use the `Json` module instead
+  - `Eq`
+    - deprecate `eqBoolean`, use `boolean.Eq` instead
+    - deprecate `eqString`, use `string.Eq` instead
+    - deprecate `eqNumber`, use `number.Eq` instead
+    - deprecate `eqDate`, use `Date.Eq` instead
+    - deprecate `getStructEq`, use `struct` instead
+    - deprecate `getTupleEq`, use `tuple` instead
+  - `Filterable`
+    - deprecate `getFilterableComposition`, use `filter`, `filterMap`, `partition`, `partitionMap` helpers instead
+  - `Foldable`
+    - deprecate `toArray` in favour of `toReadonlyArray`
+    - deprecate `getFoldableComposition`, use `reduce`, `foldMap`, `reduceRight` helpers instead
+  - `FoldableWithIndex`
+    - deprecate `getFoldableWithIndexComposition`, use `reduceWithIndex`, `foldMapWithIndex`, `reduceRightWithIndex` helpers instead
+  - `Functor`
+    - deprecate `getFunctorComposition`, use `map` helper instead
+  - `FunctorWithIndex`
+    - deprecate `getFunctorWithIndexComposition`, use `mapWithIndex` helper instead
+  - `IO`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `fromIO`
+  - `IOEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
+  - `Map`
+    - deprecate `insertAt` in favour of `upsertAt`
+    - deprecate `empty`
+  - `Monoid`
+    - deprecate `monoidAll`, use `boolean.MonoidAll` instead
+    - deprecate `monoidAny`, use `boolean.MonoidAny` instead
+    - deprecate `getFunctionMonoid`, use `function.getMonoid` instead
+    - deprecate `getEndomorphismMonoid`, use `function.getEndomorphismMonoid` instead (**Note**. The execution order in
+      `function.getEndomorphismMonoid` is reversed)
+    - deprecate `monoidString`, use `string.Monoid` instead
+    - deprecate `monoidSum`, use `number.MonoidSum` instead
+    - deprecate `monoidProduct`, use `number.MonoidProduct` instead
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `getMeetMonoid`, use `min` instead
+    - deprecate `getJoinMonoid`, use `max` instead
+    - deprecate `getDualMonoid`, use `reverse` instead
+    - deprecate `getStructMonoid`, use `struct` instead
+    - deprecate `getTupleMonoid`, use `tuple` instead
+  - `NonEmptyArray`
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `prependToAll`, use `prependAll` instead
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+    - deprecate `uncons` in favour of `unprepend`
+    - deprecate `unsnoc` in favour of `unappend`
+    - deprecate `filter` in favour of `Array`'s `filter`
+    - deprecate `filterWithIndex` in favour of `Array`'s `filterWithIndex`
+  - `Option`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+  - `Ord`
+    - deprecate `ordBoolean`, use `boolean.Ord` instead
+    - deprecate `ordString`, use `string.Ord` instead
+    - deprecate `ordNumber`, use `number.Ord` instead
+    - deprecate `ordDate`, use `Date.Ord` instead
+    - deprecate `getDualOrd`, use `reverse` instead
+    - deprecate `getTupleOrd`, use `tuple` instead
+  - `Ordering`
+    - deprecate `eqOrdering`, use `Eq` instead
+    - deprecate `monoidOrdering`, use `Monoid` instead
+    - deprecate `invert` in favour of `reverse`
+  - `Ring`
+    - deprecate `getFunctionRing`, use `function.getRing` instead
+  - `Reader`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+  - `ReaderEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getReaderValidation`, use `getApplicativeReaderValidation` and `getAltReaderValidation` instead
+    - deprecate `local`, Use `Reader`'s `local` instead
+  - `ReaderTask`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `run`
+    - deprecate `local`, Use `Reader`'s `local` instead
+  - `ReaderTaskEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getReaderTaskValidation`, use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead
+    - deprecate `run`
+    - deprecate `local`, Use `Reader`'s `local` instead
+  - `ReaderTaskEither`
+    - deprecate `run`
+  - `ReadonlyArray`
+    - deprecate `prependToAll`, use `prependAll` instead
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+  - `ReadonlyNonEmptyArray`
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `prependToAll`, use `prependAll` instead
+    - deprecate `insertAt`, Use `ReadonlyArray`'s `insertAt` instead
+    - deprecate `cons` in favour of `prepend`
+    - deprecate `snoc` in favour of `append`
+    - deprecate `uncons` in favour of `unprepend`
+    - deprecate `unsnoc` in favour of `unappend`
+    - deprecate `filter` in favour of `ReadonlyArray`'s `filter`
+    - deprecate `filterWithIndex` in favour of `ReadonlyArray`'s `filterWithIndex`
+  - `ReadonlyMap`
+    - deprecate `insertAt` in favour of `upsertAt`
+  - `ReadonlyRecord`
+    - deprecate `hasOwnProperty`, use `has` instead
+    - deprecate `insertAt` in favour of `upsertAt`
+  - `ReadonlySet`
+    - deprecate `fromArray` in favour of `fromReadonlyArray`
+  - `ReadonlyTuple`
+    - deprecate `mapLeft` in favour of `mapSnd`
+    - deprecate `map` in favour of `mapFst`
+  - `Record`
+    - deprecate `hasOwnProperty`, use `has` instead
+    - deprecate `insertAt` in favour of `upsertAt`
+    - deprecate `empty`
+  - `Ring`
+    - deprecate `getTupleRing`, use `tuple` instead
+  - `Semigroup`
+    - deprecate `semigroupAll`, use `boolean.SemigroupAll` instead
+    - deprecate `semigroupAny`, use `boolean.SemigroupAny` instead
+    - deprecate `getFunctionSemigroup`, use `function.getSemigroup` instead
+    - deprecate `semigroupString`, use `string.Semigroup` instead
+    - deprecate `semigroupSum`, use `number.SemigroupSum` instead
+    - deprecate `semigroupProduct`, use `number.SemigroupProduct` instead
+    - deprecate `fold`, use `concatAll` instead
+    - deprecate `getIntercalateSemigroup`, use `intercalate` instead
+    - deprecate `getMeetSemigroup`, use `min` instead
+    - deprecate `getJoinSemigroup`, use `max` instead
+    - deprecate `getDualSemigroup`, use `reverse` instead
+    - deprecate `getStructSemigroup`, use `struct` instead
+    - deprecate `getTupleSemigroup`, use `tuple` instead
+    - deprecate `getFirstSemigroup`, use `first` instead
+    - deprecate `getLastSemigroup`, use `last` instead
+    - deprecate `getObjectSemigroup`, use `assign` instead
+  - `Set`
+    - deprecate `subset` in favour of `isSubset`
+  - `Show`
+    - deprecate `showBoolean`, use `boolean.Show` instead
+    - deprecate `showString`, use `string.Show` instead
+    - deprecate `showNumber`, use `number.Show` instead
+    - deprecate `getStructShow`, use `struct` instead
+    - deprecate `getTupleShow`, use `tuple` instead
+  - `Strong`
+    - deprecate `splitStrong` in favour of `split`
+    - deprecate `fanout` in favour of `fanOut`
+  - `Task`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `fromTask`
+  - `TaskEither`
+    - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `getTaskValidation`, use `getApplicativeTaskValidation` and `getAltTaskValidation` instead
+  - `TaskThese`
+    - deprecate `functorTaskThese` instance in favour of `Functor`
+    - deprecate `bifunctorTaskThese` instance in favour of `Bifunctor`
+    - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
+    - deprecate `toTuple` in favour of `toTuple2`
+  - `These`
+    - deprecate `toTuple` in favour of `toTuple2`
+  - `Traversable`
+    - deprecate `getTraversableComposition`, use `traverse`, `sequence` helpers instead
+  - `Tuple`
+    - deprecate `mapLeft` in favour of `mapSnd`
+    - deprecate `map` in favour of `mapFst`
+- **New Feature**
+  - add `Pointed` type class
+  - add `FromEither` type class
+  - add `FromIO` type class
+  - add `FromTask` type class
+  - add `TaskOption` module
+  - add `string` module
+  - add `number` module
+  - add `Separated` module (@YBogomolov)
+  - add `Json` module
+  - `Apply`
+    - add `ap` helper
+    - add `apS` helper
+    - add `apFirst` helper
+    - add `apSecond` helper
+    - add `getApplySemigroup`
+  - `Applicative`
+    - add `getApplicativeMonoid`
+  - `Array`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `matchLeft` alias
+    - add `matchRight` alias
+    - add `size`
+    - better `unsafeInsertAt` signature
+    - better `chunksOf` signature
+    - add `getSemigroup`
+  - `boolean`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `Eq` instance
+    - add `BooleanAlgebra` instance
+    - add `SemigroupAll` instance
+    - add `SemigroupAny` instance
+    - add `MonoidAll` instance
+    - add `MonoidAny` instance
+    - add `Ord` instance
+    - add `Show` instance
+  - `BooleanAlgebra`
+    - add `reverse`
+  - `Chain`
+    - add `bind` helper
+    - add `chainFirst` helper
+  - `Compactable`
+    - add `compact` helper
+    - add `separate` helper
+    - add `separated` constructor
+  - `Date`
+    - add `Eq` instance
+    - add `Ord` instance
+  - `Filterable`
+    - add `filter` helper
+    - add `filterMap` helper
+    - add `partition` helper
+    - add `partitionMap` helper
+  - `Foldable`
+    - add `reduce` helper
+    - add `foldaMap` helper
+    - add `reduceRight` helper
+  - `FoldableWithIndex`
+    - add `reduceWithIndex` helper
+    - add `foldaMapWithIndex` helper
+    - add `reduceRightWithIndex` helper
+  - `function`
+    - add `getBooleanAlgebra`
+    - add `getSemigroup`
+    - add `getMonoid`
+    - add `getSemiring`
+    - add `getRing`
+    - add `getEndomorphismMonoid`
+  - `Functor`
+    - add `map` helper
+    - add `bindTo` helper
+    - add `flap` derivable, #1393 (@williamareynolds)
+  - `FunctorWithIndex`
+    - add `mapWithIndex` helper
+  - `Either`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `FromEither` instance
+    - add `toUnion`, closes #1362
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `tryCatchK`
+    - add `fromOptionK`
+    - add `chainOptionK`
+  - `EitherT`
+    - split `getEitherM` into separated functions
+  - `Eq`
+    - add `getSemigroup`
+    - add `struct`
+    - add `tuple`
+  - `Identity`
+    - add `Pointed` instance
+    - add `Apply` instance
+  - `IO`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `FromIO` instance
+  - `IOEither`
+    - add `Pointed` instance
+    - add `getCompactable`
+    - add `FromIO` instance
+    - add `FromEither` instance
+    - add `tryCatchK` combinator
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
+  - `Map`
+    - add `filterWithIndex` combinator
+    - add `filterMapWithIndex` combinator
+    - add `partitionWithIndex` combinator
+    - add `partitionMapWithIndex` combinator
+    - add `getTraversableWithIndex` instance
+    - add `getFoldableWithIndex` instance
+  - `Monoid`
+    - add `concatAll`
+    - add `min`
+    - add `max`
+    - add `reverse`
+    - add `struct`
+    - add `tuple`
+  - `NonEmptyArray`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `concatAll`
+    - add `isNonEmpty` guard
+    - add `fromReadonlyNonEmptyArray` constructor
+    - add `chainWithIndex` combinator
+    - add `chop`
+    - add `splitAt`
+    - add `chunksOf`
+  - `Option`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `tryCatchK`
+  - `OptionT`
+    - split `getOptionM` into separated functions
+  - `Ord`
+    - add `equalsDefault`
+    - add `reverse`
+    - add `tuple`
+  - `Ordering`
+    - add `Eq` instance
+    - add `Semigroup` instance
+    - add `Monoid` instance
+    - add `match`
+  - `Random`
+    - add `randomElem`
+  - `Reader`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - export `first`, `second`, `left`, `right`
+  - `ReaderT`
+    - split `getReaderM` into separated functions
+  - `ReaderEither`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `FromEither` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
+  - `ReaderTask`
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `traverseSeqArrayWithIndex`
+    - add `traverseSeqArray`
+    - add `sequenceSeqArray`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+  - `ReaderTaskEither`
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `getCompactable`
+    - add `getFilterable`
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `ReadonlyArray`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `getSemigroup`
+    - add `matchLeft` instance
+    - add `matchRight` instance
+    - add `size`
+    - better `unsafeInsertAt` signature
+    - better `chunksOf` signature, closes #1407
+  - `ReadonlyMap`
+    - add `filterWithIndex` combinator
+    - add `filterMapWithIndex` combinator
+    - add `partitionWithIndex` combinator
+    - add `partitionMapWithIndex` combinator
+    - add `getFunctorWithIndex`
+    - add `getFoldable`
+    - add `getFoldableWithIndex`
+    - add `getTraversable`
+    - add `getTraversableWithIndex`
+  - `ReadonlyNonEmptyArray`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `concatAll`
+    - add `isNonEmpty`
+    - add `chainWithIndex`
+    - add `chop`
+    - add `splitAt`
+    - add `chunksOf`
+  - `ReadonlySet`
+    - add `isEmpty`
+    - add `size`
+    - add `toggle`
+  - `Ring`
+    - add `tuple`
+  - `Set`
+    - add `isEmpty`
+    - add `size`
+  - `Semigroup`
+    - add `constant`
+    - add `concatAll`
+    - add `intercalate`
+    - add `min`
+    - add `max`
+    - add `struct`
+    - add `tuple`
+    - add `first`
+    - add `last`
+    - add `assign`
+  - `Show`
+    - add `struct`
+    - add `tuple`
+  - `State`
+    - add `Pointed` instance
+    - add `Apply` instance
+  - `StateT`
+    - split `getStateM` into separated functions
+  - `StateReaderTaskEither`
+    - add `Pointed` instance
+    - add `Apply` instance
+    - add `Monad` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `fromOptionK`
+    - add `chainOptionK`
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `Task`
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+  - `TaskEither`
+    - add `Pointed` instance
+    - add `ApplyPar` instance
+    - add `ApplySeq` instance
+    - add `getCompactable`
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `FromEither` instance
+    - add `toUnion`
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `orElseW`
+    - add `fromOptionK`
+    - add `chainOptionK`
+    - export `Chain` instance
+    - export `Monad` instance
+    - export `MonadIO` instance
+    - export `MonadTask` instance
+    - export `MonadThrow` instance
+  - `TaskThese`
+    - add `Functor` instance
+    - add `Pointed` instance
+    - add `Bifunctor` instance
+    - add `toTuple2`
+    - add `getApply`
+    - add `FromIO` instance
+    - add `FromTask` instance
+    - add `fromEither` function
+    - add `FromEither` instance
+    - add `getChain` instance
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `fromOption`
+    - add `fromOptionK`
+    - add `fromPredicate`
+  - `These`
+    - add `Pointed` instance
+    - add `of` function
+    - add `getApply`
+    - add `toTuple2`
+    - add `FromEither` instance
+    - add `fromOption` constructor
+    - add `foldW`
+    - add `match` alias
+    - add `matchW` alias
+    - add `fromOptionK`
+  - `TaskOption`
+    - export `Chain` instance
+    - export `Monad` instance
+  - `TheseT`
+    - split `getTheseM` into separated functions
+  - `Traversable`
+    - add `traverse` helper
+    - add `sequence` helper
+  - `Tree`
+    - add `Pointed` instance
+    - add `Apply` instance
+  - `Writer`
+    - add `getPointed`
+    - add `getApply`
+    - add `getApplicative`
+    - add `getChain`
+- **Bug Fix**
+  - `ReadonlyRecord` / `Record`: remove `extends string` constraints in `singleton` / `insertAt`, closes #1413
+  - `TaskOption`
+    - fix `getOrElseW` signature
+- **Internal**
+  - add `internal` module
+- **Polish**
+  - the scope in `bindTo`, `bind`, `bindW`, `apS`, `apSW` is now correctly `readonly`
+  - fix `FromEither` type parameter order
+  - `Array` / `ReadonlyArray`
+    - assert arrays as non-empty when using `some`, #1424 (@thewilkybarkid)
+    - fix `matchLeft`, `matchRight` type parameter order
+  - `EitherT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `OptionT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `ReaderT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+  - `ReadonlyMap`
+    - sort keys in `getShow`
+  - `ReadonlySet`
+    - sort keys in `getShow`
+  - `StateT`
+    - add overloads for `Kind2`, `Kind3`
+  - `TheseT`
+    - add overloads for `Kind2`, `Kind3`, `Kind4`
+
 # 2.10.0-rc.8
 
 - **Polish**

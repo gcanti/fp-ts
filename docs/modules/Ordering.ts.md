@@ -89,7 +89,7 @@ Added in v2.10.0
 
 ## ~~eqOrdering~~
 
-Use `Eq` instead
+Use [`Eq`](#eq) instead
 
 **Signature**
 
@@ -101,7 +101,7 @@ Added in v2.0.0
 
 ## ~~monoidOrdering~~
 
-Use `Monoid` instead
+Use [`Monoid`](#monoid) instead
 
 **Signature**
 
@@ -113,7 +113,7 @@ Added in v2.4.0
 
 ## ~~semigroupOrdering~~
 
-Use `Semigroup` instead
+Use [`Semigroup`](#semigroup) instead
 
 **Signature**
 
@@ -149,7 +149,7 @@ Added in v2.0.0
 
 ## ~~invert~~
 
-Use `reverse` instead.
+Use [`reverse`](#reverse) instead.
 
 **Signature**
 

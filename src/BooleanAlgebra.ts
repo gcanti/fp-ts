@@ -64,7 +64,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -73,7 +73,7 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 export const getDualBooleanAlgebra = reverse
 
 /**
- * Use `boolean.BooleanAlgebra` instead.
+ * Use [`BooleanAlgebra`](./boolean.ts.html#BooleanAlgebra) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -89,7 +89,7 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 }
 
 /**
- * Use `function.getBooleanAlgebra` instead
+ * Use [`getBooleanAlgebra`](./function.ts.html#getBooleanAlgebra) instead.
  *
  * @category instances
  * @since 2.0.0

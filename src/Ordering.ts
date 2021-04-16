@@ -79,7 +79,7 @@ export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -87,7 +87,7 @@ export const sign = (n: number): Ordering => (n <= -1 ? -1 : n >= 1 ? 1 : 0)
 export const invert = reverse
 
 /**
- * Use `Semigroup` instead
+ * Use [`Semigroup`](#semigroup) instead
  *
  * @category instances
  * @since 2.0.0
@@ -96,7 +96,7 @@ export const invert = reverse
 export const semigroupOrdering: S.Semigroup<Ordering> = Semigroup
 
 /**
- * Use `Eq` instead
+ * Use [`Eq`](#eq) instead
  *
  * @category instances
  * @since 2.0.0
@@ -105,7 +105,7 @@ export const semigroupOrdering: S.Semigroup<Ordering> = Semigroup
 export const eqOrdering: E.Eq<Ordering> = Eq
 
 /**
- * Use `Monoid` instead
+ * Use [`Monoid`](#monoid) instead
  *
  * @category instances
  * @since 2.4.0

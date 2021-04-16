@@ -144,7 +144,7 @@ export const matchE: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>
   ET.matchE(I.Monad)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.0.0
@@ -152,7 +152,7 @@ export const matchE: <E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -163,7 +163,7 @@ export const matchEW: <E, B, A, C>(
 ) => (ma: IOEither<E, A>) => IO<B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -179,7 +179,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) 
   ET.getOrElse(I.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -193,7 +193,7 @@ export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @category interop
  * @since 2.0.0
@@ -233,7 +233,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOE
   ET.orElse(I.Monad)
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -635,7 +635,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -757,7 +757,7 @@ export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEith
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -789,7 +789,7 @@ export const filterOrElse: {
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -973,7 +973,7 @@ export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOE
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `ApplicativePar` instead
+ * Use [`ApplicativePar`](#applicativepar) instead
  *
  * @since 2.7.0
  * @category instances
@@ -1006,10 +1006,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1020,7 +1017,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<IOEither<E,
   getApplySemigroup_(ApplyPar)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1031,10 +1028,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<IOEither<E, A>> =
   getApplicativeMonoid(ApplicativePar)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1044,7 +1038,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> =
   getApplySemigroup_(I.Apply)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeIOValidation` and `getAltIOValidation`.
+ * Use [`getApplicativeIOValidation`](#getapplicativeiovalidation) and [`getAltIOValidation`](#getaltiovalidation).
  *
  * @category instances
  * @since 2.0.0

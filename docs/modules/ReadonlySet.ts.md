@@ -248,7 +248,7 @@ Added in v2.5.0
 
 ## ~~fromArray~~
 
-Use `fromReadonlyArray` instead.
+Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
 
 **Signature**
 

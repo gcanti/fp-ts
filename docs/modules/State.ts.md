@@ -452,7 +452,7 @@ Added in v2.9.0
 
 ## ~~evalState~~
 
-Use `evaluate` instead
+Use [`evaluate`](#evaluate) instead
 
 **Signature**
 
@@ -464,7 +464,7 @@ Added in v2.0.0
 
 ## ~~execState~~
 
-Use `execute` instead
+Use [`execute`](#execute) instead
 
 **Signature**
 

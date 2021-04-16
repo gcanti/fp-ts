@@ -214,7 +214,7 @@ Added in v2.10.0
 
 ## ~~writer~~
 
-Use `Functor` instead.
+Use [`Functor`](#functor) instead.
 
 **Signature**
 
@@ -262,7 +262,7 @@ Added in v2.8.0
 
 ## ~~evalWriter~~
 
-Use `evaluate` instead
+Use [`evaluate`](#evaluate) instead
 
 **Signature**
 
@@ -274,7 +274,7 @@ Added in v2.0.0
 
 ## ~~execWriter~~
 
-Use `execute` instead
+Use [`execute`](#execute) instead
 
 **Signature**
 

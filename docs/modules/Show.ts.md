@@ -59,7 +59,7 @@ Added in v2.10.0
 
 ## ~~getStructShow~~
 
-Use `struct` instead.
+Use [`struct`](#struct) instead.
 
 **Signature**
 
@@ -73,7 +73,7 @@ Added in v2.0.0
 
 ## ~~getTupleShow~~
 
-Use `tuple` instead.
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
@@ -89,7 +89,7 @@ Added in v2.0.0
 
 ## ~~showBoolean~~
 
-Use `boolean.Show` instead.
+Use [`Show`](./boolean.ts.html#Show) instead.
 
 **Signature**
 
@@ -101,7 +101,7 @@ Added in v2.0.0
 
 ## ~~showNumber~~
 
-Use `number.Show` instead.
+Use [`Show`](./number.ts.html#Show) instead.
 
 **Signature**
 
@@ -113,7 +113,7 @@ Added in v2.0.0
 
 ## ~~showString~~
 
-Use `string.Show` instead.
+Use [`Show`](./string.ts.html#Show) instead.
 
 **Signature**
 

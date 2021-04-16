@@ -64,7 +64,7 @@ Added in v2.10.0
 
 ## ~~getTupleRing~~
 
-Use `tuple` instead.
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
@@ -80,7 +80,7 @@ Added in v2.0.0
 
 ## ~~getFunctionRing~~
 
-Use `function.getRing` instead.
+Use [`getRing`](./function.ts.html#getRing) instead.
 
 **Signature**
 

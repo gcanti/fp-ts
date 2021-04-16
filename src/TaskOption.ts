@@ -141,7 +141,7 @@ export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) =>
   OT.matchE(T.Chain)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -149,7 +149,7 @@ export const matchE: <B, A>(onNone: () => Task<B>, onSome: (a: A) => Task<B>) =>
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -160,7 +160,7 @@ export const matchEW: <B, C, A>(
 ) => (ma: TaskOption<A>) => Task<B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -176,7 +176,7 @@ export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Tas
   OT.getOrElse(T.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.10.0
@@ -200,7 +200,7 @@ export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> =
  *
  * Note: `f` should never `throw` errors, they are not caught.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @category interop
  * @since 2.10.0

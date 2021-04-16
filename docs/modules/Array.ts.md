@@ -1713,7 +1713,7 @@ Added in v2.0.0
 
 ## foldLeft
 
-Alias of [`matchLeft`](#matchLeft).
+Alias of [`matchLeft`](#matchleft).
 
 **Signature**
 
@@ -1725,7 +1725,7 @@ Added in v2.0.0
 
 ## foldRight
 
-Alias of [`matchRight`](#matchRight).
+Alias of [`matchRight`](#matchright).
 
 **Signature**
 

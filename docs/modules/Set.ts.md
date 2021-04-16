@@ -456,7 +456,7 @@ Added in v2.0.0
 
 ## ~~subset~~
 
-Use `isSubset` instead.
+Use [`isSubset`](#issubset) instead.
 
 **Signature**
 

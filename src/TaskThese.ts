@@ -168,7 +168,7 @@ export const matchE: <E, B, A>(
   TT.matchE(T.Monad)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.4.0
@@ -176,7 +176,7 @@ export const matchE: <E, B, A>(
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -188,7 +188,7 @@ export const matchEW: <E, B, A, C, D>(
 ) => (fa: TaskThese<E, A>) => Task<B | C | D> = fold as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -483,7 +483,7 @@ export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `Functor` instead.
+ * Use [`Functor`](#functor) instead.
  *
  * @category instances
  * @since 2.7.0
@@ -495,7 +495,7 @@ export const functorTaskThese: Functor2<URI> = {
 }
 
 /**
- * Use `Bifunctor` instead.
+ * Use [`Bifunctor`](#bifunctor) instead.
  *
  * @category instances
  * @since 2.7.0
@@ -508,7 +508,7 @@ export const bifunctorTaskThese: Bifunctor2<URI> = {
 }
 
 /**
- * Use `toTuple2` instead.
+ * Use [`toTuple2`](#totuple2) instead.
  *
  * @since 2.4.0
  * @deprecated
@@ -534,7 +534,7 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.4.0

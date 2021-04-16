@@ -27,7 +27,7 @@ export interface Bounded<A> extends Ord<A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `number.Bounded` instead.
+ * Use [`Bounded`](./number.ts.html#Bounded) instead.
  *
  * @category instances
  * @since 2.0.0

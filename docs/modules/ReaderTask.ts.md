@@ -39,7 +39,7 @@ Added in v2.3.0
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
-  - [local](#local)
+  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -359,10 +359,9 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v2.4.0
 
-## local
+## ~~local~~
 
-Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
-`contramap`).
+Use [`local`](./Reader.ts.html#local) instead.
 
 **Signature**
 
@@ -582,7 +581,7 @@ Added in v2.3.0
 
 ## ~~getMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
 
 **Signature**
 
@@ -594,7 +593,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 **Signature**
 

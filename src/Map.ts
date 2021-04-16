@@ -905,7 +905,7 @@ export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map
 export const empty = new Map<never, never>()
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -914,7 +914,7 @@ export const empty = new Map<never, never>()
 export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = upsertAt
 
 /**
- * Use `Filterable` instead.
+ * Use [`Filterable`](#filterable) instead.
  *
  * @category instances
  * @since 2.0.0

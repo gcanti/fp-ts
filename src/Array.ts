@@ -225,7 +225,7 @@ export const matchLeft: <B, A>(
 ) => (as: Array<A>) => B = matchLeftW
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.0.0
@@ -257,7 +257,7 @@ export const matchRight: <B, A>(
 ) => (as: Array<A>) => B = matchRightW
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.0.0

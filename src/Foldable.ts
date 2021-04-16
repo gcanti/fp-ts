@@ -329,7 +329,7 @@ export function traverse_<M, F>(
 // tslint:disable: deprecation
 
 /**
- * Use `reduceM` instead
+ * Use [`reduceM`](#reducem) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -371,7 +371,7 @@ export function foldM<M, F>(
 }
 
 /**
- * Use `toReadonlyArray` instead
+ * Use [`toReadonlyArray`](#toreadonlyarray) instead
  *
  * @since 2.8.0
  * @deprecated
@@ -459,7 +459,13 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, E> {
 }
 
 /**
- * Returns the composition of two foldables
+ * Use
+ *
+ * - [reduce](#reduce)
+ * - [foldMap](#foldmap)
+ * - [reduceRight](#reduceright)
+ *
+ * instead.
  *
  * @since 2.0.0
  * @deprecated

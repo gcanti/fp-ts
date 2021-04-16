@@ -101,7 +101,7 @@ Added in v2.10.0
 
 ## ~~getStructEq~~
 
-Use `struct` instead.
+Use [`struct`](#struct) instead.
 
 **Signature**
 
@@ -113,7 +113,7 @@ Added in v2.0.0
 
 ## ~~getTupleEq~~
 
-Use `tuple` instead.
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
@@ -201,7 +201,7 @@ Added in v2.10.0
 
 ## ~~eqBoolean~~
 
-Use `boolean.Eq` instead.
+Use [`Eq`](./boolean.ts.html#Eq) instead.
 
 **Signature**
 
@@ -213,7 +213,7 @@ Added in v2.0.0
 
 ## ~~eqDate~~
 
-Use `Date.Eq` instead.
+Use [`Eq`](./Date.ts.html#Eq) instead.
 
 **Signature**
 
@@ -225,7 +225,7 @@ Added in v2.0.0
 
 ## ~~eqNumber~~
 
-Use `number.Eq` instead.
+Use [`Eq`](./number.ts.html#Eq) instead.
 
 **Signature**
 
@@ -237,7 +237,7 @@ Added in v2.0.0
 
 ## ~~eqString~~
 
-Use `string.Eq` instead.
+Use [`Eq`](./string.ts.html#Eq) instead.
 
 **Signature**
 
@@ -277,7 +277,7 @@ Added in v2.0.0
 
 ## ~~strictEqual~~
 
-Use `eqStrict` instead
+Use [`eqStrict`](#eqstrict) instead
 
 **Signature**
 

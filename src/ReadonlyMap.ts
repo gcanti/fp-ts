@@ -1192,7 +1192,7 @@ export const difference = <K>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.5.0

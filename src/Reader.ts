@@ -502,7 +502,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -513,7 +513,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> =
   getApplySemigroup(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0

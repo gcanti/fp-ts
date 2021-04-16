@@ -35,7 +35,7 @@ export const struct = <A>(shows: { [K in keyof A]: Show<A[K]> }): Show<{ readonl
   show: (a) => {
     let s = '{'
     for (const k in shows) {
-      if (_.hasOwnProperty.call(shows, k)) {
+      if (_.has.call(shows, k)) {
         s += ` ${k}: ${shows[k].show(a[k])},`
       }
     }
@@ -62,7 +62,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -73,7 +73,7 @@ export const getTupleShow: <T extends ReadonlyArray<Show<any>>>(
 ) => Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> = tuple
 
 /**
- * Use `struct` instead.
+ * Use [`struct`](#struct) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -84,7 +84,7 @@ export const getStructShow: <O extends ReadonlyRecord<string, any>>(
 ) => Show<O> = struct
 
 /**
- * Use `boolean.Show` instead.
+ * Use [`Show`](./boolean.ts.html#Show) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -95,7 +95,7 @@ export const showBoolean: Show<boolean> = {
 }
 
 /**
- * Use `string.Show` instead.
+ * Use [`Show`](./string.ts.html#Show) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -106,7 +106,7 @@ export const showString: Show<string> = {
 }
 
 /**
- * Use `number.Show` instead.
+ * Use [`Show`](./number.ts.html#Show) instead.
  *
  * @category instances
  * @since 2.0.0

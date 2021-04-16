@@ -357,7 +357,7 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -368,7 +368,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>> =
   getApplySemigroup(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
  *
  * @category instances
  * @since 2.0.0

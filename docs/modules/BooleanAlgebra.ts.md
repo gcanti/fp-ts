@@ -49,7 +49,7 @@ Added in v2.10.0
 
 ## ~~getDualBooleanAlgebra~~
 
-Use `reverse` instead.
+Use [`reverse`](#reverse) instead.
 
 **Signature**
 
@@ -73,7 +73,7 @@ Added in v2.0.0
 
 ## ~~booleanAlgebraBoolean~~
 
-Use `boolean.BooleanAlgebra` instead.
+Use [`BooleanAlgebra`](./boolean.ts.html#BooleanAlgebra) instead.
 
 **Signature**
 
@@ -85,7 +85,7 @@ Added in v2.0.0
 
 ## ~~getFunctionBooleanAlgebra~~
 
-Use `function.getBooleanAlgebra` instead
+Use [`getBooleanAlgebra`](./function.ts.html#getBooleanAlgebra) instead.
 
 **Signature**
 

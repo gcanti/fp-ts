@@ -309,6 +309,8 @@ export interface CompactableComposition23C<F extends URIS2, G extends URIS3, E> 
 }
 
 /**
+ * Use [`compact`](#compact) and [`separate`](#separate) instead.
+ *
  * @since 2.0.0
  * @deprecated
  */
@@ -370,7 +372,7 @@ export function getCompactableComposition<F, G>(
 }
 
 /**
- * Use `Separated.Separated` instead.
+ * Use [`Separated`](./Separated.ts.html#Separated) instead.
  *
  * @since 2.0.0
  * @deprecated

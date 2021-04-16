@@ -319,7 +319,7 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) =>
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -330,7 +330,7 @@ export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
 ) => Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> = tuple
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -339,7 +339,7 @@ export const getTupleOrd: <T extends ReadonlyArray<Ord<any>>>(
 export const getDualOrd = reverse
 
 /**
- * Use `Contravariant` instead.
+ * Use [`Contravariant`](#contravariant) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -358,7 +358,7 @@ const strictOrd = {
 }
 
 /**
- * Use `boolean.Ord` instead.
+ * Use [`Ord`](./boolean.ts.html#Ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -367,7 +367,7 @@ const strictOrd = {
 export const ordBoolean: Ord<boolean> = strictOrd
 
 /**
- * Use `string.Ord` instead.
+ * Use [`Ord`](./string.ts.html#Ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -376,7 +376,7 @@ export const ordBoolean: Ord<boolean> = strictOrd
 export const ordString: Ord<string> = strictOrd
 
 /**
- * Use `number.Ord` instead.
+ * Use [`Ord`](./number.ts.html#Ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -385,7 +385,7 @@ export const ordString: Ord<string> = strictOrd
 export const ordNumber: Ord<number> = strictOrd
 
 /**
- * Use `Date.Ord` instead.
+ * Use [`Ord`](./Date.ts.html#Ord) instead.
  *
  * @category instances
  * @since 2.0.0

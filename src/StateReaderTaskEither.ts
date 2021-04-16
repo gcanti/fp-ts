@@ -269,7 +269,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): (<S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromIOEither(f(...a))
 
 /**
- * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+ * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -295,7 +295,7 @@ export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): (<S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromTaskEither(f(...a))
 
 /**
- * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+ * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -323,7 +323,7 @@ export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>
 }
 
 /**
- * Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
+ * Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -751,7 +751,7 @@ export const chainFirst: <S, R, E, A, B>(
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -877,7 +877,7 @@ export const chainEitherK: <E, A, B>(
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -915,7 +915,7 @@ export const filterOrElse: {
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -1191,7 +1191,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
 }
 
 /**
- * Use `evaluate` instead
+ * Use [`evaluate`](#evaluate) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -1207,7 +1207,7 @@ export const evalState: <S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S
   )
 
 /**
- * Use `execute` instead
+ * Use [`execute`](#execute) instead
  *
  * @since 2.0.0
  * @deprecated

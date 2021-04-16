@@ -185,7 +185,7 @@ Added in v2.10.0
 
 ## ~~fanout~~
 
-Use `fanOut` instead.
+Use [`fanOut`](#fanout) instead.
 
 **Signature**
 
@@ -208,7 +208,7 @@ Added in v2.0.0
 
 ## ~~splitStrong~~
 
-Use `split` instead.
+Use [`split`](#split) instead.
 
 **Signature**
 

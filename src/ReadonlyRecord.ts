@@ -73,7 +73,7 @@ export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(
  */
 export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       return false
     }
   }
@@ -168,7 +168,7 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
  * @since 2.10.0
  */
 export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-  if (_.hasOwnProperty.call(r, k) && r[k] === a) {
+  if (_.has.call(r, k) && r[k] === a) {
     return r
   }
   const out: Record<string, A> = Object.assign({}, r)
@@ -183,7 +183,7 @@ export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  *
  * @since 2.10.0
  */
-export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.hasOwnProperty.call(r, k)
+export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.has.call(r, k)
 
 /**
  * Delete a key and value from a `ReadonlyRecord`.
@@ -196,7 +196,7 @@ export function deleteAt<K extends string>(
 ): <KS extends string, A>(r: ReadonlyRecord<KS, A>) => ReadonlyRecord<string extends K ? string : Exclude<KS, K>, A>
 export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> {
   return <A>(r: ReadonlyRecord<string, A>) => {
-    if (!_.hasOwnProperty.call(r, k)) {
+    if (!_.has.call(r, k)) {
       return r
     }
     const out: Record<string, A> = Object.assign({}, r)
@@ -282,7 +282,7 @@ export function isSubrecord<A>(
       return (that) => isSubrecordE(that, me)
     }
     for (const k in me) {
-      if (!_.hasOwnProperty.call(that, k) || !E.equals(me[k], that[k])) {
+      if (!_.has.call(that, k) || !E.equals(me[k], that[k])) {
         return false
       }
     }
@@ -305,7 +305,7 @@ export function lookup<A>(
   if (r === undefined) {
     return (r) => lookup(k, r)
   }
-  return _.hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
+  return _.has.call(r, k) ? _.some(r[k]) : _.none
 }
 
 /**
@@ -328,7 +328,7 @@ export function mapWithIndex<A, B>(
   return (r) => {
     const out: Record<string, B> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         out[k] = f(k, r[k])
       }
     }
@@ -600,7 +600,7 @@ export function partitionMapWithIndex<A, B, C>(
     const left: Record<string, B> = {}
     const right: Record<string, C> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const e = f(k, r[k])
         switch (e._tag) {
           case 'Left':
@@ -632,7 +632,7 @@ export function partitionWithIndex<A>(
     const left: Record<string, A> = {}
     const right: Record<string, A> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const a = r[k]
         if (predicateWithIndex(k, a)) {
           right[k] = a
@@ -658,7 +658,7 @@ export function filterMapWithIndex<A, B>(
   return (r) => {
     const out: Record<string, B> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const ob = f(k, r[k])
         if (_.isSome(ob)) {
           out[k] = ob.value
@@ -685,7 +685,7 @@ export function filterWithIndex<A>(
     const out: Record<string, A> = {}
     let changed = false
     for (const key in fa) {
-      if (_.hasOwnProperty.call(fa, key)) {
+      if (_.has.call(fa, key)) {
         const a = fa[key]
         if (predicateWithIndex(key, a)) {
           out[key] = a
@@ -786,7 +786,7 @@ export function fromFoldableMap<F, B>(
   return <A>(ta: HKT<F, A>, f: (a: A) => readonly [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = _.hasOwnProperty.call(r, k) ? M.concat(r[k], b) : b
+      r[k] = _.has.call(r, k) ? M.concat(r[k], b) : b
       return r
     })
   }
@@ -1175,7 +1175,7 @@ export function reduceRight<A, B>(
 export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       const oa = r[k]
       if (_.isSome(oa)) {
         out[k] = oa.value
@@ -1195,7 +1195,7 @@ export const separate = <A, B>(
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       const e = r[k]
       if (_.isLeft(e)) {
         left[k] = e.left
@@ -1290,8 +1290,8 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       }
       const r: Record<string, A> = Object.assign({}, first)
       for (const k in second) {
-        if (_.hasOwnProperty.call(second, k)) {
-          r[k] = _.hasOwnProperty.call(first, k) ? S.concat(first[k], second[k]) : second[k]
+        if (_.has.call(second, k)) {
+          r[k] = _.has.call(first, k) ? S.concat(first[k], second[k]) : second[k]
         }
       }
       return r
@@ -1601,7 +1601,7 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1610,14 +1610,14 @@ export const Witherable: Witherable1<URI> = {
 export const insertAt: <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A> = upsertAt
 
 /**
- * Use `has` instead.
+ * Use [`has`](#has) instead.
  *
  * @since 2.5.0
  * @deprecated
  */
 export function hasOwnProperty<K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K
 export function hasOwnProperty<K extends string>(this: any, k: string, r?: ReadonlyRecord<K, unknown>): k is K {
-  return _.hasOwnProperty.call(r === undefined ? this : r, k)
+  return _.has.call(r === undefined ? this : r, k)
 }
 
 /**
