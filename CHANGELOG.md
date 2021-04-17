@@ -87,9 +87,15 @@ high state of flux, you're at risk of it changing without notice.
     - add `isBoolean`
   - `Either`
     - add `chainOptionK`
+  - `EitherT`
+    - add `orElseFirst`
+    - add `orLeft`
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`
+  - `IOEither`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
   - `Magma`
     - add `reverse`
     - add `filterFirst`
@@ -132,10 +138,14 @@ high state of flux, you're at risk of it changing without notice.
     - add `asksEW`, `asksW`
   - `ReaderEither`
     - add `asksEW`, `asksW`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
   - `ReaderTask`
     - add `asksEW`, `asksW`
   - `ReaderTaskEither`
     - add `asksEW`, `asksW`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
@@ -211,6 +221,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromTaskOption` (@thewilkybarkid)
     - add `fromTaskOptionK`
     - add `chainTaskOptionK`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
   - `TaskOption`
     - add `fromTaskEither` (@thewilkybarkid)
   - `Witherable`
