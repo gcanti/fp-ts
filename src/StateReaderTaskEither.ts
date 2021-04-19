@@ -956,7 +956,7 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, R, E, B>(
           : f(
               i + 1,
               a
-            )(s)(r)().then((eb) => {
+            )(ebs.right[1])(r)().then((eb) => {
               if (_.isLeft(eb)) {
                 return eb
               }

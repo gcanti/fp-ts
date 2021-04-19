@@ -347,6 +347,16 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(undefined)(), E.right([RA.empty, undefined] as const))
       U.deepStrictEqual(await pipe(input, f)(undefined)(undefined)(), E.right([['a0', 'b1'], undefined] as const))
       U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.left('e'))
+      const append = (_i: number, n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
+        _.modify((a) => [...a, n])
+      U.deepStrictEqual(
+        await pipe(
+          [1, 2, 3],
+          _.traverseReadonlyArrayWithIndex(append),
+          _.map(() => undefined)
+        )([])({})(),
+        E.right([undefined, [1, 2, 3]] as const)
+      )
     })
 
     it('sequenceReadonlyArray', async () => {
