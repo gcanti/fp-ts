@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import * as A from '../src/Array'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { pipe, tuple } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as O from '../src/Option'
@@ -354,5 +354,18 @@ describe('StateReaderTaskEither', () => {
     const s: State<unknown, number> = (s) => [1, s]
     const e = await pipe(_.fromState(s), _.evaluate(state))({})()
     U.deepStrictEqual(e, E.right(1))
+  })
+
+  it('#1486', async () => {
+    const append = (n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
+      _.modify((a) => [...a, n])
+    U.deepStrictEqual(
+      await pipe(
+        [1, 2, 3],
+        _.traverseArray(append),
+        _.map(() => undefined)
+      )([])({})(),
+      E.right(tuple(undefined, [1, 2, 3]))
+    )
   })
 })

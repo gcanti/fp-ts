@@ -965,7 +965,7 @@ export const traverseArrayWithIndex = <S, R, E, A, B>(
           : f(
               i,
               a
-            )(s)(r)().then((eb) => {
+            )(ebs.right[1])(r)().then((eb) => {
               if (E.isLeft(eb)) {
                 return eb
               }
