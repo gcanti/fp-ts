@@ -77,3 +77,39 @@ const mainDo: IO.IO<{ x: string, y: string }> = pipe(
   IO.chainFirst(({ y }) => print(y)),
 )
 ```
+
+## Examples
+
+Using `bindTo`:
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as T from 'fp-ts/Task'
+
+declare const print: (s: string) => T.Task<void>
+declare const readLine: T.Task<string>
+
+pipe(
+  readLine,
+  T.bindTo('x'),
+  T.bind('y', () => readLine),
+  T.chainFirst(({ x }) => print(x)),
+  T.chainFirst(({ y }) => print(y)),
+)
+```
+
+Performing actions in parallel with `apS`:
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as T from 'fp-ts/Task'
+
+declare const encryptValue: (val: string): T.Task<string>
+
+pipe(
+  T.Do,
+  T.apS('x', () => encryptValue("hello")),
+  T.apS('y', () => encryptValue("world")),
+  T.map(({ x, y }) => { /* ... */ })
+)
+```
