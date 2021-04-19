@@ -15,6 +15,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.3
+
+- **Bug Fix**
+  - `StateReaderTaskEither`
+    - `traverseArrayWithIndex` does not pass the output state from each step to the subsequent step, #1486
+
 # 2.10.2
 
 - **Bug Fix**
