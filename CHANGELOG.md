@@ -229,6 +229,11 @@ high state of flux, you're at risk of it changing without notice.
     - add `filterE`, #1458 (@vinassefranche)
     - add `wiltDefault`
     - add `witherDefault`
+# 2.10.3
+
+- **Bug Fix**
+  - `StateReaderTaskEither`
+    - `traverseArrayWithIndex` does not pass the output state from each step to the subsequent step, #1486
 
 # 2.10.2
 
