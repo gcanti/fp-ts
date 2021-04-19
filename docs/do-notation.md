@@ -104,12 +104,12 @@ Performing actions in parallel with `apS`:
 import { pipe } from 'fp-ts/function'
 import * as T from 'fp-ts/Task'
 
-declare const encryptValue: (val: string): T.Task<string>
+declare const encryptValue: (val: string) => T.Task<string>
 
 pipe(
   T.Do,
-  T.apS('x', () => encryptValue("hello")),
-  T.apS('y', () => encryptValue("world")),
+  T.apS('x', encryptValue("hello")),
+  T.apS('y', encryptValue("world")),
   T.map(({ x, y }) => { /* ... */ })
 )
 ```
