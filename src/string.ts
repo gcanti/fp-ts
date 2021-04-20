@@ -3,9 +3,20 @@
  */
 import * as E from './Eq'
 import * as M from './Monoid'
-import * as S from './Semigroup'
 import * as O from './Ord'
+import { Refinement } from './Refinement'
+import * as S from './Semigroup'
 import * as Sh from './Show'
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 3.0.0
+ */
+export const isString: Refinement<unknown, string> = (u: unknown): u is string => typeof u === 'string'
 
 // -------------------------------------------------------------------------------------
 // instances

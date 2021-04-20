@@ -8,6 +8,17 @@ import * as E from './Eq'
 import * as BA from './BooleanAlgebra'
 import * as O from './Ord'
 import * as S from './Show'
+import { Refinement } from './Refinement'
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 3.0.0
+ */
+export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolean => typeof u === 'boolean'
 
 // -------------------------------------------------------------------------------------
 // destructors
