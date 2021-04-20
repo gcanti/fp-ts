@@ -65,6 +65,22 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Reader<R2, A> => (r2) => ma(f(r2))
 
 /**
+ * Less strict version of [`asksE`](#askse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksEW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksEW
+
+/**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *

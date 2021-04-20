@@ -23,6 +23,8 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
@@ -161,6 +163,30 @@ export declare const of: <A, E>(a: A) => ReaderTask<E, A>
 Added in v3.0.0
 
 # combinators
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## asksEW
+
+Less strict version of [`asksE`](#askse).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
 
 ## chainFirstIOK
 

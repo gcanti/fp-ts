@@ -201,6 +201,22 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`asksE`](#askse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = R.asksEW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> = asksEW
+
+/**
  * @category combinators
  * @since 3.0.0
  */

@@ -15,6 +15,7 @@ import * as _ from '../src/StateReaderTaskEither'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
+import { tuple } from '../src/tuple'
 import * as U from './util'
 
 const state: unknown = {}
@@ -385,5 +386,14 @@ describe('StateReaderTaskEither', () => {
       )
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
+  })
+
+  it('asksE', async () => {
+    interface Env {
+      readonly count: number
+    }
+    const e: Env = { count: 0 }
+    const f = (e: Env) => _.of(e.count + 1)
+    U.deepStrictEqual(await _.asksE(f)({})(e)(), E.right(tuple(1, {})))
   })
 })

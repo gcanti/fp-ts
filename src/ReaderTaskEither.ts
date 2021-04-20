@@ -308,6 +308,23 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`asksE`](#askse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A> =
+  R.asksEW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = asksEW
+
+/**
  * @category combinators
  * @since 3.0.0
  */

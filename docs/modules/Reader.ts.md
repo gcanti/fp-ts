@@ -35,6 +35,8 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [local](#local)
@@ -237,6 +239,30 @@ export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<readonly [A,
 Added in v3.0.0
 
 # combinators
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v3.0.0
+
+## asksEW
+
+Less strict version of [`asksE`](#askse).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
 
 ## chainFirstW
 

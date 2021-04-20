@@ -214,6 +214,26 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`asksE`](#askse).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksEW = <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+): StateReaderTaskEither<S, R1 & R2, E, A> => (s) => (r) => f(r)(s)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const asksE: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = asksEW
+
+/**
  * @category combinators
  * @since 3.0.0
  */

@@ -118,4 +118,10 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(input, f)({}), ['a0', 'b1'])
     })
   })
+
+  it('asksE', () => {
+    const e: Env = { count: 0 }
+    const f = (e: Env) => _.of(e.count + 1)
+    U.deepStrictEqual(_.asksE(f)(e), 1)
+  })
 })

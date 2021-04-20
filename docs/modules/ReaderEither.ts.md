@@ -29,6 +29,8 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [asksE](#askse)
+  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstW](#chainfirstw)
@@ -256,6 +258,30 @@ export declare const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A>
 Added in v3.0.0
 
 # combinators
+
+## asksE
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## asksEW
+
+Less strict version of [`asksE`](#askse).
+
+**Signature**
+
+```ts
+export declare const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
 
 ## chainEitherK
 
