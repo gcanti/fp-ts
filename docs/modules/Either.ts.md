@@ -153,9 +153,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <E2, B>(
-  second: Lazy<Either<E2, B>>
-) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B | A>
+export declare const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0

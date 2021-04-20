@@ -149,7 +149,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <S, R2, E2, B>(
   second: () => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B | A>
+) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0

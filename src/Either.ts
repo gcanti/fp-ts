@@ -430,7 +430,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
  * @category Alt
  * @since 3.0.0
  */
-export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A | B> = (
+export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
   that
 ) => (fa) => (isLeft(fa) ? that() : fa)
 

@@ -521,7 +521,7 @@ export const alt: Alt3<URI>['alt'] =
  */
 export const altW: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = alt as any
 
 // -------------------------------------------------------------------------------------
 // instances

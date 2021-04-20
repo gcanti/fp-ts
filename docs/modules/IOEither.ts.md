@@ -140,7 +140,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B | A>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0

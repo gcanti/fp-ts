@@ -373,7 +373,7 @@ export const alt: Alt2<URI>['alt'] =
  */
 export const altW: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = alt as any
 
 // -------------------------------------------------------------------------------------
 // instances

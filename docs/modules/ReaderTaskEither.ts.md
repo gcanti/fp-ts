@@ -166,7 +166,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <R2, E2, B>(
   second: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
