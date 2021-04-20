@@ -29,6 +29,8 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [combinator](#combinator)
+  - [getDifferenceMagma](#getdifferencemagma)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [flap](#flap)
@@ -43,7 +45,6 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
   - [URI (type alias)](#uri-type-alias)
-  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
@@ -232,6 +233,18 @@ export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: Readon
 
 Added in v3.0.0
 
+# combinator
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v3.0.0
+
 # combinators
 
 ## deleteAt
@@ -382,16 +395,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = 'ReadonlyMap'
-```
-
-Added in v3.0.0
-
-## getDifferenceMagma
-
-**Signature**
-
-```ts
-export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0

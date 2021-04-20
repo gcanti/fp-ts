@@ -56,6 +56,7 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
   - [intersperse](#intersperse)
@@ -489,6 +490,16 @@ Derivable from `Chain`.
 
 ```ts
 export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0

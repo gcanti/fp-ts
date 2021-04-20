@@ -719,7 +719,7 @@ export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semig
 })
 
 /**
- * @category instances
+ * @category combinator
  * @since 3.0.0
  */
 export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A>> => ({

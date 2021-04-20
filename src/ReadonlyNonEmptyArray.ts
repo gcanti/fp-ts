@@ -908,6 +908,14 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
   fromEquals((second) => (first) => first.length === second.length && first.every((a, i) => E.equals(second[i])(a)))
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => ({
+  concat: union(E)
+})
+
+/**
  * @category instances
  * @since 3.0.0
  */
