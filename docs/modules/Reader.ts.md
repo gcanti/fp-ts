@@ -35,6 +35,7 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
+  - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [local](#local)
 - [constructors](#constructors)
@@ -236,6 +237,22 @@ export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<readonly [A,
 Added in v3.0.0
 
 # combinators
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
 
 ## flap
 
