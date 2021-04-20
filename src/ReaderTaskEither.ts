@@ -580,7 +580,7 @@ export const alt: <R, E, A>(
  */
 export const altW: <R2, E2, B>(
   that: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A | B> = alt as any
+) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = alt as any
 
 /**
  * @category MonadThrow

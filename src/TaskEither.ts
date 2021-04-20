@@ -557,7 +557,7 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  */
 export const altW: <E2, B>(
   that: Lazy<TaskEither<E2, B>>
-) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, A | B> = alt as any
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, A | B> = alt as any
 
 /**
  * @category Pointed

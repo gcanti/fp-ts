@@ -206,7 +206,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <E2, B>(
   that: Lazy<TaskEither<E2, B>>
-) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 Added in v2.9.0

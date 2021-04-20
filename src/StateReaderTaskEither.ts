@@ -485,7 +485,7 @@ export const flatten: <S, R, E, A>(
  */
 export const altW = <S, R2, E2, B>(that: () => StateReaderTaskEither<S, R2, E2, B>) => <R1, E1, A>(
   fa: StateReaderTaskEither<S, R1, E1, A>
-): StateReaderTaskEither<S, R1 & R2, E1 | E2, A | B> => (r) =>
+): StateReaderTaskEither<S, R1 & R2, E2, A | B> => (r) =>
   pipe(
     fa(r),
     RTE.altW(() => that()(r))
