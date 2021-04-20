@@ -1,3 +1,9 @@
+---
+title: Do notation
+parent: Guides
+nav_order: 4
+---
+
 # Do notation
 
 **Cheatsheet**
