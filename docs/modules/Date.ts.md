@@ -14,12 +14,15 @@ Added in v2.0.0
 
 - [constructors](#constructors)
   - [create](#create)
+  - [fromString](#fromstring)
 - [instances](#instances)
   - [Eq](#eq)
   - [Ord](#ord)
   - [eqDate](#eqdate)
   - [eqMonth](#eqmonth)
   - [eqYear](#eqyear)
+- [refinements](#refinements)
+  - [isValid](#isvalid)
 - [utils](#utils)
   - [now](#now)
 
@@ -39,6 +42,18 @@ export declare const create: IO<Date>
 
 Added in v2.0.0
 
+## fromString
+
+Returns a `Date` if the input is a valid date time string.
+
+**Signature**
+
+```ts
+export declare const fromString: (value: string) => O.Option<Date>
+```
+
+Added in v2.11.0
+
 # instances
 
 ## Eq
@@ -56,7 +71,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const Ord: O.Ord<Date>
+export declare const Ord: Ord_<Date>
 ```
 
 **Example**
@@ -98,6 +113,20 @@ export declare const eqYear: E.Eq<Date>
 ```
 
 Added in v2.6.0
+
+# refinements
+
+## isValid
+
+Returns `true` if the input is a valid Date, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isValid: Predicate<Date>
+```
+
+Added in v2.11.0
 
 # utils
 

@@ -1,3 +1,5 @@
+import { pipe } from '../src/function'
+import * as O from '../src/Option'
 import * as U from './util'
 import * as _ from '../src/Date'
 
@@ -36,6 +38,16 @@ describe('Date', () => {
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------
+
+  it('isValid', () => {
+    U.deepStrictEqual(pipe(new Date('2000-10-01'), _.isValid), true)
+    U.deepStrictEqual(pipe(new Date('not a date'), _.isValid), false)
+  })
+
+  it('fromString', () => {
+    U.deepStrictEqual(pipe('2000-10-01', _.fromString), O.some(new Date('2000-10-01')))
+    U.deepStrictEqual(pipe('not a date', _.fromString), O.none)
+  })
 
   it('create', () => {
     const d1 = _.create()
