@@ -1468,8 +1468,6 @@ Added in v3.0.0
 
 ## match
 
-Less strict version of [`match`](#match).
-
 **Signature**
 
 ```ts

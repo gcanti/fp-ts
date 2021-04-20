@@ -251,19 +251,9 @@ export const Chain: Chain2<URI> = {
   chain
 }
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad2<URI> = {
-  map,
-  of,
-  chain
-}
-
 const apSeq =
   /*#__PURE__*/
-  apSeq_(Monad)
+  apSeq_(Chain)
 
 /**
  * @category instances
@@ -309,6 +299,16 @@ export const chainFirst =
 export const chainFirstW: <R2, A, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad2<URI> = {
+  map,
+  of,
+  chain
+}
 
 /**
  * @category instances

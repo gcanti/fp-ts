@@ -109,8 +109,6 @@ export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEm
 ): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
 
 /**
- * Less strict version of [`match`](#match).
- *
  * @category destructors
  * @since 3.0.0
  */

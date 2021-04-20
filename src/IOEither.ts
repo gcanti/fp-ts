@@ -525,19 +525,9 @@ export const Chain: Chain2<URI> = {
   chain
 }
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad2<URI> = {
-  map,
-  of,
-  chain
-}
-
 const apSeq =
   /*#__PURE__*/
-  apSeq_(Monad)
+  apSeq_(Chain)
 
 /**
  * @category instances
@@ -580,6 +570,16 @@ export const chainFirst =
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad2<URI> = {
+  map,
+  of,
+  chain
+}
 
 /**
  * @category instances

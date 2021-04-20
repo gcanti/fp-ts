@@ -505,19 +505,9 @@ export const Chain: Chain1<URI> = {
   chain
 }
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad1<URI> = {
-  map,
-  of,
-  chain
-}
-
 const apSeq =
   /*#__PURE__*/
-  apSeq_(Monad)
+  apSeq_(Chain)
 
 /**
  * @category instances
@@ -550,6 +540,16 @@ export const ApplicativeSeq: Applicative1<URI> = {
 export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad1<URI> = {
+  map,
+  of,
+  chain
+}
 
 /**
  * @category instances
