@@ -1,3 +1,9 @@
+---
+title: Do notation
+parent: Guides
+nav_order: 4
+---
+
 # Do Notation
 
 Both [Haskell](https://wiki.haskell.org/Monad#do-notation)
