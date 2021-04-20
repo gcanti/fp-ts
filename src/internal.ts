@@ -69,4 +69,4 @@ export const emptyRecord: {} = {}
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const hasOwnProperty = Object.prototype.hasOwnProperty
+export const has = Object.prototype.hasOwnProperty

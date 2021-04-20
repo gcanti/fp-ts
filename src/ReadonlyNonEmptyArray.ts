@@ -502,7 +502,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
   const out: Record<string, NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
-    if (Object.prototype.hasOwnProperty.call(out, k)) {
+    if (_.has.call(out, k)) {
       out[k].push(a)
     } else {
       out[k] = [a]
