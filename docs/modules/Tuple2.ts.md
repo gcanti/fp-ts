@@ -78,7 +78,7 @@ This is the `mapLeft` operation of the `Bifunctor` instance.
 **Signature**
 
 ```ts
-export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fea: Tuple2<E, A>) => Tuple2<G, A>
+export declare const mapSnd: <E, G, A>(f: (e: E) => G) => (fea: Tuple2<E, A>) => Tuple2<G, A>
 ```
 
 Added in v3.0.0

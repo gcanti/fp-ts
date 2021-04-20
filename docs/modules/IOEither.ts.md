@@ -194,7 +194,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>) => IOEither<G, A>
+export declare const mapLeft: <E, G, A>(f: (e: E) => G) => (fea: IOEither<E, A>) => IOEither<G, A>
 ```
 
 Added in v3.0.0
