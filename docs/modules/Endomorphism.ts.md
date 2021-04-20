@@ -13,6 +13,8 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [utils](#utils)
@@ -21,6 +23,26 @@ Added in v3.0.0
 ---
 
 # instances
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'Endomorphism'
+```
+
+Added in v3.0.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v3.0.0
 
 ## getMonoid
 
