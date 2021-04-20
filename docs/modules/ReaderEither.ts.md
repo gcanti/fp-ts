@@ -132,7 +132,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <R2, E2, B>(
   that: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B | A>
+) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v2.9.0

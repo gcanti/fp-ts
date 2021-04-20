@@ -370,7 +370,7 @@ export const alt: <R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEit
  */
 export const altW: <R2, E2, B>(
   that: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A | B> = alt as any
+) => <R1, E1, A>(fa: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = alt as any
 
 /**
  * @category MonadThrow
