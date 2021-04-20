@@ -15,6 +15,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.10.4
+
+- **Bug Fix**
+  - `altW` left type is too wide in `Either`-based data types, #1488 (@wmaurer)
+
 # 2.10.3
 
 - **Bug Fix**
