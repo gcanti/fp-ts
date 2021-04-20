@@ -5,7 +5,7 @@ import { pipe } from '../../src/function'
 // Do
 //
 
-// $ExpectType IO<{ a: number; b: string; }>
+// $ExpectType IO<{ readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.of(1)),

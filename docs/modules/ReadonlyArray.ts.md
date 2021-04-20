@@ -75,6 +75,7 @@ Added in v3.0.0
   - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
+  - [lefts](#lefts)
   - [prependAll](#prependall)
   - [reverse](#reverse)
   - [rights](#rights)
@@ -175,7 +176,6 @@ Added in v3.0.0
   - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
-  - [lefts](#lefts)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
@@ -782,6 +782,27 @@ import { intersperse } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3, 4], intersperse(9)), [1, 9, 2, 9, 3, 9, 4])
+```
+
+Added in v3.0.0
+
+## lefts
+
+Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+
+**Signature**
+
+```ts
+export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
+```
+
+**Example**
+
+```ts
+import { lefts } from 'fp-ts/ReadonlyArray'
+import { left, right } from 'fp-ts/Either'
+
+assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v3.0.0
@@ -1960,7 +1981,7 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: readonly B[]
-) => (fa: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v3.0.0
@@ -1983,7 +2004,7 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => readonly B[]
-) => (ma: readonly A[]) => readonly { [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+) => (ma: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
 Added in v3.0.0
@@ -2430,27 +2451,6 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
-```
-
-Added in v3.0.0
-
-## lefts
-
-Extracts from a `ReadonlyArray` of `Either` all the `Left` elements. All the `Left` elements are extracted in order
-
-**Signature**
-
-```ts
-export declare const lefts: <E, A>(as: readonly Either<E, A>[]) => readonly E[]
-```
-
-**Example**
-
-```ts
-import { lefts } from 'fp-ts/ReadonlyArray'
-import { left, right } from 'fp-ts/Either'
-
-assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
 Added in v3.0.0

@@ -58,7 +58,7 @@ pipe(_.right<string | number, boolean>(1), W.partition(isString)) // $ExpectType
 // do notation
 //
 
-// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(
   _.right<number, string>(1),
   _.bindTo('a'),
@@ -70,14 +70,14 @@ pipe(
 // pipeable sequence S
 //
 
-// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
 
 //
 // Do
 //
 
-// $ExpectType Either<string, { a: number; b: string; }>
+// $ExpectType Either<string, { readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.right<number, string>(1)),

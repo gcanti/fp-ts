@@ -1027,7 +1027,7 @@ export const bindW: <N extends string, A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(
   fa: TaskEither<E1, A>
-) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1050,7 +1050,7 @@ export const apSW: <A, N extends string, E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1>(
   fa: TaskEither<E1, A>
-) => TaskEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T

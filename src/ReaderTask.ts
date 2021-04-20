@@ -454,7 +454,7 @@ export const bindW: <N extends string, A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(
   fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -477,7 +477,7 @@ export const apSW: <A, N extends string, R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1>(
   fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
