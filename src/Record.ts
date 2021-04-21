@@ -141,8 +141,6 @@ export const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
  */
 export const has: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.has
 
-const _hasOwnProperty = Object.prototype.hasOwnProperty
-
 /**
  * Delete a key and value from a `Record`.
  *
@@ -153,7 +151,7 @@ export function deleteAt<K extends string>(
 ): <KS extends string, A>(r: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A>
 export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string, A> {
   return <A>(r: Record<string, A>) => {
-    if (!_hasOwnProperty.call(r, k)) {
+    if (!_.has.call(r, k)) {
       return r
     }
     const out: Record<string, A> = Object.assign({}, r)
