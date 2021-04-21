@@ -411,7 +411,7 @@ export const empty: ReadonlySet<never> = new Set()
  *
  * @since 3.0.0
  */
-export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
+export const isEmpty = (set: ReadonlySet<unknown>): boolean => set.size === 0
 
 /**
  * Calculate the number of elements in a `ReadonlySet`.

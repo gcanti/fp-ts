@@ -300,7 +300,7 @@ export const scanRight = <B, A>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
  *
  * @since 3.0.0
  */
-export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
+export const isEmpty = (as: ReadonlyArray<unknown>): as is readonly [] => as.length === 0
 
 /**
  * Test whether a `ReadonlyArray` is non empty narrowing down the type to `NonEmptyReadonlyArray<A>`
@@ -322,7 +322,7 @@ export const size = <A>(as: ReadonlyArray<A>): number => as.length
  *
  * @since 3.0.0
  */
-export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNEA.isOutOfBound
+export const isOutOfBound: (i: number, as: ReadonlyArray<unknown>) => boolean = RNEA.isOutOfBound
 
 /**
  * This function provides a safe way to read a value at a particular index from a `ReadonlyArray`

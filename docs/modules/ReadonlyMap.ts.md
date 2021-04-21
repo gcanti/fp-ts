@@ -621,7 +621,7 @@ Test whether or not a `ReadonlyMap` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <K, A>(d: ReadonlyMap<K, A>) => boolean
+export declare const isEmpty: (d: ReadonlyMap<unknown, unknown>) => boolean
 ```
 
 Added in v3.0.0

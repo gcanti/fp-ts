@@ -88,7 +88,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category guards
  * @since 3.0.0
  */
-export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
+export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.
@@ -96,7 +96,7 @@ export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
  * @category guards
  * @since 3.0.0
  */
-export const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A> = _.isRight
+export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -1049,7 +1049,7 @@ export const filterOrElseW: {
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
+export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Either<unknown, A>): boolean =>
   isLeft(ma) ? false : E.equals(ma.right)(a)
 
 /**
@@ -1066,7 +1066,7 @@ export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
  *
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boolean =>
+export const exists = <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>): boolean =>
   isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------

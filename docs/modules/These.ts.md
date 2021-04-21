@@ -388,7 +388,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export declare const isLeft: <E, A>(fa: These<E, A>) => fa is Left<E>
+export declare const isLeft: <E>(fa: These<E, unknown>) => fa is Left<E>
 ```
 
 Added in v3.0.0
@@ -400,7 +400,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export declare const isRight: <E, A>(fa: These<E, A>) => fa is Right<A>
+export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 ```
 
 Added in v3.0.0

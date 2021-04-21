@@ -49,7 +49,7 @@ export interface Filterable<F> {
  */
 export interface Filter1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
-  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fa: Kind<F, B>) => Kind<F, B>
 }
 
 /**

@@ -523,7 +523,7 @@ export const sort = <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyArray<A>
 /**
  * @internal
  */
-export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
+export const isOutOfBound = (i: number, as: ReadonlyArray<unknown>): boolean => i < 0 || i >= as.length
 
 /**
  * Change the element at the specified index, creating a new `ReadonlyNonEmptyArray`, or returning `None` if the index is out of bounds.

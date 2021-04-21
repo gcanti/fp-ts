@@ -742,7 +742,7 @@ export const size = <K, A>(d: ReadonlyMap<K, A>): number => d.size
  *
  * @since 3.0.0
  */
-export const isEmpty = <K, A>(d: ReadonlyMap<K, A>): boolean => d.size === 0
+export const isEmpty = (d: ReadonlyMap<unknown, unknown>): boolean => d.size === 0
 
 /**
  * Test whether or not a key exists in a `ReadonlyMap`.

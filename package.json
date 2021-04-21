@@ -19,6 +19,7 @@
     "doctoc": "doctoc README.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
+    "dtslint:dist": "dtslint dist",
     "docs": "docs-ts",
     "prerelease": "npm run build",
     "release": "ts-node scripts/release"

@@ -90,7 +90,7 @@ export type Option<A> = None | Some<A>
  * @category guards
  * @since 3.0.0
  */
-export const isNone: <A>(fa: Option<A>) => fa is None = _.isNone
+export const isNone: (fa: Option<unknown>) => fa is None = _.isNone
 
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise.

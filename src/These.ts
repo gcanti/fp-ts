@@ -193,7 +193,7 @@ export const swap: <E, A>(fa: These<E, A>) => These<A, E> = match(right, left, (
  * @category guards
  * @since 3.0.0
  */
-export const isLeft = <E, A>(fa: These<E, A>): fa is Left<E> => fa._tag === 'Left'
+export const isLeft = <E>(fa: These<E, unknown>): fa is Left<E> => fa._tag === 'Left'
 
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
@@ -201,7 +201,7 @@ export const isLeft = <E, A>(fa: These<E, A>): fa is Left<E> => fa._tag === 'Lef
  * @category guards
  * @since 3.0.0
  */
-export const isRight = <E, A>(fa: These<E, A>): fa is Right<A> => fa._tag === 'Right'
+export const isRight = <A>(fa: These<unknown, A>): fa is Right<A> => fa._tag === 'Right'
 
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
