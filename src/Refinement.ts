@@ -3,6 +3,7 @@
  */
 import { Option } from './Option'
 import * as _ from './internal'
+import { Either } from './Either'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -28,6 +29,14 @@ export interface Refinement<A, B extends A> {
  */
 export const fromOptionK = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
   return (a: A): a is B => _.isSome(getOption(a))
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromEitherK = <A, B extends A>(getEither: (a: A) => Either<unknown, B>): Refinement<A, B> => {
+  return (a: A): a is B => _.isRight(getEither(a))
 }
 
 /**

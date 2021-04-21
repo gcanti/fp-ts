@@ -1,10 +1,11 @@
+import * as B from '../src/boolean'
+import * as E from '../src/Either'
 import { pipe } from '../src/function'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import { ReadonlyRecord } from '../src/ReadonlyRecord'
 import * as _ from '../src/Refinement'
 import * as S from '../src/string'
-import * as N from '../src/number'
-import * as B from '../src/boolean'
 import * as U from './util'
 
 interface NonEmptyStringBrand {
@@ -71,5 +72,19 @@ describe('Refinement', () => {
     U.strictEqual(refinement('a'), true)
     U.strictEqual(refinement(null), false)
     U.strictEqual(refinement(''), false)
+  })
+
+  it('fromEitherK', () => {
+    const f = (s: string | number): E.Either<string, string> =>
+      typeof s === 'string' ? E.right(s) : E.left('not a string')
+    const isString = _.fromEitherK(f)
+    U.deepStrictEqual(isString('s'), true)
+    U.deepStrictEqual(isString(1), false)
+    type A = { readonly type: 'A' }
+    type B = { readonly type: 'B' }
+    type C = A | B
+    const isA = _.fromEitherK<C, A>((c) => (c.type === 'A' ? E.right(c) : E.left('not as A')))
+    U.deepStrictEqual(isA({ type: 'A' }), true)
+    U.deepStrictEqual(isA({ type: 'B' }), false)
   })
 })

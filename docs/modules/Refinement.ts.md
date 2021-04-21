@@ -19,6 +19,7 @@ Added in v2.11.0
   - [or](#or)
   - [zero](#zero)
 - [constructors](#constructors)
+  - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [id](#id)
 - [utils](#utils)
@@ -85,6 +86,16 @@ export declare const zero: <A, B extends A>() => Refinement<A, B>
 Added in v2.11.0
 
 # constructors
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A, B extends A>(getEither: (a: A) => Either<unknown, B>) => Refinement<A, B>
+```
+
+Added in v2.11.0
 
 ## fromOptionK
 
