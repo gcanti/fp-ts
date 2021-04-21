@@ -1,7 +1,7 @@
 ---
 title: Upgrade to fp-ts 2.x
 parent: Guides
-nav_order: 4
+nav_order: 5
 ---
 
 # Upgrade to version 2.x
@@ -67,9 +67,9 @@ v1 (deprecated)
 import * as O from 'fp-ts/lib/Option'
 
 O.some(1)
-  .map(n => n * 2)
-  .chain(n => (n === 0 ? O.none : O.some(1 / n)))
-  .filter(n => n > 1)
+  .map((n) => n * 2)
+  .chain((n) => (n === 0 ? O.none : O.some(1 / n)))
+  .filter((n) => n > 1)
   .foldL(
     () => 'ko',
     () => 'ok'
@@ -85,9 +85,9 @@ import { pipe } from 'fp-ts/lib/pipeable'
 
 pipe(
   O.some(1),
-  O.map(n => n * 2),
-  O.chain(n => (n === 0 ? O.none : O.some(1 / n))),
-  O.filter(n => n > 1),
+  O.map((n) => n * 2),
+  O.chain((n) => (n === 0 ? O.none : O.some(1 / n))),
+  O.filter((n) => n > 1),
   O.fold(
     () => 'ko',
     () => 'ok'
@@ -105,7 +105,7 @@ pipe(
   O.some(1),
   O.fold(
     () => 'ko',
-    n => `ok: ${n}`
+    (n) => `ok: ${n}`
   )
 )
 ```
@@ -124,7 +124,7 @@ import { Task } from 'fp-ts/lib/Task'
 
 const deepThought = new Task<number>(() => Promise.resolve(42))
 
-deepThought.run().then(n => {
+deepThought.run().then((n) => {
   console.log(`The answer is ${n}.`)
 })
 ```
@@ -137,7 +137,7 @@ import { Task } from 'fp-ts/lib/Task'
 
 const deepThought: Task<number> = () => Promise.resolve(42)
 
-deepThought().then(n => {
+deepThought().then((n) => {
   console.log(`The answer is ${n}.`)
 })
 ```
