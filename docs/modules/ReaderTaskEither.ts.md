@@ -35,6 +35,7 @@ Added in v3.0.0
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
@@ -42,6 +43,7 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskK](#chainreadertaskk)
   - [chainReaderTaskKW](#chainreadertaskkw)
   - [chainTaskEitherK](#chaintaskeitherk)
@@ -370,6 +372,20 @@ export declare const chainFirstReaderK: <A, R, B>(
 
 Added in v3.0.0
 
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstTaskK
 
 **Signature**
@@ -454,6 +470,20 @@ Added in v3.0.0
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainReaderK).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
