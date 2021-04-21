@@ -388,7 +388,7 @@ Test whether a `ReadonlySet` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
+export declare const isEmpty: (set: ReadonlySet<unknown>) => boolean
 ```
 
 Added in v2.10.0
@@ -478,7 +478,7 @@ Calculate the number of elements in a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const size: <A>(set: ReadonlySet<A>) => number
+export declare const size: (set: ReadonlySet<unknown>) => number
 ```
 
 Added in v2.10.0

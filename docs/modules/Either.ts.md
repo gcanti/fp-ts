@@ -1423,7 +1423,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
+export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
 ```
 
 Added in v2.0.0
@@ -1435,7 +1435,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
+export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
 ```
 
 Added in v2.0.0
@@ -1519,7 +1519,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A, ma: Either<unknown, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -1531,7 +1531,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean
+export declare function exists<A>(predicate: Predicate<A>): (ma: Either<unknown, A>) => boolean
 ```
 
 **Example**

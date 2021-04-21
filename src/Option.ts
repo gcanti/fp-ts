@@ -104,7 +104,7 @@ export const isSome: <A>(fa: Option<A>) => fa is Some<A> = _.isSome
  * @category refinements
  * @since 2.0.0
  */
-export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
+export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
 
 // -------------------------------------------------------------------------------------
 // constructors

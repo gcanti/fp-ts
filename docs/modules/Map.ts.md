@@ -569,7 +569,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export declare const isEmpty: <K, A>(d: Map<K, A>) => boolean
+export declare const isEmpty: (m: Map<unknown, unknown>) => boolean
 ```
 
 Added in v2.0.0
@@ -728,7 +728,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export declare const size: <K, A>(d: Map<K, A>) => number
+export declare const size: (m: Map<unknown, unknown>) => number
 ```
 
 Added in v2.0.0

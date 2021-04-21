@@ -67,7 +67,7 @@ export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => as.length
 /**
  * @internal
  */
-export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => i < 0 || i >= as.length
+export const isOutOfBound = (i: number, as: Array<unknown>): boolean => i < 0 || i >= as.length
 
 /**
  * @internal

@@ -436,14 +436,14 @@ export const empty: Set<never> = new Set()
  *
  * @since 2.10.0
  */
-export const isEmpty = <A>(set: Set<A>): boolean => set.size === 0
+export const isEmpty = (set: Set<unknown>): boolean => set.size === 0
 
 /**
  * Calculate the number of elements in a `Set`.
  *
  * @since 2.10.0
  */
-export const size = <A>(set: Set<A>): number => set.size
+export const size = (set: Set<unknown>): number => set.size
 
 /**
  * @since 2.0.0

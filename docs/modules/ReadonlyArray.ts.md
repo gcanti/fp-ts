@@ -2174,7 +2174,7 @@ Test whether a `ReadonlyArray` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
+export declare const isEmpty: (as: ReadonlyArray<unknown>) => as is readonly []
 ```
 
 **Example**
@@ -2660,7 +2660,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
+export declare const isOutOfBound: (i: number, as: ReadonlyArray<unknown>) => boolean
 ```
 
 Added in v2.5.0
@@ -2742,7 +2742,7 @@ Calculate the number of elements in a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const size: <A>(as: readonly A[]) => number
+export declare const size: (as: ReadonlyArray<unknown>) => number
 ```
 
 Added in v2.10.0

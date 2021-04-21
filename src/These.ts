@@ -71,9 +71,7 @@ export type These<E, A> = Either<E, A> | Both<E, A>
  * @category refinements
  * @since 2.0.0
  */
-export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
-  return fa._tag === 'Left'
-}
+export const isLeft = <E>(fa: These<E, unknown>): fa is Left<E> => fa._tag === 'Left'
 
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
@@ -81,9 +79,7 @@ export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
  * @category refinements
  * @since 2.0.0
  */
-export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
-  return fa._tag === 'Right'
-}
+export const isRight = <A>(fa: These<unknown, A>): fa is Right<A> => fa._tag === 'Right'
 
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise

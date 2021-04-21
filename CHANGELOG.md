@@ -229,6 +229,30 @@ high state of flux, you're at risk of it changing without notice.
     - add `filterE`, #1458 (@vinassefranche)
     - add `wiltDefault`
     - add `witherDefault`
+- **Polish**
+  - remove unnecessary type parameters
+    - `Either`
+      - `exists`
+      - `isLeft`
+      - `isRight`
+      - `elem`
+    - `Option`
+      - `isNone`
+    - `These`
+      - `isLeft`
+      - `isRight`
+    - `Set` / `ReadonlySet`
+      - `isEmpty`
+      - `size`
+    - `Array` / `ReadonlyArray`
+      - `isEmpty`
+      - `isOutOfBound`
+      - `size`
+    - `Map` / `ReadonlyMap`
+      - `isEmpty`
+      - `size`
+    - `NonEmptyArray` / `ReadonlyNonEmptyArray`
+      - `isOutOfBound`
 
 # 2.10.4
 

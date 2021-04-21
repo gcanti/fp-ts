@@ -2344,7 +2344,7 @@ Test whether an array is empty
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(as: A[]) => as is []
+export declare const isEmpty: (as: Array<unknown>) => as is []
 ```
 
 **Example**
@@ -2613,7 +2613,7 @@ Test whether an array contains a particular index
 **Signature**
 
 ```ts
-export declare const isOutOfBound: <A>(i: number, as: A[]) => boolean
+export declare const isOutOfBound: (i: number, as: Array<unknown>) => boolean
 ```
 
 Added in v2.0.0
@@ -2672,7 +2672,7 @@ Calculate the number of elements in a `Array`.
 **Signature**
 
 ```ts
-export declare const size: <A>(as: A[]) => number
+export declare const size: (as: Array<unknown>) => number
 ```
 
 Added in v2.10.0

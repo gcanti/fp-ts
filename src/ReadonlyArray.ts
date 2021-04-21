@@ -64,7 +64,7 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @category refinements
  * @since 2.5.0
  */
-export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
+export const isEmpty = (as: ReadonlyArray<unknown>): as is readonly [] => as.length === 0
 
 /**
  * Test whether a `ReadonlyArray` is non empty.
@@ -338,14 +338,14 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
  *
  * @since 2.10.0
  */
-export const size = <A>(as: ReadonlyArray<A>): number => as.length
+export const size = (as: ReadonlyArray<unknown>): number => as.length
 
 /**
  * Test whether an array contains a particular index
  *
  * @since 2.5.0
  */
-export const isOutOfBound: <A>(i: number, as: ReadonlyArray<A>) => boolean = RNEA.isOutOfBound
+export const isOutOfBound: (i: number, as: ReadonlyArray<unknown>) => boolean = RNEA.isOutOfBound
 
 // TODO: remove non-curried overloading in v3
 /**

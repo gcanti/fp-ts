@@ -349,7 +349,7 @@ Test whether a `Set` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: <A>(set: Set<A>) => boolean
+export declare const isEmpty: (set: Set<unknown>) => boolean
 ```
 
 Added in v2.10.0
@@ -427,7 +427,7 @@ Calculate the number of elements in a `Set`.
 **Signature**
 
 ```ts
-export declare const size: <A>(set: Set<A>) => number
+export declare const size: (set: Set<unknown>) => number
 ```
 
 Added in v2.10.0

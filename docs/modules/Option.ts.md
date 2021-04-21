@@ -1400,7 +1400,7 @@ Returns `true` if the option is `None`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isNone: <A>(fa: Option<A>) => fa is None
+export declare const isNone: (fa: Option<unknown>) => fa is None
 ```
 
 **Example**

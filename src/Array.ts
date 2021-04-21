@@ -63,7 +63,7 @@ import NonEmptyArray = NEA.NonEmptyArray
  * @category refinements
  * @since 2.0.0
  */
-export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
+export const isEmpty = (as: Array<unknown>): as is [] => as.length === 0
 
 /**
  * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
@@ -330,14 +330,14 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>): N
  *
  * @since 2.10.0
  */
-export const size = <A>(as: Array<A>): number => as.length
+export const size = (as: Array<unknown>): number => as.length
 
 /**
  * Test whether an array contains a particular index
  *
  * @since 2.0.0
  */
-export const isOutOfBound: <A>(i: number, as: Array<A>) => boolean = NEA.isOutOfBound
+export const isOutOfBound: (i: number, as: Array<unknown>) => boolean = NEA.isOutOfBound
 
 // TODO: remove non-curried overloading in v3
 /**
