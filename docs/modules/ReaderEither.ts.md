@@ -34,9 +34,11 @@ Added in v3.0.0
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -322,6 +324,20 @@ export declare const chainFirstReaderK: <A, R, B>(
 
 Added in v3.0.0
 
+## chainFirstReaderKW
+
+Less strict version of [`chainReaderK`](#chainReaderK).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainFirst)
@@ -356,6 +372,20 @@ Added in v3.0.0
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
 ) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainReaderK).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
