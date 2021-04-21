@@ -24,6 +24,7 @@ import {
   ask as ask_,
   asks as asks_,
   chainReaderK as chainReaderK_,
+  chainFirstReaderK as chainFirstReaderK_,
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -619,6 +620,16 @@ export const chainReaderK: <A, R, B>(
 ) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  chainFirstReaderK_(FromReader, Chain)
 
 /**
  * @category instances

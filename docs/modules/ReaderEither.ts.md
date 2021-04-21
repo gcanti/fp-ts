@@ -33,6 +33,7 @@ Added in v3.0.0
   - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
@@ -305,6 +306,18 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

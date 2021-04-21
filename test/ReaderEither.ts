@@ -256,6 +256,12 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
   })
 
+  it('chainFirstReaderK', () => {
+    const f = _.chainFirstReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(3))
+    U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
+  })
+
   describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
