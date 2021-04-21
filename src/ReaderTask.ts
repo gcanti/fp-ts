@@ -9,6 +9,7 @@ import {
   ask as ask_,
   asks as asks_,
   chainReaderK as chainReaderK_,
+  chainFirstReaderK as chainFirstReaderK_,
   FromReader2,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -385,6 +386,14 @@ export const fromReaderK =
 export const chainReaderK =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstReaderK =
+  /*#__PURE__*/
+  chainFirstReaderK_(FromReader, Chain)
 
 /**
  * @category instances
