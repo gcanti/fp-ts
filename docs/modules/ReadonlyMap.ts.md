@@ -755,7 +755,7 @@ Calculate the number of key/value pairs in a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const size: <K, A>(d: ReadonlyMap<K, A>) => number
+export declare const size: (d: ReadonlyMap<unknown, unknown>) => number
 ```
 
 Added in v3.0.0

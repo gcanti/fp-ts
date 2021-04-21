@@ -2507,7 +2507,7 @@ Calculate the number of elements in a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const size: <A>(as: readonly A[]) => number
+export declare const size: (as: ReadonlyArray<unknown>) => number
 ```
 
 Added in v3.0.0

@@ -418,7 +418,7 @@ export const isEmpty = (set: ReadonlySet<unknown>): boolean => set.size === 0
  *
  * @since 3.0.0
  */
-export const size = <A>(set: ReadonlySet<A>): number => set.size
+export const size = (set: ReadonlySet<unknown>): number => set.size
 
 interface Next<A> {
   readonly done?: boolean

@@ -315,7 +315,7 @@ export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArra
  *
  * @since 3.0.0
  */
-export const size = <A>(as: ReadonlyArray<A>): number => as.length
+export const size = (as: ReadonlyArray<unknown>): number => as.length
 
 /**
  * Test whether a `ReadonlyArray` contains a particular index

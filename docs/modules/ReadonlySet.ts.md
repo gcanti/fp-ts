@@ -431,7 +431,7 @@ Calculate the number of elements in a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const size: <A>(set: ReadonlySet<A>) => number
+export declare const size: (set: ReadonlySet<unknown>) => number
 ```
 
 Added in v3.0.0

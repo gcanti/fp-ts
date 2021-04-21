@@ -735,7 +735,7 @@ export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<ReadonlyMap<K, A
  *
  * @since 3.0.0
  */
-export const size = <K, A>(d: ReadonlyMap<K, A>): number => d.size
+export const size = (d: ReadonlyMap<unknown, unknown>): number => d.size
 
 /**
  * Test whether or not a `ReadonlyMap` is empty.
