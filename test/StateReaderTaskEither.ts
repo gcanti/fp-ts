@@ -387,6 +387,7 @@ describe('StateReaderTaskEither', () => {
     const f = (e: Env) => _.of(e.count + 1)
     U.deepStrictEqual(await _.asksE(f)({})(e)(), E.right(tuple(1, {})))
   })
+
   it('#1486', async () => {
     const append = (n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
       _.modify((a) => [...a, n])

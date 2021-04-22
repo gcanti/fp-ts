@@ -163,7 +163,6 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(
       await pipe(
         _.asks((n: number) => n + 1),
-        // tslint:disable-next-line: deprecation
         _.local(S.size)
       )('aaa')(),
       E.right(4)

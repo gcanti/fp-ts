@@ -85,6 +85,15 @@ export const fromIO: FromIO2<URI>['fromIO'] =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.3.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
+
+/**
  * Less strict version of [`asksE`](#asksE).
  *
  * @category combinators
@@ -672,12 +681,3 @@ export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
-
-/**
- * Use [`local`](./Reader.ts.html#local) instead.
- *
- * @category combinators
- * @since 2.3.0
- * @deprecated
- */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local

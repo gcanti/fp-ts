@@ -213,6 +213,16 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
+  R.local
+
+/**
  * Less strict version of [`asksE`](#asksE).
  *
  * @category combinators
@@ -993,13 +1003,3 @@ export function getReaderValidation<E>(
     throwError
   }
 }
-
-/**
- * Use [`local`](./Reader.ts.html#local) instead.
- *
- * @category combinators
- * @since 2.0.0
- * @deprecated
- */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
-  R.local
