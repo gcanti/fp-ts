@@ -146,6 +146,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `asksEW`, `asksW`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
+    - add `fromReaderTaskK`
+    - add `chainReaderTaskK`
+    - add `chainReaderTaskKW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
