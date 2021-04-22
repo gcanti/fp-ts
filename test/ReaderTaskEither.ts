@@ -1,7 +1,7 @@
 import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { pipe } from '../src/function'
+import { flow, pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
@@ -412,6 +412,16 @@ describe('ReaderTaskEither', () => {
   it('chainTaskEitherK', async () => {
     const f = (s: string) => TE.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
+  })
+
+  it('chainReaderTaskK', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderTaskK(f))(undefined)(), E.right(1))
+  })
+
+  it('chainReaderTaskKW', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainReaderTaskKW(f))({})(), E.right(1))
   })
 
   // -------------------------------------------------------------------------------------
