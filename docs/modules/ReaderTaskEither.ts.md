@@ -46,6 +46,8 @@ Added in v2.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderTaskK](#chainreadertaskk)
+  - [chainReaderTaskKW](#chainreadertaskkw)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -58,6 +60,7 @@ Added in v2.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
+  - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
   - [orElse](#orelse)
@@ -516,6 +519,32 @@ export declare const chainReaderK: <A, R, B>(
 
 Added in v2.11.0
 
+## chainReaderTaskK
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderTaskKW
+
+Less strict version of [`chainReaderTaskK`](#chainReaderTaskK).
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v2.11.0
+
 ## chainTaskEitherK
 
 **Signature**
@@ -667,6 +696,18 @@ Added in v2.10.0
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## fromReaderTaskK
+
+**Signature**
+
+```ts
+export declare const fromReaderTaskK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RT.ReaderTask<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 

@@ -932,6 +932,33 @@ export const chainReaderK: <A, R, B>(
   chainReaderK_(FromReader, Chain)
 
 /**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderTaskK = <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => ReaderTask<R, B>
+): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderTask(f(...a))
+
+/**
+ * Less strict version of [`chainReaderTaskK`](#chainReaderTaskK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) =>
+  chainW(fromReaderTaskK(f))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderTaskKW
+
+/**
  * @category instances
  * @since 2.10.0
  */
