@@ -761,6 +761,18 @@ export const chainReaderK: <A, R, B>(
   chainReaderK_(FromReader, Chain)
 
 /**
+ * Less strict version of [`chainReaderK`](#chainReaderK).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainReaderKW: <A, R1, B>(
+  f: (a: A) => Reader<R1, B>
+) => <S, R2, E = never>(
+  ma: StateReaderTaskEither<S, R2, E, A>
+) => StateReaderTaskEither<S, R1 & R2, E, B> = chainReaderK as any
+
+/**
  * @category combinators
  * @since 3.0.0
  */
@@ -769,6 +781,18 @@ export const chainFirstReaderK: <A, R, B>(
 ) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
   /*#__PURE__*/
   chainFirstReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => Reader<R1, B>
+) => <S, R2, E = never>(
+  ma: StateReaderTaskEither<S, R2, E, A>
+) => StateReaderTaskEither<S, R2, E, A> = chainFirstReaderK as any
 
 /**
  * @category instances
