@@ -643,8 +643,8 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
-  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _filter(fa, predicate)
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: ReadonlyMap<K, B>) => _filter(fb, predicate)
 
 /**
  * @category Filterable
@@ -679,8 +679,10 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(
     fa: ReadonlyMap<K, A>
   ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _partition(fa, predicate)
+  <A>(predicate: Predicate<A>): <K, B extends A>(
+    fb: ReadonlyMap<K, B>
+  ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: ReadonlyMap<K, B>) => _partition(fb, predicate)
 
 /**
  * @category Filterable

@@ -79,12 +79,12 @@ interface Next<A> {
  * @since 2.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
-export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
-export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
-  return (set) => {
+export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
+export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B> {
+  return <B extends A>(set: Set<B>) => {
     const values = set.values()
-    let e: Next<A>
-    const r = new Set<A>()
+    let e: Next<B>
+    const r = new Set<B>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value
@@ -100,13 +100,13 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
  * @since 2.0.0
  */
 export function partition<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Separated<Set<A>, Set<B>>
-export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
-export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
-  return (set) => {
+export function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
+export function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>> {
+  return <B extends A>(set: Set<B>) => {
     const values = set.values()
-    let e: Next<A>
-    const right = new Set<A>()
-    const left = new Set<A>()
+    let e: Next<B>
+    const right = new Set<B>()
+    const left = new Set<B>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const value = e.value

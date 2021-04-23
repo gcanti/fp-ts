@@ -259,7 +259,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
 }
 ```
 

@@ -39,46 +39,6 @@ _.unzip(rtns) // $ExpectType readonly [readonly number[], readonly string[]]
 pipe(rtns, _.unzip) // $ExpectType readonly [readonly number[], readonly string[]]
 
 //
-// filter
-//
-
-// $ExpectType readonly number[]
-pipe(
-  rus,
-  _.filter((u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// filterWithIndex
-//
-
-// $ExpectType readonly number[]
-pipe(
-  rus,
-  _.filterWithIndex((_, u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// partition
-//
-
-// $ExpectType Separated<readonly unknown[], readonly number[]>
-pipe(
-  rus,
-  _.partition((u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// partitionWithIndex
-//
-
-// $ExpectType Separated<readonly unknown[], readonly number[]>
-pipe(
-  rus,
-  _.partitionWithIndex((_, u: unknown): u is number => typeof u === 'number')
-)
-
-//
 // spanLeft
 //
 
@@ -188,5 +148,91 @@ pipe(
   E.fromPredicate(
     _.some((n) => n > 0),
     identity
+  )
+)
+
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const rsns: ReadonlyArray<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const isStringWithIndex: (i: number, u: unknown) => u is string
+declare const isNumberWithIndex: (i: number, sn: string | number) => sn is number
+
+//
+// filter
+//
+
+// $ExpectType readonly number[]
+pipe(
+  rsns,
+  _.filter((u: unknown): u is number => typeof u === 'number')
+)
+// $ExpectType readonly number[]
+pipe(
+  rns,
+  _.filter(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// filterWithIndex
+//
+
+// $ExpectType readonly number[]
+pipe(
+  rsns,
+  _.filterWithIndex((_, u: unknown): u is number => typeof u === 'number')
+)
+// $ExpectType readonly number[]
+pipe(
+  rns,
+  _.filterWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partition
+//
+
+// $ExpectType Separated<readonly unknown[], readonly string[]>
+pipe(rsns, _.partition(isString))
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(rsns, _.partition(isNumber))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(
+  rns,
+  _.partition(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partitionWithIndex
+//
+
+// $ExpectType Separated<readonly unknown[], readonly string[]>
+pipe(rsns, _.partitionWithIndex(isStringWithIndex))
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(rsns, _.partitionWithIndex(isNumberWithIndex))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(
+  rns,
+  _.partitionWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
   )
 )

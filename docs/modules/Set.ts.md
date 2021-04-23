@@ -110,7 +110,7 @@ Added in v2.0.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
-export declare function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
 ```
 
 Added in v2.0.0
@@ -372,7 +372,7 @@ Added in v2.10.0
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (set: Set<A>) => Separated<Set<A>, Set<B>>
-export declare function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
+export declare function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
 ```
 
 Added in v2.0.0

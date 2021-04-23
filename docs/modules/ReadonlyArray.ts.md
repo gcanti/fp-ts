@@ -320,7 +320,7 @@ Added in v2.5.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
+  <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => readonly B[]
 }
 ```
 
@@ -343,7 +343,7 @@ Added in v2.5.0
 ```ts
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+  <A>(predicate: Predicate<A>): <B extends A>(fa: readonly B[]) => Separated<readonly B[], readonly B[]>
 }
 ```
 
@@ -380,7 +380,7 @@ Added in v2.5.0
 ```ts
 export declare const filterWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: readonly B[]) => readonly B[]
 }
 ```
 
@@ -857,7 +857,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: readonly A[]) => readonly A[]
+export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => <B extends A>(bs: readonly B[]) => readonly B[]
 ```
 
 **Example**
@@ -1280,7 +1280,9 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 export declare function takeLeftWhile<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare function takeLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 ```
 
 **Example**
@@ -2420,7 +2422,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 ```
 
 **Example**
@@ -2504,7 +2506,7 @@ Find the last element which satisfies a predicate function
 
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 ```
 
 **Example**
@@ -2782,7 +2784,7 @@ Split an array into two parts:
 
 ```ts
 export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
-export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Spanned<B, B>
 ```
 
 **Example**

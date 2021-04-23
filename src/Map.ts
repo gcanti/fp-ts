@@ -509,8 +509,8 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _filter(fa, predicate)
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
+} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: Map<K, B>) => _filter(fb, predicate)
 
 /**
  * @category Filterable
@@ -541,8 +541,8 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) =>
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
-} = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _partition(fa, predicate)
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: Map<K, B>) => _partition(fb, predicate)
 
 /**
  * @category Filterable

@@ -182,7 +182,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filter: <A>(predicate: Predicate<A>) => (fga: TaskOption<A>) => TaskOption<A>
+export declare const filter: <A>(predicate: Predicate<A>) => <B extends A>(fb: TaskOption<B>) => TaskOption<B>
 ```
 
 Added in v2.10.0
@@ -204,7 +204,7 @@ Added in v2.10.0
 ```ts
 export declare const partition: <A>(
   predicate: Predicate<A>
-) => (fga: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
+) => <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
 ```
 
 Added in v2.10.0
@@ -450,7 +450,7 @@ Added in v2.10.0
 ```ts
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
 }
 ```
 

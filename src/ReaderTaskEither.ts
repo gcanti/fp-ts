@@ -1041,7 +1041,9 @@ export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderTaskEither<R, E, B>
+  ) => ReaderTaskEither<R, E, B>
 } =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
@@ -1056,9 +1058,9 @@ export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderTaskEither<R, E1, A>
   ) => ReaderTaskEither<R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E1 | E2, A>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderTaskEither<R, E1, B>
+  ) => ReaderTaskEither<R, E1 | E2, B>
 } = filterOrElse
 
 /**

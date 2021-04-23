@@ -523,7 +523,7 @@ Added in v2.0.0
 ```ts
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
 }
 ```
 
@@ -578,7 +578,7 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: Either<E1, A>
   ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
 }
 ```
 
@@ -710,7 +710,7 @@ Added in v2.0.0
 ```ts
 export declare const fromPredicate: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => Either<E, B>
 }
 ```
 

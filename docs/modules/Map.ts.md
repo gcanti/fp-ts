@@ -115,7 +115,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
 }
 ```
 
@@ -138,7 +138,7 @@ Added in v2.0.0
 ```ts
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
-  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
 }
 ```
 

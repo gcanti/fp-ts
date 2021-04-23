@@ -39,7 +39,7 @@ import { MonadThrow1 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
-import { Predicate } from './Predicate'
+import { not, Predicate } from './Predicate'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
@@ -660,8 +660,9 @@ export const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, 
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
+} = <A>(predicate: Predicate<A>) => <B extends A>(fb: Option<B>) =>
+  isNone(fb) ? none : predicate(fb.value) ? fb : none
 
 /**
  * @category Filterable
@@ -676,13 +677,9 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Opt
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => {
-  return separated(
-    _filter(fa, (a) => !predicate(a)),
-    _filter(fa, predicate)
-  )
-}
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
+} = <A>(predicate: Predicate<A>) => <B extends A>(fb: Option<B>) =>
+  separated(_filter(fb, not(predicate)), _filter(fb, predicate))
 
 /**
  * @category Filterable

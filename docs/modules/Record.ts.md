@@ -130,7 +130,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
-  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Record<string, B>
 }
 ```
 
@@ -155,7 +155,7 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
     fa: Record<string, A>
   ) => Separated<Record<string, A>, Record<string, B>>
-  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Separated<Record<string, B>, Record<string, B>>
 }
 ```
 
