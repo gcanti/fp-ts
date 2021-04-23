@@ -290,19 +290,31 @@ export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<
 export function filter<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <R, B extends A>(fgb: Kind2<F, R, Kind2<G, E, B>>) => Kind2<F, R, Kind2<G, E, B>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(fga: Kind2<F, R, Kind2<G, E, A>>) => Kind2<F, R, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(fgb: Kind2<F, R, Kind2<G, E, B>>) => Kind2<F, R, Kind2<G, E, B>>
+}
 export function filter<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Kind<F, Kind2<G, E, B>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Kind<F, Kind2<G, E, B>>
+}
 export function filter<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Kind<F, Kind<G, B>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: Kind<F, Kind<G, B>>) => Kind<F, Kind<G, B>>
+}
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
+}
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
@@ -348,29 +360,45 @@ export function filterMap<F, G>(
 export function partition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => <R, B extends A>(
-  fgb: Kind2<F, R, Kind2<G, E, B>>
-) => Separated<Kind2<F, R, Kind2<G, E, B>>, Kind2<F, R, Kind2<G, E, B>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(
+    fga: Kind2<F, R, Kind2<G, E, A>>
+  ) => Separated<Kind2<F, R, Kind2<G, E, A>>, Kind2<F, R, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(
+    fgb: Kind2<F, R, Kind2<G, E, B>>
+  ) => Separated<Kind2<F, R, Kind2<G, E, B>>, Kind2<F, R, Kind2<G, E, B>>>
+}
 export function partition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, B>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: Kind<F, Kind2<G, E, A>>
+  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fgb: Kind<F, Kind2<G, E, B>>
+  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, B>>>
+}
 export function partition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(
-  predicate: Predicate<A>
-) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, B>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: Kind<F, Kind<G, A>>
+  ) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fgb: Kind<F, Kind<G, B>>
+  ) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, B>>>
+}
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(
-  predicate: Predicate<A>
-) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: HKT<F, HKT<G, A>>
+  ) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: HKT<F, HKT<G, B>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>>
+}
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
