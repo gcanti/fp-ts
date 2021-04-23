@@ -22,8 +22,8 @@ import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIO
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
   FromReader4,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -42,7 +42,7 @@ import {
   FromTask4,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { identity, pipe } from './function'
+import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
 import type { IO } from './IO'
@@ -51,7 +51,7 @@ import type { Monad4 } from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Pointed4 } from './Pointed'
 import type { Predicate } from './Predicate'
-import type { Reader } from './Reader'
+import * as R from './Reader'
 import type { ReaderEither } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -61,12 +61,13 @@ import * as ST from './StateT'
 import type { Task } from './Task'
 import type { TaskEither } from './TaskEither'
 
+import Either = E.Either
+import Reader = R.Reader
+import ReaderTaskEither = RTE.ReaderTaskEither
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
-
-import Either = E.Either
-import ReaderTaskEither = RTE.ReaderTaskEither
 
 /**
  * @category model
@@ -213,6 +214,17 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
+  ma: StateReaderTaskEither<S, R1, E, A>
+): StateReaderTaskEither<S, R2, E, A> => flow(ma, R.local(f))
 
 /**
  * Less strict version of [`asksE`](#askse).

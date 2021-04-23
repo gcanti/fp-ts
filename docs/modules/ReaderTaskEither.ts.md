@@ -62,6 +62,7 @@ Added in v3.0.0
   - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
+  - [local](#local)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
@@ -712,6 +713,21 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <R, E>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A>
 ```
 
 Added in v3.0.0

@@ -309,6 +309,17 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
+
+/**
  * Less strict version of [`asksE`](#askse).
  *
  * @category combinators

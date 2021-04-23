@@ -62,6 +62,7 @@ Added in v3.0.0
   - [fromStateK](#fromstatek)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
+  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
@@ -353,7 +354,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => Reader<R, B>
+  f: (a: A) => R.Reader<R, B>
 ) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
@@ -367,7 +368,7 @@ Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
 
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => Reader<R1, B>
+  f: (a: A) => R.Reader<R1, B>
 ) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R2, E, A>
 ```
 
@@ -457,7 +458,7 @@ Added in v3.0.0
 
 ```ts
 export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => Reader<R, B>
+  f: (a: A) => R.Reader<R, B>
 ) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -471,7 +472,7 @@ Less strict version of [`chainReaderK`](#chainReaderK).
 
 ```ts
 export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => Reader<R1, B>
+  f: (a: A) => R.Reader<R1, B>
 ) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
@@ -655,7 +656,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
-  f: (...a: A) => Reader<R, B>
+  f: (...a: A) => R.Reader<R, B>
 ) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
@@ -705,6 +706,21 @@ Added in v3.0.0
 export declare const fromTaskK: <A, B>(
   f: (...a: A) => Task<B>
 ) => <S, R, E>(...a: A) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
 ```
 
 Added in v3.0.0
@@ -797,7 +813,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const fromReader: <R, A, S, E = never>(ma: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -903,7 +919,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const leftReader: <R, E, S, A = never>(me: Reader<R, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftReader: <R, E, S, A = never>(me: R.Reader<R, E>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -977,7 +993,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const rightReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const rightReader: <R, A, S, E = never>(ma: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

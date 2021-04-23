@@ -74,6 +74,15 @@ export const fromReader: FromReader2<URI>['fromReader'] =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
+
+/**
  * Less strict version of [`asksE`](#askse).
  *
  * @category combinators
