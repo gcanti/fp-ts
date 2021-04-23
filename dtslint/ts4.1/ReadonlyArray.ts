@@ -247,3 +247,139 @@ pipe(
     ) => true
   )
 )
+
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const prns: ReadonlyArray<number>
+declare const prsns: ReadonlyArray<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const predicate: (sn: string | number) => boolean
+declare const isStringWithIndex: (i: number, u: unknown) => u is string
+declare const isNumberWithIndex: (i: number, sn: string | number) => sn is number
+declare const predicateWithIndex: (i: number, sn: string | number) => boolean
+
+//
+// filter
+//
+
+// $ExpectType readonly string[]
+pipe(prsns, _.filter(isString))
+// $ExpectType readonly number[]
+pipe(prns, _.filter(predicate))
+// $ExpectType readonly number[]
+pipe(
+  prns,
+  _.filter(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// filterWithIndex
+//
+
+// $ExpectType readonly string[]
+pipe(prsns, _.filterWithIndex(isStringWithIndex))
+// $ExpectType readonly number[]
+pipe(prns, _.filterWithIndex(predicateWithIndex))
+// $ExpectType readonly number[]
+pipe(
+  prns,
+  _.filterWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partition
+//
+
+// $ExpectType Separated<readonly unknown[], readonly string[]>
+pipe(prsns, _.partition(isString))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(prns, _.partition(predicate))
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(prsns, _.partition(isNumber))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(
+  rns,
+  _.partition(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partitionWithIndex
+//
+
+// $ExpectType Separated<readonly unknown[], readonly string[]>
+pipe(prsns, _.partitionWithIndex(isStringWithIndex))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(prns, _.partitionWithIndex(predicateWithIndex))
+// $ExpectType Separated<readonly (string | number)[], readonly number[]>
+pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
+// $ExpectType Separated<readonly number[], readonly number[]>
+pipe(
+  prns,
+  _.partitionWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// takeLeftWhile
+//
+
+// $ExpectType readonly string[]
+pipe(prsns, _.takeLeftWhile(isString))
+// $ExpectType readonly number[]
+pipe(prns, _.takeLeftWhile(predicate))
+
+//
+// dropLeftWhile
+//
+
+// $ExpectType readonly string[]
+pipe(prsns, _.dropLeftWhile(isString))
+// $ExpectType readonly number[]
+pipe(prns, _.dropLeftWhile(predicate))
+
+//
+// spanLeft
+//
+
+// $ExpectType readonly [init: readonly string[], rest: readonly unknown[]]
+pipe(prsns, _.spanLeft(isString))
+// $ExpectType readonly [init: readonly number[], rest: readonly number[]]
+pipe(prns, _.spanLeft(predicate))
+
+//
+// findFirst
+//
+
+// $ExpectType Option<string>
+pipe(prsns, _.findFirst(isString))
+// $ExpectType Option<number>
+pipe(prns, _.findFirst(predicate))
+
+//
+// findLast
+//
+
+// $ExpectType Option<string>
+pipe(prsns, _.findLast(isString))
+// $ExpectType Option<number>
+pipe(prns, _.findLast(predicate))

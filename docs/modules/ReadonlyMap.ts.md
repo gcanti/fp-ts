@@ -177,9 +177,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(
+export declare function filterWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
-) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -201,9 +204,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

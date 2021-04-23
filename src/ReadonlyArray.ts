@@ -598,9 +598,13 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => <B extends A>(bs: ReadonlyArray<B>): ReadonlyArray<B> => {
-  const i = spanLeftIndex(bs, predicate)
-  return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B> {
+  return (bs) => {
+    const i = spanLeftIndex(bs, predicate)
+    return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
+  }
 }
 
 /**
