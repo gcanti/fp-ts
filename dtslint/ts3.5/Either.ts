@@ -35,16 +35,6 @@ declare const f: <K extends keyof D>(key: K) => D[K]
 flow(f, _.fromNullable('error'))('foo')
 
 //
-// Witherable overlodings
-//
-
-declare function isString(x: unknown): x is string
-const W = _.getWitherable(B.MonoidAll)
-
-W.filter(_.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
-W.partition(_.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
-
-//
 // do notation
 //
 
@@ -95,4 +85,65 @@ pipe(
 pipe(
   _.right('a'),
   _.chainFirst((s) => _.stringifyJSON(s, identity))
+)
+
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const n: number
+declare const sn: string | number
+declare const en: _.Either<boolean, number>
+declare const esn: _.Either<boolean, string | number>
+declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
+
+//
+// fromPredicate
+//
+
+// $ExpectType Either<boolean, string>
+pipe(
+  sn,
+  _.fromPredicate(isString, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  n,
+  _.fromPredicate(predicate, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      n // $ExpectType number
+    ) => true,
+    () => false
+  )
+)
+
+//
+// filterOrElse
+//
+
+// $ExpectType Either<boolean, string>
+pipe(
+  esn,
+  _.filterOrElse(isString, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  en,
+  _.filterOrElse(predicate, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  en,
+  _.filterOrElse(
+    (
+      n // $ExpectType number
+    ) => true,
+    () => false
+  )
 )

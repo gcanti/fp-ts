@@ -141,8 +141,8 @@ export const some: <A>(a: A) => Option<A> = _.some
  * @since 2.0.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B> {
   return (a) => (predicate(a) ? some(a) : none)
 }
 

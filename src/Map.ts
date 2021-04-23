@@ -408,23 +408,31 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @category combinators
  * @since 2.10.0
  */
-export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
-  fa: Map<K, A>
-): Separated<Map<K, A>, Map<K, A>> => {
-  const left = new Map<K, A>()
-  const right = new Map<K, A>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      right.set(k, a)
-    } else {
-      left.set(k, a)
+export function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fa: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fa: Map<K, B>) => Separated<Map<K, B>, Map<K, B>> {
+  return <B extends A>(fa: Map<K, B>) => {
+    const left = new Map<K, B>()
+    const right = new Map<K, B>()
+    const entries = fa.entries()
+    let e: Next<[K, B]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, b] = e.value
+      if (predicateWithIndex(k, b)) {
+        right.set(k, b)
+      } else {
+        left.set(k, b)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
 }
 
 /**
@@ -450,18 +458,22 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa
  * @category combinators
  * @since 2.10.0
  */
-export const filterWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>): Map<K, A> => {
-  const out = new Map<K, A>()
-  const entries = m.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      out.set(k, a)
+export function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B> {
+  return <B extends A>(m: Map<K, B>) => {
+    const out = new Map<K, B>()
+    const entries = m.entries()
+    let e: Next<[K, B]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, b] = e.value
+      if (p(k, b)) {
+        out.set(k, b)
+      }
     }
+    return out
   }
-  return out
 }
 
 // -------------------------------------------------------------------------------------

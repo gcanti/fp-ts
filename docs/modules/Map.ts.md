@@ -212,7 +212,8 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>) => Map<K, A>
+export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
 ```
 
 Added in v2.10.0
@@ -246,9 +247,12 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fa: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
 ```
 
 Added in v2.10.0

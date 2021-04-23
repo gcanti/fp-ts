@@ -586,9 +586,13 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => <B extends A>(bs: ReadonlyArray<B>): ReadonlyArray<B> => {
-  const i = spanLeftIndex(bs, predicate)
-  return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B> {
+  return (bs) => {
+    const i = spanLeftIndex(bs, predicate)
+    return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
+  }
 }
 
 /**
@@ -1578,20 +1582,20 @@ export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
     fa: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
-    fa: ReadonlyArray<A>
-  ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
-  fa: ReadonlyArray<A>
-): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-  const left: Array<A> = []
-  const right: Array<A> = []
-  for (let i = 0; i < fa.length; i++) {
-    const a = fa[i]
-    if (predicateWithIndex(i, a)) {
-      right.push(a)
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    fb: ReadonlyArray<B>
+  ) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(
+  fb: ReadonlyArray<B>
+): Separated<ReadonlyArray<B>, ReadonlyArray<B>> => {
+  const left: Array<B> = []
+  const right: Array<B> = []
+  for (let i = 0; i < fb.length; i++) {
+    const b = fb[i]
+    if (predicateWithIndex(i, b)) {
+      right.push(b)
     } else {
-      left.push(a)
+      left.push(b)
     }
   }
   return separated(left, right)

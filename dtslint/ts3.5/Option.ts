@@ -36,17 +36,70 @@ pipe(
   _.bind('b', () => _.of('b'))
 )
 
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const n: number
+declare const sn: string | number
+declare const on: _.Option<number>
+declare const osn: _.Option<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const predicate: (sn: string | number) => boolean
+
 //
 // filter
 //
 
-declare function isString(x: unknown): x is string
-
-_.option.filter(_.some<string | number>('a'), isString) // $ExpectType Option<string>
-pipe(_.some<string | number>('a'), _.filter(isString)) // $ExpectType Option<string>
+// $ExpectType Option<string>
+pipe(osn, _.filter(isString))
+// $ExpectType Option<number>
+pipe(on, _.filter(predicate))
+// $ExpectType Option<number>
+pipe(
+  on,
+  _.filter(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
 
 //
 // partition
 //
-_.option.partition(_.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
-pipe(_.some<string | number>('a'), _.partition(isString)) // $ExpectType Separated<Option<unknown>, Option<string>>
+
+// $ExpectType Separated<Option<unknown>, Option<string>>
+pipe(osn, _.partition(isString))
+// $ExpectType Separated<Option<number>, Option<number>>
+pipe(on, _.partition(predicate))
+// $ExpectType Separated<Option<string | number>, Option<number>>
+pipe(osn, _.partition(isNumber))
+// $ExpectType Separated<Option<number>, Option<number>>
+pipe(
+  on,
+  _.partition(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// fromPredicate
+//
+
+// $ExpectType Option<string>
+pipe(sn, _.fromPredicate(isString))
+// $ExpectType Option<number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType Option<number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      n // $ExpectType number
+    ) => true
+  )
+)

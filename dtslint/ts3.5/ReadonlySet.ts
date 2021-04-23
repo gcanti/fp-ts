@@ -39,20 +39,30 @@ _.intersection(N.Eq)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet
 _.difference(N.Eq)(me, me) // $ExpectType ReadonlySet<number>
 _.difference(N.Eq)(me) // $ExpectType (me: ReadonlySet<number>) => ReadonlySet<number>
 
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const prns: ReadonlySet<number>
+declare const prsns: ReadonlySet<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const predicate: (sn: string | number) => boolean
+
 //
 // filter
 //
 
-declare const refinement: (u: unknown) => u is string
-pipe(new Set<string | number>(), _.filter(refinement)) // $ExpectType ReadonlySet<string>
-declare const predicate: (u: unknown) => boolean
-pipe(new Set<string | number>(), _.filter(predicate)) // $ExpectType ReadonlySet<string | number>
-
+// $ExpectType ReadonlySet<string>
+pipe(prsns, _.filter(isString))
+// $ExpectType ReadonlySet<number>
+pipe(prns, _.filter(predicate))
+// $ExpectType ReadonlySet<number>
 pipe(
-  new Set<string | number>(),
+  prns,
   _.filter(
     (
-      a // $ExpectType string | number
+      x // $ExpectType number
     ) => true
   )
 )
@@ -61,14 +71,18 @@ pipe(
 // partition
 //
 
-pipe(new Set<string | number>(), _.partition(refinement)) // $ExpectType Separated<ReadonlySet<unknown>, ReadonlySet<string>>
-pipe(new Set<string | number>(), _.partition(predicate)) // $ExpectType Separated<ReadonlySet<string | number>, ReadonlySet<string | number>>
-
+// $ExpectType Separated<ReadonlySet<unknown>, ReadonlySet<string>>
+pipe(prsns, _.partition(isString))
+// $ExpectType Separated<ReadonlySet<number>, ReadonlySet<number>>
+pipe(prns, _.partition(predicate))
+// $ExpectType Separated<ReadonlySet<string | number>, ReadonlySet<number>>
+pipe(prsns, _.partition(isNumber))
+// $ExpectType Separated<ReadonlySet<number>, ReadonlySet<number>>
 pipe(
-  new Set<string | number>(),
+  prns,
   _.partition(
     (
-      a // $ExpectType string | number
+      x // $ExpectType number
     ) => true
   )
 )

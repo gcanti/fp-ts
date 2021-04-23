@@ -282,7 +282,7 @@ Added in v2.0.0
 ```ts
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
 }
 ```
 
@@ -566,7 +566,7 @@ Returns a _smart constructor_ based on the given predicate.
 
 ```ts
 export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
-export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
 ```
 
 **Example**

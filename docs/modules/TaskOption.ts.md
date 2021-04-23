@@ -182,7 +182,10 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filter: <A>(predicate: Predicate<A>) => <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+}
 ```
 
 Added in v2.10.0
@@ -202,9 +205,10 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partition: <A>(
-  predicate: Predicate<A>
-) => <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+}
 ```
 
 Added in v2.10.0

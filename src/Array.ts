@@ -561,8 +561,11 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => <B extends A>(bs: Array<B>): Array<B> =>
-  bs.slice(spanLeftIndex(bs, predicate))
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B> {
+  return (bs) => bs.slice(spanLeftIndex(bs, predicate))
+}
 
 /**
  * Find the first index for which a predicate holds
@@ -1468,16 +1471,18 @@ export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
     fa: Array<A>
   ) => Separated<Array<A>, Array<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (fa: Array<A>): Separated<Array<A>, Array<A>> => {
-  const left: Array<A> = []
-  const right: Array<A> = []
-  for (let i = 0; i < fa.length; i++) {
-    const a = fa[i]
-    if (predicateWithIndex(i, a)) {
-      right.push(a)
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: Array<B>) => Separated<Array<B>, Array<B>>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(
+  fb: Array<B>
+): Separated<Array<B>, Array<B>> => {
+  const left: Array<B> = []
+  const right: Array<B> = []
+  for (let i = 0; i < fb.length; i++) {
+    const b = fb[i]
+    if (predicateWithIndex(i, b)) {
+      right.push(b)
     } else {
-      left.push(a)
+      left.push(b)
     }
   }
   return separated(left, right)

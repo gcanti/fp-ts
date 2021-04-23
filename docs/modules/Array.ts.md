@@ -401,7 +401,7 @@ Added in v2.0.0
 ```ts
 export declare const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: B[]) => Separated<B[], B[]>
 }
 ```
 
@@ -851,7 +851,8 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => <B extends A>(bs: B[]) => B[]
+export declare function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
 ```
 
 **Example**

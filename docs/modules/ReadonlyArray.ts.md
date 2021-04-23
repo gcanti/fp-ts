@@ -407,7 +407,9 @@ export declare const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
     fa: readonly A[]
   ) => Separated<readonly A[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    fb: readonly B[]
+  ) => Separated<readonly B[], readonly B[]>
 }
 ```
 
@@ -857,7 +859,12 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => <B extends A>(bs: readonly B[]) => readonly B[]
+export declare function dropLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 ```
 
 **Example**

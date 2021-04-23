@@ -362,7 +362,10 @@ export const separate: Compactable1<URI>['separate'] =
  * @category Filterable
  * @since 2.10.0
  */
-export const filter: <A>(predicate: Predicate<A>) => <B extends A>(fb: TaskOption<B>) => TaskOption<B> =
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+} =
   /*#__PURE__*/
   filter_(T.Functor, O.Filterable)
 
@@ -378,9 +381,10 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: TaskOption<A>) =
  * @category Filterable
  * @since 2.10.0
  */
-export const partition: <A>(
-  predicate: Predicate<A>
-) => <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>> =
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+} =
   /*#__PURE__*/
   partition_(T.Functor, O.Filterable)
 
