@@ -512,7 +512,7 @@ export const reduce = (O: Ord<string>): (<B, A>(b: B, f: (b: B, a: A) => B) => (
  */
 export const foldMap = (
   O: Ord<string>
-): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: Readonly<Record<string, A>>) => M) => {
+): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: ReadonlyRecord<string, A>) => M) => {
   const foldMapWithIndexO = foldMapWithIndex(O)
   return (M) => {
     const foldMapWithIndexOM = foldMapWithIndexO(M)
@@ -526,7 +526,7 @@ export const foldMap = (
  */
 export const reduceRight = (
   O: Ord<string>
-): (<B, A>(b: B, f: (a: A, b: B) => B) => (r: Readonly<Record<string, A>>) => B) => {
+): (<B, A>(b: B, f: (a: A, b: B) => B) => (r: ReadonlyRecord<string, A>) => B) => {
   const reduceRightWithIndexO = reduceRightWithIndex(O)
   return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
 }
@@ -597,7 +597,7 @@ export const getShow = (O: Ord<string>): (<A>(S: Show<A>) => Show<ReadonlyRecord
   return <A>(S: Show<A>) => {
     const f = collectO((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)
     return {
-      show: (r: Readonly<Record<string, A>>) => {
+      show: (r: ReadonlyRecord<string, A>) => {
         const elements = f(r).join(', ')
         return elements === '' ? '{}' : `{ ${elements} }`
       }
