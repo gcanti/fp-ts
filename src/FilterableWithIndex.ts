@@ -25,7 +25,7 @@ export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
  */
 export interface FilterWithIndex<F, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: HKT<F, A>) => HKT<F, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => HKT<F, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(fb: HKT<F, B>) => HKT<F, B>
 }
 
 /**
@@ -35,7 +35,7 @@ export interface PartitionWithIndex<F, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
     fa: HKT<F, A>
   ) => Separated<HKT<F, A>, HKT<F, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(fb: HKT<F, B>) => Separated<HKT<F, B>, HKT<F, B>>
 }
 
 /**
@@ -57,7 +57,7 @@ export interface FilterableWithIndex<F, I> {
  */
 export interface FilterWithIndex1<F extends URIS, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind<F, A>) => Kind<F, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Kind<F, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(fb: Kind<F, B>) => Kind<F, B>
 }
 
 /**
@@ -67,7 +67,7 @@ export interface PartitionWithIndex1<F extends URIS, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
     fa: Kind<F, A>
   ) => Separated<Kind<F, A>, Kind<F, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(fb: Kind<F, B>) => Separated<Kind<F, B>, Kind<F, B>>
 }
 
 /**
@@ -89,7 +89,7 @@ export interface FilterableWithIndex1<F extends URIS, I> {
  */
 export interface FilterWithIndex2<F extends URIS2, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E, B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
@@ -99,9 +99,9 @@ export interface PartitionWithIndex2<F extends URIS2, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(
     fa: Kind2<F, E, A>
   ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E>(
-    fa: Kind2<F, E, A>
-  ) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E, B extends A>(
+    fa: Kind2<F, E, B>
+  ) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 
 /**
@@ -123,7 +123,7 @@ export interface FilterableWithIndex2<F extends URIS2, I> {
  */
 export interface FilterWithIndex2C<F extends URIS2, I, E> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
@@ -133,7 +133,9 @@ export interface PartitionWithIndex2C<F extends URIS2, I, E> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
     fa: Kind2<F, E, A>
   ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <B extends A>(
+    fb: Kind2<F, E, B>
+  ) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 
 /**
@@ -158,7 +160,7 @@ export interface FilterWithIndex3<F extends URIS3, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
     fa: Kind3<F, R, E, A>
   ) => Kind3<F, R, E, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E, B extends A>(fb: Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 
 /**
@@ -168,9 +170,9 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
     fa: Kind3<F, R, E, A>
   ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(
-    fa: Kind3<F, R, E, A>
-  ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E, B extends A>(
+    fb: Kind3<F, R, E, B>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, B>>
 }
 
 /**
@@ -196,7 +198,9 @@ export interface FilterWithIndex4<F extends URIS4, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
     fa: Kind4<F, S, R, E, A>
   ) => Kind4<F, S, R, E, B>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E, B extends A>(
+    fb: Kind4<F, S, R, E, B>
+  ) => Kind4<F, S, R, E, B>
 }
 
 /**
@@ -206,9 +210,9 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
     fa: Kind4<F, S, R, E, A>
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
-  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E>(
-    fa: Kind4<F, S, R, E, A>
-  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
+  <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E, B extends A>(
+    fb: Kind4<F, S, R, E, B>
+  ) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, B>>
 }
 
 /**

@@ -448,7 +448,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: TaskEither<E, B>) => TaskEither<E, B>
 }
 ```
 
@@ -465,7 +465,9 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: TaskEither<E1, A>
   ) => TaskEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: TaskEither<E1, B>
+  ) => TaskEither<E2 | E1, B>
 }
 ```
 
@@ -692,7 +694,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => TaskEither<A, B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskEither<A, A>
+  <A>(predicate: Predicate<A>): <B>(b: B) => TaskEither<B, B>
 }
 ```
 

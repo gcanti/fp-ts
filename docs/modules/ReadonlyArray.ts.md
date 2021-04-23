@@ -669,7 +669,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: readonly A[]) => readonly A[]
+export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => <B extends A>(bs: readonly B[]) => readonly B[]
 ```
 
 **Example**
@@ -1066,7 +1066,9 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 export declare function takeLeftWhile<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export declare function takeLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 ```
 
 **Example**
@@ -1299,7 +1301,7 @@ Added in v3.0.0
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => readonly B[]
-  <A>(predicate: Predicate<A>): (a: A) => readonly A[]
+  <A>(predicate: Predicate<A>): <B>(b: B) => readonly B[]
 }
 ```
 
@@ -2176,7 +2178,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 ```
 
 **Example**
@@ -2255,7 +2257,7 @@ Find the last element which satisfies a predicate function
 
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 ```
 
 **Example**
@@ -2551,7 +2553,7 @@ export declare function spanLeft<A, B extends A>(
 ): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<A>]
 export declare function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
+): <B extends A>(bs: ReadonlyArray<B>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<B>]
 ```
 
 **Example**

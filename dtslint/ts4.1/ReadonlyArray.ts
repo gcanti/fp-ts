@@ -231,3 +231,19 @@ _.concatW(rns)(rss) // $ExpectType readonly (string | number)[]
 pipe(rss, _.concatW(rss)) // $ExpectType readonly string[]
 pipe(rss, _.concatW(rns)) // $ExpectType readonly (string | number)[]
 pipe(rns, _.concatW(rss)) // $ExpectType readonly (string | number)[]
+
+//
+// filterWithIndex
+//
+
+declare const filterTest: ReadonlyArray<string | number>
+// $ExpectType readonly (string | number)[]
+pipe(
+  filterTest,
+  _.filterWithIndex(
+    (
+      i, // $ExpectType number
+      a // $ExpectType string | number
+    ) => true
+  )
+)

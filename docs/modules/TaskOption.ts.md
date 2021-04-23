@@ -418,8 +418,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => T.Task<O.Option<B>>
+  <A>(predicate: Predicate<A>): <B>(b: B) => T.Task<O.Option<B>>
 }
 ```
 

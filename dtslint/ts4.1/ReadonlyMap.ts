@@ -54,3 +54,38 @@ pipe(
   ['a', 'b'],
   _.fromFoldable(RA.Foldable)(S.Eq, S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
+
+//
+// filter
+//
+
+declare const filterTest: ReadonlyMap<string, string | number>
+declare const isString: (u: unknown) => u is string
+declare const predicate: (u: unknown) => boolean
+// $ExpectType ReadonlyMap<string, string>
+pipe(filterTest, _.filter(isString))
+// $ExpectType ReadonlyMap<string, string | number>
+pipe(filterTest, _.filter(predicate))
+pipe(
+  filterTest,
+  _.filter(
+    (
+      a // $ExpectType string | number
+    ) => true
+  )
+)
+
+//
+// filterWithIndex
+//
+
+// $ExpectType ReadonlyMap<string, string | number>
+pipe(
+  filterTest,
+  _.filterWithIndex(
+    (
+      k, // $ExpectType string
+      a // $ExpectType string | number
+    ) => true
+  )
+)

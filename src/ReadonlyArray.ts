@@ -497,18 +497,18 @@ export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @since 3.0.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
-export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => {
-    const out: Array<A> = []
-    for (const a of as) {
-      if (!predicate(a)) {
+export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B> {
+  return <B extends A>(bs: ReadonlyArray<B>) => {
+    const out: Array<B> = []
+    for (const b of bs) {
+      if (!predicate(b)) {
         break
       }
-      out.push(a)
+      out.push(b)
     }
     const len = out.length
-    return len === as.length ? as : len === 0 ? empty : out
+    return len === bs.length ? bs : len === 0 ? empty : out
   }
 }
 
@@ -540,11 +540,11 @@ export function spanLeft<A, B extends A>(
 ): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<A>]
 export function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
+): <B extends A>(bs: ReadonlyArray<B>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<B>]
 export function spanLeft<A>(
   predicate: Predicate<A>
-): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>] {
-  return (as) => splitAt(spanLeftIndex(as, predicate))(as)
+): <B extends A>(as: ReadonlyArray<B>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<B>] {
+  return (bs) => splitAt(spanLeftIndex(bs, predicate))(bs)
 }
 
 /**
@@ -598,9 +598,9 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const i = spanLeftIndex(as, predicate)
-  return i === 0 ? as : i === as.length ? empty : as.slice(i)
+export const dropLeftWhile = <A>(predicate: Predicate<A>) => <B extends A>(bs: ReadonlyArray<B>): ReadonlyArray<B> => {
+  const i = spanLeftIndex(bs, predicate)
+  return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
 }
 
 /**
@@ -637,13 +637,13 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>):
  * @since 3.0.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
-export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
-  return (as) => {
-    const len = as.length
+export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B> {
+  return (bs) => {
+    const len = bs.length
     for (let i = 0; i < len; i++) {
-      if (predicate(as[i])) {
-        return _.some(as[i])
+      if (predicate(bs[i])) {
+        return _.some(bs[i])
       }
     }
     return _.none
@@ -692,13 +692,13 @@ export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray
  * @since 3.0.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
-export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
-export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
-  return (as) => {
-    const len = as.length
+export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B> {
+  return (bs) => {
+    const len = bs.length
     for (let i = len - 1; i >= 0; i--) {
-      if (predicate(as[i])) {
-        return _.some(as[i])
+      if (predicate(bs[i])) {
+        return _.some(bs[i])
       }
     }
     return _.none

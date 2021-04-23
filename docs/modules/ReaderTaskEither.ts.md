@@ -590,7 +590,9 @@ export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B>(
+    mb: ReaderTaskEither<R, E, B>
+  ) => ReaderTaskEither<R, E, B>
 }
 ```
 
@@ -607,9 +609,9 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderTaskEither<R, E1, A>
   ) => ReaderTaskEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, A>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderTaskEither<R, E1, B>
+  ) => ReaderTaskEither<R, E2 | E1, B>
 }
 ```
 
@@ -881,7 +883,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderTaskEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderTaskEither<R, A, A>
+  <A>(predicate: Predicate<A>): <R, B>(b: B) => ReaderTaskEither<R, B, B>
 }
 ```
 

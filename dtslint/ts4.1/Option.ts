@@ -12,21 +12,6 @@ pipe(
 )
 
 //
-// getRefinement
-//
-
-interface A {
-  type: 'A'
-}
-interface B {
-  type: 'B'
-}
-type C = A | B
-
-// $ExpectError
-_.getRefinement<C, A>((c) => (c.type === 'B' ? _.some(c) : _.none))
-
-//
 // fromNullable
 //
 
@@ -59,3 +44,10 @@ pipe(
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
 )
+
+//
+// fromPredicate
+//
+declare const predicate: (u: unknown) => boolean
+// $ExpectType Option<number>
+pipe(1, _.fromPredicate(predicate))

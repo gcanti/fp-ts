@@ -8,7 +8,7 @@ import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2 } from './Functor'
 import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
-import type { Predicate } from './Predicate'
+import { not, Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 import { separated, Separated } from './Separated'
 
@@ -21,7 +21,7 @@ import { separated, Separated } from './Separated'
  */
 export interface Filter<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: HKT<F, B>) => HKT<F, B>
 }
 
 /**
@@ -29,7 +29,7 @@ export interface Filter<F> {
  */
 export interface Partition<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: HKT<F, B>) => Separated<HKT<F, B>, HKT<F, B>>
 }
 
 /**
@@ -49,7 +49,7 @@ export interface Filterable<F> {
  */
 export interface Filter1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
-  <A>(predicate: Predicate<A>): <B extends A>(fa: Kind<F, B>) => Kind<F, B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind<F, B>) => Kind<F, B>
 }
 
 /**
@@ -57,7 +57,7 @@ export interface Filter1<F extends URIS> {
  */
 export interface Partition1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
-  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind<F, B>) => Separated<Kind<F, B>, Kind<F, B>>
 }
 
 /**
@@ -77,7 +77,7 @@ export interface Filterable1<F extends URIS> {
  */
 export interface Filter2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicate: Predicate<A>): <E, B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
@@ -85,7 +85,7 @@ export interface Filter2<F extends URIS2> {
  */
 export interface Partition2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicate: Predicate<A>): <E, B extends A>(fb: Kind2<F, E, B>) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 
 /**
@@ -107,7 +107,7 @@ export interface Filterable2<F extends URIS2> {
  */
 export interface Filter2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 
 /**
@@ -115,7 +115,7 @@ export interface Filter2C<F extends URIS2, E> {
  */
 export interface Partition2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind2<F, E, B>) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 
 /**
@@ -138,7 +138,7 @@ export interface Filterable2C<F extends URIS2, E> {
  */
 export interface Filter3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  <A>(predicate: Predicate<A>): <R, E, B extends A>(fb: Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 
 /**
@@ -148,7 +148,9 @@ export interface Partition3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
     fa: Kind3<F, R, E, A>
   ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  <A>(predicate: Predicate<A>): <R, E, B extends A>(
+    fa: Kind3<F, R, E, B>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, B>>
 }
 
 /**
@@ -170,7 +172,7 @@ export interface Filterable3<F extends URIS3> {
  */
 export interface Filter3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  <A>(predicate: Predicate<A>): <R, B extends A>(fb: Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 
 /**
@@ -180,7 +182,9 @@ export interface Partition3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(
     fa: Kind3<F, R, E, A>
   ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(
+    fa: Kind3<F, R, E, B>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, B>>
 }
 
 /**
@@ -203,7 +207,7 @@ export interface Filterable3C<F extends URIS3, E> {
  */
 export interface Filter4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-  <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(fb: Kind4<F, S, R, E, B>) => Kind4<F, S, R, E, B>
 }
 
 /**
@@ -213,9 +217,9 @@ export interface Partition4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
     fa: Kind4<F, S, R, E, A>
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, E>(
-    fa: Kind4<F, S, R, E, A>
-  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
+  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(
+    fa: Kind4<F, S, R, E, B>
+  ) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, B>>
 }
 
 /**
@@ -245,23 +249,23 @@ export interface Filterable4<F extends URIS4> {
 export function filter<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
+): <A>(predicate: Predicate<A>) => <R, B extends A>(fgb: Kind2<F, R, Kind2<G, E, B>>) => Kind2<F, R, Kind2<G, E, B>>
 export function filter<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Kind<F, Kind2<G, E, B>>
 export function filter<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Kind<F, Kind<G, B>>
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>> {
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>> {
   return (predicate) => F.map(G.filter(predicate))
 }
 
@@ -305,34 +309,39 @@ export function partition<F extends URIS2, G extends URIS2, E>(
   G: Filterable2C<G, E>
 ): <A>(
   predicate: Predicate<A>
-) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
+) => <R, B extends A>(
+  fgb: Kind2<F, R, Kind2<G, E, B>>
+) => Separated<Kind2<F, R, Kind2<G, E, B>>, Kind2<F, R, Kind2<G, E, B>>>
 export function partition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
 ): <A>(
   predicate: Predicate<A>
-) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, B>>>
 export function partition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+): <A>(
+  predicate: Predicate<A>
+) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, B>>>
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+): <A>(
+  predicate: Predicate<A>
+) => <B extends A>(fgb: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>>
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>> {
+): <A>(
+  predicate: Predicate<A>
+) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>> {
   const _filter = filter(F, G)
-  return (predicate) => (fga) =>
-    separated(
-      pipe(
-        fga,
-        _filter((a) => !predicate(a))
-      ),
-      pipe(fga, _filter(predicate))
-    )
+  return (predicate) => {
+    const left = _filter(not(predicate))
+    const right = _filter(predicate)
+    return (fga) => separated(left(fga), right(fga))
+  }
 }
 
 /**

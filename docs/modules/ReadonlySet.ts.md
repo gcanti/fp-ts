@@ -101,7 +101,7 @@ Added in v3.0.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
-export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
 ```
 
 Added in v3.0.0
@@ -126,7 +126,7 @@ export declare function partition<A, B extends A>(
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
+): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
 ```
 
 Added in v3.0.0

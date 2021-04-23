@@ -57,19 +57,19 @@ Added in v3.0.0
 export declare function filter<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
+): <A>(predicate: Predicate<A>) => <R, B extends A>(fgb: Kind2<F, R, Kind2<G, E, B>>) => Kind2<F, R, Kind2<G, E, B>>
 export declare function filter<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Kind<F, Kind2<G, E, B>>
 export declare function filter<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Kind<F, Kind<G, B>>
 export declare function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+): <A>(predicate: Predicate<A>) => <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
 ```
 
 Added in v3.0.0
@@ -113,21 +113,27 @@ export declare function partition<F extends URIS2, G extends URIS2, E>(
   G: Filterable2C<G, E>
 ): <A>(
   predicate: Predicate<A>
-) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
+) => <R, B extends A>(
+  fgb: Kind2<F, R, Kind2<G, E, B>>
+) => Separated<Kind2<F, R, Kind2<G, E, B>>, Kind2<F, R, Kind2<G, E, B>>>
 export declare function partition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
 ): <A>(
   predicate: Predicate<A>
-) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+) => <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, B>>>
 export declare function partition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+): <A>(
+  predicate: Predicate<A>
+) => <B extends A>(fgb: Kind<F, Kind<G, B>>) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, B>>>
 export declare function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+): <A>(
+  predicate: Predicate<A>
+) => <B extends A>(fgb: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>>
 ```
 
 Added in v3.0.0
@@ -300,7 +306,7 @@ Added in v3.0.0
 ```ts
 export interface Filter<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => HKT<F, B>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => HKT<F, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: HKT<F, B>) => HKT<F, B>
 }
 ```
 
@@ -313,7 +319,7 @@ Added in v3.0.0
 ```ts
 export interface Filter1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
-  <A>(predicate: Predicate<A>): <B extends A>(fa: Kind<F, B>) => Kind<F, B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind<F, B>) => Kind<F, B>
 }
 ```
 
@@ -326,7 +332,7 @@ Added in v3.0.0
 ```ts
 export interface Filter2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicate: Predicate<A>): <E, B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 ```
 
@@ -339,7 +345,7 @@ Added in v3.0.0
 ```ts
 export interface Filter2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind2<F, E, B>) => Kind2<F, E, B>
 }
 ```
 
@@ -352,7 +358,7 @@ Added in v3.0.0
 ```ts
 export interface Filter3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  <A>(predicate: Predicate<A>): <R, E, B extends A>(fb: Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -365,7 +371,7 @@ Added in v3.0.0
 ```ts
 export interface Filter3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  <A>(predicate: Predicate<A>): <R, B extends A>(fb: Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -378,7 +384,7 @@ Added in v3.0.0
 ```ts
 export interface Filter4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-  <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(fb: Kind4<F, S, R, E, B>) => Kind4<F, S, R, E, B>
 }
 ```
 
@@ -391,7 +397,7 @@ Added in v3.0.0
 ```ts
 export interface Partition<F> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
-  <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: HKT<F, B>) => Separated<HKT<F, B>, HKT<F, B>>
 }
 ```
 
@@ -404,7 +410,7 @@ Added in v3.0.0
 ```ts
 export interface Partition1<F extends URIS> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
-  <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind<F, B>) => Separated<Kind<F, B>, Kind<F, B>>
 }
 ```
 
@@ -417,7 +423,7 @@ Added in v3.0.0
 ```ts
 export interface Partition2<F extends URIS2> {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicate: Predicate<A>): <E, B extends A>(fb: Kind2<F, E, B>) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 ```
 
@@ -430,7 +436,7 @@ Added in v3.0.0
 ```ts
 export interface Partition2C<F extends URIS2, E> {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
-  <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Kind2<F, E, B>) => Separated<Kind2<F, E, B>, Kind2<F, E, B>>
 }
 ```
 
@@ -445,7 +451,9 @@ export interface Partition3<F extends URIS3> {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
     fa: Kind3<F, R, E, A>
   ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-  <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  <A>(predicate: Predicate<A>): <R, E, B extends A>(
+    fa: Kind3<F, R, E, B>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, B>>
 }
 ```
 
@@ -460,7 +468,9 @@ export interface Partition3C<F extends URIS3, E> {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(
     fa: Kind3<F, R, E, A>
   ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
-  <A>(predicate: Predicate<A>): <R>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(
+    fa: Kind3<F, R, E, B>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, B>>
 }
 ```
 
@@ -475,9 +485,9 @@ export interface Partition4<F extends URIS4> {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
     fa: Kind4<F, S, R, E, A>
   ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, E>(
-    fa: Kind4<F, S, R, E, A>
-  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
+  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(
+    fa: Kind4<F, S, R, E, B>
+  ) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, B>>
 }
 ```
 

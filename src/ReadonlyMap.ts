@@ -313,13 +313,15 @@ export const partitionMap: Filterable2<URI>['partitionMap'] = (f) => partitionMa
  * @category FilterableWithIndex
  * @since 3.0.0
  */
-export const filterWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>): ReadonlyMap<K, A> => {
+export const filterWithIndex = <K, A>(predicateWithIndex: (k: K, a: A) => boolean) => (
+  m: ReadonlyMap<K, A>
+): ReadonlyMap<K, A> => {
   const out = new Map<K, A>()
   const entries = m.entries()
   let e: Next<readonly [K, A]>
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
-    if (p(k, a)) {
+    if (predicateWithIndex(k, a)) {
       out.set(k, a)
     }
   }
@@ -350,7 +352,7 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (
  * @category FilterableWithIndex
  * @since 3.0.0
  */
-export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
+export const partitionWithIndex = <K, A>(predicateWithIndex: (k: K, a: A) => boolean) => (
   fa: ReadonlyMap<K, A>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> => {
   const left = new Map<K, A>()
@@ -359,7 +361,7 @@ export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
   let e: Next<readonly [K, A]>
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
-    if (p(k, a)) {
+    if (predicateWithIndex(k, a)) {
       right.set(k, a)
     } else {
       left.set(k, a)

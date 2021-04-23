@@ -452,7 +452,7 @@ Returns a _smart constructor_ based on the given predicate.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => Option<B>
-  <A>(predicate: Predicate<A>): (a: A) => Option<A>
+  <A>(predicate: Predicate<A>): <B>(b: B) => Option<B>
 }
 ```
 

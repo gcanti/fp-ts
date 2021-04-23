@@ -30,9 +30,7 @@ import type { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
 import type { Pointed1 } from './Pointed'
-import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import * as T from './Task'
 import type { TaskEither } from './TaskEither'
 
@@ -71,10 +69,7 @@ export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
-} =
+export const fromPredicate =
   /*#__PURE__*/
   OT.fromPredicate(T.Pointed)
 

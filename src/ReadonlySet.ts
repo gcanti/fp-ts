@@ -242,12 +242,12 @@ export const separate = <E, A>(EE: Eq<E>, EA: Eq<A>) => (
  * @since 3.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
-export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
-export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A> {
-  return (set) => {
-    const values = set.values()
-    let e: Next<A>
-    const r = new Set<A>()
+export function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
+export function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B> {
+  return <B extends A>(s: ReadonlySet<B>) => {
+    const values = s.values()
+    let e: Next<B>
+    const r = new Set<B>()
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
@@ -283,15 +283,17 @@ export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: Rea
 export function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
-export function partition<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 export function partition<A>(
   predicate: Predicate<A>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>> {
-  return (set) => {
-    const values = set.values()
-    let e: Next<A>
-    const right = new Set<A>()
-    const left = new Set<A>()
+): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+export function partition<A>(
+  predicate: Predicate<A>
+): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>> {
+  return <B extends A>(s: ReadonlySet<B>) => {
+    const values = s.values()
+    let e: Next<B>
+    const right = new Set<B>()
+    const left = new Set<B>()
     while (!(e = values.next()).done) {
       const value = e.value
       if (predicate(value)) {
