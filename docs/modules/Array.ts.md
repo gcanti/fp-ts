@@ -1851,7 +1851,7 @@ export declare const matchLeftW: <B, A, C>(
 ) => (as: A[]) => B | C
 ```
 
-Added in v3.0.0
+Added in v2.11.0
 
 ## matchRight
 
