@@ -140,15 +140,21 @@ high state of flux, you're at risk of it changing without notice.
     - add `asksEW`, `asksW`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
   - `ReaderTask`
     - add `asksEW`, `asksW`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
   - `ReaderTaskEither`
     - add `asksEW`, `asksW`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
     - add `fromReaderTaskK`
-    - add `chainReaderTaskK`
-    - add `chainReaderTaskKW`
+    - add `chainReaderKW`
+    - add `chainReaderTaskK`, `chainReaderTaskKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `chainFirstReaderTaskK`, `chainFirstReaderTaskKW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
@@ -216,6 +222,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainStateK`
     - add `local`
     - add `asksEW`, `asksW`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
   - `string`
     - add `toUpperCase`
   - `struct`
