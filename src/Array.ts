@@ -201,7 +201,7 @@ export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) 
  * Less strict version of [`matchLeft`](#matchLeft).
  *
  * @category destructors
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => C) => (
   as: Array<A>
