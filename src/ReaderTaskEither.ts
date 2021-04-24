@@ -1001,6 +1001,25 @@ export const chainReaderTaskK: <A, R, B>(
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderTaskKW
 
 /**
+ * Less strict version of [`chainFirstReaderTaskK`](#chainFirstReaderTaskK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) =>
+  chainFirstW(fromReaderTaskK(f))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderTaskKW
+
+/**
  * @category instances
  * @since 2.10.0
  */
