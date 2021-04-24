@@ -3,7 +3,7 @@
  *
  * @since 2.11.0
  */
-import { Chain, Chain2, Chain3, Chain3C, Chain4 } from './Chain'
+import { Chain, Chain2, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
 import * as R from './Reader'
@@ -149,4 +149,35 @@ export function chainReaderK<M extends URIS2>(
 ): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind2<M, R, A>) => Kind2<M, R, B> {
   const fromReaderKF = fromReaderK(F)
   return (f) => (ma) => M.chain(ma, fromReaderKF(f))
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export function chainFirstReaderK<M extends URIS4>(
+  F: FromReader4<M>,
+  M: Chain4<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, E>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export function chainFirstReaderK<M extends URIS3>(
+  F: FromReader3<M>,
+  M: Chain3<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <E>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstReaderK<M extends URIS3, E>(
+  F: FromReader3C<M, E>,
+  M: Chain3C<M, E>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstReaderK<M extends URIS2>(
+  F: FromReader2<M>,
+  M: Chain2<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind2<M, R, A>) => Kind2<M, R, A>
+export function chainFirstReaderK<M>(
+  F: FromReader<M>,
+  M: Chain<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: HKT2<M, R, A>) => HKT2<M, R, A>
+export function chainFirstReaderK<M extends URIS2>(
+  F: FromReader2<M>,
+  M: Chain2<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind2<M, R, A>) => Kind2<M, R, A> {
+  return flow(fromReaderK(F), chainFirst(M))
 }

@@ -15,6 +15,7 @@ import {
   ask as ask_,
   asks as asks_,
   chainReaderK as chainReaderK_,
+  chainFirstReaderK as chainFirstReaderK_,
   FromReader2,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -459,6 +460,24 @@ export const fromReaderK =
 export const chainReaderK =
   /*#__PURE__*/
   chainReaderK_(FromReader, Chain)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderK =
+  /*#__PURE__*/
+  chainFirstReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
 
 /**
  * @category instances
