@@ -305,6 +305,11 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
   })
 
+  it('chainReaderKW', () => {
+    const f = _.chainReaderKW((): R.Reader<unknown, number> => () => 2)
+    U.deepStrictEqual(pipe(_.right<{}, never, number>(3), f)({}), E.right(2))
+  })
+
   it('chainFirstReaderK', () => {
     const f = _.chainFirstReaderK((n: number): R.Reader<number, number> => (c) => n * c)
     U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(3))
