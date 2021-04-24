@@ -15,6 +15,7 @@ Added in v2.11.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
+  - [chainFirstReaderK](#chainfirstreaderk)
   - [chainReaderK](#chainreaderk)
   - [fromReaderK](#fromreaderk)
 - [constructors](#constructors)
@@ -30,6 +31,35 @@ Added in v2.11.0
 ---
 
 # combinators
+
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare function chainFirstReaderK<M extends URIS4>(
+  F: FromReader4<M>,
+  M: Chain4<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, E>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export declare function chainFirstReaderK<M extends URIS3>(
+  F: FromReader3<M>,
+  M: Chain3<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <E>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirstReaderK<M extends URIS3, E>(
+  F: FromReader3C<M, E>,
+  M: Chain3C<M, E>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirstReaderK<M extends URIS2>(
+  F: FromReader2<M>,
+  M: Chain2<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Kind2<M, R, A>) => Kind2<M, R, A>
+export declare function chainFirstReaderK<M>(
+  F: FromReader<M>,
+  M: Chain<M>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: HKT2<M, R, A>) => HKT2<M, R, A>
+```
+
+Added in v2.11.0
 
 ## chainReaderK
 

@@ -29,6 +29,8 @@ Added in v2.3.0
   - [asksEW](#asksew)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
@@ -248,6 +250,32 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: Rea
 ```
 
 Added in v2.10.0
+
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## chainFirstTaskK
 
