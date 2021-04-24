@@ -720,6 +720,16 @@ export const chainReaderK: <A, R, B>(
   chainReaderK_(FromReader, Chain)
 
 /**
+ * Less strict version of [`chainReaderK`](#chainReaderK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderKW: <A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
+
+/**
  * @category combinators
  * @since 2.11.0
  */
