@@ -15,12 +15,14 @@ import {
 } from './FromEither'
 import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
 import { FromReader, FromReader2, FromReader3, FromReader3C, FromReader4 } from './FromReader'
+import { FromState, FromState2, FromState3, FromState3C, FromState4 } from './FromState'
 import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import type { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { IO } from './IO'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
+import { State } from './State'
 
 /**
  * @since 3.0.0
@@ -223,4 +225,21 @@ export function asksReaderK<F extends URIS2>(
 export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>>
 export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>> {
   return (f) => flow(f, F.fromReader)
+}
+
+export function asksStateK<F extends URIS4>(
+  F: FromState4<F>
+): <R, S, A, FR, FE>(f: (r: R) => State<S, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+export function asksStateK<F extends URIS3>(
+  F: FromState3<F>
+): <R, S, A, FE>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, FE, A>>
+export function asksStateK<F extends URIS3, FE>(
+  F: FromState3C<F, FE>
+): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, FE, A>>
+export function asksStateK<F extends URIS2>(
+  F: FromState2<F>
+): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind2<F, S, A>>
+export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>>
+export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>> {
+  return (f) => flow(f, F.fromState)
 }
