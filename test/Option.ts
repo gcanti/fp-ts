@@ -370,18 +370,20 @@ describe('Option', () => {
   })
 
   it('getFirstMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getFirstMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    U.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
+    U.deepStrictEqual(M.concat(_.none, _.some(2)), _.some(2))
     U.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(1))
   })
 
   it('getLastMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getLastMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    U.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
+    U.deepStrictEqual(M.concat(_.none, _.some(2)), _.some(2))
     U.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(2))
   })
 

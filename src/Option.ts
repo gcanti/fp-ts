@@ -41,7 +41,7 @@ import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { not, Predicate } from './Predicate'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import { Semigroup, first, last } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -809,64 +809,6 @@ export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
 }
 
 /**
- * Monoid returning the left-most non-`None` value
- *
- * | x       | y       | concat(x, y) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(a)      |
- *
- * @example
- * import { getFirstMonoid, some, none } from 'fp-ts/Option'
- *
- * const M = getFirstMonoid<number>()
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), some(1))
- * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
- *
- * @category instances
- * @since 2.0.0
- */
-export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
-  return {
-    concat: (x, y) => (isNone(x) ? y : x),
-    empty: none
-  }
-}
-
-/**
- * Monoid returning the right-most non-`None` value
- *
- * | x       | y       | concat(x, y) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(b)      |
- *
- * @example
- * import { getLastMonoid, some, none } from 'fp-ts/Option'
- *
- * const M = getLastMonoid<number>()
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), some(1))
- * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
- *
- * @category instances
- * @since 2.0.0
- */
-export function getLastMonoid<A = never>(): Monoid<Option<A>> {
-  return {
-    concat: (x, y) => (isNone(y) ? x : y),
-    empty: none
-  }
-}
-
-/**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * concatenated using the provided `Semigroup`
  *
@@ -874,7 +816,7 @@ export function getLastMonoid<A = never>(): Monoid<Option<A>> {
  * | ------- | ------- | ------------------ |
  * | none    | none    | none               |
  * | some(a) | none    | some(a)            |
- * | none    | some(a) | some(a)            |
+ * | none    | some(b) | some(b)            |
  * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
@@ -1370,3 +1312,75 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
 export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
   /*#__PURE__*/
   getApplicativeMonoid(Applicative)
+
+/**
+ * Use
+ *
+ * ```ts
+ * import { first } from 'fp-ts/Semigroup'
+ * import { getMonoid } from 'fp-ts/Option'
+ *
+ * getMonoid(first())
+ * ```
+ *
+ * instead.
+ *
+ * Monoid returning the left-most non-`None` value
+ *
+ * | x       | y       | concat(x, y) |
+ * | ------- | ------- | ------------ |
+ * | none    | none    | none         |
+ * | some(a) | none    | some(a)      |
+ * | none    | some(b) | some(b)      |
+ * | some(a) | some(b) | some(a)      |
+ *
+ * @example
+ * import { getFirstMonoid, some, none } from 'fp-ts/Option'
+ *
+ * const M = getFirstMonoid<number>()
+ * assert.deepStrictEqual(M.concat(none, none), none)
+ * assert.deepStrictEqual(M.concat(some(1), none), some(1))
+ * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+ * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => getMonoid(first())
+
+/**
+ * Use
+ *
+ * ```ts
+ * import { last } from 'fp-ts/Semigroup'
+ * import { getMonoid } from 'fp-ts/Option'
+ *
+ * getMonoid(last())
+ * ```
+ *
+ * instead.
+ *
+ * Monoid returning the right-most non-`None` value
+ *
+ * | x       | y       | concat(x, y) |
+ * | ------- | ------- | ------------ |
+ * | none    | none    | none         |
+ * | some(a) | none    | some(a)      |
+ * | none    | some(b) | some(b)      |
+ * | some(a) | some(b) | some(b)      |
+ *
+ * @example
+ * import { getLastMonoid, some, none } from 'fp-ts/Option'
+ *
+ * const M = getLastMonoid<number>()
+ * assert.deepStrictEqual(M.concat(none, none), none)
+ * assert.deepStrictEqual(M.concat(some(1), none), some(1))
+ * assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+ * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const getLastMonoid = <A = never>(): Monoid<Option<A>> => getMonoid(last())

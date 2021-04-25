@@ -102,13 +102,13 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
   - [getEq](#geteq)
-  - [getFirstMonoid](#getfirstmonoid)
-  - [getLastMonoid](#getlastmonoid)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getFirstMonoid~~](#getfirstmonoid)
+  - [~~getLastMonoid~~](#getlastmonoid)
   - [~~option~~](#option)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -982,68 +982,6 @@ assert.strictEqual(E.equals(some(1), some(1)), true)
 
 Added in v2.0.0
 
-## getFirstMonoid
-
-Monoid returning the left-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(a)      |
-
-**Signature**
-
-```ts
-export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getFirstMonoid, some, none } from 'fp-ts/Option'
-
-const M = getFirstMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
-```
-
-Added in v2.0.0
-
-## getLastMonoid
-
-Monoid returning the right-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(b)      |
-
-**Signature**
-
-```ts
-export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getLastMonoid, some, none } from 'fp-ts/Option'
-
-const M = getLastMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
-```
-
-Added in v2.0.0
-
 ## getMonoid
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -1053,7 +991,7 @@ concatenated using the provided `Semigroup`
 | ------- | ------- | ------------------ |
 | none    | none    | none               |
 | some(a) | none    | some(a)            |
-| none    | some(a) | some(a)            |
+| none    | some(b) | some(b)            |
 | some(a) | some(b) | some(concat(a, b)) |
 
 **Signature**
@@ -1137,6 +1075,90 @@ Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
 
 ```ts
 export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getFirstMonoid~~
+
+Use
+
+```ts
+import { first } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(first())
+```
+
+instead.
+
+Monoid returning the left-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(a)      |
+
+**Signature**
+
+```ts
+export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getFirstMonoid, some, none } from 'fp-ts/Option'
+
+const M = getFirstMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+```
+
+Added in v2.0.0
+
+## ~~getLastMonoid~~
+
+Use
+
+```ts
+import { last } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(last())
+```
+
+instead.
+
+Monoid returning the right-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(b)      |
+
+**Signature**
+
+```ts
+export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getLastMonoid, some, none } from 'fp-ts/Option'
+
+const M = getLastMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 ```
 
 Added in v2.0.0
