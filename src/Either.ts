@@ -483,6 +483,16 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
   chain(identity)
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Less strict version of [`alt`](#alt).
  *
  * @category Alt
