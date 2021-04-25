@@ -172,6 +172,9 @@ export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader
   return (ma) => flow(ma, F.of)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksEitherK<F extends URIS4>(
   F: FromEither4<F>
 ): <R, FE, A, S, FR>(f: (r: R) => Either<FE, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -195,6 +198,9 @@ export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<
   return (f) => flow(f, F.fromEither)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksIOK<F extends URIS4>(
   F: FromIO4<F>
 ): <R, A, S, FR, FE>(f: (r: R) => IO<A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -214,6 +220,9 @@ export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R
   return (f) => flow(f, F.fromIO)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksReaderK<F extends URIS4>(
   F: FromReader4<F>
 ): <R, FR, A, S, FE>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -231,6 +240,9 @@ export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader
   return (f) => flow(f, F.fromReader)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksStateK<F extends URIS4>(
   F: FromState4<F>
 ): <R, S, A, FR, FE>(f: (r: R) => State<S, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -248,6 +260,9 @@ export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, 
   return (f) => flow(f, F.fromState)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksTaskK<F extends URIS4>(
   F: FromTask4<F>
 ): <R, A, S, FR, FE>(f: (r: R) => Task<A>) => Reader<R, Kind4<F, S, FR, FE, A>>
@@ -269,6 +284,9 @@ export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Re
   return (f) => flow(f, F.fromTask)
 }
 
+/**
+ * @since 3.0.0
+ */
 export function asksTheseK<F extends URIS4>(
   F: FromThese4<F>
 ): <R, FE, A, S, FR>(f: (r: R) => These<FE, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
