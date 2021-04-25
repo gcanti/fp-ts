@@ -98,8 +98,6 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
   - [getEq](#geteq)
-  - [getFirstMonoid](#getfirstmonoid)
-  - [getLastMonoid](#getlastmonoid)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
@@ -934,70 +932,6 @@ assert.strictEqual(E.equals(none)(some(1)), false)
 assert.strictEqual(E.equals(some(1))(none), false)
 assert.strictEqual(E.equals(some(1))(some(2)), false)
 assert.strictEqual(E.equals(some(1))(some(1)), true)
-```
-
-Added in v3.0.0
-
-## getFirstMonoid
-
-Monoid returning the left-most non-`None` value
-
-| x       | y       | concat(y)(x) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(a)      |
-
-**Signature**
-
-```ts
-export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getFirstMonoid, some, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const M = getFirstMonoid<number>()
-assert.deepStrictEqual(pipe(none, M.concat(none)), none)
-assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
-assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
-assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
-```
-
-Added in v3.0.0
-
-## getLastMonoid
-
-Monoid returning the right-most non-`None` value
-
-| x       | y       | concat(y)(x) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(b)      |
-
-**Signature**
-
-```ts
-export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getLastMonoid, some, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const M = getLastMonoid<number>()
-assert.deepStrictEqual(pipe(none, M.concat(none)), none)
-assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
-assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
-assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
 ```
 
 Added in v3.0.0

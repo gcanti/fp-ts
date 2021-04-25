@@ -317,22 +317,6 @@ describe('Option', () => {
     U.deepStrictEqual(parseDirection('foo'), _.none)
   })
 
-  it('getFirstMonoid', () => {
-    const M = _.getFirstMonoid<number>()
-    U.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
-    U.deepStrictEqual(pipe(_.some(1), M.concat(_.none)), _.some(1))
-    U.deepStrictEqual(pipe(_.none, M.concat(_.some(1))), _.some(1))
-    U.deepStrictEqual(pipe(_.some(1), M.concat(_.some(2))), _.some(1))
-  })
-
-  it('getLastMonoid', () => {
-    const M = _.getLastMonoid<number>()
-    U.deepStrictEqual(pipe(_.none, M.concat(_.none)), _.none)
-    U.deepStrictEqual(pipe(_.some(1), M.concat(_.none)), _.some(1))
-    U.deepStrictEqual(pipe(_.none, M.concat(_.some(1))), _.some(1))
-    U.deepStrictEqual(pipe(_.some(1), M.concat(_.some(2))), _.some(2))
-  })
-
   it('elem', () => {
     U.deepStrictEqual(pipe(_.none, _.elem(N.Eq)(2)), false)
     U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(2)), true)

@@ -681,62 +681,6 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
   fromCompare((second) => (first) => (isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1))
 
 /**
- * Monoid returning the left-most non-`None` value
- *
- * | x       | y       | concat(y)(x) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(a)      |
- *
- * @example
- * import { getFirstMonoid, some, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const M = getFirstMonoid<number>()
- * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
- * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
- * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
- *
- * @category instances
- * @since 3.0.0
- */
-export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => ({
-  concat: (second) => (first) => (isNone(first) ? second : first),
-  empty: none
-})
-
-/**
- * Monoid returning the right-most non-`None` value
- *
- * | x       | y       | concat(y)(x) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(b)      |
- *
- * @example
- * import { getLastMonoid, some, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const M = getLastMonoid<number>()
- * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
- * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
- * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
- *
- * @category instances
- * @since 3.0.0
- */
-export const getLastMonoid = <A = never>(): Monoid<Option<A>> => ({
-  concat: (second) => (first) => (isNone(second) ? first : second),
-  empty: none
-})
-
-/**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * concatenated using the provided `Semigroup`
  *
