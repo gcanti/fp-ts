@@ -14,6 +14,7 @@ import {
   FromEither4
 } from './FromEither'
 import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
+import { FromReader, FromReader2, FromReader3, FromReader3C, FromReader4 } from './FromReader'
 import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import type { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -205,4 +206,21 @@ export function asksIOK<F extends URIS>(F: FromIO1<F>): <R, A>(f: (r: R) => IO<A
 export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>>
 export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>> {
   return (f) => flow(f, F.fromIO)
+}
+
+export function asksReaderK<F extends URIS4>(
+  F: FromReader4<F>
+): <R, FR, A, S, FE>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+export function asksReaderK<F extends URIS3>(
+  F: FromReader3<F>
+): <R, FR, A, FE>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksReaderK<F extends URIS3, FE>(
+  F: FromReader3C<F, FE>
+): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksReaderK<F extends URIS2>(
+  F: FromReader2<F>
+): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind2<F, FR, A>>
+export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>>
+export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>> {
+  return (f) => flow(f, F.fromReader)
 }
