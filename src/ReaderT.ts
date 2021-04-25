@@ -203,20 +203,20 @@ export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<
  */
 export function asksIOK<F extends URIS4>(
   F: FromIO4<F>
-): <R, A, S, FR, FE>(f: (r: R) => IO<A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+): <R, A, S, FR, FE>(f: Reader<R, IO<A>>) => Reader<R, Kind4<F, S, FR, FE, A>>
 export function asksIOK<F extends URIS3>(
   F: FromIO3<F>
-): <R, A, FR, FE>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, A, FR, FE>(f: Reader<R, IO<A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksIOK<F extends URIS3, FE>(
   F: FromIO3C<F, FE>
-): <R, A, FR>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, FE, A>>
-export function asksIOK<F extends URIS2>(F: FromIO2<F>): <R, A, FE>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, FE, A>>
+): <R, A, FR>(f: Reader<R, IO<A>>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksIOK<F extends URIS2>(F: FromIO2<F>): <R, A, FE>(f: Reader<R, IO<A>>) => Reader<R, Kind2<F, FE, A>>
 export function asksIOK<F extends URIS2, FE>(
   F: FromIO2C<F, FE>
-): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, FE, A>>
-export function asksIOK<F extends URIS>(F: FromIO1<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind<F, A>>
-export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>>
-export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>> {
+): <R, A>(f: Reader<R, IO<A>>) => Reader<R, Kind2<F, FE, A>>
+export function asksIOK<F extends URIS>(F: FromIO1<F>): <R, A>(f: Reader<R, IO<A>>) => Reader<R, Kind<F, A>>
+export function asksIOK<F>(F: FromIO<F>): <R, A>(f: Reader<R, IO<A>>) => Reader<R, HKT<F, A>>
+export function asksIOK<F>(F: FromIO<F>): <R, A>(f: Reader<R, IO<A>>) => Reader<R, HKT<F, A>> {
   return (f) => flow(f, F.fromIO)
 }
 
@@ -225,18 +225,18 @@ export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R
  */
 export function asksReaderK<F extends URIS4>(
   F: FromReader4<F>
-): <R, FR, A, S, FE>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+): <R, FR, A, S, FE>(f: Reader<R, Reader<FR, A>>) => Reader<R, Kind4<F, S, FR, FE, A>>
 export function asksReaderK<F extends URIS3>(
   F: FromReader3<F>
-): <R, FR, A, FE>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, FR, A, FE>(f: Reader<R, Reader<FR, A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksReaderK<F extends URIS3, FE>(
   F: FromReader3C<F, FE>
-): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, FR, A>(f: Reader<R, Reader<FR, A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksReaderK<F extends URIS2>(
   F: FromReader2<F>
-): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, Kind2<F, FR, A>>
-export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>>
-export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader<FR, A>) => Reader<R, HKT2<F, FR, A>> {
+): <R, FR, A>(f: Reader<R, Reader<FR, A>>) => Reader<R, Kind2<F, FR, A>>
+export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: Reader<R, Reader<FR, A>>) => Reader<R, HKT2<F, FR, A>>
+export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: Reader<R, Reader<FR, A>>) => Reader<R, HKT2<F, FR, A>> {
   return (f) => flow(f, F.fromReader)
 }
 
@@ -245,18 +245,18 @@ export function asksReaderK<F>(F: FromReader<F>): <R, FR, A>(f: (r: R) => Reader
  */
 export function asksStateK<F extends URIS4>(
   F: FromState4<F>
-): <R, S, A, FR, FE>(f: (r: R) => State<S, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+): <R, S, A, FR, FE>(f: Reader<R, State<S, A>>) => Reader<R, Kind4<F, S, FR, FE, A>>
 export function asksStateK<F extends URIS3>(
   F: FromState3<F>
-): <R, S, A, FE>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, FE, A>>
+): <R, S, A, FE>(f: Reader<R, State<S, A>>) => Reader<R, Kind3<F, S, FE, A>>
 export function asksStateK<F extends URIS3, FE>(
   F: FromState3C<F, FE>
-): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, FE, A>>
+): <R, S, A>(f: Reader<R, State<S, A>>) => Reader<R, Kind3<F, S, FE, A>>
 export function asksStateK<F extends URIS2>(
   F: FromState2<F>
-): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind2<F, S, A>>
-export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>>
-export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>> {
+): <R, S, A>(f: Reader<R, State<S, A>>) => Reader<R, Kind2<F, S, A>>
+export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: Reader<R, State<S, A>>) => Reader<R, HKT2<F, S, A>>
+export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: Reader<R, State<S, A>>) => Reader<R, HKT2<F, S, A>> {
   return (f) => flow(f, F.fromState)
 }
 
@@ -265,22 +265,22 @@ export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, 
  */
 export function asksTaskK<F extends URIS4>(
   F: FromTask4<F>
-): <R, A, S, FR, FE>(f: (r: R) => Task<A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+): <R, A, S, FR, FE>(f: Reader<R, Task<A>>) => Reader<R, Kind4<F, S, FR, FE, A>>
 export function asksTaskK<F extends URIS3>(
   F: FromTask3<F>
-): <R, A, FR, FE>(f: (r: R) => Task<A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, A, FR, FE>(f: Reader<R, Task<A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksTaskK<F extends URIS3, FE>(
   F: FromTask3C<F, FE>
-): <R, A, FR>(f: (r: R) => Task<A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, A, FR>(f: Reader<R, Task<A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksTaskK<F extends URIS2>(
   F: FromTask2<F>
-): <R, A, FE>(f: (r: R) => Task<A>) => Reader<R, Kind2<F, FE, A>>
+): <R, A, FE>(f: Reader<R, Task<A>>) => Reader<R, Kind2<F, FE, A>>
 export function asksTaskK<F extends URIS2, FE>(
   F: FromTask2C<F, FE>
-): <R, A>(f: (r: R) => Task<A>) => Reader<R, Kind2<F, FE, A>>
-export function asksTaskK<F extends URIS>(F: FromTask1<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, Kind<F, A>>
-export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, HKT<F, A>>
-export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, HKT<F, A>> {
+): <R, A>(f: Reader<R, Task<A>>) => Reader<R, Kind2<F, FE, A>>
+export function asksTaskK<F extends URIS>(F: FromTask1<F>): <R, A>(f: Reader<R, Task<A>>) => Reader<R, Kind<F, A>>
+export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: Reader<R, Task<A>>) => Reader<R, HKT<F, A>>
+export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: Reader<R, Task<A>>) => Reader<R, HKT<F, A>> {
   return (f) => flow(f, F.fromTask)
 }
 
@@ -289,20 +289,20 @@ export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Re
  */
 export function asksTheseK<F extends URIS4>(
   F: FromThese4<F>
-): <R, FE, A, S, FR>(f: (r: R) => These<FE, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+): <R, FE, A, S, FR>(f: Reader<R, These<FE, A>>) => Reader<R, Kind4<F, S, FR, FE, A>>
 export function asksTheseK<F extends URIS3>(
   F: FromThese3<F>
-): <R, FE, A, FR>(f: (r: R) => These<FE, A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, FE, A, FR>(f: Reader<R, These<FE, A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksTheseK<F extends URIS3, FE>(
   F: FromThese3C<F, FE>
-): <R, A, FR>(f: (r: R) => These<FE, A>) => Reader<R, Kind3<F, FR, FE, A>>
+): <R, A, FR>(f: Reader<R, These<FE, A>>) => Reader<R, Kind3<F, FR, FE, A>>
 export function asksTheseK<F extends URIS2>(
   F: FromThese2<F>
-): <R, FE, A>(f: (r: R) => These<FE, A>) => Reader<R, Kind2<F, FE, A>>
+): <R, FE, A>(f: Reader<R, These<FE, A>>) => Reader<R, Kind2<F, FE, A>>
 export function asksTheseK<F extends URIS2, FE>(
   F: FromThese2C<F, FE>
-): <R, A>(f: (r: R) => These<FE, A>) => Reader<R, Kind2<F, FE, A>>
-export function asksTheseK<F>(F: FromThese<F>): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, HKT2<F, E, A>>
-export function asksTheseK<F>(F: FromThese<F>): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, HKT2<F, E, A>> {
+): <R, A>(f: Reader<R, These<FE, A>>) => Reader<R, Kind2<F, FE, A>>
+export function asksTheseK<F>(F: FromThese<F>): <R, FE, A>(f: Reader<R, These<FE, A>>) => Reader<R, HKT2<F, FE, A>>
+export function asksTheseK<F>(F: FromThese<F>): <R, FE, A>(f: Reader<R, These<FE, A>>) => Reader<R, HKT2<F, FE, A>> {
   return (f) => flow(f, F.fromThese)
 }
