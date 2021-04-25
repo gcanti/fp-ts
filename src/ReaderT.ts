@@ -3,10 +3,20 @@
  */
 import type { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
 import type { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { Either } from './Either'
+import {
+  FromEither,
+  FromEither1,
+  FromEither2,
+  FromEither2C,
+  FromEither3,
+  FromEither3C,
+  FromEither4
+} from './FromEither'
 import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
 import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { IO } from './IO'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
@@ -153,6 +163,29 @@ export function fromReader<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R,
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>> {
   return (ma) => flow(ma, F.of)
+}
+
+export function asksEitherK<F extends URIS4>(
+  F: FromEither4<F>
+): <R, FE, A, S, FR>(f: (r: R) => Either<FE, A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+export function asksEitherK<F extends URIS3>(
+  F: FromEither3<F>
+): <R, FE, A, FR>(f: (r: R) => Either<FE, A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksEitherK<F extends URIS3, FE>(
+  F: FromEither3C<F, FE>
+): <R, A, FR>(f: (r: R) => Either<FE, A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksEitherK<F extends URIS2>(
+  F: FromEither2<F>
+): <R, FE, A>(f: (r: R) => Either<FE, A>) => Reader<R, Kind2<F, FE, A>>
+export function asksEitherK<F extends URIS2, FE>(
+  F: FromEither2C<F, FE>
+): <R, A>(f: (r: R) => Either<FE, A>) => Reader<R, Kind2<F, FE, A>>
+export function asksEitherK<F extends URIS>(
+  F: FromEither1<F>
+): <R, FE, A>(f: (r: R) => Either<FE, A>) => Reader<R, Kind<F, A>>
+export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, HKT2<F, E, A>>
+export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, HKT2<F, E, A>> {
+  return (f) => flow(f, F.fromEither)
 }
 
 export function asksIOK<F extends URIS4>(
