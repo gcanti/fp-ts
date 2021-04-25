@@ -3,9 +3,11 @@
  */
 import type { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
 import type { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
 import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { IO } from './IO'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
 
@@ -151,4 +153,23 @@ export function fromReader<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R,
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>> {
   return (ma) => flow(ma, F.of)
+}
+
+export function asksIOK<F extends URIS4>(
+  F: FromIO4<F>
+): <R, A, S, FR, FE>(f: (r: R) => IO<A>) => Reader<R, Kind4<F, S, FR, FE, A>>
+export function asksIOK<F extends URIS3>(
+  F: FromIO3<F>
+): <R, A, FR, FE>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksIOK<F extends URIS3, FE>(
+  F: FromIO3C<F, FE>
+): <R, A, FR>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, FE, A>>
+export function asksIOK<F extends URIS2>(F: FromIO2<F>): <R, A, FE>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, FE, A>>
+export function asksIOK<F extends URIS2, FE>(
+  F: FromIO2C<F, FE>
+): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, FE, A>>
+export function asksIOK<F extends URIS>(F: FromIO1<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind<F, A>>
+export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>>
+export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>> {
+  return (f) => flow(f, F.fromIO)
 }
