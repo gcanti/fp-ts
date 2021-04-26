@@ -76,8 +76,23 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right('aaa'))
     })
 
-    it('chainFirst', async () => {
+    it('flatten', async () => {
       const e = await pipe(_.right(_.right('a')), _.flatten, _.evaluate(state))({})()
+      U.deepStrictEqual(e, E.right('a'))
+    })
+
+    type S = unknown
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+    type E1 = { readonly left1: unknown }
+    type E2 = { readonly left2: unknown }
+
+    it('flattenW', async () => {
+      const e = await pipe(
+        _.right<S, R1, E1, _.StateReaderTaskEither<S, R2, E2, 'a'>>(_.right('a')),
+        _.flattenW,
+        _.evaluate(state)
+      )({ env1: '', env2: '' })()
       U.deepStrictEqual(e, E.right('a'))
     })
 
