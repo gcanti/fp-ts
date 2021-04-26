@@ -48,6 +48,7 @@ Added in v2.0.0
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
@@ -517,6 +518,20 @@ export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, 
 ```
 
 Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, E1, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v2.11.0
 
 ## fromEitherK
 

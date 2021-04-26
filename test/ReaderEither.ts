@@ -58,6 +58,18 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
     })
 
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+    type E1 = { readonly left1: unknown }
+    type E2 = { readonly left2: unknown }
+
+    it('flattenW', () => {
+      U.deepStrictEqual(
+        pipe(_.right<R1, E1, _.ReaderEither<R2, E2, 'a'>>(_.right('a')), _.flattenW)({ env1: '', env2: '' }),
+        E.right('a')
+      )
+    })
+
     it('mapLeft', () => {
       U.deepStrictEqual(pipe(_.right(1), _.mapLeft(S.size))({}), E.right(1))
       U.deepStrictEqual(pipe(_.left('aa'), _.mapLeft(S.size))({}), E.left(2))
