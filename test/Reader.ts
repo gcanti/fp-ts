@@ -41,8 +41,15 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of<object, string>('foo'), _.chainFirstW(f))({}), 'foo')
     })
 
-    it('chain', () => {
+    it('flatten', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
+    })
+
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+
+    it('flattenW', () => {
+      U.deepStrictEqual(pipe(_.of<R1, _.Reader<R2, 'a'>>(_.of('a')), _.flattenW)({ env1: '', env2: '' }), 'a')
     })
 
     it('compose', () => {

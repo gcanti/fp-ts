@@ -43,6 +43,7 @@ Added in v2.0.0
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -345,6 +346,18 @@ export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, 
 ```
 
 Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## local
 
