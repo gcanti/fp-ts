@@ -50,6 +50,13 @@ describe('ReaderTask', () => {
     U.deepStrictEqual(await pipe(_.of(_.of('a')), _.flatten)({})(), 'a')
   })
 
+  type R1 = { readonly env1: unknown }
+  type R2 = { readonly env2: unknown }
+
+  it('flattenW', async () => {
+    U.deepStrictEqual(await pipe(_.of<R1, _.ReaderTask<R2, 'a'>>(_.of('a')), _.flattenW)({ env1: '', env2: '' })(), 'a')
+  })
+
   it('of', async () => {
     U.deepStrictEqual(await _.fromReader(R.of(1))({})(), 1)
   })
