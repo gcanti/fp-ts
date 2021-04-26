@@ -117,6 +117,10 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
     })
 
+    it('flattenW', () => {
+      U.deepStrictEqual(pipe(_.right<'left1', _.IOEither<'left2', 'a'>>(_.right('a')), _.flattenW)(), E.right('a'))
+    })
+
     it('bimap', () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
