@@ -39,6 +39,7 @@ Added in v2.3.0
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
@@ -371,6 +372,18 @@ export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => Re
 ```
 
 Added in v2.3.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## fromIOK
 
