@@ -87,6 +87,13 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
   })
 
+  it('flattenW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<'left1', _.TaskEither<'left2', 'a'>>(_.right('a')), _.flattenW)(),
+      E.right('a')
+    )
+  })
+
   it('bimap', async () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
