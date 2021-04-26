@@ -53,6 +53,21 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)({})(), E.right('a'))
     })
 
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+    type E1 = { readonly left1: unknown }
+    type E2 = { readonly left2: unknown }
+
+    it('flattenW', async () => {
+      U.deepStrictEqual(
+        await pipe(
+          _.right<R1, E1, _.ReaderTaskEither<R2, E2, 'a'>>(_.right('a')),
+          _.flattenW
+        )({ env1: '', env2: '' })(),
+        E.right('a')
+      )
+    })
+
     it('bimap', async () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
