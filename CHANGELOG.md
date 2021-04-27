@@ -153,10 +153,13 @@ high state of flux, you're at risk of it changing without notice.
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
     - add `fromReaderTaskK`
+    - add `fromReaderEitherK`
     - add `chainReaderKW`
     - add `chainReaderTaskK`, `chainReaderTaskKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
     - add `chainFirstReaderTaskK`, `chainFirstReaderTaskKW`
+    - add `chainReaderEitherK`, `chainReaderEitherKW`
+    - add `chainFirstReaderEitherK`, `chainFirstReaderEitherKW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
