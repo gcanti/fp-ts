@@ -433,6 +433,11 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainReaderEitherKW(f))({})(), E.right(1))
   })
 
+  it('chainFirstReaderEitherKW', async () => {
+    const f = (s: string) => RE.right(s.length)
+    U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainFirstReaderEitherKW(f))({})(), E.right('a'))
+  })
+
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------
