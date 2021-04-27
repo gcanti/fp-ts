@@ -453,6 +453,33 @@ export const chainTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => ReaderEither<R, E, B>
+): ((...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromReaderEither)
+
+/**
+ * Less strict version of [`chainReaderEitherK`](#chainReaderEitherK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderEitherKW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
+  chainW(fromReaderEitherK(f))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderEitherK: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderEitherKW
+
 // -------------------------------------------------------------------------------------
 // non-pipeables
 // -------------------------------------------------------------------------------------
