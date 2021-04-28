@@ -446,7 +446,7 @@ export const chainTaskEitherK: <E, A, B>(
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => ReaderEither<R, E, B>
@@ -456,7 +456,7 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
  * Less strict version of [`chainReaderEitherK`](#chainReaderEitherK).
  *
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainReaderEitherKW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
@@ -465,7 +465,7 @@ export const chainReaderEitherKW: <R2, E2, A, B>(
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainReaderEitherK: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
@@ -475,7 +475,7 @@ export const chainReaderEitherK: <R, E, A, B>(
  * Less strict version of [`chainFirstReaderEitherK`](#chainFirstReaderEitherK).
  *
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainFirstReaderEitherKW: <R2, E2, A, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
@@ -484,7 +484,7 @@ export const chainFirstReaderEitherKW: <R2, E2, A, B>(
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainFirstReaderEitherK: <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
@@ -568,14 +568,26 @@ export const chainW: <A, R2, E2, B>(
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flattenW: <R1, E1, R2, E2, A>(
+  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
+) => ReaderTaskEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, E, A>(
+  mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, A> = flattenW
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

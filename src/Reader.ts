@@ -132,14 +132,22 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 export const chain: Chain2<URI>['chain'] = chainW
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = flattenW
 
 /**
  * @category Semigroupoid
