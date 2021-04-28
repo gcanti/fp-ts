@@ -101,6 +101,23 @@ export const fromEither: FromEither3<URI>['fromEither'] = R.of
  */
 export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
+/**
+ * Less strict version of [`asksReaderEitherK`](#asksreadereitherk).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
+  R.asksReaderW
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderEither: <R, E, A>(
+  f: (r: R) => ReaderEither<R, E, A>
+) => ReaderEither<R, E, A> = asksReaderEitherW
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -210,22 +227,6 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
   R.local
-
-/**
- * Less strict version of [`asksE`](#askse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = R.asksEW
-
-/**
- * Effectfully accesses the environment.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> = asksEW
 
 /**
  * @category combinators

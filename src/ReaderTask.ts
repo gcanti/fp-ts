@@ -69,6 +69,20 @@ export const fromReader: FromReader2<URI>['fromReader'] =
   /*#__PURE__*/
   RT.fromReader(T.Pointed)
 
+/**
+ * Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -81,22 +95,6 @@ export const fromReader: FromReader2<URI>['fromReader'] =
  * @since 3.0.0
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
-
-/**
- * Less strict version of [`asksE`](#askse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksEW
-
-/**
- * Effectfully accesses the environment.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksEW
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

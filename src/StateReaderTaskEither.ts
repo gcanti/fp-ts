@@ -211,6 +211,24 @@ export const fromIO: FromIO4<URI>['fromIO'] = rightIO
  */
 export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
+/**
+ * Less strict version of [`asksStateReaderTaskEitherK`](#asksstatereadertaskeitherk).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksStateReaderTaskEitherW = <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+): StateReaderTaskEither<S, R1 & R2, E, A> => (s) => (r) => f(r)(s)(r)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksStateReaderTaskEither: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = asksStateReaderTaskEitherW
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -225,26 +243,6 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
   ma: StateReaderTaskEither<S, R1, E, A>
 ): StateReaderTaskEither<S, R2, E, A> => flow(ma, R.local(f))
-
-/**
- * Less strict version of [`asksE`](#askse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksEW = <R1, S, R2, E, A>(
-  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
-): StateReaderTaskEither<S, R1 & R2, E, A> => (s) => (r) => f(r)(s)(r)
-
-/**
- * Effectfully accesses the environment.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksE: <R, S, E, A>(
-  f: (r: R) => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A> = asksEW
 
 /**
  * @category combinators

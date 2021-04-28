@@ -394,7 +394,7 @@ describe('StateReaderTaskEither', () => {
     }
     const e: Env = { count: 0 }
     const f = (e: Env) => _.of(e.count + 1)
-    U.deepStrictEqual(await _.asksE(f)({})(e)(), E.right(tuple(1, {})))
+    U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.right(tuple(1, {})))
   })
 
   it('local', async () => {

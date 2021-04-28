@@ -29,8 +29,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -42,6 +40,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
@@ -55,6 +54,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderEither](#asksreadereither)
+  - [asksReaderEitherW](#asksreadereitherw)
   - [fromEither](#fromeither)
   - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
@@ -263,30 +264,6 @@ Added in v3.0.0
 
 # combinators
 
-## asksE
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## asksEW
-
-Less strict version of [`asksE`](#askse).
-
-**Signature**
-
-```ts
-export declare const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
 ## chainEitherK
 
 **Signature**
@@ -435,6 +412,20 @@ export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A)
 
 Added in v3.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, E1, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## fromEitherK
 
 **Signature**
@@ -576,6 +567,30 @@ Projects a value from the global context in a `ReaderEither`.
 
 ```ts
 export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## asksReaderEither
+
+**Signature**
+
+```ts
+export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## asksReaderEitherW
+
+Less strict version of [`asksReaderEitherK`](#asksreadereitherk).
+
+**Signature**
+
+```ts
+export declare const asksReaderEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderEither<R2, E, A>
+) => ReaderEither<R1 & R2, E, A>
 ```
 
 Added in v3.0.0

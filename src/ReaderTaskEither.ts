@@ -206,6 +206,24 @@ export const fromIO: FromIO3<URI>['fromIO'] = rightIO
  */
 export const fromTask: FromTask3<URI>['fromTask'] = rightTask
 
+/**
+ * Less strict version of [`asksReaderTaskEitherK`](#asksreadertaskeitherk).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTaskEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A> = R.asksReaderW
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A> = asksReaderTaskEitherW
+
 // -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
@@ -318,23 +336,6 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
 export const local: <R2, R1>(
   f: (r2: R2) => R1
 ) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
-
-/**
- * Less strict version of [`asksE`](#askse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A> =
-  R.asksEW
-
-/**
- * Effectfully accesses the environment.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = asksEW
 
 /**
  * @category combinators

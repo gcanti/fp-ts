@@ -29,8 +29,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -58,6 +56,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -77,6 +76,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderTaskEither](#asksreadertaskeither)
+  - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
@@ -304,32 +305,6 @@ Added in v3.0.0
 
 # combinators
 
-## asksE
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## asksEW
-
-Less strict version of [`asksE`](#askse).
-
-**Signature**
-
-```ts
-export declare const asksEW: <R1, R2, E, A>(
-  f: (r1: R1) => ReaderTaskEither<R2, E, A>
-) => ReaderTaskEither<R1 & R2, E, A>
-```
-
-Added in v3.0.0
-
 ## chainEitherK
 
 **Signature**
@@ -378,7 +353,7 @@ export declare const chainFirstReaderEitherK: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## chainFirstReaderEitherKW
 
@@ -392,7 +367,7 @@ export declare const chainFirstReaderEitherKW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## chainFirstReaderK
 
@@ -532,7 +507,7 @@ export declare const chainReaderEitherK: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## chainReaderEitherKW
 
@@ -546,7 +521,7 @@ export declare const chainReaderEitherKW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## chainReaderK
 
@@ -686,6 +661,20 @@ export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskEither<R, E, (a
 
 Added in v3.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, E1, R2, E2, A>(
+  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
+) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## fromEitherK
 
 **Signature**
@@ -740,7 +729,7 @@ export declare const fromReaderEitherK: <R, E, A extends readonly unknown[], B>(
 ) => (...a: A) => ReaderTaskEither<R, E, B>
 ```
 
-Added in v2.11.0
+Added in v3.0.0
 
 ## fromReaderK
 
@@ -897,6 +886,32 @@ Projects a value from the global context in a `ReaderEither`.
 
 ```ts
 export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## asksReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## asksReaderTaskEitherW
+
+Less strict version of [`asksReaderTaskEitherK`](#asksreadertaskeitherk).
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
 Added in v3.0.0

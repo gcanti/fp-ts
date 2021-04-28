@@ -35,14 +35,15 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -240,30 +241,6 @@ Added in v3.0.0
 
 # combinators
 
-## asksE
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
-```
-
-Added in v3.0.0
-
-## asksEW
-
-Less strict version of [`asksE`](#askse).
-
-**Signature**
-
-```ts
-export declare const asksEW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
@@ -288,6 +265,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -327,6 +316,28 @@ Projects a value from the global context in a `Reader`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
+```
+
+Added in v3.0.0
+
+## asksReader
+
+**Signature**
+
+```ts
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v3.0.0
+
+## asksReaderW
+
+Less strict version of [`asksReaderK`](#asksreaderk).
+
+**Signature**
+
+```ts
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

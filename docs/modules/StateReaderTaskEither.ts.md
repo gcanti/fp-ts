@@ -29,8 +29,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -53,6 +51,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -66,6 +65,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
@@ -281,34 +282,6 @@ export declare const of: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, 
 Added in v3.0.0
 
 # combinators
-
-## asksE
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksE: <R, S, E, A>(
-  f: (r: R) => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## asksEW
-
-Less strict version of [`asksE`](#askse).
-
-**Signature**
-
-```ts
-export declare const asksEW: <R1, S, R2, E, A>(
-  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
-) => StateReaderTaskEither<S, R1 & R2, E, A>
-```
-
-Added in v3.0.0
 
 ## chainEitherK
 
@@ -604,6 +577,20 @@ export declare const flap: <A>(
 
 Added in v3.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <S, R1, E1, R2, E2, A>(
+  mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A>
+```
+
+Added in v3.0.0
+
 ## fromEitherK
 
 **Signature**
@@ -747,6 +734,32 @@ Projects a value from the global context in a `ReaderEither`.
 
 ```ts
 export declare const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## asksStateReaderTaskEither
+
+**Signature**
+
+```ts
+export declare const asksStateReaderTaskEither: <R, S, E, A>(
+  f: (r: R) => StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## asksStateReaderTaskEitherW
+
+Less strict version of [`asksStateReaderTaskEitherK`](#asksstatereadertaskeitherk).
+
+**Signature**
+
+```ts
+export declare const asksStateReaderTaskEitherW: <R1, S, R2, E, A>(
+  f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
+) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```
 
 Added in v3.0.0

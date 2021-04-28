@@ -23,8 +23,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
@@ -35,6 +33,7 @@ Added in v3.0.0
   - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
@@ -42,6 +41,8 @@ Added in v3.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromTask](#fromtask)
@@ -168,30 +169,6 @@ Added in v3.0.0
 
 # combinators
 
-## asksE
-
-Effectfully accesses the environment.
-
-**Signature**
-
-```ts
-export declare const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## asksEW
-
-Less strict version of [`asksE`](#askse).
-
-**Signature**
-
-```ts
-export declare const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## chainFirstIOK
 
 **Signature**
@@ -310,6 +287,18 @@ export declare const flap: <A>(a: A) => <E, B>(fab: ReaderTask<E, (a: A) => B>) 
 
 Added in v3.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## fromIOK
 
 **Signature**
@@ -375,6 +364,28 @@ Projects a value from the global context in a `ReaderTask`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## asksReaderTask
+
+**Signature**
+
+```ts
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## asksReaderTaskW
+
+Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
