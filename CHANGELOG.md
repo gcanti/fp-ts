@@ -89,6 +89,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `isBoolean`
   - `Either`
     - add `chainOptionK`
+    - add `flattenW`
   - `EitherT`
     - add `orElseFirst`
     - add `orLeft`
@@ -98,6 +99,7 @@ high state of flux, you're at risk of it changing without notice.
   - `IOEither`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
+    - add `flattenW`
   - `Magma`
     - add `reverse`
     - add `filterFirst`
@@ -138,16 +140,19 @@ high state of flux, you're at risk of it changing without notice.
     - add `equals`
   - `Reader`
     - add `asksEW`, `asksW`
+    - add `flattenW`
   - `ReaderEither`
     - add `asksEW`, `asksW`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
   - `ReaderTask`
     - add `asksEW`, `asksW`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
   - `ReaderTaskEither`
     - add `asksEW`, `asksW`
     - add `orElseFirst` / `orElseFirstW`
@@ -160,6 +165,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainFirstReaderTaskK`, `chainFirstReaderTaskKW`
     - add `chainReaderEitherK`, `chainReaderEitherKW`
     - add `chainFirstReaderEitherK`, `chainFirstReaderEitherKW`
+    - add `flattenW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
     - add `filterE`
@@ -229,6 +235,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `asksEW`, `asksW`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
   - `string`
     - add `toUpperCase`
   - `struct`
@@ -239,6 +246,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainTaskOptionK`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
+    - add `flattenW`
   - `TaskOption`
     - add `fromTaskEither` (@thewilkybarkid)
   - `Witherable`
