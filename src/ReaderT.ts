@@ -21,6 +21,12 @@ import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import type { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import type { IO } from './IO'
+import type {
+  NaturalTransformation,
+  NaturalTransformation11,
+  NaturalTransformation12,
+  NaturalTransformation22
+} from './NaturalTransformation'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
 import type { State } from './State'
@@ -170,6 +176,28 @@ export function fromReader<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R,
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>> {
   return (ma) => flow(ma, F.of)
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
+  nt: NaturalTransformation22<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+export function fromNaturalTransformation<F extends URIS, G extends URIS2>(
+  nt: NaturalTransformation12<F, G>
+): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>
+export function fromNaturalTransformation<F extends URIS, G extends URIS>(
+  nt: NaturalTransformation11<F, G>
+): <R, A>(f: (r: R) => Kind<F, A>) => Reader<R, Kind<G, A>>
+export function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>>
+export function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>> {
+  return (f) => flow(f, nt)
 }
 
 /**

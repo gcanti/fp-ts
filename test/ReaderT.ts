@@ -8,6 +8,13 @@ import * as TH from '../src/These'
 import * as U from './util'
 
 describe('ReaderT', () => {
+  it('fromNaturalTransformation', async () => {
+    const fromReaderIO = _.fromNaturalTransformation<IO.URI, TE.URI>(TE.fromIO)
+    const f = (s: string): IO.IO<number> => IO.of(s.length)
+    const fa = fromReaderIO(f)
+    U.deepStrictEqual(await fa('a')(), E.right(1))
+  })
+
   it('asksEitherK', async () => {
     const fromReaderEither = _.asksEitherK(TE.FromEither)
     const f = (s: string): E.Either<string, number> => (s.length > 0 ? E.right(s.length) : E.left(s))

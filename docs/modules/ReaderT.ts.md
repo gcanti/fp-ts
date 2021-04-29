@@ -1,6 +1,6 @@
 ---
 title: ReaderT.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -18,6 +18,7 @@ Added in v3.0.0
   - [asksStateK](#asksstatek)
   - [asksTaskK](#askstaskk)
   - [asksTheseK](#asksthesek)
+  - [fromNaturalTransformation](#fromnaturaltransformation)
   - [fromReader](#fromreader)
 - [utils](#utils)
   - [ap](#ap)
@@ -156,6 +157,27 @@ export declare function asksTheseK<F extends URIS2, E>(
   F: FromThese2C<F, E>
 ): <R, A>(f: (r: R) => These<E, A>) => Reader<R, Kind2<F, E, A>>
 export declare function asksTheseK<F>(F: FromThese<F>): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, HKT2<F, E, A>>
+```
+
+Added in v3.0.0
+
+## fromNaturalTransformation
+
+**Signature**
+
+```ts
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
+  nt: NaturalTransformation22<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+export declare function fromNaturalTransformation<F extends URIS, G extends URIS2>(
+  nt: NaturalTransformation12<F, G>
+): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>
+export declare function fromNaturalTransformation<F extends URIS, G extends URIS>(
+  nt: NaturalTransformation11<F, G>
+): <R, A>(f: (r: R) => Kind<F, A>) => Reader<R, Kind<G, A>>
+export declare function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>>
 ```
 
 Added in v3.0.0

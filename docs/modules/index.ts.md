@@ -69,6 +69,7 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
+  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -680,6 +681,16 @@ Added in v3.0.0
 
 ```ts
 export declare const monoid: typeof monoid
+```
+
+Added in v3.0.0
+
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
 ```
 
 Added in v3.0.0

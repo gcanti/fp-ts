@@ -58,6 +58,7 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
+import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -329,6 +330,10 @@ export {
    * @since 3.0.0
    */
   monoid,
+  /**
+   * @since 3.0.0
+   */
+  naturalTransformation,
   /**
    * @since 3.0.0
    */
