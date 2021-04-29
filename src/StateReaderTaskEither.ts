@@ -467,18 +467,6 @@ export const chainW: <S, R2, E2, A, B>(
 ) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = chain as any
 
 /**
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const flatten: <S, R, E, A>(
-  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  chain(identity)
-
-/**
  * Less strict version of [`flatten`](#flatten).
  *
  * @category combinators
@@ -489,6 +477,16 @@ export const flattenW: <S, R1, E1, R2, E2, A>(
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
   /*#__PURE__*/
   chainW(identity)
+
+/**
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const flatten: <S, R, E, A>(
+  mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, A> = flattenW
 
 /**
  * Less strict version of [`alt`](#alt).
