@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 107
+nav_order: 108
 parent: Modules
 ---
 
@@ -231,7 +231,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
 ```
 
 Added in v2.10.0
@@ -243,7 +243,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>>
+export declare const fromOptions: <E, A>(fe: Option<E>, fa: Option<A>) => Option<These<E, A>>
 ```
 
 **Example**

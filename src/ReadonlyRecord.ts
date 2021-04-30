@@ -47,17 +47,13 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
  * @category interop
  * @since 2.5.0
  */
-export function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> {
-  return Object.assign({}, r)
-}
+export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> => Object.assign({}, r)
 
 /**
  * @category interop
  * @since 2.5.0
  */
-export function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> {
-  return Object.assign({}, r)
-}
+export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A> => Object.assign({}, r)
 
 /**
  * Calculate the number of key/value pairs in a `ReadonlyRecord`,

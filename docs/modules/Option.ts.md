@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 67
+nav_order: 68
 parent: Modules
 ---
 
@@ -69,7 +69,6 @@ Added in v2.0.0
   - [fromEitherK](#fromeitherk)
   - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -122,6 +121,8 @@ Added in v2.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
 - [refinements](#refinements)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -543,20 +544,6 @@ export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (
 Added in v2.0.0
 
 # constructors
-
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getright)
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v2.0.0
 
 ## fromPredicate
 
@@ -1409,6 +1396,22 @@ export interface Some<A> {
   readonly _tag: 'Some'
   readonly value: A
 }
+```
+
+Added in v2.0.0
+
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getright)
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Option'>
 ```
 
 Added in v2.0.0

@@ -44,11 +44,11 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// constructors
+// natural transformations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
@@ -152,13 +152,6 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category FromTask
- * @since 2.7.0
- * @deprecated
- */
-export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -338,6 +331,13 @@ export const MonadIO: MonadIO1<URI> = {
   chain: _chain,
   fromIO
 }
+
+/**
+ * @category FromTask
+ * @since 2.7.0
+ * @deprecated
+ */
+export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 /**
  * @category instances

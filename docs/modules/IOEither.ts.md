@@ -58,9 +58,6 @@ Added in v2.0.0
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
@@ -107,6 +104,10 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -558,36 +559,6 @@ export declare const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E>
 Added in v2.0.0
 
 # constructors
-
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: E.Either<E, A>) => IOEither<E, A>
-```
-
-Added in v2.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: I.IO<A>) => IOEither<E, A>
-```
-
-Added in v2.7.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A>
-```
-
-Added in v2.0.0
 
 ## fromPredicate
 
@@ -1068,6 +1039,38 @@ Added in v2.10.0
 
 ```ts
 export interface IOEither<E, A> extends IO<Either<E, A>> {}
+```
+
+Added in v2.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation22<'Either', 'IOEither'>
+```
+
+Added in v2.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'IOEither'>
+```
+
+Added in v2.7.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'IOEither', E>
 ```
 
 Added in v2.0.0

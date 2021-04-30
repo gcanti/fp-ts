@@ -97,13 +97,6 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   /*#__PURE__*/
   chain(identity)
 
-/**
- * @category constructors
- * @since 2.7.0
- * @deprecated
- */
-export const fromIO: FromIO1<URI>['fromIO'] = identity
-
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
@@ -234,6 +227,13 @@ export const Monad: Monad1<URI> = {
 export const chainFirst =
   /*#__PURE__*/
   chainFirst_(Chain)
+
+/**
+ * @category constructors
+ * @since 2.7.0
+ * @deprecated
+ */
+export const fromIO: FromIO1<URI>['fromIO'] = identity
 
 /**
  * @category instances

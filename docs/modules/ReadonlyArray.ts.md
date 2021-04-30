@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -105,8 +105,6 @@ Added in v2.5.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
@@ -162,6 +160,9 @@ Added in v2.5.0
 - [interop](#interop)
   - [fromArray](#fromarray)
   - [toArray](#toarray)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
 - [refinements](#refinements)
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
@@ -1478,28 +1479,6 @@ export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.Rea
 
 Added in v2.11.0
 
-## fromEither
-
-Transforms an `Either` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
-```
-
-Added in v2.11.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
-```
-
-Added in v2.11.0
-
 ## fromPredicate
 
 **Signature**
@@ -2173,6 +2152,30 @@ export declare const toArray: <A>(as: readonly A[]) => A[]
 ```
 
 Added in v2.5.0
+
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'ReadonlyArray'>
+```
+
+Added in v2.11.0
 
 # refinements
 

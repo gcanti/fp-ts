@@ -24,9 +24,10 @@ import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as N from './number'
-import { Option } from './Option'
+import { Option, URI as OURI } from './Option'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -163,19 +164,23 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArr
   return (a) => (predicate(a) ? [a] : empty)
 }
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
 
 /**
  * Transforms an `Either` to a `ReadonlyArray`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft(e) ? empty : [e.right])
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 82
+nav_order: 83
 parent: Modules
 ---
 
@@ -35,10 +35,8 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
-  - [fromMap](#frommap)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toMap](#tomap)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -61,6 +59,9 @@ Added in v2.5.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~readonlyMap~~](#readonlymap)
+- [interop](#interop)
+  - [fromMap](#frommap)
+  - [toMap](#tomap)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -332,16 +333,6 @@ export declare function fromFoldable<F, K, A>(
 
 Added in v2.5.0
 
-## fromMap
-
-**Signature**
-
-```ts
-export declare function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
-
 ## singleton
 
 Create a map with one key/value pair
@@ -355,16 +346,6 @@ export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
 Added in v2.5.0
 
 # destructors
-
-## toMap
-
-**Signature**
-
-```ts
-export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
-```
-
-Added in v2.5.0
 
 ## toUnfoldable
 
@@ -587,6 +568,28 @@ Use small, specific instances instead.
 
 ```ts
 export declare const readonlyMap: Filterable2<'ReadonlyMap'>
+```
+
+Added in v2.5.0
+
+# interop
+
+## fromMap
+
+**Signature**
+
+```ts
+export declare const fromMap: <K, A>(m: Map<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
+
+## toMap
+
+**Signature**
+
+```ts
+export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
 ```
 
 Added in v2.5.0

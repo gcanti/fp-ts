@@ -64,6 +64,7 @@ import * as monadIO from './MonadIO'
 import * as monadTask from './MonadTask'
 import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
+import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -364,6 +365,10 @@ export {
    * @since 2.0.0
    */
   monoid,
+  /**
+   * @since 2.11.0
+   */
+  naturalTransformation,
   /**
    * @since 2.0.0
    */

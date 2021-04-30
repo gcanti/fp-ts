@@ -13,18 +13,19 @@ import {
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
+import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow, Lazy, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
-import { IOEither } from './IOEither'
+import { URI as IEURI } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
+import { NaturalTransformation22 } from './NaturalTransformation'
 import { Pointed2 } from './Pointed'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
 import * as TT from './TheseT'
-import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 
 import These = TH.These
 import Task = T.Task
@@ -95,37 +96,41 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, leftTask)
 
-/**
- * @category constructors
- * @since 2.4.0
- */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  T.fromIO
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 2.7.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
-
-/**
- * @category constructors
- * @since 2.7.0
- */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 2.10.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
 export const fromThese: FromThese2<URI>['fromThese'] = T.of
+
+/**
+ * @category natural transformations
+ * @since 2.7.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+
+/**
+ * @category natural transformations
+ * @since 2.4.0
+ */
+export const fromIOEither: NaturalTransformation22<IEURI, URI> =
+  /*#__PURE__*/
+  T.fromIO
+
+/**
+ * @category natural transformations
+ * @since 2.7.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors

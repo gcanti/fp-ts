@@ -36,8 +36,8 @@ import {
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -47,7 +47,8 @@ import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
+import { NaturalTransformation13C } from './NaturalTransformation'
+import { URI as OURI } from './Option'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
@@ -103,17 +104,21 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
   /*#__PURE__*/
   ET.leftF(R.Functor)
 
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A> = R.of
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromEither: FromEither3<URI>['fromEither'] = R.of
+
+/**
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
+export const fromReader: FromReader3<URI>['fromReader'] = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -782,10 +787,10 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, URI, E> =
   /*#__PURE__*/
   fromOption_(FromEither)
 

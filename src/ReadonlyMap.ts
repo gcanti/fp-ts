@@ -31,19 +31,17 @@ import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 import Option = O.Option
 
 // -------------------------------------------------------------------------------------
-// model
+// interop
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category interop
  * @since 2.5.0
  */
-export function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A> {
-  return new Map(m)
-}
+export const fromMap = <K, A>(m: Map<K, A>): ReadonlyMap<K, A> => new Map(m)
 
 /**
- * @category destructors
+ * @category interop
  * @since 2.5.0
  */
 export function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A> {

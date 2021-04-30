@@ -22,8 +22,8 @@ import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIO
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
   FromReader4,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -46,22 +46,23 @@ import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
-import { IOEither } from './IOEither'
+import { IOEither, URI as IEURI } from './IOEither'
 import { Monad4 } from './Monad'
 import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
-import { Option } from './Option'
+import { NaturalTransformation14C, NaturalTransformation24, NaturalTransformation34 } from './NaturalTransformation'
+import { URI as OURI } from './Option'
 import { Pointed4 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
-import { ReaderEither } from './ReaderEither'
+import { URI as REURI } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import { Refinement } from './Refinement'
 import { State } from './State'
 import * as ST from './StateT'
 import { Task } from './Task'
-import { TaskEither } from './TaskEither'
+import { TaskEither, URI as TEURI } from './TaskEither'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -117,14 +118,6 @@ export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTa
  * @category constructors
  * @since 2.0.0
  */
-export function fromTaskEither<S, R, E, A>(ma: TaskEither<E, A>): StateReaderTaskEither<S, R, E, A> {
-  return fromReaderTaskEither(RTE.fromTaskEither(ma))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
 export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.rightReader(ma))
 }
@@ -135,22 +128,6 @@ export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): State
  */
 export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftReader(me))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReaderTaskEither<S, R, E, A> {
-  return fromReaderTaskEither(RTE.fromIOEither(ma))
-}
-
-/**
- * @category constructors
- * @since 2.0.0
- */
-export function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A> {
-  return fromReaderTaskEither(RTE.fromReaderEither(ma))
 }
 
 /**
@@ -184,47 +161,70 @@ export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateRe
   s
 ) => RTE.left(me(s)[0])
 
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromReaderTaskEither: <S, R, E, A>(ma: ReaderTaskEither<R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  ST.fromF(RTE.Functor)
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 2.11.0
- */
-export const fromReader: <R, A, S, E = never>(ma: Reader<R, A>) => StateReaderTaskEither<S, R, E, A> = rightReader
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: <S, R, E, A>(e: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromEither: FromEither4<URI>['fromEither'] =
   /*#__PURE__*/
   E.match((e) => left(e), right)
 
 /**
- * @category constructors
+ * @category natural transformations
+ * @since 2.11.0
+ */
+export const fromReader: FromReader4<URI>['fromReader'] = rightReader
+
+/**
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromIO: FromIO4<URI>['fromIO'] = rightIO
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromTask: FromTask4<URI>['fromTask'] = rightTask
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.10.0
  */
-export const fromState: <S, A, R, E = never>(sa: State<S, A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromState: FromState4<URI>['fromState'] =
   /*#__PURE__*/
   ST.fromState(RTE.Pointed)
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromTaskEither: NaturalTransformation24<TEURI, URI> = (ma) => fromReaderTaskEither(RTE.fromTaskEither(ma))
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromIOEither: NaturalTransformation24<IEURI, URI> = (ma) => fromReaderTaskEither(RTE.fromIOEither(ma))
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromReaderEither: NaturalTransformation34<REURI, URI> = (ma) =>
+  fromReaderTaskEither(RTE.fromReaderEither(ma))
+
+/**
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromReaderTaskEither: NaturalTransformation34<RTE.URI, URI> =
+  /*#__PURE__*/
+  ST.fromF(RTE.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -317,11 +317,9 @@ export const chainTaskEitherK: <E, A, B>(
  * @category combinators
  * @since 2.4.0
  */
-export function fromReaderTaskEitherK<R, E, A extends ReadonlyArray<unknown>, B>(
+export const fromReaderTaskEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => ReaderTaskEither<R, E, B>
-): <S>(...a: A) => StateReaderTaskEither<S, R, E, B> {
-  return (...a) => fromReaderTaskEither(f(...a))
-}
+): (<S>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromReaderTaskEither(f(...a))
 
 /**
  * Less strict version of [`chainReaderTaskEitherK`](#chainreadertaskeitherk).
@@ -888,10 +886,10 @@ export const FromEither: FromEither4<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A> =
+export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, URI, E> =
   /*#__PURE__*/
   fromOption_(FromEither)
 

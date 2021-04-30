@@ -24,8 +24,9 @@ import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import * as NEA from './NonEmptyArray'
-import { Option } from './Option'
+import { Option, URI as OURI } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -162,19 +163,21 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
   return (a) => (predicate(a) ? [a] : [])
 }
 
-/**
- * @category constructors
- * @since 2.11.0
- */
-export const fromOption = <A>(ma: Option<A>): Array<A> => (_.isNone(ma) ? [] : [ma.value])
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * Transforms an `Either` to a `Array`.
- *
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither = <E, A>(e: Either<E, A>): Array<A> => (_.isLeft(e) ? [] : [e.right])
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? [] : [ma.value])
+
+/**
+ * @category natural transformations
+ * @since 2.11.0
+ */
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? [] : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors

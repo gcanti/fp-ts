@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 103
+nav_order: 104
 parent: Modules
 ---
 
@@ -41,8 +41,6 @@ Added in v2.0.0
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
-- [constructors](#constructors)
-  - [fromIO](#fromio)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -65,6 +63,8 @@ Added in v2.0.0
   - [~~task~~](#task)
 - [model](#model)
   - [Task (interface)](#task-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -101,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: Task<A>) => Task<A>
+export declare const fromTask: NaturalTransformation11<'Task', 'Task'>
 ```
 
 Added in v2.7.0
@@ -280,18 +280,6 @@ export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task
 ```
 
 Added in v2.4.0
-
-# constructors
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => Task<A>
-```
-
-Added in v2.0.0
 
 # instances
 
@@ -524,6 +512,18 @@ Added in v2.0.0
 export interface Task<A> {
   (): Promise<A>
 }
+```
+
+Added in v2.0.0
+
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
 ```
 
 Added in v2.0.0

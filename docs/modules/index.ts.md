@@ -75,6 +75,7 @@ Added in v2.0.0
   - [monadTask](#monadtask)
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
+  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -754,6 +755,16 @@ export declare const monoid: typeof monoid
 ```
 
 Added in v2.0.0
+
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
+```
+
+Added in v2.11.0
 
 ## nonEmptyArray
 

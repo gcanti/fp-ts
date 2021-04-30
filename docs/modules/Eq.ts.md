@@ -132,7 +132,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A>
+export declare const fromEquals: <A>(equals: (x: A, y: A) => boolean) => Eq<A>
 ```
 
 Added in v2.0.0

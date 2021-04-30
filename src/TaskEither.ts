@@ -52,19 +52,19 @@ import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
-import { IOEither } from './IOEither'
+import { IOEither, URI as IEURI } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
+import { NaturalTransformation12C, NaturalTransformation22 } from './NaturalTransformation'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { TaskOption } from './TaskOption'
+import { TaskOption, URI as TOURI } from './TaskOption'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -131,29 +131,40 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, leftTask)
 
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 2.0.0
- */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromIOEither: NaturalTransformation22<IEURI, URI> = T.fromIO
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<TOURI, URI, E> = (onNone) =>
+  T.map(E.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -881,10 +892,10 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -903,13 +914,6 @@ export const fromOptionK =
 export const chainOptionK =
   /*#__PURE__*/
   chainOptionK_(FromEither, Chain)
-
-/**
- * @category constructors
- * @since 2.11.0
- */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
-  T.map(E.fromOption(onNone))
 
 /**
  * @category combinators

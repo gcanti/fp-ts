@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -62,10 +62,7 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromReader](#fromreader)
   - [left](#left)
   - [leftReader](#leftreader)
   - [right](#right)
@@ -106,6 +103,10 @@ Added in v2.0.0
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -680,26 +681,6 @@ export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, 
 
 Added in v2.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -712,16 +693,6 @@ export declare const fromPredicate: {
 ```
 
 Added in v2.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A, E = never>(ma: R.Reader<R, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.11.0
 
 ## left
 
@@ -1137,6 +1108,38 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 ```
 
 Added in v2.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+```
+
+Added in v2.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+```
+
+Added in v2.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
+```
+
+Added in v2.11.0
 
 # utils
 

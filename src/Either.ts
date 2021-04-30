@@ -1097,7 +1097,7 @@ export const FromEither: FromEither2<URI> = {
  *   E.left('error')
  * )
  *
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
 export const fromOption =

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 84
+nav_order: 85
 parent: Modules
 ---
 
@@ -694,7 +694,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
+export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
 ```
 
 Added in v2.5.0
@@ -704,7 +704,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
+export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
 ```
 
 Added in v2.5.0

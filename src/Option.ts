@@ -41,7 +41,7 @@ import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { not, Predicate } from './Predicate'
 import { Refinement } from './Refinement'
-import { Semigroup, first, last } from './Semigroup'
+import { first, last, Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
@@ -180,15 +180,19 @@ export function getRight<E, A>(ma: Either<E, A>): Option<A> {
   return ma._tag === 'Left' ? none : some(ma.right)
 }
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
  * Transforms an `Either` to an `Option` discarding the error.
  *
  * Alias of [getRight](#getright)
  *
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: Either<E, A>) => Option<A> = getRight
+export const fromEither: FromEither1<URI>['fromEither'] = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors

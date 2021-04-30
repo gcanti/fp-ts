@@ -68,7 +68,6 @@ Added in v2.0.0
   - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [right](#right)
@@ -123,6 +122,8 @@ Added in v2.0.0
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
 - [refinements](#refinements)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -682,39 +683,6 @@ export declare function swap<E, A>(ma: Either<E, A>): Either<A, E>
 Added in v2.0.0
 
 # constructors
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  pipe(
-    O.some(1),
-    E.fromOption(() => 'error')
-  ),
-  E.right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    E.fromOption(() => 'error')
-  ),
-  E.left('error')
-)
-```
-
-Added in v2.0.0
 
 ## fromPredicate
 
@@ -1423,6 +1391,41 @@ export interface Right<A> {
   readonly _tag: 'Right'
   readonly right: A
 }
+```
+
+Added in v2.0.0
+
+# natural transformations
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'Either', E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  pipe(
+    O.some(1),
+    E.fromOption(() => 'error')
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    E.fromOption(() => 'error')
+  ),
+  E.left('error')
+)
 ```
 
 Added in v2.0.0

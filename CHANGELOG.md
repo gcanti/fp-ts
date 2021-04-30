@@ -62,6 +62,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `FromThese` module
   - add `void` module
   - add `FromReader` module
+  - add `NaturalTransformation` module
   - `Alt`
     - add `altAll`
   - `Alternative`

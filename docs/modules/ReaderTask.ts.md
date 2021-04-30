@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -47,9 +47,6 @@ Added in v2.3.0
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-  - [fromTask](#fromtask)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -72,6 +69,10 @@ Added in v2.3.0
   - [~~readerTask~~](#readertask)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -454,36 +455,6 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v2.3.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
 # instances
 
 ## ApplicativePar
@@ -694,6 +665,38 @@ Added in v2.3.0
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
 }
+```
+
+Added in v2.3.0
+
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
 ```
 
 Added in v2.3.0

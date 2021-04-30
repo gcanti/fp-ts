@@ -106,8 +106,6 @@ Added in v2.0.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
@@ -169,6 +167,9 @@ Added in v2.0.0
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
   - [~~array~~](#array)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
 - [refinements](#refinements)
   - [isEmpty](#isempty)
   - [isNonEmpty](#isnonempty)
@@ -1439,28 +1440,6 @@ export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray
 
 Added in v2.11.0
 
-## fromEither
-
-Transforms an `Either` to a `Array`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => A[]
-```
-
-Added in v2.11.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: Option<A>) => A[]
-```
-
-Added in v2.11.0
-
 ## fromPredicate
 
 **Signature**
@@ -2335,6 +2314,28 @@ export declare const array: FunctorWithIndex1<'Array', number> &
 ```
 
 Added in v2.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Array'>
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'Array'>
+```
+
+Added in v2.11.0
 
 # refinements
 

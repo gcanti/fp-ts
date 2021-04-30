@@ -14,8 +14,8 @@ import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIO
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
   FromReader2,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -43,7 +43,6 @@ import * as T from './Task'
 // -------------------------------------------------------------------------------------
 
 import Task = T.Task
-import Reader = R.Reader
 
 /**
  * @category model
@@ -54,19 +53,19 @@ export interface ReaderTask<R, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// constructors
+// natural transformations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
+export const fromReader: FromReader2<URI>['fromReader'] =
   /*#__PURE__*/
   RT.fromReader(T.Pointed)
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] =
@@ -74,7 +73,7 @@ export const fromTask: FromTask2<URI>['fromTask'] =
   R.of
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] =

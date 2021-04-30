@@ -435,15 +435,14 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
-  return _.isNone(fe)
+export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
+  _.isNone(fe)
     ? _.isNone(fa)
       ? _.none
       : _.some(right(fa.value))
     : _.isNone(fa)
     ? _.some(left(fe.value))
     : _.some(both(fe.value, fa.value))
-}
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
