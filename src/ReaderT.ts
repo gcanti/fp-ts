@@ -3,24 +3,9 @@
  */
 import type { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
 import type { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import type { Either } from './Either'
-import type {
-  FromEither,
-  FromEither1,
-  FromEither2,
-  FromEither2C,
-  FromEither3,
-  FromEither3C,
-  FromEither4
-} from './FromEither'
-import type { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
-import type { FromState, FromState2, FromState3, FromState3C, FromState4 } from './FromState'
-import type { FromTask, FromTask1, FromTask2, FromTask2C, FromTask3, FromTask3C, FromTask4 } from './FromTask'
-import type { FromThese, FromThese2, FromThese2C, FromThese3, FromThese3C, FromThese4 } from './FromThese'
 import { flow, pipe } from './function'
 import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
-import type { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import type { IO } from './IO'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import type {
   NaturalTransformation,
   NaturalTransformation11,
@@ -31,9 +16,6 @@ import type {
 } from './NaturalTransformation'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
-import type { State } from './State'
-import type { Task } from './Task'
-import type { These } from './These'
 
 /**
  * @since 3.0.0
@@ -206,122 +188,4 @@ export function fromNaturalTransformation<F, G>(
   nt: NaturalTransformation<F, G>
 ): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>> {
   return (f) => flow(f, nt)
-}
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function asksEitherK<F extends URIS4>(
-  F: FromEither4<F>
-): <R, E, A, S, FR>(f: (r: R) => Either<E, A>) => Reader<R, Kind4<F, S, FR, E, A>>
-export function asksEitherK<F extends URIS3>(
-  F: FromEither3<F>
-): <R, E, A, FR>(f: (r: R) => Either<E, A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksEitherK<F extends URIS3, E>(
-  F: FromEither3C<F, E>
-): <R, A, FR>(f: (r: R) => Either<E, A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksEitherK<F extends URIS2>(
-  F: FromEither2<F>
-): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, Kind2<F, E, A>>
-export function asksEitherK<F extends URIS2, E>(
-  F: FromEither2C<F, E>
-): <R, A>(f: (r: R) => Either<E, A>) => Reader<R, Kind2<F, E, A>>
-export function asksEitherK<F extends URIS>(
-  F: FromEither1<F>
-): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, Kind<F, A>>
-export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, HKT2<F, E, A>>
-export function asksEitherK<F>(F: FromEither<F>): <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, HKT2<F, E, A>> {
-  return (f) => flow(f, F.fromEither)
-}
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function asksIOK<F extends URIS4>(
-  F: FromIO4<F>
-): <R, A, S, FR, E>(f: (r: R) => IO<A>) => Reader<R, Kind4<F, S, FR, E, A>>
-export function asksIOK<F extends URIS3>(
-  F: FromIO3<F>
-): <R, A, FR, E>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksIOK<F extends URIS3, E>(
-  F: FromIO3C<F, E>
-): <R, A, FR>(f: (r: R) => IO<A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksIOK<F extends URIS2>(F: FromIO2<F>): <R, A, E>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, E, A>>
-export function asksIOK<F extends URIS2, E>(F: FromIO2C<F, E>): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind2<F, E, A>>
-export function asksIOK<F extends URIS>(F: FromIO1<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, Kind<F, A>>
-export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>>
-export function asksIOK<F>(F: FromIO<F>): <R, A>(f: (r: R) => IO<A>) => Reader<R, HKT<F, A>> {
-  return (f) => flow(f, F.fromIO)
-}
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function asksStateK<F extends URIS4>(
-  F: FromState4<F>
-): <R, S, A, FR, E>(f: (r: R) => State<S, A>) => Reader<R, Kind4<F, S, FR, E, A>>
-export function asksStateK<F extends URIS3>(
-  F: FromState3<F>
-): <R, S, A, E>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, E, A>>
-export function asksStateK<F extends URIS3, E>(
-  F: FromState3C<F, E>
-): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind3<F, S, E, A>>
-export function asksStateK<F extends URIS2>(
-  F: FromState2<F>
-): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, Kind2<F, S, A>>
-export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>>
-export function asksStateK<F>(F: FromState<F>): <R, S, A>(f: (r: R) => State<S, A>) => Reader<R, HKT2<F, S, A>> {
-  return (f) => flow(f, F.fromState)
-}
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function asksTaskK<F extends URIS4>(
-  F: FromTask4<F>
-): <R, A, S, FR, E>(f: (r: R) => Task<A>) => Reader<R, Kind4<F, S, FR, E, A>>
-export function asksTaskK<F extends URIS3>(
-  F: FromTask3<F>
-): <R, A, FR, E>(f: (r: R) => Task<A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksTaskK<F extends URIS3, E>(
-  F: FromTask3C<F, E>
-): <R, A, FR>(f: (r: R) => Task<A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksTaskK<F extends URIS2>(
-  F: FromTask2<F>
-): <R, A, E>(f: (r: R) => Task<A>) => Reader<R, Kind2<F, E, A>>
-export function asksTaskK<F extends URIS2, E>(
-  F: FromTask2C<F, E>
-): <R, A>(f: (r: R) => Task<A>) => Reader<R, Kind2<F, E, A>>
-export function asksTaskK<F extends URIS>(F: FromTask1<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, Kind<F, A>>
-export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, HKT<F, A>>
-export function asksTaskK<F>(F: FromTask<F>): <R, A>(f: (r: R) => Task<A>) => Reader<R, HKT<F, A>> {
-  return (f) => flow(f, F.fromTask)
-}
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export function asksTheseK<F extends URIS4>(
-  F: FromThese4<F>
-): <R, E, A, S, FR>(f: (r: R) => These<E, A>) => Reader<R, Kind4<F, S, FR, E, A>>
-export function asksTheseK<F extends URIS3>(
-  F: FromThese3<F>
-): <R, E, A, FR>(f: (r: R) => These<E, A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksTheseK<F extends URIS3, E>(
-  F: FromThese3C<F, E>
-): <R, A, FR>(f: (r: R) => These<E, A>) => Reader<R, Kind3<F, FR, E, A>>
-export function asksTheseK<F extends URIS2>(
-  F: FromThese2<F>
-): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, Kind2<F, E, A>>
-export function asksTheseK<F extends URIS2, E>(
-  F: FromThese2C<F, E>
-): <R, A>(f: (r: R) => These<E, A>) => Reader<R, Kind2<F, E, A>>
-export function asksTheseK<F>(F: FromThese<F>): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, HKT2<F, E, A>>
-export function asksTheseK<F>(F: FromThese<F>): <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, HKT2<F, E, A>> {
-  return (f) => flow(f, F.fromThese)
 }
