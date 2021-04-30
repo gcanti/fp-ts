@@ -397,7 +397,7 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.10.0
  */
 export const fromOption =

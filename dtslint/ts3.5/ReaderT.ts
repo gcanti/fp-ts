@@ -4,7 +4,7 @@ import * as TTH from '../../src/TaskThese'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as SRTE from '../../src/StateReaderTaskEither'
 
-// $ExpectType <R, A, E>(f: (r: R) => Either<E, A>) => Reader<R, TaskEither<E, A>>
+// $ExpectType <R, E, A>(f: (r: R) => Either<E, A>) => Reader<R, TaskEither<E, A>>
 _.fromNaturalTransformation(TE.fromEither)
 
 // $ExpectType <R, A, E>(f: (r: R) => IO<A>) => Reader<R, TaskEither<E, A>>
@@ -19,5 +19,5 @@ _.fromNaturalTransformation(SRTE.fromState)
 // $ExpectType <R, A, E>(f: (r: R) => Task<A>) => Reader<R, TaskEither<E, A>>
 _.fromNaturalTransformation(TE.fromTask)
 
-// // $ExpectType <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, TaskThese<E, A>>
-// _.fromNaturalTransformation(TTH.fromThese)
+// $ExpectType <R, E, A>(f: (r: R) => These<E, A>) => Reader<R, TaskThese<E, A>>
+_.fromNaturalTransformation(TTH.fromThese)

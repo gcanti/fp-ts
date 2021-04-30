@@ -28,7 +28,6 @@ Added in v2.4.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
@@ -67,6 +66,7 @@ Added in v2.4.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
 - [utils](#utils)
@@ -205,16 +205,6 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 ```
 
 Added in v2.4.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
-```
-
-Added in v2.10.0
 
 ## fromPredicate
 
@@ -606,6 +596,16 @@ export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskThes
 ```
 
 Added in v2.4.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
+```
+
+Added in v2.10.0
 
 ## fromTask
 

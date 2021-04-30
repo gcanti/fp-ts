@@ -160,7 +160,7 @@ export const fromEither: FromEither2<URI>['fromEither'] = T.of
 export const fromIOEither: NaturalTransformation22<IEURI, URI> = T.fromIO
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
 export const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<TOURI, URI, E> = (onNone) =>

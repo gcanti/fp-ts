@@ -71,7 +71,6 @@ Added in v2.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
-  - [fromTaskOption](#fromtaskoption)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -128,6 +127,7 @@ Added in v2.0.0
   - [fromIOEither](#fromioeither)
   - [fromOption](#fromoption)
   - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
 - [utils](#utils)
   - [Do](#do)
   - [apS](#aps)
@@ -750,16 +750,6 @@ export declare const fromPredicate: {
 
 Added in v2.0.0
 
-## fromTaskOption
-
-**Signature**
-
-```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
-```
-
-Added in v2.11.0
-
 ## left
 
 **Signature**
@@ -1351,6 +1341,16 @@ export declare const fromTask: NaturalTransformation12<'Task', 'TaskEither'>
 ```
 
 Added in v2.7.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
+```
+
+Added in v2.11.0
 
 # utils
 

@@ -49,7 +49,7 @@ export declare function fromNaturalTransformation<F extends URIS2, G extends URI
 ): <R, A, E>(f: (r: R) => Kind2<F, R, A>) => Reader<R, Kind3<G, R, E, A>>
 export declare function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
   nt: NaturalTransformation22<F, G>
-): <R, A, E>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+): <R, E, A>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
 export declare function fromNaturalTransformation<F extends URIS, G extends URIS2>(
   nt: NaturalTransformation12<F, G>
 ): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>
