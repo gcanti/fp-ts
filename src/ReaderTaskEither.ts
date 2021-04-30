@@ -458,6 +458,24 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
 /**
+ * Less strict version of [`chainFirstTaskEitherK`](#chainFirstTaskEitherK).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => chainFirstW(fromTaskEitherK(f))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstTaskEitherK: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstTaskEitherKW
+
+/**
  * @category combinators
  * @since 2.11.0
  */
