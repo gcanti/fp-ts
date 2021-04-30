@@ -45,10 +45,11 @@ import {
 import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
-import type { IO } from './IO'
-import type { IOEither } from './IOEither'
+import type { IO, URI as IOURI } from './IO'
+import type { IOEither, URI as IEURI } from './IOEither'
 import type { Monad2 } from './Monad'
 import type { Monoid } from './Monoid'
+import { NaturalTransformation12, NaturalTransformation22 } from './NaturalTransformation'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Pointed2 } from './Pointed'
 import type { Predicate } from './Predicate'
@@ -127,32 +128,36 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskEither<E, A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const fromTaskOption = <E>(onNone: Lazy<E>): (<A>(fa: TaskOption<A>) => TaskEither<E, A>) =>
   T.map(E.fromOption(onNone))
 
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+export const fromIO: NaturalTransformation12<IOURI, URI> = rightIO
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromTask: NaturalTransformation12<T.URI, URI> = rightTask
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: NaturalTransformation22<E.URI, URI> = T.of
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIOEither: NaturalTransformation22<IEURI, URI> = T.fromIO
 
 // -------------------------------------------------------------------------------------
 // destructors

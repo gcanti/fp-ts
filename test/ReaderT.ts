@@ -9,7 +9,7 @@ import * as U from './util'
 
 describe('ReaderT', () => {
   it('fromNaturalTransformation', async () => {
-    const fromReaderIO = _.fromNaturalTransformation<IO.URI, TE.URI>(TE.fromIO)
+    const fromReaderIO = _.fromNaturalTransformation(TE.fromIO)
     const f = (s: string): IO.IO<number> => IO.of(s.length)
     const fa = fromReaderIO(f)
     U.deepStrictEqual(await fa('a')(), E.right(1))
