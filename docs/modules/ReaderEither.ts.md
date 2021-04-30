@@ -56,10 +56,7 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
   - [asksReaderEitherW](#asksreadereitherw)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromReader](#fromreader)
   - [left](#left)
   - [leftReader](#leftreader)
   - [right](#right)
@@ -98,6 +95,10 @@ Added in v3.0.0
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -595,28 +596,6 @@ export declare const asksReaderEitherW: <R1, R2, E, A>(
 
 Added in v3.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A, R>(e: E.Either<E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -628,16 +607,6 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <R, B>(b: B) => ReaderEither<R, B, B>
 }
-```
-
-Added in v3.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A, E = never>(ma: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1023,6 +992,40 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
 ```
 
 Added in v3.0.0

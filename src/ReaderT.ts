@@ -25,7 +25,9 @@ import type {
   NaturalTransformation,
   NaturalTransformation11,
   NaturalTransformation12,
-  NaturalTransformation22
+  NaturalTransformation22,
+  NaturalTransformation23R,
+  NaturalTransformation24S
 } from './NaturalTransformation'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import type { Reader } from './Reader'
@@ -182,9 +184,15 @@ export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader
  * @category constructors
  * @since 3.0.0
  */
+export function fromNaturalTransformation<F extends URIS2, G extends URIS4>(
+  nt: NaturalTransformation24S<F, G>
+): <R, S, A, E>(f: (r: R) => Kind2<F, S, A>) => Reader<R, Kind4<G, S, R, E, A>>
+export function fromNaturalTransformation<F extends URIS2, G extends URIS3>(
+  nt: NaturalTransformation23R<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, R, A>) => Reader<R, Kind3<G, R, E, A>>
 export function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
   nt: NaturalTransformation22<F, G>
-): <R, A, E>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+): <R, E, A>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
 export function fromNaturalTransformation<F extends URIS, G extends URIS2>(
   nt: NaturalTransformation12<F, G>
 ): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>

@@ -477,7 +477,7 @@ export const FromEither: FromEither2<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =

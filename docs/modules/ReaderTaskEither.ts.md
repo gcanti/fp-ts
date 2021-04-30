@@ -78,15 +78,8 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [asksReaderTaskEitherW](#asksreadertaskeitherw)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -135,6 +128,14 @@ Added in v3.0.0
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -916,48 +917,6 @@ export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
 
 Added in v3.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A, R>(e: E.Either<E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A, R>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -973,42 +932,12 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
 ## fromReaderEither
 
 **Signature**
 
 ```ts
-export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, R, E>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <R, E, A>(ma: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromReaderEither: NaturalTransformation33<'ReaderEither', 'ReaderTaskEither'>
 ```
 
 Added in v3.0.0
@@ -1503,6 +1432,80 @@ Added in v3.0.0
 export interface ReaderTaskEither<R, E, A> {
   (r: R): TaskEither<E, A>
 }
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation23<'Either', 'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation13<'IO', 'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation23<'IOEither', 'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderTaskEither', E>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation13<'Task', 'ReaderTaskEither'>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: NaturalTransformation23<'TaskEither', 'ReaderTaskEither'>
 ```
 
 Added in v3.0.0

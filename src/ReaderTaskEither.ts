@@ -32,8 +32,8 @@ import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIO
 import {
   ask as ask_,
   asks as asks_,
-  chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
@@ -47,13 +47,14 @@ import { flow, identity, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { IOEither } from './IOEither'
+import type { IOEither, URI as IEURI } from './IOEither'
 import type { Monad3 } from './Monad'
 import type { Monoid } from './Monoid'
+import { NaturalTransformation23, NaturalTransformation33 } from './NaturalTransformation'
 import type { Pointed3 } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
-import type { ReaderEither } from './ReaderEither'
+import type { ReaderEither, URI as REURI } from './ReaderEither'
 import * as RT from './ReaderTask'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -61,15 +62,15 @@ import type { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TE from './TaskEither'
 
-// -------------------------------------------------------------------------------------
-// model
-// -------------------------------------------------------------------------------------
-
 import Either = E.Either
 import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
 import ReaderTask = RT.ReaderTask
+
+// -------------------------------------------------------------------------------------
+// model
+// -------------------------------------------------------------------------------------
 
 /**
  * @category model
@@ -84,10 +85,10 @@ export interface ReaderTaskEither<R, E, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskEither: <R, E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<R, E, A> =
+export const fromTaskEither: NaturalTransformation23<TE.URI, URI> =
   /*#__PURE__*/
   R.of
 
@@ -155,21 +156,6 @@ export const leftReaderTask: <R, E, A = never>(me: ReaderTask<R, E>) => ReaderTa
  * @category constructors
  * @since 3.0.0
  */
-export const fromIOEither: <E, A, R>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/
-  flow(TE.fromIOEither, fromTaskEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromReaderEither = <R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A> =>
-  flow(ma, TE.fromEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.rightIO, fromTaskEither)
@@ -181,30 +167,6 @@ export const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> 
 export const leftIO: <E, R, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> =
   /*#__PURE__*/
   flow(TE.leftIO, fromTaskEither)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromReader: FromReader3<URI>['fromReader'] = rightReader
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromEither: FromEither3<URI>['fromEither'] = RT.of
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromIO: FromIO3<URI>['fromIO'] = rightIO
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromTask: FromTask3<URI>['fromTask'] = rightTask
 
 /**
  * Less strict version of [`asksReaderTaskEitherK`](#asksreadertaskeitherk).
@@ -223,6 +185,48 @@ export const asksReaderTaskEitherW: <R1, R2, E, A>(
 export const asksReaderTaskEither: <R, E, A>(
   f: (r: R) => ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, A> = asksReaderTaskEitherW
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: FromEither3<URI>['fromEither'] = RT.of
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromReader: FromReader3<URI>['fromReader'] = rightReader
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIO: FromIO3<URI>['fromIO'] = rightIO
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromTask: FromTask3<URI>['fromTask'] = rightTask
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIOEither: NaturalTransformation23<IEURI, URI> =
+  /*#__PURE__*/
+  flow(TE.fromIOEither, fromTaskEither)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromReaderEither: NaturalTransformation33<REURI, URI> = (ma) => flow(ma, TE.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -1008,7 +1012,7 @@ export const FromEither: FromEither3<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =

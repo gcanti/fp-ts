@@ -19,8 +19,9 @@ import { flow, SK } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { IOEither } from './IOEither'
+import type { URI as IEURI } from './IOEither'
 import type { Monad2C } from './Monad'
+import { NaturalTransformation22 } from './NaturalTransformation'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Pointed2 } from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -99,10 +100,10 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A> =
   flow(T.fromIO, leftTask)
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
+export const fromIOEither: NaturalTransformation22<IEURI, URI> =
   /*#__PURE__*/
   T.fromIO
 
@@ -333,7 +334,7 @@ export const FromEither: FromEither2<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =

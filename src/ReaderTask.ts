@@ -48,28 +48,6 @@ export interface ReaderTask<R, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const fromTask: <R, A>(ma: Task<A>) => ReaderTask<R, A> = R.of
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromIO: FromIO2<URI>['fromIO'] =
-  /*#__PURE__*/
-  flow(T.fromIO, fromTask)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromReader: FromReader2<URI>['fromReader'] =
-  /*#__PURE__*/
-  RT.fromReader(T.Pointed)
-
-/**
  * Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
  *
  * @category constructors
@@ -82,6 +60,34 @@ export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => R
  * @since 3.0.0
  */
 export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromReader: FromReader2<URI>['fromReader'] =
+  /*#__PURE__*/
+  RT.fromReader(T.Pointed)
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromTask: FromTask2<URI>['fromTask'] =
+  /*#__PURE__*/
+  R.of
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromIO: FromIO2<URI>['fromIO'] =
+  /*#__PURE__*/
+  flow(T.fromIO, fromTask)
 
 // -------------------------------------------------------------------------------------
 // combinators

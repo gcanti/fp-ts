@@ -46,12 +46,7 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
   - [none](#none)
   - [some](#some)
 - [derivable combinators](#derivable-combinators)
@@ -92,6 +87,12 @@ Added in v3.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -382,36 +383,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -421,26 +392,6 @@ export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
 }
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -844,6 +795,58 @@ Added in v3.0.0
 
 ```ts
 export interface TaskOption<A> extends Task<Option<A>> {}
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
 ```
 
 Added in v3.0.0

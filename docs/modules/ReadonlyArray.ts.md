@@ -95,8 +95,6 @@ Added in v3.0.0
   - [append](#append)
   - [appendW](#appendw)
   - [comprehension](#comprehension)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [makeBy](#makeby)
   - [prepend](#prepend)
@@ -150,6 +148,9 @@ Added in v3.0.0
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -1277,28 +1278,6 @@ assert.deepStrictEqual(
 
 Added in v3.0.0
 
-## fromEither
-
-Transforms an `Either` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -1952,6 +1931,30 @@ Added in v3.0.0
 
 ```ts
 export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<readonly A[]>
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'ReadonlyArray'>
 ```
 
 Added in v3.0.0

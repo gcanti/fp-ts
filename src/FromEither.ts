@@ -4,11 +4,22 @@
  * @since 3.0.0
  */
 import type { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
-import type { Either } from './Either'
+import type { Either, URI as EURI } from './Either'
 import { flow, Lazy, pipe } from './function'
 import type { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
-import type { Option } from './Option'
+import {
+  NaturalTransformation12C,
+  NaturalTransformation13C,
+  NaturalTransformation14C,
+  NaturalTransformation21,
+  NaturalTransformation22,
+  NaturalTransformation22C,
+  NaturalTransformation23,
+  NaturalTransformation23C,
+  NaturalTransformation24
+} from './NaturalTransformation'
+import type { Option, URI as OURI } from './Option'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 
@@ -31,7 +42,7 @@ export interface FromEither<F> {
  */
 export interface FromEither1<F extends URIS> {
   readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
+  readonly fromEither: NaturalTransformation21<EURI, F>
 }
 
 /**
@@ -40,7 +51,7 @@ export interface FromEither1<F extends URIS> {
  */
 export interface FromEither2<F extends URIS2> {
   readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind2<F, E, A>
+  readonly fromEither: NaturalTransformation22<EURI, F>
 }
 
 /**
@@ -50,7 +61,7 @@ export interface FromEither2<F extends URIS2> {
 export interface FromEither2C<F extends URIS2, E> {
   readonly URI?: F
   readonly _E?: E
-  readonly fromEither: <A>(e: Either<E, A>) => Kind2<F, E, A>
+  readonly fromEither: NaturalTransformation22C<EURI, F, E>
 }
 
 /**
@@ -59,7 +70,7 @@ export interface FromEither2C<F extends URIS2, E> {
  */
 export interface FromEither3<F extends URIS3> {
   readonly URI?: F
-  readonly fromEither: <E, A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: NaturalTransformation23<EURI, F>
 }
 
 /**
@@ -69,7 +80,7 @@ export interface FromEither3<F extends URIS3> {
 export interface FromEither3C<F extends URIS3, E> {
   readonly URI?: F
   readonly _E?: E
-  readonly fromEither: <A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: NaturalTransformation23C<EURI, F, E>
 }
 
 /**
@@ -78,7 +89,7 @@ export interface FromEither3C<F extends URIS3, E> {
  */
 export interface FromEither4<F extends URIS4> {
   readonly URI?: F
-  readonly fromEither: <E, A, S, R>(e: Either<E, A>) => Kind4<F, S, R, E, A>
+  readonly fromEither: NaturalTransformation24<EURI, F>
 }
 
 // -------------------------------------------------------------------------------------
@@ -91,19 +102,19 @@ export interface FromEither4<F extends URIS4> {
  */
 export function fromOption<F extends URIS4>(
   F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => <A, S, R>(ma: Option<A>) => Kind4<F, S, R, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, F, E>
 export function fromOption<F extends URIS3>(
   F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
 export function fromOption<F extends URIS3, E>(
   F: FromEither3C<F, E>
-): (onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
+): (onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
 export function fromOption<F extends URIS2>(
   F: FromEither2<F>
-): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
 export function fromOption<F extends URIS2, E>(
   F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+): (onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 export function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A> {
   return (onNone) => (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))

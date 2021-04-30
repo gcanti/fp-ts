@@ -86,14 +86,18 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
   /*#__PURE__*/
   ET.leftF(I.Functor)
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
@@ -641,7 +645,7 @@ export const FromEither: FromEither2<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =

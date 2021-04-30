@@ -156,15 +156,19 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (_.isRight(ma) ? n
  */
 export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (_.isLeft(ma) ? none : some(ma.right))
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
  * Transforms an `Either` to an `Option` discarding the error.
  *
  * Alias of [getRight](#getRight)
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither = getRight
+export const fromEither: FromEither1<URI>['fromEither'] = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors

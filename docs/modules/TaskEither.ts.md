@@ -64,9 +64,7 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTaskOption](#fromtaskoption)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -116,7 +114,9 @@ Added in v3.0.0
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
   - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
   - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -657,18 +657,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -680,16 +668,6 @@ export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => TaskEither<A, B>
   <A>(predicate: Predicate<A>): <B>(b: B) => TaskEither<B, B>
 }
-```
-
-Added in v3.0.0
-
-## fromTaskOption
-
-**Signature**
-
-```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1198,12 +1176,34 @@ export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskEith
 
 Added in v3.0.0
 
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskEither', E>
+```
+
+Added in v3.0.0
+
 ## fromTask
 
 **Signature**
 
 ```ts
 export declare const fromTask: NaturalTransformation12<'Task', 'TaskEither'>
+```
+
+Added in v3.0.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
 ```
 
 Added in v3.0.0

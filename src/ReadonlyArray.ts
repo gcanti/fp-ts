@@ -25,9 +25,10 @@ import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monad1 } from './Monad'
 import type { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import * as NEA from './NonEmptyArray'
 import * as N from './number'
-import type { Option } from './Option'
+import type { Option, URI as OURI } from './Option'
 import { fromCompare, Ord } from './Ord'
 import type { Pointed1 } from './Pointed'
 import type { Predicate } from './Predicate'
@@ -46,20 +47,6 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 // -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
-
-/**
- * Transforms an `Either` to a `ReadonlyArray`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft(e) ? empty : [e.right])
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -93,6 +80,24 @@ export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyArray<A> 
  * @since 3.0.0
  */
 export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(() => a)
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
+
+/**
+ * Transforms an `Either` to a `ReadonlyArray`.
+ *
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors

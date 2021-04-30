@@ -90,18 +90,6 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, 
   ET.leftF(R.Functor)
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const fromEither: FromEither3<URI>['fromEither'] = R.of
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromReader: <R, A, E = never>(ma: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
-
-/**
  * Less strict version of [`asksReaderEitherK`](#asksreadereitherk).
  *
  * @category constructors
@@ -117,6 +105,22 @@ export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E
 export const asksReaderEither: <R, E, A>(
   f: (r: R) => ReaderEither<R, E, A>
 ) => ReaderEither<R, E, A> = asksReaderEitherW
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: FromEither3<URI>['fromEither'] = R.of
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromReader: FromReader3<URI>['fromReader'] = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -683,7 +687,7 @@ export const FromEither: FromEither3<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =

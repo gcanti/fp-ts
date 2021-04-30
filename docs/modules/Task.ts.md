@@ -215,7 +215,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A>(fa: IO<A>) => Task<A>
+export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
 ```
 
 Added in v3.0.0

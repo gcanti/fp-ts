@@ -43,9 +43,6 @@ Added in v3.0.0
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
   - [asksReaderTaskW](#asksreadertaskw)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-  - [fromTask](#fromtask)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -66,6 +63,10 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -390,36 +391,6 @@ export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, 
 
 Added in v3.0.0
 
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => ReaderTask<E, A>
-```
-
-Added in v3.0.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
 # derivable combinators
 
 ## apFirst
@@ -611,6 +582,38 @@ Added in v3.0.0
 export interface ReaderTask<R, A> {
   (r: R): Task<A>
 }
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
 ```
 
 Added in v3.0.0

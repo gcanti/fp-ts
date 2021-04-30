@@ -166,9 +166,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS4>(
+  nt: NaturalTransformation24S<F, G>
+): <R, S, A, E>(f: (r: R) => Kind2<F, S, A>) => Reader<R, Kind4<G, S, R, E, A>>
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS3>(
+  nt: NaturalTransformation23R<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, R, A>) => Reader<R, Kind3<G, R, E, A>>
 export declare function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
   nt: NaturalTransformation22<F, G>
-): <R, A, E>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+): <R, E, A>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
 export declare function fromNaturalTransformation<F extends URIS, G extends URIS2>(
   nt: NaturalTransformation12<F, G>
 ): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>

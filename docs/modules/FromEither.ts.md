@@ -239,19 +239,19 @@ Added in v3.0.0
 ```ts
 export declare function fromOption<F extends URIS4>(
   F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => <A, S, R>(ma: Option<A>) => Kind4<F, S, R, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, F, E>
 export declare function fromOption<F extends URIS3>(
   F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
 export declare function fromOption<F extends URIS3, E>(
   F: FromEither3C<F, E>
-): (onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
+): (onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
 export declare function fromOption<F extends URIS2>(
   F: FromEither2<F>
-): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+): <E>(onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
 export declare function fromOption<F extends URIS2, E>(
   F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
+): (onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
 export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 ```
 
@@ -318,7 +318,7 @@ Added in v3.0.0
 ```ts
 export interface FromEither1<F extends URIS> {
   readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind<F, A>
+  readonly fromEither: NaturalTransformation21<EURI, F>
 }
 ```
 
@@ -331,7 +331,7 @@ Added in v3.0.0
 ```ts
 export interface FromEither2<F extends URIS2> {
   readonly URI?: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind2<F, E, A>
+  readonly fromEither: NaturalTransformation22<EURI, F>
 }
 ```
 
@@ -345,7 +345,7 @@ Added in v3.0.0
 export interface FromEither2C<F extends URIS2, E> {
   readonly URI?: F
   readonly _E?: E
-  readonly fromEither: <A>(e: Either<E, A>) => Kind2<F, E, A>
+  readonly fromEither: NaturalTransformation22C<EURI, F, E>
 }
 ```
 
@@ -358,7 +358,7 @@ Added in v3.0.0
 ```ts
 export interface FromEither3<F extends URIS3> {
   readonly URI?: F
-  readonly fromEither: <E, A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: NaturalTransformation23<EURI, F>
 }
 ```
 
@@ -372,7 +372,7 @@ Added in v3.0.0
 export interface FromEither3C<F extends URIS3, E> {
   readonly URI?: F
   readonly _E?: E
-  readonly fromEither: <A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromEither: NaturalTransformation23C<EURI, F, E>
 }
 ```
 
@@ -385,7 +385,7 @@ Added in v3.0.0
 ```ts
 export interface FromEither4<F extends URIS4> {
   readonly URI?: F
-  readonly fromEither: <E, A, S, R>(e: Either<E, A>) => Kind4<F, S, R, E, A>
+  readonly fromEither: NaturalTransformation24<EURI, F>
 }
 ```
 

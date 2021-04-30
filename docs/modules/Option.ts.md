@@ -60,7 +60,6 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
@@ -113,6 +112,8 @@ Added in v3.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -426,20 +427,6 @@ export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (..
 Added in v3.0.0
 
 # constructors
-
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getRight)
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v3.0.0
 
 ## fromPredicate
 
@@ -1240,6 +1227,22 @@ export interface Some<A> {
   readonly _tag: 'Some'
   readonly value: A
 }
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getRight)
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Option'>
 ```
 
 Added in v3.0.0

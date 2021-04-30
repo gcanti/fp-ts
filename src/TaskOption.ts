@@ -7,7 +7,6 @@ import type { Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
-import type { Either } from './Either'
 import {
   filter as filter_,
   Filterable1,
@@ -15,6 +14,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
+import { FromEither1 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import {
   chainFirstTaskK as chainFirstTaskK_,
@@ -26,6 +26,7 @@ import { flow, identity, Lazy, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import * as _ from './internal'
 import type { Monad1 } from './Monad'
+import { NaturalTransformation11, NaturalTransformation21 } from './NaturalTransformation'
 import type { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
@@ -34,7 +35,7 @@ import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import * as T from './Task'
-import type { TaskEither } from './TaskEither'
+import type { TaskEither, URI as TEURI } from './TaskEither'
 
 import Task = T.Task
 import Option = O.Option
@@ -65,12 +66,6 @@ export const some: <A>(a: A) => TaskOption<A> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromOption: <A>(ma: Option<A>) => TaskOption<A> = T.of
-
-/**
- * @category constructors
- * @since 3.0.0
- */
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
@@ -78,35 +73,45 @@ export const fromPredicate: {
   /*#__PURE__*/
   OT.fromPredicate(T.Pointed)
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A> =
+export const fromOption: NaturalTransformation11<O.URI, URI> = T.of
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: FromEither1<URI>['fromEither'] =
   /*#__PURE__*/
   OT.fromEither(T.Pointed)
 
 /**
- * @category constructors
- * @since 3.0.0
- */
-export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> =
-  /*#__PURE__*/
-  T.map(O.fromEither)
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A>(ma: Task<A>) => TaskOption<A> =
+export const fromTask: FromTask1<URI>['fromTask'] =
   /*#__PURE__*/
   OT.fromF(T.Functor)
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromTaskEither: NaturalTransformation21<TEURI, URI> =
+  /*#__PURE__*/
+  T.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors

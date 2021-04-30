@@ -47,7 +47,6 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -80,6 +79,8 @@ Added in v3.0.0
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [getLeft](#getleft)
@@ -220,18 +221,6 @@ Added in v3.0.0
 
 ```ts
 export declare const both: <E, A>(left: E, right: A) => These<E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -579,6 +568,20 @@ Added in v3.0.0
 
 ```ts
 export type These<E, A> = Either<E, A> | Both<E, A>
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
 ```
 
 Added in v3.0.0
