@@ -38,6 +38,8 @@ Added in v3.0.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstReaderTaskK](#chainfirstreadertaskk)
   - [chainFirstReaderTaskKW](#chainfirstreadertaskkw)
+  - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
+  - [chainFirstTaskEitherKW](#chainfirsttaskeitherkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
@@ -421,6 +423,32 @@ export declare const chainFirstReaderTaskKW: <A, R2, B>(
 ```
 
 Added in v3.0.0
+
+## chainFirstTaskEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskEitherK: <E, A, B>(
+  f: (a: A) => TE.TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstTaskEitherKW
+
+Less strict version of [`chainFirstTaskEitherK`](#chainFirstTaskEitherK).
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TE.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v2.11.0
 
 ## chainFirstTaskK
 
