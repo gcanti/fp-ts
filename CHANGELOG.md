@@ -166,6 +166,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainFirstReaderTaskK`, `chainFirstReaderTaskKW`
     - add `chainReaderEitherK`, `chainReaderEitherKW`
     - add `chainFirstReaderEitherK`, `chainFirstReaderEitherKW`
+    - add `chainFirstTaskEitherK`, `chainFirstTaskEitherKW`
     - add `flattenW`
   - `ReadonlyArray`
     - add `prependW`, `appendW` (@thewilkybarkid)
