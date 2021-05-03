@@ -15,8 +15,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -62,6 +60,8 @@ Added in v3.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [chop](#chop)
   - [concat](#concat)
@@ -96,6 +96,7 @@ Added in v3.0.0
   - [appendW](#appendw)
   - [comprehension](#comprehension)
   - [fromPredicate](#frompredicate)
+  - [guard](#guard)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
@@ -117,7 +118,7 @@ Added in v3.0.0
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
@@ -139,6 +140,7 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -213,18 +215,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
-```
-
-Added in v3.0.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -558,6 +548,18 @@ Added in v3.0.0
 
 ```ts
 export declare const wither: Wither1<'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
 ```
 
 Added in v3.0.0
@@ -1291,6 +1293,16 @@ export declare const fromPredicate: {
 
 Added in v3.0.0
 
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => readonly void[]
+```
+
+Added in v3.0.0
+
 ## makeBy
 
 Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -1794,6 +1806,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Witherable: Witherable1<'ReadonlyArray'>
+```
+
+Added in v3.0.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'ReadonlyArray'>
 ```
 
 Added in v3.0.0

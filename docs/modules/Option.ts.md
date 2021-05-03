@@ -26,8 +26,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -55,6 +53,8 @@ Added in v3.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [flap](#flap)
@@ -63,6 +63,7 @@ Added in v3.0.0
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [derivable combinators](#derivable-combinators)
@@ -81,7 +82,7 @@ Added in v3.0.0
   - [isSome](#issome)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
@@ -96,6 +97,7 @@ Added in v3.0.0
   - [Traversable](#traversable-1)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -177,18 +179,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
-```
-
-Added in v3.0.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
 ```
 
 Added in v3.0.0
@@ -392,6 +382,18 @@ export declare const wither: Wither1<'Option'>
 
 Added in v3.0.0
 
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v3.0.0
+
 # combinators
 
 ## chainEitherK
@@ -494,6 +496,16 @@ import { right, left } from 'fp-ts/Either'
 
 assert.deepStrictEqual(getRight(right(1)), some(1))
 assert.deepStrictEqual(getRight(left('a')), none)
+```
+
+Added in v3.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => Option<void>
 ```
 
 Added in v3.0.0
@@ -895,6 +907,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Witherable: Witherable1<'Option'>
+```
+
+Added in v3.0.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Option'>
 ```
 
 Added in v3.0.0

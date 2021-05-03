@@ -46,6 +46,7 @@ import { separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -518,10 +519,10 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
 export const alt: Alt1<URI>['alt'] = altW
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 3.0.0
  */
-export const zero: Alternative1<URI>['zero'] = () => none
+export const zero: Zero1<URI>['zero'] = () => none
 
 /**
  * @category Extend
@@ -834,6 +835,22 @@ export const Alt: Alt1<URI> = {
   map,
   alt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Zero: Zero1<URI> = {
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

@@ -41,6 +41,7 @@ import type { Traversable1 } from './Traversable'
 import type { TraversableWithIndex1 } from './TraversableWithIndex'
 import type { Unfoldable1 } from './Unfoldable'
 import { wiltDefault, Witherable1, witherDefault, filterE as filterE_ } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -1251,10 +1252,10 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
 export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 3.0.0
  */
-export const zero: Alternative1<URI>['zero'] = () => empty
+export const zero: Zero1<URI>['zero'] = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -1828,6 +1829,22 @@ export const Alt: Alt1<URI> = {
   map,
   alt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Zero: Zero1<URI> = {
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

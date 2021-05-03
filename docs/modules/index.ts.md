@@ -120,6 +120,7 @@ Added in v3.0.0
   - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
+  - [zero](#zero)
 
 ---
 
@@ -1191,6 +1192,16 @@ Added in v3.0.0
 
 ```ts
 export declare const writer: typeof writer
+```
+
+Added in v3.0.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: typeof zero
 ```
 
 Added in v3.0.0
