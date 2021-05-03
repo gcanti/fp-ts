@@ -63,6 +63,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `void` module
   - add `FromReader` module
   - add `NaturalTransformation` module
+  - add `Zero` module
   - `Alt`
     - add `altAll`
   - `Alternative`
@@ -86,6 +87,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `concat` / `concatW`
     - add `match`, `matchW`, `matchLeftW`, `matchRightW`
     - add `fromOptionK`
+    - add `Zero` instance
+    - add `guard` constructor
   - `boolean`
     - add `isBoolean`
   - `Either`
@@ -136,6 +139,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `FromEither` instance
     - add `fromEitherK`
     - add `chainEitherK`
+    - add `Zero` instance
+    - add `guard` constructor
   - `Ord`
     - add `trivial` instance
     - add `equals`
@@ -188,6 +193,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `concat` / `concatW`
     - add `match`, `matchW`, `matchLeftW`, `matchRightW`
     - add `fromOptionK`
+    - add `Zero` instance
+    - add `guard` constructor
   - `ReadonlyMap`
     - add `union`
     - add `intersection`
@@ -251,6 +258,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `flattenW`
   - `TaskOption`
     - add `fromTaskEither` (@thewilkybarkid)
+    - add `Zero` instance
+    - add `guard` constructor
   - `Witherable`
     - add `filterE`, #1458 (@vinassefranche)
     - add `wiltDefault`

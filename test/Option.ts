@@ -493,4 +493,25 @@ describe('Option', () => {
     U.deepStrictEqual(f('a'), _.some(1))
     U.deepStrictEqual(f(''), _.none)
   })
+
+  it('guard', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.Do,
+        _.bind('x', () => _.some('a')),
+        _.bind('y', () => _.some('a')),
+        _.chainFirst(({ x, y }) => _.guard(x === y))
+      ),
+      _.some({ x: 'a', y: 'a' })
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.Do,
+        _.bind('x', () => _.some('a')),
+        _.bind('y', () => _.some('b')),
+        _.chainFirst(({ x, y }) => _.guard(x === y))
+      ),
+      _.none
+    )
+  })
 })

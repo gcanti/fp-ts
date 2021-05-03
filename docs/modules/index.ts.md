@@ -131,6 +131,7 @@ Added in v2.0.0
   - [witherable](#witherable)
   - [writer](#writer)
   - [writerT](#writert)
+  - [zero](#zero)
 
 ---
 
@@ -1315,3 +1316,13 @@ export declare const writerT: typeof writerT
 ```
 
 Added in v2.4.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: typeof zero
+```
+
+Added in v2.11.0

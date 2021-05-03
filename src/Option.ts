@@ -46,6 +46,7 @@ import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -592,10 +593,10 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
 export const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A> = altW
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = () => none
+export const zero: Zero1<URI>['zero'] = () => none
 
 /**
  * @category MonadThrow
@@ -972,6 +973,23 @@ export const Alt: Alt1<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

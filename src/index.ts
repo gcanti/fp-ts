@@ -120,6 +120,7 @@ import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
+import * as zero from './Zero'
 export {
   /**
    * @since 2.0.0
@@ -592,5 +593,9 @@ export {
   /**
    * @since 2.4.0
    */
-  writerT
+  writerT,
+  /**
+   * @since 2.11.0
+   */
+  zero
 }

@@ -46,6 +46,7 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import NonEmptyArray = NEA.NonEmptyArray
 
@@ -1349,10 +1350,10 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFir
 export const of: Pointed1<URI>['of'] = NEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = () => []
+export const zero: Zero1<URI>['zero'] = () => []
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1953,6 +1954,23 @@ export const Alt: Alt1<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

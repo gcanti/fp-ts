@@ -26,8 +26,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -58,6 +56,8 @@ Added in v2.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -72,6 +72,7 @@ Added in v2.0.0
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -83,7 +84,7 @@ Added in v2.0.0
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -100,6 +101,7 @@ Added in v2.0.0
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getEq](#geteq)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
@@ -190,18 +192,6 @@ export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => O
 ```
 
 Added in v2.9.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
-```
-
-Added in v2.7.0
 
 # Apply
 
@@ -430,6 +420,18 @@ export declare const wither: PipeableWither1<'Option'>
 
 Added in v2.6.5
 
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v2.7.0
+
 # combinators
 
 ## apFirst
@@ -612,6 +614,16 @@ assert.deepStrictEqual(getRight(left('a')), none)
 ```
 
 Added in v2.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => Option<void>
+```
+
+Added in v2.11.0
 
 ## none
 
@@ -944,6 +956,16 @@ export declare const Witherable: Witherable1<'Option'>
 ```
 
 Added in v2.7.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Option'>
+```
+
+Added in v2.11.0
 
 ## getEq
 

@@ -15,8 +15,6 @@ Added in v2.10.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -33,6 +31,8 @@ Added in v2.10.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -49,6 +49,7 @@ Added in v2.10.0
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -62,7 +63,7 @@ Added in v2.10.0
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -78,6 +79,7 @@ Added in v2.10.0
   - [MonadTask](#monadtask)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
+  - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
@@ -126,18 +128,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
-```
-
-Added in v2.10.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -261,6 +251,18 @@ Added in v2.10.0
 
 ```ts
 export declare const of: <A>(a: A) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -430,6 +432,16 @@ export declare const fromPredicate: {
 ```
 
 Added in v2.10.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => TaskOption<void>
+```
+
+Added in v2.11.0
 
 ## none
 
@@ -726,6 +738,16 @@ export type URI = typeof URI
 ```
 
 Added in v2.10.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'TaskOption'>
+```
+
+Added in v2.11.0
 
 # interop
 

@@ -38,6 +38,7 @@ import { Refinement } from './Refinement'
 import { Separated } from './Separated'
 import * as T from './Task'
 import { URI as TEURI } from './TaskEither'
+import { Zero1, guard as guard_ } from './Zero'
 
 import Task = T.Task
 import Option = O.Option
@@ -333,10 +334,10 @@ export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => 
 export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.10.0
  */
-export const zero: Alternative1<URI>['zero'] =
+export const zero: Zero1<URI>['zero'] =
   /*#__PURE__*/
   OT.zero(T.Pointed)
 
@@ -576,6 +577,23 @@ export const Alt: Alt1<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

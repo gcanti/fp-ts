@@ -47,6 +47,7 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -1435,10 +1436,10 @@ export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(
 export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = () => empty
+export const zero: Zero1<URI>['zero'] = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -2087,6 +2088,23 @@ export const Alt: Alt1<URI> = {
   map: _map,
   alt: _alt
 }
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances

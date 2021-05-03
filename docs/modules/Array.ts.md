@@ -15,8 +15,6 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [ChainRec](#chainrec)
@@ -63,6 +61,8 @@ Added in v2.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -107,6 +107,7 @@ Added in v2.0.0
   - [append](#append)
   - [appendW](#appendw)
   - [fromPredicate](#frompredicate)
+  - [guard](#guard)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
@@ -134,7 +135,7 @@ Added in v2.0.0
   - [tail](#tail)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -157,6 +158,7 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -227,18 +229,6 @@ export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
 ```
 
 Added in v2.9.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => A[]
-```
-
-Added in v2.7.0
 
 # Apply
 
@@ -592,6 +582,18 @@ export declare const wither: PipeableWither1<'Array'>
 ```
 
 Added in v2.6.5
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => A[]
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -1451,6 +1453,16 @@ export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Arr
 
 Added in v2.11.0
 
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => void[]
+```
+
+Added in v2.11.0
+
 ## makeBy
 
 Return a `Array` of length `n` with element `i` initialized with `f(i)`.
@@ -2161,6 +2173,16 @@ export declare const Witherable: Witherable1<'Array'>
 ```
 
 Added in v2.7.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Array'>
+```
+
+Added in v2.11.0
 
 ## getDifferenceMagma
 
