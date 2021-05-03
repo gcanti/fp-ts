@@ -345,6 +345,18 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
  * @category instances
  * @since 3.0.0
  */
+export type URI = 'ReadonlySet'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly ReadonlySet: ReadonlySet<A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const getShow = <A>(S: Show<A>): Show<ReadonlySet<A>> => ({
   show: (s) => {
     const entries: Array<string> = []
