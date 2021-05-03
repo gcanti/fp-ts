@@ -1,7 +1,7 @@
 ---
 title: Upgrade to fp-ts 2.x
 parent: Guides
-nav_order: 4
+nav_order: 5
 ---
 
 # Upgrade to version 2.x

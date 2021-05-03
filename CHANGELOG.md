@@ -280,6 +280,12 @@ high state of flux, you're at risk of it changing without notice.
     - `NonEmptyArray` / `ReadonlyNonEmptyArray`
       - `isOutOfBound`
 
+# 2.10.5
+
+- **Bug Fix**
+  - `StateT`
+    - fix typo in `fromF`, #1503 (@DKurilo)
+
 # 2.10.4
 
 - **Bug Fix**
