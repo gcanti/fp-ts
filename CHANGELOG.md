@@ -54,6 +54,13 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Witherable` in favour of `getWitherable` (@anthonyjoeseph)
   - `Semigroup`
     - deprecate `semigroupVoid`, use `void` module instead.
+  - `Task`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseSeqArrayWithIndex` in favour of `traverseReadonlyArrayWithIndexSeq`
+    - deprecate `traverseSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
+    - deprecate `sequenceSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
 - **New Feature**
   - add `Endomorphism` module
   - add `Predicate` module
@@ -253,6 +260,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `toUpperCase`
   - `struct`
     - add `evolve`
+  - `Task`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
   - `TaskEither`
     - add `fromTaskOption` (@thewilkybarkid)
     - add `fromTaskOptionK`
