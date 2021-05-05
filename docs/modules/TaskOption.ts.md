@@ -95,16 +95,21 @@ Added in v2.10.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseSeqArray](#traverseseqarray)
-  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [~~sequenceArray~~](#sequencearray)
+  - [~~sequenceSeqArray~~](#sequenceseqarray)
+  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
+  - [~~traverseArray~~](#traversearray)
+  - [~~traverseSeqArrayWithIndex~~](#traverseseqarraywithindex)
+  - [~~traverseSeqArray~~](#traverseseqarray)
 
 ---
 
@@ -881,6 +886,16 @@ Added in v2.11.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskOption<readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -927,9 +942,65 @@ export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOptio
 
 Added in v2.10.0
 
-## sequenceArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## ~~sequenceArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -939,9 +1010,9 @@ export declare const sequenceArray: <A>(as: readonly TaskOption<A>[]) => TaskOpt
 
 Added in v2.10.0
 
-## sequenceSeqArray
+## ~~sequenceSeqArray~~
 
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
@@ -951,21 +1022,9 @@ export declare const sequenceSeqArray: <A>(as: readonly TaskOption<A>[]) => Task
 
 Added in v2.10.0
 
-## traverseArray
+## ~~traverseArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, B>(f: (a: A) => TaskOption<B>) => (as: readonly A[]) => TaskOption<readonly B[]>
-```
-
-Added in v2.10.0
-
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -977,29 +1036,41 @@ export declare const traverseArrayWithIndex: <A, B>(
 
 Added in v2.10.0
 
-## traverseSeqArray
+## ~~traverseArray~~
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <A, B>(
-  f: (a: A) => TaskOption<B>
-) => (as: readonly A[]) => TaskOption<readonly B[]>
+export declare const traverseArray: <A, B>(f: (a: A) => TaskOption<B>) => (as: readonly A[]) => TaskOption<readonly B[]>
 ```
 
 Added in v2.10.0
 
-## traverseSeqArrayWithIndex
+## ~~traverseSeqArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
 ```ts
 export declare const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
+) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.10.0
+
+## ~~traverseSeqArray~~
+
+Use `traverseReadonlyArrayWithIndexSeq` instead.
+
+**Signature**
+
+```ts
+export declare const traverseSeqArray: <A, B>(
+  f: (a: A) => TaskOption<B>
 ) => (as: readonly A[]) => TaskOption<readonly B[]>
 ```
 

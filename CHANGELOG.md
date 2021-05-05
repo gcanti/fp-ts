@@ -109,6 +109,13 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `traverseSeqArrayWithIndex` in favour of `traverseReadonlyArrayWithIndexSeq`
     - deprecate `traverseSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
     - deprecate `sequenceSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
+  - `TaskOption`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseSeqArrayWithIndex` in favour of `traverseReadonlyArrayWithIndexSeq`
+    - deprecate `traverseSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
+    - deprecate `sequenceSeqArray` in favour of `traverseReadonlyArrayWithIndexSeq`
   - `TaskEither`
     - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
@@ -364,6 +371,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromTaskEither` (@thewilkybarkid)
     - add `Zero` instance
     - add `guard` constructor
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
   - `TaskThese`
     - add `ApT`
     - add `traverseReadonlyNonEmptyArrayWithIndex`
