@@ -25,8 +25,8 @@ Added in v2.3.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -203,26 +203,26 @@ export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: Re
 
 Added in v2.3.0
 
-## asksE
+## asksReaderTask
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.11.0
 
-## asksEW
+## asksReaderTaskW
 
-Less strict version of [`asksE`](#asksE).
+Less strict version of [`asksReaderTask`](#asksreadertask).
 
 **Signature**
 
 ```ts
-export declare const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v2.11.0
@@ -268,7 +268,7 @@ Added in v2.11.0
 
 ## chainFirstReaderKW
 
-Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+Less strict version of [`chainFirstReaderK`](#chainfirstReaderk).
 
 **Signature**
 
@@ -292,7 +292,7 @@ Added in v2.10.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst).
+Less strict version of [`chainFirst`](#chainfirst).
 
 Derivable from `Chain`.
 
@@ -328,7 +328,7 @@ Added in v2.11.0
 
 ## chainReaderKW
 
-Less strict version of [`chainReaderK`](#chainReaderK).
+Less strict version of [`chainReaderK`](#chainreaderk).
 
 **Signature**
 

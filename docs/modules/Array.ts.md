@@ -1831,7 +1831,7 @@ Added in v2.10.0
 
 ## matchLeftW
 
-Less strict version of [`matchLeft`](#matchLeft).
+Less strict version of [`matchLeft`](#matchleft).
 
 **Signature**
 
@@ -1858,7 +1858,7 @@ Added in v2.10.0
 
 ## matchRightW
 
-Less strict version of [`matchRight`](#matchRight).
+Less strict version of [`matchRight`](#matchright).
 
 **Signature**
 

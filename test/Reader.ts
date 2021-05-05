@@ -141,9 +141,9 @@ describe('Reader', () => {
     U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray)(undefined), [1, 2])
   })
 
-  it('asksE', () => {
+  it('asksReader', () => {
     const e: Env = { count: 0 }
     const f = (e: Env) => _.of(e.count + 1)
-    U.deepStrictEqual(_.asksE(f)(e), 1)
+    U.deepStrictEqual(_.asksReader(f)(e), 1)
   })
 })

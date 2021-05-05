@@ -138,7 +138,7 @@ export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
   isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
- * Alias of [`matchW`](#matchww).
+ * Alias of [`matchW`](#matchw).
  *
  * @category destructors
  * @since 2.10.0
@@ -1197,7 +1197,7 @@ export const filterOrElse =
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0

@@ -37,8 +37,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
@@ -268,26 +268,26 @@ export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader
 
 Added in v2.0.0
 
-## asksE
+## asksReader
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.11.0
 
-## asksEW
+## asksReaderW
 
-Less strict version of [`asksE`](#asksE).
+Less strict version of [`asksReader`](#asksreader).
 
 **Signature**
 
 ```ts
-export declare const asksEW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v2.11.0
@@ -309,7 +309,7 @@ Added in v2.0.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst).
+Less strict version of [`chainFirst`](#chainfirst).
 
 Derivable from `Chain`.
 

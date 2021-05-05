@@ -33,8 +33,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
+  - [asksReaderTaskEither](#asksreadertaskeither)
+  - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -362,26 +362,28 @@ export declare const apSecond: <R, E, B>(
 
 Added in v2.0.0
 
-## asksE
+## asksReaderTaskEither
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+export declare const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.11.0
 
-## asksEW
+## asksReaderTaskEitherW
 
-Less strict version of [`asksE`](#asksE).
+Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
 
 **Signature**
 
 ```ts
-export declare const asksEW: <R1, R2, E, A>(
+export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
   f: (r1: R1) => ReaderTaskEither<R2, E, A>
 ) => ReaderTaskEither<R1 & R2, E, A>
 ```
@@ -457,7 +459,7 @@ Added in v2.11.0
 
 ## chainFirstReaderEitherKW
 
-Less strict version of [`chainFirstReaderEitherK`](#chainFirstReaderEitherK).
+Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
 
 **Signature**
 
@@ -483,7 +485,7 @@ Added in v2.11.0
 
 ## chainFirstReaderKW
 
-Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
 
 **Signature**
 
@@ -509,7 +511,7 @@ Added in v2.11.0
 
 ## chainFirstReaderTaskKW
 
-Less strict version of [`chainFirstReaderTaskK`](#chainFirstReaderTaskK).
+Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
 
 **Signature**
 
@@ -535,7 +537,7 @@ Added in v2.11.0
 
 ## chainFirstTaskEitherKW
 
-Less strict version of [`chainFirstTaskEitherK`](#chainFirstTaskEitherK).
+Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
 
 **Signature**
 
@@ -639,7 +641,7 @@ Added in v2.11.0
 
 ## chainReaderEitherKW
 
-Less strict version of [`chainReaderEitherK`](#chainReaderEitherK).
+Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
 
 **Signature**
 
@@ -665,7 +667,7 @@ Added in v2.11.0
 
 ## chainReaderKW
 
-Less strict version of [`chainReaderK`](#chainReaderK).
+Less strict version of [`chainReaderK`](#chainreaderk).
 
 **Signature**
 
@@ -691,7 +693,7 @@ Added in v2.11.0
 
 ## chainReaderTaskKW
 
-Less strict version of [`chainReaderTaskK`](#chainReaderTaskK).
+Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
 
 **Signature**
 

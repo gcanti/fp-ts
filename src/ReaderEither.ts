@@ -229,12 +229,13 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
   R.local
 
 /**
- * Less strict version of [`asksE`](#asksE).
+ * Less strict version of [`asksReaderEither`](#asksreadereither).
  *
  * @category combinators
  * @since 2.11.0
  */
-export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = R.asksEW
+export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
+  R.asksReaderW
 
 /**
  * Effectfully accesses the environment.
@@ -242,7 +243,9 @@ export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => Re
  * @category combinators
  * @since 2.11.0
  */
-export const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A> = asksEW
+export const asksReaderEither: <R, E, A>(
+  f: (r: R) => ReaderEither<R, E, A>
+) => ReaderEither<R, E, A> = asksReaderEitherW
 
 /**
  * @category combinators
@@ -735,7 +738,7 @@ export const chainReaderK: <A, R, B>(
   chainReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainReaderK`](#chainReaderK).
+ * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * @category combinators
  * @since 2.11.0
@@ -755,7 +758,7 @@ export const chainFirstReaderK: <A, R, B>(
   chainFirstReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainReaderK`](#chainReaderK).
+ * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * @category combinators
  * @since 2.11.0

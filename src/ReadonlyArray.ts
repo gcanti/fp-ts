@@ -207,7 +207,7 @@ export const match: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchW
 
 /**
- * Less strict version of [`matchLeft`](#matchLeft).
+ * Less strict version of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.11.0
@@ -245,7 +245,7 @@ export const foldLeft: <A, B>(
 ) => (as: ReadonlyArray<A>) => B = matchLeft
 
 /**
- * Less strict version of [`matchRight`](#matchRight).
+ * Less strict version of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.11.0

@@ -33,8 +33,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
+  - [asksStateReaderTaskEither](#asksstatereadertaskeither)
+  - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -336,28 +336,28 @@ export declare const apSecond: <S, R, E, B>(
 
 Added in v2.0.0
 
-## asksE
+## asksStateReaderTaskEither
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksE: <R, S, E, A>(
+export declare const asksStateReaderTaskEither: <R, S, E, A>(
   f: (r: R) => StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.11.0
 
-## asksEW
+## asksStateReaderTaskEitherW
 
-Less strict version of [`asksE`](#asksE).
+Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
 
 **Signature**
 
 ```ts
-export declare const asksEW: <R1, S, R2, E, A>(
+export declare const asksStateReaderTaskEitherW: <R1, S, R2, E, A>(
   f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
 ) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```

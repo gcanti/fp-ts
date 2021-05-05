@@ -33,8 +33,8 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
-  - [asksE](#askse)
-  - [asksEW](#asksew)
+  - [asksReaderEither](#asksreadereither)
+  - [asksReaderEitherW](#asksreadereitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -313,26 +313,28 @@ export declare const apSecond: <R, E, B>(
 
 Added in v2.0.0
 
-## asksE
+## asksReaderEither
 
 Effectfully accesses the environment.
 
 **Signature**
 
 ```ts
-export declare const asksE: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.11.0
 
-## asksEW
+## asksReaderEitherW
 
-Less strict version of [`asksE`](#asksE).
+Less strict version of [`asksReaderEither`](#asksreadereither).
 
 **Signature**
 
 ```ts
-export declare const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+export declare const asksReaderEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderEither<R2, E, A>
+) => ReaderEither<R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -394,7 +396,7 @@ Added in v2.11.0
 
 ## chainFirstReaderKW
 
-Less strict version of [`chainReaderK`](#chainReaderK).
+Less strict version of [`chainReaderK`](#chainreaderk).
 
 **Signature**
 
@@ -448,7 +450,7 @@ Added in v2.11.0
 
 ## chainReaderKW
 
-Less strict version of [`chainReaderK`](#chainReaderK).
+Less strict version of [`chainReaderK`](#chainreaderk).
 
 **Signature**
 

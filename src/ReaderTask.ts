@@ -94,12 +94,12 @@ export const fromIO: FromIO2<URI>['fromIO'] =
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
 
 /**
- * Less strict version of [`asksE`](#asksE).
+ * Less strict version of [`asksReaderTask`](#asksreadertask).
  *
  * @category combinators
  * @since 2.11.0
  */
-export const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksEW
+export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
 
 /**
  * Effectfully accesses the environment.
@@ -107,7 +107,7 @@ export const asksEW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask
  * @category combinators
  * @since 2.11.0
  */
-export const asksE: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksEW
+export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -379,7 +379,7 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -469,7 +469,7 @@ export const chainReaderK =
   chainReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainReaderK`](#chainReaderK).
+ * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * @category combinators
  * @since 2.11.0
@@ -487,7 +487,7 @@ export const chainFirstReaderK =
   chainFirstReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+ * Less strict version of [`chainFirstReaderK`](#chainfirstReaderk).
  *
  * @category combinators
  * @since 2.11.0

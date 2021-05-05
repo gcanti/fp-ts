@@ -64,12 +64,12 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Rea
   ma(f(r2))
 
 /**
- * Less strict version of [`asksE`](#asksE).
+ * Less strict version of [`asksReader`](#asksreader).
  *
  * @category combinators
  * @since 2.11.0
  */
-export const asksEW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+export const asksReaderW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
 
 /**
  * Effectfully accesses the environment.
@@ -77,7 +77,7 @@ export const asksEW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2,
  * @category combinators
  * @since 2.11.0
  */
-export const asksE: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksEW
+export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -341,7 +341,7 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *

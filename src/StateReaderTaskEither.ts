@@ -242,12 +242,12 @@ export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
 ): StateReaderTaskEither<S, R2, E, A> => flow(ma, R.local(f))
 
 /**
- * Less strict version of [`asksE`](#asksE).
+ * Less strict version of [`asksStateReaderTaskEither`](#asksstatereadertaskeither).
  *
  * @category combinators
  * @since 2.11.0
  */
-export const asksEW = <R1, S, R2, E, A>(
+export const asksStateReaderTaskEitherW = <R1, S, R2, E, A>(
   f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
 ): StateReaderTaskEither<S, R1 & R2, E, A> => (s) => (r) => f(r)(s)(r)
 
@@ -257,9 +257,9 @@ export const asksEW = <R1, S, R2, E, A>(
  * @category combinators
  * @since 2.11.0
  */
-export const asksE: <R, S, E, A>(
+export const asksStateReaderTaskEither: <R, S, E, A>(
   f: (r: R) => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A> = asksEW
+) => StateReaderTaskEither<S, R, E, A> = asksStateReaderTaskEitherW
 
 /**
  * @category combinators

@@ -571,7 +571,7 @@ Added in v2.0.0
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 
@@ -791,7 +791,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchww).
+Alias of [`matchW`](#matchw).
 
 **Signature**
 

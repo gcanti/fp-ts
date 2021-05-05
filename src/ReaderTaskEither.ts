@@ -333,13 +333,14 @@ export const local: <R2, R1>(
 ) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
 
 /**
- * Less strict version of [`asksE`](#asksE).
+ * Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
  *
  * @category combinators
  * @since 2.11.0
  */
-export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A> =
-  R.asksEW
+export const asksReaderTaskEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A> = R.asksReaderW
 
 /**
  * Effectfully accesses the environment.
@@ -347,7 +348,9 @@ export const asksEW: <R1, R2, E, A>(f: (r1: R1) => ReaderTaskEither<R2, E, A>) =
  * @category combinators
  * @since 2.11.0
  */
-export const asksE: <R, E, A>(f: (r: R) => ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = asksEW
+export const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A> = asksReaderTaskEitherW
 
 /**
  * @category combinators
@@ -458,7 +461,7 @@ export const chainTaskEitherK: <E, A, B>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
 /**
- * Less strict version of [`chainFirstTaskEitherK`](#chainFirstTaskEitherK).
+ * Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
  *
  * @category combinators
  * @since 2.11.0
@@ -484,7 +487,7 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
 ): ((...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromReaderEither)
 
 /**
- * Less strict version of [`chainReaderEitherK`](#chainReaderEitherK).
+ * Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
  *
  * @category combinators
  * @since 2.11.0
@@ -503,7 +506,7 @@ export const chainReaderEitherK: <R, E, A, B>(
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderEitherKW
 
 /**
- * Less strict version of [`chainFirstReaderEitherK`](#chainFirstReaderEitherK).
+ * Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
  *
  * @category combinators
  * @since 2.11.0
@@ -1024,7 +1027,7 @@ export const chainReaderK: <A, R, B>(
   chainReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainReaderK`](#chainReaderK).
+ * Less strict version of [`chainReaderK`](#chainreaderk).
  *
  * @category combinators
  * @since 2.11.0
@@ -1044,7 +1047,7 @@ export const chainFirstReaderK: <A, R, B>(
   chainFirstReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+ * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
  *
  * @category combinators
  * @since 2.11.0
@@ -1062,7 +1065,7 @@ export const fromReaderTaskK = <A extends ReadonlyArray<unknown>, R, B>(
 ): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderTask(f(...a))
 
 /**
- * Less strict version of [`chainReaderTaskK`](#chainReaderTaskK).
+ * Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
  *
  * @category combinators
  * @since 2.11.0
@@ -1081,7 +1084,7 @@ export const chainReaderTaskK: <A, R, B>(
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderTaskKW
 
 /**
- * Less strict version of [`chainFirstReaderTaskK`](#chainFirstReaderTaskK).
+ * Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
  *
  * @category combinators
  * @since 2.11.0

@@ -145,22 +145,22 @@ high state of flux, you're at risk of it changing without notice.
     - add `trivial` instance
     - add `equals`
   - `Reader`
-    - add `asksEW`, `asksW`
+    - add `asksReaderW`, `asksReader`
     - add `flattenW`
   - `ReaderEither`
-    - add `asksEW`, `asksW`
+    - add `asksReaderEitherW`, `asksReaderEither`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
     - add `flattenW`
   - `ReaderTask`
-    - add `asksEW`, `asksW`
+    - add `asksReaderTaskW`, `asksReaderTask`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
     - add `flattenW`
   - `ReaderTaskEither`
-    - add `asksEW`, `asksW`
+    - add `asksReaderTaskEitherW`, `asksReaderTaskEither`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
     - add `fromReaderTaskK`
@@ -241,7 +241,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromStateK`
     - add `chainStateK`
     - add `local`
-    - add `asksEW`, `asksW`
+    - add `asksStateReaderTaskEitherW`, `asksStateReaderTaskEither`
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
     - add `flattenW`
