@@ -1242,9 +1242,8 @@ export const elem = <A>(E: Eq<A>) => (a: A, ma: Either<unknown, A>): boolean =>
  *
  * @since 2.0.0
  */
-export function exists<A>(predicate: Predicate<A>): (ma: Either<unknown, A>) => boolean {
-  return (ma) => (isLeft(ma) ? false : predicate(ma.right))
-}
+export const exists = <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>): boolean =>
+  isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------
 // do notation

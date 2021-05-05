@@ -37,6 +37,7 @@ import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
+import { Predicate } from './Predicate'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -507,21 +508,21 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> 
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
+  isLeft(fa) ? b : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
+  isLeft(fa) ? M.empty : f(fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
+  isLeft(fa) ? b : f(fa.right, b)
 
 /**
  * @since 2.6.3
@@ -668,6 +669,18 @@ export const fromOptionK =
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const elem = <A>(E: Eq<A>) => (a: A) => (ma: These<unknown, A>): boolean =>
+  isLeft(ma) ? false : E.equals(a, ma.right)
+
+/**
+ * @since 2.11.0
+ */
+export const exists = <A>(predicate: Predicate<A>) => (ma: These<unknown, A>): boolean =>
+  isLeft(ma) ? false : predicate(ma.right)
 
 /**
  * @example

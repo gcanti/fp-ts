@@ -260,6 +260,9 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromTaskEither` (@thewilkybarkid)
     - add `Zero` instance
     - add `guard` constructor
+  - `These`
+    - add `elem`
+    - add `exists`
   - `Witherable`
     - add `filterE`, #1458 (@vinassefranche)
     - add `wiltDefault`

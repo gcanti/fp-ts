@@ -89,6 +89,8 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [utils](#utils)
+  - [elem](#elem)
+  - [exists](#exists)
   - [sequence](#sequence)
   - [toTuple2](#totuple2)
   - [traverse](#traverse)
@@ -718,6 +720,26 @@ export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 Added in v2.0.0
 
 # utils
+
+## elem
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: These<unknown, A>) => boolean
+```
+
+Added in v2.11.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
+```
+
+Added in v2.11.0
 
 ## sequence
 
