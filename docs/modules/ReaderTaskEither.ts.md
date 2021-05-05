@@ -150,6 +150,7 @@ Added in v2.0.0
   - [fromTask](#fromtask)
   - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -157,13 +158,17 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
-  - [traverseSeqArray](#traverseseqarray)
-  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [~~run~~](#run)
+  - [~~sequenceArray~~](#sequencearray)
+  - [~~sequenceSeqArray~~](#sequenceseqarray)
+  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
+  - [~~traverseArray~~](#traversearray)
+  - [~~traverseSeqArrayWithIndex~~](#traverseseqarraywithindex)
+  - [~~traverseSeqArray~~](#traverseseqarray)
 
 ---
 
@@ -1690,6 +1695,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTaskEither<unknown, never, readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -1791,9 +1806,75 @@ export declare function bracket<R, E, A, B>(
 
 Added in v2.0.4
 
-## sequenceArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## ~~run~~
+
+**Signature**
+
+```ts
+export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
+```
+
+Added in v2.0.0
+
+## ~~sequenceArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -1805,9 +1886,9 @@ export declare const sequenceArray: <R, E, A>(
 
 Added in v2.9.0
 
-## sequenceSeqArray
+## ~~sequenceSeqArray~~
 
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
@@ -1819,23 +1900,9 @@ export declare const sequenceSeqArray: <R, E, A>(
 
 Added in v2.9.0
 
-## traverseArray
+## ~~traverseArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -1847,23 +1914,23 @@ export declare const traverseArrayWithIndex: <R, E, A, B>(
 
 Added in v2.9.0
 
-## traverseSeqArray
+## ~~traverseArray~~
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <R, E, A, B>(
+export declare const traverseArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
 
-## traverseSeqArrayWithIndex
+## ~~traverseSeqArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
@@ -1875,12 +1942,16 @@ export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
 
 Added in v2.9.0
 
-## ~~run~~
+## ~~traverseSeqArray~~
+
+Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
 ```ts
-export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
+export declare const traverseSeqArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
-Added in v2.0.0
+Added in v2.9.0

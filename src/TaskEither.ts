@@ -48,7 +48,7 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
@@ -59,8 +59,10 @@ import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { NaturalTransformation12C, NaturalTransformation22 } from './NaturalTransformation'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -1190,13 +1192,87 @@ export const apSW: <A, N extends string, E2, B>(
 ) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: TaskEither<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>) =>
+  flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(E.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): TaskEither<E, ReadonlyNonEmptyArray<B>> => () =>
+  _.tail(as).reduce<Promise<Either<E, NonEmptyArray<B>>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        _.isLeft(ebs)
+          ? acc
+          : f(i + 1, a)().then((eb) => {
+              if (_.isLeft(eb)) {
+                return eb
+              }
+              ebs.right.push(eb.right)
+              return ebs
+            })
+      ),
+    f(0, _.head(as))().then(E.map(_.singleton))
+  )
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
  * @since 2.9.0
+ * @deprecated
  */
 export const traverseArrayWithIndex = <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
@@ -1204,27 +1280,30 @@ export const traverseArrayWithIndex = <A, B, E>(
   flow(T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const traverseArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => TaskEither<E, B>) => (
   as: ReadonlyArray<A>
@@ -1246,28 +1325,24 @@ export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => T
   )
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const traverseSeqArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
-
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.
