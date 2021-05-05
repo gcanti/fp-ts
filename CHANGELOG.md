@@ -20,6 +20,10 @@ high state of flux, you're at risk of it changing without notice.
 - **Deprecation**
   - `Array`
     - deprecate `range`, use `NonEmptyArray` module instead.
+  - `Either`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
   - `function`
     - deprecate `Endomorphism`, use `Endomorphism` module instead.
     - deprecate `getEndomorphismMonoid`, use `Endomorphism` module instead.
@@ -102,6 +106,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Either`
     - add `chainOptionK`
     - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `EitherT`
     - add `orElseFirst`
     - add `orLeft`
@@ -407,7 +413,7 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `fromIO`
   - `IOEither`
     - deprecate `getApplySemigroup` in favour of `Apply.getApplySemigroup`
-    - deprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
+    - daprecate `getApplyMonoid` in favour of `Applicative.getApplicativeMonoid`
     - deprecate `getSemigroup` in favour of `Apply.getApplySemigroup`
     - deprecate `getIOValidation`, use `getApplicativeIOValidation` and `getAltIOValidation` instead
   - `Map`

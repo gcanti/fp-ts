@@ -45,8 +45,10 @@ import * as _ from './internal'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
@@ -1302,19 +1304,32 @@ export const apSW: <A, N extends string, E2, B>(
 ) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: Either<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Either<E, B>) => (
-  as: ReadonlyArray<A>
-): Either<E, ReadonlyArray<B>> => {
-  const out = []
-  for (let i = 0; i < as.length; i++) {
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(f: (index: number, a: A) => Either<E, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Either<E, ReadonlyNonEmptyArray<B>> => {
+  const e = f(0, _.head(as))
+  if (isLeft(e)) {
+    return e
+  }
+  const out: NonEmptyArray<B> = [e.right]
+  for (let i = 1; i < as.length; i++) {
     const e = f(i, as[i])
     if (isLeft(e)) {
       return e
@@ -1325,26 +1340,52 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArray = <E, A, B>(
-  f: (a: A) => Either<E, B>
-): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
- * @since 2.9.0
- */
-export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <E, A, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArray = <E, A, B>(
+  f: (a: A) => Either<E, B>
+): ((as: ReadonlyArray<A>) => Either<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * Use [`Json`](./Json.ts.html) module instead.
@@ -1352,7 +1393,6 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
  * @since 2.6.7
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export type Json = boolean | number | string | null | JsonArray | JsonRecord
 
 /**
@@ -1362,7 +1402,6 @@ export type Json = boolean | number | string | null | JsonArray | JsonRecord
  * @deprecated
  */
 export interface JsonRecord {
-  // tslint:disable-next-line: deprecation
   readonly [key: string]: Json
 }
 
@@ -1372,7 +1411,6 @@ export interface JsonRecord {
  * @since 2.6.7
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export interface JsonArray extends ReadonlyArray<Json> {}
 
 /**
@@ -1382,7 +1420,6 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, Json> {
   return tryCatch(() => JSON.parse(s), onError)
 }
