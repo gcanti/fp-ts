@@ -35,9 +35,11 @@ import * as _ from './internal'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -710,6 +712,61 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
     () => e,
     () => a
   ) as any
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+  let e: Option<E> = _.none
+  const t = f(0, _.head(as))
+  if (isLeft(t)) {
+    return t
+  }
+  if (isBoth(t)) {
+    e = _.some(t.left)
+  }
+  const out: NonEmptyArray<B> = [t.right]
+  for (let i = 1; i < as.length; i++) {
+    const t = f(i, as[i])
+    if (isLeft(t)) {
+      return t
+    }
+    if (isBoth(t)) {
+      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+    }
+    out.push(t.right)
+  }
+  return _.isNone(e) ? right(out) : both(e.value, out)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated

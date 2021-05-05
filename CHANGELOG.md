@@ -267,6 +267,9 @@ high state of flux, you're at risk of it changing without notice.
   - `These`
     - add `elem`
     - add `exists`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `Tree`
     - add `exists`
   - `Witherable`

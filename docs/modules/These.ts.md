@@ -89,11 +89,14 @@ Added in v2.0.0
   - [isLeft](#isleft)
   - [isRight](#isright)
 - [utils](#utils)
+  - [ApT](#apt)
   - [elem](#elem)
   - [exists](#exists)
   - [sequence](#sequence)
   - [toTuple2](#totuple2)
   - [traverse](#traverse)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~toTuple~~](#totuple)
 
 ---
@@ -721,6 +724,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: These<never, readonly []>
+```
+
+Added in v2.11.0
+
 ## elem
 
 **Signature**
@@ -798,6 +811,36 @@ export declare const traverse: PipeableTraverse2<'These'>
 ```
 
 Added in v2.6.3
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
 
 ## ~~toTuple~~
 

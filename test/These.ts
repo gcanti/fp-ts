@@ -5,6 +5,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as S from '../src/string'
 import * as _ from '../src/These'
+import * as RA from '../src/ReadonlyArray'
 
 describe('These', () => {
   describe('pipeables', () => {
@@ -242,6 +243,26 @@ describe('These', () => {
     U.deepStrictEqual(_.swap(_.left('a')), _.right('a'))
     U.deepStrictEqual(_.swap(_.right('a')), _.left('a'))
     U.deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverseWithIndex(_.getApplicative(S.Semigroup))(f)
+    const optimized = _.traverseReadonlyArrayWithIndex(S.Semigroup)(f)
+    const assert = (input: ReadonlyArray<number>) => {
+      U.deepStrictEqual(standard(input), optimized(input))
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
+    assert(RA.empty)
   })
 
   it('exists', () => {
