@@ -2230,6 +2230,13 @@ export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = 
  */
 export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmptyArray<A> => as.some(predicate)
 
+/**
+ * Alias of [`some`](#some)
+ *
+ * @since 2.11.0
+ */
+export const exists = some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

@@ -188,6 +188,7 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
+  - [exists](#exists)
   - [filterE](#filtere)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
@@ -2544,6 +2545,18 @@ export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
 ```
 
 Added in v2.9.0
+
+## exists
+
+Alias of [`some`](#some)
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## filterE
 

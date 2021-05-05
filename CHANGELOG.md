@@ -89,6 +89,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromOptionK`
     - add `Zero` instance
     - add `guard` constructor
+    - add `exists` alias
   - `boolean`
     - add `isBoolean`
   - `Either`
@@ -195,6 +196,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromOptionK`
     - add `Zero` instance
     - add `guard` constructor
+    - add `exists` alias
   - `ReadonlyMap`
     - add `union`
     - add `intersection`
