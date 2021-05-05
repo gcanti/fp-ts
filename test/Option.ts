@@ -7,6 +7,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import { separated } from '../src/Separated'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const p = (n: number): boolean => n > 2
 
@@ -477,9 +478,23 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
-    U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.some(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f), _.none)
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
+    })
   })
 
   it('tryCatchK', () => {

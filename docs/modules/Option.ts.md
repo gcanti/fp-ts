@@ -129,16 +129,19 @@ Added in v2.0.0
   - [isNone](#isnone)
   - [isSome](#issome)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~getRefinement~~](#getrefinement)
+  - [~~sequenceArray~~](#sequencearray)
+  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
+  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -1484,6 +1487,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Option<readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -1594,43 +1607,33 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-## sequenceArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
-```
-
-Added in v2.9.0
-
-## traverseArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
+## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 
 **Signature**
 
 ```ts
-export declare const traverseArrayWithIndex: <A, B>(
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => Option<B>
 ) => (as: readonly A[]) => Option<readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
 
 ## ~~getRefinement~~
 
@@ -1643,3 +1646,41 @@ export declare function getRefinement<A, B extends A>(getOption: (a: A) => Optio
 ```
 
 Added in v2.0.0
+
+## ~~sequenceArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
+```
+
+Added in v2.9.0
+
+## ~~traverseArrayWithIndex~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0
+
+## ~~traverseArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0

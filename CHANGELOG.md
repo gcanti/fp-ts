@@ -49,6 +49,9 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `getRefinement`, use `Refinement` module instead.
     - deprecate `getFirstMonoid`, use `getMonoid` module instead.
     - deprecate `getLastMonoid`, use `getMonoid` module instead.
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
   - `ReadonlyArray`
     - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
   - `ReadonlyNonEmptyArray`
@@ -174,6 +177,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainEitherK`
     - add `Zero` instance
     - add `guard` constructor
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `Ord`
     - add `trivial` instance
     - add `equals`
