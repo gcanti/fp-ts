@@ -52,12 +52,14 @@ import { MonadIO4 } from './MonadIO'
 import { MonadTask4 } from './MonadTask'
 import { MonadThrow4 } from './MonadThrow'
 import { NaturalTransformation14C, NaturalTransformation24, NaturalTransformation34 } from './NaturalTransformation'
+import { NonEmptyArray } from './NonEmptyArray'
 import { URI as OURI } from './Option'
 import { Pointed4 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
 import { URI as REURI } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { State } from './State'
 import * as ST from './StateT'
@@ -1135,20 +1137,20 @@ export const apSW: <A, N extends string, S, R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <S, R, E, A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: ReadonlyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyArray<B>> => (s) => (r) => () =>
-  as.reduce<Promise<Either<E, [Array<B>, S]>>>(
+) => (as: ReadonlyNonEmptyArray<A>): StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>> => (s) => (r) => () =>
+  _.tail(as).reduce<Promise<Either<E, [NonEmptyArray<B>, S]>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
         _.isLeft(ebs)
           ? acc
           : f(
-              i,
+              i + 1,
               a
             )(ebs.right[1])(r)().then((eb) => {
               if (_.isLeft(eb)) {
@@ -1160,35 +1162,59 @@ export const traverseArrayWithIndex = <S, R, E, A, B>(
               return ebs
             })
       ),
-    Promise.resolve(_.right([[], s]))
+    f(0, _.head(as))(s)(r)().then(E.map(([b, s]) => [[b], s]))
   )
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArray = <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) =>
-  traverseArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
- * @since 2.9.0
- */
-export const sequenceArray: <S, R, E, A>(
-  arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
 // tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <S, R, E, A, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArray = <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+): ((as: ReadonlyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyArray<B>>) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const sequenceArray: <S, R, E, A>(
+  arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * Use small, specific instances instead.

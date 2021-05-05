@@ -98,6 +98,10 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
+  - `StateReaderTaskEither`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
   - `Task`
     - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
@@ -333,6 +337,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainReaderKW`
     - add `chainFirstReaderK`, `chainFirstReaderKW`
     - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `string`
     - add `toUpperCase`
   - `struct`
