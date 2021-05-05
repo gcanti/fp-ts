@@ -67,15 +67,18 @@ Added in v2.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [~~sequenceArray~~](#sequencearray)
+  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
+  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -576,6 +579,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Reader<unknown, readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -648,9 +661,37 @@ export declare const bindW: <N extends string, A, R2, B>(
 
 Added in v2.8.0
 
-## sequenceArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## ~~sequenceArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -660,29 +701,29 @@ export declare const sequenceArray: <R, A>(arr: readonly Reader<R, A>[]) => Read
 
 Added in v2.9.0
 
-## traverseArray
+## ~~traverseArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, A, B>(
-  f: (a: A) => Reader<R, B>
-) => (as: readonly A[]) => Reader<R, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
 ```ts
 export declare const traverseArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => Reader<R, B>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
+```
+
+Added in v2.9.0
+
+## ~~traverseArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, A, B>(
+  f: (a: A) => Reader<R, B>
 ) => (as: readonly A[]) => Reader<R, readonly B[]>
 ```
 

@@ -12,8 +12,10 @@ import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 
@@ -453,39 +455,80 @@ export const apSW: <A, N extends string, R2, B>(
 ) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => {
+  const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i])(r))
+  }
+  return out
+}
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <R, A, B>(f: (index: number, a: A) => Reader<R, B>) => (
-  as: ReadonlyArray<A>
-): Reader<R, ReadonlyArray<B>> => (r) => as.map((x, i) => f(i, x)(r))
-
-/**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
- *
- * @since 2.9.0
- */
-export const traverseArray = <R, A, B>(
-  f: (a: A) => Reader<R, B>
-): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
- * @since 2.9.0
- */
-export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const traverseReadonlyArrayWithIndex = <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArray = <R, A, B>(
+  f: (a: A) => Reader<R, B>
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * Use small, specific instances instead.

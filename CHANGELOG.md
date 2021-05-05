@@ -52,6 +52,10 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
     - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
+  - `Reader`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
   - `ReadonlyArray`
     - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
   - `ReadonlyNonEmptyArray`
@@ -185,6 +189,8 @@ high state of flux, you're at risk of it changing without notice.
   - `Reader`
     - add `asksReaderW`, `asksReader`
     - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `ReaderEither`
     - add `asksReaderEitherW`, `asksReaderEither`
     - add `orElseFirst` / `orElseFirstW`
