@@ -277,6 +277,12 @@ high state of flux, you're at risk of it changing without notice.
     - add `fromTaskEither` (@thewilkybarkid)
     - add `Zero` instance
     - add `guard` constructor
+  - `TaskThese`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
   - `These`
     - add `elem`
     - add `exists`
