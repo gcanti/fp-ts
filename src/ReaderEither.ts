@@ -41,7 +41,7 @@ import {
   FromReader3,
   fromReaderK as fromReaderK_
 } from './FromReader'
-import { flow, identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
@@ -52,6 +52,7 @@ import { URI as OURI } from './Option'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 
@@ -941,42 +942,77 @@ export const apSW: <A, N extends string, R2, E2, B>(
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: ReaderEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <R, E, A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>) =>
+  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(E.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
  */
 export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>
 ) => ReaderEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
-
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
 
 /**
  * Use small, specific instances instead.

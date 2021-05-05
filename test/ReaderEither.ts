@@ -1,13 +1,15 @@
-import * as U from './util'
 import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import * as S from '../src/string'
-import * as N from '../src/number'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { left, right } from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -266,9 +268,23 @@ describe('ReaderEither', () => {
     )
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
-    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f)({}), E.right(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f)({}), E.left('e'))
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
+    })
   })
 
   it('getCompactable', () => {

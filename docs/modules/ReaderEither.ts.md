@@ -108,15 +108,18 @@ Added in v2.0.0
   - [fromOption](#fromoption)
   - [fromReader](#fromreader)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
-  - [sequenceArray](#sequencearray)
-  - [traverseArray](#traversearray)
-  - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [~~sequenceArray~~](#sequencearray)
+  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
+  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -1145,6 +1148,16 @@ Added in v2.11.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderEither<unknown, never, readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -1223,9 +1236,37 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 
 Added in v2.8.0
 
-## sequenceArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## ~~sequenceArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
@@ -1235,29 +1276,29 @@ export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A
 
 Added in v2.9.0
 
-## traverseArray
+## ~~traverseArrayWithIndex~~
 
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, E, A, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+Use `traverseReadonlyArrayWithIndex` instead.
 
 **Signature**
 
 ```ts
 export declare const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## ~~traverseArray~~
+
+Use `traverseReadonlyArrayWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
 ) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
 ```
 
