@@ -30,6 +30,10 @@ high state of flux, you're at risk of it changing without notice.
     - deprecate `Predicate`, use `Predicate` module instead.
     - deprecate `not`, use `Predicate` module instead.
     - deprecate `Refinement`, use `Refinement` module instead.
+  - `IO`
+    - deprecate `traverseArrayWithIndex` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `traverseArray` in favour of `traverseReadonlyArrayWithIndex`
+    - deprecate `sequenceArray` in favour of `traverseReadonlyArrayWithIndex`
   - `Monoid`
     - deprecate `monoidVoid`, use `void` module instead.
   - `NonEmptyArray`
@@ -114,6 +118,9 @@ high state of flux, you're at risk of it changing without notice.
   - `function`
     - add `SK` (@cdimitroulas)
     - add `apply`
+  - `IO`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
   - `IOEither`
     - add `orElseFirst` / `orElseFirstW`
     - add `orLeft`
