@@ -75,6 +75,7 @@ Added in v2.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
+  - [exists](#exists)
   - [sequence](#sequence)
   - [traverse](#traverse)
 
@@ -679,6 +680,16 @@ export declare function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean
 ```
 
 Added in v2.0.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => boolean
+```
+
+Added in v2.11.0
 
 ## sequence
 

@@ -263,6 +263,8 @@ high state of flux, you're at risk of it changing without notice.
   - `These`
     - add `elem`
     - add `exists`
+  - `Tree`
+    - add `exists`
   - `Witherable`
     - add `filterE`, #1458 (@vinassefranche)
     - add `wiltDefault`
