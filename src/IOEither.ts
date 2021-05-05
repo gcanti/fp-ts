@@ -37,7 +37,7 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { flow, identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
@@ -45,8 +45,10 @@ import { Monad2, Monad2C } from './Monad'
 import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 
@@ -913,77 +915,140 @@ export const apSW: <A, N extends string, E2, B>(
 ) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: IOEither<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <A, E, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
   f: (index: number, a: A) => IOEither<E, B>
-): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) =>
-  flow(I.traverseArrayWithIndex(f), I.map(E.sequenceArray))
+) => (as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>> = (f) =>
+  flow(I.traverseReadonlyNonEmptyArrayWithIndex(f), I.map(E.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): IOEither<E, ReadonlyNonEmptyArray<B>> => () => {
+  const e = f(0, _.head(as))()
+  if (_.isLeft(e)) {
+    return e
+  }
+  const out: NonEmptyArray<B> = [e.right]
+  for (let i = 1; i < as.length; i++) {
+    const e = f(i, as[i])()
+    if (_.isLeft(e)) {
+      return e
+    }
+    out.push(e.right)
+  }
+  return _.right(out)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
  */
 export const traverseArray = <A, E, B>(
   f: (a: A) => IOEither<E, B>
-): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ * Use `traverseReadonlyArrayWithIndex` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
-export const traverseSeqArrayWithIndex = <A, E, B>(f: (index: number, a: A) => IOEither<E, B>) => (
-  as: ReadonlyArray<A>
-): IOEither<E, ReadonlyArray<B>> => () => {
-  const out = []
-  for (let i = 0; i < as.length; i++) {
-    const b = f(i, as[i])()
-    if (E.isLeft(b)) {
-      return b
-    }
-    out.push(b.right)
-  }
-  return E.right(out)
-}
+export const traverseSeqArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => IOEither<E, B>
+) => (as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const traverseSeqArray = <A, E, B>(
   f: (a: A) => IOEither<E, B>
-): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.9.0
+ * @deprecated
  */
 export const sequenceSeqArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
-
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
 
 /**
  * Use [`ApplicativePar`](#applicativepar) instead
