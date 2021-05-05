@@ -367,8 +367,7 @@ describe('ReadonlyNonEmptyArray', () => {
     U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
-  it('alt / concat', () => {
-    U.deepStrictEqual(_.concat(['a'], []), ['a'])
+  it('alt', () => {
     U.deepStrictEqual(
       pipe(
         ['a'],
@@ -692,5 +691,17 @@ describe('ReadonlyNonEmptyArray', () => {
 
   it('concatW', () => {
     U.deepStrictEqual(pipe(['a'], _.concatW(['b'])), ['a', 'b'])
+  })
+
+  it('concat', () => {
+    U.deepStrictEqual(pipe(['a'], _.concat(['b'])), ['a', 'b'])
+    U.deepStrictEqual(pipe(_.empty, _.concat(['b'])), ['b'])
+    U.deepStrictEqual(pipe(['a'], _.concat<string>(_.empty)), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], ['b']), ['a', 'b'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], _.empty), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(_.empty, ['b']), ['b'])
   })
 })

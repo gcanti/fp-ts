@@ -482,6 +482,12 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function concat<A>(
+  second: ReadonlyNonEmptyArray<A>
+): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function concat<A>(
+  second: ReadonlyArray<A>
+): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 export declare function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
 export declare function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 ```

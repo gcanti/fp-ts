@@ -113,3 +113,5 @@ _.filter(isNumber2)(neasn)
 
 _.concat(ras, rneas) // $ExpectType ReadonlyNonEmptyArray<string>
 _.concat(rneas, ras) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concat(rneas)(ras) // $ExpectType ReadonlyNonEmptyArray<string>
+_.concat(ras)(rneas) // $ExpectType ReadonlyNonEmptyArray<string>

@@ -374,6 +374,8 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
+export declare function concat<A>(second: Array<A>): (first: NonEmptyArray<A>) => NonEmptyArray<A>
 export declare function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
 export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
 ```

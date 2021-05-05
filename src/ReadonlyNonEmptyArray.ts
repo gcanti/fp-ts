@@ -201,7 +201,7 @@ export const union = <A>(
   E: Eq<A>
 ): ((second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (second) => (first) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(pipe(first, concat(second)))
 }
 
 /**
@@ -224,7 +224,7 @@ export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): Readonly
   }
   if (m < 0) {
     const [f, s] = splitAt(-m)(as)
-    return concat(s, f)
+    return pipe(s, concat(f))
   } else {
     return rotate(m - len)(as)
   }
@@ -359,10 +359,17 @@ export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmpt
  * @category combinators
  * @since 2.5.0
  */
+export function concat<A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export function concat<A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyArray<A>): ReadonlyArray<A> {
-  return first.concat(second)
+export function concat<A>(
+  x: ReadonlyArray<A>,
+  y?: ReadonlyArray<A>
+): ReadonlyArray<A> | ((y: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A>) {
+  return y ? x.concat(y) : (y) => y.concat(x)
 }
 
 /**
@@ -685,7 +692,7 @@ export const of: Pointed1<URI>['of'] = _.singleton
  */
 export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<A | B> => concat(as as ReadonlyNonEmptyArray<A | B>, that())
+): ReadonlyNonEmptyArray<A | B> => pipe(as, concatW(that()))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1363,7 +1370,7 @@ export function cons<A>(
  * @since 2.5.0
  * @deprecated
  */
-export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => pipe(init, concat([end]))
 
 /**
  * Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.

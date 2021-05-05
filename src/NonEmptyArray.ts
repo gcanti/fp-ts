@@ -189,7 +189,7 @@ export const sortBy = <B>(ords: Array<Ord<B>>): (<A extends B>(as: NonEmptyArray
  */
 export const union = <A>(E: Eq<A>): ((second: NonEmptyArray<A>) => (first: NonEmptyArray<A>) => NonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (second) => (first) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(pipe(first, concat(second)))
 }
 
 /**
@@ -212,7 +212,7 @@ export const rotate = (n: number) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A>
   }
   if (m < 0) {
     const [f, s] = splitAt(-m)(as)
-    return concat(s, f)
+    return pipe(s, concat(f))
   } else {
     return rotate(m - len)(as)
   }
@@ -335,15 +335,18 @@ export function concatW<B>(second: Array<B>): <A>(first: NonEmptyArray<A>) => Ar
   return <A>(first: NonEmptyArray<A | B>) => first.concat(second)
 }
 
-// TODO: curry in v3
 /**
  * @category combinators
  * @since 2.2.0
  */
+export function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
+export function concat<A>(second: Array<A>): (first: NonEmptyArray<A>) => NonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
-export function concat<A>(first: Array<A>, second: Array<A>): Array<A> {
-  return first.concat(second)
+export function concat<A>(x: Array<A>, y?: Array<A>): Array<A> | ((y: NonEmptyArray<A>) => Array<A>) {
+  return y ? x.concat(y) : (y) => y.concat(x)
 }
 
 /**
@@ -670,7 +673,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @since 2.9.0
  */
 export const altW = <B>(that: Lazy<NonEmptyArray<B>>) => <A>(as: NonEmptyArray<A>): NonEmptyArray<A | B> =>
-  concat(as as NonEmptyArray<A | B>, that())
+  pipe(as, concatW(that()))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

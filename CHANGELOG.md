@@ -131,6 +131,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionSemigroup`
     - add `makeBy`
     - add `range`
+    - make `concat` pipeable
   - `number`
     - add `MagmaSub`
     - add `isNumber`
@@ -217,6 +218,7 @@ high state of flux, you're at risk of it changing without notice.
     - add `getUnionSemigroup`
     - add `makeBy`
     - add `range`
+    - make `concat` pipeable
   - `ReadonlyRecord`
     - add `union` (@anthonyjoeseph)
     - add `intersection` (@anthonyjoeseph)

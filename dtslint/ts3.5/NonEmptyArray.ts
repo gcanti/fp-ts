@@ -113,3 +113,5 @@ _.filter(isNumber2)(neasn)
 
 _.concat(as, neas) // $ExpectType NonEmptyArray<string>
 _.concat(neas, as) // $ExpectType NonEmptyArray<string>
+_.concat(neas)(as) // $ExpectType NonEmptyArray<string>
+_.concat(as)(neas) // $ExpectType NonEmptyArray<string>
