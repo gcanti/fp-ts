@@ -83,6 +83,8 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
+  - [elem](#elem)
+  - [exists](#exists)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
@@ -594,6 +596,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApT: These<never, readonly []>
+```
+
+Added in v3.0.0
+
+## elem
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: These<unknown, A>) => boolean
+```
+
+Added in v3.0.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
 ```
 
 Added in v3.0.0

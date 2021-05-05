@@ -2120,6 +2120,13 @@ export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boo
 export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
   as.some(predicate)
 
+/**
+ * Alias of [`some`](#some)
+ *
+ * @since 3.0.0
+ */
+export const exists = some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

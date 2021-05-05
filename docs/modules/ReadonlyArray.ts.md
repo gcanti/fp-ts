@@ -166,6 +166,7 @@ Added in v3.0.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [exists](#exists)
   - [filterE](#filtere)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -2164,6 +2165,18 @@ const isPositive = (n: number): boolean => n > 0
 
 assert.deepStrictEqual(pipe([1, 2, 3], every(isPositive)), true)
 assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
+```
+
+Added in v3.0.0
+
+## exists
+
+Alias of [`some`](#some)
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v3.0.0

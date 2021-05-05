@@ -28,6 +28,7 @@ import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '
 import * as _ from './internal'
 import type { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import type { Pointed1 } from './Pointed'
+import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
@@ -518,15 +519,17 @@ export const Comonad: Comonad1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 3.0.0
+ */
+export const exists = <A>(predicate: Predicate<A>) => (ma: Tree<A>): boolean =>
+  predicate(ma.value) || ma.forest.some(exists(predicate))
+
+/**
  * Tests whether a value is a member of a `Tree`.
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => {
-  const predicate = E.equals(a)
-  const go = (fa: Tree<A>): boolean => predicate(fa.value) || fa.forest.some(go)
-  return go
-}
+export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => exists(E.equals(a))
 
 const draw = (indentation: string, forest: Forest<string>): string => {
   let r = ''

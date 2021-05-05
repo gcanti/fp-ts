@@ -76,6 +76,7 @@ Added in v3.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
+  - [exists](#exists)
   - [traverse](#traverse)
   - [tupled](#tupled)
 
@@ -704,6 +705,16 @@ Tests whether a value is a member of a `Tree`.
 
 ```ts
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Tree<A>) => boolean
+```
+
+Added in v3.0.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => boolean
 ```
 
 Added in v3.0.0

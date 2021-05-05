@@ -41,6 +41,7 @@ import type { Monad2C } from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type { Pointed2 } from './Pointed'
+import { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
@@ -238,22 +239,19 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
+export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
+export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
+export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
 
 /**
  * @since 3.0.0
@@ -532,6 +530,17 @@ export const Traversable: Traversable2<URI> = {
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const elem = <A>(E: Eq<A>) => (a: A): ((ma: These<unknown, A>) => boolean) => exists(E.equals(a))
+
+/**
+ * @since 3.0.0
+ */
+export const exists = <A>(predicate: Predicate<A>) => (ma: These<unknown, A>): boolean =>
+  isLeft(ma) ? false : predicate(ma.right)
 
 /**
  * @example
