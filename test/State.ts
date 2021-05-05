@@ -1,6 +1,8 @@
-import * as U from './util'
 import { pipe, tuple } from '../src/function'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as _ from '../src/State'
+import * as U from './util'
 
 describe('State', () => {
   describe('pipeables', () => {
@@ -87,11 +89,23 @@ describe('State', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), [{ a: 1, b: 'b' }, undefined])
   })
 
-  it('sequenceArray', () => {
-    const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
-    U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)([]), [
-      [1, 2],
-      [1, 2]
-    ])
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      U.deepStrictEqual(pipe(RA.empty, f)({}), [RA.empty, {}])
+      U.deepStrictEqual(pipe(input, f)({}), [['a0', 'b1'], {}])
+    })
+
+    // old
+    it('sequenceArray', () => {
+      const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)([]), [
+        [1, 2],
+        [1, 2]
+      ])
+    })
   })
 })

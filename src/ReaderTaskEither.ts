@@ -1424,10 +1424,9 @@ export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
  * @since 2.9.0
  * @deprecated
  */
-export const traverseArrayWithIndex = <R, E, A, B>(
+export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(TE.sequenceArray))
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
  * Use `traverseReadonlyArrayWithIndex` instead.
@@ -1437,7 +1436,8 @@ export const traverseArrayWithIndex = <R, E, A, B>(
  */
 export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Use `traverseReadonlyArrayWithIndex` instead.
@@ -1457,10 +1457,9 @@ export const sequenceArray: <R, E, A>(
  * @since 2.9.0
  * @deprecated
  */
-export const traverseSeqArrayWithIndex = <R, E, A, B>(
+export const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(TE.sequenceSeqArray))
+) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
  * Use `traverseReadonlyArrayWithIndexSeq` instead.
@@ -1470,7 +1469,8 @@ export const traverseSeqArrayWithIndex = <R, E, A, B>(
  */
 export const traverseSeqArray = <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>>) =>
+  traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Use `traverseReadonlyArrayWithIndexSeq` instead.

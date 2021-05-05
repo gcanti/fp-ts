@@ -1274,10 +1274,9 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
  * @since 2.9.0
  * @deprecated
  */
-export const traverseArrayWithIndex = <A, B, E>(
+export const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) =>
-  flow(T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
  * Use `traverseReadonlyArrayWithIndex` instead.
@@ -1287,7 +1286,7 @@ export const traverseArrayWithIndex = <A, B, E>(
  */
 export const traverseArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
  * Use `traverseReadonlyArrayWithIndex` instead.
@@ -1305,24 +1304,9 @@ export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => Task
  * @since 2.9.0
  * @deprecated
  */
-export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => TaskEither<E, B>) => (
-  as: ReadonlyArray<A>
-): TaskEither<E, ReadonlyArray<B>> => () =>
-  as.reduce<Promise<Either<E, Array<B>>>>(
-    (acc, a, i) =>
-      acc.then((ebs) =>
-        _.isLeft(ebs)
-          ? acc
-          : f(i, a)().then((eb) => {
-              if (_.isLeft(eb)) {
-                return eb
-              }
-              ebs.right.push(eb.right)
-              return ebs
-            })
-      ),
-    Promise.resolve(_.right([]))
-  )
+export const traverseSeqArrayWithIndex: <A, B, E>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
  * Use `traverseReadonlyArrayWithIndexSeq` instead.
@@ -1332,7 +1316,7 @@ export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => T
  */
 export const traverseSeqArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
  * Use `traverseReadonlyArrayWithIndexSeq` instead.

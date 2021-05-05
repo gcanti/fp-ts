@@ -8,7 +8,10 @@ import { FromState2 } from './FromState'
 import { identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import { Monad2 } from './Monad'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -315,44 +318,71 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
-  as: ReadonlyArray<A>
-): State<S, ReadonlyArray<B>> => (s) => {
-  let lastState = s
-  const values = []
-  for (let i = 0; i < as.length; i++) {
-    const [newValue, newState] = f(i, as[i])(lastState)
-    values.push(newValue)
-    lastState = newState
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): State<S, ReadonlyNonEmptyArray<B>> => (s) => {
+  const [b, s2] = f(0, _.head(as))(s)
+  const bs: NonEmptyArray<B> = [b]
+  let out = s2
+  for (let i = 1; i < as.length; i++) {
+    const [b, s2] = f(i, as[i])(out)
+    bs.push(b)
+    out = s2
   }
-  return [values, lastState]
+  return [bs, out]
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArray = <A, S, B>(
-  f: (a: A) => State<S, B>
-): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
- * @since 2.9.0
- */
-export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const traverseReadonlyArrayWithIndex = <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const traverseArray = <A, S, B>(
+  f: (a: A) => State<S, B>
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * Use `traverseReadonlyArrayWithIndex` instead.
+ *
+ * @since 2.9.0
+ * @deprecated
+ */
+export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
 
 /**
  * Use [`evaluate`](#evaluate) instead
