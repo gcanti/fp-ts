@@ -2,8 +2,11 @@
  * @since 2.0.0
  */
 import * as E from './Eq'
+import { flow } from './function'
 import { IO } from './IO'
-import * as O from './Ord'
+import * as O from './Option'
+import { Ord as Ord_, ordDate } from './Ord'
+import { not, Predicate } from './Predicate'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -50,11 +53,27 @@ export const eqYear: E.Eq<Date> = {
  * @since 2.10.0
  */
 // tslint:disable-next-line: deprecation
-export const Ord: O.Ord<Date> = O.ordDate
+export const Ord: Ord_<Date> = ordDate
 
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * Returns `true` if the input is a valid Date, `false` otherwise.
+ *
+ * @category refinements
+ * @since 2.11.0
+ */
+export const isValid: Predicate<Date> = flow((date) => date.getTime(), not(isNaN))
+
+/**
+ * Returns a `Date` if the input is a valid date time string.
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const fromString: (value: string) => O.Option<Date> = flow((value) => new Date(value), O.fromPredicate(isValid))
 
 /**
  * Returns the current `Date`
