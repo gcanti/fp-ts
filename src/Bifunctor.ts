@@ -26,7 +26,7 @@ export interface Bifunctor<F> {
 export interface Bifunctor2<F extends URIS2> {
   readonly URI?: F
   readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Kind2<F, E, A>) => Kind2<F, G, B>
-  readonly mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Kind2<F, E, A>) => Kind2<F, G, A>
+  readonly mapLeft: <E, G, A>(f: (e: E) => G) => (fea: Kind2<F, E, A>) => Kind2<F, G, A>
 }
 
 /**
