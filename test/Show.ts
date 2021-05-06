@@ -17,4 +17,21 @@ describe('Show', () => {
     const Sh = _.tuple(S.Show, N.Show)
     U.deepStrictEqual(Sh.show(['a', 1]), '["a", 1]')
   })
+
+  it('showBoolean', () => {
+    // tslint:disable-next-line: deprecation
+    const Sh = _.showBoolean
+    U.deepStrictEqual(Sh.show(true), 'true')
+    U.deepStrictEqual(Sh.show(false), 'false')
+  })
+
+  it('showNumber', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.showNumber.show(1), '1')
+  })
+
+  it('showString', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.showString.show('a'), '"a"')
+  })
 })

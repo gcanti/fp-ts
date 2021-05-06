@@ -56,4 +56,49 @@ describe('Semigroup', () => {
     const S = _.struct(Object.create({ a: 1 }))
     U.deepStrictEqual(S.concat({}, {}), {})
   })
+
+  it('semigroupAll', () => {
+    // tslint:disable-next-line: deprecation
+    const S = _.semigroupAll
+    U.deepStrictEqual(S.concat(true, true), true)
+    U.deepStrictEqual(S.concat(false, true), false)
+    U.deepStrictEqual(S.concat(true, false), false)
+    U.deepStrictEqual(S.concat(false, false), false)
+  })
+
+  it('semigroupAny', () => {
+    // tslint:disable-next-line: deprecation
+    const S = _.semigroupAny
+    U.deepStrictEqual(S.concat(true, true), true)
+    U.deepStrictEqual(S.concat(false, true), true)
+    U.deepStrictEqual(S.concat(true, false), true)
+    U.deepStrictEqual(S.concat(false, false), false)
+  })
+
+  it('semigroupSum', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.semigroupSum.concat(2, 3), 5)
+  })
+
+  it('semigroupProduct', () => {
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.semigroupProduct.concat(2, 3), 6)
+  })
+
+  it('getObjectSemigroup', () => {
+    type T = {
+      readonly foo?: number
+      readonly bar: string
+    }
+    const foo: T = {
+      foo: 123,
+      bar: '456'
+    }
+    const bar: T = {
+      bar: '123'
+    }
+    // tslint:disable-next-line: deprecation
+    const S = _.getObjectSemigroup<T>()
+    U.deepStrictEqual(S.concat(foo, bar), Object.assign({}, foo, bar))
+  })
 })

@@ -1005,6 +1005,8 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `getFoldable` instead.
  *
@@ -1075,9 +1077,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   traverseWithIndex: _traverseWithIndex(S.Ord)
 }
 
-// tslint:disable-next-line: deprecation
 const _wither = witherDefault(Traversable, Compactable)
-// tslint:disable-next-line: deprecation
 const _wilt = wiltDefault(Traversable, Compactable)
 
 /**
@@ -1127,7 +1127,6 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
 
 /**

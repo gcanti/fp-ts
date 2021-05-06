@@ -1,11 +1,11 @@
 import * as Benchmark from 'benchmark'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
-import * as _ from '../../src/TaskEither'
+import * as _ from '../../src/ReaderTask'
 import { pipe } from '../../src/function'
 
 /*
-A.traverseWithIndex(_.ApplicativeSeq) x 309 ops/sec ±8.49% (67 runs sampled)
-_.traverseSeqArrayWithIndex x 1,502 ops/sec ±4.20% (20 runs sampled)
+A.traverseWithIndex(_.ApplicativeSeq) x 247 ops/sec ±4.98% (36 runs sampled)
+_.traverseSeqArrayWithIndex x 1,901 ops/sec ±10.34% (66 runs sampled)
 Fastest is _.traverseSeqArrayWithIndex
 */
 
@@ -18,13 +18,13 @@ suite
     return pipe(
       as,
       RNEA.traverseWithIndex(_.ApplicativeSeq)((_i, a) => _.of(a))
-    )()
+    )(undefined)()
   })
-  .add('_.traverseSeqArrayWithIndex', function () {
+  .add('_.traverseReadonlyArrayWithIndexSeq', function () {
     return pipe(
       as,
-      _.traverseSeqArrayWithIndex((_i, a) => _.of(a))
-    )()
+      _.traverseReadonlyArrayWithIndexSeq((_i, a) => _.of(a))
+    )(undefined)()
   })
   .on('cycle', function (event: any) {
     // tslint:disable-next-line: no-console

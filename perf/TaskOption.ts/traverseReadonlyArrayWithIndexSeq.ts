@@ -1,11 +1,11 @@
 import * as Benchmark from 'benchmark'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
-import * as _ from '../../src/Task'
+import * as _ from '../../src/TaskOption'
 import { pipe } from '../../src/function'
 
 /*
-A.traverseWithIndex(_.ApplicativeSeq) x 310 ops/sec ±10.89% (31 runs sampled)
-_.traverseSeqArrayWithIndex x 1,324 ops/sec ±6.92% (20 runs sampled)
+A.traverseWithIndex(_.ApplicativeSeq) x 309 ops/sec ±8.49% (67 runs sampled)
+_.traverseSeqArrayWithIndex x 1,502 ops/sec ±4.20% (20 runs sampled)
 Fastest is _.traverseSeqArrayWithIndex
 */
 
@@ -20,10 +20,10 @@ suite
       RNEA.traverseWithIndex(_.ApplicativeSeq)((_i, a) => _.of(a))
     )()
   })
-  .add('_.traverseSeqArrayWithIndex', function () {
+  .add('_.traverseReadonlyArrayWithIndexSeq', function () {
     return pipe(
       as,
-      _.traverseSeqArrayWithIndex((_i, a) => _.of(a))
+      _.traverseReadonlyArrayWithIndexSeq((_i, a) => _.of(a))
     )()
   })
   .on('cycle', function (event: any) {

@@ -1,6 +1,6 @@
 import * as Benchmark from 'benchmark'
 import * as RNEA from '../../src/ReadonlyNonEmptyArray'
-import * as _ from '../../src/TaskOption'
+import * as _ from '../../src/TaskEither'
 import { pipe } from '../../src/function'
 
 /*
@@ -20,10 +20,10 @@ suite
       RNEA.traverseWithIndex(_.ApplicativeSeq)((_i, a) => _.of(a))
     )()
   })
-  .add('_.traverseSeqArrayWithIndex', function () {
+  .add('_.traverseReadonlyArrayWithIndexSeq', function () {
     return pipe(
       as,
-      _.traverseSeqArrayWithIndex((_i, a) => _.of(a))
+      _.traverseReadonlyArrayWithIndexSeq((_i, a) => _.of(a))
     )()
   })
   .on('cycle', function (event: any) {

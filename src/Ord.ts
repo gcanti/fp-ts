@@ -318,6 +318,8 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) =>
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use [`tuple`](#tuple) instead.
  *
@@ -394,7 +396,6 @@ export const ordNumber: Ord<number> = strictOrd
 export const ordDate: Ord<Date> =
   /*#__PURE__*/
   pipe(
-    // tslint:disable-next-line: deprecation
     ordNumber,
     /*#__PURE__*/
     contramap((date) => date.valueOf())

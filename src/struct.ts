@@ -2,7 +2,7 @@
  * @since 2.10.0
  */
 import * as _ from './internal'
-import { getObjectSemigroup, Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -25,8 +25,9 @@ import { getObjectSemigroup, Semigroup } from './Semigroup'
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const getAssignSemigroup: <A extends object = never>() => Semigroup<A> = getObjectSemigroup
+export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (first, second) => Object.assign({}, first, second)
+})
 
 // -------------------------------------------------------------------------------------
 // utils

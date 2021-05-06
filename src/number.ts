@@ -4,12 +4,12 @@
 import * as B from './Bounded'
 import * as E from './Eq'
 import * as F from './Field'
-import * as O from './Ord'
-import * as S from './Show'
-import { Semigroup, semigroupProduct, semigroupSum } from './Semigroup'
-import { Monoid, monoidProduct, monoidSum } from './Monoid'
 import { Magma } from './Magma'
+import { Monoid } from './Monoid'
+import * as O from './Ord'
 import { Refinement } from './Refinement'
+import { Semigroup } from './Semigroup'
+import * as S from './Show'
 
 // -------------------------------------------------------------------------------------
 // refinements
@@ -29,43 +29,44 @@ export const isNumber: Refinement<unknown, number> = (u: unknown): u is number =
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Eq: E.Eq<number> = E.eqNumber
+export const Eq: E.Eq<number> = {
+  equals: (first, second) => first === second
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Ord: O.Ord<number> = O.ordNumber
+export const Ord: O.Ord<number> = {
+  equals: Eq.equals,
+  compare: (first, second) => (first < second ? -1 : first > second ? 1 : 0)
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Bounded: B.Bounded<number> = B.boundedNumber
+export const Bounded: B.Bounded<number> = {
+  equals: Eq.equals,
+  compare: Ord.compare,
+  top: Infinity,
+  bottom: -Infinity
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Field: F.Field<number> = F.fieldNumber
-
-/**
- * @category instances
- * @since 2.10.0
- */
-// tslint:disable-next-line: deprecation
-export const Show: S.Show<number> = S.showNumber
+export const Show: S.Show<number> = {
+  show: (n) => JSON.stringify(n)
+}
 
 /**
  * @category instances
  * @since 2.11.0
  */
 export const MagmaSub: Magma<number> = {
-  concat: Field.sub
+  concat: (first, second) => first - second
 }
 
 /**
@@ -79,8 +80,9 @@ export const MagmaSub: Magma<number> = {
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const SemigroupSum: Semigroup<number> = semigroupSum
+export const SemigroupSum: Semigroup<number> = {
+  concat: (first, second) => first + second
+}
 
 /**
  * `number` semigroup under multiplication.
@@ -93,8 +95,9 @@ export const SemigroupSum: Semigroup<number> = semigroupSum
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const SemigroupProduct: Semigroup<number> = semigroupProduct
+export const SemigroupProduct: Semigroup<number> = {
+  concat: (first, second) => first * second
+}
 
 /**
  * `number` monoid under addition.
@@ -109,8 +112,10 @@ export const SemigroupProduct: Semigroup<number> = semigroupProduct
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const MonoidSum: Monoid<number> = monoidSum
+export const MonoidSum: Monoid<number> = {
+  concat: SemigroupSum.concat,
+  empty: 0
+}
 
 /**
  * `number` monoid under multiplication.
@@ -125,5 +130,22 @@ export const MonoidSum: Monoid<number> = monoidSum
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const MonoidProduct: Monoid<number> = monoidProduct
+export const MonoidProduct: Monoid<number> = {
+  concat: SemigroupProduct.concat,
+  empty: 1
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Field: F.Field<number> = {
+  add: SemigroupSum.concat,
+  zero: 0,
+  mul: SemigroupProduct.concat,
+  one: 1,
+  sub: MagmaSub.concat,
+  degree: (_) => 1,
+  div: (first, second) => first / second,
+  mod: (first, second) => first % second
+}

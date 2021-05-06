@@ -3,12 +3,12 @@
  */
 import * as BA from './BooleanAlgebra'
 import * as E from './Eq'
-import { Semigroup, semigroupAll, semigroupAny } from './Semigroup'
 import { Lazy } from './function'
-import { Monoid, monoidAll, monoidAny } from './Monoid'
+import { Monoid } from './Monoid'
 import * as O from './Ord'
-import * as S from './Show'
 import { Refinement } from './Refinement'
+import { Semigroup } from './Semigroup'
+import * as S from './Show'
 
 // -------------------------------------------------------------------------------------
 // refinements
@@ -80,15 +80,22 @@ export const fold = match
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Eq: E.Eq<boolean> = E.eqBoolean
+export const Eq: E.Eq<boolean> = {
+  equals: (first, second) => first === second
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = BA.booleanAlgebraBoolean
+export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = {
+  meet: (first, second) => first && second,
+  join: (first, second) => first || second,
+  zero: false,
+  one: true,
+  implies: (first, second) => !first || second,
+  not: (b) => !b
+}
 
 /**
  * `boolean` semigroup under conjunction.
@@ -102,8 +109,9 @@ export const BooleanAlgebra: BA.BooleanAlgebra<boolean> = BA.booleanAlgebraBoole
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const SemigroupAll: Semigroup<boolean> = semigroupAll
+export const SemigroupAll: Semigroup<boolean> = {
+  concat: (first, second) => first && second
+}
 
 /**
  * `boolean` semigroup under disjunction.
@@ -118,8 +126,9 @@ export const SemigroupAll: Semigroup<boolean> = semigroupAll
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const SemigroupAny: Semigroup<boolean> = semigroupAny
+export const SemigroupAny: Semigroup<boolean> = {
+  concat: (first, second) => first || second
+}
 
 /**
  * `boolean` monoid under conjunction.
@@ -135,8 +144,10 @@ export const SemigroupAny: Semigroup<boolean> = semigroupAny
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const MonoidAll: Monoid<boolean> = monoidAll
+export const MonoidAll: Monoid<boolean> = {
+  concat: SemigroupAll.concat,
+  empty: true
+}
 
 /**
  * `boolean` monoid under disjunction.
@@ -153,19 +164,24 @@ export const MonoidAll: Monoid<boolean> = monoidAll
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const MonoidAny: Monoid<boolean> = monoidAny
+export const MonoidAny: Monoid<boolean> = {
+  concat: SemigroupAny.concat,
+  empty: false
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Ord: O.Ord<boolean> = O.ordBoolean
+export const Ord: O.Ord<boolean> = {
+  equals: Eq.equals,
+  compare: (first, second) => (first < second ? -1 : first > second ? 1 : 0)
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Show: S.Show<boolean> = S.showBoolean
+export const Show: S.Show<boolean> = {
+  show: (b) => JSON.stringify(b)
+}

@@ -202,6 +202,8 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use [`Monoid`](./void.ts.html#monoid) instead.
  *
@@ -210,7 +212,6 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
  * @deprecated
  */
 export const monoidVoid: Monoid<void> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupVoid.concat,
   empty: undefined
 }
@@ -280,7 +281,6 @@ export const fold = concatAll
  * @deprecated
  */
 export const monoidAll: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAll.concat,
   empty: true
 }
@@ -293,7 +293,6 @@ export const monoidAll: Monoid<boolean> = {
  * @deprecated
  */
 export const monoidAny: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAny.concat,
   empty: false
 }
@@ -326,7 +325,6 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => r
  * @deprecated
  */
 export const monoidString: Monoid<string> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupString.concat,
   empty: ''
 }
@@ -339,7 +337,6 @@ export const monoidString: Monoid<string> = {
  * @deprecated
  */
 export const monoidSum: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupSum.concat,
   empty: 0
 }
@@ -352,7 +349,6 @@ export const monoidSum: Monoid<number> = {
  * @deprecated
  */
 export const monoidProduct: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupProduct.concat,
   empty: 1
 }

@@ -1496,6 +1496,8 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `getFoldable` instead.
  *
@@ -1566,9 +1568,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   traverseWithIndex: _traverseWithIndex(S.Ord)
 }
 
-// tslint:disable-next-line: deprecation
 const _wither = witherDefault(Traversable, Compactable)
-// tslint:disable-next-line: deprecation
 const _wilt = wiltDefault(Traversable, Compactable)
 
 /**

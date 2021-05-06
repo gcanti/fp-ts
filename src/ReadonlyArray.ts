@@ -776,9 +776,8 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => Option<ReadonlyNonEmptyArray<A>> =
-  // tslint:disable-next-line: deprecation
-  RNEA.insertAt
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+  i < 0 || i > as.length ? _.none : _.some(RNEA.unsafeInsertAt(i, a, as))
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -2507,6 +2506,8 @@ export const apS =
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `ReadonlyNonEmptyArray` module instead.
  *
@@ -2523,7 +2524,6 @@ export const range = RNEA.range
  * @since 2.5.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const cons = RNEA.cons
 
 /**
@@ -2533,7 +2533,6 @@ export const cons = RNEA.cons
  * @since 2.5.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const snoc = RNEA.snoc
 
 /**

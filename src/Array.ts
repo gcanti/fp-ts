@@ -2277,6 +2277,8 @@ export const apS =
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `NonEmptyArray` module instead.
  *
@@ -2301,7 +2303,6 @@ export const empty: Array<never> = []
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const cons = NEA.cons
 
 /**
@@ -2311,7 +2312,6 @@ export const cons = NEA.cons
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const snoc = NEA.snoc
 
 /**

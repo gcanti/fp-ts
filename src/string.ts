@@ -26,8 +26,9 @@ export const isString: Refinement<unknown, string> = (u: unknown): u is string =
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Eq: E.Eq<string> = E.eqString
+export const Eq: E.Eq<string> = {
+  equals: (first, second) => first === second
+}
 
 /**
  * `string` semigroup under concatenation.
@@ -40,8 +41,9 @@ export const Eq: E.Eq<string> = E.eqString
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Semigroup: S.Semigroup<string> = S.semigroupString
+export const Semigroup: S.Semigroup<string> = {
+  concat: (first, second) => first + second
+}
 
 /**
  * `string` monoid under concatenation.
@@ -56,22 +58,27 @@ export const Semigroup: S.Semigroup<string> = S.semigroupString
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Monoid: M.Monoid<string> = M.monoidString
+export const Monoid: M.Monoid<string> = {
+  concat: Semigroup.concat,
+  empty: ''
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Ord: O.Ord<string> = O.ordString
+export const Ord: O.Ord<string> = {
+  equals: Eq.equals,
+  compare: (first, second) => (first < second ? -1 : first > second ? 1 : 0)
+}
 
 /**
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Show: Sh.Show<string> = Sh.showString
+export const Show: Sh.Show<string> = {
+  show: (s) => JSON.stringify(s)
+}
 
 // -------------------------------------------------------------------------------------
 // utils
