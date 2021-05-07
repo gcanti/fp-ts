@@ -85,26 +85,6 @@ export interface Right<A> {
 export type Either<E, A> = Left<E> | Right<A>
 
 // -------------------------------------------------------------------------------------
-// refinements
-// -------------------------------------------------------------------------------------
-
-/**
- * Returns `true` if the either is an instance of `Left`, `false` otherwise.
- *
- * @category refinements
- * @since 2.0.0
- */
-export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
-
-/**
- * Returns `true` if the either is an instance of `Right`, `false` otherwise.
- *
- * @category refinements
- * @since 2.0.0
- */
-export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
-
-// -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
 
@@ -125,6 +105,699 @@ export const left: <E = never, A = never>(e: E) => Either<E, A> = _.left
  * @since 2.0.0
  */
 export const right: <E = never, A = never>(a: A) => Either<E, A> = _.right
+
+// -------------------------------------------------------------------------------------
+// non-pipeables
+// -------------------------------------------------------------------------------------
+
+const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+/* istanbul ignore next */
+const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const _reduce: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
+/* istanbul ignore next */
+const _foldMap: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
+  const foldMapM = foldMap(M)
+  return pipe(fa, foldMapM(f))
+}
+/* istanbul ignore next */
+const _reduceRight: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
+const _traverse = <F>(
+  F: ApplicativeHKT<F>
+): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
+  const traverseF = traverse(F)
+  return (ta, f) => pipe(ta, traverseF(f))
+}
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
+/* istanbul ignore next */
+const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
+/* istanbul ignore next */
+const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
+const _chainRec: ChainRec2<URI>['chainRec'] = (a, f) =>
+  tailRec(f(a), (e) =>
+    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
+  )
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const URI = 'Either'
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind2<E, A> {
+    readonly [URI]: Either<E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getShow = <E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> => ({
+  show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
+})
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getEq = <E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> => ({
+  equals: (x, y) =>
+    x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right))
+})
+
+/**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * concatenated using the provided `Semigroup`
+ *
+ * @example
+ * import { getSemigroup, left, right } from 'fp-ts/Either'
+ * import { SemigroupSum } from 'fp-ts/number'
+ *
+ * const S = getSemigroup<string, number>(SemigroupSum)
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> => ({
+  concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right)))
+})
+
+/**
+ * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
+  const empty = left(M.empty)
+  return {
+    URI,
+    _E: undefined as any,
+    compact: (ma) => (isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)),
+    separate: (ma) =>
+      isLeft(ma)
+        ? separated(ma, ma)
+        : isLeft(ma.right)
+        ? separated(right(ma.right.left), empty)
+        : separated(empty, right(ma.right.right))
+  }
+}
+
+/**
+ * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
+ *
+ * @category instances
+ * @since 2.10.0
+ */
+export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
+  const empty = left(M.empty)
+
+  const { compact, separate } = getCompactable(M)
+
+  const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
+    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
+
+  const partition = <A>(ma: Either<E, A>, p: Predicate<A>): Separated<Either<E, A>, Either<E, A>> => {
+    return isLeft(ma)
+      ? separated(ma, ma)
+      : p(ma.right)
+      ? separated(empty, right(ma.right))
+      : separated(right(ma.right), empty)
+  }
+
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    compact,
+    separate,
+    filter,
+    filterMap: (ma, f) => {
+      if (isLeft(ma)) {
+        return ma
+      }
+      const ob = f(ma.right)
+      return ob._tag === 'None' ? empty : right(ob.value)
+    },
+    partition,
+    partitionMap: (ma, f) => {
+      if (isLeft(ma)) {
+        return separated(ma, ma)
+      }
+      const e = f(ma.right)
+      return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
+    }
+  }
+}
+
+/**
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
+ *
+ * @category instances
+ * @since 2.0.0
+ */
+export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
+  const F_ = getFilterable(M)
+  const C = getCompactable(M)
+  return {
+    URI,
+    _E: undefined as any,
+    map: _map,
+    compact: F_.compact,
+    separate: F_.separate,
+    filter: F_.filter,
+    filterMap: F_.filterMap,
+    partition: F_.partition,
+    partitionMap: F_.partitionMap,
+    traverse: _traverse,
+    sequence,
+    reduce: _reduce,
+    foldMap: _foldMap,
+    reduceRight: _reduceRight,
+    wither: witherDefault(Traversable, C),
+    wilt: wiltDefault(Traversable, C)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const getApplicativeValidation = <E>(SE: Semigroup<E>): Applicative2C<URI, E> => ({
+  URI,
+  _E: undefined as any,
+  map: _map,
+  ap: (fab, fa) =>
+    isLeft(fab)
+      ? isLeft(fa)
+        ? left(SE.concat(fab.left, fa.left))
+        : fab
+      : isLeft(fa)
+      ? fa
+      : right(fab.right(fa.right)),
+  of
+})
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const getAltValidation = <E>(SE: Semigroup<E>): Alt2C<URI, E> => ({
+  URI,
+  _E: undefined as any,
+  map: _map,
+  alt: (me, that) => {
+    if (isRight(me)) {
+      return me
+    }
+    const ea = that()
+    return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
+  }
+})
+
+/**
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>
+  isLeft(fa) ? fa : right(f(fa.right))
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Functor: Functor2<URI> = {
+  URI,
+  map: _map
+}
+
+/**
+ * @category instance operations
+ * @since 2.7.0
+ */
+export const of: <E = never, A = never>(a: A) => Either<E, A> = right
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Pointed: Pointed2<URI> = {
+  URI,
+  of
+}
+
+/**
+ * Less strict version of [`ap`](#ap).
+ *
+ * @category instance operations
+ * @since 2.8.0
+ */
+export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
+  fab
+) => (isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right)))
+
+/**
+ * Apply a function to an argument under a type constructor.
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Apply: Apply2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Applicative: Applicative2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of
+}
+
+/**
+ * Less strict version of [`chain`](#chain).
+ *
+ * @category instance operations
+ * @since 2.6.0
+ */
+export const chainW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
+  isLeft(ma) ? ma : f(ma.right)
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const Chain: Chain2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Monad: Monad2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain
+}
+
+/**
+ * Left-associative fold of a structure.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const startWith = 'prefix'
+ * const concat = (a: string, b: string) => `${a}:${b}`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.reduce(startWith, concat)),
+ *   'prefix:a'
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.reduce(startWith, concat)),
+ *   'prefix'
+ * )
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
+  isLeft(fa) ? b : f(b, fa.right)
+
+/**
+ * Map each element of the structure to a monoid, and combine the results.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ * import * as S from 'fp-ts/string'
+ *
+ * const yell = (a: string) => `${a}!`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.foldMap(S.Monoid)(yell)),
+ *   'a!'
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.foldMap(S.Monoid)(yell)),
+ *   S.Monoid.empty
+ * )
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
+  isLeft(fa) ? M.empty : f(fa.right)
+
+/**
+ * Right-associative fold of a structure.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ *
+ * const startWith = 'postfix'
+ * const concat = (a: string, b: string) => `${a}:${b}`
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right('a'), E.reduceRight(startWith, concat)),
+ *   'a:postfix'
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.left('e'), E.reduceRight(startWith, concat)),
+ *   'postfix'
+ * )
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
+  isLeft(fa) ? b : f(fa.right, b)
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Foldable: Foldable2<URI> = {
+  URI,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight
+}
+
+/**
+ * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import * as E from 'fp-ts/Either'
+ * import * as O from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)),
+ *   O.some(E.right('a'))
+ *  )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right([]), E.traverse(O.Applicative)(RA.head)),
+ *   O.none
+ * )
+ *
+ * @category instance operations
+ * @since 2.6.3
+ */
+export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
+  ta: Either<E, A>
+): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : F.map<B, Either<E, B>>(f(ta.right), right))
+
+/**
+ * Evaluate each monadic action in the structure from left to right, and collect the results.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as E from 'fp-ts/Either'
+ * import * as O from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right(O.some('a')), E.sequence(O.Applicative)),
+ *   O.some(E.right('a'))
+ *  )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(E.right(O.none), E.sequence(O.Applicative)),
+ *   O.none
+ * )
+ *
+ * @category instance operations
+ * @since 2.6.3
+ */
+export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
+  ma: Either<E, HKT<F, A>>
+): HKT<F, Either<E, A>> => {
+  return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Traversable: Traversable2<URI> = {
+  URI,
+  map: _map,
+  reduce: _reduce,
+  foldMap: _foldMap,
+  reduceRight: _reduceRight,
+  traverse: _traverse,
+  sequence
+}
+
+/**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> = (f, g) => (
+  fa
+) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
+
+/**
+ * Map a function over the first type argument of a bifunctor.
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
+  isLeft(fa) ? left(f(fa.left)) : fa
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Bifunctor: Bifunctor2<URI> = {
+  URI,
+  bimap: _bimap,
+  mapLeft: _mapLeft
+}
+
+/**
+ * Less strict version of [`alt`](#alt).
+ *
+ * @category instance operations
+ * @since 2.9.0
+ */
+export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, A | B> = (that) => (
+  fa
+) => (isLeft(fa) ? that() : fa)
+
+/**
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Alt: Alt2<URI> = {
+  URI,
+  map: _map,
+  alt: _alt
+}
+
+/**
+ * @category instance operations
+ * @since 2.0.0
+ */
+export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
+  isLeft(wa) ? wa : right(f(wa))
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const Extend: Extend2<URI> = {
+  URI,
+  map: _map,
+  extend: _extend
+}
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const ChainRec: ChainRec2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  chain: _chain,
+  chainRec: _chainRec
+}
+
+/**
+ * @category instance operations
+ * @since 2.6.3
+ */
+export const throwError: MonadThrow2<URI>['throwError'] = left
+
+/**
+ * @category instances
+ * @since 2.7.0
+ */
+export const MonadThrow: MonadThrow2<URI> = {
+  URI,
+  map: _map,
+  ap: _ap,
+  of,
+  chain: _chain,
+  throwError
+}
+
+/**
+ * @category instances
+ * @since 2.10.0
+ */
+export const FromEither: FromEither2<URI> = {
+  URI,
+  fromEither: identity
+}
+
+/**
+ * @example
+ * import { fromPredicate, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     1,
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     -1,
+ *     fromPredicate(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   left('error')
+ * )
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
+
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as O from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some(1),
+ *     E.fromOption(() => 'error')
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.none,
+ *     E.fromOption(() => 'error')
+ *   ),
+ *   E.left('error')
+ * )
+ *
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromOption =
+  /*#__PURE__*/
+  fromOption_(FromEither)
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise.
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
+
+/**
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise.
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -228,10 +901,206 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
 // -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#_PURE_*/
+  flap_(Functor)
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
+  /*#__PURE__*/
+  chainFirst_(Chain)
+
+/**
+ * Less strict version of [`chainFirst`](#chainfirst)
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.8.0
+ */
+export const chainFirstW: <E2, A, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> = chainFirst as any
+
+/**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
+ * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
+ *
+ * Derivable from `Chain`.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
+ * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
+ * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
+
+/**
+ * Derivable from `Extend`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
+  /*#__PURE__*/
+  extend(identity)
+
+/**
+ * @category combinators
+ * @since 2.10.0
+ */
+export const fromOptionK =
+  /*#__PURE__*/
+  fromOptionK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainOptionK =
+  /*#__PURE__*/
+  chainOptionK_(FromEither, Chain)
+
+/**
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(-1),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.left('error')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.filterOrElse(
+ *       (n) => n > 0,
+ *       () => 'error'
+ *     )
+ *   ),
+ *   E.left('a')
+ * )
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const filterOrElse =
+  /*#__PURE__*/
+  filterOrElse_(FromEither, Chain)
+
+/**
+ * Less strict version of [`filterOrElse`](#filterorelse).
+ *
+ * @category combinators
+ * @since 2.9.0
+ */
+export const filterOrElseW: {
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
+} = filterOrElse
+
+/**
+ * Returns a `Right` if is a `Left` (and vice versa).
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
+
+/**
+ * Less strict version of [`orElse`](#orelse).
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
+  isLeft(ma) ? onLeft(ma.left) : ma
+
+/**
+ * Useful for recovering from errors.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW
+
+// -------------------------------------------------------------------------------------
 // interop
 // -------------------------------------------------------------------------------------
 
-// TODO: make lazy in v3
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`.
@@ -325,891 +1194,6 @@ export const chainNullableK = <E>(
 export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
   /*#__PURE__*/
   foldW(identity, identity)
-
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
-/**
- * Returns a `Right` if is a `Left` (and vice versa).
- *
- * @category combinators
- * @since 2.0.0
- */
-export function swap<E, A>(ma: Either<E, A>): Either<A, E> {
-  return isLeft(ma) ? right(ma.left) : left(ma.right)
-}
-
-/**
- * Less strict version of [`orElse`](#orelse).
- *
- * @category combinators
- * @since 2.10.0
- */
-export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
-  isLeft(ma) ? onLeft(ma.left) : ma
-
-/**
- * Useful for recovering from errors.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const orElse: <E1, A, E2>(onLeft: (e: E1) => Either<E2, A>) => (ma: Either<E1, A>) => Either<E2, A> = orElseW
-
-// -------------------------------------------------------------------------------------
-// non-pipeables
-// -------------------------------------------------------------------------------------
-
-const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _ap: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-/* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
-/* istanbul ignore next */
-const _reduce: Foldable2<URI>['reduce'] = (fa, b, f) => pipe(fa, reduce(b, f))
-/* istanbul ignore next */
-const _foldMap: Foldable2<URI>['foldMap'] = (M) => (fa, f) => {
-  const foldMapM = foldMap(M)
-  return pipe(fa, foldMapM(f))
-}
-/* istanbul ignore next */
-const _reduceRight: Foldable2<URI>['reduceRight'] = (fa, b, f) => pipe(fa, reduceRight(b, f))
-const _traverse = <F>(
-  F: ApplicativeHKT<F>
-): (<E, A, B>(ta: Either<E, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<E, B>>) => {
-  const traverseF = traverse(F)
-  return (ta, f) => pipe(ta, traverseF(f))
-}
-const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-/* istanbul ignore next */
-const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
-/* istanbul ignore next */
-const _extend: Extend2<URI>['extend'] = (wa, f) => pipe(wa, extend(f))
-const _chainRec: ChainRec2<URI>['chainRec'] = (a, f) =>
-  tailRec(f(a), (e) =>
-    isLeft(e) ? right(left(e.left)) : isLeft(e.right) ? left(f(e.right.left)) : right(right(e.right.right))
-  )
-
-// -------------------------------------------------------------------------------------
-// type class members
-// -------------------------------------------------------------------------------------
-
-/**
- * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
- * use the type constructor `F` to represent some computational context.
- *
- * @category Functor
- * @since 2.0.0
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B> = (f) => (fa) =>
-  isLeft(fa) ? fa : right(f(fa.right))
-
-/**
- * Map a pair of functions over the two type arguments of the bifunctor.
- *
- * @category Bifunctor
- * @since 2.0.0
- */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B> = (f, g) => (
-  fa
-) => (isLeft(fa) ? left(f(fa.left)) : right(g(fa.right)))
-
-/**
- * Map a function over the first type argument of a bifunctor.
- *
- * @category Bifunctor
- * @since 2.0.0
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A> = (f) => (fa) =>
-  isLeft(fa) ? left(f(fa.left)) : fa
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 2.8.0
- */
-export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E1 | E2, B> = (fa) => (
-  fab
-) => (isLeft(fab) ? fab : isLeft(fa) ? fa : right(fab.right(fa.right)))
-
-/**
- * Apply a function to an argument under a type constructor.
- *
- * @category Apply
- * @since 2.0.0
- */
-export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
-
-/**
- * @category Pointed
- * @since 2.7.0
- */
-export const of: <E = never, A = never>(a: A) => Either<E, A> = right
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Monad
- * @since 2.6.0
- */
-export const chainW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
-  isLeft(ma) ? ma : f(ma.right)
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation.
- *
- * @category Monad
- * @since 2.0.0
- */
-export const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
-
-/**
- * Less strict version of [`flatten`](#flatten).
- *
- * @category combinators
- * @since 2.11.0
- */
-export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
-
-/**
- * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
- *
- * Derivable from `Chain`.
- *
- * @example
- * import * as E from 'fp-ts/Either'
- *
- * assert.deepStrictEqual(E.flatten(E.right(E.right('a'))), E.right('a'))
- * assert.deepStrictEqual(E.flatten(E.right(E.left('e'))), E.left('e'))
- * assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
- *
- * @category combinators
- * @since 2.0.0
- */
-export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 2.9.0
- */
-export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, A | B> = (that) => (
-  fa
-) => (isLeft(fa) ? that() : fa)
-
-/**
- * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
- * types of kind `* -> *`.
- *
- * @category Alt
- * @since 2.0.0
- */
-export const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A> = altW
-
-/**
- * @category Extend
- * @since 2.0.0
- */
-export const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B> = (f) => (wa) =>
-  isLeft(wa) ? wa : right(f(wa))
-
-/**
- * Derivable from `Extend`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
-
-/**
- * Left-associative fold of a structure.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as E from 'fp-ts/Either'
- *
- * const startWith = 'prefix'
- * const concat = (a: string, b: string) => `${a}:${b}`
- *
- * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduce(startWith, concat)),
- *   'prefix:a'
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduce(startWith, concat)),
- *   'prefix'
- * )
- *
- * @category Foldable
- * @since 2.0.0
- */
-export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(b, fa.right)
-
-/**
- * Map each element of the structure to a monoid, and combine the results.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as E from 'fp-ts/Either'
- * import * as S from 'fp-ts/string'
- *
- * const yell = (a: string) => `${a}!`
- *
- * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.foldMap(S.Monoid)(yell)),
- *   'a!'
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.foldMap(S.Monoid)(yell)),
- *   S.Monoid.empty
- * )
- *
- * @category Foldable
- * @since 2.0.0
- */
-export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : f(fa.right)
-
-/**
- * Right-associative fold of a structure.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as E from 'fp-ts/Either'
- *
- * const startWith = 'postfix'
- * const concat = (a: string, b: string) => `${a}:${b}`
- *
- * assert.deepStrictEqual(
- *   pipe(E.right('a'), E.reduceRight(startWith, concat)),
- *   'a:postfix'
- * )
- *
- * assert.deepStrictEqual(
- *   pipe(E.left('e'), E.reduceRight(startWith, concat)),
- *   'postfix'
- * )
- *
- * @category Foldable
- * @since 2.0.0
- */
-export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : f(fa.right, b)
-
-/**
- * Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import * as E from 'fp-ts/Either'
- * import * as O from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)),
- *   O.some(E.right('a'))
- *  )
- *
- * assert.deepStrictEqual(
- *   pipe(E.right([]), E.traverse(O.Applicative)(RA.head)),
- *   O.none
- * )
- *
- * @category Traversable
- * @since 2.6.3
- */
-export const traverse: PipeableTraverse2<URI> = <F>(F: ApplicativeHKT<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
-  ta: Either<E, A>
-): HKT<F, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : F.map<B, Either<E, B>>(f(ta.right), right))
-
-/**
- * Evaluate each monadic action in the structure from left to right, and collect the results.
- *
- * @example
- * import { pipe } from 'fp-ts/function'
- * import * as E from 'fp-ts/Either'
- * import * as O from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   pipe(E.right(O.some('a')), E.sequence(O.Applicative)),
- *   O.some(E.right('a'))
- *  )
- *
- * assert.deepStrictEqual(
- *   pipe(E.right(O.none), E.sequence(O.Applicative)),
- *   O.none
- * )
- *
- * @category Traversable
- * @since 2.6.3
- */
-export const sequence: Traversable2<URI>['sequence'] = <F>(F: ApplicativeHKT<F>) => <E, A>(
-  ma: Either<E, HKT<F, A>>
-): HKT<F, Either<E, A>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
-}
-
-/**
- * @category MonadThrow
- * @since 2.6.3
- */
-export const throwError: MonadThrow2<URI>['throwError'] = left
-
-// -------------------------------------------------------------------------------------
-// instances
-// -------------------------------------------------------------------------------------
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export const URI = 'Either'
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly [URI]: Either<E, A>
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
-  return {
-    show: (ma) => (isLeft(ma) ? `left(${SE.show(ma.left)})` : `right(${SA.show(ma.right)})`)
-  }
-}
-
-/**
- * @category instances
- * @since 2.0.0
- */
-export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
-  return {
-    equals: (x, y) =>
-      x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right))
-  }
-}
-
-/**
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
- *
- * @example
- * import { getSemigroup, left, right } from 'fp-ts/Either'
- * import { SemigroupSum } from 'fp-ts/number'
- *
- * const S = getSemigroup<string, number>(SemigroupSum)
- * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
- * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
- * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
- *
- * @category instances
- * @since 2.0.0
- */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> {
-  return {
-    concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right)))
-  }
-}
-
-/**
- * Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
- *
- * @category instances
- * @since 2.10.0
- */
-export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
-  const empty = left(M.empty)
-  return {
-    URI,
-    _E: undefined as any,
-    compact: (ma) => (isLeft(ma) ? ma : ma.right._tag === 'None' ? empty : right(ma.right.value)),
-    separate: (ma) =>
-      isLeft(ma)
-        ? separated(ma, ma)
-        : isLeft(ma.right)
-        ? separated(right(ma.right.left), empty)
-        : separated(empty, right(ma.right.right))
-  }
-}
-
-/**
- * Builds a `Filterable` instance for `Either` given `Monoid` for the left side
- *
- * @category instances
- * @since 2.10.0
- */
-export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
-  const empty = left(M.empty)
-
-  const { compact, separate } = getCompactable(M)
-
-  const filter = <A>(ma: Either<E, A>, predicate: Predicate<A>): Either<E, A> =>
-    isLeft(ma) ? ma : predicate(ma.right) ? ma : empty
-
-  const partition = <A>(ma: Either<E, A>, p: Predicate<A>): Separated<Either<E, A>, Either<E, A>> => {
-    return isLeft(ma)
-      ? separated(ma, ma)
-      : p(ma.right)
-      ? separated(empty, right(ma.right))
-      : separated(right(ma.right), empty)
-  }
-
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    compact,
-    separate,
-    filter,
-    filterMap: (ma, f) => {
-      if (isLeft(ma)) {
-        return ma
-      }
-      const ob = f(ma.right)
-      return ob._tag === 'None' ? empty : right(ob.value)
-    },
-    partition,
-    partitionMap: (ma, f) => {
-      if (isLeft(ma)) {
-        return separated(ma, ma)
-      }
-      const e = f(ma.right)
-      return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
-    }
-  }
-}
-
-/**
- * Builds `Witherable` instance for `Either` given `Monoid` for the left side
- *
- * @category instances
- * @since 2.0.0
- */
-export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
-  const F_ = getFilterable(M)
-  const C = getCompactable(M)
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    compact: F_.compact,
-    separate: F_.separate,
-    filter: F_.filter,
-    filterMap: F_.filterMap,
-    partition: F_.partition,
-    partitionMap: F_.partitionMap,
-    traverse: _traverse,
-    sequence,
-    reduce: _reduce,
-    foldMap: _foldMap,
-    reduceRight: _reduceRight,
-    wither: witherDefault(Traversable, C),
-    wilt: wiltDefault(Traversable, C)
-  }
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E> {
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    ap: (fab, fa) =>
-      isLeft(fab)
-        ? isLeft(fa)
-          ? left(SE.concat(fab.left, fa.left))
-          : fab
-        : isLeft(fa)
-        ? fa
-        : right(fab.right(fa.right)),
-    of
-  }
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E> {
-  return {
-    URI,
-    _E: undefined as any,
-    map: _map,
-    alt: (me, that) => {
-      if (isRight(me)) {
-        return me
-      }
-      const ea = that()
-      return isLeft(ea) ? left(SE.concat(me.left, ea.left)) : ea
-    }
-  }
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Functor: Functor2<URI> = {
-  URI,
-  map: _map
-}
-
-/**
- * Derivable from `Functor`.
- *
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#_PURE_*/
-  flap_(Functor)
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const Pointed: Pointed2<URI> = {
-  URI,
-  of
-}
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const Apply: Apply2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap
-}
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Applicative: Applicative2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  of
-}
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const Chain: Chain2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  chain: _chain
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Monad: Monad2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  of,
-  chain: _chain
-}
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst)
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.8.0
- */
-export const chainFirstW: <E2, A, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, A> = chainFirst as any
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Foldable: Foldable2<URI> = {
-  URI,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Traversable: Traversable2<URI> = {
-  URI,
-  map: _map,
-  reduce: _reduce,
-  foldMap: _foldMap,
-  reduceRight: _reduceRight,
-  traverse: _traverse,
-  sequence
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Bifunctor: Bifunctor2<URI> = {
-  URI,
-  bimap: _bimap,
-  mapLeft: _mapLeft
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Alt: Alt2<URI> = {
-  URI,
-  map: _map,
-  alt: _alt
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const Extend: Extend2<URI> = {
-  URI,
-  map: _map,
-  extend: _extend
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const ChainRec: ChainRec2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  chain: _chain,
-  chainRec: _chainRec
-}
-
-/**
- * @category instances
- * @since 2.7.0
- */
-export const MonadThrow: MonadThrow2<URI> = {
-  URI,
-  map: _map,
-  ap: _ap,
-  of,
-  chain: _chain,
-  throwError
-}
-
-/**
- * @category instances
- * @since 2.10.0
- */
-export const FromEither: FromEither2<URI> = {
-  URI,
-  fromEither: identity
-}
-
-/**
- * @example
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- * import * as O from 'fp-ts/Option'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     O.some(1),
- *     E.fromOption(() => 'error')
- *   ),
- *   E.right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     O.none,
- *     E.fromOption(() => 'error')
- *   ),
- *   E.left('error')
- * )
- *
- * @category natural transformations
- * @since 2.0.0
- */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
-
-/**
- * @example
- * import { fromPredicate, left, right } from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     1,
- *     fromPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     -1,
- *     fromPredicate(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   left('error')
- * )
- *
- * @category constructors
- * @since 2.0.0
- */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
-
-/**
- * @category combinators
- * @since 2.10.0
- */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
-
-/**
- * @category combinators
- * @since 2.11.0
- */
-export const chainOptionK =
-  /*#__PURE__*/
-  chainOptionK_(FromEither, Chain)
-
-/**
- * @example
- * import * as E from 'fp-ts/Either'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     E.right(1),
- *     E.filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   E.right(1)
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     E.right(-1),
- *     E.filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   E.left('error')
- * )
- * assert.deepStrictEqual(
- *   pipe(
- *     E.left('a'),
- *     E.filterOrElse(
- *       (n) => n > 0,
- *       () => 'error'
- *     )
- *   ),
- *   E.left('a')
- * )
- *
- * @category combinators
- * @since 2.0.0
- */
-export const filterOrElse =
-  /*#__PURE__*/
-  filterOrElse_(FromEither, Chain)
-
-/**
- * Less strict version of [`filterOrElse`](#filterorelse).
- *
- * @category combinators
- * @since 2.9.0
- */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
-} = filterOrElse
 
 // -------------------------------------------------------------------------------------
 // utils

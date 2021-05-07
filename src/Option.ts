@@ -301,16 +301,6 @@ export const Functor: Functor1<URI> = {
 }
 
 /**
- * Derivable from `Functor`.
- *
- * @category combinators
- * @since 2.10.0
- */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
-
-/**
  * @category instance operations
  * @since 2.7.0
  */
@@ -341,30 +331,6 @@ export const Apply: Apply1<URI> = {
   map: _map,
   ap: _ap
 }
-
-/**
- * Combine two effectful actions, keeping only the result of the first.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
-
-/**
- * Combine two effectful actions, keeping only the result of the second.
- *
- * Derivable from `Apply`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
 
 /**
  * @category instances
@@ -398,16 +364,6 @@ export const Chain: Chain1<URI> = {
 }
 
 /**
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
-  /*#__PURE__*/
-  chain(identity)
-
-/**
  * @category instances
  * @since 2.7.0
  */
@@ -418,19 +374,6 @@ export const Monad: Monad1<URI> = {
   of,
   chain: _chain
 }
-
-/**
- * Composes computations in sequence, using the return value of one computation to determine the next computation and
- * keeping only the result of the first.
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
 
 /**
  * @category instance operations
@@ -557,16 +500,6 @@ export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Optio
   isNone(wa) ? none : some(f(wa))
 
 /**
- * Derivable from `Extend`.
- *
- * @category combinators
- * @since 2.0.0
- */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
-  /*#__PURE__*/
-  extend(identity)
-
-/**
  * @category instances
  * @since 2.7.0
  */
@@ -580,7 +513,9 @@ export const Extend: Extend1<URI> = {
  * @category instance operations
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> = flatten
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> =
+  /*#__PURE__*/
+  chain(identity)
 
 const defaultSeparated =
   /*#__PURE__*/
@@ -773,22 +708,6 @@ export const FromEither: FromEither1<URI> = {
   fromEither
 }
 
-/**
- * @category combinators
- * @since 2.11.0
- */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
-
-/**
- * @category combinators
- * @since 2.11.0
- */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
-
 // -------------------------------------------------------------------------------------
 // refinements
 // -------------------------------------------------------------------------------------
@@ -913,6 +832,91 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  * @since 2.0.0
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const flap =
+  /*#__PURE__*/
+  flap_(Functor)
+
+/**
+ * Combine two effectful actions, keeping only the result of the first.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apFirst =
+  /*#__PURE__*/
+  apFirst_(Apply)
+
+/**
+ * Combine two effectful actions, keeping only the result of the second.
+ *
+ * Derivable from `Apply`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const apSecond =
+  /*#__PURE__*/
+  apSecond_(Apply)
+
+/**
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
+
+/**
+ * Composes computations in sequence, using the return value of one computation to determine the next computation and
+ * keeping only the result of the first.
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const chainFirst =
+  /*#__PURE__*/
+  chainFirst_(Chain)
+
+/**
+ * Derivable from `Extend`.
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
+  /*#__PURE__*/
+  extend(identity)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainEitherK =
+  /*#__PURE__*/
+  chainEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // interop
