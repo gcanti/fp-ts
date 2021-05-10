@@ -9,16 +9,6 @@ import * as Sh from './Show'
 import { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------
-// refinements
-// -------------------------------------------------------------------------------------
-
-/**
- * @category refinements
- * @since 2.11.0
- */
-export const isString: Refinement<unknown, string> = (u: unknown): u is string => typeof u === 'string'
-
-// -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
 
@@ -81,6 +71,16 @@ export const Show: Sh.Show<string> = {
 }
 
 // -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category refinements
+ * @since 2.11.0
+ */
+export const isString: Refinement<unknown, string> = (u: unknown): u is string => typeof u === 'string'
+
+// -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
 
@@ -109,3 +109,57 @@ export const size = (s: string): number => s.length
  * @since 2.11.0
  */
 export const toUpperCase = (s: string): string => s.toUpperCase()
+
+/**
+ * @since 2.11.0
+ */
+export const toLowerCase = (s: string): string => s.toLowerCase()
+
+/**
+ * @since 2.11.0
+ */
+export const replace = (searchValue: string | RegExp, replaceValue: string) => (s: string): string =>
+  s.replace(searchValue, replaceValue)
+
+/**
+ * @since 2.11.0
+ */
+export const split = (separator: string | RegExp) => (s: string): ReadonlyArray<string> => s.split(separator)
+
+/**
+ * @since 2.11.0
+ */
+export const trim = (s: string): string => s.trim()
+
+/**
+ * @since 2.11.0
+ */
+export const trimLeft = (s: string): string => s.trimLeft()
+
+/**
+ * @since 2.11.0
+ */
+export const trimRight = (s: string): string => s.trimRight()
+
+/**
+ * @since 2.11.0
+ */
+export const includes = (searchString: string, position?: number) => (s: string): boolean =>
+  s.includes(searchString, position)
+
+/**
+ * @since 2.11.0
+ */
+export const startsWith = (searchString: string, position?: number) => (s: string): boolean =>
+  s.startsWith(searchString, position)
+
+/**
+ * @since 2.11.0
+ */
+export const endsWith = (searchString: string, position?: number) => (s: string): boolean =>
+  s.endsWith(searchString, position)
+
+/**
+ * @since 2.11.0
+ */
+export const slice = (start: number, end: number) => (s: string): string => s.slice(start, end)

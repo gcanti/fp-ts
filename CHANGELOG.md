@@ -348,6 +348,16 @@ high state of flux, you're at risk of it changing without notice.
     - add `traverseReadonlyArrayWithIndex`
   - `string`
     - add `toUpperCase`
+    - add `toLowerCase`
+    - add `replace`
+    - add `split`
+    - add `trim`
+    - add `trimLeft`
+    - add `trimRight`
+    - add `includes`
+    - add `startsWith`
+    - add `endsWith`
+    - add `slice`
   - `struct`
     - add `evolve`
   - `Task`

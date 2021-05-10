@@ -22,9 +22,19 @@ Added in v2.10.0
   - [isString](#isstring)
 - [utils](#utils)
   - [empty](#empty)
+  - [endsWith](#endswith)
+  - [includes](#includes)
   - [isEmpty](#isempty)
+  - [replace](#replace)
   - [size](#size)
+  - [slice](#slice)
+  - [split](#split)
+  - [startsWith](#startswith)
+  - [toLowerCase](#tolowercase)
   - [toUpperCase](#touppercase)
+  - [trim](#trim)
+  - [trimLeft](#trimleft)
+  - [trimRight](#trimright)
 
 ---
 
@@ -128,6 +138,26 @@ export declare const empty: string
 
 Added in v2.10.0
 
+## endsWith
+
+**Signature**
+
+```ts
+export declare const endsWith: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v2.11.0
+
+## includes
+
+**Signature**
+
+```ts
+export declare const includes: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v2.11.0
+
 ## isEmpty
 
 Test whether a `string` is empty.
@@ -139,6 +169,16 @@ export declare const isEmpty: (s: string) => boolean
 ```
 
 Added in v2.10.0
+
+## replace
+
+**Signature**
+
+```ts
+export declare const replace: (searchValue: string | RegExp, replaceValue: string) => (s: string) => string
+```
+
+Added in v2.11.0
 
 ## size
 
@@ -152,12 +192,82 @@ export declare const size: (s: string) => number
 
 Added in v2.10.0
 
+## slice
+
+**Signature**
+
+```ts
+export declare const slice: (start: number, end: number) => (s: string) => string
+```
+
+Added in v2.11.0
+
+## split
+
+**Signature**
+
+```ts
+export declare const split: (separator: string | RegExp) => (s: string) => ReadonlyArray<string>
+```
+
+Added in v2.11.0
+
+## startsWith
+
+**Signature**
+
+```ts
+export declare const startsWith: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v2.11.0
+
+## toLowerCase
+
+**Signature**
+
+```ts
+export declare const toLowerCase: (s: string) => string
+```
+
+Added in v2.11.0
+
 ## toUpperCase
 
 **Signature**
 
 ```ts
 export declare const toUpperCase: (s: string) => string
+```
+
+Added in v2.11.0
+
+## trim
+
+**Signature**
+
+```ts
+export declare const trim: (s: string) => string
+```
+
+Added in v2.11.0
+
+## trimLeft
+
+**Signature**
+
+```ts
+export declare const trimLeft: (s: string) => string
+```
+
+Added in v2.11.0
+
+## trimRight
+
+**Signature**
+
+```ts
+export declare const trimRight: (s: string) => string
 ```
 
 Added in v2.11.0
