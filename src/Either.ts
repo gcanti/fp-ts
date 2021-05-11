@@ -1458,7 +1458,7 @@ export const either: Monad2<URI> &
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
@@ -1472,7 +1472,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A
   getApplySemigroup_(Apply)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1483,7 +1483,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
   getApplicativeMonoid(Applicative)
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1493,7 +1493,7 @@ export const getValidationSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
   getApplySemigroup_(getApplicativeValidation(SE))(SA)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0

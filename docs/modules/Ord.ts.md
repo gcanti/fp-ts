@@ -278,7 +278,7 @@ Added in v2.0.0
 
 ## ~~ordBoolean~~
 
-Use [`Ord`](./boolean.ts.html#Ord) instead.
+Use [`Ord`](./boolean.ts.html#ord) instead.
 
 **Signature**
 
@@ -290,7 +290,7 @@ Added in v2.0.0
 
 ## ~~ordDate~~
 
-Use [`Ord`](./Date.ts.html#Ord) instead.
+Use [`Ord`](./Date.ts.html#ord) instead.
 
 **Signature**
 
@@ -302,7 +302,7 @@ Added in v2.0.0
 
 ## ~~ordNumber~~
 
-Use [`Ord`](./number.ts.html#Ord) instead.
+Use [`Ord`](./number.ts.html#ord) instead.
 
 **Signature**
 
@@ -314,7 +314,7 @@ Added in v2.0.0
 
 ## ~~ordString~~
 
-Use [`Ord`](./string.ts.html#Ord) instead.
+Use [`Ord`](./string.ts.html#ord) instead.
 
 **Signature**
 

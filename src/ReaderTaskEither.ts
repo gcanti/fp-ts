@@ -1528,7 +1528,7 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
  * are concatenated using the provided `Semigroup`
@@ -1542,7 +1542,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderTa
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1553,7 +1553,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderTaskEither<
   getApplicativeMonoid(ApplicativeSeq)
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0

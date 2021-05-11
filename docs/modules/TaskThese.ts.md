@@ -536,7 +536,7 @@ Added in v2.7.0
 
 ## ~~getSemigroup~~
 
-Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 

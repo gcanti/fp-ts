@@ -43,7 +43,7 @@ Added in v2.0.0
 
 ## ~~getFunctionSemiring~~
 
-Use [`getSemiring`](./function.ts.html#getSemiring) instead.
+Use [`getSemiring`](./function.ts.html#getsemiring) instead.
 
 **Signature**
 

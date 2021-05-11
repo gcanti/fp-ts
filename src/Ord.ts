@@ -360,7 +360,7 @@ const strictOrd = {
 }
 
 /**
- * Use [`Ord`](./boolean.ts.html#Ord) instead.
+ * Use [`Ord`](./boolean.ts.html#ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -369,7 +369,7 @@ const strictOrd = {
 export const ordBoolean: Ord<boolean> = strictOrd
 
 /**
- * Use [`Ord`](./string.ts.html#Ord) instead.
+ * Use [`Ord`](./string.ts.html#ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -378,7 +378,7 @@ export const ordBoolean: Ord<boolean> = strictOrd
 export const ordString: Ord<string> = strictOrd
 
 /**
- * Use [`Ord`](./number.ts.html#Ord) instead.
+ * Use [`Ord`](./number.ts.html#ord) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -387,7 +387,7 @@ export const ordString: Ord<string> = strictOrd
 export const ordNumber: Ord<number> = strictOrd
 
 /**
- * Use [`Ord`](./Date.ts.html#Ord) instead.
+ * Use [`Ord`](./Date.ts.html#ord) instead.
  *
  * @category instances
  * @since 2.0.0

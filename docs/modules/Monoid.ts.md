@@ -275,9 +275,9 @@ Added in v2.0.0
 
 ## ~~getEndomorphismMonoid~~
 
-Use [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) instead.
+Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
 
-**Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) is reversed.
+**Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
 
 **Signature**
 
@@ -289,7 +289,7 @@ Added in v2.0.0
 
 ## ~~getFunctionMonoid~~
 
-Use [`getMonoid`](./function.ts.html#getMonoid) instead.
+Use [`getMonoid`](./function.ts.html#getmonoid) instead.
 
 **Signature**
 
@@ -313,7 +313,7 @@ Added in v2.0.0
 
 ## ~~monoidAny~~
 
-Use [`MonoidAny`](./boolean.ts.html#MonoidAny) instead.
+Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
 
 **Signature**
 
@@ -325,7 +325,7 @@ Added in v2.0.0
 
 ## ~~monoidProduct~~
 
-Use [`MonoidProduct`](./number.ts.html#MonoidProduct) instead.
+Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
 
 **Signature**
 
@@ -337,7 +337,7 @@ Added in v2.0.0
 
 ## ~~monoidString~~
 
-Use [`Monoid`](./string.ts.html#Monoid) instead.
+Use [`Monoid`](./string.ts.html#monoid) instead.
 
 **Signature**
 
@@ -349,7 +349,7 @@ Added in v2.0.0
 
 ## ~~monoidSum~~
 
-Use [`MonoidSum`](./number.ts.html#MonoidSum) instead.
+Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
 
 **Signature**
 

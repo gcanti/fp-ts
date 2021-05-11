@@ -201,7 +201,7 @@ Added in v2.10.0
 
 ## ~~eqBoolean~~
 
-Use [`Eq`](./boolean.ts.html#Eq) instead.
+Use [`Eq`](./boolean.ts.html#eq) instead.
 
 **Signature**
 
@@ -213,7 +213,7 @@ Added in v2.0.0
 
 ## ~~eqDate~~
 
-Use [`Eq`](./Date.ts.html#Eq) instead.
+Use [`Eq`](./Date.ts.html#eq) instead.
 
 **Signature**
 
@@ -225,7 +225,7 @@ Added in v2.0.0
 
 ## ~~eqNumber~~
 
-Use [`Eq`](./number.ts.html#Eq) instead.
+Use [`Eq`](./number.ts.html#eq) instead.
 
 **Signature**
 
@@ -237,7 +237,7 @@ Added in v2.0.0
 
 ## ~~eqString~~
 
-Use [`Eq`](./string.ts.html#Eq) instead.
+Use [`Eq`](./string.ts.html#eq) instead.
 
 **Signature**
 

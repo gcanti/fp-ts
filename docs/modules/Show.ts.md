@@ -89,7 +89,7 @@ Added in v2.0.0
 
 ## ~~showBoolean~~
 
-Use [`Show`](./boolean.ts.html#Show) instead.
+Use [`Show`](./boolean.ts.html#show) instead.
 
 **Signature**
 
@@ -101,7 +101,7 @@ Added in v2.0.0
 
 ## ~~showNumber~~
 
-Use [`Show`](./number.ts.html#Show) instead.
+Use [`Show`](./number.ts.html#show) instead.
 
 **Signature**
 
@@ -113,7 +113,7 @@ Added in v2.0.0
 
 ## ~~showString~~
 
-Use [`Show`](./string.ts.html#Show) instead.
+Use [`Show`](./string.ts.html#show) instead.
 
 **Signature**
 

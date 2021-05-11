@@ -885,7 +885,7 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
+Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
 
 **Signature**
 
@@ -933,7 +933,7 @@ Added in v2.5.0
 
 ## ~~insertAt~~
 
-Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
+Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
 
 **Signature**
 

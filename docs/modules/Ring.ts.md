@@ -80,7 +80,7 @@ Added in v2.0.0
 
 ## ~~getFunctionRing~~
 
-Use [`getRing`](./function.ts.html#getRing) instead.
+Use [`getRing`](./function.ts.html#getring) instead.
 
 **Signature**
 

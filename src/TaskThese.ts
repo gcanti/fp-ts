@@ -622,7 +622,7 @@ export const taskThese: Functor2<URI> & Bifunctor2<URI> = {
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.4.0

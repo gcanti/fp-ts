@@ -1335,7 +1335,7 @@ export const option: Monad1<URI> &
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1346,7 +1346,7 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
   getApplySemigroup_(Apply)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0

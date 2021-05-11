@@ -1034,7 +1034,7 @@ export const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThro
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1045,7 +1045,7 @@ export const getApplySemigroup: <R, E, A>(S: Semigroup<A>) => Semigroup<ReaderEi
   getApplySemigroup_(Apply)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1056,7 +1056,7 @@ export const getApplyMonoid: <R, E, A>(M: Monoid<A>) => Monoid<ReaderEither<R, E
   getApplicativeMonoid(Applicative)
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0

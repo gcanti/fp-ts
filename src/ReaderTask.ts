@@ -488,7 +488,7 @@ export const chainFirstReaderK =
   chainFirstReaderK_(FromReader, Chain)
 
 /**
- * Less strict version of [`chainFirstReaderK`](#chainfirstReaderk).
+ * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
  *
  * @category combinators
  * @since 2.11.0
@@ -746,7 +746,7 @@ export const readerTaskSeq: typeof readerTask = {
 }
 
 /**
- * Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.3.0
@@ -757,7 +757,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<ReaderTask<R, A>
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.3.0

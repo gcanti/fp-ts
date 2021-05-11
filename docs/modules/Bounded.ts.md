@@ -29,7 +29,7 @@ Added in v2.0.0
 
 ## ~~boundedNumber~~
 
-Use [`Bounded`](./number.ts.html#Bounded) instead.
+Use [`Bounded`](./number.ts.html#bounded) instead.
 
 **Signature**
 

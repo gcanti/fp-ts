@@ -1319,7 +1319,7 @@ export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A
 }
 
 /**
- * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
+ * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1374,7 +1374,7 @@ export function cons<A>(
 export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => pipe(init, concat([end]))
 
 /**
- * Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
+ * Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
  *
  * @category combinators
  * @since 2.5.0

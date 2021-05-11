@@ -286,7 +286,7 @@ export const monoidAll: Monoid<boolean> = {
 }
 
 /**
- * Use [`MonoidAny`](./boolean.ts.html#MonoidAny) instead.
+ * Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -298,7 +298,7 @@ export const monoidAny: Monoid<boolean> = {
 }
 
 /**
- * Use [`getMonoid`](./function.ts.html#getMonoid) instead.
+ * Use [`getMonoid`](./function.ts.html#getmonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -307,9 +307,9 @@ export const monoidAny: Monoid<boolean> = {
 export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getFM
 
 /**
- * Use [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) instead.
+ * Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
  *
- * **Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getEndomorphismMonoid) is reversed.
+ * **Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
  *
  * @category instances
  * @since 2.0.0
@@ -318,7 +318,7 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => reverse(getEM())
 
 /**
- * Use [`Monoid`](./string.ts.html#Monoid) instead.
+ * Use [`Monoid`](./string.ts.html#monoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -330,7 +330,7 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
- * Use [`MonoidSum`](./number.ts.html#MonoidSum) instead.
+ * Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -342,7 +342,7 @@ export const monoidSum: Monoid<number> = {
 }
 
 /**
- * Use [`MonoidProduct`](./number.ts.html#MonoidProduct) instead.
+ * Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
  *
  * @category instances
  * @since 2.0.0
