@@ -648,7 +648,7 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use [`filterWithIndex`](./Array.ts.html#filterWithIndex) instead.
+Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
 
 **Signature**
 

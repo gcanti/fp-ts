@@ -466,7 +466,7 @@ Added in v2.0.0
 
 ## ~~getMonoid~~
 
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
 
@@ -480,7 +480,7 @@ Added in v2.0.0
 
 ## ~~getSemigroup~~
 
-Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 

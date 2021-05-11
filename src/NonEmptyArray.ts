@@ -1075,7 +1075,7 @@ export function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Op
 }
 
 /**
- * Use [`filterWithIndex`](./Array.ts.html#filterWithIndex) instead.
+ * Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
  *
  * @category combinators
  * @since 2.0.0

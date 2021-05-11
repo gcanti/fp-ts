@@ -1222,7 +1222,7 @@ Added in v2.0.0
 
 ## ~~getApplyMonoid~~
 
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 **Signature**
 
@@ -1234,7 +1234,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
 are concatenated using the provided `Semigroup`
@@ -1249,7 +1249,7 @@ Added in v2.0.0
 
 ## ~~getValidationMonoid~~
 
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 **Signature**
 
@@ -1261,7 +1261,7 @@ Added in v2.0.0
 
 ## ~~getValidationSemigroup~~
 
-Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 

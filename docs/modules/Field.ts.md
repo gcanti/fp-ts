@@ -28,7 +28,7 @@ Added in v2.0.0
 
 ## ~~fieldNumber~~
 
-Use [`Field`](./number.ts.html#Field) instead.
+Use [`Field`](./number.ts.html#field) instead.
 
 **Signature**
 

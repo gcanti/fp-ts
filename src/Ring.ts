@@ -81,7 +81,7 @@ export const getTupleRing: <T extends ReadonlyArray<Ring<any>>>(
 ) => Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> = tuple as any
 
 /**
- * Use [`getRing`](./function.ts.html#getRing) instead.
+ * Use [`getRing`](./function.ts.html#getring) instead.
  *
  * @category instances
  * @since 2.0.0

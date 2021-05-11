@@ -73,7 +73,7 @@ Added in v2.0.0
 
 ## ~~booleanAlgebraBoolean~~
 
-Use [`BooleanAlgebra`](./boolean.ts.html#BooleanAlgebra) instead.
+Use [`BooleanAlgebra`](./boolean.ts.html#booleanalgebra) instead.
 
 **Signature**
 
@@ -85,7 +85,7 @@ Added in v2.0.0
 
 ## ~~getFunctionBooleanAlgebra~~
 
-Use [`getBooleanAlgebra`](./function.ts.html#getBooleanAlgebra) instead.
+Use [`getBooleanAlgebra`](./function.ts.html#getbooleanalgebra) instead.
 
 **Signature**
 

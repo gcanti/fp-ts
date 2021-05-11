@@ -84,7 +84,7 @@ export const getStructShow: <O extends ReadonlyRecord<string, any>>(
 ) => Show<O> = struct
 
 /**
- * Use [`Show`](./boolean.ts.html#Show) instead.
+ * Use [`Show`](./boolean.ts.html#show) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -95,7 +95,7 @@ export const showBoolean: Show<boolean> = {
 }
 
 /**
- * Use [`Show`](./string.ts.html#Show) instead.
+ * Use [`Show`](./string.ts.html#show) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -106,7 +106,7 @@ export const showString: Show<string> = {
 }
 
 /**
- * Use [`Show`](./number.ts.html#Show) instead.
+ * Use [`Show`](./number.ts.html#show) instead.
  *
  * @category instances
  * @since 2.0.0

@@ -369,7 +369,7 @@ Added in v2.0.0
 
 ## ~~Separated~~ (interface)
 
-Use [`Separated`](./Separated.ts.html#Separated) instead.
+Use [`Separated`](./Separated.ts.html#separated) instead.
 
 **Signature**
 

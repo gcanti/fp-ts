@@ -316,7 +316,7 @@ Added in v2.0.0
 
 ## ~~getMonoid~~
 
-Use [`getApplicativeMonoid`](./Applicative.ts.html#getApplicativeMonoid) instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 **Signature**
 
@@ -328,7 +328,7 @@ Added in v2.0.0
 
 ## ~~getSemigroup~~
 
-Use [`getApplySemigroup`](./Apply.ts.html#getApplySemigroup) instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 

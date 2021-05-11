@@ -200,7 +200,7 @@ export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
 export const eq: Contravariant1<URI> = Contravariant
 
 /**
- * Use [`Eq`](./boolean.ts.html#Eq) instead.
+ * Use [`Eq`](./boolean.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -209,7 +209,7 @@ export const eq: Contravariant1<URI> = Contravariant
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
- * Use [`Eq`](./string.ts.html#Eq) instead.
+ * Use [`Eq`](./string.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -218,7 +218,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
 export const eqString: Eq<string> = eqStrict
 
 /**
- * Use [`Eq`](./number.ts.html#Eq) instead.
+ * Use [`Eq`](./number.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -227,7 +227,7 @@ export const eqString: Eq<string> = eqStrict
 export const eqNumber: Eq<number> = eqStrict
 
 /**
- * Use [`Eq`](./Date.ts.html#Eq) instead.
+ * Use [`Eq`](./Date.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
