@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.11
+# 2.11.0-rc.1
 
 - **Deprecation**
   - `Array`
