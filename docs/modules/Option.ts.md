@@ -279,7 +279,7 @@ Returns the `Left` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare const getLeft: <E, A>(ma: Either<E, A>) => Option<E>
+export declare const getLeft: <E>(ma: Either<E, unknown>) => Option<E>
 ```
 
 **Example**
@@ -301,7 +301,7 @@ Returns the `Right` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare const getRight: <E, A>(ma: Either<E, A>) => Option<A>
+export declare const getRight: <A>(ma: Either<unknown, A>) => Option<A>
 ```
 
 **Example**

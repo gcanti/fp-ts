@@ -130,7 +130,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) =
  * @category constructors
  * @since 2.0.0
  */
-export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Right' ? none : some(ma.left))
+export const getLeft = <E>(ma: Either<E, unknown>): Option<E> => (ma._tag === 'Right' ? none : some(ma.left))
 
 /**
  * Returns the `Right` value of an `Either` if possible.
@@ -145,7 +145,7 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (ma._tag === 'Righ
  * @category constructors
  * @since 2.0.0
  */
-export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
+export const getRight = <A>(ma: Either<unknown, A>): Option<A> => (ma._tag === 'Left' ? none : some(ma.right))
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
