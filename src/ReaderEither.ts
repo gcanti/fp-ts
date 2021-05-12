@@ -976,43 +976,34 @@ export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
-
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
 ) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderEither<R, E, A>>
 ) => ReaderEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.

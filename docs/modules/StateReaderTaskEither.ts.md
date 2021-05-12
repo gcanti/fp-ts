@@ -130,14 +130,14 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
   - [~~run~~](#run)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -1449,6 +1449,42 @@ export declare const execute: <S>(
 
 Added in v2.8.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <S, R, E, A>(
+  arr: readonly StateReaderTaskEither<S, R, E, A>[]
+) => StateReaderTaskEither<S, R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <S, R, E, A, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <S, R, E, A, B>(
+  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1516,45 +1552,3 @@ export declare function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s
 ```
 
 Added in v2.0.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <S, R, E, A>(
-  arr: readonly StateReaderTaskEither<S, R, E, A>[]
-) => StateReaderTaskEither<S, R, E, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <S, R, E, A, B>(
-  f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <S, R, E, A, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
-```
-
-Added in v2.9.0

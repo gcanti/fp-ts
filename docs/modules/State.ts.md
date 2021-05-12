@@ -50,13 +50,13 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [evaluate](#evaluate)
   - [execute](#execute)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -414,6 +414,38 @@ export declare const execute: <S>(s: S) => <A>(ma: State<S, A>) => S
 
 Added in v2.8.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -465,41 +497,3 @@ export declare const execState: <S, A>(ma: State<S, A>, s: S) => S
 ```
 
 Added in v2.0.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State<S, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, S, B>(f: (a: A) => State<S, B>) => (as: readonly A[]) => State<S, readonly B[]>
-```
-
-Added in v2.9.0

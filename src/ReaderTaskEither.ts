@@ -1412,27 +1412,15 @@ export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
-
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
@@ -1440,10 +1428,7 @@ export const traverseArray = <R, E, A, B>(
   traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const sequenceArray: <R, E, A>(
   arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
@@ -1452,20 +1437,14 @@ export const sequenceArray: <R, E, A>(
   traverseArray(identity)
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseSeqArrayWithIndex: <R, E, A, B>(
   f: (index: number, a: A) => ReaderTaskEither<R, E, B>
 ) => (as: ReadonlyArray<A>) => ReaderTaskEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseSeqArray = <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
@@ -1473,16 +1452,19 @@ export const traverseSeqArray = <R, E, A, B>(
   traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const sequenceSeqArray: <R, E, A>(
   arr: ReadonlyArray<ReaderTaskEither<R, E, A>>
 ) => ReaderTaskEither<R, E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.

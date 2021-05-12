@@ -81,17 +81,17 @@ Added in v2.3.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [traverseSeqArray](#traverseseqarray)
+  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
   - [~~run~~](#run)
-  - [~~sequenceArray~~](#sequencearray)
   - [~~sequenceSeqArray~~](#sequenceseqarray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
-  - [~~traverseSeqArrayWithIndex~~](#traverseseqarraywithindex)
-  - [~~traverseSeqArray~~](#traverseseqarray)
 
 ---
 
@@ -790,6 +790,40 @@ export declare const bindW: <N extends string, A, R2, B>(
 
 Added in v2.8.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, A, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -846,71 +880,19 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <R, A, B>(
 
 Added in v2.11.0
 
-## ~~run~~
+## traverseSeqArray
 
 **Signature**
 
 ```ts
-export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
-```
-
-Added in v2.4.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~sequenceSeqArray~~
-
-Use `traverseReadonlyArrayWithIndexSeq` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceSeqArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
-```
-
-Added in v2.10.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <R, A, B>(
-  f: (index: number, a: A) => ReaderTask<R, B>
-) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, A, B>(
+export declare const traverseSeqArray: <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
 ) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
 
-Added in v2.9.0
+Added in v2.10.0
 
-## ~~traverseSeqArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndexSeq` instead.
+## traverseSeqArrayWithIndex
 
 **Signature**
 
@@ -922,16 +904,24 @@ export declare const traverseSeqArrayWithIndex: <R, A, B>(
 
 Added in v2.10.0
 
-## ~~traverseSeqArray~~
+## ~~run~~
+
+**Signature**
+
+```ts
+export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
+```
+
+Added in v2.4.0
+
+## ~~sequenceSeqArray~~
 
 Use `traverseReadonlyArrayWithIndexSeq` instead.
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <R, A, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+export declare const sequenceSeqArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
 ```
 
 Added in v2.10.0

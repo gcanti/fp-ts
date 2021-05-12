@@ -61,11 +61,11 @@ Added in v2.0.0
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -425,6 +425,38 @@ export declare const bindTo: <N>(name: N) => <A>(fa: IO<A>) => IO<{ readonly [K 
 
 Added in v2.8.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly A[]) => IO<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IO<B>
+) => (as: readonly A[]) => IO<readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -452,41 +484,3 @@ export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
 ```
 
 Added in v2.11.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => IO<B>
-) => (as: readonly A[]) => IO<readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, B>(f: (a: A) => IO<B>) => (as: readonly A[]) => IO<readonly B[]>
-```
-
-Added in v2.9.0

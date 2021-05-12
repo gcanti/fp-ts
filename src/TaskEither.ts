@@ -1262,71 +1262,53 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
-
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
 ) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseSeqArrayWithIndex: <A, B, E>(
   f: (index: number, a: A) => TaskEither<E, B>
 ) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const traverseSeqArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
 ): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.9.0
- * @deprecated
  */
 export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.

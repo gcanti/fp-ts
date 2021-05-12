@@ -124,12 +124,12 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
+  - [sequenceArray](#sequencearray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~getRefinement~~](#getrefinement)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -1566,6 +1566,38 @@ assert.strictEqual(
 
 Added in v2.0.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1605,41 +1637,3 @@ export declare function getRefinement<A, B extends A>(getOption: (a: A) => Optio
 ```
 
 Added in v2.0.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <A, B>(
-  f: (index: number, a: A) => Option<B>
-) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <A, B>(f: (a: A) => Option<B>) => (as: readonly A[]) => Option<readonly B[]>
-```
-
-Added in v2.9.0

@@ -158,17 +158,17 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [sequenceArray](#sequencearray)
+  - [sequenceSeqArray](#sequenceseqarray)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
+  - [traverseSeqArray](#traverseseqarray)
+  - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
   - [~~run~~](#run)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~sequenceSeqArray~~](#sequenceseqarray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
-  - [~~traverseSeqArrayWithIndex~~](#traverseseqarraywithindex)
-  - [~~traverseSeqArray~~](#traverseseqarray)
 
 ---
 
@@ -1806,6 +1806,54 @@ export declare function bracket<R, E, A, B>(
 
 Added in v2.0.4
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <R, E, A>(
+  arr: readonly ReaderTaskEither<R, E, A>[]
+) => ReaderTaskEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## sequenceSeqArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqArray: <R, E, A>(
+  arr: readonly ReaderTaskEither<R, E, A>[]
+) => ReaderTaskEither<R, E, readonly A[]>
+```
+
+Added in v2.9.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <R, E, A, B>(
+  f: (a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.9.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -1862,75 +1910,19 @@ export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, R, E, B>(
 
 Added in v2.11.0
 
-## ~~run~~
+## traverseSeqArray
 
 **Signature**
 
 ```ts
-export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
-```
-
-Added in v2.0.0
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <R, E, A>(
-  arr: readonly ReaderTaskEither<R, E, A>[]
-) => ReaderTaskEither<R, E, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~sequenceSeqArray~~
-
-Use `traverseReadonlyArrayWithIndexSeq` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceSeqArray: <R, E, A>(
-  arr: readonly ReaderTaskEither<R, E, A>[]
-) => ReaderTaskEither<R, E, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <R, E, A, B>(
-  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <R, E, A, B>(
+export declare const traverseSeqArray: <R, E, A, B>(
   f: (a: A) => ReaderTaskEither<R, E, B>
 ) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
 ```
 
 Added in v2.9.0
 
-## ~~traverseSeqArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndexSeq` instead.
+## traverseSeqArrayWithIndex
 
 **Signature**
 
@@ -1942,16 +1934,12 @@ export declare const traverseSeqArrayWithIndex: <R, E, A, B>(
 
 Added in v2.9.0
 
-## ~~traverseSeqArray~~
-
-Use `traverseReadonlyArrayWithIndexSeq` instead.
+## ~~run~~
 
 **Signature**
 
 ```ts
-export declare const traverseSeqArray: <R, E, A, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+export declare function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>>
 ```
 
-Added in v2.9.0
+Added in v2.0.0

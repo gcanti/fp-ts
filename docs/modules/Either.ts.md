@@ -128,15 +128,15 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [elem](#elem)
   - [exists](#exists)
+  - [sequenceArray](#sequencearray)
   - [toError](#toerror)
+  - [traverseArray](#traversearray)
+  - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~JsonArray~~ (interface)](#jsonarray-interface)
   - [~~JsonRecord~~ (interface)](#jsonrecord-interface)
   - [~~Json~~ (type alias)](#json-type-alias)
-  - [~~sequenceArray~~](#sequencearray)
-  - [~~traverseArrayWithIndex~~](#traversearraywithindex)
-  - [~~traverseArray~~](#traversearray)
 
 ---
 
@@ -1547,6 +1547,16 @@ assert.strictEqual(gt2(right(3)), true)
 
 Added in v2.0.0
 
+## sequenceArray
+
+**Signature**
+
+```ts
+export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
+```
+
+Added in v2.9.0
+
 ## toError
 
 Default value for the `onError` argument of `tryCatch`
@@ -1558,6 +1568,30 @@ export declare function toError(e: unknown): Error
 ```
 
 Added in v2.0.0
+
+## traverseArray
+
+**Signature**
+
+```ts
+export declare const traverseArray: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.9.0
+
+## traverseArrayWithIndex
+
+**Signature**
+
+```ts
+export declare const traverseArrayWithIndex: <E, A, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.9.0
 
 ## traverseReadonlyArrayWithIndex
 
@@ -1624,43 +1658,3 @@ export type Json = boolean | number | string | null | JsonArray | JsonRecord
 ```
 
 Added in v2.6.7
-
-## ~~sequenceArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Either<E, readonly A[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArrayWithIndex~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArrayWithIndex: <E, A, B>(
-  f: (index: number, a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v2.9.0
-
-## ~~traverseArray~~
-
-Use `traverseReadonlyArrayWithIndex` instead.
-
-**Signature**
-
-```ts
-export declare const traverseArray: <E, A, B>(
-  f: (a: A) => Either<E, B>
-) => (as: readonly A[]) => Either<E, readonly B[]>
-```
-
-Added in v2.9.0

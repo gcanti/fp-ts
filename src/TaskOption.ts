@@ -848,68 +848,50 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
 
-// -------------------------------------------------------------------------------------
-// deprecated
-// -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
-
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const traverseArrayWithIndex: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const traverseArray: <A, B>(
   f: (a: A) => TaskOption<B>
 ) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndex` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const sequenceArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const traverseSeqArrayWithIndex: <A, B>(
   f: (index: number, a: A) => TaskOption<B>
 ) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const traverseSeqArray: <A, B>(
   f: (a: A) => TaskOption<B>
 ) => (as: ReadonlyArray<A>) => TaskOption<ReadonlyArray<B>> = (f) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Use `traverseReadonlyArrayWithIndexSeq` instead.
- *
  * @since 2.10.0
- * @deprecated
  */
 export const sequenceSeqArray: <A>(as: ReadonlyArray<TaskOption<A>>) => TaskOption<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
