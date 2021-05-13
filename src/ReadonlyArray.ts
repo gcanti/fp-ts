@@ -1531,6 +1531,7 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyArray<B>) => ReadonlyArray<B>
+  <A>(predicate: Predicate<A>): (fb: ReadonlyArray<A>) => ReadonlyArray<A>
 } = <A>(predicate: Predicate<A>) => <B extends A>(fb: ReadonlyArray<B>) => fb.filter(predicate)
 
 /**

@@ -182,6 +182,35 @@ pipe(
   )
 )
 
+// #1484
+const isPositive = E.exists((n: number) => n > 0)
+declare const eithers: ReadonlyArray<E.Either<string, number>>
+pipe(eithers, _.filter(E.isRight), _.filter(isPositive))
+
+interface Registered {
+  readonly type: 'Registered'
+  readonly username: string
+}
+interface Unregistered {
+  readonly type: 'Unregistered'
+}
+
+type User = Registered | Unregistered
+
+declare const users: ReadonlyArray<User>
+declare const isRegistered: (u: User) => u is Registered
+declare const p: (u: User) => boolean
+
+const registereds = _.filter(isRegistered)(users)
+_.filter(p)(registereds) // $ExpectType readonly Registered[]
+
+interface Test {
+  test: string
+}
+declare const arrayOfTest: Test[]
+const isFoo = <T extends Test>(t: T) => t.test === 'foo'
+pipe(arrayOfTest, _.filter(isFoo)) // $ExpectType readonly Test[]
+
 //
 // filterWithIndex
 //

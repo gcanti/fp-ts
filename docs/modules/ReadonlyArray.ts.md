@@ -313,6 +313,7 @@ Added in v2.5.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
   <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => readonly B[]
+  <A>(predicate: Predicate<A>): (fb: readonly A[]) => readonly A[]
 }
 ```
 
