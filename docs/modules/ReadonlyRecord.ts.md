@@ -932,7 +932,7 @@ Test whether a `ReadonlyRecord` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: ReadonlyRecord<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v2.5.0
@@ -1099,7 +1099,7 @@ Calculate the number of key/value pairs in a `ReadonlyRecord`,
 **Signature**
 
 ```ts
-export declare const size: (r: ReadonlyRecord<string, unknown>) => number
+export declare const size: <A>(r: Readonly<Record<string, A>>) => number
 ```
 
 Added in v2.5.0

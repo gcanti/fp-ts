@@ -71,7 +71,7 @@ export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArra
 /**
  * @internal
  */
-export const isOutOfBound = (i: number, as: ReadonlyArray<unknown>): boolean => i < 0 || i >= as.length
+export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i < 0 || i >= as.length
 
 /**
  * @internal

@@ -793,7 +793,7 @@ Test whether a `Record` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: Record<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Record<string, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -996,7 +996,7 @@ Calculate the number of key/value pairs in a `Record`.
 **Signature**
 
 ```ts
-export declare const size: (r: Record<string, unknown>) => number
+export declare const size: <A>(r: Record<string, A>) => number
 ```
 
 Added in v2.0.0

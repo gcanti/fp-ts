@@ -60,14 +60,14 @@ export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K
  *
  * @since 2.5.0
  */
-export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
+export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).length
 
 /**
  * Test whether a `ReadonlyRecord` is empty.
  *
  * @since 2.5.0
  */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
+export const isEmpty = <A>(r: ReadonlyRecord<string, A>): boolean => {
   for (const k in r) {
     if (_.has.call(r, k)) {
       return false

@@ -1,6 +1,7 @@
 import * as _ from '../../src/Set'
 import * as N from '../../src/number'
 import { pipe } from '../../src/function'
+import * as E from '../../src/Either'
 
 declare const me: Set<number>
 
@@ -85,4 +86,14 @@ pipe(
       x // $ExpectType number
     ) => true
   )
+)
+
+//
+// isEmpty
+//
+
+// $ExpectType Either<Set<number>, Set<number>>
+pipe(
+  me,
+  E.fromPredicate(_.isEmpty, (as) => as)
 )

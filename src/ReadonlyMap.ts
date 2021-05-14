@@ -69,14 +69,14 @@ export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<ReadonlyMap<K, A>>
  *
  * @since 2.5.0
  */
-export const size = (m: ReadonlyMap<unknown, unknown>): number => m.size
+export const size = <K, A>(m: ReadonlyMap<K, A>): number => m.size
 
 /**
  * Test whether or not a map is empty
  *
  * @since 2.5.0
  */
-export const isEmpty = (m: ReadonlyMap<unknown, unknown>): boolean => m.size === 0
+export const isEmpty = <K, A>(m: ReadonlyMap<K, A>): boolean => m.size === 0
 
 // TODO: remove non-curried overloading in v3
 /**

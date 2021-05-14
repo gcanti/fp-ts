@@ -1211,7 +1211,7 @@ export function toError(e: unknown): Error {
 /**
  * @since 2.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A, ma: Either<unknown, A>): boolean =>
+export const elem = <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>): boolean =>
   isLeft(ma) ? false : E.equals(a, ma.right)
 
 /**

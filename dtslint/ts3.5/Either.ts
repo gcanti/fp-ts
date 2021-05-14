@@ -1,6 +1,6 @@
 import * as _ from '../../src/Either'
 import { pipe, flow, identity } from '../../src/function'
-import * as B from '../../src/boolean'
+import * as RA from '../../src/ReadonlyArray'
 
 //
 // getOrElseW
@@ -147,3 +147,10 @@ pipe(
     () => false
   )
 )
+
+//
+// exists
+//
+
+declare const es: _.Either<string, number>[]
+const x = pipe(es, RA.filter(_.exists((n) => n > 0)))

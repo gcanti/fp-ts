@@ -739,7 +739,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: These<unknown, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
 ```
 
 Added in v2.11.0
@@ -749,7 +749,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>) => boolean
 ```
 
 Added in v2.11.0

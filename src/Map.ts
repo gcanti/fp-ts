@@ -40,14 +40,14 @@ export const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>> = RM.g
  *
  * @since 2.0.0
  */
-export const size: (m: Map<unknown, unknown>) => number = RM.size
+export const size: <K, A>(m: Map<K, A>) => number = RM.size
 
 /**
  * Test whether or not a map is empty
  *
  * @since 2.0.0
  */
-export const isEmpty: (m: Map<unknown, unknown>) => boolean = RM.isEmpty
+export const isEmpty: <K, A>(m: Map<K, A>) => boolean = RM.isEmpty
 
 // TODO: remove non-curried overloading in v3
 /**

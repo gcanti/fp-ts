@@ -1155,9 +1155,8 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
  *
  * @since 2.0.0
  */
-export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
-  return (ma) => (isNone(ma) ? false : predicate(ma.value))
-}
+export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
+  isNone(ma) ? false : predicate(ma.value)
 
 // -------------------------------------------------------------------------------------
 // do notation

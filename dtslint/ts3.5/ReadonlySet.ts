@@ -1,6 +1,7 @@
 import * as _ from '../../src/ReadonlySet'
 import * as N from '../../src/number'
 import { pipe } from '../../src/function'
+import * as E from '../../src/Either'
 
 declare const me: ReadonlySet<number>
 
@@ -85,4 +86,14 @@ pipe(
       x // $ExpectType number
     ) => true
   )
+)
+
+//
+// isEmpty
+//
+
+// $ExpectType Either<ReadonlySet<number>, ReadonlySet<number>>
+pipe(
+  me,
+  E.fromPredicate(_.isEmpty, (as) => as)
 )

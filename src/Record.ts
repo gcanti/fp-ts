@@ -39,14 +39,14 @@ import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault
  *
  * @since 2.0.0
  */
-export const size: (r: Record<string, unknown>) => number = RR.size
+export const size: <A>(r: Record<string, A>) => number = RR.size
 
 /**
  * Test whether a `Record` is empty.
  *
  * @since 2.0.0
  */
-export const isEmpty: (r: Record<string, unknown>) => boolean = RR.isEmpty
+export const isEmpty: <A>(r: Record<string, A>) => boolean = RR.isEmpty
 
 const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Array<K> =>
   (Object.keys(r) as any).sort(O.compare)

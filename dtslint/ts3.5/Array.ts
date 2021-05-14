@@ -286,3 +286,13 @@ pipe(prns, _.findFirst(predicate))
 pipe(prsns, _.findLast(isString))
 // $ExpectType Option<number>
 pipe(prns, _.findLast(predicate))
+
+//
+// isEmpty
+//
+
+// $ExpectType Either<string[], []>
+pipe(
+  ss,
+  E.fromPredicate(_.isEmpty, (as) => as)
+)

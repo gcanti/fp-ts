@@ -2,6 +2,7 @@ import * as _ from '../../src/ReadonlyMap'
 import * as N from '../../src/number'
 import * as S from '../../src/string'
 import { pipe } from '../../src/function'
+import * as E from '../../src/Either'
 
 //
 // member
@@ -127,4 +128,14 @@ pipe(
       x // $ExpectType number
     ) => true
   )
+)
+
+//
+// isEmpty
+//
+
+// $ExpectType Either<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
+pipe(
+  prns,
+  E.fromPredicate(_.isEmpty, (as) => as)
 )

@@ -1532,7 +1532,7 @@ Returns `true` if the predicate is satisfied by the wrapped value
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Option<A>) => boolean
 ```
 
 **Example**
