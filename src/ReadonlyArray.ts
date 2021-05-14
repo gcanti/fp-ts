@@ -160,6 +160,7 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A> {
   return (a) => (predicate(a) ? [a] : empty)
@@ -487,17 +488,18 @@ export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B> {
-  return <B extends A>(bs: ReadonlyArray<B>) => {
-    const out: Array<B> = []
-    for (const b of bs) {
-      if (!predicate(b)) {
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+  return (as: ReadonlyArray<A>) => {
+    const out: Array<A> = []
+    for (const a of as) {
+      if (!predicate(a)) {
         break
       }
-      out.push(b)
+      out.push(a)
     }
     const len = out.length
-    return len === bs.length ? bs : len === 0 ? empty : out
+    return len === as.length ? as : len === 0 ? empty : out
   }
 }
 
@@ -534,9 +536,10 @@ const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number
  */
 export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
 export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Spanned<B, B>
-export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Spanned<B, B> {
-  return (bs) => {
-    const [init, rest] = splitAt(spanLeftIndex(bs, predicate))(bs)
+export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
+export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> {
+  return (as) => {
+    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
     return { init, rest }
   }
 }
@@ -594,10 +597,11 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
 export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
-export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B> {
-  return (bs) => {
-    const i = spanLeftIndex(bs, predicate)
-    return i === 0 ? bs : i === bs.length ? empty : bs.slice(i)
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+  return (as) => {
+    const i = spanLeftIndex(as, predicate)
+    return i === 0 ? as : i === as.length ? empty : as.slice(i)
   }
 }
 
@@ -640,11 +644,12 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>):
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
-export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B> {
-  return (bs) => {
-    for (let i = 0; i < bs.length; i++) {
-      if (predicate(bs[i])) {
-        return _.some(bs[i])
+export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
+  return (as) => {
+    for (let i = 0; i < as.length; i++) {
+      if (predicate(as[i])) {
+        return _.some(as[i])
       }
     }
     return _.none
@@ -698,11 +703,12 @@ export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
-export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B> {
-  return (bs) => {
-    for (let i = bs.length - 1; i >= 0; i--) {
-      if (predicate(bs[i])) {
-        return _.some(bs[i])
+export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
+export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
+  return (as) => {
+    for (let i = as.length - 1; i >= 0; i--) {
+      if (predicate(as[i])) {
+        return _.some(as[i])
       }
     }
     return _.none
@@ -1529,10 +1535,10 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
  * @since 2.5.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyArray<B>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): (fb: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicate: Predicate<A>) => <B extends A>(fb: ReadonlyArray<B>) => fb.filter(predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+  <A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+} = <A>(predicate: Predicate<A>) => <B extends A>(as: ReadonlyArray<B>) => as.filter(predicate)
 
 /**
  * @category FilterableWithIndex
@@ -1572,13 +1578,12 @@ export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> =
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: ReadonlyArray<A>
+    as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fa: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
-} = <A>(
-  predicate: Predicate<A>
-): (<B extends A>(fa: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>) =>
-  partitionWithIndex((_, b) => predicate(b))
+  <A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
+  <A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
+} = <A>(predicate: Predicate<A>): ((as: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
+  partitionWithIndex((_, a) => predicate(a))
 
 /**
  * @category FilterableWithIndex
@@ -1586,22 +1591,25 @@ export const partition: {
  */
 export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: ReadonlyArray<A>
+    as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
-    fb: ReadonlyArray<B>
+    bs: ReadonlyArray<B>
   ) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(
-  fb: ReadonlyArray<B>
-): Separated<ReadonlyArray<B>, ReadonlyArray<B>> => {
-  const left: Array<B> = []
-  const right: Array<B> = []
-  for (let i = 0; i < fb.length; i++) {
-    const b = fb[i]
-    if (predicateWithIndex(i, b)) {
-      right.push(b)
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
+    as: ReadonlyArray<A>
+  ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
+  as: ReadonlyArray<A>
+): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
+  const left: Array<A> = []
+  const right: Array<A> = []
+  for (let i = 0; i < as.length; i++) {
+    const a = as[i]
+    if (predicateWithIndex(i, a)) {
+      right.push(a)
     } else {
-      left.push(b)
+      left.push(a)
     }
   }
   return separated(left, right)
@@ -1641,10 +1649,11 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
  * @since 2.5.0
  */
 export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: ReadonlyArray<B>) => ReadonlyArray<B>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(fb: ReadonlyArray<B>): ReadonlyArray<B> =>
-  fb.filter((b, i) => predicateWithIndex(i, b))
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  as.filter((a, i) => predicateWithIndex(i, a))
 
 /**
  * @category Extend

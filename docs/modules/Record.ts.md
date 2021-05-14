@@ -131,6 +131,7 @@ Added in v2.0.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Record<string, B>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
 }
 ```
 
@@ -156,6 +157,7 @@ export declare const partition: {
     fa: Record<string, A>
   ) => Separated<Record<string, A>, Record<string, B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Separated<Record<string, B>, Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
 }
 ```
 
@@ -661,6 +663,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Record<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Record<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Record<string, A>
 ```
 
@@ -897,6 +902,9 @@ Added in v2.0.0
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Separated<Record<string, B>, Record<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>>

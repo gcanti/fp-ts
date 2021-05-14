@@ -181,6 +181,7 @@ Added in v2.10.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
 }
 ```
 
@@ -204,6 +205,7 @@ Added in v2.10.0
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
 }
 ```
 
@@ -433,6 +435,7 @@ Added in v2.10.0
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 

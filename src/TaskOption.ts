@@ -74,6 +74,7 @@ export const some: <A>(a: A) => TaskOption<A> =
 export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 } =
   /*#__PURE__*/
   OT.fromPredicate(T.Pointed)
@@ -374,6 +375,7 @@ export const separate: Compactable1<URI>['separate'] =
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => TaskOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
 } =
   /*#__PURE__*/
   filter_(T.Functor, O.Filterable)
@@ -393,6 +395,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: TaskOption<A>) =
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
 } =
   /*#__PURE__*/
   partition_(T.Functor, O.Filterable)

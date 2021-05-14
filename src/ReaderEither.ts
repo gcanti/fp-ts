@@ -840,6 +840,7 @@ export const chainEitherKW: <E2, A, B>(
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 } =
   /*#__PURE__*/
@@ -856,6 +857,7 @@ export const filterOrElse: {
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
     mb: ReaderEither<R, E, B>
   ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 } =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
@@ -873,6 +875,9 @@ export const filterOrElseW: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
     mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, A>
 } = filterOrElse
 
 /**

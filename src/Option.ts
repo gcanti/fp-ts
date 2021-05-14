@@ -113,7 +113,8 @@ export const some: <A>(a: A) => Option<A> = _.some
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
 export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B> {
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
   return (a) => (predicate(a) ? some(a) : none)
 }
 
@@ -545,8 +546,8 @@ export const Compactable: Compactable1<URI> = {
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
-} = <A>(predicate: Predicate<A>) => <B extends A>(fb: Option<B>) =>
-  isNone(fb) ? none : predicate(fb.value) ? fb : none
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
 
 /**
  * @category instance operations
@@ -562,8 +563,8 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Opt
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
-} = <A>(predicate: Predicate<A>) => <B extends A>(fb: Option<B>) =>
-  separated(_filter(fb, not(predicate)), _filter(fb, predicate))
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => separated(_filter(fa, not(predicate)), _filter(fa, predicate))
 
 /**
  * @category instance operations

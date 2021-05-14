@@ -124,6 +124,7 @@ Added in v2.5.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 }
 ```
 
@@ -151,6 +152,7 @@ export declare const partition: {
   <A>(predicate: Predicate<A>): <K, B extends A>(
     fb: ReadonlyMap<K, B>
   ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 }
 ```
 
@@ -232,6 +234,9 @@ export declare function filterWithIndex<K, A, B extends A>(
 export declare function filterWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
 ): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.10.0
@@ -271,6 +276,9 @@ export declare function partitionWithIndex<K, A, B extends A>(
 export declare function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
 ): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 ```
 
 Added in v2.10.0

@@ -159,6 +159,7 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
   return (a) => (predicate(a) ? [a] : [])
@@ -466,14 +467,15 @@ export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
 export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
-export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B> {
-  return <B extends A>(bs: Array<B>) => {
-    const out: Array<B> = []
-    for (const b of bs) {
-      if (!predicate(b)) {
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
+  return (as: Array<A>) => {
+    const out: Array<A> = []
+    for (const a of as) {
+      if (!predicate(a)) {
         break
       }
-      out.push(b)
+      out.push(a)
     }
     return out
   }
@@ -515,9 +517,10 @@ export interface Spanned<I, R> {
  */
 export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
 export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Spanned<B, B>
-export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Spanned<B, B> {
-  return (bs) => {
-    const [init, rest] = splitAt(spanLeftIndex(bs, predicate))(bs)
+export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
+export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A> {
+  return (as) => {
+    const [init, rest] = splitAt(spanLeftIndex(as, predicate))(as)
     return { init, rest }
   }
 }
@@ -567,8 +570,9 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  */
 export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
 export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
-export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B> {
-  return (bs) => bs.slice(spanLeftIndex(bs, predicate))
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
+  return (as) => as.slice(spanLeftIndex(as, predicate))
 }
 
 /**
@@ -604,7 +608,8 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
-export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B> {
+export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
+export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
   return RA.findFirst(predicate)
 }
 
@@ -649,7 +654,8 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
-export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B> {
+export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
+export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
   return RA.findLast(predicate)
 }
 
@@ -1453,18 +1459,20 @@ export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Arr
  * @since 2.0.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Array<B>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Array<B>) => Array<B>
-} = <A>(predicate: Predicate<A>) => <B extends A>(fb: Array<B>) => fb.filter(predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+  <A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+} = <A>(predicate: Predicate<A>) => (as: Array<A>) => as.filter(predicate)
 
 /**
  * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Separated<Array<A>, Array<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: Array<B>) => Separated<Array<B>, Array<B>>
-} = <A>(predicate: Predicate<A>): (<B extends A>(fb: Array<B>) => Separated<Array<B>, Array<B>>) =>
+  <A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Separated<Array<A>, Array<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Separated<Array<B>, Array<B>>
+  <A>(predicate: Predicate<A>): (as: Array<A>) => Separated<Array<A>, Array<A>>
+} = <A>(predicate: Predicate<A>): ((as: Array<A>) => Separated<Array<A>, Array<A>>) =>
   partitionWithIndex((_, a) => predicate(a))
 
 /**
@@ -1473,16 +1481,15 @@ export const partition: {
  */
 export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: Array<A>
+    as: Array<A>
   ) => Separated<Array<A>, Array<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: Array<B>) => Separated<Array<B>, Array<B>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(
-  fb: Array<B>
-): Separated<Array<B>, Array<B>> => {
-  const left: Array<B> = []
-  const right: Array<B> = []
-  for (let i = 0; i < fb.length; i++) {
-    const b = fb[i]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: Array<B>) => Separated<Array<B>, Array<B>>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: Array<A>) => Separated<Array<A>, Array<A>>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: Array<A>): Separated<Array<A>, Array<A>> => {
+  const left: Array<A> = []
+  const right: Array<A> = []
+  for (let i = 0; i < as.length; i++) {
+    const b = as[i]
     if (predicateWithIndex(i, b)) {
       right.push(b)
     } else {
@@ -1542,16 +1549,17 @@ export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
  * @since 2.0.0
  */
 export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: Array<A>) => Array<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: Array<B>) => Array<B>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => <B extends A>(fb: Array<B>): Array<B> =>
-  fb.filter((b, i) => predicateWithIndex(i, b))
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: Array<A>) => Array<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: Array<B>) => Array<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: Array<A>) => Array<A>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: Array<A>): Array<A> =>
+  as.filter((b, i) => predicateWithIndex(i, b))
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = (f) => (wa) =>
+export const extend: <A, B>(f: (as: Array<A>) => B) => (as: Array<A>) => Array<B> = (f) => (wa) =>
   wa.map((_, i) => f(wa.slice(i)))
 
 /**

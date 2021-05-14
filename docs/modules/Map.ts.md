@@ -116,6 +116,7 @@ Added in v2.0.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 }
 ```
 
@@ -139,6 +140,7 @@ Added in v2.0.0
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 }
 ```
 
@@ -214,6 +216,7 @@ Added in v2.10.0
 ```ts
 export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
 export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
 ```
 
 Added in v2.10.0
@@ -252,7 +255,10 @@ export declare function partitionWithIndex<K, A, B extends A>(
 ): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
 export declare function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(fa: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 ```
 
 Added in v2.10.0

@@ -909,6 +909,9 @@ export declare function filter<A, B extends A>(
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
 export declare function filter<A>(
   predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyNonEmptyArray<B>) => Option<ReadonlyNonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 

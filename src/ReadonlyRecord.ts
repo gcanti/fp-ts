@@ -620,6 +620,9 @@ export function partitionWithIndex<K extends string, A, B extends A>(
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
+export function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
@@ -671,6 +674,9 @@ export function filterMapWithIndex<A, B>(
 export function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
 export function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
@@ -1058,8 +1064,9 @@ const _traverseWithIndex = (O: Ord<string>) => <F>(
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
-} = <A>(predicate: Predicate<A>): (<B extends A>(fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>) =>
-  filterWithIndex((_, b) => predicate(b))
+  <A>(predicate: Predicate<A>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>
+} = <A>(predicate: Predicate<A>): ((fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) =>
+  filterWithIndex((_, a) => predicate(a))
 
 /**
  * @category Filterable
@@ -1080,10 +1087,13 @@ export const partition: {
   <A>(predicate: Predicate<A>): <B extends A>(
     fb: ReadonlyRecord<string, B>
   ) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
+  <A>(predicate: Predicate<A>): (
+    fa: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 } = <A>(
   predicate: Predicate<A>
-): (<B extends A>(fb: ReadonlyRecord<string, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>) =>
-  partitionWithIndex((_, b) => predicate(b))
+): ((fa: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
+  partitionWithIndex((_, a) => predicate(a))
 
 /**
  * @category Filterable

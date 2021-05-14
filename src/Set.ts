@@ -80,16 +80,17 @@ interface Next<A> {
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
 export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
-export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B> {
-  return <B extends A>(set: Set<B>) => {
+export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
+export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
+  return (set: Set<A>) => {
     const values = set.values()
-    let e: Next<B>
-    const r = new Set<B>()
+    let e: Next<A>
+    const r = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        r.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        r.add(a)
       }
     }
     return r
@@ -101,19 +102,20 @@ export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) =
  */
 export function partition<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Separated<Set<A>, Set<B>>
 export function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
-export function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>> {
-  return <B extends A>(set: Set<B>) => {
+export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
+export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
+  return (set: Set<A>) => {
     const values = set.values()
-    let e: Next<B>
-    const right = new Set<B>()
-    const left = new Set<B>()
+    let e: Next<A>
+    const right = new Set<A>()
+    const left = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        right.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        right.add(a)
       } else {
-        left.add(value)
+        left.add(a)
       }
     }
     return separated(left, right)

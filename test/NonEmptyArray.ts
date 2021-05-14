@@ -275,16 +275,17 @@ describe('NonEmptyArray', () => {
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
+    const as: _.NonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 1)
       ),
       O.some([a3])
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 2)
       ),
       O.some([a1, a2])
@@ -297,7 +298,7 @@ describe('NonEmptyArray', () => {
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 10)
       ),
       O.some([a1, a2, a3])

@@ -138,6 +138,7 @@ Added in v2.5.0
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 }
 ```
 
@@ -167,6 +168,9 @@ export declare const partition: {
   <A>(predicate: Predicate<A>): <B extends A>(
     fb: Readonly<Record<string, B>>
   ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
 }
 ```
 
@@ -798,6 +802,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 ```
 
@@ -1010,6 +1017,9 @@ Added in v2.5.0
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>

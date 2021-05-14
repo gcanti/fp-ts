@@ -296,7 +296,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => B[]
+export declare const extend: <A, B>(f: (as: A[]) => B) => (as: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -309,8 +309,9 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => B[]
-  <A>(predicate: Predicate<A>): <B extends A>(fb: B[]) => B[]
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => B[]
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicate: Predicate<A>): (as: A[]) => A[]
 }
 ```
 
@@ -332,8 +333,9 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>
-  <A>(predicate: Predicate<A>): <B extends A>(fb: B[]) => Separated<B[], B[]>
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicate: Predicate<A>): (as: A[]) => Separated<A[], A[]>
 }
 ```
 
@@ -367,8 +369,9 @@ Added in v2.0.0
 
 ```ts
 export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: B[]) => B[]
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
 }
 ```
 
@@ -392,8 +395,9 @@ Added in v2.0.0
 
 ```ts
 export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: B[]) => Separated<B[], B[]>
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => Separated<A[], A[]>
 }
 ```
 
@@ -857,6 +861,7 @@ Remove the longest initial subarray for which all element satisfy the specified 
 ```ts
 export declare function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
 export declare function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 ```
 
 **Example**
@@ -1263,6 +1268,7 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 ```ts
 export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
 export declare function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 ```
 
 **Example**
@@ -1449,6 +1455,7 @@ Added in v2.11.0
 
 ```ts
 export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
 export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
 ```
 
@@ -1589,6 +1596,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
 **Example**
@@ -1651,6 +1659,7 @@ Find the last element which satisfies a predicate function
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
 export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
 **Example**
@@ -1899,6 +1908,7 @@ Split an array into two parts:
 ```ts
 export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
 export declare function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Spanned<B, B>
+export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 ```
 
 **Example**

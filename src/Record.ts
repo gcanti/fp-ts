@@ -418,6 +418,9 @@ export function partitionWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Separated<Record<string, B>, Record<string, B>>
+export function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>>
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
@@ -438,6 +441,9 @@ export const filterMapWithIndex: <K extends string, A, B>(
 export function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (fa: Record<K, A>) => Record<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Record<string, B>
 export function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Record<string, A>
@@ -651,6 +657,7 @@ const _traverseWithIndex = (O: Ord<string>) => <F>(
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Record<string, B>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
 } = RR.filter
 
 /**
@@ -668,6 +675,7 @@ export const partition: {
     fa: Record<string, A>
   ) => Separated<Record<string, A>, Record<string, B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Separated<Record<string, B>, Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
 } = RR.partition
 
 /**

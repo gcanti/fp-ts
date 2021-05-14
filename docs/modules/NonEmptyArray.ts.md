@@ -812,6 +812,9 @@ Use [`filter`](./Array.ts.html#filter) instead.
 export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: NonEmptyArray<B>) => Option<NonEmptyArray<B>>
 export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 

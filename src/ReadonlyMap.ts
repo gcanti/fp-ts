@@ -545,19 +545,22 @@ export function partitionWithIndex<K, A>(
 ): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
 export function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>> {
-  return <B extends A>(m: ReadonlyMap<K, B>) => {
-    const left = new Map<K, B>()
-    const right = new Map<K, B>()
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>> {
+  return (m: ReadonlyMap<K, A>) => {
+    const left = new Map<K, A>()
+    const right = new Map<K, A>()
     const entries = m.entries()
-    let e: Next<readonly [K, B]>
+    let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
-      const [k, b] = e.value
-      if (predicateWithIndex(k, b)) {
-        right.set(k, b)
+      const [k, a] = e.value
+      if (predicateWithIndex(k, a)) {
+        right.set(k, a)
       } else {
-        left.set(k, b)
+        left.set(k, a)
       }
     }
     return separated(left, right)
@@ -597,16 +600,19 @@ export function filterWithIndex<K, A>(
 ): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
 export function filterWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
-): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B> {
-  return <B extends A>(m: ReadonlyMap<K, B>) => {
-    const out = new Map<K, B>()
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> {
+  return (m: ReadonlyMap<K, A>) => {
+    const out = new Map<K, A>()
     const entries = m.entries()
-    let e: Next<readonly [K, B]>
+    let e: Next<readonly [K, A]>
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
-      const [k, b] = e.value
-      if (predicateWithIndex(k, b)) {
-        out.set(k, b)
+      const [k, a] = e.value
+      if (predicateWithIndex(k, a)) {
+        out.set(k, a)
       }
     }
     return out
@@ -660,7 +666,8 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
-} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: ReadonlyMap<K, B>) => _filter(fb, predicate)
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _filter(fa, predicate)
 
 /**
  * @category Filterable
@@ -698,7 +705,8 @@ export const partition: {
   <A>(predicate: Predicate<A>): <K, B extends A>(
     fb: ReadonlyMap<K, B>
   ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
-} = <A>(predicate: Predicate<A>) => <K, B extends A>(fb: ReadonlyMap<K, B>) => _partition(fb, predicate)
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) => _partition(fa, predicate)
 
 /**
  * @category Filterable
