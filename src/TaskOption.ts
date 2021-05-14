@@ -14,7 +14,7 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import { FromEither1 } from './FromEither'
+import { FromEither1, fromPredicate as fromPredicate_ } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import {
   chainFirstTaskK as chainFirstTaskK_,
@@ -31,12 +31,10 @@ import type { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
 import type { Pointed1 } from './Pointed'
-import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import * as T from './Task'
 import type { TaskEither, URI as TEURI } from './TaskEither'
-import { Zero1, guard as guard_ } from './Zero'
+import { guard as guard_, Zero1 } from './Zero'
 
 import Task = T.Task
 import Option = O.Option
@@ -62,17 +60,6 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 export const some: <A>(a: A) => TaskOption<A> =
   /*#__PURE__*/
   OT.some(T.Pointed)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
-} =
-  /*#__PURE__*/
-  OT.fromPredicate(T.Pointed)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -623,6 +610,22 @@ export const chainIOK =
 export const chainFirstIOK =
   /*#__PURE__*/
   chainFirstIOK_(FromIO, Chain)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromEither: FromEither1<URI> = {
+  fromEither
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const fromPredicate =
+  /*#__PURE__*/
+  fromPredicate_(FromEither)
 
 /**
  * @category instances

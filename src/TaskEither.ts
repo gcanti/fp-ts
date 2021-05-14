@@ -923,6 +923,7 @@ export const filterOrElseW: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
     mb: TaskEither<E1, B>
   ) => TaskEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 } = filterOrElse
 
 /**

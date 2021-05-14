@@ -432,6 +432,7 @@ Added in v3.0.0
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
 
@@ -487,6 +488,7 @@ export declare const filterOrElseW: {
     ma: Either<E1, A>
   ) => Either<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 }
 ```
 
@@ -576,6 +578,7 @@ Added in v3.0.0
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
   <A>(predicate: Predicate<A>): <B>(b: B) => Either<B, B>
+  <A>(predicate: Predicate<A>): (a: A) => Either<A, A>
 }
 ```
 
@@ -1368,7 +1371,7 @@ Tests whether a value is a member of a `Either`.
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: Either<unknown, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -1380,7 +1383,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>) => boolean
 ```
 
 **Example**

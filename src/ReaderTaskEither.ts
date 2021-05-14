@@ -453,7 +453,7 @@ export const chainTaskEitherK: <E, A, B>(
  * Less strict version of [`chainFirstTaskEitherK`](#chainFirstTaskEitherK).
  *
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainFirstTaskEitherKW: <E2, A, B>(
   f: (a: A) => TaskEither<E2, B>
@@ -461,7 +461,7 @@ export const chainFirstTaskEitherKW: <E2, A, B>(
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 3.0.0
  */
 export const chainFirstTaskEitherK: <E, A, B>(
   f: (a: A) => TaskEither<E, B>
@@ -1102,6 +1102,9 @@ export const filterOrElseW: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
     mb: ReaderTaskEither<R, E1, B>
   ) => ReaderTaskEither<R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E1 | E2, A>
 } = filterOrElse
 
 /**

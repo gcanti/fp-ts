@@ -22,9 +22,19 @@ Added in v3.0.0
   - [isString](#isstring)
 - [utils](#utils)
   - [empty](#empty)
+  - [endsWith](#endswith)
+  - [includes](#includes)
   - [isEmpty](#isempty)
+  - [replace](#replace)
   - [size](#size)
+  - [slice](#slice)
+  - [split](#split)
+  - [startsWith](#startswith)
+  - [toLowerCase](#tolowercase)
   - [toUpperCase](#touppercase)
+  - [trim](#trim)
+  - [trimLeft](#trimleft)
+  - [trimRight](#trimright)
 
 ---
 
@@ -55,10 +65,11 @@ export declare const Monoid: M.Monoid<string>
 **Example**
 
 ```ts
-import { Monoid } from 'fp-ts/string'
+import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', Monoid.concat('b')), 'ab')
+assert.deepStrictEqual(pipe('a', S.Monoid.concat('b')), 'ab')
+assert.deepStrictEqual(pipe('a', S.Monoid.concat(S.Monoid.empty)), 'a')
 ```
 
 Added in v3.0.0
@@ -86,10 +97,10 @@ export declare const Semigroup: S.Semigroup<string>
 **Example**
 
 ```ts
-import { Semigroup } from 'fp-ts/string'
+import * as S from 'fp-ts/string'
 import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(pipe('a', Semigroup.concat('b')), 'ab')
+assert.deepStrictEqual(pipe('a', S.Semigroup.concat('b')), 'ab')
 ```
 
 Added in v3.0.0
@@ -130,6 +141,26 @@ export declare const empty: string
 
 Added in v3.0.0
 
+## endsWith
+
+**Signature**
+
+```ts
+export declare const endsWith: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v3.0.0
+
+## includes
+
+**Signature**
+
+```ts
+export declare const includes: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v3.0.0
+
 ## isEmpty
 
 Test whether a `string` is empty.
@@ -138,6 +169,16 @@ Test whether a `string` is empty.
 
 ```ts
 export declare const isEmpty: (s: string) => boolean
+```
+
+Added in v3.0.0
+
+## replace
+
+**Signature**
+
+```ts
+export declare const replace: (searchValue: string | RegExp, replaceValue: string) => (s: string) => string
 ```
 
 Added in v3.0.0
@@ -154,12 +195,82 @@ export declare const size: (s: string) => number
 
 Added in v3.0.0
 
+## slice
+
+**Signature**
+
+```ts
+export declare const slice: (start: number, end: number) => (s: string) => string
+```
+
+Added in v3.0.0
+
+## split
+
+**Signature**
+
+```ts
+export declare const split: (separator: string | RegExp) => (s: string) => ReadonlyNonEmptyArray<string>
+```
+
+Added in v3.0.0
+
+## startsWith
+
+**Signature**
+
+```ts
+export declare const startsWith: (searchString: string, position?: number | undefined) => (s: string) => boolean
+```
+
+Added in v3.0.0
+
+## toLowerCase
+
+**Signature**
+
+```ts
+export declare const toLowerCase: (s: string) => string
+```
+
+Added in v3.0.0
+
 ## toUpperCase
 
 **Signature**
 
 ```ts
 export declare const toUpperCase: (s: string) => string
+```
+
+Added in v3.0.0
+
+## trim
+
+**Signature**
+
+```ts
+export declare const trim: (s: string) => string
+```
+
+Added in v3.0.0
+
+## trimLeft
+
+**Signature**
+
+```ts
+export declare const trimLeft: (s: string) => string
+```
+
+Added in v3.0.0
+
+## trimRight
+
+**Signature**
+
+```ts
+export declare const trimRight: (s: string) => string
 ```
 
 Added in v3.0.0

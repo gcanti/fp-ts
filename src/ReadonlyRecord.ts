@@ -395,6 +395,9 @@ export function partitionWithIndex<K extends string, A, B extends A>(
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
+export function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
@@ -447,6 +450,9 @@ export function filterMapWithIndex<A, B>(
 export function filterWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
 export function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
@@ -807,14 +813,14 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
  *
  * @since 3.0.0
  */
-export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
+export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).length
 
 /**
  * Test whether a `ReadonlyRecord` is empty.
  *
  * @since 3.0.0
  */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
+export const isEmpty = <A>(r: ReadonlyRecord<string, A>): boolean => {
   for (const k in r) {
     if (_.has.call(r, k)) {
       return false

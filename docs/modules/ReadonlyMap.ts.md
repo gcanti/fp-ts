@@ -183,6 +183,9 @@ export declare function filterWithIndex<K, A, B extends A>(
 export declare function filterWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
 ): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -210,6 +213,9 @@ export declare function partitionWithIndex<K, A, B extends A>(
 export declare function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
 ): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -629,7 +635,7 @@ Test whether or not a `ReadonlyMap` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (d: ReadonlyMap<unknown, unknown>) => boolean
+export declare const isEmpty: <K, A>(d: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -763,7 +769,7 @@ Calculate the number of key/value pairs in a `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const size: (d: ReadonlyMap<unknown, unknown>) => number
+export declare const size: <K, A>(d: ReadonlyMap<K, A>) => number
 ```
 
 Added in v3.0.0

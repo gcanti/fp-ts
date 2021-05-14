@@ -74,6 +74,7 @@ Added in v3.0.0
   - [Chain](#chain-1)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -391,8 +392,9 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 
@@ -669,6 +671,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Filterable: Filterable1<'TaskOption'>
+```
+
+Added in v3.0.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'TaskOption'>
 ```
 
 Added in v3.0.0

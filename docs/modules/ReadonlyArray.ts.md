@@ -679,6 +679,7 @@ export declare function dropLeftWhile<A, B extends A>(
 export declare function dropLeftWhile<A>(
   predicate: Predicate<A>
 ): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1078,6 +1079,7 @@ export declare function takeLeftWhile<A, B extends A>(
 export declare function takeLeftWhile<A>(
   predicate: Predicate<A>
 ): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1289,6 +1291,7 @@ Added in v3.0.0
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => readonly B[]
   <A>(predicate: Predicate<A>): <B>(b: B) => readonly B[]
+  <A>(predicate: Predicate<A>): (a: A) => readonly A[]
 }
 ```
 
@@ -2222,6 +2225,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
 export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
 **Example**
@@ -2301,6 +2305,7 @@ Find the last element which satisfies a predicate function
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
 export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
 **Example**
@@ -2451,7 +2456,7 @@ Test whether a `ReadonlyArray` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (as: ReadonlyArray<unknown>) => as is readonly []
+export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
 ```
 
 **Example**
@@ -2471,7 +2476,7 @@ Test whether a `ReadonlyArray` contains a particular index
 **Signature**
 
 ```ts
-export declare const isOutOfBound: (i: number, as: ReadonlyArray<unknown>) => boolean
+export declare const isOutOfBound: <A>(i: number, as: readonly A[]) => boolean
 ```
 
 Added in v3.0.0
@@ -2552,7 +2557,7 @@ Calculate the number of elements in a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const size: (as: ReadonlyArray<unknown>) => number
+export declare const size: <A>(as: readonly A[]) => number
 ```
 
 Added in v3.0.0
@@ -2597,6 +2602,9 @@ export declare function spanLeft<A, B extends A>(
 export declare function spanLeft<A>(
   predicate: Predicate<A>
 ): <B extends A>(bs: ReadonlyArray<B>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<B>]
+export declare function spanLeft<A>(
+  predicate: Predicate<A>
+): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
 ```
 
 **Example**

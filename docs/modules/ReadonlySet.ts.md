@@ -103,6 +103,7 @@ Added in v3.0.0
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
 export declare function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
 Added in v3.0.0
@@ -128,6 +129,9 @@ export declare function partition<A, B extends A>(
 export declare function partition<A>(
   predicate: Predicate<A>
 ): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+export declare function partition<A>(
+  predicate: Predicate<A>
+): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 ```
 
 Added in v3.0.0
@@ -398,7 +402,7 @@ Test whether a `ReadonlySet` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (set: ReadonlySet<unknown>) => boolean
+export declare const isEmpty: <A>(set: ReadonlySet<A>) => boolean
 ```
 
 Added in v3.0.0
@@ -442,7 +446,7 @@ Calculate the number of elements in a `ReadonlySet`.
 **Signature**
 
 ```ts
-export declare const size: (set: ReadonlySet<unknown>) => number
+export declare const size: <A>(set: ReadonlySet<A>) => number
 ```
 
 Added in v3.0.0

@@ -40,13 +40,12 @@ import { fromCompare, Ord } from './Ord'
 import type { Pointed1 } from './Pointed'
 import type { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
-import { Zero1, guard as guard_ } from './Zero'
+import { guard as guard_, Zero1 } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1020,26 +1019,6 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNo
  */
 export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
   isNone(ma) ? false : predicate(ma.value)
-
-/**
- * Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
- * This function ensures that a custom type guard definition is type-safe.
- *
- * ```ts
- * import { some, none, getRefinement } from 'fp-ts/Option'
- *
- * type A = { type: 'A' }
- * type B = { type: 'B' }
- * type C = A | B
- *
- * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
- * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
- * ```
- *
- * @since 3.0.0
- */
-export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => (a: A): a is B =>
-  isSome(getOption(a))
 
 // -------------------------------------------------------------------------------------
 // do notation

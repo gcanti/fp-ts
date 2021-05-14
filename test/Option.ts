@@ -351,19 +351,6 @@ describe('Option', () => {
     )
   })
 
-  it('getRefinement', () => {
-    const f = (s: string | number): _.Option<string> => (typeof s === 'string' ? _.some(s) : _.none)
-    const isString = _.getRefinement(f)
-    U.deepStrictEqual(isString('s'), true)
-    U.deepStrictEqual(isString(1), false)
-    type A = { readonly type: 'A' }
-    type B = { readonly type: 'B' }
-    type C = A | B
-    const isA = _.getRefinement<C, A>((c) => (c.type === 'A' ? _.some(c) : _.none))
-    U.deepStrictEqual(isA({ type: 'A' }), true)
-    U.deepStrictEqual(isA({ type: 'B' }), false)
-  })
-
   it('getShow', () => {
     const Sh = _.getShow(S.Show)
     U.deepStrictEqual(Sh.show(_.some('a')), `some("a")`)

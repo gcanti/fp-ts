@@ -261,6 +261,7 @@ Derivable from `FromEither`.
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => These<A, B>
   <A>(predicate: Predicate<A>): <B>(b: B) => These<B, B>
+  <A>(predicate: Predicate<A>): (a: A) => These<A, A>
 }
 ```
 
@@ -605,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => (a: A) => (ma: These<unknown, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
 ```
 
 Added in v3.0.0
@@ -615,7 +616,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const exists: <A>(predicate: Predicate<A>) => (ma: These<unknown, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>) => boolean
 ```
 
 Added in v3.0.0

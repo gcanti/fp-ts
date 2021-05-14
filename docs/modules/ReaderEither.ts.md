@@ -377,6 +377,7 @@ Added in v3.0.0
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B>(mb: ReaderEither<R, E, B>) => ReaderEither<R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 }
 ```
 
@@ -396,6 +397,9 @@ export declare const filterOrElseW: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
     mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
+    ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, A>
 }
 ```
 
@@ -606,6 +610,7 @@ Derivable from `FromEither`.
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <R, B>(b: B) => ReaderEither<R, B, B>
+  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
 }
 ```
 

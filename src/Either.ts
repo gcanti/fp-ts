@@ -1046,6 +1046,7 @@ export const filterOrElseW: {
     ma: Either<E1, A>
   ) => Either<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
 } = filterOrElse
 
 // -------------------------------------------------------------------------------------
@@ -1057,7 +1058,7 @@ export const filterOrElseW: {
  *
  * @since 3.0.0
  */
-export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Either<unknown, A>): boolean =>
+export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: Either<E, A>): boolean =>
   isLeft(ma) ? false : E.equals(ma.right)(a)
 
 /**
@@ -1074,7 +1075,7 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Either<unknown, A>): boolean
  *
  * @since 3.0.0
  */
-export const exists = <A>(predicate: Predicate<A>) => (ma: Either<unknown, A>): boolean =>
+export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boolean =>
   isLeft(ma) ? false : predicate(ma.right)
 
 // -------------------------------------------------------------------------------------

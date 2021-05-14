@@ -125,7 +125,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [getRefinement](#getrefinement)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
@@ -440,6 +439,7 @@ Returns a _smart constructor_ based on the given predicate.
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => Option<B>
   <A>(predicate: Predicate<A>): <B>(b: B) => Option<B>
+  <A>(predicate: Predicate<A>): (a: A) => Option<A>
 }
 ```
 
@@ -1398,30 +1398,6 @@ assert.strictEqual(
   ),
   false
 )
-```
-
-Added in v3.0.0
-
-## getRefinement
-
-Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
-This function ensures that a custom type guard definition is type-safe.
-
-```ts
-import { some, none, getRefinement } from 'fp-ts/Option'
-
-type A = { type: 'A' }
-type B = { type: 'B' }
-type C = A | B
-
-const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
-const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
-```
-
-**Signature**
-
-```ts
-export declare const getRefinement: <A, B extends A>(getOption: (a: A) => Option<B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

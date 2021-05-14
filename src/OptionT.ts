@@ -11,8 +11,6 @@ import * as _ from './internal'
 import type { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import * as O from './Option'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
-import type { Predicate } from './Predicate'
-import type { Refinement } from './Refinement'
 
 import Option = O.Option
 
@@ -161,60 +159,6 @@ export function fromOptionK<F>(
   F: Pointed<F>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => HKT<F, Option<B>> {
   return (f) => flow(f, F.of)
-}
-
-/**
- * @since 3.0.0
- */
-export function fromPredicate<F extends URIS4>(
-  F: Pointed4<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(b: B) => Kind4<F, S, R, E, Option<B>>
-}
-export function fromPredicate<F extends URIS3>(
-  F: Pointed3<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <R, E>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, E, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
-}
-export function fromPredicate<F extends URIS3, E>(
-  F: Pointed3C<F, E>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
-}
-export function fromPredicate<F extends URIS2>(
-  F: Pointed2<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): <E>(a: A) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <E, B extends A>(b: B) => Kind2<F, E, Option<B>>
-}
-export function fromPredicate<F extends URIS2, E>(
-  F: Pointed2C<F, E>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind2<F, E, Option<B>>
-}
-export function fromPredicate<F extends URIS>(
-  F: Pointed1<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Kind<F, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Kind<F, Option<B>>
-}
-export function fromPredicate<F>(
-  F: Pointed<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
-}
-export function fromPredicate<F>(
-  F: Pointed<F>
-): {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => HKT<F, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A>(b: B) => HKT<F, Option<B>>
-} {
-  return <A>(predicate: Predicate<A>) => <B extends A>(b: B) => F.of(O.fromPredicate(predicate)(b))
 }
 
 /**

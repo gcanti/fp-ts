@@ -540,6 +540,9 @@ export declare const filterOrElse: {
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B>(
     mb: StateReaderTaskEither<S, R, E, B>
   ) => StateReaderTaskEither<S, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
+    ma: StateReaderTaskEither<S, R, E, A>
+  ) => StateReaderTaskEither<S, R, E, A>
 }
 ```
 
@@ -559,6 +562,9 @@ export declare const filterOrElseW: {
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1, B extends A>(
     mb: StateReaderTaskEither<S, R, E1, B>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
+    ma: StateReaderTaskEither<S, R, E1, A>
+  ) => StateReaderTaskEither<S, R, E2 | E1, A>
 }
 ```
 
@@ -775,6 +781,7 @@ Derivable from `FromEither`.
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <S, R>(a: A) => StateReaderTaskEither<S, R, A, B>
   <A>(predicate: Predicate<A>): <S, R, B>(b: B) => StateReaderTaskEither<S, R, B, B>
+  <A>(predicate: Predicate<A>): <S, R>(a: A) => StateReaderTaskEither<S, R, A, A>
 }
 ```
 

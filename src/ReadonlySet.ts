@@ -243,15 +243,16 @@ export const separate = <E, A>(EE: Eq<E>, EA: Eq<A>) => (
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
 export function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
-export function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B> {
-  return <B extends A>(s: ReadonlySet<B>) => {
+export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
+export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A> {
+  return (s: ReadonlySet<A>) => {
     const values = s.values()
-    let e: Next<B>
-    const r = new Set<B>()
+    let e: Next<A>
+    const r = new Set<A>()
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        r.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        r.add(a)
       }
     }
     return r
@@ -286,20 +287,21 @@ export function partition<A, B extends A>(
 export function partition<A>(
   predicate: Predicate<A>
 ): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+export function partition<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 export function partition<A>(
   predicate: Predicate<A>
-): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>> {
-  return <B extends A>(s: ReadonlySet<B>) => {
+): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>> {
+  return (s: ReadonlySet<A>) => {
     const values = s.values()
-    let e: Next<B>
-    const right = new Set<B>()
-    const left = new Set<B>()
+    let e: Next<A>
+    const right = new Set<A>()
+    const left = new Set<A>()
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        right.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        right.add(a)
       } else {
-        left.add(value)
+        left.add(a)
       }
     }
     return separated(left, right)
@@ -425,14 +427,14 @@ export const empty: ReadonlySet<never> = new Set()
  *
  * @since 3.0.0
  */
-export const isEmpty = (set: ReadonlySet<unknown>): boolean => set.size === 0
+export const isEmpty = <A>(set: ReadonlySet<A>): boolean => set.size === 0
 
 /**
  * Calculate the number of elements in a `ReadonlySet`.
  *
  * @since 3.0.0
  */
-export const size = (set: ReadonlySet<unknown>): number => set.size
+export const size = <A>(set: ReadonlySet<A>): number => set.size
 
 interface Next<A> {
   readonly done?: boolean
