@@ -71,6 +71,7 @@ Added in v2.10.0
   - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -666,6 +667,16 @@ export declare const Filterable: Filterable1<'TaskOption'>
 ```
 
 Added in v2.10.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'TaskOption'>
+```
+
+Added in v2.11.0
 
 ## FromIO
 

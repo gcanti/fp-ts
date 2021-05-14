@@ -19,27 +19,27 @@ high state of flux, you're at risk of it changing without notice.
 
 - `string`
   - `split` nor returns a `ReadonlyNonEmptyArray`
-
-Some signature changes in `2.11.0-rc.1` are causing type inference issues:
-
-- `Array` / `ReadonlyArray`
-  - revert `isOutOfBound` signature change
-  - revert `isEmpty` signature change
-  - revert `size` signature change
-- `Either`
-  - revert `exists` signature change
-  - revert `elem` signature change
-- `These`
-  - revert `exists` signature change
-  - revert `elem` signature change
-- `NonEmptyArray` / `ReadonlyNonEmptyArray`
-  - revert `isOutOfBound` signature change
-- `Set` / `ReadonlySet`
-  - revert `isEmpty` signature change
-  - revert `size` signature change
-- `Map` / `ReadonlyMap`
-  - revert `isEmpty` signature change
-  - revert `size` signature change
+- `TaskOption`
+  - add missing `FromEither` instance
+- some signature changes in `2.11.0-rc.1` caused type inference issues
+  - `Array` / `ReadonlyArray`
+    - revert `isOutOfBound` signature change
+    - revert `isEmpty` signature change
+    - revert `size` signature change
+  - `Either`
+    - revert `exists` signature change
+    - revert `elem` signature change
+  - `These`
+    - revert `exists` signature change
+    - revert `elem` signature change
+  - `NonEmptyArray` / `ReadonlyNonEmptyArray`
+    - revert `isOutOfBound` signature change
+  - `Set` / `ReadonlySet`
+    - revert `isEmpty` signature change
+    - revert `size` signature change
+  - `Map` / `ReadonlyMap`
+    - revert `isEmpty` signature change
+    - revert `size` signature change
 
 # 2.11.0-rc.1
 

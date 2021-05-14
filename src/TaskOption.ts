@@ -712,6 +712,15 @@ export const chainFirstIOK =
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const FromEither: FromEither1<URI> = {
+  URI,
+  fromEither
+}
+
+/**
+ * @category instances
  * @since 2.10.0
  */
 export const FromTask: FromTask1<URI> = {
