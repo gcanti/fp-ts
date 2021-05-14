@@ -17,6 +17,9 @@ high state of flux, you're at risk of it changing without notice.
 
 # 2.11.0-rc.2
 
+- `string`
+  - `split` nor returns a `ReadonlyNonEmptyArray`
+
 Some signature changes in `2.11.0-rc.1` are causing type inference issues:
 
 - `Array` / `ReadonlyArray`

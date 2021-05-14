@@ -207,7 +207,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const split: (separator: string | RegExp) => (s: string) => ReadonlyArray<string>
+export declare const split: (separator: string | RegExp) => (s: string) => ReadonlyNonEmptyArray<string>
 ```
 
 Added in v2.11.0

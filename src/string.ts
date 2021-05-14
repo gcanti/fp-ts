@@ -7,6 +7,7 @@ import * as S from './Semigroup'
 import * as O from './Ord'
 import * as Sh from './Show'
 import { Refinement } from './Refinement'
+import { ReadonlyNonEmptyArray, isNonEmpty } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -124,7 +125,10 @@ export const replace = (searchValue: string | RegExp, replaceValue: string) => (
 /**
  * @since 2.11.0
  */
-export const split = (separator: string | RegExp) => (s: string): ReadonlyArray<string> => s.split(separator)
+export const split = (separator: string | RegExp) => (s: string): ReadonlyNonEmptyArray<string> => {
+  const out = s.split(separator)
+  return isNonEmpty(out) ? out : [s]
+}
 
 /**
  * @since 2.11.0

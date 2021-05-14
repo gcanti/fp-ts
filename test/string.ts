@@ -45,6 +45,7 @@ describe('string', () => {
 
   it('split', () => {
     U.deepStrictEqual(pipe('abc', _.split('')), ['a', 'b', 'c'])
+    U.deepStrictEqual(pipe('', _.split('')), [''])
   })
 
   it('trim', () => {
