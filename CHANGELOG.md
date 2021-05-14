@@ -18,7 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 # 2.11.0-rc.2
 
 - `string`
-  - `split` nor returns a `ReadonlyNonEmptyArray`
+  - `split` now returns a `ReadonlyNonEmptyArray`
 - `TaskOption`
   - add missing `FromEither` instance
 - some signature changes in `2.11.0-rc.1` caused type inference issues
