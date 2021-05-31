@@ -647,15 +647,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-    ma: ReaderTaskEither<R, E, A>
-  ) => ReaderTaskEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B>(
-    mb: ReaderTaskEither<R, E, B>
-  ) => ReaderTaskEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
-}
+export declare const filterOrElse: <A, P, E>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, P extends (a: any) => a is infer B ? B : A>
 ```
 
 Added in v3.0.0
@@ -667,17 +662,10 @@ Less strict version of [`filterOrElse`](#filterOrElse).
 **Signature**
 
 ```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
-    mb: ReaderTaskEither<R, E1, B>
-  ) => ReaderTaskEither<R, E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderTaskEither<R, E1, A>
-  ) => ReaderTaskEither<R, E2 | E1, A>
-}
+export declare const filterOrElseW: <A, P extends Predicate<A>, E2>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E2
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, P extends (a: any) => a is infer B ? B : A>
 ```
 
 Added in v3.0.0
@@ -957,7 +945,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderTaskEither<R, A, B>
+  <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderTaskEither<R, Exclude<A, B>, B>
   <A>(predicate: Predicate<A>): <R, B>(b: B) => ReaderTaskEither<R, B, B>
   <A>(predicate: Predicate<A>): <R>(a: A) => ReaderTaskEither<R, A, A>
 }

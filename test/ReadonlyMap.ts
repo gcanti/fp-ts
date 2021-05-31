@@ -7,7 +7,6 @@ import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
-import { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
 import * as Sh from '../src/Show'
@@ -26,7 +25,7 @@ const ordUser = pipe(
 
 const eqUser: Eq<User> = fromOrd(ordUser)
 
-const p = ((n: number): boolean => n > 2) as Refinement<number, number>
+const p = (n: number): boolean => n > 2
 
 interface Key {
   readonly id: number
