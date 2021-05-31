@@ -214,7 +214,7 @@ Added in v3.0.0
 ```ts
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, Exclude<A, B>>, ReadonlyRecord<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>

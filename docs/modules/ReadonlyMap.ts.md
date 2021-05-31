@@ -209,7 +209,7 @@ Added in v3.0.0
 ```ts
 export declare function partitionWithIndex<K, A, B extends A>(
   predicateWithIndex: (k: K, a: A) => a is B
-): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, Exclude<A, B>>, ReadonlyMap<K, B>>
 export declare function partitionWithIndex<K, A>(
   predicateWithIndex: (k: K, a: A) => boolean
 ): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>

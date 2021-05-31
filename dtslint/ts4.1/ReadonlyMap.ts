@@ -113,7 +113,7 @@ pipe(
 pipe(prsns, _.partition(isString))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(prns, _.partition(predicate))
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+// $ExpectType Separated<ReadonlyMap<string, string>, ReadonlyMap<string, number>>
 pipe(prsns, _.partition(isNumber))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(
@@ -133,7 +133,7 @@ pipe(
 pipe(prsns, _.partitionWithIndex(isStringWithIndex))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(prns, _.partitionWithIndex(predicateWithIndex))
-// $ExpectType Separated<ReadonlyMap<string, string | number>, ReadonlyMap<string, number>>
+// $ExpectType Separated<ReadonlyMap<string, string>, ReadonlyMap<string, number>>
 pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
 // $ExpectType Separated<ReadonlyMap<string, number>, ReadonlyMap<string, number>>
 pipe(

@@ -1405,10 +1405,10 @@ export const filter: Filterable1<URI>['filter'] = <A>(predicate: Predicate<A>) =
  * @category Filterable
  * @since 3.0.00
  */
-export const partition: Filterable1<URI>['partition'] = <A>(
-  predicate: Predicate<A>
-): ((fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
-  partitionWithIndex((_, a) => predicate(a))
+export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) =>
+  partitionWithIndex((_, a) => predicate(a)) as (
+    fa: ReadonlyArray<A>
+  ) => Separated<ReadonlyArray<never>, ReadonlyArray<A>>
 
 /**
  * @category FilterableWithIndex
@@ -1416,18 +1416,18 @@ export const partition: Filterable1<URI>['partition'] = <A>(
  */
 export const partitionWithIndex: FilterableWithIndex1<URI, number>['partitionWithIndex'] = <A>(
   predicateWithIndex: PredicateWithIndex<number, A>
-) => (fa: ReadonlyArray<A>): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
-  const left: Array<A> = []
+) => (fa: ReadonlyArray<A>) => {
+  const left: Array<never> = []
   const right: Array<A> = []
   for (let i = 0; i < fa.length; i++) {
     const a = fa[i]
     if (predicateWithIndex(i, a)) {
       right.push(a)
     } else {
-      left.push(a)
+      left.push(a as never)
     }
   }
-  return separated(left, right)
+  return separated(left, right) as Separated<ReadonlyArray<never>, ReadonlyArray<A>>
 }
 
 /**

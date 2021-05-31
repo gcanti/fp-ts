@@ -74,7 +74,7 @@ pipe(
 pipe(osn, _.partition(isString))
 // $ExpectType Separated<Option<number>, Option<number>>
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<Option<string | number>, Option<number>>
+// $ExpectType Separated<Option<string>, Option<number>>
 pipe(osn, _.partition(isNumber))
 // $ExpectType Separated<Option<number>, Option<number>>
 pipe(

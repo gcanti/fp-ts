@@ -125,7 +125,7 @@ Added in v3.0.0
 ```ts
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
-): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+): (s: ReadonlySet<A>) => Separated<ReadonlySet<Exclude<A, B>>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
 ): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
