@@ -8,6 +8,11 @@ has_toc: false
 
 # Ecosystem
 
+## Tooling
+
+- [create-fp-ts-lib](https://github.com/no-day/create-fp-ts-lib) - Bootstrap libraries that follow common fp-ts coding, documentation and testing patterns
+- [docs-ts](https://github.com/gcanti/docs-ts) - Documentation generator used by fp-ts and many fp-ts libraries
+
 ## Libraries
 
 - [fp-ts-contrib](https://github.com/gcanti/fp-ts-contrib) - A community driven utility package for fp-ts
@@ -37,6 +42,8 @@ has_toc: false
 - [fp-ts-graph](https://github.com/no-day/fp-ts-graph) - Immutable, functional graph data structure
 - [fp-ts-bigint](https://github.com/ericcrosson/fp-ts-bigint) - Opt-in BigInt functions
 - [fp-ts-generators](https://github.com/no-day/fp-ts-generators) - Seeded pseudorandom generators for structured data
+- [fp-ts-sized-vectors](https://github.com/no-day/fp-ts-sized-vectors) - Fixed size generic vector type carrying its length at the typelevel
+- [fp-ts-number-instances](https://github.com/no-day/fp-ts-number-instances) - Not fully law abiding instances for the number type
 
 ## Bindings
 
