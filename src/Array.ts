@@ -1673,6 +1673,17 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
+ * Creates an `Array` from the results of `f(b)`, where `b` is an initial value.
+ * `unfold` stops when `f` returns `Option.none`.
+ * @example
+ * import { unfold } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   unfold(5, (n) => (n > 0 ? some([n, n - 1]) : none)),
+ *   [5, 4, 3, 2, 1]
+ * )
+ *
  * @category Unfoldable
  * @since 2.6.6
  */
