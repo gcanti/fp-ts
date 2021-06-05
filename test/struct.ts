@@ -36,4 +36,15 @@ describe('struct', () => {
     x.b = 1
     U.deepStrictEqual(pipe(x, _.evolve({ b: (b) => b > 0 })), { b: true })
   })
+
+  it('prop', () => {
+    interface Person {
+      readonly name: string
+      readonly age: number
+    }
+
+    const person: Person = { name: 'Jane', age: 62 }
+    U.deepStrictEqual(_.prop('name')(person), 'Jane')
+    U.deepStrictEqual(pipe(person, _.prop('age')), 62)
+  })
 })

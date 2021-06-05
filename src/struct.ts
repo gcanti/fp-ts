@@ -64,3 +64,27 @@ export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(tr
   }
   return out as any
 }
+
+/**
+ * Accesses a property of an object
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import { prop } from 'fp-ts/struct'
+ *
+ * type Person = {
+ *   readonly name: string
+ *   readonly age: number
+ * }
+ *
+ * const person: Person = { name: 'Jane', age: 62 }
+ * assert.deepStrictEqual(prop('name')(person), 'Jane')
+ * assert.deepStrictEqual(pipe(person, prop('age')), 62)
+ *
+ * @since 2.11.0
+ */
+export const prop = <Path extends keyof A extends never ? string : keyof A, A>(path: Path) => <
+  B extends { [k in Path]: unknown }
+>(
+  obj: keyof A extends never ? B : A
+) => (obj as B)[path] as Path extends keyof A ? A[Path] : B[Path]
