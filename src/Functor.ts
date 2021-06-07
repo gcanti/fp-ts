@@ -113,6 +113,10 @@ export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B
  * @category combinators
  * @since 3.0.0
  */
+export function map<F extends URIS, G extends URIS2>(
+  F: Functor1<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
 export function map<F, G extends URIS2>(
   F: Functor<F>,
   G: Functor2<G>
