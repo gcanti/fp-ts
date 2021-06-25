@@ -87,21 +87,21 @@ export const stringify = <A>(a: A): Either<unknown, string> => stringifyJSON(a, 
  *  @since 2.10.6
  */
 export const match: <Z>(
-  isNull: () => Z,
-  isBool: (x: boolean) => Z,
-  isNum: (x: number) => Z,
-  isStr: (x: string) => Z,
-  isArr: (x: Array<Json>) => Z,
-  isObj: (x: Record<string, Json>) => Z
-) => (j: Json) => Z = (isNull, isBool, isNum, isStr, isArr, isObj) => (j) =>
+  onNull: () => Z,
+  onBool: (x: boolean) => Z,
+  onNum: (x: number) => Z,
+  onStr: (x: string) => Z,
+  onArr: (x: JsonArray) => Z,
+  onObj: (x: JsonRecord) => Z
+) => (j: Json) => Z = (onNull, onBool, onNum, onStr, onArr, onObj) => (j) =>
   j === null
-    ? isNull()
+    ? onNull()
     : typeof j === 'boolean'
-    ? isBool(j)
+    ? onBool(j)
     : typeof j === 'number'
-    ? isNum(j)
+    ? onNum(j)
     : typeof j === 'string'
-    ? isStr(j)
+    ? onStr(j)
     : Array.isArray(j)
-    ? isArr(j)
-    : isObj(j as JsonRecord)
+    ? onArr(j)
+    : onObj(j as JsonRecord)
