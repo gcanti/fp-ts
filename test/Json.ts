@@ -30,4 +30,15 @@ describe('Json', () => {
 
     U.deepStrictEqual(_.stringify(undefined as any), E.left(new Error('Converting unsupported structure to JSON')))
   })
+
+  it('match', () => {
+    const t = () => true
+    const f = () => false
+    U.strictEqual(_.match(t, f, f, f, f, f)(null), true)
+    U.strictEqual(_.match(f, t, f, f, f, f)(true), true)
+    U.strictEqual(_.match(f, f, t, f, f, f)(32.2), true)
+    U.strictEqual(_.match(f, f, f, t, f, f)('dolphin'), true)
+    U.strictEqual(_.match(f, f, f, f, t, f)(['zebra', 'tiger']), true)
+    U.strictEqual(_.match(f, f, f, f, f, t)({ name: 'Toni', age: 35 }), true)
+  })
 })
