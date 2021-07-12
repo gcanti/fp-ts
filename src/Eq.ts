@@ -35,7 +35,7 @@ export interface Eq<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
+export function fromEquals<A>(equals: Eq<A>['equals']): Eq<A> {
   return {
     equals: (x, y) => x === y || equals(x, y)
   }
