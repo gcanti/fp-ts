@@ -209,6 +209,34 @@ Map a pair of functions over the two type arguments of the bifunctor.
 export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
 ```
 
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right<string, number>(42),
+    E.bimap(
+      (str) => str.length,
+      (n) => n.toString()
+    )
+  ),
+  E.right<number, string>('42')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left<string, number>('error'),
+    E.bimap(
+      (str) => str.length,
+      (n) => n.toString()
+    )
+  ),
+  E.left(5)
+)
+```
+
 Added in v2.0.0
 
 ## mapLeft
@@ -219,6 +247,17 @@ Map a function over the first type argument of a bifunctor.
 
 ```ts
 export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(E.left('error'), E.mapLeft(A.of)), E.left(['error']))
+assert.deepStrictEqual(pipe(E.right(42), E.mapLeft(A.of)), E.right(42))
 ```
 
 Added in v2.0.0
@@ -328,6 +367,28 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
 ```
 
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right<string, number>(42),
+    E.map((n) => n.toString())
+  ),
+  E.right('42')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left<string, number>('error'),
+    E.map((n) => n.toString())
+  ),
+  E.left('error')
+)
+```
+
 Added in v2.0.0
 
 # Monad
@@ -340,6 +401,35 @@ Composes computations in sequence, using the return value of one computation to 
 
 ```ts
 export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.chain((n) => (n > 0 ? E.right(n) : E.left('error')))
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(0),
+    E.chain((n) => (n > 0 ? E.right(n) : E.left('error')))
+  ),
+  E.left('error')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('error'),
+    E.chain((n) => (n > 0 ? E.right(n) : E.left('different error')))
+  ),
+  E.left('error')
+)
 ```
 
 Added in v2.0.0
@@ -371,6 +461,8 @@ Added in v2.6.3
 # Pointed
 
 ## of
+
+Alias of [`right`](#right)
 
 **Signature**
 

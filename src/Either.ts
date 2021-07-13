@@ -530,6 +530,25 @@ const _chainRec: ChainRec2<URI>['chainRec'] = (a, f) =>
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right<string, number>(42),
+ *     E.map((n) => n.toString())
+ *   ),
+ *   E.right('42')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left<string, number>('error'),
+ *     E.map((n) => n.toString())
+ *   ),
+ *   E.left('error')
+ * )
+ *
  * @category Functor
  * @since 2.0.0
  */
@@ -538,6 +557,31 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right<string, number>(42),
+ *     E.bimap(
+ *       (str) => str.length,
+ *       (n) => n.toString()
+ *     )
+ *   ),
+ *   E.right<number, string>('42')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left<string, number>('error'),
+ *     E.bimap(
+ *       (str) => str.length,
+ *       (n) => n.toString()
+ *     )
+ *   ),
+ *   E.left(5)
+ * )
  *
  * @category Bifunctor
  * @since 2.0.0
@@ -548,6 +592,26 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
 
 /**
  * Map a function over the first type argument of a bifunctor.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('error'),
+ *     E.mapLeft(A.of)
+ *   ),
+ *   E.left(['error'])
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(42),
+ *     E.mapLeft(A.of)
+ *   ),
+ *   E.right(42)
+ * )
  *
  * @category Bifunctor
  * @since 2.0.0
@@ -574,6 +638,8 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
 export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
 
 /**
+ * Alias of [`right`](#right)
+ *
  * @category Pointed
  * @since 2.7.0
  */
@@ -590,6 +656,32 @@ export const chainW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('error'))
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(0),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('error'))
+ *   ),
+ *   E.left('error')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('error'),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('different error'))
+ *   ),
+ *   E.left('error')
+ * )
  *
  * @category Monad
  * @since 2.0.0
