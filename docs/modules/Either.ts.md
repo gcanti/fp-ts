@@ -1388,12 +1388,57 @@ Added in v2.0.0
 
 ## chainNullableK
 
+This is `chain` + `fromNullable`, useful when working with optional values.
+
 **Signature**
 
 ```ts
 export declare const chainNullableK: <E>(
   e: E
 ) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Either<E, A>) => Either<E, NonNullable<B>>
+```
+
+**Example**
+
+```ts
+import { left, right, fromNullable, chainNullableK } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+interface Employee {
+  readonly company?: {
+    readonly address?: {
+      readonly street?: {
+        readonly name?: string
+      }
+    }
+  }
+}
+
+const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
+
+assert.deepStrictEqual(
+  pipe(
+    employee1.company,
+    fromNullable('missing company'),
+    chainNullableK('missing address')((company) => company.address),
+    chainNullableK('missing street')((address) => address.street),
+    chainNullableK('missing street name')((street) => street.name)
+  ),
+  right('high street')
+)
+
+const employee2: Employee = { company: { address: { street: {} } } }
+
+assert.deepStrictEqual(
+  pipe(
+    employee2.company,
+    fromNullable('missing company'),
+    chainNullableK('missing address')((company) => company.address),
+    chainNullableK('missing street')((address) => address.street),
+    chainNullableK('missing street name')((street) => street.name)
+  ),
+  left('missing street name')
+)
 ```
 
 Added in v2.9.0
@@ -1492,6 +1537,23 @@ export declare const tryCatchK: <A extends readonly unknown[], B, E>(
   f: (...a: A) => B,
   onThrow: (error: unknown) => E
 ) => (...a: A) => Either<E, B>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+
+const assertPositive = (n: number): number => {
+  if (n < 0) {
+    throw new TypeError(`${n} is negative`)
+  }
+  return n
+}
+const ensurePositive = E.tryCatchK(assertPositive, E.toError)
+
+assert.deepStrictEqual(ensurePositive(1), E.right(1))
+assert.deepStrictEqual(ensurePositive(-1), E.left(new TypeError('-1 is negative')))
 ```
 
 Added in v2.10.0
