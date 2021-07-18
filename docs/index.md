@@ -17,7 +17,7 @@ has_toc: false
 
 ## Core Concepts
 
-The goal of `fp-ts` is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/).
+The goal of `fp-ts` is to empower developers to write pure FP apps and libraries built atop higher order abstractions. It includes the most popular data types, type classes, and abstractions from languages like [Haskell](https://www.haskell.org), [PureScript](https://www.purescript.org), and [Scala](https://www.scala-lang.org).
 
 ## Functions
 
