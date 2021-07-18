@@ -30,9 +30,9 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 **Inspired by**
 
-- [Haskell](https://haskell-lang.org)
+- [Haskell](https://www.haskell.org)
 - [PureScript](https://www.purescript.org)
-- [Scala](https://www.scala-lang.org/)
+- [Scala](https://www.scala-lang.org)
 
 # Installation
 
