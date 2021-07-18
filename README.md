@@ -9,8 +9,8 @@ Functional programming in TypeScript
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/gcanti/fp-ts">
-    <img src="https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square" alt="build status" height="20">
+  <a href="https://github.com/gcanti/fp-ts/actions">
+    <img src="https://github.com/gcanti/fp-ts/actions/workflows/main.yml/badge.svg?branch=master" alt="build status" height="20">
   </a>
   <a href="https://david-dm.org/gcanti/fp-ts">
     <img src="https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square" alt="dependency status" height="20">
@@ -31,7 +31,7 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 **Inspired by**
 
 - [Haskell](https://haskell-lang.org)
-- [PureScript](http://www.purescript.org)
+- [PureScript](https://www.purescript.org)
 - [Scala](https://www.scala-lang.org/)
 
 # Installation
