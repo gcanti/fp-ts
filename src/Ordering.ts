@@ -20,11 +20,20 @@ export type Ordering = -1 | 0 | 1
 // -------------------------------------------------------------------------------------
 
 /**
+ * Less strict version of [`match`](#match).
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchW = <A, B, C>(onLessThan: () => A, onEqual: () => B, onGreaterThan: () => C) => (
+  o: Ordering
+): A | B | C => (o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan())
+
+/**
  * @category destructors
  * @since 2.10.0
  */
-export const match = <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering): A =>
-  o === -1 ? onLessThan() : o === 0 ? onEqual() : onGreaterThan()
+export const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A = matchW
 
 // -------------------------------------------------------------------------------------
 // combinators
