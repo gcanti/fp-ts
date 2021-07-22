@@ -16,6 +16,337 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.0
+
+- **Deprecation**
+  - `Array`
+    - deprecate `range`, use `NonEmptyArray` module instead.
+  - `function`
+    - deprecate `Endomorphism`, use `Endomorphism` module instead.
+    - deprecate `getEndomorphismMonoid`, use `Endomorphism` module instead.
+    - deprecate `Predicate`, use `Predicate` module instead.
+    - deprecate `not`, use `Predicate` module instead.
+    - deprecate `Refinement`, use `Refinement` module instead.
+  - `Monoid`
+    - deprecate `monoidVoid`, use `void` module instead.
+  - `NonEmptyArray`
+    - deprecate `groupSort` (it's just `sort` followed by `group`)
+  - `Option`
+    - deprecate `getRefinement`, use `Refinement` module instead.
+    - deprecate `getFirstMonoid`, use `getMonoid` module instead.
+    - deprecate `getLastMonoid`, use `getMonoid` module instead.
+  - `ReadonlyArray`
+    - deprecate `range`, use `ReadonlyNonEmptyArray` module instead.
+  - `ReadonlyNonEmptyArray`
+    - deprecate `groupSort` (it's just `sort` followed by `group`)
+  - `Record` / `ReadonlyRecord`: deprecate overloads without `Ord` constraint (@anthonyjoeseph):
+    - `collect`
+    - `reduce`
+    - `foldMap`
+    - `reduceRight`
+    - `reduceWithIndex`
+    - `foldMapWithIndex`
+    - `reduceRightWithIndex`
+    - `getShow`
+    - deprecate `Foldable` in favour of `getFoldable` (@anthonyjoeseph)
+    - deprecate `FoldableWithIndex` in favour of `getFoldableWithIndex` (@anthonyjoeseph)
+    - deprecate `Traversable` in favour of `getTraversable` (@anthonyjoeseph)
+    - deprecate `TraversableWithIndex` in favour of `getTraversableWithIndex` (@anthonyjoeseph)
+    - deprecate `Witherable` in favour of `getWitherable` (@anthonyjoeseph)
+  - `Semigroup`
+    - deprecate `semigroupVoid`, use `void` module instead.
+- **New Feature**
+  - add `Endomorphism` module
+  - add `Predicate` module
+  - add `Refinement` module
+  - add `FromState` module
+  - add `FromThese` module
+  - add `void` module
+  - add `FromReader` module
+  - add `NaturalTransformation` module
+  - add `Zero` module
+  - `Alt`
+    - add `altAll`
+  - `Alternative`
+    - add `altAll`
+  - `Array`
+    - add `prependW`, `appendW` (@thewilkybarkid)
+    - add `fromOption`, `fromPredicate` (@cdimitroulas)
+    - add `filterE`
+    - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `chainRecDepthFirst`
+    - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `chainRecBreadthFirst`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+    - add `fromEither`
+    - add `FromEither` instance
+    - add `fromEitherK`
+    - make `isEmpty` a user defined guard
+    - add `concat` / `concatW`
+    - add `match`, `matchW`, `matchLeftW`, `matchRightW`
+    - add `fromOptionK`
+    - add `Zero` instance
+    - add `guard` constructor
+    - add `exists` alias
+  - `boolean`
+    - add `isBoolean`
+  - `Either`
+    - add `chainOptionK`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `EitherT`
+    - add `orElseFirst`
+    - add `orLeft`
+  - `function`
+    - add `SK` (@cdimitroulas)
+    - add `apply`
+  - `IO`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `IOEither`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `Magma`
+    - add `reverse`
+    - add `filterFirst`
+    - add `filterSecond`
+    - add `endo`
+    - add `concatAll`
+  - `Map`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+    - add `getFoldable`
+    - add `foldMap`
+    - add `reduceRight`
+    - add `reduceWithIndex`
+    - add `foldMapWithIndex`
+    - add `reduceRightWithIndex`
+  - `NonEmptyArray`
+    - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+    - add `union`
+    - add `getUnionSemigroup`
+    - add `makeBy`
+    - add `range`
+    - make `concat` pipeable
+  - `number`
+    - add `MagmaSub`
+    - add `isNumber`
+  - `string`
+    - add `isString`
+  - `Option`
+    - add `FromEither` instance
+    - add `fromEitherK`
+    - add `chainEitherK`
+    - add `Zero` instance
+    - add `guard` constructor
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `Ord`
+    - add `trivial` instance
+    - add `equals`
+  - `Reader`
+    - add `asksReaderW`, `asksReader`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `ReaderEither`
+    - add `asksReaderEitherW`, `asksReaderEither`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `ReaderTask`
+    - add `asksReaderTaskW`, `asksReaderTask`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `ReaderTaskEither`
+    - add `asksReaderTaskEitherW`, `asksReaderTaskEither`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
+    - add `fromReaderTaskK`
+    - add `fromReaderEitherK`
+    - add `chainReaderKW`
+    - add `chainReaderTaskK`, `chainReaderTaskKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `chainFirstReaderTaskK`, `chainFirstReaderTaskKW`
+    - add `chainReaderEitherK`, `chainReaderEitherKW`
+    - add `chainFirstReaderEitherK`, `chainFirstReaderEitherKW`
+    - add `chainFirstTaskEitherK`, `chainFirstTaskEitherKW`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `ReadonlyArray`
+    - add `prependW`, `appendW` (@thewilkybarkid)
+    - add `filterE`
+    - add `ChainRecDepthFirst` instance (@qlonik)
+    - add `chainRecDepthFirst`
+    - add `ChainRecBreadthFirst` instance (@qlonik)
+    - add `chainRecBreadthFirst`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+    - add `fromOption`
+    - add `fromPredicate`
+    - add `fromEither`
+    - add `FromEither` instance
+    - add `fromEitherK`
+    - make `isEmpty` a user defined guard
+    - add `concat` / `concatW`
+    - add `match`, `matchW`, `matchLeftW`, `matchRightW`
+    - add `fromOptionK`
+    - add `Zero` instance
+    - add `guard` constructor
+    - add `exists` alias
+  - `ReadonlyMap`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+    - add `reduce`
+    - add `foldMap`
+    - add `reduceRight`
+    - add `reduceWithIndex`
+    - add `foldMapWithIndex`
+    - add `reduceRightWithIndex`
+  - `ReadonlyNonEmptyArray`
+    - add `matchLeft`, `matchRight`, `modifyHead`, `modifyLast` (@cdimitroulas)
+    - add `union`
+    - add `getUnionSemigroup`
+    - add `makeBy`
+    - add `range`
+    - make `concat` pipeable
+  - `ReadonlyRecord`
+    - add `union` (@anthonyjoeseph)
+    - add `intersection` (@anthonyjoeseph)
+    - add `difference` (@anthonyjoeseph)
+    - add `getUnionSemigroup` (@anthonyjoeseph)
+    - add `getUnionMonoid` (@anthonyjoeseph)
+    - add `getIntersectionSemigroup` (@anthonyjoeseph)
+    - add `getDifferenceMagma` (@anthonyjoeseph)
+  - `ReadonlySet`
+    - add `getUnionSemigroup`
+    - add `getDifferenceMagma`
+  - `Record`
+    - add `union`
+    - add `intersection`
+    - add `difference`
+    - add `getUnionSemigroup`
+    - add `getUnionMonoid`
+    - add `getIntersectionSemigroup`
+    - add `getDifferenceMagma`
+  - `Set`
+    - add `getUnionSemigroup`
+    - add `getDifferenceMagma`
+  - `State`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `StateReaderTaskEither`
+    - add `fromStateK`
+    - add `chainStateK`
+    - add `local`
+    - add `asksStateReaderTaskEitherW`, `asksStateReaderTaskEither`
+    - add `chainReaderKW`
+    - add `chainFirstReaderK`, `chainFirstReaderKW`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `string`
+    - add `toUpperCase`
+    - add `toLowerCase`
+    - add `replace`
+    - add `split`
+    - add `trim`
+    - add `trimLeft`
+    - add `trimRight`
+    - add `includes`
+    - add `startsWith`
+    - add `endsWith`
+    - add `slice`
+  - `struct`
+    - add `evolve`
+  - `Task`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `TaskEither`
+    - add `fromTaskOption` (@thewilkybarkid)
+    - add `fromTaskOptionK`
+    - add `chainTaskOptionK`
+    - add `orElseFirst` / `orElseFirstW`
+    - add `orLeft`
+    - add `flattenW`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `TaskOption`
+    - add `fromTaskEither` (@thewilkybarkid)
+    - add `Zero` instance
+    - add `guard` constructor
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+    - add missing `FromEither` instance
+  - `TaskThese`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+    - add `traverseReadonlyNonEmptyArrayWithIndexSeq`
+    - add `traverseReadonlyArrayWithIndexSeq`
+  - `These`
+    - add `elem`
+    - add `exists`
+    - add `ApT`
+    - add `traverseReadonlyNonEmptyArrayWithIndex`
+    - add `traverseReadonlyArrayWithIndex`
+  - `Tree`
+    - add `exists`
+  - `Witherable`
+    - add `filterE`, #1458 (@vinassefranche)
+    - add `wiltDefault`
+    - add `witherDefault`
+- **Polish**
+  - remove unnecessary type parameters
+    - `Either`
+      - `isLeft`
+      - `isRight`
+    - `Option`
+      - `isNone`
+    - `These`
+      - `isLeft`
+      - `isRight`
+
 # 2.11.0-rc.2
 
 - `string`
