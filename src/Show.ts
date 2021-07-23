@@ -121,5 +121,5 @@ export const showNumber: Show<number> = {
  * @category instances
  * @since 2.0.0
  */
-export const getShow = <T extends unknown>(fn: (t: T) => string): Show<T> => 
-  ({ show: fn });
+export const getShow = <T extends unknown>(show: (t: T) => string): Show<T> => 
+  ({ show });
