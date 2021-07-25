@@ -60,3 +60,48 @@ export const parse = (s: string): Either<unknown, Json> => parseJSON(s, identity
  */
 // tslint:disable-next-line: deprecation
 export const stringify = <A>(a: A): Either<unknown, string> => stringifyJSON(a, identity)
+
+// -----------------------------------------------------------------------------
+// destructors
+// -----------------------------------------------------------------------------
+
+/**
+ * Takes a function for each possible Json type and returns the result of the one from the position that matches the given data.
+ *
+ * @category destructors
+ * @example
+ * import * as J from 'fp-ts/Json'
+ *
+ * const typeOf = J.match(
+ *   () => 'null',
+ *   () => 'boolean',
+ *   () => 'number',
+ *   () => 'string',
+ *   () => 'array',
+ *   () => 'object'
+ * )
+ *
+ * assert.deepStrictEqual(typeOf(32.2), 'number')
+ * assert.deepStrictEqual(typeOf(['a', 'b']), 'array')
+ *
+ *  @since 2.10.6
+ */
+export const match: <Z>(
+  onNull: () => Z,
+  onBool: (x: boolean) => Z,
+  onNum: (x: number) => Z,
+  onStr: (x: string) => Z,
+  onArr: (x: JsonArray) => Z,
+  onObj: (x: JsonRecord) => Z
+) => (j: Json) => Z = (onNull, onBool, onNum, onStr, onArr, onObj) => (j) =>
+  j === null
+    ? onNull()
+    : typeof j === 'boolean'
+    ? onBool(j)
+    : typeof j === 'number'
+    ? onNum(j)
+    : typeof j === 'string'
+    ? onStr(j)
+    : Array.isArray(j)
+    ? onArr(j)
+    : onObj(j as JsonRecord)
