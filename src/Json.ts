@@ -1,8 +1,7 @@
 /**
  * @since 2.10.0
  */
-import { Either, parseJSON, stringifyJSON } from './Either'
-import { identity } from './function'
+import { Either, parseJSON, stringifyJSON, toError } from './Either'
 
 /**
  * @since 2.10.0
@@ -35,7 +34,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  * @since 2.10.0
  */
 // tslint:disable-next-line: deprecation
-export const parse = (s: string): Either<unknown, Json> => parseJSON(s, identity)
+export const parse = (s: string): Either<Error, Json> => parseJSON(s, toError)
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -59,4 +58,4 @@ export const parse = (s: string): Either<unknown, Json> => parseJSON(s, identity
  *  @since 2.10.0
  */
 // tslint:disable-next-line: deprecation
-export const stringify = <A>(a: A): Either<unknown, string> => stringifyJSON(a, identity)
+export const stringify = <A>(a: A): Either<Error, string> => stringifyJSON(a, toError)
