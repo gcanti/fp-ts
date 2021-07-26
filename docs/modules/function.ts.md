@@ -1,6 +1,6 @@
 ---
 title: function.ts
-nav_order: 37
+nav_order: 41
 parent: Modules
 ---
 
@@ -14,18 +14,17 @@ Added in v2.0.0
 
 - [instances](#instances)
   - [getBooleanAlgebra](#getbooleanalgebra)
-  - [getEndomorphismMonoid](#getendomorphismmonoid)
   - [getMonoid](#getmonoid)
   - [getRing](#getring)
   - [getSemigroup](#getsemigroup)
   - [getSemiring](#getsemiring)
+  - [~~getEndomorphismMonoid~~](#getendomorphismmonoid)
 - [utils](#utils)
-  - [Endomorphism (interface)](#endomorphism-interface)
   - [FunctionN (interface)](#functionn-interface)
   - [Lazy (interface)](#lazy-interface)
-  - [Predicate (interface)](#predicate-interface)
-  - [Refinement (interface)](#refinement-interface)
+  - [SK](#sk)
   - [absurd](#absurd)
+  - [apply](#apply)
   - [constFalse](#constfalse)
   - [constNull](#constnull)
   - [constTrue](#consttrue)
@@ -38,12 +37,15 @@ Added in v2.0.0
   - [hole](#hole)
   - [identity](#identity)
   - [increment](#increment)
-  - [not](#not)
   - [pipe](#pipe)
   - [tuple](#tuple)
   - [tupled](#tupled)
   - [unsafeCoerce](#unsafecoerce)
   - [untupled](#untupled)
+  - [~~Endomorphism~~ (interface)](#endomorphism-interface)
+  - [~~Predicate~~ (interface)](#predicate-interface)
+  - [~~Refinement~~ (interface)](#refinement-interface)
+  - [~~not~~](#not)
 
 ---
 
@@ -55,18 +57,6 @@ Added in v2.0.0
 
 ```ts
 export declare const getBooleanAlgebra: <B>(B: BooleanAlgebra<B>) => <A = never>() => BooleanAlgebra<(a: A) => B>
-```
-
-Added in v2.10.0
-
-## getEndomorphismMonoid
-
-Endomorphism form a monoid where the `empty` value is the identity function.
-
-**Signature**
-
-```ts
-export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
 ```
 
 Added in v2.10.0
@@ -84,7 +74,8 @@ export declare const getMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
 **Example**
 
 ```ts
-import { Predicate, getMonoid } from 'fp-ts/function'
+import { Predicate } from 'fp-ts/Predicate'
+import { getMonoid } from 'fp-ts/function'
 import * as B from 'fp-ts/boolean'
 
 const f: Predicate<number> = (n) => n <= 2
@@ -155,19 +146,19 @@ export declare const getSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B
 
 Added in v2.10.0
 
-# utils
+## ~~getEndomorphismMonoid~~
 
-## Endomorphism (interface)
+Use `Endomorphism` module instead.
 
 **Signature**
 
 ```ts
-export interface Endomorphism<A> {
-  (a: A): A
-}
+export declare const getEndomorphismMonoid: <A = never>() => Monoid<Endomorphism<A>>
 ```
 
-Added in v2.0.0
+Added in v2.10.0
+
+# utils
 
 ## FunctionN (interface)
 
@@ -203,29 +194,15 @@ export interface Lazy<A> {
 
 Added in v2.0.0
 
-## Predicate (interface)
+## SK
 
 **Signature**
 
 ```ts
-export interface Predicate<A> {
-  (a: A): boolean
-}
+export declare const SK: <A, B>(_: A, b: B) => B
 ```
 
-Added in v2.0.0
-
-## Refinement (interface)
-
-**Signature**
-
-```ts
-export interface Refinement<A, B extends A> {
-  (a: A): a is B
-}
-```
-
-Added in v2.0.0
+Added in v2.11.0
 
 ## absurd
 
@@ -236,6 +213,16 @@ export declare function absurd<A>(_: never): A
 ```
 
 Added in v2.0.0
+
+## apply
+
+**Signature**
+
+```ts
+export declare const apply: <A>(a: A) => <B>(f: (a: A) => B) => B
+```
+
+Added in v2.11.0
 
 ## constFalse
 
@@ -444,16 +431,6 @@ Added in v2.0.0
 
 ```ts
 export declare function increment(n: number): number
-```
-
-Added in v2.0.0
-
-## not
-
-**Signature**
-
-```ts
-export declare function not<A>(predicate: Predicate<A>): Predicate<A>
 ```
 
 Added in v2.0.0
@@ -769,3 +746,57 @@ export declare function untupled<A extends ReadonlyArray<unknown>, B>(f: (a: A) 
 ```
 
 Added in v2.4.0
+
+## ~~Endomorphism~~ (interface)
+
+Use `Endomorphism` module instead.
+
+**Signature**
+
+```ts
+export interface Endomorphism<A> {
+  (a: A): A
+}
+```
+
+Added in v2.0.0
+
+## ~~Predicate~~ (interface)
+
+Use `Predicate` module instead.
+
+**Signature**
+
+```ts
+export interface Predicate<A> {
+  (a: A): boolean
+}
+```
+
+Added in v2.0.0
+
+## ~~Refinement~~ (interface)
+
+Use `Refinement` module instead.
+
+**Signature**
+
+```ts
+export interface Refinement<A, B extends A> {
+  (a: A): a is B
+}
+```
+
+Added in v2.0.0
+
+## ~~not~~
+
+Use `Predicate` module instead.
+
+**Signature**
+
+```ts
+export declare function not<A>(predicate: Predicate<A>): Predicate<A>
+```
+
+Added in v2.0.0

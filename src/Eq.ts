@@ -35,11 +35,9 @@ export interface Eq<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromEquals<A>(equals: Eq<A>['equals']): Eq<A> {
-  return {
-    equals: (x, y) => x === y || equals(x, y)
-  }
-}
+export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
+  equals: (x, y) => x === y || equals(x, y)
+})
 
 // -------------------------------------------------------------------------------------
 // combinators

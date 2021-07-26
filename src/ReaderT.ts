@@ -7,6 +7,14 @@ import { flow, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
+import {
+  NaturalTransformation22,
+  NaturalTransformation12,
+  NaturalTransformation11,
+  NaturalTransformation,
+  NaturalTransformation23R,
+  NaturalTransformation24S
+} from './NaturalTransformation'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Reader } from './Reader'
 
@@ -148,6 +156,34 @@ export function fromReader<F extends URIS>(F: Pointed1<F>): <R, A>(ma: Reader<R,
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>>
 export function fromReader<F>(F: Pointed<F>): <R, A>(ma: Reader<R, A>) => Reader<R, HKT<F, A>> {
   return (ma) => flow(ma, F.of)
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export function fromNaturalTransformation<F extends URIS2, G extends URIS4>(
+  nt: NaturalTransformation24S<F, G>
+): <R, S, A, E>(f: (r: R) => Kind2<F, S, A>) => Reader<R, Kind4<G, S, R, E, A>>
+export function fromNaturalTransformation<F extends URIS2, G extends URIS3>(
+  nt: NaturalTransformation23R<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, R, A>) => Reader<R, Kind3<G, R, E, A>>
+export function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
+  nt: NaturalTransformation22<F, G>
+): <R, E, A>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+export function fromNaturalTransformation<F extends URIS, G extends URIS2>(
+  nt: NaturalTransformation12<F, G>
+): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>
+export function fromNaturalTransformation<F extends URIS, G extends URIS>(
+  nt: NaturalTransformation11<F, G>
+): <R, A>(f: (r: R) => Kind<F, A>) => Reader<R, Kind<G, A>>
+export function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>>
+export function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>> {
+  return (f) => flow(f, nt)
 }
 
 // -------------------------------------------------------------------------------------

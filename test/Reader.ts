@@ -1,8 +1,10 @@
-import * as U from './util'
 import { pipe } from '../src/function'
 import * as N from '../src/number'
-import * as S from '../src/string'
 import * as _ from '../src/Reader'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as S from '../src/string'
+import * as U from './util'
 
 interface Env {
   readonly count: number
@@ -36,8 +38,20 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({}), 'foo')
     })
 
-    it('chain', () => {
+    it('chainFirstW', () => {
+      const f = (s: string) => _.of(s.length)
+      U.deepStrictEqual(pipe(_.of<object, string>('foo'), _.chainFirstW(f))({}), 'foo')
+    })
+
+    it('flatten', () => {
       U.deepStrictEqual(pipe(_.of(_.of('a')), _.flatten)({}), 'a')
+    })
+
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+
+    it('flattenW', () => {
+      U.deepStrictEqual(pipe(_.of<R1, _.Reader<R2, 'a'>>(_.of('a')), _.flattenW)({ env1: '', env2: '' }), 'a')
     })
 
     it('compose', () => {
@@ -125,7 +139,25 @@ describe('Reader', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(undefined), { a: 1, b: 'b' })
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray)(undefined), [1, 2])
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      U.strictEqual(pipe(RA.empty, f)({}), RA.empty)
+      U.deepStrictEqual(pipe(input, f)({}), ['a0', 'b1'])
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray)(undefined), [1, 2])
+    })
+  })
+
+  it('asksReader', () => {
+    const e: Env = { count: 0 }
+    const f = (e: Env) => _.of(e.count + 1)
+    U.deepStrictEqual(_.asksReader(f)(e), 1)
   })
 })

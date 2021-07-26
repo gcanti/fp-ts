@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 82
+nav_order: 88
 parent: Modules
 ---
 
@@ -28,24 +28,36 @@ Added in v2.0.0
   - [wilt](#wilt)
   - [wither](#wither)
 - [combinators](#combinators)
+  - [difference](#difference)
   - [flap](#flap)
+  - [intersection](#intersection)
+  - [union](#union)
   - [upsertAt](#upsertat)
 - [instances](#instances)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FilterableWithIndex](#filterablewithindex)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
-  - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
+  - [getWitherable](#getwitherable)
+  - [~~FoldableWithIndex~~](#foldablewithindex)
+  - [~~Foldable~~](#foldable)
+  - [~~TraversableWithIndex~~](#traversablewithindex)
+  - [~~Traversable~~](#traversable)
+  - [~~Witherable~~](#witherable)
   - [~~record~~](#record)
 - [utils](#utils)
   - [collect](#collect)
@@ -92,7 +104,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: Record<string, O.Option<A>>) => Record<string, A>
+export declare const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A>
 ```
 
 Added in v2.0.0
@@ -118,6 +130,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Record<string, B>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
 }
 ```
@@ -129,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: Record<string, A>) => Record<string, B>
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B>
 ```
 
 Added in v2.0.0
@@ -143,6 +156,7 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
     fa: Record<string, A>
   ) => Separated<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Separated<Record<string, B>, Record<string, B>>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
 }
 ```
@@ -168,7 +182,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export declare function foldMap(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
+export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: Record<string, A>) => M
 ```
 
 Added in v2.0.0
@@ -178,7 +195,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+export declare function reduce(O: Ord<string>): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Record<string, A>) => B
+export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: Record<string, A>) => B
 ```
 
 Added in v2.0.0
@@ -188,7 +206,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+export declare function reduceRight(O: Ord<string>): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Record<string, A>) => B
+export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: Record<string, A>) => B
 ```
 
 Added in v2.0.0
@@ -217,6 +236,16 @@ Added in v2.6.5
 
 # combinators
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -228,6 +257,30 @@ export declare const flap: <A>(a: A) => <B>(fab: Record<string, (a: A) => B>) =>
 ```
 
 Added in v2.10.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Record<string, A>) => (first: Record<string, A>) => Record<string, A>
+```
+
+Added in v2.11.0
 
 ## upsertAt
 
@@ -273,26 +326,6 @@ export declare const FilterableWithIndex: FilterableWithIndex1<'Record', string>
 
 Added in v2.7.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: Foldable1<'Record'>
-```
-
-Added in v2.7.0
-
-## FoldableWithIndex
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
 ## Functor
 
 **Signature**
@@ -309,26 +342,6 @@ Added in v2.7.0
 
 ```ts
 export declare const FunctorWithIndex: FunctorWithIndex1<'Record', string>
-```
-
-Added in v2.7.0
-
-## Traversable
-
-**Signature**
-
-```ts
-export declare const Traversable: Traversable1<'Record'>
-```
-
-Added in v2.7.0
-
-## TraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
 ```
 
 Added in v2.7.0
@@ -353,15 +366,15 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
-## Witherable
+## getDifferenceMagma
 
 **Signature**
 
 ```ts
-export declare const Witherable: Witherable1<'Record'>
+export declare const getDifferenceMagma: <A>() => Magma<Record<string, A>>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getEq
 
@@ -372,6 +385,36 @@ export declare const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>>
 ```
 
 Added in v2.0.0
+
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
+```
+
+Added in v2.11.0
+
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -400,10 +443,121 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <A>(S: Show<A>) => Show<Record<string, A>>
+export declare function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<Record<string, A>>
+export declare function getShow<A>(S: Show<A>): Show<Record<string, A>>
 ```
 
 Added in v2.0.0
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+```
+
+Added in v2.11.0
+
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Record<string, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+```
+
+Added in v2.11.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
+```
+
+Added in v2.11.0
+
+## ~~FoldableWithIndex~~
+
+Use `getFoldableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Foldable~~
+
+Use `getFoldable` instead.
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~TraversableWithIndex~~
+
+Use the `getTraversableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'Record', string>
+```
+
+Added in v2.7.0
+
+## ~~Traversable~~
+
+Use `getTraversable` instead.
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'Record'>
+```
+
+Added in v2.7.0
+
+## ~~Witherable~~
+
+Use `getWitherable` instead.
+
+**Signature**
+
+```ts
+export declare const Witherable: Witherable1<'Record'>
+```
+
+Added in v2.7.0
 
 ## ~~record~~
 
@@ -430,16 +584,20 @@ Map a `Record` into an `Array`.
 **Signature**
 
 ```ts
-export declare const collect: <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => B[]
+export declare function collect(
+  O: Ord<string>
+): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: Record<K, A>) => Array<B>
+export declare function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B>
 ```
 
 **Example**
 
 ```ts
 import { collect } from 'fp-ts/Record'
+import { Ord } from 'fp-ts/string'
 
 const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
-assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
+assert.deepStrictEqual(collect(Ord)((key, val) => ({ key: key, value: val }))(x), [
   { key: 'a', value: 'c' },
   { key: 'b', value: false },
 ])
@@ -489,7 +647,7 @@ Added in v2.0.0
 
 ```ts
 export declare const filterMapWithIndex: <K extends string, A, B>(
-  f: (key: K, a: A) => O.Option<B>
+  f: (key: K, a: A) => Option<B>
 ) => (fa: Record<K, A>) => Record<string, B>
 ```
 
@@ -505,6 +663,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Record<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Record<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Record<string, A>
 ```
 
@@ -515,9 +676,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const foldMapWithIndex: <M>(
+export declare function foldMapWithIndex(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+export declare function foldMapWithIndex<M>(
   M: Monoid<M>
-) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M
 ```
 
 Added in v2.0.0
@@ -617,7 +781,7 @@ Added in v2.0.0
 
 Test whether or not a key exists in a `Record`.
 
-Note. This function is not pipeable because is a custom type guard.
+Note. This function is not pipeable because is a `Refinement`.
 
 **Signature**
 
@@ -634,7 +798,7 @@ Test whether a `Record` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: Record<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Record<string, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -674,8 +838,8 @@ Lookup the value for a key in a `Record`.
 
 ```ts
 export declare const lookup: {
-  (k: string): <A>(r: Record<string, A>) => O.Option<A>
-  <A>(k: string, r: Record<string, A>): O.Option<A>
+  (k: string): <A>(r: Record<string, A>) => Option<A>
+  <A>(k: string, r: Record<string, A>): Option<A>
 }
 ```
 
@@ -713,7 +877,7 @@ Added in v2.0.0
 export declare const modifyAt: <A>(
   k: string,
   f: (a: A) => A
-) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
+) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
 ```
 
 Added in v2.0.0
@@ -740,6 +904,9 @@ export declare function partitionWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Separated<Record<string, B>, Record<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>>
 ```
 
@@ -764,10 +931,13 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRightWithIndex: <K extends string, A, B>(
+export declare function reduceRightWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: Record<K, A>) => B
+export declare function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
-) => (fa: Record<K, A>) => B
+): (fa: Record<K, A>) => B
 ```
 
 Added in v2.0.0
@@ -777,10 +947,13 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceWithIndex: <K extends string, A, B>(
+export declare function reduceWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: Record<K, A>) => B
+export declare function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
-) => (fa: Record<K, A>) => B
+): (fa: Record<K, A>) => B
 ```
 
 Added in v2.0.0
@@ -831,7 +1004,7 @@ Calculate the number of key/value pairs in a `Record`.
 **Signature**
 
 ```ts
-export declare const size: (r: Record<string, unknown>) => number
+export declare const size: <A>(r: Record<string, A>) => number
 ```
 
 Added in v2.0.0
@@ -936,7 +1109,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => O.Option<Record<K, A>>
+export declare const updateAt: <A>(k: string, a: A) => <K extends string>(r: Record<K, A>) => Option<Record<K, A>>
 ```
 
 Added in v2.0.0

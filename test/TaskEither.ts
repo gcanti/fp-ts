@@ -2,7 +2,7 @@ import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { identity, pipe } from '../src/function'
+import { identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -10,9 +10,11 @@ import { none, some } from '../src/Option'
 import { pipeable } from '../src/pipeable'
 import * as N from '../src/number'
 import * as T from '../src/Task'
+import * as TO from '../src/TaskOption'
 import * as _ from '../src/TaskEither'
 import * as S from '../src/string'
 import { left, right } from '../src/Separated'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 describe('TaskEither', () => {
   // -------------------------------------------------------------------------------------
@@ -84,6 +86,13 @@ describe('TaskEither', () => {
 
   it('flatten', async () => {
     U.deepStrictEqual(await pipe(_.right(_.right('a')), _.flatten)(), E.right('a'))
+  })
+
+  it('flattenW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<'left1', _.TaskEither<'left2', 'a'>>(_.right('a')), _.flattenW)(),
+      E.right('a')
+    )
   })
 
   it('bimap', async () => {
@@ -391,6 +400,43 @@ describe('TaskEither', () => {
     )
   })
 
+  it('orElseW', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.left('foo'),
+        _.orElseW((l) => _.right(l.length))
+      )(),
+      E.right(3)
+    )
+    U.deepStrictEqual(
+      await pipe(
+        _.right(1),
+        _.orElseW(() => _.right(2))
+      )(),
+      E.right(1)
+    )
+  })
+
+  it('orElseFirst', async () => {
+    const f = _.orElseFirst((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('orElseFirstW', async () => {
+    const f = _.orElseFirstW((e: string) => (e.length <= 1 ? _.right(true) : _.left(e + '!')))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('orLeft', async () => {
+    const f = _.orLeft((e: string) => T.of(e + '!'))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a!'))
+  })
+
   it('swap', async () => {
     U.deepStrictEqual(await _.swap(_.right(1))(), E.left(1))
     U.deepStrictEqual(await _.swap(_.left('a'))(), E.right('a'))
@@ -471,6 +517,23 @@ describe('TaskEither', () => {
     )
   })
 
+  it('fromTaskOption', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        TO.none,
+        _.fromTaskOption(() => 'none')
+      )(),
+      E.left('none')
+    )
+    U.deepStrictEqual(
+      await pipe(
+        TO.some(1),
+        _.fromTaskOption(() => 'none')
+      )(),
+      E.right(1)
+    )
+  })
+
   it('fromPredicate', async () => {
     const gt2 = _.fromPredicate(
       (n: number) => n >= 2,
@@ -501,42 +564,103 @@ describe('TaskEither', () => {
     )
   })
 
-  it('sequenceArray', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number | string> = []
-    const right = (n: number): _.TaskEither<string, number> =>
-      _.rightIO(() => {
-        log.push(n)
-        return n
-      })
-    const left = (s: string): _.TaskEither<string, number> =>
-      _.leftIO(() => {
-        log.push(s)
-        return s
-      })
-    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
-    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
-  })
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
-  it('sequenceSeqArray', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number | string> = []
-    const right = (n: number): _.TaskEither<string, number> =>
-      _.rightIO(() => {
-        log.push(n)
-        return n
-      })
-    const left = (s: string): _.TaskEither<string, number> =>
-      _.leftIO(() => {
-        log.push(s)
-        return s
-      })
-    U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
-    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+    it('traverseReadonlyArrayWithIndex', async () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(await pipe(RA.empty, f)(), E.right(RA.empty))
+      U.deepStrictEqual(await pipe(input, f)(), E.right(['a0', 'b1']))
+      U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    })
+
+    it('traverseReadonlyArrayWithIndexSeq', async () => {
+      const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(await pipe(RA.empty, f)(), E.right(RA.empty))
+      U.deepStrictEqual(await pipe(input, f)(), E.right(['a0', 'b1']))
+      U.deepStrictEqual(await pipe(['a', ''], f)(), E.left('e'))
+    })
+
+    it('sequenceReadonlyArray', async () => {
+      const log: Array<number | string> = []
+      const right = (n: number): _.TaskEither<string, number> =>
+        _.rightIO(() => {
+          log.push(n)
+          return n
+        })
+      const left = (s: string): _.TaskEither<string, number> =>
+        _.leftIO(() => {
+          log.push(s)
+          return s
+        })
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndex(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndex(SK))(), E.left('a'))
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndex(SK))(), E.left('b'))
+      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+    })
+
+    it('sequenceReadonlyArraySeq', async () => {
+      const log: Array<number | string> = []
+      const right = (n: number): _.TaskEither<string, number> =>
+        _.rightIO(() => {
+          log.push(n)
+          return n
+        })
+      const left = (s: string): _.TaskEither<string, number> =>
+        _.leftIO(() => {
+          log.push(s)
+          return s
+        })
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.right([1, 2]))
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('a'))
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), E.left('b'))
+      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+    })
+
+    // old
+    it('sequenceArray', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number | string> = []
+      const right = (n: number): _.TaskEither<string, number> =>
+        _.rightIO(() => {
+          log.push(n)
+          return n
+        })
+      const left = (s: string): _.TaskEither<string, number> =>
+        _.leftIO(() => {
+          log.push(s)
+          return s
+        })
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
+      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+    })
+
+    it('sequenceSeqArray', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number | string> = []
+      const right = (n: number): _.TaskEither<string, number> =>
+        _.rightIO(() => {
+          log.push(n)
+          return n
+        })
+      const left = (s: string): _.TaskEither<string, number> =>
+        _.leftIO(() => {
+          log.push(s)
+          return s
+        })
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
+      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
+    })
   })
 
   it('match', async () => {
@@ -555,5 +679,12 @@ describe('TaskEither', () => {
     )
     U.deepStrictEqual(await f(_.right(1))(), 'right')
     U.deepStrictEqual(await f(_.left(''))(), 'left')
+  })
+
+  it('chainTaskOptionK', async () => {
+    const f = _.chainTaskOptionK(() => 'a')((n: number) => (n > 0 ? TO.some(n * 2) : TO.none))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(2))
+    U.deepStrictEqual(await pipe(_.right(-1), f)(), E.left('a'))
+    U.deepStrictEqual(await pipe(_.left('b'), f)(), E.left('b'))
   })
 })

@@ -12,13 +12,22 @@ import {
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
+  ask as ask_,
+  asks as asks_,
+  chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
+  FromReader2,
+  fromReaderK as fromReaderK_
+} from './FromReader'
+import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, pipe } from './function'
+import { flow, identity, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
@@ -26,6 +35,7 @@ import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 
@@ -34,7 +44,6 @@ import * as T from './Task'
 // -------------------------------------------------------------------------------------
 
 import Task = T.Task
-import Reader = R.Reader
 
 /**
  * @category model
@@ -45,31 +54,19 @@ export interface ReaderTask<R, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// constructors
+// natural transformations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
-export const fromReader: <R, A = never>(ma: Reader<R, A>) => ReaderTask<R, A> =
+export const fromReader: FromReader2<URI>['fromReader'] =
   /*#__PURE__*/
   RT.fromReader(T.Pointed)
 
 /**
- * @category constructors
- * @since 2.3.0
- */
-export const ask = <R>(): ReaderTask<R, R> => T.of
-
-/**
- * @category constructors
- * @since 2.3.0
- */
-export const asks = <R, A = never>(f: (r: R) => A): ReaderTask<R, A> => flow(f, T.of)
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] =
@@ -77,7 +74,7 @@ export const fromTask: FromTask2<URI>['fromTask'] =
   R.of
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.3.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] =
@@ -85,21 +82,46 @@ export const fromIO: FromIO2<URI>['fromIO'] =
   flow(T.fromIO, fromTask)
 
 // -------------------------------------------------------------------------------------
-// non-pipeables
+// combinators
 // -------------------------------------------------------------------------------------
 
-const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _apPar: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Monad2<URI>['ap'] = (fab, fa) =>
-  pipe(
-    fab,
-    chain((f) => pipe(fa, map(f)))
-  )
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.3.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
+
+/**
+ * Less strict version of [`asksReaderTask`](#asksreadertask).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
 
 // -------------------------------------------------------------------------------------
 // type class members
 // -------------------------------------------------------------------------------------
+
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
+  pipe(
+    fab,
+    chain((f) => pipe(fa, map(f)))
+  )
+const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -161,14 +183,22 @@ export const chainW: <R2, A, B>(
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.3.0
  */
-export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask<R, A> = flattenW
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -350,6 +380,18 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
+ * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = chainFirst as any
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -381,6 +423,79 @@ export const chainIOK =
 export const chainFirstIOK =
   /*#__PURE__*/
   chainFirstIOK_(FromIO, Chain)
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader2<URI> = {
+  URI,
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 2.3.0
+ */
+export const ask =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderTask`.
+ *
+ * @category constructors
+ * @since 2.3.0
+ */
+export const asks =
+  /*#__PURE__*/
+  asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderK =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderK =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B> = chainReaderK as any
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderK =
+  /*#__PURE__*/
+  chainFirstReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
 
 /**
  * @category instances
@@ -425,7 +540,7 @@ export const chainFirstTaskK =
  */
 export const Do: ReaderTask<unknown, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0
@@ -473,31 +588,77 @@ export const apSW: <A, N extends string, R2, B>(
 ) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: ReaderTask<unknown, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <R, A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(T.sequenceArray))
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>) =>
+  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(T.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, R, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>) =>
+  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(T.traverseReadonlyNonEmptyArrayWithIndexSeq(SK)))
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
  * @since 2.9.0
  */
 export const traverseArray = <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
-): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
- *
  * @since 2.9.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
@@ -505,28 +666,24 @@ export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => Read
   traverseArray(identity)
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
- *
  * @since 2.10.0
  */
-export const traverseSeqArrayWithIndex = <R, A, B>(
+export const traverseSeqArrayWithIndex: <R, A, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
-): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(T.sequenceSeqArray))
+) => (as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
- *
  * @since 2.10.0
  */
 export const traverseSeqArray = <R, A, B>(
   f: (a: A) => ReaderTask<R, B>
-): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ * Use `traverseReadonlyArrayWithIndexSeq` instead.
  *
  * @since 2.10.0
+ * @deprecated
  */
 export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => ReaderTask<R, ReadonlyArray<A>> =
   /*#__PURE__*/
@@ -603,12 +760,3 @@ export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<ReaderTask<R, A>> =
 export function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A> {
   return ma(r)()
 }
-
-/**
- * Use [`local`](./Reader.ts.html#local) instead.
- *
- * @category combinators
- * @since 2.3.0
- * @deprecated
- */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local

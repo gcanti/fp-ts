@@ -1,6 +1,6 @@
 ---
 title: Witherable.ts
-nav_order: 110
+nav_order: 118
 parent: Modules
 ---
 
@@ -16,6 +16,9 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [defaults](#defaults)
+  - [wiltDefault](#wiltdefault)
+  - [witherDefault](#witherdefault)
 - [type classes](#type-classes)
   - [Witherable (interface)](#witherable-interface)
   - [Witherable1 (interface)](#witherable1-interface)
@@ -23,6 +26,7 @@ Added in v2.0.0
   - [Witherable2C (interface)](#witherable2c-interface)
   - [Witherable3 (interface)](#witherable3-interface)
 - [utils](#utils)
+  - [FilterE1 (interface)](#filtere1-interface)
   - [PipeableWilt (interface)](#pipeablewilt-interface)
   - [PipeableWilt1 (interface)](#pipeablewilt1-interface)
   - [PipeableWilt2 (interface)](#pipeablewilt2-interface)
@@ -43,8 +47,53 @@ Added in v2.0.0
   - [Wither2 (interface)](#wither2-interface)
   - [Wither2C (interface)](#wither2c-interface)
   - [Wither3 (interface)](#wither3-interface)
+  - [filterE](#filtere)
 
 ---
+
+# defaults
+
+## wiltDefault
+
+Return a `wilt` implementation from `Traversable` and `Compactable`.
+
+**Signature**
+
+```ts
+export declare function wiltDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2<W>
+): Witherable2C<W, E>['wilt']
+export declare function wiltDefault<W extends URIS2, E>(
+  T: Traversable2<W>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wilt']
+export declare function wiltDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wilt']
+export declare function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt']
+```
+
+Added in v2.11.0
+
+## witherDefault
+
+Return a `wither` implementation from `Traversable` and `Compactable`.
+
+**Signature**
+
+```ts
+export declare function witherDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2<W>
+): Witherable2C<W, E>['wither']
+export declare function witherDefault<W extends URIS2, E>(
+  T: Traversable2<W>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wither']
+export declare function witherDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wither']
+export declare function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither']
+```
+
+Added in v2.11.0
 
 # type classes
 
@@ -121,6 +170,33 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 Added in v2.0.0
 
 # utils
+
+## FilterE1 (interface)
+
+**Signature**
+
+```ts
+export interface FilterE1<G extends URIS> {
+  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS>(F: Applicative1<F>): <A>(
+    predicate: (a: A) => Kind<F, boolean>
+  ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
+  <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
+}
+```
+
+Added in v2.11.0
 
 ## PipeableWilt (interface)
 
@@ -691,3 +767,20 @@ export interface Wither3<W extends URIS3> {
 ```
 
 Added in v2.0.0
+
+## filterE
+
+Filter values inside a `F` context.
+
+See `ReadonlyArray`'s `filterE` for an example of usage.
+
+**Signature**
+
+```ts
+export declare function filterE<G extends URIS>(W: Witherable1<G>): FilterE1<G>
+export declare function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>>
+```
+
+Added in v2.11.0

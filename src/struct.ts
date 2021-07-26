@@ -1,7 +1,8 @@
 /**
  * @since 2.10.0
  */
-import { getObjectSemigroup, Semigroup } from './Semigroup'
+import * as _ from './internal'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -24,5 +25,42 @@ import { getObjectSemigroup, Semigroup } from './Semigroup'
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const getAssignSemigroup: <A extends object = never>() => Semigroup<A> = getObjectSemigroup
+export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (first, second) => Object.assign({}, first, second)
+})
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Creates a new object by recursively evolving a shallow copy of `a`, according to the `transformation` functions.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import { evolve } from 'fp-ts/struct'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     { a: 'a', b: 1 },
+ *     evolve({
+ *       a: (a) => a.length,
+ *       b: (b) => b * 2
+ *     })
+ *   ),
+ *   { a: 1, b: 2 }
+ * )
+ *
+ * @since 2.11.0
+ */
+export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(transformations: F) => (
+  a: A
+): { [K in keyof F]: ReturnType<F[K]> } => {
+  const out: Record<string, unknown> = {}
+  for (const k in a) {
+    if (_.hasOwnProperty.call(a, k)) {
+      out[k] = transformations[k](a[k])
+    }
+  }
+  return out as any
+}

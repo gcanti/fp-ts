@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import { Endomorphism } from '../src/Endomorphism'
 import { identity, pipe } from '../src/function'
 import * as _ from '../src/NonEmptyArray'
 import * as N from '../src/number'
@@ -151,7 +152,9 @@ describe('NonEmptyArray', () => {
   })
 
   it('groupSort', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([]), [])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
@@ -195,6 +198,13 @@ describe('NonEmptyArray', () => {
       '3': ['foo', 'bar'],
       '6': ['foobar']
     })
+  })
+
+  it('union', () => {
+    const concat = _.getUnionSemigroup(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
   })
 
   it('insertAt', () => {
@@ -265,16 +275,17 @@ describe('NonEmptyArray', () => {
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
+    const as: _.NonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 1)
       ),
       O.some([a3])
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 2)
       ),
       O.some([a1, a2])
@@ -287,7 +298,7 @@ describe('NonEmptyArray', () => {
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 10)
       ),
       O.some([a1, a2, a3])
@@ -371,8 +382,7 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
-  it('alt / concat', () => {
-    U.deepStrictEqual(_.concat(['a'], []), ['a'])
+  it('alt', () => {
     U.deepStrictEqual(
       pipe(
         ['a'],
@@ -482,5 +492,74 @@ describe('NonEmptyArray', () => {
     assertSingleChunk([1, 2], 2)
     // n out of bounds
     assertSingleChunk([1, 2], 3)
+  })
+
+  it('matchLeft', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchLeft((head, tail) => [head, tail])
+      ),
+      [1, [2, 3]]
+    )
+  })
+
+  it('matchRight', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.matchRight((init, last) => [init, last])
+      ),
+      [[1, 2], 3]
+    )
+  })
+
+  it('modifyHead', () => {
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyHead(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyHead(f)), ['a!', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyHead(f)), ['a!', 'b', 'c'])
+  })
+
+  it('modifyLast', () => {
+    const f: Endomorphism<string> = (s) => s + '!'
+    U.deepStrictEqual(pipe(['a'], _.modifyLast(f)), ['a!'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.modifyLast(f)), ['a', 'b!'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.modifyLast(f)), ['a', 'b', 'c!'])
+  })
+
+  it('replicate', () => {
+    const f = _.replicate('a')
+    U.deepStrictEqual(pipe(0, f), ['a'])
+    U.deepStrictEqual(pipe(1, f), ['a'])
+    U.deepStrictEqual(pipe(2, f), ['a', 'a'])
+  })
+
+  it('updateHead', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateHead('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateHead('d')), ['d', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateHead('d')), ['d', 'b', 'c'])
+  })
+
+  it('updateLast', () => {
+    U.deepStrictEqual(pipe(['a'], _.updateLast('d')), ['d'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.updateLast('d')), ['a', 'd'])
+    U.deepStrictEqual(pipe(['a', 'b', 'c'], _.updateLast('d')), ['a', 'b', 'd'])
+  })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe(['a'], _.concatW(['b'])), ['a', 'b'])
+  })
+
+  it('concat', () => {
+    U.deepStrictEqual(pipe(['a'], _.concat(['b'])), ['a', 'b'])
+    U.deepStrictEqual(pipe([], _.concat(['b'])), ['b'])
+    U.deepStrictEqual(pipe(['a'], _.concat<string>([])), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], ['b']), ['a', 'b'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], []), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat([], ['b']), ['b'])
   })
 })

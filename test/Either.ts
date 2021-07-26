@@ -1,12 +1,14 @@
-import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import { separated } from '../src/Separated'
+import * as U from './util'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -112,6 +114,10 @@ describe('Either', () => {
 
     it('flatten', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten), _.right('a'))
+    })
+
+    it('flattenW', () => {
+      U.deepStrictEqual(pipe(_.right<'left1', _.Either<'left2', 'a'>>(_.right('a')), _.flattenW), _.right('a'))
     })
 
     it('bimap', () => {
@@ -602,9 +608,23 @@ describe('Either', () => {
     U.deepStrictEqual(f(_.left('a')), _.left('a'))
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray), _.right([1, 2]))
-    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray), _.left('a'))
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.right(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray), _.right([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray), _.left('a'))
+    })
   })
 
   describe('getCompactable', () => {

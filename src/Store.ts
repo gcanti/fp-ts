@@ -2,10 +2,11 @@
  * @since 2.0.0
  */
 import { Comonad2 } from './Comonad'
-import { Endomorphism, identity, pipe } from './function'
+import { Endomorphism } from './Endomorphism'
+import { Extend2 } from './Extend'
+import { identity, pipe } from './function'
 import { flap as flap_, Functor as FunctorHKT, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Extend2 } from './Extend'
 
 // -------------------------------------------------------------------------------------
 // model

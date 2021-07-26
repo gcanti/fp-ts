@@ -1,16 +1,17 @@
 import * as assert from 'assert'
 import { Either, left, right } from '../src/Either'
 import { Eq, fromEquals } from '../src/Eq'
-import { identity, pipe, Refinement } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/ReadonlyMap'
+import { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
 import { separated } from '../src/Separated'
-import { struct, Show } from '../src/Show'
+import { Show, struct } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
@@ -1154,6 +1155,83 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(
       FWI.mapWithIndex(aa1, (k, a) => a + k.id.length),
       aa3
+    )
+  })
+
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.strictEqual(M.concat(x, M.empty), x)
+    U.strictEqual(M.concat(M.empty, x), x)
+    U.strictEqual(M.concat(x, new Map()), x)
+    U.strictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2'],
+        [{ id: 'd' }, 'd2']
+      ])
+    )
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const M = _.getIntersectionSemigroup(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.strictEqual(M.concat(x, _.empty), _.empty)
+    U.strictEqual(M.concat(_.empty, x), _.empty)
+    U.strictEqual(M.concat(x, new Map()), _.empty)
+    U.strictEqual(M.concat(new Map(), x), _.empty)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2']
+      ])
+    )
+  })
+
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(eqUser)<string>()
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.strictEqual(M.concat(x, _.empty), x)
+    U.strictEqual(M.concat(_.empty, x), x)
+    U.strictEqual(M.concat(x, new Map()), x)
+    U.strictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'd' }, 'd2']
+      ])
     )
   })
 })

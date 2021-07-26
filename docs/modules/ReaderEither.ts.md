@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 72
+nav_order: 78
 parent: Modules
 ---
 
@@ -33,26 +33,35 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksReaderEither](#asksreadereither)
+  - [asksReaderEitherW](#asksreadereitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
+  - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
+  - [fromReaderK](#fromreaderk)
+  - [local](#local)
   - [orElse](#orelse)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
+  - [orLeft](#orleft)
   - [swap](#swap)
-  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftReader](#leftreader)
@@ -74,6 +83,7 @@ Added in v2.0.0
   - [Bifunctor](#bifunctor-1)
   - [Chain](#chain)
   - [FromEither](#fromeither)
+  - [FromReader](#fromreader)
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [MonadThrow](#monadthrow-1)
@@ -93,7 +103,12 @@ Added in v2.0.0
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderEither (interface)](#readereither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -103,6 +118,8 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -299,6 +316,32 @@ export declare const apSecond: <R, E, B>(
 
 Added in v2.0.0
 
+## asksReaderEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksReaderEitherW
+
+Less strict version of [`asksReaderEither`](#asksreadereither).
+
+**Signature**
+
+```ts
+export declare const asksReaderEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderEither<R2, E, A>
+) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainEitherK
 
 **Signature**
@@ -342,6 +385,32 @@ export declare const chainFirst: <R, E, A, B>(
 
 Added in v2.0.0
 
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst)
@@ -370,6 +439,32 @@ export declare const chainOptionK: <E>(
 
 Added in v2.10.0
 
+## chainReaderK
+
+**Signature**
+
+```ts
+export declare const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+```
+
+Added in v2.11.0
+
 ## filterOrElse
 
 **Signature**
@@ -378,6 +473,9 @@ Added in v2.10.0
 export declare const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderEither<R, E, A>
+  ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderEither<R, E, B>
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 }
@@ -395,6 +493,9 @@ Less strict version of [`filterOrElse`](#filterorelse).
 export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderEither<R, E1, A>
@@ -428,6 +529,20 @@ export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, 
 
 Added in v2.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, E1, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v2.11.0
+
 ## fromEitherK
 
 **Signature**
@@ -452,6 +567,31 @@ export declare const fromOptionK: <E>(
 
 Added in v2.10.0
 
+## fromReaderK
+
+**Signature**
+
+```ts
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
+```
+
+Added in v2.0.0
+
 ## orElse
 
 **Signature**
@@ -463,6 +603,30 @@ export declare const orElse: <E1, R, E2, A>(
 ```
 
 Added in v2.0.0
+
+## orElseFirst
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderEither<R, E, B>
+) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## orElseFirstW
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, R, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R, E2, B>
+) => <A>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A>
+```
+
+Added in v2.11.0
 
 ## orElseW
 
@@ -478,6 +642,18 @@ export declare const orElseW: <E1, R1, E2, B>(
 
 Added in v2.10.0
 
+## orLeft
+
+**Signature**
+
+```ts
+export declare const orLeft: <E1, R, E2>(
+  onLeft: (e: E1) => R.Reader<R, E2>
+) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
+```
+
+Added in v2.11.0
+
 ## swap
 
 **Signature**
@@ -488,21 +664,11 @@ export declare const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<
 
 Added in v2.0.0
 
-## ~~local~~
-
-Use [`local`](./Reader.ts.html#local) instead.
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
-```
-
-Added in v2.0.0
-
 # constructors
 
 ## ask
+
+Reads the current context.
 
 **Signature**
 
@@ -514,30 +680,12 @@ Added in v2.0.0
 
 ## asks
 
-**Signature**
-
-```ts
-export declare const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromEither
+Projects a value from the global context in a `ReaderEither`.
 
 **Signature**
 
 ```ts
-export declare const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A>
+export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -549,6 +697,7 @@ Added in v2.0.0
 ```ts
 export declare const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 }
 ```
@@ -771,6 +920,16 @@ export declare const FromEither: FromEither3<'ReaderEither'>
 
 Added in v2.10.0
 
+## FromReader
+
+**Signature**
+
+```ts
+export declare const FromReader: FromReader3<'ReaderEither'>
+```
+
+Added in v2.11.0
+
 ## Functor
 
 **Signature**
@@ -960,7 +1119,49 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+```
+
+Added in v2.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+```
+
+Added in v2.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
+```
+
+Added in v2.11.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderEither<unknown, never, readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -1042,8 +1243,6 @@ Added in v2.8.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1053,8 +1252,6 @@ export declare const sequenceArray: <R, E, A>(arr: readonly ReaderEither<R, E, A
 Added in v2.9.0
 
 ## traverseArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -1068,8 +1265,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1079,3 +1274,31 @@ export declare const traverseArrayWithIndex: <R, E, A, B>(
 ```
 
 Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: readonly A[]) => ReaderEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0

@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 44
+nav_order: 48
 parent: Modules
 ---
 
@@ -39,6 +39,7 @@ Added in v2.0.0
   - [distributiveLattice](#distributivelattice)
   - [either](#either)
   - [eitherT](#eithert)
+  - [endomorphism](#endomorphism)
   - [eq](#eq)
   - [extend](#extend)
   - [field](#field)
@@ -48,7 +49,10 @@ Added in v2.0.0
   - [foldableWithIndex](#foldablewithindex)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromState](#fromstate)
   - [fromTask](#fromtask)
+  - [fromThese](#fromthese)
   - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
@@ -71,6 +75,7 @@ Added in v2.0.0
   - [monadTask](#monadtask)
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
+  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -79,6 +84,7 @@ Added in v2.0.0
   - [ordering](#ordering)
   - [pipeable](#pipeable)
   - [pointed](#pointed)
+  - [predicate](#predicate)
   - [profunctor](#profunctor)
   - [random](#random)
   - [reader](#reader)
@@ -93,6 +99,7 @@ Added in v2.0.0
   - [readonlySet](#readonlyset)
   - [readonlyTuple](#readonlytuple)
   - [record](#record)
+  - [refinement](#refinement)
   - [ring](#ring)
   - [semigroup](#semigroup)
   - [semigroupoid](#semigroupoid)
@@ -120,9 +127,11 @@ Added in v2.0.0
   - [tuple](#tuple)
   - [unfoldable](#unfoldable)
   - [validationT](#validationt)
+  - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
   - [writerT](#writert)
+  - [zero](#zero)
 
 ---
 
@@ -388,6 +397,16 @@ export declare const eitherT: typeof eitherT
 
 Added in v2.0.0
 
+## endomorphism
+
+**Signature**
+
+```ts
+export declare const endomorphism: typeof endomorphism
+```
+
+Added in v2.11.0
+
 ## eq
 
 **Signature**
@@ -478,6 +497,26 @@ export declare const fromIO: typeof fromIO
 
 Added in v2.10.0
 
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: typeof fromReader
+```
+
+Added in v2.11.0
+
+## fromState
+
+**Signature**
+
+```ts
+export declare const fromState: typeof fromState
+```
+
+Added in v2.11.0
+
 ## fromTask
 
 **Signature**
@@ -487,6 +526,16 @@ export declare const fromTask: typeof fromTask
 ```
 
 Added in v2.10.0
+
+## fromThese
+
+**Signature**
+
+```ts
+export declare const fromThese: typeof fromThese
+```
+
+Added in v2.11.0
 
 ## function
 
@@ -708,6 +757,16 @@ export declare const monoid: typeof monoid
 
 Added in v2.0.0
 
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
+```
+
+Added in v2.11.0
+
 ## nonEmptyArray
 
 **Signature**
@@ -787,6 +846,16 @@ export declare const pointed: typeof pointed
 ```
 
 Added in v2.10.0
+
+## predicate
+
+**Signature**
+
+```ts
+export declare const predicate: typeof predicate
+```
+
+Added in v2.11.0
 
 ## profunctor
 
@@ -927,6 +996,16 @@ export declare const record: typeof record
 ```
 
 Added in v2.0.0
+
+## refinement
+
+**Signature**
+
+```ts
+export declare const refinement: typeof refinement
+```
+
+Added in v2.11.0
 
 ## ring
 
@@ -1198,6 +1277,16 @@ export declare const validationT: typeof validationT
 
 Added in v2.0.0
 
+## void
+
+**Signature**
+
+```ts
+export declare const void: typeof void_
+```
+
+Added in v2.11.0
+
 ## witherable
 
 **Signature**
@@ -1227,3 +1316,13 @@ export declare const writerT: typeof writerT
 ```
 
 Added in v2.4.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: typeof zero
+```
+
+Added in v2.11.0

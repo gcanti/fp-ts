@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 80
+nav_order: 86
 parent: Modules
 ---
 
@@ -26,16 +26,21 @@ Added in v2.5.0
   - [union](#union)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [fromSet](#fromset)
   - [singleton](#singleton)
   - [~~fromArray~~](#fromarray)
 - [destructors](#destructors)
   - [toSet](#toset)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
+- [interop](#interop)
+  - [fromSet](#fromset)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -46,6 +51,7 @@ Added in v2.5.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
@@ -108,6 +114,7 @@ Added in v2.5.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: ReadonlySet<B>) => ReadonlySet<B>
 export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
@@ -211,7 +218,7 @@ Added in v2.5.0
 
 ## fromReadonlyArray
 
-Create a set from an array
+Create a `ReadonlySet` from a `ReadonlyArray`
 
 **Signature**
 
@@ -220,16 +227,6 @@ export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => R
 ```
 
 Added in v2.10.0
-
-## fromSet
-
-**Signature**
-
-```ts
-export declare function fromSet<A>(s: Set<A>): ReadonlySet<A>
-```
-
-Added in v2.5.0
 
 ## singleton
 
@@ -269,6 +266,36 @@ Added in v2.5.0
 
 # instances
 
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlySet'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.11.0
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<ReadonlySet<A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -284,7 +311,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>>
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A>>
 ```
 
 Added in v2.5.0
@@ -304,7 +331,29 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>>
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<ReadonlySet<A>>
+```
+
+Added in v2.5.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A>>
+```
+
+Added in v2.11.0
+
+# interop
+
+## fromSet
+
+**Signature**
+
+```ts
+export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
 ```
 
 Added in v2.5.0
@@ -397,6 +446,9 @@ export declare function partition<A, B extends A>(
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
+): <B extends A>(set: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+export declare function partition<A>(
+  predicate: Predicate<A>
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 ```
 
@@ -424,6 +476,16 @@ export declare function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) =>
 ```
 
 Added in v2.5.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B
+```
+
+Added in v2.11.0
 
 ## separate
 

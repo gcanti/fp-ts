@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 98
+nav_order: 105
 parent: Modules
 ---
 
@@ -51,25 +51,26 @@ Added in v2.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
+  - [chainTaskOptionK](#chaintaskoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
+  - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
+  - [orElseFirst](#orelsefirst)
+  - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
+  - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -120,7 +121,15 @@ Added in v2.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -133,6 +142,10 @@ Added in v2.0.0
   - [taskify](#taskify)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
@@ -489,6 +502,18 @@ export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: Ta
 
 Added in v2.10.0
 
+## chainTaskOptionK
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v2.11.0
+
 ## filterOrElse
 
 **Signature**
@@ -496,6 +521,7 @@ Added in v2.10.0
 ```ts
 export declare const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
 }
 ```
@@ -512,6 +538,9 @@ Less strict version of [`filterOrElse`](#filterorelse).
 export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: TaskEither<E1, A>
+  ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: TaskEither<E1, B>
   ) => TaskEither<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 }
@@ -542,6 +571,18 @@ export declare const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => Ta
 ```
 
 Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
+```
+
+Added in v2.11.0
 
 ## fromEitherK
 
@@ -599,6 +640,18 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v2.10.0
 
+## fromTaskOptionK
+
+**Signature**
+
+```ts
+export declare const fromTaskOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => TaskOption<B>) => (...a: A) => TaskEither<E, B>
+```
+
+Added in v2.11.0
+
 ## orElse
 
 Returns `ma` if is a `Right` or the value returned by `onLeft` otherwise.
@@ -631,6 +684,30 @@ test()
 
 Added in v2.0.0
 
+## orElseFirst
+
+**Signature**
+
+```ts
+export declare const orElseFirst: <E, B>(
+  onLeft: (e: E) => TaskEither<E, B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.11.0
+
+## orElseFirstW
+
+**Signature**
+
+```ts
+export declare const orElseFirstW: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
+```
+
+Added in v2.11.0
+
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
@@ -645,6 +722,16 @@ export declare const orElseW: <E1, E2, B>(
 
 Added in v2.10.0
 
+## orLeft
+
+**Signature**
+
+```ts
+export declare const orLeft: <E1, E2>(onLeft: (e: E1) => T.Task<E2>) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A>
+```
+
+Added in v2.11.0
+
 ## swap
 
 **Signature**
@@ -657,46 +744,6 @@ Added in v2.0.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => TaskEither<E, A>
-```
-
-Added in v2.7.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A>
-```
-
-Added in v2.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -704,21 +751,12 @@ Added in v2.0.0
 ```ts
 export declare const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 }
 ```
 
 Added in v2.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskEither<E, A>
-```
-
-Added in v2.7.0
 
 ## left
 
@@ -1260,7 +1298,79 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation22<'Either', 'TaskEither'>
+```
+
+Added in v2.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'TaskEither'>
+```
+
+Added in v2.7.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskEither'>
+```
+
+Added in v2.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskEither', E>
+```
+
+Added in v2.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'TaskEither'>
+```
+
+Added in v2.7.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
+```
+
+Added in v2.11.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskEither<never, readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -1355,8 +1465,6 @@ Added in v2.0.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1366,8 +1474,6 @@ export declare const sequenceArray: <A, E>(arr: readonly TaskEither<E, A>[]) => 
 Added in v2.9.0
 
 ## sequenceSeqArray
-
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -1431,8 +1537,6 @@ Added in v2.0.0
 
 ## traverseArray
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1445,8 +1549,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1457,9 +1559,63 @@ export declare const traverseArrayWithIndex: <A, B, E>(
 
 Added in v2.9.0
 
-## traverseSeqArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseSeqArray
 
 **Signature**
 
@@ -1472,8 +1628,6 @@ export declare const traverseSeqArray: <A, B, E>(
 Added in v2.9.0
 
 ## traverseSeqArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

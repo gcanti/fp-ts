@@ -24,33 +24,6 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Apply](#apply)
-  - [ap](#ap)
-  - [apW](#apw)
-- [Bifunctor](#bifunctor)
-  - [bimap](#bimap)
-  - [mapLeft](#mapleft)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-  - [chainW](#chainw)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
-- [Pointed](#pointed)
-  - [of](#of)
-- [Traversable](#traversable)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -62,12 +35,12 @@ Added in v2.0.0
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [right](#right)
@@ -80,24 +53,39 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
+- [instance operations](#instance-operations)
+  - [alt](#alt)
+  - [altW](#altw)
+  - [ap](#ap)
+  - [apW](#apw)
+  - [bimap](#bimap)
+  - [chain](#chain)
+  - [chainW](#chainw)
+  - [extend](#extend)
+  - [foldMap](#foldmap)
+  - [map](#map)
+  - [mapLeft](#mapleft)
+  - [of](#of)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [sequence](#sequence)
+  - [throwError](#throwerror)
+  - [traverse](#traverse)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
-  - [Bifunctor](#bifunctor-1)
+  - [Apply](#apply)
+  - [Bifunctor](#bifunctor)
   - [Chain](#chain)
   - [ChainRec](#chainrec)
-  - [Extend](#extend-1)
-  - [Foldable](#foldable-1)
+  - [Extend](#extend)
+  - [Foldable](#foldable)
   - [FromEither](#fromeither)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable-1)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [MonadThrow](#monadthrow)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [getAltValidation](#getaltvalidation)
@@ -125,7 +113,13 @@ Added in v2.0.0
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
+- [refinements](#refinements)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -138,298 +132,13 @@ Added in v2.0.0
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~JsonArray~~ (interface)](#jsonarray-interface)
   - [~~JsonRecord~~ (interface)](#jsonrecord-interface)
   - [~~Json~~ (type alias)](#json-type-alias)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A>
-```
-
-Added in v2.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, B | A>
-```
-
-Added in v2.9.0
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
-```
-
-Added in v2.8.0
-
-# Bifunctor
-
-## bimap
-
-Map a pair of functions over the two type arguments of the bifunctor.
-
-**Signature**
-
-```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
-```
-
-Added in v2.0.0
-
-## mapLeft
-
-Map a function over the first type argument of a bifunctor.
-
-**Signature**
-
-```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# Foldable
-
-## foldMap
-
-Map each element of the structure to a monoid, and combine the results.
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-import * as S from 'fp-ts/string'
-
-const yell = (a: string) => `${a}!`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(S.Monoid)(yell)), 'a!')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(S.Monoid)(yell)), S.Monoid.empty)
-```
-
-Added in v2.0.0
-
-## reduce
-
-Left-associative fold of a structure.
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-
-const startWith = 'prefix'
-const concat = (a: string, b: string) => `${a}:${b}`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, concat)), 'prefix:a')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, concat)), 'prefix')
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-Right-associative fold of a structure.
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-
-const startWith = 'postfix'
-const concat = (a: string, b: string) => `${a}:${b}`
-
-assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, concat)), 'a:postfix')
-
-assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'postfix')
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
-```
-
-Added in v2.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v2.6.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Either<E, A>
-```
-
-Added in v2.6.3
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <E = never, A = never>(a: A) => Either<E, A>
-```
-
-Added in v2.7.0
-
-# Traversable
-
-## sequence
-
-Evaluate each monadic action in the structure from left to right, and collect the results.
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence2<'Either'>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as E from 'fp-ts/Either'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.some(E.right('a')))
-
-assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
-```
-
-Added in v2.6.3
-
-## traverse
-
-Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse2<'Either'>
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import * as RA from 'fp-ts/ReadonlyArray'
-import * as E from 'fp-ts/Either'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
-
-assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
-```
-
-Added in v2.6.3
 
 # combinators
 
@@ -502,7 +211,7 @@ export declare const chainOptionK: <E>(
 ) => <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>) => Either<E, B>
 ```
 
-Added in v2.10.0
+Added in v2.11.0
 
 ## duplicate
 
@@ -522,46 +231,47 @@ Added in v2.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
 
 **Example**
 
 ```ts
-import { filterOrElse as filterOrElse, left, right } from 'fp-ts/Either'
+import * as E from 'fp-ts/Either'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
-    right(1),
-    filterOrElse(
+    E.right(1),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  right(1)
+  E.right(1)
 )
 assert.deepStrictEqual(
   pipe(
-    right(-1),
-    filterOrElse(
+    E.right(-1),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  left('error')
+  E.left('error')
 )
 assert.deepStrictEqual(
   pipe(
-    left('a'),
-    filterOrElse(
+    E.left('a'),
+    E.filterOrElse(
       (n) => n > 0,
       () => 'error'
     )
   ),
-  left('a')
+  E.left('a')
 )
 ```
 
@@ -578,6 +288,7 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: Either<E1, A>
   ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 }
 ```
@@ -620,14 +331,24 @@ assert.deepStrictEqual(E.flatten(E.left('e')), E.left('e'))
 
 Added in v2.0.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
+```
+
+Added in v2.11.0
+
 ## fromOptionK
 
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(
-  onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
+export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```
 
 Added in v2.10.0
@@ -665,45 +386,12 @@ Returns a `Right` if is a `Left` (and vice versa).
 **Signature**
 
 ```ts
-export declare function swap<E, A>(ma: Either<E, A>): Either<A, E>
+export declare const swap: <E, A>(ma: Either<E, A>) => Either<A, E>
 ```
 
 Added in v2.0.0
 
 # constructors
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import { fromOption, left, right } from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import { none, some } from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  pipe(
-    some(1),
-    fromOption(() => 'error')
-  ),
-  right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    none,
-    fromOption(() => 'error')
-  ),
-  left('error')
-)
-```
-
-Added in v2.0.0
 
 ## fromPredicate
 
@@ -711,8 +399,9 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
+  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>
 }
 ```
 
@@ -812,7 +501,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchW`](#matchww).
+Alias of [`matchW`](#matchw).
 
 **Signature**
 
@@ -911,31 +600,271 @@ export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) =
 
 Added in v2.10.0
 
-# guards
+# instance operations
 
-## isLeft
+## alt
 
-Returns `true` if the either is an instance of `Left`, `false` otherwise.
-
-**Signature**
-
-```ts
-export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
-```
-
-Added in v2.0.0
-
-## isRight
-
-Returns `true` if the either is an instance of `Right`, `false` otherwise.
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
 
 **Signature**
 
 ```ts
-export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
+export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A>
 ```
 
 Added in v2.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+**Signature**
+
+```ts
+export declare const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, A>) => Either<E2, B | A>
+```
+
+Added in v2.9.0
+
+## ap
+
+Apply a function to an argument under a type constructor.
+
+**Signature**
+
+```ts
+export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## apW
+
+Less strict version of [`ap`](#ap).
+
+**Signature**
+
+```ts
+export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+```
+
+Added in v2.8.0
+
+## bimap
+
+Map a pair of functions over the two type arguments of the bifunctor.
+
+**Signature**
+
+```ts
+export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>
+```
+
+Added in v2.0.0
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## chainW
+
+Less strict version of [`chain`](#chain).
+
+**Signature**
+
+```ts
+export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.6.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <E, A, B>(f: (wa: Either<E, A>) => B) => (wa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## foldMap
+
+Map each element of the structure to a monoid, and combine the results.
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import * as S from 'fp-ts/string'
+
+const yell = (a: string) => `${a}!`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.foldMap(S.Monoid)(yell)), 'a!')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.foldMap(S.Monoid)(yell)), S.Monoid.empty)
+```
+
+Added in v2.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v2.0.0
+
+## mapLeft
+
+Map a function over the first type argument of a bifunctor.
+
+**Signature**
+
+```ts
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: Either<E, A>) => Either<G, A>
+```
+
+Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <E = never, A = never>(a: A) => Either<E, A>
+```
+
+Added in v2.7.0
+
+## reduce
+
+Left-associative fold of a structure.
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const startWith = 'prefix'
+const concat = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduce(startWith, concat)), 'prefix:a')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduce(startWith, concat)), 'prefix')
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+Right-associative fold of a structure.
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+
+const startWith = 'postfix'
+const concat = (a: string, b: string) => `${a}:${b}`
+
+assert.deepStrictEqual(pipe(E.right('a'), E.reduceRight(startWith, concat)), 'a:postfix')
+
+assert.deepStrictEqual(pipe(E.left('e'), E.reduceRight(startWith, concat)), 'postfix')
+```
+
+Added in v2.0.0
+
+## sequence
+
+Evaluate each monadic action in the structure from left to right, and collect the results.
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence2<'Either'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(pipe(E.right(O.some('a')), E.sequence(O.Applicative)), O.some(E.right('a')))
+
+assert.deepStrictEqual(pipe(E.right(O.none), E.sequence(O.Applicative)), O.none)
+```
+
+Added in v2.6.3
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Either<E, A>
+```
+
+Added in v2.6.3
+
+## traverse
+
+Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse2<'Either'>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as E from 'fp-ts/Either'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(pipe(E.right(['a']), E.traverse(O.Applicative)(RA.head)), O.some(E.right('a')))
+
+assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.none)
+```
+
+Added in v2.6.3
 
 # instances
 
@@ -1104,7 +1033,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getAltValidation<E>(SE: Semigroup<E>): Alt2C<URI, E>
+export declare const getAltValidation: <E>(SE: Semigroup<E>) => Alt2C<'Either', E>
 ```
 
 Added in v2.7.0
@@ -1114,7 +1043,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare function getApplicativeValidation<E>(SE: Semigroup<E>): Applicative2C<URI, E>
+export declare const getApplicativeValidation: <E>(SE: Semigroup<E>) => Applicative2C<'Either', E>
 ```
 
 Added in v2.7.0
@@ -1136,7 +1065,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>>
+export declare const getEq: <E, A>(EL: Eq<E>, EA: Eq<A>) => Eq<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -1148,7 +1077,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', E>
 ```
 
 Added in v2.10.0
@@ -1161,7 +1090,7 @@ concatenated using the provided `Semigroup`
 **Signature**
 
 ```ts
-export declare function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>>
+export declare const getSemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>>
 ```
 
 **Example**
@@ -1184,7 +1113,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>>
+export declare const getShow: <E, A>(SE: Show<E>, SA: Show<A>) => Show<Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -1196,7 +1125,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E>
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
 ```
 
 Added in v2.0.0
@@ -1442,7 +1371,78 @@ export interface Right<A> {
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'Either', E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  pipe(
+    O.some(1),
+    E.fromOption(() => 'error')
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    E.fromOption(() => 'error')
+  ),
+  E.left('error')
+)
+```
+
+Added in v2.0.0
+
+# refinements
+
+## isLeft
+
+Returns `true` if the either is an instance of `Left`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
+```
+
+Added in v2.0.0
+
+## isRight
+
+Returns `true` if the either is an instance of `Right`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
+```
+
+Added in v2.0.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Either<never, readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -1521,7 +1521,7 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean
+export declare const elem: <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -1533,7 +1533,7 @@ Returns `false` if `Left` or returns the result of the application of the given 
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>) => boolean
 ```
 
 **Example**
@@ -1551,8 +1551,6 @@ assert.strictEqual(gt2(right(3)), true)
 Added in v2.0.0
 
 ## sequenceArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1576,8 +1574,6 @@ Added in v2.0.0
 
 ## traverseArray
 
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1590,8 +1586,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1601,6 +1595,34 @@ export declare const traverseArrayWithIndex: <E, A, B>(
 ```
 
 Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: readonly A[]) => Either<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, E, B>(
+  f: (index: number, a: A) => Either<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => Either<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
 
 ## ~~JsonArray~~ (interface)
 
@@ -1622,7 +1644,6 @@ Use [`Json`](./Json.ts.html) module instead.
 
 ```ts
 export interface JsonRecord {
-  // tslint:disable-next-line: deprecation
   readonly [key: string]: Json
 }
 ```

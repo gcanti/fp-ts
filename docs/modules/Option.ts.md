@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 63
+nav_order: 68
 parent: Modules
 ---
 
@@ -23,54 +23,21 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
-- [Apply](#apply)
-  - [ap](#ap)
-- [Compactable](#compactable)
-  - [compact](#compact)
-  - [separate](#separate)
-- [Extend](#extend)
-  - [extend](#extend)
-- [Filterable](#filterable)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-- [Foldable](#foldable)
-  - [foldMap](#foldmap)
-  - [reduce](#reduce)
-  - [reduceRight](#reduceright)
-- [Functor](#functor)
-  - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
-- [MonadThrow](#monadthrow)
-  - [throwError](#throwerror)
-- [Pointed](#pointed)
-  - [of](#of)
-- [Traversable](#traversable)
-  - [sequence](#sequence)
-  - [traverse](#traverse)
-- [Witherable](#witherable)
-  - [wilt](#wilt)
-  - [wither](#wither)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [~~mapNullable~~](#mapnullable)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -80,35 +47,57 @@ Added in v2.0.0
   - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isNone](#isnone)
-  - [isSome](#issome)
+- [instance operations](#instance-operations)
+  - [alt](#alt)
+  - [altW](#altw)
+  - [ap](#ap)
+  - [chain](#chain)
+  - [compact](#compact)
+  - [extend](#extend)
+  - [filter](#filter)
+  - [filterMap](#filtermap)
+  - [foldMap](#foldmap)
+  - [map](#map)
+  - [of](#of)
+  - [partition](#partition)
+  - [partitionMap](#partitionmap)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [separate](#separate)
+  - [sequence](#sequence)
+  - [throwError](#throwerror)
+  - [traverse](#traverse)
+  - [wilt](#wilt)
+  - [wither](#wither)
+  - [zero](#zero)
 - [instances](#instances)
-  - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alt](#alt)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
-  - [Apply](#apply-1)
+  - [Apply](#apply)
   - [Chain](#chain)
-  - [Compactable](#compactable-1)
-  - [Extend](#extend-1)
-  - [Filterable](#filterable-1)
-  - [Foldable](#foldable-1)
-  - [Functor](#functor-1)
-  - [Monad](#monad-1)
-  - [MonadThrow](#monadthrow-1)
-  - [Pointed](#pointed-1)
-  - [Traversable](#traversable-1)
+  - [Compactable](#compactable)
+  - [Extend](#extend)
+  - [Filterable](#filterable)
+  - [Foldable](#foldable)
+  - [FromEither](#fromeither)
+  - [Functor](#functor)
+  - [Monad](#monad)
+  - [MonadThrow](#monadthrow)
+  - [Pointed](#pointed)
+  - [Traversable](#traversable)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable-1)
+  - [Witherable](#witherable)
+  - [Zero](#zero)
   - [getEq](#geteq)
-  - [getFirstMonoid](#getfirstmonoid)
-  - [getLastMonoid](#getlastmonoid)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
   - [~~getApplyMonoid~~](#getapplymonoid)
   - [~~getApplySemigroup~~](#getapplysemigroup)
+  - [~~getFirstMonoid~~](#getfirstmonoid)
+  - [~~getLastMonoid~~](#getlastmonoid)
   - [~~option~~](#option)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -122,309 +111,27 @@ Added in v2.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+- [refinements](#refinements)
+  - [isNone](#isnone)
+  - [isSome](#issome)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [getRefinement](#getrefinement)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [~~getRefinement~~](#getrefinement)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `Option` returns the left-most non-`None` value.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.alt(() => O.some('b'))
-  ),
-  O.some('a')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.alt(() => O.some('b'))
-  ),
-  O.some('b')
-)
-```
-
-Added in v2.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
-```
-
-Added in v2.9.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
-```
-
-Added in v2.7.0
-
-# Apply
-
-## ap
-
-Apply a function to an argument under a type constructor.
-
-**Signature**
-
-```ts
-export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
-```
-
-Added in v2.0.0
-
-# Compactable
-
-## compact
-
-**Signature**
-
-```ts
-export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
-```
-
-Added in v2.0.0
-
-## separate
-
-**Signature**
-
-```ts
-export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
-```
-
-Added in v2.0.0
-
-# Extend
-
-## extend
-
-**Signature**
-
-```ts
-export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# Filterable
-
-## filter
-
-**Signature**
-
-```ts
-export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
-}
-```
-
-Added in v2.0.0
-
-## filterMap
-
-**Signature**
-
-```ts
-export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-## partition
-
-**Signature**
-
-```ts
-export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
-  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
-}
-```
-
-Added in v2.0.0
-
-## partitionMap
-
-**Signature**
-
-```ts
-export declare const partitionMap: <A, B, C>(
-  f: (a: A) => Either<B, C>
-) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
-```
-
-Added in v2.0.0
-
-# Foldable
-
-## foldMap
-
-**Signature**
-
-```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
-```
-
-Added in v2.0.0
-
-## reduce
-
-**Signature**
-
-```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
-## reduceRight
-
-**Signature**
-
-```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
-```
-
-Added in v2.0.0
-
-# Functor
-
-## map
-
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
-
-**Signature**
-
-```ts
-export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# Monad
-
-## chain
-
-Composes computations in sequence, using the return value of one computation to determine the next computation.
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
-```
-
-Added in v2.0.0
-
-# MonadThrow
-
-## throwError
-
-**Signature**
-
-```ts
-export declare const throwError: <E, A>(e: E) => Option<A>
-```
-
-Added in v2.7.0
-
-# Pointed
-
-## of
-
-**Signature**
-
-```ts
-export declare const of: <A>(a: A) => Option<A>
-```
-
-Added in v2.7.0
-
-# Traversable
-
-## sequence
-
-**Signature**
-
-```ts
-export declare const sequence: Sequence1<'Option'>
-```
-
-Added in v2.6.3
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: PipeableTraverse1<'Option'>
-```
-
-Added in v2.6.3
-
-# Witherable
-
-## wilt
-
-**Signature**
-
-```ts
-export declare const wilt: PipeableWilt1<'Option'>
-```
-
-Added in v2.6.5
-
-## wither
-
-**Signature**
-
-```ts
-export declare const wither: PipeableWither1<'Option'>
-```
-
-Added in v2.6.5
 
 # combinators
 
@@ -455,6 +162,16 @@ export declare const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) =
 ```
 
 Added in v2.0.0
+
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.11.0
 
 ## chainFirst
 
@@ -507,6 +224,16 @@ export declare const flatten: <A>(mma: Option<Option<A>>) => Option<A>
 
 Added in v2.0.0
 
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Option<B>
+```
+
+Added in v2.11.0
+
 ## ~~mapNullable~~
 
 Use [`chainNullableK`](#chainnullablek) instead.
@@ -521,20 +248,6 @@ Added in v2.0.0
 
 # constructors
 
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getright)
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v2.0.0
-
 ## fromPredicate
 
 Returns a _smart constructor_ based on the given predicate.
@@ -543,6 +256,7 @@ Returns a _smart constructor_ based on the given predicate.
 
 ```ts
 export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
 export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 ```
 
@@ -566,7 +280,7 @@ Returns the `Left` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare function getLeft<E, A>(ma: Either<E, A>): Option<E>
+export declare const getLeft: <E, A>(ma: Either<E, A>) => Option<E>
 ```
 
 **Example**
@@ -588,7 +302,7 @@ Returns the `Right` value of an `Either` if possible.
 **Signature**
 
 ```ts
-export declare function getRight<E, A>(ma: Either<E, A>): Option<A>
+export declare const getRight: <E, A>(ma: Either<E, A>) => Option<A>
 ```
 
 **Example**
@@ -602,6 +316,16 @@ assert.deepStrictEqual(getRight(left('a')), none)
 ```
 
 Added in v2.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => Option<void>
+```
+
+Added in v2.11.0
 
 ## none
 
@@ -753,49 +477,268 @@ export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => 
 
 Added in v2.10.0
 
-# guards
+# instance operations
 
-## isNone
+## alt
 
-Returns `true` if the option is `None`, `false` otherwise.
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Option` returns the left-most non-`None` value.
 
 **Signature**
 
 ```ts
-export declare const isNone: <A>(fa: Option<A>) => fa is None
+export declare const alt: <A>(that: Lazy<Option<A>>) => (fa: Option<A>) => Option<A>
 ```
 
 **Example**
 
 ```ts
-import { some, none, isNone } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 
-assert.strictEqual(isNone(some(1)), false)
-assert.strictEqual(isNone(none), true)
+assert.deepStrictEqual(
+  pipe(
+    O.some('a'),
+    O.alt(() => O.some('b'))
+  ),
+  O.some('a')
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    O.alt(() => O.some('b'))
+  ),
+  O.some('b')
+)
 ```
 
 Added in v2.0.0
 
-## isSome
+## altW
 
-Returns `true` if the option is an instance of `Some`, `false` otherwise.
+Less strict version of [`alt`](#alt).
 
 **Signature**
 
 ```ts
-export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+export declare const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<B | A>
 ```
 
-**Example**
+Added in v2.9.0
+
+## ap
+
+**Signature**
 
 ```ts
-import { some, none, isSome } from 'fp-ts/Option'
-
-assert.strictEqual(isSome(some(1)), true)
-assert.strictEqual(isSome(none), false)
+export declare const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>
 ```
 
 Added in v2.0.0
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## compact
+
+**Signature**
+
+```ts
+export declare const compact: <A>(fa: Option<Option<A>>) => Option<A>
+```
+
+Added in v2.0.0
+
+## extend
+
+**Signature**
+
+```ts
+export declare const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## filter
+
+**Signature**
+
+```ts
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+}
+```
+
+Added in v2.0.0
+
+## filterMap
+
+**Signature**
+
+```ts
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M
+```
+
+Added in v2.0.0
+
+## map
+
+**Signature**
+
+```ts
+export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v2.0.0
+
+## of
+
+**Signature**
+
+```ts
+export declare const of: <A>(a: A) => Option<A>
+```
+
+Added in v2.7.0
+
+## partition
+
+**Signature**
+
+```ts
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+}
+```
+
+Added in v2.0.0
+
+## partitionMap
+
+**Signature**
+
+```ts
+export declare const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Option<A>) => Separated<Option<B>, Option<C>>
+```
+
+Added in v2.0.0
+
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B
+```
+
+Added in v2.0.0
+
+## separate
+
+**Signature**
+
+```ts
+export declare const separate: <A, B>(ma: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>
+```
+
+Added in v2.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: Sequence1<'Option'>
+```
+
+Added in v2.6.3
+
+## throwError
+
+**Signature**
+
+```ts
+export declare const throwError: <E, A>(e: E) => Option<A>
+```
+
+Added in v2.7.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: PipeableTraverse1<'Option'>
+```
+
+Added in v2.6.3
+
+## wilt
+
+**Signature**
+
+```ts
+export declare const wilt: PipeableWilt1<'Option'>
+```
+
+Added in v2.6.5
+
+## wither
+
+**Signature**
+
+```ts
+export declare const wither: PipeableWither1<'Option'>
+```
+
+Added in v2.6.5
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v2.7.0
 
 # instances
 
@@ -889,6 +832,16 @@ export declare const Foldable: Foldable1<'Option'>
 
 Added in v2.7.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Option'>
+```
+
+Added in v2.11.0
+
 ## Functor
 
 **Signature**
@@ -969,12 +922,22 @@ export declare const Witherable: Witherable1<'Option'>
 
 Added in v2.7.0
 
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Option'>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
 
 ```ts
-export declare function getEq<A>(E: Eq<A>): Eq<Option<A>>
+export declare const getEq: <A>(E: Eq<A>) => Eq<Option<A>>
 ```
 
 **Example**
@@ -993,68 +956,6 @@ assert.strictEqual(E.equals(some(1), some(1)), true)
 
 Added in v2.0.0
 
-## getFirstMonoid
-
-Monoid returning the left-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(a)      |
-
-**Signature**
-
-```ts
-export declare function getFirstMonoid<A = never>(): Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getFirstMonoid, some, none } from 'fp-ts/Option'
-
-const M = getFirstMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
-```
-
-Added in v2.0.0
-
-## getLastMonoid
-
-Monoid returning the right-most non-`None` value
-
-| x       | y       | concat(x, y) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(b)      |
-
-**Signature**
-
-```ts
-export declare function getLastMonoid<A = never>(): Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getLastMonoid, some, none } from 'fp-ts/Option'
-
-const M = getLastMonoid<number>()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), some(1))
-assert.deepStrictEqual(M.concat(none, some(1)), some(1))
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
-```
-
-Added in v2.0.0
-
 ## getMonoid
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -1064,13 +965,13 @@ concatenated using the provided `Semigroup`
 | ------- | ------- | ------------------ |
 | none    | none    | none               |
 | some(a) | none    | some(a)            |
-| none    | some(a) | some(a)            |
+| none    | some(b) | some(b)            |
 | some(a) | some(b) | some(concat(a, b)) |
 
 **Signature**
 
 ```ts
-export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>
+export declare const getMonoid: <A>(S: Semigroup<A>) => Monoid<Option<A>>
 ```
 
 **Example**
@@ -1099,7 +1000,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export declare function getOrd<A>(O: Ord<A>): Ord<Option<A>>
+export declare const getOrd: <A>(O: Ord<A>) => Ord<Option<A>>
 ```
 
 **Example**
@@ -1123,7 +1024,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getShow<A>(S: Show<A>): Show<Option<A>>
+export declare const getShow: <A>(S: Show<A>) => Show<Option<A>>
 ```
 
 Added in v2.0.0
@@ -1148,6 +1049,90 @@ Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 ```ts
 export declare const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>>
+```
+
+Added in v2.0.0
+
+## ~~getFirstMonoid~~
+
+Use
+
+```ts
+import { first } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(first())
+```
+
+instead.
+
+Monoid returning the left-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(a)      |
+
+**Signature**
+
+```ts
+export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getFirstMonoid, some, none } from 'fp-ts/Option'
+
+const M = getFirstMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
+```
+
+Added in v2.0.0
+
+## ~~getLastMonoid~~
+
+Use
+
+```ts
+import { last } from 'fp-ts/Semigroup'
+import { getMonoid } from 'fp-ts/Option'
+
+getMonoid(last())
+```
+
+instead.
+
+Monoid returning the right-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(b) | some(b)      |
+| some(a) | some(b) | some(b)      |
+
+**Signature**
+
+```ts
+export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
+```
+
+**Example**
+
+```ts
+import { getLastMonoid, some, none } from 'fp-ts/Option'
+
+const M = getLastMonoid<number>()
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(2)), some(2))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 ```
 
 Added in v2.0.0
@@ -1402,7 +1387,77 @@ export interface Some<A> {
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getright)
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Option'>
+```
+
+Added in v2.0.0
+
+# refinements
+
+## isNone
+
+Returns `true` if the option is `None`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isNone: (fa: Option<unknown>) => fa is None
+```
+
+**Example**
+
+```ts
+import { some, none, isNone } from 'fp-ts/Option'
+
+assert.strictEqual(isNone(some(1)), false)
+assert.strictEqual(isNone(none), true)
+```
+
+Added in v2.0.0
+
+## isSome
+
+Returns `true` if the option is an instance of `Some`, `false` otherwise.
+
+**Signature**
+
+```ts
+export declare const isSome: <A>(fa: Option<A>) => fa is Some<A>
+```
+
+**Example**
+
+```ts
+import { some, none, isSome } from 'fp-ts/Option'
+
+assert.strictEqual(isSome(some(1)), true)
+assert.strictEqual(isSome(none), false)
+```
+
+Added in v2.0.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Option<readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -1480,7 +1535,7 @@ Returns `true` if the predicate is satisfied by the wrapped value
 **Signature**
 
 ```ts
-export declare function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Option<A>) => boolean
 ```
 
 **Example**
@@ -1514,33 +1569,7 @@ assert.strictEqual(
 
 Added in v2.0.0
 
-## getRefinement
-
-Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
-This function ensures that a custom type guard definition is type-safe.
-
-```ts
-import { some, none, getRefinement } from 'fp-ts/Option'
-
-type A = { type: 'A' }
-type B = { type: 'B' }
-type C = A | B
-
-const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
-const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
-```
-
-**Signature**
-
-```ts
-export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
-```
-
-Added in v2.0.0
-
 ## sequenceArray
-
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
 
 **Signature**
 
@@ -1552,8 +1581,6 @@ Added in v2.9.0
 
 ## traverseArray
 
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1564,8 +1591,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -1575,3 +1600,43 @@ export declare const traverseArrayWithIndex: <A, B>(
 ```
 
 Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: readonly A[]) => Option<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Option<B>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## ~~getRefinement~~
+
+Use `Refinement` module instead.
+
+**Signature**
+
+```ts
+export declare function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
+```
+
+Added in v2.0.0

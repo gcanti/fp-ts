@@ -14,6 +14,56 @@ pipe(
 )
 
 //
+// orElse
+//
+
+// $ExpectType ReaderEither<{ a: string; }, number, never>
+pipe(
+  _.left<{ a: string }, string, never>('a'),
+  _.orElse((a) => _.left(a.length))
+)
+
+//
+// orElseW
+//
+
+// $ExpectType ReaderEither<{ b: number; } & { a: string; }, never, string | number>
+pipe(
+  _.left<{ a: string }, string, string>('a'),
+  _.orElseW((a) => _.right<{ b: number }, never, string | number>(a.length))
+)
+
+//
+// orElseFirst
+//
+
+// $ExpectType ReaderEither<{ a: string; }, string, never>
+pipe(
+  _.left<{ a: string }, string, never>('a'),
+  _.orElseFirst((a) => _.right(a.length))
+)
+
+//
+// orElseFirstW
+//
+
+// $ExpectType ReaderEither<{ a: string; }, string | number, never>
+pipe(
+  _.left<{ a: string }, string, never>('a'),
+  _.orElseFirstW((a) => _.left(a.length))
+)
+
+//
+// orLeft
+//
+
+// $ExpectType ReaderEither<{ a: string; }, number, never>
+pipe(
+  _.left<{ a: string }, string, never>('a'),
+  _.orLeft((a) => R.of(a.length))
+)
+
+//
 // chainW
 //
 

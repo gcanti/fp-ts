@@ -140,6 +140,11 @@ describe('ReadonlySet', () => {
     U.deepStrictEqual(IS.concat(_.empty, new Set([1, 3])), _.empty)
   })
 
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(N.Eq)
+    U.deepStrictEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+  })
+
   it('difference', () => {
     U.deepStrictEqual(_.difference(N.Eq)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
 
@@ -154,6 +159,12 @@ describe('ReadonlySet', () => {
   it('foldMap', () => {
     U.deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([1, 2, 3])), [1, 2, 3])
     U.deepStrictEqual(_.foldMap(N.Ord, getMonoid<number>())((a) => [a])(new Set([3, 2, 1])), [1, 2, 3])
+  })
+
+  it('reduceRight', () => {
+    const f = _.reduceRight(N.Ord)('', (a, b) => b + a)
+    U.deepStrictEqual(f(new Set([1, 2, 3])), '321')
+    U.deepStrictEqual(f(new Set([3, 2, 1])), '321')
   })
 
   it('singleton', () => {

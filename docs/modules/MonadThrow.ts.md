@@ -1,6 +1,6 @@
 ---
 title: MonadThrow.ts
-nav_order: 59
+nav_order: 63
 parent: Modules
 ---
 

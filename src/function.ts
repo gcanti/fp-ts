@@ -55,7 +55,8 @@ export const getSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a:
  * Unary functions form a monoid as long as you can provide a monoid for the codomain.
  *
  * @example
- * import { Predicate, getMonoid } from 'fp-ts/function'
+ * import { Predicate } from 'fp-ts/Predicate'
+ * import { getMonoid } from 'fp-ts/function'
  * import * as B from 'fp-ts/boolean'
  *
  * const f: Predicate<number> = (n) => n <= 2
@@ -108,20 +109,14 @@ export const getRing = <A, B>(R: Ring<B>): Ring<(a: A) => B> => {
   }
 }
 
-/**
- * Endomorphism form a monoid where the `empty` value is the identity function.
- *
- * @category instances
- * @since 2.10.0
- */
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
-  concat: (x, y) => (a) => y(x(a)),
-  empty: identity
-})
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const apply = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
 
 /**
  * A *thunk*
@@ -130,27 +125,6 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => (
  */
 export interface Lazy<A> {
   (): A
-}
-
-/**
- * @since 2.0.0
- */
-export interface Predicate<A> {
-  (a: A): boolean
-}
-
-/**
- * @since 2.0.0
- */
-export interface Refinement<A, B extends A> {
-  (a: A): a is B
-}
-
-/**
- * @since 2.0.0
- */
-export interface Endomorphism<A> {
-  (a: A): A
 }
 
 /**
@@ -176,13 +150,6 @@ export function identity<A>(a: A): A {
  * @since 2.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
-
-/**
- * @since 2.0.0
- */
-export function not<A>(predicate: Predicate<A>): Predicate<A> {
-  return (a) => !predicate(a)
-}
 
 /**
  * @since 2.0.0
@@ -748,3 +715,66 @@ export function pipe(
  * @since 2.7.0
  */
 export const hole: <T>() => T = absurd as any
+
+/**
+ * @since 2.11.0
+ */
+export const SK = <A, B>(_: A, b: B): B => b
+
+// -------------------------------------------------------------------------------------
+// deprecated
+// -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use `Refinement` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface Refinement<A, B extends A> {
+  (a: A): a is B
+}
+
+/**
+ * Use `Predicate` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface Predicate<A> {
+  (a: A): boolean
+}
+
+/**
+ * Use `Predicate` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export function not<A>(predicate: Predicate<A>): Predicate<A> {
+  return (a) => !predicate(a)
+}
+
+/**
+ * Use `Endomorphism` module instead.
+ *
+ * @since 2.0.0
+ * @deprecated
+ */
+export interface Endomorphism<A> {
+  (a: A): A
+}
+
+/**
+ * Use `Endomorphism` module instead.
+ *
+ * @category instances
+ * @since 2.10.0
+ * @deprecated
+ */
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
+  concat: (first, second) => flow(first, second),
+  empty: identity
+})

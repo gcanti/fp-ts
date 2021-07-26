@@ -1,11 +1,13 @@
-import * as U from './util'
-import { pipe } from '../src/function'
+import * as E from '../src/Either'
+import { pipe, SK } from '../src/function'
 import * as IO from '../src/IO'
+import * as N from '../src/number'
+import * as RA from '../src/ReadonlyArray'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
 import * as TH from '../src/These'
-import * as S from '../src/string'
-import * as N from '../src/number'
+import * as U from './util'
 
 describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
@@ -171,5 +173,86 @@ describe('TaskThese', () => {
     U.deepStrictEqual(await pipe(_.right(1), matchE)(), 'right 1')
     U.deepStrictEqual(await pipe(_.left('a'), matchE)(), 'left a')
     U.deepStrictEqual(await pipe(_.both('a', 1), matchE)(), 'both a 1')
+  })
+
+  it('fromTheseK', async () => {
+    const g = _.fromTheseK((n: number) => (n > 0 ? TH.right(n) : n === 0 ? TH.both('zero', n) : TH.left('negative')))
+    U.deepStrictEqual(await g(-1)(), TH.left('negative'))
+    U.deepStrictEqual(await g(0)(), TH.both('zero', 0))
+    U.deepStrictEqual(await g(1)(), TH.right(1))
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', async () => {
+    const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverseWithIndex(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
+    const optimized = _.traverseReadonlyArrayWithIndex(S.Semigroup)(f)
+    const assert = async (input: ReadonlyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(), await optimized(input)())
+    }
+    await assert([1, 2, 3])
+    await assert([0, 2, 3])
+    await assert([1, 0, 3])
+    await assert([0, 0, 3])
+    await assert([-1, 2, 3])
+    await assert([1, -2, 3])
+    await assert(RA.empty)
+  })
+
+  it('traverseReadonlyArrayWithIndexSeq', async () => {
+    const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverseWithIndex(_.getApplicative(T.ApplicativeSeq, S.Semigroup))(f)
+    const optimized = _.traverseReadonlyArrayWithIndexSeq(S.Semigroup)(f)
+    const assert = async (input: ReadonlyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(), await optimized(input)())
+    }
+    await assert([1, 2, 3])
+    await assert([0, 2, 3])
+    await assert([1, 0, 3])
+    await assert([0, 0, 3])
+    await assert([-1, 2, 3])
+    await assert([1, -2, 3])
+    await assert(RA.empty)
+  })
+
+  it('sequenceReadonlyArray', async () => {
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskThese<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskThese<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    const f = _.traverseReadonlyArrayWithIndex(S.Semigroup)
+    U.deepStrictEqual(await pipe([right(1), right(2)], f(SK))(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], f(SK))(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], f(SK))(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
+
+  it('sequenceReadonlyArraySeq', async () => {
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskThese<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskThese<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    const f = _.traverseReadonlyArrayWithIndexSeq(S.Semigroup)
+    U.deepStrictEqual(await pipe([right(1), right(2)], f(SK))(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], f(SK))(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], f(SK))(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

@@ -3,26 +3,29 @@
  */
 import { Applicative } from './Applicative'
 import { Compactable2 } from './Compactable'
-import { Either, isLeft } from './Either'
+import { Either } from './Either'
 import { Eq } from './Eq'
 import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3 } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { pipe, Predicate, Refinement } from './function'
+import { pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import * as O from './Option'
 import { Ord } from './Ord'
+import { Predicate } from './Predicate'
 import * as RM from './ReadonlyMap'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import { Show } from './Show'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Witherable2C } from './Witherable'
+import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 import Option = O.Option
 
@@ -37,14 +40,14 @@ export const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>> = RM.g
  *
  * @since 2.0.0
  */
-export const size: <K, A>(d: Map<K, A>) => number = RM.size
+export const size: <K, A>(m: Map<K, A>) => number = RM.size
 
 /**
  * Test whether or not a map is empty
  *
  * @since 2.0.0
  */
-export const isEmpty: <K, A>(d: Map<K, A>) => boolean = RM.isEmpty
+export const isEmpty: <K, A>(m: Map<K, A>) => boolean = RM.isEmpty
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -122,7 +125,7 @@ export function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K,
   return (d) => {
     const kas = toArrayO(d)
     const len = kas.length
-    return U.unfold(0, (b) => (b < len ? O.some([kas[b], b + 1]) : O.none))
+    return U.unfold(0, (b) => (b < len ? _.some([kas[b], b + 1]) : _.none))
   }
 }
 
@@ -138,7 +141,7 @@ export const upsertAt = <K>(E: Eq<K>): (<A>(k: K, a: A) => (m: Map<K, A>) => Map
     const lookupWithKeyEk = lookupWithKeyE(k)
     return (m) => {
       const found = lookupWithKeyEk(m)
-      if (O.isNone(found)) {
+      if (_.isNone(found)) {
         const out = new Map(m)
         out.set(k, a)
         return out
@@ -162,7 +165,7 @@ export const deleteAt = <K>(E: Eq<K>): ((k: K) => <A>(m: Map<K, A>) => Map<K, A>
   const lookupWithKeyE = lookupWithKey(E)
   return (k) => (m) => {
     const found = lookupWithKeyE(k, m)
-    if (O.isSome(found)) {
+    if (_.isSome(found)) {
       const r = new Map(m)
       r.delete(found.value[0])
       return r
@@ -186,12 +189,12 @@ export const modifyAt = <K>(E: Eq<K>): (<A>(k: K, f: (a: A) => A) => (m: Map<K, 
   const lookupWithKeyE = lookupWithKey(E)
   return (k, f) => (m) => {
     const found = lookupWithKeyE(k, m)
-    if (O.isNone(found)) {
-      return O.none
+    if (_.isNone(found)) {
+      return _.none
     }
     const r = new Map(m)
     r.set(found.value[0], f(found.value[1]))
-    return O.some(r)
+    return _.some(r)
   }
 }
 
@@ -245,10 +248,10 @@ export function lookupWithKey<K>(
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (E.equals(ka, k)) {
-        return O.some([ka, a])
+        return _.some([ka, a])
       }
     }
-    return O.none
+    return _.none
   }
 }
 
@@ -308,7 +311,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
-        if (O.isSome(mxOptA)) {
+        if (_.isSome(mxOptA)) {
           r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
         } else {
           r.set(k, a)
@@ -355,7 +358,7 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
     const lookupWithKeyE = lookupWithKey(E)
     return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyE(k, b)
-      if (O.isSome(bOpt)) {
+      if (_.isSome(bOpt)) {
         b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
         b.set(k, a)
@@ -392,7 +395,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
@@ -405,23 +408,34 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @category combinators
  * @since 2.10.0
  */
-export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
-  fa: Map<K, A>
-): Separated<Map<K, A>, Map<K, A>> => {
-  const left = new Map<K, A>()
-  const right = new Map<K, A>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      right.set(k, a)
-    } else {
-      left.set(k, a)
+export function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>> {
+  return (fa: Map<K, A>) => {
+    const left = new Map<K, A>()
+    const right = new Map<K, A>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      if (predicateWithIndex(k, a)) {
+        right.set(k, a)
+      } else {
+        left.set(k, a)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
 }
 
 /**
@@ -436,7 +450,7 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
-    if (O.isSome(o)) {
+    if (_.isSome(o)) {
       m.set(k, o.value)
     }
   }
@@ -447,18 +461,23 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa
  * @category combinators
  * @since 2.10.0
  */
-export const filterWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>): Map<K, A> => {
-  const out = new Map<K, A>()
-  const entries = m.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      out.set(k, a)
+export function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A> {
+  return (m: Map<K, A>) => {
+    const out = new Map<K, A>()
+    const entries = m.entries()
+    let e: Next<[K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      if (p(k, a)) {
+        out.set(k, a)
+      }
     }
+    return out
   }
-  return out
 }
 
 // -------------------------------------------------------------------------------------
@@ -493,7 +512,7 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
-    if (O.isSome(oa)) {
+    if (_.isSome(oa)) {
       m.set(k, oa.value)
     }
   }
@@ -506,6 +525,7 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 } = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _filter(fa, predicate)
 
@@ -538,6 +558,7 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) =>
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 } = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _partition(fa, predicate)
 
@@ -561,7 +582,7 @@ export const separate = <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>
   // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
-    if (isLeft(ei)) {
+    if (_.isLeft(ei)) {
       left.set(k, ei.left)
     } else {
       right.set(k, ei.right)
@@ -589,6 +610,48 @@ export type URI = typeof URI
 declare module './HKT' {
   interface URItoKind2<E, A> {
     readonly [URI]: Map<E, A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Map<K, A>> => {
+  const unionES = union(E, S)
+  return {
+    concat: (first, second) => unionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<Map<K, A>> => ({
+  concat: getUnionSemigroup(E, S).concat,
+  empty: new Map()
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getIntersectionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Map<K, A>> => {
+  const intersectionES = intersection(E, S)
+  return {
+    concat: (first, second) => intersectionES(second)(first)
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <K>(E: Eq<K>) => <A>(): Magma<Map<K, A>> => {
+  const differenceE = difference(E)
+  return {
+    concat: (first, second) => differenceE(second)(first)
   }
 }
 
@@ -641,71 +704,63 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     foldMapWithIndex: TWI.foldMapWithIndex,
     reduceRightWithIndex: TWI.reduceRightWithIndex,
     traverseWithIndex: TWI.traverseWithIndex,
-    wilt: <F>(
-      F: Applicative<F>
-    ): (<A, B, C>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Map<K, B>, Map<K, C>>>) => {
-      const traverseF = TWI.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), separate)
-    },
-    wither: <F>(F: Applicative<F>): (<A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) => {
-      const traverseF = TWI.traverse(F)
-      return (wa, f) => F.map(traverseF(wa, f), compact)
-    }
+    wilt: wiltDefault(TWI, Compactable),
+    wither: witherDefault(TWI, Compactable)
   }
 }
+
+/**
+ * @since 2.11.0
+ */
+export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B = RM.reduce
+
+/**
+ * @since 2.11.0
+ */
+export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M = RM.foldMap
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B = RM.reduceRight
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
+  return {
+    ...RM.getFoldable(O),
+    URI
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B =
+  RM.reduceWithIndex
+
+/**
+ * @since 2.11.0
+ */
+export const foldMapWithIndex: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M =
+  RM.foldMapWithIndex
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRightWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B =
+  RM.reduceRightWithIndex
 
 /**
  * @category instances
  * @since 2.10.0
  */
 export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
-  const keysO = keys(O)
-
-  const reduceWithIndex = <B, A>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = f(k, out, fa.get(k)!)
-    }
-    return out
-  }
-
-  const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
-    let out: M = M.empty
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = 0; i < len; i++) {
-      const k = ks[i]
-      out = M.concat(out, f(k, fa.get(k)!))
-    }
-    return out
-  }
-
-  const reduceRightWithIndex = <B, A>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
-    let out: B = b
-    const ks = keysO(fa)
-    const len = ks.length
-    for (let i = len - 1; i >= 0; i--) {
-      const k = ks[i]
-      out = f(k, fa.get(k)!, out)
-    }
-    return out
-  }
-
   return {
-    URI,
-    _E: undefined as any,
-    reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
-    foldMap: (M) => {
-      const foldMapWithIndexM = foldMapWithIndex(M)
-      return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
-    },
-    reduceRight: (fa, b, f) => reduceRightWithIndex(fa, b, (_, a, b) => f(a, b)),
-    reduceWithIndex,
-    foldMapWithIndex,
-    reduceRightWithIndex
+    ...RM.getFoldableWithIndex(O),
+    URI
   }
 }
 
@@ -802,6 +857,57 @@ export const Filterable: Filterable2<URI> = {
   filterMap: _filterMap,
   partition: _partition,
   partitionMap: _partitionMap
+}
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+const copy = <K, A>(m: Map<K, A>): Map<K, A> => new Map(m)
+
+/**
+ * @since 2.11.0
+ */
+export const union = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const unionEM = RM.union(E, M)
+  return (second) => (first) => {
+    if (isEmpty(first)) {
+      return copy(second)
+    }
+    if (isEmpty(second)) {
+      return copy(first)
+    }
+    return unionEM(second)(first) as any
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const intersection = <K, A>(E: Eq<K>, M: Magma<A>): ((second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const intersectionEM = RM.intersection(E, M)
+  return (second) => (first) => {
+    if (isEmpty(first) || isEmpty(second)) {
+      return new Map()
+    }
+    return intersectionEM(second)(first) as any
+  }
+}
+
+/**
+ * @since 2.11.0
+ */
+export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>) => {
+  const differenceE = RM.difference(E)
+  return <A>(second: Map<K, A>) => (first: Map<K, A>) => {
+    if (isEmpty(first)) {
+      return copy(second)
+    }
+    if (isEmpty(second)) {
+      return copy(first)
+    }
+    return differenceE(second)(first) as any
+  }
 }
 
 // -------------------------------------------------------------------------------------

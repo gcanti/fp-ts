@@ -1,6 +1,6 @@
 ---
 title: FromIO.ts
-nav_order: 35
+nav_order: 36
 parent: Modules
 ---
 
@@ -157,7 +157,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO1<F extends URIS> {
   readonly URI: F
-  readonly fromIO: <A>(fa: IO<A>) => Kind<F, A>
+  readonly fromIO: NaturalTransformation11<URI, F>
 }
 ```
 
@@ -170,7 +170,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO2<F extends URIS2> {
   readonly URI: F
-  readonly fromIO: <E, A>(fa: IO<A>) => Kind2<F, E, A>
+  readonly fromIO: NaturalTransformation12<URI, F>
 }
 ```
 
@@ -184,7 +184,7 @@ Added in v2.10.0
 export interface FromIO2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: <A>(fa: IO<A>) => Kind2<F, E, A>
+  readonly fromIO: NaturalTransformation12C<URI, F, E>
 }
 ```
 
@@ -197,7 +197,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO3<F extends URIS3> {
   readonly URI: F
-  readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<F, R, E, A>
+  readonly fromIO: NaturalTransformation13<URI, F>
 }
 ```
 
@@ -211,7 +211,7 @@ Added in v2.10.0
 export interface FromIO3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: <R, A>(fa: IO<A>) => Kind3<F, R, E, A>
+  readonly fromIO: NaturalTransformation13C<URI, F, E>
 }
 ```
 
@@ -224,7 +224,7 @@ Added in v2.10.0
 ```ts
 export interface FromIO4<F extends URIS4> {
   readonly URI: F
-  readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<F, S, R, E, A>
+  readonly fromIO: NaturalTransformation14<URI, F>
 }
 ```
 

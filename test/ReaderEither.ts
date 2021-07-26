@@ -1,13 +1,15 @@
-import * as U from './util'
 import * as Apply from '../src/Apply'
 import * as E from '../src/Either'
 import { pipe } from '../src/function'
+import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as _ from '../src/ReaderEither'
-import * as S from '../src/string'
-import * as N from '../src/number'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { left, right } from '../src/Separated'
+import * as S from '../src/string'
+import * as U from './util'
 
 describe('ReaderEither', () => {
   describe('pipeables', () => {
@@ -56,6 +58,18 @@ describe('ReaderEither', () => {
 
     it('flatten', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
+    })
+
+    type R1 = { readonly env1: unknown }
+    type R2 = { readonly env2: unknown }
+    type E1 = { readonly left1: unknown }
+    type E2 = { readonly left2: unknown }
+
+    it('flattenW', () => {
+      U.deepStrictEqual(
+        pipe(_.right<R1, E1, _.ReaderEither<R2, E2, 'a'>>(_.right('a')), _.flattenW)({ env1: '', env2: '' }),
+        E.right('a')
+      )
     })
 
     it('mapLeft', () => {
@@ -134,6 +148,31 @@ describe('ReaderEither', () => {
     U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
   })
 
+  it('orElseW', () => {
+    const orElse = _.orElseW((s: string) => (s.length > 2 ? _.right(1) : _.left(2)))
+    U.deepStrictEqual(orElse(_.right(1))({}), E.right(1))
+  })
+
+  it('orElseFirst', () => {
+    const f = _.orElseFirst((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left('aa!'))
+  })
+
+  it('orElseFirstW', () => {
+    const f = _.orElseFirstW((s: string) => (s.length <= 1 ? _.right(true) : _.left(s + '!')))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a'))
+    U.deepStrictEqual(pipe(_.left('aa'), f)({}), E.left('aa!'))
+  })
+
+  it('orLeft', () => {
+    const f = _.orLeft((s: string) => R.of(s + '!'))
+    U.deepStrictEqual(pipe(_.right(1), f)({}), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)({}), E.left('a!'))
+  })
+
   describe('getSemigroup', () => {
     it('concat', () => {
       // tslint:disable-next-line: deprecation
@@ -186,11 +225,7 @@ describe('ReaderEither', () => {
   })
 
   it('local', () => {
-    U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
-      _.local((n: number) => ({ a: n }))((r: { readonly a: number }) => E.right(r.a))(1),
-      E.right(1)
-    )
+    U.deepStrictEqual(_.local((n: number) => ({ a: n }))((r: { readonly a: number }) => E.right(r.a))(1), E.right(1))
   })
 
   it('getApplicativeReaderValidation', () => {
@@ -233,9 +268,23 @@ describe('ReaderEither', () => {
     )
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
-    U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+      U.deepStrictEqual(pipe(RA.empty, f)({}), E.right(RA.empty))
+      U.deepStrictEqual(pipe(input, f)({}), E.right(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f)({}), E.left('e'))
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
+    })
   })
 
   it('getCompactable', () => {
@@ -271,5 +320,32 @@ describe('ReaderEither', () => {
     )
     U.deepStrictEqual(f(_.right(1))({}), 'right')
     U.deepStrictEqual(f(_.left('a'))({}), 'left')
+  })
+
+  it('fromReaderK', () => {
+    const ma = _.fromReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(ma(3)(2), E.right(6))
+  })
+
+  it('chainReaderK', () => {
+    const f = _.chainReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(6))
+    U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
+  })
+
+  it('chainReaderKW', () => {
+    const f = _.chainReaderKW((): R.Reader<unknown, number> => () => 2)
+    U.deepStrictEqual(pipe(_.right<{}, never, number>(3), f)({}), E.right(2))
+  })
+
+  it('chainFirstReaderK', () => {
+    const f = _.chainFirstReaderK((n: number): R.Reader<number, number> => (c) => n * c)
+    U.deepStrictEqual(pipe(_.right(3), f)(2), E.right(3))
+    U.deepStrictEqual(pipe(_.left('a'), f)(2), E.left('a'))
+  })
+
+  it('chainFirstReaderKW', () => {
+    const f = _.chainFirstReaderKW((): R.Reader<unknown, number> => () => 2)
+    U.deepStrictEqual(pipe(_.right<{}, never, number>(3), f)({}), E.right(3))
   })
 })

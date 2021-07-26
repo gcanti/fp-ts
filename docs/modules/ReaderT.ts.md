@@ -1,6 +1,6 @@
 ---
 title: ReaderT.ts
-nav_order: 73
+nav_order: 79
 parent: Modules
 ---
 
@@ -12,6 +12,8 @@ Added in v2.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [constructors](#constructors)
+  - [fromNaturalTransformation](#fromnaturaltransformation)
 - [model](#model)
   - [~~ReaderT1~~ (interface)](#readert1-interface)
   - [~~ReaderT2~~ (interface)](#readert2-interface)
@@ -31,6 +33,35 @@ Added in v2.0.0
   - [~~getReaderM~~](#getreaderm)
 
 ---
+
+# constructors
+
+## fromNaturalTransformation
+
+**Signature**
+
+```ts
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS4>(
+  nt: NaturalTransformation24S<F, G>
+): <R, S, A, E>(f: (r: R) => Kind2<F, S, A>) => Reader<R, Kind4<G, S, R, E, A>>
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS3>(
+  nt: NaturalTransformation23R<F, G>
+): <R, A, E>(f: (r: R) => Kind2<F, R, A>) => Reader<R, Kind3<G, R, E, A>>
+export declare function fromNaturalTransformation<F extends URIS2, G extends URIS2>(
+  nt: NaturalTransformation22<F, G>
+): <R, E, A>(f: (r: R) => Kind2<F, E, A>) => Reader<R, Kind2<G, E, A>>
+export declare function fromNaturalTransformation<F extends URIS, G extends URIS2>(
+  nt: NaturalTransformation12<F, G>
+): <R, A, E>(f: (r: R) => Kind<F, A>) => Reader<R, Kind2<G, E, A>>
+export declare function fromNaturalTransformation<F extends URIS, G extends URIS>(
+  nt: NaturalTransformation11<F, G>
+): <R, A>(f: (r: R) => Kind<F, A>) => Reader<R, Kind<G, A>>
+export declare function fromNaturalTransformation<F, G>(
+  nt: NaturalTransformation<F, G>
+): <R, A>(f: (r: R) => HKT<F, A>) => Reader<R, HKT<G, A>>
+```
+
+Added in v2.11.0
 
 # model
 

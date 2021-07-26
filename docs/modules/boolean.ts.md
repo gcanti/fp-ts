@@ -26,6 +26,8 @@ Added in v2.2.0
   - [SemigroupAll](#semigroupall)
   - [SemigroupAny](#semigroupany)
   - [Show](#show)
+- [refinements](#refinements)
+  - [isBoolean](#isboolean)
 
 ---
 
@@ -233,3 +235,15 @@ export declare const Show: S.Show<boolean>
 ```
 
 Added in v2.10.0
+
+# refinements
+
+## isBoolean
+
+**Signature**
+
+```ts
+export declare const isBoolean: Refinement<unknown, boolean>
+```
+
+Added in v2.11.0

@@ -1,6 +1,6 @@
 ---
 title: Ring.ts
-nav_order: 83
+nav_order: 90
 parent: Modules
 ---
 

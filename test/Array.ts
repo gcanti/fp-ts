@@ -4,11 +4,13 @@ import * as _ from '../src/Array'
 import * as B from '../src/boolean'
 import * as E from '../src/Either'
 import * as Eq from '../src/Eq'
-import { identity, pipe, Predicate, tuple } from '../src/function'
+import { identity, pipe, tuple } from '../src/function'
 import * as M from '../src/Monoid'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
+import { Predicate } from '../src/Predicate'
+import { Refinement } from '../src/Refinement'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
@@ -973,6 +975,16 @@ describe('Array', () => {
     })
   })
 
+  it('prepend', () => {
+    U.deepStrictEqual(pipe(['a', 'b'], _.prepend('c')), ['c', 'a', 'b'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.prependW(3)), [3, 'a', 'b'])
+  })
+
+  it('append', () => {
+    U.deepStrictEqual(pipe(['a', 'b'], _.append('c')), ['a', 'b', 'c'])
+    U.deepStrictEqual(pipe(['a', 'b'], _.appendW(3)), ['a', 'b', 3])
+  })
+
   it('makeBy', () => {
     U.deepStrictEqual(_.makeBy(5, U.double), [0, 2, 4, 6, 8])
     U.deepStrictEqual(_.makeBy(0, U.double), [])
@@ -980,14 +992,22 @@ describe('Array', () => {
   })
 
   it('range', () => {
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 0), [0])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 1), [0, 1])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, 0), [-1, 0])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
     // out of bound
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(2, 1), [2])
+    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 
@@ -1069,6 +1089,32 @@ describe('Array', () => {
     U.deepStrictEqual(pipe([1, 2], _.difference(N.Eq)([1, 2])), [])
   })
 
+  it('getUnionMonoid', () => {
+    const concat = _.getUnionMonoid(N.Eq).concat
+    const two: Array<number> = [1, 2]
+    U.deepStrictEqual(concat(two, [3, 4]), [1, 2, 3, 4])
+    U.deepStrictEqual(concat(two, [2, 3]), [1, 2, 3])
+    U.deepStrictEqual(concat(two, [1, 2]), [1, 2])
+
+    U.deepStrictEqual(concat(two, []), two)
+    U.deepStrictEqual(concat([], two), two)
+    U.deepStrictEqual(concat([], []), [])
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const concat = _.getIntersectionSemigroup(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [2])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [1, 2])
+  })
+
+  it('getDifferenceMagma', () => {
+    const concat = _.getDifferenceMagma(N.Eq).concat
+    U.deepStrictEqual(concat([1, 2], [3, 4]), [1, 2])
+    U.deepStrictEqual(concat([1, 2], [2, 3]), [1])
+    U.deepStrictEqual(concat([1, 2], [1, 2]), [])
+  })
+
   it('should be safe when calling map with a binary function', () => {
     interface Foo {
       readonly bar: () => number
@@ -1104,5 +1150,53 @@ describe('Array', () => {
 
   it('copy', () => {
     U.deepStrictEqual(pipe([1, 2, 3], _.copy), [1, 2, 3])
+  })
+
+  describe('fromPredicate', () => {
+    it('can create an array from a Refinement', () => {
+      const refinement: Refinement<unknown, string> = (a): a is string => typeof a === 'string'
+      U.deepStrictEqual(_.fromPredicate(refinement)('hello'), ['hello'])
+      U.deepStrictEqual(_.fromPredicate(refinement)(null), [])
+    })
+
+    it('can create an array from a Predicate', () => {
+      const predicate = (a: string) => a.length > 0
+      U.deepStrictEqual(_.fromPredicate(predicate)('hi'), ['hi'])
+      U.deepStrictEqual(_.fromPredicate(predicate)(''), [])
+    })
+  })
+
+  it('fromOption', () => {
+    U.deepStrictEqual(_.fromOption(O.some('hello')), ['hello'])
+    U.deepStrictEqual(_.fromOption(O.none), [])
+  })
+
+  it('fromEither', () => {
+    U.deepStrictEqual(_.fromEither(E.right(1)), [1])
+    U.deepStrictEqual(_.fromEither(E.left('a')), [])
+  })
+
+  it('match', () => {
+    const f = _.match(
+      () => 'empty',
+      (as) => `nonEmpty ${as.length}`
+    )
+    U.deepStrictEqual(pipe([], f), 'empty')
+    U.deepStrictEqual(pipe([1, 2, 3], f), 'nonEmpty 3')
+  })
+
+  it('concatW', () => {
+    U.deepStrictEqual(pipe([1], _.concatW(['a'])), [1, 'a'])
+    const as = [1, 2, 3]
+    const empty: Array<string> = []
+    U.deepStrictEqual(pipe(empty, _.concatW(as)), as)
+    U.deepStrictEqual(pipe(as, _.concatW(empty)), as)
+  })
+
+  it('fromOptionK', () => {
+    const f = (n: number) => (n > 0 ? O.some(n) : O.none)
+    const g = _.fromOptionK(f)
+    U.deepStrictEqual(g(0), [])
+    U.deepStrictEqual(g(1), [1])
   })
 })

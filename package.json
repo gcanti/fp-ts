@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.10.5",
+  "version": "2.11.0",
   "description": "Functional programming in TypeScript",
   "main": "lib/index.js",
   "module": "es6/index.js",
@@ -22,7 +22,8 @@
     "dtslint": "dtslint dtslint",
     "docs": "docs-ts",
     "prerelease": "npm run build",
-    "release": "ts-node scripts/release"
+    "release": "ts-node scripts/release",
+    "dpdm": "dpdm --warning=false --tree=false --exit-code circular:1 -T src/index.ts"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,7 @@ import * as _ from '../../src/NonEmptyArray'
 import { Ord } from '../../src/Ord'
 import { pipe } from '../../src/function'
 
+declare const as: Array<string>
 declare const neas: _.NonEmptyArray<string>
 declare const nens: _.NonEmptyArray<number>
 declare const netns: _.NonEmptyArray<[number, string]>
@@ -105,3 +106,12 @@ _.filter(isNumber1)(neasn)
 pipe(neasn, _.filter(isNumber2))
 // $ExpectType Option<NonEmptyArray<number>>
 _.filter(isNumber2)(neasn)
+
+//
+// concat
+//
+
+_.concat(as, neas) // $ExpectType NonEmptyArray<string>
+_.concat(neas, as) // $ExpectType NonEmptyArray<string>
+_.concat(neas)(as) // $ExpectType NonEmptyArray<string>
+_.concat(as)(neas) // $ExpectType NonEmptyArray<string>

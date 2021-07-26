@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 77
+nav_order: 83
 parent: Modules
 ---
 
@@ -35,10 +35,8 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
-  - [fromMap](#frommap)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toMap](#tomap)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -46,21 +44,32 @@ Added in v2.5.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
   - [getFunctorWithIndex](#getfunctorwithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversable](#gettraversable)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~readonlyMap~~](#readonlymap)
+- [interop](#interop)
+  - [fromMap](#frommap)
+  - [toMap](#tomap)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
   - [empty](#empty)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -69,8 +78,13 @@ Added in v2.5.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [pop](#pop)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
+  - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
 
@@ -109,6 +123,7 @@ Added in v2.5.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 }
 ```
@@ -134,6 +149,9 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(
     fa: ReadonlyMap<K, A>
   ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(
+    fb: ReadonlyMap<K, B>
+  ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 }
 ```
@@ -210,7 +228,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare function filterWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.10.0
@@ -244,9 +270,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 ```
 
 Added in v2.10.0
@@ -309,16 +341,6 @@ export declare function fromFoldable<F, K, A>(
 
 Added in v2.5.0
 
-## fromMap
-
-**Signature**
-
-```ts
-export declare function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
-
 ## singleton
 
 Create a map with one key/value pair
@@ -332,16 +354,6 @@ export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
 Added in v2.5.0
 
 # destructors
-
-## toMap
-
-**Signature**
-
-```ts
-export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
-```
-
-Added in v2.5.0
 
 ## toUnfoldable
 
@@ -414,6 +426,16 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -464,6 +486,16 @@ export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'R
 
 Added in v2.10.0
 
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getMonoid
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
@@ -506,6 +538,26 @@ export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithI
 
 Added in v2.10.0
 
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<ReadonlyMap<K, A>>
+```
+
+Added in v2.11.0
+
 ## getWitherable
 
 **Signature**
@@ -528,6 +580,28 @@ export declare const readonlyMap: Filterable2<'ReadonlyMap'>
 
 Added in v2.5.0
 
+# interop
+
+## fromMap
+
+**Signature**
+
+```ts
+export declare const fromMap: <K, A>(m: Map<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
+
+## toMap
+
+**Signature**
+
+```ts
+export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
+```
+
+Added in v2.5.0
+
 # utils
 
 ## collect
@@ -541,6 +615,18 @@ export declare function collect<K>(
 ```
 
 Added in v2.5.0
+
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <K>(
+  E: Eq<K>
+) => <A>(_second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
 
 ## elem
 
@@ -569,6 +655,41 @@ export declare const empty: ReadonlyMap<never, never>
 
 Added in v2.5.0
 
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: ReadonlyMap<K, A>) => M
+```
+
+Added in v2.11.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: ReadonlyMap<K, A>) => M
+```
+
+Added in v2.11.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
+
 ## isEmpty
 
 Test whether or not a map is empty
@@ -576,7 +697,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export declare function isEmpty<K, A>(d: ReadonlyMap<K, A>): boolean
+export declare const isEmpty: <K, A>(m: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v2.5.0
@@ -687,6 +808,50 @@ export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: ReadonlyMap<K, A>) =>
 
 Added in v2.5.0
 
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: ReadonlyMap<K, A>) => B
+```
+
+Added in v2.11.0
+
 ## size
 
 Calculate the number of key/value pairs in a map
@@ -694,7 +859,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export declare function size<K, A>(d: ReadonlyMap<K, A>): number
+export declare const size: <K, A>(m: ReadonlyMap<K, A>) => number
 ```
 
 Added in v2.5.0
@@ -710,6 +875,19 @@ export declare const toReadonlyArray: <K>(O: Ord<K>) => <A>(m: ReadonlyMap<K, A>
 ```
 
 Added in v2.5.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: ReadonlyMap<K, A>) => (first: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.11.0
 
 ## updateAt
 

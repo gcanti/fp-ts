@@ -1,18 +1,19 @@
-import * as U from './util'
+import * as assert from 'assert'
 import { Either, left, right } from '../src/Either'
 import { Eq, fromEquals } from '../src/Eq'
-import { identity, pipe, Refinement } from '../src/function'
+import { identity, pipe } from '../src/function'
 import * as _ from '../src/Map'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as Ord from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
+import { Refinement } from '../src/Refinement'
 import * as Se from '../src/Semigroup'
-import { struct, Show } from '../src/Show'
+import { separated } from '../src/Separated'
+import { Show, struct } from '../src/Show'
 import * as S from '../src/string'
 import * as T from '../src/Task'
-import * as assert from 'assert'
-import { separated } from '../src/Separated'
+import * as U from './util'
 
 interface User {
   readonly id: string
@@ -740,25 +741,14 @@ describe('Map', () => {
     })
   })
 
-  describe('getWitherable', () => {
-    const W = _.getWitherable(ordUser)
-
-    it('mapWithIndex', () => {
-      const mapWithIndex = W.mapWithIndex
-      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
-      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
-      U.deepStrictEqual(
-        mapWithIndex(aa1, (k, a) => a + k.id.length),
-        aa3
-      )
-    })
-
+  describe('getFoldable', () => {
+    const F = _.getFoldable(ordUser)
     it('reduce', () => {
       const d1 = new Map<User, string>([
         [{ id: 'k1' }, 'a'],
         [{ id: 'k2' }, 'b']
       ])
-      const reduceO = W.reduce
+      const reduceO = F.reduce
       U.deepStrictEqual(
         reduceO(d1, '', (b, a) => b + a),
         'ab'
@@ -774,7 +764,7 @@ describe('Map', () => {
     })
 
     it('foldMap', () => {
-      const foldMapOM = W.foldMap(S.Monoid)
+      const foldMapOM = F.foldMap(S.Monoid)
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'a' }, 'b']
@@ -783,7 +773,7 @@ describe('Map', () => {
     })
 
     it('reduceRight', () => {
-      const reduceRightO = W.reduceRight
+      const reduceRightO = F.reduceRight
       const m = new Map<User, string>([
         [{ id: 'a' }, 'a'],
         [{ id: 'b' }, 'b']
@@ -791,6 +781,20 @@ describe('Map', () => {
       const init = ''
       const f = (a: string, acc: string) => acc + a
       U.deepStrictEqual(reduceRightO(m, init, f), 'ba')
+    })
+  })
+
+  describe('getWitherable', () => {
+    const W = _.getWitherable(ordUser)
+
+    it('mapWithIndex', () => {
+      const mapWithIndex = W.mapWithIndex
+      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+      U.deepStrictEqual(
+        mapWithIndex(aa1, (k, a) => a + k.id.length),
+        aa3
+      )
     })
 
     it('reduceWithIndex', () => {
@@ -1086,6 +1090,79 @@ describe('Map', () => {
         _.mapWithIndex((k, a) => a + k.id.length)
       ),
       aa3
+    )
+  })
+
+  it('getUnionMonoid', () => {
+    const M = _.getUnionMonoid(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, M.empty), x)
+    U.deepStrictEqual(M.concat(M.empty, x), x)
+    U.deepStrictEqual(M.concat(x, new Map()), x)
+    U.deepStrictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2'],
+        [{ id: 'd' }, 'd2']
+      ])
+    )
+  })
+
+  it('getIntersectionSemigroup', () => {
+    const M = _.getIntersectionSemigroup(eqUser, S.Semigroup)
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, new Map()), new Map())
+    U.deepStrictEqual(M.concat(new Map(), x), new Map())
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'b' }, 'b1b2'],
+        [{ id: 'c' }, 'c1c2']
+      ])
+    )
+  })
+
+  it('getDifferenceMagma', () => {
+    const M = _.getDifferenceMagma(eqUser)<string>()
+    const x = new Map<User, string>([
+      [{ id: 'a' }, 'a1'],
+      [{ id: 'b' }, 'b1'],
+      [{ id: 'c' }, 'c1']
+    ])
+    const y = new Map<User, string>([
+      [{ id: 'b' }, 'b2'],
+      [{ id: 'c' }, 'c2'],
+      [{ id: 'd' }, 'd2']
+    ])
+    U.deepStrictEqual(M.concat(x, new Map()), x)
+    U.deepStrictEqual(M.concat(new Map(), x), x)
+    U.deepStrictEqual(
+      M.concat(x, y),
+      new Map([
+        [{ id: 'a' }, 'a1'],
+        [{ id: 'd' }, 'd2']
+      ])
     )
   })
 })
