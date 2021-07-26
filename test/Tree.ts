@@ -1,4 +1,5 @@
 import * as Eq from '../src/Eq'
+import * as Ra from '../src/ReadonlyArray'
 import { flow, identity, pipe } from '../src/function'
 import * as S from '../src/string'
 import * as O from '../src/Option'
@@ -257,5 +258,81 @@ describe('Tree', () => {
     U.deepStrictEqual(_.exists((user: User) => user.id === 1)(users), true)
     U.deepStrictEqual(_.exists((user: User) => user.id === 4)(users), true)
     U.deepStrictEqual(_.exists((user: User) => user.id === 5)(users), false)
+  })
+
+  it('findDepthFirst', () => {
+    interface User {
+      readonly id: number
+      readonly name?: string
+    }
+    const users: _.Tree<User> = _.tree({ id: 1 }, [
+      _.tree({ id: 1 }, [
+        _.tree({ id: 3, name: '' }, [_.tree({ id: 2, name: 'deep first [id]=2 node' })]),
+        _.tree({ id: 4 })
+      ]),
+      _.tree({ id: 2 })
+    ])
+
+    U.deepStrictEqual(
+      _.findDepthFirst((tree: _.Tree<User>) => tree.value.id === 2)(users),
+      O.some(_.tree({ id: 2, name: 'deep first [id]=2 node' }))
+    )
+    U.deepStrictEqual(_.findDepthFirst((tree: _.Tree<User>) => tree.value.id === 5)(users), O.none)
+  })
+
+  it('findBreadthFirst', () => {
+    interface User {
+      readonly id: number
+      readonly name?: string
+    }
+    const users: _.Tree<User> = _.tree({ id: 1 }, [
+      _.tree({ id: 1 }, [_.tree({ id: 3 }, [_.tree({ id: 2 })]), _.tree({ id: 4 })]),
+      _.tree({ id: 2, name: 'breadth first [id]=2 node' })
+    ])
+
+    U.deepStrictEqual(
+      _.findBreadthFirst((tree: _.Tree<User>) => tree.value.id === 2)(users),
+      O.some(_.tree({ id: 2, name: 'breadth first [id]=2 node' }))
+    )
+    U.deepStrictEqual(_.findDepthFirst((tree: _.Tree<User>) => tree.value.id === 5)(users), O.none)
+  })
+
+  it('filter', () => {
+    interface User {
+      readonly id: number
+      readonly name?: string
+    }
+    const users: _.Tree<User> = _.tree({ id: 1 }, [
+      _.tree({ id: 1 }, [_.tree({ id: 3 }, [_.tree({ id: 2 })]), _.tree({ id: 4 })]),
+      _.tree({ id: 2, name: 'breadth first [id]=2 node' })
+    ])
+
+    U.deepStrictEqual(_.filter((tree: _.Tree<User>) => tree.value.id < 0)(users), O.none)
+    U.deepStrictEqual(
+      _.filter((tree: _.Tree<User>) => tree.value.id !== 2)(users),
+      O.some(_.tree({ id: 1 }, [_.tree({ id: 1 }, [_.tree({ id: 3 }), _.tree({ id: 4 })])]))
+    )
+  })
+
+  it('modify', () => {
+    interface User {
+      readonly id: number
+      readonly name?: string
+    }
+    const users: _.Tree<User> = _.tree({ id: 1 }, [
+      _.tree({ id: 1 }, [_.tree({ id: 3 }, [_.tree({ id: 2 })]), _.tree({ id: 4 })]),
+      _.tree({ id: 2, name: 'breadth first [id]=2 node' })
+    ])
+
+    U.deepStrictEqual(
+      _.modify((tree: _.Tree<User>) => ({
+        value: tree.value,
+        forest: Ra.reverse(tree.forest)
+      }))(users),
+      _.tree({ id: 1 }, [
+        _.tree({ id: 2, name: 'breadth first [id]=2 node' }),
+        _.tree({ id: 1 }, [_.tree({ id: 4 }), _.tree({ id: 3 }, [_.tree({ id: 2 })])])
+      ])
+    )
   })
 })
