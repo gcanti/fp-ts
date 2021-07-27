@@ -1,6 +1,7 @@
-import { pipe } from '../src/function'
+import { pipe, constTrue, constFalse } from '../src/function'
 import * as _ from '../src/Predicate'
 import * as U from './util'
+import * as fc from 'fast-check'
 
 const isPositive: _.Predicate<number> = (n) => n > 0
 const isNegative: _.Predicate<number> = (n) => n < 0
@@ -62,4 +63,17 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate(-2), false)
     U.deepStrictEqual(predicate(1), true)
   })
+
+  it('ifElse', () => {
+    fc.assert(fc.property(fc.boolean(), fc.boolean(), (a, b) =>
+      _.ifElse(constTrue, () => a, () => b)(null) === a &&
+      _.ifElse(constFalse, () => a, () => b)(null) === b))
+  })
+
+  it('ifElseW', () => {
+    fc.assert(fc.property(fc.boolean(), fc.boolean(), (a, b) =>
+      _.ifElseW(constTrue, () => a, () => b)(null) === a &&
+      _.ifElseW(constFalse, () => a, () => b)(null) === b))
+  })
+
 })
