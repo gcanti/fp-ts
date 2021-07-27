@@ -337,6 +337,18 @@ export const tryCatch = <E, A>(f: Lazy<A>, onThrow: (e: unknown) => E): Either<E
 /**
  * Converts a function that may throw to one returning a `Either`.
  *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ *
+ * const assertPositive = (n: number): number => {
+ *   if (n < 0) { throw new TypeError(`${n} is negative`) }
+ *   return n
+ * }
+ * const ensurePositive = E.tryCatchK(assertPositive, E.toError)
+ *
+ * assert.deepStrictEqual(ensurePositive(1), E.right(1))
+ * assert.deepStrictEqual(ensurePositive(-1), E.left(new TypeError('-1 is negative')))
+ *
  * @category interop
  * @since 2.10.0
  */
@@ -359,6 +371,48 @@ export const fromNullableK = <E>(
 }
 
 /**
+ * This is `chain` + `fromNullable`, useful when working with optional values.
+ *
+ * @example
+ * import { left, right, fromNullable, chainNullableK } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Employee {
+ *   readonly company?: {
+ *     readonly address?: {
+ *       readonly street?: {
+ *         readonly name?: string
+ *       }
+ *     }
+ *   }
+ * }
+ *
+ * const employee1: Employee = { company: { address: { street: { name: 'high street' } } } }
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     employee1.company,
+ *     fromNullable('missing company'),
+ *     chainNullableK('missing address')((company) => company.address),
+ *     chainNullableK('missing street')((address) => address.street),
+ *     chainNullableK('missing street name')((street) => street.name)
+ *   ),
+ *   right('high street')
+ * )
+ *
+ * const employee2: Employee = { company: { address: { street: {} } } }
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     employee2.company,
+ *     fromNullable('missing company'),
+ *     chainNullableK('missing address')((company) => company.address),
+ *     chainNullableK('missing street')((address) => address.street),
+ *     chainNullableK('missing street name')((street) => street.name)
+ *   ),
+ *   left('missing street name')
+ * )
+ *
  * @category interop
  * @since 2.9.0
  */
@@ -370,6 +424,14 @@ export const chainNullableK = <E>(
 }
 
 /**
+ *  Returns the value contained in the `Either`, regardless of the `Left` or `Right` case.
+ *
+ * @example
+ * import { left, right, toUnion } from 'fp-ts/Either'
+ *
+ * assert.deepStrictEqual(toUnion(right(42)), 42)
+ * assert.deepStrictEqual(toUnion(left(new Error('error'))), new Error('error'))
+ *
  * @category interop
  * @since 2.10.0
  */
@@ -530,6 +592,25 @@ const _chainRec: ChainRec2<URI>['chainRec'] = (a, f) =>
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right<string, number>(42),
+ *     E.map((n) => n.toString())
+ *   ),
+ *   E.right('42')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left<string, number>('error'),
+ *     E.map((n) => n.toString())
+ *   ),
+ *   E.left('error')
+ * )
+ *
  * @category Functor
  * @since 2.0.0
  */
@@ -538,6 +619,31 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right<string, number>(42),
+ *     E.bimap(
+ *       (str) => str.length,
+ *       (n) => n.toString()
+ *     )
+ *   ),
+ *   E.right<number, string>('42')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left<string, number>('error'),
+ *     E.bimap(
+ *       (str) => str.length,
+ *       (n) => n.toString()
+ *     )
+ *   ),
+ *   E.left(5)
+ * )
  *
  * @category Bifunctor
  * @since 2.0.0
@@ -548,6 +654,26 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<
 
 /**
  * Map a function over the first type argument of a bifunctor.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('error'),
+ *     E.mapLeft(A.of)
+ *   ),
+ *   E.left(['error'])
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(42),
+ *     E.mapLeft(A.of)
+ *   ),
+ *   E.right(42)
+ * )
  *
  * @category Bifunctor
  * @since 2.0.0
@@ -574,6 +700,8 @@ export const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =
 export const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B> = apW
 
 /**
+ * Alias of [`right`](#right)
+ *
  * @category Pointed
  * @since 2.7.0
  */
@@ -590,6 +718,32 @@ export const chainW = <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('error'))
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(0),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('error'))
+ *   ),
+ *   E.left('error')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('error'),
+ *     E.chain((n) => n > 0 ? E.right(n) : E.left('different error'))
+ *   ),
+ *   E.left('error')
+ * )
  *
  * @category Monad
  * @since 2.0.0
@@ -1337,6 +1491,35 @@ export const traverseArrayWithIndex = <E, A, B>(f: (index: number, a: A) => Eith
 
 /**
  * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Takes a function that maps over an array and returns an Either, returning a function that takes a `ReadonlyArray` and
+ * returns the result of the function application to each element of the array inside an Either.
+ *
+ * Commonly used to turn an array of Eithers into an Either whose right side is an array.
+ *
+ * @example
+ * import { left, right, traverseArray } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const toNumber = (s: string) => {
+ *   const n = parseInt(s, 10)
+ *   return isNaN(n) ? left('Not a number') : right(n)
+ * }
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     ['1', '2', '3'],
+ *     traverseArray(toNumber)
+ *   ),
+ *   right([1, 2, 3])
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     ['null', '2', '3'],
+ *     traverseArray(toNumber)
+ *   ),
+ *   left('Not a number')
+ * )
  *
  * @since 2.9.0
  */
