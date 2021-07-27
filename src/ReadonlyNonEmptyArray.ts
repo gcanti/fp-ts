@@ -17,28 +17,30 @@ import { Applicative as ApplicativeHKT, Applicative1 } from './Applicative'
 import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { Comonad1 } from './Comonad'
+import { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, Predicate, Refinement } from './function'
+import { identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { NonEmptyArray } from './NonEmptyArray'
-import * as O from './Option'
+import { Option } from './Option'
 import { getMonoid, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
+import { Predicate } from './Predicate'
 import { ReadonlyRecord } from './ReadonlyRecord'
+import { Refinement } from './Refinement'
 import * as Se from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 import { PipeableTraverseWithIndex1, TraversableWithIndex1 } from './TraversableWithIndex'
 
 import Semigroup = Se.Semigroup
-import Option = O.Option
 
 // -------------------------------------------------------------------------------------
 // model
@@ -59,12 +61,12 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 /**
  * @internal
  */
-export const empty: ReadonlyArray<never> = []
+export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
 
 /**
  * @internal
  */
-export const isNonEmpty = <A>(as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> => as.length > 0
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = _.isNonEmpty
 
 /**
  * @internal
@@ -74,12 +76,22 @@ export const isOutOfBound = <A>(i: number, as: ReadonlyArray<A>): boolean => i <
 /**
  * @internal
  */
-export const prepend = <A>(head: A) => (tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => [head, ...tail]
+export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
 
 /**
  * @internal
  */
-export const append = <A>(end: A) => (init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = prependW
+
+/**
+ * @internal
+ */
+export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [...init, end] as any
+
+/**
+ * @internal
+ */
+export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = appendW
 
 /**
  * @internal
@@ -107,7 +119,16 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: ReadonlyNonEmptyArray<A>)
 }
 
 /**
- * @internal
+ * Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+ *
+ * @example
+ * import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import * as N from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   if (as.length === 1) {
@@ -124,7 +145,43 @@ export const uniq = <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNon
 }
 
 /**
- * @internal
+ * Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+ * etc...
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { contramap } from 'fp-ts/Ord'
+ * import * as S from 'fp-ts/string'
+ * import * as N from 'fp-ts/number'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ *
+ * const byName = pipe(S.Ord, contramap((p: Person) => p.name))
+ *
+ * const byAge = pipe(N.Ord, contramap((p: Person) => p.age))
+ *
+ * const sortByNameByAge = RNEA.sortBy([byName, byAge])
+ *
+ * const persons: RNEA.ReadonlyNonEmptyArray<Person> = [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 },
+ *   { name: 'b', age: 2 }
+ * ]
+ *
+ * assert.deepStrictEqual(sortByNameByAge(persons), [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 2 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 }
+ * ])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const sortBy = <B>(
   ords: ReadonlyArray<Ord<B>>
@@ -137,15 +194,27 @@ export const sortBy = <B>(
 }
 
 /**
- * @internal
+ * @category combinators
+ * @since 2.11.0
  */
-export const union = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>>['concat'] => {
+export const union = <A>(
+  E: Eq<A>
+): ((second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (first, second) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(pipe(first, concat(second)))
 }
 
 /**
- * @internal
+ * Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+ *
+ * @example
+ * import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+ *
+ * @category combinators
+ * @since 2.11.0
  */
 export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => {
   const len = as.length
@@ -155,22 +224,10 @@ export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): Readonly
   }
   if (m < 0) {
     const [f, s] = splitAt(-m)(as)
-    return concat(s, f)
+    return pipe(s, concat(f))
   } else {
     return rotate(m - len)(as)
   }
-}
-
-/**
- * @internal
- */
-export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray<A> => {
-  const j = Math.max(0, Math.floor(n))
-  const out: NonEmptyArray<A> = [f(0)]
-  for (let i = 1; i < j; i++) {
-    out.push(f(i))
-  }
-  return out
 }
 
 // -------------------------------------------------------------------------------------
@@ -184,7 +241,61 @@ export const makeBy = <A>(n: number, f: (i: number) => A): ReadonlyNonEmptyArray
  * @since 2.5.0
  */
 export const fromReadonlyArray = <A>(as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  isNonEmpty(as) ? O.some(as) : O.none
+  isNonEmpty(as) ? _.some(as) : _.none
+
+/**
+ * Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const double = (n: number): number => n * 2
+ * assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyNonEmptyArray<A> => {
+  const j = Math.max(0, Math.floor(n))
+  const out: NonEmptyArray<A> = [f(0)]
+  for (let i = 1; i < j; i++) {
+    out.push(f(i))
+  }
+  return out
+}
+
+/**
+ * Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+ *
+ * **Note**. `n` is normalized to a natural number.
+ *
+ * @example
+ * import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const replicate = <A>(a: A): ((n: number) => ReadonlyNonEmptyArray<A>) => makeBy(() => a)
+
+/**
+ * Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+ *
+ * @example
+ * import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+ *
+ * @category constructors
+ * @since 2.11.0
+ */
+export const range = (start: number, end: number): ReadonlyNonEmptyArray<number> =>
+  start <= end ? makeBy((i) => start + i)(end - start + 1) : [start]
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -232,12 +343,33 @@ export const fromArray = <A>(as: Array<A>): Option<ReadonlyNonEmptyArray<A>> => 
 
 /**
  * @category combinators
+ * @since 2.11.0
+ */
+export function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(
+  second: ReadonlyArray<B>
+): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
+  return <A>(first: ReadonlyNonEmptyArray<A | B>) => first.concat(second)
+}
+
+/**
+ * @category combinators
  * @since 2.5.0
  */
+export function concat<A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export function concat<A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyArray<A>): ReadonlyArray<A> {
-  return first.concat(second)
+export function concat<A>(
+  x: ReadonlyArray<A>,
+  y?: ReadonlyArray<A>
+): ReadonlyArray<A> | ((y: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A>) {
+  return y ? x.concat(y) : (y) => y.concat(x)
 }
 
 /**
@@ -294,30 +426,6 @@ export function group<A>(E: Eq<A>): (as: ReadonlyArray<A>) => ReadonlyArray<Read
 }
 
 /**
- * Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
- *
- * @example
- * import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
- * import * as N from 'fp-ts/number'
- *
- * assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
- *
- * @category combinators
- * @since 2.5.0
- */
-export function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
-}
-export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
-  const sortO = sort(O)
-  const groupO = group(O)
-  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
-}
-
-/**
  * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
  * function on each element, and grouping the results according to values returned
  *
@@ -367,7 +475,7 @@ export const updateAt = <A>(i: number, a: A): ((as: ReadonlyNonEmptyArray<A>) =>
  */
 export const modifyAt = <A>(i: number, f: (a: A) => A) => (
   as: ReadonlyNonEmptyArray<A>
-): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? O.none : O.some(unsafeUpdateAt(i, f(as[i]), as)))
+): Option<ReadonlyNonEmptyArray<A>> => (isOutOfBound(i, as) ? _.none : _.some(unsafeUpdateAt(i, f(as[i]), as)))
 
 /**
  * @category combinators
@@ -574,7 +682,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @category Pointed
  * @since 2.5.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: Pointed1<URI>['of'] = _.singleton
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -584,7 +692,7 @@ export const of: Pointed1<URI>['of'] = (a) => [a]
  */
 export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<A | B> => concat(as as ReadonlyNonEmptyArray<A | B>, that())
+): ReadonlyNonEmptyArray<A | B> => pipe(as, concatW(that()))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -740,7 +848,7 @@ export const traverse: PipeableTraverse1<URI> = <F>(
  */
 export const sequence: Traversable1<URI>['sequence'] = <F>(
   F: ApplicativeHKT<F>
-): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)((_, a) => a)
+): (<A>(as: ReadonlyNonEmptyArray<HKT<F, A>>) => HKT<F, ReadonlyNonEmptyArray<A>>) => traverseWithIndex(F)(SK)
 
 /**
  * @category TraversableWithIndex
@@ -763,7 +871,7 @@ export const traverseWithIndex: PipeableTraverseWithIndex1<URI, number> = <F>(F:
  * @category Comonad
  * @since 2.6.3
  */
-export const extract: Comonad1<URI>['extract'] = (as) => as[0]
+export const extract: Comonad1<URI>['extract'] = _.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -819,6 +927,17 @@ export const getSemigroup = <A = never>(): Semigroup<ReadonlyNonEmptyArray<A>> =
  */
 export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
   fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => {
+  const unionE = union(E)
+  return {
+    concat: (first, second) => unionE(second)(first)
+  }
+}
 
 /**
  * @category instances
@@ -1027,7 +1146,7 @@ export const Comonad: Comonad1<URI> = {
  */
 export const Do: ReadonlyNonEmptyArray<{}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0
@@ -1066,7 +1185,7 @@ export const head: <A>(as: ReadonlyNonEmptyArray<A>) => A = extract
 /**
  * @since 2.5.0
  */
-export const tail = <A>(as: ReadonlyNonEmptyArray<A>): ReadonlyArray<A> => as.slice(1)
+export const tail: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A> = _.tail
 
 /**
  * @since 2.5.0
@@ -1107,9 +1226,82 @@ export const max = <A>(O: Ord<A>): ((as: ReadonlyNonEmptyArray<A>) => A) => {
  */
 export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>): A => as.reduce(S.concat)
 
+/**
+ * Break a `ReadonlyArray` into its first element and remaining elements.
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchLeft = <A, B>(f: (head: A, tail: ReadonlyArray<A>) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(head(as), tail(as))
+
+/**
+ * Break a `ReadonlyArray` into its initial elements and the last element.
+ *
+ * @category destructors
+ * @since 2.11.0
+ */
+export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (as: ReadonlyNonEmptyArray<A>): B =>
+  f(init(as), last(as))
+
+/**
+ * Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @since 2.11.0
+ */
+export const modifyHead = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> => [
+  f(head(as)),
+  ...tail(as)
+]
+
+/**
+ * Change the head, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateHead = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyHead(() => a)
+
+/**
+ * Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @since 2.11.0
+ */
+export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A> =>
+  pipe(init(as), append(f(last(as))))
+
+/**
+ * Change the last element, creating a new `ReadonlyNonEmptyArray`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * This is just `sort` followed by `group`.
+ *
+ * @category combinators
+ * @since 2.5.0
+ * @deprecated
+ */
+export function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
+export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray<ReadonlyNonEmptyArray<A>> {
+  const sortO = sort(O)
+  const groupO = group(O)
+  return (as) => (isNonEmpty(as) ? groupO(sortO(as)) : empty)
+}
 
 /**
  * Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
@@ -1121,14 +1313,16 @@ export const concatAll = <A>(S: Semigroup<A>) => (as: ReadonlyNonEmptyArray<A>):
 export function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+export function filter<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyNonEmptyArray<B>) => Option<ReadonlyNonEmptyArray<B>>
 export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  // tslint:disable-next-line: deprecation
   return filterWithIndex((_, a) => predicate(a))
 }
 
 /**
- * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
+ * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1180,17 +1374,17 @@ export function cons<A>(
  * @since 2.5.0
  * @deprecated
  */
-export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => pipe(init, concat([end]))
 
 /**
- * Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
+ * Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
  *
  * @category combinators
  * @since 2.5.0
  * @deprecated
  */
 export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
-  i < 0 || i > as.length ? O.none : O.some(unsafeInsertAt(i, a, as))
+  i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
  * Use [`prependAll`](#prependall) instead.

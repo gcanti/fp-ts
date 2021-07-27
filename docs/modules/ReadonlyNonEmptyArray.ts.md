@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 78
+nav_order: 84
 parent: Modules
 ---
 
@@ -61,31 +61,44 @@ Added in v2.5.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [concat](#concat)
+  - [concatW](#concatw)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
-  - [groupSort](#groupsort)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
   - [prependAll](#prependall)
   - [reverse](#reverse)
+  - [rotate](#rotate)
   - [sort](#sort)
+  - [sortBy](#sortby)
   - [splitAt](#splitat)
+  - [union](#union)
+  - [uniq](#uniq)
   - [unzip](#unzip)
   - [updateAt](#updateat)
+  - [updateHead](#updatehead)
+  - [updateLast](#updatelast)
   - [zip](#zip)
   - [zipWith](#zipwith)
   - [~~filterWithIndex~~](#filterwithindex)
   - [~~filter~~](#filter)
+  - [~~groupSort~~](#groupsort)
   - [~~insertAt~~](#insertat)
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
+  - [makeBy](#makeby)
+  - [range](#range)
+  - [replicate](#replicate)
   - [~~cons~~](#cons)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
+  - [matchLeft](#matchleft)
+  - [matchRight](#matchright)
   - [unappend](#unappend)
   - [unprepend](#unprepend)
   - [~~uncons~~](#uncons)
@@ -125,6 +138,8 @@ Added in v2.5.0
   - [last](#last)
   - [max](#max)
   - [min](#min)
+  - [modifyHead](#modifyhead)
+  - [modifyLast](#modifylast)
   - [tail](#tail)
   - [~~fold~~](#fold)
 
@@ -467,11 +482,32 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function concat<A>(
+  second: ReadonlyNonEmptyArray<A>
+): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export declare function concat<A>(
+  second: ReadonlyArray<A>
+): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
 export declare function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
 export declare function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare function concatW<B>(
+  second: ReadonlyNonEmptyArray<B>
+): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
+export declare function concatW<B>(
+  second: ReadonlyArray<B>
+): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
+```
+
+Added in v2.11.0
 
 ## duplicate
 
@@ -508,6 +544,16 @@ export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArr
 ```
 
 Added in v2.5.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.11.0
 
 ## group
 
@@ -561,32 +607,6 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']
 
 Added in v2.5.0
 
-## groupSort
-
-Sort and then group the elements of a `ReadonlyArray` into `ReadonlyNonEmptyArray`s.
-
-**Signature**
-
-```ts
-export declare function groupSort<B>(
-  O: Ord<B>
-): {
-  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
-  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
-}
-```
-
-**Example**
-
-```ts
-import { groupSort } from 'fp-ts/ReadonlyNonEmptyArray'
-import * as N from 'fp-ts/number'
-
-assert.deepStrictEqual(groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
-```
-
-Added in v2.5.0
-
 ## intersperse
 
 Places an element in between members of a `ReadonlyNonEmptyArray`.
@@ -615,7 +635,7 @@ Added in v2.9.0
 export declare const modifyAt: <A>(
   i: number,
   f: (a: A) => A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -650,6 +670,27 @@ export declare const reverse: <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEm
 
 Added in v2.5.0
 
+## rotate
+
+Rotate a `ReadonlyNonEmptyArray` by `n` steps.
+
+**Signature**
+
+```ts
+export declare const rotate: (n: number) => <A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { rotate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+assert.deepStrictEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+```
+
+Added in v2.11.0
+
 ## sort
 
 **Signature**
@@ -659,6 +700,62 @@ export declare const sort: <B>(O: Ord<B>) => <A extends B>(as: ReadonlyNonEmptyA
 ```
 
 Added in v2.5.0
+
+## sortBy
+
+Sort the elements of a `ReadonlyNonEmptyArray` in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+etc...
+
+**Signature**
+
+```ts
+export declare const sortBy: <B>(
+  ords: readonly Ord<B>[]
+) => <A extends B>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import { contramap } from 'fp-ts/Ord'
+import * as S from 'fp-ts/string'
+import * as N from 'fp-ts/number'
+import { pipe } from 'fp-ts/function'
+
+interface Person {
+  name: string
+  age: number
+}
+
+const byName = pipe(
+  S.Ord,
+  contramap((p: Person) => p.name)
+)
+
+const byAge = pipe(
+  N.Ord,
+  contramap((p: Person) => p.age)
+)
+
+const sortByNameByAge = RNEA.sortBy([byName, byAge])
+
+const persons: RNEA.ReadonlyNonEmptyArray<Person> = [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+  { name: 'b', age: 2 },
+]
+
+assert.deepStrictEqual(sortByNameByAge(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 },
+])
+```
+
+Added in v2.11.0
 
 ## splitAt
 
@@ -673,6 +770,39 @@ export declare const splitAt: (
 ```
 
 Added in v2.10.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  E: Eq<A>
+) => (second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## uniq
+
+Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
+
+**Signature**
+
+```ts
+export declare const uniq: <A>(E: Eq<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { uniq } from 'fp-ts/ReadonlyNonEmptyArray'
+import * as N from 'fp-ts/number'
+
+assert.deepStrictEqual(uniq(N.Eq)([1, 2, 1]), [1, 2])
+```
+
+Added in v2.11.0
 
 ## unzip
 
@@ -694,10 +824,34 @@ Added in v2.5.1
 export declare const updateAt: <A>(
   i: number,
   a: A
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
+
+## updateHead
+
+Change the head, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateHead: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## updateLast
+
+Change the last element, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const updateLast: <A>(a: A) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## zip
 
@@ -731,14 +885,14 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterWithIndex) instead.
+Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
 
 **Signature**
 
 ```ts
 export declare const filterWithIndex: <A>(
   predicate: (i: number, a: A) => boolean
-) => (as: ReadonlyNonEmptyArray<A>) => O.Option<ReadonlyNonEmptyArray<A>>
+) => (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -755,19 +909,39 @@ export declare function filter<A, B extends A>(
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
 export declare function filter<A>(
   predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyNonEmptyArray<B>) => Option<ReadonlyNonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.5.0
+
+## ~~groupSort~~
+
+This is just `sort` followed by `group`.
+
+**Signature**
+
+```ts
+export declare function groupSort<B>(
+  O: Ord<B>
+): {
+  <A extends B>(as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+  <A extends B>(as: ReadonlyArray<A>): ReadonlyArray<ReadonlyNonEmptyArray<A>>
+}
 ```
 
 Added in v2.5.0
 
 ## ~~insertAt~~
 
-Use [`insertAt`](./ReadonlyArray.ts.html#insertAt) instead.
+Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
 
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -793,10 +967,77 @@ Return a `ReadonlyNonEmptyArray` from a `ReadonlyArray` returning `none` if the 
 **Signature**
 
 ```ts
-export declare const fromReadonlyArray: <A>(as: readonly A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const fromReadonlyArray: <A>(as: readonly A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
+
+## makeBy
+
+Return a `ReadonlyNonEmptyArray` of length `n` with element `i` initialized with `f(i)`.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const makeBy: <A>(f: (i: number) => A) => (n: number) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { makeBy } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+const double = (n: number): number => n * 2
+assert.deepStrictEqual(pipe(5, makeBy(double)), [0, 2, 4, 6, 8])
+```
+
+Added in v2.11.0
+
+## range
+
+Create a `ReadonlyNonEmptyArray` containing a range of integers, including both endpoints.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => ReadonlyNonEmptyArray<number>
+```
+
+**Example**
+
+```ts
+import { range } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
+```
+
+Added in v2.11.0
+
+## replicate
+
+Create a `ReadonlyNonEmptyArray` containing a value repeated the specified number of times.
+
+**Note**. `n` is normalized to a natural number.
+
+**Signature**
+
+```ts
+export declare const replicate: <A>(a: A) => (n: number) => ReadonlyNonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { replicate } from 'fp-ts/ReadonlyNonEmptyArray'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(3, replicate('a')), ['a', 'a', 'a'])
+```
+
+Added in v2.11.0
 
 ## ~~cons~~
 
@@ -824,6 +1065,30 @@ export declare const snoc: <A>(init: readonly A[], end: A) => ReadonlyNonEmptyAr
 Added in v2.5.0
 
 # destructors
+
+## matchLeft
+
+Break a `ReadonlyArray` into its first element and remaining elements.
+
+**Signature**
+
+```ts
+export declare const matchLeft: <A, B>(f: (head: A, tail: readonly A[]) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
+
+## matchRight
+
+Break a `ReadonlyArray` into its initial elements and the last element.
+
+**Signature**
+
+```ts
+export declare const matchRight: <A, B>(f: (init: readonly A[], last: A) => B) => (as: ReadonlyNonEmptyArray<A>) => B
+```
+
+Added in v2.11.0
 
 ## unappend
 
@@ -1108,7 +1373,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const fromArray: <A>(as: A[]) => O.Option<ReadonlyNonEmptyArray<A>>
+export declare const fromArray: <A>(as: A[]) => Option<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v2.5.0
@@ -1251,6 +1516,30 @@ export declare const min: <A>(O: Ord<A>) => (as: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v2.5.0
+
+## modifyHead
+
+Apply a function to the head, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const modifyHead: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## modifyLast
+
+Apply a function to the last element, creating a new `ReadonlyNonEmptyArray`.
+
+**Signature**
+
+```ts
+export declare const modifyLast: <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
 
 ## tail
 

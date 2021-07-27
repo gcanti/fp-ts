@@ -21,4 +21,8 @@ describe('string', () => {
   it('SemigroupProduct', () => {
     U.deepStrictEqual(_.SemigroupProduct.concat(2, 3), 6)
   })
+
+  it('MagmaSub', () => {
+    U.deepStrictEqual(_.MagmaSub.concat(2, 3), -1)
+  })
 })

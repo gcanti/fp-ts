@@ -28,6 +28,7 @@ import * as date from './Date'
 import * as distributiveLattice from './DistributiveLattice'
 import * as either from './Either'
 import * as eitherT from './EitherT'
+import * as endomorphism from './Endomorphism'
 import * as eq from './Eq'
 import * as extend from './Extend'
 import * as field from './Field'
@@ -37,7 +38,10 @@ import * as foldable from './Foldable'
 import * as foldableWithIndex from './FoldableWithIndex'
 import * as fromEither from './FromEither'
 import * as fromIO from './FromIO'
+import * as fromReader from './FromReader'
+import * as fromState from './FromState'
 import * as fromTask from './FromTask'
+import * as fromThese from './FromThese'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -60,6 +64,7 @@ import * as monadIO from './MonadIO'
 import * as monadTask from './MonadTask'
 import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
+import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -68,6 +73,7 @@ import * as ord from './Ord'
 import * as ordering from './Ordering'
 import * as pipeable from './pipeable'
 import * as pointed from './Pointed'
+import * as predicate from './Predicate'
 import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
@@ -82,6 +88,7 @@ import * as readonlyRecord from './ReadonlyRecord'
 import * as readonlySet from './ReadonlySet'
 import * as readonlyTuple from './ReadonlyTuple'
 import * as record from './Record'
+import * as refinement from './Refinement'
 import * as ring from './Ring'
 import * as semigroup from './Semigroup'
 import * as semigroupoid from './Semigroupoid'
@@ -109,9 +116,11 @@ import * as tree from './Tree'
 import * as tuple from './Tuple'
 import * as unfoldable from './Unfoldable'
 import * as validationT from './ValidationT'
+import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
+import * as zero from './Zero'
 export {
   /**
    * @since 2.0.0
@@ -218,6 +227,10 @@ export {
    */
   eitherT,
   /**
+   * @since 2.11.0
+   */
+  endomorphism,
+  /**
    * @since 2.0.0
    */
   extend,
@@ -250,9 +263,21 @@ export {
    */
   fromIO,
   /**
+   * @since 2.11.0
+   */
+  fromReader,
+  /**
+   * @since 2.11.0
+   */
+  fromState,
+  /**
    * @since 2.10.0
    */
   fromTask,
+  /**
+   * @since 2.11.0
+   */
+  fromThese,
   /**
    * @since 2.0.0
    */
@@ -342,6 +367,10 @@ export {
    */
   monoid,
   /**
+   * @since 2.11.0
+   */
+  naturalTransformation,
+  /**
    * @since 2.0.0
    */
   nonEmptyArray,
@@ -349,10 +378,6 @@ export {
    * @since 2.10.0
    */
   number,
-  /**
-   * @since 2.10.0
-   */
-  struct,
   /**
    * @since 2.0.0
    */
@@ -377,6 +402,10 @@ export {
    * @since 2.10.0
    */
   pointed,
+  /**
+   * @since 2.11.0
+   */
+  predicate,
   /**
    * @since 2.0.0
    */
@@ -434,6 +463,10 @@ export {
    */
   record,
   /**
+   * @since 2.11.0
+   */
+  refinement,
+  /**
    * @since 2.0.0
    */
   ring,
@@ -490,6 +523,10 @@ export {
    */
   strong,
   /**
+   * @since 2.10.0
+   */
+  struct,
+  /**
    * @since 2.0.0
    */
   task,
@@ -542,6 +579,10 @@ export {
    */
   validationT,
   /**
+   * @since 2.11.0
+   */
+  void_ as void,
+  /**
    * @since 2.0.0
    */
   witherable,
@@ -552,5 +593,9 @@ export {
   /**
    * @since 2.4.0
    */
-  writerT
+  writerT,
+  /**
+   * @since 2.11.0
+   */
+  zero
 }

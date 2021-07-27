@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 65
+nav_order: 70
 parent: Modules
 ---
 
@@ -47,12 +47,14 @@ Added in v2.0.0
 - [utils](#utils)
   - [between](#between)
   - [clamp](#clamp)
+  - [equals](#equals)
   - [geq](#geq)
   - [gt](#gt)
   - [leq](#leq)
   - [lt](#lt)
   - [max](#max)
   - [min](#min)
+  - [trivial](#trivial)
 
 ---
 
@@ -374,6 +376,16 @@ export declare const clamp: <A>(O: Ord<A>) => (low: A, hi: A) => (a: A) => A
 
 Added in v2.0.0
 
+## equals
+
+**Signature**
+
+```ts
+export declare const equals: <A>(O: Ord<A>) => (second: A) => (first: A) => boolean
+```
+
+Added in v2.11.0
+
 ## geq
 
 Test whether one value is _non-strictly greater than_ another
@@ -445,3 +457,13 @@ export declare const min: <A>(O: Ord<A>) => (first: A, second: A) => A
 ```
 
 Added in v2.0.0
+
+## trivial
+
+**Signature**
+
+```ts
+export declare const trivial: Ord<unknown>
+```
+
+Added in v2.11.0

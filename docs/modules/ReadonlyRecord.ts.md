@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 79
+nav_order: 85
 parent: Modules
 ---
 
@@ -29,10 +29,13 @@ Added in v2.5.0
   - [wither](#wither)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
+  - [difference](#difference)
   - [filterMapWithIndex](#filtermapwithindex)
   - [flap](#flap)
+  - [intersection](#intersection)
   - [map](#map)
   - [mapWithIndex](#mapwithindex)
+  - [union](#union)
   - [upsertAt](#upsertat)
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
@@ -43,18 +46,27 @@ Added in v2.5.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FilterableWithIndex](#filterablewithindex)
-  - [Foldable](#foldable-1)
-  - [FoldableWithIndex](#foldablewithindex)
   - [Functor](#functor)
   - [FunctorWithIndex](#functorwithindex)
-  - [Traversable](#traversable)
-  - [TraversableWithIndex](#traversablewithindex)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
-  - [Witherable](#witherable-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getFoldable](#getfoldable)
+  - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
+  - [getTraversable](#gettraversable)
+  - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
+  - [getWitherable](#getwitherable)
+  - [~~FoldableWithIndex~~](#foldablewithindex)
+  - [~~Foldable~~](#foldable)
+  - [~~TraversableWithIndex~~](#traversablewithindex)
+  - [~~Traversable~~](#traversable)
+  - [~~Witherable~~](#witherable)
   - [~~readonlyRecord~~](#readonlyrecord)
 - [interop](#interop)
   - [fromRecord](#fromrecord)
@@ -99,7 +111,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(r: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(r: Readonly<Record<string, Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v2.5.0
@@ -125,6 +137,7 @@ Added in v2.5.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
   <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
 }
 ```
@@ -137,7 +150,7 @@ Added in v2.5.0
 
 ```ts
 export declare const filterMap: <A, B>(
-  f: (a: A) => O.Option<B>
+  f: (a: A) => Option<B>
 ) => (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
 ```
 
@@ -152,6 +165,9 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
     fa: Readonly<Record<string, A>>
   ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fb: Readonly<Record<string, B>>
+  ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
   <A>(predicate: Predicate<A>): (
     fa: Readonly<Record<string, A>>
   ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
@@ -179,7 +195,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Readonly<Record<string, A>>) => M
+export declare function foldMap(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
+export declare function foldMap<M>(M: Monoid<M>): <A>(f: (a: A) => M) => (fa: ReadonlyRecord<string, A>) => M
 ```
 
 Added in v2.5.0
@@ -189,7 +208,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Readonly<Record<string, A>>) => B
+export declare function reduce(
+  O: Ord<string>
+): <A, B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduce<A, B>(b: B, f: (b: B, a: A) => B): (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0
@@ -199,7 +221,10 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Readonly<Record<string, A>>) => B
+export declare function reduceRight(
+  O: Ord<string>
+): <A, B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyRecord<string, A>) => B
+export declare function reduceRight<A, B>(b: B, f: (a: A, b: B) => B): (fa: ReadonlyRecord<string, A>) => B
 ```
 
 Added in v2.5.0
@@ -242,6 +267,18 @@ export declare function deleteAt<K extends string>(
 
 Added in v2.5.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <A>(
+  second: Readonly<Record<string, A>>
+) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
+
 ## filterMapWithIndex
 
 **Signature**
@@ -265,6 +302,18 @@ export declare const flap: <A>(a: A) => <B>(fab: Readonly<Record<string, (a: A) 
 ```
 
 Added in v2.10.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
 
 ## map
 
@@ -291,6 +340,18 @@ export declare function mapWithIndex<K extends string, A, B>(
 ```
 
 Added in v2.5.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <A>(
+  M: Magma<A>
+) => (second: Readonly<Record<string, A>>) => (first: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+```
+
+Added in v2.11.0
 
 ## upsertAt
 
@@ -381,26 +442,6 @@ export declare const FilterableWithIndex: FilterableWithIndex1<'ReadonlyRecord',
 
 Added in v2.7.0
 
-## Foldable
-
-**Signature**
-
-```ts
-export declare const Foldable: Foldable1<'ReadonlyRecord'>
-```
-
-Added in v2.7.0
-
-## FoldableWithIndex
-
-**Signature**
-
-```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyRecord', string>
-```
-
-Added in v2.7.0
-
 ## Functor
 
 **Signature**
@@ -417,26 +458,6 @@ Added in v2.7.0
 
 ```ts
 export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyRecord', string>
-```
-
-Added in v2.7.0
-
-## Traversable
-
-**Signature**
-
-```ts
-export declare const Traversable: Traversable1<'ReadonlyRecord'>
-```
-
-Added in v2.7.0
-
-## TraversableWithIndex
-
-**Signature**
-
-```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord', string>
 ```
 
 Added in v2.7.0
@@ -461,15 +482,15 @@ export type URI = typeof URI
 
 Added in v2.5.0
 
-## Witherable
+## getDifferenceMagma
 
 **Signature**
 
 ```ts
-export declare const Witherable: Witherable1<'ReadonlyRecord'>
+export declare const getDifferenceMagma: <A>() => Magma<Readonly<Record<string, A>>>
 ```
 
-Added in v2.7.0
+Added in v2.11.0
 
 ## getEq
 
@@ -480,6 +501,36 @@ export declare function getEq<K extends string, A>(E: Eq<A>): Eq<ReadonlyRecord<
 ```
 
 Added in v2.5.0
+
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
+```
+
+Added in v2.11.0
+
+## getFoldableWithIndex
+
+**Signature**
+
+```ts
+export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -508,10 +559,121 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function getShow(O: Ord<string>): <A>(S: Show<A>) => Show<ReadonlyRecord<string, A>>
 export declare function getShow<A>(S: Show<A>): Show<ReadonlyRecord<string, A>>
 ```
 
 Added in v2.5.0
+
+## getTraversable
+
+**Signature**
+
+```ts
+export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+```
+
+Added in v2.11.0
+
+## getTraversableWithIndex
+
+**Signature**
+
+```ts
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+```
+
+Added in v2.11.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+```
+
+Added in v2.11.0
+
+## getWitherable
+
+**Signature**
+
+```ts
+export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
+```
+
+Added in v2.11.0
+
+## ~~FoldableWithIndex~~
+
+Use `getFoldableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## ~~Foldable~~
+
+Use `getFoldable` instead.
+
+**Signature**
+
+```ts
+export declare const Foldable: Foldable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## ~~TraversableWithIndex~~
+
+Use `getTraversableWithIndex` instead.
+
+**Signature**
+
+```ts
+export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyRecord', string>
+```
+
+Added in v2.7.0
+
+## ~~Traversable~~
+
+Use `getTraversable` instead.
+
+**Signature**
+
+```ts
+export declare const Traversable: Traversable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
+
+## ~~Witherable~~
+
+Use `getWitherable` instead.
+
+**Signature**
+
+```ts
+export declare const Witherable: Witherable1<'ReadonlyRecord'>
+```
+
+Added in v2.7.0
 
 ## ~~readonlyRecord~~
 
@@ -536,7 +698,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function fromRecord<K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A>
+export declare const fromRecord: <K extends string, A>(r: Record<K, A>) => Readonly<Record<K, A>>
 ```
 
 Added in v2.5.0
@@ -546,7 +708,7 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare function toRecord<K extends string, A>(r: ReadonlyRecord<K, A>): Record<K, A>
+export declare const toRecord: <K extends string, A>(r: Readonly<Record<K, A>>) => Record<K, A>
 ```
 
 Added in v2.5.0
@@ -572,18 +734,22 @@ Map a `ReadonlyRecord` into an `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const collect: <K extends string, A, B>(
+export declare function collect(
+  O: Ord<string>
+): <K extends string, A, B>(f: (k: K, a: A) => B) => (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
+export declare function collect<K extends string, A, B>(
   f: (k: K, a: A) => B
-) => (r: Readonly<Record<K, A>>) => readonly B[]
+): (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
 ```
 
 **Example**
 
 ```ts
 import { collect } from 'fp-ts/ReadonlyRecord'
+import { Ord } from 'fp-ts/string'
 
 const x: { readonly a: string; readonly b: boolean } = { a: 'c', b: false }
-assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
+assert.deepStrictEqual(collect(Ord)((key, val) => ({ key: key, value: val }))(x), [
   { key: 'a', value: 'c' },
   { key: 'b', value: false },
 ])
@@ -636,6 +802,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 ```
 
@@ -646,6 +815,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function foldMapWithIndex(
+  O: Ord<string>
+): <M>(M: Monoid<M>) => <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
 export declare function foldMapWithIndex<M>(
   M: Monoid<M>
 ): <K extends string, A>(f: (k: K, a: A) => M) => (fa: ReadonlyRecord<K, A>) => M
@@ -750,7 +922,7 @@ Added in v2.5.0
 
 Test whether or not a key exists in a `ReadonlyRecord`.
 
-Note. This function is not pipeable because is a custom type guard.
+Note. This function is not pipeable because is a `Refinement`.
 
 **Signature**
 
@@ -767,7 +939,7 @@ Test whether a `ReadonlyRecord` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: ReadonlyRecord<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v2.5.0
@@ -820,7 +992,7 @@ Added in v2.5.0
 export declare const modifyAt: <A>(
   k: string,
   f: (a: A) => A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v2.5.0
@@ -845,6 +1017,9 @@ Added in v2.5.0
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
@@ -873,6 +1048,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function reduceRightWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B) => (fa: ReadonlyRecord<K, A>) => B
 export declare function reduceRightWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, a: A, b: B) => B
@@ -886,6 +1064,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
+export declare function reduceWithIndex(
+  O: Ord<string>
+): <K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B) => (fa: ReadonlyRecord<K, A>) => B
 export declare function reduceWithIndex<K extends string, A, B>(
   b: B,
   f: (k: K, b: B, a: A) => B
@@ -928,7 +1109,7 @@ Calculate the number of key/value pairs in a `ReadonlyRecord`,
 **Signature**
 
 ```ts
-export declare const size: (r: ReadonlyRecord<string, unknown>) => number
+export declare const size: <A>(r: Readonly<Record<string, A>>) => number
 ```
 
 Added in v2.5.0
@@ -1035,7 +1216,7 @@ Added in v2.5.0
 export declare const updateAt: <A>(
   k: string,
   a: A
-) => <K extends string>(r: Readonly<Record<K, A>>) => O.Option<Readonly<Record<K, A>>>
+) => <K extends string>(r: Readonly<Record<K, A>>) => Option<Readonly<Record<K, A>>>
 ```
 
 Added in v2.5.0

@@ -5,13 +5,15 @@
  *
  * @since 2.0.0
  */
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
-import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } from './Traversable'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
+import { Compactable, Compactable1, Compactable2, Compactable2C } from './Compactable'
 import { Either } from './Either'
+import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import * as _ from './internal'
+import { Option } from './Option'
 import { Separated } from './Separated'
+import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -545,4 +547,96 @@ export interface PipeableWilt3<W extends URIS3> {
   <F>(F: Applicative<F>): <A, B, C>(
     f: (a: A) => HKT<F, Either<B, C>>
   ) => <WR, WE>(wa: Kind3<W, WR, WE, A>) => HKT<F, Separated<Kind3<W, WR, WE, B>, Kind3<W, WR, WE, C>>>
+}
+
+// -------------------------------------------------------------------------------------
+// defaults
+// -------------------------------------------------------------------------------------
+
+/**
+ * Return a `wilt` implementation from `Traversable` and `Compactable`.
+ *
+ * @category defaults
+ * @since 2.11.0
+ */
+export function wiltDefault<W extends URIS2, E>(T: Traversable2C<W, E>, C: Compactable2<W>): Witherable2C<W, E>['wilt']
+export function wiltDefault<W extends URIS2, E>(T: Traversable2<W>, C: Compactable2C<W, E>): Witherable2C<W, E>['wilt']
+export function wiltDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wilt']
+export function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt']
+export function wiltDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wilt'] {
+  return <F>(
+    F: Applicative<F>
+  ): (<A, B, C>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<HKT<W, B>, HKT<W, C>>>) => {
+    const traverseF = T.traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), C.separate)
+  }
+}
+
+/**
+ * Return a `wither` implementation from `Traversable` and `Compactable`.
+ *
+ * @category defaults
+ * @since 2.11.0
+ */
+export function witherDefault<W extends URIS2, E>(
+  T: Traversable2C<W, E>,
+  C: Compactable2<W>
+): Witherable2C<W, E>['wither']
+export function witherDefault<W extends URIS2, E>(
+  T: Traversable2<W>,
+  C: Compactable2C<W, E>
+): Witherable2C<W, E>['wither']
+export function witherDefault<W extends URIS>(T: Traversable1<W>, C: Compactable1<W>): Witherable1<W>['wither']
+export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither']
+export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherable<W>['wither'] {
+  return <F>(F: Applicative<F>): (<A, B>(wa: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>) => {
+    const traverseF = T.traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), C.compact)
+  }
+}
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export interface FilterE1<G extends URIS> {
+  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(
+    predicate: (a: A) => Kind3<F, R, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
+  <F extends URIS2>(F: Applicative2<F>): <A, E>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS2, E>(F: Applicative2C<F, E>): <A>(
+    predicate: (a: A) => Kind2<F, E, boolean>
+  ) => (ga: Kind<G, A>) => Kind2<F, E, Kind<G, A>>
+  <F extends URIS>(F: Applicative1<F>): <A>(
+    predicate: (a: A) => Kind<F, boolean>
+  ) => (ga: Kind<G, A>) => Kind<F, Kind<G, A>>
+  <F>(F: Applicative<F>): <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: Kind<G, A>) => HKT<F, Kind<G, A>>
+}
+
+/**
+ * Filter values inside a `F` context.
+ *
+ * See `ReadonlyArray`'s `filterE` for an example of usage.
+ *
+ * @since 2.11.0
+ */
+export function filterE<G extends URIS>(W: Witherable1<G>): FilterE1<G>
+export function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>>
+export function filterE<G>(
+  W: Witherable<G>
+): <F>(F: Applicative<F>) => <A>(predicate: (a: A) => HKT<F, boolean>) => (ga: HKT<G, A>) => HKT<F, HKT<G, A>> {
+  return (F) => {
+    const witherF = W.wither(F)
+    return (predicate) => (ga) => witherF(ga, (a) => F.map(predicate(a), (b) => (b ? _.some(a) : _.none)))
+  }
 }

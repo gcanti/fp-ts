@@ -1,6 +1,6 @@
 ---
 title: FromEither.ts
-nav_order: 34
+nav_order: 35
 parent: Modules
 ---
 
@@ -14,107 +14,27 @@ Added in v2.10.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
+  - [chainOptionK](#chainoptionk)
+  - [filterOrElse](#filterorelse)
+  - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
+- [constructors](#constructors)
+  - [fromOption](#fromoption)
+  - [fromPredicate](#frompredicate)
 - [type classes](#type-classes)
   - [FromEither (interface)](#fromeither-interface)
+  - [FromEither1 (interface)](#fromeither1-interface)
   - [FromEither2 (interface)](#fromeither2-interface)
   - [FromEither2C (interface)](#fromeither2c-interface)
   - [FromEither3 (interface)](#fromeither3-interface)
   - [FromEither3C (interface)](#fromeither3c-interface)
   - [FromEither4 (interface)](#fromeither4-interface)
-- [utils](#utils)
-  - [chainEitherK](#chaineitherk)
-  - [chainOptionK](#chainoptionk)
-  - [filterOrElse](#filterorelse)
-  - [fromEitherK](#fromeitherk)
-  - [fromOption](#fromoption)
-  - [fromOptionK](#fromoptionk)
-  - [fromPredicate](#frompredicate)
 
 ---
 
-# type classes
-
-## FromEither (interface)
-
-**Signature**
-
-```ts
-export interface FromEither<F> {
-  readonly URI: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
-}
-```
-
-Added in v2.10.0
-
-## FromEither2 (interface)
-
-**Signature**
-
-```ts
-export interface FromEither2<F extends URIS2> {
-  readonly URI: F
-  readonly fromEither: <E, A>(e: Either<E, A>) => Kind2<F, E, A>
-}
-```
-
-Added in v2.10.0
-
-## FromEither2C (interface)
-
-**Signature**
-
-```ts
-export interface FromEither2C<F extends URIS2, E> {
-  readonly URI: F
-  readonly _E: E
-  readonly fromEither: <A>(e: Either<E, A>) => Kind2<F, E, A>
-}
-```
-
-Added in v2.10.0
-
-## FromEither3 (interface)
-
-**Signature**
-
-```ts
-export interface FromEither3<F extends URIS3> {
-  readonly URI: F
-  readonly fromEither: <E, A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
-}
-```
-
-Added in v2.10.0
-
-## FromEither3C (interface)
-
-**Signature**
-
-```ts
-export interface FromEither3C<F extends URIS3, E> {
-  readonly URI: F
-  readonly _E: E
-  readonly fromEither: <A, R>(e: Either<E, A>) => Kind3<F, R, E, A>
-}
-```
-
-Added in v2.10.0
-
-## FromEither4 (interface)
-
-**Signature**
-
-```ts
-export interface FromEither4<F extends URIS4> {
-  readonly URI: F
-  readonly fromEither: <E, A, S, R>(e: Either<E, A>) => Kind4<F, S, R, E, A>
-}
-```
-
-Added in v2.10.0
-
-# utils
+# combinators
 
 ## chainEitherK
 
@@ -141,6 +61,10 @@ export declare function chainEitherK<M extends URIS2, E>(
   F: FromEither2C<M, E>,
   M: Chain2C<M, E>
 ): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+export declare function chainEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, B>
 export declare function chainEitherK<M>(
   F: FromEither<M>,
   M: Chain<M>
@@ -194,6 +118,9 @@ export declare function filterOrElse<M extends URIS4>(
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
     ma: Kind4<M, S, R, E, A>
   ) => Kind4<M, S, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(
+    mb: Kind4<M, S, R, E, B>
+  ) => Kind4<M, S, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
 }
 export declare function filterOrElse<M extends URIS3>(
@@ -203,6 +130,7 @@ export declare function filterOrElse<M extends URIS3>(
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: Kind3<M, R, E, A>
   ) => Kind3<M, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(mb: Kind3<M, R, E, B>) => Kind3<M, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
 export declare function filterOrElse<M extends URIS3, E>(
@@ -210,6 +138,7 @@ export declare function filterOrElse<M extends URIS3, E>(
   M: Chain3C<M, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(mb: Kind3<M, R, E, B>) => Kind3<M, R, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 }
 export declare function filterOrElse<M extends URIS2>(
@@ -217,6 +146,7 @@ export declare function filterOrElse<M extends URIS2>(
   M: Chain2<M>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Kind2<M, E, B>) => Kind2<M, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M extends URIS2, E>(
@@ -224,6 +154,7 @@ export declare function filterOrElse<M extends URIS2, E>(
   M: Chain2C<M, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Kind2<M, E, B>) => Kind2<M, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<M, E, A>) => Kind2<M, E, A>
 }
 export declare function filterOrElse<M extends URIS2>(
@@ -231,6 +162,7 @@ export declare function filterOrElse<M extends URIS2>(
   M: Chain<M>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: HKT2<M, E, B>) => HKT2<M, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT2<M, E, A>) => HKT2<M, E, A>
 }
 ```
@@ -257,34 +189,12 @@ export declare function fromEitherK<F extends URIS2>(
 export declare function fromEitherK<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind2<F, E, B>
+export declare function fromEitherK<F extends URIS>(
+  F: FromEither1<F>
+): <E, A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Kind<F, B>
 export declare function fromEitherK<F>(
   F: FromEither<F>
 ): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => HKT2<F, E, B>
-```
-
-Added in v2.10.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare function fromOption<F extends URIS4>(
-  F: FromEither4<F>
-): <E>(onNone: Lazy<E>) => <A, S, R>(ma: Option<A>) => Kind4<F, S, R, E, A>
-export declare function fromOption<F extends URIS3>(
-  F: FromEither3<F>
-): <E>(onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
-export declare function fromOption<F extends URIS3, E>(
-  F: FromEither3C<F, E>
-): (onNone: Lazy<E>) => <A, R>(ma: Option<A>) => Kind3<F, R, E, A>
-export declare function fromOption<F extends URIS2>(
-  F: FromEither2<F>
-): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
-export declare function fromOption<F extends URIS2, E>(
-  F: FromEither2C<F, E>
-): (onNone: Lazy<E>) => <A>(ma: Option<A>) => Kind2<F, E, A>
-export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
 ```
 
 Added in v2.10.0
@@ -326,6 +236,33 @@ export declare function fromOptionK<F>(
 
 Added in v2.10.0
 
+# constructors
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare function fromOption<F extends URIS4>(
+  F: FromEither4<F>
+): <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, F, E>
+export declare function fromOption<F extends URIS3>(
+  F: FromEither3<F>
+): <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
+export declare function fromOption<F extends URIS3, E>(
+  F: FromEither3C<F, E>
+): (onNone: Lazy<E>) => NaturalTransformation13C<OURI, F, E>
+export declare function fromOption<F extends URIS2>(
+  F: FromEither2<F>
+): <E>(onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
+export declare function fromOption<F extends URIS2, E>(
+  F: FromEither2C<F, E>
+): (onNone: Lazy<E>) => NaturalTransformation12C<OURI, F, E>
+export declare function fromOption<F>(F: FromEither<F>): <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => HKT2<F, E, A>
+```
+
+Added in v2.10.0
+
 ## fromPredicate
 
 **Signature**
@@ -335,37 +272,138 @@ export declare function fromPredicate<F extends URIS4>(
   F: FromEither4<F>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(b: B) => Kind4<F, S, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, A>
 }
 export declare function fromPredicate<F extends URIS3>(
   F: FromEither3<F>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => Kind3<F, R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
 }
 export declare function fromPredicate<F extends URIS3, E>(
   F: FromEither3C<F, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => Kind3<F, R, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
 }
 export declare function fromPredicate<F extends URIS2>(
   F: FromEither2<F>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => Kind2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
 export declare function fromPredicate<F extends URIS2, E>(
   F: FromEither2C<F, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+  <A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => Kind2<F, E, B>
   <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
 }
 export declare function fromPredicate<F>(
   F: FromEither<F>
 ): {
   <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(b: B) => HKT2<F, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT2<F, E, A>
+}
+```
+
+Added in v2.10.0
+
+# type classes
+
+## FromEither (interface)
+
+**Signature**
+
+```ts
+export interface FromEither<F> {
+  readonly URI: F
+  readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<F, E, A>
+}
+```
+
+Added in v2.10.0
+
+## FromEither1 (interface)
+
+**Signature**
+
+```ts
+export interface FromEither1<F extends URIS> {
+  readonly URI: F
+  readonly fromEither: NaturalTransformation21<EURI, F>
+}
+```
+
+Added in v2.11.0
+
+## FromEither2 (interface)
+
+**Signature**
+
+```ts
+export interface FromEither2<F extends URIS2> {
+  readonly URI: F
+  readonly fromEither: NaturalTransformation22<EURI, F>
+}
+```
+
+Added in v2.10.0
+
+## FromEither2C (interface)
+
+**Signature**
+
+```ts
+export interface FromEither2C<F extends URIS2, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly fromEither: NaturalTransformation22C<EURI, F, E>
+}
+```
+
+Added in v2.10.0
+
+## FromEither3 (interface)
+
+**Signature**
+
+```ts
+export interface FromEither3<F extends URIS3> {
+  readonly URI: F
+  readonly fromEither: NaturalTransformation23<EURI, F>
+}
+```
+
+Added in v2.10.0
+
+## FromEither3C (interface)
+
+**Signature**
+
+```ts
+export interface FromEither3C<F extends URIS3, E> {
+  readonly URI: F
+  readonly _E: E
+  readonly fromEither: NaturalTransformation23C<EURI, F, E>
+}
+```
+
+Added in v2.10.0
+
+## FromEither4 (interface)
+
+**Signature**
+
+```ts
+export interface FromEither4<F extends URIS4> {
+  readonly URI: F
+  readonly fromEither: NaturalTransformation24<EURI, F>
 }
 ```
 

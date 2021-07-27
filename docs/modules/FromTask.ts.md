@@ -1,6 +1,6 @@
 ---
 title: FromTask.ts
-nav_order: 36
+nav_order: 39
 parent: Modules
 ---
 
@@ -155,7 +155,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask1<F extends URIS> extends FromIO1<F> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind<F, A>
+  readonly fromTask: NaturalTransformation11<URI, F>
 }
 ```
 
@@ -167,7 +167,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask2<F extends URIS2> extends FromIO2<F> {
-  readonly fromTask: <E, A>(fa: Task<A>) => Kind2<F, E, A>
+  readonly fromTask: NaturalTransformation12<URI, F>
 }
 ```
 
@@ -179,7 +179,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind2<F, E, A>
+  readonly fromTask: NaturalTransformation12C<URI, F, E>
 }
 ```
 
@@ -191,7 +191,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask3<F extends URIS3> extends FromIO3<F> {
-  readonly fromTask: <R, E, A>(fa: Task<A>) => Kind3<F, R, E, A>
+  readonly fromTask: NaturalTransformation13<URI, F>
 }
 ```
 
@@ -203,7 +203,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
-  readonly fromTask: <R, A>(fa: Task<A>) => Kind3<F, R, E, A>
+  readonly fromTask: NaturalTransformation13C<URI, F, E>
 }
 ```
 
@@ -215,7 +215,7 @@ Added in v2.10.0
 
 ```ts
 export interface FromTask4<F extends URIS4> extends FromIO4<F> {
-  readonly fromTask: <S, R, E, A>(fa: Task<A>) => Kind4<F, S, R, E, A>
+  readonly fromTask: NaturalTransformation14<URI, F>
 }
 ```
 

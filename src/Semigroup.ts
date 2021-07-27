@@ -39,11 +39,12 @@
  */
 import { getSemigroup, identity } from './function'
 import * as _ from './internal'
-import { Magma } from './Magma'
+import * as M from './Magma'
 import * as Or from './Ord'
 import { ReadonlyRecord } from './ReadonlyRecord'
 
 import Ord = Or.Ord
+import Magma = M.Magma
 
 // -------------------------------------------------------------------------------------
 // model
@@ -119,9 +120,7 @@ export const constant = <A>(a: A): Semigroup<A> => ({
  * @category combinators
  * @since 2.10.0
  */
-export const reverse = <A>(S: Semigroup<A>): Semigroup<A> => ({
-  concat: (x, y) => S.concat(y, x)
-})
+export const reverse: <A>(S: Semigroup<A>) => Semigroup<A> = M.reverse
 
 /**
  * Given a struct of semigroups returns a semigroup for the struct.
@@ -232,12 +231,6 @@ export const first = <A = never>(): Semigroup<A> => ({ concat: identity })
  */
 export const last = <A = never>(): Semigroup<A> => ({ concat: (_, y) => y })
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -258,12 +251,20 @@ export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
  *
  * @since 2.10.0
  */
-export const concatAll = <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>): A =>
-  as.reduce(S.concat, startWith)
+export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyArray<A>) => A = M.concatAll
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+/**
+ * Use `void` module instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
 
 /**
  * Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.

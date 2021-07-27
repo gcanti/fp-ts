@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 54
+nav_order: 58
 parent: Modules
 ---
 
@@ -41,17 +41,26 @@ Added in v2.0.0
   - [Functor](#functor-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
+  - [getFoldable](#getfoldable)
   - [getFoldableWithIndex](#getfoldablewithindex)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getShow](#getshow)
   - [getTraversableWithIndex](#gettraversablewithindex)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~map\_~~](#map_)
 - [utils](#utils)
   - [collect](#collect)
+  - [difference](#difference)
   - [elem](#elem)
+  - [foldMap](#foldmap)
+  - [foldMapWithIndex](#foldmapwithindex)
+  - [intersection](#intersection)
   - [isEmpty](#isempty)
   - [isSubmap](#issubmap)
   - [keys](#keys)
@@ -60,10 +69,15 @@ Added in v2.0.0
   - [member](#member)
   - [modifyAt](#modifyat)
   - [pop](#pop)
+  - [reduce](#reduce)
+  - [reduceRight](#reduceright)
+  - [reduceRightWithIndex](#reducerightwithindex)
+  - [reduceWithIndex](#reducewithindex)
   - [singleton](#singleton)
   - [size](#size)
   - [toArray](#toarray)
   - [toUnfoldable](#tounfoldable)
+  - [union](#union)
   - [updateAt](#updateat)
   - [values](#values)
   - [~~empty~~](#empty)
@@ -101,6 +115,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 }
 ```
@@ -124,6 +139,7 @@ Added in v2.0.0
 ```ts
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 }
 ```
@@ -198,7 +214,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>) => Map<K, A>
+export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
 ```
 
 Added in v2.10.0
@@ -232,9 +250,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 ```
 
 Added in v2.10.0
@@ -345,6 +369,16 @@ export type URI = typeof URI
 
 Added in v2.0.0
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<Map<K, A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -365,6 +399,16 @@ export declare function getFilterableWithIndex<K = never>(): FilterableWithIndex
 
 Added in v2.0.0
 
+## getFoldable
+
+**Signature**
+
+```ts
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'Map', K>
+```
+
+Added in v2.11.0
+
 ## getFoldableWithIndex
 
 **Signature**
@@ -374,6 +418,16 @@ export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C
 ```
 
 Added in v2.10.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<Map<K, A>>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -406,6 +460,26 @@ export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithI
 ```
 
 Added in v2.10.0
+
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <K, A>(E: Eq<K>, S: Semigroup<A>) => Monoid<Map<K, A>>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <K, A>(E: Eq<K>, S: Semigroup<A>) => Semigroup<Map<K, A>>
+```
+
+Added in v2.11.0
 
 ## getWitherable
 
@@ -441,6 +515,16 @@ export declare function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (
 
 Added in v2.0.0
 
+## difference
+
+**Signature**
+
+```ts
+export declare const difference: <K>(E: Eq<K>) => <A>(_second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
+
 ## elem
 
 Test whether or not a value is a member of a map
@@ -453,6 +537,41 @@ export declare const elem: <A>(E: Eq<A>) => { (a: A): <K>(m: Map<K, A>) => boole
 
 Added in v2.0.0
 
+## foldMap
+
+**Signature**
+
+```ts
+export declare const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## foldMapWithIndex
+
+**Signature**
+
+```ts
+export declare const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (k: K, a: A) => M) => (m: Map<K, A>) => M
+```
+
+Added in v2.11.0
+
+## intersection
+
+**Signature**
+
+```ts
+export declare const intersection: <K, A>(
+  E: Eq<K>,
+  M: Magma<A>
+) => (second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
+
 ## isEmpty
 
 Test whether or not a map is empty
@@ -460,7 +579,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export declare const isEmpty: <K, A>(d: Map<K, A>) => boolean
+export declare const isEmpty: <K, A>(m: Map<K, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -558,6 +677,48 @@ export declare function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<
 
 Added in v2.0.0
 
+## reduce
+
+**Signature**
+
+```ts
+export declare const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceRightWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (k: K, a: A, b: B) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
+## reduceWithIndex
+
+**Signature**
+
+```ts
+export declare const reduceWithIndex: <K>(O: Ord<K>) => <B, A>(b: B, f: (k: K, b: B, a: A) => B) => (m: Map<K, A>) => B
+```
+
+Added in v2.11.0
+
 ## singleton
 
 Create a map with one key/value pair
@@ -577,7 +738,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export declare const size: <K, A>(d: Map<K, A>) => number
+export declare const size: <K, A>(m: Map<K, A>) => number
 ```
 
 Added in v2.0.0
@@ -609,6 +770,16 @@ export declare function toUnfoldable<K, F>(ord: Ord<K>, U: Unfoldable<F>): <A>(d
 ```
 
 Added in v2.0.0
+
+## union
+
+**Signature**
+
+```ts
+export declare const union: <K, A>(E: Eq<K>, M: Magma<A>) => (second: Map<K, A>) => (first: Map<K, A>) => Map<K, A>
+```
+
+Added in v2.11.0
 
 ## updateAt
 

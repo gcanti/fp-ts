@@ -9,6 +9,16 @@ declare const ns: Array<number>
 declare const ss: Array<string>
 declare const tns: Array<[number, string]>
 
+// prepend
+
+pipe(ss, _.prepend('a')) // $ExpectType NonEmptyArray<string>
+pipe(ss, _.prependW(1)) // $ExpectType NonEmptyArray<string | number>
+
+// append
+
+pipe(ss, _.append('a')) // $ExpectType NonEmptyArray<string>
+pipe(ss, _.appendW(1)) // $ExpectType NonEmptyArray<string | number>
+
 //
 // zip
 //
@@ -27,55 +37,6 @@ _.zipWith(ns, ss, (n, s) => [n, s] as const) // $ExpectType (readonly [number, s
 
 _.unzip(tns) // $ExpectType [number[], string[]]
 pipe(tns, _.unzip) // $ExpectType [number[], string[]]
-
-//
-// Filterable overlodings
-//
-
-declare function isStringWithIndex(i: number, x: unknown): x is string
-
-_.array.filterWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType string[]
-_.array.partitionWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType Separated<(string | number)[], string[]>
-
-//
-// filter
-//
-
-// $ExpectType number[]
-pipe(
-  us,
-  _.filter((u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// filterWithIndex
-//
-
-// $ExpectType number[]
-pipe(
-  us,
-  _.filterWithIndex((_, u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// partition
-//
-
-// $ExpectType Separated<unknown[], number[]>
-pipe(
-  us,
-  _.partition((u: unknown): u is number => typeof u === 'number')
-)
-
-//
-// partitionWithIndex
-//
-
-// $ExpectType Separated<unknown[], number[]>
-pipe(
-  us,
-  _.partitionWithIndex((_, u: unknown): u is number => typeof u === 'number')
-)
 
 //
 // spanLeft
@@ -188,4 +149,150 @@ pipe(
     _.some((n) => n > 0),
     identity
   )
+)
+
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const prns: Array<number>
+declare const prsns: Array<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const predicate: (sn: string | number) => boolean
+declare const isStringWithIndex: (i: number, u: unknown) => u is string
+declare const isNumberWithIndex: (i: number, sn: string | number) => sn is number
+declare const predicateWithIndex: (i: number, sn: string | number) => boolean
+
+//
+// filter
+//
+
+// $ExpectType string[]
+pipe(prsns, _.filter(isString))
+// $ExpectType number[]
+pipe(prns, _.filter(predicate))
+// $ExpectType number[]
+pipe(
+  prns,
+  _.filter(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// filterWithIndex
+//
+
+// $ExpectType string[]
+pipe(prsns, _.filterWithIndex(isStringWithIndex))
+// $ExpectType number[]
+pipe(prns, _.filterWithIndex(predicateWithIndex))
+// $ExpectType number[]
+pipe(
+  prns,
+  _.filterWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partition
+//
+
+// $ExpectType Separated<unknown[], string[]>
+pipe(prsns, _.partition(isString))
+// $ExpectType Separated<number[], number[]>
+pipe(prns, _.partition(predicate))
+// $ExpectType Separated<(string | number)[], number[]>
+pipe(prsns, _.partition(isNumber))
+// $ExpectType Separated<number[], number[]>
+pipe(
+  prns,
+  _.partition(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partitionWithIndex
+//
+
+// $ExpectType Separated<unknown[], string[]>
+pipe(prsns, _.partitionWithIndex(isStringWithIndex))
+// $ExpectType Separated<number[], number[]>
+pipe(prns, _.partitionWithIndex(predicateWithIndex))
+// $ExpectType Separated<(string | number)[], number[]>
+pipe(prsns, _.partitionWithIndex(isNumberWithIndex))
+// $ExpectType Separated<number[], number[]>
+pipe(
+  prns,
+  _.partitionWithIndex(
+    (
+      i, // $ExpectType number
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// takeLeftWhile
+//
+
+// $ExpectType string[]
+pipe(prsns, _.takeLeftWhile(isString))
+// $ExpectType number[]
+pipe(prns, _.takeLeftWhile(predicate))
+
+//
+// dropLeftWhile
+//
+
+// $ExpectType string[]
+pipe(prsns, _.dropLeftWhile(isString))
+// $ExpectType number[]
+pipe(prns, _.dropLeftWhile(predicate))
+
+//
+// spanLeft
+//
+
+// $ExpectType Spanned<string, unknown>
+pipe(prsns, _.spanLeft(isString))
+// $ExpectType Spanned<number, number>
+pipe(prns, _.spanLeft(predicate))
+
+//
+// findFirst
+//
+
+// $ExpectType Option<string>
+pipe(prsns, _.findFirst(isString))
+// $ExpectType Option<number>
+pipe(prns, _.findFirst(predicate))
+
+//
+// findLast
+//
+
+// $ExpectType Option<string>
+pipe(prsns, _.findLast(isString))
+// $ExpectType Option<number>
+pipe(prns, _.findLast(predicate))
+
+//
+// isEmpty
+//
+
+// $ExpectType Either<string[], []>
+pipe(
+  ss,
+  E.fromPredicate(_.isEmpty, (as) => as)
 )

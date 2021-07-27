@@ -6,7 +6,15 @@
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { IO } from './IO'
+import { IO, URI } from './IO'
+import {
+  NaturalTransformation11,
+  NaturalTransformation12,
+  NaturalTransformation12C,
+  NaturalTransformation13,
+  NaturalTransformation13C,
+  NaturalTransformation14
+} from './NaturalTransformation'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -27,7 +35,7 @@ export interface FromIO<F> {
  */
 export interface FromIO1<F extends URIS> {
   readonly URI: F
-  readonly fromIO: <A>(fa: IO<A>) => Kind<F, A>
+  readonly fromIO: NaturalTransformation11<URI, F>
 }
 
 /**
@@ -36,7 +44,7 @@ export interface FromIO1<F extends URIS> {
  */
 export interface FromIO2<F extends URIS2> {
   readonly URI: F
-  readonly fromIO: <E, A>(fa: IO<A>) => Kind2<F, E, A>
+  readonly fromIO: NaturalTransformation12<URI, F>
 }
 
 /**
@@ -46,7 +54,7 @@ export interface FromIO2<F extends URIS2> {
 export interface FromIO2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: <A>(fa: IO<A>) => Kind2<F, E, A>
+  readonly fromIO: NaturalTransformation12C<URI, F, E>
 }
 
 /**
@@ -55,7 +63,7 @@ export interface FromIO2C<F extends URIS2, E> {
  */
 export interface FromIO3<F extends URIS3> {
   readonly URI: F
-  readonly fromIO: <R, E, A>(fa: IO<A>) => Kind3<F, R, E, A>
+  readonly fromIO: NaturalTransformation13<URI, F>
 }
 
 /**
@@ -65,7 +73,7 @@ export interface FromIO3<F extends URIS3> {
 export interface FromIO3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromIO: <R, A>(fa: IO<A>) => Kind3<F, R, E, A>
+  readonly fromIO: NaturalTransformation13C<URI, F, E>
 }
 
 /**
@@ -74,7 +82,7 @@ export interface FromIO3C<F extends URIS3, E> {
  */
 export interface FromIO4<F extends URIS4> {
   readonly URI: F
-  readonly fromIO: <S, R, E, A>(fa: IO<A>) => Kind4<F, S, R, E, A>
+  readonly fromIO: NaturalTransformation14<URI, F>
 }
 
 // -------------------------------------------------------------------------------------

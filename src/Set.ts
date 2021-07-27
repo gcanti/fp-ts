@@ -1,15 +1,18 @@
 /**
  * @since 2.0.0
  */
-import { separated, Separated } from './Separated'
 import { Either } from './Either'
 import { Eq } from './Eq'
-import { identity, Predicate, Refinement } from './function'
+import { identity } from './function'
+import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Ord } from './Ord'
+import { Predicate } from './Predicate'
 import * as RS from './ReadonlySet'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
+import { separated, Separated } from './Separated'
 import { Show } from './Show'
 
 /**
@@ -76,17 +79,18 @@ interface Next<A> {
  * @since 2.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
+export function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
 export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
 export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
-  return (set) => {
+  return (set: Set<A>) => {
     const values = set.values()
     let e: Next<A>
     const r = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        r.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        r.add(a)
       }
     }
     return r
@@ -97,20 +101,21 @@ export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
  * @since 2.0.0
  */
 export function partition<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Separated<Set<A>, Set<B>>
+export function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
 export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
-  return (set) => {
+  return (set: Set<A>) => {
     const values = set.values()
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        right.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        right.add(a)
       } else {
-        left.add(value)
+        left.add(a)
       }
     }
     return separated(left, right)
@@ -253,24 +258,36 @@ export function difference<A>(E: Eq<A>): (me: Set<A>, that?: Set<A>) => Set<A> |
 
 /**
  * @category instances
- * @since 2.0.0
+ * @since 2.11.0
  */
-export function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>> {
-  return {
-    concat: union(E),
-    empty: new Set()
-  }
-}
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<Set<A>> => ({
+  concat: union(E)
+})
 
 /**
  * @category instances
  * @since 2.0.0
  */
-export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> {
-  return {
-    concat: intersection(E)
-  }
-}
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<Set<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty: new Set()
+})
+
+/**
+ * @category instances
+ * @since 2.0.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<Set<A>> => ({
+  concat: intersection(E)
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<Set<A>> => ({
+  concat: difference(E)
+})
 
 /**
  * @since 2.0.0
@@ -281,6 +298,11 @@ export const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) => (fa: S
  * @since 2.0.0
  */
 export const foldMap: <A, M>(O: Ord<A>, M: Monoid<M>) => (f: (a: A) => M) => (fa: Set<A>) => M = RS.foldMap
+
+/**
+ * @since 2.11.0
+ */
+export const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: Set<A>) => B = RS.reduceRight
 
 /**
  * Create a set with one element

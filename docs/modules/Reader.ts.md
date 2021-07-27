@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 71
+nav_order: 77
 parent: Modules
 ---
 
@@ -37,9 +37,13 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
   - [chainFirst](#chainfirst)
+  - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -63,6 +67,7 @@ Added in v2.0.0
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -72,6 +77,8 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -195,7 +202,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>
+export declare const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B>
 ```
 
 Added in v2.0.0
@@ -264,6 +271,30 @@ export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader
 
 Added in v2.0.0
 
+## asksReader
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderW
+
+Less strict version of [`asksReader`](#asksreader).
+
+**Signature**
+
+```ts
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -278,6 +309,22 @@ export declare const chainFirst: <A, E, B>(f: (a: A) => Reader<E, B>) => (first:
 ```
 
 Added in v2.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## flap
 
@@ -302,6 +349,18 @@ export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, 
 ```
 
 Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## local
 
@@ -520,6 +579,16 @@ Added in v2.0.0
 
 # utils
 
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: Reader<unknown, readonly []>
+```
+
+Added in v2.11.0
+
 ## Do
 
 **Signature**
@@ -594,8 +663,6 @@ Added in v2.8.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -605,8 +672,6 @@ export declare const sequenceArray: <R, A>(arr: readonly Reader<R, A>[]) => Read
 Added in v2.9.0
 
 ## traverseArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -620,8 +685,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -631,3 +694,31 @@ export declare const traverseArrayWithIndex: <R, A, B>(
 ```
 
 Added in v2.9.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: readonly A[]) => Reader<R, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => Reader<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0

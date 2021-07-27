@@ -2,22 +2,62 @@
  * @since 2.5.0
  */
 import { Either } from './Either'
-import { Monoid } from './Monoid'
-import { Ord } from './Ord'
-import { Semigroup } from './Semigroup'
 import { Eq, fromEquals } from './Eq'
-import { Predicate, not, Refinement, identity } from './function'
-import { Separated, separated } from './Separated'
+import { identity } from './function'
+import { Magma } from './Magma'
+import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { Ord } from './Ord'
+import { not, Predicate } from './Predicate'
+import { Refinement } from './Refinement'
+import { Semigroup } from './Semigroup'
+import { Separated, separated } from './Separated'
 import { Show } from './Show'
 
+// -------------------------------------------------------------------------------------
+// interop
+// -------------------------------------------------------------------------------------
+
 /**
+ * @category interop
+ * @since 2.5.0
+ */
+export const fromSet = <A>(s: Set<A>): ReadonlySet<A> => new Set(s)
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Create a set with one element
+ *
  * @category constructors
  * @since 2.5.0
  */
-export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
-  return new Set(s)
+export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
+
+/**
+ * Create a `ReadonlySet` from a `ReadonlyArray`
+ *
+ * @category constructors
+ * @since 2.10.0
+ */
+export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
+  const len = as.length
+  const out = new Set<A>()
+  const has = elem(E)
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (!has(a, out)) {
+      out.add(a)
+    }
+  }
+  return out
 }
+
+// -------------------------------------------------------------------------------------
+// destructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category destructors
@@ -25,31 +65,6 @@ export function fromSet<A>(s: Set<A>): ReadonlySet<A> {
  */
 export function toSet<A>(s: ReadonlySet<A>): Set<A> {
   return new Set(s)
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
-  return {
-    show: (s) => {
-      const entries: Array<string> = []
-      s.forEach((a) => {
-        entries.push(S.show(a))
-      })
-      return `new Set([${entries.sort().join(', ')}])`
-    }
-  }
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
-  const subsetE = isSubset(E)
-  return fromEquals((x, y) => subsetE(x, y) && subsetE(y, x))
 }
 
 interface Next<A> {
@@ -101,17 +116,18 @@ export function chain<B>(E: Eq<B>): <A>(f: (x: A) => ReadonlySet<B>) => (set: Re
  * @since 2.5.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
+export function filter<A>(predicate: Predicate<A>): <B extends A>(set: ReadonlySet<B>) => ReadonlySet<B>
 export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
 export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A> {
-  return (set) => {
+  return (set: ReadonlySet<A>) => {
     const values = set.values()
     let e: Next<A>
     const r = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        r.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        r.add(a)
       }
     }
     return r
@@ -126,22 +142,25 @@ export function partition<A, B extends A>(
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
 export function partition<A>(
   predicate: Predicate<A>
+): <B extends A>(set: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
+export function partition<A>(
+  predicate: Predicate<A>
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 export function partition<A>(
   predicate: Predicate<A>
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>> {
-  return (set) => {
+  return (set: ReadonlySet<A>) => {
     const values = set.values()
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
     // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        right.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        right.add(a)
       } else {
-        left.add(value)
+        left.add(a)
       }
     }
     return separated(left, right)
@@ -289,27 +308,6 @@ export function difference<A>(
 }
 
 /**
- * @category instances
- * @since 2.5.0
- */
-export function getUnionMonoid<A>(E: Eq<A>): Monoid<ReadonlySet<A>> {
-  return {
-    concat: union(E),
-    empty
-  }
-}
-
-/**
- * @category instances
- * @since 2.5.0
- */
-export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<ReadonlySet<A>> {
-  return {
-    concat: intersection(E)
-  }
-}
-
-/**
  * @since 2.5.0
  */
 export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlySet<A>) => B {
@@ -326,12 +324,12 @@ export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa:
 }
 
 /**
- * Create a set with one element
- *
- * @category constructors
- * @since 2.5.0
+ * @since 2.11.0
  */
-export const singleton = <A>(a: A): ReadonlySet<A> => new Set([a])
+export const reduceRight = <A>(O: Ord<A>): (<B>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlySet<A>) => B) => {
+  const toReadonlyArrayO = toReadonlyArray(O)
+  return (b, f) => (fa) => toReadonlyArrayO(fa).reduceRight((b, a) => f(a, b), b)
+}
 
 /**
  * Insert a value into a set
@@ -374,25 +372,6 @@ export const toggle = <A>(E: Eq<A>): ((a: A) => (set: ReadonlySet<A>) => Readonl
   const removeE = remove(E)
   const insertE = insert(E)
   return (a) => (set) => (elemE(a, set) ? removeE : insertE)(a)(set)
-}
-
-/**
- * Create a set from an array
- *
- * @category constructors
- * @since 2.10.0
- */
-export const fromReadonlyArray = <A>(E: Eq<A>) => (as: ReadonlyArray<A>): ReadonlySet<A> => {
-  const len = as.length
-  const out = new Set<A>()
-  const has = elem(E)
-  for (let i = 0; i < len; i++) {
-    const a = as[i]
-    if (!has(a, out)) {
-      out.add(a)
-    }
-  }
-  return out
 }
 
 /**
@@ -555,6 +534,86 @@ export const toReadonlyArray = <A>(O: Ord<A>) => (set: ReadonlySet<A>): Readonly
   set.forEach((e) => out.push(e))
   return out.sort(O.compare)
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const URI = 'ReadonlySet'
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: ReadonlySet<A>
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getShow<A>(S: Show<A>): Show<ReadonlySet<A>> {
+  return {
+    show: (s) => {
+      const entries: Array<string> = []
+      s.forEach((a) => {
+        entries.push(S.show(a))
+      })
+      return `new Set([${entries.sort().join(', ')}])`
+    }
+  }
+}
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<ReadonlySet<A>> {
+  const subsetE = isSubset(E)
+  return fromEquals((x, y) => subsetE(x, y) && subsetE(y, x))
+}
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
+  concat: union(E)
+})
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<ReadonlySet<A>> => ({
+  concat: getUnionSemigroup(E).concat,
+  empty
+})
+
+/**
+ * @category instances
+ * @since 2.5.0
+ */
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlySet<A>> => ({
+  concat: intersection(E)
+})
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const getDifferenceMagma = <A>(E: Eq<A>): Magma<ReadonlySet<A>> => ({
+  concat: difference(E)
+})
 
 // -------------------------------------------------------------------------------------
 // deprecated

@@ -1,6 +1,7 @@
 import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
+import * as TO from '../../src/TaskOption'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
@@ -12,6 +13,56 @@ import { pipe } from '../../src/function'
 pipe(
   _.right('a'),
   _.getOrElseW(() => T.of(null))
+)
+
+//
+// orElse
+//
+
+// $ExpectType TaskEither<number, never>
+pipe(
+  _.left('a'),
+  _.orElse((a) => _.left(a.length))
+)
+
+//
+// orElseW
+//
+
+// $ExpectType TaskEither<never, string | number>
+pipe(
+  _.left<string, string>('a'),
+  _.orElseW((a) => _.right(a.length))
+)
+
+//
+// orElseFirst
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirst((a) => _.right(a.length))
+)
+
+//
+// orElseFirstW
+//
+
+// $ExpectType TaskEither<string | number, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstW((a) => _.left(a.length))
+)
+
+//
+// orLeft
+//
+
+// $ExpectType TaskEither<number, never>
+pipe(
+  _.left('a'),
+  _.orLeft((a) => T.of(a.length))
 )
 
 //
@@ -42,6 +93,16 @@ pipe(
 pipe(
   _.right<string, string>('a'),
   _.chainIOEitherKW(() => IOE.right<number, number>(1))
+)
+
+//
+// fromTaskOption
+//
+
+// $ExpectType TaskEither<string, number>
+pipe(
+  TO.some(1),
+  _.fromTaskOption(() => 'a')
 )
 
 //

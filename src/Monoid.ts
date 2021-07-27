@@ -33,7 +33,8 @@
  * @since 2.0.0
  */
 import { Bounded } from './Bounded'
-import { Endomorphism, getEndomorphismMonoid as getEM, getMonoid } from './function'
+import { getMonoid as getFM } from './function'
+import { Endomorphism, getMonoid as getEM } from './Endomorphism'
 import * as _ from './internal'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
@@ -177,15 +178,6 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
     empty: monoids.map((m) => m.empty)
   } as any)
 
-/**
- * @category instances
- * @since 2.0.0
- */
-export const monoidVoid: Monoid<void> = {
-  concat: Se.semigroupVoid.concat,
-  empty: undefined
-}
-
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
@@ -209,6 +201,20 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
+
+/**
+ * Use [`Monoid`](./void.ts.html#monoid) instead.
+ *
+ * @category instances
+ * @since 2.0.0
+ * @deprecated
+ */
+export const monoidVoid: Monoid<void> = {
+  concat: Se.semigroupVoid.concat,
+  empty: undefined
+}
 
 /**
  * Use [`tuple`](#tuple) instead.
@@ -275,7 +281,6 @@ export const fold = concatAll
  * @deprecated
  */
 export const monoidAll: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAll.concat,
   empty: true
 }
@@ -288,7 +293,6 @@ export const monoidAll: Monoid<boolean> = {
  * @deprecated
  */
 export const monoidAny: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAny.concat,
   empty: false
 }
@@ -300,7 +304,7 @@ export const monoidAny: Monoid<boolean> = {
  * @since 2.0.0
  * @deprecated
  */
-export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getMonoid
+export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getFM
 
 /**
  * Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
@@ -321,7 +325,6 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => r
  * @deprecated
  */
 export const monoidString: Monoid<string> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupString.concat,
   empty: ''
 }
@@ -334,7 +337,6 @@ export const monoidString: Monoid<string> = {
  * @deprecated
  */
 export const monoidSum: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupSum.concat,
   empty: 0
 }
@@ -347,7 +349,6 @@ export const monoidSum: Monoid<number> = {
  * @deprecated
  */
 export const monoidProduct: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupProduct.concat,
   empty: 1
 }

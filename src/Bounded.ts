@@ -26,6 +26,8 @@ export interface Bounded<A> extends Ord<A> {
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use [`Bounded`](./number.ts.html#bounded) instead.
  *
@@ -34,9 +36,7 @@ export interface Bounded<A> extends Ord<A> {
  * @deprecated
  */
 export const boundedNumber: Bounded<number> = {
-  // tslint:disable-next-line: deprecation
   equals: ordNumber.equals,
-  // tslint:disable-next-line: deprecation
   compare: ordNumber.compare,
   top: Infinity,
   bottom: -Infinity

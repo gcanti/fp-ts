@@ -1,5 +1,5 @@
 import * as Benchmark from 'benchmark'
-import * as A from '../../src/Array'
+import * as RNEA from '../../src/ReadonlyNonEmptyArray'
 import * as _ from '../../src/TaskOption'
 import { pipe } from '../../src/function'
 
@@ -11,19 +11,19 @@ Fastest is _.traverseSeqArrayWithIndex
 
 const suite = new Benchmark.Suite()
 
-const as = A.range(0, 1000)
+const as = pipe(RNEA.range(0, 1000))
 
 suite
   .add('A.traverseWithIndex(_.ApplicativeSeq)', function () {
     return pipe(
       as,
-      A.traverseWithIndex(_.ApplicativeSeq)((_i, a) => _.of(a))
+      RNEA.traverseWithIndex(_.ApplicativeSeq)((_i, a) => _.of(a))
     )()
   })
-  .add('_.traverseSeqArrayWithIndex', function () {
+  .add('_.traverseReadonlyArrayWithIndexSeq', function () {
     return pipe(
       as,
-      _.traverseSeqArrayWithIndex((_i, a) => _.of(a))
+      _.traverseReadonlyArrayWithIndexSeq((_i, a) => _.of(a))
     )()
   })
   .on('cycle', function (event: any) {

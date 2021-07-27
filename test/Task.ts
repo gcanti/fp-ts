@@ -1,10 +1,11 @@
 import * as U from './util'
-import { pipe } from '../src/function'
+import { pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/Task'
 import * as assert from 'assert'
 import * as S from '../src/string'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
   new Promise<A>((_, reject) => {
@@ -163,33 +164,80 @@ describe('Task', () => {
     U.deepStrictEqual(await pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b')))(), { a: 1, b: 'b' })
   })
 
-  it('sequenceArray', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number> = []
-    const append = (n: number): _.Task<number> =>
-      _.delay(n % 2 === 0 ? 50 : 100)(
-        _.fromIO(() => {
-          log.push(n)
-          return n
-        })
-      )
-    const as = RA.makeBy(4, append)
-    U.deepStrictEqual(await pipe(as, _.sequenceArray)(), [0, 1, 2, 3])
-    U.deepStrictEqual(log, [0, 2, 1, 3])
-  })
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
-  it('sequenceSeqArray', async () => {
-    // tslint:disable-next-line: readonly-array
-    const log: Array<number> = []
-    const append = (n: number): _.Task<number> =>
-      _.delay(n % 2 === 0 ? 50 : 100)(
-        _.fromIO(() => {
-          log.push(n)
-          return n
-        })
-      )
-    const as = RA.makeBy(4, append)
-    U.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(), [0, 1, 2, 3])
-    U.deepStrictEqual(log, [0, 1, 2, 3])
+    it('traverseReadonlyArrayWithIndex', async () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+      U.deepStrictEqual(await pipe(RA.empty, f)(), RA.empty)
+      U.deepStrictEqual(await pipe(input, f)(), ['a0', 'b1'])
+    })
+
+    it('traverseReadonlyArrayWithIndexSeq', async () => {
+      const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => _.of(a + i))
+      U.deepStrictEqual(await pipe(RA.empty, f)(), RA.empty)
+      U.deepStrictEqual(await pipe(input, f)(), ['a0', 'b1'])
+    })
+
+    it('sequenceReadonlyArray', async () => {
+      const log: Array<number> = []
+      const append = (n: number): _.Task<number> =>
+        _.delay(n % 2 === 0 ? 50 : 100)(
+          _.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      const as = RA.makeBy(4, append)
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndex(SK))(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 2, 1, 3])
+    })
+
+    it('sequenceReadonlyArraySeq', async () => {
+      const log: Array<number> = []
+      const append = (n: number): _.Task<number> =>
+        _.delay(n % 2 === 0 ? 50 : 100)(
+          _.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      const as = RA.makeBy(4, append)
+      U.deepStrictEqual(await pipe(as, _.traverseReadonlyArrayWithIndexSeq(SK))(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 1, 2, 3])
+    })
+
+    // old
+    it('sequenceArray', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number> = []
+      const append = (n: number): _.Task<number> =>
+        _.delay(n % 2 === 0 ? 50 : 100)(
+          _.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      const as = RA.makeBy(4, append)
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe(as, _.sequenceArray)(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 2, 1, 3])
+    })
+
+    it('sequenceSeqArray', async () => {
+      // tslint:disable-next-line: readonly-array
+      const log: Array<number> = []
+      const append = (n: number): _.Task<number> =>
+        _.delay(n % 2 === 0 ? 50 : 100)(
+          _.fromIO(() => {
+            log.push(n)
+            return n
+          })
+        )
+      const as = RA.makeBy(4, append)
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(), [0, 1, 2, 3])
+      U.deepStrictEqual(log, [0, 1, 2, 3])
+    })
   })
 })

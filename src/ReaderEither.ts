@@ -33,18 +33,31 @@ import {
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { flow, identity, Lazy, pipe, Predicate, Refinement } from './function'
+import {
+  ask as ask_,
+  asks as asks_,
+  chainFirstReaderK as chainFirstReaderK_,
+  chainReaderK as chainReaderK_,
+  FromReader3,
+  fromReaderK as fromReaderK_
+} from './FromReader'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
+import { NaturalTransformation13C } from './NaturalTransformation'
+import { URI as OURI } from './Option'
 import { Pointed3 } from './Pointed'
+import { Predicate } from './Predicate'
 import * as R from './Reader'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 
-import Either = E.Either
 import Reader = R.Reader
+import Either = E.Either
 
 // -------------------------------------------------------------------------------------
 // model
@@ -92,23 +105,21 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
   /*#__PURE__*/
   ET.leftF(R.Functor)
 
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const ask: <R, E = never>() => ReaderEither<R, E, R> = () => E.right
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const asks: <R, E = never, A = never>(f: (r: R) => A) => ReaderEither<R, E, A> = (f) => flow(f, E.right)
+export const fromEither: FromEither3<URI>['fromEither'] = R.of
 
 /**
- * @category constructors
- * @since 2.0.0
+ * @category natural transformations
+ * @since 2.11.0
  */
-export const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderEither<R, E, A> = R.of
+export const fromReader: FromReader3<URI>['fromReader'] = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -134,7 +145,7 @@ export const match: <E, B, A>(
 export const matchW: <E, B, A, C>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = match as any
+) => <R>(ma: Reader<R, Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
  * @category destructors
@@ -209,6 +220,35 @@ export const toUnion: <R, E, A>(fa: ReaderEither<R, E, A>) => Reader<R, E | A> =
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 2.0.0
+ */
+export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
+  R.local
+
+/**
+ * Less strict version of [`asksReaderEither`](#asksreadereither).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
+  R.asksReaderW
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReaderEither: <R, E, A>(
+  f: (r: R) => ReaderEither<R, E, A>
+) => ReaderEither<R, E, A> = asksReaderEitherW
+
+/**
  * @category combinators
  * @since 2.0.0
  */
@@ -227,6 +267,34 @@ export const orElse: <E1, R, E2, A>(
 export const orElseW: <E1, R1, E2, B>(
   onLeft: (e: E1) => ReaderEither<R1, E2, B>
 ) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const orElseFirst: <E, R, B>(
+  onLeft: (e: E) => ReaderEither<R, E, B>
+) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  ET.orElseFirst(R.Monad)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const orElseFirstW: <E1, R, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R, E2, B>
+) => <A>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const orLeft: <E1, R, E2>(
+  onLeft: (e: E1) => Reader<R, E2>
+) => <A>(fa: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> =
+  /*#__PURE__*/
+  ET.orLeft(R.Monad)
 
 /**
  * @category combinators
@@ -342,14 +410,24 @@ export const chainW: <R2, E2, A, B>(
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <R1, R2, E1, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A> = flattenW
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -613,6 +691,85 @@ export const Alt: Alt3<URI> = {
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const FromReader: FromReader3<URI> = {
+  URI,
+  fromReader
+}
+
+/**
+ * Reads the current context.
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const ask: <R, E = never>() => ReaderEither<R, E, R> =
+  /*#__PURE__*/
+  ask_(FromReader)
+
+/**
+ * Projects a value from the global context in a `ReaderEither`.
+ *
+ * @category constructors
+ * @since 2.0.0
+ */
+export const asks: <R, A, E = never>(f: (r: R) => A) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  asks_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <E = never>(...a: A) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  fromReaderK_(FromReader)
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> =
+  /*#__PURE__*/
+  chainReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainReaderKW: <A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B> = chainReaderK as any
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> =
+  /*#__PURE__*/
+  chainFirstReaderK_(FromReader, Chain)
+
+/**
+ * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => Reader<R1, B>
+) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> = chainFirstReaderK as any
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const MonadThrow: MonadThrow3<URI> = {
@@ -634,10 +791,10 @@ export const FromEither: FromEither3<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderEither<R, E, A> =
+export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, URI, E> =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -683,6 +840,7 @@ export const chainEitherKW: <E2, A, B>(
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
 } =
   /*#__PURE__*/
@@ -695,6 +853,9 @@ export const fromPredicate: {
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderEither<R, E, A>
+  ) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderEither<R, E, B>
   ) => ReaderEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 } =
@@ -710,6 +871,9 @@ export const filterOrElse: {
 export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderEither<R, E1, A>
+  ) => ReaderEither<R, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderEither<R, E1, B>
   ) => ReaderEither<R, E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderEither<R, E1, A>
@@ -735,7 +899,7 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
  */
 export const Do: ReaderEither<unknown, never, {}> =
   /*#__PURE__*/
-  of({})
+  of(_.emptyRecord)
 
 /**
  * @since 2.8.0
@@ -783,31 +947,55 @@ export const apSW: <A, N extends string, R2, E2, B>(
 ) => ReaderEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: ReaderEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <R, E, A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
   f: (index: number, a: A) => ReaderEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) =>
-  flow(R.traverseArrayWithIndex(f), R.map(E.sequenceArray))
+): ((as: ReadonlyNonEmptyArray<A>) => ReaderEither<R, E, ReadonlyNonEmptyArray<B>>) =>
+  flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(E.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, E, A, B>(
+  f: (index: number, a: A) => ReaderEither<R, E, B>
+) => (as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
  * @since 2.9.0
  */
 export const traverseArray = <R, E, A, B>(
   f: (a: A) => ReaderEither<R, E, B>
-): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => ReaderEither<R, E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
  * @since 2.9.0
  */
 export const sequenceArray: <R, E, A>(
@@ -819,6 +1007,8 @@ export const sequenceArray: <R, E, A>(
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.
@@ -896,13 +1086,3 @@ export function getReaderValidation<E>(
     throwError
   }
 }
-
-/**
- * Use [`local`](./Reader.ts.html#local) instead.
- *
- * @category combinators
- * @since 2.0.0
- * @deprecated
- */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A> =
-  R.local

@@ -1,6 +1,6 @@
 ---
 title: number.ts
-nav_order: 62
+nav_order: 67
 parent: Modules
 ---
 
@@ -16,12 +16,15 @@ Added in v2.10.0
   - [Bounded](#bounded)
   - [Eq](#eq)
   - [Field](#field)
+  - [MagmaSub](#magmasub)
   - [MonoidProduct](#monoidproduct)
   - [MonoidSum](#monoidsum)
   - [Ord](#ord)
   - [SemigroupProduct](#semigroupproduct)
   - [SemigroupSum](#semigroupsum)
   - [Show](#show)
+- [refinements](#refinements)
+  - [isNumber](#isnumber)
 
 ---
 
@@ -56,6 +59,16 @@ export declare const Field: F.Field<number>
 ```
 
 Added in v2.10.0
+
+## MagmaSub
+
+**Signature**
+
+```ts
+export declare const MagmaSub: Magma<number>
+```
+
+Added in v2.11.0
 
 ## MonoidProduct
 
@@ -160,3 +173,15 @@ export declare const Show: S.Show<number>
 ```
 
 Added in v2.10.0
+
+# refinements
+
+## isNumber
+
+**Signature**
+
+```ts
+export declare const isNumber: Refinement<unknown, number>
+```
+
+Added in v2.11.0

@@ -13,20 +13,25 @@ import {
 } from './FromEither'
 import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
-import { flow, Lazy, pipe } from './function'
+import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
+import { flow, Lazy, pipe, SK } from './function'
 import { flap as flap_, Functor2 } from './Functor'
 import { IO } from './IO'
-import { IOEither } from './IOEither'
+import { URI as IEURI } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
+import { NaturalTransformation22 } from './NaturalTransformation'
 import { Pointed2 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
 import * as TT from './TheseT'
+import * as _ from './internal'
 
 import These = TH.These
 import Task = T.Task
+import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -94,31 +99,41 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, leftTask)
 
-/**
- * @category constructors
- * @since 2.4.0
- */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  T.fromIO
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
+ * @since 2.10.0
+ */
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category natural transformations
+ * @since 2.11.0
+ */
+export const fromThese: FromThese2<URI>['fromThese'] = T.of
+
+/**
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category constructors
+ * @category natural transformations
+ * @since 2.4.0
+ */
+export const fromIOEither: NaturalTransformation22<IEURI, URI> =
+  /*#__PURE__*/
+  T.fromIO
+
+/**
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] = rightTask
-
-/**
- * @category constructors
- * @since 2.10.0
- */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -385,7 +400,7 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.10.0
  */
 export const fromOption =
@@ -407,6 +422,23 @@ export const fromOptionK =
 export const fromPredicate =
   /*#__PURE__*/
   fromPredicate_(FromEither)
+
+/**
+ * @category instances
+ * @since 2.11.0
+ */
+export const FromThese: FromThese2<URI> = {
+  URI,
+  fromThese
+}
+
+/**
+ * @category combinators
+ * @since 2.11.0
+ */
+export const fromTheseK =
+  /*#__PURE__*/
+  fromTheseK_(FromThese)
 
 /**
  * @category instances
@@ -453,6 +485,86 @@ export const fromTaskK =
 export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
   /*#__PURE__*/
   TT.toTuple2(T.Functor)
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: TaskThese<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <E>(
+  S: Semigroup<E>
+): (<A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+  const g = TH.traverseReadonlyNonEmptyArrayWithIndex(S)
+  return (f) => flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(g(SK)))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>): TaskThese<E, ReadonlyNonEmptyArray<B>> => () =>
+  _.tail(as).reduce<Promise<These<E, NonEmptyArray<B>>>>(
+    (acc, a, i) =>
+      acc.then((ebs) =>
+        TH.isLeft(ebs)
+          ? acc
+          : f(i + 1, a)().then((eb) => {
+              if (TH.isLeft(eb)) {
+                return eb
+              }
+              if (TH.isBoth(eb)) {
+                const right = ebs.right
+                right.push(eb.right)
+                return TH.isBoth(ebs) ? TH.both(S.concat(ebs.left, eb.left), right) : TH.both(eb.left, right)
+              }
+              ebs.right.push(eb.right)
+              return ebs
+            })
+      ),
+    f(0, _.head(as))().then(TH.map(_.singleton))
+  )
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated

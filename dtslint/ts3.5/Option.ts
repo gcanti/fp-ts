@@ -12,21 +12,6 @@ pipe(
 )
 
 //
-// getRefinement
-//
-
-interface A {
-  type: 'A'
-}
-interface B {
-  type: 'B'
-}
-type C = A | B
-
-// $ExpectError
-_.getRefinement<C, A>((c) => (c.type === 'B' ? _.some(c) : _.none))
-
-//
 // fromNullable
 //
 
@@ -41,15 +26,6 @@ declare const f: <K extends keyof D>(key: K) => D[K]
 flow(f, _.fromNullable)('foo')
 
 //
-// Filterable overlodings
-//
-
-declare function isString(x: unknown): x is string
-
-_.option.filter(_.some<string | number>('a'), isString) // $ExpectType Option<string>
-_.option.partition(_.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
-
-//
 // Do
 //
 
@@ -58,4 +34,72 @@ pipe(
   _.Do,
   _.bind('a', () => _.of(1)),
   _.bind('b', () => _.of('b'))
+)
+
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const n: number
+declare const sn: string | number
+declare const on: _.Option<number>
+declare const osn: _.Option<string | number>
+declare const isString: (u: unknown) => u is string
+declare const isNumber: (sn: string | number) => sn is number
+declare const predicate: (sn: string | number) => boolean
+
+//
+// filter
+//
+
+// $ExpectType Option<string>
+pipe(osn, _.filter(isString))
+// $ExpectType Option<number>
+pipe(on, _.filter(predicate))
+// $ExpectType Option<number>
+pipe(
+  on,
+  _.filter(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// partition
+//
+
+// $ExpectType Separated<Option<unknown>, Option<string>>
+pipe(osn, _.partition(isString))
+// $ExpectType Separated<Option<number>, Option<number>>
+pipe(on, _.partition(predicate))
+// $ExpectType Separated<Option<string | number>, Option<number>>
+pipe(osn, _.partition(isNumber))
+// $ExpectType Separated<Option<number>, Option<number>>
+pipe(
+  on,
+  _.partition(
+    (
+      x // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// fromPredicate
+//
+
+// $ExpectType Option<string>
+pipe(sn, _.fromPredicate(isString))
+// $ExpectType Option<number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType Option<number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      n // $ExpectType number
+    ) => true
+  )
 )

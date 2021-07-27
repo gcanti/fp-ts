@@ -77,4 +77,12 @@ describe('Eq', () => {
     U.deepStrictEqual(eq.equals(['a', 1, true], ['a', 2, true]), false)
     U.deepStrictEqual(eq.equals(['a', 1, true], ['a', 1, false]), false)
   })
+
+  it('eqDate', () => {
+    // tslint:disable-next-line: deprecation
+    const E = _.eqDate
+    U.deepStrictEqual(E.equals(new Date(0), new Date(0)), true)
+    U.deepStrictEqual(E.equals(new Date(0), new Date(1)), false)
+    U.deepStrictEqual(E.equals(new Date(1), new Date(0)), false)
+  })
 })

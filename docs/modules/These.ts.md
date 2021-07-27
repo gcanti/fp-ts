@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 101
+nav_order: 108
 parent: Modules
 ---
 
@@ -47,7 +47,6 @@ Added in v2.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
   - [left](#left)
   - [leftOrBoth](#leftorboth)
@@ -62,14 +61,11 @@ Added in v2.0.0
   - [getRightOnly](#getrightonly)
   - [match](#match)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isBoth](#isboth)
-  - [isLeft](#isleft)
-  - [isRight](#isright)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
+  - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
@@ -86,10 +82,21 @@ Added in v2.0.0
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
+- [refinements](#refinements)
+  - [isBoth](#isboth)
+  - [isLeft](#isleft)
+  - [isRight](#isright)
 - [utils](#utils)
+  - [ApT](#apt)
+  - [elem](#elem)
+  - [exists](#exists)
   - [sequence](#sequence)
   - [toTuple2](#totuple2)
   - [traverse](#traverse)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~toTuple~~](#totuple)
 
 ---
@@ -225,16 +232,6 @@ export declare function both<E, A>(left: E, right: A): These<E, A>
 
 Added in v2.0.0
 
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
-```
-
-Added in v2.10.0
-
 ## fromOptions
 
 Takes a pair of `Option`s and attempts to create a `These` from them
@@ -242,7 +239,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>>
+export declare const fromOptions: <E, A>(fe: Option<E>, fa: Option<A>) => Option<These<E, A>>
 ```
 
 **Example**
@@ -475,44 +472,6 @@ export declare const matchW: <E, B, A, C, D>(
 
 Added in v2.10.0
 
-# guards
-
-## isBoth
-
-Returns `true` if the these is an instance of `Both`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
-```
-
-Added in v2.0.0
-
-## isLeft
-
-Returns `true` if the these is an instance of `Left`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isLeft<E, A>(fa: These<E, A>): fa is Left<E>
-```
-
-Added in v2.0.0
-
-## isRight
-
-Returns `true` if the these is an instance of `Right`, `false` otherwise
-
-**Signature**
-
-```ts
-export declare function isRight<E, A>(fa: These<E, A>): fa is Right<A>
-```
-
-Added in v2.0.0
-
 # instances
 
 ## Bifunctor
@@ -544,6 +503,16 @@ export declare const FromEither: FromEither2<'These'>
 ```
 
 Added in v2.10.0
+
+## FromThese
+
+**Signature**
+
+```ts
+export declare const FromThese: FromThese2<'These'>
+```
+
+Added in v2.11.0
 
 ## Functor
 
@@ -703,7 +672,87 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
+```
+
+Added in v2.10.0
+
+# refinements
+
+## isBoth
+
+Returns `true` if the these is an instance of `Both`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A>
+```
+
+Added in v2.0.0
+
+## isLeft
+
+Returns `true` if the these is an instance of `Left`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare const isLeft: <E>(fa: These<E, unknown>) => fa is Left<E>
+```
+
+Added in v2.0.0
+
+## isRight
+
+Returns `true` if the these is an instance of `Right`, `false` otherwise
+
+**Signature**
+
+```ts
+export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
+```
+
+Added in v2.0.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: These<never, readonly []>
+```
+
+Added in v2.11.0
+
+## elem
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
+```
+
+Added in v2.11.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>) => boolean
+```
+
+Added in v2.11.0
 
 ## sequence
 
@@ -762,6 +811,36 @@ export declare const traverse: PipeableTraverse2<'These'>
 ```
 
 Added in v2.6.3
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
 
 ## ~~toTuple~~
 

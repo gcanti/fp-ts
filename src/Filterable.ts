@@ -6,6 +6,7 @@
  * @since 2.0.0
  */
 import {
+  compact,
   Compactable,
   Compactable1,
   Compactable2,
@@ -20,11 +21,10 @@ import {
   CompactableComposition21,
   CompactableComposition22,
   CompactableComposition23,
-  compact,
   separate
 } from './Compactable'
 import { Either } from './Either'
-import { pipe, Predicate, Refinement } from './function'
+import { pipe } from './function'
 import {
   Functor,
   Functor1,
@@ -44,6 +44,8 @@ import {
 } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
+import { not, Predicate } from './Predicate'
+import { Refinement } from './Refinement'
 import { separated, Separated } from './Separated'
 
 // -------------------------------------------------------------------------------------
@@ -288,19 +290,35 @@ export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<
 export function filter<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Kind2<F, FE, Kind2<G, E, A>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(fga: Kind2<F, R, Kind2<G, E, A>>) => Kind2<F, R, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(fgb: Kind2<F, R, Kind2<G, E, B>>) => Kind2<F, R, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): <R>(fga: Kind2<F, R, Kind2<G, E, A>>) => Kind2<F, R, Kind2<G, E, A>>
+}
 export function filter<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: Kind<F, Kind2<G, E, B>>) => Kind<F, Kind2<G, E, B>>
+  <A>(predicate: Predicate<A>): (fga: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, A>>
+}
 export function filter<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: Kind<F, Kind<G, B>>) => Kind<F, Kind<G, B>>
+  <A>(predicate: Predicate<A>): (fga: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, A>>
+}
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
+  <A>(predicate: Predicate<A>): (fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, A>>
+}
 export function filter<F, G>(
   F: Functor<F>,
   G: Filterable<G>
@@ -346,36 +364,63 @@ export function filterMap<F, G>(
 export function partition<F extends URIS2, G extends URIS2, E>(
   F: Functor2<F>,
   G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => <FE>(fga: Kind2<F, FE, Kind2<G, E, A>>) => Separated<Kind2<F, FE, Kind2<G, E, A>>, Kind2<F, FE, Kind2<G, E, A>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(
+    fga: Kind2<F, R, Kind2<G, E, A>>
+  ) => Separated<Kind2<F, R, Kind2<G, E, A>>, Kind2<F, R, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): <R, B extends A>(
+    fgb: Kind2<F, R, Kind2<G, E, B>>
+  ) => Separated<Kind2<F, R, Kind2<G, E, B>>, Kind2<F, R, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): <R>(
+    fga: Kind2<F, R, Kind2<G, E, A>>
+  ) => Separated<Kind2<F, R, Kind2<G, E, A>>, Kind2<F, R, Kind2<G, E, A>>>
+}
 export function partition<F extends URIS, G extends URIS2, E>(
   F: Functor1<F>,
   G: Filterable2C<G, E>
-): <A>(
-  predicate: Predicate<A>
-) => (fga: Kind<F, Kind2<G, E, A>>) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: Kind<F, Kind2<G, E, A>>
+  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fgb: Kind<F, Kind2<G, E, B>>
+  ) => Separated<Kind<F, Kind2<G, E, B>>, Kind<F, Kind2<G, E, B>>>
+  <A>(predicate: Predicate<A>): (
+    fga: Kind<F, Kind2<G, E, A>>
+  ) => Separated<Kind<F, Kind2<G, E, A>>, Kind<F, Kind2<G, E, A>>>
+}
 export function partition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
-): <A>(predicate: Predicate<A>) => (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: Kind<F, Kind<G, A>>
+  ) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fgb: Kind<F, Kind<G, B>>
+  ) => Separated<Kind<F, Kind<G, B>>, Kind<F, Kind<G, B>>>
+  <A>(predicate: Predicate<A>): (fga: Kind<F, Kind<G, A>>) => Separated<Kind<F, Kind<G, A>>, Kind<F, Kind<G, A>>>
+}
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
-): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fga: HKT<F, HKT<G, A>>
+  ) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(fgb: HKT<F, HKT<G, B>>) => Separated<HKT<F, HKT<G, B>>, HKT<F, HKT<G, B>>>
+  <A>(predicate: Predicate<A>): (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+}
 export function partition<F, G>(
   F: Functor<F>,
   G: Filterable<G>
 ): <A>(predicate: Predicate<A>) => (fga: HKT<F, HKT<G, A>>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>> {
   const _filter = filter(F, G)
-  return (predicate) => (fga) =>
-    separated(
-      pipe(
-        fga,
-        _filter((a) => !predicate(a))
-      ),
-      pipe(fga, _filter(predicate))
-    )
+  return (predicate) => {
+    const left = _filter(not(predicate))
+    const right = _filter(predicate)
+    return (fgb) => separated(left(fgb), right(fgb))
+  }
 }
 
 /**

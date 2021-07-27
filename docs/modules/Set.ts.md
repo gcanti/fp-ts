@@ -1,6 +1,6 @@
 ---
 title: Set.ts
-nav_order: 88
+nav_order: 95
 parent: Modules
 ---
 
@@ -28,10 +28,12 @@ Added in v2.0.0
   - [fromArray](#fromarray)
   - [singleton](#singleton)
 - [instances](#instances)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -42,6 +44,7 @@ Added in v2.0.0
   - [partition](#partition)
   - [partitionMap](#partitionmap)
   - [reduce](#reduce)
+  - [reduceRight](#reduceright)
   - [separate](#separate)
   - [size](#size)
   - [some](#some)
@@ -107,6 +110,7 @@ Added in v2.0.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
 export declare function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
 ```
 
@@ -235,6 +239,16 @@ Added in v2.0.0
 
 # instances
 
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<Set<A>>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 **Signature**
@@ -250,7 +264,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>>
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>>
 ```
 
 Added in v2.0.0
@@ -270,10 +284,20 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function getUnionMonoid<A>(E: Eq<A>): Monoid<Set<A>>
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<Set<A>>
 ```
 
 Added in v2.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<Set<A>>
+```
+
+Added in v2.11.0
 
 # utils
 
@@ -349,6 +373,7 @@ Added in v2.10.0
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (set: Set<A>) => Separated<Set<A>, Set<B>>
+export declare function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
 export declare function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
 ```
 
@@ -376,6 +401,16 @@ export declare const reduce: <A>(O: Ord<A>) => <B>(b: B, f: (b: B, a: A) => B) =
 ```
 
 Added in v2.0.0
+
+## reduceRight
+
+**Signature**
+
+```ts
+export declare const reduceRight: <A>(O: Ord<A>) => <B>(b: B, f: (a: A, b: B) => B) => (fa: Set<A>) => B
+```
+
+Added in v2.11.0
 
 ## separate
 

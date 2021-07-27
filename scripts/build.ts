@@ -33,7 +33,7 @@ export const FILES: ReadonlyArray<string> = ['CHANGELOG.md', 'LICENSE', 'README.
 export const copyFiles: Build<ReadonlyArray<void>> = (C) =>
   pipe(
     FILES,
-    TE.traverseArrayWithIndex((_, from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
+    TE.traverseReadonlyArrayWithIndex((_, from) => C.copyFile(from, path.resolve(OUTPUT_FOLDER, from)))
   )
 
 export const makeModules: Build<void> = (C) => {
@@ -41,7 +41,7 @@ export const makeModules: Build<void> = (C) => {
   return pipe(
     C.glob(`${OUTPUT_FOLDER}/lib/*.js`),
     TE.map(getModules),
-    TE.chain(TE.traverseArrayWithIndex((_, a) => makeSingleModuleC(a))),
+    TE.chain(TE.traverseReadonlyArrayWithIndex((_, a) => makeSingleModuleC(a))),
     TE.map(() => undefined)
   )
 }

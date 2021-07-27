@@ -7,6 +7,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import { separated } from '../src/Separated'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const p = (n: number): boolean => n > 2
 
@@ -370,18 +371,20 @@ describe('Option', () => {
   })
 
   it('getFirstMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getFirstMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    U.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
+    U.deepStrictEqual(M.concat(_.none, _.some(2)), _.some(2))
     U.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(1))
   })
 
   it('getLastMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = _.getLastMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
-    U.deepStrictEqual(M.concat(_.none, _.some(1)), _.some(1))
+    U.deepStrictEqual(M.concat(_.none, _.some(2)), _.some(2))
     U.deepStrictEqual(M.concat(_.some(1), _.some(2)), _.some(2))
   })
 
@@ -421,12 +424,14 @@ describe('Option', () => {
 
   it('getRefinement', () => {
     const f = (s: string | number): _.Option<string> => (typeof s === 'string' ? _.some(s) : _.none)
+    // tslint:disable-next-line: deprecation
     const isString = _.getRefinement(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
+    // tslint:disable-next-line: deprecation
     const isA = _.getRefinement<C, A>((c) => (c.type === 'A' ? _.some(c) : _.none))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
@@ -473,9 +478,23 @@ describe('Option', () => {
     U.deepStrictEqual(f(-1), _.none)
   })
 
-  it('sequenceArray', () => {
-    U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
-    U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
+  describe('array utils', () => {
+    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+
+    it('traverseReadonlyArrayWithIndex', () => {
+      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+      U.deepStrictEqual(pipe(input, f), _.some(['a0', 'b1']))
+      U.deepStrictEqual(pipe(['a', ''], f), _.none)
+    })
+
+    // old
+    it('sequenceArray', () => {
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
+      // tslint:disable-next-line: deprecation
+      U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
+    })
   })
 
   it('tryCatchK', () => {
@@ -488,5 +507,26 @@ describe('Option', () => {
     })
     U.deepStrictEqual(f('a'), _.some(1))
     U.deepStrictEqual(f(''), _.none)
+  })
+
+  it('guard', () => {
+    U.deepStrictEqual(
+      pipe(
+        _.Do,
+        _.bind('x', () => _.some('a')),
+        _.bind('y', () => _.some('a')),
+        _.chainFirst(({ x, y }) => _.guard(x === y))
+      ),
+      _.some({ x: 'a', y: 'a' })
+    )
+    U.deepStrictEqual(
+      pipe(
+        _.Do,
+        _.bind('x', () => _.some('a')),
+        _.bind('y', () => _.some('b')),
+        _.chainFirst(({ x, y }) => _.guard(x === y))
+      ),
+      _.none
+    )
   })
 })

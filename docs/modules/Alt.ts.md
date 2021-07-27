@@ -29,6 +29,8 @@ Added in v2.0.0
   - [Alt3 (interface)](#alt3-interface)
   - [Alt3C (interface)](#alt3c-interface)
   - [Alt4 (interface)](#alt4-interface)
+- [utils](#utils)
+  - [altAll](#altall)
 
 ---
 
@@ -117,3 +119,33 @@ export interface Alt4<F extends URIS4> extends Functor4<F> {
 ```
 
 Added in v2.0.0
+
+# utils
+
+## altAll
+
+**Signature**
+
+```ts
+export declare function altAll<F extends URIS4>(
+  F: Alt4<F>
+): <S, R, E, A>(startWith: Kind4<F, S, R, E, A>) => (as: ReadonlyArray<Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
+export declare function altAll<F extends URIS3>(
+  F: Alt3<F>
+): <R, E, A>(startWith: Kind3<F, R, E, A>) => (as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+export declare function altAll<F extends URIS3, E>(
+  F: Alt3C<F, E>
+): <R, A>(startWith: Kind3<F, R, E, A>) => (as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
+export declare function altAll<F extends URIS2>(
+  F: Alt2<F>
+): <E, A>(startWith: Kind2<F, E, A>) => (as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
+export declare function altAll<F extends URIS2, E>(
+  F: Alt2C<F, E>
+): <A>(startWith: Kind2<F, E, A>) => (as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
+export declare function altAll<F extends URIS>(
+  F: Alt1<F>
+): <A>(startWith: Kind<F, A>) => (as: ReadonlyArray<Kind<F, A>>) => Kind<F, A>
+export declare function altAll<F>(F: Alt<F>): <A>(startWith: HKT<F, A>) => (as: ReadonlyArray<HKT<F, A>>) => HKT<F, A>
+```
+
+Added in v2.11.0

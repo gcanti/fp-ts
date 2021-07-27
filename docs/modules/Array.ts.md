@@ -15,10 +15,11 @@ Added in v2.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [ChainRec](#chainrec)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -60,6 +61,8 @@ Added in v2.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -68,6 +71,8 @@ Added in v2.0.0
   - [chop](#chop)
   - [chunksOf](#chunksof)
   - [comprehension](#comprehension)
+  - [concat](#concat)
+  - [concatW](#concatw)
   - [copy](#copy)
   - [difference](#difference)
   - [dropLeft](#dropleft)
@@ -76,6 +81,8 @@ Added in v2.0.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
+  - [fromOptionK](#fromoptionk)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -98,11 +105,15 @@ Added in v2.0.0
   - [~~prependToAll~~](#prependtoall)
 - [constructors](#constructors)
   - [append](#append)
+  - [appendW](#appendw)
+  - [fromPredicate](#frompredicate)
+  - [guard](#guard)
   - [makeBy](#makeby)
   - [prepend](#prepend)
-  - [range](#range)
+  - [prependW](#prependw)
   - [replicate](#replicate)
   - [~~cons~~](#cons)
+  - [~~range~~](#range)
   - [~~snoc~~](#snoc)
 - [destructors](#destructors)
   - [findFirst](#findfirst)
@@ -114,24 +125,29 @@ Added in v2.0.0
   - [head](#head)
   - [init](#init)
   - [last](#last)
+  - [match](#match)
   - [matchLeft](#matchleft)
+  - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
+  - [matchRightW](#matchrightw)
+  - [matchW](#matchw)
   - [spanLeft](#spanleft)
   - [tail](#tail)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
+  - [ChainRecBreadthFirst](#chainrecbreadthfirst)
+  - [ChainRecDepthFirst](#chainrecdepthfirst)
   - [Compactable](#compactable-1)
   - [Extend](#extend-1)
   - [Filterable](#filterable-1)
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Foldable](#foldable-1)
   - [FoldableWithIndex](#foldablewithindex-1)
+  - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad-1)
@@ -142,12 +158,23 @@ Added in v2.0.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
+  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
+  - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
+  - [getUnionMonoid](#getunionmonoid)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [~~array~~](#array)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+- [refinements](#refinements)
+  - [isEmpty](#isempty)
+  - [isNonEmpty](#isnonempty)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -161,10 +188,11 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
+  - [exists](#exists)
+  - [filterE](#filtere)
   - [findIndex](#findindex)
   - [findLastIndex](#findlastindex)
   - [insertAt](#insertat)
-  - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
@@ -203,18 +231,6 @@ export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
 
 Added in v2.9.0
 
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => A[]
-```
-
-Added in v2.7.0
-
 # Apply
 
 ## ap
@@ -229,6 +245,28 @@ export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
 
 Added in v2.0.0
 
+# ChainRec
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => Either<A, B>[]) => (a: A) => B[]
+```
+
+Added in v2.11.0
+
 # Compactable
 
 ## compact
@@ -236,7 +274,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(fa: O.Option<A>[]) => A[]
+export declare const compact: <A>(fa: Option<A>[]) => A[]
 ```
 
 Added in v2.0.0
@@ -258,7 +296,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const extend: <A, B>(f: (fa: A[]) => B) => (wa: A[]) => B[]
+export declare const extend: <A, B>(f: (as: A[]) => B) => (as: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -271,8 +309,9 @@ Added in v2.0.0
 
 ```ts
 export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => B[]
-  <A>(predicate: Predicate<A>): (fa: A[]) => A[]
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => B[]
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicate: Predicate<A>): (as: A[]) => A[]
 }
 ```
 
@@ -283,7 +322,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => (fa: A[]) => B[]
+export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -294,8 +333,9 @@ Added in v2.0.0
 
 ```ts
 export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>
-  <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>
+  <A, B extends A>(refinement: Refinement<A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicate: Predicate<A>): (as: A[]) => Separated<A[], A[]>
 }
 ```
 
@@ -318,7 +358,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => O.Option<B>) => (fa: A[]) => B[]
+export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
 Added in v2.0.0
@@ -329,8 +369,9 @@ Added in v2.0.0
 
 ```ts
 export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => A[]
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => A[]
 }
 ```
 
@@ -354,8 +395,9 @@ Added in v2.0.0
 
 ```ts
 export declare const partitionWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: A[]) => Separated<A[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: B[]) => Separated<B[], B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: A[]) => Separated<A[], A[]>
 }
 ```
 
@@ -516,10 +558,25 @@ Added in v2.6.3
 
 ## unfold
 
+Creates an `Array` from the results of `f(b)`, where `b` is an initial value.
+`unfold` stops when `f` returns `Option.none`.
+
 **Signature**
 
 ```ts
-export declare const unfold: <A, B>(b: B, f: (b: B) => O.Option<readonly [A, B]>) => A[]
+export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) => A[]
+```
+
+**Example**
+
+```ts
+import { unfold } from 'fp-ts/Array'
+import { some, none } from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  unfold(5, (n) => (n > 0 ? some([n, n - 1]) : none)),
+  [5, 4, 3, 2, 1]
+)
 ```
 
 Added in v2.6.6
@@ -545,6 +602,18 @@ export declare const wither: PipeableWither1<'Array'>
 ```
 
 Added in v2.6.5
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => A[]
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -718,6 +787,26 @@ assert.deepStrictEqual(
 
 Added in v2.0.0
 
+## concat
+
+**Signature**
+
+```ts
+export declare const concat: <A>(second: A[]) => (first: A[]) => A[]
+```
+
+Added in v2.11.0
+
+## concatW
+
+**Signature**
+
+```ts
+export declare const concatW: <B>(second: B[]) => <A>(first: A[]) => (B | A)[]
+```
+
+Added in v2.11.0
+
 ## copy
 
 **Signature**
@@ -785,7 +874,9 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: A[]) => A[]
+export declare function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 ```
 
 **Example**
@@ -855,6 +946,26 @@ export declare const flatten: <A>(mma: A[][]) => A[]
 ```
 
 Added in v2.5.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => B[]
+```
+
+Added in v2.11.0
+
+## fromOptionK
+
+**Signature**
+
+```ts
+export declare const fromOptionK: <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => B[]
+```
+
+Added in v2.11.0
 
 ## intersection
 
@@ -1171,6 +1282,7 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 
 ```ts
 export declare function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export declare function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
 export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 ```
 
@@ -1340,6 +1452,40 @@ assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
 
 Added in v2.10.0
 
+## appendW
+
+Less strict version of [`append`](#append).
+
+**Signature**
+
+```ts
+export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
+```
+
+Added in v2.11.0
+
+## fromPredicate
+
+**Signature**
+
+```ts
+export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
+```
+
+Added in v2.11.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => void[]
+```
+
+Added in v2.11.0
+
 ## makeBy
 
 Return a `Array` of length `n` with element `i` initialized with `f(i)`.
@@ -1384,25 +1530,17 @@ assert.deepStrictEqual(pipe([2, 3, 4], prepend(1)), [1, 2, 3, 4])
 
 Added in v2.10.0
 
-## range
+## prependW
 
-Create an `Array` containing a range of integers, including both endpoints.
+Less strict version of [`prepend`](#prepend).
 
 **Signature**
 
 ```ts
-export declare const range: (start: number, end: number) => Array<number>
+export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArray<A | B>
 ```
 
-**Example**
-
-```ts
-import { range } from 'fp-ts/Array'
-
-assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
-```
-
-Added in v2.0.0
+Added in v2.11.0
 
 ## replicate
 
@@ -1438,6 +1576,18 @@ export declare const cons: typeof NEA.cons
 
 Added in v2.0.0
 
+## ~~range~~
+
+Use `NonEmptyArray` module instead.
+
+**Signature**
+
+```ts
+export declare const range: (start: number, end: number) => NEA.NonEmptyArray<number>
+```
+
+Added in v2.0.0
+
 ## ~~snoc~~
 
 Use `append` instead.
@@ -1460,6 +1610,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
 export declare function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
@@ -1492,7 +1643,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findFirstMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
+export declare const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -1522,6 +1673,7 @@ Find the last element which satisfies a predicate function
 
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
 export declare function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 ```
 
@@ -1554,7 +1706,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export declare const findLastMap: <A, B>(f: (a: A) => O.Option<B>) => (as: A[]) => O.Option<B>
+export declare const findLastMap: <A, B>(f: (a: A) => Option<B>) => (as: A[]) => Option<B>
 ```
 
 **Example**
@@ -1607,7 +1759,7 @@ Get the first element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const head: <A>(as: A[]) => O.Option<A>
+export declare const head: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1629,7 +1781,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 **Signature**
 
 ```ts
-export declare const init: <A>(as: A[]) => O.Option<A[]>
+export declare const init: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1651,7 +1803,7 @@ Get the last element in an array, or `None` if the array is empty
 **Signature**
 
 ```ts
-export declare const last: <A>(as: A[]) => O.Option<A>
+export declare const last: <A>(as: A[]) => Option<A>
 ```
 
 **Example**
@@ -1666,9 +1818,21 @@ assert.deepStrictEqual(last([]), none)
 
 Added in v2.0.0
 
+## match
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
+```
+
+Added in v2.11.0
+
 ## matchLeft
 
-Break an array into its first element and remaining elements
+Break an `Array` into its first element and remaining elements.
 
 **Signature**
 
@@ -1690,9 +1854,24 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v2.10.0
 
+## matchLeftW
+
+Less strict version of [`matchLeft`](#matchleft).
+
+**Signature**
+
+```ts
+export declare const matchLeftW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (head: A, tail: A[]) => C
+) => (as: A[]) => B | C
+```
+
+Added in v2.11.0
+
 ## matchRight
 
-Break an array into its initial elements and the last element
+Break an `Array` into its initial elements and the last element.
 
 **Signature**
 
@@ -1701,6 +1880,36 @@ export declare const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: A[]
 ```
 
 Added in v2.10.0
+
+## matchRightW
+
+Less strict version of [`matchRight`](#matchright).
+
+**Signature**
+
+```ts
+export declare const matchRightW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (init: A[], last: A) => C
+) => (as: A[]) => B | C
+```
+
+Added in v2.11.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <B, A, C>(
+  onEmpty: Lazy<B>,
+  onNonEmpty: (as: NEA.NonEmptyArray<A>) => C
+) => (as: A[]) => B | C
+```
+
+Added in v2.11.0
 
 ## spanLeft
 
@@ -1713,6 +1922,7 @@ Split an array into two parts:
 
 ```ts
 export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Spanned<B, B>
 export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 ```
 
@@ -1733,7 +1943,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 **Signature**
 
 ```ts
-export declare const tail: <A>(as: A[]) => O.Option<A[]>
+export declare const tail: <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -1744,20 +1954,6 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
-```
-
-Added in v2.0.0
-
-# guards
-
-## isNonEmpty
-
-Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -1813,6 +2009,26 @@ export declare const Chain: Chain1<'Array'>
 ```
 
 Added in v2.10.0
+
+## ChainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecBreadthFirst: ChainRec1<'Array'>
+```
+
+Added in v2.11.0
+
+## ChainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const ChainRecDepthFirst: ChainRec1<'Array'>
+```
+
+Added in v2.11.0
 
 ## Compactable
 
@@ -1873,6 +2089,16 @@ export declare const FoldableWithIndex: FoldableWithIndex1<'Array', number>
 ```
 
 Added in v2.7.0
+
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'Array'>
+```
+
+Added in v2.11.0
 
 ## Functor
 
@@ -1974,6 +2200,26 @@ export declare const Witherable: Witherable1<'Array'>
 
 Added in v2.7.0
 
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Array'>
+```
+
+Added in v2.11.0
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<A[]>
+```
+
+Added in v2.11.0
+
 ## getEq
 
 Derives an `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived `Eq` defines two
@@ -1998,6 +2244,16 @@ assert.strictEqual(E.equals(['a'], []), false)
 ```
 
 Added in v2.0.0
+
+## getIntersectionSemigroup
+
+**Signature**
+
+```ts
+export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
+```
+
+Added in v2.11.0
 
 ## getMonoid
 
@@ -2067,6 +2323,26 @@ export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 
 Added in v2.0.0
 
+## getUnionMonoid
+
+**Signature**
+
+```ts
+export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<A[]>
+```
+
+Added in v2.11.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
+```
+
+Added in v2.11.0
+
 ## ~~array~~
 
 Use small, specific instances instead.
@@ -2083,6 +2359,62 @@ export declare const array: FunctorWithIndex1<'Array', number> &
   FoldableWithIndex1<'Array', number> &
   TraversableWithIndex1<'Array', number> &
   Witherable1<'Array'>
+```
+
+Added in v2.0.0
+
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Array'>
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'Array'>
+```
+
+Added in v2.11.0
+
+# refinements
+
+## isEmpty
+
+Test whether an array is empty
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(as: A[]) => as is []
+```
+
+**Example**
+
+```ts
+import { isEmpty } from 'fp-ts/Array'
+
+assert.strictEqual(isEmpty([]), true)
+```
+
+Added in v2.0.0
+
+## isNonEmpty
+
+Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
 ```
 
 Added in v2.0.0
@@ -2189,7 +2521,7 @@ Delete the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const deleteAt: (i: number) => <A>(as: A[]) => O.Option<A[]>
+export declare const deleteAt: (i: number) => <A>(as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -2238,6 +2570,30 @@ export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
 ```
 
 Added in v2.9.0
+
+## exists
+
+Alias of [`some`](#some)
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+Added in v2.11.0
+
+## filterE
+
+Filter values inside a context.
+
+**Signature**
+
+```ts
+export declare const filterE: FilterE1<'Array'>
+```
+
+Added in v2.11.0
 
 ## findIndex
 
@@ -2298,7 +2654,7 @@ Insert an element at the specified index, creating a new array, or returning `No
 **Signature**
 
 ```ts
-export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => O.Option<NEA.NonEmptyArray<A>>
+export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NEA.NonEmptyArray<A>>
 ```
 
 **Example**
@@ -2308,26 +2664,6 @@ import { insertAt } from 'fp-ts/Array'
 import { some } from 'fp-ts/Option'
 
 assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
-```
-
-Added in v2.0.0
-
-## isEmpty
-
-Test whether an array is empty
-
-**Signature**
-
-```ts
-export declare const isEmpty: <A>(as: A[]) => boolean
-```
-
-**Example**
-
-```ts
-import { isEmpty } from 'fp-ts/Array'
-
-assert.strictEqual(isEmpty([]), true)
 ```
 
 Added in v2.0.0
@@ -2351,7 +2687,7 @@ This function provides a safe way to read a value at a particular index from an 
 **Signature**
 
 ```ts
-export declare const lookup: { (i: number): <A>(as: A[]) => O.Option<A>; <A>(i: number, as: A[]): O.Option<A> }
+export declare const lookup: { (i: number): <A>(as: A[]) => Option<A>; <A>(i: number, as: A[]): Option<A> }
 ```
 
 **Example**
@@ -2375,7 +2711,7 @@ of bounds
 **Signature**
 
 ```ts
-export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => O.Option<A[]>
+export declare const modifyAt: <A>(i: number, f: (a: A) => A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
@@ -2450,7 +2786,7 @@ Change the element at the specified index, creating a new array, or returning `N
 **Signature**
 
 ```ts
-export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => O.Option<A[]>
+export declare const updateAt: <A>(i: number, a: A) => (as: A[]) => Option<A[]>
 ```
 
 **Example**
