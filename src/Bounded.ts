@@ -28,13 +28,13 @@ export interface Bounded<A> extends Ord.Ord<A> {
 
 /**
  * @category deconstructors
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const top = <T>(b: Bounded<T>) => b.top
 
 /**
  * @category deconstructors
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const bottom = <T>(b: Bounded<T>) => b.bottom
 
@@ -42,7 +42,7 @@ export const bottom = <T>(b: Bounded<T>) => b.bottom
  * Returns the tuple [bottom, top].
  *
  * @category deconstructors
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const toTuple = <T>(bound: Bounded<T>): [T, T] =>
     [bound.bottom, bound.top]
@@ -55,7 +55,7 @@ export const toTuple = <T>(bound: Bounded<T>): [T, T] =>
  * Test that top >= bottom
  *
  * @category guards
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const isValid = <T>(bound: Bounded<T>) =>
     Ord.geq(bound)(bound.bottom, bound.top)
@@ -69,7 +69,7 @@ export const isValid = <T>(bound: Bounded<T>) =>
  * Returns none if bottom > top and some if top >= bottom.
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
   ({ ...ord, bottom: b, top: t })
@@ -78,7 +78,7 @@ export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
  * Creates an instance of Bounded from the tuple [bottom, top].
  *
  * @category constructors
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]): Bounded<T> =>
 
@@ -92,7 +92,7 @@ export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]): Bounded<T> =>
  * Clamp a value between bottom and top values.
  *
  * @category utils
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const clamp = <T>(bound: Bounded<T>) =>
     Ord.clamp(bound)(bound.bottom, bound.top)
@@ -101,7 +101,7 @@ export const clamp = <T>(bound: Bounded<T>) =>
  * Tests if two bounds are overlapping
  *
  * @category utils
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const isOverlapping = <T>(a: Bounded<T>) => (b: Bounded<T>) =>
     Ord.leq(a)(a.bottom, b.top) && Ord.geq(a)(a.top, b.bottom)
@@ -111,7 +111,7 @@ export const isOverlapping = <T>(a: Bounded<T>) => (b: Bounded<T>) =>
  *
  * @category util
  * s
- * @since 2.0.0
+ * @since 2.12.0
  */
 export const isWithin = <T>(bound: Bounded<T>) =>
     Ord.between(bound)(bound.bottom, bound.top)
