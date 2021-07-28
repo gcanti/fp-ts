@@ -4,7 +4,6 @@ import * as U from './util'
 
 const isPositive: _.Predicate<number> = (n) => n > 0
 const isNegative: _.Predicate<number> = (n) => n < 0
-const lt2: _.Predicate<number> = (n) => n < 2
 
 describe('Predicate', () => {
   it('contramap', () => {
