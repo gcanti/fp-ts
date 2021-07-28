@@ -520,7 +520,11 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
 }
 
 /**
- * Returns the composition of two traversables
+ * Use
+ * - [`traverse`](#traverse)
+ * - [`sequence`](#sequence)
+ *
+ * instead.
  *
  * @since 2.0.0
  * @deprecated

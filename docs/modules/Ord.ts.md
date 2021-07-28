@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -110,7 +110,7 @@ Added in v2.10.0
 
 ## ~~getDualOrd~~
 
-Use `reverse` instead.
+Use [`reverse`](#reverse) instead.
 
 **Signature**
 
@@ -122,7 +122,7 @@ Added in v2.0.0
 
 ## ~~getTupleOrd~~
 
-Use `tuple` instead.
+Use [`tuple`](#tuple) instead.
 
 **Signature**
 
@@ -278,7 +278,7 @@ Added in v2.0.0
 
 ## ~~ordBoolean~~
 
-Use `boolean.Ord` instead.
+Use [`Ord`](./boolean.ts.html#ord) instead.
 
 **Signature**
 
@@ -290,7 +290,7 @@ Added in v2.0.0
 
 ## ~~ordDate~~
 
-Use `Date.Ord` instead.
+Use [`Ord`](./Date.ts.html#ord) instead.
 
 **Signature**
 
@@ -302,7 +302,7 @@ Added in v2.0.0
 
 ## ~~ordNumber~~
 
-Use `number.Ord` instead.
+Use [`Ord`](./number.ts.html#ord) instead.
 
 **Signature**
 
@@ -314,7 +314,7 @@ Added in v2.0.0
 
 ## ~~ordString~~
 
-Use `string.Ord` instead.
+Use [`Ord`](./string.ts.html#ord) instead.
 
 **Signature**
 
@@ -326,7 +326,7 @@ Added in v2.0.0
 
 ## ~~ord~~
 
-Use `Contravariant` instead.
+Use [`Contravariant`](#contravariant) instead.
 
 **Signature**
 

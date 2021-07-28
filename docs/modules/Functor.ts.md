@@ -382,6 +382,8 @@ Added in v2.0.0
 
 ## ~~getFunctorComposition~~
 
+Use [`map`](#map) instead.
+
 **Signature**
 
 ```ts

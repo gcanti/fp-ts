@@ -1,6 +1,6 @@
 ---
 title: Traced.ts
-nav_order: 109
+nav_order: 110
 parent: Modules
 ---
 
@@ -105,7 +105,7 @@ Added in v2.0.0
 
 ## ~~traced~~
 
-Use `Functor` instead.
+Use [`Functor`](#functor) instead.
 
 **Signature**
 

@@ -177,20 +177,6 @@ describe('Tree', () => {
     )
   })
 
-  it('elem', () => {
-    interface User {
-      readonly id: number
-    }
-    const S: Eq.Eq<User> = pipe(
-      N.Eq,
-      Eq.contramap((user: User) => user.id)
-    )
-    const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
-    U.deepStrictEqual(_.elem(S)({ id: 1 }, users), true)
-    U.deepStrictEqual(_.elem(S)({ id: 4 }, users), true)
-    U.deepStrictEqual(_.elem(S)({ id: 5 }, users), false)
-  })
-
   it('getShow', () => {
     const Sh = _.getShow(S.Show)
     const t1 = _.make('a')
@@ -220,5 +206,29 @@ describe('Tree', () => {
 
   it('apS', () => {
     U.deepStrictEqual(pipe(_.of(1), _.bindTo('a'), _.apS('b', _.of('b'))), _.make({ a: 1, b: 'b' }))
+  })
+
+  it('elem', () => {
+    interface User {
+      readonly id: number
+    }
+    const S: Eq.Eq<User> = pipe(
+      N.Eq,
+      Eq.contramap((user: User) => user.id)
+    )
+    const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
+    U.deepStrictEqual(_.elem(S)({ id: 1 }, users), true)
+    U.deepStrictEqual(_.elem(S)({ id: 4 }, users), true)
+    U.deepStrictEqual(_.elem(S)({ id: 5 }, users), false)
+  })
+
+  it('exists', () => {
+    interface User {
+      readonly id: number
+    }
+    const users = _.make({ id: 1 }, [_.make({ id: 1 }, [_.make({ id: 3 }), _.make({ id: 4 })]), _.make({ id: 2 })])
+    U.deepStrictEqual(_.exists((user: User) => user.id === 1)(users), true)
+    U.deepStrictEqual(_.exists((user: User) => user.id === 4)(users), true)
+    U.deepStrictEqual(_.exists((user: User) => user.id === 5)(users), false)
   })
 })

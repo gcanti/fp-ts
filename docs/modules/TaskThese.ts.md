@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 106
+nav_order: 107
 parent: Modules
 ---
 
@@ -28,13 +28,7 @@ Added in v2.4.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromThese](#fromthese)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -68,8 +62,20 @@ Added in v2.4.0
   - [~~taskThese~~](#taskthese)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromThese](#fromthese)
 - [utils](#utils)
+  - [ApT](#apt)
   - [toTuple2](#totuple2)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [~~toTuple~~](#totuple)
 
 ---
@@ -205,46 +211,6 @@ export declare const both: <E, A>(e: E, a: A) => TaskThese<E, A>
 
 Added in v2.4.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => TaskThese<E, A>
-```
-
-Added in v2.10.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
-```
-
-Added in v2.4.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A>
-```
-
-Added in v2.10.0
-
 ## fromPredicate
 
 **Signature**
@@ -252,31 +218,12 @@ Added in v2.10.0
 ```ts
 export declare const fromPredicate: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskThese<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskThese<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskThese<E, A>
 }
 ```
 
 Added in v2.10.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => TaskThese<E, A>
-```
-
-Added in v2.7.0
-
-## fromThese
-
-**Signature**
-
-```ts
-export declare const fromThese: <E, A>(e: TH.These<E, A>) => TaskThese<E, A>
-```
-
-Added in v2.11.0
 
 ## left
 
@@ -342,7 +289,7 @@ Added in v2.4.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -358,7 +305,7 @@ Added in v2.4.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -402,7 +349,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -566,7 +513,7 @@ Added in v2.4.0
 
 ## ~~bifunctorTaskThese~~
 
-Use `Bifunctor` instead.
+Use [`Bifunctor`](#bifunctor) instead.
 
 **Signature**
 
@@ -578,7 +525,7 @@ Added in v2.7.0
 
 ## ~~functorTaskThese~~
 
-Use `Functor` instead.
+Use [`Functor`](#functor) instead.
 
 **Signature**
 
@@ -590,7 +537,7 @@ Added in v2.7.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 
@@ -624,7 +571,79 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
 
 Added in v2.4.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation22<'Either', 'TaskThese'>
+```
+
+Added in v2.10.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'TaskThese'>
+```
+
+Added in v2.7.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskThese'>
+```
+
+Added in v2.4.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
+```
+
+Added in v2.10.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'TaskThese'>
+```
+
+Added in v2.7.0
+
+## fromThese
+
+**Signature**
+
+```ts
+export declare const fromThese: NaturalTransformation22<'These', 'TaskThese'>
+```
+
+Added in v2.11.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskThese<never, readonly []>
+```
+
+Added in v2.11.0
 
 ## toTuple2
 
@@ -636,9 +655,69 @@ export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<
 
 Added in v2.10.0
 
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(
+  f: (index: number, a: A) => TaskThese<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
 ## ~~toTuple~~
 
-Use `toTuple2` instead.
+Use [`toTuple2`](#totuple2) instead.
 
 **Signature**
 

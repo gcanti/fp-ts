@@ -24,9 +24,10 @@ import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as N from './number'
-import { Option } from './Option'
+import { Option, URI as OURI } from './Option'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -46,8 +47,34 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test whether a `ReadonlyArray` is empty.
+ *
+ * @example
+ * import { isEmpty } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.strictEqual(isEmpty([]), true)
+ *
+ * @category refinements
+ * @since 2.5.0
+ */
+export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
+
+/**
+ * Test whether a `ReadonlyArray` is non empty.
+ *
+ * @category refinements
+ * @since 2.5.0
+ */
+export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -133,24 +160,29 @@ export const replicate = <A>(n: number, a: A): ReadonlyArray<A> => makeBy(n, () 
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A> {
   return (a) => (predicate(a) ? [a] : empty)
 }
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
 
 /**
  * Transforms an `Either` to a `ReadonlyArray`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft(e) ? empty : [e.right])
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -176,7 +208,7 @@ export const match: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchW
 
 /**
- * Less strict version of [`matchLeft`](#matchLeft).
+ * Less strict version of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.11.0
@@ -203,7 +235,7 @@ export const matchLeft: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchLeftW
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.5.0
@@ -214,7 +246,7 @@ export const foldLeft: <A, B>(
 ) => (as: ReadonlyArray<A>) => B = matchLeft
 
 /**
- * Less strict version of [`matchRight`](#matchRight).
+ * Less strict version of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.11.0
@@ -235,7 +267,7 @@ export const matchRight: <B, A>(
 ) => (as: ReadonlyArray<A>) => B = matchRightW
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.5.0
@@ -307,26 +339,6 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: ReadonlyArra
   }
   return out
 }
-
-/**
- * Test whether a `ReadonlyArray` is empty.
- *
- * @example
- * import { isEmpty } from 'fp-ts/ReadonlyArray'
- *
- * assert.strictEqual(isEmpty([]), true)
- *
- * @since 2.5.0
- */
-export const isEmpty = <A>(as: ReadonlyArray<A>): as is readonly [] => as.length === 0
-
-/**
- * Test whether a `ReadonlyArray` is non empty.
- *
- * @category guards
- * @since 2.5.0
- */
-export const isNonEmpty: <A>(as: ReadonlyArray<A>) => as is ReadonlyNonEmptyArray<A> = RNEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `ReadonlyArray`.
@@ -475,9 +487,10 @@ export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @since 2.5.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => {
+  return (as: ReadonlyArray<A>) => {
     const out: Array<A> = []
     for (const a of as) {
       if (!predicate(a)) {
@@ -522,6 +535,7 @@ const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number
  * @since 2.5.0
  */
 export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Spanned<B, B>
 export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
 export function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A> {
   return (as) => {
@@ -581,9 +595,14 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @category combinators
  * @since 2.5.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const i = spanLeftIndex(as, predicate)
-  return i === 0 ? as : i === as.length ? empty : as.slice(i)
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+  return (as) => {
+    const i = spanLeftIndex(as, predicate)
+    return i === 0 ? as : i === as.length ? empty : as.slice(i)
+  }
 }
 
 /**
@@ -624,6 +643,7 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>):
  * @since 2.5.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
   return (as) => {
@@ -682,6 +702,7 @@ export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray
  * @since 2.5.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
   return (as) => {
@@ -761,9 +782,8 @@ export const findLastIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<
  *
  * @since 2.5.0
  */
-export const insertAt: <A>(i: number, a: A) => (as: ReadonlyArray<A>) => Option<ReadonlyNonEmptyArray<A>> =
-  // tslint:disable-next-line: deprecation
-  RNEA.insertAt
+export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<ReadonlyNonEmptyArray<A>> =>
+  i < 0 || i > as.length ? _.none : _.some(RNEA.unsafeInsertAt(i, a, as))
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
@@ -1405,54 +1425,10 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
-  a: A,
-  f: (a: A) => ReadonlyArray<Either<A, B>>
-): ReadonlyArray<B> => {
-  // tslint:disable-next-line: readonly-array
-  const todo: Array<Either<A, B>> = [...f(a)]
-  // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
-
-  while (todo.length > 0) {
-    const e = todo.shift()!
-    if (e._tag === 'Left') {
-      todo.unshift(...f(e.left))
-    } else {
-      result.push(e.right)
-    }
-  }
-
-  return result
-}
-const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
-  a: A,
-  f: (a: A) => ReadonlyArray<Either<A, B>>
-): ReadonlyArray<B> => {
-  const initial = f(a)
-  // tslint:disable-next-line: readonly-array
-  const todo: Array<Either<A, B>> = []
-  // tslint:disable-next-line: readonly-array
-  const result: Array<B> = []
-
-  function go(e: Either<A, B>): void {
-    if (e._tag === 'Left') {
-      f(e.left).forEach((v) => todo.push(v))
-    } else {
-      result.push(e.right)
-    }
-  }
-
-  for (const e of initial) {
-    go(e)
-  }
-
-  while (todo.length > 0) {
-    go(todo.shift()!)
-  }
-
-  return result
-}
+/** @internal */
+export const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecDepthFirst(f))
+/** @internal */
+export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(a, chainRecBreadthFirst(f))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -1465,10 +1441,10 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = <A, B>(
 export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = () => empty
+export const zero: Zero1<URI>['zero'] = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -1559,9 +1535,10 @@ export const separate = <A, B>(fa: ReadonlyArray<Either<A, B>>): Separated<Reado
  * @since 2.5.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicate: Predicate<A>) => (fa: ReadonlyArray<A>) => fa.filter(predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+  <A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+} = <A>(predicate: Predicate<A>) => <B extends A>(as: ReadonlyArray<B>) => as.filter(predicate)
 
 /**
  * @category FilterableWithIndex
@@ -1601,10 +1578,11 @@ export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> =
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
-    fa: ReadonlyArray<A>
+    as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
-  <A>(predicate: Predicate<A>): (fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
-} = <A>(predicate: Predicate<A>): ((fa: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
+  <A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
+} = <A>(predicate: Predicate<A>): ((as: ReadonlyArray<A>) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>) =>
   partitionWithIndex((_, a) => predicate(a))
 
 /**
@@ -1613,18 +1591,21 @@ export const partition: {
  */
 export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: ReadonlyArray<A>
+    as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<B>>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    bs: ReadonlyArray<B>
+  ) => Separated<ReadonlyArray<B>, ReadonlyArray<B>>
   <A>(predicateWithIndex: PredicateWithIndex<number, A>): (
-    fa: ReadonlyArray<A>
+    as: ReadonlyArray<A>
   ) => Separated<ReadonlyArray<A>, ReadonlyArray<A>>
 } = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (
-  fa: ReadonlyArray<A>
+  as: ReadonlyArray<A>
 ): Separated<ReadonlyArray<A>, ReadonlyArray<A>> => {
   const left: Array<A> = []
   const right: Array<A> = []
-  for (let i = 0; i < fa.length; i++) {
-    const a = fa[i]
+  for (let i = 0; i < as.length; i++) {
+    const a = as[i]
     if (predicateWithIndex(i, a)) {
       right.push(a)
     } else {
@@ -1668,10 +1649,11 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
  * @since 2.5.0
  */
 export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: ReadonlyArray<A>) => ReadonlyArray<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: ReadonlyArray<A>) => ReadonlyArray<A>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (fa: ReadonlyArray<A>): ReadonlyArray<A> =>
-  fa.filter((a, i) => predicateWithIndex(i, a))
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> =>
+  as.filter((a, i) => predicateWithIndex(i, a))
 
 /**
  * @category Extend
@@ -2118,6 +2100,23 @@ export const Alt: Alt1<URI> = {
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Alternative: Alternative1<URI> = {
@@ -2243,6 +2242,26 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
 }
 
 /**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecDepthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
+  const todo: Array<Either<A, B>> = [...f(a)]
+  const out: Array<B> = []
+
+  while (todo.length > 0) {
+    const e = todo.shift()!
+    if (_.isLeft(e)) {
+      todo.unshift(...f(e.left))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  return out
+}
+
+/**
  * @category instances
  * @since 2.11.0
  */
@@ -2252,6 +2271,34 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   ap: _ap,
   chain: _chain,
   chainRec: _chainRecDepthFirst
+}
+
+/**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecBreadthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
+  const initial = f(a)
+  const todo: Array<Either<A, B>> = []
+  const out: Array<B> = []
+
+  function go(e: Either<A, B>): void {
+    if (_.isLeft(e)) {
+      f(e.left).forEach((v) => todo.push(v))
+    } else {
+      out.push(e.right)
+    }
+  }
+
+  for (const e of initial) {
+    go(e)
+  }
+
+  while (todo.length > 0) {
+    go(todo.shift()!)
+  }
+
+  return out
 }
 
 /**
@@ -2422,6 +2469,13 @@ export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boo
 export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
   as.some(predicate)
 
+/**
+ * Alias of [`some`](#some)
+ *
+ * @since 2.11.0
+ */
+export const exists = some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -2462,6 +2516,8 @@ export const apS =
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `ReadonlyNonEmptyArray` module instead.
  *
@@ -2472,27 +2528,25 @@ export const apS =
 export const range = RNEA.range
 
 /**
- * Use `prepend` instead.
+ * Use [`prepend`](#prepend) instead.
  *
  * @category constructors
  * @since 2.5.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const cons = RNEA.cons
 
 /**
- * Use `append` instead.
+ * Use [`append`](#append) instead.
  *
  * @category constructors
  * @since 2.5.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const snoc = RNEA.snoc
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0

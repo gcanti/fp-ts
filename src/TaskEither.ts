@@ -48,23 +48,25 @@ import {
   FromTask2,
   fromTaskK as fromTaskK_
 } from './FromTask'
-import { flow, identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
-import { IOEither } from './IOEither'
+import { IOEither, URI as IEURI } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
+import { NaturalTransformation12C, NaturalTransformation22 } from './NaturalTransformation'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { TaskOption } from './TaskOption'
+import { TaskOption, URI as TOURI } from './TaskOption'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -131,29 +133,40 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
   /*#__PURE__*/
   flow(T.fromIO, leftTask)
 
-/**
- * @category constructors
- * @since 2.0.0
- */
-export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
- * @since 2.0.0
- */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
-
-/**
- * @category constructors
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.7.0
  */
 export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromEither: FromEither2<URI>['fromEither'] = T.of
+
+/**
+ * @category natural transformations
+ * @since 2.0.0
+ */
+export const fromIOEither: NaturalTransformation22<IEURI, URI> = T.fromIO
+
+/**
+ * @category natural transformations
+ * @since 2.11.0
+ */
+export const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<TOURI, URI, E> = (onNone) =>
+  T.map(E.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -190,7 +203,7 @@ export const matchE: <E, A, B>(
   ET.matchE(T.Monad)
 
 /**
- * Alias of [`matchE`](#matchE).
+ * Alias of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.0.0
@@ -198,7 +211,7 @@ export const matchE: <E, A, B>(
 export const fold = matchE
 
 /**
- * Less strict version of [`matchE`](#matchE).
+ * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
  * @since 2.10.0
@@ -209,7 +222,7 @@ export const matchEW: <E, B, A, C>(
 ) => (ma: TaskEither<E, A>) => Task<B | C> = matchE as any
 
 /**
- * Alias of [`matchEW`](#matchEW).
+ * Alias of [`matchEW`](#matchew).
  *
  * @category destructors
  * @since 2.10.0
@@ -225,7 +238,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, 
   ET.getOrElse(T.Monad)
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
+ * Less strict version of [`getOrElse`](#getorelse).
  *
  * @category destructors
  * @since 2.6.0
@@ -243,7 +256,7 @@ export const getOrElseW: <E, B>(
  *
  * Note: `f` should never `throw` errors, they are not caught.
  *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import { left, right } from 'fp-ts/Either'
@@ -311,7 +324,7 @@ export const orElse: <E1, A, E2>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: T
   ET.orElse(T.Monad)
 
 /**
- * Less strict version of [`orElse`](#orElse).
+ * Less strict version of [`orElse`](#orelse).
  *
  * @category combinators
  * @since 2.10.0
@@ -381,7 +394,7 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
- * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+ * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -402,19 +415,19 @@ export const chainIOEitherK: <E, A, B>(
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const _map: Monad2<URI>['map'] = (fa, f) => pipe(fa, map(f))
-/* istanbul ignore next */
-const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
-/* istanbul ignore next */
-const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
-const _apPar: Monad2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Applicative2<URI>['ap'] = (fab, fa) =>
+const _map: Functor2<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply2<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply2<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
 /* istanbul ignore next */
-const _chain: Monad2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+/* istanbul ignore next */
+const _bimap: Bifunctor2<URI>['bimap'] = (fa, f, g) => pipe(fa, bimap(f, g))
+/* istanbul ignore next */
+const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
 /* istanbul ignore next */
 const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
 
@@ -494,14 +507,22 @@ export const chainW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chain as any
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A> = flattenW
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -509,7 +530,7 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  *
  * In case of `TaskEither` returns `fa` if is a `Right` or the value returned by `that` otherwise.
  *
- * See also [orElse](#orElse).
+ * See also [orElse](#orelse).
  *
  * @example
  * import * as E from 'fp-ts/Either'
@@ -557,7 +578,7 @@ export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>)
  */
 export const altW: <E2, B>(
   that: Lazy<TaskEither<E2, B>>
-) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E1 | E2, A | B> = alt as any
+) => <E1, A>(fa: TaskEither<E1, A>) => TaskEither<E2, A | B> = alt as any
 
 /**
  * @category Pointed
@@ -832,7 +853,7 @@ export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEi
   chainFirst_(Chain)
 
 /**
- * Less strict version of [`chainFirst`](#chainFirst).
+ * Less strict version of [`chainFirst`](#chainfirst).
  *
  * Derivable from `Chain`.
  *
@@ -873,10 +894,10 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A> =
+export const fromOption =
   /*#__PURE__*/
   fromOption_(FromEither)
 
@@ -897,13 +918,6 @@ export const chainOptionK =
   chainOptionK_(FromEither, Chain)
 
 /**
- * @category constructors
- * @since 2.11.0
- */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(e: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
-  T.map(E.fromOption(onNone))
-
-/**
  * @category combinators
  * @since 2.4.0
  */
@@ -912,7 +926,7 @@ export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEi
   chainEitherK_(FromEither, Chain)
 
 /**
- * Less strict version of [`chainEitherK`](#chainEitherK).
+ * Less strict version of [`chainEitherK`](#chaineitherk).
  *
  * @category combinators
  * @since 2.6.1
@@ -927,6 +941,7 @@ export const chainEitherKW: <E2, A, B>(
  */
 export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
 } =
   /*#__PURE__*/
@@ -938,13 +953,14 @@ export const fromPredicate: {
  */
 export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
 } =
   /*#__PURE__*/
   filterOrElse_(FromEither, Chain)
 
 /**
- * Less strict version of [`filterOrElse`](#filterOrElse).
+ * Less strict version of [`filterOrElse`](#filterorelse).
  *
  * @category combinators
  * @since 2.9.0
@@ -952,6 +968,9 @@ export const filterOrElse: {
 export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: TaskEither<E1, A>
+  ) => TaskEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: TaskEither<E1, B>
   ) => TaskEither<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 } = filterOrElse
@@ -1176,51 +1195,54 @@ export const apSW: <A, N extends string, E2, B>(
 ) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: TaskEither<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>) =>
+  flow(T.traverseReadonlyNonEmptyArrayWithIndex(f), T.map(E.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+
+/**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <A, B, E>(
+export const traverseReadonlyArrayWithIndex = <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) =>
-  flow(T.traverseArrayWithIndex(f), T.map(E.sequenceArray))
-
-/**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
- *
- * @since 2.9.0
- */
-export const traverseArray = <A, B, E>(
-  f: (a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
-
-/**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
- *
- * @since 2.9.0
- */
-export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => TaskEither<E, B>) => (
-  as: ReadonlyArray<A>
-): TaskEither<E, ReadonlyArray<B>> => () =>
-  as.reduce<Promise<Either<E, Array<B>>>>(
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, E, B>(f: (index: number, a: A) => TaskEither<E, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): TaskEither<E, ReadonlyNonEmptyArray<B>> => () =>
+  _.tail(as).reduce<Promise<Either<E, NonEmptyArray<B>>>>(
     (acc, a, i) =>
       acc.then((ebs) =>
         _.isLeft(ebs)
           ? acc
-          : f(i, a)().then((eb) => {
+          : f(i + 1, a)().then((eb) => {
               if (_.isLeft(eb)) {
                 return eb
               }
@@ -1228,21 +1250,57 @@ export const traverseSeqArrayWithIndex = <A, B, E>(f: (index: number, a: A) => T
               return ebs
             })
       ),
-    Promise.resolve(_.right([]))
+    f(0, _.head(as))().then(E.map(_.singleton))
   )
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
+  f: (index: number, a: A) => TaskEither<E, B>
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, B, E>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArray = <A, B, E>(
+  f: (a: A) => TaskEither<E, B>
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
+
+/**
+ * @since 2.9.0
+ */
+export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
+  /*#__PURE__*/
+  traverseArray(identity)
+
+/**
+ * @since 2.9.0
+ */
+export const traverseSeqArrayWithIndex: <A, B, E>(
+  f: (index: number, a: A) => TaskEither<E, B>
+) => (as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
+
+/**
  * @since 2.9.0
  */
 export const traverseSeqArray = <A, B, E>(
   f: (a: A) => TaskEither<E, B>
-): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseSeqArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => TaskEither<E, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
- *
  * @since 2.9.0
  */
 export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
@@ -1299,10 +1357,7 @@ export const taskEitherSeq: typeof taskEither = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
- * are concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1313,7 +1368,7 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1324,10 +1379,7 @@ export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
   getApplicativeMonoid(ApplicativeSeq)
 
 /**
- * Use `Apply.getApplySemigroup` instead.
- *
- * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
- * concatenated using the provided `Semigroup`
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -1337,7 +1389,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>>
   getApplySemigroup_(T.ApplySeq)(E.getSemigroup(S))
 
 /**
- * Use `getApplicativeTaskValidation` and `getAltTaskValidation` instead.
+ * Use [`getApplicativeTaskValidation`](#getapplicativetaskvalidation) and [`getAltTaskValidation`](#getalttaskvalidation) instead.
  *
  * @category instances
  * @since 2.0.0

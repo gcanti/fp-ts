@@ -171,7 +171,7 @@ export function fanIn<P>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `split` instead.
+ * Use [`split`](#split) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -194,7 +194,7 @@ export function splitChoice<F>(
 }
 
 /**
- * Use `fanIn` instead.
+ * Use [`fanIn`](#fanIn) instead.
  *
  * @since 2.0.0
  * @deprecated

@@ -35,8 +35,11 @@ import * as _ from './internal'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Option } from './Option'
 import { Pointed2 } from './Pointed'
+import { Predicate } from './Predicate'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { PipeableTraverse2, Traversable2 } from './Traversable'
@@ -60,6 +63,40 @@ export interface Both<E, A> {
  * @since 2.0.0
  */
 export type These<E, A> = Either<E, A> | Both<E, A>
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns `true` if the these is an instance of `Left`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isLeft = <E>(fa: These<E, unknown>): fa is Left<E> => fa._tag === 'Left'
+
+/**
+ * Returns `true` if the these is an instance of `Right`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isRight = <A>(fa: These<unknown, A>): fa is Right<A> => fa._tag === 'Right'
+
+/**
+ * Returns `true` if the these is an instance of `Both`, `false` otherwise
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
+  return fa._tag === 'Both'
+}
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
 
 /**
  * @category constructors
@@ -105,7 +142,7 @@ export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C,
 }
 
 /**
- * Alias of [`matchW`](#matchW).
+ * Alias of [`matchW`](#matchw).
  *
  * @category destructors
  * @since 2.10.0
@@ -318,36 +355,6 @@ export function getRight<E, A>(fa: These<E, A>): Option<A> {
   return isLeft(fa) ? _.none : isRight(fa) ? _.some(fa.right) : _.some(fa.right)
 }
 
-/**
- * Returns `true` if the these is an instance of `Left`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
-  return fa._tag === 'Left'
-}
-
-/**
- * Returns `true` if the these is an instance of `Right`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
-  return fa._tag === 'Right'
-}
-
-/**
- * Returns `true` if the these is an instance of `Both`, `false` otherwise
- *
- * @category guards
- * @since 2.0.0
- */
-export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
-  return fa._tag === 'Both'
-}
-
 // TODO: make lazy in v3
 /**
  * @example
@@ -431,15 +438,14 @@ export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
-  return _.isNone(fe)
+export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> =>
+  _.isNone(fe)
     ? _.isNone(fa)
       ? _.none
       : _.some(right(fa.value))
     : _.isNone(fa)
     ? _.some(left(fe.value))
     : _.some(both(fe.value, fa.value))
-}
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -504,21 +510,21 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> 
  * @since 2.0.0
  */
 export const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
+  isLeft(fa) ? b : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
-  isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
+  isLeft(fa) ? M.empty : f(fa.right)
 
 /**
  * @category Foldable
  * @since 2.0.0
  */
 export const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
-  isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
+  isLeft(fa) ? b : f(fa.right, b)
 
 /**
  * @since 2.6.3
@@ -647,7 +653,7 @@ export const FromEither: FromEither2<URI> = {
 }
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.10.0
  */
 export const fromOption =
@@ -667,6 +673,18 @@ export const fromOptionK =
 // -------------------------------------------------------------------------------------
 
 /**
+ * @since 2.11.0
+ */
+export const elem = <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>): boolean =>
+  isLeft(ma) ? false : E.equals(a, ma.right)
+
+/**
+ * @since 2.11.0
+ */
+export const exists = <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>): boolean =>
+  isLeft(ma) ? false : predicate(ma.right)
+
+/**
  * @example
  * import { toTuple2, left, right, both } from 'fp-ts/These'
  *
@@ -684,7 +702,7 @@ export const toTuple2 = <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: These<E, A>): rea
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `toTuple2` instead.
+ * Use [`toTuple2`](#totuple2) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -694,6 +712,61 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
     () => e,
     () => a
   ) as any
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+) => (as: ReadonlyNonEmptyArray<A>): These<E, ReadonlyNonEmptyArray<B>> => {
+  let e: Option<E> = _.none
+  const t = f(0, _.head(as))
+  if (isLeft(t)) {
+    return t
+  }
+  if (isBoth(t)) {
+    e = _.some(t.left)
+  }
+  const out: NonEmptyArray<B> = [t.right]
+  for (let i = 1; i < as.length; i++) {
+    const t = f(i, as[i])
+    if (isLeft(t)) {
+      return t
+    }
+    if (isBoth(t)) {
+      e = _.isNone(e) ? _.some(t.left) : _.some(S.concat(e.value, t.left))
+    }
+    out.push(t.right)
+  }
+  return _.isNone(e) ? right(out) : both(e.value, out)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
+  f: (index: number, a: A) => These<E, B>
+): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated

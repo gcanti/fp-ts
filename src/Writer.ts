@@ -239,7 +239,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `evaluate` instead
+ * Use [`evaluate`](#evaluate) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -247,7 +247,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 
 /**
- * Use `execute` instead
+ * Use [`execute`](#execute) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -255,7 +255,7 @@ export const evalWriter: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
 export const execWriter: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
 
 /**
- * Use `Functor` instead.
+ * Use [`Functor`](#functor) instead.
  *
  * @category instances
  * @since 2.0.0

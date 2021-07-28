@@ -1,6 +1,6 @@
 ---
 title: Semiring.ts
-nav_order: 92
+nav_order: 93
 parent: Modules
 ---
 
@@ -43,7 +43,7 @@ Added in v2.0.0
 
 ## ~~getFunctionSemiring~~
 
-Use `function.getSemiring` instead.
+Use [`getSemiring`](./function.ts.html#getsemiring) instead.
 
 **Signature**
 

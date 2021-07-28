@@ -35,11 +35,9 @@ export interface Eq<A> {
  * @category constructors
  * @since 2.0.0
  */
-export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
-  return {
-    equals: (x, y) => x === y || equals(x, y)
-  }
-}
+export const fromEquals = <A>(equals: Eq<A>['equals']): Eq<A> => ({
+  equals: (x, y) => x === y || equals(x, y)
+})
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -163,7 +161,7 @@ export const Contravariant: Contravariant1<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -174,7 +172,7 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 ) => Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> = tuple
 
 /**
- * Use `struct` instead.
+ * Use [`struct`](#struct) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -183,7 +181,7 @@ export const getTupleEq: <T extends ReadonlyArray<Eq<any>>>(
 export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in keyof O]: Eq<O[K]> }) => Eq<O> = struct
 
 /**
- * Use `eqStrict` instead
+ * Use [`eqStrict`](#eqstrict) instead
  *
  * @since 2.0.0
  * @deprecated
@@ -200,7 +198,7 @@ export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
 export const eq: Contravariant1<URI> = Contravariant
 
 /**
- * Use `boolean.Eq` instead.
+ * Use [`Eq`](./boolean.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -209,7 +207,7 @@ export const eq: Contravariant1<URI> = Contravariant
 export const eqBoolean: Eq<boolean> = eqStrict
 
 /**
- * Use `string.Eq` instead.
+ * Use [`Eq`](./string.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -218,7 +216,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
 export const eqString: Eq<string> = eqStrict
 
 /**
- * Use `number.Eq` instead.
+ * Use [`Eq`](./number.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -227,7 +225,7 @@ export const eqString: Eq<string> = eqStrict
 export const eqNumber: Eq<number> = eqStrict
 
 /**
- * Use `Date.Eq` instead.
+ * Use [`Eq`](./Date.ts.html#eq) instead.
  *
  * @category instances
  * @since 2.0.0

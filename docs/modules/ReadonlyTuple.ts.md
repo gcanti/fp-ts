@@ -1,6 +1,6 @@
 ---
 title: ReadonlyTuple.ts
-nav_order: 86
+nav_order: 87
 parent: Modules
 ---
 
@@ -402,7 +402,7 @@ Added in v2.6.3
 
 ## ~~mapLeft~~
 
-Use `mapSnd` instead.
+Use [`mapSnd`](#mapsnd) instead.
 
 **Signature**
 
@@ -414,7 +414,7 @@ Added in v2.5.0
 
 ## ~~map~~
 
-Use `mapFst` instead.
+Use [`mapFst`](#mapfst) instead.
 
 **Signature**
 

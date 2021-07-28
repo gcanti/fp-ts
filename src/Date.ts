@@ -2,8 +2,10 @@
  * @since 2.0.0
  */
 import * as E from './Eq'
+import { pipe } from './function'
 import { IO } from './IO'
 import * as O from './Ord'
+import * as N from './number'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -13,8 +15,9 @@ import * as O from './Ord'
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Eq: E.Eq<Date> = E.eqDate
+export const Eq: E.Eq<Date> = {
+  equals: (first, second) => first.valueOf() === second.valueOf()
+}
 
 /**
  * @category instances
@@ -49,8 +52,13 @@ export const eqYear: E.Eq<Date> = {
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const Ord: O.Ord<Date> = O.ordDate
+export const Ord: O.Ord<Date> =
+  /*#__PURE__*/
+  pipe(
+    N.Ord,
+    /*#__PURE__*/
+    O.contramap((date) => date.valueOf())
+  )
 
 // -------------------------------------------------------------------------------------
 // utils

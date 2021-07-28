@@ -2,7 +2,7 @@
  * @since 2.10.0
  */
 import * as _ from './internal'
-import { getObjectSemigroup, Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -25,8 +25,9 @@ import { getObjectSemigroup, Semigroup } from './Semigroup'
  * @category instances
  * @since 2.10.0
  */
-// tslint:disable-next-line: deprecation
-export const getAssignSemigroup: <A extends object = never>() => Semigroup<A> = getObjectSemigroup
+export const getAssignSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (first, second) => Object.assign({}, first, second)
+})
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -57,7 +58,7 @@ export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(tr
 ): { [K in keyof F]: ReturnType<F[K]> } => {
   const out: Record<string, unknown> = {}
   for (const k in a) {
-    if (_.hasOwnProperty.call(a, k)) {
+    if (_.has.call(a, k)) {
       out[k] = transformations[k](a[k])
     }
   }

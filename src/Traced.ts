@@ -143,7 +143,7 @@ export const flap =
 // -------------------------------------------------------------------------------------
 
 /**
- * Use `Functor` instead.
+ * Use [`Functor`](#functor) instead.
  *
  * @category instances
  * @since 2.0.0

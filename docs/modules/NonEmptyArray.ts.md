@@ -1,6 +1,6 @@
 ---
 title: NonEmptyArray.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -374,6 +374,8 @@ Added in v2.10.0
 **Signature**
 
 ```ts
+export declare function concat<A>(second: NonEmptyArray<A>): (first: Array<A>) => NonEmptyArray<A>
+export declare function concat<A>(second: Array<A>): (first: NonEmptyArray<A>) => NonEmptyArray<A>
 export declare function concat<A>(first: Array<A>, second: NonEmptyArray<A>): NonEmptyArray<A>
 export declare function concat<A>(first: NonEmptyArray<A>, second: Array<A>): NonEmptyArray<A>
 ```
@@ -788,7 +790,7 @@ Added in v2.5.1
 
 ## ~~filterWithIndex~~
 
-Use `Array`'s `filterWithIndex` instead.
+Use [`filterWithIndex`](./Array.ts.html#filterwithindex) instead.
 
 **Signature**
 
@@ -802,7 +804,7 @@ Added in v2.0.0
 
 ## ~~filter~~
 
-Use `Array`'s `filter` instead.
+Use [`filter`](./Array.ts.html#filter) instead.
 
 **Signature**
 
@@ -810,6 +812,9 @@ Use `Array`'s `filter` instead.
 export declare function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: NonEmptyArray<A>) => Option<NonEmptyArray<B>>
+export declare function filter<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: NonEmptyArray<B>) => Option<NonEmptyArray<B>>
 export declare function filter<A>(predicate: Predicate<A>): (as: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
 ```
 
@@ -834,7 +839,7 @@ Added in v2.0.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependall) instead.
 
 **Signature**
 
@@ -937,7 +942,7 @@ Added in v2.11.0
 
 ## ~~cons~~
 
-Use `Array`'s `prepend` instead.
+Use [`prepend`](./Array.ts.html#prepend) instead.
 
 **Signature**
 
@@ -950,7 +955,7 @@ Added in v2.0.0
 
 ## ~~snoc~~
 
-Use `Array`'s `append` instead.
+Use [`append`](./Array.ts.html#append) instead.
 
 **Signature**
 
@@ -1028,7 +1033,7 @@ Added in v2.9.0
 
 ## ~~uncons~~
 
-Use `unprepend` instead.
+Use [`unprepend`](#unprepend) instead.
 
 **Signature**
 
@@ -1040,7 +1045,7 @@ Added in v2.9.0
 
 ## ~~unsnoc~~
 
-Use `unappend` instead.
+Use [`unappend`](#unappend) instead.
 
 **Signature**
 
@@ -1472,7 +1477,7 @@ Added in v2.6.3
 
 ## ~~fold~~
 
-Use `concatAll` instead.
+Use [`concatAll`](#concatall) instead.
 
 **Signature**
 

@@ -150,7 +150,7 @@ export const struct = <A>(
   concat: (first, second) => {
     const r: A = {} as any
     for (const k in semigroups) {
-      if (_.hasOwnProperty.call(semigroups, k)) {
+      if (_.has.call(semigroups, k)) {
         r[k] = semigroups[k].concat(first[k], second[k])
       }
     }
@@ -267,7 +267,7 @@ export const concatAll: <A>(S: Semigroup<A>) => (startWith: A) => (as: ReadonlyA
 export const semigroupVoid: Semigroup<void> = constant<void>(undefined)
 
 /**
- * Use `object.getAssignSemigroup` instead.
+ * Use [`getAssignSemigroup`](./struct.ts.html#getAssignSemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -278,7 +278,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 })
 
 /**
- * Use `last` instead.
+ * Use [`last`](#last) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -287,7 +287,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 export const getLastSemigroup = last
 
 /**
- * Use `first` instead.
+ * Use [`first`](#first) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -296,7 +296,7 @@ export const getLastSemigroup = last
 export const getFirstSemigroup = first
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -307,7 +307,7 @@ export const getTupleSemigroup: <T extends ReadonlyArray<Semigroup<any>>>(
 ) => Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `struct` instead.
+ * Use [`struct`](#struct) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -318,7 +318,7 @@ export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(
 ) => Semigroup<O> = struct
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -327,7 +327,7 @@ export const getStructSemigroup: <O extends ReadonlyRecord<string, any>>(
 export const getDualSemigroup = reverse
 
 /**
- * Use `max` instead.
+ * Use [`max`](#max) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -336,7 +336,7 @@ export const getDualSemigroup = reverse
 export const getJoinSemigroup = max
 
 /**
- * Use `min` instead.
+ * Use [`min`](#min) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -345,7 +345,7 @@ export const getJoinSemigroup = max
 export const getMeetSemigroup = min
 
 /**
- * Use `intercalate` instead.
+ * Use [`intercalate`](#intercalate) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -354,7 +354,7 @@ export const getMeetSemigroup = min
 export const getIntercalateSemigroup = intercalate
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -371,7 +371,7 @@ export function fold<A>(S: Semigroup<A>): (startWith: A, as?: ReadonlyArray<A>) 
 }
 
 /**
- * Use `boolean.SemigroupAll` instead.
+ * Use [`SemigroupAll`](./boolean.ts.html#SemigroupAll) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -382,7 +382,7 @@ export const semigroupAll: Semigroup<boolean> = {
 }
 
 /**
- * Use `boolean.SemigroupAny` instead.
+ * Use [`SemigroupAny`](./boolean.ts.html#SemigroupAny) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -393,7 +393,7 @@ export const semigroupAny: Semigroup<boolean> = {
 }
 
 /**
- * Use `function.getSemigroup` instead.
+ * Use [`getSemigroup`](./function.ts.html#getSemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -402,7 +402,7 @@ export const semigroupAny: Semigroup<boolean> = {
 export const getFunctionSemigroup: <S>(S: Semigroup<S>) => <A = never>() => Semigroup<(a: A) => S> = getSemigroup
 
 /**
- * Use `string.Semigroup` instead.
+ * Use [`Semigroup`](./string.ts.html#Semigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -413,7 +413,7 @@ export const semigroupString: Semigroup<string> = {
 }
 
 /**
- * Use `number.SemigroupSum` instead.
+ * Use [`SemigroupSum`](./number.ts.html#SemigroupSum) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -424,7 +424,7 @@ export const semigroupSum: Semigroup<number> = {
 }
 
 /**
- * Use `number.SemigroupProduct` instead.
+ * Use [`SemigroupProduct`](./number.ts.html#SemigroupProduct) instead.
  *
  * @category instances
  * @since 2.0.0

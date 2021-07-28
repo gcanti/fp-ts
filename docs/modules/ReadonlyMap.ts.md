@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 82
+nav_order: 83
 parent: Modules
 ---
 
@@ -35,10 +35,8 @@ Added in v2.5.0
   - [~~insertAt~~](#insertat)
 - [constructors](#constructors)
   - [fromFoldable](#fromfoldable)
-  - [fromMap](#frommap)
   - [singleton](#singleton)
 - [destructors](#destructors)
-  - [toMap](#tomap)
   - [toUnfoldable](#tounfoldable)
 - [instances](#instances)
   - [Compactable](#compactable-1)
@@ -61,6 +59,9 @@ Added in v2.5.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [getWitherable](#getwitherable)
   - [~~readonlyMap~~](#readonlymap)
+- [interop](#interop)
+  - [fromMap](#frommap)
+  - [toMap](#tomap)
 - [utils](#utils)
   - [collect](#collect)
   - [difference](#difference)
@@ -122,6 +123,7 @@ Added in v2.5.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 }
 ```
@@ -147,6 +149,9 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(
     fa: ReadonlyMap<K, A>
   ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(
+    fb: ReadonlyMap<K, B>
+  ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 }
 ```
@@ -223,7 +228,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare function filterWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v2.10.0
@@ -257,9 +270,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 ```
 
 Added in v2.10.0
@@ -278,7 +297,7 @@ Added in v2.10.0
 
 ## ~~insertAt~~
 
-Use `upsertAt` instead.
+Use [`upsertAt`](#upsertat) instead.
 
 **Signature**
 
@@ -322,16 +341,6 @@ export declare function fromFoldable<F, K, A>(
 
 Added in v2.5.0
 
-## fromMap
-
-**Signature**
-
-```ts
-export declare function fromMap<K, A>(m: Map<K, A>): ReadonlyMap<K, A>
-```
-
-Added in v2.5.0
-
 ## singleton
 
 Create a map with one key/value pair
@@ -345,16 +354,6 @@ export declare const singleton: <K, A>(k: K, a: A) => ReadonlyMap<K, A>
 Added in v2.5.0
 
 # destructors
-
-## toMap
-
-**Signature**
-
-```ts
-export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
-```
-
-Added in v2.5.0
 
 ## toUnfoldable
 
@@ -581,6 +580,28 @@ export declare const readonlyMap: Filterable2<'ReadonlyMap'>
 
 Added in v2.5.0
 
+# interop
+
+## fromMap
+
+**Signature**
+
+```ts
+export declare const fromMap: <K, A>(m: Map<K, A>) => ReadonlyMap<K, A>
+```
+
+Added in v2.5.0
+
+## toMap
+
+**Signature**
+
+```ts
+export declare function toMap<K, A>(m: ReadonlyMap<K, A>): Map<K, A>
+```
+
+Added in v2.5.0
+
 # utils
 
 ## collect
@@ -676,7 +697,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export declare function isEmpty<K, A>(d: ReadonlyMap<K, A>): boolean
+export declare const isEmpty: <K, A>(m: ReadonlyMap<K, A>) => boolean
 ```
 
 Added in v2.5.0
@@ -838,7 +859,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export declare function size<K, A>(d: ReadonlyMap<K, A>): number
+export declare const size: <K, A>(m: ReadonlyMap<K, A>) => number
 ```
 
 Added in v2.5.0

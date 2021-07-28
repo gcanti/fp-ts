@@ -275,16 +275,17 @@ describe('NonEmptyArray', () => {
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
+    const as: _.NonEmptyArray<{ readonly x: number }> = [a1, a2, a3]
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 1)
       ),
       O.some([a3])
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 2)
       ),
       O.some([a1, a2])
@@ -297,7 +298,7 @@ describe('NonEmptyArray', () => {
     )
     U.deepStrictEqual(
       pipe(
-        [a1, a2, a3],
+        as,
         _.filter(({ x }) => x !== 10)
       ),
       O.some([a1, a2, a3])
@@ -381,8 +382,7 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(Sh.show(['a', 'b', 'c']), `["a", "b", "c"]`)
   })
 
-  it('alt / concat', () => {
-    U.deepStrictEqual(_.concat(['a'], []), ['a'])
+  it('alt', () => {
     U.deepStrictEqual(
       pipe(
         ['a'],
@@ -549,5 +549,17 @@ describe('NonEmptyArray', () => {
 
   it('concatW', () => {
     U.deepStrictEqual(pipe(['a'], _.concatW(['b'])), ['a', 'b'])
+  })
+
+  it('concat', () => {
+    U.deepStrictEqual(pipe(['a'], _.concat(['b'])), ['a', 'b'])
+    U.deepStrictEqual(pipe([], _.concat(['b'])), ['b'])
+    U.deepStrictEqual(pipe(['a'], _.concat<string>([])), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], ['b']), ['a', 'b'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat(['a'], []), ['a'])
+    // tslint:disable-next-line: deprecation
+    U.deepStrictEqual(_.concat([], ['b']), ['b'])
   })
 })

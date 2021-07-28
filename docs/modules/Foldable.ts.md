@@ -501,7 +501,7 @@ Added in v2.0.0
 
 ## ~~foldM~~
 
-Use `reduceM` instead
+Use [`reduceM`](#reducem) instead
 
 **Signature**
 
@@ -536,7 +536,13 @@ Added in v2.0.0
 
 ## ~~getFoldableComposition~~
 
-Returns the composition of two foldables
+Use
+
+- [reduce](#reduce)
+- [foldMap](#foldmap)
+- [reduceRight](#reduceright)
+
+instead.
 
 **Signature**
 
@@ -576,7 +582,7 @@ Added in v2.0.0
 
 ## ~~toArray~~
 
-Use `toReadonlyArray` instead
+Use [`toReadonlyArray`](#toreadonlyarray) instead
 
 **Signature**
 

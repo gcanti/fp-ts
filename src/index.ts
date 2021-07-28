@@ -64,6 +64,7 @@ import * as monadIO from './MonadIO'
 import * as monadTask from './MonadTask'
 import * as monadThrow from './MonadThrow'
 import * as monoid from './Monoid'
+import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -119,6 +120,7 @@ import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
 import * as writerT from './WriterT'
+import * as zero from './Zero'
 export {
   /**
    * @since 2.0.0
@@ -365,6 +367,10 @@ export {
    */
   monoid,
   /**
+   * @since 2.11.0
+   */
+  naturalTransformation,
+  /**
    * @since 2.0.0
    */
   nonEmptyArray,
@@ -587,5 +593,9 @@ export {
   /**
    * @since 2.4.0
    */
-  writerT
+  writerT,
+  /**
+   * @since 2.11.0
+   */
+  zero
 }

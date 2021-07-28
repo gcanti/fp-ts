@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "2.11.0-rc.1",
+  "version": "2.11.1",
   "description": "Functional programming in TypeScript",
   "main": "lib/index.js",
   "module": "es6/index.js",
@@ -18,12 +18,12 @@
     "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build",
     "postbuild": "prettier --loglevel=silent --write \"./dist/**/*.ts\"",
     "prepublishOnly": "ts-node scripts/pre-publish",
-    "doctoc": "doctoc README.md docs/introduction/code-conventions.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
     "docs": "docs-ts",
     "prerelease": "npm run build",
-    "release": "ts-node scripts/release"
+    "release": "ts-node scripts/release",
+    "dpdm": "dpdm --warning=false --tree=false --exit-code circular:1 -T src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -43,7 +43,6 @@
     "@types/prettier": "1.10.0",
     "benchmark": "2.1.4",
     "docs-ts": "^0.6.7",
-    "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "fast-check": "^1.25.1",
     "glob": "^7.1.6",

@@ -9,8 +9,8 @@ Functional programming in TypeScript
 </p>
 
 <p align="center">
-  <a href="https://travis-ci.org/gcanti/fp-ts">
-    <img src="https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square" alt="build status" height="20">
+  <a href="https://github.com/gcanti/fp-ts/actions">
+    <img src="https://github.com/gcanti/fp-ts/actions/workflows/main.yml/badge.svg?branch=master" alt="build status" height="20">
   </a>
   <a href="https://david-dm.org/gcanti/fp-ts">
     <img src="https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square" alt="dependency status" height="20">
@@ -30,24 +30,9 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 **Inspired by**
 
-- [Haskell](https://haskell-lang.org)
-- [PureScript](http://www.purescript.org)
-- [Scala](https://www.scala-lang.org/)
-
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-**Table of contents**
-
-- [Installation](#installation)
-  - [Consuming fp-ts](#consuming-fp-ts)
-  - [TypeScript compatibility](#typescript-compatibility)
-- [Documentation](#documentation)
-- [Help](#help)
-- [Development](#development)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+- [Haskell](https://www.haskell.org)
+- [PureScript](https://www.purescript.org)
+- [Scala](https://www.scala-lang.org)
 
 # Installation
 
@@ -87,7 +72,7 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 If you need help with `fp-ts` check out:
 
 - this [Discord server](https://discord.gg/HVWmBBXM8A)
-- the `#fp-ts` channel on [FP slack](https://fpchat-invite.herokuapp.com/) .
+- the `#fp-ts` channel on [FP slack](https://fpchat-invite.herokuapp.com).
 
 # Development
 

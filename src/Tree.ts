@@ -22,6 +22,7 @@ import * as _ from './internal'
 import { Monad as MonadHKT, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
 import { Monoid } from './Monoid'
 import { Pointed1 } from './Pointed'
+import { Predicate } from './Predicate'
 import { Show } from './Show'
 import { PipeableTraverse1, Traversable1 } from './Traversable'
 
@@ -216,20 +217,6 @@ export function unfoldForestM<M>(
       bs,
       traverseM((b) => unfoldTreeM(M)(b, f))
     )
-}
-
-// TODO: curry in v3
-/**
- * @since 2.0.0
- */
-export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
-  const go = (a: A, fa: Tree<A>): boolean => {
-    if (E.equals(a, fa.value)) {
-      return true
-    }
-    return fa.forest.some((tree) => go(a, tree))
-  }
-  return go
 }
 
 /**
@@ -635,6 +622,24 @@ export const bind =
 export const apS =
   /*#__PURE__*/
   apS_(Apply)
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.0.0
+ */
+export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
+  const go = (a: A, fa: Tree<A>): boolean => E.equals(a, fa.value) || fa.forest.some((tree) => go(a, tree))
+  return go
+}
+
+/**
+ * @since 2.11.0
+ */
+export const exists = <A>(predicate: Predicate<A>) => (ma: Tree<A>): boolean =>
+  predicate(ma.value) || ma.forest.some(exists(predicate))
 
 // -------------------------------------------------------------------------------------
 // deprecated

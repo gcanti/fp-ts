@@ -725,6 +725,8 @@ export const SK = <A, B>(_: A, b: B): B => b
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `Refinement` module instead.
  *
@@ -751,7 +753,6 @@ export interface Predicate<A> {
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export function not<A>(predicate: Predicate<A>): Predicate<A> {
   return (a) => !predicate(a)
 }
@@ -773,7 +774,6 @@ export interface Endomorphism<A> {
  * @since 2.10.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ({
   concat: (first, second) => flow(first, second),
   empty: identity

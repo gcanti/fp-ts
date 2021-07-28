@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 79
+nav_order: 80
 parent: Modules
 ---
 
@@ -25,24 +25,28 @@ Added in v2.3.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
+  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
-  - [~~local~~](#local)
+  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-  - [fromTask](#fromtask)
 - [instances](#instances)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
@@ -65,7 +69,12 @@ Added in v2.3.0
   - [~~readerTask~~](#readertask)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -73,12 +82,16 @@ Added in v2.3.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [sequenceArray](#sequencearray)
-  - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
   - [~~run~~](#run)
+  - [~~sequenceSeqArray~~](#sequenceseqarray)
 
 ---
 
@@ -195,6 +208,30 @@ export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: Re
 
 Added in v2.3.0
 
+## asksReaderTask
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## asksReaderTaskW
+
+Less strict version of [`asksReaderTask`](#asksreadertask).
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -222,6 +259,32 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: Rea
 
 Added in v2.10.0
 
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstTaskK
 
 **Signature**
@@ -231,6 +294,22 @@ export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(firs
 ```
 
 Added in v2.10.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
 
 ## chainIOK
 
@@ -248,6 +327,20 @@ Added in v2.4.0
 
 ```ts
 export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v2.11.0
@@ -286,6 +379,18 @@ export declare const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => Re
 
 Added in v2.3.0
 
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v2.11.0
+
 ## fromIOK
 
 **Signature**
@@ -316,9 +421,10 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v2.4.0
 
-## ~~local~~
+## local
 
-Use `Reader`'s `local` instead.
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
 
 **Signature**
 
@@ -350,36 +456,6 @@ Projects a value from the global context in a `ReaderTask`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <E, A>(fa: IO<A>) => ReaderTask<E, A>
-```
-
-Added in v2.3.0
-
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A = never>(ma: R.Reader<R, A>) => ReaderTask<R, A>
-```
-
-Added in v2.3.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <E, A>(fa: T.Task<A>) => ReaderTask<E, A>
 ```
 
 Added in v2.3.0
@@ -538,7 +614,7 @@ Added in v2.3.0
 
 ## ~~getMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 **Signature**
 
@@ -550,7 +626,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 
@@ -598,7 +674,49 @@ export interface ReaderTask<R, A> {
 
 Added in v2.3.0
 
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+```
+
+Added in v2.3.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
+```
+
+Added in v2.3.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTask<unknown, readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -674,8 +792,6 @@ Added in v2.8.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -684,21 +800,7 @@ export declare const sequenceArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => 
 
 Added in v2.9.0
 
-## sequenceSeqArray
-
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
-
-**Signature**
-
-```ts
-export declare const sequenceSeqArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
-```
-
-Added in v2.10.0
-
 ## traverseArray
-
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
 
 **Signature**
 
@@ -712,8 +814,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -724,9 +824,63 @@ export declare const traverseArrayWithIndex: <R, A, B>(
 
 Added in v2.9.0
 
-## traverseSeqArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <R, A, B>(
+  f: (index: number, a: A) => ReaderTask<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseSeqArray
 
 **Signature**
 
@@ -739,8 +893,6 @@ export declare const traverseSeqArray: <R, A, B>(
 Added in v2.10.0
 
 ## traverseSeqArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 
@@ -761,3 +913,15 @@ export declare function run<R, A>(ma: ReaderTask<R, A>, r: R): Promise<A>
 ```
 
 Added in v2.4.0
+
+## ~~sequenceSeqArray~~
+
+Use `traverseReadonlyArrayWithIndexSeq` instead.
+
+**Signature**
+
+```ts
+export declare const sequenceSeqArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v2.10.0

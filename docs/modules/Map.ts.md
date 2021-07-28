@@ -115,6 +115,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 }
 ```
@@ -138,6 +139,7 @@ Added in v2.0.0
 ```ts
 export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 }
 ```
@@ -212,7 +214,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>) => Map<K, A>
+export declare function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export declare function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
 ```
 
 Added in v2.10.0
@@ -246,9 +250,15 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 ```
 
 Added in v2.10.0
@@ -267,7 +277,7 @@ Added in v2.0.0
 
 ## ~~insertAt~~
 
-Use `upsertAt` instead.
+Use [`upsertAt`](#upsertat) instead.
 
 **Signature**
 
@@ -483,7 +493,7 @@ Added in v2.0.0
 
 ## ~~map\_~~
 
-Use `Filterable` instead.
+Use [`Filterable`](#filterable) instead.
 
 **Signature**
 
@@ -569,7 +579,7 @@ Test whether or not a map is empty
 **Signature**
 
 ```ts
-export declare const isEmpty: <K, A>(d: Map<K, A>) => boolean
+export declare const isEmpty: <K, A>(m: Map<K, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -728,7 +738,7 @@ Calculate the number of key/value pairs in a map
 **Signature**
 
 ```ts
-export declare const size: <K, A>(d: Map<K, A>) => number
+export declare const size: <K, A>(m: Map<K, A>) => number
 ```
 
 Added in v2.0.0

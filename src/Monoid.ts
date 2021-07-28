@@ -142,7 +142,7 @@ export const reverse = <A>(M: Monoid<A>): Monoid<A> => ({
 export const struct = <A>(monoids: { [K in keyof A]: Monoid<A[K]> }): Monoid<{ readonly [K in keyof A]: A[K] }> => {
   const empty: A = {} as any
   for (const k in monoids) {
-    if (_.hasOwnProperty.call(monoids, k)) {
+    if (_.has.call(monoids, k)) {
       empty[k] = monoids[k].empty
     }
   }
@@ -202,21 +202,22 @@ export const concatAll = <A>(M: Monoid<A>): ((as: ReadonlyArray<A>) => A) => Se.
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
- * Use `void` module instead.
+ * Use [`Monoid`](./void.ts.html#monoid) instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidVoid: Monoid<void> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupVoid.concat,
   empty: undefined
 }
 
 /**
- * Use `tuple` instead.
+ * Use [`tuple`](#tuple) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -227,7 +228,7 @@ export const getTupleMonoid: <T extends ReadonlyArray<Monoid<any>>>(
 ) => Monoid<{ [K in keyof T]: T[K] extends Se.Semigroup<infer A> ? A : never }> = tuple as any
 
 /**
- * Use `struct` instead.
+ * Use [`struct`](#struct) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -238,7 +239,7 @@ export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
 ) => Monoid<O> = struct
 
 /**
- * Use `reverse` instead.
+ * Use [`reverse`](#reverse) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -247,7 +248,7 @@ export const getStructMonoid: <O extends ReadonlyRecord<string, any>>(
 export const getDualMonoid = reverse
 
 /**
- * Use `max` instead.
+ * Use [`max`](#max) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -256,7 +257,7 @@ export const getDualMonoid = reverse
 export const getJoinMonoid = max
 
 /**
- * Use `min` instead.
+ * Use [`min`](#min) instead.
  *
  * @category constructors
  * @since 2.0.0
@@ -265,7 +266,7 @@ export const getJoinMonoid = max
 export const getMeetMonoid = min
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.0.0
  * @deprecated
@@ -273,33 +274,31 @@ export const getMeetMonoid = min
 export const fold = concatAll
 
 /**
- * Use `boolean.MonoidAll` instead.
+ * Use [`MonoidAll`](./boolean.ts.html#monoidall) instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidAll: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAll.concat,
   empty: true
 }
 
 /**
- * Use `boolean.MonoidAny` instead.
+ * Use [`MonoidAny`](./boolean.ts.html#monoidany) instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidAny: Monoid<boolean> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupAny.concat,
   empty: false
 }
 
 /**
- * Use `function.getMonoid` instead.
+ * Use [`getMonoid`](./function.ts.html#getmonoid) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -308,7 +307,9 @@ export const monoidAny: Monoid<boolean> = {
 export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a: A) => M> = getFM
 
 /**
- * Use `Endomorphism` module instead. **Note**. The execution order in the `Endomorphism` module is reversed.
+ * Use [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) instead.
+ *
+ * **Note**. The execution order in [`getEndomorphismMonoid`](./function.ts.html#getendomorphismmonoid) is reversed.
  *
  * @category instances
  * @since 2.0.0
@@ -317,38 +318,37 @@ export const getFunctionMonoid: <M>(M: Monoid<M>) => <A = never>() => Monoid<(a:
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => reverse(getEM())
 
 /**
- * Use `string.Monoid` instead.
+ * Use [`Monoid`](./string.ts.html#monoid) instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidString: Monoid<string> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupString.concat,
   empty: ''
 }
 
 /**
- * Use `number.MonoidSum` instead.
+ * Use [`MonoidSum`](./number.ts.html#monoidsum) instead.
  *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidSum: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupSum.concat,
   empty: 0
 }
 
 /**
+ * Use [`MonoidProduct`](./number.ts.html#monoidproduct) instead.
+ *
  * @category instances
  * @since 2.0.0
  * @deprecated
  */
 export const monoidProduct: Monoid<number> = {
-  // tslint:disable-next-line: deprecation
   concat: Se.semigroupProduct.concat,
   empty: 1
 }

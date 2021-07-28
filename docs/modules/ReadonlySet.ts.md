@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 85
+nav_order: 86
 parent: Modules
 ---
 
@@ -26,18 +26,21 @@ Added in v2.5.0
   - [union](#union)
 - [constructors](#constructors)
   - [fromReadonlyArray](#fromreadonlyarray)
-  - [fromSet](#fromset)
   - [singleton](#singleton)
   - [~~fromArray~~](#fromarray)
 - [destructors](#destructors)
   - [toSet](#toset)
 - [instances](#instances)
+  - [URI](#uri)
+  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
   - [getShow](#getshow)
   - [getUnionMonoid](#getunionmonoid)
   - [getUnionSemigroup](#getunionsemigroup)
+- [interop](#interop)
+  - [fromSet](#fromset)
 - [utils](#utils)
   - [elem](#elem)
   - [empty](#empty)
@@ -111,6 +114,7 @@ Added in v2.5.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: ReadonlySet<B>) => ReadonlySet<B>
 export declare function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
@@ -214,7 +218,7 @@ Added in v2.5.0
 
 ## fromReadonlyArray
 
-Create a set from an array
+Create a `ReadonlySet` from a `ReadonlyArray`
 
 **Signature**
 
@@ -223,16 +227,6 @@ export declare const fromReadonlyArray: <A>(E: Eq<A>) => (as: readonly A[]) => R
 ```
 
 Added in v2.10.0
-
-## fromSet
-
-**Signature**
-
-```ts
-export declare function fromSet<A>(s: Set<A>): ReadonlySet<A>
-```
-
-Added in v2.5.0
 
 ## singleton
 
@@ -248,7 +242,7 @@ Added in v2.5.0
 
 ## ~~fromArray~~
 
-Use `fromReadonlyArray` instead.
+Use [`fromReadonlyArray`](#fromreadonlyarray) instead.
 
 **Signature**
 
@@ -271,6 +265,26 @@ export declare function toSet<A>(s: ReadonlySet<A>): Set<A>
 Added in v2.5.0
 
 # instances
+
+## URI
+
+**Signature**
+
+```ts
+export declare const URI: 'ReadonlySet'
+```
+
+Added in v2.11.0
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+Added in v2.11.0
 
 ## getDifferenceMagma
 
@@ -331,6 +345,18 @@ export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<ReadonlySet<A
 ```
 
 Added in v2.11.0
+
+# interop
+
+## fromSet
+
+**Signature**
+
+```ts
+export declare const fromSet: <A>(s: Set<A>) => ReadonlySet<A>
+```
+
+Added in v2.5.0
 
 # utils
 
@@ -418,6 +444,9 @@ Added in v2.5.0
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+export declare function partition<A>(
+  predicate: Predicate<A>
+): <B extends A>(set: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
 ): (set: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>

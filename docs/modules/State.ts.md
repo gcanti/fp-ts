@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 96
+nav_order: 97
 parent: Modules
 ---
 
@@ -53,6 +53,8 @@ Added in v2.0.0
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~evalState~~](#evalstate)
   - [~~execState~~](#execstate)
 
@@ -414,8 +416,6 @@ Added in v2.8.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -425,8 +425,6 @@ export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State
 Added in v2.9.0
 
 ## traverseArray
-
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
 
 **Signature**
 
@@ -438,8 +436,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
-
 **Signature**
 
 ```ts
@@ -450,9 +446,37 @@ export declare const traverseArrayWithIndex: <A, S, B>(
 
 Added in v2.9.0
 
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: readonly A[]) => State<S, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, S, B>(
+  f: (index: number, a: A) => State<S, B>
+) => (as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
 ## ~~evalState~~
 
-Use `evaluate` instead
+Use [`evaluate`](#evaluate) instead
 
 **Signature**
 
@@ -464,7 +488,7 @@ Added in v2.0.0
 
 ## ~~execState~~
 
-Use `execute` instead
+Use [`execute`](#execute) instead
 
 **Signature**
 

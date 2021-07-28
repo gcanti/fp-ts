@@ -18,6 +18,7 @@ suite
     return pipe(as, RNEA.sequence(_.Applicative))
   })
   .add('_.sequenceArray', function () {
+    // tslint:disable-next-line: deprecation
     return pipe(as, _.sequenceArray)
   })
   .on('cycle', function (event: any) {

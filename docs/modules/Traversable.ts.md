@@ -1,6 +1,6 @@
 ---
 title: Traversable.ts
-nav_order: 110
+nav_order: 111
 parent: Modules
 ---
 
@@ -602,7 +602,12 @@ Added in v2.0.0
 
 ## ~~getTraversableComposition~~
 
-Returns the composition of two traversables
+Use
+
+- [`traverse`](#traverse)
+- [`sequence`](#sequence)
+
+instead.
 
 **Signature**
 

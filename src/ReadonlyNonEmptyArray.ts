@@ -201,7 +201,7 @@ export const union = <A>(
   E: Eq<A>
 ): ((second: ReadonlyNonEmptyArray<A>) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => {
   const uniqE = uniq(E)
-  return (second) => (first) => uniqE(concat(first, second))
+  return (second) => (first) => uniqE(pipe(first, concat(second)))
 }
 
 /**
@@ -224,7 +224,7 @@ export const rotate = (n: number) => <A>(as: ReadonlyNonEmptyArray<A>): Readonly
   }
   if (m < 0) {
     const [f, s] = splitAt(-m)(as)
-    return concat(s, f)
+    return pipe(s, concat(f))
   } else {
     return rotate(m - len)(as)
   }
@@ -359,10 +359,17 @@ export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmpt
  * @category combinators
  * @since 2.5.0
  */
+export function concat<A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+export function concat<A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<A>
+/** @deprecated */
 export function concat<A>(first: ReadonlyNonEmptyArray<A>, second: ReadonlyArray<A>): ReadonlyNonEmptyArray<A>
-export function concat<A>(first: ReadonlyArray<A>, second: ReadonlyArray<A>): ReadonlyArray<A> {
-  return first.concat(second)
+export function concat<A>(
+  x: ReadonlyArray<A>,
+  y?: ReadonlyArray<A>
+): ReadonlyArray<A> | ((y: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A>) {
+  return y ? x.concat(y) : (y) => y.concat(x)
 }
 
 /**
@@ -685,7 +692,7 @@ export const of: Pointed1<URI>['of'] = _.singleton
  */
 export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
   as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<A | B> => concat(as as ReadonlyNonEmptyArray<A | B>, that())
+): ReadonlyNonEmptyArray<A | B> => pipe(as, concatW(that()))
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -1275,6 +1282,8 @@ export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => Readonly
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * This is just `sort` followed by `group`.
  *
@@ -1295,7 +1304,7 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 }
 
 /**
- * Use `ReadonlyArray`'s `filter` instead.
+ * Use [`filter`](./ReadonlyArray.ts.html#filter) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1304,14 +1313,16 @@ export function groupSort<A>(O: Ord<A>): (as: ReadonlyArray<A>) => ReadonlyArray
 export function filter<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>
+export function filter<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyNonEmptyArray<B>) => Option<ReadonlyNonEmptyArray<B>>
 export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>>
 export function filter<A>(predicate: Predicate<A>): (as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<A>> {
-  // tslint:disable-next-line: deprecation
   return filterWithIndex((_, a) => predicate(a))
 }
 
 /**
- * Use `ReadonlyArray`'s `filterWithIndex` instead.
+ * Use [`filterWithIndex`](./ReadonlyArray.ts.html#filterwithindex) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1322,7 +1333,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 ): Option<ReadonlyNonEmptyArray<A>> => fromReadonlyArray(as.filter((a, i) => predicate(i, a)))
 
 /**
- * Use `unprepend` instead.
+ * Use [`unprepend`](#unprepend) instead.
  *
  * @category destructors
  * @since 2.10.0
@@ -1331,7 +1342,7 @@ export const filterWithIndex = <A>(predicate: (i: number, a: A) => boolean) => (
 export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyArray<A>] = unprepend
 
 /**
- * Use `unappend` instead.
+ * Use [`unappend`](#unappend) instead.
  *
  * @category destructors
  * @since 2.10.0
@@ -1340,7 +1351,7 @@ export const uncons: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [A, ReadonlyA
 export const unsnoc: <A>(as: ReadonlyNonEmptyArray<A>) => readonly [ReadonlyArray<A>, A] = unappend
 
 /**
- * Use `ReadonlyArray`'s `prepend` instead.
+ * Use [`prepend`](./ReadonlyArray.ts.html#prepend) instead.
  *
  * @category constructors
  * @since 2.5.0
@@ -1357,16 +1368,16 @@ export function cons<A>(
 }
 
 /**
- * Use `ReadonlyArray`'s `append` instead.
+ * Use [`append`](./ReadonlyArray.ts.html#append) instead.
  *
  * @category constructors
  * @since 2.5.0
  * @deprecated
  */
-export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => concat(init, [end])
+export const snoc = <A>(init: ReadonlyArray<A>, end: A): ReadonlyNonEmptyArray<A> => pipe(init, concat([end]))
 
 /**
- * Use `ReadonlyArray`'s `insertAt` instead.
+ * Use [`insertAt`](./ReadonlyArray.ts.html#insertat) instead.
  *
  * @category combinators
  * @since 2.5.0
@@ -1376,7 +1387,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
   i < 0 || i > as.length ? _.none : _.some(unsafeInsertAt(i, a, as))
 
 /**
- * Use `prependAll` instead.
+ * Use [`prependAll`](#prependall) instead.
  *
  * @category combinators
  * @since 2.9.0
@@ -1385,7 +1396,7 @@ export const insertAt = <A>(i: number, a: A) => (as: ReadonlyArray<A>): Option<R
 export const prependToAll = prependAll
 
 /**
- * Use `concatAll` instead.
+ * Use [`concatAll`](#concatall) instead.
  *
  * @since 2.5.0
  * @deprecated

@@ -75,6 +75,7 @@ Added in v2.0.0
   - [monadTask](#monadtask)
   - [monadThrow](#monadthrow)
   - [monoid](#monoid)
+  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -130,6 +131,7 @@ Added in v2.0.0
   - [witherable](#witherable)
   - [writer](#writer)
   - [writerT](#writert)
+  - [zero](#zero)
 
 ---
 
@@ -755,6 +757,16 @@ export declare const monoid: typeof monoid
 
 Added in v2.0.0
 
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
+```
+
+Added in v2.11.0
+
 ## nonEmptyArray
 
 **Signature**
@@ -1304,3 +1316,13 @@ export declare const writerT: typeof writerT
 ```
 
 Added in v2.4.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: typeof zero
+```
+
+Added in v2.11.0

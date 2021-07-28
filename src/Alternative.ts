@@ -25,6 +25,7 @@ import {
   Applicative4
 } from './Applicative'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -34,57 +35,43 @@ import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT
  * @category type classes
  * @since 2.0.0
  */
-export interface Alternative<F> extends Applicative<F>, Alt<F> {
-  readonly zero: <A>() => HKT<F, A>
-}
+export interface Alternative<F> extends Applicative<F>, Alt<F>, Zero<F> {}
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F> {
-  readonly zero: <A>() => Kind<F, A>
-}
+export interface Alternative1<F extends URIS> extends Applicative1<F>, Alt1<F>, Zero1<F> {}
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F> {
-  readonly zero: <E, A>() => Kind2<F, E, A>
-}
+export interface Alternative2<F extends URIS2> extends Applicative2<F>, Alt2<F>, Zero2<F> {}
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E> {
-  readonly zero: <A>() => Kind2<F, E, A>
-}
+export interface Alternative2C<F extends URIS2, E> extends Applicative2C<F, E>, Alt2C<F, E>, Zero2C<F, E> {}
 
 /**
  * @category type classes
  * @since 2.0.0
  */
-export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F> {
-  readonly zero: <R, E, A>() => Kind3<F, R, E, A>
-}
+export interface Alternative3<F extends URIS3> extends Applicative3<F>, Alt3<F>, Zero3<F> {}
 
 /**
  * @category type classes
  * @since 2.10.0
  */
-export interface Alternative3C<F extends URIS3, E> extends Applicative3C<F, E>, Alt3C<F, E> {
-  readonly zero: <R, A>() => Kind3<F, R, E, A>
-}
+export interface Alternative3C<F extends URIS3, E> extends Applicative3C<F, E>, Alt3C<F, E>, Zero3C<F, E> {}
 
 /**
  * @category type classes
  * @since 2.10.0
  */
-export interface Alternative4<F extends URIS4> extends Applicative4<F>, Alt4<F> {
-  readonly zero: <S, R, E, A>() => Kind4<F, S, R, E, A>
-}
+export interface Alternative4<F extends URIS4> extends Applicative4<F>, Alt4<F>, Zero4<F> {}
 
 // -------------------------------------------------------------------------------------
 // utils

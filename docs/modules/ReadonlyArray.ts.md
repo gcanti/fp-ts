@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -15,10 +15,11 @@ Added in v2.5.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
+- [ChainRec](#chainrec)
+  - [chainRecBreadthFirst](#chainrecbreadthfirst)
+  - [chainRecDepthFirst](#chainrecdepthfirst)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -60,6 +61,8 @@ Added in v2.5.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -102,9 +105,8 @@ Added in v2.5.0
 - [constructors](#constructors)
   - [append](#append)
   - [appendW](#appendw)
-  - [fromEither](#fromeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
+  - [guard](#guard)
   - [makeBy](#makeby)
   - [prepend](#prepend)
   - [prependW](#prependw)
@@ -121,11 +123,9 @@ Added in v2.5.0
   - [matchRight](#matchright)
   - [matchRightW](#matchrightw)
   - [matchW](#matchw)
-- [guards](#guards)
-  - [isNonEmpty](#isnonempty)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain)
@@ -148,6 +148,7 @@ Added in v2.5.0
   - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -161,6 +162,12 @@ Added in v2.5.0
 - [interop](#interop)
   - [fromArray](#fromarray)
   - [toArray](#toarray)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromOption](#fromoption)
+- [refinements](#refinements)
+  - [isEmpty](#isempty)
+  - [isNonEmpty](#isnonempty)
 - [unsafe](#unsafe)
   - [unsafeDeleteAt](#unsafedeleteat)
   - [unsafeInsertAt](#unsafeinsertat)
@@ -175,6 +182,7 @@ Added in v2.5.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [exists](#exists)
   - [filterE](#filtere)
   - [findFirst](#findfirst)
   - [findFirstMap](#findfirstmap)
@@ -185,7 +193,6 @@ Added in v2.5.0
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
-  - [isEmpty](#isempty)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [lookup](#lookup)
@@ -226,18 +233,6 @@ export declare const altW: <B>(that: Lazy<readonly B[]>) => <A>(fa: readonly A[]
 
 Added in v2.9.0
 
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => readonly A[]
-```
-
-Added in v2.7.0
-
 # Apply
 
 ## ap
@@ -251,6 +246,28 @@ export declare const ap: <A>(fa: readonly A[]) => <B>(fab: readonly ((a: A) => B
 ```
 
 Added in v2.5.0
+
+# ChainRec
+
+## chainRecBreadthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecBreadthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v2.11.0
+
+## chainRecDepthFirst
+
+**Signature**
+
+```ts
+export declare const chainRecDepthFirst: <A, B>(f: (a: A) => readonly Either<A, B>[]) => (a: A) => readonly B[]
+```
+
+Added in v2.11.0
 
 # Compactable
 
@@ -294,8 +311,9 @@ Added in v2.5.0
 
 ```ts
 export declare const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
+  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => readonly B[]
+  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => readonly B[]
+  <A>(predicate: Predicate<A>): (as: readonly A[]) => readonly A[]
 }
 ```
 
@@ -317,8 +335,9 @@ Added in v2.5.0
 
 ```ts
 export declare const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
-  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+  <A, B extends A>(refinement: Refinement<A, B>): (as: readonly A[]) => Separated<readonly A[], readonly B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: readonly B[]) => Separated<readonly B[], readonly B[]>
+  <A>(predicate: Predicate<A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
 }
 ```
 
@@ -354,8 +373,9 @@ Added in v2.5.0
 
 ```ts
 export declare const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: readonly A[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: readonly B[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => readonly A[]
 }
 ```
 
@@ -380,9 +400,12 @@ Added in v2.5.0
 ```ts
 export declare const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: readonly A[]
+    as: readonly A[]
   ) => Separated<readonly A[], readonly B[]>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    bs: readonly B[]
+  ) => Separated<readonly B[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: readonly A[]) => Separated<readonly A[], readonly A[]>
 }
 ```
 
@@ -572,6 +595,18 @@ export declare const wither: PipeableWither1<'ReadonlyArray'>
 ```
 
 Added in v2.6.5
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => readonly A[]
+```
+
+Added in v2.7.0
 
 # combinators
 
@@ -832,7 +867,13 @@ Remove the longest initial subarray for which all element satisfy the specified 
 **Signature**
 
 ```ts
-export declare const dropLeftWhile: <A>(predicate: Predicate<A>) => (as: readonly A[]) => readonly A[]
+export declare function dropLeftWhile<A, B extends A>(
+  refinement: Refinement<A, B>
+): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export declare function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
 **Example**
@@ -1255,6 +1296,9 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 export declare function takeLeftWhile<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export declare function takeLeftWhile<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 ```
 
@@ -1399,7 +1443,7 @@ Added in v2.5.0
 
 ## ~~prependToAll~~
 
-Use `prependAll` instead.
+Use [`prependAll`](#prependall) instead.
 
 **Signature**
 
@@ -1444,35 +1488,24 @@ export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.Rea
 
 Added in v2.11.0
 
-## fromEither
-
-Transforms an `Either` to a `ReadonlyArray`.
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => readonly A[]
-```
-
-Added in v2.11.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: Option<A>) => readonly A[]
-```
-
-Added in v2.11.0
-
 ## fromPredicate
 
 **Signature**
 
 ```ts
 export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => ReadonlyArray<B>
+export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => ReadonlyArray<B>
 export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArray<A>
+```
+
+Added in v2.11.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => readonly void[]
 ```
 
 Added in v2.11.0
@@ -1557,7 +1590,7 @@ Added in v2.5.0
 
 ## ~~cons~~
 
-Use `prepend` instead.
+Use [`prepend`](#prepend) instead.
 
 **Signature**
 
@@ -1581,7 +1614,7 @@ Added in v2.5.0
 
 ## ~~snoc~~
 
-Use `append` instead.
+Use [`append`](#append) instead.
 
 **Signature**
 
@@ -1595,7 +1628,7 @@ Added in v2.5.0
 
 ## foldLeft
 
-Alias of [`matchLeft`](#matchLeft).
+Alias of [`matchLeft`](#matchleft).
 
 **Signature**
 
@@ -1610,7 +1643,7 @@ Added in v2.5.0
 
 ## foldRight
 
-Alias of [`matchRight`](#matchRight).
+Alias of [`matchRight`](#matchright).
 
 **Signature**
 
@@ -1665,7 +1698,7 @@ Added in v2.10.0
 
 ## matchLeftW
 
-Less strict version of [`matchLeft`](#matchLeft).
+Less strict version of [`matchLeft`](#matchleft).
 
 **Signature**
 
@@ -1695,7 +1728,7 @@ Added in v2.10.0
 
 ## matchRightW
 
-Less strict version of [`matchRight`](#matchRight).
+Less strict version of [`matchRight`](#matchright).
 
 **Signature**
 
@@ -1722,20 +1755,6 @@ export declare const matchW: <B, A, C>(
 ```
 
 Added in v2.11.0
-
-# guards
-
-## isNonEmpty
-
-Test whether a `ReadonlyArray` is non empty.
-
-**Signature**
-
-```ts
-export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
-```
-
-Added in v2.5.0
 
 # instances
 
@@ -1979,6 +1998,16 @@ export declare const Witherable: Witherable1<'ReadonlyArray'>
 
 Added in v2.7.0
 
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
 ## getDifferenceMagma
 
 **Signature**
@@ -2150,6 +2179,64 @@ Added in v2.5.0
 
 ```ts
 export declare const toArray: <A>(as: readonly A[]) => A[]
+```
+
+Added in v2.5.0
+
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to a `ReadonlyArray`.
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'ReadonlyArray'>
+```
+
+Added in v2.11.0
+
+# refinements
+
+## isEmpty
+
+Test whether a `ReadonlyArray` is empty.
+
+**Signature**
+
+```ts
+export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
+```
+
+**Example**
+
+```ts
+import { isEmpty } from 'fp-ts/ReadonlyArray'
+
+assert.strictEqual(isEmpty([]), true)
+```
+
+Added in v2.5.0
+
+## isNonEmpty
+
+Test whether a `ReadonlyArray` is non empty.
+
+**Signature**
+
+```ts
+export declare const isNonEmpty: <A>(as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
 ```
 
 Added in v2.5.0
@@ -2335,6 +2422,18 @@ assert.deepStrictEqual(pipe([1, 2, -3], every(isPositive)), false)
 
 Added in v2.9.0
 
+## exists
+
+Alias of [`some`](#some)
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (as: readonly A[]) => as is RNEA.ReadonlyNonEmptyArray<A>
+```
+
+Added in v2.11.0
+
 ## filterE
 
 Filter values inside a context.
@@ -2375,6 +2474,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 export declare function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export declare function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
@@ -2459,6 +2559,7 @@ Find the last element which satisfies a predicate function
 
 ```ts
 export declare function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export declare function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export declare function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 ```
 
@@ -2608,26 +2709,6 @@ assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 
 Added in v2.5.0
 
-## isEmpty
-
-Test whether a `ReadonlyArray` is empty.
-
-**Signature**
-
-```ts
-export declare const isEmpty: <A>(as: readonly A[]) => as is readonly []
-```
-
-**Example**
-
-```ts
-import { isEmpty } from 'fp-ts/ReadonlyArray'
-
-assert.strictEqual(isEmpty([]), true)
-```
-
-Added in v2.5.0
-
 ## isOutOfBound
 
 Test whether an array contains a particular index
@@ -2757,6 +2838,7 @@ Split an array into two parts:
 
 ```ts
 export declare function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Spanned<B, A>
+export declare function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Spanned<B, B>
 export declare function spanLeft<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Spanned<A, A>
 ```
 

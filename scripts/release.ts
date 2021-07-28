@@ -16,7 +16,7 @@ const exec = (cmd: string, args?: child_process.ExecOptions): TE.TaskEither<Erro
     })
   })
 
-export const main = exec('npm publish --tag=rc', {
+export const main = exec('npm publish', {
   cwd: DIST
 })
 

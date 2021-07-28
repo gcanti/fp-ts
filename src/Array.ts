@@ -24,8 +24,9 @@ import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import * as NEA from './NonEmptyArray'
-import { Option } from './Option'
+import { Option, URI as OURI } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -45,8 +46,34 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import NonEmptyArray = NEA.NonEmptyArray
+
+// -------------------------------------------------------------------------------------
+// refinements
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test whether an array is empty
+ *
+ * @example
+ * import { isEmpty } from 'fp-ts/Array'
+ *
+ * assert.strictEqual(isEmpty([]), true)
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
+
+/**
+ * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
+ *
+ * @category refinements
+ * @since 2.0.0
+ */
+export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = NEA.isNonEmpty
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -132,24 +159,27 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @since 2.11.0
  */
 export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
+export function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
   return (a) => (predicate(a) ? [a] : [])
 }
 
-/**
- * @category constructors
- * @since 2.11.0
- */
-export const fromOption = <A>(ma: Option<A>): Array<A> => (_.isNone(ma) ? [] : [ma.value])
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
 
 /**
- * Transforms an `Either` to a `Array`.
- *
- * @category constructors
+ * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither = <E, A>(e: Either<E, A>): Array<A> => (_.isLeft(e) ? [] : [e.right])
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? [] : [ma.value])
+
+/**
+ * @category natural transformations
+ * @since 2.11.0
+ */
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? [] : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -173,10 +203,10 @@ export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray
 export const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NonEmptyArray<A>) => B) => (as: Array<A>) => B = matchW
 
 /**
- * Less strict version of [`matchLeft`](#matchLeft).
+ * Less strict version of [`matchLeft`](#matchleft).
  *
  * @category destructors
- * @since 3.0.0
+ * @since 2.11.0
  */
 export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: Array<A>) => C) => (
   as: Array<A>
@@ -200,7 +230,7 @@ export const matchLeft: <B, A>(
 ) => (as: Array<A>) => B = matchLeftW
 
 /**
- * Alias of [`matchLeft`](#matchLeft).
+ * Alias of [`matchLeft`](#matchleft).
  *
  * @category destructors
  * @since 2.0.0
@@ -211,7 +241,7 @@ export const foldLeft: <A, B>(
 ) => (as: Array<A>) => B = matchLeft
 
 /**
- * Less strict version of [`matchRight`](#matchRight).
+ * Less strict version of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.11.0
@@ -232,7 +262,7 @@ export const matchRight: <B, A>(
 ) => (as: Array<A>) => B = matchRightW
 
 /**
- * Alias of [`matchRight`](#matchRight).
+ * Alias of [`matchRight`](#matchright).
  *
  * @category destructors
  * @since 2.0.0
@@ -299,26 +329,6 @@ export const scanRight = <A, B>(b: B, f: (a: A, b: B) => B) => (as: Array<A>): N
   }
   return out
 }
-
-/**
- * Test whether an array is empty
- *
- * @example
- * import { isEmpty } from 'fp-ts/Array'
- *
- * assert.strictEqual(isEmpty([]), true)
- *
- * @since 2.0.0
- */
-export const isEmpty = <A>(as: Array<A>): as is [] => as.length === 0
-
-/**
- * Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
- *
- * @category guards
- * @since 2.0.0
- */
-export const isNonEmpty: <A>(as: Array<A>) => as is NonEmptyArray<A> = NEA.isNonEmpty
 
 /**
  * Calculate the number of elements in a `Array`.
@@ -456,9 +466,10 @@ export const takeRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @since 2.0.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
-  return (as) => {
+  return (as: Array<A>) => {
     const out: Array<A> = []
     for (const a of as) {
       if (!predicate(a)) {
@@ -505,6 +516,7 @@ export interface Spanned<I, R> {
  * @since 2.0.0
  */
 export function spanLeft<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Spanned<B, A>
+export function spanLeft<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Spanned<B, B>
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A>
 export function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => Spanned<A, A> {
   return (as) => {
@@ -556,8 +568,12 @@ export const dropRight = (n: number) => <A>(as: Array<A>): Array<A> =>
  * @category combinators
  * @since 2.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> =>
-  as.slice(spanLeftIndex(as, predicate))
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
+  return (as) => as.slice(spanLeftIndex(as, predicate))
+}
 
 /**
  * Find the first index for which a predicate holds
@@ -591,6 +607,7 @@ export const findIndex: <A>(predicate: Predicate<A>) => (as: Array<A>) => Option
  * @since 2.0.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
   return RA.findFirst(predicate)
@@ -636,6 +653,7 @@ export const findFirstMap: <A, B>(f: (a: A) => Option<B>) => (as: Array<A>) => O
  * @since 2.0.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
 export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
   return RA.findLast(predicate)
@@ -1324,10 +1342,8 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => pipe(ta, traverseWithIndexF(f))
 }
-/* istanbul ignore next */
-const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecDepthFirst.chainRec as any
-/* istanbul ignore next */
-const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecBreadthFirst.chainRec as any
+const _chainRecDepthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecDepthFirst as any
+const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFirst as any
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -1340,10 +1356,10 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA.ChainRecBreadthFirs
 export const of: Pointed1<URI>['of'] = NEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 2.7.0
  */
-export const zero: Alternative1<URI>['zero'] = () => []
+export const zero: Zero1<URI>['zero'] = () => []
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1443,18 +1459,20 @@ export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Arr
  * @since 2.0.0
  */
 export const filter: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Array<B>
-  <A>(predicate: Predicate<A>): (fa: Array<A>) => Array<A>
-} = <A>(predicate: Predicate<A>) => (fa: Array<A>) => fa.filter(predicate)
+  <A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Array<B>
+  <A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+} = <A>(predicate: Predicate<A>) => (as: Array<A>) => as.filter(predicate)
 
 /**
  * @category Filterable
  * @since 2.0.0
  */
 export const partition: {
-  <A, B extends A>(refinement: Refinement<A, B>): (fa: Array<A>) => Separated<Array<A>, Array<B>>
-  <A>(predicate: Predicate<A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
-} = <A>(predicate: Predicate<A>): ((fa: Array<A>) => Separated<Array<A>, Array<A>>) =>
+  <A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Separated<Array<A>, Array<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(bs: Array<B>) => Separated<Array<B>, Array<B>>
+  <A>(predicate: Predicate<A>): (as: Array<A>) => Separated<Array<A>, Array<A>>
+} = <A>(predicate: Predicate<A>): ((as: Array<A>) => Separated<Array<A>, Array<A>>) =>
   partitionWithIndex((_, a) => predicate(a))
 
 /**
@@ -1463,18 +1481,19 @@ export const partition: {
  */
 export const partitionWithIndex: {
   <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
-    fa: Array<A>
+    as: Array<A>
   ) => Separated<Array<A>, Array<B>>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: Array<A>) => Separated<Array<A>, Array<A>>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (fa: Array<A>): Separated<Array<A>, Array<A>> => {
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: Array<B>) => Separated<Array<B>, Array<B>>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: Array<A>) => Separated<Array<A>, Array<A>>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: Array<A>): Separated<Array<A>, Array<A>> => {
   const left: Array<A> = []
   const right: Array<A> = []
-  for (let i = 0; i < fa.length; i++) {
-    const a = fa[i]
-    if (predicateWithIndex(i, a)) {
-      right.push(a)
+  for (let i = 0; i < as.length; i++) {
+    const b = as[i]
+    if (predicateWithIndex(i, b)) {
+      right.push(b)
     } else {
-      left.push(a)
+      left.push(b)
     }
   }
   return separated(left, right)
@@ -1530,16 +1549,17 @@ export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
  * @since 2.0.0
  */
 export const filterWithIndex: {
-  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: Array<A>) => Array<B>
-  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: Array<A>) => Array<A>
-} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (fa: Array<A>): Array<A> =>
-  fa.filter((a, i) => predicateWithIndex(i, a))
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (as: Array<A>) => Array<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(bs: Array<B>) => Array<B>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (as: Array<A>) => Array<A>
+} = <A>(predicateWithIndex: PredicateWithIndex<number, A>) => (as: Array<A>): Array<A> =>
+  as.filter((b, i) => predicateWithIndex(i, b))
 
 /**
  * @category Extend
  * @since 2.0.0
  */
-export const extend: <A, B>(f: (fa: Array<A>) => B) => (wa: Array<A>) => Array<B> = (f) => (wa) =>
+export const extend: <A, B>(f: (as: Array<A>) => B) => (as: Array<A>) => Array<B> = (f) => (wa) =>
   wa.map((_, i) => f(wa.slice(i)))
 
 /**
@@ -1653,6 +1673,17 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
+ * Creates an `Array` from the results of `f(b)`, where `b` is an initial value.
+ * `unfold` stops when `f` returns `Option.none`.
+ * @example
+ * import { unfold } from 'fp-ts/Array'
+ * import { some, none } from 'fp-ts/Option'
+ *
+ * assert.deepStrictEqual(
+ *   unfold(5, (n) => (n > 0 ? some([n, n - 1]) : none)),
+ *   [5, 4, 3, 2, 1]
+ * )
+ *
  * @category Unfoldable
  * @since 2.6.6
  */
@@ -1945,6 +1976,23 @@ export const Alt: Alt1<URI> = {
 
 /**
  * @category instances
+ * @since 2.11.0
+ */
+export const Zero: Zero1<URI> = {
+  URI,
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 2.11.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
+
+/**
+ * @category instances
  * @since 2.7.0
  */
 export const Alternative: Alternative1<URI> = {
@@ -2095,6 +2143,14 @@ export const Witherable: Witherable1<URI> = {
 }
 
 /**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecDepthFirst: <A, B>(
+  f: (a: A) => Array<Either<A, B>>
+) => (a: A) => Array<B> = RA.chainRecDepthFirst as any
+
+/**
  * @category instances
  * @since 2.11.0
  */
@@ -2105,6 +2161,14 @@ export const ChainRecDepthFirst: ChainRec1<URI> = {
   chain: _chain,
   chainRec: _chainRecDepthFirst
 }
+
+/**
+ * @category ChainRec
+ * @since 2.11.0
+ */
+export const chainRecBreadthFirst: <A, B>(
+  f: (a: A) => Array<Either<A, B>>
+) => (a: A) => Array<B> = RA.chainRecBreadthFirst as any
 
 /**
  * @category instances
@@ -2185,6 +2249,13 @@ export const every: <A>(predicate: Predicate<A>) => (as: Array<A>) => boolean = 
  */
 export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmptyArray<A> => as.some(predicate)
 
+/**
+ * Alias of [`some`](#some)
+ *
+ * @since 2.11.0
+ */
+export const exists = some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -2225,6 +2296,8 @@ export const apS =
 // deprecated
 // -------------------------------------------------------------------------------------
 
+// tslint:disable: deprecation
+
 /**
  * Use `NonEmptyArray` module instead.
  *
@@ -2249,7 +2322,6 @@ export const empty: Array<never> = []
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const cons = NEA.cons
 
 /**
@@ -2259,7 +2331,6 @@ export const cons = NEA.cons
  * @since 2.0.0
  * @deprecated
  */
-// tslint:disable-next-line: deprecation
 export const snoc = NEA.snoc
 
 /**

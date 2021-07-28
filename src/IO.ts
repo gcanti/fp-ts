@@ -22,7 +22,9 @@ import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed1 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -96,13 +98,6 @@ export const chain: <A, B>(f: (a: A) => IO<B>) => (ma: IO<A>) => IO<B> = (f) => 
 export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category constructors
- * @since 2.7.0
- * @deprecated
- */
-export const fromIO: FromIO1<URI>['fromIO'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -236,6 +231,13 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
+ * @category constructors
+ * @since 2.7.0
+ * @deprecated
+ */
+export const fromIO: FromIO1<URI>['fromIO'] = identity
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -306,29 +308,59 @@ export const apS =
   apS_(Apply)
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: IO<readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
-  as: ReadonlyArray<A>
-): IO<ReadonlyArray<B>> => () => as.map((a, i) => f(i, a)())
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => IO<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): IO<ReadonlyNonEmptyArray<B>> => () => {
+  const out: NonEmptyArray<B> = [f(0, _.head(as))()]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i])())
+  }
+  return out
+}
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => IO<B>
+): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => IO<B>
+) => (as: ReadonlyArray<A>) => IO<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
  * @since 2.9.0
  */
 export const traverseArray = <A, B>(f: (a: A) => IO<B>): ((as: ReadonlyArray<A>) => IO<ReadonlyArray<B>>) =>
-  traverseArrayWithIndex((_, a) => f(a))
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
  * @since 2.9.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A>> =
@@ -338,6 +370,8 @@ export const sequenceArray: <A>(arr: ReadonlyArray<IO<A>>) => IO<ReadonlyArray<A
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.
@@ -357,7 +391,7 @@ export const io: Monad1<URI> & MonadIO1<URI> & ChainRec1<URI> = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -368,7 +402,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>> =
   getApplySemigroup(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0

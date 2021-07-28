@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 87
+nav_order: 88
 parent: Modules
 ---
 
@@ -130,6 +130,7 @@ Added in v2.0.0
 ```ts
 export declare const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fa: Record<string, A>) => Record<string, B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Record<string, B>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Record<string, A>
 }
 ```
@@ -155,6 +156,7 @@ export declare const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (
     fa: Record<string, A>
   ) => Separated<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Record<string, B>) => Separated<Record<string, B>, Record<string, B>>
   <A>(predicate: Predicate<A>): (fa: Record<string, A>) => Separated<Record<string, A>, Record<string, A>>
 }
 ```
@@ -661,6 +663,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Record<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Record<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Record<string, A>
 ```
 
@@ -776,7 +781,7 @@ Added in v2.0.0
 
 Test whether or not a key exists in a `Record`.
 
-Note. This function is not pipeable because is a custom type guard.
+Note. This function is not pipeable because is a `Refinement`.
 
 **Signature**
 
@@ -793,7 +798,7 @@ Test whether a `Record` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: Record<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Record<string, A>) => boolean
 ```
 
 Added in v2.0.0
@@ -899,6 +904,9 @@ export declare function partitionWithIndex<K extends string, A, B extends A>(
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(fb: Record<K, B>) => Separated<Record<string, B>, Record<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>>
 ```
 
@@ -996,7 +1004,7 @@ Calculate the number of key/value pairs in a `Record`.
 **Signature**
 
 ```ts
-export declare const size: (r: Record<string, unknown>) => number
+export declare const size: <A>(r: Record<string, A>) => number
 ```
 
 Added in v2.0.0
@@ -1120,7 +1128,7 @@ Added in v2.0.0
 
 ## ~~hasOwnProperty (function)~~
 
-Use `has` instead.
+Use [`has`](#has) instead.
 
 **Signature**
 
@@ -1132,7 +1140,7 @@ Added in v2.0.0
 
 ## ~~insertAt~~
 
-Use `upsertAt` instead.
+Use [`upsertAt`](#upsertat) instead.
 
 **Signature**
 

@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 80
+nav_order: 81
 parent: Modules
 ---
 
@@ -33,17 +33,32 @@ Added in v2.0.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [asksReaderTaskEither](#asksreadertaskeither)
+  - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderEitherK](#chainfirstreadereitherk)
+  - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
+  - [chainFirstReaderTaskK](#chainfirstreadertaskk)
+  - [chainFirstReaderTaskKW](#chainfirstreadertaskkw)
+  - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
+  - [chainFirstTaskEitherKW](#chainfirsttaskeitherkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
+  - [chainReaderEitherK](#chainreadereitherk)
+  - [chainReaderEitherKW](#chainreadereitherkw)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
+  - [chainReaderTaskK](#chainreadertaskk)
+  - [chainReaderTaskKW](#chainreadertaskkw)
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
@@ -51,32 +66,28 @@ Added in v2.0.0
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
+  - [fromReaderEitherK](#fromreadereitherk)
   - [fromReaderK](#fromreaderk)
+  - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
+  - [local](#local)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
   - [swap](#swap)
-  - [~~local~~](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromReader](#fromreader)
   - [fromReaderEither](#fromreadereither)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
@@ -130,7 +141,16 @@ Added in v2.0.0
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [apSW](#apsw)
@@ -142,6 +162,10 @@ Added in v2.0.0
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
   - [~~run~~](#run)
@@ -174,7 +198,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <R2, E2, B>(
   that: () => ReaderTaskEither<R2, E2, B>
-) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B | A>
+) => <R1, E1, A>(fa: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2, B | A>
 ```
 
 Added in v2.9.0
@@ -343,6 +367,34 @@ export declare const apSecond: <R, E, B>(
 
 Added in v2.0.0
 
+## asksReaderTaskEither
+
+Effectfully accesses the environment.
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEither: <R, E, A>(
+  f: (r: R) => ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## asksReaderTaskEitherW
+
+Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
+  f: (r1: R1) => ReaderTaskEither<R2, E, A>
+) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
 ## chainEitherK
 
 **Signature**
@@ -357,7 +409,7 @@ Added in v2.4.0
 
 ## chainEitherKW
 
-Less strict version of [`chainEitherK`](#chainEitherK).
+Less strict version of [`chainEitherK`](#chaineitherk).
 
 **Signature**
 
@@ -398,6 +450,110 @@ export declare const chainFirstIOK: <A, B>(
 
 Added in v2.10.0
 
+## chainFirstReaderEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderEitherK: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderEitherKW
+
+Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderEitherKW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderTaskK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstReaderTaskKW
+
+Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstTaskEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskEitherK: <E, A, B>(
+  f: (a: A) => TE.TaskEither<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.11.0
+
+## chainFirstTaskEitherKW
+
+Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
+
+**Signature**
+
+```ts
+export declare const chainFirstTaskEitherKW: <E2, A, B>(
+  f: (a: A) => TE.TaskEither<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v2.11.0
+
 ## chainFirstTaskK
 
 **Signature**
@@ -412,7 +568,7 @@ Added in v2.10.0
 
 ## chainFirstW
 
-Less strict version of [`chainFirst`](#chainFirst).
+Less strict version of [`chainFirst`](#chainfirst).
 
 Derivable from `Chain`.
 
@@ -440,7 +596,7 @@ Added in v2.4.0
 
 ## chainIOEitherKW
 
-Less strict version of [`chainIOEitherK`](#chainIOEitherK).
+Less strict version of [`chainIOEitherK`](#chainioeitherk).
 
 **Signature**
 
@@ -476,6 +632,32 @@ export declare const chainOptionK: <E>(
 
 Added in v2.10.0
 
+## chainReaderEitherK
+
+**Signature**
+
+```ts
+export declare const chainReaderEitherK: <R, E, A, B>(
+  f: (a: A) => ReaderEither<R, E, B>
+) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderEitherKW
+
+Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
+
+**Signature**
+
+```ts
+export declare const chainReaderEitherKW: <R2, E2, A, B>(
+  f: (a: A) => ReaderEither<R2, E2, B>
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.11.0
+
 ## chainReaderK
 
 **Signature**
@@ -484,6 +666,46 @@ Added in v2.10.0
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainreaderk).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderTaskK
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskK: <A, R, B>(
+  f: (a: A) => RT.ReaderTask<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## chainReaderTaskKW
+
+Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
+
+**Signature**
+
+```ts
+export declare const chainReaderTaskKW: <A, R2, B>(
+  f: (a: A) => RT.ReaderTask<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -502,7 +724,7 @@ Added in v2.4.0
 
 ## chainTaskEitherKW
 
-Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
+Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
 
 **Signature**
 
@@ -535,6 +757,9 @@ export declare const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
     ma: ReaderTaskEither<R, E, A>
   ) => ReaderTaskEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderTaskEither<R, E, B>
+  ) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 }
 ```
@@ -543,7 +768,7 @@ Added in v2.0.0
 
 ## filterOrElseW
 
-Less strict version of [`filterOrElse`](#filterOrElse).
+Less strict version of [`filterOrElse`](#filterorelse).
 
 **Signature**
 
@@ -551,6 +776,9 @@ Less strict version of [`filterOrElse`](#filterOrElse).
 export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderTaskEither<R, E1, A>
+  ) => ReaderTaskEither<R, E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
+    mb: ReaderTaskEither<R, E1, B>
   ) => ReaderTaskEither<R, E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderTaskEither<R, E1, A>
@@ -585,6 +813,20 @@ export declare const flatten: <R, E, A>(
 ```
 
 Added in v2.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, E1, R2, E2, A>(
+  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
+) => ReaderTaskEither<R1 & R2, E1 | E2, A>
+```
+
+Added in v2.11.0
 
 ## fromEitherK
 
@@ -632,6 +874,18 @@ export declare const fromOptionK: <E>(
 
 Added in v2.10.0
 
+## fromReaderEitherK
+
+**Signature**
+
+```ts
+export declare const fromReaderEitherK: <R, E, A extends readonly unknown[], B>(
+  f: (...a: A) => ReaderEither<R, E, B>
+) => (...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
 ## fromReaderK
 
 **Signature**
@@ -639,6 +893,18 @@ Added in v2.10.0
 ```ts
 export declare const fromReaderK: <A extends readonly unknown[], R, B>(
   f: (...a: A) => R.Reader<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.11.0
+
+## fromReaderTaskK
+
+**Signature**
+
+```ts
+export declare const fromReaderTaskK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RT.ReaderTask<R, B>
 ) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
@@ -665,6 +931,21 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <R, E>(...a
 ```
 
 Added in v2.10.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A>
+```
+
+Added in v2.0.0
 
 ## orElse
 
@@ -704,7 +985,7 @@ Added in v2.11.0
 
 ## orElseW
 
-Less strict version of [`orElse`](#orElse).
+Less strict version of [`orElse`](#orelse).
 
 **Signature**
 
@@ -738,20 +1019,6 @@ export declare const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTas
 
 Added in v2.0.0
 
-## ~~local~~
-
-Use `Reader`'s `local` instead.
-
-**Signature**
-
-```ts
-export declare const local: <R2, R1>(
-  f: (r2: R2) => R1
-) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A>
-```
-
-Added in v2.0.0
-
 # constructors
 
 ## ask
@@ -778,46 +1045,6 @@ export declare const asks: <R, A, E = never>(f: (r: R) => A) => ReaderTaskEither
 
 Added in v2.0.0
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <R, E, A>(e: E.Either<E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <R, E, A>(fa: IO<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <R, E, A>(ma: IOEither<E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -825,48 +1052,19 @@ Added in v2.0.0
 ```ts
 export declare const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderTaskEither<R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
 }
 ```
 
 Added in v2.0.0
 
-## fromReader
-
-**Signature**
-
-```ts
-export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.11.0
-
 ## fromReaderEither
 
 **Signature**
 
 ```ts
-export declare const fromReaderEither: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <R, E, A>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
-```
-
-Added in v2.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <R, E, A>(ma: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A>
+export declare const fromReaderEither: NaturalTransformation33<'ReaderEither', 'ReaderTaskEither'>
 ```
 
 Added in v2.0.0
@@ -975,7 +1173,7 @@ Added in v2.0.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -990,7 +1188,7 @@ Added in v2.0.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -1017,7 +1215,7 @@ Added in v2.0.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -1057,7 +1255,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -1319,7 +1517,7 @@ Added in v2.10.0
 
 ## ~~getApplyMonoid~~
 
-Use `Applicative.getApplicativeMonoid` instead.
+Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
 
 **Signature**
 
@@ -1331,7 +1529,7 @@ Added in v2.0.0
 
 ## ~~getApplySemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 Semigroup returning the left-most `Left` value. If both operands are `Right`s then the inner values
 are concatenated using the provided `Semigroup`
@@ -1346,7 +1544,7 @@ Added in v2.0.0
 
 ## ~~getReaderTaskValidation~~
 
-Use `getApplicativeReaderTaskValidation` and `getAltReaderTaskValidation` instead.
+Use [`getApplicativeReaderTaskValidation`](#getapplicativereadertaskvalidation) and [`getAltReaderTaskValidation`](#getaltreadertaskvalidation) instead.
 
 **Signature**
 
@@ -1360,10 +1558,7 @@ Added in v2.3.0
 
 ## ~~getSemigroup~~
 
-Use `Apply.getApplySemigroup` instead.
-
-Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
-concatenated using the provided `Semigroup`
+Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
 
 **Signature**
 
@@ -1431,7 +1626,89 @@ export interface ReaderTaskEither<R, E, A> {
 
 Added in v2.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation23<'Either', 'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation13<'IO', 'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation23<'IOEither', 'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderTaskEither', E>
+```
+
+Added in v2.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderTaskEither'>
+```
+
+Added in v2.11.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation13<'Task', 'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: NaturalTransformation23<'TaskEither', 'ReaderTaskEither'>
+```
+
+Added in v2.0.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: ReaderTaskEither<unknown, never, readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -1536,8 +1813,6 @@ Added in v2.0.4
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1549,8 +1824,6 @@ export declare const sequenceArray: <R, E, A>(
 Added in v2.9.0
 
 ## sequenceSeqArray
-
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -1564,8 +1837,6 @@ Added in v2.9.0
 
 ## traverseArray
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1578,8 +1849,6 @@ Added in v2.9.0
 
 ## traverseArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -1590,9 +1859,63 @@ export declare const traverseArrayWithIndex: <R, E, A, B>(
 
 Added in v2.9.0
 
-## traverseSeqArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: readonly A[]) => ReaderTaskEither<R, E, readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, R, E, B>(
+  f: (index: number, a: A) => ReaderTaskEither<R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseSeqArray
 
 **Signature**
 
@@ -1605,8 +1928,6 @@ export declare const traverseSeqArray: <R, E, A, B>(
 Added in v2.9.0
 
 ## traverseSeqArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

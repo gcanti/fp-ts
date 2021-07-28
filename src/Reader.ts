@@ -12,8 +12,10 @@ import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed2 } from './Pointed'
 import { Profunctor2 } from './Profunctor'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 
@@ -62,6 +64,22 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  */
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A> = (f) => (ma) => (r2) =>
   ma(f(r2))
+
+/**
+ * Less strict version of [`asksReader`](#asksreader).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReaderW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+
+/**
+ * Effectfully accesses the environment.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -132,14 +150,22 @@ export const chainW: <R2, A, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = flattenW
 
 /**
  * @category Semigroupoid
@@ -151,7 +177,7 @@ export const compose: <A, B>(ab: Reader<A, B>) => <C>(bc: Reader<B, C>) => Reade
  * @category Profunctor
  * @since 2.0.0
  */
-export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B> = (f, g) => (
+export const promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fea: Reader<E, A>) => Reader<D, B> = (f, g) => (
   fea
 ) => (a) => g(fea(f(a)))
 
@@ -317,6 +343,18 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
+ * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 2.11.0
+ */
+export const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> = chainFirst as any
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -417,30 +455,60 @@ export const apSW: <A, N extends string, R2, B>(
 ) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <R, A, B>(f: (index: number, a: A) => Reader<R, B>) => (
-  as: ReadonlyArray<A>
-): Reader<R, ReadonlyArray<B>> => (r) => as.map((x, i) => f(i, x)(r))
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, B>(f: (index: number, a: A) => Reader<R, B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Reader<R, ReadonlyNonEmptyArray<B>> => (r) => {
+  const out: NonEmptyArray<B> = [f(0, _.head(as))(r)]
+  for (let i = 1; i < as.length; i++) {
+    out.push(f(i, as[i])(r))
+  }
+  return out
+}
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, R, B>(
+  f: (index: number, a: A) => Reader<R, B>
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <R, A, B>(
+  f: (index: number, a: A) => Reader<R, B>
+) => (as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
  * @since 2.9.0
  */
 export const traverseArray = <R, A, B>(
   f: (a: A) => Reader<R, B>
-): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseArrayWithIndex((_, a) => f(a))
+): ((as: ReadonlyArray<A>) => Reader<R, ReadonlyArray<B>>) => traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
- *
  * @since 2.9.0
  */
 export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
@@ -450,6 +518,8 @@ export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
+
+// tslint:disable: deprecation
 
 /**
  * Use small, specific instances instead.
@@ -474,7 +544,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -485,7 +555,7 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> =
   getApplySemigroup(Apply)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * @category instances
  * @since 2.0.0

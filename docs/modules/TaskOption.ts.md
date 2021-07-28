@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 105
+nav_order: 106
 parent: Modules
 ---
 
@@ -15,8 +15,6 @@ Added in v2.10.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Compactable](#compactable)
@@ -33,6 +31,8 @@ Added in v2.10.0
   - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -48,12 +48,8 @@ Added in v2.10.0
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
@@ -67,7 +63,7 @@ Added in v2.10.0
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -75,6 +71,7 @@ Added in v2.10.0
   - [Chain](#chain)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
@@ -83,6 +80,7 @@ Added in v2.10.0
   - [MonadTask](#monadtask)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
+  - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
@@ -91,7 +89,14 @@ Added in v2.10.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
+  - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
@@ -100,6 +105,10 @@ Added in v2.10.0
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
+  - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [traverseSeqArray](#traverseseqarray)
   - [traverseSeqArrayWithIndex](#traverseseqarraywithindex)
 
@@ -125,18 +134,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
-```
-
-Added in v2.10.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -182,7 +179,11 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const filter: <A>(predicate: Predicate<A>) => (fga: TaskOption<A>) => TaskOption<A>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
+}
 ```
 
 Added in v2.10.0
@@ -202,9 +203,11 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const partition: <A>(
-  predicate: Predicate<A>
-) => (fga: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fb: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
+}
 ```
 
 Added in v2.10.0
@@ -256,6 +259,18 @@ Added in v2.10.0
 
 ```ts
 export declare const of: <A>(a: A) => TaskOption<A>
+```
+
+Added in v2.10.0
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -413,36 +428,6 @@ Added in v2.10.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
 ## fromPredicate
 
 **Signature**
@@ -450,28 +435,19 @@ Added in v2.10.0
 ```ts
 export declare const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
   <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 
 Added in v2.10.0
 
-## fromTask
+## guard
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
-```
-
-Added in v2.10.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <A>(e: TaskEither<unknown, A>) => TaskOption<A>
+export declare const guard: (b: boolean) => TaskOption<void>
 ```
 
 Added in v2.11.0
@@ -500,7 +476,7 @@ Added in v2.10.0
 
 ## fold
 
-Alias of [`matchE`](#matchE).
+Alias of [`matchE`](#matche).
 
 **Signature**
 
@@ -515,7 +491,7 @@ Added in v2.10.0
 
 ## foldW
 
-Alias of [`matchEW`](#matchEW).
+Alias of [`matchEW`](#matchew).
 
 **Signature**
 
@@ -540,7 +516,7 @@ Added in v2.10.0
 
 ## getOrElseW
 
-Less strict version of [`getOrElse`](#getOrElse).
+Less strict version of [`getOrElse`](#getorelse).
 
 **Signature**
 
@@ -575,7 +551,7 @@ Added in v2.10.0
 
 ## matchEW
 
-Less strict version of [`matchE`](#matchE).
+Less strict version of [`matchE`](#matche).
 
 **Signature**
 
@@ -692,6 +668,16 @@ export declare const Filterable: Filterable1<'TaskOption'>
 
 Added in v2.10.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'TaskOption'>
+```
+
+Added in v2.11.0
+
 ## FromIO
 
 **Signature**
@@ -772,6 +758,16 @@ export type URI = typeof URI
 
 Added in v2.10.0
 
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'TaskOption'>
+```
+
+Added in v2.11.0
+
 # interop
 
 ## chainNullableK
@@ -814,7 +810,7 @@ Transforms a `Promise` that may reject to a `Promise` that never rejects and ret
 
 Note: `f` should never `throw` errors, they are not caught.
 
-See also [`tryCatchK`](#tryCatchK).
+See also [`tryCatchK`](#trycatchk).
 
 **Signature**
 
@@ -850,7 +846,69 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 
 Added in v2.10.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+```
+
+Added in v2.10.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+```
+
+Added in v2.10.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+```
+
+Added in v2.10.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+```
+
+Added in v2.10.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
+```
+
+Added in v2.11.0
+
 # utils
+
+## ApT
+
+**Signature**
+
+```ts
+export declare const ApT: TaskOption<readonly []>
+```
+
+Added in v2.11.0
 
 ## Do
 
@@ -900,8 +958,6 @@ Added in v2.10.0
 
 ## sequenceArray
 
-Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -911,8 +967,6 @@ export declare const sequenceArray: <A>(as: readonly TaskOption<A>[]) => TaskOpt
 Added in v2.10.0
 
 ## sequenceSeqArray
-
-Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
 
 **Signature**
 
@@ -924,8 +978,6 @@ Added in v2.10.0
 
 ## traverseArray
 
-Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
-
 **Signature**
 
 ```ts
@@ -935,8 +987,6 @@ export declare const traverseArray: <A, B>(f: (a: A) => TaskOption<B>) => (as: r
 Added in v2.10.0
 
 ## traverseArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 
@@ -948,9 +998,63 @@ export declare const traverseArrayWithIndex: <A, B>(
 
 Added in v2.10.0
 
-## traverseSeqArray
+## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyArrayWithIndexSeq
+
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndexSeq: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: readonly A[]) => TaskOption<readonly B[]>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseReadonlyNonEmptyArrayWithIndexSeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, B>(
+  f: (index: number, a: A) => TaskOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskOption<ReadonlyNonEmptyArray<B>>
+```
+
+Added in v2.11.0
+
+## traverseSeqArray
 
 **Signature**
 
@@ -963,8 +1067,6 @@ export declare const traverseSeqArray: <A, B>(
 Added in v2.10.0
 
 ## traverseSeqArrayWithIndex
-
-Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 
 **Signature**
 

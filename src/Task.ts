@@ -28,7 +28,9 @@ import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed1 } from './Pointed'
+import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
@@ -44,11 +46,11 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// constructors
+// natural transformations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 2.0.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
@@ -97,14 +99,14 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
 // non-pipeables
 // -------------------------------------------------------------------------------------
 
-const _map: Monad1<URI>['map'] = (fa, f) => pipe(fa, map(f))
-const _apPar: Monad1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
-const _apSeq: Monad1<URI>['ap'] = (fab, fa) =>
+const _map: Functor1<URI>['map'] = (fa, f) => pipe(fa, map(f))
+const _apPar: Apply1<URI>['ap'] = (fab, fa) => pipe(fab, ap(fa))
+const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
   pipe(
     fab,
     chain((f) => pipe(fa, map(f)))
   )
-const _chain: Monad1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
+const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -152,13 +154,6 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
 export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
   /*#__PURE__*/
   chain(identity)
-
-/**
- * @category FromTask
- * @since 2.7.0
- * @deprecated
- */
-export const fromTask: FromTask1<URI>['fromTask'] = identity
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -340,6 +335,13 @@ export const MonadIO: MonadIO1<URI> = {
 }
 
 /**
+ * @category FromTask
+ * @since 2.7.0
+ * @deprecated
+ */
+export const fromTask: FromTask1<URI>['fromTask'] = identity
+
+/**
  * @category instances
  * @since 2.10.0
  */
@@ -457,29 +459,84 @@ export const apS =
   apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 2.11.0
+ */
+export const ApT: Task<readonly []> = of(_.emptyReadonlyArray)
+
+// -------------------------------------------------------------------------------------
 // array utils
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
  *
- * @since 2.9.0
+ * @since 2.11.0
  */
-export const traverseArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyArray<A>
-): Task<ReadonlyArray<B>> => () => Promise.all(as.map((x, i) => f(i, x)()))
+export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Task<ReadonlyNonEmptyArray<B>> => () => Promise.all(as.map((a, i) => f(i, a)())) as any
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
  *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndex = <A, B>(
+  f: (index: number, a: A) => Task<B>
+): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
+  as: ReadonlyNonEmptyArray<A>
+): Task<ReadonlyNonEmptyArray<B>> => () =>
+  _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
+    (acc, a, i) =>
+      acc.then((bs) =>
+        f(i + 1, a)().then((b) => {
+          bs.push(b)
+          return bs
+        })
+      ),
+    f(0, _.head(as))().then(_.singleton)
+  )
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+ *
+ * @since 2.11.0
+ */
+export const traverseReadonlyArrayWithIndexSeq = <A, B>(
+  f: (index: number, a: A) => Task<B>
+): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+}
+
+/**
+ * @since 2.9.0
+ */
+export const traverseArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Task<B>
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = traverseReadonlyArrayWithIndex
+
+/**
  * @since 2.9.0
  */
 export const traverseArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) =>
-  traverseArrayWithIndex((_, a) => f(a))
+  traverseReadonlyArrayWithIndex((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
- *
  * @since 2.9.0
  */
 export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
@@ -487,35 +544,19 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArr
   traverseArray(identity)
 
 /**
- * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
- *
  * @since 2.9.0
  */
-export const traverseSeqArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
-  as: ReadonlyArray<A>
-): Task<ReadonlyArray<B>> => () =>
-  as.reduce<Promise<Array<B>>>(
-    (acc, a, i) =>
-      acc.then((bs) =>
-        f(i, a)().then((b) => {
-          bs.push(b)
-          return bs
-        })
-      ),
-    Promise.resolve([])
-  )
+export const traverseSeqArrayWithIndex: <A, B>(
+  f: (index: number, a: A) => Task<B>
+) => (as: ReadonlyArray<A>) => Task<ReadonlyArray<B>> = traverseReadonlyArrayWithIndexSeq
 
 /**
- * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
- *
  * @since 2.9.0
  */
 export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) =>
-  traverseSeqArrayWithIndex((_, a) => f(a))
+  traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
 
 /**
- * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
- *
  * @since 2.9.0
  */
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
@@ -552,7 +593,6 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @since 2.0.0
  * @deprecated
  */
-
 export const taskSeq: typeof task = {
   URI,
   map: _map,
@@ -564,7 +604,7 @@ export const taskSeq: typeof task = {
 }
 
 /**
- * Use `Apply.getApplySemigroup` instead.
+ * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.
  *
  * @category instances
  * @since 2.0.0
@@ -575,7 +615,7 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> =
   getApplySemigroup_(ApplySeq)
 
 /**
- * Use `Applicative.getApplicativeMonoid` instead.
+ * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
  *
  * Lift a monoid into 'Task', the inner values are concatenated using the provided `Monoid`.
  *

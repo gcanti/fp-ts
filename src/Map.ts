@@ -40,14 +40,14 @@ export const getShow: <K, A>(SK: Show<K>, SA: Show<A>) => Show<Map<K, A>> = RM.g
  *
  * @since 2.0.0
  */
-export const size: <K, A>(d: Map<K, A>) => number = RM.size
+export const size: <K, A>(m: Map<K, A>) => number = RM.size
 
 /**
  * Test whether or not a map is empty
  *
  * @since 2.0.0
  */
-export const isEmpty: <K, A>(d: Map<K, A>) => boolean = RM.isEmpty
+export const isEmpty: <K, A>(m: Map<K, A>) => boolean = RM.isEmpty
 
 // TODO: remove non-curried overloading in v3
 /**
@@ -408,23 +408,34 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @category combinators
  * @since 2.10.0
  */
-export const partitionWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (
-  fa: Map<K, A>
-): Separated<Map<K, A>, Map<K, A>> => {
-  const left = new Map<K, A>()
-  const right = new Map<K, A>()
-  const entries = fa.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      right.set(k, a)
-    } else {
-      left.set(k, a)
+export function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
+export function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>> {
+  return (fa: Map<K, A>) => {
+    const left = new Map<K, A>()
+    const right = new Map<K, A>()
+    const entries = fa.entries()
+    let e: Next<[K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      if (predicateWithIndex(k, a)) {
+        right.set(k, a)
+      } else {
+        left.set(k, a)
+      }
     }
+    return separated(left, right)
   }
-  return separated(left, right)
 }
 
 /**
@@ -450,18 +461,23 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (fa
  * @category combinators
  * @since 2.10.0
  */
-export const filterWithIndex = <K, A>(p: (k: K, a: A) => boolean) => (m: Map<K, A>): Map<K, A> => {
-  const out = new Map<K, A>()
-  const entries = m.entries()
-  let e: Next<[K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    if (p(k, a)) {
-      out.set(k, a)
+export function filterWithIndex<K, A, B extends A>(p: (k: K, a: A) => a is B): (m: Map<K, A>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): <B extends A>(m: Map<K, B>) => Map<K, B>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A>
+export function filterWithIndex<K, A>(p: (k: K, a: A) => boolean): (m: Map<K, A>) => Map<K, A> {
+  return (m: Map<K, A>) => {
+    const out = new Map<K, A>()
+    const entries = m.entries()
+    let e: Next<[K, A]>
+    // tslint:disable-next-line: strict-boolean-expressions
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      if (p(k, a)) {
+        out.set(k, a)
+      }
     }
+    return out
   }
-  return out
 }
 
 // -------------------------------------------------------------------------------------
@@ -509,6 +525,7 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
  */
 export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Map<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Map<K, B>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Map<K, A>
 } = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _filter(fa, predicate)
 
@@ -541,6 +558,7 @@ export const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (fa: Map<K, A>) =>
  */
 export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: Map<K, B>) => Separated<Map<K, B>, Map<K, B>>
   <A>(predicate: Predicate<A>): <K>(fa: Map<K, A>) => Separated<Map<K, A>, Map<K, A>>
 } = <A>(predicate: Predicate<A>) => <K>(fa: Map<K, A>) => _partition(fa, predicate)
 
@@ -905,7 +923,7 @@ export const difference = <K>(E: Eq<K>): (<A>(_second: Map<K, A>) => (first: Map
 export const empty = new Map<never, never>()
 
 /**
- * Use `upsertAt` instead.
+ * Use [`upsertAt`](#upsertat) instead.
  *
  * @category combinators
  * @since 2.0.0
@@ -914,7 +932,7 @@ export const empty = new Map<never, never>()
 export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> = upsertAt
 
 /**
- * Use `Filterable` instead.
+ * Use [`Filterable`](#filterable) instead.
  *
  * @category instances
  * @since 2.0.0

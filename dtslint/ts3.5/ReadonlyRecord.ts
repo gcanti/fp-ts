@@ -196,3 +196,16 @@ _.lookup('a') // $ExpectType <A>(r: Readonly<Record<string, A>>) => Option<A>
 
 _.elem(N.Eq)(1, recordString) // $ExpectType boolean
 _.elem(N.Eq)(1) // $ExpectType (fa: Readonly<Record<string, number>>) => boolean
+
+//
+// reduce
+//
+
+pipe(
+  r1,
+  _.reduce(1, (acc, n) => acc + n)
+)
+pipe(
+  r1,
+  _.reduce(S.Ord)(1, (acc, n) => acc + n)
+)

@@ -1,6 +1,6 @@
 ---
 title: Set.ts
-nav_order: 94
+nav_order: 95
 parent: Modules
 ---
 
@@ -110,6 +110,7 @@ Added in v2.0.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Set<B>
 export declare function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
 ```
 
@@ -372,6 +373,7 @@ Added in v2.10.0
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (set: Set<A>) => Separated<Set<A>, Set<B>>
+export declare function partition<A>(predicate: Predicate<A>): <B extends A>(set: Set<B>) => Separated<Set<B>, Set<B>>
 export declare function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
 ```
 
@@ -456,7 +458,7 @@ Added in v2.0.0
 
 ## ~~subset~~
 
-Use `isSubset` instead.
+Use [`isSubset`](#issubset) instead.
 
 **Signature**
 
