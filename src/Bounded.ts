@@ -8,6 +8,10 @@
  * @since 2.0.0
  */
 import * as Ord from './Ord'
+import * as O from './Option'
+import * as P from './Predicate'
+import * as n from './number'
+import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -71,17 +75,17 @@ export const isValid = <T>(bound: Bounded<T>) =>
  * @category constructors
  * @since 2.12.0
  */
-export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
-  ({ ...ord, bottom: b, top: t })
+export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): O.Option<Bounded<T>> =>
+  pipe({ ...ord, top: t, bottom: b }, P.ifElse(isValid, O.some, () => O.none))
 
 /**
  * Creates an instance of Bounded from the tuple [bottom, top].
+ * Returns none if fst > snd and some if snd >= fst.
  *
  * @category constructors
  * @since 2.12.0
  */
-export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]): Bounded<T> =>
-
+export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]) =>
   fromRange(ord)(b)(t)
 
 // -------------------------------------------------------------------------------------
@@ -98,19 +102,9 @@ export const clamp = <T>(bound: Bounded<T>) =>
     Ord.clamp(bound)(bound.bottom, bound.top)
 
 /**
- * Tests if two bounds are overlapping
- *
- * @category utils
- * @since 2.12.0
- */
-export const isOverlapping = <T>(a: Bounded<T>) => (b: Bounded<T>) =>
-    Ord.leq(a)(a.bottom, b.top) && Ord.geq(a)(a.top, b.bottom)
-
-/**
  * Tests whether a value lies between the top and bottom values of bound.
  *
- * @category util
- * s
+ * @category utils
  * @since 2.12.0
  */
 export const isWithin = <T>(bound: Bounded<T>) =>
@@ -130,8 +124,8 @@ export const isWithin = <T>(bound: Bounded<T>) =>
  * @deprecated
  */
 export const boundedNumber: Bounded<number> = {
-  equals: ordNumber.equals,
-  compare: ordNumber.compare,
+  equals: n.Ord.equals,
+  compare: n.Ord.compare,
   top: Infinity,
   bottom: -Infinity
 }

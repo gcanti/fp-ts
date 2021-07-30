@@ -1,65 +1,85 @@
-import { fromRange, clamp, top, bottom, isWithin, isOverlapping, toTuple, isValid } from '../src/Bounded'
+import { fromRange, fromTuple, clamp, top, bottom, isWithin, toTuple, isValid } from '../src/Bounded'
+import { BooleanAlgebra as b } from '../src/boolean'
 import * as U from './util'
 import * as n from '../src/number'
-import { pipe } from 'fp-ts/function'
+import { pipe } from '../src/function'
 import fc from 'fast-check'
 import * as Eq from '../src/Eq'
 
 describe('Bounded', () => {
-  const numBound = fromRange(n.Ord)
 
   it('top', () => {
     fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      pipe(numBound(b)(t), top, Eq.isEqual(n.Eq)(t))
+      pipe({ ...n.Ord, bottom: b, top: t }, top, Eq.isEqual(n.Eq)(t))
     ))
   })
 
   it('bottom', () => {
     fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      pipe(numBound(b)(t), bottom, Eq.isEqual(n.Eq)(b))
+      pipe({ ...n.Ord, bottom: b, top: t }, bottom, Eq.isEqual(n.Eq)(b))
     ))
   })
 
   it('isValid', () => {
-    fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      b <= t && pipe(numBound(b)(t), isValid)
-    ))
+    fc.assert(fc.property(fc.integer(), fc.integer(), (bottom, top) =>
+      b.implies(
+        bottom <= top,
+        isValid({ ...n.Ord, bottom, top })
+      )))
   })
 
   it('toTuple', () => {
-    fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) => {
-      pipe(numBound(b)(t), toTuple, Eq.isEqual(Eq.tuple(n.Eq, n.Eq))([b, t]))
+    fc.assert(fc.property(fc.integer(), (bottom) => {
+      const top = bottom + 100
+
+      return pipe(
+        { ...n.Ord, bottom, top },
+        toTuple,
+        Eq.isEqual(Eq.tuple(n.Eq, n.Eq))([bottom, top]))
     }))
   })
 
-  it('clamp', () => {
-    const clampNum = pipe(numBound(1)(10), clamp)
-
-    U.deepStrictEqual(clampNum(2), 2)
-    U.deepStrictEqual(clampNum(10), 10)
-    U.deepStrictEqual(clampNum(20), 10)
-    U.deepStrictEqual(clampNum(1), 1)
-    U.deepStrictEqual(clampNum(-10), 0)
-  })
-
   it('isWithin', () => {
-    const withinRange = pipe(numBound(1)(10), isWithin)
+    const inRange = isWithin({ ...n.Ord, bottom: 0, top: 10 })
 
-    U.deepStrictEqual(withinRange(2), true)
-    U.deepStrictEqual(withinRange(10), true)
-    U.deepStrictEqual(withinRange(20), false)
-    U.deepStrictEqual(withinRange(1), true)
-    U.deepStrictEqual(withinRange(-10), false)
+    U.deepStrictEqual(inRange(2), true)
+    U.deepStrictEqual(inRange(10), true)
+    U.deepStrictEqual(inRange(0), true)
+    U.deepStrictEqual(inRange(20), false)
+    U.deepStrictEqual(inRange(-10), false)
   })
 
-  it('isOverlapping', () => {
-    const boundOverlaps = pipe(numBound(0)(10), isOverlapping)
+  it("fromRange", () => {
+    const numRange = fromRange(n.Ord);
 
-    U.deepStrictEqual(boundOverlaps(numBound(1)(5)), true)
-    U.deepStrictEqual(boundOverlaps(numBound(10)(11)), true)
-    U.deepStrictEqual(boundOverlaps(numBound(-1)(0)), true)
-    U.deepStrictEqual(boundOverlaps(numBound(-2)(-1)), false)
-    U.deepStrictEqual(boundOverlaps(numBound(11)(12)), false)
+    U.deepStrictEqual(numRange(0)(10)._tag, "Some");
+    U.deepStrictEqual(numRange(0)(0)._tag, "Some");
+    U.deepStrictEqual(numRange(-1)(0)._tag, "Some");
+    U.deepStrictEqual(numRange(-1)(-2)._tag, "None");
+    U.deepStrictEqual(numRange(1)(0)._tag, "None");
+  })
+
+  it("fromTuple", () => {
+    const numRange = fromTuple(n.Ord);
+
+    U.deepStrictEqual(numRange([0, 10])._tag, "Some");
+    U.deepStrictEqual(numRange([0,0])._tag, "Some");
+    U.deepStrictEqual(numRange([-1, 0])._tag, "Some");
+    U.deepStrictEqual(numRange([-1, -2])._tag, "None");
+    U.deepStrictEqual(numRange([1, 0])._tag, "None");
+  })
+
+  it('clamp', () => {
+    fc.assert(fc.property(fc.integer(), fc.integer(), (bottom, val) => {
+      const top = bottom + 100
+      const bound = { ...n.Ord, bottom, top }
+
+      const clampedValue = clamp(bound)(val)
+
+      return b.implies(isWithin(bound)(val), clampedValue === val) &&
+        b.implies(val < bottom, clampedValue === bottom) &&
+        b.implies(val > top, clampedValue === top)
+    }))
   })
 
 })
