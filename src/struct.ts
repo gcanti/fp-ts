@@ -58,7 +58,7 @@ export const evolve = <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(tr
 ): { [K in keyof F]: ReturnType<F[K]> } => {
   const out: Record<string, unknown> = {}
   for (const k in a) {
-    if (_.hasOwnProperty.call(a, k)) {
+    if (_.has.call(a, k)) {
       out[k] = transformations[k](a[k])
     }
   }
