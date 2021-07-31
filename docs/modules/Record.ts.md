@@ -67,6 +67,7 @@ Added in v2.0.0
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -87,6 +88,7 @@ Added in v2.0.0
   - [size](#size)
   - [some](#some)
   - [toArray](#toarray)
+  - [toEntries](#toentries)
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -686,6 +688,33 @@ export declare function foldMapWithIndex<M>(
 
 Added in v2.0.0
 
+## fromEntries
+
+Converts an `Array` of `[key, value]` tuples into a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: [string, A][]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v???
+
 ## fromFoldable
 
 Create a `Record` from a foldable collection of key/value pairs, using the
@@ -1030,6 +1059,29 @@ export declare const toArray: <K extends string, A>(r: Record<K, A>) => [K, A][]
 ```
 
 Added in v2.0.0
+
+## toEntries
+
+Converts a Record into an `Array` of `[key, value]` tuples.
+
+**Signature**
+
+```ts
+export declare const toEntries: <A>(fa: Record<string, A>) => [string, A][]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v???
 
 ## toUnfoldable
 
