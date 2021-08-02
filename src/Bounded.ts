@@ -8,7 +8,7 @@
  * @since 2.0.0
  */
 import * as Ord from './Ord'
-import * as O from './Option'
+import { Option, some, none } from './Option'
 import * as P from './Predicate'
 import * as n from './number'
 import { pipe } from './function'
@@ -34,13 +34,13 @@ export interface Bounded<A> extends Ord.Ord<A> {
  * @category deconstructors
  * @since 2.12.0
  */
-export const top = <T>(b: Bounded<T>) => b.top
+export const top = <T>(B: Bounded<T>) => B.top
 
 /**
  * @category deconstructors
  * @since 2.12.0
  */
-export const bottom = <T>(b: Bounded<T>) => b.bottom
+export const bottom = <T>(B: Bounded<T>) => B.bottom
 
 /**
  * Returns the tuple [bottom, top].
@@ -48,8 +48,8 @@ export const bottom = <T>(b: Bounded<T>) => b.bottom
  * @category deconstructors
  * @since 2.12.0
  */
-export const toTuple = <T>(bound: Bounded<T>): [T, T] =>
-    [bound.bottom, bound.top]
+export const toTuple = <T>(B: Bounded<T>): [T, T] =>
+    [B.bottom, B.top]
 
 // -------------------------------------------------------------------------------------
 // guards
@@ -61,8 +61,8 @@ export const toTuple = <T>(bound: Bounded<T>): [T, T] =>
  * @category guards
  * @since 2.12.0
  */
-export const isValid = <T>(bound: Bounded<T>) =>
-    Ord.geq(bound)(bound.bottom, bound.top)
+export const isValid = <T>(B: Bounded<T>) =>
+    Ord.geq(B)(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -75,8 +75,8 @@ export const isValid = <T>(bound: Bounded<T>) =>
  * @category constructors
  * @since 2.12.0
  */
-export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): O.Option<Bounded<T>> =>
-  pipe({ ...ord, top: t, bottom: b }, P.ifElse(isValid, O.some, () => O.none))
+export const fromRange = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Option<Bounded<T>> =>
+  pipe({ ...O, top: t, bottom: b }, P.ifElse(isValid, some, () => none))
 
 /**
  * Creates an instance of Bounded from the tuple [bottom, top].
@@ -85,8 +85,8 @@ export const fromRange = <T>(ord: Ord.Ord<T>) => (b: T) => (t: T): O.Option<Boun
  * @category constructors
  * @since 2.12.0
  */
-export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]) =>
-  fromRange(ord)(b)(t)
+export const fromTuple = <T>(O: Ord.Ord<T>) => ([b, t]: [T, T]) =>
+  fromRange(O)(b)(t)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -98,8 +98,8 @@ export const fromTuple = <T>(ord: Ord.Ord<T>) => ([b, t]: [T, T]) =>
  * @category utils
  * @since 2.12.0
  */
-export const clamp = <T>(bound: Bounded<T>) =>
-    Ord.clamp(bound)(bound.bottom, bound.top)
+export const clamp = <T>(B: Bounded<T>) =>
+    Ord.clamp(B)(B.bottom, B.top)
 
 /**
  * Tests whether a value lies between the top and bottom values of bound.
@@ -107,8 +107,8 @@ export const clamp = <T>(bound: Bounded<T>) =>
  * @category utils
  * @since 2.12.0
  */
-export const isWithin = <T>(bound: Bounded<T>) =>
-    Ord.between(bound)(bound.bottom, bound.top)
+export const isWithin = <T>(B: Bounded<T>) =>
+    Ord.between(B)(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // deprecated
