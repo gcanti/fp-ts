@@ -114,12 +114,6 @@ export const or = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<
 export const and = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) && second(a)
 
 /**
- * @since 2.11.0
- */
-export const implies = <A>(first: Predicate<A>, second: Predicate<A>): Predicate<A> =>
-  not(and(first)(not(second)))
-
-/**
  * Splits the flow of execution based on the result of a predicate
  *
  * @category utils
