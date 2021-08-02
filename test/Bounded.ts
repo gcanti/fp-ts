@@ -10,13 +10,13 @@ describe('Bounded', () => {
 
   it('top', () => {
     fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      pipe({ ...n.Ord, bottom: b, top: t }, top, Eq.isEqual(n.Eq)(t))
+      pipe({ ...n.Ord, bottom: b, top: t }, top, val => n.Eq.equals(t, val))
     ))
   })
 
   it('bottom', () => {
     fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      pipe({ ...n.Ord, bottom: b, top: t }, bottom, Eq.isEqual(n.Eq)(b))
+      pipe({ ...n.Ord, bottom: b, top: t }, bottom, val => n.Eq.equals(b, val)))
     ))
   })
 
@@ -35,7 +35,7 @@ describe('Bounded', () => {
       return pipe(
         { ...n.Ord, bottom, top },
         toTuple,
-        Eq.isEqual(Eq.tuple(n.Eq, n.Eq))([bottom, top]))
+        val => Eq.tuple(n.Eq, n.Eq).equals([bottom, top], val))
     }))
   })
 
