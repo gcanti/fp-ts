@@ -16,8 +16,7 @@ describe('Bounded', () => {
 
   it('bottom', () => {
     fc.assert(fc.property(fc.integer(), fc.integer(), (b, t) =>
-      pipe({ ...n.Ord, bottom: b, top: t }, bottom, val => n.Eq.equals(b, val)))
-    ))
+      pipe({ ...n.Ord, bottom: b, top: t }, bottom, val => n.Eq.equals(b, val))))
   })
 
   it('isValid', () => {
@@ -49,24 +48,24 @@ describe('Bounded', () => {
     U.deepStrictEqual(inRange(-10), false)
   })
 
-  it("fromRange", () => {
-    const numRange = fromRange(n.Ord);
+  it('fromRange', () => {
+    const numRange = fromRange(n.Ord)
 
-    U.deepStrictEqual(numRange(0)(10)._tag, "Some");
-    U.deepStrictEqual(numRange(0)(0)._tag, "Some");
-    U.deepStrictEqual(numRange(-1)(0)._tag, "Some");
-    U.deepStrictEqual(numRange(-1)(-2)._tag, "None");
-    U.deepStrictEqual(numRange(1)(0)._tag, "None");
+    U.deepStrictEqual(numRange(0)(10)._tag, 'Some')
+    U.deepStrictEqual(numRange(0)(0)._tag, 'Some')
+    U.deepStrictEqual(numRange(-1)(0)._tag, 'Some')
+    U.deepStrictEqual(numRange(-1)(-2)._tag, 'None')
+    U.deepStrictEqual(numRange(1)(0)._tag, 'None')
   })
 
-  it("fromTuple", () => {
-    const numRange = fromTuple(n.Ord);
+  it('fromTuple', () => {
+    const numRange = fromTuple(n.Ord)
 
-    U.deepStrictEqual(numRange([0, 10])._tag, "Some");
-    U.deepStrictEqual(numRange([0,0])._tag, "Some");
-    U.deepStrictEqual(numRange([-1, 0])._tag, "Some");
-    U.deepStrictEqual(numRange([-1, -2])._tag, "None");
-    U.deepStrictEqual(numRange([1, 0])._tag, "None");
+    U.deepStrictEqual(numRange([0, 10])._tag, 'Some')
+    U.deepStrictEqual(numRange([0,0])._tag, 'Some')
+    U.deepStrictEqual(numRange([-1, 0])._tag, 'Some')
+    U.deepStrictEqual(numRange([-1, -2])._tag, 'None')
+    U.deepStrictEqual(numRange([1, 0])._tag, 'None')
   })
 
   it('clamp', () => {
