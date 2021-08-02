@@ -1,7 +1,6 @@
-import { pipe, constTrue, constFalse } from '../src/function'
+import { pipe } from '../src/function'
 import * as _ from '../src/Predicate'
 import * as U from './util'
-import * as fc from 'fast-check'
 
 const isPositive: _.Predicate<number> = (n) => n > 0
 const isNegative: _.Predicate<number> = (n) => n < 0
@@ -38,16 +37,6 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate(-1), true)
   })
 
-  it('implies', () => {
-    const implies = (a: boolean, b: boolean) => _.implies(() => a, () => b)(true)
-
-    // Truth table.
-    U.deepStrictEqual(implies(true, true), true)
-    U.deepStrictEqual(implies(true, false), false)
-    U.deepStrictEqual(implies(false, true), true)
-    U.deepStrictEqual(implies(false, false), true)
-  })
-
   it('getMonoidAny', () => {
     const M = _.getMonoidAny<number>()
     const predicate = M.concat(isPositive, isNegative)
@@ -63,5 +52,4 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate(-2), false)
     U.deepStrictEqual(predicate(1), true)
   })
-
 })
