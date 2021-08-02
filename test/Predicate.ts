@@ -38,6 +38,16 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate(-1), true)
   })
 
+  it('implies', () => {
+    const implies = (a: boolean, b: boolean) => _.implies(() => a, () => b)(true)
+
+    // Truth table.
+    U.deepStrictEqual(implies(true, true), true)
+    U.deepStrictEqual(implies(true, false), false)
+    U.deepStrictEqual(implies(false, true), true)
+    U.deepStrictEqual(implies(false, false), true)
+  })
+
   it('getMonoidAny', () => {
     const M = _.getMonoidAny<number>()
     const predicate = M.concat(isPositive, isNegative)
@@ -52,18 +62,6 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate(0), false)
     U.deepStrictEqual(predicate(-2), false)
     U.deepStrictEqual(predicate(1), true)
-  })
-
-  it('ifElse', () => {
-    fc.assert(fc.property(fc.boolean(), fc.boolean(), (a, b) =>
-      _.ifElse(constTrue, () => a, () => b)(null) === a &&
-      _.ifElse(constFalse, () => a, () => b)(null) === b))
-  })
-
-  it('ifElseW', () => {
-    fc.assert(fc.property(fc.boolean(), fc.boolean(), (a, b) =>
-      _.ifElseW(constTrue, () => a, () => b)(null) === a &&
-      _.ifElseW(constFalse, () => a, () => b)(null) === b))
   })
 
 })

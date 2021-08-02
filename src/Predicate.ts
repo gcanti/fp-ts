@@ -112,21 +112,3 @@ export const or = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<
  * @since 2.11.0
  */
 export const and = <A>(second: Predicate<A>) => (first: Predicate<A>): Predicate<A> => (a) => first(a) && second(a)
-
-/**
- * Splits the flow of execution based on the result of a predicate
- *
- * @category utils
- * @since 2.12.0
- */
-export const ifElse = <A, B>(p: Predicate<A>, onTrue: (a: A) => B, onFalse: (a: A) => B) =>
-  (a: A) => p(a) ? onTrue(a) : onFalse(a)
-
-/**
- * Less strict version of ifElse.
- *
- * @category utils
- * @since 2.12.0
- */
-export const ifElseW = <A, B, C>(p: Predicate<A>, onTrue: (a: A) => B, onFalse: (a: A) => C) =>
-  (a: A) => p(a) ? onTrue(a) : onFalse(a)

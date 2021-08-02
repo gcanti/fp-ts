@@ -8,7 +8,7 @@
  * @since 2.0.0
  */
 import * as Ord from './Ord'
-import { Option, some, none } from './Option'
+import { Option, some, none, fromPredicate, match } from './Option'
 import * as P from './Predicate'
 import * as n from './number'
 import { pipe } from './function'
@@ -76,7 +76,7 @@ export const isValid = <T>(B: Bounded<T>) =>
  * @since 2.12.0
  */
 export const fromRange = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Option<Bounded<T>> =>
-  pipe({ ...O, top: t, bottom: b }, P.ifElse(isValid, some, () => none))
+  pipe({ ...O, top: t, bottom: b }, fromPredicate(isValid))
 
 /**
  * Creates an instance of Bounded from the tuple [bottom, top].
