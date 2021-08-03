@@ -8,8 +8,7 @@
  * @since 2.0.0
  */
 import * as Ord from './Ord'
-import { Option, some, none, fromPredicate, match } from './Option'
-import * as P from './Predicate'
+import { Option, fromPredicate } from './Option'
 import * as n from './number'
 import { pipe } from './function'
 
@@ -62,7 +61,7 @@ export const toTuple = <T>(B: Bounded<T>): [T, T] =>
  * @since 2.12.0
  */
 export const isValid = <T>(B: Bounded<T>) =>
-    Ord.geq(B)(B.bottom, B.top)
+    Ord.leq(B)(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -87,6 +86,13 @@ export const fromRange = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Option<Bounded<
  */
 export const fromTuple = <T>(O: Ord.Ord<T>) => ([b, t]: [T, T]) =>
   fromRange(O)(b)(t)
+
+/**
+ * Returns a valid instance of Bounded given two values where top is the greater of
+ * the two values and bottom is set to the smaller of the values.
+ */
+export const coerceBound = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
+  Ord.leq(O)(b, t) ? ({ ...O, bottom: b, top: t }) : ({ ...O, bottom: t, top: b })
 
 // -------------------------------------------------------------------------------------
 // utils

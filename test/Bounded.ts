@@ -1,4 +1,4 @@
-import { fromRange, fromTuple, clamp, top, bottom, isWithin, toTuple, isValid } from '../src/Bounded'
+import { coerceBound, fromRange, fromTuple, clamp, top, bottom, isWithin, toTuple, isValid } from '../src/Bounded'
 import { BooleanAlgebra as b } from '../src/boolean'
 import * as U from './util'
 import * as n from '../src/number'
@@ -25,6 +25,17 @@ describe('Bounded', () => {
         bottom <= top,
         isValid({ ...n.Ord, bottom, top })
       )))
+  })
+
+  it('coerceBound', () => {
+    fc.assert(fc.property(fc.integer(), fc.integer(), (x, y) => {
+      const bound = coerceBound(n.Ord)(x)(y)
+
+      return isValid(bound) &&
+        b.implies(x <= y, top(bound) === y && bottom(bound) === x) &&
+        b.implies(y <= x, top(bound) === x && bottom(bound) === y)
+
+    }))
   })
 
   it('toTuple', () => {
