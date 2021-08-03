@@ -119,6 +119,27 @@ export const clamp = <T>(B: Bounded<T>) =>
 export const isWithin = <T>(B: Bounded<T>) =>
     Ord.between(B)(B.bottom, B.top)
 
+/**
+ * Reverses the Ord of a bound and swaps top and bottom values.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const reverse = <T>(B: Bounded<T>): Bounded<T> => ({
+    ...Ord.reverse(B),
+    top: B.bottom,
+    bottom: B.top
+})
+
+/**
+ * Tests whether the bounded range is empty. I.e. if top == bottom under the bounds
+ * instance of equality.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const isEmpty = <T>(B: Bounded<T>) => B.equals(B.bottom, B.top)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
