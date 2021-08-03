@@ -90,6 +90,9 @@ export const fromTuple = <T>(O: Ord.Ord<T>) => ([b, t]: [T, T]) =>
 /**
  * Returns a valid instance of Bounded given two values where top is the greater of
  * the two values and bottom is set to the smaller of the values.
+ *
+ * @category constructors
+ * @since 2.12.0
  */
 export const coerceBound = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
   Ord.leq(O)(b, t) ? ({ ...O, bottom: b, top: t }) : ({ ...O, bottom: t, top: b })
