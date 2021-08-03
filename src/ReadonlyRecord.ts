@@ -807,7 +807,7 @@ export function fromFoldableMap<F, B>(
  *
  * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
  */
-export const toEntries = <A>(fa: ReadonlyRecord<string, A>): ReadonlyArray<readonly [string, A]> => toUnfoldable(RA.Unfoldable)(fa)
+export const toEntries = toReadonlyArray
 
 /**
  * Converts an `Array` of `[key, value]` tuples into a `Record`.

@@ -489,7 +489,7 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
  *
  * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
  */
-export const toEntries = <A>(fa: Record<string, A>): Array<[string, A]> => toUnfoldable(A.Unfoldable)(fa)
+export const toEntries = toArray
 
 /**
  * Converts an `Array` of `[key, value]` tuples into a `Record`.
