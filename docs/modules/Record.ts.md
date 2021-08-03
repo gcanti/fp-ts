@@ -1062,12 +1062,12 @@ Added in v2.0.0
 
 ## toEntries
 
-Converts a Record into an `Array` of `[key, value]` tuples.
+Alias of [`toArray`](#toArray).
 
 **Signature**
 
 ```ts
-export declare const toEntries: <A>(fa: Record<string, A>) => [string, A][]
+export declare const toEntries: <K extends string, A>(r: Record<K, A>) => [K, A][]
 ```
 
 **Example**

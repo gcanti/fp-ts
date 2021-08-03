@@ -480,7 +480,7 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 }
 
 /**
- * Converts a Record into an `Array` of `[key, value]` tuples.
+ * Alias of [`toArray`](#toArray).
  *
  * @since ???
  *

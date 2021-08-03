@@ -798,7 +798,7 @@ export function fromFoldableMap<F, B>(
 }
 
 /**
- * Converts a Record into an `Array` of `[key, value]` tuples.
+ * Alias of [`toReadonlyArray`](#toReadonlyArray).
  *
  * @since ???
  *
