@@ -132,13 +132,13 @@ export const reverse = <T>(B: Bounded<T>): Bounded<T> => ({
 })
 
 /**
- * Tests whether the bounded range is empty. I.e. if top == bottom under the bounds
- * instance of equality.
+ * Tests whether the bounded range only contains a single value.
+ * I.e. if top == bottom under the bounds instance of equality.
  *
  * @category utils
  * @since 2.12.0
  */
-export const isEmpty = <T>(B: Bounded<T>) => B.equals(B.bottom, B.top)
+export const isSingular = <T>(B: Bounded<T>) => B.equals(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // deprecated
