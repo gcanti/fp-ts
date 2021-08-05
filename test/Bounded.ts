@@ -5,6 +5,7 @@ import * as n from '../src/number'
 import { pipe } from '../src/function'
 import fc from 'fast-check'
 import * as Eq from '../src/Eq'
+import * as O from 'fp-ts/Option'
 
 describe('Bounded', () => {
 
@@ -82,21 +83,21 @@ describe('Bounded', () => {
   it('fromRange', () => {
     const numRange = fromRange(n.Ord)
 
-    U.deepStrictEqual(numRange(0)(10)._tag, 'Some')
-    U.deepStrictEqual(numRange(0)(0)._tag, 'Some')
-    U.deepStrictEqual(numRange(-1)(0)._tag, 'Some')
-    U.deepStrictEqual(numRange(-1)(-2)._tag, 'None')
-    U.deepStrictEqual(numRange(1)(0)._tag, 'None')
+    U.deepStrictEqual(numRange(0)(10), O.some({ ...n.Ord, bottom: 0, top: 10 }))
+    U.deepStrictEqual(numRange(0)(0), O.some({ ...n.Ord, bottom: 0, top: 0 }))
+    U.deepStrictEqual(numRange(-1)(0), O.some({ ...n.Ord, bottom: -1, top: 0 }))
+    U.deepStrictEqual(numRange(-1)(-2), O.none)
+    U.deepStrictEqual(numRange(1)(0), O.none)
   })
 
   it('fromTuple', () => {
     const numRange = fromTuple(n.Ord)
 
-    U.deepStrictEqual(numRange([0, 10])._tag, 'Some')
-    U.deepStrictEqual(numRange([0,0])._tag, 'Some')
-    U.deepStrictEqual(numRange([-1, 0])._tag, 'Some')
-    U.deepStrictEqual(numRange([-1, -2])._tag, 'None')
-    U.deepStrictEqual(numRange([1, 0])._tag, 'None')
+    U.deepStrictEqual(numRange([0, 10]), O.some({ ...n.Ord, bottom: 0, top: 10 }))
+    U.deepStrictEqual(numRange([0,0]), O.some({ ...n.Ord, bottom: 0, top: 0 }))
+    U.deepStrictEqual(numRange([-1, 0]), O.some({ ...n.Ord, bottom: -1, top: 0 }))
+    U.deepStrictEqual(numRange([-1, -2]), O.none)
+    U.deepStrictEqual(numRange([1, 0]), O.none)
   })
 
   it('clamp', () => {
