@@ -1367,7 +1367,9 @@ export const apSW: <A, N extends string, R2, E2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: ReaderTaskEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: ReaderTaskEither<unknown, never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

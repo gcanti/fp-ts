@@ -314,7 +314,9 @@ export const apS =
 /**
  * @since 2.11.0
  */
-export const ApT: IO<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: IO<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
