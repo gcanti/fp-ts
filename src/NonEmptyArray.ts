@@ -900,7 +900,7 @@ export const Functor: Functor1<URI> = {
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
