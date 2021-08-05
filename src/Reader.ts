@@ -461,7 +461,9 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Reader<unknown, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
