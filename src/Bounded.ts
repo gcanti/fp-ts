@@ -47,8 +47,7 @@ export const bottom = <T>(B: Bounded<T>) => B.bottom
  * @category deconstructors
  * @since 2.12.0
  */
-export const toTuple = <T>(B: Bounded<T>): [T, T] =>
-    [B.bottom, B.top]
+export const toTuple = <T>(B: Bounded<T>): [T, T] => [B.bottom, B.top]
 
 // -------------------------------------------------------------------------------------
 // guards
@@ -60,8 +59,7 @@ export const toTuple = <T>(B: Bounded<T>): [T, T] =>
  * @category guards
  * @since 2.12.0
  */
-export const isValid = <T>(B: Bounded<T>) =>
-    Ord.leq(B)(B.bottom, B.top)
+export const isValid = <T>(B: Bounded<T>) => Ord.leq(B)(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -74,8 +72,11 @@ export const isValid = <T>(B: Bounded<T>) =>
  * @category constructors
  * @since 2.12.0
  */
-export const fromRange = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Option<Bounded<T>> =>
-  pipe({ ...O, top: t, bottom: b }, fromPredicate(isValid))
+export const fromRange =
+  <T>(O: Ord.Ord<T>) =>
+  (b: T) =>
+  (t: T): Option<Bounded<T>> =>
+    pipe({ ...O, top: t, bottom: b }, fromPredicate(isValid))
 
 /**
  * Creates an instance of Bounded from the tuple [bottom, top].
@@ -84,8 +85,10 @@ export const fromRange = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Option<Bounded<
  * @category constructors
  * @since 2.12.0
  */
-export const fromTuple = <T>(O: Ord.Ord<T>) => ([b, t]: [T, T]) =>
-  fromRange(O)(b)(t)
+export const fromTuple =
+  <T>(O: Ord.Ord<T>) =>
+  ([b, t]: [T, T]) =>
+    fromRange(O)(b)(t)
 
 /**
  * Returns a valid instance of Bounded given two values where top is the greater of
@@ -94,8 +97,11 @@ export const fromTuple = <T>(O: Ord.Ord<T>) => ([b, t]: [T, T]) =>
  * @category constructors
  * @since 2.12.0
  */
-export const coerceBound = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
-  Ord.leq(O)(b, t) ? ({ ...O, bottom: b, top: t }) : ({ ...O, bottom: t, top: b })
+export const coerceBound =
+  <T>(O: Ord.Ord<T>) =>
+  (b: T) =>
+  (t: T): Bounded<T> =>
+    Ord.leq(O)(b, t) ? { ...O, bottom: b, top: t } : { ...O, bottom: t, top: b }
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -107,8 +113,7 @@ export const coerceBound = <T>(O: Ord.Ord<T>) => (b: T) => (t: T): Bounded<T> =>
  * @category utils
  * @since 2.12.0
  */
-export const clamp = <T>(B: Bounded<T>) =>
-    Ord.clamp(B)(B.bottom, B.top)
+export const clamp = <T>(B: Bounded<T>) => Ord.clamp(B)(B.bottom, B.top)
 
 /**
  * Tests whether a value lies between the top and bottom values of bound.
@@ -116,8 +121,7 @@ export const clamp = <T>(B: Bounded<T>) =>
  * @category utils
  * @since 2.12.0
  */
-export const isWithin = <T>(B: Bounded<T>) =>
-    Ord.between(B)(B.bottom, B.top)
+export const isWithin = <T>(B: Bounded<T>) => Ord.between(B)(B.bottom, B.top)
 
 /**
  * Reverses the Ord of a bound and swaps top and bottom values.
@@ -126,9 +130,9 @@ export const isWithin = <T>(B: Bounded<T>) =>
  * @since 2.12.0
  */
 export const reverse = <T>(B: Bounded<T>): Bounded<T> => ({
-    ...Ord.reverse(B),
-    top: B.bottom,
-    bottom: B.top
+  ...Ord.reverse(B),
+  top: B.bottom,
+  bottom: B.top
 })
 
 /**
