@@ -1291,10 +1291,10 @@ export const chainFirstTaskK =
  *
  * @since 2.0.4
  */
-export function bracket<R, E, A, B>(
+export function bracket<R, E, A, B, C>(
   aquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
+  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, C>
 ): ReaderTaskEither<R, E, B> {
   return (r) =>
     TE.bracket(

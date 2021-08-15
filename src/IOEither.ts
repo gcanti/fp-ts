@@ -841,10 +841,10 @@ export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
  *
  * @since 2.0.0
  */
-export const bracket = <E, A, B>(
+export const bracket = <E, A, B, C>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
+  release: (a: A, e: Either<E, B>) => IOEither<E, C>
 ): IOEither<E, B> =>
   pipe(
     acquire,

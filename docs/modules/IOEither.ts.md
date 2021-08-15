@@ -1177,10 +1177,10 @@ whether the body action throws (\*) or returns.
 **Signature**
 
 ```ts
-export declare const bracket: <E, A, B>(
+export declare const bracket: <E, A, B, C>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, C>
 ) => IOEither<E, B>
 ```
 

@@ -1118,10 +1118,10 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  *
  * @since 2.0.0
  */
-export const bracket = <E, A, B>(
+export const bracket = <E, A, B, C>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
+  release: (a: A, e: Either<E, B>) => TaskEither<E, C>
 ): TaskEither<E, B> =>
   pipe(
     acquire,
