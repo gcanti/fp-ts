@@ -32,7 +32,9 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReaderEither](#asksreadereither)
   - [asksReaderEitherW](#asksreadereitherw)
   - [chainEitherK](#chaineitherk)
@@ -300,6 +302,20 @@ export declare const apFirst: <R, E, B>(
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, A, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -315,6 +331,20 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, A, B>(
+  second: ReaderEither<R2, E2, B>
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## asksReaderEither
 
