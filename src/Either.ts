@@ -927,6 +927,16 @@ export const apFirst =
   apFirst_(Apply)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst)
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -937,6 +947,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(Apply)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond)
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E1 | E2, B> = apSecond as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
