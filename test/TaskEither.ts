@@ -43,8 +43,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
   })
 
+  it('apFirstW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apFirstW(_.right<string, boolean>(true)))(),
+      E.right('foo')
+    )
+  })
+
   it('apSecond', async () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+  })
+
+  it('apSecondW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apSecondW(_.right<string, boolean>(true)))(),
+      E.right(true)
+    )
   })
 
   it('chain', async () => {
