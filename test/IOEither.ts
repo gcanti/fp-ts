@@ -92,8 +92,20 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
     })
 
+    it('apFirstW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apFirstW(fb))(), E.right('a'))
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+    })
+
+    it('apSecondW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apSecondW(fb))(), E.right(1))
     })
 
     it('chain', () => {

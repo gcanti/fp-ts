@@ -578,6 +578,16 @@ export const apFirst =
   apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -588,6 +598,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
