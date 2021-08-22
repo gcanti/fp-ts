@@ -36,7 +36,9 @@ Added in v2.0.0
   - [second](#second)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReader](#asksreader)
   - [asksReaderW](#asksreaderw)
   - [chainFirst](#chainfirst)
@@ -257,6 +259,18 @@ export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -270,6 +284,18 @@ export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v2.12.0
 
 ## asksReader
 
