@@ -470,6 +470,7 @@ export const takeLeft = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<
  * assert.strictEqual(pipe(input, RA.takeRight(4)), input)
  * assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
  *
+ * @category combinators
  * @since 2.5.0
  */
 export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray<A> =>
