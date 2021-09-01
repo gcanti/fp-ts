@@ -1,6 +1,6 @@
 /**
  * The `Record` module enables dealing with Typescript's `Record<K,T>`
- * in a functional way, basically trateing it as a `Functor` in `T`.
+ * type in a functional way, basically treating it as a `Functor` in `T`.
  *
  * @since 2.0.0
  */
@@ -860,7 +860,7 @@ export const elem: <A>(
 /**
  * Union of 2 `Record`s.
  * Takes 2 `Record`s and produces a `Record` combining all the
- * entries of the two inputs.
+ * entries of the 2 inputs.
  * It uses the `concat` function of the provided `Magma` to
  * combine the elements with the same key.
  *
@@ -894,7 +894,7 @@ export const union = <A>(
 /**
  * Intersection of 2 `Record`s.
  * Takes 2 `Record`s and produces a `Record` combining only the
- * entries of the two inputswith the same key.
+ * entries of the 2 inputswith the same key.
  * It uses the `concat` function of the provided `Magma` to
  * combine the elements.
  *
@@ -922,7 +922,7 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
 /**
  * Difference between 2 `Record`s.
  * Takes 2 `Record`s and produces a `Record` composed by the
- * entries of the two inputs, removing the entries with the same
+ * entries of the 2 inputs, removing the entries with the same
  * key in both inputs.
  *
  * @example
@@ -1499,7 +1499,7 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => {
 /**
  * Given a `Semigroup` in the base type, it produces a `Semigroup`
  * in the `Record` of the base type.
- * The resulting `Semigroup` concatenates two `Record`s by
+ * The resulting `Semigroup` concatenates 2 `Record`s by
  * `union`.
  *
  * @example
@@ -1545,7 +1545,7 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<Record<string, A>> =>
 /**
  * Given a `Semigroup` in the base type, it produces a `Semigroup`
  * in the `Record` of the base type.
- * The resulting `Semigroup` concatenates two `Record`s by
+ * The resulting `Semigroup` concatenates 2 `Record`s by
  * `intersection`.
  *
  * @example
@@ -1568,7 +1568,7 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<s
 
 /**
  * Produces a `Magma` with a concat function that combines
- * two `Record`s by making the `difference` between the two.
+ * 2 `Record`s by making the `difference` between the 2.
  *
  * @example
  * import { getDifferenceMagma, difference } from "fp-ts/Record"

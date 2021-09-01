@@ -388,7 +388,7 @@ Added in v2.6.5
 
 Difference between 2 `Record`s.
 Takes 2 `Record`s and produces a `Record` composed by the
-entries of the two inputs, removing the entries with the same
+entries of the 2 inputs, removing the entries with the same
 key in both inputs.
 
 **Signature**
@@ -439,7 +439,7 @@ Added in v2.10.0
 
 Intersection of 2 `Record`s.
 Takes 2 `Record`s and produces a `Record` combining only the
-entries of the two inputswith the same key.
+entries of the 2 inputswith the same key.
 It uses the `concat` function of the provided `Magma` to
 combine the elements.
 
@@ -469,7 +469,7 @@ Added in v2.11.0
 
 Union of 2 `Record`s.
 Takes 2 `Record`s and produces a `Record` combining all the
-entries of the two inputs.
+entries of the 2 inputs.
 It uses the `concat` function of the provided `Magma` to
 combine the elements with the same key.
 
@@ -591,7 +591,7 @@ Added in v2.0.0
 ## getDifferenceMagma
 
 Produces a `Magma` with a concat function that combines
-two `Record`s by making the `difference` between the two.
+2 `Record`s by making the `difference` between the 2.
 
 **Signature**
 
@@ -669,7 +669,7 @@ Added in v2.11.0
 
 Given a `Semigroup` in the base type, it produces a `Semigroup`
 in the `Record` of the base type.
-The resulting `Semigroup` concatenates two `Record`s by
+The resulting `Semigroup` concatenates 2 `Record`s by
 `intersection`.
 
 **Signature**
@@ -799,7 +799,7 @@ Added in v2.11.0
 
 Given a `Semigroup` in the base type, it produces a `Semigroup`
 in the `Record` of the base type.
-The resulting `Semigroup` concatenates two `Record`s by
+The resulting `Semigroup` concatenates 2 `Record`s by
 `union`.
 
 **Signature**
