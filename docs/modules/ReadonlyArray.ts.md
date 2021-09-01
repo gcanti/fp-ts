@@ -96,6 +96,7 @@ Added in v2.5.0
   - [splitAt](#splitat)
   - [takeLeft](#takeleft)
   - [takeLeftWhile](#takeleftwhile)
+  - [takeRight](#takeright)
   - [union](#union)
   - [uniq](#uniq)
   - [unzip](#unzip)
@@ -201,7 +202,6 @@ Added in v2.5.0
   - [some](#some)
   - [spanLeft](#spanleft)
   - [tail](#tail)
-  - [takeRight](#takeright)
   - [updateAt](#updateat)
 
 ---
@@ -1308,6 +1308,34 @@ export declare function takeLeftWhile<A>(predicate: Predicate<A>): (as: Readonly
 import { takeLeftWhile } from 'fp-ts/ReadonlyArray'
 
 assert.deepStrictEqual(takeLeftWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
+```
+
+Added in v2.5.0
+
+## takeRight
+
+Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
+
+**Note**. `n` is normalized to a non negative integer.
+
+**Signature**
+
+```ts
+export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
+```
+
+**Example**
+
+```ts
+import * as RA from 'fp-ts/ReadonlyArray'
+import { pipe } from 'fp-ts/function'
+
+const input: ReadonlyArray<number> = [1, 2, 3]
+assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
+
+// out of bounds
+assert.strictEqual(pipe(input, RA.takeRight(4)), input)
+assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
 ```
 
 Added in v2.5.0
@@ -2870,34 +2898,6 @@ import { some, none } from 'fp-ts/Option'
 
 assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
-```
-
-Added in v2.5.0
-
-## takeRight
-
-Keep only a max number of elements from the end of an `ReadonlyArray`, creating a new `ReadonlyArray`.
-
-**Note**. `n` is normalized to a non negative integer.
-
-**Signature**
-
-```ts
-export declare const takeRight: (n: number) => <A>(as: readonly A[]) => readonly A[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-const input: ReadonlyArray<number> = [1, 2, 3]
-assert.deepStrictEqual(pipe(input, RA.takeRight(2)), [2, 3])
-
-// out of bounds
-assert.strictEqual(pipe(input, RA.takeRight(4)), input)
-assert.strictEqual(pipe(input, RA.takeRight(-1)), input)
 ```
 
 Added in v2.5.0
