@@ -1,5 +1,5 @@
 /**
- * The `Record` module enables dealing with Typescript's `Record<K,T>`
+ * The `Record` module enables dealing with Typescript's `Record<K, T>`
  * type in a functional way, basically treating it as a `Functor` in `T`.
  *
  * @since 2.0.0
@@ -233,8 +233,8 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 /**
  * Replace a key/value pair in a `Record`.
  *
- * @returns If the specified key exists, it returns an option containing the updated Record,
- * otherwise it returns `none`
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
  *
  * @example
  * import { updateAt } from 'fp-ts/Record'
@@ -251,8 +251,8 @@ export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A
 /**
  * Applies a mapping function to one spcific key/value pair in a `Record`.
  *
- * @returns If the specified key exists, it returns an option containing the updated Record,
- * otherwise it returns `none`
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
  *
  * @example
  * import { modifyAt } from 'fp-ts/Record'
@@ -274,6 +274,9 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: 
 
 /**
  * Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry removed, otherwise it returns `None`
  *
  * @example
  * import { pop } from 'fp-ts/Record'
@@ -334,6 +337,9 @@ export const isSubrecord: <A>(
 /**
  * Lookup the value for a key in a `Record`.
  *
+ * @returns If the specified key exists it returns an `Option` containing the value,
+ * otherwise it returns `None`
+ *
  * @example
  * import { lookup } from 'fp-ts/Record'
  * import { option } from 'fp-ts'
@@ -376,8 +382,9 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
 export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B> = RR.map
 
 /**
- * Reduces a `Record` passing each key/value pair to the iterating function,
- * sorted with the provided `Ord`.
+ * Reduces a `Record` passing each key/value pair to the iterating function.
+ * Entries are processed in the order, sorted by key according to 
+ * the given `Ord`.
  *
  * @example
  * import { reduceWithIndex } from "fp-ts/Record";
@@ -443,7 +450,10 @@ export function foldMapWithIndex<M>(
   return 'compare' in O ? RR.foldMapWithIndex(O) : RR.foldMapWithIndex(S.Ord)(O)
 }
 
-/** Same as `reduceWithIndex`, but reduce starting from the right (i.e. in reverse order).
+/** 
+ * Same as `reduceWithIndex`, but reduce starting from the right
+ * (i.e. in reverse order, from the last to the first entry according to 
+ * the given `Ord`).
  *
  * @example
  * import { reduceRightWithIndex } from "fp-ts/Record";
@@ -617,7 +627,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
 
 /**
  * Maps a `Record` with a function returning an `Either` and
- * partitions the resulting `Record` into `left` and `right`.
+ * partitions the resulting `Record` into `Left`s and `Right`s.
  *
  * @example
  * import { partitionMapWithIndex } from "fp-ts/Record"
@@ -642,7 +652,7 @@ export const partitionMapWithIndex: <K extends string, A, B, C>(
 ) => (fa: Record<K, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMapWithIndex
 
 /**
- * Partition a `Record` into 2 parts according to a predicate
+ * Partition a `Record` into two parts according to a predicate
  * that takes a key and a value.
  *
  * @example
@@ -680,7 +690,7 @@ export function partitionWithIndex<A>(
 
 /**
  * Maps a `Record` with an iterating function that takes key and value and
- * returns an option, keeping only the `option.some` values.
+ * returns an `Option`, keeping only the `Some` values and discarding `None`s.
  *
  * @example
  * import { filterMapWithIndex } from "fp-ts/Record"
@@ -858,9 +868,9 @@ export const elem: <A>(
 } = RR.elem
 
 /**
- * Union of 2 `Record`s.
- * Takes 2 `Record`s and produces a `Record` combining all the
- * entries of the 2 inputs.
+ * Union of two `Record`s.
+ * Takes two `Record`s and produces a `Record` combining all the
+ * entries of the two inputs.
  * It uses the `concat` function of the provided `Magma` to
  * combine the elements with the same key.
  *
@@ -892,9 +902,9 @@ export const union = <A>(
 }
 
 /**
- * Intersection of 2 `Record`s.
- * Takes 2 `Record`s and produces a `Record` combining only the
- * entries of the 2 inputswith the same key.
+ * Intersection of two `Record`s.
+ * Takes two `Record`s and produces a `Record` combining only the
+ * entries of the two inputswith the same key.
  * It uses the `concat` function of the provided `Magma` to
  * combine the elements.
  *
@@ -920,9 +930,9 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
 }
 
 /**
- * Difference between 2 `Record`s.
- * Takes 2 `Record`s and produces a `Record` composed by the
- * entries of the 2 inputs, removing the entries with the same
+ * Difference between two `Record`s.
+ * Takes two `Record`s and produces a `Record` composed by the
+ * entries of the two inputs, removing the entries with the same
  * key in both inputs.
  *
  * @example
@@ -1016,8 +1026,8 @@ export const filter: {
 } = RR.filter
 
 /**
- * Maps a `Record` with an iterating function that returns an option
- * and it keeps only the `option.some` values.
+ * Maps a `Record` with an iterating function that returns an `Option`
+ * and it keeps only the `Some` values discarding the `None`ss.
  *
  * @example
  * import { filterMap } from "fp-ts/Record"
@@ -1035,7 +1045,7 @@ export const filter: {
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
 
 /**
- * Partition a `Record` into 2 parts according to a predicate.
+ * Partition a `Record` into two parts according to a predicate.
  *
  * @example
  * import { partition } from "fp-ts/Record"
@@ -1063,7 +1073,7 @@ export const partition: {
 
 /**
  * Maps a `Record` with a function returning an `Either` and
- * partitions the resulting `Record` into `left` and `right`.
+ * partitions the resulting `Record` into `Left`s and `Right`s.
  *
  * @example
  * import { partitionMap } from "fp-ts/Record"
@@ -1088,8 +1098,9 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMap
 
 /**
- * Reduces a `Record` passing each value to the iterating function,
- * sorted by key with the provided `Ord`.
+ * Reduces a `Record` passing each value to the iterating function.
+ * Entries are processed in the order, sorted by key according to 
+ * the given `Ord`.
  *
  * @example
  * import { reduce } from "fp-ts/Record";
@@ -1152,7 +1163,9 @@ export function foldMap<M>(
 }
 
 /**
- * Same as `reduce` but entries are processed in reversed order.
+ * Same as `reduce` but entries are processed from the right
+ * (i.e. in reverse order, from the last to the first entry according to 
+ * the given `Ord`).
  *
  * @example
  * import { reduceRight } from "fp-ts/Record";
@@ -1182,8 +1195,8 @@ export function reduceRight<A, B>(
 }
 
 /**
- * Compact a `Record` of options removing the `none` values and
- * keeping the `some` values.
+ * Compact a `Record` of `Option`s discarding the `None` values and
+ * keeping the `Some` values.
  *
  * @example
  * import { compact } from 'fp-ts/Record'
@@ -1200,7 +1213,7 @@ export function reduceRight<A, B>(
 export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = RR.compact
 
 /**
- * Separate a `Record` of eithers into `left` and `right`.
+ * Separate a `Record` of `Either`s into `Left`s and `Right`s.
  *
  * @example
  * import { separate } from 'fp-ts/Record'
@@ -1300,7 +1313,7 @@ export const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>> = RR.get
 /**
  * Returns a `Monoid` instance for `Record`s given a `Semigroup`
  * instance for the base type.
- * The `Monoid` makes the union of 2 `Record`s comining the
+ * The `Monoid` makes the union of two `Record`s comining the
  * overlapping entries with the provided `Semigroup`.
  *
  * @example
@@ -1499,7 +1512,7 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => {
 /**
  * Given a `Semigroup` in the base type, it produces a `Semigroup`
  * in the `Record` of the base type.
- * The resulting `Semigroup` concatenates 2 `Record`s by
+ * The resulting `Semigroup` concatenates two `Record`s by
  * `union`.
  *
  * @example
@@ -1524,7 +1537,7 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<string, 
  * Same as `getMonoid`.
  * Returns a `Monoid` instance for `Record`s given a `Semigroup`
  * instance for the base type.
- * The `Monoid` makes the union of 2 `Record`s comining the
+ * The `Monoid` makes the union of two `Record`s comining the
  * overlapping entries with the provided `Semigroup`.
  *
  * @example
@@ -1568,7 +1581,7 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<s
 
 /**
  * Produces a `Magma` with a concat function that combines
- * 2 `Record`s by making the `difference` between the 2.
+ * two `Record`s by making the `difference`.
  *
  * @example
  * import { getDifferenceMagma, difference } from "fp-ts/Record"
