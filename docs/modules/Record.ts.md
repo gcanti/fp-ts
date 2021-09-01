@@ -7,7 +7,7 @@ parent: Modules
 ## Record overview
 
 The `Record` module enables dealing with Typescript's `Record<K,T>`
-in a functional way, basically trateing it as a `Functor` in `T`.
+type in a functional way, basically treating it as a `Functor` in `T`.
 
 Added in v2.0.0
 
