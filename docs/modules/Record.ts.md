@@ -6,7 +6,7 @@ parent: Modules
 
 ## Record overview
 
-The `Record` module enables dealing with Typescript's `Record<K,T>`
+The `Record` module enables dealing with Typescript's `Record<K, T>`
 type in a functional way, basically treating it as a `Functor` in `T`.
 
 Added in v2.0.0
@@ -104,8 +104,8 @@ Added in v2.0.0
 
 ## compact
 
-Compact a `Record` of options removing the `none` values and
-keeping the `some` values.
+Compact a `Record` of `Option`s discarding the `None` values and
+keeping the `Some` values.
 
 **Signature**
 
@@ -129,7 +129,7 @@ Added in v2.0.0
 
 ## separate
 
-Separate a `Record` of eithers into `left` and `right`.
+Separate a `Record` of `Either`s into `Left`s and `Right`s.
 
 **Signature**
 
@@ -190,8 +190,8 @@ Added in v2.0.0
 
 ## filterMap
 
-Maps a `Record` with an iterating function that returns an option
-and it keeps only the `option.some` values.
+Maps a `Record` with an iterating function that returns an `Option`
+and it keeps only the `Some` values discarding the `None`ss.
 
 **Signature**
 
@@ -216,7 +216,7 @@ Added in v2.0.0
 
 ## partition
 
-Partition a `Record` into 2 parts according to a predicate.
+Partition a `Record` into two parts according to a predicate.
 
 **Signature**
 
@@ -251,7 +251,7 @@ Added in v2.0.0
 ## partitionMap
 
 Maps a `Record` with a function returning an `Either` and
-partitions the resulting `Record` into `left` and `right`.
+partitions the resulting `Record` into `Left`s and `Right`s.
 
 **Signature**
 
@@ -315,8 +315,9 @@ Added in v2.0.0
 
 ## reduce
 
-Reduces a `Record` passing each value to the iterating function,
-sorted by key with the provided `Ord`.
+Reduces a `Record` passing each value to the iterating function.
+Entries are processed in the order, sorted by key according to
+the given `Ord`.
 
 **Signature**
 
@@ -339,7 +340,9 @@ Added in v2.0.0
 
 ## reduceRight
 
-Same as `reduce` but entries are processed in reversed order.
+Same as `reduce` but entries are processed from the right
+(i.e. in reverse order, from the last to the first entry according to
+the given `Ord`).
 
 **Signature**
 
@@ -386,9 +389,9 @@ Added in v2.6.5
 
 ## difference
 
-Difference between 2 `Record`s.
-Takes 2 `Record`s and produces a `Record` composed by the
-entries of the 2 inputs, removing the entries with the same
+Difference between two `Record`s.
+Takes two `Record`s and produces a `Record` composed by the
+entries of the two inputs, removing the entries with the same
 key in both inputs.
 
 **Signature**
@@ -437,9 +440,9 @@ Added in v2.10.0
 
 ## intersection
 
-Intersection of 2 `Record`s.
-Takes 2 `Record`s and produces a `Record` combining only the
-entries of the 2 inputswith the same key.
+Intersection of two `Record`s.
+Takes two `Record`s and produces a `Record` combining only the
+entries of the two inputswith the same key.
 It uses the `concat` function of the provided `Magma` to
 combine the elements.
 
@@ -467,9 +470,9 @@ Added in v2.11.0
 
 ## union
 
-Union of 2 `Record`s.
-Takes 2 `Record`s and produces a `Record` combining all the
-entries of the 2 inputs.
+Union of two `Record`s.
+Takes two `Record`s and produces a `Record` combining all the
+entries of the two inputs.
 It uses the `concat` function of the provided `Magma` to
 combine the elements with the same key.
 
@@ -591,7 +594,7 @@ Added in v2.0.0
 ## getDifferenceMagma
 
 Produces a `Magma` with a concat function that combines
-2 `Record`s by making the `difference` between the 2.
+two `Record`s by making the `difference`.
 
 **Signature**
 
@@ -695,7 +698,7 @@ Added in v2.11.0
 
 Returns a `Monoid` instance for `Record`s given a `Semigroup`
 instance for the base type.
-The `Monoid` makes the union of 2 `Record`s comining the
+The `Monoid` makes the union of two `Record`s comining the
 overlapping entries with the provided `Semigroup`.
 
 **Signature**
@@ -774,7 +777,7 @@ Added in v2.11.0
 Same as `getMonoid`.
 Returns a `Monoid` instance for `Record`s given a `Semigroup`
 instance for the base type.
-The `Monoid` makes the union of 2 `Record`s comining the
+The `Monoid` makes the union of two `Record`s comining the
 overlapping entries with the provided `Semigroup`.
 
 **Signature**
@@ -799,7 +802,7 @@ Added in v2.11.0
 
 Given a `Semigroup` in the base type, it produces a `Semigroup`
 in the `Record` of the base type.
-The resulting `Semigroup` concatenates 2 `Record`s by
+The resulting `Semigroup` concatenates two `Record`s by
 `union`.
 
 **Signature**
@@ -1009,7 +1012,7 @@ Added in v2.0.0
 ## filterMapWithIndex
 
 Maps a `Record` with an iterating function that takes key and value and
-returns an option, keeping only the `option.some` values.
+returns an `Option`, keeping only the `Some` values and discarding `None`s.
 
 **Signature**
 
@@ -1380,7 +1383,7 @@ Added in v2.0.0
 ## partitionMapWithIndex
 
 Maps a `Record` with a function returning an `Either` and
-partitions the resulting `Record` into `left` and `right`.
+partitions the resulting `Record` into `Left`s and `Right`s.
 
 **Signature**
 
@@ -1413,7 +1416,7 @@ Added in v2.0.0
 
 ## partitionWithIndex
 
-Partition a `Record` into 2 parts according to a predicate
+Partition a `Record` into two parts according to a predicate
 that takes a key and a value.
 
 **Signature**
@@ -1477,7 +1480,9 @@ Added in v2.0.0
 
 ## reduceRightWithIndex
 
-Same as `reduceWithIndex`, but reduce starting from the right (i.e. in reverse order).
+Same as `reduceWithIndex`, but reduce starting from the right
+(i.e. in reverse order, from the last to the first entry according to
+the given `Ord`).
 
 **Signature**
 
@@ -1509,8 +1514,9 @@ Added in v2.0.0
 
 ## reduceWithIndex
 
-Reduces a `Record` passing each key/value pair to the iterating function,
-sorted with the provided `Ord`.
+Reduces a `Record` passing each key/value pair to the iterating function.
+Entries are processed in the order, sorted by key according to
+the given `Ord`.
 
 **Signature**
 
