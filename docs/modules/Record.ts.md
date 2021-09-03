@@ -442,7 +442,7 @@ Added in v2.10.0
 
 Intersection of two `Record`s.
 Takes two `Record`s and produces a `Record` combining only the
-entries of the two inputswith the same key.
+entries of the two inputs with the same key.
 It uses the `concat` function of the provided `Magma` to
 combine the elements.
 
