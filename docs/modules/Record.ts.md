@@ -191,7 +191,7 @@ Added in v2.0.0
 ## filterMap
 
 Maps a `Record` with an iterating function that returns an `Option`
-and it keeps only the `Some` values discarding the `None`ss.
+and it keeps only the `Some` values discarding the `None`s.
 
 **Signature**
 
