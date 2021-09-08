@@ -162,8 +162,8 @@ Added in v2.0.0
 
 ## filter
 
-Produce a new `Record` keeping only the elements that satisfy
-a predicate.
+Given a `Predicate`, it produces a new `Record` keeping only the entries with a
+value that satisfies the provided predicate.
 
 **Signature**
 
@@ -191,7 +191,7 @@ Added in v2.0.0
 ## filterMap
 
 Maps a `Record` with an iterating function that returns an `Option`
-and it keeps only the `Some` values discarding the `None`ss.
+and it keeps only the `Some` values discarding the `None`s.
 
 **Signature**
 
@@ -216,7 +216,7 @@ Added in v2.0.0
 
 ## partition
 
-Partition a `Record` into two parts according to a predicate.
+Partition a `Record` into two parts according to a `Predicate`.
 
 **Signature**
 
@@ -316,7 +316,7 @@ Added in v2.0.0
 ## reduce
 
 Reduces a `Record` passing each value to the iterating function.
-Entries are processed in the order, sorted by key according to
+Entries are processed in order, sorted by key according to
 the given `Ord`.
 
 **Signature**
@@ -340,9 +340,9 @@ Added in v2.0.0
 
 ## reduceRight
 
-Same as `reduce` but entries are processed from the right
-(i.e. in reverse order, from the last to the first entry according to
-the given `Ord`).
+Same as `reduce` but entries are processed _from the right_,
+i.e. in reverse order, from the last to the first entry, according to
+the given `Ord`.
 
 **Signature**
 
@@ -593,7 +593,7 @@ Added in v2.0.0
 
 ## getDifferenceMagma
 
-Produces a `Magma` with a concat function that combines
+Produces a `Magma` with a `concat` function that combines
 two `Record`s by making the `difference`.
 
 **Signature**
@@ -644,7 +644,7 @@ Added in v2.0.0
 
 ## getFoldable
 
-Produces a `Foldable` instance for a `Record` using the
+Produces a `Foldable` instance for a `Record`, using the
 provided `Ord` to sort the `Record`'s entries by key.
 
 **Signature**
@@ -657,7 +657,7 @@ Added in v2.11.0
 
 ## getFoldableWithIndex
 
-Produces a `FoldableWithIndex1` instance for a Record using the
+Produces a `FoldableWithIndex1` instance for a `Record`, using the
 provided `Ord` to sort the `Record`'s entries by key.
 
 **Signature**
@@ -696,7 +696,7 @@ Added in v2.11.0
 
 ## getMonoid
 
-Returns a `Monoid` instance for `Record`s given a `Semigroup`
+Returns a `Monoid` instance for `Record`s, given a `Semigroup`
 instance for the base type.
 The `Monoid` makes the union of two `Record`s comining the
 overlapping entries with the provided `Semigroup`.
@@ -723,7 +723,7 @@ Added in v2.0.0
 
 Produces a `Show` for a `Record`, given a `Show` for the base type
 (a `Show` produces a human-readable representation of an instance).
-Sorts the entries by keys with `Ord`.
+`Record` entries are sorted by key with the provided `Ord`.
 
 **Signature**
 
@@ -748,7 +748,7 @@ Added in v2.0.0
 
 ## getTraversable
 
-Produces a `Traversable` instance for a `Record` using the
+Produces a `Traversable` instance for a `Record`, using the
 provided `Ord` to sort the `Record`'s entries by key.
 
 **Signature**
@@ -761,7 +761,7 @@ Added in v2.11.0
 
 ## getTraversableWithIndex
 
-Produces a `TraversableWithIndex` instance for a `Record` using the
+Produces a `TraversableWithIndex` instance for a `Record`, using the
 provided `Ord` to sort the `Record`'s entries by key.
 
 **Signature**
@@ -777,8 +777,8 @@ Added in v2.11.0
 Same as `getMonoid`.
 Returns a `Monoid` instance for `Record`s given a `Semigroup`
 instance for the base type.
-The `Monoid` makes the union of two `Record`s comining the
-overlapping entries with the provided `Semigroup`.
+The `Monoid` makes the union of two `Record`s combining the
+entries that have the same key with the provided `Semigroup`.
 
 **Signature**
 
