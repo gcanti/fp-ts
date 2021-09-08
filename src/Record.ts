@@ -383,7 +383,7 @@ export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>)
 
 /**
  * Reduces a `Record` passing each key/value pair to the iterating function.
- * Entries are processed in the order, sorted by key according to 
+ * Entries are processed in the order, sorted by key according to
  * the given `Ord`.
  *
  * @example
@@ -450,9 +450,9 @@ export function foldMapWithIndex<M>(
   return 'compare' in O ? RR.foldMapWithIndex(O) : RR.foldMapWithIndex(S.Ord)(O)
 }
 
-/** 
+/**
  * Same as `reduceWithIndex`, but reduce starting from the right
- * (i.e. in reverse order, from the last to the first entry according to 
+ * (i.e. in reverse order, from the last to the first entry according to
  * the given `Ord`).
  *
  * @example
@@ -1099,7 +1099,7 @@ export const partitionMap: <A, B, C>(
 
 /**
  * Reduces a `Record` passing each value to the iterating function.
- * Entries are processed in the order, sorted by key according to 
+ * Entries are processed in the order, sorted by key according to
  * the given `Ord`.
  *
  * @example
@@ -1164,7 +1164,7 @@ export function foldMap<M>(
 
 /**
  * Same as `reduce` but entries are processed from the right
- * (i.e. in reverse order, from the last to the first entry according to 
+ * (i.e. in reverse order, from the last to the first entry according to
  * the given `Ord`).
  *
  * @example
@@ -1558,7 +1558,7 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<Record<string, A>> =>
 /**
  * Given a `Semigroup` in the base type, it produces a `Semigroup`
  * in the `Record` of the base type.
- * The resulting `Semigroup` concatenates 2 `Record`s by
+ * The resulting `Semigroup` concatenates two `Record`s by
  * `intersection`.
  *
  * @example
