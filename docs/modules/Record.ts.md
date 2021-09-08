@@ -191,7 +191,7 @@ Added in v2.0.0
 ## filterMap
 
 Maps a `Record` with an iterating function that returns an `Option`
-and it keeps only the `Some` values discarding the `None`s.
+and it keeps only the `Some` values discarding the `None`ss.
 
 **Signature**
 
@@ -442,7 +442,7 @@ Added in v2.10.0
 
 Intersection of two `Record`s.
 Takes two `Record`s and produces a `Record` combining only the
-entries of the two inputs with the same key.
+entries of the two inputswith the same key.
 It uses the `concat` function of the provided `Magma` to
 combine the elements.
 
@@ -672,7 +672,7 @@ Added in v2.11.0
 
 Given a `Semigroup` in the base type, it produces a `Semigroup`
 in the `Record` of the base type.
-The resulting `Semigroup` concatenates 2 `Record`s by
+The resulting `Semigroup` concatenates two `Record`s by
 `intersection`.
 
 **Signature**
