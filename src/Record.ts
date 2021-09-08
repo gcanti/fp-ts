@@ -146,7 +146,6 @@ export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
   /*#__PURE__*/
   collect(S.Ord)((k, a) => [k, a])
 
-// TODO: consider adding an Ord parameter in v3
 /**
  * Unfolds a `Record` into a list of key/value pairs.
  *
