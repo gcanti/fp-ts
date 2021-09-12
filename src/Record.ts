@@ -567,7 +567,6 @@ export function traverse<F>(
  * import { option } from "fp-ts";
  * import { sequenceS } from "fp-ts/Apply";
  *
- *
  * assert.deepStrictEqual(
  *   sequence(option.Applicative)({ a: option.some(1), b: option.some(2) }),
  *   option.some({ a: 1, b: 2 })
@@ -1141,7 +1140,7 @@ export function reduce<A, B>(
  * const m: Monoid<string> = { empty: "", concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) };
  * const f = (a: number) => `-${a}-`;
  * const x = { c: 3, a: 1, b: 2 };
- *  assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), "-1- -> -2- -> -3-");
+ * assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), "-1- -> -2- -> -3-");
  *
  * @category Foldable
  * @since 2.0.0
@@ -1273,7 +1272,6 @@ declare module './HKT' {
  * const sRecord: Show<Record<string, number>> = getShow(Ord)(sNumber);
  * assert.deepStrictEqual(sRecord.show({ b: 2, a: 1 }), '{ "a": 1, "b": 2 }');
  *
- *
  * @category instances
  * @since 2.0.0
  */
@@ -1384,7 +1382,6 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
 /**
  * Produces a `FoldableWithIndex1` instance for a `Record`, using the
  * provided `Ord` to sort the `Record`'s entries by key.
- *
  *
  * @category instances
  * @since 2.11.0
