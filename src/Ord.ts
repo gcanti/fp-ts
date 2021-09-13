@@ -233,7 +233,9 @@ export const Contravariant: Contravariant1<URI> = {
  */
 export const trivial: Ord<unknown> = {
   equals: constTrue,
-  compare: /*#__PURE__*/ constant(0)
+  compare:
+    /*#__PURE__*/
+    constant(0)
 }
 
 /**

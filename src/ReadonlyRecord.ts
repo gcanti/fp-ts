@@ -1517,9 +1517,15 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord)
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord)
 }
 
 /**
@@ -1531,12 +1537,24 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
-  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
-  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord)
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -1549,10 +1567,18 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
-  traverse: /*#__PURE__*/ _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence
 }
 
@@ -1567,19 +1593,39 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
-  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
-  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
-  traverse: /*#__PURE__*/ _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
-  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord)
+  traverseWithIndex:
+    /*#__PURE__*/
+    _traverseWithIndex(S.Ord)
 }
 
-const _wither = /*#__PURE__*/ witherDefault(Traversable, Compactable)
-const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
+const _wither =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+const _wilt =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * Use `getWitherable` instead.
@@ -1591,10 +1637,18 @@ const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
-  traverse: /*#__PURE__*/ _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1640,10 +1694,18 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: /*#__PURE__*/ _reduce(S.Ord),
-  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
-  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
-  traverse: /*#__PURE__*/ _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1652,14 +1714,22 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
-  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord),
+  traverseWithIndex:
+    /*#__PURE__*/
+    _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }

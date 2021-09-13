@@ -16,6 +16,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.2
+
+- **Polish**
+  - Add/fix pure comments, #1555 (@OliverJAsh)
+
 # 2.11.1
 
 - **Deprecation**
