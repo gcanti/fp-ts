@@ -555,6 +555,19 @@ describe('TaskEither', () => {
       )(),
       E.right({ a: 1, b: 'b' })
     )
+    // proper param passthrough
+    const c = (p: { a: number }) => _.right<string, number>(p.a)
+    const d = (p: { b: string }) => _.right<string, string>(p.b)
+    U.deepStrictEqual(
+      await pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bind('b', () => _.right('b')),
+        _.bind('c', c),
+        _.bind('d', d)
+      )(),
+      E.right({ a: 1, b: 'b', c: 1, d: 'b' })
+    )
   })
 
   it('apS', async () => {
