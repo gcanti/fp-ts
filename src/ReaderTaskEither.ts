@@ -711,7 +711,7 @@ export const Functor: Functor3<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -1220,7 +1220,9 @@ export const apSW: <A, N extends string, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: ReaderTaskEither<unknown, never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: ReaderTaskEither<unknown, never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

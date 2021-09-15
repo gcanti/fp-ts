@@ -490,7 +490,7 @@ export const Functor: Functor4<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**

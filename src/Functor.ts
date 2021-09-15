@@ -118,15 +118,21 @@ export function map<F extends URIS4, G extends URIS4>(
   G: Functor4<G>
 ): <A, B>(
   f: (a: A) => B
-) => <SF, RF, EF, SG, RG, EG>(fa: Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, A>>) => Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, B>>
+) => <SF, RF, EF, SG, RG, EG>(
+  fa: Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, A>>
+) => Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, B>>
 export function map<F extends URIS4, G extends URIS3>(
   F: Functor4<F>,
   G: Functor3<G>
-): <A, B>(f: (a: A) => B) => <SF, RF, EF, RG, EG>(fa: Kind4<F, SF, RF, EF, Kind3<G, RG, EG, A>>) => Kind4<F, SF, RF, EF, Kind3<G, RF, EF, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <SF, RF, EF, RG, EG>(fa: Kind4<F, SF, RF, EF, Kind3<G, RG, EG, A>>) => Kind4<F, SF, RF, EF, Kind3<G, RF, EF, B>>
 export function map<F extends URIS4, G extends URIS2>(
   F: Functor4<F>,
   G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <SF, RF, EF, EG>(fa: Kind4<F, SF, RF, EF, Kind2<G, EG, A>>) => Kind4<F, SF, RF, EF, Kind2<G, EG, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <SF, RF, EF, EG>(fa: Kind4<F, SF, RF, EF, Kind2<G, EG, A>>) => Kind4<F, SF, RF, EF, Kind2<G, EG, B>>
 export function map<F extends URIS4, G extends URIS>(
   F: Functor4<F>,
   G: Functor1<G>
@@ -134,11 +140,15 @@ export function map<F extends URIS4, G extends URIS>(
 export function map<F extends URIS3, G extends URIS4>(
   F: Functor3<F>,
   G: Functor4<G>
-): <A, B>(f: (a: A) => B) => <RF, EF, SG, RG, EG>(fa: Kind3<F, RF, EF, Kind4<G, SG, RG, EG, A>>) => Kind3<F, RF, EF, Kind4<G, SG, RG, EG, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <RF, EF, SG, RG, EG>(fa: Kind3<F, RF, EF, Kind4<G, SG, RG, EG, A>>) => Kind3<F, RF, EF, Kind4<G, SG, RG, EG, B>>
 export function map<F extends URIS3, G extends URIS3>(
   F: Functor3<F>,
   G: Functor3<G>
-): <A, B>(f: (a: A) => B) => <RF, EF, RG, EG>(fa: Kind3<F, RF, EF, Kind3<G, RG, EG, A>>) => Kind3<F, RF, EF, Kind3<G, RG, EG, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <RF, EF, RG, EG>(fa: Kind3<F, RF, EF, Kind3<G, RG, EG, A>>) => Kind3<F, RF, EF, Kind3<G, RG, EG, B>>
 export function map<F extends URIS3, G extends URIS2>(
   F: Functor3<F>,
   G: Functor2<G>
@@ -150,7 +160,9 @@ export function map<F extends URIS3, G extends URIS>(
 export function map<F extends URIS2, G extends URIS4>(
   F: Functor2<F>,
   G: Functor4<G>
-): <A, B>(f: (a: A) => B) => <EF, SG, RG, EG>(fa: Kind2<F, EF, Kind4<G, SG, RG, EG, A>>) => Kind2<F, EF, Kind4<G, SG, RG, EG, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <EF, SG, RG, EG>(fa: Kind2<F, EF, Kind4<G, SG, RG, EG, A>>) => Kind2<F, EF, Kind4<G, SG, RG, EG, B>>
 export function map<F extends URIS2, G extends URIS3>(
   F: Functor2<F>,
   G: Functor3<G>

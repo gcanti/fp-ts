@@ -375,7 +375,7 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -625,7 +625,9 @@ export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ?
 /**
  * @since 3.0.0
  */
-export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: These<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

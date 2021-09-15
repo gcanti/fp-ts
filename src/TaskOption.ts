@@ -435,7 +435,7 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -723,7 +723,9 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: TaskOption<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: TaskOption<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
