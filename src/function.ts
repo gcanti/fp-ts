@@ -651,18 +651,7 @@ export function pipe(
   ef?: Function,
   fg?: Function,
   gh?: Function,
-  hi?: Function,
-  ij?: Function,
-  jk?: Function,
-  kl?: Function,
-  lm?: Function,
-  mn?: Function,
-  no?: Function,
-  op?: Function,
-  pq?: Function,
-  qr?: Function,
-  rs?: Function,
-  st?: Function
+  hi?: Function
 ): unknown {
   switch (arguments.length) {
     case 1:
@@ -683,30 +672,17 @@ export function pipe(
       return gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))
     case 9:
       return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))
-    case 10:
-      return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))
-    case 11:
-      return jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))
-    case 12:
-      return kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))
-    case 13:
-      return lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))
-    case 14:
-      return mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))
-    case 15:
-      return no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))
-    case 16:
-      return op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))
-    case 17:
-      return pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))
-    case 18:
-      return qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))
-    case 19:
-      return rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))))
-    case 20:
-      return st!(rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))))
+    default:
+      let ret
+      for (let i = 0; i < arguments.length; i++) {
+        if (i === 0) {
+          ret = arguments[0]
+        } else {
+          ret = arguments[i](ret)
+        }
+      }
+      return ret
   }
-  return
 }
 
 /**
