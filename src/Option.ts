@@ -1121,8 +1121,20 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (ma: Option<A>) => boolean
+  (a: A, ma: Option<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, ma?: Option<A>) => boolean | ((ma: Option<A>) => boolean) {
+  return (a, ma?) => {
+    if (ma === undefined) {
+      const elemE = elem(E)
+      return (ma) => elemE(a, ma)
+    }
+    return isNone(ma) ? false : E.equals(a, ma.value)
+  }
 }
 
 /**

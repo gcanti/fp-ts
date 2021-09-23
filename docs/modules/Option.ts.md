@@ -1514,7 +1514,12 @@ Returns `true` if `ma` contains `a`
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (ma: Option<A>) => boolean
+  (a: A, ma: Option<A>): boolean
+}
 ```
 
 **Example**
