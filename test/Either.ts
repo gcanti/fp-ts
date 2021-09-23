@@ -205,6 +205,9 @@ describe('Either', () => {
     U.deepStrictEqual(_.elem(N.Eq)(2, _.left('a')), false)
     U.deepStrictEqual(_.elem(N.Eq)(2, _.right(2)), true)
     U.deepStrictEqual(_.elem(N.Eq)(1, _.right(2)), false)
+    U.deepStrictEqual(pipe(_.left('a'), _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(1)), false)
   })
 
   it('filterOrElse', () => {

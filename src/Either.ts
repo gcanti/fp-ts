@@ -1212,8 +1212,21 @@ export function toError(e: unknown): Error {
 /**
  * @since 2.0.0
  */
-export const elem = <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>): boolean =>
-  isLeft(ma) ? false : E.equals(a, ma.right)
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <E>(ma: Either<E, A>) => boolean
+  <E>(a: A, ma: Either<E, A>): boolean
+}
+export function elem<A>(E: Eq<A>): <E>(a: A, ma?: Either<E, A>) => boolean | ((ma: Either<E, A>) => boolean) {
+  return (a, ma?) => {
+    if (ma === undefined) {
+      const elemE = elem(E)
+      return (ma) => elemE(a, ma)
+    }
+    return isLeft(ma) ? false : E.equals(a, ma.right)
+  }
+}
 
 /**
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.

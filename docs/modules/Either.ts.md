@@ -1521,7 +1521,12 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <E>(ma: Either<E, A>) => boolean
+  <E>(a: A, ma: Either<E, A>): boolean
+}
 ```
 
 Added in v2.0.0
