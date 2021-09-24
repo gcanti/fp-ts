@@ -1043,7 +1043,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 2.9.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
   isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
