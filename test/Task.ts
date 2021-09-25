@@ -5,7 +5,7 @@ import * as RA from '../src/ReadonlyArray'
 import * as _ from '../src/Task'
 import * as assert from 'assert'
 import * as S from '../src/string'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as RNEA from '../src/ReadonlyNonEmptyArray'
 
 const delayReject = <A>(n: number, a: A): _.Task<A> => () =>
   new Promise<A>((_, reject) => {
@@ -33,6 +33,18 @@ const assertOp = <A, B, C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>) => asyn
 }
 
 describe('Task', () => {
+  // -------------------------------------------------------------------------------------
+  // safety
+  // -------------------------------------------------------------------------------------
+  it('stack-safe', async () => {
+    const doProcessing = (number: number) => _.of(number * 2)
+    const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.chain(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
+
+    const res = await pipeline()
+
+    expect(res.length).toBe(55000)
+  })
+
   // -------------------------------------------------------------------------------------
   // pipeables
   // -------------------------------------------------------------------------------------
@@ -165,7 +177,7 @@ describe('Task', () => {
   })
 
   describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+    const input: RNEA.ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {
       const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
