@@ -482,7 +482,7 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 /**
  * Alias of [`toArray`](#toArray).
  *
- * @since ???
+ * @since 2.12.0
  *
  * @example
  * import { toEntries } from 'fp-ts/Record'
@@ -494,7 +494,7 @@ export const toEntries = toArray
 /**
  * Converts an `Array` of `[key, value]` tuples into a `Record`.
  *
- * @since ???
+ * @since 2.12.0
  *
  * @example
  * import { fromEntries } from 'fp-ts/Record'

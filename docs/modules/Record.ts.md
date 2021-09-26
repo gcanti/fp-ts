@@ -713,7 +713,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v???
+Added in v2.12.0
 
 ## fromFoldable
 
@@ -1081,7 +1081,7 @@ assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
 ])
 ```
 
-Added in v???
+Added in v2.12.0
 
 ## toUnfoldable
 

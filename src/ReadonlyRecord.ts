@@ -800,7 +800,7 @@ export function fromFoldableMap<F, B>(
 /**
  * Alias of [`toReadonlyArray`](#toReadonlyArray).
  *
- * @since ???
+ * @since 2.12.0
  *
  * @example
  * import { toEntries } from 'fp-ts/Record'
@@ -812,7 +812,7 @@ export const toEntries = toReadonlyArray
 /**
  * Converts an `Array` of `[key, value]` tuples into a `Record`.
  *
- * @since ???
+ * @since 2.12.0
  *
  * @example
  * import { fromEntries } from 'fp-ts/Record'
