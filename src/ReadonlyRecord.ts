@@ -819,7 +819,8 @@ export const toEntries = toReadonlyArray
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
  */
-export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), RA.Foldable)(fa)
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> =>
+  fromFoldable(Se.last<A>(), RA.Foldable)(fa)
 
 /**
  * @since 2.5.0

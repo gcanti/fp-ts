@@ -393,15 +393,19 @@ describe('Record', () => {
   })
 
   it('toEntries', () => {
-    U.deepStrictEqual(
-      _.toEntries({ a: 1, b: 2 }),
-      [['a', 1], ['b', 2]]
-    )
+    U.deepStrictEqual(_.toEntries({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
   })
 
   it('fromEntries', () => {
     U.deepStrictEqual(
-      _.fromEntries([['a', 1], ['b', 2], ['a', 3]]),
+      _.fromEntries([
+        ['a', 1],
+        ['b', 2],
+        ['a', 3]
+      ]),
       { b: 2, a: 3 }
     )
   })
