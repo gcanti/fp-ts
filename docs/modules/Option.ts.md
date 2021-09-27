@@ -1029,7 +1029,9 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
 **Example**
