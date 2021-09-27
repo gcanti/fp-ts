@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.4
+
+- **Polish**
+  - fix `chainNullableK` signature, #1589 (@bwlt)
+  - stack safety for `Task` via microtasks suspension, #1591 (@mikearnaldi)
+
 # 2.11.3
 
 - **Polish**
