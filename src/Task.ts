@@ -45,7 +45,7 @@ export interface Task<A> {
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve(ma())
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -81,7 +81,7 @@ export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
   new Promise((resolve) => {
     setTimeout(() => {
       // tslint:disable-next-line: no-floating-promises
-      ma().then(resolve)
+      Promise.resolve().then(ma).then(resolve)
     }, millis)
   })
 
@@ -96,7 +96,7 @@ export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => () => fa().then(f)
+export const map: Functor1<URI>['map'] = (f) => (fa) => () => Promise.resolve().then(fa).then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -104,7 +104,8 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => () => fa().then(f)
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => Promise.all([fab(), fa()]).then(([f, a]) => f(a))
+export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () =>
+  Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
  * @category Pointed
@@ -118,7 +119,10 @@ export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = (f) => (ma) => () => ma().then((a) => f(a)())
+export const chain: Chain1<URI>['chain'] = (f) => (ma) => () =>
+  Promise.resolve()
+    .then(ma)
+    .then((a) => f(a)())
 
 /**
  * Derivable from `Chain`.
@@ -168,7 +172,7 @@ declare module './HKT' {
  * @since 3.0.0
  */
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
-  concat: (second) => (first) => () => Promise.race([first(), second()]),
+  concat: (second) => (first) => () => Promise.race([Promise.resolve().then(first), Promise.resolve().then(second)]),
   empty: never
 })
 
@@ -420,7 +424,7 @@ export const apT =
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyNonEmptyArray<A>
-): Task<ReadonlyNonEmptyArray<B>> => () => Promise.all(as.map((a, i) => f(i, a)())) as any
+): Task<ReadonlyNonEmptyArray<B>> => () => Promise.all(as.map((a, i) => Promise.resolve().then(() => f(i, a)()))) as any
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -445,12 +449,16 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: numbe
   _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
     (acc, a, i) =>
       acc.then((bs) =>
-        f(i + 1, a)().then((b) => {
-          bs.push(b)
-          return bs
-        })
+        Promise.resolve()
+          .then(f(i + 1, a))
+          .then((b) => {
+            bs.push(b)
+            return bs
+          })
       ),
-    f(0, _.head(as))().then(_.singleton)
+    Promise.resolve()
+      .then(f(0, _.head(as)))
+      .then(_.singleton)
   )
 
 /**
