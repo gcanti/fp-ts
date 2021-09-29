@@ -5,3 +5,4 @@ dev
 .idea
 coverage
 docs/examples
+/deno_dist

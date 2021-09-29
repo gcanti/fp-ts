@@ -15,7 +15,7 @@
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
     "clean": "rimraf ./dist",
     "prebuild": "npm run clean",
-    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build",
+    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build && denoify",
     "postbuild": "prettier --loglevel=silent --write \"./dist/**/*.ts\"",
     "prepublishOnly": "ts-node scripts/pre-publish",
     "mocha": "mocha -r ts-node/register test/*.ts",
@@ -55,6 +55,7 @@
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
     "tslint-immutable": "^6.0.1",
+    "denoify": "^0.10.3",
     "typescript": "^4.2.3"
   },
   "tags": [
@@ -67,5 +68,9 @@
     "algebraic-data-types",
     "functional-programming"
   ],
+  "denoify": {
+    "out": "deno_dist",
+    "index": "src/index.ts"
+  },
   "dependencies": {}
 }
