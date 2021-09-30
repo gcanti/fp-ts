@@ -27,3 +27,68 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
+
+  check_if_version_upgraded:
+    name: Check if version upgrade
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      from_version: ${{ steps.step1.outputs.from_version }}
+      to_version: ${{ steps.step1.outputs.to_version }}
+      is_upgraded_version: ${{steps.step1.outputs.is_upgraded_version }}
+    steps:
+    - uses: garronej/github_actions_toolkit@v2.4
+      id: step1
+      with: 
+        action_name: is_package_json_version_upgraded
+
+  deno_publish:
+    runs-on: ubuntu-latest
+    needs: check_if_version_upgraded
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: ${{ github.ref }}
+    - run: rm -r .github
+    - run: |
+        git branch -d latest || true
+        git push origin :latest || true
+    - run: |
+        git branch latest
+        git checkout latest
+    - uses: actions/setup-node@v2.1.3
+      with:
+        node-version: '15'
+        registry-url: https://registry.npmjs.org/
+    - run: |
+        PACKAGE_MANAGER=npm
+        if [ -f "./yarn.lock" ]; then
+            PACKAGE_MANAGER=yarn
+        fi
+        if [ "$PACKAGE_MANAGER" = "yarn" ]; then
+            yarn install --frozen-lockfile                                                                                                                                                                                        
+        else
+            npm ci
+        fi
+        $PACKAGE_MANAGER run build
+    - run: npx -y -p denoify@0.10.4 remove_deno_dist_from_gitignore deno_dist
+      env:
+        DRY_RUN: "0"
+    - run: |
+        git config --global user.name "actions"
+        git config --global user.email actions@example.com
+        git add -A
+        git commit -am "Enabling shorter import paths"
+        git push origin latest
+    - uses: garronej/action-gh-release@v0.2.0
+      with:
+        name: Release v${{ needs.check_if_version_upgraded.outputs.to_version }}
+        tag_name: v${{ needs.check_if_version_upgraded.outputs.to_version }}
+        target_commitish: latest
+        body: " "
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
