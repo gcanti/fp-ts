@@ -410,7 +410,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(fa: A[], f: (a: A) => M) => M
 ```
 
 Added in v2.0.0
@@ -420,7 +420,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
+export declare const reduce: <A, B>(fa: A[], b: B, f: (b: B, a: A) => B) => B
 ```
 
 Added in v2.0.0
@@ -430,7 +430,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+export declare const reduceRight: <A, B>(fa: A[], b: B, f: (a: A, b: B) => B) => B
 ```
 
 Added in v2.0.0
