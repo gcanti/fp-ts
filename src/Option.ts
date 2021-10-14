@@ -1113,11 +1113,12 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  *
  * @example
  * import { some, none, elem } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  * import * as N from 'fp-ts/number'
  *
- * assert.strictEqual(elem(N.Eq)(1, some(1)), true)
- * assert.strictEqual(elem(N.Eq)(2, some(1)), false)
- * assert.strictEqual(elem(N.Eq)(1, none), false)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(1)), true)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(2)), false)
+ * assert.strictEqual(pipe(none, elem(N.Eq)(1)), false)
  *
  * @since 2.0.0
  */

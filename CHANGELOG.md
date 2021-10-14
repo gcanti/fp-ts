@@ -16,6 +16,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.5
+
+- **Polish**
+  - more curried `elem` overloads, #1602 (@ammut)
+
 # 2.11.4
 
 - **Polish**
