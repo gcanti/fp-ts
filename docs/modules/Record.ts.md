@@ -64,6 +64,7 @@ Added in v2.0.0
   - [deleteAt](#deleteat)
   - [elem](#elem)
   - [every](#every)
+  - [filterCollect](#filtercollect)
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
@@ -640,6 +641,39 @@ export declare const every: <A>(predicate: Predicate<A>) => (r: Record<string, A
 ```
 
 Added in v2.0.0
+
+## filterCollect
+
+Map a `Record` into an `Array` passing a key/value pair to the iterating
+function and filtering out undesired results. The keys in the resulting
+record are sorted according to the passed instance of `Ord<string>`.
+
+**Signature**
+
+```ts
+export declare const filterCollect: (
+  O: Ord<string>
+) => <K extends string, A, B>(f: (k: K, a: A) => Option<B>) => (r: Record<K, A>) => B[]
+```
+
+**Example**
+
+```ts
+import { none, some } from 'fp-ts/Option'
+import { filterCollect } from 'fp-ts/Record'
+import { Ord } from 'fp-ts/string'
+
+const x: { readonly a: string; readonly b: boolean; readonly c: number } = { a: 'c', b: false, c: 123 }
+assert.deepStrictEqual(
+  filterCollect(Ord)((key, value) => (typeof value === 'boolean' ? none : some({ key, value })))(x),
+  [
+    { key: 'a', value: 'c' },
+    { key: 'c', value: 123 },
+  ]
+)
+```
+
+Added in v2.12.0
 
 ## filterMapWithIndex
 

@@ -129,6 +129,41 @@ export function collect<A, B>(
 }
 
 /**
+ * Map a `ReadonlyRecord` into a `ReadonlyArray` passing a key/value pair to the
+ * iterating function and filtering out undesired results. The keys in the
+ * resulting record are sorted according to the passed instance of
+ * `Ord<string>`.
+ *
+ * @example
+ * import { none, some } from 'fp-ts/Option'
+ * import { filterCollect } from 'fp-ts/ReadonlyRecord'
+ * import { Ord } from 'fp-ts/string'
+ *
+ * const x: { readonly a: string, readonly b: boolean, readonly c: number } = { a: 'c', b: false, c: 123 }
+ * assert.deepStrictEqual(
+ *   filterCollect(Ord)((key, value) => typeof value === 'boolean' ? none : some({ key, value }))(x),
+ *   [{ key: 'a', value: 'c' }, { key: 'c', value: 123 }]
+ * )
+ *
+ * @since 2.12.0
+ */
+export function filterCollect(
+  O: Ord<string>
+): <K extends string, A, B>(f: (k: K, a: A) => Option<B>) => (r: ReadonlyRecord<K, A>) => ReadonlyArray<B> {
+  const keysO = keys_(O)
+  return <K extends string, A, B>(f: (k: K, a: A) => Option<B>) => (r: ReadonlyRecord<K, A>): ReadonlyArray<B> => {
+    const out: Array<B> = []
+    for (const key of keysO(r)) {
+      const x = f(key, r[key])
+      if (_.isSome(x)) {
+        out.push(x.value)
+      }
+    }
+    return out
+  }
+}
+
+/**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
  *
  * @since 2.5.0

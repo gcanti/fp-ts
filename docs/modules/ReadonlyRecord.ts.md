@@ -78,6 +78,7 @@ Added in v2.5.0
   - [elem](#elem)
   - [empty](#empty)
   - [every](#every)
+  - [filterCollect](#filtercollect)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
   - [fromFoldable](#fromfoldable)
@@ -791,6 +792,40 @@ export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<st
 ```
 
 Added in v2.5.0
+
+## filterCollect
+
+Map a `ReadonlyRecord` into a `ReadonlyArray` passing a key/value pair to the
+iterating function and filtering out undesired results. The keys in the
+resulting record are sorted according to the passed instance of
+`Ord<string>`.
+
+**Signature**
+
+```ts
+export declare function filterCollect(
+  O: Ord<string>
+): <K extends string, A, B>(f: (k: K, a: A) => Option<B>) => (r: ReadonlyRecord<K, A>) => ReadonlyArray<B>
+```
+
+**Example**
+
+```ts
+import { none, some } from 'fp-ts/Option'
+import { filterCollect } from 'fp-ts/ReadonlyRecord'
+import { Ord } from 'fp-ts/string'
+
+const x: { readonly a: string; readonly b: boolean; readonly c: number } = { a: 'c', b: false, c: 123 }
+assert.deepStrictEqual(
+  filterCollect(Ord)((key, value) => (typeof value === 'boolean' ? none : some({ key, value })))(x),
+  [
+    { key: 'a', value: 'c' },
+    { key: 'c', value: 123 },
+  ]
+)
+```
+
+Added in v2.12.0
 
 ## filterWithIndex
 

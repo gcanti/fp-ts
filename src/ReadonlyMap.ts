@@ -169,6 +169,25 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Reado
 }
 
 /**
+ * @since 2.12.0
+ */
+export function filterCollect<K>(
+  O: Ord<K>
+): <A, B>(f: (k: K, a: A) => Option<B>) => (m: ReadonlyMap<K, A>) => ReadonlyArray<B> {
+  const keysO = keys(O)
+  return <A, B>(f: (k: K, a: A) => Option<B>) => (m: ReadonlyMap<K, A>): ReadonlyArray<B> => {
+    const out: Array<B> = []
+    for (const key of keysO(m)) {
+      const x = f(key, m.get(key)!)
+      if (_.isSome(x)) {
+        out.push(x.value)
+      }
+    }
+    return out
+  }
+}
+
+/**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
  *
  * @since 2.5.0

@@ -105,6 +105,13 @@ export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K
 }
 
 /**
+ * @since 2.12.0
+ */
+export const filterCollect: <K>(
+  O: Ord<K>
+) => <A, B>(f: (k: K, a: A) => Option<B>) => (m: Map<K, A>) => Array<B> = RM.filterCollect as any
+
+/**
  * Get a sorted `Array` of the key/value pairs contained in a `Map`.
  *
  * @since 2.0.0

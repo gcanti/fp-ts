@@ -225,6 +225,61 @@ describe('Map', () => {
     )
   })
 
+  it('filterCollect', () => {
+    const collectO = _.filterCollect(ordUser)
+    const f = (_k: User, a: number): O.Option<number> => (a % 2 === 0 ? O.none : O.some(a + 1))
+    U.deepStrictEqual(
+      collectO(f)(
+        new Map<User, number>([
+          [{ id: 'a' }, 1],
+          [{ id: 'b' }, 2],
+          [{ id: 'c' }, 3]
+        ])
+      ),
+      [2, 4]
+    )
+    U.deepStrictEqual(
+      collectO(f)(
+        new Map<User, number>([
+          [{ id: 'b' }, 2],
+          [{ id: 'a' }, 1],
+          [{ id: 'c' }, 3]
+        ])
+      ),
+      [2, 4]
+    )
+
+    const collect = _.filterCollect(ordKey)
+    const g = (k: Key, a: Value): O.Option<readonly [number, number]> =>
+      k.id % 2 === 0 ? O.some([k.id, a.value]) : O.none
+    U.deepStrictEqual(
+      collect(g)(
+        new Map([
+          [{ id: 1 }, { value: 1 }],
+          [{ id: 2 }, { value: 2 }],
+          [{ id: 4 }, { value: 4 }]
+        ])
+      ),
+      [
+        [4, 4],
+        [2, 2]
+      ]
+    )
+    U.deepStrictEqual(
+      collect(g)(
+        new Map([
+          [{ id: 2 }, { value: 2 }],
+          [{ id: 1 }, { value: 1 }],
+          [{ id: 4 }, { value: 4 }]
+        ])
+      ),
+      [
+        [4, 4],
+        [2, 2]
+      ]
+    )
+  })
+
   it('toArray', () => {
     const m1 = new Map<User, number>([
       [{ id: 'a' }, 1],
