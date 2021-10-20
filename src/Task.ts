@@ -21,7 +21,7 @@ import {
 import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask1 } from './FromTask'
-import { identity, pipe } from './function'
+import { identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -46,6 +46,32 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
+// utility to suspend task execution using mictorasks
+// -------------------------------------------------------------------------------------
+
+let running = false
+// tslint:disable-next-line
+let queue = [] as Lazy<void>[]
+const _schedule = <A>(task: Task<A>): Task<A> => () =>
+  new Promise<A>((res, rej) => {
+    queue.push(() => {
+      task()
+        .then((s) => res(s))
+        .catch((e) => rej(e))
+    })
+    if (!running) {
+      running = true
+      // tslint:disable-next-line
+      Promise.resolve().then(() => {
+        while (queue.length > 0) {
+          queue.splice(0, queue.length).forEach((t) => t())
+        }
+        running = false
+      })
+    }
+  })
+
+// -------------------------------------------------------------------------------------
 // natural transformations
 // -------------------------------------------------------------------------------------
 
@@ -53,7 +79,7 @@ export interface Task<A> {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: FromIO1<URI>['fromIO'] = (ma) => _schedule(() => Promise.resolve(ma()))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -90,7 +116,7 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
     new Promise((resolve) => {
       setTimeout(() => {
         // tslint:disable-next-line: no-floating-promises
-        Promise.resolve().then(ma).then(resolve)
+        _schedule(ma)().then(resolve)
       }, millis)
     })
 }
@@ -119,8 +145,7 @@ const _chain: Chain1<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () =>
-  Promise.resolve().then(fa).then(f)
+export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () => fa().then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -128,8 +153,8 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (f
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
-  Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
+export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) =>
+  _schedule(() => Promise.all([fab(), fa()]).then(([f, a]) => f(a)))
 
 /**
  * @category Pointed
@@ -143,10 +168,8 @@ export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
-  Promise.resolve()
-    .then(ma)
-    .then((a) => f(a)())
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) =>
+  _schedule(() => ma().then((a) => f(a)()))
 
 /**
  * Derivable from `Chain`.
@@ -202,7 +225,7 @@ declare module './HKT' {
  */
 export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
   return {
-    concat: (x, y) => () => Promise.race([Promise.resolve().then(x), Promise.resolve().then(y)]),
+    concat: (x, y) => _schedule(() => Promise.race([x(), y()])),
     empty: never
   }
 }
@@ -483,7 +506,7 @@ export const ApT: Task<readonly []> =
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyNonEmptyArray<A>
-): Task<ReadonlyNonEmptyArray<B>> => () => Promise.all(as.map((a, i) => Promise.resolve().then(() => f(i, a)()))) as any
+): Task<ReadonlyNonEmptyArray<B>> => _schedule(() => Promise.all(as.map((a, i) => f(i, a)()))) as any
 
 /**
  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -504,20 +527,18 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
  */
 export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, B>(f: (index: number, a: A) => Task<B>) => (
   as: ReadonlyNonEmptyArray<A>
-): Task<ReadonlyNonEmptyArray<B>> => () =>
-  _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
-    (acc, a, i) =>
-      acc.then((bs) =>
-        Promise.resolve()
-          .then(f(i + 1, a))
-          .then((b) => {
+): Task<ReadonlyNonEmptyArray<B>> =>
+  _schedule(() =>
+    _.tail(as).reduce<Promise<NonEmptyArray<B>>>(
+      (acc, a, i) =>
+        acc.then((bs) =>
+          f(i + 1, a)().then((b) => {
             bs.push(b)
             return bs
           })
-      ),
-    Promise.resolve()
-      .then(f(0, _.head(as)))
-      .then(_.singleton)
+        ),
+      f(0, _.head(as))().then(_.singleton)
+    )
   )
 
 /**
