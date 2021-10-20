@@ -51,7 +51,7 @@ export interface Task<A> {
 
 let running = false
 // tslint:disable-next-line
-let queue = [] as Lazy<void>[]
+let queue: Lazy<void>[] = []
 const _schedule = <A>(task: Task<A>): Task<A> => () =>
   new Promise<A>((res, rej) => {
     queue.push(() => {
