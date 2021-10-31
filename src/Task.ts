@@ -553,6 +553,13 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArr
   traverseArray(identity)
 
 /**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <A>(arr: ReadonlyNonEmptyArray<Task<A>>) => Task<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
+/**
  * @since 2.9.0
  */
 export const traverseSeqArrayWithIndex: <A, B>(
@@ -571,6 +578,13 @@ export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArra
 export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseSeqArray(identity)
+
+/**
+ * @since 2.12.0
+ */
+export const sequenceSeqNonEmptyArray: <A>(arr: ReadonlyNonEmptyArray<Task<A>>) => Task<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => a)
 
 // -------------------------------------------------------------------------------------
 // deprecated

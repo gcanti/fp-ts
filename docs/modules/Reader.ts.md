@@ -75,6 +75,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -670,6 +671,18 @@ export declare const sequenceArray: <R, A>(arr: readonly Reader<R, A>[]) => Read
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <R, A>(
+  arr: ReadonlyNonEmptyArray<Reader<R, A>>
+) => Reader<R, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

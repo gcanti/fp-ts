@@ -1006,6 +1006,15 @@ export const sequenceArray: <R, E, A>(
   /*#__PURE__*/
   traverseArray(identity)
 
+/**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <R, E, A>(
+  arr: ReadonlyNonEmptyArray<ReaderEither<R, E, A>>
+) => ReaderEither<R, E, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

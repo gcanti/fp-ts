@@ -1278,6 +1278,13 @@ export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<Readonl
   /*#__PURE__*/
   traverseArray(identity)
 
+/**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <A>(arr: ReadonlyNonEmptyArray<Option<A>>) => Option<ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

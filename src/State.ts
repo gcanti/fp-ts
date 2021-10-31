@@ -369,6 +369,15 @@ export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, 
   /*#__PURE__*/
   traverseArray(identity)
 
+/**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <S, A>(
+  arr: ReadonlyNonEmptyArray<State<S, A>>
+) => State<S, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

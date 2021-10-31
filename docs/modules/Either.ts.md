@@ -129,6 +129,7 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -1564,6 +1565,18 @@ export declare const sequenceArray: <E, A>(as: readonly Either<E, A>[]) => Eithe
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <E, A>(
+  as: ReadonlyNonEmptyArray<Either<E, A>>
+) => Either<E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## toError
 

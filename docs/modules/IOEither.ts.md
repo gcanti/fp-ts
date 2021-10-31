@@ -118,6 +118,7 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [bracket](#bracket)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -1195,6 +1196,18 @@ export declare const sequenceArray: <E, A>(arr: readonly IOEither<E, A>[]) => IO
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <E, A>(
+  arr: ReadonlyNonEmptyArray<IOEither<E, A>>
+) => IOEither<E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## sequenceSeqArray
 

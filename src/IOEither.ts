@@ -1011,6 +1011,15 @@ export const sequenceArray: <E, A>(arr: ReadonlyArray<IOEither<E, A>>) => IOEith
   traverseArray(identity)
 
 /**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <E, A>(
+  arr: ReadonlyNonEmptyArray<IOEither<E, A>>
+) => IOEither<E, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
+/**
  * @since 2.9.0
  */
 export const traverseSeqArrayWithIndex: <A, E, B>(

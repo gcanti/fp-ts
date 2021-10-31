@@ -125,6 +125,7 @@ Added in v2.0.0
   - [elem](#elem)
   - [exists](#exists)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -1586,6 +1587,18 @@ export declare const sequenceArray: <A>(arr: readonly Option<A>[]) => Option<rea
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <A>(
+  arr: ReadonlyNonEmptyArray<Option<A>>
+) => Option<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 
