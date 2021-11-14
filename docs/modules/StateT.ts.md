@@ -16,8 +16,8 @@ Added in v2.0.0
   - [StateT (interface)](#statet-interface)
   - [StateT1 (interface)](#statet1-interface)
   - [StateT2 (interface)](#statet2-interface)
-- [utils](#utils)
   - [StateT3 (interface)](#statet3-interface)
+- [utils](#utils)
   - [ap](#ap)
   - [chain](#chain)
   - [evaluate](#evaluate)
@@ -74,8 +74,6 @@ export interface StateT2<M extends URIS2, S, E, A> {
 
 Added in v2.0.0
 
-# utils
-
 ## StateT3 (interface)
 
 **Signature**
@@ -87,6 +85,8 @@ export interface StateT3<M extends URIS3, S, R, E, A> {
 ```
 
 Added in v2.0.0
+
+# utils
 
 ## ap
 
