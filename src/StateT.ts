@@ -35,6 +35,7 @@ export interface StateT2<M extends URIS2, S, E, A> {
 }
 
 /**
+ * @category model
  * @since 2.0.0
  */
 export interface StateT3<M extends URIS3, S, R, E, A> {
