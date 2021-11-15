@@ -7,9 +7,9 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import * as E from './Either'
 import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, map as map_ } from './Functor'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
-import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
+import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 import Either = E.Either
@@ -86,6 +86,159 @@ export function leftF<F extends URIS>(F: Functor1<F>): <E, A = never>(fe: Kind<F
 export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>>
 export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F, Either<E, A>> {
   return (fe) => F.map(fe, E.left)
+}
+
+/**
+ * @since 2.12.0
+ */
+export function fromNullable<F extends URIS4>(
+  F: Pointed4<F>
+): <E>(e: E) => <A, S, R, T>(a: A) => Kind4<F, S, R, T, Either<E, NonNullable<A>>>
+export function fromNullable<F extends URIS3>(
+  F: Pointed3<F>
+): <E>(e: E) => <A, R, T>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
+export function fromNullable<F extends URIS3, T>(
+  F: Pointed3C<F, T>
+): <E>(e: E) => <A, R>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
+export function fromNullable<F extends URIS2>(
+  F: Pointed2<F>
+): <E>(e: E) => <A, T>(a: A) => Kind2<F, T, Either<E, NonNullable<A>>>
+export function fromNullable<F extends URIS2, T>(
+  F: Pointed2C<F, T>
+): <E>(e: E) => <A>(a: A) => Kind2<F, T, Either<E, NonNullable<A>>>
+export function fromNullable<F extends URIS>(
+  F: Pointed1<F>
+): <E>(e: E) => <A>(a: A) => Kind<F, Either<E, NonNullable<A>>>
+export function fromNullable<F>(F: Pointed<F>): <E>(e: E) => <A>(a: A) => HKT<F, Either<E, NonNullable<A>>>
+export function fromNullable<F>(F: Pointed<F>): <E>(e: E) => <A>(a: A) => HKT<F, Either<E, NonNullable<A>>> {
+  return (e) => flow(E.fromNullable(e), F.of)
+}
+
+/**
+ * @since 2.12.0
+ */
+export function fromNullableK<F extends URIS4>(
+  F: Pointed4<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <S, R, T>(...a: A) => Kind4<F, S, R, T, Either<E, NonNullable<B>>>
+export function fromNullableK<F extends URIS3>(
+  F: Pointed3<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R, T>(...a: A) => Kind3<F, R, T, Either<E, NonNullable<B>>>
+export function fromNullableK<F extends URIS3, T>(
+  F: Pointed3C<F, T>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => Kind3<F, R, T, Either<E, NonNullable<B>>>
+export function fromNullableK<F extends URIS2>(
+  F: Pointed2<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <T>(...a: A) => Kind2<F, T, Either<E, NonNullable<B>>>
+export function fromNullableK<F extends URIS2, T>(
+  F: Pointed2C<F, T>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind2<F, T, Either<E, NonNullable<B>>>
+export function fromNullableK<F extends URIS>(
+  F: Pointed1<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => Kind<F, Either<E, NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Either<E, NonNullable<B>>>
+export function fromNullableK<F>(
+  F: Pointed<F>
+): <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => HKT<F, Either<E, NonNullable<B>>> {
+  const fromNullableF = fromNullable(F)
+  return (e) => {
+    const fromNullableFE = fromNullableF(e)
+    return (f) => flow(f, fromNullableFE)
+  }
+}
+
+/**
+ * @since 2.12.0
+ */
+export function chainNullableK<M extends URIS4>(
+  M: Monad4<M>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <S, R, T>(ma: Kind4<M, S, R, T, Either<E, A>>) => Kind4<M, S, R, T, Either<E, NonNullable<B>>>
+export function chainNullableK<M extends URIS3>(
+  M: Monad3<M>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R, T>(ma: Kind3<M, R, T, Either<E, A>>) => Kind3<M, R, T, Either<E, NonNullable<B>>>
+export function chainNullableK<M extends URIS3, T>(
+  M: Monad3C<M, T>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: Kind3<M, R, T, Either<E, A>>) => Kind3<M, R, T, Either<E, NonNullable<B>>>
+export function chainNullableK<M extends URIS2>(
+  M: Monad2<M>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <T>(ma: Kind2<M, T, Either<E, A>>) => Kind2<M, T, Either<E, NonNullable<B>>>
+export function chainNullableK<M extends URIS2, T>(
+  M: Monad2C<M, T>
+): <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Kind2<M, T, Either<E, A>>) => Kind2<M, T, Either<E, NonNullable<B>>>
+export function chainNullableK<M extends URIS>(
+  M: Monad1<M>
+): <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: Kind<M, Either<E, A>>) => Kind<M, Either<E, NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, NonNullable<B>>>
+export function chainNullableK<M>(
+  M: Monad<M>
+): <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: HKT<M, Either<E, A>>) => HKT<M, Either<E, NonNullable<B>>> {
+  const chainM = chain(M)
+  const fromNullableKM = fromNullableK(M)
+  return (e) => {
+    const fromNullableKMe = fromNullableKM(e)
+    return (f) => chainM(fromNullableKMe(f))
+  }
 }
 
 // -------------------------------------------------------------------------------------

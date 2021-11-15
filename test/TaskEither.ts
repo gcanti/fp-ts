@@ -546,6 +546,27 @@ describe('TaskEither', () => {
     })
   })
 
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable('foo')
+    U.deepStrictEqual(await testNullable(1)(), E.right(1))
+    U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(), E.right(1))
+    U.deepStrictEqual(await f(0)(), E.left('foo'))
+    U.deepStrictEqual(await f(-1)(), E.left('foo'))
+  })
+
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(_.of(1))(), E.right(1))
+    U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
+    U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
+  })
+
   it('fromIOEither', async () => {
     U.deepStrictEqual(await _.fromIOEither(() => E.right(1))(), E.right(1))
     U.deepStrictEqual(await _.fromIOEither(() => E.left('foo'))(), E.left('foo'))

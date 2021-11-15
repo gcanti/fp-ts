@@ -301,6 +301,36 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> =
   /*#__PURE__*/
   ET.toUnion(T.Functor)
 
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(T.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(T.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(T.Monad)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
