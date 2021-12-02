@@ -642,6 +642,15 @@ describe('Either', () => {
     })
   })
 
+  describe('utils', () => {
+    it('traverseOption', () => {
+      const f = _.traverseOption((a: number) => (a > 0 ? _.right(a) : _.left('e')))
+      U.deepStrictEqual(pipe(O.some(1), f), _.right(O.some(1)))
+      U.deepStrictEqual(pipe(O.some(0), f), _.left('e'))
+      U.deepStrictEqual(pipe(O.none, f), _.right(O.none))
+    })
+  })
+
   describe('getCompactable', () => {
     const C = _.getCompactable(S.Monoid)
     it('compact', () => {

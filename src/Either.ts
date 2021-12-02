@@ -46,6 +46,7 @@ import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
+import { Option, traverse as optionTraverse } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -1391,6 +1392,13 @@ export const traverseArray = <E, A, B>(
 export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
   /*#__PURE__*/
   traverseArray(identity)
+
+/**
+ * @since 2.12.0
+ */
+export const traverseOption: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (ta: Option<A>) => Either<E, Option<B>> = optionTraverse(Applicative)
 
 // -------------------------------------------------------------------------------------
 // deprecated
