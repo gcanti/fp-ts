@@ -134,6 +134,7 @@ Added in v2.0.0
   - [toError](#toerror)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
+  - [traverseOption](#traverseoption)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [~~JsonArray~~ (interface)](#jsonarray-interface)
@@ -1626,6 +1627,16 @@ export declare const traverseArrayWithIndex: <E, A, B>(
 ```
 
 Added in v2.9.0
+
+## traverseOption
+
+**Signature**
+
+```ts
+export declare const traverseOption: <A, E, B>(f: (a: A) => Either<E, B>) => (ta: Option<A>) => Either<E, Option<B>>
+```
+
+Added in v2.12.0
 
 ## traverseReadonlyArrayWithIndex
 
