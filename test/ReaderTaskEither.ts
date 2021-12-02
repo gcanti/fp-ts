@@ -1,6 +1,6 @@
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { flow, pipe, SK } from '../src/function'
+import { constVoid, flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as N from '../src/number'
@@ -425,6 +425,23 @@ describe('ReaderTaskEither', () => {
         E.left('release failure')
       )
     })
+  })
+
+  it('bracketW', async () => {
+    const acquire = _.right<{ readonly a: string }, string, string>('string')
+    const use = (_a: string) => _.right<{ readonly b: number }, number, string>('test')
+    const release = (_a: string, _e: E.Either<number, string>) =>
+      _.right<{ readonly c: boolean }, Error, void>(constVoid())
+    const res = await _.bracketW(
+      acquire,
+      use,
+      release
+    )({
+      a: 'string',
+      b: 5,
+      c: true
+    })()
+    U.deepStrictEqual(res, E.right('test'))
   })
 
   it('chainEitherK', async () => {

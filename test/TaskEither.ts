@@ -2,7 +2,7 @@ import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -368,6 +368,15 @@ describe('TaskEither', () => {
     it('should return the release error if release fails', async () => {
       U.deepStrictEqual(await _.bracket(acquireSuccess, useSuccess, releaseFailure)(), E.left('release failure'))
     })
+  })
+
+  it('bracketW', async () => {
+    const res = await _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<number, string>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<Error, void>(constVoid())
+    )()
+    U.deepStrictEqual(res, E.right('test'))
   })
 
   // -------------------------------------------------------------------------------------

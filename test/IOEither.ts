@@ -1,7 +1,7 @@
 import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as O from '../src/Option'
@@ -382,6 +382,15 @@ describe('IOEither', () => {
       const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
       U.deepStrictEqual(e, E.left('release failure'))
     })
+  })
+
+  it('bracketW', async () => {
+    const res = _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<number, string>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<Error, void>(constVoid())
+    )()
+    U.deepStrictEqual(res, E.right('test'))
   })
 
   it('getApplicativeIOValidation', () => {

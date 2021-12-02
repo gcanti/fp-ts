@@ -1331,13 +1331,26 @@ export const chainFirstTaskK =
  * @since 2.0.4
  */
 export function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
+  acquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B> {
+  return bracketW(acquire, use, release)
+}
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 2.12.0
+ */
+export function bracketW<R1, R2, R3, E1, E2, E3, A, B>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+): ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> {
   return (r) =>
-    TE.bracket(
-      aquire(r),
+    TE.bracketW(
+      acquire(r),
       (a) => use(a)(r),
       (a, e) => release(a, e)(r)
     )

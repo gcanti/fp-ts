@@ -889,16 +889,27 @@ export const bracket = <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> =>
+): IOEither<E, B> => bracketW(acquire, use, release)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 2.12.0
+ */
+export const bracketW: <E1, E2, E3, A, B>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B> = (acquire, use, release) =>
   pipe(
     acquire,
-    chain((a) =>
+    chainW((a) =>
       pipe(
         use(a),
         I.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => I.of(e))
+            chainW(() => I.of(e))
           )
         )
       )
