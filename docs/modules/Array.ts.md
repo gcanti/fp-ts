@@ -1084,12 +1084,22 @@ Added in v2.0.0
 
 ## chainWithIndex
 
-TODO FIL
+Same as [`chain`](#chain), but passing also the index to the iterating function.
 
 **Signature**
 
 ```ts
 export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => B[]) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { chainWithIndex, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (index: number, x: string) => replicate(2, `${x}${index}`)
+assert.deepStrictEqual(pipe(['a', 'b', 'c'], chainWithIndex(f)), ['a0', 'a0', 'b1', 'b1', 'c2', 'c2'])
 ```
 
 Added in v2.7.0
@@ -1233,7 +1243,7 @@ Added in v2.11.0
 
 ## copy
 
-This function takes an array and makes a new array with the same elements.
+This function takes an array and makes a new array containing the same elements.
 
 **Signature**
 
@@ -1586,7 +1596,6 @@ Added in v2.0.0
 
 ## scanLeft
 
-TODO FIL
 Same as `reduce` but it carries over the intermediate steps
 
 **Signature**
@@ -1607,7 +1616,6 @@ Added in v2.0.0
 
 ## scanRight
 
-TODO FIL
 Fold an array from the right, keeping all intermediate results instead of only the final result
 
 **Signature**
@@ -2121,8 +2129,8 @@ Added in v2.0.0
 
 ## findFirst
 
-Find the first element which satisfies a predicate (or a refinement) function, wrapped in `Some`.
-Returns `None` if not found.
+Find the first element which satisfies a predicate (or a refinement) function.
+It returns an `Option` containing the element or `None` if not found.
 
 **Signature**
 
@@ -2193,8 +2201,8 @@ Added in v2.0.0
 
 ## findLast
 
-Find the last element which satisfies a predicate function, wrapped in `Some`.
-Returns `None` if not found.
+Find the last element which satisfies a predicate function.
+It returns an `Option` containing the element or `None` if not found.
 
 **Signature**
 
@@ -3133,13 +3141,19 @@ Added in v2.0.0
 
 Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 
-assert.strictEqual(isNonEmpty([]), false)
-assert.strictEqual(isNonEmpty(['a']), true)
-
 **Signature**
 
 ```ts
 export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { isNonEmpty } from 'fp-ts/Array'
+
+assert.strictEqual(isNonEmpty([]), false)
+assert.strictEqual(isNonEmpty(['a']), true)
 ```
 
 Added in v2.0.0
@@ -3335,8 +3349,8 @@ Added in v2.11.0
 
 ## findIndex
 
-Returns the first index for which a predicate holds wrpped in `Some`.
-Returns `None` if not found.
+`findIndex` returns an `Option` containing the first index for which a predicate holds.
+It returns `None` if no element satisfies the predicate.
 Similar to [`findFirst`](#findFirst) but returning the index instead of the element.
 
 **Signature**
@@ -3359,8 +3373,8 @@ Added in v2.0.0
 
 ## findLastIndex
 
-Returns the index of the last element of the list which matches the predicate, wrapped in `Some`.
-Returns `None` if not found.
+Returns the index of the last element of the list which matches the predicate.
+It returns an `Option` containing the index or `None` if not found.
 
 **Signature**
 
@@ -3390,7 +3404,8 @@ Added in v2.0.0
 
 ## insertAt
 
-Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds.
+Insert an element at the specified index, creating a new array,
+or returning `None` if the index is out of bounds.
 
 **Signature**
 
@@ -3553,7 +3568,8 @@ Added in v2.0.0
 
 ## updateAt
 
-Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds.
+Change the element at the specified index, creating a new array,
+or returning `None` if the index is out of bounds.
 
 **Signature**
 
