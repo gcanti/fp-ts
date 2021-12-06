@@ -187,15 +187,13 @@ export const replicate = <A>(n: number, a: A): Array<A> => makeBy(n, () => a)
  * @example
  * import { fromPredicate } from 'fp-ts/Array'
  * import { pipe } from 'fp-ts/function'
+ * import { isString } from "fp-ts/lib/string";
  *
- * const isString = (x: string | number): x is string => typeof x === "string";
  * assert.deepStrictEqual(pipe("a", fromPredicate(isString)), ["a"]);
  * assert.deepStrictEqual(pipe(7, fromPredicate(isString)), []);
  *
- * const isPositiveNumber = (x: string | number) => typeof x === "number" && x>0;
- * assert.deepStrictEqual(pipe("a", fromPredicate(isPositiveNumber)), []);
- * assert.deepStrictEqual(pipe(7, fromPredicate(isPositiveNumber)), [7]);
- * assert.deepStrictEqual(pipe(-3, fromPredicate(isPositiveNumber)), []);
+ * assert.deepStrictEqual(pipe(7, fromPredicate((x)=> x > 0)), [7]);
+ * assert.deepStrictEqual(pipe(-3, fromPredicate((x)=> x > 0)), []);
  *
  * @category constructors
  * @since 2.11.0
@@ -1777,10 +1775,11 @@ export const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Arr
  *
  * @example
  * import { filter } from 'fp-ts/Array'
+ * import { isString } from "fp-ts/lib/string";
  *
- * const isString = (x: unknown): x is string => typeof x === "string";
  * assert.deepStrictEqual(filter(isString)(["a", 1, {}, "b", 5]), ["a", "b"]);
- * assert.deepStrictEqual(filter((x: number) => x > 0)([-3, 1, -2, 5]), [1, 5]);
+ * assert.deepStrictEqual(filter((x:number) => x > 0)([-3, 1, -2, 5]), [1, 5]);
+ *
  * @category Filterable
  * @since 2.0.0
  */
@@ -1798,8 +1797,8 @@ export const filter: {
  *
  * @example
  * import { partition } from 'fp-ts/Array'
+ * import { isString } from "fp-ts/lib/string";
  *
- * const isString = (x: unknown): x is string => typeof x === "string";
  * assert.deepStrictEqual(partition(isString)(["a", 1, {}, "b", 5]), { left: [1, {}, 5], right: ["a", "b"] });
  * assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] });
  *
@@ -1819,11 +1818,6 @@ export const partition: {
  * @example
  * import { partitionWithIndex } from 'fp-ts/Array'
  *
- * const isString = (x: unknown): x is string => typeof x === "string";
- * assert.deepStrictEqual(partitionWithIndex((index, x) => index > 1 && isString(x))(["a", 1, {}, "b", 5]), {
- *   left: ["a", 1, {}, 5],
- *   right: ["b"],
- * });
  * assert.deepStrictEqual(partitionWithIndex((index, x: number) => index < 3 && x > 0)([-2, 5, 6, 7]), {
  *   left: [-2, 7],
  *   right: [5, 6],
@@ -1944,8 +1938,6 @@ export const alt: <A>(that: Lazy<Array<A>>) => (fa: Array<A>) => Array<A> = altW
  * @example
  * import { filterWithIndex } from 'fp-ts/Array';
  *
- * const isStringWithLowIndex = (index: number, x: unknown): x is string => typeof x === "string" && index < 2;
- * assert.deepStrictEqual(filterWithIndex(isStringWithLowIndex)(["a", 1, {}, "b", 5]), ["a"]);
  * const f = (index: number, x: number) => x > 0 && index <= 2;
  * assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1]);
  *
