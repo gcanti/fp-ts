@@ -1714,7 +1714,7 @@ export const filterMapWithIndex = <A, B>(f: (i: number, a: A) => Option<B>) => (
  * import { pipe } from 'fp-ts/function'
  * import { option } from "fp-ts";
  *
- * const f = (s: string) => s.length===1? option.some(s.toUpperCase()): option.none;
+ * const f = (s: string) => s.length === 1 ? option.some(s.toUpperCase()) : option.none;
  * assert.deepStrictEqual(pipe(["a", "no", "neither", "b"], filterMap(f)), ["A", "B"]);
  *
  * @category Filterable
