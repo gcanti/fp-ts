@@ -1,6 +1,7 @@
 /**
- * The `Array` module enables dealing with Typescript's `Array<T>`
- * type in a functional way, basically treating it as a `Functor` in `T`.
+ * The Array module provides tools for working with Typescript's Array<T> type in a functional way.
+ *
+ * In functional jargon, this module provides a monadic interface over Typescript's Array<T>.
  *
  * @since 2.0.0
  */
