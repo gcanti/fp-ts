@@ -1600,7 +1600,7 @@ export const map: <A, B>(f: (a: A) => B) => (fa: Array<A>) => Array<B> = (f) => 
  * ]);
  *
  * // given Array implements the Applicative interface with the `of` method,
- * // we can write exactly the same thing in a more simmetric way
+ * // we can write exactly the same thing in a more symmetric way
  * // using `of` on `f` and `ap` on each array in input
  * assert.deepStrictEqual(
  *   pipe(of(f), ap(["a", "b"]), ap([1, 2]), ap(["😀", "😫", "😎"])),
