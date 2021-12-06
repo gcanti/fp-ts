@@ -1743,7 +1743,7 @@ export const compact: <A>(fa: Array<Option<A>>) => Array<A> =
 
 /**
  * Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
- * one containing all the left values and one containing allthe right values.
+ * one containing all the left values and one containing all the right values.
  *
  * @example
  * import { separate } from 'fp-ts/Array'
