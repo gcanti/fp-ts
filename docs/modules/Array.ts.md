@@ -6,6 +6,10 @@ parent: Modules
 
 ## Array overview
 
+The Array module provides tools for working with Typescript's Array<T> type in a functional way.
+
+In functional jargon, this module provides a monadic interface over Typescript's Array<T>.
+
 Added in v2.0.0
 
 ---
@@ -208,8 +212,10 @@ Added in v2.0.0
 
 ## alt
 
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
+`alt` implements the `Alt` iterface by concatenation of `Array`s.
+`Alt` interface is similar to `Semigroup` for higher-kinded types such
+as `Array` and `Option`: the example below shows both `Alt`'s `alt` and
+`Semigroup`'s `concat` functions.
 
 **Signature**
 
@@ -217,16 +223,33 @@ types of kind `* -> *`.
 export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
 ```
 
+**Example**
+
+```ts
+import { alt, concat } from 'fp-ts/Array'
+
+assert.deepStrictEqual(alt(() => [2, 3, 4])([1]), [1, 2, 3, 4])
+assert.deepStrictEqual(concat([2, 3, 4])([1]), [1, 2, 3, 4])
+```
+
 Added in v2.0.0
 
 ## altW
 
-Less strict version of [`alt`](#alt).
+Less strict version of [`alt`](#alt), it can concatenate `Array`s of different base types.
 
 **Signature**
 
 ```ts
 export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
+```
+
+**Example**
+
+```ts
+import { altW } from 'fp-ts/Array'
+
+assert.deepStrictEqual(altW(() => [2, 3, 4])(['a']), ['a', 2, 3, 4])
 ```
 
 Added in v2.9.0
@@ -237,10 +260,48 @@ Added in v2.9.0
 
 Apply a function to an argument under a type constructor.
 
+It can be used to extend the concept of [`map`](#map) to a function that
+takes more than one parameter as described
+read [here](https://dev.to/gcanti/getting-started-with-fp-ts-applicative-1kb3)
+
 **Signature**
 
 ```ts
 export declare const ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[]
+```
+
+**Example**
+
+```ts
+import { ap, map, of } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+// a curried function with 3 input parameteres
+const f = (s1: string) => (n: number) => (s2: string) => s1 + n + s2
+
+// let's use `ap` to iterate `f` over an array for each input parameter
+assert.deepStrictEqual(pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎'])), [
+  'a1😀',
+  'a1😫',
+  'a1😎',
+  'a2😀',
+  'a2😫',
+  'a2😎',
+  'b1😀',
+  'b1😫',
+  'b1😎',
+  'b2😀',
+  'b2😫',
+  'b2😎',
+])
+
+// given Array implements the Applicative interface with the `of` method,
+// we can write exactly the same thing in a more symmetric way
+// using `of` on `f` and `ap` on each array in input
+assert.deepStrictEqual(
+  pipe(of(f), ap(['a', 'b']), ap([1, 2]), ap(['😀', '😫', '😎'])),
+  pipe(['a', 'b'], map(f), ap([1, 2]), ap(['😀', '😫', '😎']))
+)
 ```
 
 Added in v2.0.0
@@ -271,20 +332,48 @@ Added in v2.11.0
 
 ## compact
 
+Compact an array of `Option`s discarding the `None` values and
+keeping the `Some` values. It returns a new array containing the values of
+the `Some` options.
+
 **Signature**
 
 ```ts
 export declare const compact: <A>(fa: Option<A>[]) => A[]
 ```
 
+**Example**
+
+```ts
+import { compact } from 'fp-ts/Array'
+import { option } from 'fp-ts'
+
+assert.deepStrictEqual(compact([option.some('a'), option.none, option.some('b')]), ['a', 'b'])
+```
+
 Added in v2.0.0
 
 ## separate
+
+Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
+one containing all the left values and one containing all the right values.
 
 **Signature**
 
 ```ts
 export declare const separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>
+```
+
+**Example**
+
+```ts
+import { separate } from 'fp-ts/Array'
+import { either } from 'fp-ts'
+
+assert.deepStrictEqual(separate([either.right('r1'), either.left('l1'), either.right('r2')]), {
+  left: ['l1'],
+  right: ['r1', 'r2'],
+})
 ```
 
 Added in v2.0.0
@@ -293,10 +382,24 @@ Added in v2.0.0
 
 ## extend
 
+Given an iterating function that takes `Array<A>` as input, `extend` returns
+an array containing the results of the iterating function applied to the whole input
+`Array`, then to the input `Array` without the first element, then to the input
+`Array` without the first two elements, etc.
+
 **Signature**
 
 ```ts
 export declare const extend: <A, B>(f: (as: A[]) => B) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { extend } from 'fp-ts/Array'
+
+const f = (a: string[]) => a.join(',')
+assert.deepStrictEqual(extend(f)(['a', 'b', 'c']), ['a,b,c', 'b,c', 'c'])
 ```
 
 Added in v2.0.0
@@ -304,6 +407,10 @@ Added in v2.0.0
 # Filterable
 
 ## filter
+
+Given an iterating function that is a `Predicate` or a `Refinement`,
+`filter` creates a new `Array` containing the elements of the original
+`Array` for which the iterating function is `true`.
 
 **Signature**
 
@@ -315,9 +422,22 @@ export declare const filter: {
 }
 ```
 
+**Example**
+
+```ts
+import { filter } from 'fp-ts/Array'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(filter(isString)(['a', 1, {}, 'b', 5]), ['a', 'b'])
+assert.deepStrictEqual(filter((x: number) => x > 0)([-3, 1, -2, 5]), [1, 5])
+```
+
 Added in v2.0.0
 
 ## filterMap
+
+Maps an array with an iterating function that returns an `Option`
+and it keeps only the `Some` values discarding the `None`s.
 
 **Signature**
 
@@ -325,9 +445,25 @@ Added in v2.0.0
 export declare const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
+**Example**
+
+```ts
+import { filterMap } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { option } from 'fp-ts'
+
+const f = (s: string) => (s.length === 1 ? option.some(s.toUpperCase()) : option.none)
+assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMap(f)), ['A', 'B'])
+```
+
 Added in v2.0.0
 
 ## partition
+
+Given an iterating function that is a `Predicate` or a `Refinement`,
+`partition` creates two new `Array`s: `right` containing the elements of the original
+`Array` for which the iterating function is `true`, `left` containing the elements
+for which it is false.
 
 **Signature**
 
@@ -339,14 +475,41 @@ export declare const partition: {
 }
 ```
 
+**Example**
+
+```ts
+import { partition } from 'fp-ts/Array'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(partition(isString)(['a', 1, {}, 'b', 5]), { left: [1, {}, 5], right: ['a', 'b'] })
+assert.deepStrictEqual(partition((x: number) => x > 0)([-3, 1, -2, 5]), { left: [-3, -2], right: [1, 5] })
+```
+
 Added in v2.0.0
 
 ## partitionMap
+
+Given an iterating function that returns an `Either`,
+`partitionMap` applies the iterating function to each element and it creates two `Array`s:
+`right` containing the values of `Right` results, `left` containing the values of `Left` results.
 
 **Signature**
 
 ```ts
 export declare const partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>
+```
+
+**Example**
+
+```ts
+import { partitionMap } from 'fp-ts/Array'
+import { Either, left, right } from 'fp-ts/lib/Either'
+
+const upperIfString = <B>(x: B): Either<B, string> => (typeof x === 'string' ? right(x.toUpperCase()) : left(x))
+assert.deepStrictEqual(partitionMap(upperIfString)([-2, 'hello', 6, 7, 'world']), {
+  left: [-2, 6, 7],
+  right: ['HELLO', 'WORLD'],
+})
 ```
 
 Added in v2.0.0
@@ -355,15 +518,35 @@ Added in v2.0.0
 
 ## filterMapWithIndex
 
+Maps an array with an iterating function that takes the index and the value of
+each element and returns an `Option`. It keeps only the `Some` values discarding
+the `None`s.
+
+Same as [`filterMap`](#filterMap), but with an iterating function which takes also
+the index as input.
+
 **Signature**
 
 ```ts
 export declare const filterMapWithIndex: <A, B>(f: (i: number, a: A) => Option<B>) => (fa: A[]) => B[]
 ```
 
+**Example**
+
+```ts
+import { filterMapWithIndex } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { option } from 'fp-ts'
+
+const f = (i: number, s: string) => (i % 2 === 1 ? option.some(s.toUpperCase()) : option.none)
+assert.deepStrictEqual(pipe(['a', 'no', 'neither', 'b'], filterMapWithIndex(f)), ['NO', 'B'])
+```
+
 Added in v2.0.0
 
 ## filterWithIndex
+
+Same as [`filter`](#filter), but passing also the index to the iterating function.
 
 **Signature**
 
@@ -375,9 +558,20 @@ export declare const filterWithIndex: {
 }
 ```
 
+**Example**
+
+```ts
+import { filterWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, x: number) => x > 0 && index <= 2
+assert.deepStrictEqual(filterWithIndex(f)([-3, 1, -2, 5]), [1])
+```
+
 Added in v2.0.0
 
 ## partitionMapWithIndex
+
+Same as [`partitionMap`](#partitionMap), but passing also the index to the iterating function.
 
 **Signature**
 
@@ -387,9 +581,25 @@ export declare const partitionMapWithIndex: <A, B, C>(
 ) => (fa: A[]) => Separated<B[], C[]>
 ```
 
+**Example**
+
+```ts
+import { partitionMapWithIndex } from 'fp-ts/Array'
+import { Either, left, right } from 'fp-ts/lib/Either'
+
+const upperIfStringBefore3 = <B>(index: number, x: B): Either<B, string> =>
+  index < 3 && typeof x === 'string' ? right(x.toUpperCase()) : left(x)
+assert.deepStrictEqual(partitionMapWithIndex(upperIfStringBefore3)([-2, 'hello', 6, 7, 'world']), {
+  left: [-2, 6, 7, 'world'],
+  right: ['HELLO'],
+})
+```
+
 Added in v2.0.0
 
 ## partitionWithIndex
+
+Same as [`partition`](#partition), but passing also the index to the iterating function.
 
 **Signature**
 
@@ -401,11 +611,26 @@ export declare const partitionWithIndex: {
 }
 ```
 
+**Example**
+
+```ts
+import { partitionWithIndex } from 'fp-ts/Array'
+
+assert.deepStrictEqual(partitionWithIndex((index, x: number) => index < 3 && x > 0)([-2, 5, 6, 7]), {
+  left: [-2, 7],
+  right: [5, 6],
+})
+```
+
 Added in v2.0.0
 
 # Foldable
 
 ## foldMap
+
+Map and fold an `Array`.
+Map the `Array` passing each value to the iterating function.
+Then fold the results using the provided `Monoid`.
 
 **Signature**
 
@@ -413,9 +638,27 @@ Added in v2.0.0
 export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M
 ```
 
+**Example**
+
+```ts
+import { foldMap } from 'fp-ts/Array'
+
+const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
+const f = (s: string) => s.toUpperCase()
+assert.deepStrictEqual(foldMap(monoid)(f)(['a', 'b', 'c']), 'ABC')
+```
+
 Added in v2.0.0
 
 ## reduce
+
+Reduces an `Array`.
+
+`reduce` executes the supplied iterating function on each element of the array,
+in order, passing in the element and the return value from the calculation on the preceding element.
+
+The first time that the iterating function is called there is no "return value of the
+previous calculation", the initial value is used in its place.
 
 **Signature**
 
@@ -423,14 +666,34 @@ Added in v2.0.0
 export declare const reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B
 ```
 
+**Example**
+
+```ts
+import { reduce } from 'fp-ts/Array'
+
+assert.deepStrictEqual(reduce(5, (acc: number, cur: number) => acc * cur)([2, 3]), 5 * 2 * 3)
+```
+
 Added in v2.0.0
 
 ## reduceRight
+
+Same as [`reduce`](#reduce) but applied from the end to the start.
+
+_Note_: the iterating function in this case takes the accumulator as the last argument.
 
 **Signature**
 
 ```ts
 export declare const reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduceRight } from 'fp-ts/Array'
+
+assert.deepStrictEqual(reduceRight('', (cur: string, acc: string) => acc + cur)(['a', 'b', 'c']), 'cba')
 ```
 
 Added in v2.0.0
@@ -439,15 +702,29 @@ Added in v2.0.0
 
 ## foldMapWithIndex
 
+Same as [`foldMap`](#foldMap) but passing also the index to the iterating function.
+
 **Signature**
 
 ```ts
 export declare const foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M
 ```
 
+**Example**
+
+```ts
+import { foldMapWithIndex } from 'fp-ts/Array'
+
+const monoid = { concat: (a: string, b: string) => a + b, empty: '' }
+const f = (index: number, s: string) => `${s.toUpperCase()}(${index})`
+assert.deepStrictEqual(foldMapWithIndex(monoid)(f)(['a', 'b', 'c']), 'A(0)B(1)C(2)')
+```
+
 Added in v2.0.0
 
 ## reduceRightWithIndex
+
+Same as [`reduceRight`](#reduceRight) but passing also the index to the iterating function.
 
 **Signature**
 
@@ -455,14 +732,34 @@ Added in v2.0.0
 export declare const reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B
 ```
 
+**Example**
+
+```ts
+import { reduceRightWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, cur: unknown, acc: string) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
+assert.deepStrictEqual(reduceRightWithIndex('', f)([2, 'a', 'b', null]), 'B2A1')
+```
+
 Added in v2.0.0
 
 ## reduceWithIndex
+
+Same as [`reduce`](#reduce) but passing also the index to the iterating function.
 
 **Signature**
 
 ```ts
 export declare const reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B
+```
+
+**Example**
+
+```ts
+import { reduceWithIndex } from 'fp-ts/Array'
+
+const f = (index: number, acc: string, cur: unknown) => acc + (typeof cur === 'string' ? cur.toUpperCase() + index : '')
+assert.deepStrictEqual(reduceWithIndex('', f)([2, 'a', 'b', null]), 'A1B2')
 ```
 
 Added in v2.0.0
@@ -471,13 +768,24 @@ Added in v2.0.0
 
 ## map
 
-`map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
-use the type constructor `F` to represent some computational context.
+`map` can be used to turn functions `(a: A) => B` into functions `(fa: Array<A>) => Array<B>`.
+In practice it applies the base function to each element of the array and collects the
+results in a new array.
 
 **Signature**
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { map } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (n: number) => n * 2
+assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [2, 4, 6])
 ```
 
 Added in v2.0.0
@@ -486,10 +794,23 @@ Added in v2.0.0
 
 ## mapWithIndex
 
+Same as [`map`](#map), but the iterating function takes both the index and the value
+of the element.
+
 **Signature**
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { mapWithIndex } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (i: number, s: string) => `${s} - ${i}`
+assert.deepStrictEqual(pipe(['a', 'b', 'c'], mapWithIndex(f)), ['a - 0', 'b - 1', 'c - 2'])
 ```
 
 Added in v2.0.0
@@ -498,12 +819,31 @@ Added in v2.0.0
 
 ## chain
 
-Composes computations in sequence, using the return value of one computation to determine the next computation.
+Composes computations in sequence, using the return value of one computation to
+determine the next computation.
+
+In other words it takes a function `f` that produces an array from a single element of
+the base type `A` and returns a new function which applies `f` to each element of the
+input array (like [`map`](#map)) and, instead of returning an array of arrays, concatenates the
+results into a single array (like [`flatten`](#flatten)).
+
+This is the `chain` component of the array `Monad`.
 
 **Signature**
 
 ```ts
 export declare const chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { chain, map, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (n: number) => replicate(n, `${n}`)
+assert.deepStrictEqual(pipe([1, 2, 3], map(f)), [['1'], ['2', '2'], ['3', '3', '3']])
+assert.deepStrictEqual(pipe([1, 2, 3], chain(f)), ['1', '2', '2', '3', '3', '3'])
 ```
 
 Added in v2.0.0
@@ -512,10 +852,21 @@ Added in v2.0.0
 
 ## of
 
+Given an element of the base type, `of` builds an `Array` containing just that
+element of the base type (this is useful for building a `Monad`).
+
 **Signature**
 
 ```ts
 export declare const of: <A>(a: A) => A[]
+```
+
+**Example**
+
+```ts
+import { of } from 'fp-ts/Array'
+
+assert.deepStrictEqual(of('a'), ['a'])
 ```
 
 Added in v2.0.0
@@ -524,20 +875,63 @@ Added in v2.0.0
 
 ## sequence
 
+`sequence` takes an `Array` where elements are `HKT<A>` (higher kinded type) and,
+using an applicative of that `HKT`, returns an `HKT` of `Array<A>`.
+E.g. it can turn an `Array<Either<Error, string>>` into an `Either<Error, Array<string>>`.
+
+`sequence` requires an `Applicative` of the `HKT` you are targeting, e.g. to turn an
+`Array<Either<E, A>>` into an `Either<E, Array<A>>`, it needs an
+`Applicative` for `Either`, to to turn an `Array<Option<A>>` into an `Option<Array<A>>`,
+it needs an `Applicative` for `Option`.
+
 **Signature**
 
 ```ts
 export declare const sequence: Sequence1<'Array'>
 ```
 
+**Example**
+
+```ts
+import { sequence } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+assert.deepStrictEqual(sequence(Applicative)([right('a'), right('b')]), right(['a', 'b']))
+assert.deepStrictEqual(
+  sequence(Applicative)([right('a'), left(new Error('not a string'))]),
+  left(new Error('not a string'))
+)
+```
+
 Added in v2.6.3
 
 ## traverse
+
+Given an iterating function that returns a `HKT` (higher kinded type), `traverse`
+applies the iterating function to each element of the `Array` and then [`sequence`](#sequence)-s
+the results using the provided `Applicative`.
+
+E.g. suppose you have an `Array` and you want to format each element with a function
+that returns a result or an error as `f = (a: A) => Either<Error, B>`, using `traverse`
+you can apply `f` to all elements and directly obtain as a result an `Either<Error,Array<B>>`
+i.e. an `Array<B>` if all the results are `B`, or an `Error` if some of the results
+are `Error`s.
 
 **Signature**
 
 ```ts
 export declare const traverse: PipeableTraverse1<'Array'>
+```
+
+**Example**
+
+```ts
+import { traverse } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+const f = (x: unknown) => (typeof x === 'string' ? right(x.toUpperCase()) : left(new Error('not a string')))
+assert.deepStrictEqual(traverse(Applicative)(f)(['a', 'b']), right(['A', 'B']))
+assert.deepStrictEqual(traverse(Applicative)(f)(['a', 5]), left(new Error('not a string')))
 ```
 
 Added in v2.6.3
@@ -546,10 +940,24 @@ Added in v2.6.3
 
 ## traverseWithIndex
 
+Same as [`traverse`](#traverse) but passing also the index to the iterating function.
+
 **Signature**
 
 ```ts
 export declare const traverseWithIndex: PipeableTraverseWithIndex1<'Array', number>
+```
+
+**Example**
+
+```ts
+import { traverseWithIndex } from 'fp-ts/Array'
+import { Applicative, left, right } from 'fp-ts/lib/Either'
+
+const f = (index: number, x: unknown) =>
+  typeof x === 'string' ? right(x.toUpperCase() + index) : left(new Error('not a string'))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 'b']), right(['A0', 'B1']))
+assert.deepStrictEqual(traverseWithIndex(Applicative)(f)(['a', 5]), left(new Error('not a string')))
 ```
 
 Added in v2.6.3
@@ -558,8 +966,11 @@ Added in v2.6.3
 
 ## unfold
 
-Creates an `Array` from the results of `f(b)`, where `b` is an initial value.
-`unfold` stops when `f` returns `Option.none`.
+`unfold` takes a function `f` which returns an `Option` of a tuple containing an outcome
+value and an input for the following iteration.
+`unfold` applies `f` to the initial value `b` and then recursively to the second
+element of the tuple contained in the returned `option` of the previous
+calculation until `f` returns `Option.none`.
 
 **Signature**
 
@@ -571,12 +982,15 @@ export declare const unfold: <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>) 
 
 ```ts
 import { unfold } from 'fp-ts/Array'
-import { some, none } from 'fp-ts/Option'
+import { option } from 'fp-ts'
 
-assert.deepStrictEqual(
-  unfold(5, (n) => (n > 0 ? some([n, n - 1]) : none)),
-  [5, 4, 3, 2, 1]
-)
+const f = (n: number) => {
+  if (n <= 0) return option.none
+  const returnValue = n * 2
+  const inputForNextRound = n - 1
+  return option.some([returnValue, inputForNextRound] as const)
+}
+assert.deepStrictEqual(unfold(5, f), [10, 8, 6, 4, 2])
 ```
 
 Added in v2.6.6
@@ -606,6 +1020,8 @@ Added in v2.6.5
 # Zero
 
 ## zero
+
+Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)
 
 **Signature**
 
@@ -662,10 +1078,22 @@ Added in v2.0.0
 
 ## chainWithIndex
 
+Same as [`chain`](#chain), but passing also the index to the iterating function.
+
 **Signature**
 
 ```ts
 export declare const chainWithIndex: <A, B>(f: (i: number, a: A) => B[]) => (as: A[]) => B[]
+```
+
+**Example**
+
+```ts
+import { chainWithIndex, replicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const f = (index: number, x: string) => replicate(2, `${x}${index}`)
+assert.deepStrictEqual(pipe(['a', 'b', 'c'], chainWithIndex(f)), ['a0', 'a0', 'b1', 'b1', 'c2', 'c2'])
 ```
 
 Added in v2.7.0
@@ -809,6 +1237,8 @@ Added in v2.11.0
 
 ## copy
 
+This function takes an array and makes a new array containing the same elements.
+
 **Signature**
 
 ```ts
@@ -847,7 +1277,7 @@ Added in v2.0.0
 
 ## dropLeft
 
-Drop a max number of elements from the start of an `Array`, creating a new `Array`.
+Creates a new `Array` which is a copy of the input dropping a max number of elements from the start.
 
 **Note**. `n` is normalized to a non negative integer.
 
@@ -863,13 +1293,17 @@ export declare const dropLeft: (n: number) => <A>(as: A[]) => A[]
 import { dropLeft } from 'fp-ts/Array'
 
 assert.deepStrictEqual(dropLeft(2)([1, 2, 3]), [3])
+assert.deepStrictEqual(dropLeft(5)([1, 2, 3]), [])
+assert.deepStrictEqual(dropLeft(0)([1, 2, 3]), [1, 2, 3])
+assert.deepStrictEqual(dropLeft(-2)([1, 2, 3]), [1, 2, 3])
 ```
 
 Added in v2.0.0
 
 ## dropLeftWhile
 
-Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+Creates a new `Array` which is a copy of the input dropping the longest initial subarray for
+which all element satisfy the specified predicate.
 
 **Signature**
 
@@ -891,7 +1325,7 @@ Added in v2.0.0
 
 ## dropRight
 
-Drop a max number of elements from the end of an `Array`, creating a new `Array`.
+Creates a new `Array` which is a copy of the input dropping a max number of elements from the end.
 
 **Note**. `n` is normalized to a non negative integer.
 
@@ -906,13 +1340,19 @@ export declare const dropRight: (n: number) => <A>(as: A[]) => A[]
 ```ts
 import { dropRight } from 'fp-ts/Array'
 
-assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
+assert.deepStrictEqual(dropRight(2)([1, 2, 3]), [1])
+assert.deepStrictEqual(dropRight(5)([1, 2, 3]), [])
+assert.deepStrictEqual(dropRight(0)([1, 2, 3]), [1, 2, 3])
+assert.deepStrictEqual(dropRight(-2)([1, 2, 3]), [1, 2, 3])
 ```
 
 Added in v2.0.0
 
 ## duplicate
 
+`duplicate` returns an array containing the whole input `Array`,
+then to the input `Array` dropping the first element, then to the input
+`Array` dropping the first two elements, etc.
 Derivable from `Extend`.
 
 **Signature**
@@ -921,11 +1361,20 @@ Derivable from `Extend`.
 export declare const duplicate: <A>(wa: A[]) => A[][]
 ```
 
+**Example**
+
+```ts
+import { duplicate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(duplicate(['a', 'b', 'c']), [['a', 'b', 'c'], ['b', 'c'], ['c']])
+```
+
 Added in v2.0.0
 
 ## flap
 
-Derivable from `Functor`.
+Given an input an `Array` of functions, `flap` returns an `Array` containing
+the results of applying each function to the given input.
 
 **Signature**
 
@@ -933,16 +1382,36 @@ Derivable from `Functor`.
 export declare const flap: <A>(a: A) => <B>(fab: ((a: A) => B)[]) => B[]
 ```
 
+**Example**
+
+```ts
+import { flap } from 'fp-ts/Array'
+
+const funs = [(n: number) => `Double: ${n * 2}`, (n: number) => `Triple: ${n * 3}`, (n: number) => `Square: ${n * n}`]
+assert.deepStrictEqual(flap(4)(funs), ['Double: 8', 'Triple: 12', 'Square: 16'])
+```
+
 Added in v2.10.0
 
 ## flatten
 
-Derivable from `Chain`.
+Takes an array of arrays of `A` and flattens them into an array of `A`
+by concatenating the elements of each array in order.
+
+Derivable from [`chain`](#chain).
 
 **Signature**
 
 ```ts
 export declare const flatten: <A>(mma: A[][]) => A[]
+```
+
+**Example**
+
+```ts
+import { flatten } from 'fp-ts/Array'
+
+assert.deepStrictEqual(flatten([['a'], ['b', 'c'], ['d', 'e', 'f']]), ['a', 'b', 'c', 'd', 'e', 'f'])
 ```
 
 Added in v2.5.0
@@ -997,7 +1466,7 @@ Added in v2.0.0
 
 ## intersperse
 
-Places an element in between members of an array
+Creates a new `Array` placing an element in between members of the input `Array`.
 
 **Signature**
 
@@ -1017,7 +1486,8 @@ Added in v2.9.0
 
 ## lefts
 
-Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+Takes an `Array` of `Either` and produces a new `Array` containing
+the values of all the `Left` elements in the same order.
 
 **Signature**
 
@@ -1038,7 +1508,7 @@ Added in v2.0.0
 
 ## prependAll
 
-Prepend an element to every member of an array
+Creates a new `Array`, prepending an element to every member of the input `Array`.
 
 **Signature**
 
@@ -1078,7 +1548,8 @@ Added in v2.0.0
 
 ## rights
 
-Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+Takes an `Array` of `Either` and produces a new `Array` containing
+the values of all the `Right` elements in the same order.
 
 **Signature**
 
@@ -1099,7 +1570,7 @@ Added in v2.0.0
 
 ## rotate
 
-Rotate a `Array` by `n` steps.
+Creates a new `Array` rotating the input `Array` by `n` steps.
 
 **Signature**
 
@@ -1269,7 +1740,10 @@ export declare const takeLeft: (n: number) => <A>(as: A[]) => A[]
 ```ts
 import { takeLeft } from 'fp-ts/Array'
 
-assert.deepStrictEqual(takeLeft(2)([1, 2, 3]), [1, 2])
+assert.deepStrictEqual(takeLeft(2)([1, 2, 3, 4, 5]), [1, 2])
+assert.deepStrictEqual(takeLeft(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+assert.deepStrictEqual(takeLeft(0)([1, 2, 3, 4, 5]), [])
+assert.deepStrictEqual(takeLeft(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
 ```
 
 Added in v2.0.0
@@ -1314,6 +1788,9 @@ export declare const takeRight: (n: number) => <A>(as: A[]) => A[]
 import { takeRight } from 'fp-ts/Array'
 
 assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
+assert.deepStrictEqual(takeRight(7)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+assert.deepStrictEqual(takeRight(0)([1, 2, 3, 4, 5]), [])
+assert.deepStrictEqual(takeRight(-1)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
 ```
 
 Added in v2.0.0
@@ -1347,7 +1824,8 @@ Added in v2.0.0
 
 ## uniq
 
-Remove duplicates from an array, keeping the first occurrence of an element.
+Creates a new `Array` removing duplicate elements, keeping the first occurrence of an element,
+based on a `Eq<A>`.
 
 **Signature**
 
@@ -1462,9 +1940,21 @@ Less strict version of [`append`](#append).
 export declare const appendW: <A, B>(end: B) => (init: A[]) => NEA.NonEmptyArray<A | B>
 ```
 
+**Example**
+
+```ts
+import { appendW } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([1, 2, 3], appendW('d')), [1, 2, 3, 'd'])
+```
+
 Added in v2.11.0
 
 ## fromPredicate
+
+Create an array with one element, if the element satisfies the predicate, otherwise
+it returns an empty array.
 
 **Signature**
 
@@ -1472,6 +1962,32 @@ Added in v2.11.0
 export declare function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Array<B>
 export declare function fromPredicate<A>(predicate: Predicate<A>): <B extends A>(b: B) => Array<B>
 export declare function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A>
+```
+
+**Example**
+
+```ts
+import { fromPredicate } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+import { isString } from 'fp-ts/lib/string'
+
+assert.deepStrictEqual(pipe('a', fromPredicate(isString)), ['a'])
+assert.deepStrictEqual(pipe(7, fromPredicate(isString)), [])
+
+assert.deepStrictEqual(
+  pipe(
+    7,
+    fromPredicate((x) => x > 0)
+  ),
+  [7]
+)
+assert.deepStrictEqual(
+  pipe(
+    -3,
+    fromPredicate((x) => x > 0)
+  ),
+  []
+)
 ```
 
 Added in v2.11.0
@@ -1503,8 +2019,10 @@ export declare const makeBy: <A>(n: number, f: (i: number) => A) => A[]
 ```ts
 import { makeBy } from 'fp-ts/Array'
 
-const double = (n: number): number => n * 2
+const double = (i: number): number => i * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+assert.deepStrictEqual(makeBy(-3, double), [])
+assert.deepStrictEqual(makeBy(4.32164, double), [0, 2, 4, 6])
 ```
 
 Added in v2.0.0
@@ -1540,6 +2058,15 @@ Less strict version of [`prepend`](#prepend).
 export declare const prependW: <A, B>(head: B) => (tail: A[]) => NEA.NonEmptyArray<A | B>
 ```
 
+**Example**
+
+```ts
+import { prependW } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe([2, 3, 4], prependW('a')), ['a', 2, 3, 4])
+```
+
 Added in v2.11.0
 
 ## replicate
@@ -1560,6 +2087,8 @@ export declare const replicate: <A>(n: number, a: A) => A[]
 import { replicate } from 'fp-ts/Array'
 
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+assert.deepStrictEqual(replicate(-3, 'a'), [])
+assert.deepStrictEqual(replicate(2.985647, 'a'), ['a', 'a'])
 ```
 
 Added in v2.0.0
@@ -1604,7 +2133,8 @@ Added in v2.0.0
 
 ## findFirst
 
-Find the first element which satisfies a predicate (or a refinement) function
+Find the first element which satisfies a predicate (or a refinement) function.
+It returns an `Option` containing the element or `None` if not found.
 
 **Signature**
 
@@ -1638,7 +2168,9 @@ Added in v2.0.0
 
 ## findFirstMap
 
-Find the first element returned by an option based selector function
+Given a selector function which takes an element and returns an option,
+this function applies the selector to each element of the array and
+returns the first `Some` result. Otherwise it returns `None`.
 
 **Signature**
 
@@ -1654,20 +2186,27 @@ import { some, none } from 'fp-ts/Option'
 
 interface Person {
   readonly name: string
-  readonly age?: number
+  readonly age: number
 }
 
-const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
+const persons: Array<Person> = [
+  { name: 'John', age: 16 },
+  { name: 'Mary', age: 45 },
+  { name: 'Joey', age: 28 },
+]
 
-// returns the name of the first person that has an age
-assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Mary'))
+const nameOfPersonAbove18 = (p: Person) => (p.age <= 18 ? none : some(p.name))
+const nameOfPersonAbove70 = (p: Person) => (p.age <= 70 ? none : some(p.name))
+assert.deepStrictEqual(findFirstMap(nameOfPersonAbove18)(persons), some('Mary'))
+assert.deepStrictEqual(findFirstMap(nameOfPersonAbove70)(persons), none)
 ```
 
 Added in v2.0.0
 
 ## findLast
 
-Find the last element which satisfies a predicate function
+Find the last element which satisfies a predicate function.
+It returns an `Option` containing the element or `None` if not found.
 
 **Signature**
 
@@ -1701,7 +2240,9 @@ Added in v2.0.0
 
 ## findLastMap
 
-Find the last element returned by an option based selector function
+Given a selector function which takes an element and returns an option,
+this function applies the selector to each element of the array starting from the
+end and returns the last `Some` result. Otherwise it returns `None`.
 
 **Signature**
 
@@ -1717,13 +2258,19 @@ import { some, none } from 'fp-ts/Option'
 
 interface Person {
   readonly name: string
-  readonly age?: number
+  readonly age: number
 }
 
-const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
+const persons: Array<Person> = [
+  { name: 'John', age: 16 },
+  { name: 'Mary', age: 45 },
+  { name: 'Joey', age: 28 },
+]
 
-// returns the name of the last person that has an age
-assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
+const nameOfPersonAbove18 = (p: Person) => (p.age <= 18 ? none : some(p.name))
+const nameOfPersonAbove70 = (p: Person) => (p.age <= 70 ? none : some(p.name))
+assert.deepStrictEqual(findLastMap(nameOfPersonAbove18)(persons), some('Joey'))
+assert.deepStrictEqual(findLastMap(nameOfPersonAbove70)(persons), none)
 ```
 
 Added in v2.0.0
@@ -1820,7 +2367,8 @@ Added in v2.0.0
 
 ## match
 
-Less strict version of [`match`](#match).
+Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
+it passes the array to `onNonEmpty` and returns the result.
 
 **Signature**
 
@@ -1828,11 +2376,26 @@ Less strict version of [`match`](#match).
 export declare const match: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (as: NEA.NonEmptyArray<A>) => B) => (as: A[]) => B
 ```
 
+**Example**
+
+```ts
+import { match } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const matcher = match(
+  () => 'No elements',
+  (as) => `Found ${as.length} element(s)`
+)
+assert.deepStrictEqual(pipe([1, 2, 3, 4], matcher), 'Found 4 element(s)')
+assert.deepStrictEqual(pipe([], matcher), 'No elements')
+```
+
 Added in v2.11.0
 
 ## matchLeft
 
-Break an `Array` into its first element and remaining elements.
+Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
+it passes the array to `onNonEmpty` broken into its first element and remaining elements.
 
 **Signature**
 
@@ -1856,7 +2419,8 @@ Added in v2.10.0
 
 ## matchLeftW
 
-Less strict version of [`matchLeft`](#matchleft).
+Less strict version of [`matchLeft`](#matchleft). It will work when `onEmpty` and
+`onNonEmpty` have different return types.
 
 **Signature**
 
@@ -1867,11 +2431,25 @@ export declare const matchLeftW: <B, A, C>(
 ) => (as: A[]) => B | C
 ```
 
+**Example**
+
+```ts
+import { matchLeftW } from 'fp-ts/Array'
+
+const f = matchLeftW(
+  () => 0,
+  (head: string, tail: string[]) => `Found "${head}" followed by ${tail.length} elements`
+)
+assert.strictEqual(f(['a', 'b', 'c']), 'Found "a" followed by 2 elements')
+assert.strictEqual(f([]), 0)
+```
+
 Added in v2.11.0
 
 ## matchRight
 
-Break an `Array` into its initial elements and the last element.
+Takes an array, if the array is empty it returns the result of `onEmpty`, otherwise
+it passes the array to `onNonEmpty` broken into its initial elements and the last element.
 
 **Signature**
 
@@ -1879,11 +2457,24 @@ Break an `Array` into its initial elements and the last element.
 export declare const matchRight: <B, A>(onEmpty: Lazy<B>, onNonEmpty: (init: A[], last: A) => B) => (as: A[]) => B
 ```
 
+**Example**
+
+```ts
+import { matchRight } from 'fp-ts/Array'
+
+const len: <A>(as: Array<A>) => number = matchRight(
+  () => 0,
+  (head, _) => 1 + len(head)
+)
+assert.strictEqual(len([1, 2, 3]), 3)
+```
+
 Added in v2.10.0
 
 ## matchRightW
 
-Less strict version of [`matchRight`](#matchright).
+Less strict version of [`matchRight`](#matchright). It will work when `onEmpty` and
+`onNonEmpty` have different return types.
 
 **Signature**
 
@@ -1894,11 +2485,25 @@ export declare const matchRightW: <B, A, C>(
 ) => (as: A[]) => B | C
 ```
 
+**Example**
+
+```ts
+import { matchRightW } from 'fp-ts/Array'
+
+const f = matchRightW(
+  () => 0,
+  (head: string[], tail: string) => `Found ${head.length} elements folllowed by "${tail}"`
+)
+assert.strictEqual(f(['a', 'b', 'c']), 'Found 2 elements folllowed by "c"')
+assert.strictEqual(f([]), 0)
+```
+
 Added in v2.11.0
 
 ## matchW
 
-Less strict version of [`match`](#match).
+Less strict version of [`match`](#match). It will work when `onEmpty` and `onNonEmpty`
+have different return types.
 
 **Signature**
 
@@ -1907,6 +2512,20 @@ export declare const matchW: <B, A, C>(
   onEmpty: Lazy<B>,
   onNonEmpty: (as: NEA.NonEmptyArray<A>) => C
 ) => (as: A[]) => B | C
+```
+
+**Example**
+
+```ts
+import { matchW } from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+const matcherW = matchW(
+  () => 'No elements',
+  (as) => as.length
+)
+assert.deepStrictEqual(pipe([1, 2, 3, 4], matcherW), 4)
+assert.deepStrictEqual(pipe([], matcherW), 'No elements')
 ```
 
 Added in v2.11.0
@@ -1931,7 +2550,10 @@ export declare function spanLeft<A>(predicate: Predicate<A>): (as: Array<A>) => 
 ```ts
 import { spanLeft } from 'fp-ts/Array'
 
-assert.deepStrictEqual(spanLeft((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+const isOdd = (n: number) => n % 2 === 1
+assert.deepStrictEqual(spanLeft(isOdd)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+assert.deepStrictEqual(spanLeft(isOdd)([0, 2, 4, 5]), { init: [], rest: [0, 2, 4, 5] })
+assert.deepStrictEqual(spanLeft(isOdd)([1, 3, 5]), { init: [1, 3, 5], rest: [] })
 ```
 
 Added in v2.0.0
@@ -2212,10 +2834,25 @@ Added in v2.11.0
 
 ## getDifferenceMagma
 
+Get a `Magma` for `Array` where the `concat` function is the differnce between
+the first and the second array, i.e. the result contains all the elements of the
+first array for which their is no equal element in the second array according
+to the `Eq` provided.
+
 **Signature**
 
 ```ts
 export declare const getDifferenceMagma: <A>(E: Eq<A>) => Magma<A[]>
+```
+
+**Example**
+
+```ts
+import { getDifferenceMagma } from 'fp-ts/Array'
+import { Eq } from 'fp-ts/number'
+
+const S = getDifferenceMagma<number>(Eq)
+assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [1])
 ```
 
 Added in v2.11.0
@@ -2247,17 +2884,31 @@ Added in v2.0.0
 
 ## getIntersectionSemigroup
 
+Get a `Semigroup` based on the intersection of the elements of `Array`s.
+Only elements present in the two arrays which are equal according to the
+provided `Eq` are included in the result.
+
 **Signature**
 
 ```ts
 export declare const getIntersectionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
 ```
 
+**Example**
+
+```ts
+import { getIntersectionSemigroup } from 'fp-ts/Array'
+import { Eq } from 'fp-ts/number'
+
+const S = getIntersectionSemigroup<number>(Eq)
+assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [2])
+```
+
 Added in v2.11.0
 
 ## getMonoid
 
-Returns a `Monoid` for `Array<A>`
+Returns a `Monoid` for `Array<A>` based on the concatenation of `Array`s.
 
 **Signature**
 
@@ -2305,15 +2956,30 @@ Added in v2.0.0
 
 ## getSemigroup
 
+Get a `Semigroup` based on the concatenation of `Array`s.
+See also [`getMonoid`](#getMonoid).
+
 **Signature**
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<A[]>
 ```
 
+**Example**
+
+```ts
+import { getSemigroup } from 'fp-ts/Array'
+
+const S = getSemigroup<number>()
+assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [1, 2, 2, 3])
+```
+
 Added in v2.10.0
 
 ## getShow
+
+`getShow` makes a `Show` for an `Array<A>` from a `Show` for
+an `A`.
 
 **Signature**
 
@@ -2321,9 +2987,22 @@ Added in v2.10.0
 export declare const getShow: <A>(S: Show<A>) => Show<A[]>
 ```
 
+**Example**
+
+```ts
+import { getShow } from 'fp-ts/Array'
+
+const numShow = { show: (n: number) => (n >= 0 ? `${n}` : `(${-n})`) }
+assert.deepStrictEqual(getShow(numShow).show([-2, -1, 0, 1]), '[(2), (1), 0, 1]')
+```
+
 Added in v2.0.0
 
 ## getUnionMonoid
+
+Get a `Monoid` based on the union of the elements of `Array`s.
+Elements which equal according to the provided `Eq` are included
+only once in the result.
 
 **Signature**
 
@@ -2331,14 +3010,40 @@ Added in v2.0.0
 export declare const getUnionMonoid: <A>(E: Eq<A>) => Monoid<A[]>
 ```
 
+**Example**
+
+```ts
+import { getUnionMonoid } from 'fp-ts/Array'
+import { Eq } from 'fp-ts/number'
+
+const M = getUnionMonoid<number>(Eq)
+assert.deepStrictEqual(M.concat([1, 2], [2, 3]), [1, 2, 3])
+assert.deepStrictEqual(M.empty, [])
+```
+
 Added in v2.11.0
 
 ## getUnionSemigroup
+
+Get a `Semigroup` based on the union of the elements of `Array`s.
+Elements which equal according to the provided `Eq` are included
+only once in the result.
+See also [`getUnionMonoid`](#getUnionMonoid).
 
 **Signature**
 
 ```ts
 export declare const getUnionSemigroup: <A>(E: Eq<A>) => Semigroup<A[]>
+```
+
+**Example**
+
+```ts
+import { getUnionSemigroup } from 'fp-ts/Array'
+import { Eq } from 'fp-ts/number'
+
+const S = getUnionSemigroup<number>(Eq)
+assert.deepStrictEqual(S.concat([1, 2], [2, 3]), [1, 2, 3])
 ```
 
 Added in v2.11.0
@@ -2367,20 +3072,48 @@ Added in v2.0.0
 
 ## fromEither
 
+Create an array from an `Either`. The resulting array will contain the content of the
+`Either` if it is `Right` and it will be empty if the `Either` is `Left`.
+
 **Signature**
 
 ```ts
 export declare const fromEither: NaturalTransformation21<'Either', 'Array'>
 ```
 
+**Example**
+
+```ts
+import { fromEither } from 'fp-ts/Array'
+import { either } from 'fp-ts'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(either.right('r'), fromEither), ['r'])
+assert.deepStrictEqual(pipe(either.left('l'), fromEither), [])
+```
+
 Added in v2.11.0
 
 ## fromOption
+
+Create an array from an `Option`. The resulting array will contain the content of the
+`Option` if it is `Some` and it will be empty if the `Option` is `None`.
 
 **Signature**
 
 ```ts
 export declare const fromOption: NaturalTransformation11<'Option', 'Array'>
+```
+
+**Example**
+
+```ts
+import { fromOption } from 'fp-ts/Array'
+import { option } from 'fp-ts'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(pipe(option.some('a'), fromOption), ['a'])
+assert.deepStrictEqual(pipe(option.none, fromOption), [])
 ```
 
 Added in v2.11.0
@@ -2403,6 +3136,7 @@ export declare const isEmpty: <A>(as: A[]) => as is []
 import { isEmpty } from 'fp-ts/Array'
 
 assert.strictEqual(isEmpty([]), true)
+assert.strictEqual(isEmpty(['a']), false)
 ```
 
 Added in v2.0.0
@@ -2415,6 +3149,15 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 
 ```ts
 export declare const isNonEmpty: <A>(as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { isNonEmpty } from 'fp-ts/Array'
+
+assert.strictEqual(isNonEmpty([]), false)
+assert.strictEqual(isNonEmpty(['a']), true)
 ```
 
 Added in v2.0.0
@@ -2464,6 +3207,8 @@ export declare const Do: {}[]
 Added in v2.9.0
 
 ## Spanned (interface)
+
+Type returned by [`spanLeft`](#spanLeft) composed of an `init` array and a `rest` array.
 
 **Signature**
 
@@ -2516,7 +3261,7 @@ Added in v2.8.0
 
 ## deleteAt
 
-Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds.
 
 **Signature**
 
@@ -2538,9 +3283,9 @@ Added in v2.0.0
 
 ## elem
 
-Test if a value is a member of an array. Takes a `Eq<A>` as a single
+Test if a value is a member of an `Array`. Takes a `Eq<A>` as a single
 argument which returns the function to use to search for a value of type `A` in
-an array of type `Array<A>`.
+an `Array<A>`.
 
 **Signature**
 
@@ -2563,10 +3308,21 @@ Added in v2.0.0
 
 ## every
 
+`every` tells if the provided predicate holds true for every element in the `Array`.
+
 **Signature**
 
 ```ts
 export declare const every: <A>(predicate: Predicate<A>) => (as: A[]) => boolean
+```
+
+**Example**
+
+```ts
+import { every } from 'fp-ts/Array'
+
+assert.equal(every((x: number) => x >= 0)([1, 2, 3]), true)
+assert.equal(every((x: number) => x >= 0)([-1, 2, 3]), false)
 ```
 
 Added in v2.9.0
@@ -2597,7 +3353,9 @@ Added in v2.11.0
 
 ## findIndex
 
-Find the first index for which a predicate holds
+`findIndex` returns an `Option` containing the first index for which a predicate holds.
+It returns `None` if no element satisfies the predicate.
+Similar to [`findFirst`](#findFirst) but returning the index instead of the element.
 
 **Signature**
 
@@ -2619,7 +3377,8 @@ Added in v2.0.0
 
 ## findLastIndex
 
-Returns the index of the last element of the list which matches the predicate
+Returns the index of the last element of the list which matches the predicate.
+It returns an `Option` containing the index or `None` if not found.
 
 **Signature**
 
@@ -2649,7 +3408,8 @@ Added in v2.0.0
 
 ## insertAt
 
-Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Insert an element at the specified index, creating a new array,
+or returning `None` if the index is out of bounds.
 
 **Signature**
 
@@ -2678,11 +3438,23 @@ Test whether an array contains a particular index
 export declare const isOutOfBound: <A>(i: number, as: A[]) => boolean
 ```
 
+**Example**
+
+```ts
+import { isOutOfBound } from 'fp-ts/Array'
+
+assert.strictEqual(isOutOfBound(1, ['a', 'b', 'c']), false)
+assert.strictEqual(isOutOfBound(-1, ['a', 'b', 'c']), true)
+assert.strictEqual(isOutOfBound(3, ['a', 'b', 'c']), true)
+```
+
 Added in v2.0.0
 
 ## lookup
 
-This function provides a safe way to read a value at a particular index from an array
+This function provides a safe way to read a value at a particular index from an array.
+It returns a `none` if the index is out of bounds, and a `some` of the element if the
+index is valid.
 
 **Signature**
 
@@ -2706,7 +3478,7 @@ Added in v2.0.0
 ## modifyAt
 
 Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
-of bounds
+of bounds.
 
 **Signature**
 
@@ -2737,14 +3509,33 @@ Calculate the number of elements in a `Array`.
 export declare const size: <A>(as: A[]) => number
 ```
 
+**Example**
+
+```ts
+import { size } from 'fp-ts/Array'
+
+assert.strictEqual(size(['a', 'b', 'c']), 3)
+```
+
 Added in v2.10.0
 
 ## some
+
+`some` tells if the provided predicate holds true at least for one element in the `Array`.
 
 **Signature**
 
 ```ts
 export declare const some: <A>(predicate: Predicate<A>) => (as: A[]) => as is NEA.NonEmptyArray<A>
+```
+
+**Example**
+
+```ts
+import { some } from 'fp-ts/Array'
+
+assert.equal(some((x: number) => x >= 0)([1, 2, 3]), true)
+assert.equal(some((x: number) => x >= 10)([1, 2, 3]), false)
 ```
 
 Added in v2.9.0
@@ -2781,7 +3572,8 @@ Added in v2.0.0
 
 ## updateAt
 
-Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Change the element at the specified index, creating a new array,
+or returning `None` if the index is out of bounds.
 
 **Signature**
 
