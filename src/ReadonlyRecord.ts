@@ -30,7 +30,7 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
 
-type Semigroup<A> = Se.Semigroup<A>
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
