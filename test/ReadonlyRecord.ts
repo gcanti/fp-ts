@@ -401,6 +401,24 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(_.toUnfoldable(RA.Unfoldable)({ a: 1 }), [['a', 1]])
   })
 
+  it('toEntries', () => {
+    U.deepStrictEqual(_.toEntries({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
+  })
+
+  it('fromEntries', () => {
+    U.deepStrictEqual(
+      _.fromEntries([
+        ['a', 1],
+        ['b', 2],
+        ['a', 3]
+      ]),
+      { b: 2, a: 3 }
+    )
+  })
+
   it('traverseWithIndex should sort the keys', () => {
     // tslint:disable-next-line: readonly-array
     const log: Array<string> = []

@@ -85,6 +85,7 @@ Added in v2.5.0
   - [every](#every)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -101,6 +102,7 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
+  - [toEntries](#toentries)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -1312,6 +1314,33 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 
 Added in v2.5.0
 
+## fromEntries
+
+Converts an `Array` of `[key, value]` tuples into a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
+
 ## fromFoldable
 
 Create a `ReadonlyRecord` from a foldable collection of key/value pairs, using the
@@ -1802,6 +1831,29 @@ assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false)
 ```
 
 Added in v2.5.0
+
+## toEntries
+
+Alias of [`toReadonlyArray`](#toReadonlyArray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
 
 ## toReadonlyArray
 
