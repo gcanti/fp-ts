@@ -24,8 +24,18 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apFirst(_.of('b')))({}), 'a')
     })
 
+    it('apFirstW', () => {
+      const fb = _.of<{ readonly k: string }, boolean>(true)
+      U.deepStrictEqual(pipe(_.of<{ readonly x: number }, string>('foo'), _.apFirstW(fb))({ x: 1, k: 'v' }), 'foo')
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.of('a'), _.apSecond(_.of('b')))({}), 'b')
+    })
+
+    it('apSecondW', () => {
+      const fb = _.of<{ readonly k: string }, boolean>(true)
+      U.deepStrictEqual(pipe(_.of<{ readonly x: number }, string>('foo'), _.apSecondW(fb))({ x: 1, k: 'v' }), true)
     })
 
     it('chain', () => {

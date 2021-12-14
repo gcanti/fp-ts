@@ -1,4 +1,9 @@
 /**
+ * The `ReadonlyRecord.ts` module enables dealing in a functional way with
+ * Typescript's `Readonly<Record<K, T>>` type. That is similar to the
+ * `Record.ts` module, but for a record with all properties
+ * declared as `readonly`.
+ *
  * @since 2.5.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
@@ -47,12 +52,32 @@ export type ReadonlyRecord<K extends string, T> = Readonly<Record<K, T>>
 // -------------------------------------------------------------------------------------
 
 /**
+ * Builds a `ReadonlyRecord` by copying a `Record`.
+ *
+ * @example
+ * import { ReadonlyRecord, fromRecord } from "fp-ts/ReadonlyRecord"
+ *
+ * const x: Record<string, number> = { a: 1, b: 2 };
+ * const y: ReadonlyRecord<string, number> = fromRecord(x);
+ * assert.deepStrictEqual(x,y);
+ * // `y.a = 5` gives compiler error
+ *
  * @category interop
  * @since 2.5.0
  */
 export const fromRecord = <K extends string, A>(r: Record<K, A>): ReadonlyRecord<K, A> => Object.assign({}, r)
 
 /**
+ * Builds a mutable `Record` from a `ReadonlyRecord`.
+ *
+ * @example
+ * import { ReadonlyRecord, toRecord } from "fp-ts/ReadonlyRecord"
+ *
+ * const x: ReadonlyRecord<string, number> = { a: 1, b: 2 };
+ * const y: Record<string, number> = toRecord(x);
+ * assert.deepStrictEqual(x,y);
+ * y.a = 5; // it's ok, y is mutable
+ *
  * @category interop
  * @since 2.5.0
  */
@@ -61,6 +86,11 @@ export const toRecord = <K extends string, A>(r: ReadonlyRecord<K, A>): Record<K
 /**
  * Calculate the number of key/value pairs in a `ReadonlyRecord`,
  *
+ * @example
+ * import { size } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(size({ a: true, b: 2, c: "three" }), 3);
+ *
  * @since 2.5.0
  */
 export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).length
@@ -68,6 +98,11 @@ export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).
 /**
  * Test whether a `ReadonlyRecord` is empty.
  *
+ * @example
+ * import { isEmpty } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(isEmpty({}), true);
+ * assert.deepStrictEqual(isEmpty({ a: 3 }), false);
  * @since 2.5.0
  */
 export const isEmpty = <A>(r: ReadonlyRecord<string, A>): boolean => {
@@ -96,11 +131,9 @@ export const keys: <K extends string>(r: ReadonlyRecord<K, unknown>) => Readonly
  * import { collect } from 'fp-ts/ReadonlyRecord'
  * import { Ord } from 'fp-ts/string'
  *
- * const x: { readonly a: string, readonly b: boolean } = { a: 'c', b: false }
- * assert.deepStrictEqual(
- *   collect(Ord)((key, val) => ({ key: key, value: val }))(x),
- *   [{ key: 'a', value: 'c' }, { key: 'b', value: false }]
- * )
+ * const f = <A>(k: string, a: A) => `${k.toUpperCase()}-${a}`;
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(collect(Ord)(f)(x), ["A-foo", "B-false", "C-3"]);
  *
  * @since 2.5.0
  */
@@ -134,6 +167,16 @@ export function collect<A, B>(
 /**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyRecord`.
  *
+ * @example
+ * import { toReadonlyArray } from 'fp-ts/ReadonlyRecord'
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(toReadonlyArray(x), [
+ *   ["a", "foo"],
+ *   ["b", false],
+ *   ["c", 3],
+ * ]);
+ *
  * @since 2.5.0
  */
 export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => ReadonlyArray<readonly [K, A]> =
@@ -142,6 +185,18 @@ export const toReadonlyArray: <K extends string, A>(r: ReadonlyRecord<K, A>) => 
 
 /**
  * Unfolds a `ReadonlyRecord` into a list of key/value pairs.
+ *
+ * Given an `Unfoldable` class type `U` such as `array` or `readonlyArray`,
+ * it uses the `unfold` function to create an instance of `U`,
+ * providing an iterating function that iterates over each
+ * key/value pair in the record sorted alphabetically by key.
+ *
+ * @example
+ * import { array, readonlyArray } from 'fp-ts'
+ * import { toUnfoldable } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(toUnfoldable(array)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
+ * assert.deepStrictEqual(toUnfoldable(readonlyArray)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
  *
  * @category destructors
  * @since 2.5.0
@@ -163,6 +218,12 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: ReadonlyRecord<string,
 /**
  * Insert or replace a key/value pair in a `ReadonlyRecord`.
  *
+ * @example
+ * import { upsertAt } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(upsertAt("a", 5)({ a: 1, b: 2 }), { a: 5, b: 2 });
+ * assert.deepStrictEqual(upsertAt("c", 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 });
+ *
  * @category combinators
  * @since 2.10.0
  */
@@ -180,12 +241,24 @@ export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  *
  * Note. This function is not pipeable because is a `Refinement`.
  *
+ * @example
+ * import { has } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(has("a", { a: 1, b: 2 }), true);
+ * assert.deepStrictEqual(has("c", { a: 1, b: 2 }), false);
+ *
  * @since 2.10.0
  */
 export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.has.call(r, k)
 
 /**
  * Delete a key and value from a `ReadonlyRecord`.
+ *
+ * @example
+ * import { deleteAt } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(deleteAt("a")({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(deleteAt("c")({ a: 1, b: 2 }), { a: 1, b: 2 });
  *
  * @category combinators
  * @since 2.5.0
@@ -205,6 +278,18 @@ export function deleteAt(k: string): <A>(r: ReadonlyRecord<string, A>) => Readon
 }
 
 /**
+ * Replace a key/value pair in a `ReadonlyRecord`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { updateAt } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(updateAt("a", 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(updateAt("c", 3)({ a: 1, b: 2 }), option.none);
+ *
  * @since 2.5.0
  */
 export const updateAt = <A>(k: string, a: A) => <K extends string>(
@@ -222,6 +307,18 @@ export const updateAt = <A>(k: string, a: A) => <K extends string>(
 }
 
 /**
+ * Applies a mapping function to one spcific key/value pair in a `ReadonlyRecord`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { modifyAt } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(modifyAt("a", (x: number) => x * 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(modifyAt("c", (x: number) => x * 3)({ a: 1, b: 2 }), option.none);
+ *
  * @since 2.5.0
  */
 export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
@@ -242,6 +339,16 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(
 /**
  * Delete a key and value from a `ReadonlyRecord`, returning the value as well as the subsequent `ReadonlyRecord`.
  *
+ * @returns If the specified key exists it returns an `Option` containing a new `ReadonlyRecord`
+ * with the entry removed, otherwise it returns `None`
+ *
+ * @example
+ * import { pop } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(pop("a")({ a: 1, b: 2, c: 3 }), option.some([1, { b: 2, c: 3 }]));
+ * assert.deepStrictEqual(pop("x")({ a: 1, b: 2, c: 3 }), option.none);
+ *
  * @since 2.5.0
  */
 export function pop<K extends string>(
@@ -259,7 +366,29 @@ export function pop(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<read
 
 // TODO: remove non-curried overloading in v3
 /**
- * Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
+ * Test whether one `ReadonlyRecord` contains all of the keys and values
+ * contained in another `ReadonlyRecord`.
+ *
+ * @example
+ * import { isSubrecord } from 'fp-ts/ReadonlyRecord'
+ * import { string } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", b: "bar", c: "baz" }),
+ *   true
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", c: "baz" }),
+ *   true
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", b: "not-bar", c: "baz" }),
+ *   false
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar" })({ a: "foo", b: "bar", c: "baz" }),
+ *   false
+ * );
  *
  * @since 2.5.0
  */
@@ -293,6 +422,16 @@ export function isSubrecord<A>(
 /**
  * Lookup the value for a key in a `ReadonlyRecord`.
  *
+ * @returns If the specified key exists it returns an `Option` containing the value,
+ * otherwise it returns `None`
+ *
+ * @example
+ * import { lookup } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(lookup("b")({ a: "foo", b: "bar" }), option.some("bar"));
+ * assert.deepStrictEqual(lookup("c")({ a: "foo", b: "bar" }), option.none);
+ *
  * @since 2.5.0
  */
 export function lookup(k: string): <A>(r: ReadonlyRecord<string, A>) => Option<A>
@@ -314,6 +453,12 @@ export const empty: ReadonlyRecord<string, never> = {}
 
 /**
  * Map a `ReadonlyRecord` passing the keys to the iterating function.
+ *
+ * @example
+ * import { mapWithIndex } from "fp-ts/ReadonlyRecord";
+ *
+ * const f = (k: string, n: number) => `${k.toUpperCase()}-${n}`;
+ * assert.deepStrictEqual(mapWithIndex(f)({ a: 3, b: 5 }), { a: "A-3", b: "B-5" });
  *
  * @category combinators
  * @since 2.5.0
@@ -338,6 +483,12 @@ export function mapWithIndex<A, B>(
 /**
  * Map a `ReadonlyRecord` passing the values to the iterating function.
  *
+ * @example
+ * import { map } from "fp-ts/ReadonlyRecord";
+ *
+ * const f = (n: number) => `-${n}-`;
+ * assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: "-3-", b: "-5-" });
+ *
  * @category combinators
  * @since 2.5.0
  */
@@ -347,6 +498,21 @@ export function map<A, B>(f: (a: A) => B): (fa: ReadonlyRecord<string, A>) => Re
 }
 
 /**
+ * Reduces a `ReadonlyRecord` passing each key/value pair to the iterating function.
+ * Entries are processed in the order, sorted by key according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduceWithIndex } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceWithIndex(Ord)([] as string[], (k, b, a) => [...b, `${k}-${a}`])(x), [
+ *   "a-foo",
+ *   "b-false",
+ *   "c-3",
+ * ]);
+ *
  * @since 2.5.0
  */
 export function reduceWithIndex(
@@ -383,6 +549,20 @@ export function reduceWithIndex<A, B>(
 }
 
 /**
+ * Map and fold a `ReadonlyRecord`.
+ * Map the `ReadonlyRecord` passing each key/value pair to the iterating function.
+ * Then fold the results using the provided `Monoid`.
+ *
+ * @example
+ * import { foldMapWithIndex } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ * import { Monoid } from "fp-ts/Monoid";
+ *
+ * const m: Monoid<string> = { empty: "", concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) };
+ * const f = (k:string, a: number) => `${k}-${a}`
+ * const x = { c: 3, a: 1, b: 2 };
+ * assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), "a-1 -> b-2 -> c-3");
+ *
  * @since 2.5.0
  */
 export function foldMapWithIndex(
@@ -418,6 +598,21 @@ export function foldMapWithIndex<M>(
 }
 
 /**
+ * Same as `reduceWithIndex`, but reduce starting from the right
+ * (i.e. in reverse order, from the last to the first entry according to
+ * the given `Ord`).
+ *
+ * @example
+ * import { reduceRightWithIndex } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceRightWithIndex(Ord)([] as string[], (k, a, b) => [...b, `${k}-${a}`])(x), [
+ *   "c-3",
+ *   "b-false",
+ *   "a-foo",
+ * ]);
+ *
  * @since 2.5.0
  */
 export function reduceRightWithIndex(
@@ -455,6 +650,11 @@ export function reduceRightWithIndex<A, B>(
 
 /**
  * Create a `ReadonlyRecord` with one key/value pair.
+ *
+ * @example
+ * import { singleton } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(singleton("a", 1), { a: 1 });
  *
  * @category constructors
  * @since 2.5.0
@@ -536,6 +736,30 @@ export function traverse<F>(
 }
 
 /**
+ * `ReadonlyRecord` sequencing,
+ * i.e., take a `ReadonlyRecord` in which elements are monads
+ * and return a monad of a `ReadonlyRecord` of the base types.
+ * The following example for instance shows sequencing
+ * a `ReadonlyRecord<string, Option<number>>`
+ * into an `Option<ReadonlyRecord<string, number>>`.
+ *
+ * `sequence` in `ReadonlyRecord` is equivalent to `sequenceS` in `Apply.ts`.
+ *
+ * @example
+ * import { sequence } from "fp-ts/ReadonlyRecord";
+ * import { option } from "fp-ts";
+ * import { sequenceS } from "fp-ts/Apply";
+ *
+ * assert.deepStrictEqual(
+ *   sequence(option.Applicative)({ a: option.some(1), b: option.some(2) }),
+ *   option.some({ a: 1, b: 2 })
+ * );
+ * assert.deepStrictEqual(sequence(option.Applicative)({ a: option.some(1), b: option.none }), option.none);
+ * assert.deepStrictEqual(
+ *   sequence(option.Applicative)({ a: option.some(1), b: option.some(2) }),
+ *   sequenceS(option.Applicative)({ a: option.some(1), b: option.some(2) })
+ * );
+ *
  * @since 2.5.0
  */
 export function sequence<F extends URIS3>(
@@ -587,6 +811,25 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
+ * Maps a `ReadonlyRecord` with a function returning an `Either` and
+ * partitions the resulting `ReadonlyRecord` into `Left`s and `Right`s.
+ *
+ * @example
+ * import { partitionMapWithIndex } from "fp-ts/ReadonlyRecord"
+ * import { either } from "fp-ts"
+ *
+ * const f = (key: string, a: number) =>
+ *   a >= 0 ? either.right(`${key} is >= 0 (${a})`) : either.left(`${key} is < 0 (${a})`);
+ * assert.deepStrictEqual(partitionMapWithIndex(f)({ a: -1, b: 2, c: 123 }), {
+ *   left: {
+ *     a: "a is < 0 (-1)",
+ *   },
+ *   right: {
+ *     b: "b is >= 0 (2)",
+ *     c: "c is >= 0 (123)",
+ *   },
+ * });
+ *
  * @since 2.5.0
  */
 export function partitionMapWithIndex<K extends string, A, B, C>(
@@ -616,6 +859,25 @@ export function partitionMapWithIndex<A, B, C>(
 }
 
 /**
+ * Partition a `ReadonlyRecord` into two parts according to a predicate
+ * that takes a key and a value.
+ *
+ * @example
+ * import { partitionWithIndex } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(
+ *   partitionWithIndex((key: string, a: number) => key.length <= 1 && a > 0)({ a: -1, b: 2, ccc: 7 }),
+ *   {
+ *     left: {
+ *       a: -1,
+ *       ccc: 7,
+ *     },
+ *     right: {
+ *       b: 2,
+ *     },
+ *   }
+ * );
+ *
  * @since 2.5.0
  */
 export function partitionWithIndex<K extends string, A, B extends A>(
@@ -648,6 +910,19 @@ export function partitionWithIndex<A>(
 }
 
 /**
+ * Maps a `ReadonlyRecord` with an iterating function that takes key and value and
+ * returns an `Option`, keeping only the `Some` values and discarding `None`s.
+ *
+ * @example
+ * import { filterMapWithIndex } from "fp-ts/ReadonlyRecord"
+ * import { option } from "fp-ts"
+ *
+ * const f = (key: string, a: number) => (a >= 0 ? option.some(`${key}${a}`) : option.none);
+ * assert.deepStrictEqual(filterMapWithIndex(f)({ a: -1, b: 2, c: 3 }), {
+ *   b: "b2",
+ *   c: "c3",
+ * });
+ *
  * @category combinators
  * @since 2.5.0
  */
@@ -672,6 +947,19 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
+ * Produce a new `ReadonlyRecord` keeping only the entries that satisfy
+ * a predicate taking key and value as input.
+ *
+ * @example
+ * import { filterWithIndex } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(
+ *   filterWithIndex((s: string, v: number) => s.length <= 1 && v > 0)({ a: 1, b: -2, ccc: 3 }),
+ *   {
+ *     a: 1,
+ *   }
+ * );
+ *
  * @since 2.5.0
  */
 export function filterWithIndex<K extends string, A, B extends A>(
@@ -823,6 +1111,14 @@ export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<
   fromFoldable(Se.last<A>(), RA.Foldable)(fa)
 
 /**
+ * Test if every value in a `ReadonlyRecord` satisfies the predicate.
+ *
+ * @example
+ * import { every } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: 2 }), true);
+ * assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: -1 }), false);
+ *
  * @since 2.5.0
  */
 export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean {
@@ -837,6 +1133,14 @@ export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>
 }
 
 /**
+ * Test if at least one value in a `ReadonlyRecord` satisfies the predicate.
+ *
+ * @example
+ * import { some } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: 1, b: -2 }), true);
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false);
+ *
  * @since 2.5.0
  */
 export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string, A>) => boolean {
@@ -852,6 +1156,16 @@ export function some<A>(predicate: (a: A) => boolean): (r: ReadonlyRecord<string
 
 // TODO: remove non-curried overloading in v3
 /**
+ * Given an `Eq` checks if a `ReadonlyRecord` contains an entry with
+ * value equal to a provided value.
+ *
+ * @example
+ * import { elem } from "fp-ts/ReadonlyRecord"
+ * import { number } from "fp-ts"
+ *
+ * assert.deepStrictEqual(elem(number.Eq)(123, { foo: 123, bar: 234 }), true);
+ * assert.deepStrictEqual(elem(number.Eq)(-7, { foo: 123, bar: 234 }), false);
+ *
  * @since 2.5.0
  */
 export function elem<A>(
@@ -878,6 +1192,21 @@ export function elem<A>(
 }
 
 /**
+ * Union of two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining all the
+ * entries of the two inputs.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements with the same key.
+ *
+ * @example
+ * import { union } from "fp-ts/ReadonlyRecord";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 });
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 });
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -907,6 +1236,21 @@ export const union = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, A>) => 
 }
 
 /**
+ * Intersection of two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` combining only the
+ * entries of the two inputswith the same key.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements.
+ *
+ * @example
+ * import { intersection } from "fp-ts/ReadonlyRecord";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4});
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1});
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -926,6 +1270,18 @@ export const intersection = <A>(M: Magma<A>) => (second: ReadonlyRecord<string, 
 }
 
 /**
+ * Difference between two `ReadonlyRecord`s.
+ * Takes two `ReadonlyRecord`s and produces a `ReadonlyRecord` composed by the
+ * entries of the two inputs, removing the entries with the same
+ * key in both inputs.
+ *
+ * @example
+ * import { difference } from "fp-ts/ReadonlyRecord";
+ *
+ * assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 });
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -1086,6 +1442,17 @@ const _traverseWithIndex = (O: Ord<string>) => <F>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Given a `Predicate`, it produces a new `ReadonlyRecord` keeping only the entries with a
+ * value that satisfies the provided predicate.
+ *
+ * @example
+ * import { filter } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(filter((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo",
+ *   b: "bar",
+ * });
+ *
  * @category Filterable
  * @since 2.5.0
  */
@@ -1097,6 +1464,19 @@ export const filter: {
   filterWithIndex((_, a) => predicate(a))
 
 /**
+ * Maps a `ReadonlyRecord` with an iterating function that returns an `Option`
+ * and it keeps only the `Some` values discarding the `None`s.
+ *
+ * @example
+ * import { filterMap } from "fp-ts/ReadonlyRecord"
+ * import { option } from "fp-ts"
+ *
+ * const f = (s: string) => s.length < 4 ? option.some(`${s} is short`): option.none
+ * assert.deepStrictEqual(filterMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo is short",
+ *   b: "bar is short",
+ * });
+ *
  * @category Filterable
  * @since 2.5.0
  */
@@ -1105,6 +1485,21 @@ export const filterMap: <A, B>(
 ) => (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
+ * Partition a `ReadonlyRecord` into two parts according to a `Predicate`.
+ *
+ * @example
+ * import { partition } from "fp-ts/ReadonlyRecord"
+ *
+ * assert.deepStrictEqual(partition((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left:{
+ *     c: "verylong"
+ *   },
+ *   right: {
+ *     a: "foo",
+ *     b: "bar",
+ *   },
+ * });
+ *
  * @category Filterable
  * @since 2.5.0
  */
@@ -1124,6 +1519,24 @@ export const partition: {
   partitionWithIndex((_, a) => predicate(a))
 
 /**
+ * Maps a `ReadonlyRecord` with a function returning an `Either` and
+ * partitions the resulting `ReadonlyRecord` into `Left`s and `Right`s.
+ *
+ * @example
+ * import { partitionMap } from "fp-ts/ReadonlyRecord"
+ * import { either } from "fp-ts"
+ *
+ * const f = (s: string) => (s.length < 4 ? either.right(`${s} is short`) : either.left(`${s} is not short`));
+ * assert.deepStrictEqual(partitionMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left: {
+ *     c: "verylong is not short",
+ *   },
+ *   right: {
+ *     a: "foo is short",
+ *     b: "bar is short",
+ *   },
+ * });
+ *
  * @category Filterable
  * @since 2.5.0
  */
@@ -1133,6 +1546,21 @@ export const partitionMap: <A, B, C>(
   partitionMapWithIndex((_, a) => f(a))
 
 /**
+ * Reduces a `ReadonlyRecord` passing each value to the iterating function.
+ * Entries are processed in order, sorted by key according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduce } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduce(Ord)([] as string[], (b, a) => [...b, `-${a}-`])(x), [
+ *   "-foo-",
+ *   "-false-",
+ *   "-3-",
+ * ]);
+ *
  * @category Foldable
  * @since 2.5.0
  */
@@ -1154,6 +1582,20 @@ export function reduce<A, B>(
 }
 
 /**
+ * Map and fold a `ReadonlyRecord`.
+ * Map the `ReadonlyRecord` passing each value to the iterating function.
+ * Then fold the results using the provided `Monoid`.
+ *
+ * @example
+ * import { foldMap } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ * import { Monoid } from "fp-ts/Monoid";
+ *
+ * const m: Monoid<string> = { empty: "", concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) };
+ * const f = (a: number) => `-${a}-`;
+ * const x = { c: 3, a: 1, b: 2 };
+ * assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), "-1- -> -2- -> -3-");
+ *
  * @category Foldable
  * @since 2.5.0
  */
@@ -1182,6 +1624,21 @@ export function foldMap<M>(
 }
 
 /**
+ * Same as `reduce` but entries are processed _from the right_,
+ * i.e. in reverse order, from the last to the first entry, according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduceRight } from "fp-ts/ReadonlyRecord";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceRight(Ord)([] as string[], (a, b) => [...b, `-${a}-`])(x), [
+ *   "-3-",
+ *   "-false-",
+ *   "-foo-",
+ * ]);
+ *
  * @category Foldable
  * @since 2.5.0
  */
@@ -1203,6 +1660,18 @@ export function reduceRight<A, B>(
 }
 
 /**
+ * Compact a `ReadonlyRecord` of `Option`s discarding the `None` values and
+ * keeping the `Some` values.
+ *
+ * @example
+ * import { compact } from 'fp-ts/ReadonlyRecord'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(compact({ a: option.some("foo"), b: option.none, c: option.some("bar") }), {
+ *   a: "foo",
+ *   c: "bar",
+ * });
+ *
  * @category Compactable
  * @since 2.5.0
  */
@@ -1220,6 +1689,25 @@ export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord
 }
 
 /**
+ * Separate a `ReadonlyRecord` of `Either`s into `Left`s and `Right`s.
+ *
+ * @example
+ * import { separate } from 'fp-ts/ReadonlyRecord'
+ * import { either } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(
+ *   separate({ a: either.right("foo"), b: either.left("bar"), c: either.right("baz") }),
+ *   {
+ *     right: {
+ *       a: "foo",
+ *       c: "baz",
+ *     },
+ *     left: {
+ *       b: "bar",
+ *     },
+ *   }
+ * );
+ *
  * @category Compactable
  * @since 2.5.0
  */
@@ -1264,6 +1752,19 @@ declare module './HKT' {
 }
 
 /**
+ * Produces a `Show` for a `ReadonlyRecord`, given a `Show` for the base type
+ * (a `Show` produces a human-readable representation of an instance).
+ * `ReadonlyRecord` entries are sorted by key with the provided `Ord`.
+ *
+ * @example
+ * import { getShow, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Show } from "fp-ts/Show"
+ * import { Ord } from "fp-ts/string"
+ *
+ * const sNumber: Show<number> = { show: (n: number) => `${n}` };
+ * const sRecord: Show<ReadonlyRecord<string, number>> = getShow(Ord)(sNumber);
+ * assert.deepStrictEqual(sRecord.show({ b: 2, a: 1 }), '{ "a": 1, "b": 2 }');
+ *
  * @category instances
  * @since 2.5.0
  */
@@ -1290,6 +1791,18 @@ export function getShow<A>(
 }
 
 /**
+ * Given an `Eq` for the base type, it produces an `Eq`
+ * for a `ReadonlyRecord` of that base type.
+ *
+ * @example
+ * import { getEq, ReadonlyRecord } from "fp-ts/ReadonlyRecord";
+ * import { string } from "fp-ts";
+ * import { Eq } from "fp-ts/Eq";
+ *
+ * const eq: Eq<ReadonlyRecord<string, string>> = getEq(string.Eq);
+ * assert.deepStrictEqual(eq.equals({ a: "foo" }, { b: "bar" }), false);
+ * assert.deepStrictEqual(eq.equals({ a: "foo" }, { a: "foo" }), true);
+ *
  * @category instances
  * @since 2.5.0
  */
@@ -1300,14 +1813,17 @@ export function getEq<A>(E: Eq<A>): Eq<ReadonlyRecord<string, A>> {
 }
 
 /**
- * Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup` instance for their values.
+ * Returns a `Monoid` instance for `ReadonlyRecord`s, given a `Semigroup`
+ * instance for the base type.
+ * The `Monoid` makes the union of two `ReadonlyRecord`s comining the
+ * overlapping entries with the provided `Semigroup`.
  *
  * @example
  * import { SemigroupSum } from 'fp-ts/number'
  * import { getMonoid } from 'fp-ts/ReadonlyRecord'
  *
- * const M = getMonoid(SemigroupSum)
- * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ * const M = getMonoid(SemigroupSum);
+ * assert.deepStrictEqual(M.concat({ foo: 123, bar: 234 }, { foo: 456, baz: 567 }), { foo: 579 , bar: 234, baz: 567 });
  *
  * @category instances
  * @since 2.5.0
@@ -1345,12 +1861,23 @@ export const Functor: Functor1<URI> = {
 
 /**
  * Derivable from `Functor`.
+ * Takes a value and a `ReadonlyRecord` of functions and returns a
+ * `ReadonlyRecord` by applying each function to the input value.
+ *
+ * @example
+ * import { flap } from "fp-ts/ReadonlyRecord"
+ *
+ * const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` };
+ * assert.deepStrictEqual(flap(3)(fab), {
+ *   x: "3 times 2",
+ *   y: "6",
+ * });
  *
  * @category combinators
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -1364,6 +1891,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
+ * Produces a `Foldable` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1375,6 +1905,9 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
 })
 
 /**
+ * Produces a `FoldableWithIndex1` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1434,6 +1967,9 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
+ * Produces a `Traversable` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1448,6 +1984,9 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
 })
 
 /**
+ * Produces a `TraversableWithIndex` instance for a `ReadonlyRecord`, using the
+ * provided `Ord` to sort the `ReadonlyRecord`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1492,6 +2031,19 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => {
 }
 
 /**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `ReadonlyRecord` of the base type.
+ * The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
+ * `union`.
+ *
+ * @example
+ * import { getUnionSemigroup, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sReadonlyRecord: Semigroup<ReadonlyRecord<string, number>> = getUnionSemigroup(sNumber);
+ * assert.deepStrictEqual(sReadonlyRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { a: 1, b: -1, c: 4 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1503,6 +2055,19 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<ReadonlyRecord<
 }
 
 /**
+ * Same as `getMonoid`.
+ * Returns a `Monoid` instance for `ReadonlyRecord`s given a `Semigroup`
+ * instance for the base type.
+ * The `Monoid` makes the union of two `ReadonlyRecord`s combining the
+ * entries that have the same key with the provided `Semigroup`.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ * import { getUnionMonoid } from 'fp-ts/ReadonlyRecord'
+ *
+ * const M = getUnionMonoid(SemigroupSum);
+ * assert.deepStrictEqual(M.concat({ foo: 123, bar: 234 }, { foo: 456, baz: 567 }), { foo: 579 , bar: 234, baz: 567 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1512,6 +2077,19 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string
 })
 
 /**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `ReadonlyRecord` of the base type.
+ * The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
+ * `intersection`.
+ *
+ * @example
+ * import { getIntersectionSemigroup, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sReadonlyRecord: Semigroup<ReadonlyRecord<string, number>> = getIntersectionSemigroup(sNumber);
+ * assert.deepStrictEqual(sReadonlyRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { b: -1 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1523,6 +2101,19 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Readonly
 }
 
 /**
+ * Produces a `Magma` with a `concat` function that combines
+ * two `ReadonlyRecord`s by making the `difference`.
+ *
+ * @example
+ * import { getDifferenceMagma, difference, ReadonlyRecord } from "fp-ts/ReadonlyRecord"
+ * import { Magma } from "fp-ts/Magma"
+ *
+ * const r1 = { a: 3, c: 3 };
+ * const r2 = { a: 1, b: 2 };
+ * const m: Magma<ReadonlyRecord<string, number>> = getDifferenceMagma<number>();
+ * assert.deepStrictEqual(m.concat(r1, r2), difference(r2)(r1));
+ * assert.deepStrictEqual(m.concat(r1, r2), { c: 3, b: 2 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1545,9 +2136,15 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord)
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord)
 }
 
 /**
@@ -1559,12 +2156,24 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  reduceWithIndex: _reduceWithIndex(S.Ord),
-  foldMapWithIndex: _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: _reduceRightWithIndex(S.Ord)
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -1577,10 +2186,18 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence
 }
 
@@ -1595,19 +2212,39 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  reduceWithIndex: _reduceWithIndex(S.Ord),
-  foldMapWithIndex: _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
-  traverse: _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
-  traverseWithIndex: _traverseWithIndex(S.Ord)
+  traverseWithIndex:
+    /*#__PURE__*/
+    _traverseWithIndex(S.Ord)
 }
 
-const _wither = witherDefault(Traversable, Compactable)
-const _wilt = wiltDefault(Traversable, Compactable)
+const _wither =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+const _wilt =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * Use `getWitherable` instead.
@@ -1619,10 +2256,18 @@ const _wilt = wiltDefault(Traversable, Compactable)
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1668,10 +2313,18 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce: _reduce(S.Ord),
-  foldMap: _foldMap(S.Ord),
-  reduceRight: _reduceRight(S.Ord),
-  traverse: _traverse(S.Ord),
+  reduce:
+    /*#__PURE__*/
+    _reduce(S.Ord),
+  foldMap:
+    /*#__PURE__*/
+    _foldMap(S.Ord),
+  reduceRight:
+    /*#__PURE__*/
+    _reduceRight(S.Ord),
+  traverse:
+    /*#__PURE__*/
+    _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1680,14 +2333,22 @@ export const readonlyRecord: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex: _reduceWithIndex(S.Ord),
-  foldMapWithIndex: _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex: _reduceRightWithIndex(S.Ord),
+  reduceWithIndex:
+    /*#__PURE__*/
+    _reduceWithIndex(S.Ord),
+  foldMapWithIndex:
+    /*#__PURE__*/
+    _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex:
+    /*#__PURE__*/
+    _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex: _traverseWithIndex(S.Ord),
+  traverseWithIndex:
+    /*#__PURE__*/
+    _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }

@@ -241,7 +241,7 @@ Use [`chainNullableK`](#chainnullablek) instead.
 **Signature**
 
 ```ts
-export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
+export declare const mapNullable: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
 Added in v2.0.0
@@ -1163,7 +1163,9 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
 **Example**
@@ -1512,18 +1514,24 @@ Returns `true` if `ma` contains `a`
 **Signature**
 
 ```ts
-export declare function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (ma: Option<A>) => boolean
+  (a: A, ma: Option<A>): boolean
+}
 ```
 
 **Example**
 
 ```ts
 import { some, none, elem } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
 import * as N from 'fp-ts/number'
 
-assert.strictEqual(elem(N.Eq)(1, some(1)), true)
-assert.strictEqual(elem(N.Eq)(2, some(1)), false)
-assert.strictEqual(elem(N.Eq)(1, none), false)
+assert.strictEqual(pipe(some(1), elem(N.Eq)(1)), true)
+assert.strictEqual(pipe(some(1), elem(N.Eq)(2)), false)
+assert.strictEqual(pipe(none, elem(N.Eq)(1)), false)
 ```
 
 Added in v2.0.0

@@ -69,8 +69,20 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right(1))), _.right('a'))
     })
 
+    it('apFirstW', () => {
+      const f = _.right(true)
+      U.deepStrictEqual(pipe(_.right('abc'), _.apFirstW(f)), _.right('abc'))
+      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.apFirstW(f)), _.left('maError'))
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right(1))), _.right(1))
+    })
+
+    it('apSecondW', () => {
+      const f = _.right(true)
+      U.deepStrictEqual(pipe(_.right('abc'), _.apSecondW(f)), _.right(true))
+      U.deepStrictEqual(pipe(_.left<string, string>('maError'), _.apSecondW(f)), _.left('maError'))
     })
 
     it('chain', () => {
@@ -205,6 +217,9 @@ describe('Either', () => {
     U.deepStrictEqual(_.elem(N.Eq)(2, _.left('a')), false)
     U.deepStrictEqual(_.elem(N.Eq)(2, _.right(2)), true)
     U.deepStrictEqual(_.elem(N.Eq)(1, _.right(2)), false)
+    U.deepStrictEqual(pipe(_.left('a'), _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.right(2), _.elem(N.Eq)(1)), false)
   })
 
   it('filterOrElse', () => {

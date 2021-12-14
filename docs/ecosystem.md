@@ -20,6 +20,7 @@ has_toc: false
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
 - [monocle-ts](https://github.com/gcanti/monocle-ts) - Functional optics: a (partial) porting of scala monocle to
   TypeScript
+- [spectacles-ts](https://github.com/anthonyjoeseph/spectacles-ts/) - A simple facade built on top of monocle-ts (autocompletes possible combinators)
 - [newtype-ts](https://github.com/gcanti/newtype-ts) - Implementation of newtypes in TypeScript
 - [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
 - [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript

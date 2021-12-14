@@ -368,7 +368,7 @@ export const Functor: Functor2<URI> = {
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -493,7 +493,9 @@ export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =
 /**
  * @since 2.11.0
  */
-export const ApT: TaskThese<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: TaskThese<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

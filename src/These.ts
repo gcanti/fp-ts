@@ -587,7 +587,7 @@ export const Functor: Functor2<URI> = {
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -720,7 +720,9 @@ export const toTuple = <E, A>(e: E, a: A): ((fa: These<E, A>) => [E, A]) =>
 /**
  * @since 2.11.0
  */
-export const ApT: These<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: These<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -911,7 +911,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -927,6 +927,16 @@ export const apFirst =
   apFirst_(Apply)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst)
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -937,6 +947,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(Apply)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond)
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E1 | E2, B> = apSecond as any
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -1212,8 +1232,21 @@ export function toError(e: unknown): Error {
 /**
  * @since 2.0.0
  */
-export const elem = <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>): boolean =>
-  isLeft(ma) ? false : E.equals(a, ma.right)
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <E>(ma: Either<E, A>) => boolean
+  <E>(a: A, ma: Either<E, A>): boolean
+}
+export function elem<A>(E: Eq<A>): <E>(a: A, ma?: Either<E, A>) => boolean | ((ma: Either<E, A>) => boolean) {
+  return (a, ma?) => {
+    if (ma === undefined) {
+      const elemE = elem(E)
+      return (ma) => elemE(a, ma)
+    }
+    return isLeft(ma) ? false : E.equals(a, ma.right)
+  }
+}
 
 /**
  * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
@@ -1295,7 +1328,9 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: Either<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Either<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

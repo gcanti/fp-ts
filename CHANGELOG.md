@@ -16,6 +16,27 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.5
+
+- **Polish**
+  - more curried `elem` overloads, #1602 (@ammut)
+
+# 2.11.4
+
+- **Polish**
+  - fix `chainNullableK` signature, #1589 (@bwlt)
+  - stack safety for `Task` via microtasks suspension, #1591 (@mikearnaldi)
+
+# 2.11.3
+
+- **Polish**
+  - pipe: fix v8 performance cliff for >10 case stmts, #1585 (@pbadenski)
+
+# 2.11.2
+
+- **Polish**
+  - Add/fix pure comments, #1555 (@OliverJAsh)
+
 # 2.11.1
 
 - **Deprecation**

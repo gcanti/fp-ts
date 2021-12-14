@@ -61,9 +61,23 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right('a'))
     })
 
+    it('apFirstW', async () => {
+      const fa = _.right<unknown, { readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<unknown, { readonly x: number }, 'Bar', number>(6)
+      const e = await pipe(fa, _.apFirstW(fb), _.evaluate(state))({ k: 'v', x: 5 })()
+      U.deepStrictEqual(e, E.right('a'))
+    })
+
     it('apSecond', async () => {
       const e = await pipe(_.right('a'), _.apSecond(_.right('b')), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right('b'))
+    })
+
+    it('apSecondW', async () => {
+      const fa = _.right<unknown, { readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<unknown, { readonly x: number }, 'Bar', number>(6)
+      const e = await pipe(fa, _.apSecondW(fb), _.evaluate(state))({ k: 'v', x: 5 })()
+      U.deepStrictEqual(e, E.right(6))
     })
 
     it('chain', async () => {

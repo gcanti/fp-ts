@@ -392,6 +392,9 @@ describe('Option', () => {
     U.deepStrictEqual(_.elem(N.Eq)(2, _.none), false)
     U.deepStrictEqual(_.elem(N.Eq)(2, _.some(2)), true)
     U.deepStrictEqual(_.elem(N.Eq)(1, _.some(2)), false)
+    U.deepStrictEqual(pipe(_.none, _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(1)), false)
   })
 
   it('isNone', () => {

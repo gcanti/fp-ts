@@ -26,7 +26,9 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
@@ -156,6 +158,18 @@ export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -169,6 +183,18 @@ export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## chainFirst
 
@@ -1521,7 +1547,12 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <E>(ma: Either<E, A>) => boolean
+  <E>(a: A, ma: Either<E, A>): boolean
+}
 ```
 
 Added in v2.0.0

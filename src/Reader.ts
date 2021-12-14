@@ -249,7 +249,7 @@ export const Functor: Functor2<URI> = {
  * @since 2.10.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -284,6 +284,16 @@ export const apFirst =
   apFirst_(Apply)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <R2, A, B>(
+  second: Reader<R2, B>
+) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -294,6 +304,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(Apply)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <R2, A, B>(
+  second: Reader<R2, B>
+) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, B> = apSecond as any
 
 /**
  * @category instances
@@ -461,7 +481,9 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Reader<unknown, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

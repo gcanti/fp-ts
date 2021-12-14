@@ -1043,7 +1043,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 2.9.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
   isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
@@ -1113,16 +1113,29 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  *
  * @example
  * import { some, none, elem } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  * import * as N from 'fp-ts/number'
  *
- * assert.strictEqual(elem(N.Eq)(1, some(1)), true)
- * assert.strictEqual(elem(N.Eq)(2, some(1)), false)
- * assert.strictEqual(elem(N.Eq)(1, none), false)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(1)), true)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(2)), false)
+ * assert.strictEqual(pipe(none, elem(N.Eq)(1)), false)
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (ma: Option<A>) => boolean
+  (a: A, ma: Option<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, ma?: Option<A>) => boolean | ((ma: Option<A>) => boolean) {
+  return (a, ma?) => {
+    if (ma === undefined) {
+      const elemE = elem(E)
+      return (ma) => elemE(a, ma)
+    }
+    return isNone(ma) ? false : E.equals(a, ma.value)
+  }
 }
 
 /**
@@ -1202,7 +1215,9 @@ export const apS =
 /**
  * @since 2.11.0
  */
-export const ApT: Option<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

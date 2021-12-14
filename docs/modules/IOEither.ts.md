@@ -35,7 +35,9 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -294,6 +296,20 @@ export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEit
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -307,6 +323,20 @@ export declare const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEi
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## chainEitherK
 
