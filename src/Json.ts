@@ -34,7 +34,7 @@ export interface JsonArray extends ReadonlyArray<Json> {}
  *
  * @since 2.10.0
  */
-export const parse = (s: string): Either<unknown, Json> => tryCatch(() => JSON.parse(s), identity)
+export const parse = (s: string): Either<SyntaxError, Json> => tryCatch(() => JSON.parse(s), identity as any)
 
 /**
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
@@ -50,18 +50,18 @@ export const parse = (s: string): Either<unknown, Json> => tryCatch(() => JSON.p
  * assert.deepStrictEqual(
  *   pipe(
  *     J.stringify(circular),
- *     E.mapLeft(e => e instanceof Error && e.message.includes('Converting circular structure to JSON'))
+ *     E.mapLeft(e => e.message.includes('Converting circular structure to JSON'))
  *   ),
  *   E.left(true)
  * )
  *
  *  @since 2.10.0
  */
-export const stringify = <A>(a: A): Either<unknown, string> =>
+export const stringify = <A>(a: A): Either<TypeError, string> =>
   tryCatch(() => {
     const s = JSON.stringify(a)
     if (typeof s !== 'string') {
-      throw new Error('Converting unsupported structure to JSON')
+      throw new TypeError('Converting unsupported structure to JSON')
     }
     return s
-  }, identity)
+  }, identity as any)

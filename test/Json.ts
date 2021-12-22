@@ -17,7 +17,7 @@ describe('Json', () => {
       pipe(
         circular,
         _.stringify,
-        E.mapLeft((e) => (e as Error).message.includes('Converting circular structure to JSON'))
+        E.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
       ),
       E.left(true)
     )
@@ -28,6 +28,6 @@ describe('Json', () => {
     const person: Person = { name: 'Giulio', age: 45 }
     U.deepStrictEqual(pipe(person, _.stringify), E.right('{"name":"Giulio","age":45}'))
 
-    U.deepStrictEqual(_.stringify(undefined as any), E.left(new Error('Converting unsupported structure to JSON')))
+    U.deepStrictEqual(_.stringify(undefined), E.left(new TypeError('Converting unsupported structure to JSON')))
   })
 })
