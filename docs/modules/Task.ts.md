@@ -240,11 +240,12 @@ async function test() {
       log.push(message)
     })
   const fa = append('a')
-  const fb = append('b')
+  const fb = T.delay(20)(append('b'))
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
   await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
-  assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+  assert.deepStrictEqual(log[2], 'c')
+  assert.deepStrictEqual(log[3], 'b')
 }
 
 test()
