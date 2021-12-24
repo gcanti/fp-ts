@@ -232,6 +232,7 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 ```ts
 import { sequenceT } from 'fp-ts/Apply'
 import * as T from 'fp-ts/Task'
+import { takeRight } from 'fp-ts/Array'
 
 async function test() {
   const log: Array<string> = []
@@ -244,8 +245,7 @@ async function test() {
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
   await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
-  assert.deepStrictEqual(log[2], 'c')
-  assert.deepStrictEqual(log[3], 'b')
+  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
 }
 
 test()
