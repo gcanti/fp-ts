@@ -45,6 +45,7 @@ has_toc: false
 - [fp-ts-generators](https://github.com/no-day/fp-ts-generators) - Seeded pseudorandom generators for structured data
 - [fp-ts-sized-vectors](https://github.com/no-day/fp-ts-sized-vectors) - Fixed size generic vector type carrying its length at the typelevel
 - [fp-ts-number-instances](https://github.com/no-day/fp-ts-number-instances) - Not fully law abiding instances for the number type
+- [fp-ts-react-stable-hooks](https://github.com/mblink/fp-ts-react-stable-hooks) - Reduce unnecessary rerenders when using fp-ts data types with React hooks
 
 ## Bindings
 
