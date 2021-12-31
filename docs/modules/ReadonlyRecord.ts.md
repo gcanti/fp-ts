@@ -870,7 +870,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getIntersectionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -975,7 +975,7 @@ entries that have the same key with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+export declare const getUnionMonoid: <A>(S: Se.Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -1000,7 +1000,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getUnionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**

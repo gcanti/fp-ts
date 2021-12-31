@@ -680,7 +680,7 @@ The resulting `Semigroup` concatenates two `Record`s by
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+export declare const getIntersectionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Record<string, A>>
 ```
 
 **Example**
@@ -706,7 +706,7 @@ overlapping entries with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>>
+export declare const getMonoid: <K extends string, A>(S: Se.Semigroup<A>) => Monoid<Record<K, A>>
 ```
 
 **Example**
@@ -785,7 +785,7 @@ entries that have the same key with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Record<string, A>>
+export declare const getUnionMonoid: <A>(S: Se.Semigroup<A>) => Monoid<Record<string, A>>
 ```
 
 **Example**
@@ -810,7 +810,7 @@ The resulting `Semigroup` concatenates two `Record`s by
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+export declare const getUnionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Record<string, A>>
 ```
 
 **Example**
