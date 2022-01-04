@@ -21,6 +21,7 @@ describe('Json', () => {
       ),
       E.left(true)
     )
+    U.deepStrictEqual(_.stringify({ a: BigInt(1) }), E.left(new TypeError('Do not know how to serialize a BigInt')))
     type Person = {
       readonly name: string
       readonly age: number
