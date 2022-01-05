@@ -282,9 +282,9 @@ export const orElseFirst: <E, R, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const orElseFirstW: <E1, R, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R, E2, B>
-) => <A>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, A> = orElseFirst as any
+export const orElseFirstW: <E1, R2, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R2, E2, B>
+) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = orElseFirst as any
 
 /**
  * @category combinators
