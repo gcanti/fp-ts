@@ -54,6 +54,16 @@ pipe(
 )
 
 //
+// orElseFirstIOK
+//
+
+// $ExpectType IOEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstIOK((a) => IO.of(a.length))
+)
+
+//
 // orLeft
 //
 
