@@ -93,6 +93,30 @@ export interface Functor4<F extends URIS4> {
  * @category combinators
  * @since 2.10.0
  */
+export function map<F extends URIS3, G extends URIS>(
+  F: Functor3<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, Kind<G, A>>) => Kind3<F, R, E, Kind<G, B>>
+export function map<F extends URIS2, G extends URIS2>(
+  F: Functor2<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <EF, EG>(fa: Kind2<F, EF, Kind2<G, EG, A>>) => Kind2<F, EF, Kind2<G, EG, B>>
+export function map<F extends URIS2, G extends URIS>(
+  F: Functor2<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
+export function map<F extends URIS, G extends URIS3>(
+  F: Functor1<F>,
+  G: Functor3<G>
+): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind<F, Kind3<G, R, E, A>>) => Kind<F, Kind3<G, R, E, B>>
+export function map<F extends URIS, G extends URIS2>(
+  F: Functor1<F>,
+  G: Functor2<G>
+): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
+export function map<F extends URIS, G extends URIS>(
+  F: Functor1<F>,
+  G: Functor1<G>
+): <A, B>(f: (a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
 export function map<F, G extends URIS2>(
   F: Functor<F>,
   G: Functor2<G>
