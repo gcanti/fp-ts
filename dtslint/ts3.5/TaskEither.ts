@@ -2,6 +2,7 @@ import * as _ from '../../src/TaskEither'
 import * as T from '../../src/Task'
 import * as E from '../../src/Either'
 import * as TO from '../../src/TaskOption'
+import * as IO from '../../src/IO'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
@@ -53,6 +54,26 @@ pipe(
 pipe(
   _.left('a'),
   _.orElseFirstW((a) => _.left(a.length))
+)
+
+//
+// orElseFirstIOK
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstIOK((a) => IO.of(a.length))
+)
+
+//
+// orElseFirstTaskK
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstTaskK((a) => T.of(a.length))
 )
 
 //

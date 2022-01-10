@@ -57,6 +57,7 @@ Added in v2.0.0
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -572,6 +573,16 @@ export declare const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A
 ```
 
 Added in v2.11.0
+
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+```
+
+Added in v2.11.8
 
 ## orElseFirstW
 

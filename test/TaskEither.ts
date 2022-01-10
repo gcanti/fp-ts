@@ -445,6 +445,18 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
   })
 
+  it('orElseFirstIOK', async () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+  })
+
+  it('orElseFirstTaskK', async () => {
+    const f = _.orElseFirstTaskK((e: string) => T.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+  })
+
   it('orLeft', async () => {
     const f = _.orLeft((e: string) => T.of(e + '!'))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))

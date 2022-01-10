@@ -69,6 +69,8 @@ Added in v2.0.0
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
+  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -753,6 +755,28 @@ export declare const orElseFirst: <E, B>(
 ```
 
 Added in v2.11.0
+
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.11.8
+
+## orElseFirstTaskK
+
+**Signature**
+
+```ts
+export declare const orElseFirstTaskK: <E, B>(
+  onLeft: (e: E) => T.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.11.8
 
 ## orElseFirstW
 
