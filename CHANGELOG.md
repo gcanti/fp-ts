@@ -16,7 +16,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 2.11.6
+# 2.11.7
 
 - **Polish**
   - more `Functor.map` overloadings, closes #1623 (@gcanti)
