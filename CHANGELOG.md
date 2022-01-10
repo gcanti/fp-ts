@@ -19,6 +19,11 @@ high state of flux, you're at risk of it changing without notice.
 # 2.11.6
 
 - **Polish**
+  - more `Functor.map` overloadings, closes #1623 (@gcanti)
+
+# 2.11.6
+
+- **Polish**
   - `ReaderEither`
     - `orElseFirstW`: intersect dependencies like `orElseW` (@gcanti)
   - `ReaderTaskEither`
