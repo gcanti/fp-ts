@@ -16,6 +16,19 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.7
+
+- **Polish**
+  - more `Functor.map` overloadings, closes #1623 (@gcanti)
+
+# 2.11.6
+
+- **Polish**
+  - `ReaderEither`
+    - `orElseFirstW`: intersect dependencies like `orElseW` (@gcanti)
+  - `ReaderTaskEither`
+    - `orElseFirstW`: intersect dependencies like `orElseW`, #1635 (@OliverJAsh)
+
 # 2.11.5
 
 - **Polish**

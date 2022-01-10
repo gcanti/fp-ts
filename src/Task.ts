@@ -65,6 +65,7 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().th
  * @example
  * import { sequenceT } from 'fp-ts/Apply'
  * import * as T from 'fp-ts/Task'
+ * import { takeRight } from 'fp-ts/Array'
  *
  * async function test() {
  *   const log: Array<string> = []
@@ -73,11 +74,11 @@ export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().th
  *       log.push(message)
  *     })
  *   const fa = append('a')
- *   const fb = append('b')
+ *   const fb = T.delay(20)(append('b'))
  *   const fc = T.delay(10)(append('c'))
  *   const fd = append('d')
  *   await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
- *   assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+ *   assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
  * }
  *
  * test()
