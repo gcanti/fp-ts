@@ -2314,8 +2314,12 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   chainRec: _chainRecBreadthFirst
 }
 
-const _wither: Witherable1<URI>['wither'] = witherDefault(Traversable, Compactable)
-const _wilt: Witherable1<URI>['wilt'] = wiltDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] =
+  /*#__PURE__*/
+  witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] =
+  /*#__PURE__*/
+  wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
