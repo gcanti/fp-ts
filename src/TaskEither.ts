@@ -956,6 +956,22 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirstW(fromEitherK(f))
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A> = chainFirstEitherKW
+
+/**
  * @category constructors
  * @since 2.0.0
  */
