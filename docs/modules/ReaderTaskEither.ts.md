@@ -156,6 +156,8 @@ Added in v2.0.0
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
+  - [apEitherSK](#apeithersk)
+  - [apEitherSKW](#apeitherskw)
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
@@ -1779,6 +1781,36 @@ export declare const Do: ReaderTaskEither<unknown, never, {}>
 ```
 
 Added in v2.9.0
+
+## apEitherSK
+
+**Signature**
+
+```ts
+export declare const apEitherSK: <A, N extends string, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: E.Either<E, B>
+) => (
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.12.0
+
+## apEitherSKW
+
+**Signature**
+
+```ts
+export declare const apEitherSKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: E.Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.12.0
 
 ## apS
 

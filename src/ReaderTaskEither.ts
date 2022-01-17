@@ -1414,6 +1414,22 @@ export const apSW: <A, N extends string, R2, E2, B>(
   fa: ReaderTaskEither<R1, E1, A>
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
+/**
+ * @since 2.12.0
+ */
+export const apEitherSK = <A, N extends string, R, E, B>(name: Exclude<N, keyof A>, f: Either<E, B>) =>
+  apS(name, fromEither<E, B, R>(f))
+
+/**
+ * @since 2.12.0
+ */
+export const apEitherSKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apEitherSK as any
+
 // -------------------------------------------------------------------------------------
 // sequence T
 // -------------------------------------------------------------------------------------

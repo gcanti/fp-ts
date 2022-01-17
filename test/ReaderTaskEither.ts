@@ -511,6 +511,18 @@ describe('ReaderTaskEither', () => {
     )
   })
 
+  it('apEitherSK', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.right<void, string, number>(1),
+        _.bindTo('a'),
+        _.apEitherSK('b', E.right<string, string>('b')),
+        _.apEitherSKW('c', E.right<number, string>('c'))
+      )(undefined)(),
+      E.right({ a: 1, b: 'b', c: 'c' })
+    )
+  })
+
   describe('array utils', () => {
     const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
 
