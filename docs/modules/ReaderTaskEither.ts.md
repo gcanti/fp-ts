@@ -37,8 +37,6 @@ Added in v2.0.0
   - [apSecondW](#apsecondw)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [asksReaderTaskEitherW](#asksreadertaskeitherw)
-  - [bindEitherK](#bindeitherk)
-  - [bindEitherKW](#bindeitherkw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
@@ -161,6 +159,8 @@ Added in v2.0.0
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
+  - [bindEitherK](#bindeitherk)
+  - [bindEitherKW](#bindeitherkw)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
@@ -428,36 +428,6 @@ export declare const asksReaderTaskEitherW: <R1, R2, E, A>(
 ```
 
 Added in v2.11.0
-
-## bindEitherK
-
-**Signature**
-
-```ts
-export declare const bindEitherK: <N extends string, A, R, E, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => E.Either<E, B>
-) => (
-  ma: ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.12.0
-
-## bindEitherKW
-
-**Signature**
-
-```ts
-export declare const bindEitherKW: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => E.Either<E2, B>
-) => <R1, E1>(
-  fa: ReaderTaskEither<R1, E1, A>
-) => ReaderTaskEither<R1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.12.0
 
 ## chainEitherK
 
@@ -1854,6 +1824,36 @@ export declare const bind: <N, A, R, E, B>(
 ```
 
 Added in v2.8.0
+
+## bindEitherK
+
+**Signature**
+
+```ts
+export declare const bindEitherK: <N extends string, A, R, E, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => E.Either<E, B>
+) => (
+  ma: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.12.0
+
+## bindEitherKW
+
+**Signature**
+
+```ts
+export declare const bindEitherKW: <N extends string, A, E2, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => E.Either<E2, B>
+) => <R1, E1>(
+  fa: ReaderTaskEither<R1, E1, A>
+) => ReaderTaskEither<R1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.12.0
 
 ## bindTo
 

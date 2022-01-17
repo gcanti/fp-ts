@@ -1378,14 +1378,12 @@ export const bindW: <N extends string, A, R2, E2, B>(
 ) => ReaderTaskEither<R1 & R2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export const bindEitherK = <N extends string, A, R, E, B>(name: Exclude<N, keyof A>, f: (a: A) => Either<E, B>) =>
   bind(name, (a) => fromEither<E, B, R>(f(a)))
 
 /**
- * @category combinators
  * @since 2.12.0
  */
 export const bindEitherKW: <N extends string, A, E2, B>(
