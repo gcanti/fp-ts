@@ -157,6 +157,46 @@ export const struct = <A>(semigroups: { [K in keyof A]: Semigroup<A[K]> }): Semi
 })
 
 /**
+ * Given a struct of semigroups returns a semigroup for the struct, that can have optional keys.
+ *
+ * @example
+ * import { partial, last } from 'fp-ts/Semigroup'
+ * import * as S from 'fp-ts/string'
+ *
+ * interface Person {
+ *   readonly name: string
+ *   readonly age: number
+ * }
+ *
+ * const S1 = partial<Person>({
+ *   name: S.Semigroup,
+ *   age: last()
+ * })
+ *
+ * assert.deepStrictEqual(S1.concat({ name: "first", age: 42 }, { name: "second" }), { name: "firstsecond", age: 42 })
+ *
+ * @category combinators
+ * @since 2.10.0
+ */
+export const partial = <A>(
+  semigroups: { [K in keyof A]: Semigroup<A[K]> }
+): Semigroup<{ readonly [K in keyof Partial<A>]: A[K] }> => ({
+  concat: (first, second) => {
+    const r: A = {} as any
+    for (const k in semigroups) {
+      if (_.has.call(semigroups, k)) {
+        if (_.has.call(first, k) && _.has.call(second, k)) {
+          r[k] = semigroups[k].concat(first[k], second[k])
+        } else if (_.has.call(first, k) || _.has.call(second, k)) {
+          r[k] = second[k] || first[k]
+        }
+      }
+    }
+    return r
+  }
+})
+
+/**
  * Given a tuple of semigroups returns a semigroup for the tuple.
  *
  * @example
