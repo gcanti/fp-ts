@@ -167,4 +167,15 @@ describe('Ord', () => {
     U.deepStrictEqual(O.compare(new Date(0), new Date(1)), -1)
     U.deepStrictEqual(O.compare(new Date(1), new Date(0)), 1)
   })
+
+  it('Divisible', () => {
+    type Person = {
+      readonly name: string
+      readonly age: number
+    }
+    const P: _.Ord<Person> = _.Divisible.divide((p) => [p.name, p.age], S.Ord, N.Ord)
+    U.deepStrictEqual(P.compare({ name: 'a', age: 1 }, { name: 'a', age: 2 }), -1)
+    U.deepStrictEqual(P.compare({ name: 'a', age: 1 }, { name: 'b', age: 1 }), -1)
+    U.deepStrictEqual(P.compare({ name: 'a', age: 1 }, { name: 'a', age: 1 }), 0)
+  })
 })

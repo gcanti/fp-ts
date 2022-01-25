@@ -10,11 +10,13 @@
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
+import { Divisible1 } from './Divisible'
 import { Eq, eqStrict } from './Eq'
-import { constant, constTrue, pipe } from './function'
+import { constant, constTrue, flow, pipe } from './function'
 import { Monoid } from './Monoid'
 import { Ordering } from './Ordering'
 import { Semigroup } from './Semigroup'
+import { fst, snd } from './Tuple'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -222,6 +224,21 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
 export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
+}
+
+/**
+ * @category instances
+ * @since 2.12.0
+ */
+export const Divisible: Divisible1<URI> = {
+  URI,
+  contramap: contramap_,
+  divide: <C, B, A>(f: (a: A) => [B, C], first: Ord<B>, second: Ord<C>) =>
+    getSemigroup<A>().concat(contramap<B, A>(flow(f, fst))(first), contramap<C, A>(flow(f, snd))(second)),
+  conquer: {
+    equals: constTrue,
+    compare: constant(0)
+  }
 }
 
 // -------------------------------------------------------------------------------------
