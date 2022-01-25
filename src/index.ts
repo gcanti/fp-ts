@@ -26,6 +26,7 @@ import * as const_ from './Const'
 import * as contravariant from './Contravariant'
 import * as date from './Date'
 import * as distributiveLattice from './DistributiveLattice'
+import * as divisible from './Divisible'
 import * as either from './Either'
 import * as eitherT from './EitherT'
 import * as endomorphism from './Endomorphism'
@@ -218,6 +219,10 @@ export {
    * @since 2.0.0
    */
   distributiveLattice,
+  /**
+   * @since 2.12.0
+   */
+  divisible,
   /**
    * @since 2.0.0
    */

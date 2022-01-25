@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 48
+nav_order: 49
 parent: Modules
 ---
 
@@ -37,6 +37,7 @@ Added in v2.0.0
   - [contravariant](#contravariant)
   - [date](#date)
   - [distributiveLattice](#distributivelattice)
+  - [divisible](#divisible)
   - [either](#either)
   - [eitherT](#eithert)
   - [endomorphism](#endomorphism)
@@ -376,6 +377,16 @@ export declare const distributiveLattice: typeof distributiveLattice
 ```
 
 Added in v2.0.0
+
+## divisible
+
+**Signature**
+
+```ts
+export declare const divisible: typeof divisible
+```
+
+Added in v2.12.0
 
 ## either
 
