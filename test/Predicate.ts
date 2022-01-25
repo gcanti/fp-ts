@@ -1,4 +1,5 @@
 import { pipe } from '../src/function'
+import { isEmpty } from '../src/string'
 import * as _ from '../src/Predicate'
 import * as U from './util'
 
@@ -28,6 +29,30 @@ describe('Predicate', () => {
     U.deepStrictEqual(predicate({ a: -1 }), false)
     U.deepStrictEqual(predicate({ a: 0 }), false)
     U.deepStrictEqual(predicate({ a: 1 }), true)
+  })
+
+  it('getDivisibleAny', () => {
+    type A = {
+      readonly b: string
+      readonly c: number
+    }
+    const predicate = _.getDivisibleAny().divide((a: A) => [a.c, a.b], isPositive, isEmpty)
+    U.deepStrictEqual(predicate({ b: '', c: 1 }), true)
+    U.deepStrictEqual(predicate({ b: 'b', c: 1 }), true)
+    U.deepStrictEqual(predicate({ b: '', c: -1 }), true)
+    U.deepStrictEqual(predicate({ b: 'b', c: -1 }), false)
+  })
+
+  it('getDivisibleAll', () => {
+    type A = {
+      readonly b: string
+      readonly c: number
+    }
+    const predicate = _.getDivisibleAll().divide((a: A) => [a.c, a.b], isPositive, isEmpty)
+    U.deepStrictEqual(predicate({ b: '', c: 1 }), true)
+    U.deepStrictEqual(predicate({ b: 'b', c: 1 }), false)
+    U.deepStrictEqual(predicate({ b: '', c: -1 }), false)
+    U.deepStrictEqual(predicate({ b: 'b', c: -1 }), false)
   })
 
   it('not', () => {

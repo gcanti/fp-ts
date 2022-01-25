@@ -2,6 +2,7 @@
  * @since 2.11.0
  */
 import { Contravariant1 } from './Contravariant'
+import { Divisible1 } from './Divisible'
 import { constFalse, constTrue, flow, pipe } from './function'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -93,6 +94,28 @@ export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
 }
+
+/**
+ * @category instances
+ * @since 2.12.0
+ */
+export const getDivisibleAny = (): Divisible1<URI> => ({
+  URI: Contravariant.URI,
+  contramap: Contravariant.contramap,
+  divide: (f, first, second) => flow(f, ([b, c]) => first(b) || second(c)),
+  conquer: constFalse
+})
+
+/**
+ * @category instances
+ * @since 2.12.0
+ */
+export const getDivisibleAll = (): Divisible1<URI> => ({
+  URI: Contravariant.URI,
+  contramap: Contravariant.contramap,
+  divide: (f, first, second) => flow(f, ([b, c]) => first(b) && second(c)),
+  conquer: constTrue
+})
 
 // -------------------------------------------------------------------------------------
 // utils

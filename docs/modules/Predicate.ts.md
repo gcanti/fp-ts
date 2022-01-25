@@ -18,6 +18,8 @@ Added in v2.11.0
   - [Contravariant](#contravariant-1)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
+  - [getDivisibleAll](#getdivisibleall)
+  - [getDivisibleAny](#getdivisibleany)
   - [getMonoidAll](#getmonoidall)
   - [getMonoidAny](#getmonoidany)
   - [getSemigroupAll](#getsemigroupall)
@@ -73,6 +75,26 @@ export type URI = typeof URI
 ```
 
 Added in v2.11.0
+
+## getDivisibleAll
+
+**Signature**
+
+```ts
+export declare const getDivisibleAll: () => Divisible1<URI>
+```
+
+Added in v2.12.0
+
+## getDivisibleAny
+
+**Signature**
+
+```ts
+export declare const getDivisibleAny: () => Divisible1<URI>
+```
+
+Added in v2.12.0
 
 ## getMonoidAll
 
