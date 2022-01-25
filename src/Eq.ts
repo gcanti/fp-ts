@@ -10,10 +10,12 @@
  * @since 2.0.0
  */
 import { Contravariant1 } from './Contravariant'
-import { pipe } from './function'
+import { Divisible1 } from './Divisible'
+import { flow, pipe } from './function'
 import { Monoid } from './Monoid'
 import { ReadonlyRecord } from './ReadonlyRecord'
 import { Semigroup } from './Semigroup'
+import { fst, snd } from './Tuple'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -154,6 +156,18 @@ export const getMonoid = <A>(): Monoid<Eq<A>> => ({
 export const Contravariant: Contravariant1<URI> = {
   URI,
   contramap: contramap_
+}
+
+/**
+ * @category instances
+ * @since 2.12.0
+ */
+export const Divisible: Divisible1<URI> = {
+  URI: Contravariant.URI,
+  contramap: Contravariant.contramap,
+  divide: <C, B, A>(f: (a: A) => [B, C], first: Eq<B>, second: Eq<C>) =>
+    getSemigroup<A>().concat(contramap<B, A>(flow(f, fst))(first), contramap<C, A>(flow(f, snd))(second)),
+  conquer: empty
 }
 
 // -------------------------------------------------------------------------------------

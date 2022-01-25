@@ -85,4 +85,13 @@ describe('Eq', () => {
     U.deepStrictEqual(E.equals(new Date(0), new Date(1)), false)
     U.deepStrictEqual(E.equals(new Date(1), new Date(0)), false)
   })
+
+  it('Divisible', () => {
+    const eqPerson: _.Eq<Person> = _.Divisible.divide((p) => [p.name, p.age], S.Eq, N.Eq)
+    U.deepStrictEqual(eqPerson.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), false)
+    U.deepStrictEqual(eqPerson.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
+    U.deepStrictEqual(eqPerson.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
+    U.deepStrictEqual(eqPerson.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
+    U.deepStrictEqual(eqPerson.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
+  })
 })

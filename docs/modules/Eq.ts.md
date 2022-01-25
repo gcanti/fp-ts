@@ -31,6 +31,7 @@ Added in v2.0.0
   - [fromEquals](#fromequals)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
+  - [Divisible](#divisible)
   - [URI](#uri)
   - [URI (type alias)](#uri-type-alias)
   - [eqStrict](#eqstrict)
@@ -148,6 +149,16 @@ export declare const Contravariant: Contravariant1<'Eq'>
 ```
 
 Added in v2.7.0
+
+## Divisible
+
+**Signature**
+
+```ts
+export declare const Divisible: Divisible1<'Eq'>
+```
+
+Added in v2.12.0
 
 ## URI
 
