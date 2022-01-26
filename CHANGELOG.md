@@ -16,6 +16,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.8
+
+- **Polish**
+  - Add missing pure annotations, #1658 (@OliverJAsh)
+
 # 2.11.7
 
 - **Polish**

@@ -1546,7 +1546,7 @@ Added in v2.5.0
 
 ## modifyAt
 
-Applies a mapping function to one spcific key/value pair in a `ReadonlyRecord`.
+Applies a mapping function to one specific key/value pair in a `ReadonlyRecord`.
 
 **Signature**
 

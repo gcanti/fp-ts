@@ -307,7 +307,7 @@ export const updateAt = <A>(k: string, a: A) => <K extends string>(
 }
 
 /**
- * Applies a mapping function to one spcific key/value pair in a `ReadonlyRecord`.
+ * Applies a mapping function to one specific key/value pair in a `ReadonlyRecord`.
  *
  * @returns If the specified key exists it returns an `Option` containing a new `Record`
  * with the entry updated, otherwise it returns `None`
