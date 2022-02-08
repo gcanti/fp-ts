@@ -362,7 +362,7 @@ export const orElseFirstW: <E1, E2, B>(
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
-) => orElseFirst(flow(onLeft, rightIO))
+) => orElseFirst(fromIOK(onLeft))
 
 /**
  * @category combinators
@@ -370,7 +370,7 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEith
  */
 export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
-) => orElseFirst(flow(onLeft, rightTask))
+) => orElseFirst(fromTaskK(onLeft))
 
 /**
  * @category combinators
