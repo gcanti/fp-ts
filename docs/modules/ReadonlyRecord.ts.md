@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -187,6 +187,9 @@ export declare function filterWithIndex<K extends string, A, B extends A>(
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export declare function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
+export declare function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 ```
 
@@ -212,6 +215,9 @@ Added in v3.0.0
 export declare function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
 export declare function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
@@ -771,7 +777,7 @@ Test whether a `ReadonlyRecord` is empty.
 **Signature**
 
 ```ts
-export declare const isEmpty: (r: ReadonlyRecord<string, unknown>) => boolean
+export declare const isEmpty: <A>(r: Readonly<Record<string, A>>) => boolean
 ```
 
 Added in v3.0.0
@@ -855,7 +861,7 @@ Calculate the number of key/value pairs in a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare const size: (r: ReadonlyRecord<string, unknown>) => number
+export declare const size: <A>(r: Readonly<Record<string, A>>) => number
 ```
 
 Added in v3.0.0

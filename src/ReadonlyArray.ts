@@ -25,9 +25,10 @@ import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monad1 } from './Monad'
 import type { Monoid } from './Monoid'
+import { NaturalTransformation11 } from './NaturalTransformation'
 import * as NEA from './NonEmptyArray'
 import * as N from './number'
-import type { Option } from './Option'
+import type { Option, URI as OURI } from './Option'
 import { fromCompare, Ord } from './Ord'
 import type { Pointed1 } from './Pointed'
 import type { Predicate } from './Predicate'
@@ -40,26 +41,13 @@ import type { Traversable1 } from './Traversable'
 import type { TraversableWithIndex1 } from './TraversableWithIndex'
 import type { Unfoldable1 } from './Unfoldable'
 import { wiltDefault, Witherable1, witherDefault, filterE as filterE_ } from './Witherable'
+import { Zero1, guard as guard_ } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const fromOption = <A>(ma: Option<A>): ReadonlyArray<A> => (_.isNone(ma) ? empty : [ma.value])
-
-/**
- * Transforms an `Either` to a `ReadonlyArray`.
- *
- * @category constructors
- * @since 3.0.0
- */
-export const fromEither = <E, A>(e: Either<E, A>): ReadonlyArray<A> => (_.isLeft(e) ? empty : [e.right])
 
 /**
  * Return a `ReadonlyArray` of length `n` with element `i` initialized with `f(i)`.
@@ -95,6 +83,24 @@ export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyArray<A> 
 export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(() => a)
 
 // -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
+
+/**
+ * Transforms an `Either` to a `ReadonlyArray`.
+ *
+ * @category natural transformations
+ * @since 3.0.0
+ */
+export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
+
+// -------------------------------------------------------------------------------------
 // destructors
 // -------------------------------------------------------------------------------------
 
@@ -109,8 +115,6 @@ export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEm
 ): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
 
 /**
- * Less strict version of [`match`](#match).
- *
  * @category destructors
  * @since 3.0.0
  */
@@ -499,9 +503,10 @@ export const takeRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @since 3.0.0
  */
 export function takeLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function takeLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
 export function takeLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
-  return (as) => {
+  return (as: ReadonlyArray<A>) => {
     const out: Array<A> = []
     for (const a of as) {
       if (!predicate(a)) {
@@ -540,6 +545,9 @@ const spanLeftIndex = <A>(as: ReadonlyArray<A>, predicate: Predicate<A>): number
 export function spanLeft<A, B extends A>(
   refinement: Refinement<A, B>
 ): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<A>]
+export function spanLeft<A>(
+  predicate: Predicate<A>
+): <B extends A>(bs: ReadonlyArray<B>) => readonly [init: ReadonlyArray<B>, rest: ReadonlyArray<B>]
 export function spanLeft<A>(
   predicate: Predicate<A>
 ): (as: ReadonlyArray<A>) => readonly [init: ReadonlyArray<A>, rest: ReadonlyArray<A>]
@@ -600,9 +608,14 @@ export const dropRight = (n: number) => <A>(as: ReadonlyArray<A>): ReadonlyArray
  * @category combinators
  * @since 3.0.0
  */
-export const dropLeftWhile = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): ReadonlyArray<A> => {
-  const i = spanLeftIndex(as, predicate)
-  return i === 0 ? as : i === as.length ? empty : as.slice(i)
+export function dropLeftWhile<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => ReadonlyArray<B>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A>
+export function dropLeftWhile<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => ReadonlyArray<A> {
+  return (as) => {
+    const i = spanLeftIndex(as, predicate)
+    return i === 0 ? as : i === as.length ? empty : as.slice(i)
+  }
 }
 
 /**
@@ -639,6 +652,7 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>):
  * @since 3.0.0
  */
 export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 export function findFirst<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
   return (as) => {
@@ -694,6 +708,7 @@ export const findFirstMap = <A, B>(f: (a: A) => Option<B>) => (as: ReadonlyArray
  * @since 3.0.0
  */
 export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: ReadonlyArray<A>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): <B extends A>(bs: ReadonlyArray<B>) => Option<B>
 export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A>
 export function findLast<A>(predicate: Predicate<A>): (as: ReadonlyArray<A>) => Option<A> {
   return (as) => {
@@ -898,6 +913,7 @@ export const rights = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<A> 
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
+ * @category combinators
  * @since 3.0.0
  */
 export const lefts = <E, A>(as: ReadonlyArray<Either<E, A>>): ReadonlyArray<E> => {
@@ -1243,10 +1259,10 @@ export const difference = <A>(E: Eq<A>): Magma<ReadonlyArray<A>>['concat'] => {
 export const of: Pointed1<URI>['of'] = RNEA.of
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 3.0.0
  */
-export const zero: Alternative1<URI>['zero'] = () => empty
+export const zero: Zero1<URI>['zero'] = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -1710,7 +1726,7 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -1820,6 +1836,22 @@ export const Alt: Alt1<URI> = {
   map,
   alt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Zero: Zero1<URI> = {
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -2095,6 +2127,13 @@ export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boo
 export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as is ReadonlyNonEmptyArray<A> =>
   as.some(predicate)
 
+/**
+ * Alias of [`some`](#some)
+ *
+ * @since 3.0.0
+ */
+export const exists = some
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -2138,7 +2177,9 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyArray<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: ReadonlyArray<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

@@ -1,6 +1,6 @@
 ---
 title: TaskThese.ts
-nav_order: 96
+nav_order: 97
 parent: Modules
 ---
 
@@ -31,8 +31,6 @@ Added in v3.0.0
   - [both](#both)
   - [fromEither](#fromeither)
   - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
@@ -62,6 +60,9 @@ Added in v3.0.0
   - [getMonad](#getmonad)
 - [model](#model)
   - [TaskThese (interface)](#taskthese-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [toTuple2](#totuple2)
@@ -218,7 +219,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A>(e: Either<E, A>) => TaskThese<E, A>
+export declare const fromEither: NaturalTransformation22<'Either', 'TaskThese'>
 ```
 
 Added in v3.0.0
@@ -228,29 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskThese<E, A>
+export declare const fromIO: NaturalTransformation12<'IO', 'TaskThese'>
 ```
 
 Added in v3.0.0
@@ -264,6 +243,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => TaskThese<A, B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => TaskThese<B, B>
   <A>(predicate: Predicate<A>): (a: A) => TaskThese<A, A>
 }
 ```
@@ -275,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const fromTask: NaturalTransformation12<'Task', 'TaskThese'>
 ```
 
 Added in v3.0.0
@@ -285,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromThese: <E, A>(e: TH.These<E, A>) => TaskThese<E, A>
+export declare const fromThese: NaturalTransformation22<'These', 'TaskThese'>
 ```
 
 Added in v3.0.0
@@ -542,6 +522,30 @@ Added in v3.0.0
 
 ```ts
 export interface TaskThese<E, A> extends Task<These<E, A>> {}
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskThese'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
 ```
 
 Added in v3.0.0

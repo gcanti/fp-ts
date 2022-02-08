@@ -15,6 +15,7 @@ import * as _ from '../src/StateReaderTaskEither'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
+import { tuple } from '../src/tuple'
 import * as U from './util'
 
 const state: unknown = {}
@@ -347,6 +348,16 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(await pipe(RA.empty, f)(undefined)(undefined)(), E.right([RA.empty, undefined] as const))
       U.deepStrictEqual(await pipe(input, f)(undefined)(undefined)(), E.right([['a0', 'b1'], undefined] as const))
       U.deepStrictEqual(await pipe(['a', ''], f)(undefined)(undefined)(), E.left('e'))
+      const append = (_i: number, n: number): _.StateReaderTaskEither<ReadonlyArray<number>, {}, Error, void> =>
+        _.modify((a) => [...a, n])
+      U.deepStrictEqual(
+        await pipe(
+          [1, 2, 3],
+          _.traverseReadonlyArrayWithIndex(append),
+          _.map(() => undefined)
+        )([])({})(),
+        E.right([undefined, [1, 2, 3]] as const)
+      )
     })
 
     it('sequenceReadonlyArray', async () => {
@@ -375,5 +386,24 @@ describe('StateReaderTaskEither', () => {
       )
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
+  })
+
+  it('asksE', async () => {
+    interface Env {
+      readonly count: number
+    }
+    const e: Env = { count: 0 }
+    const f = (e: Env) => _.of(e.count + 1)
+    U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.right(tuple(1, {})))
+  })
+
+  it('local', async () => {
+    U.deepStrictEqual(
+      await pipe(
+        _.asks((n: number) => n + 1),
+        _.local(S.size)
+      )({})('aaa')(),
+      E.right(tuple(4, {}))
+    )
   })
 })

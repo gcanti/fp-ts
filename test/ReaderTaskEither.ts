@@ -344,6 +344,36 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
   })
 
+  it('chainFirstTaskEitherKW', async () => {
+    const f = (s: string) => TE.right<number, string>(s.length)
+    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.chainFirstTaskEitherKW(f))({})(), E.right('a'))
+  })
+
+  it('chainReaderTaskK', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderTaskK(f))(undefined)(), E.right(1))
+  })
+
+  it('chainReaderTaskKW', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderTaskKW(f))({})(), E.right(1))
+  })
+
+  it('chainFirstReaderTaskKW', async () => {
+    const f = flow(S.size, RT.of)
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderTaskKW(f))({})(), E.right('a'))
+  })
+
+  it('chainReaderEitherKW', async () => {
+    const f = (s: string) => RE.right(s.length)
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderEitherKW(f))({})(), E.right(1))
+  })
+
+  it('chainFirstReaderEitherKW', async () => {
+    const f = (s: string) => RE.right(s.length)
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderEitherKW(f))({})(), E.right('a'))
+  })
+
   // -------------------------------------------------------------------------------------
   // utils
   // -------------------------------------------------------------------------------------

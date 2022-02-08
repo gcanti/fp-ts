@@ -1,6 +1,6 @@
 ---
 title: ReadonlyMap.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -29,6 +29,8 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [combinator](#combinator)
+  - [getDifferenceMagma](#getdifferencemagma)
 - [combinators](#combinators)
   - [deleteAt](#deleteat)
   - [flap](#flap)
@@ -43,7 +45,6 @@ Added in v3.0.0
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
   - [URI (type alias)](#uri-type-alias)
-  - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
@@ -176,7 +177,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: <K, A>(p: (k: K, a: A) => boolean) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+export declare function filterWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+export declare function filterWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -198,9 +207,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: <K, A>(
-  p: (k: K, a: A) => boolean
-) => (fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+export declare function partitionWithIndex<K, A, B extends A>(
+  predicateWithIndex: (k: K, a: A) => a is B
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): <B extends A>(m: ReadonlyMap<K, B>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+export declare function partitionWithIndex<K, A>(
+  predicateWithIndex: (k: K, a: A) => boolean
+): (m: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -228,6 +243,18 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+```
+
+Added in v3.0.0
+
+# combinator
+
+## getDifferenceMagma
+
+**Signature**
+
+```ts
+export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0
@@ -382,16 +409,6 @@ Added in v3.0.0
 
 ```ts
 export type URI = 'ReadonlyMap'
-```
-
-Added in v3.0.0
-
-## getDifferenceMagma
-
-**Signature**
-
-```ts
-export declare const getDifferenceMagma: <K>(E: Eq<K>) => <A>() => Magma<ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0

@@ -22,6 +22,24 @@ export interface Endomorphism<A> {
 // -------------------------------------------------------------------------------------
 
 /**
+ * @category instances
+ * @since 3.0.0
+ */
+export const URI = 'Endomorphism'
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export type URI = typeof URI
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly [URI]: Endomorphism<A>
+  }
+}
+
+/**
  * Endomorphism form a `Semigroup` where the `concat` operation is the usual function composition.
  *
  * @category instances

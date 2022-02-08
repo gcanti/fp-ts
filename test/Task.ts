@@ -1,7 +1,7 @@
 import { flow, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as RNEA from '../src/ReadonlyNonEmptyArray'
 import * as _ from '../src/Task'
 import * as U from './util'
 import * as S from '../src/string'
@@ -28,6 +28,18 @@ const assertPar = assertTask(a, b, ['b', 'a'])
 const assertSeq = assertTask(a, b, ['a', 'b'])
 
 describe('Task', () => {
+  // -------------------------------------------------------------------------------------
+  // safety
+  // -------------------------------------------------------------------------------------
+  it('stack-safe', async () => {
+    const doProcessing = (number: number) => _.of(number * 2)
+    const pipeline = pipe(_.of(RNEA.range(1, 55000)), _.chain(RNEA.traverse(_.ApplicativeSeq)(doProcessing)))
+
+    const res = await pipeline()
+
+    expect(res.length).toBe(55000)
+  })
+
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -137,7 +149,7 @@ describe('Task', () => {
   })
 
   describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+    const input: RNEA.ReadonlyNonEmptyArray<string> = ['a', 'b']
 
     it('traverseReadonlyArrayWithIndex', async () => {
       const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))

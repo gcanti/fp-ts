@@ -276,4 +276,21 @@ describe('These', () => {
     assert([1, -2, 3])
     assert(RA.empty)
   })
+
+  it('exists', () => {
+    const gt2 = _.exists((n: number) => n > 2)
+    U.deepStrictEqual(gt2(_.left('a')), false)
+    U.deepStrictEqual(gt2(_.right(1)), false)
+    U.deepStrictEqual(gt2(_.right(3)), true)
+    U.deepStrictEqual(gt2(_.both('a', 1)), false)
+    U.deepStrictEqual(gt2(_.both('a', 3)), true)
+  })
+
+  it('elem', () => {
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.left('a')), false)
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.right(2)), true)
+    U.deepStrictEqual(_.elem(N.Eq)(1)(_.right(2)), false)
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.both('a', 2)), true)
+    U.deepStrictEqual(_.elem(N.Eq)(1)(_.both('a', 2)), false)
+  })
 })

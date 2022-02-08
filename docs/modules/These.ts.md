@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 97
+nav_order: 98
 parent: Modules
 ---
 
@@ -47,7 +47,6 @@ Added in v3.0.0
   - [swap](#swap)
 - [constructors](#constructors)
   - [both](#both)
-  - [fromOption](#fromoption)
   - [fromOptions](#fromoptions)
   - [fromPredicate](#frompredicate)
   - [left](#left)
@@ -80,8 +79,12 @@ Added in v3.0.0
 - [model](#model)
   - [Both (interface)](#both-interface)
   - [These (type alias)](#these-type-alias)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
+  - [elem](#elem)
+  - [exists](#exists)
   - [getLeft](#getleft)
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
@@ -224,18 +227,6 @@ export declare const both: <E, A>(left: E, right: A) => These<E, A>
 
 Added in v3.0.0
 
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => These<E, A>
-```
-
-Added in v3.0.0
-
 ## fromOptions
 
 Takes a pair of `Option`s and attempts to create a `These` from them
@@ -269,6 +260,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => These<A, B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => These<B, B>
   <A>(predicate: Predicate<A>): (a: A) => These<A, A>
 }
 ```
@@ -388,7 +380,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export declare const isLeft: <E, A>(fa: These<E, A>) => fa is Left<E>
+export declare const isLeft: <E>(fa: These<E, unknown>) => fa is Left<E>
 ```
 
 Added in v3.0.0
@@ -400,7 +392,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export declare const isRight: <E, A>(fa: These<E, A>) => fa is Right<A>
+export declare const isRight: <A>(fa: These<unknown, A>) => fa is Right<A>
 ```
 
 Added in v3.0.0
@@ -583,6 +575,20 @@ export type These<E, A> = Either<E, A> | Both<E, A>
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -591,6 +597,26 @@ Added in v3.0.0
 
 ```ts
 export declare const ApT: These<never, readonly []>
+```
+
+Added in v3.0.0
+
+## elem
+
+**Signature**
+
+```ts
+export declare const elem: <A>(E: Eq<A>) => (a: A) => <E>(ma: These<E, A>) => boolean
+```
+
+Added in v3.0.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => <E>(ma: These<E, A>) => boolean
 ```
 
 Added in v3.0.0

@@ -41,6 +41,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
@@ -51,9 +52,6 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftIO](#leftio)
@@ -97,6 +95,10 @@ Added in v3.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [IOEither (interface)](#ioeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -140,7 +142,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B | A>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -333,6 +335,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: IOEither<E, B>) => IOEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
 }
 ```
@@ -350,6 +353,9 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: IOEither<E1, A>
   ) => IOEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: IOEither<E1, B>
+  ) => IOEither<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
 }
 ```
@@ -364,6 +370,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -468,38 +486,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: E.Either<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -509,6 +495,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => IOEither<B, B>
   <A>(predicate: Predicate<A>): (a: A) => IOEither<A, A>
 }
 ```
@@ -936,6 +923,40 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation22<'Either', 'IOEither'>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'IOEither'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'IOEither', E>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -966,7 +987,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -981,7 +1002,7 @@ Less strict version of [`apS`](#apS).
 export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1018,7 +1039,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1028,7 +1049,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1043,7 +1064,7 @@ Less strict version of [`bind`](#bind).
 export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

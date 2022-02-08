@@ -56,12 +56,12 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [right](#right)
@@ -113,6 +113,8 @@ Added in v3.0.0
   - [Either (type alias)](#either-type-alias)
   - [Left (interface)](#left-interface)
   - [Right (interface)](#right-interface)
+- [natural transformations](#natural-transformations)
+  - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -153,9 +155,7 @@ Less strict version of [`alt`](#alt).
 **Signature**
 
 ```ts
-export declare const altW: <E2, B>(
-  second: Lazy<Either<E2, B>>
-) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B | A>
+export declare const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -431,6 +431,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
@@ -486,6 +487,7 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: Either<E1, A>
   ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 }
 ```
@@ -500,6 +502,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -556,39 +570,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => Either<E, A>
-```
-
-**Example**
-
-```ts
-import * as E from 'fp-ts/Either'
-import { pipe } from 'fp-ts/function'
-import * as O from 'fp-ts/Option'
-
-assert.deepStrictEqual(
-  pipe(
-    O.some(1),
-    E.fromOption(() => 'error')
-  ),
-  E.right(1)
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    E.fromOption(() => 'error')
-  ),
-  E.left('error')
-)
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 **Signature**
@@ -596,6 +577,7 @@ Added in v3.0.0
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => Either<B, B>
   <A>(predicate: Predicate<A>): (a: A) => Either<A, A>
 }
 ```
@@ -827,7 +809,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E>
+export declare const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E>
 ```
 
 Added in v3.0.0
@@ -839,7 +821,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A>
+export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
 ```
 
 Added in v3.0.0
@@ -1235,6 +1217,41 @@ export interface Right<A> {
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'Either', E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+
+assert.deepStrictEqual(
+  pipe(
+    O.some(1),
+    E.fromOption(() => 'error')
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    E.fromOption(() => 'error')
+  ),
+  E.left('error')
+)
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -1265,7 +1282,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
-) => (fa: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1280,7 +1297,7 @@ Less strict version of [`apS`](#apS).
 export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1317,7 +1334,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E, B>
-) => (ma: Either<E, A>) => Either<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1327,7 +1344,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1342,7 +1359,7 @@ Less strict version of [`bind`](#bind).
 export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

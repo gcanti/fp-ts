@@ -86,14 +86,18 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
   /*#__PURE__*/
   ET.leftF(I.Functor)
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromEither: FromEither2<URI>['fromEither'] = I.of
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = rightIO
@@ -345,14 +349,22 @@ export const chainW: <A, E2, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A> = flattenW
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -373,7 +385,7 @@ export const alt: Alt2<URI>['alt'] =
  */
 export const altW: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A | B> = alt as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = alt as any
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -453,7 +465,7 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -525,19 +537,9 @@ export const Chain: Chain2<URI> = {
   chain
 }
 
-/**
- * @category instances
- * @since 3.0.0
- */
-export const Monad: Monad2<URI> = {
-  map,
-  of,
-  chain
-}
-
 const apSeq =
   /*#__PURE__*/
-  apSeq_(Monad)
+  apSeq_(Chain)
 
 /**
  * @category instances
@@ -580,6 +582,16 @@ export const chainFirst =
 export const chainFirstW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirst as any
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Monad: Monad2<URI> = {
+  map,
+  of,
+  chain
+}
 
 /**
  * @category instances
@@ -633,7 +645,7 @@ export const FromEither: FromEither2<URI> = {
 /**
  * Derivable from `FromEither`.
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =
@@ -702,6 +714,9 @@ export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: IOEither<E1, A>
   ) => IOEither<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: IOEither<E1, B>
+  ) => IOEither<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
 } = filterOrElse
 
@@ -766,7 +781,9 @@ export const bind =
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -787,7 +804,9 @@ export const apS =
 export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <E1>(
+  fa: IOEither<E1, A>
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -796,7 +815,9 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: IOEither<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: IOEither<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

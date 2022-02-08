@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 102
+nav_order: 103
 parent: Modules
 ---
 
@@ -76,6 +76,7 @@ Added in v3.0.0
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
   - [elem](#elem)
+  - [exists](#exists)
   - [traverse](#traverse)
   - [tupled](#tupled)
 
@@ -616,7 +617,7 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
-) => (fa: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -639,7 +640,7 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Tree<B>
-) => (ma: Tree<A>) => Tree<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -704,6 +705,16 @@ Tests whether a value is a member of a `Tree`.
 
 ```ts
 export declare const elem: <A>(E: Eq<A>) => (a: A) => (fa: Tree<A>) => boolean
+```
+
+Added in v3.0.0
+
+## exists
+
+**Signature**
+
+```ts
+export declare const exists: <A>(predicate: Predicate<A>) => (ma: Tree<A>) => boolean
 ```
 
 Added in v3.0.0

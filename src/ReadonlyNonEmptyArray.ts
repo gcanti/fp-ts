@@ -502,7 +502,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
   const out: Record<string, NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
-    if (Object.prototype.hasOwnProperty.call(out, k)) {
+    if (_.has.call(out, k)) {
       out[k].push(a)
     } else {
       out[k] = [a]
@@ -908,6 +908,14 @@ export const getEq = <A>(E: Eq<A>): Eq<ReadonlyNonEmptyArray<A>> =>
   fromEquals((second) => (first) => first.length === second.length && first.every((a, i) => E.equals(second[i])(a)))
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<A>> => ({
+  concat: union(E)
+})
+
+/**
  * @category instances
  * @since 3.0.0
  */
@@ -922,7 +930,7 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -1115,7 +1123,9 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyNonEmptyArray<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: ReadonlyNonEmptyArray<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

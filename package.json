@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "3.0.0-alpha.16",
+  "version": "3.0.0-alpha.19",
   "description": "Functional programming in TypeScript",
   "scripts": {
     "lint": "tslint -p .",
@@ -19,6 +19,7 @@
     "doctoc": "doctoc README.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
+    "dtslint:dist": "dtslint dist",
     "docs": "docs-ts",
     "prerelease": "npm run build",
     "release": "ts-node scripts/release"
@@ -49,7 +50,6 @@
     "fast-check": "^2.13.0",
     "glob": "^7.1.6",
     "jest": "^26.4.2",
-    "madge": "^4.0.2",
     "mocha": "^5.2.0",
     "prettier": "^2.2.1",
     "rimraf": "2.6.2",
@@ -70,5 +70,7 @@
     "algebraic-data-types",
     "functional-programming"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "madge": "^4.0.2"
+  }
 }

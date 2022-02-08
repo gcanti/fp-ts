@@ -5,7 +5,7 @@ import { pipe } from '../../src/function'
 // Do
 //
 
-// $ExpectType Tree<{ a: number; b: string; }>
+// $ExpectType Tree<{ readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.of(1)),

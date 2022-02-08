@@ -40,12 +40,12 @@ import { fromCompare, Ord } from './Ord'
 import type { Pointed1 } from './Pointed'
 import type { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import { guard as guard_, Zero1 } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -75,7 +75,7 @@ export interface Some<A> {
 export type Option<A> = None | Some<A>
 
 // -------------------------------------------------------------------------------------
-// guards
+// refinements
 // -------------------------------------------------------------------------------------
 
 /**
@@ -90,7 +90,7 @@ export type Option<A> = None | Some<A>
  * @category guards
  * @since 3.0.0
  */
-export const isNone: <A>(fa: Option<A>) => fa is None = _.isNone
+export const isNone: (fa: Option<unknown>) => fa is None = _.isNone
 
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise.
@@ -156,15 +156,19 @@ export const getLeft = <E, A>(ma: Either<E, A>): Option<E> => (_.isRight(ma) ? n
  */
 export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (_.isLeft(ma) ? none : some(ma.right))
 
+// -------------------------------------------------------------------------------------
+// natural transformations
+// -------------------------------------------------------------------------------------
+
 /**
  * Transforms an `Either` to an `Option` discarding the error.
  *
  * Alias of [getRight](#getRight)
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither = getRight
+export const fromEither: FromEither1<URI>['fromEither'] = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -367,7 +371,7 @@ export const fromNullableK = <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 3.0.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
   isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
@@ -514,10 +518,10 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
 export const alt: Alt1<URI>['alt'] = altW
 
 /**
- * @category Alternative
+ * @category Zero
  * @since 3.0.0
  */
-export const zero: Alternative1<URI>['zero'] = () => none
+export const zero: Zero1<URI>['zero'] = () => none
 
 /**
  * @category Extend
@@ -681,62 +685,6 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> =>
   fromCompare((second) => (first) => (isSome(first) ? (isSome(second) ? O.compare(second.value)(first.value) : 1) : -1))
 
 /**
- * Monoid returning the left-most non-`None` value
- *
- * | x       | y       | concat(y)(x) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(a)      |
- *
- * @example
- * import { getFirstMonoid, some, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const M = getFirstMonoid<number>()
- * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
- * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
- * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
- *
- * @category instances
- * @since 3.0.0
- */
-export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => ({
-  concat: (second) => (first) => (isNone(first) ? second : first),
-  empty: none
-})
-
-/**
- * Monoid returning the right-most non-`None` value
- *
- * | x       | y       | concat(y)(x) |
- * | ------- | ------- | ------------ |
- * | none    | none    | none         |
- * | some(a) | none    | some(a)      |
- * | none    | some(a) | some(a)      |
- * | some(a) | some(b) | some(b)      |
- *
- * @example
- * import { getLastMonoid, some, none } from 'fp-ts/Option'
- * import { pipe } from 'fp-ts/function'
- *
- * const M = getLastMonoid<number>()
- * assert.deepStrictEqual(pipe(none, M.concat(none)), none)
- * assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
- * assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
- * assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
- *
- * @category instances
- * @since 3.0.0
- */
-export const getLastMonoid = <A = never>(): Monoid<Option<A>> => ({
-  concat: (second) => (first) => (isNone(second) ? first : second),
-  empty: none
-})
-
-/**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * concatenated using the provided `Semigroup`
  *
@@ -782,7 +730,7 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -886,6 +834,22 @@ export const Alt: Alt1<URI> = {
   map,
   alt
 }
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Zero: Zero1<URI> = {
+  zero
+}
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const guard =
+  /*#__PURE__*/
+  guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -1056,26 +1020,6 @@ export const elem = <A>(E: Eq<A>) => (a: A) => (ma: Option<A>): boolean => (isNo
 export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =>
   isNone(ma) ? false : predicate(ma.value)
 
-/**
- * Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
- * This function ensures that a custom type guard definition is type-safe.
- *
- * ```ts
- * import { some, none, getRefinement } from 'fp-ts/Option'
- *
- * type A = { type: 'A' }
- * type B = { type: 'B' }
- * type C = A | B
- *
- * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
- * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
- * ```
- *
- * @since 3.0.0
- */
-export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => (a: A): a is B =>
-  isSome(getOption(a))
-
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -1119,7 +1063,9 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Option<readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

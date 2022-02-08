@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 95
+nav_order: 96
 parent: Modules
 ---
 
@@ -15,8 +15,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -33,6 +31,8 @@ Added in v3.0.0
   - [map](#map)
 - [Pointed](#pointed)
   - [of](#of)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
@@ -46,12 +46,8 @@ Added in v3.0.0
   - [fromTaskEitherK](#fromtaskeitherk)
   - [fromTaskK](#fromtaskk)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromTaskEither](#fromtaskeither)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [derivable combinators](#derivable-combinators)
@@ -70,7 +66,7 @@ Added in v3.0.0
   - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [ApplicativePar](#applicativepar)
   - [ApplicativeSeq](#applicativeseq)
   - [ApplyPar](#applypar)
@@ -78,12 +74,14 @@ Added in v3.0.0
   - [Chain](#chain-1)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
+  - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [FromTask](#fromtask)
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [URI (type alias)](#uri-type-alias)
+  - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
@@ -92,6 +90,12 @@ Added in v3.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskOption (interface)](#taskoption-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -127,18 +131,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<B | A>
-```
-
-Added in v3.0.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -256,6 +248,18 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => TaskOption<A>
+```
+
+Added in v3.0.0
+
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -382,65 +386,26 @@ Added in v3.0.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <A>(e: Either<unknown, A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-**Signature**
-
-```ts
-export declare const fromOption: <A>(ma: O.Option<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 **Signature**
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => TaskOption<B>
   <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
 
 Added in v3.0.0
 
-## fromTask
+## guard
 
 **Signature**
 
 ```ts
-export declare const fromTask: <A>(ma: T.Task<A>) => TaskOption<A>
-```
-
-Added in v3.0.0
-
-## fromTaskEither
-
-**Signature**
-
-```ts
-export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
+export declare const guard: (b: boolean) => TaskOption<void>
 ```
 
 Added in v3.0.0
@@ -710,6 +675,16 @@ export declare const Filterable: Filterable1<'TaskOption'>
 
 Added in v3.0.0
 
+## FromEither
+
+**Signature**
+
+```ts
+export declare const FromEither: FromEither1<'TaskOption'>
+```
+
+Added in v3.0.0
+
 ## FromIO
 
 **Signature**
@@ -766,6 +741,16 @@ Added in v3.0.0
 
 ```ts
 export type URI = typeof URI
+```
+
+Added in v3.0.0
+
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'TaskOption'>
 ```
 
 Added in v3.0.0
@@ -848,6 +833,58 @@ export interface TaskOption<A> extends Task<Option<A>> {}
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+**Signature**
+
+```ts
+export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+```
+
+Added in v3.0.0
+
+## fromTaskEither
+
+**Signature**
+
+```ts
+export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -878,7 +915,7 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
-) => (fa: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -901,7 +938,7 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskOption<B>
-) => (ma: TaskOption<A>) => TaskOption<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

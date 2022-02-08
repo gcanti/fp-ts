@@ -1,6 +1,6 @@
 ---
 title: struct.ts
-nav_order: 92
+nav_order: 93
 parent: Modules
 ---
 
@@ -14,8 +14,6 @@ Added in v3.0.0
 
 - [instances](#instances)
   - [getAssignSemigroup](#getassignsemigroup)
-- [utils](#utils)
-  - [evolve](#evolve)
 
 ---
 
@@ -44,40 +42,6 @@ interface Person {
 
 const S = getAssignSemigroup<Person>()
 assert.deepStrictEqual(pipe({ name: 'name', age: 23 }, S.concat({ name: 'name', age: 24 })), { name: 'name', age: 24 })
-```
-
-Added in v3.0.0
-
-# utils
-
-## evolve
-
-Creates a new object by recursively evolving a shallow copy of `a`, according to the `transformation` functions.
-
-**Signature**
-
-```ts
-export declare const evolve: <A, F extends { [K in keyof A]: (a: A[K]) => unknown }>(
-  transformations: F
-) => (a: A) => { [K in keyof F]: ReturnType<F[K]> }
-```
-
-**Example**
-
-```ts
-import { pipe } from 'fp-ts/function'
-import { evolve } from 'fp-ts/struct'
-
-assert.deepStrictEqual(
-  pipe(
-    { a: 'a', b: 1 },
-    evolve({
-      a: (a) => a.length,
-      b: (b) => b * 2,
-    })
-  ),
-  { a: 1, b: 2 }
-)
 ```
 
 Added in v3.0.0

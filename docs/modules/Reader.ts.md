@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -35,11 +35,15 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
+  - [chainFirstW](#chainfirstw)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
+  - [asksReader](#asksreader)
+  - [asksReaderW](#asksreaderw)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -237,6 +241,22 @@ Added in v3.0.0
 
 # combinators
 
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## flap
 
 Derivable from `Functor`.
@@ -245,6 +265,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -284,6 +316,28 @@ Projects a value from the global context in a `Reader`.
 
 ```ts
 export declare const asks: <R, A>(f: (r: R) => A) => Reader<R, A>
+```
+
+Added in v3.0.0
+
+## asksReader
+
+**Signature**
+
+```ts
+export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
+```
+
+Added in v3.0.0
+
+## asksReaderW
+
+Less strict version of [`asksReaderK`](#asksreaderk).
+
+**Signature**
+
+```ts
+export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -511,7 +565,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<E, B>
-) => (fa: Reader<E, A>) => Reader<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -526,7 +580,7 @@ Less strict version of [`apS`](#apS).
 export declare const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -563,7 +617,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<E, B>
-) => (ma: Reader<E, A>) => Reader<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -573,7 +627,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -588,7 +642,7 @@ Less strict version of [`bind`](#bind).
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

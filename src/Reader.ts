@@ -51,6 +51,20 @@ export const ask: <R>() => Reader<R, R> = () => identity
  */
 export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 
+/**
+ * Less strict version of [`asksReaderK`](#asksreaderk).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -116,14 +130,22 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
 export const chain: Chain2<URI>['chain'] = chainW
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = flattenW
 
 /**
  * @category Semigroupoid
@@ -206,7 +228,7 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -293,6 +315,18 @@ export const chainFirst =
   chainFirst_(Chain)
 
 /**
+ * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * Derivable from `Chain`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstW: <R2, A, B>(
+  f: (a: A) => Reader<R2, B>
+) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> = chainFirst as any
+
+/**
  * @category instances
  * @since 3.0.0
  */
@@ -358,7 +392,9 @@ export const bind =
 export const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <R1>(
+  fa: Reader<R1, A>
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -386,7 +422,9 @@ export const apS =
 export const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
-) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <R1>(
+  fa: Reader<R1, A>
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -395,7 +433,9 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Reader<unknown, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Reader<unknown, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

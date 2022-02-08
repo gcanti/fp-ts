@@ -338,7 +338,7 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
-) => (fa: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => IO<B>
-) => (ma: IO<A>) => IO<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

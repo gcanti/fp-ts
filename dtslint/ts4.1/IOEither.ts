@@ -47,7 +47,7 @@ pipe(
 // do notation
 //
 
-// $ExpectType IOEither<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType IOEither<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(
   _.right<number, string>(1),
   _.bindTo('a'),
@@ -59,14 +59,14 @@ pipe(
 // pipeable sequence S
 //
 
-// $ExpectType IOEither<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType IOEither<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
 
 //
 // Do
 //
 
-// $ExpectType IOEither<string, { a: number; b: string; }>
+// $ExpectType IOEither<string, { readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.right<number, string>(1)),

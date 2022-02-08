@@ -11,7 +11,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const isNone = <A>(fa: Option<A>): fa is None => fa._tag === 'None'
+export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
 
 /** @internal */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
@@ -27,10 +27,10 @@ export const some = <A>(a: A): Option<A> => ({ _tag: 'Some', value: a })
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const isLeft = <E, A>(ma: Either<E, A>): ma is Left<E> => ma._tag === 'Left'
+export const isLeft = <E>(ma: Either<E, unknown>): ma is Left<E> => ma._tag === 'Left'
 
 /** @internal */
-export const isRight = <E, A>(ma: Either<E, A>): ma is Right<A> => ma._tag === 'Right'
+export const isRight = <A>(ma: Either<unknown, A>): ma is Right<A> => ma._tag === 'Right'
 
 /** @internal */
 export const left = <E, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left: e })
@@ -69,4 +69,4 @@ export const emptyRecord: {} = {}
 // -------------------------------------------------------------------------------------
 
 /** @internal */
-export const hasOwnProperty = Object.prototype.hasOwnProperty
+export const has = Object.prototype.hasOwnProperty

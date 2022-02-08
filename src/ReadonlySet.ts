@@ -242,16 +242,17 @@ export const separate = <E, A>(EE: Eq<E>, EA: Eq<A>) => (
  * @since 3.0.0
  */
 export function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
+export function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
 export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
 export function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A> {
-  return (set) => {
-    const values = set.values()
+  return (s: ReadonlySet<A>) => {
+    const values = s.values()
     let e: Next<A>
     const r = new Set<A>()
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        r.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        r.add(a)
       }
     }
     return r
@@ -283,21 +284,24 @@ export const filterMap = <B>(E: Eq<B>): (<A>(f: (a: A) => Option<B>) => (fa: Rea
 export function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+export function partition<A>(
+  predicate: Predicate<A>
+): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
 export function partition<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
 export function partition<A>(
   predicate: Predicate<A>
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>> {
-  return (set) => {
-    const values = set.values()
+  return (s: ReadonlySet<A>) => {
+    const values = s.values()
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
     while (!(e = values.next()).done) {
-      const value = e.value
-      if (predicate(value)) {
-        right.add(value)
+      const a = e.value
+      if (predicate(a)) {
+        right.add(a)
       } else {
-        left.add(value)
+        left.add(a)
       }
     }
     return separated(left, right)
@@ -338,6 +342,18 @@ export const partitionMap = <B, C>(EB: Eq<B>, EC: Eq<C>) => <A>(f: (a: A) => Eit
 // -------------------------------------------------------------------------------------
 // instances
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export type URI = 'ReadonlySet'
+
+declare module './HKT' {
+  interface URItoKind<A> {
+    readonly ReadonlySet: ReadonlySet<A>
+  }
+}
 
 /**
  * @category instances

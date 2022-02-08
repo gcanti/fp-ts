@@ -176,3 +176,23 @@ pipe(
   ['a', 'b'],
   _.fromFoldable(A.Foldable)(S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
+
+//
+// filter
+//
+
+declare const filterTest: Record<string, string | number>
+declare const isString: (u: unknown) => u is string
+declare const predicate: (u: unknown) => boolean
+// $ExpectType Readonly<Record<string, string>>
+pipe(filterTest, _.filter(isString))
+// $ExpectType Readonly<Record<string, string | number>>
+pipe(filterTest, _.filter(predicate))
+pipe(
+  filterTest,
+  _.filter(
+    (
+      a // $ExpectType string | number
+    ) => true
+  )
+)

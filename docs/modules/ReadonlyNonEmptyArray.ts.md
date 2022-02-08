@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 76
+nav_order: 77
 parent: Modules
 ---
 
@@ -56,6 +56,7 @@ Added in v3.0.0
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
   - [intersperse](#intersperse)
@@ -489,6 +490,16 @@ Derivable from `Chain`.
 
 ```ts
 export declare const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+## getUnionSemigroup
+
+**Signature**
+
+```ts
+export declare const getUnionSemigroup: <A>(E: Eq<A>) => Se.Semigroup<ReadonlyNonEmptyArray<A>>
 ```
 
 Added in v3.0.0
@@ -1229,7 +1240,9 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyNonEmptyArray<B>
-) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1254,7 +1267,9 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReadonlyNonEmptyArray<B>
-) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (
+  ma: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

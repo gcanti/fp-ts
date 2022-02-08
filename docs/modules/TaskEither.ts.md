@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 94
+nav_order: 95
 parent: Modules
 ---
 
@@ -38,6 +38,8 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
@@ -50,6 +52,7 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
   - [fromIOK](#fromiok)
@@ -63,13 +66,7 @@ Added in v3.0.0
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
-  - [fromIO](#fromio)
-  - [fromIOEither](#fromioeither)
-  - [fromOption](#fromoption)
   - [fromPredicate](#frompredicate)
-  - [fromTask](#fromtask)
-  - [fromTaskOption](#fromtaskoption)
   - [left](#left)
   - [leftIO](#leftio)
   - [leftTask](#lefttask)
@@ -115,6 +112,13 @@ Added in v3.0.0
   - [tryCatchK](#trycatchk)
 - [model](#model)
   - [TaskEither (interface)](#taskeither-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
+  - [fromIO](#fromio)
+  - [fromIOEither](#fromioeither)
+  - [fromOption](#fromoption)
+  - [fromTask](#fromtask)
+  - [fromTaskOption](#fromtaskoption)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -197,7 +201,7 @@ Less strict version of [`alt`](#alt).
 ```ts
 export declare const altW: <E2, B>(
   second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B | A>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -337,6 +341,32 @@ export declare const chainEitherKW: <E2, A, B>(
 
 Added in v3.0.0
 
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainFirstEitherK).
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <E2, A, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstIOK
 
 **Signature**
@@ -448,6 +478,7 @@ Added in v3.0.0
 ```ts
 export declare const filterOrElse: {
   <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: TaskEither<E, B>) => TaskEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
 }
 ```
@@ -465,6 +496,9 @@ export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: TaskEither<E1, A>
   ) => TaskEither<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
+    mb: TaskEither<E1, B>
+  ) => TaskEither<E2 | E1, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 }
 ```
@@ -479,6 +513,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -641,48 +687,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromEither
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(e: E.Either<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromIOEither
-
-**Signature**
-
-```ts
-export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromOption
-
-Derivable from `FromEither`.
-
-**Signature**
-
-```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(ma: Option<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Derivable from `FromEither`.
@@ -692,28 +696,9 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => TaskEither<A, B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => TaskEither<B, B>
   <A>(predicate: Predicate<A>): (a: A) => TaskEither<A, A>
 }
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## fromTaskOption
-
-**Signature**
-
-```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1190,6 +1175,70 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromEither
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation22<'Either', 'TaskEither'>
+```
+
+Added in v3.0.0
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'TaskEither'>
+```
+
+Added in v3.0.0
+
+## fromIOEither
+
+**Signature**
+
+```ts
+export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskEither'>
+```
+
+Added in v3.0.0
+
+## fromOption
+
+Derivable from `FromEither`.
+
+**Signature**
+
+```ts
+export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskEither', E>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'TaskEither'>
+```
+
+Added in v3.0.0
+
+## fromTaskOption
+
+**Signature**
+
+```ts
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -1220,7 +1269,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E, B>
-) => (fa: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1235,7 +1284,7 @@ Less strict version of [`apS`](#apS).
 export declare const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
-) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1274,7 +1323,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: TaskEither<E, A>) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1284,7 +1333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: TaskEither<E, A>) => TaskEither<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1299,7 +1348,7 @@ Less strict version of [`bind`](#bind).
 export declare const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => TaskEither<E2, B>
-) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

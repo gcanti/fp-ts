@@ -45,20 +45,10 @@ flow(
 )('foo')
 
 //
-// Filterable overlodings
-//
-
-declare function isString(x: unknown): x is string
-const W = _.getFilterable(MonoidAll)
-
-pipe(_.right<string | number, boolean>(1), W.filter(isString)) // $ExpectType Either<boolean, string>
-pipe(_.right<string | number, boolean>(1), W.partition(isString)) // $ExpectType Separated<Either<boolean, unknown>, Either<boolean, string>>
-
-//
 // do notation
 //
 
-// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(
   _.right<number, string>(1),
   _.bindTo('a'),
@@ -70,14 +60,14 @@ pipe(
 // pipeable sequence S
 //
 
-// $ExpectType Either<string | number, { a: number; b: string; c: boolean; }>
+// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
 pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
 
 //
 // Do
 //
 
-// $ExpectType Either<string, { a: number; b: string; }>
+// $ExpectType Either<string, { readonly a: number; readonly b: string; }>
 pipe(
   _.Do,
   _.bind('a', () => _.right<number, string>(1)),
@@ -97,9 +87,56 @@ pipe(
   )
 )
 
+// -------------------------------------------------------------------------------------
+// Predicate-based APIs
+// -------------------------------------------------------------------------------------
+
+declare const n: number
+declare const sn: string | number
+declare const en: _.Either<boolean, number>
+declare const esn: _.Either<boolean, string | number>
+declare const isString: (u: unknown) => u is string
+declare const predicate: (sn: string | number) => boolean
+
 //
 // fromPredicate
 //
 
-// $ExpectType (a: string | number) => Either<string | number, string>
-_.fromPredicate((u: string | number): u is string => typeof u === 'string')
+// $ExpectType Either<unknown, string>
+pipe(sn, _.fromPredicate(isString))
+// $ExpectType Either<number, number>
+pipe(n, _.fromPredicate(predicate))
+// $ExpectType Either<number, number>
+pipe(
+  n,
+  _.fromPredicate(
+    (
+      n // $ExpectType number
+    ) => true
+  )
+)
+
+//
+// filterOrElse
+//
+
+// $ExpectType Either<boolean, string>
+pipe(
+  esn,
+  _.filterOrElse(isString, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  en,
+  _.filterOrElse(predicate, () => false)
+)
+// $ExpectType Either<boolean, number>
+pipe(
+  en,
+  _.filterOrElse(
+    (
+      n // $ExpectType number
+    ) => true,
+    () => false
+  )
+)

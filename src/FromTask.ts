@@ -3,11 +3,19 @@
  *
  * @since 3.0.0
  */
-import type { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import type { FromIO, FromIO1, FromIO2, FromIO2C, FromIO3, FromIO3C, FromIO4 } from './FromIO'
-import type { Task } from './Task'
 import { flow } from './function'
-import { Chain4, Chain3, Chain3C, Chain2, Chain2C, Chain1, Chain, chainFirst } from './Chain'
+import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import {
+  NaturalTransformation11,
+  NaturalTransformation12,
+  NaturalTransformation12C,
+  NaturalTransformation13,
+  NaturalTransformation13C,
+  NaturalTransformation14
+} from './NaturalTransformation'
+import type { Task, URI } from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -26,7 +34,7 @@ export interface FromTask<F> extends FromIO<F> {
  * @since 3.0.0
  */
 export interface FromTask1<F extends URIS> extends FromIO1<F> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind<F, A>
+  readonly fromTask: NaturalTransformation11<URI, F>
 }
 
 /**
@@ -34,7 +42,7 @@ export interface FromTask1<F extends URIS> extends FromIO1<F> {
  * @since 3.0.0
  */
 export interface FromTask2<F extends URIS2> extends FromIO2<F> {
-  readonly fromTask: <A, E>(fa: Task<A>) => Kind2<F, E, A>
+  readonly fromTask: NaturalTransformation12<URI, F>
 }
 
 /**
@@ -42,7 +50,7 @@ export interface FromTask2<F extends URIS2> extends FromIO2<F> {
  * @since 3.0.0
  */
 export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
-  readonly fromTask: <A>(fa: Task<A>) => Kind2<F, E, A>
+  readonly fromTask: NaturalTransformation12C<URI, F, E>
 }
 
 /**
@@ -50,7 +58,7 @@ export interface FromTask2C<F extends URIS2, E> extends FromIO2C<F, E> {
  * @since 3.0.0
  */
 export interface FromTask3<F extends URIS3> extends FromIO3<F> {
-  readonly fromTask: <A, R, E>(fa: Task<A>) => Kind3<F, R, E, A>
+  readonly fromTask: NaturalTransformation13<URI, F>
 }
 
 /**
@@ -58,7 +66,7 @@ export interface FromTask3<F extends URIS3> extends FromIO3<F> {
  * @since 3.0.0
  */
 export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
-  readonly fromTask: <A, R>(fa: Task<A>) => Kind3<F, R, E, A>
+  readonly fromTask: NaturalTransformation13C<URI, F, E>
 }
 
 /**
@@ -66,7 +74,7 @@ export interface FromTask3C<F extends URIS3, E> extends FromIO3C<F, E> {
  * @since 3.0.0
  */
 export interface FromTask4<F extends URIS4> extends FromIO4<F> {
-  readonly fromTask: <A, S, R, E>(fa: Task<A>) => Kind4<F, S, R, E, A>
+  readonly fromTask: NaturalTransformation14<URI, F>
 }
 
 // -------------------------------------------------------------------------------------

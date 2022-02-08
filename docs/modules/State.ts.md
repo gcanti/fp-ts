@@ -1,6 +1,6 @@
 ---
 title: State.ts
-nav_order: 86
+nav_order: 87
 parent: Modules
 ---
 
@@ -338,7 +338,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: State<E, B>
-) => (fa: State<E, A>) => State<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => State<E, B>
-) => (ma: State<E, A>) => State<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -371,7 +371,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: State<E, A>) => State<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: State<E, A>) => State<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

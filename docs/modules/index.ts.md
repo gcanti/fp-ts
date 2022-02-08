@@ -69,6 +69,7 @@ Added in v3.0.0
   - [meetSemilattice](#meetsemilattice)
   - [monad](#monad)
   - [monoid](#monoid)
+  - [naturalTransformation](#naturaltransformation)
   - [nonEmptyArray](#nonemptyarray)
   - [number](#number)
   - [option](#option)
@@ -119,6 +120,7 @@ Added in v3.0.0
   - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
+  - [zero](#zero)
 
 ---
 
@@ -684,6 +686,16 @@ export declare const monoid: typeof monoid
 
 Added in v3.0.0
 
+## naturalTransformation
+
+**Signature**
+
+```ts
+export declare const naturalTransformation: typeof naturalTransformation
+```
+
+Added in v3.0.0
+
 ## nonEmptyArray
 
 **Signature**
@@ -1180,6 +1192,16 @@ Added in v3.0.0
 
 ```ts
 export declare const writer: typeof writer
+```
+
+Added in v3.0.0
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: typeof zero
 ```
 
 Added in v3.0.0

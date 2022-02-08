@@ -45,9 +45,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative<F> extends Alt<F> {
-  readonly zero: <A>() => HKT<F, A>
-}
+export interface Alternative<F> extends Alt<F>, Zero<F> {}
 ```
 
 Added in v3.0.0
@@ -57,9 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative1<F extends URIS> extends Alt1<F> {
-  readonly zero: <A>() => Kind<F, A>
-}
+export interface Alternative1<F extends URIS> extends Alt1<F>, Zero1<F> {}
 ```
 
 Added in v3.0.0
@@ -69,9 +65,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative2<F extends URIS2> extends Alt2<F> {
-  readonly zero: <E, A>() => Kind2<F, E, A>
-}
+export interface Alternative2<F extends URIS2> extends Alt2<F>, Zero2<F> {}
 ```
 
 Added in v3.0.0
@@ -81,9 +75,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E> {
-  readonly zero: <A>() => Kind2<F, E, A>
-}
+export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E>, Zero2C<F, E> {}
 ```
 
 Added in v3.0.0
@@ -93,9 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative3<F extends URIS3> extends Alt3<F> {
-  readonly zero: <R, E, A>() => Kind3<F, R, E, A>
-}
+export interface Alternative3<F extends URIS3> extends Alt3<F>, Zero3<F> {}
 ```
 
 Added in v3.0.0
@@ -105,9 +95,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative3C<F extends URIS3, E> extends Alt3C<F, E> {
-  readonly zero: <R, A>() => Kind3<F, R, E, A>
-}
+export interface Alternative3C<F extends URIS3, E> extends Alt3C<F, E>, Zero3C<F, E> {}
 ```
 
 Added in v3.0.0
@@ -117,9 +105,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative4<F extends URIS4> extends Alt4<F> {
-  readonly zero: <S, R, E, A>() => Kind4<F, S, R, E, A>
-}
+export interface Alternative4<F extends URIS4> extends Alt4<F>, Zero4<F> {}
 ```
 
 Added in v3.0.0

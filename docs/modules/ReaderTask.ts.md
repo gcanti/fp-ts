@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 72
+nav_order: 73
 parent: Modules
 ---
 
@@ -24,20 +24,25 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderK](#chainfirstreaderk)
+  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
+  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
+  - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
+  - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
+  - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
   - [asks](#asks)
-  - [fromIO](#fromio)
-  - [fromReader](#fromreader)
-  - [fromTask](#fromtask)
+  - [asksReaderTask](#asksreadertask)
+  - [asksReaderTaskW](#asksreadertaskw)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -58,6 +63,10 @@ Added in v3.0.0
   - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
+  - [fromReader](#fromreader)
+  - [fromTask](#fromtask)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -171,12 +180,54 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: Rea
 
 Added in v3.0.0
 
+## chainFirstReaderK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## chainFirstReaderKW
+
+Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstTaskK
 
 **Signature**
 
 ```ts
 export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+```
+
+Added in v3.0.0
+
+## chainFirstW
+
+Less strict version of [`chainFirst`](#chainfirst).
+
+Derivable from `Chain`.
+
+**Signature**
+
+```ts
+export declare const chainFirstW: <R2, A, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -201,6 +252,20 @@ export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma
 
 Added in v3.0.0
 
+## chainReaderKW
+
+Less strict version of [`chainReaderK`](#chainReaderK).
+
+**Signature**
+
+```ts
+export declare const chainReaderKW: <A, R1, B>(
+  f: (a: A) => R.Reader<R1, B>
+) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B>
+```
+
+Added in v3.0.0
+
 ## chainTaskK
 
 **Signature**
@@ -219,6 +284,18 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <E, B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+```
+
+Added in v3.0.0
+
+## flattenW
+
+Less strict version of [`flatten`](#flatten).
+
+**Signature**
+
+```ts
+export declare const flattenW: <R1, R2, A>(mma: ReaderTask<R1, ReaderTask<R2, A>>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -253,6 +330,19 @@ export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A
 
 Added in v3.0.0
 
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A>
+```
+
+Added in v3.0.0
+
 # constructors
 
 ## ask
@@ -279,32 +369,24 @@ export declare const asks: <R, A>(f: (r: R) => A) => ReaderTask<R, A>
 
 Added in v3.0.0
 
-## fromIO
+## asksReaderTask
 
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => ReaderTask<E, A>
+export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
 
-## fromReader
+## asksReaderTaskW
+
+Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
 
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## fromTask
-
-**Signature**
-
-```ts
-export declare const fromTask: <R, A>(ma: T.Task<A>) => ReaderTask<R, A>
+export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -504,6 +586,38 @@ export interface ReaderTask<R, A> {
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## fromReader
+
+**Signature**
+
+```ts
+export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+```
+
+Added in v3.0.0
+
+## fromTask
+
+**Signature**
+
+```ts
+export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -534,7 +648,7 @@ Added in v3.0.0
 export declare const apS: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<E, B>
-) => (fa: ReaderTask<E, A>) => ReaderTask<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -549,7 +663,7 @@ Less strict version of [`apS`](#apS).
 export declare const apSW: <A, N extends string, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -588,7 +702,7 @@ Added in v3.0.0
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<E, B>
-) => (ma: ReaderTask<E, A>) => ReaderTask<E, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -598,7 +712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, { [K in N]: A }>
+export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -613,7 +727,7 @@ Less strict version of [`bind`](#bind).
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

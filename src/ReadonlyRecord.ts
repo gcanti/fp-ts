@@ -84,7 +84,7 @@ export function fromFoldable<F>(
   return <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) =>
     F.reduce<Record<string, B>, A>({}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = _.hasOwnProperty.call(r, k) ? M.concat(b)(r[k]) : b
+      r[k] = _.has.call(r, k) ? M.concat(b)(r[k]) : b
       return r
     })
 }
@@ -100,7 +100,7 @@ export function fromFoldable<F>(
  * @since 3.0.0
  */
 export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
-  if (!_.hasOwnProperty.call(r, k)) {
+  if (!_.has.call(r, k)) {
     const out: Record<string, A> = Object.assign({}, r)
     out[k] = a
     return _.some(out)
@@ -115,7 +115,7 @@ export const insertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): 
  * @since 3.0.0
  */
 export const upsertAt = <A>(k: string, a: A) => (r: ReadonlyRecord<string, A>): ReadonlyRecord<string, A> => {
-  if (_.hasOwnProperty.call(r, k) && r[k] === a) {
+  if (_.has.call(r, k) && r[k] === a) {
     return r
   }
   const out: Record<string, A> = Object.assign({}, r)
@@ -160,7 +160,7 @@ export const modifyAt = <A>(k: string, f: Endomorphism<A>) => (
  * @since 3.0.0
  */
 export const deleteAt = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<ReadonlyRecord<string, A>> => {
-  if (!_.hasOwnProperty.call(r, k)) {
+  if (!_.has.call(r, k)) {
     return _.none
   }
   const out: Record<string, A> = Object.assign({}, r)
@@ -210,7 +210,7 @@ export function mapWithIndex<A, B>(
   return (r) => {
     const out: Record<string, B> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         out[k] = f(k, r[k])
       }
     }
@@ -373,7 +373,7 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
     const left: Record<string, B> = {}
     const right: Record<string, C> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const e = f(k, r[k])
         if (_.isLeft(e)) {
           left[k] = e.left
@@ -395,6 +395,9 @@ export function partitionWithIndex<K extends string, A, B extends A>(
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
+export function partitionWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
 export function partitionWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
@@ -403,7 +406,7 @@ export function partitionWithIndex<A>(
     const left: Record<string, A> = {}
     const right: Record<string, A> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const a = r[k]
         if (predicateWithIndex(k, a)) {
           right[k] = a
@@ -429,7 +432,7 @@ export function filterMapWithIndex<A, B>(
   return (r) => {
     const out: Record<string, B> = {}
     for (const k in r) {
-      if (_.hasOwnProperty.call(r, k)) {
+      if (_.has.call(r, k)) {
         const ob = f(k, r[k])
         if (_.isSome(ob)) {
           out[k] = ob.value
@@ -449,6 +452,9 @@ export function filterWithIndex<K extends string, A, B extends A>(
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, B>
 export function filterWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
+): <B extends A>(r: ReadonlyRecord<K, B>) => ReadonlyRecord<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
 ): (r: ReadonlyRecord<K, A>) => ReadonlyRecord<string, A>
 export function filterWithIndex<A>(
   predicateWithIndex: PredicateWithIndex<string, A>
@@ -457,7 +463,7 @@ export function filterWithIndex<A>(
     const out: Record<string, A> = {}
     let changed = false
     for (const key in r) {
-      if (_.hasOwnProperty.call(r, key)) {
+      if (_.has.call(r, key)) {
         const a = r[key]
         if (predicateWithIndex(key, a)) {
           out[key] = a
@@ -512,7 +518,7 @@ export const reduce = (O: Ord<string>): (<B, A>(b: B, f: (b: B, a: A) => B) => (
  */
 export const foldMap = (
   O: Ord<string>
-): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: Readonly<Record<string, A>>) => M) => {
+): (<M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (r: ReadonlyRecord<string, A>) => M) => {
   const foldMapWithIndexO = foldMapWithIndex(O)
   return (M) => {
     const foldMapWithIndexOM = foldMapWithIndexO(M)
@@ -526,7 +532,7 @@ export const foldMap = (
  */
 export const reduceRight = (
   O: Ord<string>
-): (<B, A>(b: B, f: (a: A, b: B) => B) => (r: Readonly<Record<string, A>>) => B) => {
+): (<B, A>(b: B, f: (a: A, b: B) => B) => (r: ReadonlyRecord<string, A>) => B) => {
   const reduceRightWithIndexO = reduceRightWithIndex(O)
   return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
 }
@@ -540,7 +546,7 @@ export const compact: Compactable1<URI>['compact'] = <A>(
 ): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       const oa = r[k]
       if (_.isSome(oa)) {
         out[k] = oa.value
@@ -560,7 +566,7 @@ export const separate: Compactable1<URI>['separate'] = <A, B>(
   const left: Record<string, A> = {}
   const right: Record<string, B> = {}
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       const e = r[k]
       if (_.isLeft(e)) {
         left[k] = e.left
@@ -597,7 +603,7 @@ export const getShow = (O: Ord<string>): (<A>(S: Show<A>) => Show<ReadonlyRecord
   return <A>(S: Show<A>) => {
     const f = collectO((k, a: A) => `${JSON.stringify(k)}: ${S.show(a)}`)
     return {
-      show: (r: Readonly<Record<string, A>>) => {
+      show: (r: ReadonlyRecord<string, A>) => {
         const elements = f(r).join(', ')
         return elements === '' ? '{}' : `{ ${elements} }`
       }
@@ -640,8 +646,8 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
       }
       const r: Record<string, A> = Object.assign({}, first)
       for (const k in second) {
-        if (_.hasOwnProperty.call(second, k)) {
-          r[k] = _.hasOwnProperty.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
+        if (_.has.call(second, k)) {
+          r[k] = _.has.call(first, k) ? S.concat(second[k])(first[k]) : second[k]
         }
       }
       return r
@@ -665,7 +671,7 @@ export const Functor: Functor1<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -807,16 +813,16 @@ export const getDifferenceMagma = <A>(): Magma<ReadonlyRecord<string, A>> => ({
  *
  * @since 3.0.0
  */
-export const size = (r: ReadonlyRecord<string, unknown>): number => Object.keys(r).length
+export const size = <A>(r: ReadonlyRecord<string, A>): number => Object.keys(r).length
 
 /**
  * Test whether a `ReadonlyRecord` is empty.
  *
  * @since 3.0.0
  */
-export const isEmpty = (r: ReadonlyRecord<string, unknown>): boolean => {
+export const isEmpty = <A>(r: ReadonlyRecord<string, A>): boolean => {
   for (const k in r) {
-    if (_.hasOwnProperty.call(r, k)) {
+    if (_.has.call(r, k)) {
       return false
     }
   }
@@ -889,7 +895,7 @@ export function toUnfoldable(
  *
  * @since 3.0.0
  */
-export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.hasOwnProperty.call(r, k)
+export const has = <K extends string>(k: string, r: ReadonlyRecord<K, unknown>): k is K => _.has.call(r, k)
 
 /**
  * Test whether one `ReadonlyRecord` contains all of the keys and values contained in another `ReadonlyRecord`.
@@ -900,7 +906,7 @@ export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) 
   first: ReadonlyRecord<string, A>
 ): boolean => {
   for (const k in first) {
-    if (!_.hasOwnProperty.call(second, k) || !E.equals(second[k])(first[k])) {
+    if (!_.has.call(second, k) || !E.equals(second[k])(first[k])) {
       return false
     }
   }
@@ -913,7 +919,7 @@ export const isSubrecord = <A>(E: Eq<A>) => (second: ReadonlyRecord<string, A>) 
  * @since 3.0.0
  */
 export const lookup = (k: string) => <A>(r: ReadonlyRecord<string, A>): Option<A> =>
-  _.hasOwnProperty.call(r, k) ? _.some(r[k]) : _.none
+  _.has.call(r, k) ? _.some(r[k]) : _.none
 
 /**
  * An empty `ReadonlyRecord`.

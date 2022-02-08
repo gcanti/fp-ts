@@ -131,7 +131,7 @@ export const struct = <A>(
   concat: (second) => (first) => {
     const r: A = {} as any
     for (const k in semigroups) {
-      if (_.hasOwnProperty.call(semigroups, k)) {
+      if (_.has.call(semigroups, k)) {
         r[k] = semigroups[k].concat(second[k])(first[k])
       }
     }

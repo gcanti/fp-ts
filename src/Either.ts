@@ -79,7 +79,7 @@ export interface Right<A> {
 export type Either<E, A> = Left<E> | Right<A>
 
 // -------------------------------------------------------------------------------------
-// guards
+// refinements
 // -------------------------------------------------------------------------------------
 
 /**
@@ -88,7 +88,7 @@ export type Either<E, A> = Left<E> | Right<A>
  * @category guards
  * @since 3.0.0
  */
-export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
+export const isLeft: <E>(ma: Either<E, unknown>) => ma is Left<E> = _.isLeft
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise.
@@ -96,7 +96,7 @@ export const isLeft: <E, A>(ma: Either<E, A>) => ma is Left<E> = _.isLeft
  * @category guards
  * @since 3.0.0
  */
-export const isRight: <E, A>(ma: Either<E, A>) => ma is Right<A> = _.isRight
+export const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A> = _.isRight
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -406,6 +406,16 @@ export const chainRec: ChainRec2<URI>['chainRec'] = (f) =>
   )
 
 /**
+ * Less strict version of [`flatten`](#flatten).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
+  /*#__PURE__*/
+  chainW(identity)
+
+/**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
  * Derivable from `Chain`.
@@ -420,9 +430,7 @@ export const chainRec: ChainRec2<URI>['chainRec'] = (f) =>
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -430,7 +438,7 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> =
  * @category Alt
  * @since 3.0.0
  */
-export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A | B> = (
+export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
   that
 ) => (fa) => (isLeft(fa) ? that() : fa)
 
@@ -738,7 +746,7 @@ export const Functor: Functor2<URI> = {
  * @since 3.0.0
  */
 export const flap =
-  /*#_PURE_*/
+  /*#__PURE__*/
   flap_(Functor)
 
 /**
@@ -934,7 +942,7 @@ export const FromEither: FromEither2<URI> = {
  *   E.left('error')
  * )
  *
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromOption =
@@ -1037,6 +1045,7 @@ export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: Either<E1, A>
   ) => Either<E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
 } = filterOrElse
 
@@ -1102,7 +1111,9 @@ export const bind =
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => <E1>(
+  fa: Either<E1, A>
+) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1123,7 +1134,9 @@ export const apS =
 export const apSW: <A, N extends string, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
-) => <E1>(fa: Either<E1, A>) => Either<E1 | E2, { [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => <E1>(
+  fa: Either<E1, A>
+) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1132,7 +1145,9 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Either<never, readonly []> = of(_.emptyReadonlyArray)
+export const ApT: Either<never, readonly []> =
+  /*#__PURE__*/
+  of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0

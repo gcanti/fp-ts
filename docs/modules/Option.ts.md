@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 61
+nav_order: 62
 parent: Modules
 ---
 
@@ -26,8 +26,6 @@ Added in v3.0.0
 - [Alt](#alt)
   - [alt](#alt)
   - [altW](#altw)
-- [Alternative](#alternative)
-  - [zero](#zero)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -55,15 +53,17 @@ Added in v3.0.0
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
+- [Zero](#zero)
+  - [zero](#zero)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
 - [constructors](#constructors)
-  - [fromEither](#fromeither)
   - [fromPredicate](#frompredicate)
   - [getLeft](#getleft)
   - [getRight](#getright)
+  - [guard](#guard)
   - [none](#none)
   - [some](#some)
 - [derivable combinators](#derivable-combinators)
@@ -82,7 +82,7 @@ Added in v3.0.0
   - [isSome](#issome)
 - [instances](#instances)
   - [Alt](#alt-1)
-  - [Alternative](#alternative-1)
+  - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Chain](#chain-1)
@@ -97,9 +97,8 @@ Added in v3.0.0
   - [Traversable](#traversable-1)
   - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
+  - [Zero](#zero-1)
   - [getEq](#geteq)
-  - [getFirstMonoid](#getfirstmonoid)
-  - [getLastMonoid](#getlastmonoid)
   - [getMonoid](#getmonoid)
   - [getOrd](#getord)
   - [getShow](#getshow)
@@ -115,6 +114,8 @@ Added in v3.0.0
   - [None (interface)](#none-interface)
   - [Option (type alias)](#option-type-alias)
   - [Some (interface)](#some-interface)
+- [natural transformations](#natural-transformations)
+  - [fromEither](#fromeither)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -124,7 +125,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
-  - [getRefinement](#getrefinement)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
@@ -178,18 +178,6 @@ Less strict version of [`alt`](#alt).
 
 ```ts
 export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
-```
-
-Added in v3.0.0
-
-# Alternative
-
-## zero
-
-**Signature**
-
-```ts
-export declare const zero: <A>() => Option<A>
 ```
 
 Added in v3.0.0
@@ -393,6 +381,18 @@ export declare const wither: Wither1<'Option'>
 
 Added in v3.0.0
 
+# Zero
+
+## zero
+
+**Signature**
+
+```ts
+export declare const zero: <A>() => Option<A>
+```
+
+Added in v3.0.0
+
 # combinators
 
 ## chainEitherK
@@ -429,20 +429,6 @@ Added in v3.0.0
 
 # constructors
 
-## fromEither
-
-Transforms an `Either` to an `Option` discarding the error.
-
-Alias of [getRight](#getRight)
-
-**Signature**
-
-```ts
-export declare const fromEither: <E, A>(ma: Either<E, A>) => Option<A>
-```
-
-Added in v3.0.0
-
 ## fromPredicate
 
 Returns a _smart constructor_ based on the given predicate.
@@ -452,6 +438,7 @@ Returns a _smart constructor_ based on the given predicate.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): (a: A) => Option<B>
+  <A>(predicate: Predicate<A>): <B>(b: B) => Option<B>
   <A>(predicate: Predicate<A>): (a: A) => Option<A>
 }
 ```
@@ -509,6 +496,16 @@ import { right, left } from 'fp-ts/Either'
 
 assert.deepStrictEqual(getRight(right(1)), some(1))
 assert.deepStrictEqual(getRight(left('a')), none)
+```
+
+Added in v3.0.0
+
+## guard
+
+**Signature**
+
+```ts
+export declare const guard: (b: boolean) => Option<void>
 ```
 
 Added in v3.0.0
@@ -717,7 +714,7 @@ Returns `true` if the option is `None`, `false` otherwise.
 **Signature**
 
 ```ts
-export declare const isNone: <A>(fa: Option<A>) => fa is None
+export declare const isNone: (fa: Option<unknown>) => fa is None
 ```
 
 **Example**
@@ -914,6 +911,16 @@ export declare const Witherable: Witherable1<'Option'>
 
 Added in v3.0.0
 
+## Zero
+
+**Signature**
+
+```ts
+export declare const Zero: Zero1<'Option'>
+```
+
+Added in v3.0.0
+
 ## getEq
 
 **Signature**
@@ -934,70 +941,6 @@ assert.strictEqual(E.equals(none)(some(1)), false)
 assert.strictEqual(E.equals(some(1))(none), false)
 assert.strictEqual(E.equals(some(1))(some(2)), false)
 assert.strictEqual(E.equals(some(1))(some(1)), true)
-```
-
-Added in v3.0.0
-
-## getFirstMonoid
-
-Monoid returning the left-most non-`None` value
-
-| x       | y       | concat(y)(x) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(a)      |
-
-**Signature**
-
-```ts
-export declare const getFirstMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getFirstMonoid, some, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const M = getFirstMonoid<number>()
-assert.deepStrictEqual(pipe(none, M.concat(none)), none)
-assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
-assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
-assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(1))
-```
-
-Added in v3.0.0
-
-## getLastMonoid
-
-Monoid returning the right-most non-`None` value
-
-| x       | y       | concat(y)(x) |
-| ------- | ------- | ------------ |
-| none    | none    | none         |
-| some(a) | none    | some(a)      |
-| none    | some(a) | some(a)      |
-| some(a) | some(b) | some(b)      |
-
-**Signature**
-
-```ts
-export declare const getLastMonoid: <A = never>() => Monoid<Option<A>>
-```
-
-**Example**
-
-```ts
-import { getLastMonoid, some, none } from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-const M = getLastMonoid<number>()
-assert.deepStrictEqual(pipe(none, M.concat(none)), none)
-assert.deepStrictEqual(pipe(some(1), M.concat(none)), some(1))
-assert.deepStrictEqual(pipe(none, M.concat(some(1))), some(1))
-assert.deepStrictEqual(pipe(some(1), M.concat(some(2))), some(2))
 ```
 
 Added in v3.0.0
@@ -1086,7 +1029,9 @@ This is `chain` + `fromNullable`, useful when working with optional values.
 **Signature**
 
 ```ts
-export declare const chainNullableK: <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>) => Option<B>
+export declare const chainNullableK: <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: Option<A>) => Option<NonNullable<B>>
 ```
 
 **Example**
@@ -1310,6 +1255,22 @@ export interface Some<A> {
 
 Added in v3.0.0
 
+# natural transformations
+
+## fromEither
+
+Transforms an `Either` to an `Option` discarding the error.
+
+Alias of [getRight](#getRight)
+
+**Signature**
+
+```ts
+export declare const fromEither: NaturalTransformation21<'Either', 'Option'>
+```
+
+Added in v3.0.0
+
 # utils
 
 ## ApT
@@ -1340,7 +1301,7 @@ Added in v3.0.0
 export declare const apS: <N, A, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
-) => (fa: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1363,7 +1324,7 @@ Added in v3.0.0
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => Option<B>
-) => (ma: Option<A>) => Option<{ [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1439,30 +1400,6 @@ assert.strictEqual(
   ),
   false
 )
-```
-
-Added in v3.0.0
-
-## getRefinement
-
-Returns a `Refinement` (i.e. a custom type guard) from a `Option` returning function.
-This function ensures that a custom type guard definition is type-safe.
-
-```ts
-import { some, none, getRefinement } from 'fp-ts/Option'
-
-type A = { type: 'A' }
-type B = { type: 'B' }
-type C = A | B
-
-const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
-const isA = getRefinement<C, A>((c) => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
-```
-
-**Signature**
-
-```ts
-export declare const getRefinement: <A, B extends A>(getOption: (a: A) => Option<B>) => Refinement<A, B>
 ```
 
 Added in v3.0.0

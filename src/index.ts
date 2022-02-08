@@ -58,6 +58,7 @@ import * as magma from './Magma'
 import * as meetSemilattice from './MeetSemilattice'
 import * as monad from './Monad'
 import * as monoid from './Monoid'
+import * as naturalTransformation from './NaturalTransformation'
 import * as nonEmptyArray from './NonEmptyArray'
 import * as number from './number'
 import * as option from './Option'
@@ -108,6 +109,7 @@ import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
+import * as zero from './Zero'
 export {
   /**
    * @since 3.0.0
@@ -332,6 +334,10 @@ export {
   /**
    * @since 3.0.0
    */
+  naturalTransformation,
+  /**
+   * @since 3.0.0
+   */
   nonEmptyArray,
   /**
    * @since 3.0.0
@@ -532,5 +538,9 @@ export {
   /**
    * @since 3.0.0
    */
-  writer
+  writer,
+  /**
+   * @since 3.0.0
+   */
+  zero
 }

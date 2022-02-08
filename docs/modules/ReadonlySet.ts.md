@@ -1,6 +1,6 @@
 ---
 title: ReadonlySet.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -35,6 +35,7 @@ Added in v3.0.0
   - [fromReadonlyArray](#fromreadonlyarray)
   - [singleton](#singleton)
 - [instances](#instances)
+  - [URI (type alias)](#uri-type-alias)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getIntersectionSemigroup](#getintersectionsemigroup)
@@ -101,6 +102,7 @@ Added in v3.0.0
 
 ```ts
 export declare function filter<A, B extends A>(refinement: Refinement<A, B>): (s: ReadonlySet<A>) => ReadonlySet<B>
+export declare function filter<A>(predicate: Predicate<A>): <B extends A>(s: ReadonlySet<B>) => ReadonlySet<B>
 export declare function filter<A>(predicate: Predicate<A>): (s: ReadonlySet<A>) => ReadonlySet<A>
 ```
 
@@ -124,6 +126,9 @@ Added in v3.0.0
 export declare function partition<A, B extends A>(
   refinement: Refinement<A, B>
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<B>>
+export declare function partition<A>(
+  predicate: Predicate<A>
+): <B extends A>(s: ReadonlySet<B>) => Separated<ReadonlySet<B>, ReadonlySet<B>>
 export declare function partition<A>(
   predicate: Predicate<A>
 ): (s: ReadonlySet<A>) => Separated<ReadonlySet<A>, ReadonlySet<A>>
@@ -273,6 +278,16 @@ export declare const singleton: <A>(a: A) => ReadonlySet<A>
 Added in v3.0.0
 
 # instances
+
+## URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = 'ReadonlySet'
+```
+
+Added in v3.0.0
 
 ## getDifferenceMagma
 

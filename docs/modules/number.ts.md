@@ -1,6 +1,6 @@
 ---
 title: number.ts
-nav_order: 60
+nav_order: 61
 parent: Modules
 ---
 
@@ -23,6 +23,8 @@ Added in v3.0.0
   - [SemigroupProduct](#semigroupproduct)
   - [SemigroupSum](#semigroupsum)
   - [Show](#show)
+- [refinements](#refinements)
+  - [isNumber](#isnumber)
 
 ---
 
@@ -154,6 +156,18 @@ Added in v3.0.0
 
 ```ts
 export declare const Show: S.Show<number>
+```
+
+Added in v3.0.0
+
+# refinements
+
+## isNumber
+
+**Signature**
+
+```ts
+export declare const isNumber: Refinement<unknown, number>
 ```
 
 Added in v3.0.0
