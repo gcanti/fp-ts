@@ -67,5 +67,7 @@
     "algebraic-data-types",
     "functional-programming"
   ],
-  "dependencies": {}
+  "dependencies": {
+    "safe-stable-stringify": "^2.3.1"
+  }
 }

@@ -2,6 +2,7 @@
  * @since 2.10.0
  */
 import * as E from './Eq'
+import * as J from './Json'
 import * as M from './Monoid'
 import * as S from './Semigroup'
 import * as O from './Ord'
@@ -86,9 +87,7 @@ export const Ord: O.Ord<string> = {
  * @category instances
  * @since 2.10.0
  */
-export const Show: Sh.Show<string> = {
-  show: (s) => JSON.stringify(s)
-}
+export const Show: Sh.Show<string> = J.Show
 
 // -------------------------------------------------------------------------------------
 // refinements
