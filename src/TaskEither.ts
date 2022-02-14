@@ -254,8 +254,6 @@ export const getOrElseW: <E, B>(
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
  *
- * Note: `f` should never `throw` errors, they are not caught.
- *
  * See also [`tryCatchK`](#trycatchk).
  *
  * @example
@@ -272,8 +270,16 @@ export const getOrElseW: <E, B>(
  * @category interop
  * @since 2.0.0
  */
-export const tryCatch = <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
-  f().then(_.right, (reason) => _.left(onRejected(reason)))
+export const tryCatch = <E, A>(
+  f: Lazy<Promise<A>>,
+  onRejected: (reason: unknown) => E
+): TaskEither<E, A> => async () => {
+  try {
+    return await f().then(_.right)
+  } catch (reason) {
+    return _.left(onRejected(reason))
+  }
+}
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
