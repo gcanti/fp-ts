@@ -808,8 +808,6 @@ Added in v2.10.0
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
 
-Note: `f` should never `throw` errors, they are not caught.
-
 See also [`tryCatchK`](#trycatchk).
 
 **Signature**
