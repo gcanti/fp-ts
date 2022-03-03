@@ -187,6 +187,14 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
+  it('intercalate', () => {
+    U.deepStrictEqual(_.intercalate(S.Semigroup)('-')(['a']), 'a')
+    U.deepStrictEqual(_.intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+    U.deepStrictEqual(_.intercalate(S.Semigroup)('-')(['a', '', 'c']), 'a--c')
+    U.deepStrictEqual(_.intercalate(S.Semigroup)('-')(['a', 'b']), 'a-b')
+    U.deepStrictEqual(_.intercalate(S.Semigroup)('-')(['a', 'b', 'c', 'd']), 'a-b-c-d')
+  })
+
   it('reverse', () => {
     U.deepStrictEqual(_.reverse([1, 2, 3]), [3, 2, 1])
   })

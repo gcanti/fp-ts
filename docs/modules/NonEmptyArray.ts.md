@@ -63,6 +63,7 @@ Added in v2.0.0
   - [group](#group)
   - [groupBy](#groupby)
   - [insertAt](#insertat)
+  - [intercalate](#intercalate)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
   - [prependAll](#prependall)
@@ -530,6 +531,27 @@ export declare const insertAt: <A>(i: number, a: A) => (as: A[]) => Option<NonEm
 ```
 
 Added in v2.0.0
+
+## intercalate
+
+**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(S: Se.Semigroup<A>) => (sep: A) => (as: NonEmptyArray<A>) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.11.9
 
 ## intersperse
 

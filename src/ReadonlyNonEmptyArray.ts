@@ -567,6 +567,22 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
 }
 
 /**
+ * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @category combinators
+ * @since 2.11.9
+ */
+export const intercalate: <A>(S: Semigroup<A>) => (sep: A) => (as: ReadonlyNonEmptyArray<A>) => A = (S) => (sep) => (
+  as
+) => concatAll(S)(intersperse(sep)(as))
+
+/**
  * @category combinators
  * @since 2.10.0
  */

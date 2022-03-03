@@ -87,6 +87,7 @@ Added in v2.0.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
+  - [intercalate](#intercalate)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -1435,6 +1436,28 @@ export declare const fromOptionK: <A extends readonly unknown[], B>(f: (...a: A)
 ```
 
 Added in v2.11.0
+
+## intercalate
+
+Creates a new `Array` placing an element in between members of the input `Array`, then folds the results using the
+provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(M: Monoid<A>) => (sep: A) => (as: A[]) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.11.9
 
 ## intersection
 
