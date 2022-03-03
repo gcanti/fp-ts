@@ -13,7 +13,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
-import { Foldable1 } from './Foldable'
+import * as F from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
@@ -49,6 +49,7 @@ import {
 } from './Witherable'
 import { Zero1, guard as guard_ } from './Zero'
 
+import Foldable1 = F.Foldable1
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
@@ -1011,6 +1012,21 @@ export const intersperse = <A>(middle: A): ((as: ReadonlyArray<A>) => ReadonlyAr
   const f = RNEA.intersperse(middle)
   return (as) => (isNonEmpty(as) ? f(as) : as)
 }
+
+/**
+ * Places an element in between members of an array`, then folds the results using the provided `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @category combinators
+ * @since 2.11.9
+ */
+export const intercalate: <A>(M: Monoid<A>) => (sep: A) => (as: ReadonlyArray<A>) => A = (M) => (sep) => (as) =>
+  F.intercalate(M, Foldable)(sep, as)
 
 /**
  * Rotate a `ReadonlyArray` by `n` steps.

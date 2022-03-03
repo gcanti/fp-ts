@@ -702,6 +702,15 @@ describe('Array', () => {
     U.deepStrictEqual(_.intersperse(0)([1, 2, 3, 4]), [1, 0, 2, 0, 3, 0, 4])
   })
 
+  it('intercalate', () => {
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')([]), '')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a']), 'a')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', '', 'c']), 'a--c')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b']), 'a-b')
+    U.deepStrictEqual(_.intercalate(S.Monoid)('-')(['a', 'b', 'c', 'd']), 'a-b-c-d')
+  })
+
   it('zipWith', () => {
     U.deepStrictEqual(
       _.zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n),
