@@ -51,4 +51,11 @@ describe('Monoid', () => {
     const s = _.struct(monoids)
     U.deepStrictEqual(s.empty, {})
   })
+
+  it('intercalate', () => {
+    const IM = _.intercalate(' ')(S.Monoid)
+    U.deepStrictEqual(IM.concat('a', 'b'), 'a b')
+    U.deepStrictEqual(IM.concat(IM.concat('a', 'b'), 'c'), IM.concat('a', IM.concat('b', 'c')))
+    U.deepStrictEqual(IM.empty, '')
+  })
 })

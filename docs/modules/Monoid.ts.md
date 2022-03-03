@@ -44,6 +44,7 @@ Added in v2.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [combinators](#combinators)
+  - [intercalate](#intercalate)
   - [reverse](#reverse)
   - [struct](#struct)
   - [tuple](#tuple)
@@ -73,6 +74,30 @@ Added in v2.0.0
 ---
 
 # combinators
+
+## intercalate
+
+Between each pair of elements insert `middle`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(middle: A) => (M: Monoid<A>) => Monoid<A>
+```
+
+**Example**
+
+```ts
+import { intercalate } from 'fp-ts/Monoid'
+import * as S from 'fp-ts/string'
+import { pipe } from 'fp-ts/function'
+
+const S1 = pipe(S.Monoid, intercalate(' + '))
+
+assert.strictEqual(S1.concat('a', 'b'), 'a + b')
+```
+
+Added in v2.11.9
 
 ## reverse
 

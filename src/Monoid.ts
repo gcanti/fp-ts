@@ -178,6 +178,26 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
     empty: monoids.map((m) => m.empty)
   } as any)
 
+/**
+ * Between each pair of elements insert `middle`.
+ *
+ * @example
+ * import { intercalate } from 'fp-ts/Monoid'
+ * import * as S from 'fp-ts/string'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const S1 = pipe(S.Monoid, intercalate(' + '))
+ *
+ * assert.strictEqual(S1.concat('a', 'b'), 'a + b')
+ *
+ * @category combinators
+ * @since 2.11.9
+ */
+export const intercalate = <A>(middle: A) => (M: Monoid<A>): Monoid<A> => ({
+  empty: M.empty,
+  concat: Se.intercalate(middle)(M).concat
+})
+
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
