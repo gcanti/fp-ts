@@ -14,7 +14,7 @@ nav_order: 1
 - [Module structure](#module-structure)
 - [FAQ](#faq)
   - [What a `C` suffix means, e.g. `Functor2C` vs `Functor2`](#what-a-c-suffix-means-eg-functor2c-vs-functor2)
-  - [What an `E` suffix means, e.g. `matchE`](#what-an-E-suffix-means-eg-matchE)
+  - [What an `E` suffix means, e.g. `matchE`](#what-an-e-suffix-means-eg-matche)
   - [What a `K` suffix means, e.g. `fromEitherK` or `chainEitherK`](#what-a-k-suffix-means-eg-fromeitherk-or-chaineitherk)
   - [What a `T` suffix means, e.g. `sequenceT`](#what-a-t-suffix-means-eg-sequencet)
   - [What a `W` suffix means, e.g. `chainW` or `chainEitherKW`](#what-a-w-suffix-means-eg-chainw-or-chaineitherkw)
