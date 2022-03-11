@@ -392,7 +392,8 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>) => boolean
+export declare function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
+export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>>
 ```
 
 Added in v2.5.0
