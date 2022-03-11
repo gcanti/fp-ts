@@ -468,7 +468,11 @@ export const some = <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>): boole
 /**
  * @since 2.5.0
  */
-export const every = <A>(predicate: Predicate<A>): ((set: ReadonlySet<A>) => boolean) => not(some(not(predicate)))
+export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>> {
+  return not(some(not(predicate)))
+}
 
 // TODO: remove non-curried overloading in v3
 /**

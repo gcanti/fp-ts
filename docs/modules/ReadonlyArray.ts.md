@@ -2433,7 +2433,10 @@ Check if a predicate holds true for every array member.
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (as: readonly A[]) => boolean
+export declare function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyArray<A>, ReadonlyArray<B>>
+export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>>
 ```
 
 **Example**

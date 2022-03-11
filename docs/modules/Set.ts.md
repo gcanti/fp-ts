@@ -328,7 +328,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean
+export declare const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<Set<A>, Set<B>>
+  <A>(predicate: Predicate<A>): Predicate<Set<A>>
+}
 ```
 
 Added in v2.0.0

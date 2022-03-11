@@ -1093,7 +1093,11 @@ export function fromFoldableMap<F, B>(
  *
  * @since 2.5.0
  */
-export function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean {
+export function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>> {
   return (r) => {
     for (const k in r) {
       if (!predicate(r[k])) {
