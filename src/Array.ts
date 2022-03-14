@@ -2866,7 +2866,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
 export const every: {
   <A, B extends A>(refinement: Refinement<A, B>): Refinement<Array<A>, Array<B>>
   <A>(predicate: Predicate<A>): Predicate<Array<A>>
-} = (predicate: any): any => RA.every(predicate)
+} = RA.every as any
 
 /**
  * `some` tells if the provided predicate holds true at least for one element in the `Array`.

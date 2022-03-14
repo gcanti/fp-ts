@@ -832,7 +832,7 @@ export function fromFoldableMap<F, B>(
 export const every: {
   <A, B extends A>(refinement: Refinement<A, B>): Refinement<Record<string, A>, Record<string, B>>
   <A>(predicate: Predicate<A>): Predicate<Record<string, A>>
-} = (predicate: any) => RR.every(predicate)
+} = RR.every as any
 
 /**
  * Test if at least one value in a `Record` satisfies the predicate.
