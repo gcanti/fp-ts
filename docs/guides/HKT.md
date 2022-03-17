@@ -21,13 +21,13 @@ Let's see how to add an instance of the `Functor` type class for `Identity`
 ```ts
 // Identity.ts
 
-import { Functor1 } from 'fp-ts/lib/Functor'
+import { Functor1 } from 'fp-ts/Functor'
 
 export const URI = 'Identity'
 
 export type URI = typeof URI
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind<A> {
     readonly Identity: Identity<A>
   }
@@ -36,7 +36,7 @@ declare module 'fp-ts/lib/HKT' {
 export type Identity<A> = A
 
 // Functor instance
-export const identity: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
   map: (ma, f) => f(ma)
 }
@@ -45,7 +45,7 @@ export const identity: Functor1<URI> = {
 Here's the definition of `Functor1`
 
 ```ts
-// fp-ts/lib/Functor.ts
+// fp-ts/Functor.ts
 
 export interface Functor1<F extends URIS> {
   readonly URI: F
@@ -58,7 +58,7 @@ So what's `URItoKind`, `URIS` and `Kind`?
 `URItoKind` is type-level map, it maps a `URI` to a concrete data type, and is populated using the [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) feature
 
 ```ts
-// fp-ts/lib/HKT.ts
+// fp-ts/HKT.ts
 
 export interface URItoKind<A> {}
 ```
@@ -66,7 +66,7 @@ export interface URItoKind<A> {}
 ```ts
 // Identity.ts
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind<A> {
     readonly Identity: Identity<A> // maps the key "Identity" to the type `Identity`
   }
@@ -87,13 +87,13 @@ Example: `Either`
 ```ts
 // Either.ts
 
-import { Functor2 } from 'fp-ts/lib/Functor'
+import { Functor2 } from 'fp-ts/Functor'
 
 export const URI = 'Either'
 
 export type URI = typeof URI
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind2<E, A> {
     readonly Either: Either<E, A>
   }
@@ -111,8 +111,10 @@ export interface Right<A> {
 
 export type Either<E, A> = Left<E> | Right<A>
 
+export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+
 // Functor instance
-export const either: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
   map: (ma, f) => (ma._tag === 'Left' ? ma : right(f(ma.right)))
 }
@@ -121,7 +123,7 @@ export const either: Functor2<URI> = {
 And here's the definition of `Functor2`
 
 ```ts
-// fp-ts/lib/Functor.ts
+// fp-ts/Functor.ts
 
 export interface Functor2<F extends URIS2> {
   readonly URI: F
@@ -134,7 +136,7 @@ export interface Functor2<F extends URIS2> {
 Let's see how to type `lift`
 
 ```ts
-import { HKT } from 'fp-ts/lib/HKT'
+import { HKT } from 'fp-ts/HKT'
 
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return (f) => (fa) => F.map(fa, f)
@@ -144,7 +146,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 Here's the definition of `HKT`
 
 ```ts
-// fp-ts/lib/HKT.ts
+// fp-ts/HKT.ts
 
 export interface HKT<URI, A> {
   readonly _URI: URI
@@ -154,7 +156,7 @@ export interface HKT<URI, A> {
 
 The `HKT` type represents a type constructor of kind `* -> *`.
 
-There are other `HKT<n>` types defined in the `fp-ts/lib/HKT.ts`, one for each kind (up to four):
+There are other `HKT<n>` types defined in the `fp-ts/HKT.ts`, one for each kind (up to four):
 
 - `HKT2` for type constructors of kind `* -> * -> *`
 - `HKT3` for type constructors of kind `* -> * -> * -> *`
