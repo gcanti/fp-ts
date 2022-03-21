@@ -6,7 +6,12 @@ has_children: false
 has_toc: false
 ---
 
-# Ecosystem
+# Ecosystem (v2.x)
+
+## Tooling
+
+- [create-fp-ts-lib](https://github.com/no-day/create-fp-ts-lib) - Bootstrap libraries that follow common fp-ts coding, documentation and testing patterns
+- [docs-ts](https://github.com/gcanti/docs-ts) - Documentation generator used by fp-ts and many fp-ts libraries
 
 ## Libraries
 
@@ -15,6 +20,7 @@ has_toc: false
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
 - [monocle-ts](https://github.com/gcanti/monocle-ts) - Functional optics: a (partial) porting of scala monocle to
   TypeScript
+- [spectacles-ts](https://github.com/anthonyjoeseph/spectacles-ts/) - A simple facade built on top of monocle-ts (autocompletes possible combinators)
 - [newtype-ts](https://github.com/gcanti/newtype-ts) - Implementation of newtypes in TypeScript
 - [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
 - [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
@@ -28,12 +34,18 @@ has_toc: false
 - [@nll/datum](https://github.com/nullpub/datum) - Datum and DatumEither types, another take on RemoteData and [flow](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b)
 - [fetcher-ts](https://github.com/YBogomolov/fetcher-ts) - Type-safe REST HTTP client with io-ts response validation
 - [alga-ts](https://github.com/algebraic-graphs/typescript) – Algebraic encoding for graphs, which makes invalid graphs unrepresentable
-- [matechs-effect](https://github.com/mikearnaldi/matechs-effect) – Contravariant trifunctor effect with useful integrations (http, react, orm, cqrs, etc.)
 - [morphic-ts](https://github.com/sledorze/morphic-ts) - Code first Domain modeling with extensive pattern supports (matchers, predicates, lenses) with useful, extensible, customisable derivations (Show, Eq, io-ts, fast-check, jsonSchema, ..).
 - [graphics-ts](https://github.com/gcanti/graphics-ts) - A porting of purescript-{canvas, drawing} featuring fp-ts
 - [expressive-ts](https://github.com/IMax153/expressive-ts) - Comonadic builders for writing complex regular expressions
 - [fp-fetch](https://github.com/monstasat/fp-fetch) - Functional style, non-throwing utils for data fetching
 - [fp-ts-std](https://github.com/samhh/fp-ts-std) - The missing pseudo-standard library for fp-ts.
+- [fp-ts-lcg](https://github.com/no-day/fp-ts-lcg) - A seeded pseudorandom number generator
+- [fp-ts-graph](https://github.com/no-day/fp-ts-graph) - Immutable, functional graph data structure
+- [fp-ts-bigint](https://github.com/ericcrosson/fp-ts-bigint) - Opt-in BigInt functions
+- [fp-ts-generators](https://github.com/no-day/fp-ts-generators) - Seeded pseudorandom generators for structured data
+- [fp-ts-sized-vectors](https://github.com/no-day/fp-ts-sized-vectors) - Fixed size generic vector type carrying its length at the typelevel
+- [fp-ts-number-instances](https://github.com/no-day/fp-ts-number-instances) - Not fully law abiding instances for the number type
+- [fp-ts-react-stable-hooks](https://github.com/mblink/fp-ts-react-stable-hooks) - Reduce unnecessary rerenders when using fp-ts data types with React hooks
 
 ## Bindings
 
