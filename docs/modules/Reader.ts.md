@@ -35,6 +35,8 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
+  - [apFirstW](#apfirstw)
+  - [apSecondW](#apsecondw)
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [flattenW](#flattenw)
@@ -240,6 +242,30 @@ export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<readonly [A,
 Added in v3.0.0
 
 # combinators
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v3.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v3.0.0
 
 ## chainFirstW
 

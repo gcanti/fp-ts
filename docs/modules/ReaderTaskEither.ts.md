@@ -29,6 +29,8 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
+  - [apFirstW](#apfirstw)
+  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -307,6 +309,34 @@ export declare const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A>
 Added in v3.0.0
 
 # combinators
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## chainEitherK
 

@@ -51,6 +51,8 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
+  - [apFirstW](#apfirstw)
+  - [apSecondW](#apsecondw)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
@@ -397,6 +399,30 @@ assert.deepStrictEqual(pipe(E.right([]), E.traverse(O.Applicative)(RA.head)), O.
 Added in v3.0.0
 
 # combinators
+
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v3.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v3.0.0
 
 ## chainFirstW
 
