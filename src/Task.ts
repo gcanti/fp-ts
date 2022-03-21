@@ -38,11 +38,11 @@ export interface Task<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// constructors
+// natural transformations
 // -------------------------------------------------------------------------------------
 
 /**
- * @category constructors
+ * @category natural transformations
  * @since 3.0.0
  */
 export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().then(ma)

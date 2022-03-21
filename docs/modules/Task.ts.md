@@ -36,8 +36,6 @@ Added in v3.0.0
   - [delay](#delay)
   - [flap](#flap)
   - [fromIOK](#fromiok)
-- [constructors](#constructors)
-  - [fromIO](#fromio)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -58,6 +56,8 @@ Added in v3.0.0
   - [getRaceMonoid](#getracemonoid)
 - [model](#model)
   - [Task (interface)](#task-interface)
+- [natural transformations](#natural-transformations)
+  - [fromIO](#fromio)
 - [utils](#utils)
   - [ApT](#apt)
   - [Do](#do)
@@ -205,18 +205,6 @@ Added in v3.0.0
 
 ```ts
 export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
-```
-
-Added in v3.0.0
-
-# constructors
-
-## fromIO
-
-**Signature**
-
-```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
 ```
 
 Added in v3.0.0
@@ -430,6 +418,18 @@ Added in v3.0.0
 export interface Task<A> {
   (): Promise<A>
 }
+```
+
+Added in v3.0.0
+
+# natural transformations
+
+## fromIO
+
+**Signature**
+
+```ts
+export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
 ```
 
 Added in v3.0.0
