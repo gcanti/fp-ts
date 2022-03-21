@@ -166,6 +166,7 @@ export declare const delay: (millis: number) => <A>(ma: Task<A>) => Task<A>
 ```ts
 import { pipe } from 'fp-ts/function'
 import * as T from 'fp-ts/Task'
+import { takeRight } from 'fp-ts/ReadonlyArray'
 
 async function test() {
   const log: Array<string> = []
@@ -174,11 +175,11 @@ async function test() {
       log.push(message)
     })
   const fa = append('a')
-  const fb = append('b')
+  const fb = T.delay(20)(append('b'))
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
   await pipe(T.ApT, T.apT(fa), T.apT(fb), T.apT(fc), T.apT(fd))()
-  assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
 }
 
 test()
