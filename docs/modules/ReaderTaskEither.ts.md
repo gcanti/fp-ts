@@ -912,9 +912,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElseFirstW: <E1, R, E2, B>(
-  onLeft: (e: E1) => ReaderTaskEither<R, E2, B>
-) => <A>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A>
+export declare const orElseFirstW: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R1, E2, B>
+) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0
