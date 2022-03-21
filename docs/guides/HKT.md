@@ -21,13 +21,13 @@ Let's see how to add an instance of the `Functor` type class for `Identity`
 ```ts
 // Identity.ts
 
-import { Functor1 } from 'fp-ts/lib/Functor'
+import { Functor1 } from 'fp-ts/Functor'
 
 export const URI = 'Identity'
 
 export type URI = typeof URI
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind<A> {
     readonly Identity: Identity<A>
   }
@@ -36,20 +36,20 @@ declare module 'fp-ts/lib/HKT' {
 export type Identity<A> = A
 
 // Functor instance
-export const identity: Functor1<URI> = {
+export const Functor: Functor1<URI> = {
   URI,
-  map: (ma, f) => f(ma)
+  map: (f) => (fa) => f(fa)
 }
 ```
 
 Here's the definition of `Functor1`
 
 ```ts
-// fp-ts/lib/Functor.ts
+// fp-ts/Functor.ts
 
 export interface Functor1<F extends URIS> {
-  readonly URI: F
-  readonly map: <A, B>(fa: Kind<F, A>, f: (a: A) => B) => Kind<F, B>
+  readonly URI?: F
+  readonly map: <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 ```
 
@@ -58,7 +58,7 @@ So what's `URItoKind`, `URIS` and `Kind`?
 `URItoKind` is type-level map, it maps a `URI` to a concrete data type, and is populated using the [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) feature
 
 ```ts
-// fp-ts/lib/HKT.ts
+// fp-ts/HKT.ts
 
 export interface URItoKind<A> {}
 ```
@@ -66,7 +66,7 @@ export interface URItoKind<A> {}
 ```ts
 // Identity.ts
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind<A> {
     readonly Identity: Identity<A> // maps the key "Identity" to the type `Identity`
   }
@@ -87,13 +87,13 @@ Example: `Either`
 ```ts
 // Either.ts
 
-import { Functor2 } from 'fp-ts/lib/Functor'
+import { Functor2 } from 'fp-ts/Functor'
 
 export const URI = 'Either'
 
 export type URI = typeof URI
 
-declare module 'fp-ts/lib/HKT' {
+declare module 'fp-ts/HKT' {
   interface URItoKind2<E, A> {
     readonly Either: Either<E, A>
   }
@@ -111,21 +111,23 @@ export interface Right<A> {
 
 export type Either<E, A> = Left<E> | Right<A>
 
+export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+
 // Functor instance
-export const either: Functor2<URI> = {
+export const Functor: Functor2<URI> = {
   URI,
-  map: (ma, f) => (ma._tag === 'Left' ? ma : right(f(ma.right)))
+  map: (f) => (fa) => (fa._tag === 'Left' ? fa : right(f(fa.right)))
 }
 ```
 
 And here's the definition of `Functor2`
 
 ```ts
-// fp-ts/lib/Functor.ts
+// fp-ts/Functor.ts
 
 export interface Functor2<F extends URIS2> {
-  readonly URI: F
-  readonly map: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => B) => Kind2<F, E, B>
+  readonly URI?: F
+  readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
@@ -134,7 +136,7 @@ export interface Functor2<F extends URIS2> {
 Let's see how to type `lift`
 
 ```ts
-import { HKT } from 'fp-ts/lib/HKT'
+import { HKT } from 'fp-ts/HKT'
 
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return (f) => (fa) => F.map(fa, f)
@@ -144,7 +146,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 Here's the definition of `HKT`
 
 ```ts
-// fp-ts/lib/HKT.ts
+// fp-ts/HKT.ts
 
 export interface HKT<URI, A> {
   readonly _URI: URI
@@ -154,7 +156,7 @@ export interface HKT<URI, A> {
 
 The `HKT` type represents a type constructor of kind `* -> *`.
 
-There are other `HKT<n>` types defined in the `fp-ts/lib/HKT.ts`, one for each kind (up to four):
+There are other `HKT<n>` types defined in the `fp-ts/HKT.ts`, one for each kind (up to four):
 
 - `HKT2` for type constructors of kind `* -> * -> *`
 - `HKT3` for type constructors of kind `* -> * -> * -> *`
@@ -166,7 +168,7 @@ There's a problem though, this doesn't type check
 const double = (n: number): number => n * 2
 
 //                             v-- the Functor instance of Identity
-const doubleIdentity = lift(identity)(double)
+const doubleIdentity = lift(Functor)(double)
 ```
 
 With the following error
@@ -192,10 +194,10 @@ Now we can lift `double` to both `Identity` and `Either`
 
 ```ts
 //                             v-- the Functor instance of Identity
-const doubleIdentity = lift(identity)(double)
+const doubleIdentity = lift(Functor)(double)
 
 //                           v-- the Functor instance of Either
-const doubleEither = lift(either)(double)
+const doubleEither = lift(Functor)(double)
 ```
 
 - `doubleIdentity` has type `(fa: Identity<number>) => Identity<number>`
