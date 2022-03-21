@@ -20,6 +20,7 @@ import type { Monoid } from './Monoid'
 import * as O from './Option'
 import { Ord } from './Ord'
 import type { Predicate } from './Predicate'
+import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import type { Show } from './Show'
@@ -931,13 +932,19 @@ export const empty: ReadonlyRecord<string, never> = _.emptyRecord
 /**
  * @since 3.0.0
  */
-export const every = <A>(predicate: Predicate<A>) => (r: ReadonlyRecord<string, A>): boolean => {
-  for (const k in r) {
-    if (!predicate(r[k])) {
-      return false
+export function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>> {
+  return (r) => {
+    for (const k in r) {
+      if (!predicate(r[k])) {
+        return false
+      }
     }
+    return true
   }
-  return true
 }
 
 /**

@@ -715,7 +715,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (r: Readonly<Record<string, A>>) => boolean
+export declare function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>>
 ```
 
 Added in v3.0.0

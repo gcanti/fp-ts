@@ -2108,7 +2108,11 @@ export const empty: ReadonlyArray<never> = _.emptyReadonlyArray
  *
  * @since 3.0.0
  */
-export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boolean => as.every(predicate)
+export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlyArray<A>, ReadonlyArray<B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>> {
+  return (as) => as.every(predicate)
+}
 
 /**
  * Check if a predicate holds true for any `ReadonlyArray` member.

@@ -457,7 +457,11 @@ export const some = <A>(predicate: Predicate<A>) => (s: ReadonlySet<A>): boolean
 /**
  * @since 3.0.0
  */
-export const every = <A>(predicate: Predicate<A>): ((s: ReadonlySet<A>) => boolean) => not(some(not(predicate)))
+export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlySet<A>, ReadonlySet<B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlySet<A>> {
+  return not(some(not(predicate)))
+}
 
 /**
  * Return `true` if and only if every element in the first `ReadonlySet` is an element of the second `ReadonlySet`.
