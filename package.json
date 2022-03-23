@@ -9,17 +9,16 @@
     "prettier": "prettier --list-different \"./{src,test,examples,scripts}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,scripts}/**/*.ts\"",
     "jest": "jest",
-    "circular": "madge --circular --ts-config ./tsconfig.build.json --extensions ts ./src",
+    "circular": "madge --circular --ts-config ./tsconfig.build-cjs.json --extensions ts ./src",
     "test": "npm run circular && npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
     "clean": "rimraf ./dist",
     "prebuild": "npm run clean",
-    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build2 && rimraf ./dist/es6 && rimraf ./dist/lib",
+    "build": "tsc -p ./tsconfig.build-esm.json && tsc -p ./tsconfig.build-cjs.json && tsc -p ./tsconfig.build-types.json && ts-node scripts/build3",
     "postbuild": "prettier --loglevel=silent --write \"./dist/**/*.ts\"",
     "prepublishOnly": "ts-node scripts/pre-publish",
     "doctoc": "doctoc README.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
-    "dtslint:dist": "dtslint dist",
     "docs": "docs-ts",
     "prerelease": "npm run build",
     "release": "ts-node scripts/release"
@@ -50,6 +49,7 @@
     "fast-check": "^2.13.0",
     "glob": "^7.1.6",
     "jest": "^26.4.2",
+    "madge": "^4.0.2",
     "mocha": "^5.2.0",
     "prettier": "^2.2.1",
     "rimraf": "2.6.2",
@@ -70,7 +70,5 @@
     "algebraic-data-types",
     "functional-programming"
   ],
-  "dependencies": {
-    "madge": "^4.0.2"
-  }
+  "dependencies": {}
 }

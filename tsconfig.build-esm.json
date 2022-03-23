@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "outDir": "./dist/esm",
+    "target": "es2019",
+    "module": "esnext"
+  },
+  "include": ["./src"]
+}
