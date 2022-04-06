@@ -8,8 +8,9 @@ declare const jr: _.JsonRecord
 // JsonRecord
 //
 
-// $ExpectType string | number | boolean | JsonRecord | JsonArray | null | undefined
-jr.foo
+// $ExpectError
+const foo1: _.Json = jr.foo
+const foo2: _.Json | undefined = jr.foo
 
 //
 // stringify
