@@ -2,6 +2,15 @@ import * as E from '../../src/Either'
 import { pipe } from '../../src/function'
 import * as _ from '../../src/Json'
 
+declare const jr: _.JsonRecord
+
+//
+// JsonRecord
+//
+
+// $ExpectType string | number | boolean | JsonRecord | JsonArray | null | undefined
+jr.foo
+
 //
 // stringify
 //
@@ -12,10 +21,6 @@ _.stringify<_.Json>(undefined)
 _.stringify<_.Json>(() => {})
 // $ExpectError
 _.stringify<_.Json>(Symbol())
-// $ExpectError
-_.stringify<_.Json>({ a: undefined })
-// $ExpectError
-_.stringify<_.Json>({ ...{ a: undefined } })
 
 // tslint:disable-next-line: interface-over-type-literal
 interface AB {

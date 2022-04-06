@@ -11,6 +11,7 @@ describe('Json', () => {
 
   it('stringify', () => {
     U.deepStrictEqual(pipe({ a: 1 }, _.stringify), E.right('{"a":1}'))
+    U.deepStrictEqual(pipe({ a: undefined }, _.stringify), E.right('{}'))
     const circular: any = { ref: null }
     circular.ref = circular
     U.deepStrictEqual(
