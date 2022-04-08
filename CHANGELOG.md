@@ -16,6 +16,11 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.11.9
+
+- **Polish**
+  - add `Refinement` overload to 'every' functions, #1681 (@mlegenhausen)
+
 # 2.11.8
 
 - **Polish**

@@ -455,7 +455,10 @@ export const some: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS
 /**
  * @since 2.0.0
  */
-export const every: <A>(predicate: Predicate<A>) => (set: Set<A>) => boolean = RS.every
+export const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<Set<A>, Set<B>>
+  <A>(predicate: Predicate<A>): Predicate<Set<A>>
+} = RS.every as any
 
 /**
  * @since 2.10.0

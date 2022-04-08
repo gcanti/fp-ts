@@ -1237,7 +1237,10 @@ Test if every value in a `ReadonlyRecord` satisfies the predicate.
 **Signature**
 
 ```ts
-export declare function every<A>(predicate: Predicate<A>): (r: ReadonlyRecord<string, A>) => boolean
+export declare function every<A, B extends A>(
+  refinement: Refinement<A, B>
+): Refinement<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+export declare function every<A>(predicate: Predicate<A>): Predicate<ReadonlyRecord<string, A>>
 ```
 
 **Example**

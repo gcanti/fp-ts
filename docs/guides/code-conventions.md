@@ -14,7 +14,10 @@ nav_order: 1
 - [Module structure](#module-structure)
 - [FAQ](#faq)
   - [What a `C` suffix means, e.g. `Functor2C` vs `Functor2`](#what-a-c-suffix-means-eg-functor2c-vs-functor2)
+  - [What an `E` suffix means, e.g. `matchE`](#what-an-e-suffix-means-eg-matche)
+  - [What a `K` suffix means, e.g. `fromEitherK` or `chainEitherK`](#what-a-k-suffix-means-eg-fromeitherk-or-chaineitherk)
   - [What a `T` suffix means, e.g. `sequenceT`](#what-a-t-suffix-means-eg-sequencet)
+  - [What a `W` suffix means, e.g. `chainW` or `chainEitherKW`](#what-a-w-suffix-means-eg-chainw-or-chaineitherkw)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -86,11 +89,27 @@ For example, `Validation` admits a `Functor` instance only if you provide a `Sem
 const getFunctor = <E>(S: Semigroup<E>): Functor2C<"Validation", E> = { ... }
 ```
 
-### What a `T` suffix means, e.g. `sequenceT`
+### What an `E` suffix means, e.g. `matchE`
 
-in `sequenceT` means *T*uple, I borrowed the name from the corresponding [Haskell function](http://hackage.haskell.org/package/tuple-0.3.0.2/docs/Data-Tuple-Sequence.html)
+`E` means *E*ffect. An example of its use is in the `matchE` destructor on monad transformers like `TaskOption` or `ReaderTaskEither`.
 
-However usually it means *T*ransformer like in "monad transformers" (e.g. `OptionT`, `EitherT`, `ReaderT`, `StateT`)
+**Example**
+
+Both of these destructions result in a `Task<number>`, but in the case of `matchE` an effect (in this case in the form of a `Task`) is returned on match.
+
+```ts
+import * as T from "fp-ts/Task";
+import * as TO from "fp-ts/TaskOption";
+import { pipe } from "fp-ts/function";
+
+const value = TO.of("hello");
+
+// T.Task<number>
+pipe(value, TO.match(() => 0, (str) => str.length));
+
+// T.Task<number>
+pipe(value, TO.matchE(() => T.of(0), (str) => T.of(str.length)));
+```
 
 ### What a `K` suffix means, e.g. `fromEitherK` or `chainEitherK`
 
@@ -147,6 +166,12 @@ pipe(input, IE.chain(IE.fromEitherK(parse)))() // left(new Error('cannot decode 
 // or with less boilerplate
 pipe(input, IE.chainEitherK(parse))() // left(new Error('cannot decode "foo" to number'))
 ```
+
+### What a `T` suffix means, e.g. `sequenceT`
+
+in `sequenceT` means *T*uple, I borrowed the name from the corresponding [Haskell function](http://hackage.haskell.org/package/tuple-0.3.0.2/docs/Data-Tuple-Sequence.html)
+
+However usually it means *T*ransformer like in "monad transformers" (e.g. `OptionT`, `EitherT`, `ReaderT`, `StateT`)
 
 ### What a `W` suffix means, e.g. `chainW` or `chainEitherKW`
 

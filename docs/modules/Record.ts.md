@@ -997,7 +997,10 @@ Test if every value in a `Record` satisfies the predicate.
 **Signature**
 
 ```ts
-export declare const every: <A>(predicate: Predicate<A>) => (r: Record<string, A>) => boolean
+export declare const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): Predicate<Record<string, A>>
+}
 ```
 
 **Example**
