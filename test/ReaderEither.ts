@@ -360,4 +360,11 @@ describe('ReaderEither', () => {
     const f = _.chainFirstReaderKW((): R.Reader<unknown, number> => () => 2)
     U.deepStrictEqual(pipe(_.right<{}, never, number>(3), f)({}), E.right(3))
   })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))({}), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))({}), E.left(1))
+  })
 })

@@ -475,7 +475,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <E, A, B>(
+export declare const chainFirstEitherK: <A, E, B>(
   f: (a: A) => E.Either<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
@@ -489,7 +489,7 @@ Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
 **Signature**
 
 ```ts
-export declare const chainFirstEitherKW: <E2, A, B>(
+export declare const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
 ```

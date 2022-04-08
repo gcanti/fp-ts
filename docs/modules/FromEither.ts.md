@@ -16,6 +16,7 @@ Added in v2.10.0
 
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [fromEitherK](#fromeitherk)
@@ -72,6 +73,43 @@ export declare function chainEitherK<M>(
 ```
 
 Added in v2.10.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare function chainFirstEitherK<M extends URIS4>(
+  F: FromEither4<M>,
+  M: Chain4<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export declare function chainFirstEitherK<M extends URIS3>(
+  F: FromEither3<M>,
+  M: Chain3<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirstEitherK<M extends URIS3, E>(
+  F: FromEither3C<M, E>,
+  M: Chain3C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export declare function chainFirstEitherK<M extends URIS2>(
+  F: FromEither2<M>,
+  M: Chain2<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export declare function chainFirstEitherK<M extends URIS2, E>(
+  F: FromEither2C<M, E>,
+  M: Chain2C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export declare function chainFirstEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, A>
+export declare function chainFirstEitherK<M>(
+  F: FromEither<M>,
+  M: Chain<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+```
+
+Added in v2.12.0
 
 ## chainOptionK
 

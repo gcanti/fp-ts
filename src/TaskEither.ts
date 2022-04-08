@@ -39,7 +39,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -959,17 +960,19 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherKW: <E2, A, B>(
-  f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirstW(fromEitherK(f))
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
 
 /**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK: <E, A, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, A> = chainFirstEitherKW
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirstEitherK as any
 
 /**
  * @category constructors
