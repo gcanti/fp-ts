@@ -43,6 +43,13 @@ export const Semigroup: S.Semigroup<string> = {
 }
 
 /**
+ * An empty `string`.
+ *
+ * @since 2.10.0
+ */
+export const empty: string = ''
+
+/**
  * `string` monoid under concatenation.
  *
  * The `empty` value is `''`.
@@ -58,7 +65,7 @@ export const Semigroup: S.Semigroup<string> = {
  */
 export const Monoid: M.Monoid<string> = {
   concat: Semigroup.concat,
-  empty: ''
+  empty
 }
 
 /**
@@ -198,13 +205,6 @@ export const slice = (start: number, end: number) => (s: string): string => s.sl
 // -------------------------------------------------------------------------------------
 // utils
 // -------------------------------------------------------------------------------------
-
-/**
- * An empty `string`.
- *
- * @since 2.10.0
- */
-export const empty: string = ''
 
 /**
  * Test whether a `string` is empty.
