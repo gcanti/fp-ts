@@ -36,7 +36,9 @@ Added in v2.10.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
@@ -44,6 +46,7 @@ Added in v2.10.0
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
@@ -305,6 +308,16 @@ export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOpti
 
 Added in v2.10.0
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.12.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -319,6 +332,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: T
 ```
 
 Added in v2.10.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -393,6 +416,16 @@ export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<
 ```
 
 Added in v2.10.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskOption<B>
+```
+
+Added in v2.12.0
 
 ## fromIOK
 

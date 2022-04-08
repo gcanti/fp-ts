@@ -6,6 +6,7 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
 import * as U from './util'
+import * as E from '../src/Either'
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
@@ -311,5 +312,32 @@ describe('TaskOption', () => {
     )
     U.deepStrictEqual(await pipe(_.some(1), f)(), 'some(1)')
     U.deepStrictEqual(await pipe(_.none, f)(), 'none')
+  })
+
+  it('fromEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.fromEitherK(f)
+    U.deepStrictEqual(await g('')(), O.some('!'))
+    U.deepStrictEqual(await g('a')(), O.some('a!'))
+    U.deepStrictEqual(await g('aa')(), O.some('aa!'))
+    U.deepStrictEqual(await g('aaa')(), O.none)
+  })
+
+  it('chainEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some('!'))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a!'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainFirstEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some(''))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
   })
 })

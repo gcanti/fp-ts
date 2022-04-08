@@ -15,7 +15,12 @@ import {
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
-import { FromEither1 } from './FromEither'
+import {
+  FromEither1,
+  chainEitherK as chainEitherK_,
+  chainFirstEitherK as chainFirstEitherK_,
+  fromEitherK as fromEitherK_
+} from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
 import {
   chainFirstTaskK as chainFirstTaskK_,
@@ -718,6 +723,30 @@ export const FromEither: FromEither1<URI> = {
   URI,
   fromEither
 }
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const fromEitherK =
+  /*#__PURE__*/
+  fromEitherK_(FromEither)
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+  /*#__PURE__*/
+  chainEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
 
 /**
  * @category instances
