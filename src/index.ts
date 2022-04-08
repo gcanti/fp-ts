@@ -52,6 +52,7 @@ import * as identity from './Identity'
 import * as invariant from './Invariant'
 import * as io from './IO'
 import * as ioEither from './IOEither'
+import * as ioOption from './IOOption'
 import * as ioRef from './IORef'
 import * as joinSemilattice from './JoinSemilattice'
 import * as json from './Json'
@@ -318,6 +319,10 @@ export {
    * @since 2.0.0
    */
   ioEither,
+  /**
+   * @since 2.12.0
+   */
+  ioOption,
   /**
    * @since 2.0.0
    */
