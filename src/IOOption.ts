@@ -139,6 +139,14 @@ export const matchE: <B, A>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma
   OT.matchE(I.Chain)
 
 /**
+ * Alias of [`matchE`](#matche).
+ *
+ * @category destructors
+ * @since 2.12.0
+ */
+export const fold = matchE
+
+/**
  * Less strict version of [`matchE`](#matche).
  *
  * @category destructors
