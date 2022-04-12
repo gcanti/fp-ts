@@ -131,6 +131,7 @@ Added in v2.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -1467,6 +1468,18 @@ export declare const sequenceArray: <S, R, E, A>(
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <S, R, E, A>(
+  arr: ReadonlyNonEmptyArray<StateReaderTaskEither<S, R, E, A>>
+) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

@@ -159,7 +159,9 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [bracket](#bracket)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [sequenceSeqArray](#sequenceseqarray)
+  - [sequenceSeqNonEmptyArray](#sequenceseqnonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -1823,6 +1825,18 @@ export declare const sequenceArray: <R, E, A>(
 
 Added in v2.9.0
 
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <R, E, A>(
+  arr: ReadonlyNonEmptyArray<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
+
 ## sequenceSeqArray
 
 **Signature**
@@ -1834,6 +1848,18 @@ export declare const sequenceSeqArray: <R, E, A>(
 ```
 
 Added in v2.9.0
+
+## sequenceSeqNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqNonEmptyArray: <R, E, A>(
+  arr: ReadonlyNonEmptyArray<ReaderTaskEither<R, E, A>>
+) => ReaderTaskEither<R, E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

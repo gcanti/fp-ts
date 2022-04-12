@@ -62,6 +62,7 @@ Added in v2.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -434,6 +435,16 @@ export declare const sequenceArray: <A>(arr: readonly IO<A>[]) => IO<readonly A[
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <A>(arr: ReadonlyNonEmptyArray<IO<A>>) => IO<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

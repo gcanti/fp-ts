@@ -102,7 +102,9 @@ Added in v2.10.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [sequenceSeqArray](#sequenceseqarray)
+  - [sequenceSeqNonEmptyArray](#sequenceseqnonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -966,6 +968,18 @@ export declare const sequenceArray: <A>(as: readonly TaskOption<A>[]) => TaskOpt
 
 Added in v2.10.0
 
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
+
 ## sequenceSeqArray
 
 **Signature**
@@ -975,6 +989,18 @@ export declare const sequenceSeqArray: <A>(as: readonly TaskOption<A>[]) => Task
 ```
 
 Added in v2.10.0
+
+## sequenceSeqNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqNonEmptyArray: <A>(
+  as: ReadonlyNonEmptyArray<TaskOption<A>>
+) => TaskOption<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

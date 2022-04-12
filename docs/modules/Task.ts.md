@@ -73,7 +73,9 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [never](#never)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [sequenceSeqArray](#sequenceseqarray)
+  - [sequenceSeqNonEmptyArray](#sequenceseqnonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -614,6 +616,16 @@ export declare const sequenceArray: <A>(arr: readonly Task<A>[]) => Task<readonl
 
 Added in v2.9.0
 
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <A>(arr: ReadonlyNonEmptyArray<Task<A>>) => Task<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
+
 ## sequenceSeqArray
 
 **Signature**
@@ -623,6 +635,18 @@ export declare const sequenceSeqArray: <A>(arr: readonly Task<A>[]) => Task<read
 ```
 
 Added in v2.9.0
+
+## sequenceSeqNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqNonEmptyArray: <A>(
+  arr: ReadonlyNonEmptyArray<Task<A>>
+) => Task<ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 

@@ -138,7 +138,9 @@ Added in v2.0.0
   - [bindW](#bindw)
   - [bracket](#bracket)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [sequenceSeqArray](#sequenceseqarray)
+  - [sequenceSeqNonEmptyArray](#sequenceseqnonemptyarray)
   - [taskify](#taskify)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -1473,6 +1475,18 @@ export declare const sequenceArray: <A, E>(arr: readonly TaskEither<E, A>[]) => 
 
 Added in v2.9.0
 
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <A, E>(
+  arr: ReadonlyNonEmptyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
+
 ## sequenceSeqArray
 
 **Signature**
@@ -1482,6 +1496,18 @@ export declare const sequenceSeqArray: <A, E>(arr: readonly TaskEither<E, A>[]) 
 ```
 
 Added in v2.9.0
+
+## sequenceSeqNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceSeqNonEmptyArray: <A, E>(
+  arr: ReadonlyNonEmptyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## taskify
 

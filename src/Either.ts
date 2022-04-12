@@ -1372,6 +1372,15 @@ export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E,
   /*#__PURE__*/
   traverseArray(identity)
 
+/**
+ * @since 2.12.0
+ */
+export const sequenceNonEmptyArray: <E, A>(
+  as: ReadonlyNonEmptyArray<Either<E, A>>
+) => Either<E, ReadonlyNonEmptyArray<A>> =
+  /*#__PURE__*/
+  traverseReadonlyNonEmptyArrayWithIndex((_, a) => a)
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

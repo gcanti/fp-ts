@@ -51,6 +51,7 @@ Added in v2.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [sequenceArray](#sequencearray)
+  - [sequenceNonEmptyArray](#sequencenonemptyarray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -423,6 +424,18 @@ export declare const sequenceArray: <S, A>(arr: readonly State<S, A>[]) => State
 ```
 
 Added in v2.9.0
+
+## sequenceNonEmptyArray
+
+**Signature**
+
+```ts
+export declare const sequenceNonEmptyArray: <S, A>(
+  arr: ReadonlyNonEmptyArray<State<S, A>>
+) => State<S, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v2.12.0
 
 ## traverseArray
 
