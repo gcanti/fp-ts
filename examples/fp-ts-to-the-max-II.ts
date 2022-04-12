@@ -4,27 +4,27 @@ import * as O from '../src/Option'
 import { randomInt } from '../src/Random'
 import * as T from '../src/Task'
 import { createInterface } from 'readline'
-import { State, state } from '../src/State'
+import * as S from '../src/State'
 import { Monad1 } from '../src/Monad'
-import { flow } from '../src/function'
-import { pipe, pipeable } from '../src/pipeable'
-import { sequenceS } from '../src/Apply'
+import { flow, pipe } from '../src/function'
+import { apS as apS_ } from '../src/Apply'
+import { chainFirst as chainFirst_ } from '../src/Chain'
 
 //
 // type classes
 //
 
 interface Program<F extends URIS> extends Monad1<F> {
-  finish: <A>(a: A) => Kind<F, A>
+  readonly finish: <A>(a: A) => Kind<F, A>
 }
 
 interface Console<F extends URIS> {
-  putStrLn: (message: string) => Kind<F, void>
-  getStrLn: Kind<F, string>
+  readonly putStrLn: (message: string) => Kind<F, void>
+  readonly getStrLn: Kind<F, string>
 }
 
 interface Random<F extends URIS> {
-  nextInt: (upper: number) => Kind<F, number>
+  readonly nextInt: (upper: number) => Kind<F, number>
 }
 
 interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
@@ -34,7 +34,7 @@ interface Main<F extends URIS> extends Program<F>, Console<F>, Random<F> {}
 //
 
 const programTask: Program<T.URI> = {
-  ...T.task,
+  ...T.Monad,
   finish: T.of
 }
 
@@ -74,10 +74,10 @@ function parse(s: string): O.Option<number> {
 }
 
 function main<F extends URIS>(F: Main<F>): Kind<F, void> {
-  // run `n` tasks in parallel
-  const ado = sequenceS(F)
-
-  const { chain, chainFirst } = pipeable(F)
+  const chain = <A, B>(f: (a: A) => Kind<F, B>) => (ma: Kind<F, A>): Kind<F, B> => F.chain(ma, f)
+  const Do: Kind<F, {}> = F.of({})
+  const apS = apS_(F)
+  const chainFirst = chainFirst_(F)
 
   // ask something and get the answer
   const ask = (question: string): Kind<F, string> =>
@@ -104,10 +104,9 @@ function main<F extends URIS>(F: Main<F>): Kind<F, void> {
 
   const gameLoop = (name: string): Kind<F, void> => {
     return pipe(
-      ado({
-        secret: F.nextInt(5),
-        guess: ask(`Dear ${name}, please guess a number from 1 to 5`)
-      }),
+      Do,
+      apS('secret', F.nextInt(5)),
+      apS('guess', ask(`Dear ${name}, please guess a number from 1 to 5`)),
       chain(({ secret, guess }) =>
         pipe(
           parse(guess),
@@ -139,18 +138,22 @@ export const mainTask = main({
 })
 
 // tslint:disable-next-line: no-floating-promises
-// mainTask.run()
+// mainTask()
 
 //
 // tests
 //
 
-import { dropLeft, snoc } from '../src/Array'
+import { dropLeft, append } from '../src/ReadonlyArray'
 
 class TestData {
-  constructor(readonly input: Array<string>, readonly output: Array<string>, readonly nums: Array<number>) {}
+  constructor(
+    readonly input: ReadonlyArray<string>,
+    readonly output: ReadonlyArray<string>,
+    readonly nums: ReadonlyArray<number>
+  ) {}
   putStrLn(message: string): [void, TestData] {
-    return [undefined, new TestData(this.input, snoc(this.output, message), this.nums)]
+    return [undefined, new TestData(this.input, pipe(this.output, append(message)), this.nums)]
   }
   getStrLn(): [string, TestData] {
     return [this.input[0], new TestData(dropLeft(1)(this.input), this.output, this.nums)]
@@ -166,20 +169,17 @@ type URI = typeof URI
 
 declare module '../src/HKT' {
   interface URItoKind<A> {
-    Test: Test<A>
+    readonly Test: Test<A>
   }
 }
 
-interface Test<A> extends State<TestData, A> {}
+interface Test<A> extends S.State<TestData, A> {}
 
 const of = <A>(a: A): Test<A> => (data) => [a, data]
 
 const programTest: Program<URI> = {
+  ...S.Monad,
   URI,
-  map: state.map,
-  of: state.of,
-  ap: state.ap,
-  chain: state.chain,
   finish: of
 }
 
