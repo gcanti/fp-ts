@@ -258,13 +258,6 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare function chainNullableK<M extends URIS4>(
-  M: Monad4<M>
-): <E>(
-  e: E
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, T>(ma: Kind4<M, S, R, T, Either<E, A>>) => Kind4<M, S, R, T, Either<E, NonNullable<B>>>
 export declare function chainNullableK<M extends URIS3>(
   M: Monad3<M>
 ): <E>(
@@ -312,9 +305,6 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare function fromNullable<F extends URIS4>(
-  F: Pointed4<F>
-): <E>(e: E) => <A, S, R, T>(a: A) => Kind4<F, S, R, T, Either<E, NonNullable<A>>>
 export declare function fromNullable<F extends URIS3>(
   F: Pointed3<F>
 ): <E>(e: E) => <A, R, T>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
@@ -340,13 +330,6 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare function fromNullableK<F extends URIS4>(
-  F: Pointed4<F>
-): <E>(
-  e: E
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, T>(...a: A) => Kind4<F, S, R, T, Either<E, NonNullable<B>>>
 export declare function fromNullableK<F extends URIS3>(
   F: Pointed3<F>
 ): <E>(

@@ -7,9 +7,9 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import * as E from './Either'
 import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, map as map_ } from './Functor'
-import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
-import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'
 import { Semigroup } from './Semigroup'
 
 import Either = E.Either
@@ -91,9 +91,6 @@ export function leftF<F>(F: Functor<F>): <E, A = never>(fe: HKT<F, E>) => HKT<F,
 /**
  * @since 2.12.0
  */
-export function fromNullable<F extends URIS4>(
-  F: Pointed4<F>
-): <E>(e: E) => <A, S, R, T>(a: A) => Kind4<F, S, R, T, Either<E, NonNullable<A>>>
 export function fromNullable<F extends URIS3>(
   F: Pointed3<F>
 ): <E>(e: E) => <A, R, T>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
@@ -117,13 +114,6 @@ export function fromNullable<F>(F: Pointed<F>): <E>(e: E) => <A>(a: A) => HKT<F,
 /**
  * @since 2.12.0
  */
-export function fromNullableK<F extends URIS4>(
-  F: Pointed4<F>
-): <E>(
-  e: E
-) => <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => B | null | undefined
-) => <S, R, T>(...a: A) => Kind4<F, S, R, T, Either<E, NonNullable<B>>>
 export function fromNullableK<F extends URIS3>(
   F: Pointed3<F>
 ): <E>(
@@ -183,13 +173,6 @@ export function fromNullableK<F>(
 /**
  * @since 2.12.0
  */
-export function chainNullableK<M extends URIS4>(
-  M: Monad4<M>
-): <E>(
-  e: E
-) => <A, B>(
-  f: (a: A) => B | null | undefined
-) => <S, R, T>(ma: Kind4<M, S, R, T, Either<E, A>>) => Kind4<M, S, R, T, Either<E, NonNullable<B>>>
 export function chainNullableK<M extends URIS3>(
   M: Monad3<M>
 ): <E>(
