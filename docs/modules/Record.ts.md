@@ -70,6 +70,7 @@ Added in v2.0.0
   - [filterMapWithIndex](#filtermapwithindex)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -90,6 +91,7 @@ Added in v2.0.0
   - [size](#size)
   - [some](#some)
   - [toArray](#toarray)
+  - [toEntries](#toentries)
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -678,7 +680,7 @@ The resulting `Semigroup` concatenates two `Record`s by
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+export declare const getIntersectionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Record<string, A>>
 ```
 
 **Example**
@@ -704,7 +706,7 @@ overlapping entries with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getMonoid: <K extends string, A>(S: Semigroup<A>) => Monoid<Record<K, A>>
+export declare const getMonoid: <K extends string, A>(S: Se.Semigroup<A>) => Monoid<Record<K, A>>
 ```
 
 **Example**
@@ -783,7 +785,7 @@ entries that have the same key with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Record<string, A>>
+export declare const getUnionMonoid: <A>(S: Se.Semigroup<A>) => Monoid<Record<string, A>>
 ```
 
 **Example**
@@ -808,7 +810,7 @@ The resulting `Semigroup` concatenates two `Record`s by
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Record<string, A>>
+export declare const getUnionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Record<string, A>>
 ```
 
 **Example**
@@ -1102,6 +1104,33 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 ```
 
 Added in v2.0.0
+
+## fromEntries
+
+Converts an `Array` of `[key, value]` tuples into a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: [string, A][]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
 
 ## fromFoldable
 
@@ -1689,6 +1718,29 @@ assert.deepStrictEqual(toArray(x), [
 ```
 
 Added in v2.0.0
+
+## toEntries
+
+Alias of [`toArray`](#toArray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Record<K, A>) => [K, A][]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
 
 ## toUnfoldable
 

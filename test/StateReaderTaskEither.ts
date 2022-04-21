@@ -61,9 +61,23 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(e, E.right('a'))
     })
 
+    it('apFirstW', async () => {
+      const fa = _.right<unknown, { readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<unknown, { readonly x: number }, 'Bar', number>(6)
+      const e = await pipe(fa, _.apFirstW(fb), _.evaluate(state))({ k: 'v', x: 5 })()
+      U.deepStrictEqual(e, E.right('a'))
+    })
+
     it('apSecond', async () => {
       const e = await pipe(_.right('a'), _.apSecond(_.right('b')), _.evaluate(state))({})()
       U.deepStrictEqual(e, E.right('b'))
+    })
+
+    it('apSecondW', async () => {
+      const fa = _.right<unknown, { readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<unknown, { readonly x: number }, 'Bar', number>(6)
+      const e = await pipe(fa, _.apSecondW(fb), _.evaluate(state))({ k: 'v', x: 5 })()
+      U.deepStrictEqual(e, E.right(6))
     })
 
     it('chain', async () => {
@@ -469,5 +483,12 @@ describe('StateReaderTaskEither', () => {
     const e: Env = { count: 0 }
     const f = (e: Env) => _.of(e.count + 1)
     U.deepStrictEqual(await _.asksStateReaderTaskEither(f)({})(e)(), E.right(tuple(1, {})))
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(f), _.evaluate(state))({})(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g), _.evaluate(state))({})(), E.left(1))
   })
 })

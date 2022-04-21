@@ -28,6 +28,7 @@ Added in v2.0.0
   - [apSecond](#apsecond)
   - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [duplicate](#duplicate)
   - [flap](#flap)
   - [flatten](#flatten)
@@ -187,6 +188,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Optio
 ```
 
 Added in v2.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
+```
+
+Added in v2.12.0
 
 ## duplicate
 

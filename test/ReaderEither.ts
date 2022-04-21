@@ -42,8 +42,20 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))({}), E.right('a'))
     })
 
+    it('apFirstW', () => {
+      const fa = _.right<{ readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<{ readonly x: number }, 'Bar', number>(4)
+      U.deepStrictEqual(pipe(fa, _.apFirstW(fb))({ k: 'v', x: 1 }), E.right('a'))
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))({}), E.right('b'))
+    })
+
+    it('apSecondW', () => {
+      const fa = _.right<{ readonly k: string }, 'Foo', string>('a')
+      const fb = _.right<{ readonly x: number }, 'Bar', number>(4)
+      U.deepStrictEqual(pipe(fa, _.apSecondW(fb))({ k: 'v', x: 1 }), E.right(4))
     })
 
     it('chainFirst', () => {
@@ -347,5 +359,12 @@ describe('ReaderEither', () => {
   it('chainFirstReaderKW', () => {
     const f = _.chainFirstReaderKW((): R.Reader<unknown, number> => () => 2)
     U.deepStrictEqual(pipe(_.right<{}, never, number>(3), f)({}), E.right(3))
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))({}), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))({}), E.left(1))
   })
 })

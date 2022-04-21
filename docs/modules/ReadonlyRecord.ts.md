@@ -85,6 +85,7 @@ Added in v2.5.0
   - [every](#every)
   - [filterWithIndex](#filterwithindex)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [fromFoldable](#fromfoldable)
   - [fromFoldableMap](#fromfoldablemap)
   - [has](#has)
@@ -101,6 +102,7 @@ Added in v2.5.0
   - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
+  - [toEntries](#toentries)
   - [toReadonlyArray](#toreadonlyarray)
   - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
@@ -868,7 +870,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getIntersectionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getIntersectionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -973,7 +975,7 @@ entries that have the same key with the provided `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getUnionMonoid: <A>(S: Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
+export declare const getUnionMonoid: <A>(S: Se.Semigroup<A>) => Monoid<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -998,7 +1000,7 @@ The resulting `Semigroup` concatenates two `ReadonlyRecord`s by
 **Signature**
 
 ```ts
-export declare const getUnionSemigroup: <A>(S: Semigroup<A>) => Semigroup<Readonly<Record<string, A>>>
+export declare const getUnionSemigroup: <A>(S: Se.Semigroup<A>) => Se.Semigroup<Readonly<Record<string, A>>>
 ```
 
 **Example**
@@ -1314,6 +1316,33 @@ assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), 'a-1 -> b-2 -> c-3')
 ```
 
 Added in v2.5.0
+
+## fromEntries
+
+Converts an `Array` of `[key, value]` tuples into a `Record`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v2.12.0
 
 ## fromFoldable
 
@@ -1805,6 +1834,29 @@ assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false)
 ```
 
 Added in v2.5.0
+
+## toEntries
+
+Alias of [`toReadonlyArray`](#toReadonlyArray).
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/Record'
+
+assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+  ['a', 1],
+  ['b', 2],
+])
+```
+
+Added in v2.12.0
 
 ## toReadonlyArray
 

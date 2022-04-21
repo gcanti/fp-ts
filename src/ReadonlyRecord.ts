@@ -7,6 +7,7 @@
  * @since 2.5.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import * as RA from './ReadonlyArray'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -25,7 +26,7 @@ import { Option } from './Option'
 import { Ord } from './Ord'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import * as S from './string'
@@ -33,6 +34,8 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
+
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1081,6 +1084,31 @@ export function fromFoldableMap<F, B>(
     })
   }
 }
+
+/**
+ * Alias of [`toReadonlyArray`](#toReadonlyArray).
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
+ */
+export const toEntries = toReadonlyArray
+
+/**
+ * Converts an `Array` of `[key, value]` tuples into a `Record`.
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ */
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> =>
+  fromFoldable(Se.last<A>(), RA.Foldable)(fa)
 
 /**
  * Test if every value in a `ReadonlyRecord` satisfies the predicate.

@@ -4,7 +4,7 @@
  * @since 2.10.0
  */
 
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4 } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { Either, URI as EURI } from './Either'
 import { flow, Lazy } from './function'
 import { HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -334,6 +334,45 @@ export function chainEitherK<M extends URIS2>(
 ): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, B> {
   const fromEitherKF = fromEitherK(F)
   return (f) => (ma) => M.chain(ma, fromEitherKF(f))
+}
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export function chainFirstEitherK<M extends URIS4>(
+  F: FromEither4<M>,
+  M: Chain4<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind4<M, S, R, E, A>) => Kind4<M, S, R, E, A>
+export function chainFirstEitherK<M extends URIS3>(
+  F: FromEither3<M>,
+  M: Chain3<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstEitherK<M extends URIS3, E>(
+  F: FromEither3C<M, E>,
+  M: Chain3C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => <R>(ma: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+export function chainFirstEitherK<M extends URIS2>(
+  F: FromEither2<M>,
+  M: Chain2<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirstEitherK<M extends URIS2, E>(
+  F: FromEither2C<M, E>,
+  M: Chain2C<M, E>
+): <A, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A>
+export function chainFirstEitherK<M extends URIS>(
+  F: FromEither1<M>,
+  M: Chain1<M>
+): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, A>
+export function chainFirstEitherK<M>(
+  F: FromEither<M>,
+  M: Chain<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: HKT2<M, E, A>) => HKT2<M, E, A>
+export function chainFirstEitherK<M extends URIS2>(
+  F: FromEither2<M>,
+  M: Chain2<M>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind2<M, E, A>) => Kind2<M, E, A> {
+  return flow(fromEitherK(F), chainFirst(M))
 }
 
 /**

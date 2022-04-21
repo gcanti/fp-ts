@@ -43,8 +43,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
   })
 
+  it('apFirstW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apFirstW(_.right<string, boolean>(true)))(),
+      E.right('foo')
+    )
+  })
+
   it('apSecond', async () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+  })
+
+  it('apSecondW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apSecondW(_.right<string, boolean>(true)))(),
+      E.right(true)
+    )
   })
 
   it('chain', async () => {
@@ -445,6 +459,13 @@ describe('TaskEither', () => {
   it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(), E.right(1))
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
 
   it('chainIOEitherK', async () => {

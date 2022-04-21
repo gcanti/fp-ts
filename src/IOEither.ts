@@ -34,7 +34,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
@@ -578,6 +579,16 @@ export const apFirst =
   apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -588,6 +599,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -778,6 +799,22 @@ export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEith
 export const chainEitherKW: <E2, A, B>(
   f: (a: A) => Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chainEitherK as any
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirstEitherK as any
 
 /**
  * @category constructors

@@ -5,6 +5,7 @@
  * @since 2.0.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import * as A from './Array'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -24,7 +25,7 @@ import { Ord } from './Ord'
 import { Predicate } from './Predicate'
 import * as RR from './ReadonlyRecord'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Separated } from './Separated'
 import { Show } from './Show'
 import * as S from './string'
@@ -32,6 +33,8 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
+
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -759,6 +762,30 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F, [string, A]>) => Record<string, A> {
   return RR.fromFoldable(M, F)
 }
+
+/**
+ * Alias of [`toArray`](#toArray).
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
+ */
+export const toEntries = toArray
+
+/**
+ * Converts an `Array` of `[key, value]` tuples into a `Record`.
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ */
+export const fromEntries = <A>(fa: Array<[string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
 
 /**
  * Create a `Record` from a foldable collection using the specified functions to
