@@ -70,7 +70,7 @@ export declare const matchW: <A, B, C>(
 ) => (o: Ordering) => A | B | C
 ```
 
-Added in v2.11.0
+Added in v2.12.0
 
 # instances
 
