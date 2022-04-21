@@ -7,7 +7,10 @@
  *
  * @since 2.0.0
  */
-import { Ord, ordNumber } from './Ord'
+import * as Ord from './Ord'
+import { Option, fromPredicate } from './Option'
+import * as n from './number'
+import { pipe } from './function'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -17,10 +20,129 @@ import { Ord, ordNumber } from './Ord'
  * @category type classes
  * @since 2.0.0
  */
-export interface Bounded<A> extends Ord<A> {
+export interface Bounded<A> extends Ord.Ord<A> {
   readonly top: A
   readonly bottom: A
 }
+
+// -------------------------------------------------------------------------------------
+// deconstructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * @category deconstructors
+ * @since 2.12.0
+ */
+export const top = <T>(B: Bounded<T>) => B.top
+
+/**
+ * @category deconstructors
+ * @since 2.12.0
+ */
+export const bottom = <T>(B: Bounded<T>) => B.bottom
+
+/**
+ * Returns the tuple [bottom, top].
+ *
+ * @category deconstructors
+ * @since 2.12.0
+ */
+export const toTuple = <T>(B: Bounded<T>): [T, T] => [B.bottom, B.top]
+
+// -------------------------------------------------------------------------------------
+// guards
+// -------------------------------------------------------------------------------------
+
+/**
+ * Test that top >= bottom
+ *
+ * @category guards
+ * @since 2.12.0
+ */
+export const isValid = <T>(B: Bounded<T>) => Ord.leq(B)(B.bottom, B.top)
+
+// -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+/**
+ * Returns an instance of Bounded from a range of values.
+ * Returns none if bottom > top and some if top >= bottom.
+ *
+ * @category constructors
+ * @since 2.12.0
+ */
+export const fromRange =
+  <T>(O: Ord.Ord<T>) =>
+  (b: T) =>
+  (t: T): Option<Bounded<T>> =>
+    pipe({ ...O, top: t, bottom: b }, fromPredicate(isValid))
+
+/**
+ * Creates an instance of Bounded from the tuple [bottom, top].
+ * Returns none if fst > snd and some if snd >= fst.
+ *
+ * @category constructors
+ * @since 2.12.0
+ */
+export const fromTuple =
+  <T>(O: Ord.Ord<T>) =>
+  ([b, t]: [T, T]) =>
+    fromRange(O)(b)(t)
+
+/**
+ * Returns a valid instance of Bounded given two values where top is the greater of
+ * the two values and bottom is set to the smaller of the values.
+ *
+ * @category constructors
+ * @since 2.12.0
+ */
+export const coerceBound =
+  <T>(O: Ord.Ord<T>) =>
+  (b: T) =>
+  (t: T): Bounded<T> =>
+    Ord.leq(O)(b, t) ? { ...O, bottom: b, top: t } : { ...O, bottom: t, top: b }
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Clamp a value between bottom and top values.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const clamp = <T>(B: Bounded<T>) => Ord.clamp(B)(B.bottom, B.top)
+
+/**
+ * Tests whether a value lies between the top and bottom values of bound.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const isWithin = <T>(B: Bounded<T>) => Ord.between(B)(B.bottom, B.top)
+
+/**
+ * Reverses the Ord of a bound and swaps top and bottom values.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const reverse = <T>(B: Bounded<T>): Bounded<T> => ({
+  ...Ord.reverse(B),
+  top: B.bottom,
+  bottom: B.top
+})
+
+/**
+ * Tests whether the bounded range only contains a single value.
+ * I.e. if top == bottom under the bounds instance of equality.
+ *
+ * @category utils
+ * @since 2.12.0
+ */
+export const isSingular = <T>(B: Bounded<T>) => B.equals(B.bottom, B.top)
 
 // -------------------------------------------------------------------------------------
 // deprecated
@@ -36,8 +158,8 @@ export interface Bounded<A> extends Ord<A> {
  * @deprecated
  */
 export const boundedNumber: Bounded<number> = {
-  equals: ordNumber.equals,
-  compare: ordNumber.compare,
+  equals: n.Ord.equals,
+  compare: n.Ord.compare,
   top: Infinity,
   bottom: -Infinity
 }
