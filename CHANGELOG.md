@@ -16,6 +16,77 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.12.0
+
+- **New Feature**
+  - add `IOOption` module (@gcanti)
+  - `Bounded`
+    - add `clamp` (@gcanti)
+    - add `reverse` (@gcanti)
+  - `Either`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+  - `EitherT`
+    - add `chainNullableK`, #1619 (@cwstra)
+    - add `fromNullable`, #1619 (@cwstra)
+    - add `fromNullableK`, #1619 (@cwstra)
+  - `FromEither`
+    - add `chainFirstEitherK` (@gcanti)
+  - `IOEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+    - add `orElseFirstIOK`, #1655 (@thewilkybarkid)
+    - add `bracketW`, #1627 (@thomasvargiu)
+  - `Option`
+    - add `chainFirstEitherK` (@gcanti)
+  - `Ordering`
+    - add `matchW`, #1535 (@mlegenhausen)
+  - `Reader`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+  - `ReaderEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+  - `ReaderTaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK`, #1562 (@DenisFrezzato)
+    - add `chainFirstEitherKW`, #1562 (@DenisFrezzato)
+    - add `bracketW`, #1627 (@thomasvargiu)
+    - add `chainNullableK` (@gcanti)
+    - add `fromNullable` (@gcanti)
+    - add `fromNullableK` (@gcanti)
+  - `ReadonlyRecord`
+    - add `toEntries`, #1552 (@bravely)
+    - add `fromEntries`, #1552 (@bravely)
+  - `Record`
+    - add `toEntries`, #1552 (@bravely)
+    - add `fromEntries`, #1552 (@bravely)
+  - `StateReaderTaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+  - `TaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK`, #1659 (@vinassefranche)
+    - add `chainFirstEitherKW`, #1659 (@vinassefranche)
+    - add `orElseFirstIOK`, #1655 (@thewilkybarkid)
+    - add `orElseFirstTaskK`, #1655 (@thewilkybarkid)
+    - add `bracketW`, #1627 (@thomasvargiu)
+    - add `chainNullableK`, #1619 (@cwstra)
+    - add `fromNullable`, #1619 (@cwstra)
+    - add `fromNullableK`, #1619 (@cwstra)
+  - `TaskOption`
+    - add `fromEitherK` (@gcanti)
+    - add `chainEitherK` (@gcanti)
+    - add `chainFirstEitherK` (@gcanti)
+
 # 2.11.10
 
 - **Polish**
