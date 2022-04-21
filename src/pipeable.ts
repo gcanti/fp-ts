@@ -1674,7 +1674,7 @@ export function pipeable<F, I>(I: { readonly URI: F } & I): Record<string, unkno
 }
 
 /**
- * Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
+ * Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#pipe) from `function` module instead.
  *
  * @since 2.0.0
  * @deprecated

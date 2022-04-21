@@ -1982,7 +1982,7 @@ Added in v2.0.0
 
 ## ~~pipe~~
 
-Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#flow) from `function` module instead.
+Use [`pipe`](https://gcanti.github.io/fp-ts/modules/function.ts.html#pipe) from `function` module instead.
 
 **Signature**
 

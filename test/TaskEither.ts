@@ -473,16 +473,23 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(), E.right(1))
   })
 
-  it('tryCatchK', async () => {
-    const f = (n: number) => {
-      if (n > 0) {
-        return Promise.resolve(n * 2)
-      }
-      return Promise.reject('negative')
-    }
-    const g = _.tryCatchK(f, identity)
-    U.deepStrictEqual(await g(1)(), E.right(2))
-    U.deepStrictEqual(await g(-1)(), E.left('negative'))
+  describe('tryCatchK', () => {
+    test('with a resolved promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.resolve(a), identity)
+      U.deepStrictEqual(await g(1)(), E.right(1))
+    })
+
+    test('with a rejected promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.reject(a), identity)
+      U.deepStrictEqual(await g(-1)(), E.left(-1))
+    })
+
+    test('with a thrown error', async () => {
+      const g = _.tryCatchK((_: number) => {
+        throw new Error('Some error')
+      }, identity)
+      U.deepStrictEqual(await g(-1)(), E.left(new Error('Some error')))
+    })
   })
 
   // -------------------------------------------------------------------------------------
@@ -499,21 +506,23 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await _.leftIO(I.of(1))(), E.left(1))
   })
 
-  it('tryCatch', async () => {
-    U.deepStrictEqual(
-      await _.tryCatch(
-        () => Promise.resolve(1),
-        () => 'error'
-      )(),
-      E.right(1)
-    )
-    U.deepStrictEqual(
-      await _.tryCatch(
-        () => Promise.reject(undefined),
-        () => 'error'
-      )(),
-      E.left('error')
-    )
+  describe('tryCatch', () => {
+    test('with a resolving promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1), identity)(), E.right(1))
+    })
+
+    test('with a rejected promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1), identity)(), E.left(1))
+    })
+
+    test('with a thrown error', async () => {
+      U.deepStrictEqual(
+        await _.tryCatch(() => {
+          throw new Error('Some error')
+        }, identity)(),
+        E.left(new Error('Some error'))
+      )
+    })
   })
 
   it('fromIOEither', async () => {

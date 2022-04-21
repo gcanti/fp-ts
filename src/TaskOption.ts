@@ -213,18 +213,18 @@ export const fromNullable: <A>(a: A) => TaskOption<NonNullable<A>> =
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
  *
- * Note: `f` should never `throw` errors, they are not caught.
- *
  * See also [`tryCatchK`](#trycatchk).
  *
  * @category interop
  * @since 2.10.0
  */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => () =>
-  f().then(
-    (a) => O.some(a),
-    () => O.none
-  )
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => async () => {
+  try {
+    return await f().then(_.some)
+  } catch (reason) {
+    return _.none
+  }
+}
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskOption`.
