@@ -319,6 +319,38 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
   /*#__PURE__*/
   ET.toUnion(RT.Functor)
 
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(RT.Monad)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

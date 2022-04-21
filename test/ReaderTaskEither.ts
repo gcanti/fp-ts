@@ -667,4 +667,25 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await f(_.right(1))({})(), 'right')
     U.deepStrictEqual(await f(_.left(''))({})(), 'left')
   })
+
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable('foo')
+    U.deepStrictEqual(await testNullable(1)(undefined)(), E.right(1))
+    U.deepStrictEqual(await testNullable(null)(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(undefined)(), E.left('foo'))
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(undefined)(), E.right(1))
+    U.deepStrictEqual(await f(0)(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await f(-1)(undefined)(), E.left('foo'))
+  })
+
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(_.of(1))(undefined)(), E.right(1))
+    U.deepStrictEqual(await f(_.of(0))(undefined)(), E.left('foo'))
+    U.deepStrictEqual(await f(_.of(-1))(undefined)(), E.left('foo'))
+  })
 })

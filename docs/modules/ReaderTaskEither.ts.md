@@ -142,6 +142,9 @@ Added in v2.0.0
   - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
   - [~~readerTaskEither~~](#readertaskeither)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
@@ -1660,6 +1663,44 @@ export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
 Added in v2.0.0
 
 # interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
+```
+
+Added in v2.12.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
 
 ## toUnion
 

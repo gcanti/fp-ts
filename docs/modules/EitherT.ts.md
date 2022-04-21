@@ -264,21 +264,21 @@ export declare function chainNullableK<M extends URIS3>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <R, T>(ma: Kind3<M, R, T, Either<E, A>>) => Kind3<M, R, T, Either<E, NonNullable<B>>>
-export declare function chainNullableK<M extends URIS3, T>(
-  M: Monad3C<M, T>
+) => <S, R>(ma: Kind3<M, S, R, Either<E, A>>) => Kind3<M, S, R, Either<E, NonNullable<B>>>
+export declare function chainNullableK<M extends URIS3, R>(
+  M: Monad3C<M, R>
 ): <E>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <R>(ma: Kind3<M, R, T, Either<E, A>>) => Kind3<M, R, T, Either<E, NonNullable<B>>>
+) => <S>(ma: Kind3<M, S, R, Either<E, A>>) => Kind3<M, S, R, Either<E, NonNullable<B>>>
 export declare function chainNullableK<M extends URIS2>(
   M: Monad2<M>
 ): <E>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <T>(ma: Kind2<M, T, Either<E, A>>) => Kind2<M, T, Either<E, NonNullable<B>>>
+) => <R>(ma: Kind2<M, R, Either<E, A>>) => Kind2<M, R, Either<E, NonNullable<B>>>
 export declare function chainNullableK<M extends URIS2, T>(
   M: Monad2C<M, T>
 ): <E>(
@@ -307,16 +307,16 @@ Added in v2.12.0
 ```ts
 export declare function fromNullable<F extends URIS3>(
   F: Pointed3<F>
-): <E>(e: E) => <A, R, T>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
-export declare function fromNullable<F extends URIS3, T>(
-  F: Pointed3C<F, T>
-): <E>(e: E) => <A, R>(a: A) => Kind3<F, R, T, Either<E, NonNullable<A>>>
+): <E>(e: E) => <A, S, R>(a: A) => Kind3<F, S, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS3, R>(
+  F: Pointed3C<F, R>
+): <E>(e: E) => <A, S>(a: A) => Kind3<F, S, R, Either<E, NonNullable<A>>>
 export declare function fromNullable<F extends URIS2>(
   F: Pointed2<F>
-): <E>(e: E) => <A, T>(a: A) => Kind2<F, T, Either<E, NonNullable<A>>>
-export declare function fromNullable<F extends URIS2, T>(
-  F: Pointed2C<F, T>
-): <E>(e: E) => <A>(a: A) => Kind2<F, T, Either<E, NonNullable<A>>>
+): <E>(e: E) => <A, R>(a: A) => Kind2<F, R, Either<E, NonNullable<A>>>
+export declare function fromNullable<F extends URIS2, R>(
+  F: Pointed2C<F, R>
+): <E>(e: E) => <A>(a: A) => Kind2<F, R, Either<E, NonNullable<A>>>
 export declare function fromNullable<F extends URIS>(
   F: Pointed1<F>
 ): <E>(e: E) => <A>(a: A) => Kind<F, Either<E, NonNullable<A>>>
@@ -336,28 +336,28 @@ export declare function fromNullableK<F extends URIS3>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <R, T>(...a: A) => Kind3<F, R, T, Either<E, NonNullable<B>>>
-export declare function fromNullableK<F extends URIS3, T>(
-  F: Pointed3C<F, T>
+) => <S, R>(...a: A) => Kind3<F, S, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS3, R>(
+  F: Pointed3C<F, R>
 ): <E>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <R>(...a: A) => Kind3<F, R, T, Either<E, NonNullable<B>>>
+) => <S>(...a: A) => Kind3<F, S, R, Either<E, NonNullable<B>>>
 export declare function fromNullableK<F extends URIS2>(
   F: Pointed2<F>
 ): <E>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <T>(...a: A) => Kind2<F, T, Either<E, NonNullable<B>>>
-export declare function fromNullableK<F extends URIS2, T>(
-  F: Pointed2C<F, T>
+) => <R>(...a: A) => Kind2<F, R, Either<E, NonNullable<B>>>
+export declare function fromNullableK<F extends URIS2, R>(
+  F: Pointed2C<F, R>
 ): <E>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => Kind2<F, T, Either<E, NonNullable<B>>>
+) => (...a: A) => Kind2<F, R, Either<E, NonNullable<B>>>
 export declare function fromNullableK<F extends URIS>(
   F: Pointed1<F>
 ): <E>(
