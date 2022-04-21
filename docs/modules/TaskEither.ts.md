@@ -143,6 +143,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [taskify](#taskify)
@@ -1542,6 +1543,22 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 

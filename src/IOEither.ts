@@ -896,7 +896,7 @@ export const bracket = <E, A, B>(
  *
  * @since 2.12.0
  */
-export const bracketW: <E1, E2, E3, A, B>(
+export const bracketW: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>

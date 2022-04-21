@@ -162,6 +162,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -1861,13 +1862,29 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
+  acquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.0.4
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare function bracketW<R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+): ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 

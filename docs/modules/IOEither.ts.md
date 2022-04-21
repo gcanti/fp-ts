@@ -122,6 +122,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -1250,6 +1251,22 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare const bracketW: <E1, A, E2, B, E3>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 
