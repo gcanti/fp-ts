@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 105
+nav_order: 106
 parent: Modules
 ---
 
@@ -764,7 +764,7 @@ Added in v2.11.0
 export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.11.8
+Added in v2.12.0
 
 ## orElseFirstTaskK
 
@@ -776,7 +776,7 @@ export declare const orElseFirstTaskK: <E, B>(
 ) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
 
-Added in v2.11.8
+Added in v2.12.0
 
 ## orElseFirstW
 

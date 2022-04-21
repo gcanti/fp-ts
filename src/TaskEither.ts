@@ -358,7 +358,7 @@ export const orElseFirstW: <E1, E2, B>(
 
 /**
  * @category combinators
- * @since 2.11.8
+ * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft
@@ -366,7 +366,7 @@ export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEith
 
 /**
  * @category combinators
- * @since 2.11.8
+ * @since 2.12.0
  */
 export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
   onLeft

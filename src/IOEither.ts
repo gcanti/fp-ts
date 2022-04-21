@@ -266,7 +266,7 @@ export const orElseFirstW: <E1, E2, B>(
 
 /**
  * @category combinators
- * @since 2.11.8
+ * @since 2.12.0
  */
 export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
   orElseFirst(fromIOK(onLeft))

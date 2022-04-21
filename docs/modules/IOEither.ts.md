@@ -582,7 +582,7 @@ Added in v2.11.0
 export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
 ```
 
-Added in v2.11.8
+Added in v2.12.0
 
 ## orElseFirstW
 

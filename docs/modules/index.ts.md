@@ -63,6 +63,7 @@ Added in v2.0.0
   - [invariant](#invariant)
   - [io](#io)
   - [ioEither](#ioeither)
+  - [ioOption](#iooption)
   - [ioRef](#ioref)
   - [joinSemilattice](#joinsemilattice)
   - [json](#json)
@@ -636,6 +637,16 @@ export declare const ioEither: typeof ioEither
 ```
 
 Added in v2.0.0
+
+## ioOption
+
+**Signature**
+
+```ts
+export declare const ioOption: typeof ioOption
+```
+
+Added in v2.12.0
 
 ## ioRef
 
