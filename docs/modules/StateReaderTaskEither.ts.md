@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 88
+nav_order: 89
 parent: Modules
 ---
 
@@ -33,6 +33,8 @@ Added in v3.0.0
   - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
@@ -336,6 +338,32 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
 ```
 
 Added in v3.0.0

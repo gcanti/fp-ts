@@ -326,6 +326,38 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
   /*#__PURE__*/
   ET.toUnion(RT.Functor)
 
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(RT.Monad)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -1190,6 +1222,17 @@ export const bracket: <R, E, A, B>(
 ) => ReaderTaskEither<R, E, B> =
   /*#__PURE__*/
   ET.bracket(RT.Monad)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 3.0.0
+ */
+export const bracketW: <R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> = bracket as any
 
 // -------------------------------------------------------------------------------------
 // do notation

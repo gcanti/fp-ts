@@ -8,6 +8,7 @@ import * as _ from '../src/TaskOption'
 import { assertTask } from './Task'
 import * as U from './util'
 import * as S from '../src/string'
+import * as E from '../src/Either'
 
 const a: _.TaskOption<string> = pipe(_.of<string>('a'), T.delay(100))
 const b: _.TaskOption<string> = _.of('b')
@@ -87,9 +88,42 @@ describe('TaskOption', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('tryCatch', async () => {
-    U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
-    U.deepStrictEqual(await _.tryCatch(() => Promise.reject())(), O.none)
+  describe('tryCatch', () => {
+    test('with a resolving promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), O.some(1))
+    })
+
+    test('with a rejected promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1))(), O.none)
+    })
+
+    test('with a thrown error', async () => {
+      U.deepStrictEqual(
+        await _.tryCatch(() => {
+          throw new Error('Some error')
+        })(),
+        O.none
+      )
+    })
+  })
+
+  describe('tryCatchK', () => {
+    test('with a resolved promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.resolve(a))
+      U.deepStrictEqual(await g(1)(), O.some(1))
+    })
+
+    test('with a rejected promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.reject(a))
+      U.deepStrictEqual(await g(-1)(), O.none)
+    })
+
+    test('with a thrown error', async () => {
+      const g = _.tryCatchK((_: number) => {
+        throw new Error('Some error')
+      })
+      U.deepStrictEqual(await g(-1)(), O.none)
+    })
   })
 
   it('fromNullable', async () => {
@@ -243,5 +277,32 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
     U.deepStrictEqual(await pipe(_.some(-1), f)(), O.none)
     U.deepStrictEqual(await pipe(_.none, f)(), O.none)
+  })
+
+  it('fromEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.fromEitherK(f)
+    U.deepStrictEqual(await g('')(), O.some('!'))
+    U.deepStrictEqual(await g('a')(), O.some('a!'))
+    U.deepStrictEqual(await g('aa')(), O.some('aa!'))
+    U.deepStrictEqual(await g('aaa')(), O.none)
+  })
+
+  it('chainEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some('!'))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a!'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa!'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => (s.length <= 2 ? E.right(s + '!') : E.left(s.length))
+    const g = _.chainFirstEitherK(f)
+    U.deepStrictEqual(await g(_.of(''))(), O.some(''))
+    U.deepStrictEqual(await g(_.of('a'))(), O.some('a'))
+    U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa'))
+    U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
   })
 })

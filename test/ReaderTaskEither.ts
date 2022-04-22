@@ -515,4 +515,21 @@ describe('ReaderTaskEither', () => {
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
   })
+
+  it('bracketW', async () => {
+    const acquire = _.right<string, { readonly a: string }, string>('string')
+    const use = (_a: string) => _.right<string, { readonly b: number }, number>('test')
+    const release = (_a: string, _e: E.Either<number, string>) =>
+      _.right<void, { readonly c: boolean }, Error>(undefined)
+    const res = await _.bracketW(
+      acquire,
+      use,
+      release
+    )({
+      a: 'string',
+      b: 5,
+      c: true
+    })()
+    U.deepStrictEqual(res, E.right('test'))
+  })
 })

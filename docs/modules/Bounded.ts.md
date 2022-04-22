@@ -20,6 +20,9 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [Bounded (interface)](#bounded-interface)
+- [utils](#utils)
+  - [clamp](#clamp)
+  - [reverse](#reverse)
 
 ---
 
@@ -34,6 +37,32 @@ export interface Bounded<A> extends Ord<A> {
   readonly top: A
   readonly bottom: A
 }
+```
+
+Added in v3.0.0
+
+# utils
+
+## clamp
+
+Clamp a value between `bottom` and `top` values.
+
+**Signature**
+
+```ts
+export declare const clamp: <T>(B: Bounded<T>) => Endomorphism<T>
+```
+
+Added in v3.0.0
+
+## reverse
+
+Reverses the `Ord` of a `Bounded` and swaps `top` and `bottom` values.
+
+**Signature**
+
+```ts
+export declare const reverse: <T>(B: Bounded<T>) => Bounded<T>
 ```
 
 Added in v3.0.0

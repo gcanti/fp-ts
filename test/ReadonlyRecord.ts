@@ -424,4 +424,22 @@ describe('ReadonlyRecord', () => {
     const o: _.ReadonlyRecord<string, number> = Object.create({ a: 1 })
     U.deepStrictEqual(pipe(o, _.mapWithIndex(flow(SK, U.double))), {})
   })
+
+  it('toEntries', () => {
+    U.deepStrictEqual(_.toEntries({ a: 1, b: 2 }), [
+      ['a', 1],
+      ['b', 2]
+    ])
+  })
+
+  it('fromEntries', () => {
+    U.deepStrictEqual(
+      _.fromEntries([
+        ['a', 1],
+        ['b', 2],
+        ['a', 3]
+      ]),
+      { b: 2, a: 3 }
+    )
+  })
 })

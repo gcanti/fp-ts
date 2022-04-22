@@ -1,6 +1,6 @@
 ---
 title: ReadonlyRecord.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -74,6 +74,7 @@ Added in v3.0.0
   - [every](#every)
   - [foldMap](#foldmap)
   - [foldMapWithIndex](#foldmapwithindex)
+  - [fromEntries](#fromentries)
   - [has](#has)
   - [intersection](#intersection)
   - [isEmpty](#isempty)
@@ -85,6 +86,7 @@ Added in v3.0.0
   - [reduceWithIndex](#reducewithindex)
   - [size](#size)
   - [some](#some)
+  - [toEntries](#toentries)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
   - [traverse](#traverse)
@@ -747,6 +749,33 @@ export declare const foldMapWithIndex: (
 
 Added in v3.0.0
 
+## fromEntries
+
+Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+
+**Signature**
+
+```ts
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Record<string, A>
+```
+
+**Example**
+
+```ts
+import { fromEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(
+  fromEntries([
+    ['a', 1],
+    ['b', 2],
+    ['a', 3],
+  ]),
+  { b: 2, a: 3 }
+)
+```
+
+Added in v3.0.0
+
 ## has
 
 Test whether or not a key exists in a `ReadonlyRecord`.
@@ -875,6 +904,29 @@ Added in v3.0.0
 
 ```ts
 export declare const some: <A>(predicate: (a: A) => boolean) => (r: Readonly<Record<string, A>>) => boolean
+```
+
+Added in v3.0.0
+
+## toEntries
+
+Converts a `ReadonlyRecord` into a `ReadonlyArray` of `[key, value]` tuples.
+
+**Signature**
+
+```ts
+export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>) => readonly (readonly [K, A])[]
+```
+
+**Example**
+
+```ts
+import { toEntries } from 'fp-ts/ReadonlyRecord'
+
+assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+  ['a', 1],
+  ['b', 2],
+])
 ```
 
 Added in v3.0.0

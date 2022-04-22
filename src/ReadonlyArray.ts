@@ -2138,6 +2138,22 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as i
  */
 export const exists = some
 
+/**
+ * Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 3.0.0
+ */
+export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray<A>) => A) => {
+  const intercalateM = RNEA.intercalate(M)
+  return (middle) => match(() => M.empty, intercalateM(middle))
+}
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

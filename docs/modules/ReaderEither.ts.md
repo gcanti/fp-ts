@@ -1,6 +1,6 @@
 ---
 title: ReaderEither.ts
-nav_order: 71
+nav_order: 72
 parent: Modules
 ---
 
@@ -33,6 +33,8 @@ Added in v3.0.0
   - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstW](#chainfirstw)
@@ -317,6 +319,32 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 export declare const chainEitherKW: <E2, A, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
 ```
 
 Added in v3.0.0

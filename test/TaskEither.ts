@@ -319,6 +319,15 @@ describe('TaskEither', () => {
     })
   })
 
+  it('bracketW', async () => {
+    const res = await _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<string, number>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<void, Error>(undefined)
+    )()
+    U.deepStrictEqual(res, E.right('test'))
+  })
+
   it('do notation', async () => {
     await assertSeq(
       (a, b) =>
@@ -411,16 +420,42 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainIOEitherK(f))(), E.right(1))
   })
 
-  it('tryCatchK', async () => {
-    const f = (n: number) => {
-      if (n > 0) {
-        return Promise.resolve(n * 2)
-      }
-      return Promise.reject('negative')
-    }
-    const g = _.tryCatchK(f, identity)
-    U.deepStrictEqual(await g(1)(), E.right(2))
-    U.deepStrictEqual(await g(-1)(), E.left('negative'))
+  describe('tryCatch', () => {
+    test('with a resolving promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.resolve(1))(), E.right(1))
+    })
+
+    test('with a rejected promise', async () => {
+      U.deepStrictEqual(await _.tryCatch(() => Promise.reject(1))(), E.left(1))
+    })
+
+    test('with a thrown error', async () => {
+      U.deepStrictEqual(
+        await _.tryCatch(() => {
+          throw new Error('Some error')
+        })(),
+        E.left(new Error('Some error'))
+      )
+    })
+  })
+
+  describe('tryCatchK', () => {
+    test('with a resolved promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.resolve(a), identity)
+      U.deepStrictEqual(await g(1)(), E.right(1))
+    })
+
+    test('with a rejected promise', async () => {
+      const g = _.tryCatchK((a: number) => Promise.reject(a), identity)
+      U.deepStrictEqual(await g(-1)(), E.left(-1))
+    })
+
+    test('with a thrown error', async () => {
+      const g = _.tryCatchK((_: number) => {
+        throw new Error('Some error')
+      }, identity)
+      U.deepStrictEqual(await g(-1)(), E.left(new Error('Some error')))
+    })
   })
 
   // -------------------------------------------------------------------------------------
@@ -559,5 +594,38 @@ describe('TaskEither', () => {
     const f = _.getOrElseE(() => T.of(2))
     U.deepStrictEqual(await f(_.right(1))(), 1)
     U.deepStrictEqual(await f(_.left('a'))(), 2)
+  })
+
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable('foo')
+    U.deepStrictEqual(await testNullable(1)(), E.right(1))
+    U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(), E.right(1))
+    U.deepStrictEqual(await f(0)(), E.left('foo'))
+    U.deepStrictEqual(await f(-1)(), E.left('foo'))
+  })
+
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(_.of(1))(), E.right(1))
+    U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
+    U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
+  })
+
+  it('orElseFirstIOK', async () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+  })
+
+  it('orElseFirstTaskK', async () => {
+    const f = _.orElseFirstTaskK((e: string) => T.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
   })
 })

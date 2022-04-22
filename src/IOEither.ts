@@ -21,7 +21,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
@@ -250,6 +251,13 @@ export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IO
 export const orElseFirstW: <E1, E2, B>(
   onLeft: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
+  orElseFirst(fromIOK(onLeft))
 
 /**
  * @category combinators
@@ -707,6 +715,22 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirstEitherK as any
+
+/**
  * Derivable from `FromEither`.
  *
  * @category constructors
@@ -767,6 +791,17 @@ export const bracket: <E, A, B>(
 ) => IOEither<E, B> =
   /*#__PURE__*/
   ET.bracket(I.Monad)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 3.0.0
+ */
+export const bracketW: <E1, A, E2, B, E3>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B> = bracket as any
 
 // -------------------------------------------------------------------------------------
 // do notation

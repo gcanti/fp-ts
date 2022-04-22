@@ -1,6 +1,6 @@
 ---
 title: ReadonlyNonEmptyArray.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -119,6 +119,7 @@ Added in v3.0.0
   - [extract](#extract)
   - [head](#head)
   - [init](#init)
+  - [intercalate](#intercalate)
   - [last](#last)
   - [max](#max)
   - [min](#min)
@@ -1331,6 +1332,27 @@ import { init } from 'fp-ts/ReadonlyNonEmptyArray'
 
 assert.deepStrictEqual(init([1, 2, 3]), [1, 2])
 assert.deepStrictEqual(init([1]), [])
+```
+
+Added in v3.0.0
+
+## intercalate
+
+Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(S: Se.Semigroup<A>) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
 ```
 
 Added in v3.0.0

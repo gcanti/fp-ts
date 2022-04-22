@@ -3,6 +3,7 @@ import * as T from '../../src/Task'
 import * as E from '../../src/Either'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
+import * as IO from '../../src/IO'
 
 //
 // getOrElseW
@@ -103,4 +104,24 @@ pipe(
     (result) => result > 0,
     () => 'b' as const
   )
+)
+
+//
+// orElseFirstIOK
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstIOK((a) => IO.of(a.length))
+)
+
+//
+// orElseFirstTaskK
+//
+
+// $ExpectType TaskEither<string, never>
+pipe(
+  _.left('a'),
+  _.orElseFirstTaskK((a) => T.of(a.length))
 )

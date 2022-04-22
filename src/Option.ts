@@ -27,7 +27,8 @@ import {
   chainEitherK as chainEitherK_,
   FromEither1,
   fromEitherK as fromEitherK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
@@ -965,6 +966,14 @@ export const fromEitherK =
 export const chainEitherK =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 62
+nav_order: 63
 parent: Modules
 ---
 
@@ -57,6 +57,7 @@ Added in v3.0.0
   - [zero](#zero)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
 - [constructors](#constructors)
@@ -401,6 +402,16 @@ Added in v3.0.0
 
 ```ts
 export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

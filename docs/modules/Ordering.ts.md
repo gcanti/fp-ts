@@ -1,6 +1,6 @@
 ---
 title: Ordering.ts
-nav_order: 65
+nav_order: 66
 parent: Modules
 ---
 
@@ -16,6 +16,7 @@ Added in v3.0.0
   - [reverse](#reverse)
 - [destructors](#destructors)
   - [match](#match)
+  - [matchW](#matchw)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -47,6 +48,22 @@ Added in v3.0.0
 
 ```ts
 export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
+```
+
+Added in v3.0.0
+
+## matchW
+
+Less strict version of [`match`](#match).
+
+**Signature**
+
+```ts
+export declare const matchW: <A, B, C>(
+  onLessThan: () => A,
+  onEqual: () => B,
+  onGreaterThan: () => C
+) => (o: Ordering) => A | B | C
 ```
 
 Added in v3.0.0

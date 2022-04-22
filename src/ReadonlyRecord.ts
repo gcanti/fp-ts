@@ -28,6 +28,7 @@ import type { Traversable1 } from './Traversable'
 import type { TraversableWithIndex1 } from './TraversableWithIndex'
 import type { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import * as S from './string'
 
 import Option = O.Option
 
@@ -1044,6 +1045,36 @@ export const difference = <A>(second: ReadonlyRecord<string, A>) => (
     if (!has(k, first)) {
       out[k] = second[k]
     }
+  }
+  return out
+}
+
+/**
+ * Converts a `ReadonlyRecord` into a `ReadonlyArray` of `[key, value]` tuples.
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
+ *
+ * @since 3.0.0
+ */
+export const toEntries = toReadonlyArray(S.Ord)
+
+/**
+ * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ *
+ * @since 3.0.0
+ */
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => {
+  const out: Record<string, A> = {}
+  for (const a of fa) {
+    out[a[0]] = a[1]
   }
   return out
 }

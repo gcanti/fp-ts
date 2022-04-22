@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import type { Extend1 } from './Extend'
 import type { Foldable1 } from './Foldable'
 import type { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe } from './function'
+import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
 import type { FunctorWithIndex1 } from './FunctorWithIndex'
 import type { HKT } from './HKT'
@@ -378,6 +378,22 @@ export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<
  * @since 3.0.0
  */
 export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
+
+/**
+ * Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 3.0.0
+ */
+export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNonEmptyArray<A>) => A) => {
+  const concatAllS = concatAll(S)
+  return (middle) => flow(intersperse(middle), concatAllS)
+}
 
 /**
  * `ReadonlyNonEmptyArray` comprehension.

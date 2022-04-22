@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 95
+nav_order: 96
 parent: Modules
 ---
 
@@ -63,6 +63,8 @@ Added in v3.0.0
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
+  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -109,6 +111,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -132,6 +137,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [taskify](#taskify)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
@@ -669,6 +675,28 @@ export declare const orElseFirst: <E, B>(
 
 Added in v3.0.0
 
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
+## orElseFirstTaskK
+
+**Signature**
+
+```ts
+export declare const orElseFirstTaskK: <E, B>(
+  onLeft: (e: E) => T.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v3.0.0
+
 ## orElseFirstW
 
 **Signature**
@@ -1138,6 +1166,42 @@ Added in v3.0.0
 
 # interop
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
 ## toUnion
 
 **Signature**
@@ -1152,9 +1216,7 @@ Added in v3.0.0
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
 
-Note: `f` should never `throw` errors, they are not caught.
-
-See also [`tryCatchK`](#tryCatchK).
+See also [`tryCatchK`](#trycatchk).
 
 **Signature**
 
@@ -1398,6 +1460,22 @@ export declare const bracket: <E, A, B>(
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
 ) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B>
 ```
 
 Added in v3.0.0

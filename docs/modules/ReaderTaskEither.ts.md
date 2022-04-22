@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 74
+nav_order: 75
 parent: Modules
 ---
 
@@ -131,6 +131,9 @@ Added in v3.0.0
   - [getCompactable](#getcompactable)
   - [getFilterable](#getfilterable)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
@@ -153,6 +156,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -1503,6 +1507,44 @@ Added in v3.0.0
 
 # interop
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
+```
+
+Added in v3.0.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v3.0.0
+
 ## toUnion
 
 **Signature**
@@ -1742,6 +1784,22 @@ export declare const bracket: <R, E, A, B>(
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: E.Either<E, B>) => ReaderTaskEither<R, E, void>
 ) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare const bracketW: <R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
 ```
 
 Added in v3.0.0

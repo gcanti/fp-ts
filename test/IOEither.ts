@@ -488,6 +488,12 @@ describe('IOEither', () => {
     })
   })
 
+  it('orElseFirstIOK', () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
+  })
+
   it('orLeft', () => {
     const f = _.orLeft((e: string) => I.of(e + '!'))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
@@ -499,5 +505,21 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
     U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
+  })
+
+  it('bracketW', async () => {
+    const res = _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<string, number>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<void, Error>(undefined)
+    )()
+    U.deepStrictEqual(res, E.right('test'))
   })
 })

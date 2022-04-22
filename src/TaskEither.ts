@@ -245,9 +245,7 @@ export const getOrElseEW: <E, B>(
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
  *
- * Note: `f` should never `throw` errors, they are not caught.
- *
- * See also [`tryCatchK`](#tryCatchK).
+ * See also [`tryCatchK`](#trycatchk).
  *
  * @example
  * import { left, right } from 'fp-ts/Either'
@@ -263,7 +261,13 @@ export const getOrElseEW: <E, B>(
  * @category interop
  * @since 3.0.0
  */
-export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => () => f().then(_.right, _.left)
+export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskEither<unknown, A> => async () => {
+  try {
+    return await f().then(_.right)
+  } catch (reason) {
+    return _.left(reason)
+  }
+}
 
 /**
  * Converts a function returning a `Promise` that may reject to one returning a `TaskEither`.
@@ -287,6 +291,36 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
 export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> =
   /*#__PURE__*/
   ET.toUnion(T.Functor)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(T.Pointed)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(T.Pointed)
+
+/**
+ * @category interop
+ * @since 3.0.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -342,6 +376,22 @@ export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: 
 export const orElseFirstW: <E1, E2, B>(
   onLeft: (e: E1) => TaskEither<E2, B>
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromIOK(onLeft))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromTaskK(onLeft))
 
 /**
  * @category combinators
@@ -1045,6 +1095,17 @@ export const bracket: <E, A, B>(
 ) => TaskEither<E, B> =
   /*#__PURE__*/
   ET.bracket(T.Monad)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 3.0.0
+ */
+export const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B> = bracket as any
 
 // -------------------------------------------------------------------------------------
 // do notation

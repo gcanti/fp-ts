@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 96
+nav_order: 97
 parent: Modules
 ---
 
@@ -34,6 +34,8 @@ Added in v3.0.0
 - [Zero](#zero)
   - [zero](#zero)
 - [combinators](#combinators)
+  - [chainEitherK](#chaineitherk)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
@@ -41,6 +43,7 @@ Added in v3.0.0
   - [chainTaskEitherK](#chaintaskeitherk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
+  - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskEitherK](#fromtaskeitherk)
@@ -266,6 +269,26 @@ Added in v3.0.0
 
 # combinators
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v3.0.0
+
 ## chainFirstIOK
 
 **Signature**
@@ -336,6 +359,16 @@ Derivable from `Functor`.
 
 ```ts
 export declare const flap: <A>(a: A) => <B>(fab: TaskOption<(a: A) => B>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
