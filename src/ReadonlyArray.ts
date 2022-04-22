@@ -2490,7 +2490,7 @@ export const exists = some
  *
  * @example
  * import * as S from 'fp-ts/string'
- * import { intercalate } from 'fp-ts/Array'
+ * import { intercalate } from 'fp-ts/ReadonlyArray'
  *
  * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
  *
