@@ -1850,7 +1850,7 @@ export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>)
 ```ts
 import { toEntries } from 'fp-ts/ReadonlyRecord'
 
-assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
+assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [
   ['a', 1],
   ['b', 2],
 ])

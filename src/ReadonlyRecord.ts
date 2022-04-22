@@ -1093,7 +1093,7 @@ export function fromFoldableMap<F, B>(
  * @example
  * import { toEntries } from 'fp-ts/ReadonlyRecord'
  *
- * assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [['a', 1], ['b', 2]])
+ * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
  */
 export const toEntries = toReadonlyArray
 
