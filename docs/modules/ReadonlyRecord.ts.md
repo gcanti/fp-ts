@@ -1837,7 +1837,7 @@ Added in v2.5.0
 
 ## toEntries
 
-Alias of [`toReadonlyArray`](#toReadonlyArray).
+Alias of [`toReadonlyArray`](#toreadonlyarray).
 
 **Signature**
 
@@ -1848,7 +1848,7 @@ export declare const toEntries: <K extends string, A>(r: Readonly<Record<K, A>>)
 **Example**
 
 ```ts
-import { toEntries } from 'fp-ts/Record'
+import { toEntries } from 'fp-ts/ReadonlyRecord'
 
 assert.deepStrictEqual(toEntries({ a: 1, b: 2 }), [
   ['a', 1],
