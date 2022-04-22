@@ -20,6 +20,8 @@ high state of flux, you're at risk of it changing without notice.
 
 - **New Feature**
   - add `IOOption` module (@gcanti)
+  - `Array`
+    - add `intercalate`, #1678 (@thewilkybarkid)
   - `Bounded`
     - add `clamp` (@gcanti)
     - add `reverse` (@gcanti)
@@ -39,6 +41,8 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainFirstEitherKW` (@gcanti)
     - add `orElseFirstIOK`, #1655 (@thewilkybarkid)
     - add `bracketW`, #1627 (@thomasvargiu)
+  - `NonEmptyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
   - `Option`
     - add `chainFirstEitherK` (@gcanti)
   - `Ordering`
@@ -60,6 +64,10 @@ high state of flux, you're at risk of it changing without notice.
     - add `chainNullableK` (@gcanti)
     - add `fromNullable` (@gcanti)
     - add `fromNullableK` (@gcanti)
+  - `ReadonlyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
+  - `ReadonlyNonEmptyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
   - `ReadonlyRecord`
     - add `toEntries`, #1552 (@bravely)
     - add `fromEntries`, #1552 (@bravely)

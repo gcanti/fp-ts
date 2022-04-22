@@ -1125,21 +1125,6 @@ export const intersperse = <A>(middle: A): ((as: Array<A>) => Array<A>) => {
 }
 
 /**
- * Creates a new `Array` placing an element in between members of the input `Array`, then folds the results using the
- * provided `Monoid`.
- *
- * @example
- * import * as S from 'fp-ts/string'
- * import { intercalate } from 'fp-ts/Array'
- *
- * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
- *
- * @category combinators
- * @since 2.11.9
- */
-export const intercalate: <A>(M: Monoid<A>) => (sep: A) => (as: Array<A>) => A = RA.intercalate
-
-/**
  * Creates a new `Array` rotating the input `Array` by `n` steps.
  *
  * @example
@@ -2902,6 +2887,19 @@ export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmp
  * @since 2.11.0
  */
 export const exists = some
+
+/**
+ * Places an element in between members of an `Array`, then folds the results using the provided `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: Array<A>) => A = RA.intercalate
 
 // -------------------------------------------------------------------------------------
 // do notation

@@ -552,20 +552,6 @@ export const intersperse = <A>(middle: A) => (as: NonEmptyArray<A>): NonEmptyArr
 }
 
 /**
- * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
- *
- * @example
- * import * as S from 'fp-ts/string'
- * import { intercalate } from 'fp-ts/NonEmptyArray'
- *
- * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
- *
- * @category combinators
- * @since 2.11.9
- */
-export const intercalate: <A>(S: Semigroup<A>) => (sep: A) => (as: NonEmptyArray<A>) => A = RNEA.intercalate
-
-/**
  * @category combinators
  * @since 2.0.0
  */
@@ -1229,6 +1215,19 @@ export const modifyLast = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): Non
  * @since 2.11.0
  */
 export const updateLast = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyLast(() => a)
+
+/**
+ * Places an element in between members of a `NonEmptyArray`, then folds the results using the provided `Semigroup`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate: <A>(S: Semigroup<A>) => (middle: A) => (as: NonEmptyArray<A>) => A = RNEA.intercalate
 
 // -------------------------------------------------------------------------------------
 // deprecated

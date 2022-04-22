@@ -68,7 +68,6 @@ Added in v2.5.0
   - [getUnionSemigroup](#getunionsemigroup)
   - [group](#group)
   - [groupBy](#groupby)
-  - [intercalate](#intercalate)
   - [intersperse](#intersperse)
   - [modifyAt](#modifyat)
   - [prependAll](#prependall)
@@ -136,6 +135,7 @@ Added in v2.5.0
   - [concatAll](#concatall)
   - [head](#head)
   - [init](#init)
+  - [intercalate](#intercalate)
   - [last](#last)
   - [max](#max)
   - [min](#min)
@@ -607,27 +607,6 @@ assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['a', 'b', 'ab']
 ```
 
 Added in v2.5.0
-
-## intercalate
-
-**Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
-
-**Signature**
-
-```ts
-export declare const intercalate: <A>(S: Se.Semigroup<A>) => (sep: A) => (as: ReadonlyNonEmptyArray<A>) => A
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
-
-assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
-```
-
-Added in v2.11.9
 
 ## intersperse
 
@@ -1508,6 +1487,27 @@ assert.deepStrictEqual(init([1]), [])
 ```
 
 Added in v2.5.0
+
+## intercalate
+
+Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(S: Se.Semigroup<A>) => (middle: A) => (as: ReadonlyNonEmptyArray<A>) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+
+assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
 
 ## last
 

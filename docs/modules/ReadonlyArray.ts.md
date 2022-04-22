@@ -82,7 +82,6 @@ Added in v2.5.0
   - [flatten](#flatten)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
-  - [intercalate](#intercalate)
   - [intersection](#intersection)
   - [intersperse](#intersperse)
   - [lefts](#lefts)
@@ -195,6 +194,7 @@ Added in v2.5.0
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
+  - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [lookup](#lookup)
@@ -970,27 +970,6 @@ export declare const fromOptionK: <A extends readonly unknown[], B>(
 ```
 
 Added in v2.11.0
-
-## intercalate
-
-Places an element in between members of an array`, then folds the results using the provided `Monoid`.
-
-**Signature**
-
-```ts
-export declare const intercalate: <A>(M: Monoid<A>) => (sep: A) => (as: readonly A[]) => A
-```
-
-**Example**
-
-```ts
-import * as S from 'fp-ts/string'
-import { intercalate } from 'fp-ts/Array'
-
-assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
-```
-
-Added in v2.11.9
 
 ## intersection
 
@@ -1923,7 +1902,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const Foldable: F.Foldable1<'ReadonlyArray'>
+export declare const Foldable: Foldable1<'ReadonlyArray'>
 ```
 
 Added in v2.7.0
@@ -2761,6 +2740,27 @@ assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
 Added in v2.5.0
+
+## intercalate
+
+Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: readonly A[]) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/Array'
+
+assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
 
 ## isOutOfBound
 

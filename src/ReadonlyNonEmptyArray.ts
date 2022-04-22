@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, SK } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -565,22 +565,6 @@ export const intersperse = <A>(middle: A) => (as: ReadonlyNonEmptyArray<A>): Rea
   const rest = tail(as)
   return isNonEmpty(rest) ? pipe(rest, prependAll(middle), prepend(head(as))) : as
 }
-
-/**
- * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
- *
- * @example
- * import * as S from 'fp-ts/string'
- * import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
- *
- * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
- *
- * @category combinators
- * @since 2.11.9
- */
-export const intercalate: <A>(S: Semigroup<A>) => (sep: A) => (as: ReadonlyNonEmptyArray<A>) => A = (S) => (sep) => (
-  as
-) => concatAll(S)(intersperse(sep)(as))
 
 /**
  * @category combinators
@@ -1293,6 +1277,22 @@ export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<
  * @since 2.11.0
  */
 export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
+
+/**
+ * Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNonEmptyArray<A>) => A) => {
+  const concatAllS = concatAll(S)
+  return (middle) => flow(intersperse(middle), concatAllS)
+}
 
 // -------------------------------------------------------------------------------------
 // deprecated
