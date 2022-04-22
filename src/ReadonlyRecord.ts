@@ -1098,12 +1098,12 @@ export function fromFoldableMap<F, B>(
 export const toEntries = toReadonlyArray
 
 /**
- * Converts an `Array` of `[key, value]` tuples into a `Record`.
+ * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
  *
  * @since 2.12.0
  *
  * @example
- * import { fromEntries } from 'fp-ts/Record'
+ * import { fromEntries } from 'fp-ts/ReadonlyRecord'
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
  */

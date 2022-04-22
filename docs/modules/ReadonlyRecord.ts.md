@@ -1319,7 +1319,7 @@ Added in v2.5.0
 
 ## fromEntries
 
-Converts an `Array` of `[key, value]` tuples into a `Record`.
+Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
 
 **Signature**
 
@@ -1330,7 +1330,7 @@ export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => 
 **Example**
 
 ```ts
-import { fromEntries } from 'fp-ts/Record'
+import { fromEntries } from 'fp-ts/ReadonlyRecord'
 
 assert.deepStrictEqual(
   fromEntries([
