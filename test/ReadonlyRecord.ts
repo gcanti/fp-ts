@@ -294,6 +294,22 @@ describe('ReadonlyRecord', () => {
       const traverseWithIndex = _.traverseWithIndex(O.Applicative)(f)
       U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
       U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
+
+      U.deepStrictEqual(
+        pipe(
+          { a: 2, b: 3 },
+          _.fromRecord,
+          _.traverseWithIndex(RA.Applicative)((_, n) => RA.makeBy(n, (i) => i * 4))
+        ),
+        [
+          { a: 0, b: 0 },
+          { a: 0, b: 4 },
+          { a: 0, b: 8 },
+          { a: 4, b: 0 },
+          { a: 4, b: 4 },
+          { a: 4, b: 8 }
+        ]
+      )
     })
 
     it('getTraversableWithIndex', () => {
