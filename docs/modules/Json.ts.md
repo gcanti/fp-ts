@@ -49,7 +49,7 @@ Added in v2.10.0
 
 ```ts
 export interface JsonRecord {
-  readonly [key: string]: Json
+  readonly [key: string]: Json | undefined
 }
 ```
 

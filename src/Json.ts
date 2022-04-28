@@ -13,7 +13,7 @@ export type Json = boolean | number | string | null | JsonArray | JsonRecord
  * @since 2.10.0
  */
 export interface JsonRecord {
-  readonly [key: string]: Json
+  readonly [key: string]: Json | undefined
 }
 
 /**
