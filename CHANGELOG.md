@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.12.1
+
+- **Bug Fix**
+  - `ReadonlyRecord`
+    - fix `traverseWithIndex` implementation, #1704 (@waynevanson)
+
 # 2.12.0
 
 - **New Feature**
