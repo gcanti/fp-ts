@@ -165,6 +165,38 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
     })
 
+    describe('traverseWithIndex', () => {
+      const T = _.getTraversableWithIndex(S.Ord)
+
+      it('simple Traversal', () => {
+        const f = (k: string, n: number): O.Option<number> => (k !== 'a' ? O.some(n) : O.none)
+        const traverseWithIndex = T.traverseWithIndex(O.Applicative)(f)
+        U.deepStrictEqual(pipe({ a: 1, b: 2 }, traverseWithIndex), O.none)
+        U.deepStrictEqual(pipe({ b: 2 }, traverseWithIndex), O.some({ b: 2 }))
+      })
+
+      it('should not modify arrays in place', () => {
+        const result = pipe(
+          { a: 2, b: 3 },
+          T.traverseWithIndex(RA.Applicative)((_, n) =>
+            pipe(
+              n,
+              RA.makeBy((i) => i * 4)
+            )
+          )
+        )
+
+        U.deepStrictEqual(result, [
+          { a: 0, b: 0 },
+          { a: 0, b: 4 },
+          { a: 0, b: 8 },
+          { a: 4, b: 0 },
+          { a: 4, b: 4 },
+          { a: 4, b: 8 }
+        ])
+      })
+    })
+
     describe('getWitherable', () => {
       const W = _.getWitherable(S.Ord)
 

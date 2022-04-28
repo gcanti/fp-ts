@@ -316,10 +316,7 @@ export function traverseWithIndex(
     for (const key of keysO(ta)) {
       out = pipe(
         out,
-        F.map((r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
+        F.map((r) => (b: B) => Object.assign({}, r, { [key]: b })),
         F.ap(f(key, ta[key]))
       )
     }

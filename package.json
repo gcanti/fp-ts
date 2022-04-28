@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "3.0.0-alpha.21",
+  "version": "3.0.0-alpha.22",
   "description": "Functional programming in TypeScript",
   "scripts": {
     "lint": "tslint -p .",
