@@ -7,7 +7,6 @@
  * @since 2.5.0
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import * as RA from './ReadonlyArray'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -1107,8 +1106,13 @@ export const toEntries = toReadonlyArray
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
  */
-export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> =>
-  fromFoldable(Se.last<A>(), RA.Foldable)(fa)
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => {
+  const out: Record<string, A> = {}
+  for (const a of fa) {
+    out[a[0]] = a[1]
+  }
+  return out
+}
 
 /**
  * Test if every value in a `ReadonlyRecord` satisfies the predicate.
