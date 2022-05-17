@@ -6,8 +6,10 @@
  * ```
  *
  * `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
- * type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
- * `IOEither`.
+ * type `A` and **never fails**.
+ *
+ * If you want to represent a synchronous computation that may fail, please see `IOEither`.
+ * If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
  *
  * @since 2.0.0
  */
