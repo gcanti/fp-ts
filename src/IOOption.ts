@@ -1,4 +1,9 @@
 /**
+ * `IOOption<A>` represents a synchronous computation that either yields a value of type `A` or nothing.
+ *
+ * If you want to represent a synchronous computation that never fails, please see `IO`.
+ * If you want to represent a synchronous computation that may fail, please see `IOEither`.
+ *
  * @since 2.12.0
  */
 import { Alt1 } from './Alt'

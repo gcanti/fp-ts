@@ -1,6 +1,9 @@
 /**
  * `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
+ * error of type `E`.
+ *
+ * If you want to represent a synchronous computation that never fails, please see `IO`.
+ * If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
  *
  * @since 2.0.0
  */
