@@ -113,36 +113,36 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
 export function ap<F extends URIS2, G extends URIS2, E>(
   F: Apply2<F>,
   G: Apply2C<G, E>
-): <FE, A>(
-  fa: Kind2<F, FE, Kind2<G, E, A>>
-) => <B>(fab: Kind2<F, FE, Kind2<G, E, (a: A) => B>>) => Kind2<F, FE, Kind2<G, E, B>>
+): <FE, A1>(
+  fa: Kind2<F, FE, Kind2<G, E, A1>>
+) => <A2>(fab: Kind2<F, FE, Kind2<G, E, (a: A1) => A2>>) => Kind2<F, FE, Kind2<G, E, A2>>
 export function ap<F extends URIS, G extends URIS2, E>(
   F: Apply1<F>,
   G: Apply2C<G, E>
-): <A>(fa: Kind<F, Kind2<G, E, A>>) => <B>(fab: Kind<F, Kind2<G, E, (a: A) => B>>) => Kind<F, Kind2<G, E, B>>
+): <A1>(fa: Kind<F, Kind2<G, E, A1>>) => <A2>(fab: Kind<F, Kind2<G, E, (a: A1) => A2>>) => Kind<F, Kind2<G, E, A2>>
 export function ap<F, G extends URIS2>(
   F: Apply<F>,
   G: Apply2<G>
-): <E, A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+): <E, A1>(fa: HKT<F, Kind2<G, E, A1>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A1) => B>>) => HKT<F, Kind2<G, E, B>>
 export function ap<F, G extends URIS2, E>(
   F: Apply<F>,
   G: Apply2C<G, E>
-): <A>(fa: HKT<F, Kind2<G, E, A>>) => <B>(fab: HKT<F, Kind2<G, E, (a: A) => B>>) => HKT<F, Kind2<G, E, B>>
+): <A1>(fa: HKT<F, Kind2<G, E, A1>>) => <A2>(fab: HKT<F, Kind2<G, E, (a: A1) => A2>>) => HKT<F, Kind2<G, E, A2>>
 export function ap<F, G extends URIS>(
   F: Apply<F>,
   G: Apply1<G>
-): <A>(fa: HKT<F, Kind<G, A>>) => <B>(fab: HKT<F, Kind<G, (a: A) => B>>) => HKT<F, Kind<G, B>>
+): <A1>(fa: HKT<F, Kind<G, A1>>) => <A2>(fab: HKT<F, Kind<G, (a: A1) => A2>>) => HKT<F, Kind<G, A2>>
 export function ap<F, G>(
   F: Apply<F>,
   G: Apply<G>
-): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>>
+): <A1>(fa: HKT<F, HKT<G, A1>>) => <A2>(fab: HKT<F, HKT<G, (a: A1) => A2>>) => HKT<F, HKT<G, A2>>
 export function ap<F, G>(
   F: Apply<F>,
   G: Apply<G>
-): <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>) => HKT<F, HKT<G, B>> {
-  return <A>(fa: HKT<F, HKT<G, A>>) => <B>(fab: HKT<F, HKT<G, (a: A) => B>>): HKT<F, HKT<G, B>> =>
+): <A1>(fa: HKT<F, HKT<G, A1>>) => <A2>(fab: HKT<F, HKT<G, (a: A1) => A2>>) => HKT<F, HKT<G, A2>> {
+  return <A1>(fa: HKT<F, HKT<G, A1>>) => <A2>(fab: HKT<F, HKT<G, (a: A1) => A2>>): HKT<F, HKT<G, A2>> =>
     F.ap(
-      F.map(fab, (gab) => (ga: HKT<G, A>) => G.ap(gab, ga)),
+      F.map(fab, (gab) => (ga: HKT<G, A1>) => G.ap(gab, ga)),
       fa
     )
 }
