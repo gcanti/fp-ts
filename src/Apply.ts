@@ -110,6 +110,12 @@ export interface Apply4<F extends URIS4> extends Functor4<F> {
  * @category combinators
  * @since 2.10.0
  */
+export function ap<F extends URIS4, G extends URIS>(
+  F: Apply4<F>,
+  G: Apply1<G>
+): <S, R, E, A1>(
+  fa: Kind4<F, S, R, E, Kind<G, A1>>
+) => <A2>(fab: Kind4<F, S, R, E, Kind<G, (a: A1) => A2>>) => Kind4<F, S, R, E, Kind<G, A2>>
 export function ap<F extends URIS3, G extends URIS4>(
   F: Apply3<F>,
   G: Apply4<G>
