@@ -38,42 +38,47 @@ flow(f, _.fromNullable('error'))('foo')
 // do notation
 //
 
-// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
+// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
   _.right<string, number>(1),
-  _.bindTo('a'),
-  _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<number, boolean>(true))
+  _.bindTo('a1'),
+  _.bind('a2', () => _.right('b')),
+  _.bindW('a3', () => _.right<number, boolean>(true))
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
-pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))
+// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+pipe(
+  _.right<string, number>(1),
+  _.bindTo('a1'),
+  _.apS('a2', _.right('b')),
+  _.apSW('a3', _.right<number, boolean>(true))
+)
 
 //
 // Do
 //
 
-// $ExpectType Either<string, { readonly a: number; readonly b: string; }>
+// $ExpectType Either<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
-  _.bind('b', () => _.of<string, string>('b'))
+  _.bind('a1', () => _.of<string, number>(1)),
+  _.bind('a2', () => _.of<string, string>('b'))
 )
 
 //
 // filterOrElseW
 //
 
-// $ExpectType Either<"a" | "b", number>
+// $ExpectType Either<"a1" | "a2", number>
 pipe(
-  _.left<'a', number>('a'),
+  _.left<'a1', number>('a1'),
   _.filterOrElseW(
     (result) => result > 0,
-    () => 'b' as const
+    () => 'a2' as const
   )
 )
 

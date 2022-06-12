@@ -138,41 +138,46 @@ _.taskify(apiForTaskify) // $ExpectType (a: string) => TaskEither<Error, string>
 // do notation
 //
 
-// $ExpectType TaskEither<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
+// $ExpectType TaskEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
   _.right<string, number>(1),
-  _.bindTo('a'),
-  _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<number, boolean>(true))
+  _.bindTo('a1'),
+  _.bind('a2', () => _.right('b')),
+  _.bindW('a3', () => _.right<number, boolean>(true))
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType TaskEither<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
-pipe(_.right<string, number>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<number, boolean>(true)))
+// $ExpectType TaskEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+pipe(
+  _.right<string, number>(1),
+  _.bindTo('a1'),
+  _.apS('a2', _.right('b')),
+  _.apSW('a3', _.right<number, boolean>(true))
+)
 
 //
 // Do
 //
 
-// $ExpectType TaskEither<string, { readonly a: number; readonly b: string; }>
+// $ExpectType TaskEither<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<string, number>(1)),
-  _.bind('b', () => _.of<string, string>('b'))
+  _.bind('a1', () => _.of<string, number>(1)),
+  _.bind('a2', () => _.of<string, string>('b'))
 )
 
 //
 // filterOrElseW
 //
 
-// $ExpectType TaskEither<"a" | "b", number>
+// $ExpectType TaskEither<"a1" | "a2", number>
 pipe(
-  _.left<'a', number>('a'),
+  _.left<'a1', number>('a1'),
   _.filterOrElseW(
     (result) => result > 0,
-    () => 'b' as const
+    () => 'a2' as const
   )
 )

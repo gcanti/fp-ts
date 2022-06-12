@@ -66,6 +66,5 @@
     "typescript",
     "algebraic-data-types",
     "functional-programming"
-  ],
-  "dependencies": {}
+  ]
 }
