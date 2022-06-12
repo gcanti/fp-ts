@@ -154,6 +154,12 @@ export function ap<F extends URIS3, G extends URIS3, E1>(
 ): <R1, R2, E2, A1>(
   fa: Kind3<F, R1, E1, Kind3<G, R2, E2, A1>>
 ) => <A2>(fab: Kind3<F, R1, E1, Kind3<G, R2, E2, (a: A1) => A2>>) => Kind3<F, R1, E1, Kind3<G, R2, E2, A2>>
+export function ap<F extends URIS3, G extends URIS3, E1, E2>(
+  F: Apply3C<F, E1>,
+  G: Apply3C<G, E2>
+): <R1, R2, E1, A1>(
+  fa: Kind3<F, R1, E1, Kind3<G, R2, E2, A1>>
+) => <A2>(fab: Kind3<F, R1, E1, Kind3<G, R2, E2, (a: A1) => A2>>) => Kind3<F, R1, E1, Kind3<G, R2, E2, A2>>
 export function ap<F extends URIS3, G extends URIS2, E1>(
   F: Apply3C<F, E1>,
   G: Apply2<G>
