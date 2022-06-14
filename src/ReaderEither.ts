@@ -43,7 +43,7 @@ import {
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
@@ -935,6 +935,11 @@ export const Do: ReaderEither<unknown, never, {}> = /*#__PURE__*/ of(_.emptyReco
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+/**
+ * @since 2.13.0
+ */
+export const bindMap = /*#__PURE__*/ bindMap_(Functor)
 
 /**
  * @since 2.8.0

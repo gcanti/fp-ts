@@ -45,7 +45,7 @@ import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { Choice2 } from './Choice'
 import * as E from './Either'
 import { constant, flow, identity, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -493,6 +493,11 @@ export const Choice: Choice2<URI> = {
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+/**
+ * @since 2.13.0
+ */
+export const bindMap = /*#__PURE__*/ bindMap_(Functor)
 
 /**
  * @since 2.8.0
