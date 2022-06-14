@@ -77,9 +77,10 @@ describe('State', () => {
       pipe(
         _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.of('b')),
+        _.bindMap('c', ({ a, b }) => [a, b])
       )('state'),
-      [{ a: 1, b: 'b' }, 'state']
+      [{ a: 1, b: 'b', c: [1, 'b'] }, 'state']
     )
   })
 
