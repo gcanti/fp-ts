@@ -34,6 +34,7 @@ Added in v2.0.0
   - [Functor3C (interface)](#functor3c-interface)
   - [Functor4 (interface)](#functor4-interface)
 - [utils](#utils)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [~~FunctorComposition11~~ (interface)](#functorcomposition11-interface)
   - [~~FunctorComposition12C~~ (interface)](#functorcomposition12c-interface)
@@ -217,6 +218,59 @@ export interface Functor4<F extends URIS4> {
 Added in v2.0.0
 
 # utils
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare function bindMap<F extends URIS4>(
+  F: Functor4<F>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <S, R, E>(
+  fa: Kind4<F, S, R, E, A>
+) => Kind4<F, S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F extends URIS3>(
+  F: Functor3<F>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F extends URIS3, E>(
+  F: Functor3C<F, E>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F extends URIS2>(
+  F: Functor2<F>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F extends URIS2, E>(
+  F: Functor2C<F, E>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F extends URIS>(
+  F: Functor1<F>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (fa: Kind<F, A>) => Kind<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+export declare function bindMap<F>(
+  F: Functor<F>
+): <N extends string, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (fa: HKT<F, A>) => HKT<F, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 

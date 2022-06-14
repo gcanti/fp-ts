@@ -71,6 +71,7 @@ Added in v2.0.0
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [drawForest](#drawforest)
   - [drawTree](#drawtree)
@@ -620,6 +621,19 @@ export declare const bind: <N, A, B>(
 ```
 
 Added in v2.8.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 
