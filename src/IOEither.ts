@@ -42,7 +42,7 @@ import {
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
 import { Monad2, Monad2C } from './Monad'
@@ -945,6 +945,11 @@ export const Do: IOEither<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+/**
+ * @since 2.8.0
+ */
+export const bindMap = /*#__PURE__*/ bindMap_(Functor)
 
 /**
  * @since 2.8.0

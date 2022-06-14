@@ -51,7 +51,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
+import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor3 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither, URI as IEURI } from './IOEither'
@@ -1405,6 +1405,11 @@ export const Do: ReaderTaskEither<unknown, never, {}> = /*#__PURE__*/ of(_.empty
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+/**
+ * @since 2.13.0
+ */
+export const bindMap = /*#__PURE__*/ bindMap_(Functor)
 
 /**
  * @since 2.8.0

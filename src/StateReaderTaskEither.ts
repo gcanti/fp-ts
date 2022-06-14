@@ -44,7 +44,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
+import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor4 } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
 import { IOEither, URI as IEURI } from './IOEither'
@@ -1112,6 +1112,11 @@ export const execute: <S>(
  * @since 2.8.0
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+
+/**
+ * @since 2.13.0
+ */
+export const bindMap = /*#__PURE__*/ bindMap_(Functor)
 
 /**
  * @since 2.8.0
