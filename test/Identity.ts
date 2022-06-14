@@ -123,9 +123,10 @@ describe('Identity', () => {
       pipe(
         _.of(1),
         _.bindTo('a'),
-        _.bind('b', () => _.of('b'))
+        _.bind('b', () => _.of('b')),
+        _.bindMap('c', ({ a, b }) => [a, b])
       ),
-      { a: 1, b: 'b' }
+      { a: 1, b: 'b', c: [1, 'b'] }
     )
   })
 

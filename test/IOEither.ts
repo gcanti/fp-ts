@@ -493,9 +493,10 @@ describe('IOEither', () => {
       pipe(
         _.right<string, number>(1),
         _.bindTo('a'),
-        _.bind('b', () => _.right('b'))
+        _.bind('b', () => _.right('b')),
+        _.bindMap('c', ({ a, b }) => [a, b])
       )(),
-      E.right({ a: 1, b: 'b' })
+      E.right({ a: 1, b: 'b', c: [1, 'b'] })
     )
   })
 

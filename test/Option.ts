@@ -459,9 +459,10 @@ describe('Option', () => {
       pipe(
         _.some(1),
         _.bindTo('a'),
-        _.bind('b', () => _.some('b'))
+        _.bind('b', () => _.some('b')),
+        _.bindMap('c', ({ a, b }) => [a, b])
       ),
-      _.some({ a: 1, b: 'b' })
+      _.some({ a: 1, b: 'b', c: [1, 'b'] })
     )
   })
 
