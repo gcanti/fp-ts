@@ -130,6 +130,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [evaluate](#evaluate)
@@ -1492,6 +1493,21 @@ export declare const bind: <N, A, S, R, E, B>(
 ```
 
 Added in v2.8.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <S, R, E>(
+  fa: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 

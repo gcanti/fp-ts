@@ -122,6 +122,7 @@ Added in v2.0.0
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
@@ -1263,6 +1264,19 @@ export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
   f: <A2>(a: A | A2) => IOEither<E, B>
 ) => (ma: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.8.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <E>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v2.8.0

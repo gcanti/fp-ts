@@ -131,6 +131,7 @@ Added in v2.5.0
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [concatAll](#concatall)
   - [head](#head)
@@ -1500,6 +1501,21 @@ export declare const bind: <N, A, B>(
 ```
 
 Added in v2.8.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 

@@ -79,6 +79,7 @@ Added in v2.3.0
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [sequenceArray](#sequencearray)
@@ -796,6 +797,19 @@ export declare const bind: <N, A, E, B>(
 ```
 
 Added in v2.8.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 

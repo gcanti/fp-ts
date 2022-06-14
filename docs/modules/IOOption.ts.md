@@ -99,6 +99,7 @@ Added in v2.12.0
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
+  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -865,6 +866,19 @@ export declare const bind: <N, A, B>(
 ```
 
 Added in v2.12.0
+
+## bindMap
+
+**Signature**
+
+```ts
+export declare const bindMap: <N, A, B>(
+  name: N,
+  f: (a: A) => B
+) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## bindTo
 
