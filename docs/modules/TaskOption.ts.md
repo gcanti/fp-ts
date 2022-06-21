@@ -1002,7 +1002,7 @@ Added in v2.10.0
 
 ```ts
 export declare const bindMap: <N, A, B>(
-  name: N,
+  name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
