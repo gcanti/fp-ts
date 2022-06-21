@@ -1333,7 +1333,7 @@ Added in v2.8.0
 
 ```ts
 export declare const bindMap: <N, A, B>(
-  name: N,
+  name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <R, E>(
   fa: ReaderEither<R, E, A>

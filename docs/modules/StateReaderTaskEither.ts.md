@@ -1500,7 +1500,7 @@ Added in v2.8.0
 
 ```ts
 export declare const bindMap: <N, A, B>(
-  name: N,
+  name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => <S, R, E>(
   fa: StateReaderTaskEither<S, R, E, A>

@@ -628,7 +628,7 @@ Added in v2.8.0
 
 ```ts
 export declare const bindMap: <N, A, B>(
-  name: N,
+  name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
