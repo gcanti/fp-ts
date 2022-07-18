@@ -1783,6 +1783,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export declare function traverse<F extends URIS4>(
+  F: Applicative4<F>
+): <K extends string, S, R, E, A, B>(
+  f: (a: A) => Kind4<F, S, R, E, B>
+) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export declare function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
@@ -1810,6 +1815,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export declare function traverseWithIndex<F extends URIS4>(
+  F: Applicative4<F>
+): <K extends string, S, R, E, A, B>(
+  f: (k: K, a: A) => Kind4<F, S, R, E, B>
+) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export declare function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A, B>(
