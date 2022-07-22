@@ -675,7 +675,7 @@ export function traverseWithIndex<F extends URIS4>(
   F: Applicative4<F>
 ): <K extends string, S, R, E, A, B>(
   f: (k: K, a: A) => Kind4<F, S, R, E, B>
-) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
+) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A, B>(
@@ -716,9 +716,9 @@ export function traverseWithIndex<F>(
  */
 export function traverse<F extends URIS4>(
   F: Applicative4<F>
-): <K extends string, S, R, E, A, B>(
+): <S, R, E, A, B>(
   f: (a: A) => Kind4<F, S, R, E, B>
-) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(
