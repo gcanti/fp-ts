@@ -1,5 +1,5 @@
 import * as U from './util'
-import { left, right } from '../src/Either'
+import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
@@ -133,8 +133,8 @@ describe('Option', () => {
 
     it('separate', () => {
       U.deepStrictEqual(_.separate(_.none), separated(_.none, _.none))
-      U.deepStrictEqual(_.separate(_.some(left('123'))), separated(_.some('123'), _.none))
-      U.deepStrictEqual(_.separate(_.some(right('123'))), separated(_.none, _.some('123')))
+      U.deepStrictEqual(_.separate(_.some(E.left('123'))), separated(_.some('123'), _.none))
+      U.deepStrictEqual(_.separate(_.some(E.right('123'))), separated(_.none, _.some('123')))
     })
 
     it('filter', () => {
@@ -158,7 +158,7 @@ describe('Option', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
       U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), separated(_.none, _.none))
       U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), separated(_.some(0), _.none))
       U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), separated(_.none, _.some(4)))
@@ -202,7 +202,7 @@ describe('Option', () => {
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? E.right(n + 1) : E.left(n - 1)))
       U.deepStrictEqual(await pipe(_.none, wilt)(), separated(_.none, _.none))
       U.deepStrictEqual(await pipe(_.some(1), wilt)(), separated(_.some(0), _.none))
       U.deepStrictEqual(await pipe(_.some(3), wilt)(), separated(_.none, _.some(4)))
@@ -211,8 +211,8 @@ describe('Option', () => {
 
   describe('constructors', () => {
     it('fromEither', () => {
-      U.deepStrictEqual(_.fromEither(left('a')), _.none)
-      U.deepStrictEqual(_.fromEither(right(1)), _.some(1))
+      U.deepStrictEqual(_.fromEither(E.left('a')), _.none)
+      U.deepStrictEqual(_.fromEither(E.right(1)), _.some(1))
     })
   })
 
@@ -447,13 +447,13 @@ describe('Option', () => {
   })
 
   it('getLeft', () => {
-    U.deepStrictEqual(_.getLeft(right(1)), _.none)
-    U.deepStrictEqual(_.getLeft(left('err')), _.some('err'))
+    U.deepStrictEqual(_.getLeft(E.right(1)), _.none)
+    U.deepStrictEqual(_.getLeft(E.left('err')), _.some('err'))
   })
 
   it('getRight', () => {
-    U.deepStrictEqual(_.getRight(right(1)), _.some(1))
-    U.deepStrictEqual(_.getRight(left('err')), _.none)
+    U.deepStrictEqual(_.getRight(E.right(1)), _.some(1))
+    U.deepStrictEqual(_.getRight(E.left('err')), _.none)
   })
 
   it('throwError', () => {
@@ -531,5 +531,12 @@ describe('Option', () => {
       ),
       _.none
     )
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(f)), _.some('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(g)), _.none)
   })
 })

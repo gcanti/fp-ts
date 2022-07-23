@@ -1216,6 +1216,19 @@ export const modifyLast = <A>(f: Endomorphism<A>) => (as: NonEmptyArray<A>): Non
  */
 export const updateLast = <A>(a: A): ((as: NonEmptyArray<A>) => NonEmptyArray<A>) => modifyLast(() => a)
 
+/**
+ * Places an element in between members of a `NonEmptyArray`, then folds the results using the provided `Semigroup`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate: <A>(S: Semigroup<A>) => (middle: A) => (as: NonEmptyArray<A>) => A = RNEA.intercalate
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------

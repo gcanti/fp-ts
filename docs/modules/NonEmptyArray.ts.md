@@ -1,6 +1,6 @@
 ---
 title: NonEmptyArray.ts
-nav_order: 66
+nav_order: 67
 parent: Modules
 ---
 
@@ -129,6 +129,7 @@ Added in v2.0.0
   - [extract](#extract)
   - [head](#head)
   - [init](#init)
+  - [intercalate](#intercalate)
   - [last](#last)
   - [max](#max)
   - [min](#min)
@@ -1380,6 +1381,27 @@ assert.deepStrictEqual(init([1]), [])
 ```
 
 Added in v2.2.0
+
+## intercalate
+
+Places an element in between members of a `NonEmptyArray`, then folds the results using the provided `Semigroup`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(S: Se.Semigroup<A>) => (middle: A) => (as: NonEmptyArray<A>) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/NonEmptyArray'
+
+assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
 
 ## last
 

@@ -2,7 +2,7 @@ import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as RA from '../src/ReadonlyArray'
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -43,8 +43,22 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
   })
 
+  it('apFirstW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apFirstW(_.right<string, boolean>(true)))(),
+      E.right('foo')
+    )
+  })
+
   it('apSecond', async () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+  })
+
+  it('apSecondW', async () => {
+    U.deepStrictEqual(
+      await pipe(_.right<number, string>('foo'), _.apSecondW(_.right<string, boolean>(true)))(),
+      E.right(true)
+    )
   })
 
   it('chain', async () => {
@@ -356,6 +370,15 @@ describe('TaskEither', () => {
     })
   })
 
+  it('bracketW', async () => {
+    const res = await _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<number, string>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<Error, void>(constVoid())
+    )()
+    U.deepStrictEqual(res, E.right('test'))
+  })
+
   // -------------------------------------------------------------------------------------
   // combinators
   // -------------------------------------------------------------------------------------
@@ -431,6 +454,18 @@ describe('TaskEither', () => {
     U.deepStrictEqual(await pipe(_.left('aa'), f)(), E.left('aa!'))
   })
 
+  it('orElseFirstIOK', async () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+  })
+
+  it('orElseFirstTaskK', async () => {
+    const f = _.orElseFirstTaskK((e: string) => T.of(e.length))
+    U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(await pipe(_.left('a'), f)(), E.left('a'))
+  })
+
   it('orLeft', async () => {
     const f = _.orLeft((e: string) => T.of(e + '!'))
     U.deepStrictEqual(await pipe(_.right(1), f)(), E.right(1))
@@ -445,6 +480,13 @@ describe('TaskEither', () => {
   it('chainEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainEitherK(f))(), E.right(1))
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
 
   it('chainIOEitherK', async () => {
@@ -502,6 +544,27 @@ describe('TaskEither', () => {
         E.left(new Error('Some error'))
       )
     })
+  })
+
+  it('fromNullable', async () => {
+    const testNullable = _.fromNullable('foo')
+    U.deepStrictEqual(await testNullable(1)(), E.right(1))
+    U.deepStrictEqual(await testNullable(null)(), E.left('foo'))
+    U.deepStrictEqual(await testNullable(undefined)(), E.left('foo'))
+  })
+
+  it('fromNullableK', async () => {
+    const f = _.fromNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(1)(), E.right(1))
+    U.deepStrictEqual(await f(0)(), E.left('foo'))
+    U.deepStrictEqual(await f(-1)(), E.left('foo'))
+  })
+
+  it('chainNullableK', async () => {
+    const f = _.chainNullableK('foo')((n: number) => (n > 0 ? n : n === 0 ? null : undefined))
+    U.deepStrictEqual(await f(_.of(1))(), E.right(1))
+    U.deepStrictEqual(await f(_.of(0))(), E.left('foo'))
+    U.deepStrictEqual(await f(_.of(-1))(), E.left('foo'))
   })
 
   it('fromIOEither', async () => {

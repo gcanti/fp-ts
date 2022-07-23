@@ -109,46 +109,46 @@ pipe(
 // do notation
 //
 
-// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
+// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
   _.right<{ readonly a: number }, string, number>(1),
-  _.bindTo('a'),
-  _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<{ readonly b: string }, number, boolean>(true))
+  _.bindTo('a1'),
+  _.bind('a2', () => _.right('b')),
+  _.bindW('a3', () => _.right<{ readonly b: string }, number, boolean>(true))
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
+// $ExpectType ReaderTaskEither<{ readonly a: number; } & { readonly b: string; }, string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
   _.right<{ readonly a: number }, string, number>(1),
-  _.bindTo('a'),
-  _.apS('b', _.right('b')),
-  _.apSW('c', _.right<{ readonly b: string }, number, boolean>(true))
+  _.bindTo('a1'),
+  _.apS('a2', _.right('b')),
+  _.apSW('a3', _.right<{ readonly b: string }, number, boolean>(true))
 )
 
 //
 // Do
 //
 
-// $ExpectType ReaderTaskEither<unknown, string, { readonly a: number; readonly b: string; }>
+// $ExpectType ReaderTaskEither<unknown, string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.of<unknown, string, number>(1)),
-  _.bind('b', () => _.of<unknown, string, string>('b'))
+  _.bind('a1', () => _.of<unknown, string, number>(1)),
+  _.bind('a2', () => _.of<unknown, string, string>('b'))
 )
 
 //
 // filterOrElseW
 //
 
-// $ExpectType ReaderTaskEither<{ c: boolean; }, "a" | "b", number>
+// $ExpectType ReaderTaskEither<{ c: boolean; }, "a1" | "a2", number>
 pipe(
-  _.left<{ c: boolean }, 'a', number>('a'),
+  _.left<{ c: boolean }, 'a1', number>('a1'),
   _.filterOrElseW(
     (result) => result > 0,
-    () => 'b' as const
+    () => 'a2' as const
   )
 )

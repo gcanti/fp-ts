@@ -25,7 +25,7 @@ import { Option } from './Option'
 import { Ord } from './Ord'
 import { Predicate } from './Predicate'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Separated, separated } from './Separated'
 import { Show } from './Show'
 import * as S from './string'
@@ -33,6 +33,8 @@ import { Traversable1 } from './Traversable'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
+
+import Semigroup = Se.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -1083,6 +1085,36 @@ export function fromFoldableMap<F, B>(
 }
 
 /**
+ * Alias of [`toReadonlyArray`](#toreadonlyarray).
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ */
+export const toEntries = toReadonlyArray
+
+/**
+ * Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/ReadonlyRecord'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ */
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => {
+  const out: Record<string, A> = {}
+  for (const a of fa) {
+    out[a[0]] = a[1]
+  }
+  return out
+}
+
+/**
  * Test if every value in a `ReadonlyRecord` satisfies the predicate.
  *
  * @example
@@ -1402,10 +1434,7 @@ const _traverseWithIndex = (O: Ord<string>) => <F>(
     let fr: HKT<F, Record<string, B>> = F.of({})
     for (const key of ks) {
       fr = F.ap(
-        F.map(fr, (r) => (b: B) => {
-          r[key] = b
-          return r
-        }),
+        F.map(fr, (r) => (b: B) => Object.assign({}, r, { [key]: b })),
         f(key, ta[key])
       )
     }

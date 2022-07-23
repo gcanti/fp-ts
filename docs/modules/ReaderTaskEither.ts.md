@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 81
+nav_order: 82
 parent: Modules
 ---
 
@@ -32,12 +32,16 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
@@ -138,6 +142,9 @@ Added in v2.0.0
   - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
   - [~~readerTaskEither~~](#readertaskeither)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
@@ -158,6 +165,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -351,6 +359,20 @@ export declare const apFirst: <R, E, B>(
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -366,6 +388,20 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## asksReaderTaskEither
 
@@ -437,6 +473,32 @@ export declare const chainFirst: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -1602,6 +1664,44 @@ Added in v2.0.0
 
 # interop
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
+```
+
+Added in v2.12.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
 ## toUnion
 
 **Signature**
@@ -1803,13 +1903,29 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
+  acquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.0.4
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare function bracketW<R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+): ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 

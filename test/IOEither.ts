@@ -1,7 +1,7 @@
 import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as O from '../src/Option'
@@ -92,8 +92,20 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
     })
 
+    it('apFirstW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apFirstW(fb))(), E.right('a'))
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+    })
+
+    it('apSecondW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apSecondW(fb))(), E.right(1))
     })
 
     it('chain', () => {
@@ -274,6 +286,12 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
   })
 
+  it('orElseFirstIOK', () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
+  })
+
   it('orLeft', () => {
     const f = _.orLeft((e: string) => I.of(e + '!'))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
@@ -364,6 +382,15 @@ describe('IOEither', () => {
       const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
       U.deepStrictEqual(e, E.left('release failure'))
     })
+  })
+
+  it('bracketW', async () => {
+    const res = _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<number, string>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<Error, void>(constVoid())
+    )()
+    U.deepStrictEqual(res, E.right('test'))
   })
 
   it('getApplicativeIOValidation', () => {
@@ -620,5 +647,12 @@ describe('IOEither', () => {
     )
     U.deepStrictEqual(f(_.right(1))(), 'right')
     U.deepStrictEqual(f(_.left(1))(), 'left')
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
 })

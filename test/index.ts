@@ -9,6 +9,9 @@ const getExportName = (name: string): string => {
   if (name === 'IOEither') {
     return 'ioEither'
   }
+  if (name === 'IOOption') {
+    return 'ioOption'
+  }
   if (name === 'IORef') {
     return 'ioRef'
   }

@@ -1,6 +1,6 @@
 ---
 title: ReadonlyArray.ts
-nav_order: 82
+nav_order: 83
 parent: Modules
 ---
 
@@ -194,6 +194,7 @@ Added in v2.5.0
   - [head](#head)
   - [init](#init)
   - [insertAt](#insertat)
+  - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
   - [last](#last)
   - [lookup](#lookup)
@@ -2739,6 +2740,27 @@ assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
 Added in v2.5.0
+
+## intercalate
+
+Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
+
+**Signature**
+
+```ts
+export declare const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: readonly A[]) => A
+```
+
+**Example**
+
+```ts
+import * as S from 'fp-ts/string'
+import { intercalate } from 'fp-ts/ReadonlyArray'
+
+assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+```
+
+Added in v2.12.0
 
 ## isOutOfBound
 

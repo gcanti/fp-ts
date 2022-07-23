@@ -39,7 +39,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -300,6 +301,36 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> =
   /*#__PURE__*/
   ET.toUnion(T.Functor)
 
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(T.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(T.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(T.Monad)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -354,6 +385,22 @@ export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: 
 export const orElseFirstW: <E1, E2, B>(
   onLeft: (e: E1) => TaskEither<E2, B>
 ) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromIOK(onLeft))
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromTaskK(onLeft))
 
 /**
  * @category combinators
@@ -739,6 +786,16 @@ export const apFirst =
   apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: TaskEither<E2, B>
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -749,6 +806,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: TaskEither<E2, B>
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -942,6 +1009,24 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirstEitherK as any
+
+/**
  * @category constructors
  * @since 2.0.0
  */
@@ -1128,16 +1213,27 @@ export const bracket = <E, A, B>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B> =>
+): TaskEither<E, B> => bracketW(acquire, use, release)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 2.12.0
+ */
+export const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B> = (acquire, use, release) =>
   pipe(
     acquire,
-    chain((a) =>
+    chainW((a) =>
       pipe(
         use(a),
         T.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => T.of(e))
+            chainW(() => T.of(e))
           )
         )
       )

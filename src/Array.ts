@@ -2888,6 +2888,19 @@ export const some = <A>(predicate: Predicate<A>) => (as: Array<A>): as is NonEmp
  */
 export const exists = some
 
+/**
+ * Places an element in between members of an `Array`, then folds the results using the provided `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/Array'
+ *
+ * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: Array<A>) => A = RA.intercalate
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------

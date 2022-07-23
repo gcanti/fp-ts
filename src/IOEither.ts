@@ -34,7 +34,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
@@ -262,6 +263,13 @@ export const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IO
 export const orElseFirstW: <E1, E2, B>(
   onLeft: (e: E1) => IOEither<E2, B>
 ) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = orElseFirst as any
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A> = (onLeft) =>
+  orElseFirst(fromIOK(onLeft))
 
 /**
  * @category combinators
@@ -578,6 +586,16 @@ export const apFirst =
   apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -588,6 +606,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, A, B>(
+  second: IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -780,6 +808,22 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirstEitherK as any
+
+/**
  * @category constructors
  * @since 2.0.0
  */
@@ -845,16 +889,27 @@ export const bracket = <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-): IOEither<E, B> =>
+): IOEither<E, B> => bracketW(acquire, use, release)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 2.12.0
+ */
+export const bracketW: <E1, A, E2, B, E3>(
+  acquire: IOEither<E1, A>,
+  use: (a: A) => IOEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
+) => IOEither<E1 | E2 | E3, B> = (acquire, use, release) =>
   pipe(
     acquire,
-    chain((a) =>
+    chainW((a) =>
       pipe(
         use(a),
         I.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => I.of(e))
+            chainW(() => I.of(e))
           )
         )
       )

@@ -32,7 +32,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -317,6 +318,38 @@ export const getOrElseW: <R2, E, B>(
 export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, E | A> =
   /*#__PURE__*/
   ET.toUnion(RT.Functor)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+  /*#__PURE__*/
+  ET.fromNullable(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.fromNullableK(RT.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>> =
+  /*#__PURE__*/
+  ET.chainNullableK(RT.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -825,6 +858,16 @@ export const apFirst =
   apFirst_(ApplyPar)
 
 /**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = apFirst as any
+
+/**
  * Combine two effectful actions, keeping only the result of the second.
  *
  * Derivable from `Apply`.
@@ -835,6 +878,16 @@ export const apFirst =
 export const apSecond =
   /*#__PURE__*/
   apSecond_(ApplyPar)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <R2, E2, A, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -1157,6 +1210,24 @@ export const chainEitherKW: <E2, A, B>(
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK =
+  /*#__PURE__*/
+  chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = chainFirstEitherK as any
+
+/**
  * @category constructors
  * @since 2.0.0
  */
@@ -1292,13 +1363,26 @@ export const chainFirstTaskK =
  * @since 2.0.4
  */
 export function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
+  acquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B> {
+  return bracketW(acquire, use, release)
+}
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * @since 2.12.0
+ */
+export function bracketW<R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+): ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> {
   return (r) =>
-    TE.bracket(
-      aquire(r),
+    TE.bracketW(
+      acquire(r),
       (a) => use(a)(r),
       (a, e) => release(a, e)(r)
     )
