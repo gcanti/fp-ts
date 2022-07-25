@@ -16,6 +16,12 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.12.2
+
+- **Polish**
+  - `ReadonlyRecord` / `Record`
+    - add `Applicative4` overloadings to `traverse` / `traverseWithIndex`, #1733 (@mlegenhausen)
+
 # 2.12.1
 
 - **Bug Fix**
