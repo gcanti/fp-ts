@@ -1,7 +1,15 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import type {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative3C,
+  Applicative4
+} from './Applicative'
 import type { Compactable1 } from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
@@ -283,6 +291,9 @@ export const reduceRightWithIndex = (
 export function traverseWithIndex(
   O: Ord<string>
 ): {
+  <F extends URIS4>(F: Applicative4<F>): <K extends string, A, S, R, E, B>(
+    f: (k: K, a: A) => Kind4<F, S, R, E, B>
+  ) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
   <F extends URIS3>(F: Applicative3<F>): <K extends string, A, R, E, B>(
     f: (k: K, a: A) => Kind3<F, R, E, B>
   ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
@@ -330,6 +341,9 @@ export function traverseWithIndex(
 export function traverse(
   O: Ord<string>
 ): {
+  <F extends URIS4>(F: Applicative4<F>): <A, S, R, E, B>(
+    f: (a: A) => Kind4<F, S, R, E, B>
+  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
     f: (a: A) => Kind3<F, R, E, B>
   ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>

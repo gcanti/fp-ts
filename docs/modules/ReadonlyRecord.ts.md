@@ -970,6 +970,9 @@ Added in v3.0.0
 export declare function traverse(
   O: Ord<string>
 ): {
+  <F extends URIS4>(F: Applicative4<F>): <A, S, R, E, B>(
+    f: (a: A) => Kind4<F, S, R, E, B>
+  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
   <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
     f: (a: A) => Kind3<F, R, E, B>
   ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
@@ -1001,6 +1004,9 @@ Added in v3.0.0
 export declare function traverseWithIndex(
   O: Ord<string>
 ): {
+  <F extends URIS4>(F: Applicative4<F>): <K extends string, A, S, R, E, B>(
+    f: (k: K, a: A) => Kind4<F, S, R, E, B>
+  ) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
   <F extends URIS3>(F: Applicative3<F>): <K extends string, A, R, E, B>(
     f: (k: K, a: A) => Kind3<F, R, E, B>
   ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
