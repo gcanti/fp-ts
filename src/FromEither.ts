@@ -350,7 +350,7 @@ export function chainFirstEitherK<M extends URIS2, E>(
 export function chainFirstEitherK<M extends URIS>(
   F: FromEither1<M>,
   M: Chain1<M>
-): <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, A>
+): <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Kind<M, A>) => Kind<M, A>
 export function chainFirstEitherK<M>(
   F: FromEither<M>,
   M: Chain<M>

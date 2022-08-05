@@ -114,8 +114,8 @@ export function modify<F>(F: FromState<F>): <S>(f: Endomorphism<S>) => HKT2<F, S
  * @category constructors
  * @since 3.0.0
  */
-export function gets<F extends URIS4>(F: FromState4<F>): <S, R, E, A>(f: (s: S) => A) => Kind4<F, S, R, E, A>
-export function gets<F extends URIS3>(F: FromState3<F>): <S, E, A>(f: (s: S) => A) => Kind3<F, S, E, A>
+export function gets<F extends URIS4>(F: FromState4<F>): <S, A, R, E>(f: (s: S) => A) => Kind4<F, S, R, E, A>
+export function gets<F extends URIS3>(F: FromState3<F>): <S, A, E>(f: (s: S) => A) => Kind3<F, S, E, A>
 export function gets<F extends URIS3, E>(F: FromState3C<F, E>): <S, A>(f: (s: S) => A) => Kind3<F, S, E, A>
 export function gets<F extends URIS2>(F: FromState2<F>): <S, A>(f: (s: S) => A) => Kind2<F, S, A>
 export function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A>

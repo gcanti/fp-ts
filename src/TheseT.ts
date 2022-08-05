@@ -47,7 +47,7 @@ export function left<F>(F: Pointed<F>): <E, A = never>(e: E) => HKT<F, These<E, 
  * @since 3.0.0
  */
 export function both<F extends URIS3>(F: Pointed3<F>): <E, A, S, R>(e: E, a: A) => Kind3<F, S, R, These<E, A>>
-export function both<F extends URIS3, R>(F: Pointed3C<F, R>): <E, A, R>(e: E, a: A) => Kind3<F, R, R, These<E, A>>
+export function both<F extends URIS3, R>(F: Pointed3C<F, R>): <E, A>(e: E, a: A) => Kind3<F, R, R, These<E, A>>
 export function both<F extends URIS2>(F: Pointed2<F>): <E, A, R>(e: E, a: A) => Kind2<F, R, These<E, A>>
 export function both<F extends URIS2, R>(F: Pointed2C<F, R>): <E, A>(e: E, a: A) => Kind2<F, R, These<E, A>>
 export function both<F extends URIS>(F: Pointed1<F>): <E, A>(e: E, a: A) => Kind<F, These<E, A>>

@@ -139,23 +139,23 @@ export function split<P>(
 export function fanIn<P extends URIS4>(
   P: Choice4<P>,
   C: Category4<P>
-): <S, R, A, B, C>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
+): <S, R, A, C, B>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
 export function fanIn<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>
-): <R, A, B, C>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
+): <R, A, C, B>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
 export function fanIn<P extends URIS2>(
   P: Choice2<P>,
   C: Category2<P>
-): <A, B, C>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
+): <A, C, B>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
 export function fanIn<P>(
   P: Choice<P>,
   C: Category<P>
-): <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
+): <A, C, B>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
 export function fanIn<P>(
   P: Choice<P>,
   C: Category<P>
-): <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C> {
+): <A, C, B>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C> {
   const splitPC = split(P, C)
   return <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>): HKT2<P, Either<A, B>, C> =>
     pipe(
