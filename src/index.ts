@@ -79,6 +79,7 @@ import * as profunctor from './Profunctor'
 import * as random from './Random'
 import * as reader from './Reader'
 import * as readerEither from './ReaderEither'
+import * as readerIO from './ReaderIO'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
@@ -427,6 +428,10 @@ export {
    * @since 2.0.0
    */
   readerEither,
+  /**
+   * @since 2.0.0
+   */
+  readerIO,
   /**
    * @since 2.0.0
    */
