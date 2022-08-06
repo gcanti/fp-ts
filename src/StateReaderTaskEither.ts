@@ -57,7 +57,6 @@ import * as R from './Reader'
 import type { URI as REURI } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import type { State } from './State'
 import * as ST from './StateT'
 import type { Task } from './Task'
@@ -942,17 +941,12 @@ export const filterOrElse =
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1, B extends A>(
-    mb: StateReaderTaskEither<S, R, E1, B>
-  ) => StateReaderTaskEither<S, R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, E1>(
-    ma: StateReaderTaskEither<S, R, E1, A>
-  ) => StateReaderTaskEither<S, R, E1 | E2, A>
-} = filterOrElse
+export const filterOrElseW = filterOrElse as <A, P extends Predicate<A>, E2>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E2
+) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+) => StateReaderTaskEither<S, R, E1 | E2, P extends (a: any) => a is infer B ? B : A>
 
 /**
  * @category combinators

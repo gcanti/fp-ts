@@ -86,7 +86,7 @@ pipe(
 pipe(osn, _.partition(isString))
 // $ExpectType Separated<TaskOption<number>, TaskOption<number>>
 pipe(on, _.partition(predicate))
-// $ExpectType Separated<TaskOption<string | number>, TaskOption<number>>
+// $ExpectType Separated<TaskOption<string>, TaskOption<number>>
 pipe(osn, _.partition(isNumber))
 // $ExpectType Separated<TaskOption<number>, TaskOption<number>>
 pipe(

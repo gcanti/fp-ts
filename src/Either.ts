@@ -43,7 +43,6 @@ import type { Option } from './Option'
 import type { Pointed2 } from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import type { Show } from './Show'
@@ -670,12 +669,12 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
     return isLeft(e) ? separated(right(e.left), empty) : separated(empty, right(e.right))
   }
 
-  const partition = <A>(p: Predicate<A>) => (ma: Either<E, A>): Separated<Either<E, A>, Either<E, A>> => {
+  const partition = <A>(p: Predicate<A>) => (ma: Either<E, A>) => {
     return isLeft(ma)
       ? separated(ma, ma)
       : p(ma.right)
       ? separated(empty, right(ma.right))
-      : separated(right(ma.right), empty)
+      : (separated(right(ma.right), empty) as Separated<Either<E, never>, Either<E, A>>)
   }
 
   const filterMap = <A, B>(f: (a: A) => Option<B>) => (ma: Either<E, A>): Either<E, B> => {
@@ -1061,13 +1060,10 @@ export const filterOrElse =
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E1 | E2, A>
-} = filterOrElse
+export const filterOrElseW = filterOrElse as <A, P extends Predicate<A>, E2>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E2
+) => <E1>(ma: Either<E1, A>) => Either<E1 | E2, P extends (a: any) => a is infer B ? B : A>
 
 // -------------------------------------------------------------------------------------
 // utils

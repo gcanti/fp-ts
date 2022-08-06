@@ -38,7 +38,6 @@ import type { Pointed3 } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 
 import Either = E.Either
@@ -755,17 +754,10 @@ export const filterOrElse =
  * @category combinators
  * @since 3.0.0
  */
-export const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1, B extends A>(
-    mb: ReaderEither<R, E1, B>
-  ) => ReaderEither<R, E1 | E2, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <R, E1>(
-    ma: ReaderEither<R, E1, A>
-  ) => ReaderEither<R, E1 | E2, A>
-} = filterOrElse
+export const filterOrElseW = filterOrElse as <A, P extends Predicate<A>, E2>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E2
+) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, P extends (a: any) => a is infer B ? B : A>
 
 /**
  * @category combinators

@@ -405,7 +405,7 @@ export function partitionMapWithIndex<K extends string, A, B, C>(
  */
 export function partitionWithIndex<K extends string, A, B extends A>(
   refinementWithIndex: RefinementWithIndex<K, A, B>
-): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+): (r: ReadonlyRecord<K, A>) => Separated<ReadonlyRecord<string, Exclude<A, B>>, ReadonlyRecord<string, B>>
 export function partitionWithIndex<K extends string, A>(
   predicateWithIndex: PredicateWithIndex<K, A>
 ): <B extends A>(r: ReadonlyRecord<K, B>) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
@@ -507,10 +507,10 @@ export const filterMap: Filterable1<URI>['filterMap'] = (f) => filterMapWithInde
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable1<URI>['partition'] = <A>(
-  predicate: Predicate<A>
-): ((r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
-  partitionWithIndex((_, a) => predicate(a))
+export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate<A>) =>
+  partitionWithIndex((_, a) => predicate(a)) as (
+    r: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, never>, ReadonlyRecord<string, A>>
 
 /**
  * @category Filterable

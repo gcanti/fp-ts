@@ -42,7 +42,7 @@ import type { Pointed1 } from './Pointed'
 import type { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
-import { separated } from './Separated'
+import { Separated, separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
@@ -599,7 +599,7 @@ export const partition: Filterable1<URI>['partition'] = <A>(predicate: Predicate
       filter((a) => !predicate(a))
     ),
     pipe(fa, filter(predicate))
-  )
+  ) as Separated<Option<never>, Option<A>>
 
 /**
  * @category Filterable

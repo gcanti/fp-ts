@@ -389,11 +389,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: IOEither<E, B>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-}
+export declare const filterOrElse: <A, P, E>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E
+) => (ma: IOEither<E, A>) => IOEither<E, P extends (a: any) => a is infer B ? B : A>
 ```
 
 Added in v3.0.0
@@ -405,15 +404,10 @@ Less strict version of [`filterOrElse`](#filterOrElse).
 **Signature**
 
 ```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: IOEither<E1, A>
-  ) => IOEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(
-    mb: IOEither<E1, B>
-  ) => IOEither<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, A>
-}
+export declare const filterOrElseW: <A, P extends Predicate<A>, E2>(
+  refinement: P,
+  onFalse: (a: P extends (a: any) => a is infer B ? Exclude<A, B> : A) => E2
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, P extends (a: any) => a is infer B ? B : A>
 ```
 
 Added in v3.0.0
@@ -560,7 +554,7 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
+  <A, B>(refinement: Refinement<A, B>): (a: A) => IOEither<Exclude<A, B>, B>
   <A>(predicate: Predicate<A>): <B>(b: B) => IOEither<B, B>
   <A>(predicate: Predicate<A>): (a: A) => IOEither<A, A>
 }
