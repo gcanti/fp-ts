@@ -1,38 +1,46 @@
 import * as ast from 'ts-morph'
-import * as O from '../src/Option'
-import { pipe } from '../src/function'
 import * as RA from '../src/ReadonlyArray'
-import * as RNEA from '../src/ReadonlyNonEmptyArray'
-import * as string from '../src/string'
-import * as path from 'path'
+import { pipe } from '../src/function'
 import * as glob from 'glob'
+import * as path from 'path'
+import * as O from '../src/Option'
+import * as M from '../src/Monoid'
+import * as string from '../src/string'
 
 // -------------------------------------------------------------------------------------
 // domain
 // -------------------------------------------------------------------------------------
 
-export interface TypeReference {
-  readonly _tag: 'TypeReference'
-  readonly name: string
+export interface Overloadings {
+  readonly _tag: 'Overloadings'
+  readonly signatures: ReadonlyArray<Type>
 }
 
-export interface TypeParameterDeclaration {
-  readonly _tag: 'TypeParameterDeclaration'
+export interface TypeParameter {
   readonly name: string
   readonly constraint: O.Option<Type>
 }
 
-export interface Constructor {
-  readonly _tag: 'Constructor'
+export interface Parameter {
   readonly name: string
-  readonly typeArguments: RNEA.ReadonlyNonEmptyArray<Type>
+  readonly type: Type
 }
 
-export interface FunctionType {
-  readonly _tag: 'FunctionType'
-  readonly typeParameters: ReadonlyArray<string>
-  readonly parameters: ReadonlyArray<Type>
+export interface Signature {
+  readonly _tag: 'Signature'
+  readonly typeParameters: ReadonlyArray<TypeParameter>
+  readonly parameters: ReadonlyArray<Parameter>
   readonly returnType: Type
+}
+
+export interface TypeReference {
+  readonly _tag: 'TypeReference'
+  readonly name: string
+  readonly typeArguments: ReadonlyArray<Type>
+}
+
+export interface Token {
+  readonly _tag: 'Token'
 }
 
 export interface TypeOperator {
@@ -43,12 +51,18 @@ export interface TypeOperator {
 export interface MappedType {
   readonly _tag: 'MappedType'
   readonly typeParameter: Type
-  readonly type: Type
+  readonly type: O.Option<Type>
 }
 
 export interface UnionType {
   readonly _tag: 'UnionType'
   readonly members: ReadonlyArray<Type>
+}
+
+export interface TypeParameterDeclaration {
+  readonly _tag: 'TypeParameterDeclaration'
+  readonly name: string
+  readonly constraint: O.Option<Type>
 }
 
 export interface ConditionalType {
@@ -79,250 +93,108 @@ export interface LiteralType {
   readonly _tag: 'LiteralType'
 }
 
-export interface Token {
-  readonly _tag: 'Token'
-}
-
-export interface Overloads {
-  readonly _tag: 'Overloads'
-  readonly members: ReadonlyArray<Type>
-}
-
 export interface IntersectionType {
   readonly _tag: 'IntersectionType'
   readonly members: ReadonlyArray<Type>
 }
 
 export type Type =
+  | Signature
+  | Overloadings
   | TypeReference
-  | TypeParameterDeclaration
-  | Constructor
-  | FunctionType
+  | Token
   | TypeOperator
   | MappedType
+  | TypeParameterDeclaration
   | UnionType
   | ConditionalType
   | IndexedAccessType
   | TupleType
   | RestType
   | LiteralType
-  | Token
-  | Overloads
   | IntersectionType
 
 export interface FunctionDeclaration {
   readonly name: string
-  readonly overloads: ReadonlyArray<FunctionType>
+  readonly overloadings: ReadonlyArray<Signature>
 }
 
 export interface File {
-  readonly path: string
+  readonly name: string
   readonly functions: ReadonlyArray<FunctionDeclaration>
-}
-
-export interface Comparison {
-  readonly path: string
-  readonly typeParameters: ReadonlyArray<string>
-  readonly parameters: ReadonlyArray<string>
-}
-
-// -------------------------------------------------------------------------------------
-// constructors
-// -------------------------------------------------------------------------------------
-
-export const typeReference = (name: string): Type => ({ _tag: 'TypeReference', name })
-
-export const typeParameterDeclaration = (name: string, constraint: O.Option<Type>): Type => ({
-  _tag: 'TypeParameterDeclaration',
-  name,
-  constraint
-})
-
-export const constructor = (name: string, typeArguments: RNEA.ReadonlyNonEmptyArray<Type>): Type => ({
-  _tag: 'Constructor',
-  name,
-  typeArguments
-})
-
-export const functionType = (
-  typeParameters: ReadonlyArray<string>,
-  parameters: ReadonlyArray<Type>,
-  returnType: Type
-): FunctionType => ({
-  _tag: 'FunctionType',
-  typeParameters,
-  parameters,
-  returnType
-})
-
-export const typeOperator = (type: Type): Type => ({ _tag: 'TypeOperator', type })
-
-export const mappedType = (typeParameter: Type, type: Type): Type => ({
-  _tag: 'MappedType',
-  typeParameter,
-  type
-})
-
-export const unionType = (members: ReadonlyArray<Type>): Type => ({ _tag: 'UnionType', members })
-
-export const conditionalType = (checkType: Type, extendsType: Type, trueType: Type, falseType: Type): Type => ({
-  _tag: 'ConditionalType',
-  checkType,
-  extendsType,
-  trueType,
-  falseType
-})
-
-export const indexedAccessType = (objectType: Type, indexType: Type): Type => ({
-  _tag: 'IndexedAccessType',
-  objectType,
-  indexType
-})
-
-export const tupleType = (elements: ReadonlyArray<Type>): Type => ({ _tag: 'TupleType', elements })
-
-export const restType = (type: Type): Type => ({ _tag: 'RestType', type })
-
-export const literalType: Type = { _tag: 'LiteralType' }
-
-export const token: Type = { _tag: 'Token' }
-
-export const overloads = (members: ReadonlyArray<Type>): Type => ({ _tag: 'Overloads', members })
-
-export const intersectionType = (members: ReadonlyArray<Type>): Type => ({ _tag: 'IntersectionType', members })
-
-export const functionDeclaration = (name: string, overloads: ReadonlyArray<FunctionType>): FunctionDeclaration => ({
-  name,
-  overloads
-})
-
-export const comparison = (
-  path: string,
-  typeParameters: ReadonlyArray<string>,
-  parameters: ReadonlyArray<string>
-): Comparison => ({
-  path,
-  typeParameters,
-  parameters
-})
-
-// -------------------------------------------------------------------------------------
-// destructors
-// -------------------------------------------------------------------------------------
-
-export const match = <R>(on: {
-  onReference: (name: string) => R
-  onTypeParameterDeclaration: (name: string, constraint: O.Option<Type>) => R
-  onConstructor: (name: string, typeArguments: RNEA.ReadonlyNonEmptyArray<Type>) => R
-  onFunctionType: (typeParameters: ReadonlyArray<string>, parameters: ReadonlyArray<Type>, returnType: Type) => R
-  onTypeOperator: (type: Type) => R
-  onMappedType: (typeParameter: Type, type: Type) => R
-  onUnionType: (members: ReadonlyArray<Type>) => R
-  onConditionalType: (checkType: Type, extendsType: Type, trueType: Type, falseType: Type) => R
-  onIndexedAccessType: (objectType: Type, indexType: Type) => R
-  onTupleType: (elements: ReadonlyArray<Type>) => R
-  onRestType: (type: Type) => R
-  onLiteralType: () => R
-  onToken: () => R
-  onOverloads: (members: ReadonlyArray<Type>) => R
-  onIntersectionType: (members: ReadonlyArray<Type>) => R
-}) => (type: Type): R => {
-  switch (type._tag) {
-    case 'TypeReference':
-      return on.onReference(type.name)
-    case 'TypeParameterDeclaration':
-      return on.onTypeParameterDeclaration(type.name, type.constraint)
-    case 'Constructor':
-      return on.onConstructor(type.name, type.typeArguments)
-    case 'FunctionType':
-      return on.onFunctionType(type.typeParameters, type.parameters, type.returnType)
-    case 'TypeOperator':
-      return on.onTypeOperator(type.type)
-    case 'MappedType':
-      return on.onMappedType(type.typeParameter, type.type)
-    case 'UnionType':
-      return on.onUnionType(type.members)
-    case 'ConditionalType':
-      return on.onConditionalType(type.checkType, type.extendsType, type.trueType, type.falseType)
-    case 'IndexedAccessType':
-      return on.onIndexedAccessType(type.objectType, type.indexType)
-    case 'TupleType':
-      return on.onTupleType(type.elements)
-    case 'RestType':
-      return on.onRestType(type.type)
-    case 'LiteralType':
-      return on.onLiteralType()
-    case 'Token':
-      return on.onToken()
-    case 'Overloads':
-      return on.onOverloads(type.members)
-    case 'IntersectionType':
-      return on.onIntersectionType(type.members)
-  }
 }
 
 // -------------------------------------------------------------------------------------
 // parsers
 // -------------------------------------------------------------------------------------
 
+const ensureReadonlyArray = <A>(as: ReadonlyArray<A> | undefined): ReadonlyArray<A> => (as ? as : RA.empty)
+
 export const parseType = (
   node: ast.ts.TypeNode | ast.ts.TypeParameterDeclaration | ast.ts.CallSignatureDeclaration
 ): Type => {
   if (ast.ts.isTypeReferenceNode(node)) {
-    const name = node.typeName.getText()
-    return pipe(
-      node.typeArguments,
-      O.fromNullable,
-      O.map(
-        RA.match(
-          () => typeReference(name),
-          (typeArguments) => constructor(name, pipe(typeArguments, RNEA.map(parseType)))
-        )
-      ),
-      O.getOrElse(() => typeReference(name))
-    )
-  }
-  if (ast.ts.isTypeParameterDeclaration(node)) {
-    return typeParameterDeclaration(node.name.getText(), pipe(node.constraint, O.fromNullable, O.map(parseType)))
+    return {
+      _tag: 'TypeReference',
+      name: node.typeName.getText(),
+      typeArguments: pipe(node.typeArguments, ensureReadonlyArray, RA.map(parseType))
+    }
   }
   if (ast.ts.isFunctionTypeNode(node) || ast.ts.isCallSignatureDeclaration(node)) {
-    return parseFunctionTypeNode(node)
-  }
-  if (ast.ts.isTypeOperatorNode(node)) {
-    return typeOperator(parseType(node.type))
-  }
-  if (ast.ts.isMappedTypeNode(node)) {
-    return mappedType(parseType(node.typeParameter), parseType(node.type!))
-  }
-  if (ast.ts.isUnionTypeNode(node)) {
-    return unionType(pipe(node.types, RA.map(parseType)))
-  }
-  if (ast.ts.isConditionalTypeNode(node)) {
-    return conditionalType(
-      parseType(node.checkType),
-      parseType(node.extendsType),
-      parseType(node.trueType),
-      parseType(node.falseType)
-    )
-  }
-  if (ast.ts.isIndexedAccessTypeNode(node)) {
-    return indexedAccessType(parseType(node.objectType), parseType(node.indexType))
-  }
-  if (ast.ts.isTupleTypeNode(node)) {
-    return tupleType(pipe(node.elements, RA.map(parseType)))
-  }
-  if (ast.ts.isRestTypeNode(node)) {
-    return restType(parseType(node.type))
-  }
-  if (ast.ts.isLiteralTypeNode(node)) {
-    return literalType
+    return {
+      _tag: 'Signature',
+      typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
+      parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
+      returnType: parseType(node.type!)
+    }
   }
   if (ast.ts.isToken(node)) {
-    return token
+    return { _tag: 'Token' }
+  }
+  if (ast.ts.isTypeOperatorNode(node)) {
+    return { _tag: 'TypeOperator', type: parseType(node.type) }
+  }
+  if (ast.ts.isMappedTypeNode(node)) {
+    return {
+      _tag: 'MappedType',
+      typeParameter: parseType(node.typeParameter),
+      type: pipe(node.type, O.fromNullable, O.map(parseType))
+    }
+  }
+  if (ast.ts.isUnionTypeNode(node)) {
+    return { _tag: 'UnionType', members: pipe(node.types, RA.map(parseType)) }
+  }
+  if (ast.ts.isTypeParameterDeclaration(node)) {
+    return {
+      _tag: 'TypeParameterDeclaration',
+      name: node.name.getText(),
+      constraint: pipe(node.constraint, O.fromNullable, O.map(parseType))
+    }
+  }
+  if (ast.ts.isConditionalTypeNode(node)) {
+    return {
+      _tag: 'ConditionalType',
+      checkType: parseType(node.checkType),
+      extendsType: parseType(node.extendsType),
+      trueType: parseType(node.trueType),
+      falseType: parseType(node.falseType)
+    }
+  }
+  if (ast.ts.isIndexedAccessTypeNode(node)) {
+    return { _tag: 'IndexedAccessType', objectType: parseType(node.objectType), indexType: parseType(node.indexType) }
+  }
+  if (ast.ts.isTupleTypeNode(node)) {
+    return { _tag: 'TupleType', elements: pipe(node.elements, RA.map(parseType)) }
+  }
+  if (ast.ts.isRestTypeNode(node)) {
+    return { _tag: 'RestType', type: parseType(node.type) }
+  }
+  if (ast.ts.isLiteralTypeNode(node)) {
+    return { _tag: 'LiteralType' }
   }
   if (ast.ts.isTypeLiteralNode(node)) {
     const members = node.members.filter(ast.ts.isCallSignatureDeclaration)
-    return overloads(pipe(members, RA.map(parseType)))
+    return { _tag: 'Overloadings', signatures: pipe(members, RA.map(parseType)) }
   }
   if (ast.ts.isNamedTupleMember(node)) {
     return parseType(node.type)
@@ -331,64 +203,50 @@ export const parseType = (
     return parseType(node.type!)
   }
   if (ast.ts.isIntersectionTypeNode(node)) {
-    return unionType(pipe(node.types, RA.map(parseType)))
+    return { _tag: 'IntersectionType', members: pipe(node.types, RA.map(parseType)) }
   }
-  throw new Error(`not sure what to do with ${node.getText()}`)
+  throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
 }
 
-export const parseParameters: (
-  pds: ReadonlyArray<ast.ts.ParameterDeclaration>
-) => ReadonlyArray<Type> = RA.filterMap((pd) => pipe(pd.type, O.fromNullable, O.map(parseType)))
+export const parseTypeParameter = (tp: ast.ts.TypeParameterDeclaration): TypeParameter => {
+  return {
+    name: tp.name.getText(),
+    constraint: pipe(tp.constraint, O.fromNullable, O.map(parseType))
+  }
+}
 
-const ensureReadonlyArray = <A>(as: ReadonlyArray<A> | undefined): ReadonlyArray<A> => (as ? as : RA.empty)
+export const parseParameterDeclaration = (pd: ast.ts.ParameterDeclaration): Parameter => {
+  return {
+    name: pd.name.getText(),
+    type: parseType(pd.type!)
+  }
+}
 
-export const parseFunctionTypeNode = (ftn: ast.ts.FunctionTypeNode | ast.ts.CallSignatureDeclaration): Type =>
-  functionType(
-    pipe(
-      ensureReadonlyArray(ftn.typeParameters),
-      RA.map((tpd) => tpd.name.getText())
-    ),
-    pipe(
-      ftn.parameters,
-      RA.map((pd) => parseType(pd.type!))
-    ),
-    parseType(ftn.type!)
-  )
+export const parseOverloading = (node: ast.ts.FunctionDeclaration): Signature => {
+  return {
+    _tag: 'Signature',
+    typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
+    parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
+    returnType: parseType(node.type!)
+  }
+}
 
-export const parseFunctionDeclaration = (fd: ast.ts.FunctionDeclaration): FunctionType =>
-  functionType(
-    pipe(
-      ensureReadonlyArray(fd.typeParameters),
-      RA.map((tpd) => tpd.name.getText())
-    ),
-    pipe(
-      fd.parameters,
-      RA.map((pd) => parseType(pd.type!))
-    ),
-    parseType(fd.type!)
-  )
+export const parseFunctionDeclaration = (fd: ast.FunctionDeclaration): FunctionDeclaration => {
+  const name = fd.getName()!
+  return {
+    name,
+    overloadings: pipe(
+      [...fd.getOverloads(), fd],
+      RA.map((fd) => parseOverloading(fd.compilerNode))
+    )
+  }
+}
 
 export const parseFile = (src: ast.SourceFile): File => {
-  const basename = path.basename(src.getFilePath())
-  try {
-    return {
-      path: basename,
-      functions: pipe(
-        src.getFunctions(),
-        RA.map((fd) =>
-          functionDeclaration(
-            fd.getName()!,
-            pipe(
-              [...fd.getOverloads(), fd],
-              // [fd.getOverloads()[0]], // fixme
-              RA.map((o) => parseFunctionDeclaration(o.compilerNode))
-            )
-          )
-        )
-      )
-    }
-  } catch (e: unknown) {
-    throw new Error(`in ${basename} ${String(e)}`)
+  const name = path.basename(src.getFilePath())
+  return {
+    name,
+    functions: pipe(src.getFunctions(), RA.map(parseFunctionDeclaration))
   }
 }
 
@@ -396,115 +254,178 @@ export const parseFile = (src: ast.SourceFile): File => {
 // linters
 // -------------------------------------------------------------------------------------
 
-export const getAllTypeParameters = (types: ReadonlyArray<Type>): ReadonlyArray<string> =>
-  pipe(types, RA.chain(getTypeParameters))
-
-export const getConstraintTypeParameters = (o: O.Option<Type>): ReadonlyArray<string> =>
-  pipe(
-    o,
-    O.map(getTypeParameters),
-    O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
-  )
-
-export const getTypeParameters = (type: Type): ReadonlyArray<string> =>
-  pipe(
-    type,
-    match({
-      onReference: (_name) => RA.empty,
-      onTypeParameterDeclaration: (name, constraint) =>
-        pipe([name], RA.concat(getConstraintTypeParameters(constraint))),
-      onConstructor: (_name, typeArguments) => getAllTypeParameters(typeArguments),
-      onFunctionType: (typeParameters, parameters, returnType) =>
-        pipe(typeParameters, RA.concat(getAllTypeParameters(parameters)), RA.concat(getTypeParameters(returnType))),
-      onTypeOperator: (type) => getTypeParameters(type),
-      onMappedType: (typeParameter, type) => pipe(getTypeParameters(typeParameter), RA.concat(getTypeParameters(type))),
-      onUnionType: (members) => getAllTypeParameters(members),
-      onConditionalType: (checkType, extendType, trueType, falseType) =>
-        pipe(
-          getTypeParameters(checkType),
-          RA.concat(getTypeParameters(extendType)),
-          RA.concat(getTypeParameters(trueType)),
-          RA.concat(getTypeParameters(falseType))
-        ),
-      onIndexedAccessType: (objectType, indexType) =>
-        pipe(getTypeParameters(objectType), RA.concat(getTypeParameters(indexType))),
-      onTupleType: (elements) => getAllTypeParameters(elements),
-      onRestType: (type) => getTypeParameters(type),
-      onLiteralType: () => RA.empty,
-      onToken: () => RA.empty,
-      onOverloads: (members) => getAllTypeParameters(members),
-      onIntersectionType: (members) => getAllTypeParameters(members)
-    })
-  )
-
-export const getAllTypeArguments = (types: ReadonlyArray<Type>): ReadonlyArray<string> =>
-  pipe(types, RA.chain(getTypeArguments))
-
-export const getConstraintTypeArguments = (o: O.Option<Type>): ReadonlyArray<string> =>
-  pipe(
-    o,
-    O.map(getTypeArguments),
-    O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
-  )
-
-export const getTypeArguments = (type: Type): ReadonlyArray<string> =>
-  pipe(
-    type,
-    match({
-      onReference: (name) => [name],
-      onTypeParameterDeclaration: (_name, constraint) => getConstraintTypeArguments(constraint),
-      onConstructor: (_name, typeArguments) => getAllTypeArguments(typeArguments),
-      onFunctionType: (_typeParameters, parameters, returnType) =>
-        pipe(getAllTypeArguments(parameters), RA.concat(getTypeArguments(returnType))),
-      onTypeOperator: getTypeArguments,
-      onMappedType: (_typeParameter, type) => getTypeArguments(type),
-      onUnionType: (members) => getAllTypeArguments(members),
-      onConditionalType: (checkType, extendsType, trueType, falseType) =>
-        pipe(
-          getTypeArguments(checkType),
-          RA.concat(getTypeArguments(extendsType)),
-          RA.concat(getTypeArguments(trueType)),
-          RA.concat(getTypeArguments(falseType))
-        ),
-      onIndexedAccessType: (objectType, indexType) =>
-        pipe(getTypeArguments(objectType), RA.concat(getTypeArguments(indexType))),
-      onTupleType: (elements) => getAllTypeArguments(elements),
-      onRestType: (type) => getTypeArguments(type),
-      onLiteralType: () => RA.empty,
-      onToken: () => RA.empty,
-      onOverloads: (members) => getAllTypeArguments(members),
-      onIntersectionType: (members) => getAllTypeArguments(members)
-    })
-  )
-
-export const getComparison = (path: string, ft: FunctionType): Comparison =>
-  comparison(path, getTypeParameters(ft), getTypeArguments(ft))
-
-export const eq = RA.getEq(string.Eq)
-
-export const uniq = RA.uniq(string.Eq)
-
-export const intersection = RA.intersection(string.Eq)
-
-export const lintFunctionType = (path: string, ft: FunctionType): ReadonlyArray<string> => {
-  const c = getComparison(path, ft)
-  const parameters = pipe(c.parameters, uniq, intersection(c.typeParameters))
-  if (!pipe(c.typeParameters, eq.equals(parameters))) {
-    return [`Type Parameter Order Error in ${path}: ${c.typeParameters.join(', ')} !== ${parameters.join(', ')}`]
-  }
-  return RA.empty
+export interface Lint {
+  readonly path: string
+  readonly typeParameters: ReadonlyArray<string>
+  readonly typeArguments: ReadonlyArray<string>
 }
 
-export const lintFile = (file: File): ReadonlyArray<string> =>
-  pipe(
-    file.functions,
-    RA.chain((fd) =>
-      pipe(
-        fd.overloads,
-        RA.chainWithIndex((i, ft) => lintFunctionType(`${file.path}/${fd.name}/${i}`, ft))
-      )
+export const lint = (
+  path: string,
+  typeParameters: ReadonlyArray<string>,
+  typeArguments: ReadonlyArray<string>
+): Lint => ({ path, typeParameters, typeArguments })
+
+const LintMonoid: M.Monoid<Lint> = M.struct({
+  path: string.Monoid,
+  typeParameters: RA.getMonoid(),
+  typeArguments: RA.getMonoid()
+})
+
+export const append = (bs: ReadonlyArray<Lint>) => (a: Lint): ReadonlyArray<Lint> => {
+  return pipe(
+    bs,
+    RA.match(
+      () => [a],
+      RA.map((b) => pipe(a, LintMonoid.concat(b)))
     )
   )
+}
+
+export const getTypeParameters = (type: Type): ReadonlyArray<string> => {
+  switch (type._tag) {
+    case 'TypeReference':
+      return RA.empty
+  }
+  throw new Error(`(getTypeParameters) not sure what to do with ${type._tag}`)
+}
+
+export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
+  switch (type._tag) {
+    case 'TypeReference':
+      return pipe(
+        type.typeArguments,
+        RA.match(
+          () => [type.name],
+          (types) => pipe([type.name], RA.concat(pipe(types, RA.chain(getTypeArguments))))
+        )
+      )
+    case 'Signature': {
+      const typeParameters = pipe(
+        type.typeParameters,
+        RA.chain((tp) =>
+          pipe(
+            tp.constraint,
+            O.map((t) => pipe(getTypeArguments(t), RA.prepend(tp.name))),
+            O.getOrElse<ReadonlyArray<string>>(() => [tp.name])
+          )
+        )
+      )
+      const typeArguments = pipe(
+        type.parameters,
+        RA.chain((p) => getTypeArguments(p.type))
+      )
+      return pipe(typeParameters, RA.concat(typeArguments), RA.concat(getTypeArguments(type.returnType)))
+    }
+    case 'TypeOperator':
+    case 'RestType':
+      return getTypeArguments(type.type)
+    case 'MappedType':
+      return pipe(
+        type.type,
+        O.map(getTypeArguments),
+        O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
+      )
+    case 'ConditionalType':
+      return pipe(
+        getTypeArguments(type.checkType),
+        RA.concat(getTypeArguments(type.extendsType)),
+        RA.concat(getTypeArguments(type.trueType)),
+        RA.concat(getTypeArguments(type.falseType))
+      )
+    case 'IndexedAccessType':
+      return pipe(getTypeArguments(type.objectType), RA.concat(getTypeArguments(type.indexType)))
+    case 'TupleType':
+      return pipe(type.elements, RA.chain(getTypeArguments))
+    case 'LiteralType':
+    case 'Token':
+      return RA.empty
+    case 'UnionType':
+    case 'IntersectionType':
+      return pipe(type.members, RA.chain(getTypeArguments))
+  }
+  throw new Error(`(getTypeArguments) not sure what to do with ${type._tag}`)
+}
+
+export const lintType = (type: Type, path: string = string.empty): ReadonlyArray<Lint> => {
+  switch (type._tag) {
+    case 'TypeReference':
+      return [pipe(lint(path, getTypeParameters(type), getTypeArguments(type)))]
+    case 'Signature':
+      return lintSignature(path, type)
+    case 'Overloadings':
+      return pipe(
+        type.signatures,
+        RA.chainWithIndex((i, t) => lintType(t, `/${String(i)}`))
+      )
+    case 'TypeOperator':
+      return lintType(type.type, path)
+    case 'TupleType':
+      return pipe(
+        type.elements,
+        RA.chain((t) => lintType(t, path))
+      )
+    case 'IndexedAccessType':
+      return pipe(lintType(type.objectType, path), RA.concat(lintType(type.indexType, path)))
+    case 'LiteralType':
+    case 'Token':
+      return RA.empty
+  }
+  throw new Error(`(lintType) not sure what to do with ${type._tag}`)
+}
+
+export const lintSignature = (path: string, s: Signature): ReadonlyArray<Lint> => {
+  return pipe(
+    lint(
+      path,
+      pipe(
+        s.typeParameters,
+        RA.map((tp) => tp.name)
+      ),
+      pipe(
+        s.parameters,
+        RA.chain((p) => getTypeArguments(p.type))
+      )
+    ),
+    append(lintType(s.returnType))
+  )
+}
+
+export const lintFunction = (filename: string, fd: FunctionDeclaration): ReadonlyArray<Lint> => {
+  return pipe(
+    fd.overloadings,
+    RA.chainWithIndex((i, s) => lintSignature(`${filename}/${fd.name}/${i}`, s))
+  )
+}
+
+export const lintFile = (file: File): ReadonlyArray<Lint> => {
+  const functions = file.functions // .filter((f) => f.name === 'reduceE')
+  return pipe(
+    functions,
+    RA.chain((f) => lintFunction(file.name, f))
+  )
+}
+
+const eq = RA.getEq(string.Eq)
+const intersection = RA.intersection(string.Eq)
+const uniq = RA.uniq(string.Eq)
+
+export const check = (lints: ReadonlyArray<Lint>): ReadonlyArray<string> => {
+  return pipe(
+    lints,
+    RA.map((l) => ({
+      path: l.path,
+      typeParameters: l.typeParameters,
+      typeArguments: pipe(l.typeArguments, intersection(l.typeParameters), uniq)
+    }))
+  )
+    .filter((l) => {
+      return !pipe(l.typeParameters, eq.equals(l.typeArguments))
+    })
+    .map(
+      (l) => `Type Parameter Order Error in ${l.path}: ${l.typeParameters.join(', ')} !== ${l.typeArguments.join(', ')}`
+    )
+}
 
 // -------------------------------------------------------------------------------------
 // main
@@ -521,10 +442,13 @@ export const project = new ast.Project({
 export const paths = glob.sync('src/**/*.ts')
 paths.forEach((path) => project.addSourceFileAtPath(path))
 const files = pipe(project.getSourceFiles(), RA.map(parseFile))
-const errors = pipe(files, RA.chain(lintFile))
-console.log(JSON.stringify(errors, null, 2))
+const checks = pipe(
+  files,
+  RA.chain((f) => check(lintFile(f)))
+)
+console.log(JSON.stringify(checks, null, 2))
 
-// project.addSourceFileAtPath('src/Apply.ts')
+// project.addSourceFileAtPath('src/Bifunctor.ts')
 // export const file = parseFile(project.getSourceFiles()[0])
-// // console.log(JSON.stringify(file, null, 2))
-// console.log(JSON.stringify(lintFile(file), null, 2))
+// // console.log(JSON.stringify(file.functions, null, 2))
+// console.log(JSON.stringify(check(lintFile(file)), null, 2))

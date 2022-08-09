@@ -128,14 +128,14 @@ export function fromPredicate<F extends URIS4>(
   F: FromEither4<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R>(a: A) => Kind4<F, S, R, A, B>
-  <A>(predicate: Predicate<A>): <S, R, B extends A>(b: B) => Kind4<F, S, R, B, B>
+  <A>(predicate: Predicate<A>): <B extends A, S, R>(b: B) => Kind4<F, S, R, B, B>
   <A>(predicate: Predicate<A>): <S, R>(a: A) => Kind4<F, S, R, A, A>
 }
 export function fromPredicate<F extends URIS3>(
   F: FromEither3<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, A, B>
-  <A>(predicate: Predicate<A>): <R, B extends A>(b: B) => Kind3<F, R, B, B>
+  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => Kind3<F, R, B, B>
   <A>(predicate: Predicate<A>): <R>(a: A) => Kind3<F, R, A, A>
 }
 export function fromPredicate<F extends URIS2>(

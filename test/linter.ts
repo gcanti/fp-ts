@@ -1,5 +1,5 @@
 import * as ast from 'ts-morph'
-import * as L from '../scripts/linter'
+import * as L from '../scripts/_linter'
 import * as assert from 'assert'
 
 let counter = 0
@@ -15,7 +15,7 @@ const project = new ast.Project({
 
 const setup = (content: string) => {
   project.createSourceFile(`test${counter++}`, content, { overwrite: false })
-  return L.parseSourceFile(project.getSourceFiles()[0])
+  return L.parseFile(project.getSourceFiles()[0])
 }
 
 describe('Linter', () => {
