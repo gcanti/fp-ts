@@ -41,7 +41,7 @@ import type { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profun
  */
 export interface Choice<P> extends Profunctor<P> {
   readonly left: <A, B, C>(pab: HKT2<P, A, B>) => HKT2<P, Either<A, C>, Either<B, C>>
-  readonly right: <A, B, C>(pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, Either<A, C>>
+  readonly right: <B, C, A>(pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, Either<A, C>>
 }
 
 /**
@@ -50,7 +50,7 @@ export interface Choice<P> extends Profunctor<P> {
  */
 export interface Choice2<P extends URIS2> extends Profunctor2<P> {
   readonly left: <A, B, C>(pab: Kind2<P, A, B>) => Kind2<P, Either<A, C>, Either<B, C>>
-  readonly right: <A, B, C>(pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, Either<A, C>>
+  readonly right: <B, C, A>(pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, Either<A, C>>
 }
 
 /**
@@ -59,7 +59,7 @@ export interface Choice2<P extends URIS2> extends Profunctor2<P> {
  */
 export interface Choice3<P extends URIS3> extends Profunctor3<P> {
   readonly left: <R, A, B, C>(pab: Kind3<P, R, A, B>) => Kind3<P, R, Either<A, C>, Either<B, C>>
-  readonly right: <R, A, B, C>(pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, Either<A, C>>
+  readonly right: <R, B, C, A>(pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, Either<A, C>>
 }
 
 /**
@@ -68,7 +68,7 @@ export interface Choice3<P extends URIS3> extends Profunctor3<P> {
  */
 export interface Choice4<P extends URIS4> extends Profunctor4<P> {
   readonly left: <S, R, A, B, C>(pab: Kind4<P, S, R, A, B>) => Kind4<P, S, R, Either<A, C>, Either<B, C>>
-  readonly right: <S, R, A, B, C>(pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, Either<A, C>>
+  readonly right: <S, R, B, C, A>(pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, Either<A, C>>
 }
 
 /**
@@ -111,7 +111,7 @@ export function split<P>(
   C: Category<P>
 ): <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) => HKT2<P, Either<A, C>, Either<B, D>> {
   return <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) =>
-    pipe(P.left<A, B, C>(pab), C.compose(P.right<B, C, D>(pcd)))
+    pipe(P.left<A, B, C>(pab), C.compose(P.right<C, D, B>(pcd)))
 }
 
 /**

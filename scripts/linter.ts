@@ -13,7 +13,7 @@ import * as string from '../src/string'
 
 export interface Overloadings {
   readonly _tag: 'Overloadings'
-  readonly signatures: ReadonlyArray<Type>
+  readonly signatures: ReadonlyArray<Signature>
 }
 
 export interface TypeParameter {
@@ -130,9 +130,9 @@ export interface File {
 
 const ensureReadonlyArray = <A>(as: ReadonlyArray<A> | undefined): ReadonlyArray<A> => (as ? as : RA.empty)
 
-export const parseType = (
+export function parseType(
   node: ast.ts.TypeNode | ast.ts.TypeParameterDeclaration | ast.ts.CallSignatureDeclaration
-): Type => {
+): Type {
   if (ast.ts.isTypeReferenceNode(node)) {
     return {
       _tag: 'TypeReference',
@@ -194,7 +194,8 @@ export const parseType = (
   }
   if (ast.ts.isTypeLiteralNode(node)) {
     const members = node.members.filter(ast.ts.isCallSignatureDeclaration)
-    return { _tag: 'Overloadings', signatures: pipe(members, RA.map(parseType)) }
+    const signatures = pipe(members, RA.map(parseType)) as ReadonlyArray<Signature>
+    return { _tag: 'Overloadings', signatures }
   }
   if (ast.ts.isNamedTupleMember(node)) {
     return parseType(node.type)
@@ -222,7 +223,9 @@ export const parseParameterDeclaration = (pd: ast.ts.ParameterDeclaration): Para
   }
 }
 
-export const parseSignature = (node: ast.ts.FunctionDeclaration | ast.ts.CallSignatureDeclaration): Signature => {
+export const parseSignature = (
+  node: ast.ts.FunctionDeclaration | ast.ts.CallSignatureDeclaration | ast.ts.FunctionTypeNode
+): Signature => {
   return {
     _tag: 'Signature',
     typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
@@ -243,26 +246,46 @@ export const parseFunctionDeclaration = (fd: ast.FunctionDeclaration): FunctionD
 }
 
 export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<FunctionDeclaration> => {
+  const name = i.getName()
   const members = i.compilerNode.members
   // CallSignatureDeclaration
   const csds = pipe(members, RA.filter(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
-  return pipe(
+  const csdsfd = pipe(
     csds,
     RA.match<ReadonlyArray<FunctionDeclaration>, Signature>(
       () => RA.empty,
-      (signatures) => [{ name: i.getName(), overloadings: signatures }]
+      (signatures) => [{ name, overloadings: signatures }]
     )
   )
+  // PropertySignature
+  const pss: ReadonlyArray<FunctionDeclaration> = pipe(
+    members,
+    RA.filter(ast.ts.isPropertySignature),
+    RA.filterMap((ps) => {
+      const type = parseType(ps.type!)
+      switch (type._tag) {
+        case 'Overloadings':
+          return O.some({ name: `${name}/${ps.name.getText()}`, overloadings: type.signatures })
+        case 'Signature':
+          return O.some({ name: `${name}/${ps.name.getText()}`, overloadings: [type] })
+        case 'TypeReference':
+        case 'LiteralType':
+        case 'Token':
+          return O.none
+      }
+      throw new Error(`(parseInterface (interface: ${name})) not sure what to do with ${type._tag}`)
+    })
+  )
+  return pipe(csdsfd, RA.concat(pss))
 }
 
 export const parseFile = (src: ast.SourceFile): File => {
   const name = path.basename(src.getFilePath())
-  // const functions = pipe(
-  //   src.getFunctions(),
-  //   RA.map(parseFunctionDeclaration),
-  //   RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface)))
-  // )
-  const functions = pipe(src.getInterfaces(), RA.chain(parseInterface))
+  const functions = pipe(
+    src.getFunctions(),
+    RA.map(parseFunctionDeclaration),
+    RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface)))
+  )
   return {
     name,
     functions
@@ -465,7 +488,7 @@ const checks = pipe(
 )
 console.log(JSON.stringify(checks, null, 2))
 
-// project.addSourceFileAtPath('src/Filterable.ts')
+// project.addSourceFileAtPath('src/Bifunctor.ts')
 // export const file = parseFile(project.getSourceFiles()[0])
 // // console.log(JSON.stringify(file.functions, null, 2))
 // console.log(JSON.stringify(check(lintFile(file)), null, 2))

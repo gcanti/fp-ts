@@ -38,7 +38,7 @@ import type { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profun
  */
 export interface Strong<P> extends Profunctor<P> {
   readonly first: <A, B, C>(pab: HKT2<P, A, B>) => HKT2<P, readonly [A, C], readonly [B, C]>
-  readonly second: <A, B, C>(pab: HKT2<P, B, C>) => HKT2<P, readonly [A, B], readonly [A, C]>
+  readonly second: <B, C, A>(pab: HKT2<P, B, C>) => HKT2<P, readonly [A, B], readonly [A, C]>
 }
 
 /**
@@ -47,7 +47,7 @@ export interface Strong<P> extends Profunctor<P> {
  */
 export interface Strong2<P extends URIS2> extends Profunctor2<P> {
   readonly first: <A, B, C>(pab: Kind2<P, A, B>) => Kind2<P, readonly [A, C], readonly [B, C]>
-  readonly second: <A, B, C>(pab: Kind2<P, B, C>) => Kind2<P, readonly [A, B], readonly [A, C]>
+  readonly second: <B, C, A>(pab: Kind2<P, B, C>) => Kind2<P, readonly [A, B], readonly [A, C]>
 }
 
 /**
@@ -56,7 +56,7 @@ export interface Strong2<P extends URIS2> extends Profunctor2<P> {
  */
 export interface Strong3<P extends URIS3> extends Profunctor3<P> {
   readonly first: <R, A, B, C>(pab: Kind3<P, R, A, B>) => Kind3<P, R, readonly [A, C], readonly [B, C]>
-  readonly second: <R, A, B, C>(pab: Kind3<P, R, B, C>) => Kind3<P, R, readonly [A, B], readonly [A, C]>
+  readonly second: <R, B, C, A>(pab: Kind3<P, R, B, C>) => Kind3<P, R, readonly [A, B], readonly [A, C]>
 }
 
 /**
@@ -65,7 +65,7 @@ export interface Strong3<P extends URIS3> extends Profunctor3<P> {
  */
 export interface Strong4<P extends URIS4> extends Profunctor4<P> {
   readonly first: <S, R, A, B, C>(pab: Kind4<P, S, R, A, B>) => Kind4<P, S, R, readonly [A, C], readonly [B, C]>
-  readonly second: <S, R, A, B, C>(pab: Kind4<P, S, R, B, C>) => Kind4<P, S, R, readonly [A, B], readonly [A, C]>
+  readonly second: <S, R, B, C, A>(pab: Kind4<P, S, R, B, C>) => Kind4<P, S, R, readonly [A, B], readonly [A, C]>
 }
 
 /**
@@ -106,7 +106,7 @@ export function split<F>(
   C: Category<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, readonly [A, C], readonly [B, D]> {
   return <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) =>
-    pipe(S.first<A, B, C>(pab), C.compose(S.second<B, C, D>(pcd)))
+    pipe(S.first<A, B, C>(pab), C.compose(S.second<C, D, B>(pcd)))
 }
 
 /**
