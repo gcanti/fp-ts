@@ -222,7 +222,7 @@ export const parseParameterDeclaration = (pd: ast.ts.ParameterDeclaration): Para
   }
 }
 
-export const parseOverloading = (node: ast.ts.FunctionDeclaration): Signature => {
+export const parseSignature = (node: ast.ts.FunctionDeclaration | ast.ts.CallSignatureDeclaration): Signature => {
   return {
     _tag: 'Signature',
     typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
@@ -237,16 +237,35 @@ export const parseFunctionDeclaration = (fd: ast.FunctionDeclaration): FunctionD
     name,
     overloadings: pipe(
       [...fd.getOverloads(), fd],
-      RA.map((fd) => parseOverloading(fd.compilerNode))
+      RA.map((fd) => parseSignature(fd.compilerNode))
     )
   }
 }
 
+export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<FunctionDeclaration> => {
+  const members = i.compilerNode.members
+  // CallSignatureDeclaration
+  const csds = pipe(members, RA.filter(ast.ts.isCallSignatureDeclaration), RA.map(parseSignature))
+  return pipe(
+    csds,
+    RA.match<ReadonlyArray<FunctionDeclaration>, Signature>(
+      () => RA.empty,
+      (signatures) => [{ name: i.getName(), overloadings: signatures }]
+    )
+  )
+}
+
 export const parseFile = (src: ast.SourceFile): File => {
   const name = path.basename(src.getFilePath())
+  // const functions = pipe(
+  //   src.getFunctions(),
+  //   RA.map(parseFunctionDeclaration),
+  //   RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface)))
+  // )
+  const functions = pipe(src.getInterfaces(), RA.chain(parseInterface))
   return {
     name,
-    functions: pipe(src.getFunctions(), RA.map(parseFunctionDeclaration))
+    functions
   }
 }
 
@@ -399,7 +418,7 @@ export const lintFunction = (filename: string, fd: FunctionDeclaration): Readonl
 }
 
 export const lintFile = (file: File): ReadonlyArray<Lint> => {
-  const functions = file.functions // .filter((f) => f.name === 'reduceE')
+  const functions = file.functions
   return pipe(
     functions,
     RA.chain((f) => lintFunction(file.name, f))
@@ -419,9 +438,7 @@ export const check = (lints: ReadonlyArray<Lint>): ReadonlyArray<string> => {
       typeArguments: pipe(l.typeArguments, intersection(l.typeParameters), uniq)
     }))
   )
-    .filter((l) => {
-      return !pipe(l.typeParameters, eq.equals(l.typeArguments))
-    })
+    .filter((l) => !pipe(l.typeParameters, eq.equals(l.typeArguments)))
     .map(
       (l) => `Type Parameter Order Error in ${l.path}: ${l.typeParameters.join(', ')} !== ${l.typeArguments.join(', ')}`
     )
@@ -448,7 +465,7 @@ const checks = pipe(
 )
 console.log(JSON.stringify(checks, null, 2))
 
-// project.addSourceFileAtPath('src/Bifunctor.ts')
+// project.addSourceFileAtPath('src/Filterable.ts')
 // export const file = parseFile(project.getSourceFiles()[0])
 // // console.log(JSON.stringify(file.functions, null, 2))
 // console.log(JSON.stringify(check(lintFile(file)), null, 2))
