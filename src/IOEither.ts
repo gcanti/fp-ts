@@ -591,9 +591,9 @@ export const apFirst =
  * @category combinators
  * @since 2.12.0
  */
-export const apFirstW: <E2, A, B>(
+export const apFirstW: <E2, B>(
   second: IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -613,9 +613,9 @@ export const apSecond =
  * @category combinators
  * @since 2.12.0
  */
-export const apSecondW: <E2, A, B>(
+export const apSecondW: <E2, B>(
   second: IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
 
 /**
  * @category instances

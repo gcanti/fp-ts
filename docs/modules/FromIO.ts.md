@@ -84,7 +84,7 @@ export declare function chainIOK<M extends URIS3>(
 export declare function chainIOK<M extends URIS3, E>(
   F: FromIO3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => IO<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainIOK<M extends URIS2>(
   F: FromIO2<M>,
   M: Chain2<M>
@@ -92,7 +92,7 @@ export declare function chainIOK<M extends URIS2>(
 export declare function chainIOK<M extends URIS2, E>(
   F: FromIO2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => IO<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => IO<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainIOK<M extends URIS>(
   F: FromIO1<M>,
   M: Chain1<M>

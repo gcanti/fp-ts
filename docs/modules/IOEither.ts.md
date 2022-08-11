@@ -307,9 +307,9 @@ Less strict version of [`apFirst`](#apfirst).
 **Signature**
 
 ```ts
-export declare const apFirstW: <E2, A, B>(
+export declare const apFirstW: <E2, B>(
   second: IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v2.12.0
@@ -335,9 +335,9 @@ Less strict version of [`apSecond`](#apsecond).
 **Signature**
 
 ```ts
-export declare const apSecondW: <E2, A, B>(
+export declare const apSecondW: <E2, B>(
   second: IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v2.12.0

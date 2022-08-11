@@ -311,9 +311,9 @@ Less strict version of [`apFirst`](#apfirst)
 **Signature**
 
 ```ts
-export declare const apFirstW: <R2, E2, A, B>(
+export declare const apFirstW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v2.12.0
@@ -341,9 +341,9 @@ Less strict version of [`apSecond`](#apsecond)
 **Signature**
 
 ```ts
-export declare const apSecondW: <R2, E2, A, B>(
+export declare const apSecondW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v2.12.0

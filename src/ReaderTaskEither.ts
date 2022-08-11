@@ -863,9 +863,9 @@ export const apFirst =
  * @category combinators
  * @since 2.12.0
  */
-export const apFirstW: <R2, E2, A, B>(
+export const apFirstW: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = apFirst as any
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -885,9 +885,9 @@ export const apSecond =
  * @category combinators
  * @since 2.12.0
  */
-export const apSecondW: <R2, E2, A, B>(
+export const apSecondW: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = apSecond as any
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
