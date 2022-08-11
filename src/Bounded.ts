@@ -7,6 +7,7 @@
  *
  * @since 3.0.0
  */
+import { Endomorphism } from './Endomorphism'
 import * as O from './Ord'
 
 import Ord = O.Ord
@@ -34,7 +35,7 @@ export interface Bounded<A> extends Ord<A> {
  * @category utils
  * @since 3.0.0
  */
-export const clamp = <T>(B: Bounded<T>) => O.clamp(B)(B.bottom, B.top)
+export const clamp = <T>(B: Bounded<T>): Endomorphism<T> => O.clamp(B)(B.bottom, B.top)
 
 /**
  * Reverses the `Ord` of a `Bounded` and swaps `top` and `bottom` values.

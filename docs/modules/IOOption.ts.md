@@ -297,7 +297,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
+export declare const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -322,7 +322,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A>
+export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -544,7 +544,7 @@ Less strict version of [`matchE`](#matche).
 **Signature**
 
 ```ts
-export declare const matchEW: <B, C, A>(
+export declare const matchEW: <B, A, C>(
   onNone: () => I.IO<B>,
   onSome: (a: A) => I.IO<C>
 ) => (ma: IOOption<A>) => I.IO<B | C>

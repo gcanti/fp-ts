@@ -151,7 +151,7 @@ export const fold = matchE
  * @category destructors
  * @since 3.0.0
  */
-export const matchEW: <B, C, A>(
+export const matchEW: <B, A, C>(
   onNone: () => IO<B>,
   onSome: (a: A) => IO<C>
 ) => (ma: IOOption<A>) => IO<B | C> = matchE as any
@@ -632,7 +632,7 @@ export const fromEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
+export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
 

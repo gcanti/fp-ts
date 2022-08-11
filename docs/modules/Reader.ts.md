@@ -163,7 +163,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, B, C>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
+export declare const right: <B, C, A>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>>
 ```
 
 Added in v3.0.0
@@ -236,7 +236,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const second: <A, B, C>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]>
+export declare const second: <B, C, A>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]>
 ```
 
 Added in v3.0.0
@@ -250,7 +250,7 @@ Less strict version of [`apFirst`](#apfirst).
 **Signature**
 
 ```ts
-export declare const apFirstW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+export declare const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -262,7 +262,7 @@ Less strict version of [`apSecond`](#apsecond).
 **Signature**
 
 ```ts
-export declare const apSecondW: <R2, A, B>(second: Reader<R2, B>) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, B>
+export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -276,7 +276,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R2, A, B>(
+export declare const chainFirstW: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
@@ -603,7 +603,7 @@ Less strict version of [`apS`](#apS).
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, R2, B>(
+export declare const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

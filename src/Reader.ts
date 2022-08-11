@@ -266,9 +266,9 @@ export const apFirst =
  * @category combinators
  * @since 3.0.0
  */
-export const apFirstW: <R2, A, B>(
+export const apFirstW: <R2, B>(
   second: Reader<R2, B>
-) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, A> = apFirst as any
+) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -288,9 +288,9 @@ export const apSecond =
  * @category combinators
  * @since 3.0.0
  */
-export const apSecondW: <R2, A, B>(
+export const apSecondW: <R2, B>(
   second: Reader<R2, B>
-) => <R1>(first: Reader<R1, A>) => Reader<R1 & R2, B> = apSecond as any
+) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> = apSecond as any
 
 /**
  * @category instances
@@ -342,7 +342,7 @@ export const chainFirst =
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstW: <R2, A, B>(
+export const chainFirstW: <A, R2, B>(
   f: (a: A) => Reader<R2, B>
 ) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A> = chainFirst as any
 
@@ -439,7 +439,7 @@ export const apS =
  *
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, B>(
+export const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
 ) => <R1>(

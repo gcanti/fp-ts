@@ -186,7 +186,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <A, E>(t: Tuple2<E, A>) => Tuple2<A, E>
+export declare const swap: <E, A>(t: Tuple2<E, A>) => Tuple2<A, E>
 ```
 
 Added in v3.0.0
@@ -354,7 +354,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <A, E>(t: Tuple2<E, A>) => A
+export declare const fst: <E, A>(t: Tuple2<E, A>) => A
 ```
 
 Added in v3.0.0
@@ -364,7 +364,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <A, E>(t: Tuple2<E, A>) => E
+export declare const snd: <E, A>(t: Tuple2<E, A>) => E
 ```
 
 Added in v3.0.0

@@ -411,7 +411,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
+export declare const chainFirstEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Option<A>) => Option<A>
 ```
 
 Added in v3.0.0

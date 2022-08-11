@@ -46,12 +46,12 @@ export const tuple2 = <A, E>(a: A, e: E): Tuple2<E, A> => [a, e]
 /**
  * @since 3.0.0
  */
-export const fst = <A, E>(t: Tuple2<E, A>): A => t[0]
+export const fst = <E, A>(t: Tuple2<E, A>): A => t[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <A, E>(t: Tuple2<E, A>): E => t[1]
+export const snd = <E, A>(t: Tuple2<E, A>): E => t[1]
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -61,7 +61,7 @@ export const snd = <A, E>(t: Tuple2<E, A>): E => t[1]
  * @category combinators
  * @since 3.0.0
  */
-export const swap = <A, E>(t: Tuple2<E, A>): Tuple2<A, E> => [snd(t), fst(t)]
+export const swap = <E, A>(t: Tuple2<E, A>): Tuple2<A, E> => [snd(t), fst(t)]
 
 // -------------------------------------------------------------------------------------
 // type class members

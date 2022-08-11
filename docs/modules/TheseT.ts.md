@@ -105,9 +105,7 @@ Added in v3.0.0
 
 ```ts
 export declare function both<F extends URIS3>(F: Pointed3<F>): <E, A, S, R>(e: E, a: A) => Kind3<F, S, R, These<E, A>>
-export declare function both<F extends URIS3, R>(
-  F: Pointed3C<F, R>
-): <E, A, R>(e: E, a: A) => Kind3<F, R, R, These<E, A>>
+export declare function both<F extends URIS3, R>(F: Pointed3C<F, R>): <E, A>(e: E, a: A) => Kind3<F, R, R, These<E, A>>
 export declare function both<F extends URIS2>(F: Pointed2<F>): <E, A, R>(e: E, a: A) => Kind2<F, R, These<E, A>>
 export declare function both<F extends URIS2, R>(F: Pointed2C<F, R>): <E, A>(e: E, a: A) => Kind2<F, R, These<E, A>>
 export declare function both<F extends URIS>(F: Pointed1<F>): <E, A>(e: E, a: A) => Kind<F, These<E, A>>

@@ -362,28 +362,28 @@ export declare function fromPredicate<F extends URIS4>(
   F: Pointed4<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(b: B) => Kind4<F, S, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A, S, R, E>(b: B) => Kind4<F, S, R, E, Option<B>>
   <A>(predicate: Predicate<A>): <S, R, E>(a: A) => Kind4<F, S, R, E, Option<A>>
 }
 export declare function fromPredicate<F extends URIS3>(
   F: Pointed3<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <R, E>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, E, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A, R, E>(b: B) => Kind3<F, R, E, Option<B>>
   <A>(predicate: Predicate<A>): <R, E>(a: A) => Kind3<F, R, E, Option<A>>
 }
 export declare function fromPredicate<F extends URIS3, E>(
   F: Pointed3C<F, E>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => Kind3<F, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <R, B extends A>(b: B) => Kind3<F, R, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => Kind3<F, R, E, Option<B>>
   <A>(predicate: Predicate<A>): <R>(a: A) => Kind3<F, R, E, Option<A>>
 }
 export declare function fromPredicate<F extends URIS2>(
   F: Pointed2<F>
 ): {
   <A, B extends A>(refinement: Refinement<A, B>): <E>(a: A) => Kind2<F, E, Option<B>>
-  <A>(predicate: Predicate<A>): <E, B extends A>(b: B) => Kind2<F, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A, E>(b: B) => Kind2<F, E, Option<B>>
   <A>(predicate: Predicate<A>): <E>(a: A) => Kind2<F, E, Option<A>>
 }
 export declare function fromPredicate<F extends URIS2, E>(

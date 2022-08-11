@@ -394,7 +394,7 @@ export declare function comprehension<A, B, C, R>(
   input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>, ReadonlyNonEmptyArray<C>],
   f: (a: A, b: B, c: C) => R
 ): ReadonlyNonEmptyArray<R>
-export declare function comprehension<A, B, C, R>(
+export declare function comprehension<A, B, R>(
   input: readonly [ReadonlyNonEmptyArray<A>, ReadonlyNonEmptyArray<B>],
   f: (a: A, b: B) => R
 ): ReadonlyNonEmptyArray<R>

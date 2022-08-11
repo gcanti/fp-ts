@@ -125,6 +125,21 @@ export interface File {
 }
 
 // -------------------------------------------------------------------------------------
+// constructors
+// -------------------------------------------------------------------------------------
+
+export const signature = (input: {
+  readonly typeParameters: ReadonlyArray<TypeParameter>
+  readonly parameters: ReadonlyArray<Parameter>
+  readonly returnType: Type
+}): Signature => ({
+  _tag: 'Signature',
+  typeParameters: input.typeParameters,
+  parameters: input.parameters,
+  returnType: input.returnType
+})
+
+// -------------------------------------------------------------------------------------
 // parsers
 // -------------------------------------------------------------------------------------
 
@@ -141,12 +156,14 @@ export function parseType(
     }
   }
   if (ast.ts.isFunctionTypeNode(node) || ast.ts.isCallSignatureDeclaration(node)) {
-    return {
-      _tag: 'Signature',
+    if (node.type === undefined) {
+      throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
+    }
+    return signature({
       typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
       parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
-      returnType: parseType(node.type!)
-    }
+      returnType: parseType(node.type)
+    })
   }
   if (ast.ts.isToken(node)) {
     return { _tag: 'Token' }
@@ -201,10 +218,16 @@ export function parseType(
     return parseType(node.type)
   }
   if (ast.ts.isTypePredicateNode(node)) {
-    return parseType(node.type!)
+    if (node.type === undefined) {
+      throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
+    }
+    return parseType(node.type)
   }
   if (ast.ts.isIntersectionTypeNode(node)) {
     return { _tag: 'IntersectionType', members: pipe(node.types, RA.map(parseType)) }
+  }
+  if (ast.ts.isParenthesizedTypeNode(node)) {
+    return parseType(node.type)
   }
   throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
 }
@@ -217,21 +240,26 @@ export const parseTypeParameter = (tp: ast.ts.TypeParameterDeclaration): TypePar
 }
 
 export const parseParameterDeclaration = (pd: ast.ts.ParameterDeclaration): Parameter => {
+  if (pd.type === undefined) {
+    throw new Error(`(parseParameterDeclaration) not sure what to do with ${pd.getText()} in ${pd.parent.getText()}`)
+  }
   return {
     name: pd.name.getText(),
-    type: parseType(pd.type!)
+    type: parseType(pd.type)
   }
 }
 
 export const parseSignature = (
   node: ast.ts.FunctionDeclaration | ast.ts.CallSignatureDeclaration | ast.ts.FunctionTypeNode
 ): Signature => {
-  return {
-    _tag: 'Signature',
+  if (node.type === undefined) {
+    throw new Error(`(parseSignature) not sure what to do with ${node.getText()}`)
+  }
+  return signature({
     typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
     parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
-    returnType: parseType(node.type!)
-  }
+    returnType: parseType(node.type)
+  })
 }
 
 export const parseFunctionDeclaration = (fd: ast.FunctionDeclaration): FunctionDeclaration => {
@@ -279,12 +307,77 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
   return pipe(csdsfd, RA.concat(pss))
 }
 
+export const parseArrowFunction = (node: ast.ts.ArrowFunction): ReadonlyArray<Signature> => {
+  return pipe(
+    node.type,
+    O.fromNullable,
+    O.match(
+      () => {
+        // example: export const makeBy = <A>(f: (i: number) => A) => (n: number): ReadonlyArray<A> => (n <= 0 ? empty : RNEA.makeBy(f)(n))
+        const body = node.body
+        if (ast.ts.isArrowFunction(body)) {
+          return pipe(
+            parseArrowFunction(body),
+            RA.map((returnType) => {
+              return signature({
+                typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
+                parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
+                returnType
+              })
+            })
+          )
+        }
+        throw new Error(`(parseArrowFunction not sure what to do with ${body.getText()}`)
+      },
+      (returnType) => {
+        // example: export const replicate = <A>(a: A): ((n: number) => ReadonlyArray<A>) => makeBy(() => a)
+        return [
+          signature({
+            typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
+            parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
+            returnType: parseType(returnType)
+          })
+        ]
+      }
+    )
+  )
+}
+
+export const parseVariableDeclaration = (vd: ast.VariableDeclaration): ReadonlyArray<FunctionDeclaration> => {
+  const compilerNode = vd.compilerNode
+  const type = compilerNode.type
+  const name = compilerNode.name.getText()
+  const initializer = compilerNode.initializer
+  if (initializer === undefined) {
+    return RA.empty
+  }
+  if (type !== undefined) {
+    if (ast.ts.isTypeReferenceNode(type)) {
+      // example: export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
+      return RA.empty
+    }
+    if (ast.ts.isIndexedAccessTypeNode(type)) {
+      // example: export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
+      return RA.empty
+    }
+    if (ast.ts.isFunctionTypeNode(type)) {
+      // example: export const zip: <B>(bs: ReadonlyArray<B>) => <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]> = (bs) => zipWith(bs, (a, b) => [a, b])
+      return [{ name, overloadings: [parseSignature(type)] }]
+    }
+  }
+  if (ast.ts.isArrowFunction(initializer)) {
+    return [{ name, overloadings: parseArrowFunction(initializer) }]
+  }
+  return RA.empty
+}
+
 export const parseFile = (src: ast.SourceFile): File => {
   const name = path.basename(src.getFilePath())
   const functions = pipe(
     src.getFunctions(),
     RA.map(parseFunctionDeclaration),
-    RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface)))
+    RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface))),
+    RA.concat(pipe(src.getVariableDeclarations(), RA.chain(parseVariableDeclaration)))
   )
   return {
     name,
@@ -412,6 +505,11 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
     case 'LiteralType':
     case 'Token':
       return RA.empty
+    case 'UnionType':
+      return pipe(
+        type.members,
+        RA.chain((t) => lintType(t, path))
+      )
   }
   throw new Error(`(lintType) not sure what to do with ${type._tag}`)
 }
@@ -486,9 +584,11 @@ const checks = pipe(
   files,
   RA.chain((f) => check(lintFile(f)))
 )
-console.log(JSON.stringify(checks, null, 2))
+if (checks.length > 0) {
+  // tslint:disable-next-line: no-console
+  console.log(JSON.stringify(checks, null, 2))
+}
 
-// project.addSourceFileAtPath('src/Bifunctor.ts')
+// project.addSourceFileAtPath('src/Bounded.ts')
 // export const file = parseFile(project.getSourceFiles()[0])
-// // console.log(JSON.stringify(file.functions, null, 2))
 // console.log(JSON.stringify(check(lintFile(file)), null, 2))

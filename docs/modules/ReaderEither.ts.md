@@ -276,9 +276,9 @@ Less strict version of [`apFirst`](#apfirst)
 **Signature**
 
 ```ts
-export declare const apFirstW: <R2, E2, A, B>(
+export declare const apFirstW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -290,9 +290,9 @@ Less strict version of [`apSecond`](#apsecond)
 **Signature**
 
 ```ts
-export declare const apSecondW: <R2, E2, A, B>(
+export declare const apSecondW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -316,7 +316,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E2, A, B>(
+export declare const chainEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
@@ -482,7 +482,7 @@ Less strict version of [`flatten`](#flatten).
 **Signature**
 
 ```ts
-export declare const flattenW: <R1, R2, E1, E2, A>(
+export declare const flattenW: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
 ) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
@@ -667,7 +667,7 @@ Derivable from `FromEither`.
 ```ts
 export declare const fromPredicate: {
   <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R, B>(b: B) => ReaderEither<R, B, B>
+  <A>(predicate: Predicate<A>): <B, R>(b: B) => ReaderEither<R, B, B>
   <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
 }
 ```
@@ -1135,7 +1135,7 @@ Less strict version of [`apS`](#apS).
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, R2, E2, B>(
+export declare const apSW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(

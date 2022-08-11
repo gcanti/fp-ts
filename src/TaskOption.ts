@@ -648,7 +648,7 @@ export const fromEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
+export const chainEitherK: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B> =
   /*#__PURE__*/
   chainEitherK_(FromEither, Chain)
 

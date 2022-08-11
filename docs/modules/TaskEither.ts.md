@@ -332,9 +332,9 @@ Less strict version of [`apFirst`](#apfirst).
 **Signature**
 
 ```ts
-export declare const apFirstW: <E2, A, B>(
+export declare const apFirstW: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -346,9 +346,9 @@ Less strict version of [`apSecond`](#apsecond).
 **Signature**
 
 ```ts
-export declare const apSecondW: <E2, A, B>(
+export declare const apSecondW: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Less strict version of [`chainEitherK`](#chainEitherK).
 **Signature**
 
 ```ts
-export declare const chainEitherKW: <E2, A, B>(
+export declare const chainEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -382,7 +382,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <E, A, B>(
+export declare const chainFirstEitherK: <A, E, B>(
   f: (a: A) => E.Either<E, B>
 ) => (ma: TaskEither<E, A>) => TaskEither<E, A>
 ```
@@ -396,7 +396,7 @@ Less strict version of [`chainFirstEitherK`](#chainFirstEitherK).
 **Signature**
 
 ```ts
-export declare const chainFirstEitherKW: <E2, A, B>(
+export declare const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
@@ -442,7 +442,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOEitherK: <E, A, B>(
+export declare const chainIOEitherK: <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ) => (ma: TaskEither<E, A>) => TaskEither<E, B>
 ```
@@ -1373,7 +1373,7 @@ Less strict version of [`apS`](#apS).
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, E2, B>(
+export declare const apSW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
 ) => <E1>(fa: TaskEither<E1, A>) => TaskEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

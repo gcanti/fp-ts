@@ -330,7 +330,7 @@ export const toUnion: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => ReaderTask<R, 
  * @category interop
  * @since 3.0.0
  */
-export const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
+export const fromNullable: <E>(e: E) => <A, R>(a: A) => ReaderTaskEither<R, E, NonNullable<A>> =
   /*#__PURE__*/
   ET.fromNullable(RT.Pointed)
 
@@ -451,7 +451,7 @@ export const chainIOEitherKW: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOEitherK: <E, A, B>(
+export const chainIOEitherK: <A, E, B>(
   f: (a: A) => IOEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainIOEitherKW
 
@@ -477,7 +477,7 @@ export const chainTaskEitherKW: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskEitherK: <E, A, B>(
+export const chainTaskEitherK: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainTaskEitherKW
 
@@ -487,7 +487,7 @@ export const chainTaskEitherK: <E, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskEitherKW: <E2, A, B>(
+export const chainFirstTaskEitherKW: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => chainFirstW(fromTaskEitherK(f))
 
@@ -495,7 +495,7 @@ export const chainFirstTaskEitherKW: <E2, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstTaskEitherK: <E, A, B>(
+export const chainFirstTaskEitherK: <A, E, B>(
   f: (a: A) => TaskEither<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstTaskEitherKW
 
@@ -503,7 +503,7 @@ export const chainFirstTaskEitherK: <E, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
+export const fromReaderEitherK = <A extends ReadonlyArray<unknown>, R, E, B>(
   f: (...a: A) => ReaderEither<R, E, B>
 ): ((...a: A) => ReaderTaskEither<R, E, B>) => flow(f, fromReaderEither)
 
@@ -513,7 +513,7 @@ export const fromReaderEitherK = <R, E, A extends ReadonlyArray<unknown>, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderEitherKW: <R2, E2, A, B>(
+export const chainReaderEitherKW: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
   chainW(fromReaderEitherK(f))
@@ -522,7 +522,7 @@ export const chainReaderEitherKW: <R2, E2, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderEitherK: <R, E, A, B>(
+export const chainReaderEitherK: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderEitherKW
 
@@ -532,7 +532,7 @@ export const chainReaderEitherK: <R, E, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderEitherKW: <R2, E2, A, B>(
+export const chainFirstReaderEitherKW: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = (f) =>
   chainFirstW(fromReaderEitherK(f))
@@ -541,7 +541,7 @@ export const chainFirstReaderEitherKW: <R2, E2, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderEitherK: <R, E, A, B>(
+export const chainFirstReaderEitherK: <A, R, E, B>(
   f: (a: A) => ReaderEither<R, E, B>
 ) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderEitherKW
 
@@ -781,9 +781,9 @@ export const apFirst =
  * @category combinators
  * @since 3.0.0
  */
-export const apFirstW: <R2, E2, A, B>(
+export const apFirstW: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = apFirst as any
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -803,9 +803,9 @@ export const apSecond =
  * @category combinators
  * @since 3.0.0
  */
-export const apSecondW: <R2, E2, A, B>(
+export const apSecondW: <R2, E2, B>(
   second: ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = apSecond as any
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -1119,7 +1119,7 @@ export const chainEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherKW: <E2, A, B>(
+export const chainEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = chainEitherK as any
 
@@ -1129,7 +1129,7 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherKW: <E2, A, B>(
+export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A> = (f) => chainFirstW(fromEitherK(f))
 
@@ -1137,7 +1137,7 @@ export const chainFirstEitherKW: <E2, A, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <E, A, B>(
+export const chainFirstEitherK: <A, E, B>(
   f: (a: A) => Either<E, B>
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstEitherKW
 
@@ -1287,7 +1287,7 @@ export const apS =
  *
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, E2, B>(
+export const apSW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(

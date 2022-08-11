@@ -103,8 +103,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function gets<F extends URIS4>(F: FromState4<F>): <S, R, E, A>(f: (s: S) => A) => Kind4<F, S, R, E, A>
-export declare function gets<F extends URIS3>(F: FromState3<F>): <S, E, A>(f: (s: S) => A) => Kind3<F, S, E, A>
+export declare function gets<F extends URIS4>(F: FromState4<F>): <S, A, R, E>(f: (s: S) => A) => Kind4<F, S, R, E, A>
+export declare function gets<F extends URIS3>(F: FromState3<F>): <S, A, E>(f: (s: S) => A) => Kind3<F, S, E, A>
 export declare function gets<F extends URIS3, E>(F: FromState3C<F, E>): <S, A>(f: (s: S) => A) => Kind3<F, S, E, A>
 export declare function gets<F extends URIS2>(F: FromState2<F>): <S, A>(f: (s: S) => A) => Kind2<F, S, A>
 export declare function gets<F>(F: FromState<F>): <S, A>(f: (s: S) => A) => HKT2<F, S, A>

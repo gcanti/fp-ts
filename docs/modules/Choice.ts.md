@@ -59,7 +59,7 @@ Added in v3.0.0
 ```ts
 export interface Choice<P> extends Profunctor<P> {
   readonly left: <A, B, C>(pab: HKT2<P, A, B>) => HKT2<P, Either<A, C>, Either<B, C>>
-  readonly right: <A, B, C>(pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, Either<A, C>>
+  readonly right: <B, C, A>(pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -72,7 +72,7 @@ Added in v3.0.0
 ```ts
 export interface Choice2<P extends URIS2> extends Profunctor2<P> {
   readonly left: <A, B, C>(pab: Kind2<P, A, B>) => Kind2<P, Either<A, C>, Either<B, C>>
-  readonly right: <A, B, C>(pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, Either<A, C>>
+  readonly right: <B, C, A>(pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -85,7 +85,7 @@ Added in v3.0.0
 ```ts
 export interface Choice3<P extends URIS3> extends Profunctor3<P> {
   readonly left: <R, A, B, C>(pab: Kind3<P, R, A, B>) => Kind3<P, R, Either<A, C>, Either<B, C>>
-  readonly right: <R, A, B, C>(pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, Either<A, C>>
+  readonly right: <R, B, C, A>(pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -98,7 +98,7 @@ Added in v3.0.0
 ```ts
 export interface Choice4<P extends URIS4> extends Profunctor4<P> {
   readonly left: <S, R, A, B, C>(pab: Kind4<P, S, R, A, B>) => Kind4<P, S, R, Either<A, C>, Either<B, C>>
-  readonly right: <S, R, A, B, C>(pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, Either<A, C>>
+  readonly right: <S, R, B, C, A>(pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, Either<A, C>>
 }
 ```
 
@@ -133,19 +133,19 @@ function which will run the appropriate computation based on the parameter suppl
 export declare function fanIn<P extends URIS4>(
   P: Choice4<P>,
   C: Category4<P>
-): <S, R, A, B, C>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
+): <S, R, A, C, B>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
 export declare function fanIn<P extends URIS3>(
   P: Choice3<P>,
   C: Category3<P>
-): <R, A, B, C>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
+): <R, A, C, B>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
 export declare function fanIn<P extends URIS2>(
   P: Choice2<P>,
   C: Category2<P>
-): <A, B, C>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
+): <A, C, B>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
 export declare function fanIn<P>(
   P: Choice<P>,
   C: Category<P>
-): <A, B, C>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
+): <A, C, B>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
 ```
 
 Added in v3.0.0

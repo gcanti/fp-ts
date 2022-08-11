@@ -225,7 +225,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R2, A, B>(
+export declare const chainFirstW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
@@ -660,7 +660,7 @@ Less strict version of [`apS`](#apS).
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, R2, B>(
+export declare const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -753,7 +753,7 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 **Signature**
 
 ```ts
-export declare const traverseReadonlyArrayWithIndexSeq: <R, A, B>(
+export declare const traverseReadonlyArrayWithIndexSeq: <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
 ```
@@ -781,7 +781,7 @@ Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
 **Signature**
 
 ```ts
-export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <R, A, B>(
+export declare const traverseReadonlyNonEmptyArrayWithIndexSeq: <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>
 ```

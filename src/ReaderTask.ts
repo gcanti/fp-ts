@@ -318,7 +318,7 @@ export const chainFirst =
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstW: <R2, A, B>(
+export const chainFirstW: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = chainFirst as any
 
@@ -522,7 +522,7 @@ export const apS =
  *
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, B>(
+export const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(
@@ -596,7 +596,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndexSeq = <R, A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>) =>
   flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(T.traverseReadonlyNonEmptyArrayWithIndexSeq(SK)))
@@ -606,7 +606,7 @@ export const traverseReadonlyNonEmptyArrayWithIndexSeq = <R, A, B>(
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndexSeq = <R, A, B>(
+export const traverseReadonlyArrayWithIndexSeq = <A, R, B>(
   f: (index: number, a: A) => ReaderTask<R, B>
 ): ((as: ReadonlyArray<A>) => ReaderTask<R, ReadonlyArray<B>>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)

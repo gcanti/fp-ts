@@ -407,7 +407,7 @@ Less strict version of [`apFirst`](#apfirst)
 **Signature**
 
 ```ts
-export declare const apFirstW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
+export declare const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -419,7 +419,7 @@ Less strict version of [`apSecond`](#apsecond)
 **Signature**
 
 ```ts
-export declare const apSecondW: <E2, A, B>(second: Either<E2, B>) => <E1>(first: Either<E1, A>) => Either<E2 | E1, B>
+export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0
@@ -1320,7 +1320,7 @@ Less strict version of [`apS`](#apS).
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, E2, B>(
+export declare const apSW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(fa: Either<E1, A>) => Either<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

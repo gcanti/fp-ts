@@ -372,7 +372,7 @@ export const chainW: <A, R2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <R1, R2, E1, E2, A>(
+export const flattenW: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
 ) => ReaderEither<R1 & R2, E1 | E2, A> =
   /*#__PURE__*/
@@ -523,9 +523,9 @@ export const apFirst =
  * @category combinators
  * @since 3.0.0
  */
-export const apFirstW: <R2, E2, A, B>(
+export const apFirstW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = apFirst as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -545,9 +545,9 @@ export const apSecond =
  * @category combinators
  * @since 3.0.0
  */
-export const apSecondW: <R2, E2, A, B>(
+export const apSecondW: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = apSecond as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -789,7 +789,7 @@ export const chainEitherK =
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherKW: <E2, A, B>(
+export const chainEitherKW: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E1 | E2, B> = chainEitherK as any
 
@@ -864,7 +864,7 @@ export const apS =
  *
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, E2, B>(
+export const apSW: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
