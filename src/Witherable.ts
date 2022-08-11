@@ -603,7 +603,7 @@ export function witherDefault<W>(T: Traversable<W>, C: Compactable<W>): Witherab
  * @since 2.11.0
  */
 export interface FilterE1<G extends URIS> {
-  <F extends URIS3>(F: Applicative3<F>): <A, E, R>(
+  <F extends URIS3>(F: Applicative3<F>): <A, R, E>(
     predicate: (a: A) => Kind3<F, R, E, boolean>
   ) => (ga: Kind<G, A>) => Kind3<F, R, E, Kind<G, A>>
   <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R>(

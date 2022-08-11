@@ -47,7 +47,7 @@ export declare function chainFirstTaskK<M extends URIS3>(
 export declare function chainFirstTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, A>
 export declare function chainFirstTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -55,7 +55,7 @@ export declare function chainFirstTaskK<M extends URIS2>(
 export declare function chainFirstTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, A>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, A>
 export declare function chainFirstTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>
@@ -84,7 +84,7 @@ export declare function chainTaskK<M extends URIS3>(
 export declare function chainTaskK<M extends URIS3, E>(
   F: FromTask3C<M, E>,
   M: Chain3C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <R, E>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
+): <A, B>(f: (a: A) => Task<B>) => <R>(first: Kind3<M, R, E, A>) => Kind3<M, R, E, B>
 export declare function chainTaskK<M extends URIS2>(
   F: FromTask2<M>,
   M: Chain2<M>
@@ -92,7 +92,7 @@ export declare function chainTaskK<M extends URIS2>(
 export declare function chainTaskK<M extends URIS2, E>(
   F: FromTask2C<M, E>,
   M: Chain2C<M, E>
-): <A, B>(f: (a: A) => Task<B>) => <E>(first: Kind2<M, E, A>) => Kind2<M, E, B>
+): <A, B>(f: (a: A) => Task<B>) => (first: Kind2<M, E, A>) => Kind2<M, E, B>
 export declare function chainTaskK<M extends URIS>(
   F: FromTask1<M>,
   M: Chain1<M>
