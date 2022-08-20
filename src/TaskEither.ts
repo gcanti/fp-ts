@@ -440,6 +440,15 @@ export const chainTaskOptionK = <E>(
 
 /**
  * @category combinators
+ */
+export const chainTaskOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(
+  f: (a: A) => TaskOption<B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainTaskOptionK as any
+
+/**
+ * @category combinators
  * @since 2.4.0
  */
 export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
