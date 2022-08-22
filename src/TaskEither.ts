@@ -440,6 +440,7 @@ export const chainTaskOptionK = <E>(
 
 /**
  * @category combinators
+ * @since 2.12.3
  */
 export const chainTaskOptionKW: <E2>(
   onNone: Lazy<E2>
