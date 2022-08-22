@@ -19,39 +19,43 @@ high state of flux, you're at risk of it changing without notice.
 # 2.12.3
 
 - **Polish**
-  - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
-  - fix `fromEntries` return type, closes #1745 (@gcanti)
-    fix wrong type parameter order:
-  - `FromIO`
-    - `chainIOK`
-  - `FromTask`
-    - `chainTaskK`
-    - `chainFirstTaskK`
-  - `Whiterable`
-    - `FilterE1`
-  - `TheseT`
-    - `both`
-  - `Either`
-    - `apFirstW`
-    - `apSecondW`
-  - `IOEither`
-    - `apFirstW`
-    - `apSecondW`
-  - `Reader`
-    - `apFirstW`
-    - `apSecondW`
-  - `ReaderEither`
-    - `apFirstW`
-    - `apSecondW`
-  - `ReaderTaskEither`
-    - `apFirstW`
-    - `apSecondW`
-  - `StateReaderTaskEither`
-    - `apFirstW`
-    - `apSecondW`
+  - `Apply`
+    - add `ap` overloadings, #1721 (@waynevanson)
+  - `ReadonlyRecord`
+    - fix `fromEntries` return type, closes #1745 (@gcanti)
   - `TaskEither`
-    - `apFirstW`
-    - `apSecondW`
+    - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
+  - fix wrong type parameter order:
+    - `FromIO`
+      - `chainIOK`
+    - `FromTask`
+      - `chainTaskK`
+      - `chainFirstTaskK`
+    - `Whiterable`
+      - `FilterE1`
+    - `TheseT`
+      - `both`
+    - `Either`
+      - `apFirstW`
+      - `apSecondW`
+    - `IOEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `Reader`
+      - `apFirstW`
+      - `apSecondW`
+    - `ReaderEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `ReaderTaskEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `StateReaderTaskEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `TaskEither`
+      - `apFirstW`
+      - `apSecondW`
 
 # 2.12.2
 
