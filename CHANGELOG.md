@@ -19,7 +19,8 @@ high state of flux, you're at risk of it changing without notice.
 # 2.12.3
 
 - **Polish**
-  fix wrong type parameter order:
+  - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
+    fix wrong type parameter order:
   - `FromIO`
     - `chainIOK`
   - `FromTask`

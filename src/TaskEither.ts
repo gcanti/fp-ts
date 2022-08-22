@@ -431,22 +431,19 @@ export const fromTaskOptionK = <E>(
 
 /**
  * @category combinators
- * @since 2.11.0
+ * @since 2.12.3
  */
-export const chainTaskOptionK = <E>(
-  onNone: Lazy<E>
-): (<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>) =>
-  flow(fromTaskOptionK(onNone), chain)
+export const chainTaskOptionKW = <E2>(onNone: Lazy<E2>) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(
+  ma: TaskEither<E1, A>
+): TaskEither<E1 | E2, B> => pipe(ma, chain(fromTaskOptionK<E1 | E2>(onNone)(f)))
 
 /**
  * @category combinators
- * @since 2.12.3
+ * @since 2.11.0
  */
-export const chainTaskOptionKW: <E2>(
-  onNone: Lazy<E2>
-) => <A, B>(
-  f: (a: A) => TaskOption<B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainTaskOptionK as any
+export const chainTaskOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
  * @category combinators

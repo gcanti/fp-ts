@@ -56,6 +56,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
+  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -577,6 +578,18 @@ export declare const chainTaskOptionK: <E>(
 ```
 
 Added in v2.11.0
+
+## chainTaskOptionKW
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.12.3
 
 ## filterOrElse
 
