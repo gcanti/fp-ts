@@ -1124,7 +1124,7 @@ export const toEntries = toReadonlyArray
  *
  * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
  */
-export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => {
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const a of fa) {
     out[a[0]] = a[1]

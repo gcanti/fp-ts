@@ -20,6 +20,7 @@ high state of flux, you're at risk of it changing without notice.
 
 - **Polish**
   - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
+  - fix `fromEntries` return type, closes #1745 (@gcanti)
     fix wrong type parameter order:
   - `FromIO`
     - `chainIOK`

@@ -1324,7 +1324,7 @@ Converts a `ReadonlyArray` of `[key, value]` tuples into a `ReadonlyRecord`.
 **Signature**
 
 ```ts
-export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Record<string, A>
+export declare const fromEntries: <A>(fa: readonly (readonly [string, A])[]) => Readonly<Record<string, A>>
 ```
 
 **Example**
