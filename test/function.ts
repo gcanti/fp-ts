@@ -15,6 +15,11 @@ describe('function', () => {
     U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
   })
 
+  it('flipC', () => {
+    const f = (a: number) => (b: string) => a - b.length
+    U.deepStrictEqual(_.flipC(f)('aaa')(2), -1)
+  })
+
   it('not', () => {
     // tslint:disable-next-line: deprecation
     const n = _.not(Boolean)
