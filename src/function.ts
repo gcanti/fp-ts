@@ -203,6 +203,22 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
 }
 
 /**
+ * Flips the arguments of a curried function.
+ *
+ * @example
+ * import { flipC } from 'fp-ts/function'
+ *
+ * const f = (a: number) => (b: string) => a - b.length
+ *
+ * assert.strictEqual(flipC(f)('aaa')(2), -1)
+ *
+ * @since 2.12.3
+ */
+export function flipC<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C {
+  return (b) => (a) => f(a)(b)
+}
+
+/**
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.
  *
  * See also [`pipe`](#pipe).
