@@ -163,7 +163,7 @@ export function constant<A>(a: A): Lazy<A> {
  *
  * @since 2.0.0
  */
-export const constTrue: Lazy<boolean> =
+export const constTrue: Lazy<true> =
   /*#__PURE__*/
   constant(true)
 
@@ -172,7 +172,7 @@ export const constTrue: Lazy<boolean> =
  *
  * @since 2.0.0
  */
-export const constFalse: Lazy<boolean> =
+export const constFalse: Lazy<false> =
   /*#__PURE__*/
   constant(false)
 

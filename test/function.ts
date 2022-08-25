@@ -28,11 +28,19 @@ describe('function', () => {
   })
 
   it('constTrue', () => {
-    U.deepStrictEqual(_.constTrue(), true)
+    const a: true = _.constTrue()
+    // @ts-expect-error
+    const b: false = _.constTrue()
+
+    U.deepStrictEqual(a, true)
   })
 
   it('constFalse', () => {
-    U.deepStrictEqual(_.constFalse(), false)
+    const a: false = _.constFalse()
+    // @ts-expect-error
+    const b: true = _.constFalse()
+
+    U.deepStrictEqual(a, false)
   })
 
   it('constNull', () => {
