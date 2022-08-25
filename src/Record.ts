@@ -1827,7 +1827,9 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
 export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
+ * (where `R` is from `import R from 'fp-ts/Record'`)
  *
  * @category instances
  * @since 2.0.0

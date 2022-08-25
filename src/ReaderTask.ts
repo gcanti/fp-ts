@@ -698,7 +698,9 @@ export const sequenceSeqArray: <R, A>(arr: ReadonlyArray<ReaderTask<R, A>>) => R
 // tslint:disable: deprecation
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+ * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
  * @category instances
  * @since 2.3.0
@@ -715,7 +717,9 @@ export const readerTask: MonadTask2<URI> = {
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+ * (where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
  *
  * @category instances
  * @since 2.3.0

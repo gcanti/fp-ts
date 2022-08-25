@@ -775,7 +775,9 @@ export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.these`
+ * (where `T` is from `import T from 'fp-ts/These'`)
  *
  * @category instances
  * @since 2.0.0

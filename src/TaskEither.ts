@@ -1425,7 +1425,9 @@ export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => T
 // tslint:disable: deprecation
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
+ * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1446,7 +1448,9 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
+ * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
  * @category instances
  * @since 2.0.0

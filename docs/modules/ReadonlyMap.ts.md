@@ -570,7 +570,9 @@ Added in v2.5.0
 
 ## ~~readonlyMap~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
+(where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
 
 **Signature**
 

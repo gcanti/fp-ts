@@ -646,7 +646,9 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: Tree<A>): boolean =>
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
+ * (where `T` is from `import T from 'fp-ts/Tree'`)
  *
  * @category instances
  * @since 2.0.0

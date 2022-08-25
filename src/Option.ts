@@ -1317,7 +1317,9 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 export const mapNullable = chainNullableK
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
+ * (where `O` is from `import O from 'fp-ts/Option'`)
  *
  * @category instances
  * @since 2.0.0

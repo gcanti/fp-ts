@@ -1632,7 +1632,9 @@ Added in v2.0.0
 
 ## ~~readerTaskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
 
 **Signature**
 
@@ -1648,7 +1650,9 @@ Added in v2.0.0
 
 ## ~~readerTaskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
 
 **Signature**
 

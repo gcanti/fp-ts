@@ -1223,7 +1223,9 @@ export const difference = <K>(
 export const insertAt: <K>(E: Eq<K>) => <A>(k: K, a: A) => (m: ReadonlyMap<K, A>) => ReadonlyMap<K, A> = upsertAt
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RM.Functor` instead of `RM.readonlyMap`
+ * (where `RM` is from `import RM from 'fp-ts/ReadonlyMap'`)
  *
  * @category instances
  * @since 2.5.0

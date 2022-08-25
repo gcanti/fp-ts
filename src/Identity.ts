@@ -416,7 +416,9 @@ export const apS =
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
+ * (where `I` is from `import I from 'fp-ts/Identity'`)
  *
  * @category instances
  * @since 2.0.0

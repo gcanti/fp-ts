@@ -328,7 +328,9 @@ Added in v2.0.0
 
 ## ~~state~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `S.Functor` instead of `S.state`
+(where `S` is from `import S from 'fp-ts/State'`)
 
 **Signature**
 

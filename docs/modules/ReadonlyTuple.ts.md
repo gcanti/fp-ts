@@ -364,7 +364,9 @@ Added in v2.5.0
 
 ## ~~readonlyTuple~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+(where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
 
 **Signature**
 

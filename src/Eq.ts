@@ -189,7 +189,9 @@ export const getStructEq: <O extends ReadonlyRecord<string, any>>(eqs: { [K in k
 export const strictEqual: <A>(a: A, b: A) => boolean = eqStrict.equals
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
+ * (where `E` is from `import E from 'fp-ts/Eq'`)
  *
  * @category instances
  * @since 2.0.0

@@ -486,7 +486,9 @@ Added in v2.0.0
 
 ## ~~taskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 
@@ -498,7 +500,9 @@ Added in v2.0.0
 
 ## ~~task~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 

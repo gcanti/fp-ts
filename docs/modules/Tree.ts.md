@@ -546,7 +546,9 @@ Added in v2.0.0
 
 ## ~~tree~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tree`
+(where `T` is from `import T from 'fp-ts/Tree'`)
 
 **Signature**
 

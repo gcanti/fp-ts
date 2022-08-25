@@ -1052,7 +1052,9 @@ export const sequenceArray: <R, E, A>(
 // tslint:disable: deprecation
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RE.Functor` instead of `RE.readerEither`
+ * (where `R` is from `import R from 'fp-ts/ReaderEither'`)
  *
  * @category instances
  * @since 2.0.0

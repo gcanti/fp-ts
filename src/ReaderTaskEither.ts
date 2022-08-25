@@ -1558,7 +1558,9 @@ export const sequenceSeqArray: <R, E, A>(
 // tslint:disable: deprecation
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
+ * (where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1579,7 +1581,9 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
+ * (where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
  *
  * @category instances
  * @since 2.0.0

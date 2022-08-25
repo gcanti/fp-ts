@@ -180,7 +180,9 @@ export const Comonad: Comonad2<URI> = {
 // -------------------------------------------------------------------------------------
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Comonad` instance, pass `S.Comonad` instead of `S.store`
+ * (where `S` is from `import S from 'fp-ts/Store'`)
  *
  * @category instances
  * @since 2.0.0

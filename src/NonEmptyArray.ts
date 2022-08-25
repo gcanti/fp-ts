@@ -1338,7 +1338,9 @@ export const prependToAll = prependAll
 export const fold: <A>(S: Semigroup<A>) => (fa: NonEmptyArray<A>) => A = RNEA.concatAll
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `NEA.Functor` instead of `NEA.nonEmptyArray`
+ * (where `NEA` is from `import NEA from 'fp-ts/NonEmptyArray'`)
  *
  * @category instances
  * @since 2.0.0

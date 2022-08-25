@@ -1298,7 +1298,9 @@ Added in v2.0.0
 
 ## ~~taskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
 
 **Signature**
 
@@ -1314,7 +1316,9 @@ Added in v2.0.0
 
 ## ~~taskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
 
 **Signature**
 

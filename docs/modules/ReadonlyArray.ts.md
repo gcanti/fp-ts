@@ -2172,7 +2172,9 @@ Added in v2.11.0
 
 ## ~~readonlyArray~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
+(where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
 
 **Signature**
 

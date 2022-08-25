@@ -3051,7 +3051,9 @@ Added in v2.11.0
 
 ## ~~array~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `A.Functor` instead of `A.array`
+(where `A` is from `import A from 'fp-ts/Array'`)
 
 **Signature**
 

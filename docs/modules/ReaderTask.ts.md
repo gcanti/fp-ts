@@ -638,7 +638,9 @@ Added in v2.3.0
 
 ## ~~readerTaskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 
@@ -650,7 +652,9 @@ Added in v2.3.0
 
 ## ~~readerTask~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 

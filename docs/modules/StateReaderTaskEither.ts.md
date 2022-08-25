@@ -1276,7 +1276,9 @@ Added in v2.0.0
 
 ## ~~stateReaderTaskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
 
 **Signature**
 
@@ -1292,7 +1294,9 @@ Added in v2.0.0
 
 ## ~~stateReaderTaskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
 
 **Signature**
 

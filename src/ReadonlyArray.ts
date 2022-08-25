@@ -2580,7 +2580,9 @@ export const snoc = RNEA.snoc
 export const prependToAll = prependAll
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
+ * (where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
  *
  * @category instances
  * @since 2.5.0

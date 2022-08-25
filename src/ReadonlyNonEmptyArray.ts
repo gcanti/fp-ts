@@ -1420,7 +1420,9 @@ export const prependToAll = prependAll
 export const fold = concatAll
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
+ * (where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
  *
  * @category instances
  * @since 2.5.0

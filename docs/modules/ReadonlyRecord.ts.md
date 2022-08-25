@@ -1088,7 +1088,9 @@ Added in v2.7.0
 
 ## ~~readonlyRecord~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
+(where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
 
 **Signature**
 

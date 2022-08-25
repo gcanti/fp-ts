@@ -1050,7 +1050,9 @@ Added in v2.0.0
 
 ## ~~ioEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IOE.Functor` instead of `IOE.ioEither`
+(where `IOE` is from `import IOE from 'fp-ts/IOEither'`)
 
 **Signature**
 

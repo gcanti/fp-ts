@@ -1452,7 +1452,9 @@ export const stringifyJSON = <E>(u: unknown, onError: (reason: unknown) => E): E
   }, onError)
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
+ * (where `E` is from `import E from 'fp-ts/Either'`)
  *
  * @category instances
  * @since 2.0.0

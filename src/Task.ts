@@ -580,7 +580,9 @@ export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<Readonly
 // tslint:disable: deprecation
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
+ * (where `T` is from `import T from 'fp-ts/Task'`)
  *
  * @category instances
  * @since 2.0.0
@@ -597,7 +599,9 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
+ * (where `T` is from `import T from 'fp-ts/Task'`)
  *
  * @category instances
  * @since 2.0.0

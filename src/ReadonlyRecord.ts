@@ -2323,7 +2323,9 @@ export function hasOwnProperty<K extends string>(this: any, k: string, r?: Reado
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RR.Functor` instead of `RR.readonlyRecord`
+ * (where `RR` is from `import RR from 'fp-ts/ReadonlyRecord'`)
  *
  * @category instances
  * @since 2.5.0

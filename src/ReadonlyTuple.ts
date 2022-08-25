@@ -401,7 +401,9 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+ * (where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
  *
  * @category instances
  * @since 2.5.0

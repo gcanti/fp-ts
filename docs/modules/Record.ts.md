@@ -898,7 +898,9 @@ Added in v2.7.0
 
 ## ~~record~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
+(where `R` is from `import R from 'fp-ts/Record'`)
 
 **Signature**
 

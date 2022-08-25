@@ -306,7 +306,9 @@ Added in v2.0.0
 
 ## ~~const\_~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `C.Functor` instead of `C.const_`
+(where `C` is from `import C from 'fp-ts/Const'`)
 
 **Signature**
 
