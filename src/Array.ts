@@ -647,9 +647,7 @@ const spanLeftIndex = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * @since 2.10.0
  */
 export interface Spanned<I, R> {
-  // tslint:disable-next-line: readonly-keyword
   init: Array<I>
-  // tslint:disable-next-line: readonly-keyword
   rest: Array<R>
 }
 
@@ -1653,9 +1651,7 @@ export const chain: <A, B>(f: (a: A) => Array<B>) => (ma: Array<A>) => Array<B> 
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(mma: Array<Array<A>>) => Array<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Array<Array<A>>) => Array<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Same as [`map`](#map), but the iterating function takes both the index and the value
@@ -1736,9 +1732,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Array<A>) => Arra
  * @category Compactable
  * @since 2.0.0
  */
-export const compact: <A>(fa: Array<Option<A>>) => Array<A> =
-  /*#__PURE__*/
-  filterMap(identity)
+export const compact: <A>(fa: Array<Option<A>>) => Array<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
  * Separate an array of `Either`s into `Left`s and `Right`s, creating two new arrays:
@@ -1984,9 +1978,7 @@ export const extend: <A, B>(f: (as: Array<A>) => B) => (as: Array<A>) => Array<B
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(wa: Array<A>) => Array<Array<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Map and fold an `Array`.
@@ -2222,6 +2214,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): Array<A> => {
   const out: Array<A> = []
   let bb: B = b
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const mt = f(bb)
     if (_.isSome(mt)) {
@@ -2460,9 +2453,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -2501,9 +2492,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -2513,9 +2502,7 @@ export const apFirst =
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -2548,9 +2535,7 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -2596,9 +2581,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -2726,12 +2709,8 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
   traverseWithIndex: _traverseWithIndex
 }
 
-const _wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
-const _wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
@@ -2800,9 +2779,7 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
  *
  * @since 2.11.0
  */
-export const filterE =
-  /*#__PURE__*/
-  filterE_(Witherable)
+export const filterE = /*#__PURE__*/ filterE_(Witherable)
 
 /**
  * @category instances
@@ -2817,9 +2794,7 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // unsafe
@@ -2908,23 +2883,17 @@ export const intercalate: <A>(M: Monoid<A>) => (middle: A) => (as: Array<A>) => 
 /**
  * @since 2.9.0
  */
-export const Do: Array<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Array<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -2933,15 +2902,11 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `NonEmptyArray` module instead.

@@ -76,6 +76,7 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
+  // eslint-disable-next-line prefer-const
   let SA: Eq<Array<Tree<A>>>
   const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   SA = A.getEq(R)
@@ -83,7 +84,7 @@ export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
 }
 
 const draw = (indentation: string, forest: Forest<string>): string => {
-  let r: string = ''
+  let r = ''
   const len = forest.length
   let tree: Tree<string>
   for (let i = 0; i < len; i++) {
@@ -324,9 +325,7 @@ export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> =
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -334,9 +333,7 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -457,9 +454,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -488,9 +483,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -500,9 +493,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -547,9 +538,7 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -594,23 +583,17 @@ export const Comonad: Comonad1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: Tree<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Tree<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -619,9 +602,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils

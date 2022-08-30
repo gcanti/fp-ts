@@ -253,7 +253,6 @@ describe('TaskOption', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const some = (n: number): _.TaskOption<number> =>
         _.fromIO(() => {
@@ -268,17 +267,13 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceArray)(), O.some([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceArray)(), O.none)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceArray)(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const some = (n: number): _.TaskOption<number> =>
         _.fromIO(() => {
@@ -293,11 +288,8 @@ describe('TaskOption', () => {
           }),
           T.map(() => O.none)
         )
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceSeqArray)(), O.some([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceSeqArray)(), O.none)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceSeqArray)(), O.none)
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })

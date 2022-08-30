@@ -240,9 +240,7 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Foldable
@@ -321,9 +319,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

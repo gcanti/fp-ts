@@ -109,9 +109,7 @@ export const extract: <A>(wa: Identity<A>) => A = id
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
-  /*#__PURE__*/
-  extend(id)
+export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(id)
 
 /**
  * Derivable from `Chain`.
@@ -119,9 +117,7 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
-  /*#__PURE__*/
-  chain(id)
+export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ chain(id)
 
 /**
  * @category Foldable
@@ -223,9 +219,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -254,9 +248,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -266,9 +258,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -313,9 +303,7 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -382,23 +370,17 @@ export const ChainRec: ChainRec1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: Identity<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -407,9 +389,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated

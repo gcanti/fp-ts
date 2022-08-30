@@ -39,6 +39,7 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor4, Functor3C }
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { tuple } from './function'
 import { Semigroup } from './Semigroup'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -530,7 +531,7 @@ const tupleConstructors: Record<number, (a: unknown) => any> = {
 }
 
 function getTupleConstructor(len: number): (a: unknown) => any {
-  if (!tupleConstructors.hasOwnProperty(len)) {
+  if (!_.has.call(tupleConstructors, len)) {
     tupleConstructors[len] = curried(tuple, len - 1, [])
   }
   return tupleConstructors[len]

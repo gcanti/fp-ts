@@ -429,8 +429,6 @@ export function toTuple2<F>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @category model
  * @since 2.4.0

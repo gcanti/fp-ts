@@ -60,9 +60,7 @@ export interface IOOption<A> extends IO<Option<A>> {}
  * @category constructors
  * @since 2.12.0
  */
-export const some: <A>(a: A) => IOOption<A> =
-  /*#__PURE__*/
-  OT.some(I.Pointed)
+export const some: <A>(a: A) => IOOption<A> = /*#__PURE__*/ OT.some(I.Pointed)
 
 /**
  * @category constructors
@@ -72,9 +70,7 @@ export const fromPredicate: {
   <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOOption<B>
   <A>(predicate: Predicate<A>): (a: A) => IOOption<A>
-} =
-  /*#__PURE__*/
-  OT.fromPredicate(I.Pointed)
+} = /*#__PURE__*/ OT.fromPredicate(I.Pointed)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -90,25 +86,19 @@ export const fromOption: NaturalTransformation11<O.URI, URI> = I.of
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] =
-  /*#__PURE__*/
-  OT.fromEither(I.Pointed)
+export const fromEither: FromEither1<URI>['fromEither'] = /*#__PURE__*/ OT.fromEither(I.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] =
-  /*#__PURE__*/
-  OT.fromF(I.Functor)
+export const fromIO: FromIO1<URI>['fromIO'] = /*#__PURE__*/ OT.fromF(I.Functor)
 
 /**
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromIOEither: NaturalTransformation21<IEURI, URI> =
-  /*#__PURE__*/
-  I.map(O.fromEither)
+export const fromIOEither: NaturalTransformation21<IEURI, URI> = /*#__PURE__*/ I.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -118,9 +108,9 @@ export const fromIOEither: NaturalTransformation21<IEURI, URI> =
  * @category destructors
  * @since 2.12.0
  */
-export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOption<A>) => IO<B> =
-  /*#__PURE__*/
-  OT.match(I.Functor)
+export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOption<A>) => IO<B> = /*#__PURE__*/ OT.match(
+  I.Functor
+)
 
 /**
  * Less strict version of [`match`](#match).
@@ -134,9 +124,10 @@ export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: IOO
  * @category destructors
  * @since 2.12.0
  */
-export const matchE: <B, A>(onNone: () => IO<B>, onSome: (a: A) => IO<B>) => (ma: IOOption<A>) => IO<B> =
-  /*#__PURE__*/
-  OT.matchE(I.Chain)
+export const matchE: <B, A>(
+  onNone: () => IO<B>,
+  onSome: (a: A) => IO<B>
+) => (ma: IOOption<A>) => IO<B> = /*#__PURE__*/ OT.matchE(I.Chain)
 
 /**
  * Alias of [`matchE`](#matche).
@@ -161,9 +152,7 @@ export const matchEW: <B, C, A>(
  * @category destructors
  * @since 2.12.0
  */
-export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> =
-  /*#__PURE__*/
-  OT.getOrElse(I.Monad)
+export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElse(I.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
@@ -193,9 +182,7 @@ export const toNullable: <A>(ma: IOOption<A>) => IO<A | null> = I.map(O.toNullab
  * @category interop
  * @since 2.12.0
  */
-export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> =
-  /*#__PURE__*/
-  OT.fromNullable(I.Pointed)
+export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> = /*#__PURE__*/ OT.fromNullable(I.Pointed)
 
 /**
  * @category interop
@@ -203,9 +190,7 @@ export const fromNullable: <A>(a: A) => IOOption<NonNullable<A>> =
  */
 export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => (...a: A) => IOOption<NonNullable<B>> =
-  /*#__PURE__*/
-  OT.fromNullableK(I.Pointed)
+) => (...a: A) => IOOption<NonNullable<B>> = /*#__PURE__*/ OT.fromNullableK(I.Pointed)
 
 /**
  * @category interop
@@ -213,9 +198,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  */
 export const chainNullableK: <A, B>(
   f: (a: A) => B | null | undefined
-) => (ma: IOOption<A>) => IOOption<NonNullable<B>> =
-  /*#__PURE__*/
-  OT.chainNullableK(I.Monad)
+) => (ma: IOOption<A>) => IOOption<NonNullable<B>> = /*#__PURE__*/ OT.chainNullableK(I.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -225,17 +208,17 @@ export const chainNullableK: <A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => (...a: A) => IOOption<B> =
-  /*#__PURE__*/
-  OT.fromOptionK(I.Pointed)
+export const fromOptionK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ OT.fromOptionK(I.Pointed)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/
-  OT.chainOptionK(I.Monad)
+export const chainOptionK: <A, B>(
+  f: (a: A) => Option<B>
+) => (ma: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OT.chainOptionK(I.Monad)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -248,17 +231,13 @@ export const chainOptionK: <A, B>(f: (a: A) => Option<B>) => (ma: IOOption<A>) =
  * @category Functor
  * @since 2.12.0
  */
-export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/
-  OT.map(I.Functor)
+export const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OT.map(I.Functor)
 
 /**
  * @category Apply
  * @since 2.12.0
  */
-export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> =
-  /*#__PURE__*/
-  OT.ap(I.Apply)
+export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B> = /*#__PURE__*/ OT.ap(I.Apply)
 
 /**
  * @category Pointed
@@ -270,9 +249,9 @@ export const of: Pointed1<URI>['of'] = some
  * @category Monad
  * @since 2.12.0
  */
-export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/
-  OT.chain(I.Monad)
+export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OT.chain(
+  I.Monad
+)
 
 /**
  * Derivable from `Chain`.
@@ -280,17 +259,13 @@ export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOO
  * @category combinators
  * @since 2.12.0
  */
-export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * @category Alt
  * @since 2.12.0
  */
-export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> =
-  /*#__PURE__*/
-  OT.alt(I.Monad)
+export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ OT.alt(I.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -304,33 +279,25 @@ export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => 
  * @category Zero
  * @since 2.12.0
  */
-export const zero: Zero1<URI>['zero'] =
-  /*#__PURE__*/
-  OT.zero(I.Pointed)
+export const zero: Zero1<URI>['zero'] = /*#__PURE__*/ OT.zero(I.Pointed)
 
 /**
  * @category constructors
  * @since 2.12.0
  */
-export const none: IOOption<never> =
-  /*#__PURE__*/
-  zero()
+export const none: IOOption<never> = /*#__PURE__*/ zero()
 
 /**
  * @category Compactable
  * @since 2.12.0
  */
-export const compact: Compactable1<URI>['compact'] =
-  /*#__PURE__*/
-  compact_(I.Functor, O.Compactable)
+export const compact: Compactable1<URI>['compact'] = /*#__PURE__*/ compact_(I.Functor, O.Compactable)
 
 /**
  * @category Compactable
  * @since 2.12.0
  */
-export const separate: Compactable1<URI>['separate'] =
-  /*#__PURE__*/
-  separate_(I.Functor, O.Compactable, O.Functor)
+export const separate: Compactable1<URI>['separate'] = /*#__PURE__*/ separate_(I.Functor, O.Compactable, O.Functor)
 
 /**
  * @category Filterable
@@ -340,17 +307,16 @@ export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => IOOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => IOOption<B>
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
-} =
-  /*#__PURE__*/
-  filter_(I.Functor, O.Filterable)
+} = /*#__PURE__*/ filter_(I.Functor, O.Filterable)
 
 /**
  * @category Filterable
  * @since 2.12.0
  */
-export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/
-  filterMap_(I.Functor, O.Filterable)
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> = /*#__PURE__*/ filterMap_(
+  I.Functor,
+  O.Filterable
+)
 
 /**
  * @category Filterable
@@ -360,9 +326,7 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
-} =
-  /*#__PURE__*/
-  partition_(I.Functor, O.Filterable)
+} = /*#__PURE__*/ partition_(I.Functor, O.Filterable)
 
 /**
  * @category Filterable
@@ -370,9 +334,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> =
-  /*#__PURE__*/
-  partitionMap_(I.Functor, O.Filterable)
+) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ partitionMap_(I.Functor, O.Filterable)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -428,9 +390,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -459,9 +419,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -471,9 +429,7 @@ export const apFirst =
  * @category combinators
  * @since 2.12.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -506,9 +462,7 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -533,9 +487,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.12.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -613,25 +565,19 @@ export const FromIO: FromIO1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -646,25 +592,21 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: IOOption<A>) => IOOption<B> =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: IOOption<A>) => IOOption<B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK =
-  /*#__PURE__*/
-  chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -673,23 +615,17 @@ export const chainFirstEitherK =
 /**
  * @since 2.12.0
  */
-export const Do: IOOption<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: IOOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.12.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.12.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -698,9 +634,7 @@ export const bind =
 /**
  * @since 2.12.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -709,9 +643,7 @@ export const apS =
 /**
  * @since 2.12.0
  */
-export const ApT: IOOption<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

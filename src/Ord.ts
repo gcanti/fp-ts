@@ -233,9 +233,7 @@ export const Contravariant: Contravariant1<URI> = {
  */
 export const trivial: Ord<unknown> = {
   equals: constTrue,
-  compare:
-    /*#__PURE__*/
-    constant(0)
+  compare: /*#__PURE__*/ constant(0)
 }
 
 /**
@@ -320,8 +318,6 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (a: A) => boolean) =>
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`tuple`](#tuple) instead.
  *
@@ -395,10 +391,8 @@ export const ordNumber: Ord<number> = strictOrd
  * @since 2.0.0
  * @deprecated
  */
-export const ordDate: Ord<Date> =
+export const ordDate: Ord<Date> = /*#__PURE__*/ pipe(
+  ordNumber,
   /*#__PURE__*/
-  pipe(
-    ordNumber,
-    /*#__PURE__*/
-    contramap((date) => date.valueOf())
-  )
+  contramap((date) => date.valueOf())
+)

@@ -1492,9 +1492,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1569,9 +1567,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>)
  * @category Compactable
  * @since 2.5.0
  */
-export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> =
-  /*#__PURE__*/
-  filterMap(identity)
+export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
  * @category Filterable
@@ -1670,9 +1666,7 @@ export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category FoldableWithIndex
@@ -1799,6 +1793,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
   const out: Array<A> = []
   let bb: B = b
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const mt = f(bb)
     if (_.isSome(mt)) {
@@ -1976,9 +1971,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -2017,9 +2010,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -2029,9 +2020,7 @@ export const apFirst =
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -2076,9 +2065,7 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -2112,9 +2099,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -2314,12 +2299,8 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   chainRec: _chainRecBreadthFirst
 }
 
-const _wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
-const _wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
@@ -2365,9 +2346,7 @@ export const Witherable: Witherable1<URI> = {
  *
  * @since 2.11.0
  */
-export const filterE =
-  /*#__PURE__*/
-  filterE_(Witherable)
+export const filterE = /*#__PURE__*/ filterE_(Witherable)
 
 /**
  * @category instances
@@ -2382,9 +2361,7 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // unsafe
@@ -2508,23 +2485,17 @@ export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray
 /**
  * @since 2.9.0
  */
-export const Do: ReadonlyArray<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -2533,15 +2504,11 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `ReadonlyNonEmptyArray` module instead.

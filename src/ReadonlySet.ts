@@ -123,7 +123,6 @@ export function filter<A>(predicate: Predicate<A>): (set: ReadonlySet<A>) => Rea
     const values = set.values()
     let e: Next<A>
     const r = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const a = e.value
       if (predicate(a)) {
@@ -154,7 +153,6 @@ export function partition<A>(
     let e: Next<A>
     const right = new Set<A>()
     const left = new Set<A>()
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const a = e.value
       if (predicate(a)) {
@@ -254,7 +252,6 @@ export function partitionMap<B, C>(
     const right = new Set<C>()
     const hasB = elem(EB)
     const hasC = elem(EC)
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = f(e.value)
       switch (v._tag) {
@@ -458,7 +455,6 @@ export const some = <A>(predicate: Predicate<A>) => (set: ReadonlySet<A>): boole
   const values = set.values()
   let e: Next<A>
   let found = false
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!found && !(e = values.next()).done) {
     found = predicate(e.value)
   }
@@ -520,7 +516,6 @@ export function elem<A>(E: Eq<A>): (a: A, set?: ReadonlySet<A>) => boolean | ((s
     const values = set.values()
     let e: Next<A>
     let found = false
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!found && !(e = values.next()).done) {
       found = E.equals(a, e.value)
     }

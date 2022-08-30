@@ -204,8 +204,6 @@ export function execute<F>(F: Functor<F>): <S>(s: S) => <A>(ma: StateT<F, S, A>)
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @since 2.0.0
  * @deprecated

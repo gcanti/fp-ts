@@ -79,7 +79,6 @@ describe('Eq', () => {
   })
 
   it('eqDate', () => {
-    // tslint:disable-next-line: deprecation
     const E = _.eqDate
     U.deepStrictEqual(E.equals(new Date(0), new Date(0)), true)
     U.deepStrictEqual(E.equals(new Date(0), new Date(1)), false)

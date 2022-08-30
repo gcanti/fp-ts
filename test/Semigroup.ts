@@ -17,9 +17,7 @@ describe('Semigroup', () => {
   })
 
   it('fold', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fold(S.Monoid)('', ['a', 'b', 'c']), 'abc')
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.fold(S.Monoid)('')(['a', 'b', 'c']), 'abc')
   })
 
@@ -36,7 +34,6 @@ describe('Semigroup', () => {
   })
 
   it('semigroupVoid', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.semigroupVoid.concat(undefined, undefined), undefined)
   })
 
@@ -58,7 +55,6 @@ describe('Semigroup', () => {
   })
 
   it('semigroupAll', () => {
-    // tslint:disable-next-line: deprecation
     const S = _.semigroupAll
     U.deepStrictEqual(S.concat(true, true), true)
     U.deepStrictEqual(S.concat(false, true), false)
@@ -67,7 +63,6 @@ describe('Semigroup', () => {
   })
 
   it('semigroupAny', () => {
-    // tslint:disable-next-line: deprecation
     const S = _.semigroupAny
     U.deepStrictEqual(S.concat(true, true), true)
     U.deepStrictEqual(S.concat(false, true), true)
@@ -76,12 +71,10 @@ describe('Semigroup', () => {
   })
 
   it('semigroupSum', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.semigroupSum.concat(2, 3), 5)
   })
 
   it('semigroupProduct', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.semigroupProduct.concat(2, 3), 6)
   })
 
@@ -97,7 +90,6 @@ describe('Semigroup', () => {
     const bar: T = {
       bar: '123'
     }
-    // tslint:disable-next-line: deprecation
     const S = _.getObjectSemigroup<T>()
     U.deepStrictEqual(S.concat(foo, bar), Object.assign({}, foo, bar))
   })

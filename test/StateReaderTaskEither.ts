@@ -183,7 +183,6 @@ describe('StateReaderTaskEither', () => {
   })
 
   it('applicativeReaderTaskEitherSeq', async () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): _.StateReaderTaskEither<{}, {}, void, number> =>
       _.rightTask(() => Promise.resolve(log.push(message)))
@@ -408,7 +407,6 @@ describe('StateReaderTaskEither', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.StateReaderTaskEither<undefined, undefined, string, number> =>
         _.rightIO(() => {
@@ -421,13 +419,10 @@ describe('StateReaderTaskEither', () => {
           return s
         })
       assert.deepStrictEqual(
-        // tslint:disable-next-line: deprecation
         await pipe([right(1), right(2)], _.sequenceArray)(undefined)(undefined)(),
         E.right([[1, 2], undefined])
       )
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(undefined)(undefined)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(undefined)(undefined)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
@@ -438,7 +433,6 @@ describe('StateReaderTaskEither', () => {
       U.deepStrictEqual(
         await pipe(
           [1, 2, 3],
-          // tslint:disable-next-line: deprecation
           _.traverseArray(append),
           _.map(() => undefined)
         )([])({})(),

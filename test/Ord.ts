@@ -161,7 +161,6 @@ describe('Ord', () => {
   })
 
   it('ordDate', () => {
-    // tslint:disable-next-line: deprecation
     const O = _.ordDate
     U.deepStrictEqual(O.compare(new Date(0), new Date(0)), 0)
     U.deepStrictEqual(O.compare(new Date(0), new Date(1)), -1)

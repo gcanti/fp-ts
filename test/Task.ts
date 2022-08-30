@@ -20,7 +20,6 @@ const assertOp = <A, B, C>(f: (a: _.Task<A>, b: _.Task<B>) => _.Task<C>) => asyn
   expected: C,
   expectedLog: ReadonlyArray<A | B>
 ) => {
-  // tslint:disable-next-line: readonly-array
   const log: Array<unknown> = []
   const append: <A>(ma: _.Task<A>) => _.Task<A> = _.chainFirst((x) =>
     _.fromIO(() => {
@@ -137,7 +136,6 @@ describe('Task', () => {
   })
 
   it('getMonoid', async () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(S.Monoid)
     const deepStrictEqual = assertOp(M.concat)
     const a = pipe(_.of('a'), _.delay(100))
@@ -221,7 +219,6 @@ describe('Task', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.Task<number> =>
         _.delay(n % 2 === 0 ? 50 : 100)(
@@ -231,13 +228,11 @@ describe('Task', () => {
           })
         )
       const as = RA.makeBy(4, append)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe(as, _.sequenceArray)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 2, 1, 3])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.Task<number> =>
         _.delay(n % 2 === 0 ? 50 : 100)(
@@ -247,7 +242,6 @@ describe('Task', () => {
           })
         )
       const as = RA.makeBy(4, append)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })

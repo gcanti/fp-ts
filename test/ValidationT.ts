@@ -6,7 +6,6 @@ import * as E from '../src/Either'
 
 describe('ValidationT', () => {
   describe('getValidationM', () => {
-    // tslint:disable-next-line: deprecation
     const VT = _.getValidationM(semigroupString, IO.Monad)
 
     it('chain', () => {

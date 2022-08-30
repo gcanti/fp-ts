@@ -217,9 +217,7 @@ export const extend: <E, A, B>(f: (wa: [A, E]) => B) => (wa: [A, E]) => [B, E] =
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: [A, E]) => [[A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Extract
@@ -300,9 +298,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

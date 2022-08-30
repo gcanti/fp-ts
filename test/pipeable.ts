@@ -11,8 +11,6 @@ import * as N from '../src/number'
 import { separated } from '../src/Separated'
 import * as assert from 'assert'
 
-// tslint:disable: deprecation
-
 describe('pipeable', () => {
   it('{}', () => {
     const r = pipeable<'{}', {}>({ URI: '{}' })

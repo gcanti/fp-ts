@@ -107,9 +107,7 @@ export const extract: <E, A>(wa: Store<E, A>) => A = (wa) => wa.peek(wa.pos)
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -160,9 +158,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
