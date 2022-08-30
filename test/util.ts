@@ -44,7 +44,6 @@ export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => a
   MT: FromTask<F>,
   run: (fa: HKT<F, unknown>) => Promise<unknown>
 ) => {
-  // tslint:disable-next-line: readonly-array
   const log: Array<string> = []
   const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))
   const b = MT.fromTask(T.fromIO(() => log.push('b')))

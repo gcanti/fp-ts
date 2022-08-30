@@ -128,7 +128,6 @@ describe('TaskEither', () => {
   it('getApplicativeTaskValidation', async () => {
     const A = _.getApplicativeTaskValidation(T.ApplicativePar, S.Semigroup)
     U.deepStrictEqual(await sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getTaskValidation(S.Semigroup)
     U.deepStrictEqual(await sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
@@ -136,13 +135,11 @@ describe('TaskEither', () => {
   it('getAltTaskValidation', async () => {
     const A = _.getAltTaskValidation(S.Semigroup)
     U.deepStrictEqual(await A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getTaskValidation(S.Semigroup)
     U.deepStrictEqual(await AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
 
   describe('getTaskValidation', () => {
-    // tslint:disable-next-line: deprecation
     const TV = _.getTaskValidation(S.Semigroup)
 
     it('ap', async () => {
@@ -181,7 +178,6 @@ describe('TaskEither', () => {
 
   describe('getFilterable', () => {
     const F_ = _.getFilterable(RA.getMonoid<string>())
-    // tslint:disable-next-line: deprecation
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
     it('filter', async () => {
@@ -253,7 +249,6 @@ describe('TaskEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', async () => {
-      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup<string, number>(N.SemigroupSum)
       U.deepStrictEqual(await S.concat(_.left('a'), _.left('b'))(), E.left('a'))
       U.deepStrictEqual(await S.concat(_.left('a'), _.right(2))(), E.right(2))
@@ -263,7 +258,6 @@ describe('TaskEither', () => {
   })
 
   describe('getApplyMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', async () => {
@@ -321,7 +315,6 @@ describe('TaskEither', () => {
   })
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -691,7 +684,6 @@ describe('TaskEither', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.TaskEither<string, number> =>
         _.rightIO(() => {
@@ -703,17 +695,13 @@ describe('TaskEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.TaskEither<string, number> =>
         _.rightIO(() => {
@@ -725,11 +713,8 @@ describe('TaskEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })

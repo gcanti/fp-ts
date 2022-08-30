@@ -155,9 +155,9 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chainW(
+  identity
+)
 
 /**
  * Derivable from `Chain`.
@@ -248,9 +248,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -279,9 +277,7 @@ export const Apply: Apply2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Less strict version of [`apFirst`](#apfirst).
@@ -301,9 +297,7 @@ export const apFirstW: <R2, B>(
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond).
@@ -358,9 +352,7 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -425,16 +417,12 @@ export const Choice: Choice2<URI> = {
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
  * @since 2.8.0
@@ -453,16 +441,12 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 2.9.0
  */
-export const Do: Reader<unknown, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
  * @since 2.8.0
@@ -481,9 +465,7 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: Reader<unknown, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -533,15 +515,13 @@ export const traverseArray = <R, A, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <R, A>(arr: ReadonlyArray<Reader<R, A>>) => Reader<R, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <R, A>(
+  arr: ReadonlyArray<Reader<R, A>>
+) => Reader<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * This instance is deprecated, use small, specific instances instead.
@@ -574,9 +554,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
  * @since 2.0.0
  * @deprecated
  */
-export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> =
-  /*#__PURE__*/
-  getApplySemigroup(Apply)
+export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> = /*#__PURE__*/ getApplySemigroup(Apply)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -585,6 +563,4 @@ export const getSemigroup: <R, A>(S: Semigroup<A>) => Semigroup<Reader<R, A>> =
  * @since 2.0.0
  * @deprecated
  */
-export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<Reader<R, A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+export const getMonoid: <R, A>(M: Monoid<A>) => Monoid<Reader<R, A>> = /*#__PURE__*/ getApplicativeMonoid(Applicative)

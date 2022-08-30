@@ -187,7 +187,6 @@ describe('ReaderEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
-      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup(N.SemigroupSum)
       const e1 = S.concat(_.left('a'), _.left('b'))({})
       U.deepStrictEqual(e1, E.left('a'))
@@ -204,7 +203,6 @@ describe('ReaderEither', () => {
   })
 
   describe('getApplyMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(S.Monoid)
 
     it('concat (right)', () => {
@@ -243,7 +241,6 @@ describe('ReaderEither', () => {
   it('getApplicativeReaderValidation', () => {
     const A = _.getApplicativeReaderValidation(S.Monoid)
     U.deepStrictEqual(Apply.sequenceT(A)(_.left('a'), _.left('b'))(null), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getReaderValidation(S.Monoid)
     U.deepStrictEqual(Apply.sequenceT(AV)(_.left('a'), _.left('b'))(null), E.left('ab'))
   })
@@ -251,7 +248,6 @@ describe('ReaderEither', () => {
   it('getAltReaderValidation', () => {
     const A = _.getAltReaderValidation(S.Monoid)
     U.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getReaderValidation(S.Monoid)
     U.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(null), E.left('ab'))
   })
@@ -292,9 +288,7 @@ describe('ReaderEither', () => {
 
     // old
     it('sequenceArray', () => {
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray)(undefined), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray)(undefined), E.left('a'))
     })
   })

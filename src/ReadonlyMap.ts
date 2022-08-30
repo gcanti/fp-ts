@@ -126,7 +126,6 @@ export function elem<A>(E: Eq<A>): <K>(a: A, m?: ReadonlyMap<K, A>) => boolean |
     }
     const values = m.values()
     let e: Next<A>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = values.next()).done) {
       const v = e.value
       if (E.equals(a, v)) {
@@ -316,7 +315,6 @@ export function lookupWithKey<K>(
     }
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (E.equals(ka, k)) {
@@ -380,7 +378,6 @@ export function isSubmap<K, A>(
     }
     const entries = me.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const d2OptA = lookupWithKeyS(k, that)
@@ -427,7 +424,6 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       const r = new Map(mx)
       const entries = my.entries()
       let e: Next<readonly [K, A]>
-      // tslint:disable-next-line: strict-boolean-expressions
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
@@ -501,7 +497,6 @@ const _mapWithIndex = <K, A, B>(fa: ReadonlyMap<K, A>, f: (k: K, a: A) => B): Re
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [key, a] = e.value
     m.set(key, f(key, a))
@@ -520,7 +515,6 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
   const right = new Map<K, C>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
@@ -554,7 +548,6 @@ export function partitionWithIndex<K, A>(
     const right = new Map<K, A>()
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicateWithIndex(k, a)) {
@@ -577,7 +570,6 @@ export const filterMapWithIndex = <K, A, B>(f: (k: K, a: A) => Option<B>) => (
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, A]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
@@ -608,7 +600,6 @@ export function filterWithIndex<K, A>(
     const out = new Map<K, A>()
     const entries = m.entries()
     let e: Next<readonly [K, A]>
-    // tslint:disable-next-line: strict-boolean-expressions
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       if (predicateWithIndex(k, a)) {
@@ -649,7 +640,6 @@ export const compact = <K, A>(fa: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> 
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: Next<readonly [K, Option<A>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
     if (_.isSome(oa)) {
@@ -727,7 +717,6 @@ export const separate = <K, A, B>(
   const right = new Map<K, B>()
   const entries = fa.entries()
   let e: Next<readonly [K, Either<A, B>]>
-  // tslint:disable-next-line: strict-boolean-expressions
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
     if (_.isLeft(ei)) {
@@ -841,9 +830,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

@@ -481,9 +481,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -519,13 +517,9 @@ export const Extend: Extend1<URI> = {
  * @category instance operations
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
 
-const defaultSeparated =
-  /*#__PURE__*/
-  separated(none, none)
+const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
 /**
  * @category instance operations
@@ -624,13 +618,9 @@ export const Traversable: Traversable1<URI> = {
   sequence
 }
 
-const _wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
 
-const _wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * @category instance operations
@@ -849,9 +839,7 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -861,9 +849,7 @@ export const flap =
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -873,9 +859,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Derivable from `Chain`.
@@ -894,9 +878,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Derivable from `Extend`.
@@ -904,33 +886,25 @@ export const chainFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK =
-  /*#__PURE__*/
-  chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -1084,9 +1058,7 @@ export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: 
  * @category interop
  * @since 2.0.0
  */
-export const toNullable: <A>(ma: Option<A>) => A | null =
-  /*#__PURE__*/
-  match(constNull, identity)
+export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -1113,9 +1085,7 @@ export const toNullable: <A>(ma: Option<A>) => A | null =
  * @category interop
  * @since 2.0.0
  */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined =
-  /*#__PURE__*/
-  match(constUndefined, identity)
+export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1192,23 +1162,17 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =
 /**
  * @since 2.9.0
  */
-export const Do: Option<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1217,9 +1181,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1228,9 +1190,7 @@ export const apS =
 /**
  * @since 2.11.0
  */
-export const ApT: Option<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1287,15 +1247,13 @@ export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <A>(
+  arr: ReadonlyArray<Option<A>>
+) => Option<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `Refinement` module instead.
@@ -1362,9 +1320,7 @@ export const option: Monad1<URI> &
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(Apply)
+export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> = /*#__PURE__*/ getApplySemigroup_(Apply)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1373,9 +1329,7 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> = /*#__PURE__*/ getApplicativeMonoid(Applicative)
 
 /**
  * Use

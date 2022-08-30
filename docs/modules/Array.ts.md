@@ -3217,9 +3217,7 @@ Type returned by [`spanLeft`](#spanLeft) composed of an `init` array and a `rest
 
 ```ts
 export interface Spanned<I, R> {
-  // tslint:disable-next-line: readonly-keyword
   init: Array<I>
-  // tslint:disable-next-line: readonly-keyword
   rest: Array<R>
 }
 ```

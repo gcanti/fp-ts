@@ -123,9 +123,7 @@ export const chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => 
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -164,9 +162,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -195,9 +191,7 @@ export const Apply: Apply2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -207,9 +201,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -254,9 +246,9 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <S, A, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <S, A, B>(
+  f: (a: A) => State<S, B>
+) => (ma: State<S, A>) => State<S, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -291,16 +283,12 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -309,9 +297,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -365,15 +351,13 @@ export const traverseArray = <A, S, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <S, A>(arr: ReadonlyArray<State<S, A>>) => State<S, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <S, A>(
+  arr: ReadonlyArray<State<S, A>>
+) => State<S, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use [`evaluate`](#evaluate) instead

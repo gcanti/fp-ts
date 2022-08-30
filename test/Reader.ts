@@ -111,13 +111,11 @@ describe('Reader', () => {
   })
 
   it('getSemigroup', () => {
-    // tslint:disable-next-line: deprecation
     const S = _.getSemigroup(N.SemigroupSum)
     U.deepStrictEqual(S.concat(_.of(1), _.of(2))({}), 3)
   })
 
   it('getMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(N.MonoidSum)
     U.deepStrictEqual(M.concat(_.of(1), M.empty)({}), 1)
     U.deepStrictEqual(M.concat(M.empty, _.of(1))({}), 1)
@@ -158,9 +156,7 @@ describe('Reader', () => {
       U.deepStrictEqual(pipe(input, f)({}), ['a0', 'b1'])
     })
 
-    // old
     it('sequenceArray', () => {
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray)(undefined), [1, 2])
     })
   })

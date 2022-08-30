@@ -48,7 +48,6 @@ describe('TaskThese', () => {
   })
 
   it('getSemigroup', async () => {
-    // tslint:disable-next-line: deprecation
     const SSN = _.getSemigroup(S.Semigroup, N.SemigroupSum)
     U.deepStrictEqual(await SSN.concat(_.right(1), _.right(2))(), TH.right(3))
     U.deepStrictEqual(await SSN.concat(_.right(1), _.left('a'))(), TH.both('a', 1))
@@ -146,7 +145,6 @@ describe('TaskThese', () => {
   })
 
   it('toTuple', async () => {
-    // tslint:disable-next-line: deprecation
     const f = _.toTuple('b', 2)
     U.deepStrictEqual(await f(_.right(1))(), ['b', 1])
     U.deepStrictEqual(await f(_.left('a'))(), ['a', 2])

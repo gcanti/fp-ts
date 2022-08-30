@@ -47,57 +47,43 @@ export interface TaskThese<E, A> extends Task<These<E, A>> {}
  * @category constructors
  * @since 2.4.0
  */
-export const left: <E = never, A = never>(e: E) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.left(T.Pointed)
+export const left: <E = never, A = never>(e: E) => TaskThese<E, A> = /*#__PURE__*/ TT.left(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const right: <E = never, A = never>(a: A) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.right(T.Pointed)
+export const right: <E = never, A = never>(a: A) => TaskThese<E, A> = /*#__PURE__*/ TT.right(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const both: <E, A>(e: E, a: A) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.both(T.Pointed)
+export const both: <E, A>(e: E, a: A) => TaskThese<E, A> = /*#__PURE__*/ TT.both(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.rightF(T.Functor)
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskThese<E, A> = /*#__PURE__*/ TT.rightF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  TT.leftF(T.Functor)
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskThese<E, A> = /*#__PURE__*/ TT.leftF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, rightTask)
+export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskThese<E, A> = /*#__PURE__*/ flow(T.fromIO, rightTask)
 
 /**
  * @category constructors
  * @since 2.4.0
  */
-export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, leftTask)
+export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> = /*#__PURE__*/ flow(T.fromIO, leftTask)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -125,9 +111,7 @@ export const fromIO: FromIO2<URI>['fromIO'] = rightIO
  * @category natural transformations
  * @since 2.4.0
  */
-export const fromIOEither: NaturalTransformation22<IEURI, URI> =
-  /*#__PURE__*/
-  T.fromIO
+export const fromIOEither: NaturalTransformation22<IEURI, URI> = /*#__PURE__*/ T.fromIO
 
 /**
  * @category natural transformations
@@ -147,9 +131,7 @@ export const match: <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B,
   onBoth: (e: E, a: A) => B
-) => (fa: TaskThese<E, A>) => Task<B> =
-  /*#__PURE__*/
-  TT.match(T.Functor)
+) => (fa: TaskThese<E, A>) => Task<B> = /*#__PURE__*/ TT.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
@@ -171,9 +153,7 @@ export const matchE: <E, B, A>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>,
   onBoth: (e: E, a: A) => Task<B>
-) => (fa: TaskThese<E, A>) => Task<B> =
-  /*#__PURE__*/
-  TT.matchE(T.Monad)
+) => (fa: TaskThese<E, A>) => Task<B> = /*#__PURE__*/ TT.matchE(T.Monad)
 
 /**
  * Alias of [`matchE`](#matche).
@@ -211,9 +191,7 @@ export const foldW = matchEW
  * @category combinators
  * @since 2.4.0
  */
-export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> =
-  /*#__PURE__*/
-  TT.swap(T.Functor)
+export const swap: <E, A>(fa: TaskThese<E, A>) => TaskThese<A, E> = /*#__PURE__*/ TT.swap(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // non-pipeables
@@ -236,9 +214,9 @@ const _mapLeft: Bifunctor2<URI>['mapLeft'] = (fa, f) => pipe(fa, mapLeft(f))
  * @category Functor
  * @since 2.4.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> =
-  /*#__PURE__*/
-  TT.map(T.Functor)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThese<E, B> = /*#__PURE__*/ TT.map(
+  T.Functor
+)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -246,9 +224,10 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskThese<E, A>) => TaskThes
  * @category Bifunctor
  * @since 2.4.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThese<E, A>) => TaskThese<G, B> =
-  /*#__PURE__*/
-  TT.bimap(T.Functor)
+export const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => (fa: TaskThese<E, A>) => TaskThese<G, B> = /*#__PURE__*/ TT.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -256,9 +235,9 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskThe
  * @category Bifunctor
  * @since 2.4.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> =
-  /*#__PURE__*/
-  TT.mapLeft(T.Functor)
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskThese<E, A>) => TaskThese<G, A> = /*#__PURE__*/ TT.mapLeft(
+  T.Functor
+)
 
 /**
  * @category Pointed
@@ -367,9 +346,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -403,25 +380,19 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category constructors
  * @since 2.10.0
  */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+export const fromPredicate = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category instances
@@ -436,9 +407,7 @@ export const FromThese: FromThese2<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromTheseK =
-  /*#__PURE__*/
-  fromTheseK_(FromThese)
+export const fromTheseK = /*#__PURE__*/ fromTheseK_(FromThese)
 
 /**
  * @category instances
@@ -453,9 +422,7 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category instances
@@ -471,9 +438,7 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK =
-  /*#__PURE__*/
-  fromTaskK_(FromTask)
+export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -482,9 +447,10 @@ export const fromTaskK =
 /**
  * @since 2.10.0
  */
-export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> =
-  /*#__PURE__*/
-  TT.toTuple2(T.Functor)
+export const toTuple2: <E, A>(
+  e: Lazy<E>,
+  a: Lazy<A>
+) => (fa: TaskThese<E, A>) => Task<readonly [E, A]> = /*#__PURE__*/ TT.toTuple2(T.Functor)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -493,9 +459,7 @@ export const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) =
 /**
  * @since 2.11.0
  */
-export const ApT: TaskThese<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

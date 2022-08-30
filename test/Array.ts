@@ -377,21 +377,15 @@ describe('Array', () => {
   })
 
   it('cons', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons(0, [1, 2, 3]), [0, 1, 2, 3])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons([1], [[2]]), [[1], [2]])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([1, 2, 3], _.cons(0)), [0, 1, 2, 3])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(pipe([[2]], _.cons([1])), [[1], [2]])
   })
 
   it('snoc', () => {
     const as: Array<number> = [1, 2, 3]
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc(as, 4), [1, 2, 3, 4])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc([[1]], [2]), [[1], [2]])
   })
 
@@ -1001,22 +995,14 @@ describe('Array', () => {
   })
 
   it('range', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 0), [0])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(0, 1), [0, 1])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(1, 5), [1, 2, 3, 4, 5])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(10, 15), [10, 11, 12, 13, 14, 15])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, 0), [-1, 0])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-5, -1), [-5, -4, -3, -2, -1])
     // out of bound
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(2, 1), [2])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.range(-1, -2), [-1])
   })
 

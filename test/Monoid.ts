@@ -18,7 +18,6 @@ describe('Monoid', () => {
   })
 
   it('getEndomorphismMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getEndomorphismMonoid<number>()
     const f = M.concat(U.double, increment)
     U.deepStrictEqual(f(3), 8)

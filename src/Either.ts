@@ -743,9 +743,7 @@ export const FromEither: FromEither2<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+export const fromPredicate = /*#__PURE__*/ fromPredicate_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -775,9 +773,7 @@ export const fromPredicate =
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // refinements
@@ -910,9 +906,7 @@ export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A =
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -922,9 +916,7 @@ export const flap =
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Less strict version of [`apFirst`](#apfirst)
@@ -944,9 +936,7 @@ export const apFirstW: <E2, B>(
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond)
@@ -967,9 +957,9 @@ export const apSecondW: <E2, B>(
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: Either<E, A>) => Either<E, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst)
@@ -989,9 +979,9 @@ export const chainFirstW: <E2, A, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chainW(
+  identity
+)
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
@@ -1016,25 +1006,19 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = fla
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainOptionK =
-  /*#__PURE__*/
-  chainOptionK_(FromEither, Chain)
+export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
  * @example
@@ -1075,9 +1059,7 @@ export const chainOptionK =
  * @category combinators
  * @since 2.0.0
  */
-export const filterOrElse =
-  /*#__PURE__*/
-  filterOrElse_(FromEither, Chain)
+export const filterOrElse = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
@@ -1212,9 +1194,7 @@ export const chainNullableK = <E>(
  * @category interop
  * @since 2.10.0
  */
-export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
-  /*#__PURE__*/
-  foldW(identity, identity)
+export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ foldW(identity, identity)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1272,23 +1252,17 @@ export const exists = <A>(predicate: Predicate<A>) => <E>(ma: Either<E, A>): boo
 /**
  * @since 2.9.0
  */
-export const Do: Either<never, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Either<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
  * @since 2.8.0
@@ -1307,9 +1281,7 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
  * @since 2.8.0
@@ -1328,9 +1300,7 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: Either<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Either<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1388,15 +1358,13 @@ export const traverseArray = <E, A, B>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <E, A>(as: ReadonlyArray<Either<E, A>>) => Either<E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <E, A>(
+  as: ReadonlyArray<Either<E, A>>
+) => Either<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use [`Json`](./Json.ts.html) module instead.
@@ -1496,9 +1464,9 @@ export const either: Monad2<URI> &
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(Apply)
+export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A>> = /*#__PURE__*/ getApplySemigroup_(
+  Apply
+)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1507,9 +1475,9 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<Either<E, A
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<Either<E, A>> = /*#__PURE__*/ getApplicativeMonoid(
+  Applicative
+)
 
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.

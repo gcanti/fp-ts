@@ -90,7 +90,6 @@ export function delay(millis: number): <A>(ma: Task<A>) => Task<A> {
   return (ma) => () =>
     new Promise((resolve) => {
       setTimeout(() => {
-        // tslint:disable-next-line: no-floating-promises
         Promise.resolve().then(ma).then(resolve)
       }, millis)
     })
@@ -155,9 +154,7 @@ export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (
  * @category combinators
  * @since 2.0.0
  */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -223,9 +220,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -254,9 +249,7 @@ export const ApplyPar: Apply1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(ApplyPar)
+export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -266,9 +259,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(ApplyPar)
+export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances
@@ -368,9 +359,7 @@ export const MonadTask: MonadTask1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -385,25 +374,19 @@ export const FromIO: FromIO1<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -433,23 +416,17 @@ export const never: Task<never> = () => new Promise((_) => undefined)
 /**
  * @since 2.9.0
  */
-export const Do: Task<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Task<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -458,9 +435,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(ApplyPar)
+export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -469,9 +444,7 @@ export const apS =
 /**
  * @since 2.11.0
  */
-export const ApT: Task<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Task<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -549,9 +522,9 @@ export const traverseArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArray<A
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(
+  identity
+)
 
 /**
  * @since 2.9.0
@@ -569,15 +542,13 @@ export const traverseSeqArray = <A, B>(f: (a: A) => Task<B>): ((as: ReadonlyArra
 /**
  * @since 2.9.0
  */
-export const sequenceSeqArray: <A>(arr: ReadonlyArray<Task<A>>) => Task<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseSeqArray(identity)
+export const sequenceSeqArray: <A>(
+  arr: ReadonlyArray<Task<A>>
+) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * This instance is deprecated, use small, specific instances instead.
@@ -607,7 +578,7 @@ export const task: Monad1<URI> & MonadTask1<URI> = {
  * @since 2.0.0
  * @deprecated
  */
-export const taskSeq: typeof task = {
+export const taskSeq: Monad1<URI> & MonadTask1<URI> = {
   URI,
   map: _map,
   of,
@@ -624,9 +595,7 @@ export const taskSeq: typeof task = {
  * @since 2.0.0
  * @deprecated
  */
-export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(ApplySeq)
+export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> = /*#__PURE__*/ getApplySemigroup_(ApplySeq)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -637,6 +606,4 @@ export const getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Task<A>> =
  * @since 2.0.0
  * @deprecated
  */
-export const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(ApplicativeSeq)
+export const getMonoid: <A>(M: Monoid<A>) => Monoid<Task<A>> = /*#__PURE__*/ getApplicativeMonoid(ApplicativeSeq)

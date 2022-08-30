@@ -329,8 +329,6 @@ export function traverse_<M, F>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`reduceM`](#reducem) instead
  *

@@ -13,7 +13,6 @@ describe('Writer', () => {
 
   it('evalWriter', () => {
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.evalWriter(() => [1, 'a']),
       1
     )
@@ -21,7 +20,6 @@ describe('Writer', () => {
 
   it('execWriter', () => {
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.execWriter(() => [1, 'a']),
       'a'
     )

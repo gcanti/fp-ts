@@ -51,7 +51,6 @@ import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
  * @since 2.0.0
  */
 export interface NonEmptyArray<A> extends Array<A> {
-  // tslint:disable-next-line: readonly-keyword
   0: A
 }
 
@@ -420,7 +419,7 @@ export const groupBy = <A>(f: (a: A) => string) => (as: Array<A>): Record<string
   const out: Record<string, NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
-    if (out.hasOwnProperty(k)) {
+    if (_.has.call(out, k)) {
       out[k].push(a)
     } else {
       out[k] = [a]
@@ -722,9 +721,7 @@ export const extend = <A, B>(f: (as: NonEmptyArray<A>) => B) => (as: NonEmptyArr
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -732,9 +729,7 @@ export const duplicate: <A>(ma: NonEmptyArray<A>) => NonEmptyArray<NonEmptyArray
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: NonEmptyArray<NonEmptyArray<A>>) => NonEmptyArray<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -899,9 +894,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -940,9 +933,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -952,9 +943,7 @@ export const apFirst =
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -987,9 +976,7 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -1089,23 +1076,17 @@ export const Comonad: Comonad1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: NonEmptyArray<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: NonEmptyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1114,9 +1095,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1232,8 +1211,6 @@ export const intercalate: <A>(S: Semigroup<A>) => (middle: A) => (as: NonEmptyAr
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * This is just `sort` followed by `group`.

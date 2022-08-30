@@ -1278,7 +1278,6 @@ Added in v2.0.0
 
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
-  // tslint:disable-next-line: readonly-keyword
   0: A
 }
 ```
