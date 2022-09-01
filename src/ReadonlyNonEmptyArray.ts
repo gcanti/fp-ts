@@ -687,6 +687,20 @@ export const of: Pointed1<URI>['of'] = _.singleton
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
+ *     RNEA.altW(() => ['a', 'b'])
+ *   ),
+ *   [1, 2, 3, 'a', 'b']
+ * )
+ *
  * @category Alt
  * @since 2.9.0
  */
@@ -697,6 +711,20 @@ export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RNEA.alt(() => [4, 5])
+ *   ),
+ *   [1, 2, 3, 4, 5]
+ * )
  *
  * @category Alt
  * @since 2.6.2
@@ -715,6 +743,18 @@ export const ap = <A>(
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RNEA.chain((n) => [`a${n}`, `b${n}`])
+ *   ),
+ *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+ * )
  *
  * @category Monad
  * @since 2.5.0
@@ -1032,6 +1072,18 @@ export const Chain: Chain1<URI> = {
  * keeping only the result of the first.
  *
  * Derivable from `Chain`.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => ['a', 'b'])
+ *   ),
+ *   [1, 1, 2, 2, 3, 3]
+ * )
  *
  * @category combinators
  * @since 2.5.0

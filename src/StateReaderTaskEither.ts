@@ -486,6 +486,8 @@ export const flatten: <S, R, E, A>(
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
+ *
  * @category Alt
  * @since 2.9.0
  */

@@ -55,6 +55,8 @@
  * }
  *
  * assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+ * assert.deepStrictEqual(imperative([]), functional([]))
+ * assert.deepStrictEqual(imperative([0]), functional([0]))
  *
  * @since 2.0.0
  */
@@ -476,6 +478,13 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
+ * | x       | y       | pipe(x, alt(() => y) |
+ * | ------- | ------- | -------------------- |
+ * | none    | none    | none                 |
+ * | some(a) | none    | some(a)              |
+ * | none    | some(b) | some(b)              |
+ * | some(a) | some(b) | some(a)              |
+ *
  * @example
  * import * as O from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
@@ -489,17 +498,17 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  * )
  * assert.deepStrictEqual(
  *   pipe(
- *     O.none,
- *     O.alt(() => O.some('b'))
- *   ),
- *   O.some('b')
- * )
- * assert.deepStrictEqual(
- *   pipe(
  *     O.some('a'),
  *     O.alt<string>(() => O.none)
  *   ),
  *   O.some('a')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.none,
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('b')
  * )
  * assert.deepStrictEqual(
  *   pipe(

@@ -1450,6 +1450,20 @@ export const zero: Zero1<URI>['zero'] = () => empty
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.altW(() => ['a', 'b'])
+ *   ),
+ *   [1, 2, 3, 'a', 'b']
+ * )
+ *
  * @category Alt
  * @since 2.9.0
  */
@@ -1459,6 +1473,20 @@ export const altW = <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `ReadonlyArray` concatenates the inputs into a single array.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.alt(() => [4, 5])
+ *   ),
+ *   [1, 2, 3, 4, 5]
+ * )
  *
  * @category Alt
  * @since 2.5.0
@@ -1476,6 +1504,25 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chain((n) => [`a${n}`, `b${n}`])
+ *   ),
+ *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chain(() => [])
+ *   ),
+ *   []
+ * )
  *
  * @category Monad
  * @since 2.5.0
@@ -2061,6 +2108,25 @@ export const Monad: Monad1<URI> = {
  * keeping only the result of the first.
  *
  * Derivable from `Chain`.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => ['a', 'b'])
+ *   ),
+ *   [1, 1, 2, 2, 3, 3]
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => [])
+ *   ),
+ *   []
+ * )
  *
  * @category combinators
  * @since 2.5.0
