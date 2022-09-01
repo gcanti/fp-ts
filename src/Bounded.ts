@@ -56,8 +56,6 @@ export const reverse = <T>(B: Bounded<T>): Bounded<T> => {
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use [`Bounded`](./number.ts.html#bounded) instead.
  *

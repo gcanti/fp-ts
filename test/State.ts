@@ -41,12 +41,10 @@ describe('State', () => {
   })
 
   it('evalState', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.evalState(_.of<number, string>('a'), 0), 'a')
   })
 
   it('execState', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.execState(_.of<number, string>('a'), 0), 0)
   })
 
@@ -101,7 +99,6 @@ describe('State', () => {
     // old
     it('sequenceArray', () => {
       const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceArray)([]), [
         [1, 2],
         [1, 2]

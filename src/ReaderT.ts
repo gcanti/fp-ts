@@ -190,8 +190,6 @@ export function fromNaturalTransformation<F, G>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @category model
  * @since 2.0.0

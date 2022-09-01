@@ -309,23 +309,19 @@ describe('Either', () => {
   })
 
   it('parseJSON', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.parseJSON('{"a":1}', _.toError), _.right({ a: 1 }))
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.parseJSON('{"a":}', _.toError),
       _.left(new SyntaxError('Unexpected token } in JSON at position 5'))
     )
   })
 
   it('stringifyJSON', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.stringifyJSON({ a: 1 }, _.toError), _.right('{"a":1}'))
     const circular: any = { ref: null }
     circular.ref = circular
     U.deepStrictEqual(
       pipe(
-        // tslint:disable-next-line: deprecation
         _.stringifyJSON(circular, _.toError),
         _.mapLeft((e) => e.message.includes('Converting circular structure to JSON'))
       ),
@@ -336,12 +332,10 @@ describe('Either', () => {
       readonly age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))
 
     // #1397
     U.deepStrictEqual(
-      // tslint:disable-next-line: deprecation
       _.stringifyJSON(undefined, _.toError),
       _.left(new Error('Converting unsupported structure to JSON'))
     )
@@ -379,7 +373,6 @@ describe('Either', () => {
 
     U.deepStrictEqual(
       _.tryCatch(() => {
-        // tslint:disable-next-line: no-string-throw
         throw 'string error'
       }, _.toError),
       _.left(new Error('string error'))
@@ -493,7 +486,6 @@ describe('Either', () => {
 
   describe('getApplySemigroup', () => {
     it('concat', () => {
-      // tslint:disable-next-line: deprecation
       const S = _.getApplySemigroup(N.SemigroupSum)
       U.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
       U.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.left('a'))
@@ -504,7 +496,6 @@ describe('Either', () => {
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
-      // tslint:disable-next-line: deprecation
       const M = _.getApplyMonoid(N.MonoidSum)
       U.deepStrictEqual(M.concat(_.left('a'), M.empty), _.left('a'))
       U.deepStrictEqual(M.concat(M.empty, _.left('b')), _.left('b'))
@@ -524,7 +515,6 @@ describe('Either', () => {
   it('getApplicativeValidation', () => {
     const A = _.getApplicativeValidation(S.Monoid)
     U.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b')), _.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getValidation(S.Monoid)
     U.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b')), _.left('ab'))
   })
@@ -543,7 +533,6 @@ describe('Either', () => {
       A.alt(_.left('a'), () => _.right(2)),
       _.right(2)
     )
-    // tslint:disable-next-line: deprecation
     const AV = _.getValidation(S.Monoid)
     U.deepStrictEqual(
       AV.alt(_.left('a'), () => _.left('b')),
@@ -552,7 +541,6 @@ describe('Either', () => {
   })
 
   it('getValidationSemigroup', () => {
-    // tslint:disable-next-line: deprecation
     const VS = _.getValidationSemigroup(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(VS.concat(_.right(1), _.right(2)), _.right(3))
     U.deepStrictEqual(VS.concat(_.right(1), _.left('foo')), _.left('foo'))
@@ -561,7 +549,6 @@ describe('Either', () => {
   })
 
   it('getValidationMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getValidationMonoid(S.Monoid, N.MonoidSum)
     U.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
     U.deepStrictEqual(M.concat(M.empty, _.right(1)), _.right(1))
@@ -635,9 +622,7 @@ describe('Either', () => {
 
     // old
     it('sequenceArray', () => {
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.right(1), _.right(2)], _.sequenceArray), _.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.right(1), _.left('a')], _.sequenceArray), _.left('a'))
     })
   })

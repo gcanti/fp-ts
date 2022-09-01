@@ -193,8 +193,6 @@ export function bindTo<F>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @since 2.0.0
  * @deprecated

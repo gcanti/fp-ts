@@ -1158,7 +1158,9 @@ Added in v2.0.0
 
 ## ~~either~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
+(where `E` is from `import E from 'fp-ts/Either'`)
 
 **Signature**
 

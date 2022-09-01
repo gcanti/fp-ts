@@ -52,13 +52,10 @@ export const eqYear: E.Eq<Date> = {
  * @category instances
  * @since 2.10.0
  */
-export const Ord: O.Ord<Date> =
-  /*#__PURE__*/
-  pipe(
-    N.Ord,
-    /*#__PURE__*/
-    O.contramap((date) => date.valueOf())
-  )
+export const Ord: O.Ord<Date> = /*#__PURE__*/ pipe(
+  N.Ord,
+  /*#__PURE__*/ O.contramap((date) => date.valueOf())
+)
 
 // -------------------------------------------------------------------------------------
 // utils

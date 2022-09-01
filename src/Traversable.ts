@@ -453,8 +453,6 @@ export interface PipeableTraverse2<T extends URIS2> {
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @since 2.0.0
  * @deprecated

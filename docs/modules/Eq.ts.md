@@ -249,7 +249,9 @@ Added in v2.0.0
 
 ## ~~eq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Contravariant` instance, pass `E.Contravariant` instead of `E.eq`
+(where `E` is from `import E from 'fp-ts/Eq'`)
 
 **Signature**
 

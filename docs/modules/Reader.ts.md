@@ -575,7 +575,9 @@ Added in v2.0.0
 
 ## ~~reader~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.reader`
+(where `R` is from `import R from 'fp-ts/Reader'`)
 
 **Signature**
 

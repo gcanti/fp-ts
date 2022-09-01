@@ -1150,7 +1150,9 @@ Added in v2.0.0
 
 ## ~~option~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
+(where `O` is from `import O from 'fp-ts/Option'`)
 
 **Signature**
 

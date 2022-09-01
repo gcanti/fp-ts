@@ -1253,7 +1253,9 @@ Added in v2.0.0
 
 ## ~~nonEmptyArray~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `NEA.Functor` instead of `NEA.nonEmptyArray`
+(where `NEA` is from `import NEA from 'fp-ts/NonEmptyArray'`)
 
 **Signature**
 
@@ -1276,7 +1278,6 @@ Added in v2.0.0
 
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
-  // tslint:disable-next-line: readonly-keyword
   0: A
 }
 ```

@@ -240,9 +240,7 @@ export const extract: <E, A>(wa: readonly [A, E]) => A = fst
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <E, A>(wa: readonly [A, E]) => readonly [readonly [A, E], E] = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Foldable
@@ -321,9 +319,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -401,7 +397,9 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly
 export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readonlyTuple`
+ * (where `RT` is from `import RT from 'fp-ts/ReadonlyTuple'`)
  *
  * @category instances
  * @since 2.5.0

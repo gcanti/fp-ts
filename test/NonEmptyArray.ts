@@ -152,9 +152,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('groupSort', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([]), [])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.groupSort(N.Ord)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
@@ -313,10 +311,8 @@ describe('NonEmptyArray', () => {
     )
 
     // refinements
-    // tslint:disable-next-line: deprecation
     const actual1 = _.filter(O.isSome)([O.some(3), O.some(2), O.some(1)])
     U.deepStrictEqual(actual1, O.some([O.some(3), O.some(2), O.some(1)]))
-    // tslint:disable-next-line: deprecation
     const actual2 = _.filter(O.isSome)([O.some(3), O.none, O.some(1)])
     U.deepStrictEqual(actual2, O.some([O.some(3), O.some(1)]))
   })
@@ -325,12 +321,10 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(
       pipe(
         [1, 2, 3],
-        // tslint:disable-next-line: deprecation
         _.filterWithIndex((i) => i % 2 === 0)
       ),
       O.some([1, 3])
     )
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), O.none)
   })
 
@@ -365,12 +359,10 @@ describe('NonEmptyArray', () => {
   })
 
   it('cons', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.cons(1, [2, 3, 4]), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 
@@ -563,11 +555,8 @@ describe('NonEmptyArray', () => {
     U.deepStrictEqual(pipe(['a'], _.concat(['b'])), ['a', 'b'])
     U.deepStrictEqual(pipe([], _.concat(['b'])), ['b'])
     U.deepStrictEqual(pipe(['a'], _.concat<string>([])), ['a'])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.concat(['a'], ['b']), ['a', 'b'])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.concat(['a'], []), ['a'])
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.concat([], ['b']), ['b'])
   })
 })

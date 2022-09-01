@@ -1352,7 +1352,9 @@ Added in v2.5.0
 
 ## ~~readonlyNonEmptyArray~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
+(where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
 
 **Signature**
 

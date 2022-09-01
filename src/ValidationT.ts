@@ -20,8 +20,6 @@ import Either = E.Either
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @since 2.0.0
  * @deprecated

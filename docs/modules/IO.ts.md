@@ -13,8 +13,10 @@ interface IO<A> {
 ```
 
 `IO<A>` represents a non-deterministic synchronous computation that can cause side effects, yields a value of
-type `A` and **never fails**. If you want to represent a synchronous computation that may fail, please see
-`IOEither`.
+type `A` and **never fails**.
+
+If you want to represent a synchronous computation that may fail, please see `IOEither`.
+If you want to represent a synchronous computation that may yield nothing, please see `IOOption`.
 
 Added in v2.0.0
 
@@ -343,7 +345,9 @@ Added in v2.0.0
 
 ## ~~io~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `IO.Functor` instead of `IO.io`
+(where `IO` is from `import IO from 'fp-ts/IO'`)
 
 **Signature**
 

@@ -31,6 +31,7 @@ function getModuleNames(): ReadonlyArray<string> {
 describe('index', () => {
   it('check exported modules', () => {
     const moduleNames = getModuleNames()
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const fp = require('../src')
     moduleNames.forEach((name) => {
       if (name !== 'index') {

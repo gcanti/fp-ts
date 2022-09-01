@@ -549,7 +549,9 @@ Added in v2.4.0
 
 ## ~~taskThese~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TT.Functor` instead of `TT.taskThese`
+(where `TT` is from `import TT from 'fp-ts/TaskThese'`)
 
 **Signature**
 

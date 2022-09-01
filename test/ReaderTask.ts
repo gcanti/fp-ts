@@ -130,13 +130,11 @@ describe('ReaderTask', () => {
   // -------------------------------------------------------------------------------------
 
   it('getSemigroup', async () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getSemigroup(semigroupString)
     U.deepStrictEqual(await M.concat(_.of('a'), _.of('b'))({})(), 'ab')
   })
 
   it('getMonoid', async () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getMonoid(monoidString)
     U.deepStrictEqual(await M.concat(_.of('a'), M.empty)({})(), 'a')
     U.deepStrictEqual(await M.concat(M.empty, _.of('b'))({})(), 'b')
@@ -215,7 +213,6 @@ describe('ReaderTask', () => {
 
     // old
     it('sequenceArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(
@@ -227,13 +224,11 @@ describe('ReaderTask', () => {
           )
         )
       const as = RA.makeBy(4, append)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe(as, _.sequenceArray)(undefined)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 2, 1, 3])
     })
 
     it('sequenceSeqArray', async () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number> = []
       const append = (n: number): _.ReaderTask<undefined, number> =>
         _.fromTask(
@@ -245,7 +240,6 @@ describe('ReaderTask', () => {
           )
         )
       const as = RA.makeBy(4, append)
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(await pipe(as, _.sequenceSeqArray)(undefined)(), [0, 1, 2, 3])
       U.deepStrictEqual(log, [0, 1, 2, 3])
     })

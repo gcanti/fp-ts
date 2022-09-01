@@ -25,7 +25,6 @@ describe('ReadonlyRecord', () => {
         { key: 'a', value: 'c' },
         { key: 'b', value: false }
       ])
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(_.collect((key, val) => ({ key: key, value: val }))(x), [
         { key: 'a', value: 'c' },
         { key: 'b', value: false }
@@ -56,7 +55,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          // tslint:disable-next-line: deprecation
           _.reduce('', (b, a) => b + a)
         ),
         'ab'
@@ -64,7 +62,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k2: 'b', k1: 'a' },
-          // tslint:disable-next-line: deprecation
           _.reduce('', (b, a) => b + a)
         ),
         'ab'
@@ -75,17 +72,13 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Ord)(S.Monoid)(identity)), 'ab')
       U.deepStrictEqual(_.getFoldable(S.Ord).foldMap(S.Monoid)({ a: 'a', b: 'b' }, identity), 'ab')
 
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.foldMap(S.Monoid)(identity)), 'ab')
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(_.Foldable.foldMap(S.Monoid)({ a: 'a', b: 'b' }, identity), 'ab')
     })
 
     it('reduceRight', () => {
       const f = (a: string, acc: string) => acc + a
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight(S.Ord)('', f)), 'ba')
-
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe({ a: 'a', b: 'b' }, _.reduceRight('', f)), 'ba')
     })
 
@@ -161,7 +154,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          // tslint:disable-next-line: deprecation
           _.reduceWithIndex('', (k, b, a) => b + k + a)
         ),
         'k1ak2b'
@@ -169,7 +161,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k2: 'b', k1: 'a' },
-          // tslint:disable-next-line: deprecation
           _.reduceWithIndex('', (k, b, a) => b + k + a)
         ),
         'k1ak2b'
@@ -192,13 +183,11 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          // tslint:disable-next-line: deprecation
           _.foldMapWithIndex(S.Monoid)((k, a) => k + a)
         ),
         'k1ak2b'
       )
       U.deepStrictEqual(
-        // tslint:disable-next-line: deprecation
         _.FoldableWithIndex.foldMapWithIndex(S.Monoid)({ k1: 'a', k2: 'b' }, (k, a) => k + a),
         'k1ak2b'
       )
@@ -215,7 +204,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(
         pipe(
           { k1: 'a', k2: 'b' },
-          // tslint:disable-next-line: deprecation
           _.reduceRightWithIndex('', (k, a, b) => b + k + a)
         ),
         'k2bk1a'
@@ -283,7 +271,6 @@ describe('ReadonlyRecord', () => {
       U.deepStrictEqual(sequence({ a: O.none, b: O.some(2) }), O.none)
 
       U.deepStrictEqual(
-        // tslint:disable-next-line: deprecation
         _.readonlyRecord.sequence(O.Applicative)({ a: O.some(1), b: O.some(2) }),
         O.some({ a: 1, b: 2 })
       )
@@ -439,7 +426,6 @@ describe('ReadonlyRecord', () => {
   })
 
   it('traverseWithIndex should sort the keys', () => {
-    // tslint:disable-next-line: readonly-array
     const log: Array<string> = []
     const append = (message: string): IO.IO<void> => () => {
       log.push(message)
@@ -466,13 +452,10 @@ describe('ReadonlyRecord', () => {
   })
 
   it('insertAt', () => {
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('a', 1)({}), { a: 1 })
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('c', 3)({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
     // should return the same reference if the value is already there
     const x = { a: 1 }
-    // tslint:disable-next-line: deprecation
     U.deepStrictEqual(_.insertAt('a', 1)(x), x)
   })
 
@@ -543,7 +526,6 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(Sh.show({ a: 'a' }), `{ "a": "a" }`)
     U.deepStrictEqual(Sh.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
 
-    // tslint:disable-next-line: deprecation
     const DepSh = _.getShow(S.Show)
     U.deepStrictEqual(DepSh.show({}), `{}`)
     U.deepStrictEqual(DepSh.show({ a: 'a' }), `{ "a": "a" }`)
@@ -560,11 +542,11 @@ describe('ReadonlyRecord', () => {
     U.deepStrictEqual(_.has('b', x), false)
     // TODO: remove in v3
     // #1249
-    // tslint:disable-next-line: deprecation
+    // eslint-disable-next-line no-prototype-builtins
     U.deepStrictEqual(_.hasOwnProperty('a', x), true)
-    // tslint:disable-next-line: deprecation
+    // eslint-disable-next-line no-prototype-builtins
     U.deepStrictEqual(_.hasOwnProperty('b', x), false)
-    // tslint:disable-next-line: deprecation
+    // eslint-disable-next-line deprecation/deprecation
     const hasOwnProperty: any = _.hasOwnProperty
     U.deepStrictEqual(hasOwnProperty.call(x, 'a'), true)
     U.deepStrictEqual(hasOwnProperty.call(x, 'b'), false)

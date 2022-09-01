@@ -4,7 +4,6 @@ import * as B from '../src/boolean'
 
 describe('BooleanAlgebra', () => {
   it('booleanAlgebraBoolean', () => {
-    // tslint:disable-next-line: deprecation
     const BA = _.booleanAlgebraBoolean
     U.deepStrictEqual(BA.implies(true, true), true)
     U.deepStrictEqual(BA.implies(true, false), false)
