@@ -275,6 +275,8 @@ export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOp
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
  * @category Alt
  * @since 2.12.0
  */

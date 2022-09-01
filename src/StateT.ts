@@ -1,4 +1,9 @@
 /**
+ * The state monad transformer. It can be used to add state to other monads.
+ *
+ * The `of` function leaves the state unchanged, while `chain` uses the final state of the first computation
+ * as the initial state of the second.
+ *
  * @since 2.0.0
  */
 import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'

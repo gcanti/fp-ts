@@ -1,4 +1,8 @@
 /**
+ * The reader monad transformer, which adds a read-only environment to the given monad.
+ *
+ * The `of` function ignores the environment, while `chain` passes the inherited environment to both subcomputations.
+ *
  * @since 2.0.0
  */
 import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'

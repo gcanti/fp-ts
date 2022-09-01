@@ -316,6 +316,8 @@ export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => 
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
  * @category Alt
  * @since 2.10.0
  */

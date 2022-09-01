@@ -6,6 +6,10 @@ parent: Modules
 
 ## ReaderT overview
 
+The reader monad transformer, which adds a read-only environment to the given monad.
+
+The `of` function ignores the environment, while `chain` passes the inherited environment to both subcomputations.
+
 Added in v2.0.0
 
 ---
