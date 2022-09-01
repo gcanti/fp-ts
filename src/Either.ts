@@ -11,6 +11,52 @@
  * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
  * dictates that `Left` is used for failure and `Right` is used for success.
  *
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const double = (n: number): number => n * 2
+ *
+ * export const imperative = (as: ReadonlyArray<number>): string => {
+ *   const head = (as: ReadonlyArray<number>): number => {
+ *     if (as.length === 0) {
+ *       throw new Error('empty array')
+ *     }
+ *     return as[0]
+ *   }
+ *   const inverse = (n: number): number => {
+ *     if (n === 0) {
+ *       throw new Error('cannot divide by zero')
+ *     }
+ *     return 1 / n
+ *   }
+ *   try {
+ *     return `Result is ${inverse(double(head(as)))}`
+ *   } catch (err) {
+ *     return `Error is ${err}`
+ *   }
+ * }
+ *
+ * export const functional = (as: ReadonlyArray<number>): string => {
+ *   const head = <A>(as: ReadonlyArray<A>): E.Either<string, A> =>
+ *     as.length === 0 ? E.left('empty array') : E.right(as[0])
+ *   const inverse = (n: number): E.Either<string, number> =>
+ *     n === 0 ? E.left('cannot divide by zero') : E.right(1 / n)
+ *   return pipe(
+ *     as,
+ *     head,
+ *     E.map(double),
+ *     E.chain(inverse),
+ *     E.match(
+ *       (err) => `Error is ${err}`, // onLeft handler
+ *       (head) => `Result is ${head}` // onRight handler
+ *     )
+ *   )
+ * }
+ *
+ * assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+ *
  * @since 2.0.0
  */
 import { Alt2, Alt2C } from './Alt'
@@ -367,6 +413,8 @@ export const Pointed: Pointed2<URI> = {
 /**
  * Less strict version of [`ap`](#ap).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category instance operations
  * @since 2.8.0
  */
@@ -405,6 +453,28 @@ export const Applicative: Applicative2<URI> = {
 
 /**
  * Less strict version of [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const e1: E.Either<string, number> = E.right(1)
+ * const e2: E.Either<number, number> = E.right(2)
+ *
+ * export const result1 = pipe(
+ *   // @ts-expect-error
+ *   e1,
+ *   E.chain(() => e2)
+ * )
+ *
+ * // merged error types -----v-------------v
+ * // const result2: E.Either<string | number, number>
+ * export const result2 = pipe(
+ *   e1, // no error
+ *   E.chainW(() => e2)
+ * )
  *
  * @category instance operations
  * @since 2.6.0
@@ -631,6 +701,8 @@ export const Bifunctor: Bifunctor2<URI> = {
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
+ *
  * @category instance operations
  * @since 2.9.0
  */
@@ -641,6 +713,41 @@ export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.alt(() => E.left('b'))
+ *   ),
+ *   E.left('b')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.alt(() => E.right(2))
+ *   ),
+ *   E.right(2)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.alt(() => E.left('b'))
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.alt(() => E.right(2))
+ *   ),
+ *   E.right(1)
+ * )
  *
  * @category instance operations
  * @since 2.0.0
@@ -964,6 +1071,8 @@ export const chainFirst: <E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainfirst)
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * Derivable from `Chain`.
  *
  * @category combinators
@@ -1284,6 +1393,8 @@ export const bindW: <N extends string, A, E2, B>(
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, E2, B>(

@@ -6,6 +6,10 @@ parent: Modules
 
 ## EitherT overview
 
+The error monad transformer. It can be used to add error handling to other monads.
+
+The `of` function yields a successful computation, while `chain` sequences two subcomputations, failing on the first error.
+
 Added in v2.0.0
 
 ---

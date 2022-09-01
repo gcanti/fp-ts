@@ -1,4 +1,41 @@
 /**
+ * The `Reader` monad (also called the Environment monad). Represents a computation, which can read values from a shared environment,
+ * pass values from function to function, and execute sub-computations in a modified environment.
+ * Using `Reader` monad for such computations is often clearer and easier than using the `State` monad.
+ *
+ * In this example the `Reader` monad provides access to variable bindings. `Bindings` are a map of `number` variables.
+ * The variable count contains number of variables in the bindings. You can see how to run a `Reader` monad and retrieve
+ * data from it, how to access the `Reader` data with `ask` and `asks`.
+ *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as O from 'fp-ts/Option'
+ * import * as R from 'fp-ts/Reader'
+ * import * as RR from 'fp-ts/ReadonlyRecord'
+ *
+ * interface Bindings extends RR.ReadonlyRecord<string, number> {}
+ *
+ * // The Reader monad, which implements this complicated check.
+ * const isCountCorrect: R.Reader<Bindings, boolean> = pipe(
+ *   R.Do,
+ *   R.bind('count', () => R.asks(lookupVar('count'))),
+ *   R.bind('bindings', () => R.ask()),
+ *   R.map(({ count, bindings }) => count === RR.size(bindings))
+ * )
+ *
+ * // The selector function to use with 'asks'.
+ * // Returns value of the variable with specified name.
+ * const lookupVar = (name: string) => (bindings: Bindings): number =>
+ *   pipe(
+ *     bindings,
+ *     RR.lookup(name),
+ *     O.getOrElse(() => 0)
+ *   )
+ *
+ * const sampleBindings: Bindings = { count: 3, a: 1, b: 2 }
+ *
+ * assert.deepStrictEqual(isCountCorrect(sampleBindings), true)
+ *
  * @since 2.0.0
  */
 import { Applicative2, getApplicativeMonoid } from './Applicative'
@@ -59,6 +96,30 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
  * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
  * `contramap`).
  *
+ * @example
+ * import { pipe } from 'fp-ts/function'
+ * import * as R from 'fp-ts/Reader'
+ * import * as string from 'fp-ts/string'
+ *
+ * const calculateContentLen: R.Reader<string, number> = pipe(
+ *   R.Do,
+ *   R.bind('content', () => R.ask<string>()),
+ *   R.map(({ content }) => string.size(content))
+ * )
+ *
+ * // Calls calculateContentLen after adding a prefix to the Reader content.
+ * const calculateModifiedContentLen: R.Reader<string, number> = pipe(
+ *   calculateContentLen,
+ *   R.local((s) => 'Prefix ' + s)
+ * )
+ *
+ * const s = '12345'
+ *
+ * assert.deepStrictEqual(
+ *   "Modified 's' length: " + calculateModifiedContentLen(s) + '\n' + "Original 's' length: " + calculateContentLen(s),
+ *   "Modified 's' length: 12\nOriginal 's' length: 5"
+ * )
+ *
  * @category combinators
  * @since 2.0.0
  */
@@ -110,6 +171,8 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B
 /**
  * Less strict version of [`ap`](#ap).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category Apply
  * @since 2.8.0
  */
@@ -133,6 +196,8 @@ export const of: Pointed2<URI>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category Monad
  * @since 2.6.0
@@ -357,6 +422,8 @@ export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * Derivable from `Chain`.
  *
  * @category combinators
@@ -449,6 +516,8 @@ export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, R2, B>(

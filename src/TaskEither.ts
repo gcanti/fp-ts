@@ -437,6 +437,8 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 /**
  * Less strict version of [`chainIOEitherK`](#chainioeitherk).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.6.1
  */
@@ -521,6 +523,8 @@ export const ap: <E, A>(
 /**
  * Less strict version of [`ap`](#ap).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category Apply
  * @since 2.8.0
  */
@@ -540,6 +544,8 @@ export const chain: <E, A, B>(
 
 /**
  * Less strict version of [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category Monad
  * @since 2.6.0
@@ -614,6 +620,8 @@ export const alt: <E, A>(
 
 /**
  * Less strict version of [`alt`](#alt).
+ *
+ * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
  *
  * @category Alt
  * @since 2.9.0
@@ -911,6 +919,8 @@ export const chainFirst: <E, A, B>(
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * Derivable from `Chain`.
  *
  * @category combinators
@@ -978,6 +988,8 @@ export const chainEitherK: <E, A, B>(
 /**
  * Less strict version of [`chainEitherK`](#chaineitherk).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.6.1
  */
@@ -993,6 +1005,8 @@ export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Ch
 
 /**
  * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category combinators
  * @since 2.12.0
@@ -1236,6 +1250,8 @@ export const bindW: <N extends string, A, E2, B>(
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, E2, B>(

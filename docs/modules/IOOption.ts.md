@@ -121,6 +121,8 @@ Added in v2.12.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
 **Signature**
 
 ```ts

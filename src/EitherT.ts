@@ -1,4 +1,8 @@
 /**
+ * The error monad transformer. It can be used to add error handling to other monads.
+ *
+ * The `of` function yields a successful computation, while `chain` sequences two subcomputations, failing on the first error.
+ *
  * @since 2.0.0
  */
 import { ApplicativeComposition12, ApplicativeComposition22, ApplicativeCompositionHKT2 } from './Applicative'

@@ -201,6 +201,8 @@ Added in v2.0.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -230,6 +232,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -306,6 +310,8 @@ Added in v2.0.0
 ## chainW
 
 Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -447,6 +453,8 @@ Added in v2.4.0
 
 Less strict version of [`chainEitherK`](#chaineitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -490,6 +498,8 @@ Added in v2.12.0
 
 Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -528,6 +538,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -553,6 +565,8 @@ Added in v2.11.0
 ## chainFirstReaderKW
 
 Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -580,6 +594,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -606,6 +622,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -631,6 +649,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -659,6 +679,8 @@ Added in v2.4.0
 ## chainIOEitherKW
 
 Less strict version of [`chainIOEitherK`](#chainioeitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -710,6 +732,8 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -735,6 +759,8 @@ Added in v2.11.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -762,6 +788,8 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -787,6 +815,8 @@ Added in v2.4.0
 ## chainTaskEitherKW
 
 Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -1840,6 +1870,8 @@ export declare const apS: <N, A, R, E, B>(
 Added in v2.8.0
 
 ## apSW
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 

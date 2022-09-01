@@ -98,17 +98,29 @@ const getFunctor = <E>(S: Semigroup<E>): Functor2C<"Validation", E> = { ... }
 Both of these destructions result in a `Task<number>`, but in the case of `matchE` an effect (in this case in the form of a `Task`) is returned on match.
 
 ```ts
-import * as T from "fp-ts/Task";
-import * as TO from "fp-ts/TaskOption";
-import { pipe } from "fp-ts/function";
+import * as T from 'fp-ts/Task'
+import * as TO from 'fp-ts/TaskOption'
+import { pipe } from 'fp-ts/function'
 
-const value = TO.of("hello");
-
-// T.Task<number>
-pipe(value, TO.match(() => 0, (str) => str.length));
+const value = TO.of('hello')
 
 // T.Task<number>
-pipe(value, TO.matchE(() => T.of(0), (str) => T.of(str.length)));
+pipe(
+  value,
+  TO.match(
+    () => 0,
+    (str) => str.length
+  )
+)
+
+// T.Task<number>
+pipe(
+  value,
+  TO.matchE(
+    () => T.of(0),
+    (str) => T.of(str.length)
+  )
+)
 ```
 
 ### What a `K` suffix means, e.g. `fromEitherK` or `chainEitherK`
@@ -126,7 +138,7 @@ where `F` is a type constructor.
 Let's say we have the following parser
 
 ```ts
-import * as E from 'fp-ts/lib/Either'
+import * as E from 'fp-ts/Either'
 
 function parse(s: string): E.Either<Error, number> {
   const n = parseFloat(s)
@@ -137,7 +149,7 @@ function parse(s: string): E.Either<Error, number> {
 and a value of type `IOEither<Error, string>`
 
 ```ts
-import * as IE from 'fp-ts/lib/IOEither'
+import * as IE from 'fp-ts/IOEither'
 
 const input: IE.IOEither<Error, string> = IE.right('foo')
 ```
@@ -159,7 +171,7 @@ into a function
 That's what `fromEitherK` is all about
 
 ```ts
-import { pipe } from 'fp-ts/lib/pipeable'
+import { pipe } from 'fp-ts/function'
 
 pipe(input, IE.chain(IE.fromEitherK(parse)))() // left(new Error('cannot decode "foo" to number'))
 
@@ -180,9 +192,9 @@ However usually it means *T*ransformer like in "monad transformers" (e.g. `Optio
 **Example**
 
 ```ts
-import * as E from 'fp-ts/lib/Either'
-import * as TE from 'fp-ts/lib/TaskEither'
-import { pipe } from 'fp-ts/lib/pipeable'
+import * as E from 'fp-ts/Either'
+import * as TE from 'fp-ts/TaskEither'
+import { pipe } from 'fp-ts/pipeable'
 
 declare function parseString(s: string): E.Either<string, number>
 declare function fetchUser(id: number): TE.TaskEither<Error, User>
