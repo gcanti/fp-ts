@@ -33,7 +33,7 @@ Added in v2.0.0
   - [constant](#constant)
   - [decrement](#decrement)
   - [flip](#flip)
-  - [flipC](#flipc)
+  - [flipArgs](#flipargs)
   - [flow](#flow)
   - [hole](#hole)
   - [identity](#identity)
@@ -307,34 +307,45 @@ Added in v2.0.0
 
 ## flip
 
-Flips the order of the arguments of a function of two arguments.
-
-**Signature**
-
-```ts
-export declare function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
-```
-
-Added in v2.0.0
-
-## flipC
-
 Flips the arguments of a curried function.
 
 **Signature**
 
 ```ts
-export declare function flipC<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C
+export declare function flip<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C
+export declare function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
 ```
 
 **Example**
 
 ```ts
-import { flipC } from 'fp-ts/function'
+import { flip } from 'fp-ts/function'
 
 const f = (a: number) => (b: string) => a - b.length
 
-assert.strictEqual(flipC(f)('aaa')(2), -1)
+assert.strictEqual(flip(f)('aaa')(2), -1)
+```
+
+Added in v2.13.0
+
+## flipArgs
+
+Flips the order of the arguments of a function of two arguments.
+
+**Signature**
+
+```ts
+export declare function flipArgs<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
+```
+
+**Example**
+
+```ts
+import { flipArgs } from 'fp-ts/function'
+
+const f = (a: number, b: string) => a - b.length
+
+assert.strictEqual(flipArgs(f)('aaa', 2), -1)
 ```
 
 Added in v2.13.0
