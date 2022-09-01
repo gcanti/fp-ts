@@ -33,8 +33,8 @@
  *   }
  *   try {
  *     return `Result is ${inverse(double(head(as)))}`
- *   } catch (err) {
- *     return `Error is ${err}`
+ *   } catch (err: any) {
+ *     return `Error is ${err.message}`
  *   }
  * }
  *
@@ -56,6 +56,8 @@
  * }
  *
  * assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+ * assert.deepStrictEqual(imperative([]), functional([]))
+ * assert.deepStrictEqual(imperative([0]), functional([0]))
  *
  * @since 2.0.0
  */
@@ -715,6 +717,13 @@ export const altW: <E2, B>(that: Lazy<Either<E2, B>>) => <E1, A>(fa: Either<E1, 
  * types of kind `* -> *`.
  *
  * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+ *
+ * | x        | y        | pipe(x, alt(() => y) |
+ * | -------- | -------- | -------------------- |
+ * | left(a)  | left(b)  | left(b)              |
+ * | left(a)  | right(2) | right(2)             |
+ * | right(1) | left(b)  | right(1)             |
+ * | right(1) | right(2) | right(1)             |
  *
  * @example
  * import * as E from 'fp-ts/Either'

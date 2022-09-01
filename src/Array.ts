@@ -1898,12 +1898,21 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
 }
 
 /**
- * Less strict version of [`alt`](#alt), it can concatenate `Array`s of different base types.
+ * Less strict version of [`alt`](#alt).
+ *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
  * @example
- * import { altW } from 'fp-ts/Array';
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(altW(() => [2, 3, 4])(["a"]), ["a", 2, 3, 4]);
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     A.altW(() => ['a', 'b'])
+ *   ),
+ *   [1, 2, 3, 'a', 'b']
+ * )
  *
  * @category Alt
  * @since 2.9.0
@@ -1911,16 +1920,22 @@ export const partitionMapWithIndex = <A, B, C>(f: (i: number, a: A) => Either<B,
 export const altW = <B>(that: Lazy<Array<B>>) => <A>(fa: Array<A>): Array<A | B> => (fa as Array<A | B>).concat(that())
 
 /**
- * `alt` implements the `Alt` iterface by concatenation of `Array`s.
- * `Alt` interface is similar to `Semigroup` for higher-kinded types such
- * as `Array` and `Option`: the example below shows both `Alt`'s `alt` and
- * `Semigroup`'s `concat` functions.
+ * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`.
+ *
+ * In case of `Array` concatenates the inputs into a single array.
  *
  * @example
- * import { alt, concat } from 'fp-ts/Array';
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
  *
- * assert.deepStrictEqual(alt(() => [2, 3, 4])([1]), [1, 2, 3, 4]);
- * assert.deepStrictEqual(concat([2, 3, 4])([1]), [1, 2, 3, 4]);
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     A.alt(() => [4, 5])
+ *   ),
+ *   [1, 2, 3, 4, 5]
+ * )
  *
  * @category Alt
  * @since 2.0.0
@@ -2531,6 +2546,25 @@ export const Chain: Chain1<URI> = {
  * keeping only the result of the first.
  *
  * Derivable from `Chain`.
+ *
+ * @example
+ * import * as A from 'fp-ts/Array'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     A.chainFirst(() => ['a', 'b'])
+ *   ),
+ *   [1, 1, 2, 2, 3, 3]
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     A.chainFirst(() => [])
+ *   ),
+ *   []
+ * )
  *
  * @category combinators
  * @since 2.0.0

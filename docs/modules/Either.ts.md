@@ -41,8 +41,8 @@ export const imperative = (as: ReadonlyArray<number>): string => {
   }
   try {
     return `Result is ${inverse(double(head(as)))}`
-  } catch (err) {
-    return `Error is ${err}`
+  } catch (err: any) {
+    return `Error is ${err.message}`
   }
 }
 
@@ -63,6 +63,8 @@ export const functional = (as: ReadonlyArray<number>): string => {
 }
 
 assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+assert.deepStrictEqual(imperative([]), functional([]))
+assert.deepStrictEqual(imperative([0]), functional([0]))
 ```
 
 Added in v2.0.0
@@ -683,6 +685,13 @@ Identifies an associative operation on a type constructor. It is similar to `Sem
 types of kind `* -> *`.
 
 In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+
+| x        | y        | pipe(x, alt(() => y) |
+| -------- | -------- | -------------------- |
+| left(a)  | left(b)  | left(b)              |
+| left(a)  | right(2) | right(2)             |
+| right(1) | left(b)  | right(1)             |
+| right(1) | right(2) | right(1)             |
 
 **Signature**
 

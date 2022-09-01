@@ -213,10 +213,10 @@ Added in v2.0.0
 
 ## alt
 
-`alt` implements the `Alt` iterface by concatenation of `Array`s.
-`Alt` interface is similar to `Semigroup` for higher-kinded types such
-as `Array` and `Option`: the example below shows both `Alt`'s `alt` and
-`Semigroup`'s `concat` functions.
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Array` concatenates the inputs into a single array.
 
 **Signature**
 
@@ -227,17 +227,25 @@ export declare const alt: <A>(that: Lazy<A[]>) => (fa: A[]) => A[]
 **Example**
 
 ```ts
-import { alt, concat } from 'fp-ts/Array'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(alt(() => [2, 3, 4])([1]), [1, 2, 3, 4])
-assert.deepStrictEqual(concat([2, 3, 4])([1]), [1, 2, 3, 4])
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.alt(() => [4, 5])
+  ),
+  [1, 2, 3, 4, 5]
+)
 ```
 
 Added in v2.0.0
 
 ## altW
 
-Less strict version of [`alt`](#alt), it can concatenate `Array`s of different base types.
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -248,9 +256,16 @@ export declare const altW: <B>(that: Lazy<B[]>) => <A>(fa: A[]) => (B | A)[]
 **Example**
 
 ```ts
-import { altW } from 'fp-ts/Array'
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
 
-assert.deepStrictEqual(altW(() => [2, 3, 4])(['a']), ['a', 2, 3, 4])
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.altW(() => ['a', 'b'])
+  ),
+  [1, 2, 3, 'a', 'b']
+)
 ```
 
 Added in v2.9.0
@@ -1073,6 +1088,28 @@ Derivable from `Chain`.
 
 ```ts
 export declare const chainFirst: <A, B>(f: (a: A) => B[]) => (first: A[]) => A[]
+```
+
+**Example**
+
+```ts
+import * as A from 'fp-ts/Array'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => ['a', 'b'])
+  ),
+  [1, 1, 2, 2, 3, 3]
+)
+assert.deepStrictEqual(
+  pipe(
+    [1, 2, 3],
+    A.chainFirst(() => [])
+  ),
+  []
+)
 ```
 
 Added in v2.0.0
