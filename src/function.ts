@@ -212,7 +212,7 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
  *
  * assert.strictEqual(flipC(f)('aaa')(2), -1)
  *
- * @since 2.12.3
+ * @since 2.13.0
  */
 export function flipC<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C {
   return (b) => (a) => f(a)(b)

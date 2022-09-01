@@ -337,7 +337,7 @@ const f = (a: number) => (b: string) => a - b.length
 assert.strictEqual(flipC(f)('aaa')(2), -1)
 ```
 
-Added in v2.12.3
+Added in v2.13.0
 
 ## flow
 
