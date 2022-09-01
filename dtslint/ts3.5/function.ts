@@ -2,11 +2,11 @@ import * as _ from '../../src/function'
 import * as RA from '../../src/ReadonlyArray'
 
 //
-// flipArgs
+// flip
 //
 
 // should handle generics
-_.flipArgs(RA.snoc) // $ExpectType <A>(b: A, a: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
+_.flip(RA.snoc) // $ExpectType <A>(b: A, a: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
 
 //
 // tuple

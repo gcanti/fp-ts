@@ -11,18 +11,12 @@ const g = (n: number) => n * 2
 
 describe('function', () => {
   test('flip', () => {
-    const f = (a: number) => (b: string) => a - b.length
-    U.deepStrictEqual(_.flip(f)('aaa')(2), -1)
-  })
+    const f1 = (a: number) => (b: string) => a - b.length
+    const f2 = (a: number, b: string) => a - b.length
 
-  test('deprecated flip', () => {
-    const f = (a: number, b: string) => a - b.length
-    U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
-  })
-
-  test('flipArgs', () => {
-    const f = (a: number, b: string) => a - b.length
-    U.deepStrictEqual(_.flipArgs(f)('aaa', 2), -1)
+    U.deepStrictEqual(_.flip(f1)('aaa')(2), -1)
+    // eslint-disable-next-line deprecation/deprecation
+    U.deepStrictEqual(_.flip(f2)('aaa', 2), -1)
   })
 
   it('not', () => {

@@ -203,35 +203,19 @@ export const constVoid: Lazy<void> = constUndefined
  *
  * assert.strictEqual(flip(f)('aaa')(2), -1)
  *
- * @since 2.13.0
+ * @since 2.0.0
  */
 export function flip<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C
 /** @deprecated */
 export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
 export function flip(f: Function): Function {
-  return (...args: any[]) => {
+  return (...args: Array<any>) => {
     if (args.length > 1) {
-      return flipArgs(f as any)(args[0], args[1])
+      return f(args[1], args[0])
     }
 
     return (a: any) => f(a)(args[0])
   }
-}
-
-/**
- * Flips the order of the arguments of a function of two arguments.
- *
- * @example
- * import { flipArgs } from 'fp-ts/function'
- *
- * const f = (a: number, b: string) => a - b.length
- *
- * assert.strictEqual(flipArgs(f)('aaa', 2), -1)
- *
- * @since 2.13.0
- */
-export function flipArgs<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
-  return (b, a) => f(a, b)
 }
 
 /**
