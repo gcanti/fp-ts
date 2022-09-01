@@ -10,14 +10,19 @@ const f = (n: number) => n + 1
 const g = (n: number) => n * 2
 
 describe('function', () => {
-  it('flip', () => {
+  test('flip', () => {
+    const f = (a: number) => (b: string) => a - b.length
+    U.deepStrictEqual(_.flip(f)('aaa')(2), -1)
+  })
+
+  test('deprecated flip', () => {
     const f = (a: number, b: string) => a - b.length
     U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
   })
 
-  it('flipC', () => {
-    const f = (a: number) => (b: string) => a - b.length
-    U.deepStrictEqual(_.flipC(f)('aaa')(2), -1)
+  test('flipArgs', () => {
+    const f = (a: number, b: string) => a - b.length
+    U.deepStrictEqual(_.flipArgs(f)('aaa', 2), -1)
   })
 
   it('not', () => {
