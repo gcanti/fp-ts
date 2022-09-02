@@ -635,6 +635,8 @@ Added in v2.10.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -644,6 +646,8 @@ export declare const ApplicativePar: Applicative1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -655,6 +659,8 @@ Added in v2.10.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -664,6 +670,8 @@ export declare const ApplyPar: Apply1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 

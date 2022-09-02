@@ -452,6 +452,8 @@ export const Pointed: Pointed1<URI> = {
 }
 
 /**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -482,6 +484,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -499,6 +503,8 @@ const _apSeq: Apply1<URI>['ap'] = (fab, fa) =>
   )
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -509,6 +515,8 @@ export const ApplySeq: Apply1<URI> = {
 }
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.10.0
  */

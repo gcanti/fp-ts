@@ -1389,6 +1389,8 @@ Added in v2.7.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -1398,6 +1400,8 @@ export declare const ApplicativePar: Applicative3<'ReaderTaskEither'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -1409,6 +1413,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -1418,6 +1424,8 @@ export declare const ApplyPar: Apply3<'ReaderTaskEither'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 

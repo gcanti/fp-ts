@@ -204,7 +204,7 @@ Added in v2.13.0
 
 ## asksReaderIOW
 
-Less strict version of [`asksReaderTask`](#asksreadertask).
+Less strict version of [`asksReaderIO`](#asksreaderio).
 
 **Signature**
 
@@ -398,7 +398,7 @@ Added in v2.13.0
 
 ## asks
 
-Projects a value from the global context in a `ReaderTask`.
+Projects a value from the global context in a `ReaderIO`.
 
 **Signature**
 

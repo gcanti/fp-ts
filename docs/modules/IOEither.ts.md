@@ -823,6 +823,8 @@ Added in v2.7.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -833,6 +835,8 @@ Added in v2.8.4
 
 ## ApplicativeSeq
 
+Runs computations sequentially.
+
 **Signature**
 
 ```ts
@@ -842,6 +846,8 @@ export declare const ApplicativeSeq: Applicative2<'IOEither'>
 Added in v2.8.4
 
 ## ApplyPar
+
+Runs computations in parallel.
 
 **Signature**
 
