@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 81
+nav_order: 83
 parent: Modules
 ---
 
@@ -32,12 +32,16 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReaderTaskEither](#asksreadertaskeither)
   - [asksReaderTaskEitherW](#asksreadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
@@ -138,6 +142,9 @@ Added in v2.0.0
   - [~~readerTaskEitherSeq~~](#readertaskeitherseq)
   - [~~readerTaskEither~~](#readertaskeither)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
 - [model](#model)
   - [ReaderTaskEither (interface)](#readertaskeither-interface)
@@ -158,6 +165,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [traverseArray](#traversearray)
@@ -193,6 +201,8 @@ Added in v2.0.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -222,6 +232,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -299,6 +311,8 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -351,6 +365,22 @@ export declare const apFirst: <R, E, B>(
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, E2, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -366,6 +396,22 @@ export declare const apSecond: <R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, E2, B>(
+  second: ReaderTaskEither<R2, E2, B>
+) => <R1, E1, A>(first: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## asksReaderTaskEither
 
@@ -384,6 +430,8 @@ Added in v2.11.0
 ## asksReaderTaskEitherW
 
 Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -411,6 +459,8 @@ Added in v2.4.0
 
 Less strict version of [`chainEitherK`](#chaineitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -437,6 +487,34 @@ export declare const chainFirst: <R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2 | E1, A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -466,6 +544,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderEitherK`](#chainfirstreadereitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -491,6 +571,8 @@ Added in v2.11.0
 ## chainFirstReaderKW
 
 Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -518,6 +600,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderTaskK`](#chainfirstreadertaskk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -544,6 +628,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstTaskEitherK`](#chainfirsttaskeitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -569,6 +655,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -597,6 +685,8 @@ Added in v2.4.0
 ## chainIOEitherKW
 
 Less strict version of [`chainIOEitherK`](#chainioeitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -648,6 +738,8 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderEitherK`](#chainreadereitherk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -673,6 +765,8 @@ Added in v2.11.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -700,6 +794,8 @@ Added in v2.11.0
 
 Less strict version of [`chainReaderTaskK`](#chainreadertaskk).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -725,6 +821,8 @@ Added in v2.4.0
 ## chainTaskEitherKW
 
 Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -769,6 +867,8 @@ Added in v2.0.0
 ## filterOrElseW
 
 Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -817,6 +917,8 @@ Added in v2.0.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -973,12 +1075,14 @@ Added in v2.11.0
 
 ## orElseFirstW
 
+The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+
 **Signature**
 
 ```ts
-export declare const orElseFirstW: <E1, R, E2, B>(
-  onLeft: (e: E1) => ReaderTaskEither<R, E2, B>
-) => <A>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, A>
+export declare const orElseFirstW: <E1, R2, E2, B>(
+  onLeft: (e: E1) => ReaderTaskEither<R2, E2, B>
+) => <R1, A>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v2.11.0
@@ -986,6 +1090,8 @@ Added in v2.11.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
 
 **Signature**
 
@@ -1217,6 +1323,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -1242,6 +1350,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`ReaderTask`).
+
 **Signature**
 
 ```ts
@@ -1257,6 +1367,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -1271,6 +1383,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -1297,6 +1411,8 @@ Added in v2.7.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -1306,6 +1422,8 @@ export declare const ApplicativePar: Applicative3<'ReaderTaskEither'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -1317,6 +1435,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -1326,6 +1446,8 @@ export declare const ApplyPar: Apply3<'ReaderTaskEither'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -1570,7 +1692,9 @@ Added in v2.0.0
 
 ## ~~readerTaskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEitherSeq`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
 
 **Signature**
 
@@ -1586,7 +1710,9 @@ Added in v2.0.0
 
 ## ~~readerTaskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RTE.Functor` instead of `RTE.readerTaskEither`
+(where `RTE` is from `import RTE from 'fp-ts/ReaderTaskEither'`)
 
 **Signature**
 
@@ -1601,6 +1727,44 @@ export declare const readerTaskEither: Monad3<'ReaderTaskEither'> &
 Added in v2.0.0
 
 # interop
+
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <R, A>(a: A) => ReaderTaskEither<R, E, NonNullable<A>>
+```
+
+Added in v2.12.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+```
+
+Added in v2.12.0
 
 ## toUnion
 
@@ -1737,6 +1901,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1779,6 +1947,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1803,13 +1973,29 @@ whether the body action throws (\*) or returns.
 
 ```ts
 export declare function bracket<R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
+  acquire: ReaderTaskEither<R, E, A>,
   use: (a: A) => ReaderTaskEither<R, E, B>,
   release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
 ): ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.0.4
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+**Signature**
+
+```ts
+export declare function bracketW<R1, E1, A, R2, E2, B, R3, E3>(
+  acquire: ReaderTaskEither<R1, E1, A>,
+  use: (a: A) => ReaderTaskEither<R2, E2, B>,
+  release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
+): ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 

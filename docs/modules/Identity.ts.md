@@ -86,6 +86,8 @@ Added in v2.0.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -440,7 +442,9 @@ Added in v2.0.0
 
 ## ~~identity~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `I.Functor` instead of `I.identity`
+(where `I` is from `import I from 'fp-ts/Identity'`)
 
 **Signature**
 

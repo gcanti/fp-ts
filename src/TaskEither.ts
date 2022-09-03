@@ -39,7 +39,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -89,49 +90,37 @@ export interface TaskEither<E, A> extends Task<Either<E, A>> {}
  * @category constructors
  * @since 2.0.0
  */
-export const left: <E = never, A = never>(e: E) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.left(T.Pointed)
+export const left: <E = never, A = never>(e: E) => TaskEither<E, A> = /*#__PURE__*/ ET.left(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const right: <E = never, A = never>(a: A) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.right(T.Pointed)
+export const right: <E = never, A = never>(a: A) => TaskEither<E, A> = /*#__PURE__*/ ET.right(T.Pointed)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.rightF(T.Functor)
+export const rightTask: <E = never, A = never>(ma: Task<A>) => TaskEither<E, A> = /*#__PURE__*/ ET.rightF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.leftF(T.Functor)
+export const leftTask: <E = never, A = never>(me: Task<E>) => TaskEither<E, A> = /*#__PURE__*/ ET.leftF(T.Functor)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, rightTask)
+export const rightIO: <E = never, A = never>(ma: IO<A>) => TaskEither<E, A> = /*#__PURE__*/ flow(T.fromIO, rightTask)
 
 /**
  * @category constructors
  * @since 2.0.0
  */
-export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  flow(T.fromIO, leftTask)
+export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> = /*#__PURE__*/ flow(T.fromIO, leftTask)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -176,12 +165,15 @@ export const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<TO
  * @category destructors
  * @since 2.10.0
  */
-export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: TaskEither<E, A>) => Task<B> =
-  /*#__PURE__*/
-  ET.match(T.Functor)
+export const match: <E, B, A>(
+  onLeft: (e: E) => B,
+  onRight: (a: A) => B
+) => (ma: TaskEither<E, A>) => Task<B> = /*#__PURE__*/ ET.match(T.Functor)
 
 /**
  * Less strict version of [`match`](#match).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -192,15 +184,15 @@ export const matchW: <E, B, A, C>(
 ) => (ma: TaskEither<E, A>) => Task<B | C> = match as any
 
 /**
+ * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+ *
  * @category destructors
  * @since 2.10.0
  */
 export const matchE: <E, A, B>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<B>
-) => (ma: TaskEither<E, A>) => Task<B> =
-  /*#__PURE__*/
-  ET.matchE(T.Monad)
+) => (ma: TaskEither<E, A>) => Task<B> = /*#__PURE__*/ ET.matchE(T.Monad)
 
 /**
  * Alias of [`matchE`](#matche).
@@ -212,6 +204,8 @@ export const fold = matchE
 
 /**
  * Less strict version of [`matchE`](#matche).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -233,12 +227,14 @@ export const foldW = matchEW
  * @category destructors
  * @since 2.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> =
-  /*#__PURE__*/
-  ET.getOrElse(T.Monad)
+export const getOrElse: <E, A>(
+  onLeft: (e: E) => Task<A>
+) => (ma: TaskEither<E, A>) => Task<A> = /*#__PURE__*/ ET.getOrElse(T.Monad)
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
  * @category destructors
  * @since 2.6.0
@@ -253,8 +249,6 @@ export const getOrElseW: <E, B>(
 
 /**
  * Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
- *
- * Note: `f` should never `throw` errors, they are not caught.
  *
  * See also [`tryCatchK`](#trycatchk).
  *
@@ -272,8 +266,16 @@ export const getOrElseW: <E, B>(
  * @category interop
  * @since 2.0.0
  */
-export const tryCatch = <E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> => () =>
-  f().then(_.right, (reason) => _.left(onRejected(reason)))
+export const tryCatch = <E, A>(
+  f: Lazy<Promise<A>>,
+  onRejected: (reason: unknown) => E
+): TaskEither<E, A> => async () => {
+  try {
+    return await f().then(_.right)
+  } catch (reason) {
+    return _.left(onRejected(reason))
+  }
+}
 
 /**
  * Converts a function returning a `Promise` to one returning a `TaskEither`.
@@ -290,9 +292,35 @@ export const tryCatchK = <E, A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 2.10.0
  */
-export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> =
-  /*#__PURE__*/
-  ET.toUnion(T.Functor)
+export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> = /*#__PURE__*/ ET.toUnion(T.Functor)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>> = /*#__PURE__*/ ET.fromNullable(
+  T.Pointed
+)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const fromNullableK: <E>(
+  e: E
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ ET.fromNullableK(T.Pointed)
+
+/**
+ * @category interop
+ * @since 2.12.0
+ */
+export const chainNullableK: <E>(
+  e: E
+) => <A, B>(
+  f: (a: A) => B | null | undefined
+) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>> = /*#__PURE__*/ ET.chainNullableK(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -319,12 +347,14 @@ export const toUnion: <E, A>(fa: TaskEither<E, A>) => Task<E | A> =
  * @category combinators
  * @since 2.0.0
  */
-export const orElse: <E1, A, E2>(onLeft: (e: E1) => TaskEither<E2, A>) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> =
-  /*#__PURE__*/
-  ET.orElse(T.Monad)
+export const orElse: <E1, A, E2>(
+  onLeft: (e: E1) => TaskEither<E2, A>
+) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> = /*#__PURE__*/ ET.orElse(T.Monad)
 
 /**
  * Less strict version of [`orElse`](#orelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
  *
  * @category combinators
  * @since 2.10.0
@@ -337,11 +367,13 @@ export const orElseW: <E1, E2, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const orElseFirst: <E, B>(onLeft: (e: E) => TaskEither<E, B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.orElseFirst(T.Monad)
+export const orElseFirst: <E, B>(
+  onLeft: (e: E) => TaskEither<E, B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ ET.orElseFirst(T.Monad)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -351,19 +383,33 @@ export const orElseFirstW: <E1, E2, B>(
 
 /**
  * @category combinators
+ * @since 2.12.0
+ */
+export const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromIOK(onLeft))
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const orElseFirstTaskK: <E, B>(onLeft: (e: E) => Task<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = (
+  onLeft
+) => orElseFirst(fromTaskK(onLeft))
+
+/**
+ * @category combinators
  * @since 2.11.0
  */
-export const orLeft: <E1, E2>(onLeft: (e: E1) => Task<E2>) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A> =
-  /*#__PURE__*/
-  ET.orLeft(T.Monad)
+export const orLeft: <E1, E2>(
+  onLeft: (e: E1) => Task<E2>
+) => <A>(fa: TaskEither<E1, A>) => TaskEither<E2, A> = /*#__PURE__*/ ET.orLeft(T.Monad)
 
 /**
  * @category combinators
  * @since 2.0.0
  */
-export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> =
-  /*#__PURE__*/
-  ET.swap(T.Functor)
+export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = /*#__PURE__*/ ET.swap(T.Functor)
 
 /**
  * @category combinators
@@ -377,13 +423,22 @@ export const fromTaskOptionK = <E>(
 }
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.3
+ */
+export const chainTaskOptionKW = <E2>(onNone: Lazy<E2>) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(
+  ma: TaskEither<E1, A>
+): TaskEither<E1 | E2, B> => pipe(ma, chain(fromTaskOptionK<E1 | E2>(onNone)(f)))
+
+/**
  * @category combinators
  * @since 2.11.0
  */
-export const chainTaskOptionK = <E>(
+export const chainTaskOptionK: <E>(
   onNone: Lazy<E>
-): (<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>) =>
-  flow(fromTaskOptionK(onNone), chain)
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
  * @category combinators
@@ -395,6 +450,8 @@ export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainioeitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category combinators
  * @since 2.6.1
@@ -442,9 +499,9 @@ const _alt: Alt2<URI>['alt'] = (fa, that) => pipe(fa, alt(that))
  * @category Functor
  * @since 2.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  ET.map(T.Functor)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ ET.map(
+  T.Functor
+)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -452,9 +509,10 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEit
  * @category Bifunctor
  * @since 2.0.0
  */
-export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B> =
-  /*#__PURE__*/
-  ET.bimap(T.Functor)
+export const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => (fa: TaskEither<E, A>) => TaskEither<G, B> = /*#__PURE__*/ ET.bimap(T.Functor)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -462,9 +520,9 @@ export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEit
  * @category Bifunctor
  * @since 2.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> =
-  /*#__PURE__*/
-  ET.mapLeft(T.Functor)
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <A>(fa: TaskEither<E, A>) => TaskEither<G, A> = /*#__PURE__*/ ET.mapLeft(T.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -472,12 +530,14 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: TaskEither<E, A>) => Tas
  * @category Apply
  * @since 2.0.0
  */
-export const ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  ET.ap(T.ApplyPar)
+export const ap: <E, A>(
+  fa: TaskEither<E, A>
+) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = /*#__PURE__*/ ET.ap(T.ApplyPar)
 
 /**
  * Less strict version of [`ap`](#ap).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category Apply
  * @since 2.8.0
@@ -492,12 +552,14 @@ export const apW: <E2, A>(
  * @category Monad
  * @since 2.0.0
  */
-export const chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  ET.chain(T.Monad)
+export const chain: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ ET.chain(T.Monad)
 
 /**
  * Less strict version of [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category Monad
  * @since 2.6.0
@@ -509,12 +571,14 @@ export const chainW: <E2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
-export const flattenW: <E1, E2, A>(mma: TaskEither<E1, TaskEither<E2, A>>) => TaskEither<E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <E1, E2, A>(
+  mma: TaskEither<E1, TaskEither<E2, A>>
+) => TaskEither<E1 | E2, A> = /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -566,12 +630,14 @@ export const flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither
  * @category Alt
  * @since 2.0.0
  */
-export const alt: <E, A>(that: Lazy<TaskEither<E, A>>) => (fa: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  ET.alt(T.Monad)
+export const alt: <E, A>(
+  that: Lazy<TaskEither<E, A>>
+) => (fa: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ ET.alt(T.Monad)
 
 /**
  * Less strict version of [`alt`](#alt).
+ *
+ * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
  *
  * @category Alt
  * @since 2.9.0
@@ -697,9 +763,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -711,6 +775,8 @@ export const Pointed: Pointed2<URI> = {
 }
 
 /**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -728,9 +794,19 @@ export const ApplyPar: Apply2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(ApplyPar)
+export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
+
+/**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -740,11 +816,23 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(ApplyPar)
+export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = apSecond as any
+
+/**
+ * Runs computations in parallel.
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -756,6 +844,8 @@ export const ApplicativePar: Applicative2<URI> = {
 }
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.10.0
  */
@@ -766,6 +856,8 @@ export const ApplySeq: Apply2<URI> = {
 }
 
 /**
+ * Runs computations sequentially.
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -848,12 +940,14 @@ export const MonadThrow: MonadThrow2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <E, A, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * Derivable from `Chain`.
  *
@@ -897,36 +991,32 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainOptionK =
-  /*#__PURE__*/
-  chainOptionK_(FromEither, Chain)
+export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainEitherK: <E, A, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainEitherK`](#chaineitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category combinators
  * @since 2.6.1
@@ -936,6 +1026,24 @@ export const chainEitherKW: <E2, A, B>(
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = chainEitherK as any
 
 /**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirstEitherK as any
+
+/**
  * @category constructors
  * @since 2.0.0
  */
@@ -943,9 +1051,7 @@ export const fromPredicate: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(b: B) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
-} =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category combinators
@@ -955,12 +1061,12 @@ export const filterOrElse: {
   <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-} =
-  /*#__PURE__*/
-  filterOrElse_(FromEither, Chain)
+} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category combinators
  * @since 2.9.0
@@ -981,9 +1087,7 @@ export const filterOrElseW: {
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
-) => (...a: A) => TaskEither<E, B> =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category instances
@@ -998,25 +1102,19 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -1032,25 +1130,19 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK =
-  /*#__PURE__*/
-  fromTaskK_(FromTask)
+export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainTaskK =
-  /*#__PURE__*/
-  chainTaskK_(FromTask, Chain)
+export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK =
-  /*#__PURE__*/
-  chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1122,16 +1214,29 @@ export const bracket = <E, A, B>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
   release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-): TaskEither<E, B> =>
+): TaskEither<E, B> => bracketW(acquire, use, release)
+
+/**
+ * Less strict version of [`bracket`](#bracket).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * @since 2.12.0
+ */
+export const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B> = (acquire, use, release) =>
   pipe(
     acquire,
-    chain((a) =>
+    chainW((a) =>
       pipe(
         use(a),
         T.chain((e) =>
           pipe(
             release(a, e),
-            chain(() => T.of(e))
+            chainW(() => T.of(e))
           )
         )
       )
@@ -1145,25 +1250,21 @@ export const bracket = <E, A, B>(
 /**
  * @since 2.9.0
  */
-export const Do: TaskEither<never, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: TaskEither<never, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, E2, B>(
@@ -1180,11 +1281,13 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(ApplyPar)
+export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, E2, B>(
@@ -1201,9 +1304,7 @@ export const apSW: <A, N extends string, E2, B>(
 /**
  * @since 2.11.0
  */
-export const ApT: TaskEither<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: TaskEither<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1284,9 +1385,9 @@ export const traverseArray = <A, B, E>(
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <A, E>(
+  arr: ReadonlyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 /**
  * @since 2.9.0
@@ -1305,18 +1406,18 @@ export const traverseSeqArray = <A, B, E>(
 /**
  * @since 2.9.0
  */
-export const sequenceSeqArray: <A, E>(arr: ReadonlyArray<TaskEither<E, A>>) => TaskEither<E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseSeqArray(identity)
+export const sequenceSeqArray: <A, E>(
+  arr: ReadonlyArray<TaskEither<E, A>>
+) => TaskEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseSeqArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
+ * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1337,7 +1438,9 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
+ * (where `TE` is from `import TE from 'fp-ts/TaskEither'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1365,9 +1468,9 @@ export const taskEitherSeq: typeof taskEither = {
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<E, A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(ApplySeq)
+export const getApplySemigroup: <E, A>(
+  S: Semigroup<A>
+) => Semigroup<TaskEither<E, A>> = /*#__PURE__*/ getApplySemigroup_(ApplySeq)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1376,9 +1479,9 @@ export const getApplySemigroup: <E, A>(S: Semigroup<A>) => Semigroup<TaskEither<
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(ApplicativeSeq)
+export const getApplyMonoid: <E, A>(M: Monoid<A>) => Monoid<TaskEither<E, A>> = /*#__PURE__*/ getApplicativeMonoid(
+  ApplicativeSeq
+)
 
 /**
  * Use [`getApplySemigroup`](./Apply.ts.html#getapplysemigroup) instead.

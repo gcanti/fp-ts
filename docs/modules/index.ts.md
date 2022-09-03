@@ -63,6 +63,7 @@ Added in v2.0.0
   - [invariant](#invariant)
   - [io](#io)
   - [ioEither](#ioeither)
+  - [ioOption](#iooption)
   - [ioRef](#ioref)
   - [joinSemilattice](#joinsemilattice)
   - [json](#json)
@@ -89,6 +90,7 @@ Added in v2.0.0
   - [random](#random)
   - [reader](#reader)
   - [readerEither](#readereither)
+  - [readerIO](#readerio)
   - [readerT](#readert)
   - [readerTask](#readertask)
   - [readerTaskEither](#readertaskeither)
@@ -637,6 +639,16 @@ export declare const ioEither: typeof ioEither
 
 Added in v2.0.0
 
+## ioOption
+
+**Signature**
+
+```ts
+export declare const ioOption: typeof ioOption
+```
+
+Added in v2.12.0
+
 ## ioRef
 
 **Signature**
@@ -893,6 +905,16 @@ Added in v2.0.0
 
 ```ts
 export declare const readerEither: typeof readerEither
+```
+
+Added in v2.0.0
+
+## readerIO
+
+**Signature**
+
+```ts
+export declare const readerIO: typeof readerIO
 ```
 
 Added in v2.0.0

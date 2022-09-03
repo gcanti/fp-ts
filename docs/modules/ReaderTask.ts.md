@@ -1,6 +1,6 @@
 ---
 title: ReaderTask.ts
-nav_order: 80
+nav_order: 82
 parent: Modules
 ---
 
@@ -113,6 +113,8 @@ Added in v2.3.0
 
 Less strict version of [`ap`](#ap).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -155,6 +157,8 @@ Added in v2.3.0
 ## chainW
 
 Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -224,6 +228,8 @@ Added in v2.11.0
 
 Less strict version of [`asksReaderTask`](#asksreadertask).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -275,6 +281,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -298,6 +306,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 Derivable from `Chain`.
 
@@ -334,6 +344,8 @@ Added in v2.11.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -382,6 +394,8 @@ Added in v2.3.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -464,6 +478,8 @@ Added in v2.3.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -473,6 +489,8 @@ export declare const ApplicativePar: Applicative2<'ReaderTask'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -484,6 +502,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -493,6 +513,8 @@ export declare const ApplyPar: Apply2<'ReaderTask'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -638,7 +660,9 @@ Added in v2.3.0
 
 ## ~~readerTaskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTaskSeq`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 
@@ -650,7 +674,9 @@ Added in v2.3.0
 
 ## ~~readerTask~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `RT.Functor` instead of `RT.readerTask`
+(where `RT` is from `import RT from 'fp-ts/ReaderTask'`)
 
 **Signature**
 
@@ -743,6 +769,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -778,6 +808,8 @@ export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => Rea
 Added in v2.8.0
 
 ## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 

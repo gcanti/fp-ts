@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 105
+nav_order: 107
 parent: Modules
 ---
 
@@ -39,10 +39,14 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainFirstW](#chainfirstw)
@@ -52,6 +56,7 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
+  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -65,6 +70,8 @@ Added in v2.0.0
   - [fromTaskOptionK](#fromtaskoptionk)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
+  - [orElseFirstIOK](#orelsefirstiok)
+  - [orElseFirstTaskK](#orelsefirsttaskk)
   - [orElseFirstW](#orelsefirstw)
   - [orElseW](#orelsew)
   - [orLeft](#orleft)
@@ -116,6 +123,9 @@ Added in v2.0.0
   - [~~taskEitherSeq~~](#taskeitherseq)
   - [~~taskEither~~](#taskeither)
 - [interop](#interop)
+  - [chainNullableK](#chainnullablek)
+  - [fromNullable](#fromnullable)
+  - [fromNullableK](#fromnullablek)
   - [toUnion](#tounion)
   - [tryCatch](#trycatch)
   - [tryCatchK](#trycatchk)
@@ -137,6 +147,7 @@ Added in v2.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
+  - [bracketW](#bracketw)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
   - [taskify](#taskify)
@@ -208,6 +219,8 @@ Added in v2.0.0
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -235,6 +248,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -305,6 +320,8 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -355,6 +372,22 @@ export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: Tas
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -369,6 +402,22 @@ export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: Ta
 
 Added in v2.0.0
 
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.12.0
+
 ## chainEitherK
 
 **Signature**
@@ -382,6 +431,8 @@ Added in v2.4.0
 ## chainEitherKW
 
 Less strict version of [`chainEitherK`](#chaineitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -408,6 +459,34 @@ export declare const chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma
 
 Added in v2.0.0
 
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## chainFirstIOK
 
 **Signature**
@@ -431,6 +510,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -459,6 +540,8 @@ Added in v2.4.0
 ## chainIOEitherKW
 
 Less strict version of [`chainIOEitherK`](#chainioeitherk).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -514,6 +597,20 @@ export declare const chainTaskOptionK: <E>(
 
 Added in v2.11.0
 
+## chainTaskOptionKW
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
+```
+
+Added in v2.12.3
+
 ## filterOrElse
 
 **Signature**
@@ -531,6 +628,8 @@ Added in v2.0.0
 ## filterOrElseW
 
 Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -575,6 +674,8 @@ Added in v2.0.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -696,7 +797,31 @@ export declare const orElseFirst: <E, B>(
 
 Added in v2.11.0
 
+## orElseFirstIOK
+
+**Signature**
+
+```ts
+export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
+## orElseFirstTaskK
+
+**Signature**
+
+```ts
+export declare const orElseFirstTaskK: <E, B>(
+  onLeft: (e: E) => T.Task<B>
+) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+```
+
+Added in v2.12.0
+
 ## orElseFirstW
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -711,6 +836,8 @@ Added in v2.11.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -864,6 +991,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -884,6 +1013,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -899,6 +1030,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -913,6 +1046,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -939,6 +1074,8 @@ Added in v2.7.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -948,6 +1085,8 @@ export declare const ApplicativePar: Applicative2<'TaskEither'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -959,6 +1098,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -968,6 +1109,8 @@ export declare const ApplyPar: Apply2<'TaskEither'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -1199,7 +1342,9 @@ Added in v2.0.0
 
 ## ~~taskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEitherSeq`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
 
 **Signature**
 
@@ -1215,7 +1360,9 @@ Added in v2.0.0
 
 ## ~~taskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `TE.Functor` instead of `TE.taskEither`
+(where `TE` is from `import TE from 'fp-ts/TaskEither'`)
 
 **Signature**
 
@@ -1231,6 +1378,42 @@ Added in v2.0.0
 
 # interop
 
+## chainNullableK
+
+**Signature**
+
+```ts
+export declare const chainNullableK: <E>(
+  e: E
+) => <A, B>(f: (a: A) => B | null | undefined) => (ma: TaskEither<E, A>) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
+## fromNullable
+
+**Signature**
+
+```ts
+export declare const fromNullable: <E>(e: E) => <A>(a: A) => TaskEither<E, NonNullable<A>>
+```
+
+Added in v2.12.0
+
+## fromNullableK
+
+**Signature**
+
+```ts
+export declare const fromNullableK: <E>(
+  e: E
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => B | null | undefined
+) => (...a: A) => TaskEither<E, NonNullable<B>>
+```
+
+Added in v2.12.0
+
 ## toUnion
 
 **Signature**
@@ -1244,8 +1427,6 @@ Added in v2.10.0
 ## tryCatch
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Either` instead.
-
-Note: `f` should never `throw` errors, they are not caught.
 
 See also [`tryCatchK`](#trycatchk).
 
@@ -1397,6 +1578,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1433,6 +1618,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1462,6 +1649,24 @@ export declare const bracket: <E, A, B>(
 ```
 
 Added in v2.0.0
+
+## bracketW
+
+Less strict version of [`bracket`](#bracket).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const bracketW: <E1, A, E2, B, E3>(
+  acquire: TaskEither<E1, A>,
+  use: (a: A) => TaskEither<E2, B>,
+  release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
+) => TaskEither<E1 | E2 | E3, B>
+```
+
+Added in v2.12.0
 
 ## sequenceArray
 

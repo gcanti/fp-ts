@@ -1,6 +1,6 @@
 ---
 title: StateReaderTaskEither.ts
-nav_order: 98
+nav_order: 100
 parent: Modules
 ---
 
@@ -32,12 +32,16 @@ Added in v2.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
   - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
+  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
@@ -162,6 +166,8 @@ Added in v2.6.2
 
 Less strict version of [`alt`](#alt).
 
+The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
+
 **Signature**
 
 ```ts
@@ -191,6 +197,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -270,6 +278,8 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -322,6 +332,22 @@ export declare const apFirst: <S, R, E, B>(
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <S, R2, E2, A, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -337,6 +363,22 @@ export declare const apSecond: <S, R, E, B>(
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <S, R2, E2, A, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## asksStateReaderTaskEither
 
@@ -382,6 +424,10 @@ Added in v2.4.0
 
 Less strict version of [`chainEitherK`](#chaineitherk).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -408,6 +454,34 @@ export declare const chainFirst: <S, R, E, A, B>(
 ```
 
 Added in v2.0.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+```
+
+Added in v2.12.0
+
+## chainFirstEitherKW
+
+Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => E.Either<E2, B>
+) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -437,6 +511,8 @@ Added in v2.11.0
 
 Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
 
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -462,6 +538,8 @@ Added in v2.10.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -542,6 +620,8 @@ Added in v2.11.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainReaderK).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -653,6 +733,8 @@ Added in v2.4.4
 
 Less strict version of [`filterOrElse`](#filterorelse).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -702,6 +784,8 @@ Added in v2.0.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 
@@ -1218,7 +1302,9 @@ Added in v2.0.0
 
 ## ~~stateReaderTaskEitherSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
 
 **Signature**
 
@@ -1234,7 +1320,9 @@ Added in v2.0.0
 
 ## ~~stateReaderTaskEither~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
+(where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
 
 **Signature**
 
@@ -1373,6 +1461,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1414,6 +1506,8 @@ export declare const bindTo: <N>(
 Added in v2.8.0
 
 ## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
 
 **Signature**
 

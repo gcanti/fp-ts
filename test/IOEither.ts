@@ -1,7 +1,7 @@
 import * as U from './util'
 import { sequenceT } from '../src/Apply'
 import * as E from '../src/Either'
-import { identity, pipe, SK } from '../src/function'
+import { constVoid, identity, pipe, SK } from '../src/function'
 import * as I from '../src/IO'
 import * as _ from '../src/IOEither'
 import * as O from '../src/Option'
@@ -59,7 +59,6 @@ describe('IOEither', () => {
     })
 
     it('ApplicativePar', () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const x = sequenceT(_.ApplicativePar)(
         _.rightIO<string, number>(() => log.push('a')),
@@ -74,7 +73,6 @@ describe('IOEither', () => {
     })
 
     it('ApplicativeSeq', () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const x = sequenceT(_.ApplicativeSeq)(
         _.rightIO<string, number>(() => log.push('a')),
@@ -92,8 +90,20 @@ describe('IOEither', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apFirst(_.right('b')))(), E.right('a'))
     })
 
+    it('apFirstW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apFirstW(fb))(), E.right('a'))
+    })
+
     it('apSecond', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.apSecond(_.right('b')))(), E.right('b'))
+    })
+
+    it('apSecondW', () => {
+      const fa = _.right<'Foo', string>('a')
+      const fb = _.right<'Bar', number>(1)
+      U.deepStrictEqual(pipe(fa, _.apSecondW(fb))(), E.right(1))
     })
 
     it('chain', () => {
@@ -274,6 +284,12 @@ describe('IOEither', () => {
     U.deepStrictEqual(pipe(_.left('aa'), f)(), E.left('aa!'))
   })
 
+  it('orElseFirstIOK', () => {
+    const f = _.orElseFirstIOK((e: string) => I.of(e.length))
+    U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
+    U.deepStrictEqual(pipe(_.left('a'), f)(), E.left('a'))
+  })
+
   it('orLeft', () => {
     const f = _.orLeft((e: string) => I.of(e + '!'))
     U.deepStrictEqual(pipe(_.right(1), f)(), E.right(1))
@@ -292,7 +308,6 @@ describe('IOEither', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
-      // tslint:disable-next-line: deprecation
       const S = _.getSemigroup<string, number>(N.SemigroupSum)
       U.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('a'))
       U.deepStrictEqual(S.concat(_.leftIO(I.of('a')), _.rightIO(I.of(2)))(), E.right(2))
@@ -303,7 +318,6 @@ describe('IOEither', () => {
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
-      // tslint:disable-next-line: deprecation
       const M = _.getApplyMonoid(S.Monoid)
       U.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.rightIO(I.of('b')))(), E.right('ab'))
       U.deepStrictEqual(M.concat(_.rightIO(I.of('a')), _.leftIO(I.of('b')))(), E.left('b'))
@@ -313,7 +327,6 @@ describe('IOEither', () => {
   })
 
   describe('bracket', () => {
-    // tslint:disable-next-line: readonly-array
     let log: Array<string> = []
 
     const acquireFailure = _.left('acquire failure')
@@ -366,11 +379,19 @@ describe('IOEither', () => {
     })
   })
 
+  it('bracketW', async () => {
+    const res = _.bracketW(
+      _.right<string, string>('string'),
+      (_a: string) => _.right<number, string>('test'),
+      (_a: string, _e: E.Either<number, string>) => _.right<Error, void>(constVoid())
+    )()
+    U.deepStrictEqual(res, E.right('test'))
+  })
+
   it('getApplicativeIOValidation', () => {
     const A = _.getApplicativeIOValidation(S.Monoid)
     U.deepStrictEqual(sequenceT(A)(_.left('a'), _.left('b'))(), E.left('ab'))
     U.deepStrictEqual(sequenceT(A)(_.left('a'), _.right(1))(), E.left('a'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getIOValidation(S.Monoid)
     U.deepStrictEqual(sequenceT(AV)(_.left('a'), _.left('b'))(), E.left('ab'))
   })
@@ -378,7 +399,6 @@ describe('IOEither', () => {
   it('getAltIOValidation', () => {
     const A = _.getAltIOValidation(S.Monoid)
     U.deepStrictEqual(A.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
-    // tslint:disable-next-line: deprecation
     const AV = _.getIOValidation(S.Monoid)
     U.deepStrictEqual(AV.alt(_.left('a'), () => _.left('b'))(), E.left('ab'))
   })
@@ -405,7 +425,6 @@ describe('IOEither', () => {
 
   describe('getFilterable', () => {
     const F_ = _.getFilterable(RA.getMonoid<string>())
-    // tslint:disable-next-line: deprecation
     const { filter, filterMap, partition, partitionMap } = pipeable(F_)
 
     it('filter', async () => {
@@ -539,7 +558,6 @@ describe('IOEither', () => {
 
     // old
     it('sequenceArray', () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
         _.rightIO(() => {
@@ -551,17 +569,13 @@ describe('IOEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceArray)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceArray)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceArray)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
     })
 
     it('sequenceSeqArray', () => {
-      // tslint:disable-next-line: readonly-array
       const log: Array<number | string> = []
       const right = (n: number): _.IOEither<string, number> =>
         _.rightIO(() => {
@@ -573,11 +587,8 @@ describe('IOEither', () => {
           log.push(s)
           return s
         })
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([right(1), right(2)], _.sequenceSeqArray)(), E.right([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([right(3), left('a')], _.sequenceSeqArray)(), E.left('a'))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([left('b'), right(4)], _.sequenceSeqArray)(), E.left('b'))
       U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
     })
@@ -620,5 +631,12 @@ describe('IOEither', () => {
     )
     U.deepStrictEqual(f(_.right(1))(), 'right')
     U.deepStrictEqual(f(_.left(1))(), 'left')
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
 })

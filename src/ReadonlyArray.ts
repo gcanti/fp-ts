@@ -191,6 +191,8 @@ export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? 
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.11.0
  */
@@ -1450,6 +1452,20 @@ export const zero: Zero1<URI>['zero'] = () => empty
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.altW(() => ['a', 'b'])
+ *   ),
+ *   [1, 2, 3, 'a', 'b']
+ * )
+ *
  * @category Alt
  * @since 2.9.0
  */
@@ -1459,6 +1475,20 @@ export const altW = <B>(that: Lazy<ReadonlyArray<B>>) => <A>(fa: ReadonlyArray<A
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `ReadonlyArray` concatenates the inputs into a single array.
+ *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.alt(() => [4, 5])
+ *   ),
+ *   [1, 2, 3, 4, 5]
+ * )
  *
  * @category Alt
  * @since 2.5.0
@@ -1477,6 +1507,25 @@ export const ap: <A>(fa: ReadonlyArray<A>) => <B>(fab: ReadonlyArray<(a: A) => B
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chain((n) => [`a${n}`, `b${n}`])
+ *   ),
+ *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chain(() => [])
+ *   ),
+ *   []
+ * )
+ *
  * @category Monad
  * @since 2.5.0
  */
@@ -1492,9 +1541,7 @@ export const chain: <A, B>(f: (a: A) => ReadonlyArray<B>) => (ma: ReadonlyArray<
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: ReadonlyArray<ReadonlyArray<A>>) => ReadonlyArray<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -1569,9 +1616,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>)
  * @category Compactable
  * @since 2.5.0
  */
-export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> =
-  /*#__PURE__*/
-  filterMap(identity)
+export const compact: <A>(fa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
  * @category Filterable
@@ -1670,9 +1715,7 @@ export const extend: <A, B>(f: (fa: ReadonlyArray<A>) => B) => (wa: ReadonlyArra
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(wa: ReadonlyArray<A>) => ReadonlyArray<ReadonlyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category FoldableWithIndex
@@ -1799,6 +1842,7 @@ export const wilt: PipeableWilt1<URI> = <F>(
 export const unfold = <A, B>(b: B, f: (b: B) => Option<readonly [A, B]>): ReadonlyArray<A> => {
   const out: Array<A> = []
   let bb: B = b
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const mt = f(bb)
     if (_.isSome(mt)) {
@@ -1976,9 +2020,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -2017,9 +2059,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -2029,9 +2069,7 @@ export const apFirst =
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -2073,12 +2111,29 @@ export const Monad: Monad1<URI> = {
  *
  * Derivable from `Chain`.
  *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => ['a', 'b'])
+ *   ),
+ *   [1, 1, 2, 2, 3, 3]
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => [])
+ *   ),
+ *   []
+ * )
+ *
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -2112,9 +2167,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -2314,8 +2367,8 @@ export const ChainRecBreadthFirst: ChainRec1<URI> = {
   chainRec: _chainRecBreadthFirst
 }
 
-const _wither: Witherable1<URI>['wither'] = witherDefault(Traversable, Compactable)
-const _wilt: Witherable1<URI>['wilt'] = wiltDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * @category instances
@@ -2361,9 +2414,7 @@ export const Witherable: Witherable1<URI> = {
  *
  * @since 2.11.0
  */
-export const filterE =
-  /*#__PURE__*/
-  filterE_(Witherable)
+export const filterE = /*#__PURE__*/ filterE_(Witherable)
 
 /**
  * @category instances
@@ -2378,9 +2429,7 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // unsafe
@@ -2451,7 +2500,11 @@ export const empty: ReadonlyArray<never> = RNEA.empty
  *
  * @since 2.9.0
  */
-export const every = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): boolean => as.every(predicate)
+export function every<A, B extends A>(refinement: Refinement<A, B>): Refinement<ReadonlyArray<A>, ReadonlyArray<B>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>>
+export function every<A>(predicate: Predicate<A>): Predicate<ReadonlyArray<A>> {
+  return (as) => as.every(predicate)
+}
 
 /**
  * Check if a predicate holds true for any array member.
@@ -2477,6 +2530,22 @@ export const some = <A>(predicate: Predicate<A>) => (as: ReadonlyArray<A>): as i
  */
 export const exists = some
 
+/**
+ * Places an element in between members of a `ReadonlyArray`, then folds the results using the provided `Monoid`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Monoid)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate = <A>(M: Monoid<A>): ((middle: A) => (as: ReadonlyArray<A>) => A) => {
+  const intercalateM = RNEA.intercalate(M)
+  return (middle) => match(() => M.empty, intercalateM(middle))
+}
+
 // -------------------------------------------------------------------------------------
 // do notation
 // -------------------------------------------------------------------------------------
@@ -2484,23 +2553,17 @@ export const exists = some
 /**
  * @since 2.9.0
  */
-export const Do: ReadonlyArray<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -2509,15 +2572,11 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `ReadonlyNonEmptyArray` module instead.
@@ -2556,7 +2615,9 @@ export const snoc = RNEA.snoc
 export const prependToAll = prependAll
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RA.Functor` instead of `RA.readonlyArray`
+ * (where `RA` is from `import RA from 'fp-ts/ReadonlyArray'`)
  *
  * @category instances
  * @since 2.5.0

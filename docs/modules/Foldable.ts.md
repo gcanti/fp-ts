@@ -223,17 +223,17 @@ Fold a data structure, accumulating values in some `Monoid`, combining adjacent 
 export declare function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
   F: Foldable3<F>
-): <R, E>(sep: M, fm: Kind3<F, R, E, M>) => M
+): <R, E>(middle: M, fm: Kind3<F, R, E, M>) => M
 export declare function intercalate<M, F extends URIS2>(
   M: Monoid<M>,
   F: Foldable2<F>
-): <E>(sep: M, fm: Kind2<F, E, M>) => M
+): <E>(middle: M, fm: Kind2<F, E, M>) => M
 export declare function intercalate<M, F extends URIS2, E>(
   M: Monoid<M>,
   F: Foldable2C<F, E>
-): (sep: M, fm: Kind2<F, E, M>) => M
-export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Kind<F, M>) => M
-export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
+): (middle: M, fm: Kind2<F, E, M>) => M
+export declare function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (middle: M, fm: Kind<F, M>) => M
+export declare function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (middle: M, fm: HKT<F, M>) => M
 ```
 
 **Example**

@@ -1,6 +1,6 @@
 ---
 title: TaskOption.ts
-nav_order: 106
+nav_order: 108
 parent: Modules
 ---
 
@@ -36,7 +36,9 @@ Added in v2.10.0
 - [combinators](#combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
+  - [chainEitherK](#chaineitherk)
   - [chainFirst](#chainfirst)
+  - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
@@ -44,6 +46,7 @@ Added in v2.10.0
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [flatten](#flatten)
+  - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromTaskK](#fromtaskk)
@@ -129,6 +132,8 @@ Added in v2.10.0
 ## altW
 
 Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -305,6 +310,16 @@ export declare const apSecond: <B>(second: TaskOption<B>) => <A>(first: TaskOpti
 
 Added in v2.10.0
 
+## chainEitherK
+
+**Signature**
+
+```ts
+export declare const chainEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v2.12.0
+
 ## chainFirst
 
 Composes computations in sequence, using the return value of one computation to determine the next computation and
@@ -319,6 +334,16 @@ export declare const chainFirst: <A, B>(f: (a: A) => TaskOption<B>) => (first: T
 ```
 
 Added in v2.10.0
+
+## chainFirstEitherK
+
+**Signature**
+
+```ts
+export declare const chainFirstEitherK: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: TaskOption<A>) => TaskOption<A>
+```
+
+Added in v2.12.0
 
 ## chainFirstIOK
 
@@ -393,6 +418,16 @@ export declare const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<
 ```
 
 Added in v2.10.0
+
+## fromEitherK
+
+**Signature**
+
+```ts
+export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskOption<B>
+```
+
+Added in v2.12.0
 
 ## fromIOK
 
@@ -518,6 +553,8 @@ Added in v2.10.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -538,6 +575,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -553,6 +592,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -567,6 +608,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -600,6 +643,8 @@ Added in v2.10.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -609,6 +654,8 @@ export declare const ApplicativePar: Applicative1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -620,6 +667,8 @@ Added in v2.10.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -629,6 +678,8 @@ export declare const ApplyPar: Apply1<'TaskOption'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -807,8 +858,6 @@ Added in v2.10.0
 ## tryCatch
 
 Transforms a `Promise` that may reject to a `Promise` that never rejects and returns an `Option` instead.
-
-Note: `f` should never `throw` errors, they are not caught.
 
 See also [`tryCatchK`](#trycatchk).
 

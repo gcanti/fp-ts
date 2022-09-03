@@ -1,5 +1,5 @@
 import * as U from './util'
-import { left, right } from '../src/Either'
+import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as _ from '../src/Option'
@@ -133,8 +133,8 @@ describe('Option', () => {
 
     it('separate', () => {
       U.deepStrictEqual(_.separate(_.none), separated(_.none, _.none))
-      U.deepStrictEqual(_.separate(_.some(left('123'))), separated(_.some('123'), _.none))
-      U.deepStrictEqual(_.separate(_.some(right('123'))), separated(_.none, _.some('123')))
+      U.deepStrictEqual(_.separate(_.some(E.left('123'))), separated(_.some('123'), _.none))
+      U.deepStrictEqual(_.separate(_.some(E.right('123'))), separated(_.none, _.some('123')))
     })
 
     it('filter', () => {
@@ -158,7 +158,7 @@ describe('Option', () => {
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
       U.deepStrictEqual(pipe(_.none, _.partitionMap(f)), separated(_.none, _.none))
       U.deepStrictEqual(pipe(_.some(1), _.partitionMap(f)), separated(_.some(0), _.none))
       U.deepStrictEqual(pipe(_.some(3), _.partitionMap(f)), separated(_.none, _.some(4)))
@@ -202,7 +202,7 @@ describe('Option', () => {
     })
 
     it('wilt', async () => {
-      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? right(n + 1) : left(n - 1)))
+      const wilt = _.wilt(T.ApplicativePar)((n: number) => T.of(p(n) ? E.right(n + 1) : E.left(n - 1)))
       U.deepStrictEqual(await pipe(_.none, wilt)(), separated(_.none, _.none))
       U.deepStrictEqual(await pipe(_.some(1), wilt)(), separated(_.some(0), _.none))
       U.deepStrictEqual(await pipe(_.some(3), wilt)(), separated(_.none, _.some(4)))
@@ -211,8 +211,8 @@ describe('Option', () => {
 
   describe('constructors', () => {
     it('fromEither', () => {
-      U.deepStrictEqual(_.fromEither(left('a')), _.none)
-      U.deepStrictEqual(_.fromEither(right(1)), _.some(1))
+      U.deepStrictEqual(_.fromEither(E.left('a')), _.none)
+      U.deepStrictEqual(_.fromEither(E.right(1)), _.some(1))
     })
   })
 
@@ -353,7 +353,6 @@ describe('Option', () => {
   })
 
   it('getApplySemigroup', () => {
-    // tslint:disable-next-line: deprecation
     const S = _.getApplySemigroup(N.SemigroupSum)
     U.deepStrictEqual(S.concat(_.none, _.none), _.none)
     U.deepStrictEqual(S.concat(_.some(1), _.none), _.none)
@@ -362,7 +361,6 @@ describe('Option', () => {
   })
 
   it('getApplyMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getApplyMonoid(N.MonoidSum)
     U.deepStrictEqual(M.concat(M.empty, _.none), _.none)
     U.deepStrictEqual(M.concat(_.none, M.empty), _.none)
@@ -371,7 +369,6 @@ describe('Option', () => {
   })
 
   it('getFirstMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getFirstMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
@@ -380,7 +377,6 @@ describe('Option', () => {
   })
 
   it('getLastMonoid', () => {
-    // tslint:disable-next-line: deprecation
     const M = _.getLastMonoid<number>()
     U.deepStrictEqual(M.concat(_.none, _.none), _.none)
     U.deepStrictEqual(M.concat(_.some(1), _.none), _.some(1))
@@ -392,6 +388,9 @@ describe('Option', () => {
     U.deepStrictEqual(_.elem(N.Eq)(2, _.none), false)
     U.deepStrictEqual(_.elem(N.Eq)(2, _.some(2)), true)
     U.deepStrictEqual(_.elem(N.Eq)(1, _.some(2)), false)
+    U.deepStrictEqual(pipe(_.none, _.elem(N.Eq)(2)), false)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(2)), true)
+    U.deepStrictEqual(pipe(_.some(2), _.elem(N.Eq)(1)), false)
   })
 
   it('isNone', () => {
@@ -424,14 +423,12 @@ describe('Option', () => {
 
   it('getRefinement', () => {
     const f = (s: string | number): _.Option<string> => (typeof s === 'string' ? _.some(s) : _.none)
-    // tslint:disable-next-line: deprecation
     const isString = _.getRefinement(f)
     U.deepStrictEqual(isString('s'), true)
     U.deepStrictEqual(isString(1), false)
     type A = { readonly type: 'A' }
     type B = { readonly type: 'B' }
     type C = A | B
-    // tslint:disable-next-line: deprecation
     const isA = _.getRefinement<C, A>((c) => (c.type === 'A' ? _.some(c) : _.none))
     U.deepStrictEqual(isA({ type: 'A' }), true)
     U.deepStrictEqual(isA({ type: 'B' }), false)
@@ -444,13 +441,13 @@ describe('Option', () => {
   })
 
   it('getLeft', () => {
-    U.deepStrictEqual(_.getLeft(right(1)), _.none)
-    U.deepStrictEqual(_.getLeft(left('err')), _.some('err'))
+    U.deepStrictEqual(_.getLeft(E.right(1)), _.none)
+    U.deepStrictEqual(_.getLeft(E.left('err')), _.some('err'))
   })
 
   it('getRight', () => {
-    U.deepStrictEqual(_.getRight(right(1)), _.some(1))
-    U.deepStrictEqual(_.getRight(left('err')), _.none)
+    U.deepStrictEqual(_.getRight(E.right(1)), _.some(1))
+    U.deepStrictEqual(_.getRight(E.left('err')), _.none)
   })
 
   it('throwError', () => {
@@ -488,11 +485,8 @@ describe('Option', () => {
       U.deepStrictEqual(pipe(['a', ''], f), _.none)
     })
 
-    // old
     it('sequenceArray', () => {
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.of(1), _.of(2)], _.sequenceArray), _.some([1, 2]))
-      // tslint:disable-next-line: deprecation
       U.deepStrictEqual(pipe([_.of(1), _.none], _.sequenceArray), _.none)
     })
   })
@@ -528,5 +522,12 @@ describe('Option', () => {
       ),
       _.none
     )
+  })
+
+  it('chainFirstEitherK', async () => {
+    const f = (s: string) => E.right(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(f)), _.some('a'))
+    const g = (s: string) => E.left(s.length)
+    U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(g)), _.none)
   })
 })

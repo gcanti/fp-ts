@@ -22,7 +22,7 @@ import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { identity, Lazy, pipe, SK } from './function'
+import { flow, identity, Lazy, pipe, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
@@ -446,7 +446,7 @@ export const groupBy = <A>(f: (a: A) => string) => (
   const out: Record<string, NonEmptyArray<A>> = {}
   for (const a of as) {
     const k = f(a)
-    if (out.hasOwnProperty(k)) {
+    if (_.has.call(out, k)) {
       out[k].push(a)
     } else {
       out[k] = [a]
@@ -687,6 +687,20 @@ export const of: Pointed1<URI>['of'] = _.singleton
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
+ *     RNEA.altW(() => ['a', 'b'])
+ *   ),
+ *   [1, 2, 3, 'a', 'b']
+ * )
+ *
  * @category Alt
  * @since 2.9.0
  */
@@ -697,6 +711,20 @@ export const altW = <B>(that: Lazy<ReadonlyNonEmptyArray<B>>) => <A>(
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
+ *
+ * In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RNEA.alt(() => [4, 5])
+ *   ),
+ *   [1, 2, 3, 4, 5]
+ * )
  *
  * @category Alt
  * @since 2.6.2
@@ -715,6 +743,18 @@ export const ap = <A>(
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @example
+ * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RNEA.chain((n) => [`a${n}`, `b${n}`])
+ *   ),
+ *   ['a1', 'b1', 'a2', 'b2', 'a3', 'b3']
+ * )
  *
  * @category Monad
  * @since 2.5.0
@@ -745,9 +785,9 @@ export const extend = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
  * @category combinators
  * @since 2.5.0
  */
-export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(
+  ma: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -755,9 +795,9 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
  * @category combinators
  * @since 2.5.0
  */
-export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(
+  mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -954,9 +994,7 @@ export const Functor: Functor1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -995,9 +1033,7 @@ export const Apply: Apply1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1007,9 +1043,7 @@ export const apFirst =
  * @category combinators
  * @since 2.5.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -1039,12 +1073,22 @@ export const Chain: Chain1<URI> = {
  *
  * Derivable from `Chain`.
  *
+ * @example
+ * import * as RA from 'fp-ts/ReadonlyArray'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     [1, 2, 3],
+ *     RA.chainFirst(() => ['a', 'b'])
+ *   ),
+ *   [1, 1, 2, 2, 3, 3]
+ * )
+ *
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -1144,23 +1188,17 @@ export const Comonad: Comonad1<URI> = {
 /**
  * @since 2.9.0
  */
-export const Do: ReadonlyNonEmptyArray<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReadonlyNonEmptyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1169,9 +1207,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1278,11 +1314,25 @@ export const modifyLast = <A>(f: Endomorphism<A>) => (as: ReadonlyNonEmptyArray<
  */
 export const updateLast = <A>(a: A): ((as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>) => modifyLast(() => a)
 
+/**
+ * Places an element in between members of a `ReadonlyNonEmptyArray`, then folds the results using the provided `Semigroup`.
+ *
+ * @example
+ * import * as S from 'fp-ts/string'
+ * import { intercalate } from 'fp-ts/ReadonlyNonEmptyArray'
+ *
+ * assert.deepStrictEqual(intercalate(S.Semigroup)('-')(['a', 'b', 'c']), 'a-b-c')
+ *
+ * @since 2.12.0
+ */
+export const intercalate = <A>(S: Semigroup<A>): ((middle: A) => (as: ReadonlyNonEmptyArray<A>) => A) => {
+  const concatAllS = concatAll(S)
+  return (middle) => flow(intersperse(middle), concatAllS)
+}
+
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * This is just `sort` followed by `group`.
@@ -1404,7 +1454,9 @@ export const prependToAll = prependAll
 export const fold = concatAll
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `RNEA.Functor` instead of `RNEA.readonlyNonEmptyArray`
+ * (where `RNEA` is from `import RNEA from 'fp-ts/ReadonlyNonEmptyArray'`)
  *
  * @category instances
  * @since 2.5.0

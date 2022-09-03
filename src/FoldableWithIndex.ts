@@ -183,8 +183,6 @@ export function reduceRightWithIndex<F, I, G, J>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @since 2.0.0
  * @deprecated

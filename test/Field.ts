@@ -17,7 +17,6 @@ describe('Field', () => {
   })
 
   it('fieldNumber', () => {
-    // tslint:disable-next-line: deprecation
     const F = _.fieldNumber
     U.deepStrictEqual(F.add(1, 2), 3)
     U.deepStrictEqual(F.div(4, 2), 2)

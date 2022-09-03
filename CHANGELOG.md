@@ -16,6 +16,183 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.12.3
+
+- **Polish**
+  - `Apply`
+    - add `ap` overloadings, #1721 (@waynevanson)
+  - `ReadonlyRecord`
+    - fix `fromEntries` return type, closes #1745 (@gcanti)
+  - `TaskEither`
+    - add `chainTaskOptionKW`, #1744 (@AmirabbasJ)
+  - fix wrong type parameter order:
+    - `FromIO`
+      - `chainIOK`
+    - `FromTask`
+      - `chainTaskK`
+      - `chainFirstTaskK`
+    - `Whiterable`
+      - `FilterE1`
+    - `TheseT`
+      - `both`
+    - `Either`
+      - `apFirstW`
+      - `apSecondW`
+    - `IOEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `Reader`
+      - `apFirstW`
+      - `apSecondW`
+    - `ReaderEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `ReaderTaskEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `StateReaderTaskEither`
+      - `apFirstW`
+      - `apSecondW`
+    - `TaskEither`
+      - `apFirstW`
+      - `apSecondW`
+
+# 2.12.2
+
+- **Polish**
+  - `ReadonlyRecord` / `Record`
+    - add `Applicative4` overloadings to `traverse` / `traverseWithIndex`, #1733 (@mlegenhausen)
+
+# 2.12.1
+
+- **Bug Fix**
+  - `ReadonlyRecord`
+    - fix `traverseWithIndex` implementation, #1704 (@waynevanson)
+
+# 2.12.0
+
+- **New Feature**
+  - add `IOOption` module (@gcanti)
+  - `Array`
+    - add `intercalate`, #1678 (@thewilkybarkid)
+  - `Bounded`
+    - add `clamp` (@gcanti)
+    - add `reverse` (@gcanti)
+  - `Either`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+  - `EitherT`
+    - add `chainNullableK`, #1619 (@cwstra)
+    - add `fromNullable`, #1619 (@cwstra)
+    - add `fromNullableK`, #1619 (@cwstra)
+  - `FromEither`
+    - add `chainFirstEitherK` (@gcanti)
+  - `IOEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+    - add `orElseFirstIOK`, #1655 (@thewilkybarkid)
+    - add `bracketW`, #1627 (@thomasvargiu)
+  - `NonEmptyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
+  - `Option`
+    - add `chainFirstEitherK` (@gcanti)
+  - `Ordering`
+    - add `matchW`, #1535 (@mlegenhausen)
+  - `Reader`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+  - `ReaderEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+  - `ReaderTaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK`, #1562 (@DenisFrezzato)
+    - add `chainFirstEitherKW`, #1562 (@DenisFrezzato)
+    - add `bracketW`, #1627 (@thomasvargiu)
+    - add `chainNullableK` (@gcanti)
+    - add `fromNullable` (@gcanti)
+    - add `fromNullableK` (@gcanti)
+  - `ReadonlyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
+  - `ReadonlyNonEmptyArray`
+    - add `intercalate`, #1678 (@thewilkybarkid)
+  - `ReadonlyRecord`
+    - add `toEntries`, #1552 (@bravely)
+    - add `fromEntries`, #1552 (@bravely)
+  - `Record`
+    - add `toEntries`, #1552 (@bravely)
+    - add `fromEntries`, #1552 (@bravely)
+  - `StateReaderTaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK` (@gcanti)
+    - add `chainFirstEitherKW` (@gcanti)
+  - `TaskEither`
+    - add `apFirstW`, #1564 (@DenisFrezzato)
+    - add `apSecondW`, #1564 (@DenisFrezzato)
+    - add `chainFirstEitherK`, #1659 (@vinassefranche)
+    - add `chainFirstEitherKW`, #1659 (@vinassefranche)
+    - add `orElseFirstIOK`, #1655 (@thewilkybarkid)
+    - add `orElseFirstTaskK`, #1655 (@thewilkybarkid)
+    - add `bracketW`, #1627 (@thomasvargiu)
+    - add `chainNullableK`, #1619 (@cwstra)
+    - add `fromNullable`, #1619 (@cwstra)
+    - add `fromNullableK`, #1619 (@cwstra)
+  - `TaskOption`
+    - add `fromEitherK` (@gcanti)
+    - add `chainEitherK` (@gcanti)
+    - add `chainFirstEitherK` (@gcanti)
+
+# 2.11.10
+
+- **Polish**
+  - `TaskEither` / `TaskOption`
+    - now `tryCatch` / `tryCatchK` will catch synchronous errors too, #1676 (@thewilkybarkid)
+
+# 2.11.9
+
+- **Polish**
+  - add `Refinement` overload to 'every' functions, #1681 (@mlegenhausen)
+
+# 2.11.8
+
+- **Polish**
+  - Add missing pure annotations, #1658 (@OliverJAsh)
+
+# 2.11.7
+
+- **Polish**
+  - more `Functor.map` overloadings, closes #1623 (@gcanti)
+
+# 2.11.6
+
+- **Polish**
+  - `ReaderEither`
+    - `orElseFirstW`: intersect dependencies like `orElseW` (@gcanti)
+  - `ReaderTaskEither`
+    - `orElseFirstW`: intersect dependencies like `orElseW`, #1635 (@OliverJAsh)
+
+# 2.11.5
+
+- **Polish**
+  - more curried `elem` overloads, #1602 (@ammut)
+
+# 2.11.4
+
+- **Polish**
+  - fix `chainNullableK` signature, #1589 (@bwlt)
+  - stack safety for `Task` via microtasks suspension, #1591 (@mikearnaldi)
+
+# 2.11.3
+
+- **Polish**
+  - pipe: fix v8 performance cliff for >10 case stmts, #1585 (@pbadenski)
+
 # 2.11.2
 
 - **Polish**

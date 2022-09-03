@@ -23,6 +23,7 @@ has_toc: false
 - [spectacles-ts](https://github.com/anthonyjoeseph/spectacles-ts/) - A simple facade built on top of monocle-ts (autocompletes possible combinators)
 - [newtype-ts](https://github.com/gcanti/newtype-ts) - Implementation of newtypes in TypeScript
 - [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
+- [logger-fp-ts](https://github.com/thewilkybarkid/logger-fp-ts) - Logger built on top of logging-ts
 - [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
 - [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
 - [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))
@@ -45,6 +46,7 @@ has_toc: false
 - [fp-ts-generators](https://github.com/no-day/fp-ts-generators) - Seeded pseudorandom generators for structured data
 - [fp-ts-sized-vectors](https://github.com/no-day/fp-ts-sized-vectors) - Fixed size generic vector type carrying its length at the typelevel
 - [fp-ts-number-instances](https://github.com/no-day/fp-ts-number-instances) - Not fully law abiding instances for the number type
+- [fp-ts-react-stable-hooks](https://github.com/mblink/fp-ts-react-stable-hooks) - Reduce unnecessary rerenders when using fp-ts data types with React hooks
 
 ## Bindings
 

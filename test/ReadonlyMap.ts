@@ -463,14 +463,12 @@ describe('ReadonlyMap', () => {
       [{ id: 'b' }, 2],
       [{ id: 'c' }, 3]
     ])
-    // tslint:disable-next-line: deprecation
     const insertS = _.insertAt(eqUser)
     U.deepStrictEqual(insertS({ id: 'a' }, 1)(emptyMap), a1)
     U.deepStrictEqual(insertS({ id: 'a' }, 1)(a1b2), a1b2)
     U.deepStrictEqual(insertS({ id: 'a' }, 2)(a1b2), a2b2)
     U.deepStrictEqual(insertS({ id: 'c' }, 3)(a1b2), a1b2c3)
 
-    // tslint:disable-next-line: deprecation
     const insert = _.insertAt(eqKey)
     U.deepStrictEqual(insert({ id: 1 }, { value: 1 })(_.empty), new Map([[{ id: 1 }, { value: 1 }]]))
     const x = insert({ id: 1 }, value1)(repo)
@@ -824,7 +822,6 @@ describe('ReadonlyMap', () => {
 
     it('traverseWithIndex should sort the keys', () => {
       const W = _.getWitherable(S.Ord)
-      // tslint:disable-next-line: readonly-array
       const log: Array<string> = []
       const append = (message: string): IO.IO<void> => () => {
         log.push(message)

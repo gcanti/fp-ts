@@ -564,8 +564,6 @@ export function alt<M>(
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * @category model
  * @since 2.0.0

@@ -27,6 +27,8 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.10.0
  */

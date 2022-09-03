@@ -1,10 +1,15 @@
 ---
 title: StateT.ts
-nav_order: 99
+nav_order: 101
 parent: Modules
 ---
 
 ## StateT overview
+
+The state monad transformer. It can be used to add state to other monads.
+
+The `of` function leaves the state unchanged, while `chain` uses the final state of the first computation
+as the initial state of the second.
 
 Added in v2.0.0
 
@@ -16,8 +21,8 @@ Added in v2.0.0
   - [StateT (interface)](#statet-interface)
   - [StateT1 (interface)](#statet1-interface)
   - [StateT2 (interface)](#statet2-interface)
-- [utils](#utils)
   - [StateT3 (interface)](#statet3-interface)
+- [utils](#utils)
   - [ap](#ap)
   - [chain](#chain)
   - [evaluate](#evaluate)
@@ -74,8 +79,6 @@ export interface StateT2<M extends URIS2, S, E, A> {
 
 Added in v2.0.0
 
-# utils
-
 ## StateT3 (interface)
 
 **Signature**
@@ -87,6 +90,8 @@ export interface StateT3<M extends URIS3, S, R, E, A> {
 ```
 
 Added in v2.0.0
+
+# utils
 
 ## ap
 

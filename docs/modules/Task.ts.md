@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 104
+nav_order: 106
 parent: Modules
 ---
 
@@ -232,6 +232,7 @@ export declare function delay(millis: number): <A>(ma: Task<A>) => Task<A>
 ```ts
 import { sequenceT } from 'fp-ts/Apply'
 import * as T from 'fp-ts/Task'
+import { takeRight } from 'fp-ts/Array'
 
 async function test() {
   const log: Array<string> = []
@@ -240,11 +241,11 @@ async function test() {
       log.push(message)
     })
   const fa = append('a')
-  const fb = append('b')
+  const fb = T.delay(20)(append('b'))
   const fc = T.delay(10)(append('c'))
   const fd = append('d')
   await sequenceT(T.ApplyPar)(fa, fb, fc, fd)()
-  assert.deepStrictEqual(log, ['a', 'b', 'd', 'c'])
+  assert.deepStrictEqual(takeRight(2)(log), ['c', 'b'])
 }
 
 test()
@@ -290,6 +291,8 @@ Added in v2.4.0
 
 ## ApplicativePar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -299,6 +302,8 @@ export declare const ApplicativePar: Applicative1<'Task'>
 Added in v2.7.0
 
 ## ApplicativeSeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -310,6 +315,8 @@ Added in v2.7.0
 
 ## ApplyPar
 
+Runs computations in parallel.
+
 **Signature**
 
 ```ts
@@ -319,6 +326,8 @@ export declare const ApplyPar: Apply1<'Task'>
 Added in v2.10.0
 
 ## ApplySeq
+
+Runs computations sequentially.
 
 **Signature**
 
@@ -485,7 +494,9 @@ Added in v2.0.0
 
 ## ~~taskSeq~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.taskSeq`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 
@@ -497,7 +508,9 @@ Added in v2.0.0
 
 ## ~~task~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.task`
+(where `T` is from `import T from 'fp-ts/Task'`)
 
 **Signature**
 

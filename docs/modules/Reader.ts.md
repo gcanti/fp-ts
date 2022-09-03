@@ -1,10 +1,50 @@
 ---
 title: Reader.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
 ## Reader overview
+
+The `Reader` monad (also called the Environment monad). Represents a computation, which can read values from a shared environment,
+pass values from function to function, and execute sub-computations in a modified environment.
+Using `Reader` monad for such computations is often clearer and easier than using the `State` monad.
+
+In this example the `Reader` monad provides access to variable bindings. `Bindings` are a map of `number` variables.
+The variable count contains number of variables in the bindings. You can see how to run a `Reader` monad and retrieve
+data from it, how to access the `Reader` data with `ask` and `asks`.
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as O from 'fp-ts/Option'
+import * as R from 'fp-ts/Reader'
+import * as RR from 'fp-ts/ReadonlyRecord'
+
+interface Bindings extends RR.ReadonlyRecord<string, number> {}
+
+// The Reader monad, which implements this complicated check.
+const isCountCorrect: R.Reader<Bindings, boolean> = pipe(
+  R.Do,
+  R.bind('count', () => R.asks(lookupVar('count'))),
+  R.bind('bindings', () => R.ask()),
+  R.map(({ count, bindings }) => count === RR.size(bindings))
+)
+
+// The selector function to use with 'asks'.
+// Returns value of the variable with specified name.
+const lookupVar = (name: string) => (bindings: Bindings): number =>
+  pipe(
+    bindings,
+    RR.lookup(name),
+    O.getOrElse(() => 0)
+  )
+
+const sampleBindings: Bindings = { count: 3, a: 1, b: 2 }
+
+assert.deepStrictEqual(isCountCorrect(sampleBindings), true)
+```
 
 Added in v2.0.0
 
@@ -36,7 +76,9 @@ Added in v2.0.0
   - [second](#second)
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [asksReader](#asksreader)
   - [asksReaderW](#asksreaderw)
   - [chainFirst](#chainfirst)
@@ -99,6 +141,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -174,6 +218,8 @@ Added in v2.0.0
 ## chainW
 
 Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -257,6 +303,20 @@ export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -270,6 +330,20 @@ export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
+```
+
+Added in v2.12.0
 
 ## asksReader
 
@@ -286,6 +360,8 @@ Added in v2.11.0
 ## asksReaderW
 
 Less strict version of [`asksReader`](#asksreader).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -313,6 +389,8 @@ Added in v2.0.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 Derivable from `Chain`.
 
@@ -354,6 +432,8 @@ Added in v2.0.0
 
 Less strict version of [`flatten`](#flatten).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -371,6 +451,33 @@ Changes the value of the local context during the execution of the action `ma` (
 
 ```ts
 export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Reader<R2, A>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import * as R from 'fp-ts/Reader'
+import * as string from 'fp-ts/string'
+
+const calculateContentLen: R.Reader<string, number> = pipe(
+  R.Do,
+  R.bind('content', () => R.ask<string>()),
+  R.map(({ content }) => string.size(content))
+)
+
+// Calls calculateContentLen after adding a prefix to the Reader content.
+const calculateModifiedContentLen: R.Reader<string, number> = pipe(
+  calculateContentLen,
+  R.local((s) => 'Prefix ' + s)
+)
+
+const s = '12345'
+
+assert.deepStrictEqual(
+  "Modified 's' length: " + calculateModifiedContentLen(s) + '\n' + "Original 's' length: " + calculateContentLen(s),
+  "Modified 's' length: 12\nOriginal 's' length: 5"
+)
 ```
 
 Added in v2.0.0
@@ -549,7 +656,9 @@ Added in v2.0.0
 
 ## ~~reader~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.reader`
+(where `R` is from `import R from 'fp-ts/Reader'`)
 
 **Signature**
 
@@ -614,6 +723,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -649,6 +762,8 @@ export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<
 Added in v2.8.0
 
 ## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 

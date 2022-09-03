@@ -9,6 +9,9 @@ const getExportName = (name: string): string => {
   if (name === 'IOEither') {
     return 'ioEither'
   }
+  if (name === 'IOOption') {
+    return 'ioOption'
+  }
   if (name === 'IORef') {
     return 'ioRef'
   }
@@ -28,6 +31,7 @@ function getModuleNames(): ReadonlyArray<string> {
 describe('index', () => {
   it('check exported modules', () => {
     const moduleNames = getModuleNames()
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const fp = require('../src')
     moduleNames.forEach((name) => {
       if (name !== 'index') {

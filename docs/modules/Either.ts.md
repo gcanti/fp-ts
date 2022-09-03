@@ -18,6 +18,55 @@ A common use of `Either` is as an alternative to `Option` for dealing with possi
 `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
 dictates that `Left` is used for failure and `Right` is used for success.
 
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+const double = (n: number): number => n * 2
+
+export const imperative = (as: ReadonlyArray<number>): string => {
+  const head = (as: ReadonlyArray<number>): number => {
+    if (as.length === 0) {
+      throw new Error('empty array')
+    }
+    return as[0]
+  }
+  const inverse = (n: number): number => {
+    if (n === 0) {
+      throw new Error('cannot divide by zero')
+    }
+    return 1 / n
+  }
+  try {
+    return `Result is ${inverse(double(head(as)))}`
+  } catch (err: any) {
+    return `Error is ${err.message}`
+  }
+}
+
+export const functional = (as: ReadonlyArray<number>): string => {
+  const head = <A>(as: ReadonlyArray<A>): E.Either<string, A> =>
+    as.length === 0 ? E.left('empty array') : E.right(as[0])
+  const inverse = (n: number): E.Either<string, number> => (n === 0 ? E.left('cannot divide by zero') : E.right(1 / n))
+  return pipe(
+    as,
+    head,
+    E.map(double),
+    E.chain(inverse),
+    E.match(
+      (err) => `Error is ${err}`, // onLeft handler
+      (head) => `Result is ${head}` // onRight handler
+    )
+  )
+}
+
+assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+assert.deepStrictEqual(imperative([]), functional([]))
+assert.deepStrictEqual(imperative([0]), functional([0]))
+```
+
 Added in v2.0.0
 
 ---
@@ -26,7 +75,9 @@ Added in v2.0.0
 
 - [combinators](#combinators)
   - [apFirst](#apfirst)
+  - [apFirstW](#apfirstw)
   - [apSecond](#apsecond)
+  - [apSecondW](#apsecondw)
   - [chainFirst](#chainfirst)
   - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
@@ -156,6 +207,20 @@ export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<
 
 Added in v2.0.0
 
+## apFirstW
+
+Less strict version of [`apFirst`](#apfirst)
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
+```
+
+Added in v2.12.0
+
 ## apSecond
 
 Combine two effectful actions, keeping only the result of the second.
@@ -169,6 +234,20 @@ export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either
 ```
 
 Added in v2.0.0
+
+## apSecondW
+
+Less strict version of [`apSecond`](#apsecond)
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+Added in v2.12.0
 
 ## chainFirst
 
@@ -188,6 +267,8 @@ Added in v2.0.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst)
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 Derivable from `Chain`.
 
@@ -281,6 +362,8 @@ Added in v2.0.0
 
 Less strict version of [`filterOrElse`](#filterorelse).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -335,6 +418,8 @@ Added in v2.0.0
 
 Less strict version of [`flatten`](#flatten).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -368,6 +453,8 @@ Added in v2.0.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -549,6 +636,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -592,6 +681,8 @@ Added in v2.10.0
 
 Less strict version of [`match`](#match).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -607,10 +698,55 @@ Added in v2.10.0
 Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
 types of kind `* -> *`.
 
+In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+
+| x        | y        | pipe(x, alt(() => y) |
+| -------- | -------- | -------------------- |
+| left(a)  | left(b)  | left(b)              |
+| left(a)  | right(2) | right(2)             |
+| right(1) | left(b)  | right(1)             |
+| right(1) | right(2) | right(1)             |
+
 **Signature**
 
 ```ts
 export declare const alt: <E, A>(that: Lazy<Either<E, A>>) => (fa: Either<E, A>) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.alt(() => E.left('b'))
+  ),
+  E.left('b')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.alt(() => E.right(2))
+  ),
+  E.right(2)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.alt(() => E.left('b'))
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.alt(() => E.right(2))
+  ),
+  E.right(1)
+)
 ```
 
 Added in v2.0.0
@@ -618,6 +754,8 @@ Added in v2.0.0
 ## altW
 
 Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
 
 **Signature**
 
@@ -642,6 +780,8 @@ Added in v2.0.0
 ## apW
 
 Less strict version of [`ap`](#ap).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -679,10 +819,35 @@ Added in v2.0.0
 
 Less strict version of [`chain`](#chain).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
 export declare const chainW: <E2, A, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>) => Either<E2 | E1, B>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+const e1: E.Either<string, number> = E.right(1)
+const e2: E.Either<number, number> = E.right(2)
+
+export const result1 = pipe(
+  // @ts-expect-error
+  e1,
+  E.chain(() => e2)
+)
+
+// merged error types -----v-------------v
+// const result2: E.Either<string | number, number>
+export const result2 = pipe(
+  e1, // no error
+  E.chainW(() => e2)
+)
 ```
 
 Added in v2.6.0
@@ -1132,7 +1297,9 @@ Added in v2.0.0
 
 ## ~~either~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `E.Functor` instead of `E.either`
+(where `E` is from `import E from 'fp-ts/Either'`)
 
 **Signature**
 
@@ -1469,6 +1636,10 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1505,6 +1676,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1521,7 +1694,12 @@ Added in v2.8.0
 **Signature**
 
 ```ts
-export declare const elem: <A>(E: Eq<A>) => <E>(a: A, ma: Either<E, A>) => boolean
+export declare function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): <E>(ma: Either<E, A>) => boolean
+  <E>(a: A, ma: Either<E, A>): boolean
+}
 ```
 
 Added in v2.0.0

@@ -1,6 +1,6 @@
 ---
 title: Tuple.ts
-nav_order: 114
+nav_order: 116
 parent: Modules
 ---
 
@@ -361,7 +361,9 @@ Added in v2.0.0
 
 ## ~~tuple~~
 
-Use small, specific instances instead.
+This instance is deprecated, use small, specific instances instead.
+For example if a function needs a `Functor` instance, pass `T.Functor` instead of `T.tuple`
+(where `T` is from `import T from 'fp-ts/Tuple'`)
 
 **Signature**
 

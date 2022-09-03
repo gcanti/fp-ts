@@ -24,12 +24,17 @@ import * as T from 'fp-ts/Task'
 declare const print: (s: string) => T.Task<void>
 declare const readLine: T.Task<string>
 
-const main: T.Task<{ x: string, y: string }> = pipe(
+const main: T.Task<{ x: string; y: string }> = pipe(
   readLine,
-  T.map(x => ({ x })),
-  T.chain(({ x }) => pipe(readLine, T.map(y => ({ x, y })))),
+  T.map((x) => ({ x })),
+  T.chain(({ x }) =>
+    pipe(
+      readLine,
+      T.map((y) => ({ x, y }))
+    )
+  ),
   T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y)),
+  T.chainFirst(({ y }) => print(y))
 )
 ```
 
@@ -37,13 +42,14 @@ Notice how we need a nested `pipe` to allow the combination of `x` and `y` value
 object.
 
 Here's how we can write `main` with do notation (we'll call it `mainDo`):
+
 ```ts
-const mainDo: T.Task<{ x: string, y: string }> = pipe(
+const mainDo: T.Task<{ x: string; y: string }> = pipe(
   T.Do,
   T.bind('x', () => readLine),
   T.bind('y', () => readLine),
   T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y)),
+  T.chainFirst(({ y }) => print(y))
 )
 ```
 
@@ -75,12 +81,12 @@ import * as IO from 'fp-ts/IO'
 declare const print: (s: string) => IO.IO<void>
 declare const readLine: IO.IO<string>
 
-const mainDo: IO.IO<{ x: string, y: string }> = pipe(
+const mainDo: IO.IO<{ x: string; y: string }> = pipe(
   IO.Do,
   IO.bind('x', () => readLine),
   IO.bind('y', () => readLine),
   IO.chainFirst(({ x }) => print(x)),
-  IO.chainFirst(({ y }) => print(y)),
+  IO.chainFirst(({ y }) => print(y))
 )
 ```
 
@@ -100,7 +106,7 @@ pipe(
   T.bindTo('x'),
   T.bind('y', () => readLine),
   T.chainFirst(({ x }) => print(x)),
-  T.chainFirst(({ y }) => print(y)),
+  T.chainFirst(({ y }) => print(y))
 )
 ```
 
@@ -114,8 +120,20 @@ declare const encryptValue: (val: string) => T.Task<string>
 
 pipe(
   T.Do,
-  T.apS('x', encryptValue("hello")),
-  T.apS('y', encryptValue("world")),
-  T.map(({ x, y }) => { /* ... */ })
+  T.apS('x', encryptValue('hello')),
+  T.apS('y', encryptValue('world')),
+  T.map(({ x, y }) => {
+    /* ... */
+  })
 )
 ```
+
+# FAQ
+
+> What does `IO.Do` do exactly?
+
+`IO.Do` is just an alias for `IO.of({})` where `{}` is an empty record.
+
+You build up a record using `bind` which accepts a key and a function that accepts the current state of the record and returns an effect of some value to store under the key.
+
+The record becomes kind of like a scope to put intermediate values in when you are chaining effects.

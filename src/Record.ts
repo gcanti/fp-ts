@@ -1,7 +1,19 @@
 /**
+ * The `Record` module enables dealing with Typescript's `Record<K, T>`
+ * type in a functional way, basically treating it as a `Functor` in `T`.
+ *
  * @since 2.0.0
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import {
+  Applicative,
+  Applicative1,
+  Applicative2,
+  Applicative2C,
+  Applicative3,
+  Applicative3C,
+  Applicative4
+} from './Applicative'
+import * as A from './Array'
 import { Compactable1 } from './Compactable'
 import { Either } from './Either'
 import { Eq } from './Eq'
@@ -12,7 +24,7 @@ import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { pipe } from './function'
 import { flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
@@ -21,7 +33,7 @@ import { Ord } from './Ord'
 import { Predicate } from './Predicate'
 import * as RR from './ReadonlyRecord'
 import { Refinement } from './Refinement'
-import { Semigroup } from './Semigroup'
+import * as Se from './Semigroup'
 import { Separated } from './Separated'
 import { Show } from './Show'
 import * as S from './string'
@@ -30,6 +42,8 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault } from './Witherable'
 
+import Semigroup = Se.Semigroup
+
 // -------------------------------------------------------------------------------------
 // model
 // -------------------------------------------------------------------------------------
@@ -37,12 +51,23 @@ import { PipeableWilt1, PipeableWither1, wiltDefault, Witherable1, witherDefault
 /**
  * Calculate the number of key/value pairs in a `Record`.
  *
+ * @example
+ * import { size } from "fp-ts/Record";
+ *
+ * assert.deepStrictEqual(size({ a: true, b: 2, c: "three" }), 3);
+ *
  * @since 2.0.0
  */
 export const size: <A>(r: Record<string, A>) => number = RR.size
 
 /**
  * Test whether a `Record` is empty.
+ *
+ * @example
+ * import { isEmpty } from "fp-ts/Record";
+ *
+ * assert.deepStrictEqual(isEmpty({}), true);
+ * assert.deepStrictEqual(isEmpty({ a: 3 }), false);
  *
  * @since 2.0.0
  */
@@ -52,24 +77,36 @@ const keys_ = (O: Ord<string>) => <K extends string>(r: Record<K, unknown>): Arr
   (Object.keys(r) as any).sort(O.compare)
 
 /**
+ * The keys of a `Record`, sorted alphabetically.
+ *
+ * @example
+ * import { keys } from "fp-ts/Record";
+ *
+ * assert.deepStrictEqual(keys({ c: 1, a: 2, b: 3 }), ["a", "b", "c"]);
+ *
  * @since 2.0.0
  */
-export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> =
-  /*#__PURE__*/
-  keys_(S.Ord)
+export const keys: <K extends string>(r: Record<K, unknown>) => Array<K> = /*#__PURE__*/ keys_(S.Ord)
 
 /**
  * Map a `Record` into an `Array`.
+ * It passes each key/value pair to the iterating function and collects
+ * the results in an array, sorted alphabetically by the original key.
  *
  * @example
  * import { collect } from 'fp-ts/Record'
  * import { Ord } from 'fp-ts/string'
  *
- * const x: { readonly a: string, readonly b: boolean } = { a: 'c', b: false }
+ * const f = <A>(k: string, a: A) => `${k.toUpperCase()}-${a}`;
+ * const x = { c: 3, a: "foo", b: false };
  * assert.deepStrictEqual(
- *   collect(Ord)((key, val) => ({ key: key, value: val }))(x),
- *   [{ key: 'a', value: 'c' }, { key: 'b', value: false }]
- * )
+ *   collect(Ord)(f)(x),
+ *   [
+ *     "A-foo",
+ *     "B-false",
+ *     "C-3",
+ *   ]
+ * );
  *
  * @since 2.0.0
  */
@@ -100,15 +137,39 @@ export function collect<A, B>(
 
 /**
  * Get a sorted `Array` of the key/value pairs contained in a `Record`.
+ * Sorted alphabetically by key.
+ *
+ * @example
+ * import { toArray } from 'fp-ts/Record'
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(toArray(x), [
+ *   ["a", "foo"],
+ *   ["b", false],
+ *   ["c", 3],
+ * ]);
  *
  * @since 2.0.0
  */
-export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> =
-  /*#__PURE__*/
-  collect(S.Ord)((k, a) => [k, a])
+export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> = /*#__PURE__*/ collect(S.Ord)((k, a) => [
+  k,
+  a
+])
 
 /**
  * Unfolds a `Record` into a list of key/value pairs.
+ *
+ * Given an `Unfoldable` class type `U` such as `array` or `readonlyArray`,
+ * it uses the `unfold` function to create an instance of `U`,
+ * providing an iterating function that iterates over each
+ * key/value pair in the record sorted alphabetically by key.
+ *
+ * @example
+ * import { array, readonlyArray } from 'fp-ts'
+ * import { toUnfoldable } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(toUnfoldable(array)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
+ * assert.deepStrictEqual(toUnfoldable(readonlyArray)({ b: 2, a: 1 }),[ [ 'a', 1 ], [ 'b', 2 ]])
  *
  * @since 2.0.0
  */
@@ -127,6 +188,12 @@ export function toUnfoldable<F>(U: Unfoldable<F>): <A>(r: Record<string, A>) => 
 /**
  * Insert or replace a key/value pair in a `Record`.
  *
+ * @example
+ * import { upsertAt } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(upsertAt("a", 5)({ a: 1, b: 2 }), { a: 5, b: 2 });
+ * assert.deepStrictEqual(upsertAt("c", 5)({ a: 1, b: 2 }), { a: 1, b: 2, c: 5 });
+ *
  * @category combinators
  * @since 2.10.0
  */
@@ -137,12 +204,24 @@ export const upsertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
  *
  * Note. This function is not pipeable because is a `Refinement`.
  *
+ * @example
+ * import { has } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(has("a", { a: 1, b: 2 }), true);
+ * assert.deepStrictEqual(has("c", { a: 1, b: 2 }), false);
+ *
  * @since 2.10.0
  */
 export const has: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.has
 
 /**
  * Delete a key and value from a `Record`.
+ *
+ * @example
+ * import { deleteAt } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(deleteAt("a")({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(deleteAt("c")({ a: 1, b: 2 }), { a: 1, b: 2 });
  *
  * @since 2.0.0
  */
@@ -161,12 +240,36 @@ export function deleteAt(k: string): <A>(r: Record<string, A>) => Record<string,
 }
 
 /**
+ * Replace a key/value pair in a `Record`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { updateAt } from 'fp-ts/Record'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(updateAt("a", 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(updateAt("c", 3)({ a: 1, b: 2 }), option.none);
+ *
  * @since 2.0.0
  */
 export const updateAt = <A>(k: string, a: A): (<K extends string>(r: Record<K, A>) => Option<Record<K, A>>) =>
   modifyAt(k, () => a)
 
 /**
+ * Applies a mapping function to one spcific key/value pair in a `Record`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry updated, otherwise it returns `None`
+ *
+ * @example
+ * import { modifyAt } from 'fp-ts/Record'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(modifyAt("a", (x: number) => x * 3)({ a: 1, b: 2 }), option.some({ a: 3, b: 2 }));
+ * assert.deepStrictEqual(modifyAt("c", (x: number) => x * 3)({ a: 1, b: 2 }), option.none);
+ *
  * @since 2.0.0
  */
 export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: Record<K, A>): Option<Record<K, A>> => {
@@ -180,6 +283,16 @@ export const modifyAt = <A>(k: string, f: (a: A) => A) => <K extends string>(r: 
 
 /**
  * Delete a key and value from a `Record`, returning the value as well as the subsequent `Record`.
+ *
+ * @returns If the specified key exists it returns an `Option` containing a new `Record`
+ * with the entry removed, otherwise it returns `None`
+ *
+ * @example
+ * import { pop } from 'fp-ts/Record'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(pop("a")({ a: 1, b: 2, c: 3 }), option.some([1, { b: 2, c: 3 }]));
+ * assert.deepStrictEqual(pop("x")({ a: 1, b: 2, c: 3 }), option.none);
  *
  * @since 2.0.0
  */
@@ -196,7 +309,29 @@ export function pop(k: string): <A>(r: Record<string, A>) => Option<[A, Record<s
 
 // TODO: remove non-curried overloading in v3
 /**
- * Test whether one `Record` contains all of the keys and values contained in another `Record`.
+ * Test whether one `Record` contains all of the keys and values
+ * contained in another `Record`.
+ *
+ * @example
+ * import { isSubrecord } from 'fp-ts/Record'
+ * import { string } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", b: "bar", c: "baz" }),
+ *   true
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", c: "baz" }),
+ *   true
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar", c: "baz" })({ a: "foo", b: "not-bar", c: "baz" }),
+ *   false
+ * );
+ * assert.deepStrictEqual(
+ *   isSubrecord(string.Eq)({ a: "foo", b: "bar" })({ a: "foo", b: "bar", c: "baz" }),
+ *   false
+ * );
  *
  * @since 2.0.0
  */
@@ -211,6 +346,16 @@ export const isSubrecord: <A>(
 /**
  * Lookup the value for a key in a `Record`.
  *
+ * @returns If the specified key exists it returns an `Option` containing the value,
+ * otherwise it returns `None`
+ *
+ * @example
+ * import { lookup } from 'fp-ts/Record'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(lookup("b")({ a: "foo", b: "bar" }), option.some("bar"));
+ * assert.deepStrictEqual(lookup("c")({ a: "foo", b: "bar" }), option.none);
+ *
  * @since 2.0.0
  */
 export const lookup: {
@@ -219,7 +364,13 @@ export const lookup: {
 } = RR.lookup
 
 /**
- * Map a `Record` passing the keys to the iterating function.
+ * Map a `Record` passing the key/value pairs to the iterating function.
+ *
+ * @example
+ * import { mapWithIndex } from "fp-ts/Record";
+ *
+ * const f = (k: string, n: number) => `${k.toUpperCase()}-${n}`;
+ * assert.deepStrictEqual(mapWithIndex(f)({ a: 3, b: 5 }), { a: "A-3", b: "B-5" });
  *
  * @since 2.0.0
  */
@@ -229,11 +380,32 @@ export const mapWithIndex: <K extends string, A, B>(f: (k: K, a: A) => B) => (fa
 /**
  * Map a `Record` passing the values to the iterating function.
  *
+ * @example
+ * import { map } from "fp-ts/Record";
+ *
+ * const f = (n: number) => `-${n}-`;
+ * assert.deepStrictEqual(map(f)({ a: 3, b: 5 }), { a: "-3-", b: "-5-" });
+ *
  * @since 2.0.0
  */
 export const map: <A, B>(f: (a: A) => B) => <K extends string>(fa: Record<K, A>) => Record<K, B> = RR.map
 
 /**
+ * Reduces a `Record` passing each key/value pair to the iterating function.
+ * Entries are processed in the order, sorted by key according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduceWithIndex } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceWithIndex(Ord)([] as string[], (k, b, a) => [...b, `${k}-${a}`])(x), [
+ *   "a-foo",
+ *   "b-false",
+ *   "c-3",
+ * ]);
+ *
  * @since 2.0.0
  */
 export function reduceWithIndex(
@@ -252,6 +424,20 @@ export function reduceWithIndex<A, B>(
 }
 
 /**
+ * Map and fold a `Record`.
+ * Map the `Record` passing each key/value pair to the iterating function.
+ * Then fold the results using the provided `Monoid`.
+ *
+ * @example
+ * import { foldMapWithIndex } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ * import { Monoid } from "fp-ts/Monoid";
+ *
+ * const m: Monoid<string> = { empty: "", concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) };
+ * const f = (k:string, a: number) => `${k}-${a}`
+ * const x = { c: 3, a: 1, b: 2 };
+ * assert.deepStrictEqual(foldMapWithIndex(Ord)(m)(f)(x), "a-1 -> b-2 -> c-3");
+ *
  * @since 2.0.0
  */
 export function foldMapWithIndex(
@@ -274,6 +460,21 @@ export function foldMapWithIndex<M>(
 }
 
 /**
+ * Same as `reduceWithIndex`, but reduce starting from the right
+ * (i.e. in reverse order, from the last to the first entry according to
+ * the given `Ord`).
+ *
+ * @example
+ * import { reduceRightWithIndex } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceRightWithIndex(Ord)([] as string[], (k, a, b) => [...b, `${k}-${a}`])(x), [
+ *   "c-3",
+ *   "b-false",
+ *   "a-foo",
+ * ]);
+ *
  * @since 2.0.0
  */
 export function reduceRightWithIndex(
@@ -294,6 +495,11 @@ export function reduceRightWithIndex<A, B>(
 /**
  * Create a `Record` with one key/value pair.
  *
+ * @example
+ * import { singleton } from "fp-ts/Record";
+ *
+ * assert.deepStrictEqual(singleton("a", 1), { a: 1 });
+ *
  * @since 2.0.0
  */
 export const singleton: <A>(k: string, a: A) => Record<string, A> = RR.singleton
@@ -301,6 +507,11 @@ export const singleton: <A>(k: string, a: A) => Record<string, A> = RR.singleton
 /**
  * @since 2.0.0
  */
+export function traverseWithIndex<F extends URIS4>(
+  F: Applicative4<F>
+): <K extends string, S, R, E, A, B>(
+  f: (k: K, a: A) => Kind4<F, S, R, E, B>
+) => (ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, R, E, A, B>(
@@ -332,6 +543,11 @@ export function traverseWithIndex<F>(
 /**
  * @since 2.0.0
  */
+export function traverse<F extends URIS4>(
+  F: Applicative4<F>
+): <S, R, E, A, B>(
+  f: (a: A) => Kind4<F, S, R, E, B>
+) => <K extends string>(ta: Record<K, A>) => Kind4<F, S, R, E, Record<K, B>>
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => <K extends string>(ta: Record<K, A>) => Kind3<F, R, E, Record<K, B>>
@@ -357,6 +573,30 @@ export function traverse<F>(
 }
 
 /**
+ * `Record` sequencing,
+ * i.e., take a `Record` in which elements are monads
+ * and return a monad of a `Record` of the base types.
+ * The following example for instance shows sequencing
+ * a `Record<string, Option<number>>`
+ * into an `Option<Record<string, number>>`.
+ *
+ * `sequence` in `Record` is equivalent to `sequenceS` in `Apply.ts`.
+ *
+ * @example
+ * import { sequence } from "fp-ts/Record";
+ * import { option } from "fp-ts";
+ * import { sequenceS } from "fp-ts/Apply";
+ *
+ * assert.deepStrictEqual(
+ *   sequence(option.Applicative)({ a: option.some(1), b: option.some(2) }),
+ *   option.some({ a: 1, b: 2 })
+ * );
+ * assert.deepStrictEqual(sequence(option.Applicative)({ a: option.some(1), b: option.none }), option.none);
+ * assert.deepStrictEqual(
+ *   sequence(option.Applicative)({ a: option.some(1), b: option.some(2) }),
+ *   sequenceS(option.Applicative)({ a: option.some(1), b: option.some(2) })
+ * );
+ *
  * @since 2.0.0
  */
 export function sequence<F extends URIS3>(
@@ -404,6 +644,25 @@ export const wilt: PipeableWilt1<URI> = <F>(
 }
 
 /**
+ * Maps a `Record` with a function returning an `Either` and
+ * partitions the resulting `Record` into `Left`s and `Right`s.
+ *
+ * @example
+ * import { partitionMapWithIndex } from "fp-ts/Record"
+ * import { either } from "fp-ts"
+ *
+ * const f = (key: string, a: number) =>
+ *   a >= 0 ? either.right(`${key} is >= 0 (${a})`) : either.left(`${key} is < 0 (${a})`);
+ * assert.deepStrictEqual(partitionMapWithIndex(f)({ a: -1, b: 2, c: 123 }), {
+ *   left: {
+ *     a: "a is < 0 (-1)",
+ *   },
+ *   right: {
+ *     b: "b is >= 0 (2)",
+ *     c: "c is >= 0 (123)",
+ *   },
+ * });
+ *
  * @since 2.0.0
  */
 export const partitionMapWithIndex: <K extends string, A, B, C>(
@@ -411,6 +670,25 @@ export const partitionMapWithIndex: <K extends string, A, B, C>(
 ) => (fa: Record<K, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMapWithIndex
 
 /**
+ * Partition a `Record` into two parts according to a predicate
+ * that takes a key and a value.
+ *
+ * @example
+ * import { partitionWithIndex } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(
+ *   partitionWithIndex((key: string, a: number) => key.length <= 1 && a > 0)({ a: -1, b: 2, ccc: 7 }),
+ *   {
+ *     left: {
+ *       a: -1,
+ *       ccc: 7,
+ *     },
+ *     right: {
+ *       b: 2,
+ *     },
+ *   }
+ * );
+ *
  * @since 2.0.0
  */
 export function partitionWithIndex<K extends string, A, B extends A>(
@@ -429,6 +707,19 @@ export function partitionWithIndex<A>(
 }
 
 /**
+ * Maps a `Record` with an iterating function that takes key and value and
+ * returns an `Option`, keeping only the `Some` values and discarding `None`s.
+ *
+ * @example
+ * import { filterMapWithIndex } from "fp-ts/Record"
+ * import { option } from "fp-ts"
+ *
+ * const f = (key: string, a: number) => (a >= 0 ? option.some(`${key}${a}`) : option.none);
+ * assert.deepStrictEqual(filterMapWithIndex(f)({ a: -1, b: 2, c: 3 }), {
+ *   b: "b2",
+ *   c: "c3",
+ * });
+ *
  * @since 2.0.0
  */
 export const filterMapWithIndex: <K extends string, A, B>(
@@ -436,6 +727,19 @@ export const filterMapWithIndex: <K extends string, A, B>(
 ) => (fa: Record<K, A>) => Record<string, B> = RR.filterMapWithIndex
 
 /**
+ * Produce a new `Record` keeping only the entries that satisfy
+ * a predicate taking key and value as input.
+ *
+ * @example
+ * import { filterWithIndex } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(
+ *   filterWithIndex((s: string, v: number) => s.length <= 1 && v > 0)({ a: 1, b: -2, ccc: 3 }),
+ *   {
+ *     a: 1,
+ *   }
+ * );
+ *
  * @since 2.0.0
  */
 export function filterWithIndex<K extends string, A, B extends A>(
@@ -475,6 +779,30 @@ export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F,
 export function fromFoldable<F, A>(M: Magma<A>, F: FoldableHKT<F>): (fka: HKT<F, [string, A]>) => Record<string, A> {
   return RR.fromFoldable(M, F)
 }
+
+/**
+ * Alias of [`toArray`](#toArray).
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { toEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(toEntries({ b: 2, a: 1 }), [['a', 1], ['b', 2]])
+ */
+export const toEntries = toArray
+
+/**
+ * Converts an `Array` of `[key, value]` tuples into a `Record`.
+ *
+ * @since 2.12.0
+ *
+ * @example
+ * import { fromEntries } from 'fp-ts/Record'
+ *
+ * assert.deepStrictEqual(fromEntries([['a', 1], ['b', 2], ['a', 3]]), { b: 2, a: 3 })
+ */
+export const fromEntries = <A>(fa: Array<[string, A]>): Record<string, A> => fromFoldable(Se.last<A>(), A.Foldable)(fa)
 
 /**
  * Create a `Record` from a foldable collection using the specified functions to
@@ -535,17 +863,46 @@ export function fromFoldableMap<F, B>(
 }
 
 /**
+ * Test if every value in a `Record` satisfies the predicate.
+ *
+ * @example
+ * import { every } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: 2 }), true);
+ * assert.deepStrictEqual(every((n: number) => n >= 0)({ a: 1, b: -1 }), false);
+ *
  * @since 2.0.0
  */
-export const every: <A>(predicate: Predicate<A>) => (r: Record<string, A>) => boolean = RR.every
+export const every: {
+  <A, B extends A>(refinement: Refinement<A, B>): Refinement<Record<string, A>, Record<string, B>>
+  <A>(predicate: Predicate<A>): Predicate<Record<string, A>>
+} = RR.every as any
 
 /**
+ * Test if at least one value in a `Record` satisfies the predicate.
+ *
+ * @example
+ * import { some } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: 1, b: -2 }), true);
+ * assert.deepStrictEqual(some((n: number) => n >= 0)({ a: -1, b: -2 }), false);
+ *
  * @since 2.0.0
  */
 export const some: <A>(predicate: (a: A) => boolean) => (r: Record<string, A>) => boolean = RR.some
 
 // TODO: remove non-curried overloading in v3
 /**
+ * Given an `Eq` checks if a `Record` contains an entry with
+ * value equal to a provided value.
+ *
+ * @example
+ * import { elem } from "fp-ts/Record"
+ * import { number } from "fp-ts"
+ *
+ * assert.deepStrictEqual(elem(number.Eq)(123, { foo: 123, bar: 234 }), true);
+ * assert.deepStrictEqual(elem(number.Eq)(-7, { foo: 123, bar: 234 }), false);
+ *
  * @since 2.0.0
  */
 export const elem: <A>(
@@ -556,6 +913,21 @@ export const elem: <A>(
 } = RR.elem
 
 /**
+ * Union of two `Record`s.
+ * Takes two `Record`s and produces a `Record` combining all the
+ * entries of the two inputs.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements with the same key.
+ *
+ * @example
+ * import { union } from "fp-ts/Record";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(union(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4, b: 2, c: 3 });
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(union(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1, b: 2, c: 3 });
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -575,6 +947,21 @@ export const union = <A>(
 }
 
 /**
+ * Intersection of two `Record`s.
+ * Takes two `Record`s and produces a `Record` combining only the
+ * entries of the two inputswith the same key.
+ * It uses the `concat` function of the provided `Magma` to
+ * combine the elements.
+ *
+ * @example
+ * import { intersection } from "fp-ts/Record";
+ * import { Magma } from "fp-ts/Magma";
+ *
+ * const m1: Magma<number> = { concat: (x: number, y: number) => x + y };
+ * assert.deepStrictEqual(intersection(m1)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 4});
+ * const m2: Magma<number> = { concat: (x: number) => x };
+ * assert.deepStrictEqual(intersection(m2)({ a: 3, c: 3 })({ a: 1, b: 2 }), { a: 1});
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -588,6 +975,18 @@ export const intersection = <A>(M: Magma<A>) => (second: Record<string, A>) => (
 }
 
 /**
+ * Difference between two `Record`s.
+ * Takes two `Record`s and produces a `Record` composed by the
+ * entries of the two inputs, removing the entries with the same
+ * key in both inputs.
+ *
+ * @example
+ * import { difference } from "fp-ts/Record";
+ *
+ * assert.deepStrictEqual(difference({ a: 1 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3 })({ a: 1, b: 2 }), { b: 2 });
+ * assert.deepStrictEqual(difference({ a: 3, c: 3 })({ a: 1, b: 2 }), { b: 2, c: 3 });
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -651,6 +1050,17 @@ const _traverseWithIndex = (O: Ord<string>) => <F>(
 // -------------------------------------------------------------------------------------
 
 /**
+ * Given a `Predicate`, it produces a new `Record` keeping only the entries with a
+ * value that satisfies the provided predicate.
+ *
+ * @example
+ * import { filter } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(filter((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo",
+ *   b: "bar",
+ * });
+ *
  * @category Filterable
  * @since 2.0.0
  */
@@ -661,12 +1071,40 @@ export const filter: {
 } = RR.filter
 
 /**
+ * Maps a `Record` with an iterating function that returns an `Option`
+ * and it keeps only the `Some` values discarding the `None`s.
+ *
+ * @example
+ * import { filterMap } from "fp-ts/Record"
+ * import { option } from "fp-ts"
+ *
+ * const f = (s: string) => s.length < 4 ? option.some(`${s} is short`): option.none
+ * assert.deepStrictEqual(filterMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   a: "foo is short",
+ *   b: "bar is short",
+ * });
+ *
  * @category Filterable
  * @since 2.0.0
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Record<string, A>) => Record<string, B> = RR.filterMap
 
 /**
+ * Partition a `Record` into two parts according to a `Predicate`.
+ *
+ * @example
+ * import { partition } from "fp-ts/Record"
+ *
+ * assert.deepStrictEqual(partition((s: string) => s.length < 4)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left:{
+ *     c: "verylong"
+ *   },
+ *   right: {
+ *     a: "foo",
+ *     b: "bar",
+ *   },
+ * });
+ *
  * @category Filterable
  * @since 2.0.0
  */
@@ -679,6 +1117,24 @@ export const partition: {
 } = RR.partition
 
 /**
+ * Maps a `Record` with a function returning an `Either` and
+ * partitions the resulting `Record` into `Left`s and `Right`s.
+ *
+ * @example
+ * import { partitionMap } from "fp-ts/Record"
+ * import { either } from "fp-ts"
+ *
+ * const f = (s: string) => (s.length < 4 ? either.right(`${s} is short`) : either.left(`${s} is not short`));
+ * assert.deepStrictEqual(partitionMap(f)({ a: "foo", b: "bar", c: "verylong" }), {
+ *   left: {
+ *     c: "verylong is not short",
+ *   },
+ *   right: {
+ *     a: "foo is short",
+ *     b: "bar is short",
+ *   },
+ * });
+ *
  * @category Filterable
  * @since 2.0.0
  */
@@ -687,6 +1143,21 @@ export const partitionMap: <A, B, C>(
 ) => (fa: Record<string, A>) => Separated<Record<string, B>, Record<string, C>> = RR.partitionMap
 
 /**
+ * Reduces a `Record` passing each value to the iterating function.
+ * Entries are processed in order, sorted by key according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduce } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduce(Ord)([] as string[], (b, a) => [...b, `-${a}-`])(x), [
+ *   "-foo-",
+ *   "-false-",
+ *   "-3-",
+ * ]);
+ *
  * @category Foldable
  * @since 2.0.0
  */
@@ -704,6 +1175,20 @@ export function reduce<A, B>(
 }
 
 /**
+ * Map and fold a `Record`.
+ * Map the `Record` passing each value to the iterating function.
+ * Then fold the results using the provided `Monoid`.
+ *
+ * @example
+ * import { foldMap } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ * import { Monoid } from "fp-ts/Monoid";
+ *
+ * const m: Monoid<string> = { empty: "", concat: (x: string, y: string) => (x ? `${x} -> ${y}` : `${y}`) };
+ * const f = (a: number) => `-${a}-`;
+ * const x = { c: 3, a: 1, b: 2 };
+ * assert.deepStrictEqual(foldMap(Ord)(m)(f)(x), "-1- -> -2- -> -3-");
+ *
  * @category Foldable
  * @since 2.0.0
  */
@@ -723,6 +1208,21 @@ export function foldMap<M>(
 }
 
 /**
+ * Same as `reduce` but entries are processed _from the right_,
+ * i.e. in reverse order, from the last to the first entry, according to
+ * the given `Ord`.
+ *
+ * @example
+ * import { reduceRight } from "fp-ts/Record";
+ * import { Ord } from "fp-ts/string";
+ *
+ * const x = { c: 3, a: "foo", b: false };
+ * assert.deepStrictEqual(reduceRight(Ord)([] as string[], (a, b) => [...b, `-${a}-`])(x), [
+ *   "-3-",
+ *   "-false-",
+ *   "-foo-",
+ * ]);
+ *
  * @category Foldable
  * @since 2.0.0
  */
@@ -740,12 +1240,43 @@ export function reduceRight<A, B>(
 }
 
 /**
+ * Compact a `Record` of `Option`s discarding the `None` values and
+ * keeping the `Some` values.
+ *
+ * @example
+ * import { compact } from 'fp-ts/Record'
+ * import { option } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(compact({ a: option.some("foo"), b: option.none, c: option.some("bar") }), {
+ *   a: "foo",
+ *   c: "bar",
+ * });
+ *
  * @category Compactable
  * @since 2.0.0
  */
 export const compact: <A>(fa: Record<string, Option<A>>) => Record<string, A> = RR.compact
 
 /**
+ * Separate a `Record` of `Either`s into `Left`s and `Right`s.
+ *
+ * @example
+ * import { separate } from 'fp-ts/Record'
+ * import { either } from 'fp-ts'
+ *
+ * assert.deepStrictEqual(
+ *   separate({ a: either.right("foo"), b: either.left("bar"), c: either.right("baz") }),
+ *   {
+ *     right: {
+ *       a: "foo",
+ *       c: "baz",
+ *     },
+ *     left: {
+ *       b: "bar",
+ *     },
+ *   }
+ * );
+ *
  * @category Compactable
  * @since 2.0.0
  */
@@ -775,6 +1306,19 @@ declare module './HKT' {
 }
 
 /**
+ * Produces a `Show` for a `Record`, given a `Show` for the base type
+ * (a `Show` produces a human-readable representation of an instance).
+ * `Record` entries are sorted by key with the provided `Ord`.
+ *
+ * @example
+ * import { getShow } from "fp-ts/Record"
+ * import { Show } from "fp-ts/Show"
+ * import { Ord } from "fp-ts/string"
+ *
+ * const sNumber: Show<number> = { show: (n: number) => `${n}` };
+ * const sRecord: Show<Record<string, number>> = getShow(Ord)(sNumber);
+ * assert.deepStrictEqual(sRecord.show({ b: 2, a: 1 }), '{ "a": 1, "b": 2 }');
+ *
  * @category instances
  * @since 2.0.0
  */
@@ -793,20 +1337,35 @@ export function getShow<A>(
 }
 
 /**
+ * Given an `Eq` for the base type, it produces an `Eq`
+ * for a `Record` of that base type.
+ *
+ * @example
+ * import { getEq } from "fp-ts/Record";
+ * import { string } from "fp-ts";
+ * import { Eq } from "fp-ts/Eq";
+ *
+ * const eq: Eq<Record<string, string>> = getEq(string.Eq);
+ * assert.deepStrictEqual(eq.equals({ a: "foo" }, { b: "bar" }), false);
+ * assert.deepStrictEqual(eq.equals({ a: "foo" }, { a: "foo" }), true);
+ *
  * @category instances
  * @since 2.0.0
  */
 export const getEq: <K extends string, A>(E: Eq<A>) => Eq<Record<K, A>> = RR.getEq
 
 /**
- * Returns a `Monoid` instance for `Record`s given a `Semigroup` instance for their values.
+ * Returns a `Monoid` instance for `Record`s, given a `Semigroup`
+ * instance for the base type.
+ * The `Monoid` makes the union of two `Record`s comining the
+ * overlapping entries with the provided `Semigroup`.
  *
  * @example
  * import { SemigroupSum } from 'fp-ts/number'
  * import { getMonoid } from 'fp-ts/Record'
  *
- * const M = getMonoid(SemigroupSum)
- * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ * const M = getMonoid(SemigroupSum);
+ * assert.deepStrictEqual(M.concat({ foo: 123, bar: 234 }, { foo: 456, baz: 567 }), { foo: 579 , bar: 234, baz: 567 });
  *
  * @category instances
  * @since 2.0.0
@@ -824,13 +1383,22 @@ export const Functor: Functor1<URI> = {
 
 /**
  * Derivable from `Functor`.
+ * Takes a value and a `Record` of functions and returns a
+ * `Record` by applying each function to the input value.
+ *
+ * @example
+ * import { flap } from "fp-ts/Record"
+ *
+ * const fab = { x: (n: number) => `${n} times 2`, y: (n: number) => `${n * 2}` };
+ * assert.deepStrictEqual(flap(3)(fab), {
+ *   x: "3 times 2",
+ *   y: "6",
+ * });
  *
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -843,6 +1411,9 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
 }
 
 /**
+ * Produces a `Foldable` instance for a `Record`, using the
+ * provided `Ord` to sort the `Record`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -854,6 +1425,9 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
 })
 
 /**
+ * Produces a `FoldableWithIndex1` instance for a `Record`, using the
+ * provided `Ord` to sort the `Record`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -913,6 +1487,9 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
 }
 
 /**
+ * Produces a `Traversable` instance for a `Record`, using the
+ * provided `Ord` to sort the `Record`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -927,6 +1504,9 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
 })
 
 /**
+ * Produces a `TraversableWithIndex` instance for a `Record`, using the
+ * provided `Ord` to sort the `Record`'s entries by key.
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -971,6 +1551,19 @@ export const getWitherable = (O: Ord<string>): Witherable1<URI> => {
 }
 
 /**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `Record` of the base type.
+ * The resulting `Semigroup` concatenates two `Record`s by
+ * `union`.
+ *
+ * @example
+ * import { getUnionSemigroup } from "fp-ts/Record"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sRecord: Semigroup<Record<string, number>> = getUnionSemigroup(sNumber);
+ * assert.deepStrictEqual(sRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { a: 1, b: -1, c: 4 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -982,6 +1575,19 @@ export const getUnionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<string, 
 }
 
 /**
+ * Same as `getMonoid`.
+ * Returns a `Monoid` instance for `Record`s given a `Semigroup`
+ * instance for the base type.
+ * The `Monoid` makes the union of two `Record`s combining the
+ * entries that have the same key with the provided `Semigroup`.
+ *
+ * @example
+ * import { SemigroupSum } from 'fp-ts/number'
+ * import { getUnionMonoid } from 'fp-ts/Record'
+ *
+ * const M = getUnionMonoid(SemigroupSum);
+ * assert.deepStrictEqual(M.concat({ foo: 123, bar: 234 }, { foo: 456, baz: 567 }), { foo: 579 , bar: 234, baz: 567 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -991,6 +1597,19 @@ export const getUnionMonoid = <A>(S: Semigroup<A>): Monoid<Record<string, A>> =>
 })
 
 /**
+ * Given a `Semigroup` in the base type, it produces a `Semigroup`
+ * in the `Record` of the base type.
+ * The resulting `Semigroup` concatenates two `Record`s by
+ * `intersection`.
+ *
+ * @example
+ * import { getIntersectionSemigroup } from "fp-ts/Record"
+ * import { Semigroup } from "fp-ts/Semigroup"
+ *
+ * const sNumber: Semigroup<number> = { concat: (x, y) => x - y };
+ * const sRecord: Semigroup<Record<string, number>> = getIntersectionSemigroup(sNumber);
+ * assert.deepStrictEqual(sRecord.concat({ a: 1, b: 2 }, { b: 3, c: 4 }), { b: -1 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1002,6 +1621,19 @@ export const getIntersectionSemigroup = <A>(S: Semigroup<A>): Semigroup<Record<s
 }
 
 /**
+ * Produces a `Magma` with a `concat` function that combines
+ * two `Record`s by making the `difference`.
+ *
+ * @example
+ * import { getDifferenceMagma, difference } from "fp-ts/Record"
+ * import { Magma } from "fp-ts/Magma"
+ *
+ * const r1 = { a: 3, c: 3 };
+ * const r2 = { a: 1, b: 2 };
+ * const m: Magma<Record<string, number>> = getDifferenceMagma<number>();
+ * assert.deepStrictEqual(m.concat(r1, r2), difference(r2)(r1));
+ * assert.deepStrictEqual(m.concat(r1, r2), { c: 3, b: 2 });
+ *
  * @category instances
  * @since 2.11.0
  */
@@ -1013,8 +1645,6 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
  * Use `getFoldable` instead.
  *
@@ -1024,15 +1654,9 @@ export const getDifferenceMagma = <A>(): Magma<Record<string, A>> => ({
  */
 export const Foldable: Foldable1<URI> = {
   URI,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord)
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord)
 }
 
 /**
@@ -1044,24 +1668,12 @@ export const Foldable: Foldable1<URI> = {
  */
 export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
   URI,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord)
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord)
 }
 
 /**
@@ -1074,18 +1686,10 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, string> = {
 export const Traversable: Traversable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence
 }
 
@@ -1100,39 +1704,19 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, string> = {
   URI,
   map: _map,
   mapWithIndex: _mapWithIndex,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
-  traverseWithIndex:
-    /*#__PURE__*/
-    _traverseWithIndex(S.Ord)
+  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord)
 }
 
-const _wither =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
-const _wilt =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wither = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+const _wilt = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * Use `getWitherable` instead.
@@ -1144,18 +1728,10 @@ const _wilt =
 export const Witherable: Witherable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1192,7 +1768,9 @@ export const insertAt: <A>(k: string, a: A) => (r: Record<string, A>) => Record<
 export const hasOwnProperty: <K extends string>(k: string, r: Record<K, unknown>) => k is K = RR.hasOwnProperty
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `R.Functor` instead of `R.record`
+ * (where `R` is from `import R from 'fp-ts/Record'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1205,18 +1783,10 @@ export const record: FunctorWithIndex1<URI, string> &
   Witherable1<URI> = {
   URI,
   map: _map,
-  reduce:
-    /*#__PURE__*/
-    _reduce(S.Ord),
-  foldMap:
-    /*#__PURE__*/
-    _foldMap(S.Ord),
-  reduceRight:
-    /*#__PURE__*/
-    _reduceRight(S.Ord),
-  traverse:
-    /*#__PURE__*/
-    _traverse(S.Ord),
+  reduce: /*#__PURE__*/ _reduce(S.Ord),
+  foldMap: /*#__PURE__*/ _foldMap(S.Ord),
+  reduceRight: /*#__PURE__*/ _reduceRight(S.Ord),
+  traverse: /*#__PURE__*/ _traverse(S.Ord),
   sequence,
   compact,
   separate,
@@ -1225,22 +1795,14 @@ export const record: FunctorWithIndex1<URI, string> &
   partition: _partition,
   partitionMap: _partitionMap,
   mapWithIndex: _mapWithIndex,
-  reduceWithIndex:
-    /*#__PURE__*/
-    _reduceWithIndex(S.Ord),
-  foldMapWithIndex:
-    /*#__PURE__*/
-    _foldMapWithIndex(S.Ord),
-  reduceRightWithIndex:
-    /*#__PURE__*/
-    _reduceRightWithIndex(S.Ord),
+  reduceWithIndex: /*#__PURE__*/ _reduceWithIndex(S.Ord),
+  foldMapWithIndex: /*#__PURE__*/ _foldMapWithIndex(S.Ord),
+  reduceRightWithIndex: /*#__PURE__*/ _reduceRightWithIndex(S.Ord),
   filterMapWithIndex: _filterMapWithIndex,
   filterWithIndex: _filterWithIndex,
   partitionMapWithIndex: _partitionMapWithIndex,
   partitionWithIndex: _partitionWithIndex,
-  traverseWithIndex:
-    /*#__PURE__*/
-    _traverseWithIndex(S.Ord),
+  traverseWithIndex: /*#__PURE__*/ _traverseWithIndex(S.Ord),
   wither: _wither,
   wilt: _wilt
 }

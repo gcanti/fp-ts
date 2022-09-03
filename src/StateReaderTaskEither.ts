@@ -16,7 +16,8 @@ import {
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_
+  fromPredicate as fromPredicate_,
+  chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -96,9 +97,9 @@ export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S
  * @category constructors
  * @since 2.0.0
  */
-export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  ST.of(RTE.Pointed)
+export const right: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ ST.of(
+  RTE.Pointed
+)
 
 /**
  * @category constructors
@@ -171,9 +172,7 @@ export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateRe
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: FromEither4<URI>['fromEither'] =
-  /*#__PURE__*/
-  E.match((e) => left(e), right)
+export const fromEither: FromEither4<URI>['fromEither'] = /*#__PURE__*/ E.match((e) => left(e), right)
 
 /**
  * @category natural transformations
@@ -197,9 +196,7 @@ export const fromTask: FromTask4<URI>['fromTask'] = rightTask
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromState: FromState4<URI>['fromState'] =
-  /*#__PURE__*/
-  ST.fromState(RTE.Pointed)
+export const fromState: FromState4<URI>['fromState'] = /*#__PURE__*/ ST.fromState(RTE.Pointed)
 
 /**
  * @category natural transformations
@@ -224,9 +221,7 @@ export const fromReaderEither: NaturalTransformation34<REURI, URI> = (ma) =>
  * @category constructors
  * @since 2.0.0
  */
-export const fromReaderTaskEither: NaturalTransformation34<RTE.URI, URI> =
-  /*#__PURE__*/
-  ST.fromF(RTE.Functor)
+export const fromReaderTaskEither: NaturalTransformation34<RTE.URI, URI> = /*#__PURE__*/ ST.fromF(RTE.Functor)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -387,9 +382,9 @@ const _mapLeft: <S, R, E, A, G>(
  */
 export const map: <A, B>(
   f: (a: A) => B
-) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  ST.map(RTE.Functor)
+) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.map(
+  RTE.Functor
+)
 
 /**
  * Map a pair of functions over the two last type arguments of the bifunctor.
@@ -422,12 +417,14 @@ export const mapLeft: <E, G>(
  */
 export const ap: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  ST.ap(RTE.Chain)
+) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.ap(
+  RTE.Chain
+)
 
 /**
  * Less strict version of [`ap`](#ap).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category Apply
  * @since 2.8.0
@@ -452,12 +449,12 @@ export const of: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, 
  */
 export const chain: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  ST.chain(RTE.Chain)
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.chain(RTE.Chain)
 
 /**
  * Less strict version of [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category Monad
  * @since 2.6.0
@@ -469,14 +466,14 @@ export const chainW: <S, R2, E2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
 export const flattenW: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
 
 /**
  * Derivable from `Chain`.
@@ -490,6 +487,8 @@ export const flatten: <S, R, E, A>(
 
 /**
  * Less strict version of [`alt`](#alt).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment, the error and the return types will be merged.
  *
  * @category Alt
  * @since 2.9.0
@@ -556,9 +555,7 @@ export const Functor: Functor4<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -587,9 +584,21 @@ export const Apply: Apply4<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
+
+/**
+ * Less strict version of [`apFirst`](#apfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apFirstW: <S, R2, E2, A, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  first: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = apFirst as any
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -599,9 +608,21 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
+
+/**
+ * Less strict version of [`apSecond`](#apsecond).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const apSecondW: <S, R2, E2, A, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  first: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = apSecond as any
 
 /**
  * @category instances
@@ -640,9 +661,7 @@ export const FromState: FromState4<URI> = {
  * @category constructors
  * @since 2.0.0
  */
-export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
-  /*#__PURE__*/
-  get_(FromState)
+export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> = /*#__PURE__*/ get_(FromState)
 
 /**
  * Set the state
@@ -650,9 +669,7 @@ export const get: <S, R, E = never>() => StateReaderTaskEither<S, R, E, S> =
  * @category constructors
  * @since 2.0.0
  */
-export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  put_(FromState)
+export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void> = /*#__PURE__*/ put_(FromState)
 
 /**
  * Modify the state by applying a function to the current state
@@ -660,9 +677,9 @@ export const put: <S, R, E = never>(s: S) => StateReaderTaskEither<S, R, E, void
  * @category constructors
  * @since 2.0.0
  */
-export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEither<S, R, E, void> =
-  /*#__PURE__*/
-  modify_(FromState)
+export const modify: <S, R, E = never>(
+  f: Endomorphism<S>
+) => StateReaderTaskEither<S, R, E, void> = /*#__PURE__*/ modify_(FromState)
 
 /**
  * Get a value which depends on the current state
@@ -670,9 +687,9 @@ export const modify: <S, R, E = never>(f: Endomorphism<S>) => StateReaderTaskEit
  * @category constructors
  * @since 2.0.0
  */
-export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  gets_(FromState)
+export const gets: <S, R, E = never, A = never>(
+  f: (s: S) => A
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ gets_(FromState)
 
 /**
  * @category combinators
@@ -680,9 +697,7 @@ export const gets: <S, R, E = never, A = never>(f: (s: S) => A) => StateReaderTa
  */
 export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
   f: (...a: A) => State<S, B>
-) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  fromStateK_(FromState)
+) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromStateK_(FromState)
 
 /**
  * @category combinators
@@ -690,9 +705,9 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
  */
 export const chainStateK: <A, S, B>(
   f: (a: A) => State<S, B>
-) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  chainStateK_(FromState, Chain)
+) => <R, E = never>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainStateK_(FromState, Chain)
 
 /**
  * @category instances
@@ -757,12 +772,12 @@ export const MonadThrow: MonadThrow4<URI> = {
  */
 export const chainFirst: <S, R, E, A, B>(
   f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * Derivable from `Chain`.
  *
@@ -810,9 +825,7 @@ export const FromReader: FromReader4<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> =
-  /*#__PURE__*/
-  ask_(FromReader)
+export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderEither`.
@@ -820,9 +833,9 @@ export const ask: <S, R, E = never>() => StateReaderTaskEither<S, R, E, R> =
  * @category constructors
  * @since 2.11.0
  */
-export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  asks_(FromReader)
+export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ asks_(
+  FromReader
+)
 
 /**
  * @category combinators
@@ -830,9 +843,7 @@ export const asks: <S, R, A, E = never>(f: (r: R) => A) => StateReaderTaskEither
  */
 export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => Reader<R, B>
-) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  fromReaderK_(FromReader)
+) => <S, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
@@ -840,12 +851,14 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const chainReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  chainReaderK_(FromReader, Chain)
+) => <S, E = never>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainReaderK).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -862,12 +875,14 @@ export const chainReaderKW: <A, R1, B>(
  */
 export const chainFirstReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> =
-  /*#__PURE__*/
-  chainFirstReaderK_(FromReader, Chain)
+) => <S, E = never>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -891,25 +906,21 @@ export const FromEither: FromEither4<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, URI, E> =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation14C<OURI, URI, E> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainOptionK =
-  /*#__PURE__*/
-  chainOptionK_(FromEither, Chain)
+export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
 
 /**
  * @category combinators
@@ -917,12 +928,17 @@ export const chainOptionK =
  */
 export const chainEitherK: <E, A, B>(
   f: (a: A) => E.Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainEitherK_(
+  FromEither,
+  Chain
+)
 
 /**
  * Less strict version of [`chainEitherK`](#chaineitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.6.1
@@ -930,6 +946,26 @@ export const chainEitherK: <E, A, B>(
 export const chainEitherKW: <E2, A, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E1 | E2, B> = chainEitherK as any
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+
+/**
+ * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherKW: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, E1>(
+  ma: StateReaderTaskEither<S, R, E1, A>
+) => StateReaderTaskEither<S, R, E1 | E2, A> = chainFirstEitherK as any
 
 /**
  * @category constructors
@@ -941,9 +977,7 @@ export const fromPredicate: {
   ) => StateReaderTaskEither<S, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(b: B) => StateReaderTaskEither<S, R, E, B>
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
-} =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category combinators
@@ -959,12 +993,12 @@ export const filterOrElse: {
   <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
     ma: StateReaderTaskEither<S, R, E, A>
   ) => StateReaderTaskEither<S, R, E, A>
-} =
-  /*#__PURE__*/
-  filterOrElse_(FromEither, Chain)
+} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
  *
  * @category combinators
  * @since 2.9.0
@@ -987,9 +1021,7 @@ export const filterOrElseW: {
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category instances
@@ -1004,25 +1036,19 @@ export const FromIO: FromIO4<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -1038,25 +1064,19 @@ export const FromTask: FromTask4<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK =
-  /*#__PURE__*/
-  fromTaskK_(FromTask)
+export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainTaskK =
-  /*#__PURE__*/
-  chainTaskK_(FromTask, Chain)
+export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK =
-  /*#__PURE__*/
-  chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1067,18 +1087,22 @@ export const chainFirstTaskK =
  *
  * @since 2.8.0
  */
-export const evaluate: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, A> =
-  /*#__PURE__*/
-  ST.evaluate(RTE.Functor)
+export const evaluate: <S>(
+  s: S
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ST.evaluate(
+  RTE.Functor
+)
 
 /**
  * Run a computation in the `StateReaderTaskEither` monad discarding the result
  *
  * @since 2.8.0
  */
-export const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, S> =
-  /*#__PURE__*/
-  ST.execute(RTE.Functor)
+export const execute: <S>(
+  s: S
+) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, A>) => ReaderTaskEither<R, E, S> = /*#__PURE__*/ ST.execute(
+  RTE.Functor
+)
 
 // -------------------------------------------------------------------------------------
 // do notation
@@ -1087,18 +1111,16 @@ export const execute: <S>(s: S) => <R, E, A>(ma: StateReaderTaskEither<S, R, E, 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, S, R2, E2, B>(
@@ -1120,11 +1142,13 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const apSW: <A, N extends string, S, R2, E2, B>(
@@ -1204,18 +1228,16 @@ export const traverseArray = <S, R, E, A, B>(
  */
 export const sequenceArray: <S, R, E, A>(
   arr: ReadonlyArray<StateReaderTaskEither<S, R, E, A>>
-) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+) => StateReaderTaskEither<S, R, E, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
 
-// tslint:disable: deprecation
-
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEither`
+ * (where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1236,7 +1258,9 @@ export const stateReaderTaskEither: Monad4<URI> & Bifunctor4<URI> & Alt4<URI> & 
 }
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `SRTE.Functor` instead of `SRTE.stateReaderTaskEitherSeq`
+ * (where `SRTE` is from `import SRTE from 'fp-ts/StateReaderTaskEither'`)
  *
  * @category instances
  * @since 2.0.0

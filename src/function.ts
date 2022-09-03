@@ -163,36 +163,28 @@ export function constant<A>(a: A): Lazy<A> {
  *
  * @since 2.0.0
  */
-export const constTrue: Lazy<boolean> =
-  /*#__PURE__*/
-  constant(true)
+export const constTrue: Lazy<boolean> = /*#__PURE__*/ constant(true)
 
 /**
  * A thunk that returns always `false`.
  *
  * @since 2.0.0
  */
-export const constFalse: Lazy<boolean> =
-  /*#__PURE__*/
-  constant(false)
+export const constFalse: Lazy<boolean> = /*#__PURE__*/ constant(false)
 
 /**
  * A thunk that returns always `null`.
  *
  * @since 2.0.0
  */
-export const constNull: Lazy<null> =
-  /*#__PURE__*/
-  constant(null)
+export const constNull: Lazy<null> = /*#__PURE__*/ constant(null)
 
 /**
  * A thunk that returns always `undefined`.
  *
  * @since 2.0.0
  */
-export const constUndefined: Lazy<undefined> =
-  /*#__PURE__*/
-  constant(undefined)
+export const constUndefined: Lazy<undefined> = /*#__PURE__*/ constant(undefined)
 
 /**
  * A thunk that returns always `void`.
@@ -202,12 +194,28 @@ export const constUndefined: Lazy<undefined> =
 export const constVoid: Lazy<void> = constUndefined
 
 /**
- * Flips the order of the arguments of a function of two arguments.
+ * Flips the arguments of a curried function.
+ *
+ * @example
+ * import { flip } from 'fp-ts/function'
+ *
+ * const f = (a: number) => (b: string) => a - b.length
+ *
+ * assert.strictEqual(flip(f)('aaa')(2), -1)
  *
  * @since 2.0.0
  */
-export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
-  return (b, a) => f(a, b)
+export function flip<A, B, C>(f: (a: A) => (b: B) => C): (b: B) => (a: A) => C
+/** @deprecated */
+export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C
+export function flip(f: Function): Function {
+  return (...args: Array<any>) => {
+    if (args.length > 1) {
+      return f(args[1], args[0])
+    }
+
+    return (a: any) => f(a)(args[0])
+  }
 }
 
 /**
@@ -651,18 +659,7 @@ export function pipe(
   ef?: Function,
   fg?: Function,
   gh?: Function,
-  hi?: Function,
-  ij?: Function,
-  jk?: Function,
-  kl?: Function,
-  lm?: Function,
-  mn?: Function,
-  no?: Function,
-  op?: Function,
-  pq?: Function,
-  qr?: Function,
-  rs?: Function,
-  st?: Function
+  hi?: Function
 ): unknown {
   switch (arguments.length) {
     case 1:
@@ -683,30 +680,14 @@ export function pipe(
       return gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))
     case 9:
       return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))
-    case 10:
-      return ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))
-    case 11:
-      return jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))
-    case 12:
-      return kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))
-    case 13:
-      return lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))
-    case 14:
-      return mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))
-    case 15:
-      return no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))
-    case 16:
-      return op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))
-    case 17:
-      return pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))
-    case 18:
-      return qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))
-    case 19:
-      return rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))))))))))))
-    case 20:
-      return st!(rs!(qr!(pq!(op!(no!(mn!(lm!(kl!(jk!(ij!(hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))))))))))))))
+    default: {
+      let ret = arguments[0]
+      for (let i = 1; i < arguments.length; i++) {
+        ret = arguments[i](ret)
+      }
+      return ret
+    }
   }
-  return
 }
 
 /**
@@ -724,8 +705,6 @@ export const SK = <A, B>(_: A, b: B): B => b
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `Refinement` module instead.

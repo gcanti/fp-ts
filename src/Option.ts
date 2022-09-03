@@ -10,6 +10,54 @@
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at `Option` is: it represents the effect of a possibly failing computation.
  *
+ *
+ * @example
+ * import * as O from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * const double = (n: number): number => n * 2
+ *
+ * export const imperative = (as: ReadonlyArray<number>): string => {
+ *   const head = (as: ReadonlyArray<number>): number => {
+ *     if (as.length === 0) {
+ *       throw new Error()
+ *     }
+ *     return as[0]
+ *   }
+ *   const inverse = (n: number): number => {
+ *     if (n === 0) {
+ *       throw new Error()
+ *     }
+ *     return 1 / n
+ *   }
+ *   try {
+ *     return `Result is ${inverse(double(head(as)))}`
+ *   } catch (e) {
+ *     return 'no result'
+ *   }
+ * }
+ *
+ * export const functional = (as: ReadonlyArray<number>): string => {
+ *   const head = <A>(as: ReadonlyArray<A>): O.Option<A> =>
+ *     as.length === 0 ? O.none : O.some(as[0])
+ *   const inverse = (n: number): O.Option<number> =>
+ *     n === 0 ? O.none : O.some(1 / n)
+ *   return pipe(
+ *     as,
+ *     head,
+ *     O.map(double),
+ *     O.chain(inverse),
+ *     O.match(
+ *       () => 'no result', // onNone handler
+ *       (head) => `Result is ${head}` // onSome handler
+ *     )
+ *   )
+ * }
+ *
+ * assert.deepStrictEqual(imperative([1, 2, 3]), functional([1, 2, 3]))
+ * assert.deepStrictEqual(imperative([]), functional([]))
+ * assert.deepStrictEqual(imperative([0]), functional([0]))
+ *
  * @since 2.0.0
  */
 import { Alt1 } from './Alt'
@@ -29,7 +77,12 @@ import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { chainEitherK as chainEitherK_, FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
+import {
+  chainEitherK as chainEitherK_,
+  FromEither1,
+  fromEitherK as fromEitherK_,
+  chainFirstEitherK as chainFirstEitherK_
+} from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
@@ -411,6 +464,8 @@ export const Foldable: Foldable1<URI> = {
 /**
  * Less strict version of [`alt`](#alt).
  *
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
  * @category instance operations
  * @since 2.9.0
  */
@@ -423,14 +478,28 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
+ * | x       | y       | pipe(x, alt(() => y) |
+ * | ------- | ------- | -------------------- |
+ * | none    | none    | none                 |
+ * | some(a) | none    | some(a)              |
+ * | none    | some(b) | some(b)              |
+ * | some(a) | some(b) | some(a)              |
+ *
  * @example
  * import * as O from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
+ *     O.none,
+ *     O.alt(() => O.none)
+ *   ),
+ *   O.none
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
  *     O.some('a'),
- *     O.alt(() => O.some('b'))
+ *     O.alt<string>(() => O.none)
  *   ),
  *   O.some('a')
  * )
@@ -440,6 +509,13 @@ export const altW: <B>(that: Lazy<Option<B>>) => <A>(fa: Option<A>) => Option<A 
  *     O.alt(() => O.some('b'))
  *   ),
  *   O.some('b')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some('a'),
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('a')
  * )
  *
  * @category instance operations
@@ -476,9 +552,7 @@ export const Zero: Zero1<URI> = {
  * @category constructors
  * @since 2.11.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -514,13 +588,9 @@ export const Extend: Extend1<URI> = {
  * @category instance operations
  * @since 2.0.0
  */
-export const compact: <A>(fa: Option<Option<A>>) => Option<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const compact: <A>(fa: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
 
-const defaultSeparated =
-  /*#__PURE__*/
-  separated(none, none)
+const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
 /**
  * @category instance operations
@@ -619,13 +689,9 @@ export const Traversable: Traversable1<URI> = {
   sequence
 }
 
-const _wither: Witherable1<URI>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
+const _wither: Witherable1<URI>['wither'] = /*#__PURE__*/ witherDefault(Traversable, Compactable)
 
-const _wilt: Witherable1<URI>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+const _wilt: Witherable1<URI>['wilt'] = /*#__PURE__*/ wiltDefault(Traversable, Compactable)
 
 /**
  * @category instance operations
@@ -748,6 +814,8 @@ export const isNone = (fa: Option<unknown>): fa is None => fa._tag === 'None'
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -802,6 +870,8 @@ export const fold = match
 /**
  * Less strict version of [`getOrElse`](#getorelse).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+ *
  * @category destructors
  * @since 2.6.0
  */
@@ -844,9 +914,7 @@ export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElse
  * @category combinators
  * @since 2.10.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * Combine two effectful actions, keeping only the result of the first.
@@ -856,9 +924,7 @@ export const flap =
  * @category combinators
  * @since 2.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -868,9 +934,7 @@ export const apFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Derivable from `Chain`.
@@ -889,9 +953,7 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Derivable from `Extend`.
@@ -899,25 +961,25 @@ export const chainFirst =
  * @category combinators
  * @since 2.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+
+/**
+ * @category combinators
+ * @since 2.12.0
+ */
+export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // interop
@@ -1043,7 +1105,7 @@ export const fromNullableK: <A extends ReadonlyArray<unknown>, B>(
  * @category interop
  * @since 2.9.0
  */
-export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<B> =>
+export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: Option<A>): Option<NonNullable<B>> =>
   isNone(ma) ? none : fromNullable(f(ma.value))
 
 /**
@@ -1071,9 +1133,7 @@ export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: 
  * @category interop
  * @since 2.0.0
  */
-export const toNullable: <A>(ma: Option<A>) => A | null =
-  /*#__PURE__*/
-  match(constNull, identity)
+export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -1100,9 +1160,7 @@ export const toNullable: <A>(ma: Option<A>) => A | null =
  * @category interop
  * @since 2.0.0
  */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined =
-  /*#__PURE__*/
-  match(constUndefined, identity)
+export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1113,16 +1171,29 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  *
  * @example
  * import { some, none, elem } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
  * import * as N from 'fp-ts/number'
  *
- * assert.strictEqual(elem(N.Eq)(1, some(1)), true)
- * assert.strictEqual(elem(N.Eq)(2, some(1)), false)
- * assert.strictEqual(elem(N.Eq)(1, none), false)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(1)), true)
+ * assert.strictEqual(pipe(some(1), elem(N.Eq)(2)), false)
+ * assert.strictEqual(pipe(none, elem(N.Eq)(1)), false)
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
+export function elem<A>(
+  E: Eq<A>
+): {
+  (a: A): (ma: Option<A>) => boolean
+  (a: A, ma: Option<A>): boolean
+}
+export function elem<A>(E: Eq<A>): (a: A, ma?: Option<A>) => boolean | ((ma: Option<A>) => boolean) {
+  return (a, ma?) => {
+    if (ma === undefined) {
+      const elemE = elem(E)
+      return (ma) => elemE(a, ma)
+    }
+    return isNone(ma) ? false : E.equals(a, ma.value)
+  }
 }
 
 /**
@@ -1166,23 +1237,17 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =
 /**
  * @since 2.9.0
  */
-export const Do: Option<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.8.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.8.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -1191,9 +1256,7 @@ export const bind =
 /**
  * @since 2.8.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1202,9 +1265,7 @@ export const apS =
 /**
  * @since 2.11.0
  */
-export const ApT: Option<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -1261,15 +1322,13 @@ export const traverseArray = <A, B>(f: (a: A) => Option<B>): ((as: ReadonlyArray
 /**
  * @since 2.9.0
  */
-export const sequenceArray: <A>(arr: ReadonlyArray<Option<A>>) => Option<ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <A>(
+  arr: ReadonlyArray<Option<A>>
+) => Option<ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)
 
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-// tslint:disable: deprecation
 
 /**
  * Use `Refinement` module instead.
@@ -1291,7 +1350,9 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
 export const mapNullable = chainNullableK
 
 /**
- * Use small, specific instances instead.
+ * This instance is deprecated, use small, specific instances instead.
+ * For example if a function needs a `Functor` instance, pass `O.Functor` instead of `O.option`
+ * (where `O` is from `import O from 'fp-ts/Option'`)
  *
  * @category instances
  * @since 2.0.0
@@ -1334,9 +1395,7 @@ export const option: Monad1<URI> &
  * @since 2.0.0
  * @deprecated
  */
-export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
-  /*#__PURE__*/
-  getApplySemigroup_(Apply)
+export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> = /*#__PURE__*/ getApplySemigroup_(Apply)
 
 /**
  * Use [`getApplicativeMonoid`](./Applicative.ts.html#getapplicativemonoid) instead.
@@ -1345,9 +1404,7 @@ export const getApplySemigroup: <A>(S: Semigroup<A>) => Semigroup<Option<A>> =
  * @since 2.0.0
  * @deprecated
  */
-export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> =
-  /*#__PURE__*/
-  getApplicativeMonoid(Applicative)
+export const getApplyMonoid: <A>(M: Monoid<A>) => Monoid<Option<A>> = /*#__PURE__*/ getApplicativeMonoid(Applicative)
 
 /**
  * Use
