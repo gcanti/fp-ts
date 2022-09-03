@@ -630,9 +630,10 @@ describe('TaskEither', () => {
         _.bind('b', () => _.right('b')),
         _.bind('c', c),
         _.bind('d', d),
-        _.bind('e', _.fromIOK(i => () => i.c))
+        _.bind('e', _.fromOptionK(() => 'err')((p: { readonly c: number }) => some(p.c))),
+        _.bind('f', _.fromOptionK(() => 'err')((p: { readonly b: string }) => some(p.b))),
       )(),
-      E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1 })
+      E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
     )
   })
 
