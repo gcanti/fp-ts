@@ -183,6 +183,8 @@ export const chainW: <R2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -533,6 +535,8 @@ export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -552,6 +556,8 @@ export const bindW: <N extends string, A, R2, B>(
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @since 2.8.0

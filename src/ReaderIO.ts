@@ -41,17 +41,13 @@ export interface ReaderIO<R, A> {
  * @category natural transformations
  * @since 2.13.0
  */
-export const fromReader: FromReader2<URI>['fromReader'] =
-  /*#__PURE__*/
-  RT.fromReader(I.Pointed)
+export const fromReader: FromReader2<URI>['fromReader'] = /*#__PURE__*/ RT.fromReader(I.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.13.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] =
-  /*#__PURE__*/
-  R.of
+export const fromIO: FromIO2<URI>['fromIO'] = /*#__PURE__*/ R.of
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -68,6 +64,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => R
 
 /**
  * Less strict version of [`asksReaderIO`](#asksreaderio).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.13.0
@@ -97,9 +95,7 @@ const _chain: Chain2<URI>['chain'] = (ma, f) => pipe(ma, chain(f))
  * @category Functor
  * @since 2.13.0
  */
-export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/
-  RT.map(I.Functor)
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ RT.map(I.Functor)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -107,12 +103,14 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
  * @category Apply
  * @since 2.13.0
  */
-export const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> =
-  /*#__PURE__*/
-  RT.ap(I.Apply)
+export const ap: <R, A>(
+  fa: ReaderIO<R, A>
+) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> = /*#__PURE__*/ RT.ap(I.Apply)
 
 /**
  * Less strict version of [`ap`](#ap).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category Apply
  * @since 2.13.0
@@ -125,9 +123,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 2.13.0
  */
-export const of: Pointed2<URI>['of'] =
-  /*#__PURE__*/
-  RT.of(I.Pointed)
+export const of: Pointed2<URI>['of'] = /*#__PURE__*/ RT.of(I.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -135,12 +131,14 @@ export const of: Pointed2<URI>['of'] =
  * @category Monad
  * @since 2.13.0
  */
-export const chain: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> =
-  /*#__PURE__*/
-  RT.chain(I.Monad)
+export const chain: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ RT.chain(I.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category Monad
  * @since 2.13.0
@@ -152,12 +150,14 @@ export const chainW: <R2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.13.0
  */
-export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chainW(
+  identity
+)
 
 /**
  * Derivable from `Chain`.
@@ -204,9 +204,7 @@ export const Functor: Functor2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -235,9 +233,7 @@ export const Apply: Apply2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -247,9 +243,7 @@ export const apFirst =
  * @category combinators
  * @since 2.13.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -307,12 +301,12 @@ export const MonadIO: MonadIO2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * Derivable from `Chain`.
  *
@@ -336,25 +330,19 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -371,9 +359,7 @@ export const FromReader: FromReader2<URI> = {
  * @category constructors
  * @since 2.13.0
  */
-export const ask =
-  /*#__PURE__*/
-  ask_(FromReader)
+export const ask = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderIO`.
@@ -381,28 +367,24 @@ export const ask =
  * @category constructors
  * @since 2.13.0
  */
-export const asks =
-  /*#__PURE__*/
-  asks_(FromReader)
+export const asks = /*#__PURE__*/ asks_(FromReader)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const fromReaderK =
-  /*#__PURE__*/
-  fromReaderK_(FromReader)
+export const fromReaderK = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainReaderK =
-  /*#__PURE__*/
-  chainReaderK_(FromReader, Chain)
+export const chainReaderK = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.13.0
@@ -415,12 +397,12 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirstReaderK =
-  /*#__PURE__*/
-  chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.13.0
@@ -436,25 +418,21 @@ export const chainFirstReaderKW: <A, R1, B>(
 /**
  * @since 2.13.0
  */
-export const Do: ReaderIO<unknown, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 2.13.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 2.13.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.13.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -471,11 +449,13 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 2.13.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.13.0
  */
 export const apSW: <A, N extends string, R2, B>(
@@ -492,9 +472,7 @@ export const apSW: <A, N extends string, R2, B>(
 /**
  * @since 2.13.0
  */
-export const ApT: ReaderIO<unknown, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils
@@ -539,6 +517,6 @@ export const traverseArray = <R, A, B>(
 /**
  * @since 2.13.0
  */
-export const sequenceArray: <R, A>(arr: ReadonlyArray<ReaderIO<R, A>>) => ReaderIO<R, ReadonlyArray<A>> =
-  /*#__PURE__*/
-  traverseArray(identity)
+export const sequenceArray: <R, A>(
+  arr: ReadonlyArray<ReaderIO<R, A>>
+) => ReaderIO<R, ReadonlyArray<A>> = /*#__PURE__*/ traverseArray(identity)

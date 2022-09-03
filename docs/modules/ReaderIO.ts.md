@@ -95,6 +95,8 @@ Added in v2.13.0
 
 Less strict version of [`ap`](#ap).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -137,6 +139,8 @@ Added in v2.13.0
 ## chainW
 
 Less strict version of [`chain`](#chain).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -206,6 +210,8 @@ Added in v2.13.0
 
 Less strict version of [`asksReaderIO`](#asksreaderio).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -253,6 +259,8 @@ Added in v2.13.0
 
 Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -266,6 +274,8 @@ Added in v2.13.0
 ## chainFirstW
 
 Less strict version of [`chainFirst`](#chainfirst).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 Derivable from `Chain`.
 
@@ -302,6 +312,8 @@ Added in v2.13.0
 ## chainReaderKW
 
 Less strict version of [`chainReaderK`](#chainreaderk).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -340,6 +352,8 @@ Added in v2.13.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -593,6 +607,10 @@ Added in v2.13.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -628,6 +646,8 @@ export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderIO<E, A>) => Reade
 Added in v2.13.0
 
 ## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 

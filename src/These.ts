@@ -125,6 +125,8 @@ export function both<E, A>(left: E, right: A): These<E, A> {
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.10.0
  */

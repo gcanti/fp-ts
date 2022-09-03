@@ -493,6 +493,8 @@ Added in v2.12.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -513,6 +515,8 @@ Added in v2.12.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`IO`).
+
 **Signature**
 
 ```ts
@@ -524,6 +528,8 @@ Added in v2.12.0
 ## matchEW
 
 Less strict version of [`matchE`](#matche).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -539,6 +545,8 @@ Added in v2.12.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 

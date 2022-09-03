@@ -307,6 +307,8 @@ Added in v2.0.0
 
 Less strict version of [`apFirst`](#apfirst).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -333,6 +335,8 @@ Added in v2.0.0
 
 Less strict version of [`apSecond`](#apsecond).
 
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
+
 **Signature**
 
 ```ts
@@ -356,6 +360,8 @@ Added in v2.11.0
 ## asksReaderW
 
 Less strict version of [`asksReader`](#asksreader).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -425,6 +431,8 @@ Added in v2.0.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 
@@ -715,6 +723,8 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
 The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
@@ -752,6 +762,8 @@ export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<
 Added in v2.8.0
 
 ## bindW
+
+The `W` suffix (short for **W**idening) means that the environment types will be merged.
 
 **Signature**
 

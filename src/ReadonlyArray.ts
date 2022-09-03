@@ -191,6 +191,8 @@ export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? 
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.11.0
  */

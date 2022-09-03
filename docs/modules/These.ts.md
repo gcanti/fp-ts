@@ -460,6 +460,8 @@ Added in v2.10.0
 
 Less strict version of [`match`](#match).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts

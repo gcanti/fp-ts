@@ -335,6 +335,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -351,6 +353,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -366,6 +370,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 

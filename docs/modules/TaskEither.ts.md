@@ -376,6 +376,8 @@ Added in v2.0.0
 
 Less strict version of [`apFirst`](#apfirst).
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -403,6 +405,8 @@ Added in v2.0.0
 ## apSecondW
 
 Less strict version of [`apSecond`](#apsecond).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -595,6 +599,8 @@ Added in v2.11.0
 
 ## chainTaskOptionKW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -622,6 +628,8 @@ Added in v2.0.0
 ## filterOrElseW
 
 Less strict version of [`filterOrElse`](#filterorelse).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -666,6 +674,8 @@ Added in v2.0.0
 ## flattenW
 
 Less strict version of [`flatten`](#flatten).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 
@@ -811,6 +821,8 @@ Added in v2.12.0
 
 ## orElseFirstW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -824,6 +836,8 @@ Added in v2.11.0
 ## orElseW
 
 Less strict version of [`orElse`](#orelse).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
 
 **Signature**
 
@@ -977,6 +991,8 @@ Added in v2.0.0
 
 Less strict version of [`getOrElse`](#getorelse).
 
+The `W` suffix (short for **W**idening) means that the handler return type will be merged.
+
 **Signature**
 
 ```ts
@@ -997,6 +1013,8 @@ Added in v2.10.0
 
 ## matchE
 
+The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Task`).
+
 **Signature**
 
 ```ts
@@ -1012,6 +1030,8 @@ Added in v2.10.0
 
 Less strict version of [`matchE`](#matche).
 
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+
 **Signature**
 
 ```ts
@@ -1026,6 +1046,8 @@ Added in v2.10.0
 ## matchW
 
 Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 
@@ -1556,6 +1578,8 @@ Added in v2.8.0
 
 ## apSW
 
+Less strict version of [`apS`](#aps).
+
 The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
@@ -1594,6 +1618,8 @@ Added in v2.8.0
 
 ## bindW
 
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
 **Signature**
 
 ```ts
@@ -1627,6 +1653,8 @@ Added in v2.0.0
 ## bracketW
 
 Less strict version of [`bracket`](#bracket).
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
 
 **Signature**
 

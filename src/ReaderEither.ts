@@ -134,6 +134,8 @@ export const match: <E, B, A>(
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -143,6 +145,8 @@ export const matchW: <E, B, A, C>(
 ) => <R>(ma: Reader<R, Either<E, A>>) => Reader<R, B | C> = match as any
 
 /**
+ * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`Reader`).
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -161,6 +165,8 @@ export const fold = matchE
 
 /**
  * Less strict version of [`matchE`](#matche).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -188,6 +194,8 @@ export const getOrElse: <E, R, A>(
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
  * @category destructors
  * @since 2.6.0
@@ -223,6 +231,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
 /**
  * Less strict version of [`asksReaderEither`](#asksreadereither).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -250,6 +260,8 @@ export const orElse: <E1, R, E2, A>(
 /**
  * Less strict version of [`orElse`](#orelse).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
  * @category combinators
  * @since 2.10.0
  */
@@ -266,6 +278,8 @@ export const orElseFirst: <E, R, B>(
 ) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.orElseFirst(R.Monad)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -381,7 +395,7 @@ export const chain: <R, E, A, B>(
 /**
  * Less strict version of [`chain`](#chain).
  *
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category Monad
  * @since 2.6.0
@@ -392,6 +406,8 @@ export const chainW: <R2, E2, A, B>(
 
 /**
  * Less strict version of [`flatten`](#flatten).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -576,6 +592,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Less strict version of [`apFirst`](#apfirst)
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @category combinators
  * @since 2.12.0
  */
@@ -595,6 +613,8 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond)
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.12.0
@@ -867,6 +887,8 @@ export const filterOrElse: {
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.9.0
  */
@@ -910,6 +932,8 @@ export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, E2, B>(
@@ -929,6 +953,8 @@ export const bindW: <N extends string, A, R2, E2, B>(
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @since 2.8.0

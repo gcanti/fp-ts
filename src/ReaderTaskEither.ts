@@ -235,6 +235,8 @@ export const match: <E, B, A>(
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -244,6 +246,8 @@ export const matchW: <E, B, A, C>(
 ) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = match as any
 
 /**
+ * The `E` suffix (short for **E**ffect) means that the handlers return an effect (`ReaderTask`).
+ *
  * @category destructors
  * @since 2.10.0
  */
@@ -262,6 +266,8 @@ export const fold = matchE
 
 /**
  * Less strict version of [`matchE`](#matche).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
  *
  * @category destructors
  * @since 2.10.0
@@ -289,6 +295,8 @@ export const getOrElse: <R, E, A>(
 
 /**
  * Less strict version of [`getOrElse`](#getorelse).
+ *
+ * The `W` suffix (short for **W**idening) means that the handler return type will be merged.
  *
  * @category destructors
  * @since 2.6.0
@@ -357,6 +365,8 @@ export const local: <R2, R1>(
 /**
  * Less strict version of [`asksReaderTaskEither`](#asksreadertaskeither).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -385,6 +395,8 @@ export const orElse: <R, E1, A, E2>(
 /**
  * Less strict version of [`orElse`](#orelse).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
  * @category combinators
  * @since 2.10.0
  */
@@ -401,6 +413,8 @@ export const orElseFirst: <E, R, B>(
 ) => <A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.orElseFirst(RT.Monad)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the return types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -659,6 +673,8 @@ export const chainW: <R2, E2, A, B>(
 /**
  * Less strict version of [`flatten`](#flatten).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -846,6 +862,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(ApplyPar)
 /**
  * Less strict version of [`apFirst`](#apfirst).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @category combinators
  * @since 2.12.0
  */
@@ -865,6 +883,8 @@ export const apSecond = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * Less strict version of [`apSecond`](#apsecond).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @category combinators
  * @since 2.12.0
@@ -1244,6 +1264,8 @@ export const filterOrElse: {
 /**
  * Less strict version of [`filterOrElse`](#filterorelse).
  *
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 2.9.0
  */
@@ -1380,6 +1402,8 @@ export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, E2, B>(
@@ -1399,6 +1423,8 @@ export const bindW: <N extends string, A, R2, E2, B>(
 export const apS = /*#__PURE__*/ apS_(ApplyPar)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
  * The `W` suffix (short for **W**idening) means that the environment types and the error types will be merged.
  *
  * @since 2.8.0

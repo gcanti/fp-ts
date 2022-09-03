@@ -2540,8 +2540,9 @@ Added in v2.11.0
 
 ## matchW
 
-Less strict version of [`match`](#match). It will work when `onEmpty` and `onNonEmpty`
-have different return types.
+Less strict version of [`match`](#match).
+
+The `W` suffix (short for **W**idening) means that the handler return types will be merged.
 
 **Signature**
 

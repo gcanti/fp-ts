@@ -129,6 +129,8 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>) => Rea
 /**
  * Less strict version of [`asksReader`](#asksreader).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.11.0
  */
@@ -216,6 +218,8 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
 
 /**
  * Less strict version of [`flatten`](#flatten).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.11.0
@@ -347,6 +351,8 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
 /**
  * Less strict version of [`apFirst`](#apfirst).
  *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @category combinators
  * @since 2.12.0
  */
@@ -366,6 +372,8 @@ export const apSecond = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond).
+ *
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @category combinators
  * @since 2.12.0
@@ -492,6 +500,8 @@ export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 export const bind = /*#__PURE__*/ bind_(Chain)
 
 /**
+ * The `W` suffix (short for **W**idening) means that the environment types will be merged.
+ *
  * @since 2.8.0
  */
 export const bindW: <N extends string, A, R2, B>(
@@ -516,6 +526,8 @@ export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 export const apS = /*#__PURE__*/ apS_(Apply)
 
 /**
+ * Less strict version of [`apS`](#aps).
+ *
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
  *
  * @since 2.8.0

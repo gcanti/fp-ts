@@ -22,6 +22,8 @@ export type Ordering = -1 | 0 | 1
 /**
  * Less strict version of [`match`](#match).
  *
+ * The `W` suffix (short for **W**idening) means that the handler return types will be merged.
+ *
  * @category destructors
  * @since 2.12.0
  */
