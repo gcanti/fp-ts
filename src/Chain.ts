@@ -131,7 +131,7 @@ export function bind<M extends URIS3, E>(
 ) => (ma: Kind3<M, R, E, A>) => Kind3<M, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
 export function bind<M extends URIS2>(
   M: Chain2<M>
-): <N extends string, E, B, A>(
+): <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A2) => Kind2<M, E, B>
 ) => (ma: Kind2<M, E, A>) => Kind2<M, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>
