@@ -620,7 +620,9 @@ describe('TaskEither', () => {
       )(),
       E.right({ a: 1, b: 'b' })
     )
-    // proper param passthrough
+  })
+
+  it('do notation ensuring proper param passthrough', async () => {
     const c = (p: { readonly a: number }) => _.right<string, number>(p.a)
     const d = (p: { readonly b: string }) => _.right<string, string>(p.b)
     U.deepStrictEqual(
@@ -631,7 +633,24 @@ describe('TaskEither', () => {
         _.bind('c', c),
         _.bind('d', d),
         _.bind('e', _.fromOptionK(() => 'err')((p: { readonly c: number }) => some(p.c))),
-        _.bind('f', _.fromOptionK(() => 'err')((p: { readonly b: string }) => some(p.b))),
+        _.bind('f', _.fromOptionK(() => 'err')(p => some(p.b))),
+      )(),
+      E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
+    )
+  })
+
+  it('do notation bindW ensuring proper param passthrough', async () => {
+    const c = (p: { readonly a: number }) => _.right<string, number>(p.a)
+    const d = (p: { readonly b: string }) => _.right<string, string>(p.b)
+    U.deepStrictEqual(
+      await pipe(
+        _.right<string, number>(1),
+        _.bindTo('a'),
+        _.bindW('b', () => _.right('b')),
+        _.bindW('c', c),
+        _.bindW('d', d),
+        _.bindW('e', _.fromOptionK(() => 1)((p: { readonly c: number }) => some(p.c))),
+        _.bindW('f', _.fromOptionK(() => ({err: 'err'}))(p => some(p.b))),
       )(),
       E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
     )
