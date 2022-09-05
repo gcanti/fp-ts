@@ -783,6 +783,11 @@ export function getFilterable<E>(M: Monoid<E>): Filterable3C<URI, E> {
 }
 
 /**
+ * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -798,6 +803,11 @@ export function getApplicativeReaderTaskValidation<E>(A: Apply1<T.URI>, S: Semig
 }
 
 /**
+ * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+ *
  * @category instances
  * @since 2.7.0
  */
