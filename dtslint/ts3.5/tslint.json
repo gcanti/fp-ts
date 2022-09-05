@@ -17,6 +17,7 @@
     "use-default-type-parameter": false,
     "no-relative-import-in-test": false,
     "no-null-undefined-union": false,
-    "invalid-void": false
+    "invalid-void": false,
+    "max-line-length": false
   }
 }
