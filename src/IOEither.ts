@@ -470,6 +470,11 @@ declare module './HKT' {
 }
 
 /**
+ * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ *
  * @category instances
  * @since 2.7.0
  */
@@ -485,6 +490,11 @@ export function getApplicativeIOValidation<E>(S: Semigroup<E>): Applicative2C<UR
 }
 
 /**
+ * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+ *
  * @category instances
  * @since 2.7.0
  */
