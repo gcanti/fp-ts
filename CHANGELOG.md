@@ -16,6 +16,111 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 2.13
+
+## Pipeable helpers
+
+The `pipeable` module now exports a series of `pipe`-able helpers that are useful when you build
+a typeclass instance "on the fly".
+
+**Example**
+
+Here's a simple pipline which validates a `Person` struct
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+const parseString = (u: unknown): E.Either<string, string> =>
+  typeof u === 'string' ? E.right(u) : E.left('not a string')
+
+const parseNumber = (u: unknown): E.Either<string, number> =>
+  typeof u === 'number' ? E.right(u) : E.left('not a number')
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+const person = (name: string) => (age: number): Person => ({ name, age })
+
+const parsePerson = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(E.of(person), E.ap(parseString(input.name)), E.ap(parseNumber(input.age)))
+
+console.log(parsePerson({})) // => left('not a string')
+```
+
+As you can see the default `ap` exported by the `Either` module return only the first validation error.
+
+You probably already know that if you want to get all validation errors you must create an `Applicative` instance on the fly
+
+```ts
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+
+const Applicative = E.getApplicativeValidation(pipe(string.Semigroup, S.intercalate(', ')))
+```
+
+The issue here is that `Applicative.ap` is not `pipe`-able and can't be used inside a `pipe`-line
+
+```ts
+const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(
+    E.of(person),
+    Applicative.ap(parseString(input.name)), // <= error
+    Applicative.ap(parseNumber(input.age)) // <= error
+  )
+```
+
+This is the time when the new `pipe`-able helpers come to handy
+
+```ts
+import * as P from 'fp-ts/pipeable'
+
+//    v--- this is `pipe`-able
+const ap = P.ap(Applicative)
+
+const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person> =>
+  pipe(
+    E.of(person),
+    ap(parseString(input.name)), // <= ok
+    ap(parseNumber(input.age)) // <= ok
+  )
+
+console.log(parsePersonAll({})) // => left('not a string, not a number')
+```
+
+Changelog:
+
+- **New Feature**
+  - `pipeable`
+    - add pipeable helpers (@gcanti)
+      - `alt`
+      - `ap`
+      - `bimap`
+      - `chain`
+      - `compose`
+      - `contramap`
+      - `extend`
+      - `filter`
+      - `filterMap`
+      - `filterMapWithIndex`
+      - `filterWithIndex`
+      - `foldMap`
+      - `foldMapWithIndex`
+      - `map`
+      - `mapLeft`
+      - `mapWithIndex`
+      - `partition`
+      - `partitionMap`
+      - `partitionMapWithIndex`
+      - `partitionWithIndex`
+      - `promap`
+      - `reduce`
+      - `reduceRight`
+      - `reduceRightWithIndex`
+      - `reduceWithIndex`
+
 # 2.12.3
 
 - **Polish**
