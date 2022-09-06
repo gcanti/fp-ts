@@ -1331,7 +1331,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReadonlyNonEmptyArray<B>
+  f: <A2>(a: A | A2) => ReadonlyNonEmptyArray<B>
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

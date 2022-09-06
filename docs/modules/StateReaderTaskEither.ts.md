@@ -1387,7 +1387,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N, A, S, R, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+  f: <A2>(a: A | A2) => StateReaderTaskEither<S, R, E, B>
 ) => (
   ma: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1416,7 +1416,7 @@ Less strict version of [`bind`](#bind).
 ```ts
 export declare const bindW: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

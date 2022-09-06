@@ -642,7 +642,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<E, B>
+  f: <A2>(a: A | A2) => Reader<E, B>
 ) => (ma: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -667,7 +667,7 @@ Less strict version of [`bind`](#bind).
 ```ts
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Reader<R2, B>
+  f: <A2 extends A>(a: A | A2) => Reader<R2, B>
 ) => <R1>(fa: Reader<R1, A>) => Reader<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

@@ -2116,7 +2116,7 @@ Added in v3.0.0
 ```ts
 export declare const bind: <N, A, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => readonly B[]
+  f: <A2>(a: A | A2) => readonly B[]
 ) => (ma: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
