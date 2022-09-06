@@ -51,6 +51,7 @@ Added in v3.0.0
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
+  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
@@ -503,6 +504,20 @@ Added in v3.0.0
 export declare const chainTaskOptionK: <E>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+## chainTaskOptionKW
+
+The `W` suffix (short for **W**idening) means that the error types will be merged.
+
+**Signature**
+
+```ts
+export declare const chainTaskOptionKW: <E2>(
+  onNone: Lazy<E2>
+) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

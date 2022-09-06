@@ -421,13 +421,22 @@ export const fromTaskOptionK = <E>(
 }
 
 /**
+ * The `W` suffix (short for **W**idening) means that the error types will be merged.
+ *
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskOptionK = <E>(
+export const chainTaskOptionKW = <E2>(onNone: Lazy<E2>) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(
+  ma: TaskEither<E1, A>
+): TaskEither<E1 | E2, B> => pipe(ma, chain(fromTaskOptionK<E1 | E2>(onNone)(f)))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainTaskOptionK: <E>(
   onNone: Lazy<E>
-): (<A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>) =>
-  flow(fromTaskOptionK(onNone), chain)
+) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
  * @category combinators

@@ -540,7 +540,7 @@ describe('Either', () => {
     U.deepStrictEqual(
       pipe(
         1,
-        chainRec(() => _.right(_.right(1)))
+        chainRec((_a: number) => _.right(_.right(1)))
       ),
       _.right(1)
     )
