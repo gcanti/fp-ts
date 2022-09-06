@@ -24,9 +24,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
   - [apW](#apw)
@@ -81,8 +78,11 @@ Added in v3.0.0
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
+- [instance operations](#instance-operations)
+  - [alt](#alt)
+  - [altW](#altw)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
   - [Bifunctor](#bifunctor-1)
@@ -134,33 +134,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-**Signature**
-
-```ts
-export declare const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A>
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -848,6 +821,80 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise.
 
 ```ts
 export declare const isRight: <A>(ma: Either<unknown, A>) => ma is Right<A>
+```
+
+Added in v3.0.0
+
+# instance operations
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+
+| x        | y        | pipe(x, alt(() => y) |
+| -------- | -------- | -------------------- |
+| left(a)  | left(b)  | left(b)              |
+| left(a)  | right(2) | right(2)             |
+| right(1) | left(b)  | right(1)             |
+| right(1) | right(2) | right(1)             |
+
+**Signature**
+
+```ts
+export declare const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.alt(() => E.left('b'))
+  ),
+  E.left('b')
+)
+assert.deepStrictEqual(
+  pipe(
+    E.left('a'),
+    E.alt(() => E.right(2))
+  ),
+  E.right(2)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.alt(() => E.left('b'))
+  ),
+  E.right(1)
+)
+assert.deepStrictEqual(
+  pipe(
+    E.right(1),
+    E.alt(() => E.right(2))
+  ),
+  E.right(1)
+)
+```
+
+Added in v3.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0

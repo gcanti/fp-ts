@@ -435,7 +435,9 @@ export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = fla
 /**
  * Less strict version of [`alt`](#alt).
  *
- * @category Alt
+ * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
+ *
+ * @category instance operations
  * @since 3.0.0
  */
 export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
@@ -446,7 +448,49 @@ export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
- * @category Alt
+ * In case of `Either` returns the left-most non-`Left` value (or the right-most `Left` value if both values are `Left`).
+ *
+ * | x        | y        | pipe(x, alt(() => y) |
+ * | -------- | -------- | -------------------- |
+ * | left(a)  | left(b)  | left(b)              |
+ * | left(a)  | right(2) | right(2)             |
+ * | right(1) | left(b)  | right(1)             |
+ * | right(1) | right(2) | right(1)             |
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.alt(() => E.left('b'))
+ *   ),
+ *   E.left('b')
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.left('a'),
+ *     E.alt(() => E.right(2))
+ *   ),
+ *   E.right(2)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.alt(() => E.left('b'))
+ *   ),
+ *   E.right(1)
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     E.right(1),
+ *     E.alt(() => E.right(2))
+ *   ),
+ *   E.right(1)
+ * )
+ *
+ * @category instance operations
  * @since 3.0.0
  */
 export const alt: Alt2<URI>['alt'] = altW

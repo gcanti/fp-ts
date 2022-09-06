@@ -482,7 +482,9 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
 /**
  * Less strict version of [`alt`](#alt).
  *
- * @category Alt
+ * The `W` suffix (short for **W**idening) means that the return types will be merged.
+ *
+ * @category instance operations
  * @since 3.0.0
  */
 export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
@@ -494,14 +496,28 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
  *
  * In case of `Option` returns the left-most non-`None` value.
  *
+ * | x       | y       | pipe(x, alt(() => y) |
+ * | ------- | ------- | -------------------- |
+ * | none    | none    | none                 |
+ * | some(a) | none    | some(a)              |
+ * | none    | some(b) | some(b)              |
+ * | some(a) | some(b) | some(a)              |
+ *
  * @example
  * import * as O from 'fp-ts/Option'
  * import { pipe } from 'fp-ts/function'
  *
  * assert.deepStrictEqual(
  *   pipe(
+ *     O.none,
+ *     O.alt(() => O.none)
+ *   ),
+ *   O.none
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
  *     O.some('a'),
- *     O.alt(() => O.some('b'))
+ *     O.alt<string>(() => O.none)
  *   ),
  *   O.some('a')
  * )
@@ -512,8 +528,15 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
  *   ),
  *   O.some('b')
  * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     O.some('a'),
+ *     O.alt(() => O.some('b'))
+ *   ),
+ *   O.some('a')
+ * )
  *
- * @category Alt
+ * @category instance operations
  * @since 3.0.0
  */
 export const alt: Alt1<URI>['alt'] = altW

@@ -23,9 +23,6 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Alt](#alt)
-  - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -81,8 +78,11 @@ Added in v3.0.0
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
+- [instance operations](#instance-operations)
+  - [alt](#alt)
+  - [altW](#altw)
 - [instances](#instances)
-  - [Alt](#alt-1)
+  - [Alt](#alt)
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
@@ -131,57 +131,6 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
-
-# Alt
-
-## alt
-
-Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
-types of kind `* -> *`.
-
-In case of `Option` returns the left-most non-`None` value.
-
-**Signature**
-
-```ts
-export declare const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A>
-```
-
-**Example**
-
-```ts
-import * as O from 'fp-ts/Option'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    O.some('a'),
-    O.alt(() => O.some('b'))
-  ),
-  O.some('a')
-)
-assert.deepStrictEqual(
-  pipe(
-    O.none,
-    O.alt(() => O.some('b'))
-  ),
-  O.some('b')
-)
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
-```
-
-Added in v3.0.0
 
 # Apply
 
@@ -756,6 +705,80 @@ import { some, none, isSome } from 'fp-ts/Option'
 
 assert.strictEqual(isSome(some(1)), true)
 assert.strictEqual(isSome(none), false)
+```
+
+Added in v3.0.0
+
+# instance operations
+
+## alt
+
+Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
+types of kind `* -> *`.
+
+In case of `Option` returns the left-most non-`None` value.
+
+| x       | y       | pipe(x, alt(() => y) |
+| ------- | ------- | -------------------- |
+| none    | none    | none                 |
+| some(a) | none    | some(a)              |
+| none    | some(b) | some(b)              |
+| some(a) | some(b) | some(a)              |
+
+**Signature**
+
+```ts
+export declare const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A>
+```
+
+**Example**
+
+```ts
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    O.alt(() => O.none)
+  ),
+  O.none
+)
+assert.deepStrictEqual(
+  pipe(
+    O.some('a'),
+    O.alt<string>(() => O.none)
+  ),
+  O.some('a')
+)
+assert.deepStrictEqual(
+  pipe(
+    O.none,
+    O.alt(() => O.some('b'))
+  ),
+  O.some('b')
+)
+assert.deepStrictEqual(
+  pipe(
+    O.some('a'),
+    O.alt(() => O.some('b'))
+  ),
+  O.some('a')
+)
+```
+
+Added in v3.0.0
+
+## altW
+
+Less strict version of [`alt`](#alt).
+
+The `W` suffix (short for **W**idening) means that the return types will be merged.
+
+**Signature**
+
+```ts
+export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
 Added in v3.0.0
