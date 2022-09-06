@@ -41,7 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "benchmark": "2.1.4",
-    "docs-ts": "^0.6.7",
+    "docs-ts": "^0.6.10",
     "doctoc": "^1.4.0",
     "dtslint": "github:gcanti/dtslint",
     "eslint": "^8.23.0",
