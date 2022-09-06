@@ -49,7 +49,7 @@ export const Semigroup: S.Semigroup<string> = {
  *
  * @since 3.0.0
  */
-export const empty: string = ''
+export const empty = ''
 
 /**
  * `string` monoid under concatenation.

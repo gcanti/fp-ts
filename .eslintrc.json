@@ -2,13 +2,15 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "plugins": [],
+  "plugins": ["deprecation"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "@typescript-eslint/array-type": ["warn", { "default": "generic", "readonly": "generic" }],
+    "@typescript-eslint/prefer-readonly": "warn",
     "@typescript-eslint/member-delimiter-style": 0,
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/ban-types": "off",
@@ -17,6 +19,7 @@
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "prefer-rest-params": "off",
-    "prefer-spread": "off"
+    "prefer-spread": "off",
+    "deprecation/deprecation": "off"
   }
 }

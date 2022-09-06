@@ -652,12 +652,13 @@ export function pipe(
       return gh!(fg!(ef!(de!(cd!(bc!(ab!(a)))))))
     case 9:
       return hi!(gh!(fg!(ef!(de!(cd!(bc!(ab!(a))))))))
-    default:
+    default: {
       let ret = arguments[0]
       for (let i = 1; i < arguments.length; i++) {
         ret = arguments[i](ret)
       }
       return ret
+    }
   }
 }
 

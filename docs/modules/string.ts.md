@@ -310,7 +310,7 @@ An empty `string`.
 **Signature**
 
 ```ts
-export declare const empty: string
+export declare const empty: ''
 ```
 
 Added in v3.0.0
