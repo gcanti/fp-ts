@@ -12,9 +12,6 @@ Functional programming in TypeScript
   <a href="https://travis-ci.org/gcanti/fp-ts">
     <img src="https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square" alt="build status" height="20">
   </a>
-  <a href="https://david-dm.org/gcanti/fp-ts">
-    <img src="https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square" alt="dependency status" height="20">
-  </a>
   <a href="https://www.npmjs.com/package/fp-ts">
     <img src="https://img.shields.io/npm/dm/fp-ts.svg" alt="npm downloads" height="20">
   </a>
