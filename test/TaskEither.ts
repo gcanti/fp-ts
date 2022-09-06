@@ -632,8 +632,14 @@ describe('TaskEither', () => {
         _.bind('b', () => _.right('b')),
         _.bind('c', c),
         _.bind('d', d),
-        _.bind('e', _.fromOptionK(() => 'err')((p: { readonly c: number }) => some(p.c))),
-        _.bind('f', _.fromOptionK(() => 'err')(p => some(p.b))),
+        _.bind(
+          'e',
+          _.fromOptionK(() => 'err')((p: { readonly c: number }) => some(p.c))
+        ),
+        _.bind(
+          'f',
+          _.fromOptionK(() => 'err')((p) => some(p.b))
+        )
       )(),
       E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
     )
@@ -649,8 +655,14 @@ describe('TaskEither', () => {
         _.bindW('b', () => _.right('b')),
         _.bindW('c', c),
         _.bindW('d', d),
-        _.bindW('e', _.fromOptionK(() => 1)((p: { readonly c: number }) => some(p.c))),
-        _.bindW('f', _.fromOptionK(() => ({err: 'err'}))(p => some(p.b))),
+        _.bindW(
+          'e',
+          _.fromOptionK(() => 1)((p: { readonly c: number }) => some(p.c))
+        ),
+        _.bindW(
+          'f',
+          _.fromOptionK(() => ({ err: 'err' }))((p) => some(p.b))
+        )
       )(),
       E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
     )
