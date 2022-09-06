@@ -8,12 +8,12 @@ import { pipe } from '../../src/function'
 // FilterableWithIndex overloadings
 //
 
-const FWI = _.getFilterableWithIndex<'a' | 'b'>()
+const FWI = _.getFilterableWithIndex<'a1' | 'a2'>()
 
-declare function isStringWithKey(i: 'a' | 'b', x: unknown): x is string
+declare function isStringWithKey(i: 'a1' | 'a2', x: unknown): x is string
 
-pipe(_.empty as ReadonlyMap<'a' | 'b', string | number>, FWI.filterWithIndex(isStringWithKey)) // $ExpectType ReadonlyMap<"a" | "b", string>
-pipe(_.empty as ReadonlyMap<'a' | 'b', string | number>, FWI.partitionWithIndex(isStringWithKey)) // $ExpectType Separated<ReadonlyMap<"a" | "b", unknown>, ReadonlyMap<"a" | "b", string>>
+pipe(_.empty as ReadonlyMap<'a1' | 'a2', string | number>, FWI.filterWithIndex(isStringWithKey)) // $ExpectType ReadonlyMap<"a1" | "a2", string>
+pipe(_.empty as ReadonlyMap<'a1' | 'a2', string | number>, FWI.partitionWithIndex(isStringWithKey)) // $ExpectType Separated<ReadonlyMap<"a1" | "a2", unknown>, ReadonlyMap<"a1" | "a2", string>>
 
 //
 // member

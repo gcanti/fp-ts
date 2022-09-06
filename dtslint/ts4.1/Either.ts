@@ -1,6 +1,5 @@
 import * as _ from '../../src/Either'
 import { pipe, flow } from '../../src/function'
-import { MonoidAll } from '../../src/boolean'
 
 //
 // toUnion
@@ -30,60 +29,50 @@ pipe(
 )
 
 //
-// fromNullable
-//
-
-interface D {
-  foo: number | undefined
-}
-declare const f: <K extends keyof D>(key: K) => D[K]
-
-// $ExpectType Either<string, number>
-flow(
-  f,
-  _.fromNullable(() => 'error')
-)('foo')
-
-//
 // do notation
 //
 
-// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
+// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
 pipe(
   _.right<number, string>(1),
-  _.bindTo('a'),
-  _.bind('b', () => _.right('b')),
-  _.bindW('c', () => _.right<boolean, number>(true))
+  _.bindTo('a1'),
+  _.bind('a2', () => _.right('b')),
+  _.bindW('a3', () => _.right<boolean, number>(true))
 )
 
 //
 // pipeable sequence S
 //
 
-// $ExpectType Either<string | number, { readonly a: number; readonly b: string; readonly c: boolean; }>
-pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b')), _.apSW('c', _.right<boolean, number>(true)))
+// $ExpectType Either<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
+pipe(
+  _.right<number, string>(1),
+  _.bindTo('a1'),
+  _.apS('a2', _.right('a3')),
+  _.apSW('a3', _.right<boolean, number>(true))
+)
 
 //
 // Do
 //
 
-// $ExpectType Either<string, { readonly a: number; readonly b: string; }>
+// $ExpectType Either<string, { readonly a1: number; readonly a2: string; }>
 pipe(
   _.Do,
-  _.bind('a', () => _.right<number, string>(1)),
-  _.bind('b', () => _.right<string, string>('b'))
+  _.bind('a1', () => _.right<number, string>(1)),
+  _.bind('a2', () => _.right<string, string>('b'))
 )
 
 //
 // filterOrElseW
 //
 
-// $ExpectType Either<"a" | "b", number>
+// $ExpectType Either<"a1" | "a2", number>
 pipe(
-  _.left<'a', number>('a'),
+  _.left<'a1', number>('a1'),
   _.filterOrElseW(
     (result) => result > 0,
-    () => 'b' as const
+    () => 'a2' as const
   )
 )
 
