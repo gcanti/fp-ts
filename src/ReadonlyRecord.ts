@@ -1082,7 +1082,7 @@ export const toEntries = toReadonlyArray(S.Ord)
  *
  * @since 3.0.0
  */
-export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): Record<string, A> => {
+export const fromEntries = <A>(fa: ReadonlyArray<readonly [string, A]>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const a of fa) {
     out[a[0]] = a[1]
