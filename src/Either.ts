@@ -865,6 +865,55 @@ export const Applicative: Applicative2<URI> = {
 }
 
 /**
+ * The default [`Applicative`](#applicative) instance returns the first error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * @example
+ * import * as A from 'fp-ts/Apply'
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as S from 'fp-ts/Semigroup'
+ * import * as string from 'fp-ts/string'
+ *
+ * const parseString = (u: unknown): E.Either<string, string> =>
+ *   typeof u === 'string' ? E.right(u) : E.left('not a string')
+ *
+ * const parseNumber = (u: unknown): E.Either<string, number> =>
+ *   typeof u === 'number' ? E.right(u) : E.left('not a number')
+ *
+ * interface Person {
+ *   readonly name: string
+ *   readonly age: number
+ * }
+ *
+ * const parsePerson = (
+ *   input: Record<string, unknown>
+ * ): E.Either<string, Person> =>
+ *   pipe(
+ *     E.Do,
+ *     E.apS('name', parseString(input.name)),
+ *     E.apS('age', parseNumber(input.age))
+ *   )
+ *
+ * assert.deepStrictEqual(parsePerson({}), E.left('not a string')) // <= first error
+ *
+ * const Applicative = E.getApplicativeValidation(
+ *   pipe(string.Semigroup, S.intercalate(', '))
+ * )
+ *
+ * const apS = A.apS(Applicative)
+ *
+ * const parsePersonAll = (
+ *   input: Record<string, unknown>
+ * ): E.Either<string, Person> =>
+ *   pipe(
+ *     E.Do,
+ *     apS('name', parseString(input.name)),
+ *     apS('age', parseNumber(input.age))
+ *   )
+ *
+ * assert.deepStrictEqual(parsePersonAll({}), E.left('not a string, not a number')) // <= all errors
+ *
  * @category instances
  * @since 3.0.0
  */
@@ -954,6 +1003,36 @@ export const Alt: Alt2<URI> = {
 }
 
 /**
+ * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * @example
+ * import * as E from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import * as S from 'fp-ts/Semigroup'
+ * import * as string from 'fp-ts/string'
+ *
+ * const parseString = (u: unknown): E.Either<string, string> =>
+ *   typeof u === 'string' ? E.right(u) : E.left('not a string')
+ *
+ * const parseNumber = (u: unknown): E.Either<string, number> =>
+ *   typeof u === 'number' ? E.right(u) : E.left('not a number')
+ *
+ * const parse = (u: unknown): E.Either<string, string | number> =>
+ *   pipe(
+ *     parseString(u),
+ *     E.alt<string, string | number>(() => parseNumber(u))
+ *   )
+ *
+ * assert.deepStrictEqual(parse(true), E.left('not a number')) // <= last error
+ *
+ * const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
+ *
+ * const parseAll = (u: unknown): E.Either<string, string | number> =>
+ *   pipe(parseString(u), Alt.alt<string | number>(() => parseNumber(u)))
+ *
+ * assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
+ *
  * @category instances
  * @since 3.0.0
  */

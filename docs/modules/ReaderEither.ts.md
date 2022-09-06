@@ -997,6 +997,11 @@ Added in v3.0.0
 
 ## getAltReaderValidation
 
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
 **Signature**
 
 ```ts
@@ -1006,6 +1011,11 @@ export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt3C<'Read
 Added in v3.0.0
 
 ## getApplicativeReaderValidation
+
+The default [`Applicative`](#applicative) instance returns the first error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 **Signature**
 

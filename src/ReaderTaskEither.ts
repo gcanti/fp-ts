@@ -682,6 +682,11 @@ declare module './HKT' {
 }
 
 /**
+ * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+ *
  * @category instances
  * @since 3.0.0
  */
@@ -692,6 +697,11 @@ export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semig
 })
 
 /**
+ * The default [`Alt`](#alt) instance returns the last error, if you want to
+ * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ *
+ * See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+ *
  * @category instances
  * @since 3.0.0
  */

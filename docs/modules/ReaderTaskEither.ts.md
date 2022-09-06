@@ -1464,6 +1464,11 @@ Added in v3.0.0
 
 ## getAltReaderTaskValidation
 
+The default [`Alt`](#alt) instance returns the last error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+See [`getAltValidation`](./Either.ts.html#getaltvalidation).
+
 **Signature**
 
 ```ts
@@ -1473,6 +1478,11 @@ export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => Alt3C<'
 Added in v3.0.0
 
 ## getApplicativeReaderTaskValidation
+
+The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
+get all errors you need to provide an way to concatenate them via a `Semigroup`.
+
+See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 
 **Signature**
 
