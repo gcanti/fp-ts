@@ -1403,7 +1403,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  */
 export const bindW: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => Either<E2, B>
+  f: <A2 extends A>(a: A | A2) => Either<E2, B>
 ) => <E1>(
   fa: Either<E1, A>
 ) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any

@@ -1125,7 +1125,7 @@ export const bind = /*#__PURE__*/ bind_(Chain)
  */
 export const bindW: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   fa: StateReaderTaskEither<S, R1, E1, A>
 ) => StateReaderTaskEither<
