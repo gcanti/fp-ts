@@ -25,7 +25,7 @@ a typeclass instance "on the fly".
 
 **Example**
 
-Here's a simple pipline which validates a `Person` struct
+Here's a simple `pipe`-line which validates a `Person` struct
 
 ```ts
 import * as E from 'fp-ts/Either'
@@ -72,7 +72,7 @@ const parsePersonAll = (input: Record<string, unknown>): E.Either<string, Person
   )
 ```
 
-This is the time when the new `pipe`-able helpers come to handy
+That's when the new `pipe`-able helpers come to handy
 
 ```ts
 import * as P from 'fp-ts/pipeable'
