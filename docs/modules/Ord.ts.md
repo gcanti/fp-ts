@@ -88,8 +88,8 @@ import * as RA from 'fp-ts/ReadonlyArray'
 import * as S from 'fp-ts/string'
 
 interface User {
-  firstName: string
-  lastName: string
+  readonly firstName: string
+  readonly lastName: string
 }
 
 const ordLastName: Ord<string> = S.Ord
@@ -311,10 +311,56 @@ Added in v2.4.0
 
 ## getSemigroup
 
+A typical use case for the `Semigroup` instance of `Ord` is merging two or more orderings.
+
+For example the following snippet builds an `Ord` for a type `User` which
+sorts by `created` date descending, and **then** `lastName`
+
 **Signature**
 
 ```ts
 export declare const getSemigroup: <A = never>() => Semigroup<Ord<A>>
+```
+
+**Example**
+
+```ts
+import * as D from 'fp-ts/Date'
+import { pipe } from 'fp-ts/function'
+import { contramap, getSemigroup, Ord, reverse } from 'fp-ts/Ord'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/string'
+
+interface User {
+  readonly id: string
+  readonly lastName: string
+  readonly created: Date
+}
+
+const ordByLastName: Ord<User> = pipe(
+  S.Ord,
+  contramap((user) => user.lastName)
+)
+
+const ordByCreated: Ord<User> = pipe(
+  D.Ord,
+  contramap((user) => user.created)
+)
+
+const ordUserByCreatedDescThenLastName = getSemigroup<User>().concat(reverse(ordByCreated), ordByLastName)
+
+assert.deepStrictEqual(
+  RA.sort(ordUserByCreatedDescThenLastName)([
+    { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) },
+    { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+    { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) },
+  ]),
+  [
+    { id: 'e', lastName: 'f', created: new Date(1980, 10, 30) },
+    { id: 'a', lastName: 'b', created: new Date(1973, 10, 30) },
+    { id: 'c', lastName: 'd', created: new Date(1973, 10, 30) },
+  ]
+)
 ```
 
 Added in v2.0.0

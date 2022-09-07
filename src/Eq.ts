@@ -109,9 +109,9 @@ const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => pipe(f
  * type UUID = string
  *
  * interface User {
- *   key: UUID
- *   firstName: string
- *   lastName: string
+ *   readonly key: UUID
+ *   readonly firstName: string
+ *   readonly lastName: string
  * }
  *
  * const eqUUID: Eq<UUID> = S.Eq
