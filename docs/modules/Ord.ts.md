@@ -62,10 +62,53 @@ Added in v2.0.0
 
 ## contramap
 
+A typical use case for `contramap` would be like, given some `User` type, to construct an `Ord<User>`.
+
+We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+for ordering (meaning we have an `Ord<X>`)
+
+For example, given the following `User` type, there are lots of possible choices for `X`,
+but let's say we want to sort a list of users by `lastName`.
+
+If we have a way of comparing `lastName`s for ordering (`ordLastName: Ord<string>`) and we know how to go from `User -> string`,
+using `contramap` we can do this
+
 **Signature**
 
 ```ts
 export declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>
+```
+
+**Example**
+
+```ts
+import { pipe } from 'fp-ts/function'
+import { contramap, Ord } from 'fp-ts/Ord'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/string'
+
+interface User {
+  firstName: string
+  lastName: string
+}
+
+const ordLastName: Ord<string> = S.Ord
+
+const ordByLastName: Ord<User> = pipe(
+  ordLastName,
+  contramap((user) => user.lastName)
+)
+
+assert.deepStrictEqual(
+  RA.sort(ordByLastName)([
+    { firstName: 'a', lastName: 'd' },
+    { firstName: 'c', lastName: 'b' },
+  ]),
+  [
+    { firstName: 'c', lastName: 'b' },
+    { firstName: 'a', lastName: 'd' },
+  ]
+)
 ```
 
 Added in v2.0.0
