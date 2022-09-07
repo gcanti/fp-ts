@@ -79,9 +79,9 @@ import * as S from 'fp-ts/string'
 type UUID = string
 
 interface User {
-  key: UUID
-  firstName: string
-  lastName: string
+  readonly key: UUID
+  readonly firstName: string
+  readonly lastName: string
 }
 
 const eqUUID: Eq<UUID> = S.Eq
