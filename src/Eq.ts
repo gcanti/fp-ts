@@ -90,6 +90,52 @@ const contramap_: <A, B>(fa: Eq<A>, f: (b: B) => A) => Eq<B> = (fa, f) => pipe(f
 // -------------------------------------------------------------------------------------
 
 /**
+ * A typical use case for `contramap` would be like, given some `User` type, to construct an `Eq<User>`.
+ *
+ * We can do so with a function from `User -> X` where `X` is some value that we know how to compare
+ * for equality (meaning we have an `Eq<X>`)
+ *
+ * For example, given the following `User` type, we want to construct an `Eq<User>` that just looks at the `key` field
+ * for each user (since it's known to be unique).
+ *
+ * If we have a way of comparing `UUID`s for equality (`eqUUID: Eq<UUID>`) and we know how to go from `User -> UUID`,
+ * using `contramap` we can do this
+ *
+ * @example
+ * import { contramap, Eq } from 'fp-ts/Eq'
+ * import { pipe } from 'fp-ts/function'
+ * import * as S from 'fp-ts/string'
+ *
+ * type UUID = string
+ *
+ * interface User {
+ *   key: UUID
+ *   firstName: string
+ *   lastName: string
+ * }
+ *
+ * const eqUUID: Eq<UUID> = S.Eq
+ *
+ * const eqUserByKey: Eq<User> = pipe(
+ *   eqUUID,
+ *   contramap((user) => user.key)
+ * )
+ *
+ * assert.deepStrictEqual(
+ *   eqUserByKey.equals(
+ *     { key: 'k1', firstName: 'a1', lastName: 'b1' },
+ *     { key: 'k2', firstName: 'a1', lastName: 'b1' }
+ *   ),
+ *   false
+ * )
+ * assert.deepStrictEqual(
+ *   eqUserByKey.equals(
+ *     { key: 'k1', firstName: 'a1', lastName: 'b1' },
+ *     { key: 'k1', firstName: 'a2', lastName: 'b1' }
+ *   ),
+ *   true
+ * )
+ *
  * @category Contravariant
  * @since 2.0.0
  */
