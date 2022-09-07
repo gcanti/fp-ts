@@ -791,7 +791,7 @@ Added in v2.8.0
 ```ts
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<E, B>
+  f: <A2>(a: A | A2) => ReaderTask<E, B>
 ) => (ma: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -816,7 +816,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 ```ts
 export declare const bindW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => ReaderTask<R2, B>
+  f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 

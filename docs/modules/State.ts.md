@@ -376,7 +376,7 @@ Added in v2.8.0
 ```ts
 export declare const bind: <N, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: (a: A) => State<E, B>
+  f: <A2>(a: A | A2) => State<E, B>
 ) => (ma: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
