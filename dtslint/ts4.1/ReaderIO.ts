@@ -1,4 +1,4 @@
-import * as _ from '../../src/ReaderTask'
+import * as _ from '../../src/ReaderIO'
 import { pipe } from '../../src/function'
 
 declare function modifyA<R extends { a: string }>(r: R): R
@@ -7,7 +7,7 @@ declare function modifyA<R extends { a: string }>(r: R): R
 // local
 //
 
-// $ExpectType ReaderTask<{ a: string; }, string>
+// $ExpectType ReaderIO<{ a: string; }, string>
 pipe(
   _.of<string, { a: string }>('a'),
   _.local((env) => ({
@@ -15,7 +15,7 @@ pipe(
   }))
 )
 
-// $ExpectType ReaderTask<{ b: string; }, string>
+// $ExpectType ReaderIO<{ b: string; }, string>
 pipe(
   _.of<string, { a: string }>('a'),
   _.local((env: { b: string }) => ({
@@ -23,7 +23,7 @@ pipe(
   }))
 )
 
-// $ExpectType ReaderTask<{ b: string; }, string>
+// $ExpectType ReaderIO<{ b: string; }, string>
 pipe(
   _.of<string, { a: string; b: string }>('a'),
   _.local((env: { b: string }) => ({
@@ -32,16 +32,5 @@ pipe(
   }))
 )
 
-// $ExpectType ReaderTask<{ a: string; b: string; }, string>
+// $ExpectType ReaderIO<{ a: string; b: string; }, string>
 pipe(_.of<string, { a: string; b: string }>('a'), _.local(modifyA))
-
-//
-// Do
-//
-
-// $ExpectType ReaderTask<unknown, { readonly a1: number; readonly a2: string; }>
-pipe(
-  _.Do,
-  _.bind('a1', () => _.of<number, unknown>(1)),
-  _.bind('a2', () => _.of<string, unknown>('b'))
-)

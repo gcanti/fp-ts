@@ -369,7 +369,7 @@ export const chainNullableK: <E>(
  * @category combinators
  * @since 3.0.0
  */
-export const local: <R2, R1>(
+export const local: <R1, R2 = R1>(
   f: (r2: R2) => R1
 ) => <E, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R2, E, A> = R.local
 

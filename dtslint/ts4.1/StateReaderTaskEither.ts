@@ -5,6 +5,40 @@ import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
+declare function modifyA<R extends { a: string }>(r: R): R
+
+//
+// local
+//
+
+// $ExpectType StateReaderTaskEither<boolean, { a: string; }, number, string>
+pipe(
+  _.of<string, boolean, { a: string }, number>('a'),
+  _.local((env) => ({
+    a: env.a
+  }))
+)
+
+// $ExpectType StateReaderTaskEither<boolean, { b: string; }, number, string>
+pipe(
+  _.of<string, boolean, { a: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    a: env.b
+  }))
+)
+
+// $ExpectType StateReaderTaskEither<boolean, { b: string; }, number, string>
+pipe(
+  _.of<string, boolean, { a: string; b: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    ...env,
+    a: env.b
+  }))
+)
+
+// $ExpectType StateReaderTaskEither<boolean, { a: string; b: string; }, number, string>
+pipe(_.of<string, boolean, { a: string; b: string }, number>('a'), _.local(modifyA))
+
 //
 // chainW
 //

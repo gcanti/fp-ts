@@ -3,6 +3,40 @@ import * as R from '../../src/Reader'
 import * as E from '../../src/Either'
 import { pipe } from '../../src/function'
 
+declare function modifyA<R extends { a: string }>(r: R): R
+
+//
+// local
+//
+
+// $ExpectType ReaderEither<{ a: string; }, number, string>
+pipe(
+  _.of<string, { a: string }, number>('a'),
+  _.local((env) => ({
+    a: env.a
+  }))
+)
+
+// $ExpectType ReaderEither<{ b: string; }, number, string>
+pipe(
+  _.of<string, { a: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    a: env.b
+  }))
+)
+
+// $ExpectType ReaderEither<{ b: string; }, number, string>
+pipe(
+  _.of<string, { a: string; b: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    ...env,
+    a: env.b
+  }))
+)
+
+// $ExpectType ReaderEither<{ a: string; b: string; }, number, string>
+pipe(_.of<string, { a: string; b: string }, number>('a'), _.local(modifyA))
+
 //
 // getOrElseW
 //

@@ -76,7 +76,7 @@ export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = ask
  * @category combinators
  * @since 3.0.0
  */
-export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Reader<R2, A> => (r2) => ma(f(r2))
+export const local = <R1, R2 = R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Reader<R2, A> => (r2) => ma(f(r2))
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types

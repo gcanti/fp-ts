@@ -248,7 +248,7 @@ export const fromReaderTaskEither: NaturalTransformation34<RTE.URI, URI> =
  * @category combinators
  * @since 3.0.0
  */
-export const local = <R2, R1>(f: (r2: R2) => R1) => <S, E, A>(
+export const local = <R1, R2 = R1>(f: (r2: R2) => R1) => <S, E, A>(
   ma: StateReaderTaskEither<S, R1, E, A>
 ): StateReaderTaskEither<S, R2, E, A> => flow(ma, R.local(f))
 

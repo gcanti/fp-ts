@@ -531,7 +531,9 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
+export declare const local: <R1, R2 = R1>(
+  f: (r2: R2) => R1
+) => <E, A>(ma: ReaderEither<R1, E, A>) => ReaderEither<R2, E, A>
 ```
 
 Added in v3.0.0
