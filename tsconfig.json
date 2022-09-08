@@ -1,21 +1,18 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "outDir": "./dist/lib",
-    "target": "es5",
-    "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "lib": [],
     "sourceMap": false,
-    "declaration": true,
+    "declaration": false,
     "strict": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "noUncheckedIndexedAccess": false
   },
   "include": ["./src", "./test", "./scripts", "./perf"]
 }

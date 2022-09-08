@@ -2,9 +2,9 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "noEmit": false,
-    "outDir": "./dist/es6",
+    "outDir": "./dist/lib",
     "target": "es5",
-    "module": "es6"
+    "module": "commonjs"
   },
   "include": ["./src"]
 }
