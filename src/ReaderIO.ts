@@ -59,7 +59,7 @@ export const fromIO: FromIO2<URI>['fromIO'] = /*#__PURE__*/ R.of
  * @category combinators
  * @since 3.0.0
  */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A> = R.local
+export const local: <R1, R2 = R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A> = R.local
 
 /**
  * Less strict version of [`asksReaderIO`](#asksreaderio).

@@ -5,6 +5,40 @@ import * as TE from '../../src/TaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
+declare function modifyA<R extends { a: string }>(r: R): R
+
+//
+// local
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, number, string>
+pipe(
+  _.of<string, { a: string }, number>('a'),
+  _.local((env) => ({
+    a: env.a
+  }))
+)
+
+// $ExpectType ReaderTaskEither<{ b: string; }, number, string>
+pipe(
+  _.of<string, { a: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    a: env.b
+  }))
+)
+
+// $ExpectType ReaderTaskEither<{ b: string; }, number, string>
+pipe(
+  _.of<string, { a: string; b: string }, number>('a'),
+  _.local((env: { b: string }) => ({
+    ...env,
+    a: env.b
+  }))
+)
+
+// $ExpectType ReaderTaskEither<{ a: string; b: string; }, number, string>
+pipe(_.of<string, { a: string; b: string }, number>('a'), _.local(modifyA))
+
 //
 // getOrElseW
 //

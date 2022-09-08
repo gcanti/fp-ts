@@ -387,7 +387,7 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export declare const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
+export declare const local: <R1, R2 = R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A>
 ```
 
 Added in v3.0.0

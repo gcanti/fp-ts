@@ -770,7 +770,7 @@ Changes the value of the local context during the execution of the action `ma` (
 **Signature**
 
 ```ts
-export declare const local: <R2, R1>(
+export declare const local: <R1, R2 = R1>(
   f: (r2: R2) => R1
 ) => <S, E, A>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R2, E, A>
 ```

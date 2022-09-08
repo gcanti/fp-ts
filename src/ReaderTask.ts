@@ -100,7 +100,7 @@ export const fromIO: FromIO2<URI>['fromIO'] =
  * @category combinators
  * @since 3.0.0
  */
-export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
+export const local: <R1, R2 = R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) => ReaderTask<R2, A> = R.local
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
