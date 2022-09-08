@@ -1089,7 +1089,7 @@ Added in v2.0.0
 ## getAltReaderValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 
@@ -1104,7 +1104,7 @@ Added in v2.7.0
 ## getApplicativeReaderValidation
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 

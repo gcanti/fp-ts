@@ -347,7 +347,7 @@ export const getWitherable = <E>(M: Monoid<E>): Witherable2C<URI, E> => {
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide a way to concatenate them via a `Semigroup`.
  *
  * @example
  * import * as A from 'fp-ts/Apply'
@@ -415,7 +415,7 @@ export const getApplicativeValidation = <E>(SE: Semigroup<E>): Applicative2C<URI
 
 /**
  * The default [`Alt`](#alt) instance returns the last error, if you want to
- * get all errors you need to provide an way to concatenate them via a `Semigroup`.
+ * get all errors you need to provide a way to concatenate them via a `Semigroup`.
  *
  * @example
  * import * as E from 'fp-ts/Either'

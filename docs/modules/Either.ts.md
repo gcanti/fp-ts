@@ -1196,7 +1196,7 @@ Added in v2.0.0
 ## getAltValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 **Signature**
 
@@ -1239,7 +1239,7 @@ Added in v2.7.0
 ## getApplicativeValidation
 
 The default [`Applicative`](#applicative) instance returns the first error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 **Signature**
 

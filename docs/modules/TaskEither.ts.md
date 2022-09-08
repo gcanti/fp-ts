@@ -1253,7 +1253,7 @@ Added in v2.0.0
 ## getAltTaskValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 
@@ -1268,14 +1268,58 @@ Added in v2.7.0
 ## getApplicativeTaskValidation
 
 The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
-get all errors you need to provide an way to concatenate them via a `Semigroup`.
-
-See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
+get all errors you need to provide a way to concatenate them via a `Semigroup`.
 
 **Signature**
 
 ```ts
 export declare function getApplicativeTaskValidation<E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E>
+```
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import * as RA from 'fp-ts/ReadonlyArray'
+import * as S from 'fp-ts/Semigroup'
+import * as string from 'fp-ts/string'
+import * as T from 'fp-ts/Task'
+import * as TE from 'fp-ts/TaskEither'
+
+interface User {
+  readonly id: string
+  readonly name: string
+}
+
+const remoteDatabase: ReadonlyArray<User> = [
+  { id: 'id1', name: 'John' },
+  { id: 'id2', name: 'Mary' },
+  { id: 'id3', name: 'Joey' },
+]
+
+const fetchUser = (id: string): TE.TaskEither<string, User> =>
+  pipe(
+    remoteDatabase,
+    RA.findFirst((user) => user.id === id),
+    TE.fromOption(() => `${id} not found`)
+  )
+
+async function test() {
+  assert.deepStrictEqual(
+    await pipe(['id4', 'id5'], RA.traverse(TE.ApplicativePar)(fetchUser))(),
+    E.left('id4 not found') // <= first error
+  )
+
+  const Applicative = TE.getApplicativeTaskValidation(T.ApplyPar, pipe(string.Semigroup, S.intercalate(', ')))
+
+  assert.deepStrictEqual(
+    await pipe(['id4', 'id5'], RA.traverse(Applicative)(fetchUser))(),
+    E.left('id4 not found, id5 not found') // <= all errors
+  )
+}
+
+test()
 ```
 
 Added in v2.7.0
