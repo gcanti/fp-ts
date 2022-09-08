@@ -16,7 +16,7 @@
 import type { Alt2, Alt2C } from './Alt'
 import type { Applicative as Applicative_, Applicative2, Applicative2C } from './Applicative'
 import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
 import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec2, tailRec } from './ChainRec'
 import type { Compactable2C } from './Compactable'
@@ -773,7 +773,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  map_<URI>(Bifunctor)
+  mapDefault<URI>(Bifunctor)
 
 /**
  * @category instances

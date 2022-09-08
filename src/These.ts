@@ -21,7 +21,7 @@
  */
 import type { Applicative, Applicative2C } from './Applicative'
 import type { Apply2C } from './Apply'
-import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
 import type { Chain2C } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
@@ -358,7 +358,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  map_<URI>(Bifunctor)
+  mapDefault<URI>(Bifunctor)
 
 /**
  * @category instances

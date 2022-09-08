@@ -21,7 +21,7 @@ bindTo<_.URI, string>(M)
 // bind
 //
 
-// $ExpectType <N extends string, A, B>(name: Exclude<N, keyof A>, f: (a: A) => These<string, B>) => (ma: These<string, A>) => These<string, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B; }>
+// $ExpectType <N extends string, A, B>(name: Exclude<N, keyof A>, f: <A2 extends A>(a: A | A2) => These<string, B>) => (ma: These<string, A>) => These<string, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B; }>
 bind(M)
 
 //

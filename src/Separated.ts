@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import { Bifunctor2, map as map_, mapLeftDefault } from './Bifunctor'
+import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
 import { flap as flap_, Functor2 } from './Functor'
 
 // -------------------------------------------------------------------------------------
@@ -82,7 +82,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  */
 export const map: Functor2<URI>['map'] =
   /*#__PURE__*/
-  map_<URI>(Bifunctor)
+  mapDefault<URI>(Bifunctor)
 
 /**
  * @category instances

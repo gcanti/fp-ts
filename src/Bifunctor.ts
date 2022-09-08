@@ -94,20 +94,18 @@ export function mapLeftDefault<F>(bimap: Bifunctor<F>['bimap']): Bifunctor<F>['m
   return (f) => bimap(f, identity)
 }
 
-// -------------------------------------------------------------------------------------
-// combinators
-// -------------------------------------------------------------------------------------
-
 /**
- * @category combinators
+ * Return a default `map` implementation from `bimap`.
+ *
+ * @category defaults
  * @since 3.0.0
  */
-export function map<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']
-export function map<F extends URIS3>(B: Bifunctor3<F>): Functor3<F>['map']
-export function map<F extends URIS3, E>(B: Bifunctor3C<F, E>): Functor3C<F, E>['map']
-export function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map']
-export function map<F extends URIS2, E>(B: Bifunctor2C<F, E>): Functor2C<F, E>['map']
-export function map<F>(B: Bifunctor<F>): Functor<F>['map']
-export function map<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map'] {
+export function mapDefault<F extends URIS4>(B: Bifunctor4<F>): Functor4<F>['map']
+export function mapDefault<F extends URIS3>(B: Bifunctor3<F>): Functor3<F>['map']
+export function mapDefault<F extends URIS3, E>(B: Bifunctor3C<F, E>): Functor3C<F, E>['map']
+export function mapDefault<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map']
+export function mapDefault<F extends URIS2, E>(B: Bifunctor2C<F, E>): Functor2C<F, E>['map']
+export function mapDefault<F>(B: Bifunctor<F>): Functor<F>['map']
+export function mapDefault<F extends URIS2>(B: Bifunctor2<F>): Functor2<F>['map'] {
   return (f) => B.bimap(identity, f)
 }
