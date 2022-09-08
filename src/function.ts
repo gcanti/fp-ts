@@ -199,11 +199,18 @@ export const constUndefined: Lazy<undefined> =
 export const constVoid: Lazy<void> = constUndefined
 
 /**
- * Flips the order of the arguments of a function of two arguments.
+ * Flips the arguments of a curried function.
+ *
+ * @example
+ * import { flip } from 'fp-ts/function'
+ *
+ * const f = (a: number) => (b: string) => a - b.length
+ *
+ * assert.strictEqual(flip(f)('aaa')(2), -1)
  *
  * @since 3.0.0
  */
-export const flip = <A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) => (b, a) => f(a, b)
+export const flip = <A, B, C>(f: (a: A) => (b: B) => C): ((b: B) => (a: A) => C) => (b) => (a) => f(a)(b)
 
 /**
  * Performs left-to-right function composition. The first argument may have any arity, the remaining arguments must be unary.

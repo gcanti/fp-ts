@@ -12,8 +12,8 @@ const g = U.double
 
 describe('function', () => {
   it('flip', () => {
-    const f = (a: number, b: string) => a - b.length
-    U.deepStrictEqual(_.flip(f)('aaa', 2), -1)
+    const f = (a: number) => (b: string) => a - b.length
+    U.deepStrictEqual(_.flip(f)('aaa')(2), -1)
   })
 
   it('unsafeCoerce', () => {

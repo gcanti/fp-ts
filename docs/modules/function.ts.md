@@ -291,12 +291,22 @@ Added in v3.0.0
 
 ## flip
 
-Flips the order of the arguments of a function of two arguments.
+Flips the arguments of a curried function.
 
 **Signature**
 
 ```ts
-export declare const flip: <A, B, C>(f: (a: A, b: B) => C) => (b: B, a: A) => C
+export declare const flip: <A, B, C>(f: (a: A) => (b: B) => C) => (b: B) => (a: A) => C
+```
+
+**Example**
+
+```ts
+import { flip } from 'fp-ts/function'
+
+const f = (a: number) => (b: string) => a - b.length
+
+assert.strictEqual(flip(f)('aaa')(2), -1)
 ```
 
 Added in v3.0.0
