@@ -2,9 +2,32 @@
   "name": "fp-ts",
   "version": "2.12.3",
   "description": "Functional programming in TypeScript",
-  "main": "lib/index.js",
-  "module": "es6/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./es6/index.js",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es6/index.js"
+    },
+    "./*": {
+      "require": "./lib/*.js",
+      "import": "./es6/*.js"
+    },
+    "./es6/*": {
+      "import": "./es6/*.js"
+    },
+    "./lib/*": {
+      "require": "./lib/*.js"
+    }
+  },
+  "types": "index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./types/*"
+      ]
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\" \"scripts/**/*.ts\"",
@@ -15,7 +38,7 @@
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
     "clean": "rimraf ./dist",
     "prebuild": "npm run clean",
-    "build": "tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.build-es6.json && ts-node scripts/build",
+    "build": "tsc -p ./tsconfig.build-lib.json && tsc -p ./tsconfig.build-es6.json && tsc -p ./tsconfig.build-types.json && ts-node scripts/build",
     "postbuild": "prettier --loglevel=silent --write \"./dist/**/*.ts\"",
     "prepublishOnly": "ts-node scripts/pre-publish",
     "mocha": "mocha -r ts-node/register test/*.ts",
