@@ -7,7 +7,7 @@ import type { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from
 import type { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import type { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'
 import type { State } from './State'
-import { snd } from './Tuple2'
+import { snd } from './Writer'
 
 /**
  * @since 3.0.0

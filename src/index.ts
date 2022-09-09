@@ -106,7 +106,6 @@ import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
 import * as tuple from './tuple'
-import * as tuple2 from './Tuple2'
 import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
 import * as witherable from './Witherable'
@@ -529,10 +528,6 @@ export {
    * @since 3.0.0
    */
   tuple,
-  /**
-   * @since 3.0.0
-   */
-  tuple2,
   /**
    * @since 3.0.0
    */

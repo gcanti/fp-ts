@@ -117,7 +117,6 @@ Added in v3.0.0
   - [traversableWithIndex](#traversablewithindex)
   - [tree](#tree)
   - [tuple](#tuple)
-  - [tuple2](#tuple2)
   - [unfoldable](#unfoldable)
   - [void](#void)
   - [witherable](#witherable)
@@ -1164,16 +1163,6 @@ Added in v3.0.0
 
 ```ts
 export declare const tuple: typeof tuple
-```
-
-Added in v3.0.0
-
-## tuple2
-
-**Signature**
-
-```ts
-export declare const tuple2: typeof tuple2
 ```
 
 Added in v3.0.0

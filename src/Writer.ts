@@ -1,14 +1,25 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative2C } from './Applicative'
+import type { Applicative, Applicative2C } from './Applicative'
 import type { Apply2C } from './Apply'
+import { Bifunctor2 } from './Bifunctor'
 import type { Chain2C } from './Chain'
+import type { ChainRec2C } from './ChainRec'
+import type { Comonad2 } from './Comonad'
+import type { Either } from './Either'
+import type { Extend2 } from './Extend'
+import type { Foldable2 } from './Foldable'
+import { identity, pipe } from './function'
 import { flap as flap_, Functor2 } from './Functor'
+import type { HKT } from './HKT'
+import * as _ from './internal'
 import type { Monad2C } from './Monad'
 import type { Monoid } from './Monoid'
 import type { Pointed2C } from './Pointed'
 import type { Semigroup } from './Semigroup'
+import type { Semigroupoid2 } from './Semigroupoid'
+import type { Traversable2 } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -18,13 +29,17 @@ import type { Semigroup } from './Semigroup'
  * @category model
  * @since 3.0.0
  */
-export interface Writer<W, A> {
-  (): readonly [A, W]
-}
+export type Writer<W, A> = readonly [A, W]
 
 // -------------------------------------------------------------------------------------
 // constructors
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const writer = <A, W>(a: A, w: W): Writer<W, A> => [a, w]
 
 /**
  * Appends a value to the accumulator
@@ -32,11 +47,45 @@ export interface Writer<W, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
+export const tell: <W>(w: W) => Writer<W, void> = (w) => [undefined, w]
+
+// -------------------------------------------------------------------------------------
+// utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const fst = <E, A>(t: Writer<E, A>): A => t[0]
+
+/**
+ * @since 3.0.0
+ */
+export const snd = <E, A>(t: Writer<E, A>): E => t[1]
+
+/**
+ * Alias of [`fst`](#fst).
+ *
+ * @since 3.0.0
+ */
+export const evaluate: <W, A>(fa: Writer<W, A>) => A = fst
+
+/**
+ * Alias of [`snd`](#snd).
+ *
+ * @since 3.0.0
+ */
+export const execute: <W, A>(fa: Writer<W, A>) => W = snd
 
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const swap = <E, A>(t: Writer<E, A>): Writer<A, E> => [snd(t), fst(t)]
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -44,8 +93,8 @@ export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
  * @category combinators
  * @since 3.0.0
  */
-export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (fa) => () => {
-  const [a, w] = fa()
+export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (fa) => {
+  const [a, w] = fa
   return [[a, w], w]
 }
 
@@ -55,8 +104,8 @@ export const listen: <W, A>(fa: Writer<W, A>) => Writer<W, readonly [A, W]> = (f
  * @category combinators
  * @since 3.0.0
  */
-export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A> = (fa) => () => {
-  const [[a, f], w] = fa()
+export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W, A> = (fa) => {
+  const [[a, f], w] = fa
   return [a, f(w)]
 }
 
@@ -66,10 +115,8 @@ export const pass: <W, A>(fa: Writer<W, readonly [A, (w: W) => W]>) => Writer<W,
  * @category combinators
  * @since 3.0.0
  */
-export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]> = (f) => (
-  fa
-) => () => {
-  const [a, w] = fa()
+export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<W, readonly [A, B]> = (f) => (fa) => {
+  const [a, w] = fa
   return [[a, f(w)], w]
 }
 
@@ -79,26 +126,120 @@ export const listens: <W, B>(f: (w: W) => B) => <A>(fa: Writer<W, A>) => Writer<
  * @category combinators
  * @since 3.0.0
  */
-export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => () => {
-  const [a, w] = fa()
+export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A> = (f) => (fa) => {
+  const [a, w] = fa
   return [a, f(w)]
 }
 
 // -------------------------------------------------------------------------------------
-// type class members
+// type class operations
 // -------------------------------------------------------------------------------------
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
  * use the type constructor `F` to represent some computational context.
  *
- * @category Functor
+ * @category type class operations
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => () => {
-  const [a, w] = fa()
+export const map: Functor2<URI>['map'] = (f) => (fa) => {
+  const [a, w] = fa
   return [f(a), w]
 }
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => {
+  const [a, w] = fa
+  return [a, f(w)]
+}
+
+/**
+ * Map a pair of functions over the two type arguments of the bifunctor.
+ *
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const bimap = <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (t: Writer<E, A>): Writer<G, B> => [
+  mapFst(fst(t)),
+  mapSnd(snd(t))
+]
+
+/**
+ * Maps a function over the first component of a `Writer`.
+ *
+ * Alias of [`map`](#map)
+ *
+ * @since 3.0.0
+ */
+export const mapFst: Functor2<URI>['map'] = map
+
+/**
+ * Maps a function over the second component of a `Writer`.
+ *
+ * Alias of [`mapLeft`](#mapleft)
+ *
+ * @since 3.0.0
+ */
+export const mapSnd: Bifunctor2<URI>['mapLeft'] = mapLeft
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const compose: Semigroupoid2<URI>['compose'] = (bc) => (ab) => [fst(bc), snd(ab)]
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const extend: Extend2<URI>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const extract: Comonad2<URI>['extract'] = fst
+
+/**
+ * Derivable from `Extend`.
+ *
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const duplicate: <E, A>(t: Writer<E, A>) => Writer<E, Writer<E, A>> = /*#__PURE__*/ extend(identity)
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => f(b, fst(fa))
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const foldMap: Foldable2<URI>['foldMap'] = () => (f) => (fa) => f(fst(fa))
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => f(fst(fa), b)
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
+  t: Writer<E, A>
+): HKT<F, Writer<E, B>> =>
+  pipe(
+    f(fst(t)),
+    F.map((b) => [b, snd(t)])
+  )
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -120,8 +261,70 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
+export const Bifunctor: Bifunctor2<URI> = {
+  bimap,
+  mapLeft: mapSnd
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Functor: Functor2<URI> = {
+  map: mapFst
+}
+
+/**
+ * Derivable from `Functor`.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const flap = /*#__PURE__*/ flap_(Functor)
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Semigroupoid: Semigroupoid2<URI> = {
+  compose
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Comonad: Comonad2<URI> = {
+  map: mapFst,
+  extend,
+  extract
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Foldable: Foldable2<URI> = {
+  reduce,
+  foldMap,
+  reduceRight
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Traversable: Traversable2<URI> = {
+  map: mapFst,
+  traverse
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
-  of: (a) => () => [a, M.empty]
+  of: (a) => [a, M.empty]
 })
 
 /**
@@ -130,9 +333,9 @@ export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
  */
 export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
   map,
-  ap: (fa) => (fab) => () => {
-    const [f, w1] = fab()
-    const [a, w2] = fa()
+  ap: (fa) => (fab) => {
+    const [f, w1] = fab
+    const [a, w2] = fa
     return [f(a), S.concat(w2)(w1)]
   }
 })
@@ -158,9 +361,9 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
 export const getChain = <W>(S: Semigroup<W>): Chain2C<URI, W> => {
   return {
     map,
-    chain: (f) => (ma) => () => {
-      const [a, w1] = ma()
-      const [b, w2] = f(a)()
+    chain: (f) => (ma) => {
+      const [a, w1] = ma
+      const [b, w2] = f(a)
       return [b, S.concat(w2)(w1)]
     }
   }
@@ -184,30 +387,20 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
-  map
+export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
+  const chainRec = <A, B>(f: (a: A) => readonly [Either<A, B>, M]) => (a: A): readonly [B, M] => {
+    let result: readonly [Either<A, B>, M] = f(a)
+    let acc: M = M.empty
+    let s: Either<A, B> = fst(result)
+    while (_.isLeft(s)) {
+      acc = M.concat(snd(result))(acc)
+      result = f(s.left)
+      s = fst(result)
+    }
+    return [s.right, M.concat(snd(result))(acc)]
+  }
+
+  return {
+    chainRec
+  }
 }
-
-/**
- * Derivable from `Functor`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
-
-// -------------------------------------------------------------------------------------
-// utils
-// -------------------------------------------------------------------------------------
-
-/**
- * @since 3.0.0
- */
-export const evaluate: <W, A>(fa: Writer<W, A>) => A = (fa) => fa()[0]
-
-/**
- * @since 3.0.0
- */
-export const execute: <W, A>(fa: Writer<W, A>) => W = (fa) => fa()[1]
