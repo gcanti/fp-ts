@@ -71,7 +71,7 @@ export function getApplicative<M>(M: Monoid<M>): Applicative2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
+    map: _map,
     ap: A.ap,
     of: of(M)
   }
@@ -86,7 +86,7 @@ export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> {
   return {
     URI,
     _E: undefined as any,
-    map: A.map,
+    map: _map,
     ap: A.ap,
     chain: (ma, f) => {
       const [b, s] = f(fst(ma))
@@ -104,7 +104,7 @@ export function getMonad<M>(M: Monoid<M>): Monad2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: C.map,
+    map: _map,
     ap: C.ap,
     chain: C.chain,
     of: of(M)
@@ -132,7 +132,7 @@ export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
   return {
     URI,
     _E: undefined as any,
-    map: C.map,
+    map: _map,
     ap: C.ap,
     chain: C.chain,
     chainRec
@@ -322,6 +322,22 @@ export const Functor: Functor2<URI> = {
 export const flap = /*#__PURE__*/ flap_(Functor)
 
 /**
+ * Alias of [`mapFst`](#mapfst).
+ *
+ * @category instance operations
+ * @since 2.5.0
+ */
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = mapFst
+
+/**
+ * Alias of [`mapSnd`](#mapsnd).
+ *
+ * @category instance operations
+ * @since 2.5.0
+ */
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
+
+/**
  * @category instances
  * @since 2.7.0
  */
@@ -379,22 +395,6 @@ export const Traversable: Traversable2<URI> = {
 // -------------------------------------------------------------------------------------
 // deprecated
 // -------------------------------------------------------------------------------------
-
-/**
- * Use [`mapFst`](#mapfst) instead.
- *
- * @since 2.5.0
- * @deprecated
- */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: readonly [A, E]) => readonly [B, E] = mapFst
-
-/**
- * Use [`mapSnd`](#mapsnd) instead.
- *
- * @since 2.5.0
- * @deprecated
- */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fa: readonly [A, E]) => readonly [A, G] = mapSnd
 
 /**
  * This instance is deprecated, use small, specific instances instead.
