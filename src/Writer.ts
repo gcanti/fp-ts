@@ -24,16 +24,20 @@ export interface Writer<W, A> {
 }
 
 // -------------------------------------------------------------------------------------
-// combinators
+// constructors
 // -------------------------------------------------------------------------------------
 
 /**
  * Appends a value to the accumulator
  *
- * @category combinators
+ * @category constructors
  * @since 2.0.0
  */
 export const tell: <W>(w: W) => Writer<W, void> = (w) => () => [undefined, w]
+
+// -------------------------------------------------------------------------------------
+// combinators
+// -------------------------------------------------------------------------------------
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -169,8 +173,8 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
  * @category instances
  * @since 2.10.0
  */
-export function getChain<W>(M: Monoid<W>): Chain2C<URI, W> {
-  const A = getApply(M)
+export function getChain<W>(S: Semigroup<W>): Chain2C<URI, W> {
+  const A = getApply(S)
   return {
     URI,
     _E: undefined as any,
@@ -179,7 +183,7 @@ export function getChain<W>(M: Monoid<W>): Chain2C<URI, W> {
     chain: (fa, f) => () => {
       const [a, w1] = fa()
       const [b, w2] = f(a)()
-      return [b, M.concat(w1, w2)]
+      return [b, S.concat(w1, w2)]
     }
   }
 }

@@ -120,6 +120,9 @@ Changelog:
       - `reduceRight`
       - `reduceRightWithIndex`
       - `reduceWithIndex`
+- **Polish**
+  - `Writer`
+    - `getChain` requires a `Semigroup` instead of a `Monoid` (@gcanti)
 
 # 2.12.3
 
