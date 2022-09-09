@@ -84,7 +84,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toLowerCase: (s: string) => string
+export declare const toLowerCase: <S extends string>(s: S) => Lowercase<S>
 ```
 
 **Example**
@@ -103,7 +103,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toUpperCase: (s: string) => string
+export declare const toUpperCase: <S extends string>(s: S) => Uppercase<S>
 ```
 
 **Example**

@@ -130,7 +130,7 @@ export const isString: Refinement<unknown, string> = (u: unknown): u is string =
  * @category combinators
  * @since 3.0.0
  */
-export const toUpperCase = (s: string): string => s.toUpperCase()
+export const toUpperCase = <S extends string>(s: S): Uppercase<S> => s.toUpperCase() as any
 
 /**
  * @example
@@ -142,7 +142,7 @@ export const toUpperCase = (s: string): string => s.toUpperCase()
  * @category combinators
  * @since 3.0.0
  */
-export const toLowerCase = (s: string): string => s.toLowerCase()
+export const toLowerCase = <S extends string>(s: S): Lowercase<S> => s.toLowerCase() as any
 
 /**
  * @example
