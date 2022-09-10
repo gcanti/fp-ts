@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 84
+nav_order: 86
 parent: Modules
 ---
 

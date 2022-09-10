@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 47
+nav_order: 48
 parent: Modules
 ---
 
@@ -52,6 +52,7 @@ Added in v3.0.0
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
+  - [fromWriter](#fromwriter)
   - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
@@ -87,6 +88,7 @@ Added in v3.0.0
   - [readerT](#readert)
   - [readerTask](#readertask)
   - [readerTaskEither](#readertaskeither)
+  - [readerTaskWriter](#readertaskwriter)
   - [readonlyArray](#readonlyarray)
   - [readonlyMap](#readonlymap)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
@@ -117,11 +119,11 @@ Added in v3.0.0
   - [traversableWithIndex](#traversablewithindex)
   - [tree](#tree)
   - [tuple](#tuple)
-  - [tuple2](#tuple2)
   - [unfoldable](#unfoldable)
   - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
+  - [writerT](#writert)
   - [zero](#zero)
 
 ---
@@ -518,6 +520,16 @@ export declare const fromThese: typeof fromThese
 
 Added in v3.0.0
 
+## fromWriter
+
+**Signature**
+
+```ts
+export declare const fromWriter: typeof fromWriter
+```
+
+Added in v3.0.0
+
 ## function
 
 **Signature**
@@ -868,6 +880,16 @@ export declare const readerTaskEither: typeof readerTaskEither
 
 Added in v3.0.0
 
+## readerTaskWriter
+
+**Signature**
+
+```ts
+export declare const readerTaskWriter: typeof readerTaskWriter
+```
+
+Added in v3.0.0
+
 ## readonlyArray
 
 **Signature**
@@ -1168,16 +1190,6 @@ export declare const tuple: typeof tuple
 
 Added in v3.0.0
 
-## tuple2
-
-**Signature**
-
-```ts
-export declare const tuple2: typeof tuple2
-```
-
-Added in v3.0.0
-
 ## unfoldable
 
 **Signature**
@@ -1214,6 +1226,16 @@ Added in v3.0.0
 
 ```ts
 export declare const writer: typeof writer
+```
+
+Added in v3.0.0
+
+## writerT
+
+**Signature**
+
+```ts
+export declare const writerT: typeof writerT
 ```
 
 Added in v3.0.0

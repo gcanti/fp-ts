@@ -41,6 +41,7 @@ import * as fromReader from './FromReader'
 import * as fromState from './FromState'
 import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
+import * as fromWriter from './FromWriter'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -76,6 +77,7 @@ import * as readerIO from './ReaderIO'
 import * as readerT from './ReaderT'
 import * as readerTask from './ReaderTask'
 import * as readerTaskEither from './ReaderTaskEither'
+import * as readerTaskWriter from './ReaderTaskWriter'
 import * as readonlyArray from './ReadonlyArray'
 import * as readonlyMap from './ReadonlyMap'
 import * as readonlyNonEmptyArray from './ReadonlyNonEmptyArray'
@@ -106,11 +108,11 @@ import * as traversable from './Traversable'
 import * as traversableWithIndex from './TraversableWithIndex'
 import * as tree from './Tree'
 import * as tuple from './tuple'
-import * as tuple2 from './Tuple2'
 import * as unfoldable from './Unfoldable'
 import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
+import * as writerT from './WriterT'
 import * as zero from './Zero'
 export {
   /**
@@ -268,6 +270,10 @@ export {
   /**
    * @since 3.0.0
    */
+  fromWriter,
+  /**
+   * @since 3.0.0
+   */
   function_ as function,
   /**
    * @since 3.0.0
@@ -404,6 +410,10 @@ export {
   /**
    * @since 3.0.0
    */
+  readerTaskWriter,
+  /**
+   * @since 3.0.0
+   */
   readonlyArray,
   /**
    * @since 3.0.0
@@ -532,10 +542,6 @@ export {
   /**
    * @since 3.0.0
    */
-  tuple2,
-  /**
-   * @since 3.0.0
-   */
   unfoldable,
   /**
    * @since 3.0.0
@@ -549,6 +555,10 @@ export {
    * @since 3.0.0
    */
   writer,
+  /**
+   * @since 3.0.0
+   */
+  writerT,
   /**
    * @since 3.0.0
    */

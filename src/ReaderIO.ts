@@ -134,7 +134,7 @@ export const chain: <A, R, B>(
  * @category Monad
  * @since 3.0.0
  */
-export const chainW: <R2, A, B>(
+export const chainW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = chain as any
 
@@ -289,7 +289,7 @@ export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstW: <R2, A, B>(
+export const chainFirstW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = chainFirst as any
 
@@ -434,7 +434,7 @@ export const apS = /*#__PURE__*/ apS_(Apply)
  *
  * @since 3.0.0
  */
-export const apSW: <A, N extends string, R2, B>(
+export const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(

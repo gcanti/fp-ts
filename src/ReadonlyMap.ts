@@ -25,7 +25,7 @@ import { separated, Separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable2C } from './Traversable'
 import type { TraversableWithIndex2C } from './TraversableWithIndex'
-import { snd } from './Tuple2'
+import { snd } from './Writer'
 import type { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
