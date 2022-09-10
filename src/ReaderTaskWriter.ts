@@ -150,9 +150,9 @@ export const pass: <R, W, A>(
 /**
  * @since 3.0.0
  */
-export const listens: <R, W, B>(
+export const listens: <W, B>(
   f: (w: W) => B
-) => <A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]> = /*#__PURE__*/ WT.listens(
+) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]> = /*#__PURE__*/ WT.listens(
   RT.Functor
 )
 

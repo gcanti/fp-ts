@@ -141,7 +141,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 **Signature**
 
 ```ts
-export declare const chainW: <R2, A, B>(
+export declare const chainW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
@@ -278,7 +278,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirstW: <R2, A, B>(
+export declare const chainFirstW: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
@@ -600,7 +600,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 **Signature**
 
 ```ts
-export declare const apSW: <A, N extends string, R2, B>(
+export declare const apSW: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>

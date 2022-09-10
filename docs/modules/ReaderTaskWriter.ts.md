@@ -362,9 +362,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const listens: <R, W, B>(
+export declare const listens: <W, B>(
   f: (w: W) => B
-) => <A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]>
+) => <R, A>(fwa: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, W, readonly [A, B]>
 ```
 
 Added in v3.0.0

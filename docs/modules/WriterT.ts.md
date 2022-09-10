@@ -427,7 +427,7 @@ export declare function chain<M extends URIS3, E, W>(
 export declare function chain<M extends URIS2, W>(
   M: Chain2<M>,
   S: Semigroup<W>
-): <A, E, W, B>(f: (a: A) => Kind2<M, E, Writer<W, B>>) => (ma: Kind2<M, E, Writer<W, A>>) => Kind2<M, E, Writer<W, B>>
+): <A, E, B>(f: (a: A) => Kind2<M, E, Writer<W, B>>) => (ma: Kind2<M, E, Writer<W, A>>) => Kind2<M, E, Writer<W, B>>
 export declare function chain<M extends URIS2, E, W>(
   M: Chain2C<M, E>,
   S: Semigroup<W>
