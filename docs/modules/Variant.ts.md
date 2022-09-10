@@ -83,7 +83,7 @@ Added in v2.12.4
 
 ## Module (type alias)
 
-The type of the "Module" constructed in the above function
+The type of the "module" of variant constructors
 
 **Signature**
 

@@ -110,7 +110,7 @@ export function module<Variant extends Tagged<string, any>>(constructors: Module
 }
 
 /**
- * The type of the "Module" constructed in the above function
+ * The type of the "module" of variant constructors
  * @category constructors
  * @since 2.12.4
  */
