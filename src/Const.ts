@@ -7,16 +7,17 @@
  *
  * @since 3.0.0
  */
-import type { Applicative2C } from './Applicative'
-import type { Apply2C } from './Apply'
-import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
+import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
+import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
 import type { BooleanAlgebra } from './BooleanAlgebra'
 import type { Bounded } from './Bounded'
-import type { Contravariant2 } from './Contravariant'
+import type { Contravariant as Contravariant_ } from './Contravariant'
 import type { Eq } from './Eq'
 import { flow, identity, unsafeCoerce } from './function'
-import { flap as flap_, Functor2 } from './Functor'
+import { flap as flap_, Functor as Functor_ } from './Functor'
 import type { HeytingAlgebra } from './HeytingAlgebra'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import type { Ring } from './Ring'
@@ -52,7 +53,7 @@ export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
+export const contramap: Contravariant_<ConstF>['contramap'] = () => unsafeCoerce
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -60,7 +61,7 @@ export const contramap: Contravariant2<URI>['contramap'] = () => unsafeCoerce
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f) => flow(f, make)
+export const bimap: Bifunctor_<ConstF>['bimap'] = (f) => flow(f, make)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -68,9 +69,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f) => flow(f, make)
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<ConstF>['mapLeft'] =
   /*#__PURE__*/
-  mapLeftDefault<URI>(bimap)
+  mapLeftDefault<ConstF>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -80,12 +81,16 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Const'
+export interface ConstF extends HKT {
+  readonly type: Const<this['E'], this['A']>
+}
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Const: Const<E, A>
-  }
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export interface ConstFE<E> extends HKT {
+  readonly type: Const<E, this['A']>
 }
 
 /**
@@ -154,7 +159,7 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant2<URI> = {
+export const Contravariant: Contravariant_<ConstF> = {
   contramap
 }
 
@@ -162,7 +167,7 @@ export const Contravariant: Contravariant2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor_<ConstF> = {
   bimap,
   mapLeft
 }
@@ -174,15 +179,15 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<ConstF>['map'] =
   /*#__PURE__*/
-  mapDefault<URI>(Bifunctor)
+  mapDefault<ConstF>(Bifunctor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<ConstF> = {
   map
 }
 
@@ -200,7 +205,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<ConstFE<E>> => ({
   map,
   ap: (fa) => (fab) => make(S.concat(fa)(fab))
 })
@@ -209,7 +214,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(M: Monoid<E>): Applicative2C<URI, E> => {
+export const getApplicative = <E>(M: Monoid<E>): Applicative<ConstFE<E>> => {
   const A = getApply(M)
   return {
     map: A.map,

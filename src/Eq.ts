@@ -9,8 +9,9 @@
  *
  * @since 3.0.0
  */
-import type { Contravariant1 } from './Contravariant'
+import type { Contravariant as Contravariant_ } from './Contravariant'
 import { flow } from './function'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
@@ -96,7 +97,7 @@ export const tuple = <A extends ReadonlyArray<unknown>>(
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
+export const contramap: Contravariant_<EqF>['contramap'] = (f) => (fa) =>
   fromEquals((second) => flow(f, fa.equals(f(second))))
 
 // -------------------------------------------------------------------------------------
@@ -107,12 +108,8 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Eq'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Eq: Eq<A>
-  }
+export interface EqF extends HKT {
+  readonly type: Eq<this['A']>
 }
 
 /**
@@ -146,6 +143,6 @@ export const getMonoid = <A>(): Monoid<Eq<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant1<URI> = {
+export const Contravariant: Contravariant_<EqF> = {
   contramap
 }

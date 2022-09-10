@@ -1,27 +1,23 @@
 /**
  * @since 3.0.0
  */
-import type {
-  Applicative,
-  Applicative1,
-  Applicative2,
-  Applicative2C,
-  Applicative3,
-  Applicative3C,
-  Applicative4
-} from './Applicative'
-import type { Compactable1 } from './Compactable'
+import type { Applicative } from './Applicative'
+import type { Compactable as Compactable_ } from './Compactable'
 import type { Either } from './Either'
 import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
-import type { Filterable1 } from './Filterable'
-import type { FilterableWithIndex1, PredicateWithIndex, RefinementWithIndex } from './FilterableWithIndex'
-import type { Foldable as Foldable_, Foldable1, Foldable2, Foldable3, Foldable4 } from './Foldable'
-import type { FoldableWithIndex1 } from './FoldableWithIndex'
+import type { Filterable as Filterable_ } from './Filterable'
+import type {
+  FilterableWithIndex as FilterableWithIndex_,
+  PredicateWithIndex,
+  RefinementWithIndex
+} from './FilterableWithIndex'
+import type { Foldable } from './Foldable'
+import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import { pipe } from './function'
-import { flap as flap_, Functor1 } from './Functor'
-import type { FunctorWithIndex1 } from './FunctorWithIndex'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { flap as flap_, Functor as Functor_ } from './Functor'
+import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Magma } from './Magma'
 import type { Monoid } from './Monoid'
@@ -32,10 +28,10 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import type { Show } from './Show'
-import type { Traversable1 } from './Traversable'
-import type { TraversableWithIndex1 } from './TraversableWithIndex'
-import type { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import type { Traversable as Traversable_ } from './Traversable'
+import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
+import type { Unfoldable as Unfoldable_ } from './Unfoldable'
+import { wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
 import * as S from './string'
 
 import Option = O.Option
@@ -69,28 +65,11 @@ export const singleton = <A>(k: string, a: A): ReadonlyRecord<string, A> => ({ [
  * @category constructors
  * @since 3.0.0
  */
-export function fromFoldable<F extends URIS4>(
-  F: Foldable4<F>
+export function fromFoldable<F extends HKT>(
+  F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind4<F, S, R, E, A>) => ReadonlyRecord<string, B>
-export function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <B>(
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <R, E>(r: Kind3<F, R, E, A>) => ReadonlyRecord<string, B>
-export function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => <E>(r: Kind2<F, E, A>) => ReadonlyRecord<string, B>
-export function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (r: Kind<F, A>) => ReadonlyRecord<string, B>
-export function fromFoldable<F>(
-  F: Foldable_<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (r: HKT<F, A>) => ReadonlyRecord<string, B>
-export function fromFoldable<F>(
-  F: Foldable_<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (r: HKT<F, A>) => ReadonlyRecord<string, B> {
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind<F, S, R, E, A>) => ReadonlyRecord<string, B> {
   return <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) =>
     F.reduce<Record<string, B>, A>({}, (r, a) => {
       const [k, b] = f(a)
@@ -290,48 +269,27 @@ export const reduceRightWithIndex = (
  */
 export function traverseWithIndex(
   O: Ord<string>
-): {
-  <F extends URIS4>(F: Applicative4<F>): <K extends string, A, S, R, E, B>(
-    f: (k: K, a: A) => Kind4<F, S, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3>(F: Applicative3<F>): <K extends string, A, R, E, B>(
-    f: (k: K, a: A) => Kind3<F, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3, E>(F: Applicative3C<F, E>): <K extends string, A, R, B>(
-    f: (k: K, a: A) => Kind3<F, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS2>(F: Applicative2<F>): <K extends string, A, E, B>(
-    f: (k: K, a: A) => Kind2<F, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS2, E>(F: Applicative2C<F, E>): <K extends string, A, B>(
-    f: (k: K, a: A) => Kind2<F, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS>(F: Applicative1<F>): <K extends string, A, B>(
-    f: (k: K, a: A) => Kind<F, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-  <F>(F: Applicative<F>): <K extends string, A, B>(
-    f: (k: K, a: A) => HKT<F, B>
-  ) => (ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
-}
-export function traverseWithIndex(
-  O: Ord<string>
-): <F>(
+): <F extends HKT>(
   F: Applicative<F>
-) => <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
+) => <K extends string, A, S, R, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>> {
   const keysO = keys(O)
-  return <F>(F: Applicative<F>) => <A, B>(f: (k: string, a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => {
+  return <F extends HKT>(F: Applicative<F>) => <K extends string, A, S, R, E, B>(
+    f: (k: K, a: A) => Kind<F, S, R, E, B>
+  ) => (ta: ReadonlyRecord<string, A>) => {
     if (isEmpty(ta)) {
       return F.of(empty)
     }
-    let out: HKT<F, Record<string, B>> = F.of({})
+    let out: Kind<F, S, R, E, Record<string, B>> = F.of({})
     for (const key of keysO(ta)) {
       out = pipe(
         out,
         F.map((r) => (b: B) => Object.assign({}, r, { [key]: b })),
-        F.ap(f(key, ta[key]))
+        F.ap(f(key as any, ta[key])) // TODO
       )
     }
-    return out
+    return out as any // TODO
   }
 }
 
@@ -340,34 +298,11 @@ export function traverseWithIndex(
  */
 export function traverse(
   O: Ord<string>
-): {
-  <F extends URIS4>(F: Applicative4<F>): <A, S, R, E, B>(
-    f: (a: A) => Kind4<F, S, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
-    f: (a: A) => Kind3<F, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
-    f: (a: A) => Kind3<F, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS2>(F: Applicative2<F>): <A, E, B>(
-    f: (a: A) => Kind2<F, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS2, E>(F: Applicative2C<F, E>): <A, B>(
-    f: (a: A) => Kind2<F, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    f: (a: A) => Kind<F, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-  <F>(F: Applicative<F>): <A, B>(
-    f: (a: A) => HKT<F, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
-}
-export function traverse(
-  O: Ord<string>
-): <F>(
+): <F extends HKT>(
   F: Applicative<F>
-) => <A, B>(f: (a: A) => HKT<F, B>) => (ta: ReadonlyRecord<string, A>) => HKT<F, ReadonlyRecord<string, B>> {
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>> {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -493,7 +428,7 @@ export function filterWithIndex<A>(
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: Filterable1<URI>['filter'] = <A>(
+export const filter: Filterable_<ReadonlyRecordF>['filter'] = <A>(
   predicate: Predicate<A>
 ): ((r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) => filterWithIndex((_, a) => predicate(a))
 
@@ -501,13 +436,13 @@ export const filter: Filterable1<URI>['filter'] = <A>(
  * @category Filterable
  * @since 3.0.0
  */
-export const filterMap: Filterable1<URI>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
+export const filterMap: Filterable_<ReadonlyRecordF>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable1<URI>['partition'] = <A>(
+export const partition: Filterable_<ReadonlyRecordF>['partition'] = <A>(
   predicate: Predicate<A>
 ): ((r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
   partitionWithIndex((_, a) => predicate(a))
@@ -516,7 +451,7 @@ export const partition: Filterable1<URI>['partition'] = <A>(
  * @category Filterable
  * @since 3.0.0
  */
-export const partitionMap: Filterable1<URI>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
+export const partitionMap: Filterable_<ReadonlyRecordF>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @since 3.0.0
@@ -554,7 +489,7 @@ export const reduceRight = (
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: Compactable1<URI>['compact'] = <A>(
+export const compact: Compactable_<ReadonlyRecordF>['compact'] = <A>(
   r: ReadonlyRecord<string, Option<A>>
 ): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
@@ -573,7 +508,7 @@ export const compact: Compactable1<URI>['compact'] = <A>(
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable1<URI>['separate'] = <A, B>(
+export const separate: Compactable_<ReadonlyRecordF>['separate'] = <A, B>(
   r: ReadonlyRecord<string, Either<A, B>>
 ): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>> => {
   const left: Record<string, A> = {}
@@ -599,12 +534,8 @@ export const separate: Compactable1<URI>['separate'] = <A, B>(
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReadonlyRecord'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly ReadonlyRecord: ReadonlyRecord<string, A>
-  }
+export interface ReadonlyRecordF extends HKT {
+  readonly type: ReadonlyRecord<string, this['A']>
 }
 
 /**
@@ -673,7 +604,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<ReadonlyRecord<string, A>>
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
+export const Functor: Functor_<ReadonlyRecordF> = {
   map
 }
 
@@ -691,7 +622,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
+export const FunctorWithIndex: FunctorWithIndex_<ReadonlyRecordF, string> = {
   mapWithIndex
 }
 
@@ -699,7 +630,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, string> = {
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
+export const getFoldable = (O: Ord<string>): Foldable<ReadonlyRecordF> => ({
   reduce: reduce(O),
   foldMap: foldMap(O),
   reduceRight: reduceRight(O)
@@ -709,7 +640,7 @@ export const getFoldable = (O: Ord<string>): Foldable1<URI> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, string> => ({
+export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex_<ReadonlyRecordF, string> => ({
   reduceWithIndex: reduceWithIndex(O),
   foldMapWithIndex: foldMapWithIndex(O),
   reduceRightWithIndex: reduceRightWithIndex(O)
@@ -719,7 +650,7 @@ export const getFoldableWithIndex = (O: Ord<string>): FoldableWithIndex1<URI, st
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: Compactable1<URI> = {
+export const Compactable: Compactable_<ReadonlyRecordF> = {
   compact,
   separate
 }
@@ -728,7 +659,7 @@ export const Compactable: Compactable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: Filterable1<URI> = {
+export const Filterable: Filterable_<ReadonlyRecordF> = {
   filter,
   filterMap,
   partition,
@@ -739,7 +670,7 @@ export const Filterable: Filterable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
+export const FilterableWithIndex: FilterableWithIndex_<ReadonlyRecordF, string> = {
   filterMapWithIndex,
   filterWithIndex,
   partitionMapWithIndex,
@@ -750,7 +681,7 @@ export const FilterableWithIndex: FilterableWithIndex1<URI, string> = {
  * @category instances
  * @since 3.0.0
  */
-export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
+export const getTraversable = (O: Ord<string>): Traversable_<ReadonlyRecordF> => ({
   map,
   traverse: traverse(O)
 })
@@ -759,7 +690,7 @@ export const getTraversable = (O: Ord<string>): Traversable1<URI> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<URI, string> => ({
+export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex_<ReadonlyRecordF, string> => ({
   traverseWithIndex: traverseWithIndex(O)
 })
 
@@ -767,19 +698,21 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex1<U
  * @category Witherable
  * @since 3.0.0
  */
-export const wither = (O: Ord<string>): Witherable1<URI>['wither'] => witherDefault(getTraversable(O), Compactable)
+export const wither = (O: Ord<string>): Witherable_<ReadonlyRecordF>['wither'] =>
+  witherDefault(getTraversable(O), Compactable)
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
-export const wilt = (O: Ord<string>): Witherable1<URI>['wilt'] => wiltDefault(getTraversable(O), Compactable)
+export const wilt = (O: Ord<string>): Witherable_<ReadonlyRecordF>['wilt'] =>
+  wiltDefault(getTraversable(O), Compactable)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = (O: Ord<string>): Witherable1<URI> => ({
+export const getWitherable = (O: Ord<string>): Witherable_<ReadonlyRecordF> => ({
   wither: wither(O),
   wilt: wilt(O)
 })
@@ -886,13 +819,9 @@ export const toReadonlyArray = (
  */
 export function toUnfoldable(
   O: Ord<string>
-): {
-  <F extends URIS>(U: Unfoldable1<F>): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
-  <F>(U: Unfoldable<F>): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
-}
-export function toUnfoldable(
-  O: Ord<string>
-): <F>(U: Unfoldable<F>) => <A>(r: ReadonlyRecord<string, A>) => HKT<F, readonly [string, A]> {
+): <F extends HKT>(
+  U: Unfoldable_<F>
+) => <K extends string, A, S, R, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, E, readonly [K, A]> {
   const toReadonlyArrayO = toReadonlyArray(O)
   return (U) => (r) => {
     const as = toReadonlyArrayO(r)

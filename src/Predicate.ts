@@ -1,8 +1,9 @@
 /**
  * @since 3.0.0
  */
-import type { Contravariant1 } from './Contravariant'
+import type { Contravariant as Contravariant_ } from './Contravariant'
 import { constFalse, constTrue, flow } from './function'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
@@ -25,7 +26,7 @@ export interface Predicate<A> {
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant1<URI>['contramap'] = (f) => (predicate) => flow(f, predicate)
+export const contramap: Contravariant_<PredicateF>['contramap'] = (f) => (predicate) => flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -35,12 +36,8 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (predicate) =>
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Predicate'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Predicate: Predicate<A>
-  }
+export interface PredicateF extends HKT {
+  readonly type: Predicate<this['A']>
 }
 
 /**
@@ -81,7 +78,7 @@ export const getMonoidAll = <A = never>(): Monoid<Predicate<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant1<URI> = {
+export const Contravariant: Contravariant_<PredicateF> = {
   contramap
 }
 

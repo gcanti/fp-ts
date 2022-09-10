@@ -9,10 +9,11 @@
  *
  * @since 3.0.0
  */
-import type { Contravariant1 } from './Contravariant'
+import type { Contravariant as Contravariant_ } from './Contravariant'
 import type { Endomorphism } from './Endomorphism'
 import type { Eq } from './Eq'
 import { flow } from './function'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ordering } from './Ordering'
 import type { Predicate } from './Predicate'
@@ -121,7 +122,7 @@ export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
+export const contramap: Contravariant_<OrdF>['contramap'] = (f) => (fa) =>
   fromCompare((second) => (first) => fa.compare(f(second))(f(first)))
 
 // -------------------------------------------------------------------------------------
@@ -132,12 +133,8 @@ export const contramap: Contravariant1<URI>['contramap'] = (f) => (fa) =>
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Ord'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Ord: Ord<A>
-  }
+export interface OrdF extends HKT {
+  readonly type: Ord<this['A']>
 }
 
 /**
@@ -232,7 +229,7 @@ export const getMonoid = <A = never>(): Monoid<Ord<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant1<URI> = {
+export const Contravariant: Contravariant_<OrdF> = {
   contramap
 }
 

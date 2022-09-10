@@ -1,8 +1,9 @@
 /**
  * @since 3.0.0
  */
-import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
-import { flap as flap_, Functor2 } from './Functor'
+import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
+import { flap as flap_, Functor as Functor_ } from './Functor'
+import { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -36,7 +37,7 @@ export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, 
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(left(fa)), g(right(fa)))
+export const bimap: Bifunctor_<SeparatedF>['bimap'] = (f, g) => (fa) => separated(f(left(fa)), g(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -44,9 +45,9 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) => separated(f(lef
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<SeparatedF>['mapLeft'] =
   /*#__PURE__*/
-  mapLeftDefault<URI>(bimap)
+  mapLeftDefault<SeparatedF>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -56,19 +57,15 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Separated'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Separated: Separated<E, A>
-  }
+export interface SeparatedF extends HKT {
+  readonly type: Separated<this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor_<SeparatedF> = {
   bimap,
   mapLeft
 }
@@ -80,15 +77,15 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<SeparatedF>['map'] =
   /*#__PURE__*/
-  mapDefault<URI>(Bifunctor)
+  mapDefault<SeparatedF>(Bifunctor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<SeparatedF> = {
   map
 }
 

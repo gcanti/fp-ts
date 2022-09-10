@@ -1,29 +1,30 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative2C } from './Applicative'
-import type { Apply1, Apply2C } from './Apply'
-import type { Bifunctor2 } from './Bifunctor'
-import type { Chain2C } from './Chain'
+import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
+import type { Bifunctor as Bifunctor_ } from './Bifunctor'
+import type { Chain } from './Chain'
 import {
-  FromEither2,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { FromIO2, fromIOK as fromIOK_ } from './FromIO'
-import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
-import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
+import { FromIO as FromIO_, fromIOK as fromIOK_ } from './FromIO'
+import { FromTask as FromTask_, fromTaskK as fromTaskK_ } from './FromTask'
+import { FromThese as FromThese_, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow, SK } from './function'
-import { flap as flap_, Functor2 } from './Functor'
+import { flap as flap_, Functor as Functor_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { URI as IEURI } from './IOEither'
-import type { Monad2C } from './Monad'
-import { NaturalTransformation22 } from './NaturalTransformation'
+import type { IOEitherF } from './IOEither'
+import type { Monad } from './Monad'
+import { NaturalTransformation } from './NaturalTransformation'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed2 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import * as T from './Task'
@@ -103,33 +104,33 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskThese<E, A> =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: NaturalTransformation22<IEURI, URI> =
+export const fromIOEither: NaturalTransformation<IOEitherF, TaskTheseF> =
   /*#__PURE__*/
-  T.fromIO
+  T.fromIO as any // TODO
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
+export const fromEither: FromEither_<TaskTheseF>['fromEither'] = T.of
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromThese: FromThese2<URI>['fromThese'] = T.of
+export const fromThese: FromThese_<TaskTheseF>['fromThese'] = T.of
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO_<TaskTheseF>['fromIO'] = rightIO
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+export const fromTask: FromTask_<TaskTheseF>['fromTask'] = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -198,7 +199,7 @@ export const swap =
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<TaskTheseF>['map'] =
   /*#__PURE__*/
   TT.map(T.Functor)
 
@@ -208,7 +209,7 @@ export const map: Functor2<URI>['map'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] =
+export const bimap: Bifunctor_<TaskTheseF>['bimap'] =
   /*#__PURE__*/
   TT.bimap(T.Functor)
 
@@ -218,7 +219,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<TaskTheseF>['mapLeft'] =
   /*#__PURE__*/
   TT.mapLeft(T.Functor)
 
@@ -236,19 +237,23 @@ export const of: <A, E = never>(a: A) => TaskThese<E, A> = right
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'TaskThese'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly TaskThese: TaskThese<E, A>
-  }
+export interface TaskTheseF extends HKT {
+  readonly type: TaskThese<this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> => ({
+export interface TaskTheseFE<E> extends HKT {
+  readonly type: TaskThese<E, this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getApply = <E>(A: Apply<T.TaskF>, S: Semigroup<E>): Apply<TaskTheseFE<E>> => ({
   map,
   ap: TT.ap(A, S)
 })
@@ -257,7 +262,7 @@ export const getApply = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Apply2C<URI, E> 
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative2C<URI, E> => {
+export const getApplicative = <E>(A: Apply<T.TaskF>, S: Semigroup<E>): Applicative<TaskTheseFE<E>> => {
   const AS = getApply(A, S)
   return {
     map,
@@ -270,7 +275,7 @@ export const getApplicative = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicativ
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <E>(S: Semigroup<E>): Chain2C<URI, E> => ({
+export const getChain = <E>(S: Semigroup<E>): Chain<TaskTheseFE<E>> => ({
   map,
   chain: TT.chain(T.Monad, S)
 })
@@ -279,7 +284,7 @@ export const getChain = <E>(S: Semigroup<E>): Chain2C<URI, E> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<TaskTheseFE<E>> => {
   const C = getChain(S)
   return {
     map,
@@ -292,7 +297,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<TaskTheseF> = {
   map
 }
 
@@ -310,7 +315,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<TaskTheseF> = {
   of
 }
 
@@ -318,7 +323,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor_<TaskTheseF> = {
   bimap,
   mapLeft
 }
@@ -327,7 +332,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither2<URI> = {
+export const FromEither: FromEither_<TaskTheseF> = {
   fromEither
 }
 
@@ -371,7 +376,7 @@ export const fromEitherK =
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: FromThese2<URI> = {
+export const FromThese: FromThese_<TaskTheseF> = {
   fromThese
 }
 
@@ -387,7 +392,7 @@ export const fromTheseK =
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO2<URI> = {
+export const FromIO: FromIO_<TaskTheseF> = {
   fromIO
 }
 
@@ -403,7 +408,7 @@ export const fromIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask2<URI> = {
+export const FromTask: FromTask_<TaskTheseF> = {
   fromIO,
   fromTask
 }

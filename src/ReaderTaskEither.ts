@@ -1,60 +1,65 @@
 /**
  * @since 3.0.0
  */
-import type { Alt3, Alt3C } from './Alt'
-import type { Applicative3, Applicative3C } from './Applicative'
+import type { Alt as Alt_ } from './Alt'
+import type { Applicative as Applicative_ } from './Applicative'
 import {
   ap as ap_,
   apFirst as apFirst_,
-  Apply1,
-  Apply3,
+  Apply as Apply_,
   apS as apS_,
   apSecond as apSecond_,
   apT as apT_
 } from './Apply'
-import type { Bifunctor3 } from './Bifunctor'
-import { ap as apSeq_, bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
+import type { Bifunctor as Bifunctor_ } from './Bifunctor'
+import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable as Compactable_, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { filter, Filterable3C, filterMap, partition, partitionMap } from './Filterable'
+import { filter, Filterable as Filterable_, filterMap, partition, partitionMap } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
-  FromEither3,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO3, fromIOK as fromIOK_ } from './FromIO'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
   chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
-  FromReader3,
+  FromReader as FromReader_,
   fromReaderK as fromReaderK_
 } from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
-  FromTask3,
+  FromTask as FromTask_,
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { IOEither, URI as IEURI } from './IOEither'
-import type { Monad3 } from './Monad'
+import type { IOEither, IOEitherF } from './IOEither'
+import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
-import { NaturalTransformation23, NaturalTransformation33 } from './NaturalTransformation'
-import type { Pointed3 } from './Pointed'
+import { NaturalTransformation } from './NaturalTransformation'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
-import type { ReaderEither, URI as REURI } from './ReaderEither'
+import type { ReaderEither, ReaderEitherF } from './ReaderEither'
 import * as RT from './ReaderTask'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -88,7 +93,7 @@ export interface ReaderTaskEither<R, E, A> {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskEither: NaturalTransformation23<TE.URI, URI> =
+export const fromTaskEither: NaturalTransformation<TE.TaskEitherF, ReaderTaskEitherF> =
   /*#__PURE__*/
   R.of
 
@@ -194,31 +199,31 @@ export const asksReaderTaskEither: <R, E, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] = RT.of
+export const fromEither: FromEither_<ReaderTaskEitherF>['fromEither'] = RT.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: FromReader3<URI>['fromReader'] = rightReader
+export const fromReader: FromReader_<ReaderTaskEitherF>['fromReader'] = rightReader
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO3<URI>['fromIO'] = rightIO
+export const fromIO: FromIO_<ReaderTaskEitherF>['fromIO'] = rightIO
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: FromTask3<URI>['fromTask'] = rightTask
+export const fromTask: FromTask_<ReaderTaskEitherF>['fromTask'] = rightTask
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: NaturalTransformation23<IEURI, URI> =
+export const fromIOEither: NaturalTransformation<IOEitherF, ReaderTaskEitherF> =
   /*#__PURE__*/
   flow(TE.fromIOEither, fromTaskEither)
 
@@ -226,7 +231,7 @@ export const fromIOEither: NaturalTransformation23<IEURI, URI> =
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderEither: NaturalTransformation33<REURI, URI> = (ma) => flow(ma, TE.fromEither)
+export const fromReaderEither: NaturalTransformation<ReaderEitherF, ReaderTaskEitherF> = (ma) => flow(ma, TE.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -552,7 +557,7 @@ export const chainFirstReaderEitherK: <A, R, E, B>(
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor3<URI>['map'] =
+export const map: Functor_<ReaderTaskEitherF>['map'] =
   /*#__PURE__*/
   ET.map(RT.Functor)
 
@@ -562,7 +567,7 @@ export const map: Functor3<URI>['map'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor3<URI>['bimap'] =
+export const bimap: Bifunctor_<ReaderTaskEitherF>['bimap'] =
   /*#__PURE__*/
   ET.bimap(RT.Functor)
 
@@ -572,7 +577,7 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor3<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<ReaderTaskEitherF>['mapLeft'] =
   /*#__PURE__*/
   ET.mapLeft(RT.Functor)
 
@@ -582,7 +587,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply3<URI>['ap'] =
+export const ap: Apply_<ReaderTaskEitherF>['ap'] =
   /*#__PURE__*/
   ET.ap(RT.ApplyPar)
 
@@ -608,7 +613,7 @@ export const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain3<URI>['chain'] =
+export const chain: Chain_<ReaderTaskEitherF>['chain'] =
   /*#__PURE__*/
   ET.chain(RT.Monad)
 
@@ -651,7 +656,7 @@ export const flatten: <R, E, A>(
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt3<URI>['alt'] =
+export const alt: Alt_<ReaderTaskEitherF>['alt'] =
   /*#__PURE__*/
   ET.alt(RT.Monad)
 
@@ -673,12 +678,16 @@ export const altW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReaderTaskEither'
+export interface ReaderTaskEitherF extends HKT {
+  readonly type: ReaderTaskEither<this['R'], this['E'], this['A']>
+}
 
-declare module './HKT' {
-  interface URItoKind3<R, E, A> {
-    readonly ReaderTaskEither: ReaderTaskEither<R, E, A>
-  }
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export interface ReaderTaskEitherFE<E> extends HKT {
+  readonly type: ReaderTaskEither<this['R'], E, this['A']>
 }
 
 /**
@@ -690,7 +699,10 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semigroup<E>): Applicative3C<URI, E> => ({
+export const getApplicativeReaderTaskValidation = <E>(
+  A: Apply_<T.TaskF>,
+  S: Semigroup<E>
+): Applicative_<ReaderTaskEitherFE<E>> => ({
   map,
   ap: ap_(R.Apply, TE.getApplicativeTaskValidation(A, S)),
   of
@@ -705,7 +717,7 @@ export const getApplicativeReaderTaskValidation = <E>(A: Apply1<T.URI>, S: Semig
  * @category instances
  * @since 3.0.0
  */
-export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
+export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt_<ReaderTaskEitherFE<E>> => {
   return {
     map,
     alt: ET.altValidation(RT.Monad, S)
@@ -716,11 +728,11 @@ export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> =>
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable_<ReaderTaskEitherFE<E>> => {
   const C = E.getCompactable(M)
   return {
     compact: compact_(RT.Functor, C),
-    separate: separate_(RT.Functor, C, E.Functor)
+    separate: separate_(RT.Functor, C as any, E.Functor) // TODO
   }
 }
 
@@ -728,7 +740,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable_<ReaderTaskEitherFE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(RT.Functor, F),
@@ -742,7 +754,7 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor3<URI> = {
+export const Functor: Functor_<ReaderTaskEitherF> = {
   map
 }
 
@@ -760,7 +772,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed3<URI> = {
+export const Pointed: Pointed_<ReaderTaskEitherF> = {
   of
 }
 
@@ -768,7 +780,7 @@ export const Pointed: Pointed3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply3<URI> = {
+export const ApplyPar: Apply_<ReaderTaskEitherF> = {
   map,
   ap
 }
@@ -821,7 +833,7 @@ export const apSecondW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative3<URI> = {
+export const ApplicativePar: Applicative_<ReaderTaskEitherF> = {
   map,
   ap,
   of
@@ -831,7 +843,7 @@ export const ApplicativePar: Applicative3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain3<URI> = {
+export const Chain: Chain_<ReaderTaskEitherF> = {
   map,
   chain
 }
@@ -844,7 +856,7 @@ const apSeq =
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply3<URI> = {
+export const ApplySeq: Apply_<ReaderTaskEitherF> = {
   map,
   ap: apSeq
 }
@@ -853,7 +865,7 @@ export const ApplySeq: Apply3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative3<URI> = {
+export const ApplicativeSeq: Applicative_<ReaderTaskEitherF> = {
   map,
   ap: apSeq,
   of
@@ -886,7 +898,7 @@ export const chainFirstW: <A, R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad3<URI> = {
+export const Monad: Monad_<ReaderTaskEitherF> = {
   map,
   of,
   chain
@@ -896,7 +908,7 @@ export const Monad: Monad3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO3<URI> = {
+export const FromIO: FromIO_<ReaderTaskEitherF> = {
   fromIO
 }
 
@@ -928,7 +940,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask3<URI> = {
+export const FromTask: FromTask_<ReaderTaskEitherF> = {
   fromIO,
   fromTask
 }
@@ -961,7 +973,7 @@ export const chainFirstTaskK =
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader3<URI> = {
+export const FromReader: FromReader_<ReaderTaskEitherF> = {
   fromReader
 }
 
@@ -1085,7 +1097,7 @@ export const chainFirstReaderTaskK: <A, R, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither3<URI> = {
+export const FromEither: FromEither_<ReaderTaskEitherF> = {
   fromEither
 }
 
@@ -1199,7 +1211,7 @@ export const fromEitherK =
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor3<URI> = {
+export const Bifunctor: Bifunctor_<ReaderTaskEitherF> = {
   bimap,
   mapLeft
 }
@@ -1208,7 +1220,7 @@ export const Bifunctor: Bifunctor3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt3<URI> = {
+export const Alt: Alt_<ReaderTaskEitherF> = {
   map,
   alt
 }

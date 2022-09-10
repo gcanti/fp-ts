@@ -19,33 +19,33 @@
  *
  * @since 3.0.0
  */
-import type { Applicative, Applicative2C } from './Applicative'
-import type { Apply2C } from './Apply'
-import { Bifunctor2, mapDefault, mapLeftDefault } from './Bifunctor'
-import type { Chain2C } from './Chain'
+import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
+import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
+import type { Chain } from './Chain'
 import { Either, Left, Right } from './Either'
 import { Eq, fromEquals } from './Eq'
-import type { Foldable2 } from './Foldable'
+import type { Foldable as Foldable_ } from './Foldable'
 import {
-  FromEither2,
+  FromEither as FromEither_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_
 } from './FromEither'
-import type { FromThese2 } from './FromThese'
+import type { FromThese as FromThese_ } from './FromThese'
 import { identity, Lazy, pipe } from './function'
-import { flap as flap_, Functor2 } from './Functor'
+import { flap as flap_, Functor as Functor_ } from './Functor'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad2C } from './Monad'
+import type { Monad } from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
-import type { Pointed2 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
-import type { Traversable2 } from './Traversable'
+import type { Traversable as Traversable_ } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -222,7 +222,7 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) =>
+export const bimap: Bifunctor_<TheseF>['bimap'] = (f, g) => (fa) =>
   isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 
 /**
@@ -231,34 +231,32 @@ export const bimap: Bifunctor2<URI>['bimap'] = (f, g) => (fa) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<TheseF>['mapLeft'] =
   /*#__PURE__*/
-  mapLeftDefault<URI>(bimap)
+  mapLeftDefault<TheseF>(bimap)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
+export const reduce: Foldable_<TheseF>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable2<URI>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
+export const foldMap: Foldable_<TheseF>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
+export const reduceRight: Foldable_<TheseF>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable2<URI>['traverse'] = <F>(
-  F: Applicative<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => <E>(ta: These<E, A>) => HKT<F, These<E, B>>) => (f) => (ta) =>
+export const traverse: Traversable_<TheseF>['traverse'] = (F) => (f) => (ta) =>
   isLeft(ta)
     ? F.of(ta)
     : isRight(ta)
@@ -282,12 +280,16 @@ export const of: <A, E = never>(right: A) => These<E, A> = right
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'These'
+export interface TheseF extends HKT {
+  readonly type: These<this['E'], this['A']>
+}
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly These: These<E, A>
-  }
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export interface TheseFE<E> extends HKT {
+  readonly type: These<E, this['A']>
 }
 
 /**
@@ -344,7 +346,7 @@ export const getSemigroup = <E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigrou
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor_<TheseF> = {
   bimap,
   mapLeft
 }
@@ -356,15 +358,15 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<TheseF>['map'] =
   /*#__PURE__*/
-  mapDefault<URI>(Bifunctor)
+  mapDefault<TheseF>(Bifunctor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<TheseF> = {
   map
 }
 
@@ -382,7 +384,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<TheseF> = {
   of
 }
 
@@ -390,7 +392,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<TheseFE<E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -416,7 +418,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply2C<URI, E> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
+export const getApplicative = <E>(S: Semigroup<E>): Applicative<TheseFE<E>> => {
   const A = getApply(S)
   return {
     map,
@@ -429,7 +431,7 @@ export const getApplicative = <E>(S: Semigroup<E>): Applicative2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <E>(S: Semigroup<E>): Chain2C<URI, E> => {
+export const getChain = <E>(S: Semigroup<E>): Chain<TheseFE<E>> => {
   const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -455,7 +457,7 @@ export const getChain = <E>(S: Semigroup<E>): Chain2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFE<E>> => {
   const C = getChain(S)
   return {
     map,
@@ -468,7 +470,7 @@ export const getMonad = <E>(S: Semigroup<E>): Monad2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither2<URI> = {
+export const FromEither: FromEither_<TheseF> = {
   fromEither: identity
 }
 
@@ -504,7 +506,7 @@ export const fromPredicate =
  * @category instances
  * @since 3.0.0
  */
-export const FromThese: FromThese2<URI> = {
+export const FromThese: FromThese_<TheseF> = {
   fromThese: identity
 }
 
@@ -512,7 +514,7 @@ export const FromThese: FromThese2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable2<URI> = {
+export const Foldable: Foldable_<TheseF> = {
   reduce,
   foldMap,
   reduceRight
@@ -522,7 +524,7 @@ export const Foldable: Foldable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable2<URI> = {
+export const Traversable: Traversable_<TheseF> = {
   map,
   traverse
 }

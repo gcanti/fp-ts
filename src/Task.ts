@@ -11,18 +11,24 @@
  *
  * @since 3.0.0
  */
-import type { Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { ap as apSeq_, bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
-import type { FromTask1 } from './FromTask'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
+import type { FromTask as FromTask_ } from './FromTask'
 import { identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad1 } from './Monad'
+import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed1 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -45,7 +51,7 @@ export interface Task<A> {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: FromIO_<TaskF>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -97,7 +103,7 @@ export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => () => Promise.resolve().then(fa).then(f)
+export const map: Functor_<TaskF>['map'] = (f) => (fa) => () => Promise.resolve().then(fa).then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -105,14 +111,14 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => () => Promise.resolve().
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () =>
+export const ap: Apply_<TaskF>['ap'] = (fa) => (fab) => () =>
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
+export const of: Pointed_<TaskF>['of'] = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -120,7 +126,7 @@ export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = (f) => (ma) => () =>
+export const chain: Chain_<TaskF>['chain'] = (f) => (ma) => () =>
   Promise.resolve()
     .then(ma)
     .then((a) => f(a)())
@@ -143,12 +149,8 @@ export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Task'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Task: Task<A>
-  }
+export interface TaskF extends HKT {
+  readonly type: Task<this['A']>
 }
 
 /**
@@ -181,7 +183,7 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
+export const Functor: Functor_<TaskF> = {
   map
 }
 
@@ -199,7 +201,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed1<URI> = {
+export const Pointed: Pointed_<TaskF> = {
   of
 }
 
@@ -207,7 +209,7 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply1<URI> = {
+export const ApplyPar: Apply_<TaskF> = {
   map,
   ap
 }
@@ -240,7 +242,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative1<URI> = {
+export const ApplicativePar: Applicative_<TaskF> = {
   map,
   ap,
   of
@@ -250,7 +252,7 @@ export const ApplicativePar: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: Chain_<TaskF> = {
   map,
   chain
 }
@@ -263,7 +265,7 @@ const apSeq =
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply1<URI> = {
+export const ApplySeq: Apply_<TaskF> = {
   map,
   ap: apSeq
 }
@@ -272,7 +274,7 @@ export const ApplySeq: Apply1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative1<URI> = {
+export const ApplicativeSeq: Applicative_<TaskF> = {
   map,
   ap: apSeq,
   of
@@ -295,7 +297,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad1<URI> = {
+export const Monad: Monad_<TaskF> = {
   map,
   of,
   chain
@@ -305,7 +307,7 @@ export const Monad: Monad1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO1<URI> = {
+export const FromIO: FromIO_<TaskF> = {
   fromIO
 }
 
@@ -337,7 +339,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask1<URI> = {
+export const FromTask: FromTask_<TaskF> = {
   fromIO,
   fromTask: identity
 }

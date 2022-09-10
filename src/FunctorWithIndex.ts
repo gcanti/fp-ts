@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -22,67 +22,9 @@ import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from '
  * @category type classes
  * @since 3.0.0
  */
-export interface FunctorWithIndex<F, I> {
-  readonly URI?: F
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
 }
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex1<F extends URIS, I> {
-  readonly URI?: F
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex2<F extends URIS2, I> {
-  readonly URI?: F
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex2C<F extends URIS2, I, E> {
-  readonly URI?: F
-  readonly _E?: E
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex3<F extends URIS3, I> {
-  readonly URI?: F
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex3C<F extends URIS3, I, E> {
-  readonly URI?: F
-  readonly _E?: E
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface FunctorWithIndex4<F extends URIS4, I> {
-  readonly URI?: F
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
-}
-
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------
@@ -93,18 +35,10 @@ export interface FunctorWithIndex4<F extends URIS4, I> {
  * @category combinators
  * @since 3.0.0
  */
-export function mapWithIndex<F extends URIS, I, G extends URIS, J>(
-  F: FunctorWithIndex1<F, I>,
-  G: FunctorWithIndex1<G, J>
-): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export function mapWithIndex<F, I, G, J>(
+export function mapWithIndex<F extends HKT, I, G extends HKT, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
-): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-export function mapWithIndex<F, I, G, J>(
-  F: FunctorWithIndex<F, I>,
-  G: FunctorWithIndex<G, J>
-): <A, B>(f: (ij: readonly [I, J], a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
+): FunctorWithIndex<ComposeF<F, G>, [I, J]>['mapWithIndex'] {
   return (f) =>
     F.mapWithIndex((i, ga) =>
       pipe(

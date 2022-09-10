@@ -1,36 +1,41 @@
 /**
  * @since 3.0.0
  */
-import type { Alt4 } from './Alt'
-import type { Applicative4 } from './Applicative'
-import { apFirst as apFirst_, Apply4, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { Bifunctor4, mapLeftDefault } from './Bifunctor'
-import { bind as bind_, Chain4, chainFirst as chainFirst_ } from './Chain'
+import type { Alt as Alt_ } from './Alt'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { Bifunctor as Bifunctor_, mapLeftDefault } from './Bifunctor'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import * as E from './Either'
 import type { Endomorphism } from './Endomorphism'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
-  FromEither4,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_,
   chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO4, fromIOK as fromIOK_ } from './FromIO'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
   chainFirstReaderK as chainFirstReaderK_,
   chainReaderK as chainReaderK_,
-  FromReader4,
+  FromReader as FromReader_,
   fromReaderK as fromReaderK_
 } from './FromReader'
 import {
   chainStateK as chainStateK_,
-  FromState4,
+  FromState as FromState_,
   fromStateK as fromStateK_,
   get as get_,
   gets as gets_,
@@ -40,28 +45,29 @@ import {
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
-  FromTask4,
+  FromTask as FromTask_,
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor4, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
-import type { IOEither, URI as IEURI } from './IOEither'
-import type { Monad4 } from './Monad'
-import { NaturalTransformation24, NaturalTransformation34 } from './NaturalTransformation'
+import type { IOEither, IOEitherF } from './IOEither'
+import type { Monad as Monad_ } from './Monad'
+import { NaturalTransformation } from './NaturalTransformation'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed4 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
-import type { URI as REURI } from './ReaderEither'
+import type { ReaderEitherF } from './ReaderEither'
 import * as RTE from './ReaderTaskEither'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { State } from './State'
 import * as ST from './StateT'
 import type { Task } from './Task'
-import type { TaskEither, URI as TEURI } from './TaskEither'
+import type { TaskEither, TaskEitherF } from './TaskEither'
 
 import Either = E.Either
 import Reader = R.Reader
@@ -180,7 +186,7 @@ export const asksStateReaderTaskEither: <R, S, E, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither4<URI>['fromEither'] =
+export const fromEither: FromEither_<StateReaderTaskEitherF>['fromEither'] =
   /*#__PURE__*/
   E.match((e) => left(e), right)
 
@@ -188,25 +194,25 @@ export const fromEither: FromEither4<URI>['fromEither'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: FromReader4<URI>['fromReader'] = rightReader
+export const fromReader: FromReader_<StateReaderTaskEitherF>['fromReader'] = rightReader
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO4<URI>['fromIO'] = rightIO
+export const fromIO: FromIO_<StateReaderTaskEitherF>['fromIO'] = rightIO
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: FromTask4<URI>['fromTask'] = rightTask
+export const fromTask: FromTask_<StateReaderTaskEitherF>['fromTask'] = rightTask
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromState: FromState4<URI>['fromState'] =
+export const fromState: FromState_<StateReaderTaskEitherF>['fromState'] =
   /*#__PURE__*/
   ST.fromState(RTE.Pointed)
 
@@ -214,26 +220,28 @@ export const fromState: FromState4<URI>['fromState'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskEither: NaturalTransformation24<TEURI, URI> = (ma) => fromReaderTaskEither(RTE.fromTaskEither(ma))
+export const fromTaskEither: NaturalTransformation<TaskEitherF, StateReaderTaskEitherF> = (ma) =>
+  fromReaderTaskEither(RTE.fromTaskEither(ma))
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: NaturalTransformation24<IEURI, URI> = (ma) => fromReaderTaskEither(RTE.fromIOEither(ma))
+export const fromIOEither: NaturalTransformation<IOEitherF, StateReaderTaskEitherF> = (ma) =>
+  fromReaderTaskEither(RTE.fromIOEither(ma))
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReaderEither: NaturalTransformation34<REURI, URI> = (ma) =>
+export const fromReaderEither: NaturalTransformation<ReaderEitherF, StateReaderTaskEitherF> = (ma) =>
   fromReaderTaskEither(RTE.fromReaderEither(ma))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromReaderTaskEither: NaturalTransformation34<RTE.URI, URI> =
+export const fromReaderTaskEither: NaturalTransformation<RTE.ReaderTaskEitherF, StateReaderTaskEitherF> =
   /*#__PURE__*/
   ST.fromF(RTE.Functor)
 
@@ -341,7 +349,7 @@ export const chainReaderTaskEitherK: <A, R, E, B>(
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor4<URI>['map'] =
+export const map: Functor_<StateReaderTaskEitherF>['map'] =
   /*#__PURE__*/
   ST.map(RTE.Functor)
 
@@ -351,7 +359,7 @@ export const map: Functor4<URI>['map'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor4<URI>['bimap'] = (f, g) => (fea) => (s) =>
+export const bimap: Bifunctor_<StateReaderTaskEitherF>['bimap'] = (f, g) => (fea) => (s) =>
   pipe(
     fea(s),
     RTE.bimap(f, ([a, s]) => [g(a), s])
@@ -363,9 +371,9 @@ export const bimap: Bifunctor4<URI>['bimap'] = (f, g) => (fea) => (s) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor4<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<StateReaderTaskEitherF>['mapLeft'] =
   /*#__PURE__*/
-  mapLeftDefault<URI>(bimap)
+  mapLeftDefault<StateReaderTaskEitherF>(bimap)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -373,9 +381,9 @@ export const mapLeft: Bifunctor4<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply4<URI>['ap'] =
+export const ap: Apply_<StateReaderTaskEitherF>['ap'] =
   /*#__PURE__*/
-  ST.ap(RTE.Monad)
+  ST.ap(RTE.Monad) as any // TODO
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -401,7 +409,7 @@ export const of: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain4<URI>['chain'] =
+export const chain: Chain_<StateReaderTaskEitherF>['chain'] =
   /*#__PURE__*/
   ST.chain(RTE.Monad)
 
@@ -458,7 +466,7 @@ export const altW = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt4<URI>['alt'] = altW
+export const alt: Alt_<StateReaderTaskEitherF>['alt'] = altW
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -468,19 +476,15 @@ export const alt: Alt4<URI>['alt'] = altW
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'StateReaderTaskEither'
-
-declare module './HKT' {
-  interface URItoKind4<S, R, E, A> {
-    readonly StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>
-  }
+export interface StateReaderTaskEitherF extends HKT {
+  readonly type: StateReaderTaskEither<this['S'], this['R'], this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor4<URI> = {
+export const Functor: Functor_<StateReaderTaskEitherF> = {
   map
 }
 
@@ -498,7 +502,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed4<URI> = {
+export const Pointed: Pointed_<StateReaderTaskEitherF> = {
   of
 }
 
@@ -506,7 +510,7 @@ export const Pointed: Pointed4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply4<URI> = {
+export const Apply: Apply_<StateReaderTaskEitherF> = {
   map,
   ap
 }
@@ -563,7 +567,7 @@ export const apSecondW: <S, R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative4<URI> = {
+export const Applicative: Applicative_<StateReaderTaskEitherF> = {
   map,
   ap,
   of
@@ -573,7 +577,7 @@ export const Applicative: Applicative4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor4<URI> = {
+export const Bifunctor: Bifunctor_<StateReaderTaskEitherF> = {
   bimap,
   mapLeft
 }
@@ -582,7 +586,7 @@ export const Bifunctor: Bifunctor4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt4<URI> = {
+export const Alt: Alt_<StateReaderTaskEitherF> = {
   map,
   alt
 }
@@ -591,7 +595,7 @@ export const Alt: Alt4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain4<URI> = {
+export const Chain: Chain_<StateReaderTaskEitherF> = {
   map,
   chain
 }
@@ -600,7 +604,7 @@ export const Chain: Chain4<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromState: FromState4<URI> = {
+export const FromState: FromState_<StateReaderTaskEitherF> = {
   fromState
 }
 
@@ -668,7 +672,7 @@ export const chainStateK: <A, S, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad4<URI> = {
+export const Monad: Monad_<StateReaderTaskEitherF> = {
   map,
   of,
   chain
@@ -703,7 +707,7 @@ export const chainFirstW: <A, S, R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO4<URI> = {
+export const FromIO: FromIO_<StateReaderTaskEitherF> = {
   fromIO
 }
 
@@ -735,7 +739,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask4<URI> = {
+export const FromTask: FromTask_<StateReaderTaskEitherF> = {
   fromIO,
   fromTask
 }
@@ -768,7 +772,7 @@ export const chainFirstTaskK =
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader4<URI> = {
+export const FromReader: FromReader_<StateReaderTaskEitherF> = {
   fromReader
 }
 
@@ -850,7 +854,7 @@ export const chainFirstReaderKW: <A, R1, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither4<URI> = {
+export const FromEither: FromEither_<StateReaderTaskEitherF> = {
   fromEither
 }
 

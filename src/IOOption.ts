@@ -6,45 +6,51 @@
  *
  * @since 3.0.0
  */
-import { Alt1 } from './Alt'
-import { Alternative1 } from './Alternative'
-import { Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable1, separate as separate_ } from './Compactable'
+import { Alt as Alt_ } from './Alt'
+import { Applicative as Applicative_ } from './Applicative'
+import { Alternative as Alternative_ } from './Alternative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_ } from './Apply'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable as Compactable_, separate as separate_ } from './Compactable'
 import { Either } from './Either'
 import {
   filter as filter_,
-  Filterable1,
+  Filterable as Filterable_,
   filterMap as filterMap_,
   partition as partition_,
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  FromEither1,
+  FromEither as FromEither_,
   chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
   fromEitherK as fromEitherK_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
 import { flow, identity, Lazy, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_ } from './Functor'
 import * as _ from './internal'
-import { Monad1 } from './Monad'
-import { NaturalTransformation11, NaturalTransformation21 } from './NaturalTransformation'
+import { Monad as Monad_ } from './Monad'
+import { NaturalTransformation } from './NaturalTransformation'
 import * as O from './Option'
 import * as OT from './OptionT'
-import { Pointed1 } from './Pointed'
+import { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Separated } from './Separated'
 import * as I from './IO'
-import { URI as IEURI } from './IOEither'
-import { Zero1, guard as guard_ } from './Zero'
+import { IOEitherF } from './IOEither'
+import { Zero as Zero_, guard as guard_ } from './Zero'
 
 import IO = I.IO
 import Option = O.Option
+import { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -88,13 +94,13 @@ export const fromPredicate: {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption: NaturalTransformation11<O.URI, URI> = I.of
+export const fromOption: NaturalTransformation<O.OptionF, IOOptionF> = I.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] =
+export const fromEither: FromEither_<IOOptionF>['fromEither'] =
   /*#__PURE__*/
   OT.fromEither(I.Pointed)
 
@@ -102,7 +108,7 @@ export const fromEither: FromEither1<URI>['fromEither'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] =
+export const fromIO: FromIO_<IOOptionF>['fromIO'] =
   /*#__PURE__*/
   OT.fromF(I.Functor)
 
@@ -110,9 +116,9 @@ export const fromIO: FromIO1<URI>['fromIO'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: NaturalTransformation21<IEURI, URI> =
+export const fromIOEither: NaturalTransformation<IOEitherF, IOOptionF> =
   /*#__PURE__*/
-  I.map(O.fromEither)
+  I.map(O.fromEither as any) as any // TODO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -284,7 +290,7 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = some
+export const of: Pointed_<IOOptionF>['of'] = some
 
 /**
  * @category Monad
@@ -324,7 +330,7 @@ export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => 
  * @category Zero
  * @since 3.0.0
  */
-export const zero: Zero1<URI>['zero'] =
+export const zero: Zero_<IOOptionF>['zero'] =
   /*#__PURE__*/
   OT.zero(I.Pointed)
 
@@ -340,15 +346,15 @@ export const none: IOOption<never> =
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: Compactable1<URI>['compact'] =
+export const compact: Compactable_<IOOptionF>['compact'] =
   /*#__PURE__*/
-  compact_(I.Functor, O.Compactable)
+  compact_(I.Functor, O.Compactable) as any // TODO
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable1<URI>['separate'] =
+export const separate: Compactable_<IOOptionF>['separate'] =
   /*#__PURE__*/
   separate_(I.Functor, O.Compactable, O.Functor)
 
@@ -362,7 +368,7 @@ export const filter: {
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
 } =
   /*#__PURE__*/
-  filter_(I.Functor, O.Filterable)
+  filter_(I.Functor, O.Filterable) as any // TODO
 
 /**
  * @category Filterable
@@ -370,7 +376,7 @@ export const filter: {
  */
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> =
   /*#__PURE__*/
-  filterMap_(I.Functor, O.Filterable)
+  filterMap_(I.Functor, O.Filterable) as any // TODO
 
 /**
  * @category Filterable
@@ -382,7 +388,7 @@ export const partition: {
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
 } =
   /*#__PURE__*/
-  partition_(I.Functor, O.Filterable)
+  partition_(I.Functor, O.Filterable) as any // TODO
 
 /**
  * @category Filterable
@@ -392,7 +398,7 @@ export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
 ) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> =
   /*#__PURE__*/
-  partitionMap_(I.Functor, O.Filterable)
+  partitionMap_(I.Functor, O.Filterable) as any // TODO
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -402,26 +408,15 @@ export const partitionMap: <A, B, C>(
  * @category instances
  * @since 3.0.0
  */
-const URI = 'IOOption'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: IOOption<A>
-  }
+export interface IOOptionF extends HKT {
+  readonly type: IOOption<this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
-  URI,
+export const Functor: Functor_<IOOptionF> = {
   map
 }
 
@@ -439,8 +434,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed1<URI> = {
-  URI,
+export const Pointed: Pointed_<IOOptionF> = {
   of
 }
 
@@ -448,8 +442,7 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply1<URI> = {
-  URI,
+export const Apply: Apply_<IOOptionF> = {
   map,
   ap
 }
@@ -482,8 +475,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
-  URI,
+export const Applicative: Applicative_<IOOptionF> = {
   map,
   ap,
   of
@@ -493,8 +485,7 @@ export const Applicative: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain1<URI> = {
-  URI,
+export const Chain: Chain_<IOOptionF> = {
   map,
   chain
 }
@@ -516,8 +507,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt1<URI> = {
-  URI,
+export const Alt: Alt_<IOOptionF> = {
   map,
   alt
 }
@@ -526,8 +516,7 @@ export const Alt: Alt1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Zero: Zero1<URI> = {
-  URI,
+export const Zero: Zero_<IOOptionF> = {
   zero
 }
 
@@ -543,8 +532,7 @@ export const guard =
  * @category instances
  * @since 3.0.0
  */
-export const Alternative: Alternative1<URI> = {
-  URI,
+export const Alternative: Alternative_<IOOptionF> = {
   map,
   alt,
   zero
@@ -554,8 +542,7 @@ export const Alternative: Alternative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad1<URI> = {
-  URI,
+export const Monad: Monad_<IOOptionF> = {
   map,
   of,
   chain
@@ -565,8 +552,7 @@ export const Monad: Monad1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Compactable: Compactable1<URI> = {
-  URI,
+export const Compactable: Compactable_<IOOptionF> = {
   compact,
   separate
 }
@@ -575,8 +561,7 @@ export const Compactable: Compactable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Filterable: Filterable1<URI> = {
-  URI,
+export const Filterable: Filterable_<IOOptionF> = {
   filter,
   filterMap,
   partition,
@@ -587,8 +572,7 @@ export const Filterable: Filterable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO1<URI> = {
-  URI,
+export const FromIO: FromIO_<IOOptionF> = {
   fromIO
 }
 
@@ -620,8 +604,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither1<URI> = {
-  URI,
+export const FromEither: FromEither_<IOOptionF> = {
   fromEither
 }
 

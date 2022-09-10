@@ -1,8 +1,9 @@
 /**
  * @since 3.0.0
  */
-import type { Comonad2C } from './Comonad'
-import { flap as flap_, Functor2 } from './Functor'
+import type { Comonad } from './Comonad'
+import { flap as flap_, Functor as Functor_ } from './Functor'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -28,7 +29,7 @@ export interface Traced<P, A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => (p) => f(fa(p))
+export const map: Functor_<TracedF>['map'] = (f) => (fa) => (p) => f(fa(p))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -38,19 +39,23 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => (p) => f(fa(p))
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Traced'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Traced: Traced<E, A>
-  }
+export interface TracedF extends HKT {
+  readonly type: Traced<this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export interface TracedFE<E> extends HKT {
+  readonly type: Traced<E, this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Functor: Functor_<TracedF> = {
   map
 }
 
@@ -68,7 +73,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <P>(monoid: Monoid<P>): Comonad2C<URI, P> => ({
+export const getComonad = <P>(monoid: Monoid<P>): Comonad<TracedFE<P>> => ({
   map,
   extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
   extract: (wa) => wa(monoid.empty)

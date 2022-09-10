@@ -1,17 +1,18 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import type { Endomorphism } from './Endomorphism'
-import type { FromState2 } from './FromState'
+import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad2 } from './Monad'
+import type { Monad as Monad_ } from './Monad'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed2 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
@@ -73,7 +74,7 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => (s1) => {
+export const map: Functor_<StateF>['map'] = (f) => (fa) => (s1) => {
   const [a, s2] = fa(s1)
   return [f(a), s2]
 }
@@ -84,7 +85,7 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => (s1) => {
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply2<URI>['ap'] = (fa) => (fab) => (s1) => {
+export const ap: Apply_<StateF>['ap'] = (fa) => (fab) => (s1) => {
   const [f, s2] = fab(s1)
   const [a, s3] = fa(s2)
   return [f(a), s3]
@@ -94,7 +95,7 @@ export const ap: Apply2<URI>['ap'] = (fa) => (fab) => (s1) => {
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
+export const of: Pointed_<StateF>['of'] = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -102,7 +103,7 @@ export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain2<URI>['chain'] = (f) => (ma) => (s1) => {
+export const chain: Chain_<StateF>['chain'] = (f) => (ma) => (s1) => {
   const [a, s2] = ma(s1)
   return f(a)(s2)
 }
@@ -125,19 +126,15 @@ export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'State'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly State: State<E, A>
-  }
+export interface StateF extends HKT {
+  readonly type: State<this['S'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<StateF> = {
   map
 }
 
@@ -155,7 +152,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<StateF> = {
   of
 }
 
@@ -163,7 +160,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply2<URI> = {
+export const Apply: Apply_<StateF> = {
   map,
   ap
 }
@@ -196,7 +193,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative2<URI> = {
+export const Applicative: Applicative_<StateF> = {
   map,
   ap,
   of
@@ -206,7 +203,7 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: Chain_<StateF> = {
   map,
   chain
 }
@@ -215,7 +212,7 @@ export const Chain: Chain2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad2<URI> = {
+export const Monad: Monad_<StateF> = {
   map,
   of,
   chain
@@ -238,7 +235,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const FromState: FromState2<URI> = {
+export const FromState: FromState_<StateF> = {
   fromState: identity
 }
 

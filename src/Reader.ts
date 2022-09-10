@@ -1,23 +1,24 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import type { Category2 } from './Category'
-import { bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
-import type { Choice2 } from './Choice'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import type { Category as Category_ } from './Category'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import type { Choice as Choice_ } from './Choice'
 import { constant, flow, identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
-import type { Monad2 } from './Monad'
-import type { Pointed2 } from './Pointed'
-import type { Profunctor2 } from './Profunctor'
-import type { Semigroupoid2 } from './Semigroupoid'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import type { Monad as Monad_ } from './Monad'
+import type { Pointed as Pointed_ } from './Pointed'
+import type { Profunctor as Profunctor_ } from './Profunctor'
+import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
 import * as E from './Either'
-import type { Strong2 } from './Strong'
+import type { Strong as Strong_ } from './Strong'
 import * as _ from './internal'
-import type { FromReader2 } from './FromReader'
+import type { FromReader as FromReader_ } from './FromReader'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { NonEmptyArray } from './NonEmptyArray'
+import { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -85,7 +86,7 @@ export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Read
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => flow(fa, f)
+export const map: Functor_<ReaderF>['map'] = (f) => (fa) => flow(fa, f)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -103,13 +104,13 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply2<URI>['ap'] = apW
+export const ap: Apply_<ReaderF>['ap'] = apW
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed2<URI>['of'] = constant
+export const of: Pointed_<ReaderF>['of'] = constant
 
 /**
  * Less strict version of [`chain`](#chain).
@@ -127,7 +128,7 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain2<URI>['chain'] = chainW
+export const chain: Chain_<ReaderF>['chain'] = chainW
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -151,43 +152,43 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = fla
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: Semigroupoid2<URI>['compose'] = (bc) => (ab) => flow(ab, bc)
+export const compose: Semigroupoid_<ReaderFE>['compose'] = (bc) => (ab) => flow(ab, bc)
 
 /**
  * @category Profunctor
  * @since 3.0.0
  */
-export const promap: Profunctor2<URI>['promap'] = (f, g) => (fea) => (a) => g(fea(f(a)))
+export const promap: Profunctor_<ReaderFE>['promap'] = (f, g) => (fea) => (a) => g(fea(f(a)))
 
 /**
  * @category Category
  * @since 3.0.0
  */
-export const id: Category2<URI>['id'] = () => identity
+export const id: Category_<ReaderFE>['id'] = () => identity
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-export const left: Choice2<URI>['left'] = (pab) => E.match((a) => _.left(pab(a)), _.right)
+export const left: Choice_<ReaderFE>['left'] = (pab) => E.match((a) => _.left(pab(a)), _.right)
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-export const right: Choice2<URI>['right'] = (pbc) => E.match(_.left, (b) => _.right(pbc(b)))
+export const right: Choice_<ReaderFE>['right'] = (pbc) => E.match(_.left, (b) => _.right(pbc(b)))
 
 /**
  * @category Strong
  * @since 3.0.0
  */
-export const first: Strong2<URI>['first'] = (pab) => ([a, c]) => [pab(a), c]
+export const first: Strong_<ReaderFE>['first'] = (pab) => ([a, c]) => [pab(a), c]
 
 /**
  * @category Strong
  * @since 3.0.0
  */
-export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+export const second: Strong_<ReaderFE>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -197,19 +198,23 @@ export const second: Strong2<URI>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Reader'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Reader: Reader<E, A>
-  }
+export interface ReaderF extends HKT {
+  readonly type: Reader<this['R'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader2<URI> = {
+export interface ReaderFE extends HKT {
+  readonly type: Reader<this['E'], this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const FromReader: FromReader_<ReaderF> = {
   fromReader: identity
 }
 
@@ -217,7 +222,7 @@ export const FromReader: FromReader2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<ReaderF> = {
   map
 }
 
@@ -235,7 +240,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<ReaderF> = {
   of
 }
 
@@ -243,7 +248,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply2<URI> = {
+export const Apply: Apply_<ReaderF> = {
   map,
   ap
 }
@@ -296,7 +301,7 @@ export const apSecondW: <R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative2<URI> = {
+export const Applicative: Applicative_<ReaderF> = {
   map,
   ap,
   of
@@ -306,7 +311,7 @@ export const Applicative: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: Chain_<ReaderF> = {
   map,
   chain
 }
@@ -315,7 +320,7 @@ export const Chain: Chain2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad2<URI> = {
+export const Monad: Monad_<ReaderF> = {
   map,
   of,
   chain
@@ -350,7 +355,7 @@ export const chainFirstW: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Profunctor: Profunctor2<URI> = {
+export const Profunctor: Profunctor_<ReaderF> = {
   map,
   promap
 }
@@ -359,7 +364,7 @@ export const Profunctor: Profunctor2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Category: Category2<URI> = {
+export const Category: Category_<ReaderF> = {
   compose,
   id
 }
@@ -368,7 +373,7 @@ export const Category: Category2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Choice: Choice2<URI> = {
+export const Choice: Choice_<ReaderF> = {
   map,
   promap,
   left,
@@ -379,7 +384,7 @@ export const Choice: Choice2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Strong: Strong2<URI> = {
+export const Strong: Strong_<ReaderF> = {
   map,
   promap,
   first,

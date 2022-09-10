@@ -13,18 +13,19 @@
  *
  * @since 3.0.0
  */
-import type { Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import type { ChainRec1 } from './ChainRec'
-import type { FromIO1 } from './FromIO'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import type { ChainRec as ChainRec_ } from './ChainRec'
+import type { FromIO as FromIO_ } from './FromIO'
 import { constant, identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import type { Monad1 } from './Monad'
-import type { Pointed1 } from './Pointed'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import type { Monad as Monad_ } from './Monad'
+import type { Pointed as Pointed_ } from './Pointed'
 import * as _ from './internal'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { NonEmptyArray } from './NonEmptyArray'
+import { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -49,7 +50,7 @@ export interface IO<A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => () => f(fa())
+export const map: Functor_<IOF>['map'] = (f) => (fa) => () => f(fa())
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -57,13 +58,13 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => () => f(fa())
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => (fab) => () => fab()(fa())
+export const ap: Apply_<IOF>['ap'] = (fa) => (fab) => () => fab()(fa())
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = constant
+export const of: Pointed_<IOF>['of'] = constant
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -71,13 +72,13 @@ export const of: Pointed1<URI>['of'] = constant
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = (f) => (ma) => () => f(ma())()
+export const chain: Chain_<IOF>['chain'] = (f) => (ma) => () => f(ma())()
 
 /**
  * @category ChainRec
  * @since 3.0.0
  */
-export const chainRec: ChainRec1<URI>['chainRec'] = (f) => (a) => () => {
+export const chainRec: ChainRec_<IOF>['chainRec'] = (f) => (a) => () => {
   let e = f(a)()
   while (_.isLeft(e)) {
     e = f(e.left)()
@@ -103,19 +104,15 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> =
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'IO'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly IO: IO<A>
-  }
+export interface IOF extends HKT {
+  readonly type: IO<this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
+export const Functor: Functor_<IOF> = {
   map
 }
 
@@ -133,7 +130,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed1<URI> = {
+export const Pointed: Pointed_<IOF> = {
   of
 }
 
@@ -141,7 +138,7 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply1<URI> = {
+export const Apply: Apply_<IOF> = {
   map,
   ap
 }
@@ -174,7 +171,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
+export const Applicative: Applicative_<IOF> = {
   map,
   ap,
   of
@@ -184,7 +181,7 @@ export const Applicative: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: Chain_<IOF> = {
   map,
   chain
 }
@@ -193,7 +190,7 @@ export const Chain: Chain1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad1<URI> = {
+export const Monad: Monad_<IOF> = {
   map,
   of,
   chain
@@ -216,7 +213,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO1<URI> = {
+export const FromIO: FromIO_<IOF> = {
   fromIO: identity
 }
 
@@ -224,7 +221,7 @@ export const FromIO: FromIO1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ChainRec: ChainRec1<URI> = {
+export const ChainRec: ChainRec_<IOF> = {
   chainRec
 }
 

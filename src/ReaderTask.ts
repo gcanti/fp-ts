@@ -1,29 +1,35 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative2 } from './Applicative'
-import { apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
 import {
   ask as ask_,
   asks as asks_,
   chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
-  FromReader2,
+  FromReader as FromReader_,
   fromReaderK as fromReaderK_
 } from './FromReader'
 import {
   chainFirstTaskK as chainFirstTaskK_,
   chainTaskK as chainTaskK_,
-  FromTask2,
+  FromTask as FromTask_,
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad2 } from './Monad'
-import type { Pointed2 } from './Pointed'
+import type { Monad as Monad_ } from './Monad'
+import type { Pointed as Pointed_ } from './Pointed'
 import * as R from './Reader'
 import * as RT from './ReaderT'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -69,7 +75,7 @@ export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: FromReader2<URI>['fromReader'] =
+export const fromReader: FromReader_<ReaderTaskF>['fromReader'] =
   /*#__PURE__*/
   RT.fromReader(T.Pointed)
 
@@ -77,7 +83,7 @@ export const fromReader: FromReader2<URI>['fromReader'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] =
+export const fromTask: FromTask_<ReaderTaskF>['fromTask'] =
   /*#__PURE__*/
   R.of
 
@@ -85,7 +91,7 @@ export const fromTask: FromTask2<URI>['fromTask'] =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] =
+export const fromIO: FromIO_<ReaderTaskF>['fromIO'] =
   /*#__PURE__*/
   flow(T.fromIO, fromTask)
 
@@ -109,7 +115,7 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderTask<R1, A>) =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<ReaderTaskF>['map'] =
   /*#__PURE__*/
   RT.map(T.Functor)
 
@@ -119,7 +125,7 @@ export const map: Functor2<URI>['map'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply2<URI>['ap'] =
+export const ap: Apply_<ReaderTaskF>['ap'] =
   /*#__PURE__*/
   RT.ap(T.ApplyPar)
 
@@ -137,7 +143,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed2<URI>['of'] =
+export const of: Pointed_<ReaderTaskF>['of'] =
   /*#__PURE__*/
   RT.of(T.Pointed)
 
@@ -147,7 +153,7 @@ export const of: Pointed2<URI>['of'] =
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain2<URI>['chain'] =
+export const chain: Chain_<ReaderTaskF>['chain'] =
   /*#__PURE__*/
   RT.chain(T.Monad)
 
@@ -187,19 +193,15 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReaderTask'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly ReaderTask: ReaderTask<E, A>
-  }
+export interface ReaderTaskF extends HKT {
+  readonly type: ReaderTask<this['R'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<ReaderTaskF> = {
   map
 }
 
@@ -217,7 +219,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<ReaderTaskF> = {
   of
 }
 
@@ -225,7 +227,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply2<URI> = {
+export const ApplyPar: Apply_<ReaderTaskF> = {
   map,
   ap
 }
@@ -258,7 +260,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative2<URI> = {
+export const ApplicativePar: Applicative_<ReaderTaskF> = {
   map,
   ap,
   of
@@ -268,7 +270,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: Chain_<ReaderTaskF> = {
   map,
   chain
 }
@@ -281,7 +283,7 @@ const apSeq =
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Applicative2<URI> = {
+export const ApplySeq: Applicative_<ReaderTaskF> = {
   map,
   ap: apSeq,
   of
@@ -291,7 +293,7 @@ export const ApplySeq: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative2<URI> = {
+export const ApplicativeSeq: Applicative_<ReaderTaskF> = {
   map,
   ap: apSeq,
   of
@@ -326,7 +328,7 @@ export const chainFirstW: <A, R2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad2<URI> = {
+export const Monad: Monad_<ReaderTaskF> = {
   map,
   of,
   chain
@@ -336,7 +338,7 @@ export const Monad: Monad2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO2<URI> = {
+export const FromIO: FromIO_<ReaderTaskF> = {
   fromIO
 }
 
@@ -368,7 +370,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader2<URI> = {
+export const FromReader: FromReader_<ReaderTaskF> = {
   fromReader
 }
 
@@ -440,7 +442,7 @@ export const chainFirstReaderKW: <A, R1, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromTask: FromTask2<URI> = {
+export const FromTask: FromTask_<ReaderTaskF> = {
   fromIO,
   fromTask
 }

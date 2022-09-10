@@ -5,122 +5,55 @@
  */
 
 /**
- * `* -> *` constructors
  * @since 3.0.0
  */
-export interface HKT<URI, A> {
-  readonly _URI: URI
-  readonly _A: A
+export declare const URI: unique symbol
+
+/**
+ * @since 3.0.0
+ */
+export interface Typeclass<F extends HKT> {
+  readonly [URI]?: F
 }
 
 /**
- * `* -> * -> *` constructors
  * @since 3.0.0
  */
-export interface HKT2<URI, E, A> extends HKT<URI, A> {
-  readonly _E: E
+export interface HKT {
+  /** invariant */
+  readonly S?: unknown
+  /** contravariant */
+  readonly R?: unknown
+  /** covariant */
+  readonly E?: unknown
+  /** covariant */
+  readonly A?: unknown
+  readonly type?: unknown
 }
 
 /**
- * `* -> * -> * -> *` constructors
  * @since 3.0.0
  */
-export interface HKT3<URI, R, E, A> extends HKT2<URI, E, A> {
-  readonly _R: R
+export type Kind<F extends HKT, S, R, E, A> = F extends {
+  readonly type: unknown
 }
+  ? (F & {
+      readonly S: S
+      readonly R: R
+      readonly E: E
+      readonly A: A
+    })['type']
+  : {
+      readonly _F: F
+      readonly _S: (_: S) => S
+      readonly _R: (_: R) => void
+      readonly _E: () => E
+      readonly _A: () => A
+    }
 
 /**
- * `* -> * -> * -> * -> *` constructors
  * @since 3.0.0
  */
-export interface HKT4<URI, S, R, E, A> extends HKT3<URI, R, E, A> {
-  readonly _S: S
+export interface ComposeF<F extends HKT, G extends HKT> extends HKT {
+  readonly type: Kind<F, this['S'], this['R'], this['E'], Kind<G, this['S'], this['R'], this['E'], this['A']>>
 }
-
-//
-// inj: type-level dictionaries for HKTs: URI -> concrete type
-//
-
-/**
- * `* -> *` constructors
- * @since 3.0.0
- */
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-export interface URItoKind<A> {}
-
-/**
- * `* -> * -> *` constructors
- * @since 3.0.0
- */
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-export interface URItoKind2<E, A> {}
-
-/**
- * `* -> * -> * -> *` constructors
- * @since 3.0.0
- */
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-export interface URItoKind3<R, E, A> {}
-
-/**
- * `* -> * -> * -> * -> *` constructors
- * @since 3.0.0
- */
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-export interface URItoKind4<S, R, E, A> {}
-
-//
-// unions of URIs
-//
-
-/**
- * `* -> *` constructors
- * @since 3.0.0
- */
-export type URIS = keyof URItoKind<any>
-
-/**
- * `* -> * -> *` constructors
- * @since 3.0.0
- */
-export type URIS2 = keyof URItoKind2<any, any>
-
-/**
- * `* -> * -> * -> *` constructors
- * @since 3.0.0
- */
-export type URIS3 = keyof URItoKind3<any, any, any>
-
-/**
- * `* -> * -> * -> * -> *` constructors
- * @since 3.0.0
- */
-export type URIS4 = keyof URItoKind4<any, any, any, any>
-
-//
-// prj
-//
-
-/**
- * `* -> *` constructors
- * @since 3.0.0
- */
-export type Kind<URI extends URIS, A> = URI extends URIS ? URItoKind<A>[URI] : any
-
-/**
- * `* -> * -> *` constructors
- * @since 3.0.0
- */
-export type Kind2<URI extends URIS2, E, A> = URI extends URIS2 ? URItoKind2<E, A>[URI] : any
-
-/**
- * `* -> * -> * -> *` constructors
- * @since 3.0.0
- */
-export type Kind3<URI extends URIS3, R, E, A> = URI extends URIS3 ? URItoKind3<R, E, A>[URI] : any
-
-/**
- * `* -> * -> * -> * -> *` constructors
- * @since 3.0.0
- */
-export type Kind4<URI extends URIS4, S, R, E, A> = URI extends URIS4 ? URItoKind4<S, R, E, A>[URI] : any

@@ -7,31 +7,23 @@
  *
  * @since 3.0.0
  */
-import type {
-  Applicative as Applicative_,
-  Applicative1,
-  Applicative2,
-  Applicative2C,
-  Applicative3,
-  Applicative3C,
-  Applicative4
-} from './Applicative'
-import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import type { Comonad1 } from './Comonad'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import type { Comonad as Comonad_ } from './Comonad'
 import { Eq, fromEquals } from './Eq'
-import type { Extend1 } from './Extend'
-import type { Foldable1 } from './Foldable'
+import type { Extend as Extend_ } from './Extend'
+import type { Foldable as Foldable_ } from './Foldable'
 import { flow, identity, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import type { Monad as Monad_, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
-import type { Pointed1 } from './Pointed'
+import type { Monad as Monad_ } from './Monad'
+import type { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
 import type { Show } from './Show'
-import type { Traversable1 } from './Traversable'
+import type { Traversable as Traversable_ } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -94,33 +86,13 @@ export const unfoldForest = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) 
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldTreeM<M extends URIS4>(
-  M: Monad4<M> & Applicative4<M>
+export function unfoldTreeM<M extends HKT>(
+  M: Monad_<M>,
+  A: Applicative_<M>
 ): <B, S, R, E, A>(
-  f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind4<M, S, R, E, Tree<A>>
-export function unfoldTreeM<M extends URIS3>(
-  M: Monad3<M> & Applicative3<M>
-): <B, R, E, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
-export function unfoldTreeM<M extends URIS3, E>(
-  M: Monad3C<M, E> & Applicative3C<M, E>
-): <B, R, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
-export function unfoldTreeM<M extends URIS2>(
-  M: Monad2<M> & Applicative2<M>
-): <B, E, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
-export function unfoldTreeM<M extends URIS2, E>(
-  M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
-export function unfoldTreeM<M extends URIS>(
-  M: Monad1<M> & Applicative1<M>
-): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind<M, Tree<A>>
-export function unfoldTreeM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => HKT<M, Tree<A>>
-export function unfoldTreeM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => HKT<M, Tree<A>> {
-  const unfoldForestMM = unfoldForestM(M)
+  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
+) => (b: B) => Kind<M, S, R, E, Tree<A>> {
+  const unfoldForestMM = unfoldForestM(M, A)
   return (f) =>
     flow(
       f,
@@ -140,40 +112,14 @@ export function unfoldTreeM<M>(
  * @category constructors
  * @since 3.0.0
  */
-export function unfoldForestM<M extends URIS4>(
-  M: Monad4<M> & Applicative4<M>
+export function unfoldForestM<M extends HKT>(
+  M: Monad_<M>,
+  A: Applicative_<M>
 ): <B, S, R, E, A>(
-  f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind4<M, S, R, E, Forest<A>>
-export function unfoldForestM<M extends URIS3>(
-  M: Monad3<M> & Applicative3<M>
-): <B, R, E, A>(
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
-export function unfoldForestM<M extends URIS3, E>(
-  M: Monad3C<M, E> & Applicative3C<M, E>
-): <B, R, A>(
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
-export function unfoldForestM<M extends URIS2>(
-  M: Monad2<M> & Applicative2<M>
-): <B, R, E>(
-  f: (b: B) => Kind2<M, R, readonly [E, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind2<M, R, Forest<E>>
-export function unfoldForestM<M extends URIS2, E>(
-  M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind2<M, E, Forest<A>>
-export function unfoldForestM<M extends URIS>(
-  M: Monad1<M> & Applicative1<M>
-): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind<M, Forest<A>>
-export function unfoldForestM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => HKT<M, Forest<A>>
-export function unfoldForestM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => HKT<M, Forest<A>> {
-  const traverseM = RA.traverse(M)
-  return (f) => traverseM(unfoldTreeM(M)(f))
+  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, E, Forest<A>> {
+  const traverseM = RA.traverse(A)
+  return (f) => traverseM(unfoldTreeM(M, A)(f))
 }
 
 // -------------------------------------------------------------------------------------
@@ -221,7 +167,7 @@ export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => (fa) => ({
+export const map: Functor_<TreeF>['map'] = (f) => (fa) => ({
   value: f(fa.value),
   forest: fa.forest.map(map(f))
 })
@@ -232,7 +178,7 @@ export const map: Functor1<URI>['map'] = (f) => (fa) => ({
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: Apply_<TreeF>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -240,7 +186,7 @@ export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
+export const chain: Chain_<TreeF>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
   const { value, forest } = f(ma.value)
   const concat = RA.getMonoid<Tree<B>>().concat
   return {
@@ -253,7 +199,7 @@ export const chain: Chain1<URI>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: 
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend1<URI>['extend'] = (f) => (wa) => ({
+export const extend: Extend_<TreeF>['extend'] = (f) => (wa) => ({
   value: f(wa),
   forest: wa.forest.map(extend(f))
 })
@@ -282,7 +228,7 @@ export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable1<URI>['reduce'] = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => {
+export const reduce: Foldable_<TreeF>['reduce'] = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => {
   let r: B = f(b, fa.value)
   const len = fa.forest.length
   for (let i = 0; i < len; i++) {
@@ -295,13 +241,13 @@ export const reduce: Foldable1<URI>['reduce'] = <A, B>(b: B, f: (b: B, a: A) => 
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable1<URI>['foldMap'] = (M) => (f) => reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
+export const foldMap: Foldable_<TreeF>['foldMap'] = (M) => (f) => reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable1<URI>['reduceRight'] = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): B => {
+export const reduceRight: Foldable_<TreeF>['reduceRight'] = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): B => {
   let r: B = b
   const len = fa.forest.length
   for (let i = len - 1; i >= 0; i--) {
@@ -314,16 +260,14 @@ export const reduceRight: Foldable1<URI>['reduceRight'] = <A, B>(b: B, f: (a: A,
  * @category Extract
  * @since 3.0.0
  */
-export const extract: Comonad1<URI>['extract'] = (wa) => wa.value
+export const extract: Comonad_<TreeF>['extract'] = (wa) => wa.value
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: Applicative_<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>) => HKT<F, Tree<B>>) => {
+export const traverse: Traversable_<TreeF>['traverse'] = <F extends HKT>(F: Applicative_<F>) => {
   const traverseF = RA.traverse(F)
-  const out = <A, B>(f: (a: A) => HKT<F, B>) => (ta: Tree<A>): HKT<F, Tree<B>> =>
+  const out = <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>): Kind<F, S, R, E, Tree<B>> =>
     pipe(
       f(ta.value),
       F.map((value: B) => (forest: Forest<B>) => ({
@@ -339,7 +283,7 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => tree(a)
+export const of: Pointed_<TreeF>['of'] = (a) => tree(a)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -349,12 +293,8 @@ export const of: Pointed1<URI>['of'] = (a) => tree(a)
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Tree'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly Tree: Tree<A>
-  }
+export interface TreeF extends HKT {
+  readonly type: Tree<this['A']>
 }
 
 /**
@@ -388,7 +328,7 @@ export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
+export const Functor: Functor_<TreeF> = {
   map
 }
 
@@ -406,7 +346,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed1<URI> = {
+export const Pointed: Pointed_<TreeF> = {
   of
 }
 
@@ -414,7 +354,7 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply1<URI> = {
+export const Apply: Apply_<TreeF> = {
   map,
   ap
 }
@@ -447,7 +387,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
+export const Applicative: Applicative_<TreeF> = {
   map,
   ap,
   of
@@ -457,7 +397,7 @@ export const Applicative: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: Chain_<TreeF> = {
   map,
   chain
 }
@@ -466,7 +406,7 @@ export const Chain: Chain1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad1<URI> = {
+export const Monad: Monad_<TreeF> = {
   map,
   of,
   chain
@@ -489,7 +429,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable1<URI> = {
+export const Foldable: Foldable_<TreeF> = {
   reduce,
   foldMap,
   reduceRight
@@ -499,7 +439,7 @@ export const Foldable: Foldable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable1<URI> = {
+export const Traversable: Traversable_<TreeF> = {
   map,
   traverse
 }
@@ -508,7 +448,7 @@ export const Traversable: Traversable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: Comonad1<URI> = {
+export const Comonad: Comonad_<TreeF> = {
   map,
   extend,
   extract

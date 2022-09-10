@@ -14,9 +14,9 @@
  *
  * @since 3.0.0
  */
-import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C, Alt4, altAll as altAll_ } from './Alt'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-import type { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
+import { Alt, altAll as altAll_ } from './Alt'
+import type { HKT, Kind } from './HKT'
+import type { Zero } from './Zero'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -26,43 +26,7 @@ import type { Zero, Zero1, Zero2, Zero2C, Zero3, Zero3C, Zero4 } from './Zero'
  * @category type classes
  * @since 3.0.0
  */
-export interface Alternative<F> extends Alt<F>, Zero<F> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative1<F extends URIS> extends Alt1<F>, Zero1<F> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative2<F extends URIS2> extends Alt2<F>, Zero2<F> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E>, Zero2C<F, E> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative3<F extends URIS3> extends Alt3<F>, Zero3<F> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative3C<F extends URIS3, E> extends Alt3C<F, E>, Zero3C<F, E> {}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Alternative4<F extends URIS4> extends Alt4<F>, Zero4<F> {}
+export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -71,21 +35,6 @@ export interface Alternative4<F extends URIS4> extends Alt4<F>, Zero4<F> {}
 /**
  * @since 3.0.0
  */
-export function altAll<F extends URIS4>(
-  F: Alternative4<F>
-): <S, R, E, A>(as: ReadonlyArray<Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
-export function altAll<F extends URIS3>(
-  F: Alternative3<F>
-): <R, E, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
-export function altAll<F extends URIS3, E>(
-  F: Alternative3C<F, E>
-): <R, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
-export function altAll<F extends URIS2>(F: Alternative2<F>): <E, A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
-export function altAll<F extends URIS2, E>(
-  F: Alternative2C<F, E>
-): <A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
-export function altAll<F extends URIS>(F: Alternative1<F>): <A>(as: ReadonlyArray<Kind<F, A>>) => Kind<F, A>
-export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A>
-export function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A> {
-  return altAll_(F)(F.zero())
-}
+export const altAll = <F extends HKT>(
+  F: Alternative<F>
+): (<S, R, E, A>(as: ReadonlyArray<Kind<F, S, R, E, A>>) => Kind<F, S, R, E, A>) => altAll_(F)(F.zero())

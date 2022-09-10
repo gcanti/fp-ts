@@ -1,25 +1,25 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative, Applicative2C } from './Applicative'
-import type { Apply2C } from './Apply'
-import { Bifunctor2 } from './Bifunctor'
-import type { Chain2C } from './Chain'
-import type { ChainRec2C } from './ChainRec'
-import type { Comonad2 } from './Comonad'
+import type { Applicative } from './Applicative'
+import type { Apply as Apply } from './Apply'
+import { Bifunctor as Bifunctor_ } from './Bifunctor'
+import type { Chain } from './Chain'
+import type { ChainRec } from './ChainRec'
+import type { Comonad as Comonad_ } from './Comonad'
 import type { Either } from './Either'
-import type { Extend2 } from './Extend'
-import type { Foldable2 } from './Foldable'
+import type { Extend as Extend_ } from './Extend'
+import type { Foldable as Foldable_ } from './Foldable'
 import { identity, pipe } from './function'
-import { flap as flap_, Functor2 } from './Functor'
-import type { HKT } from './HKT'
+import { flap as flap_, Functor as Functor_ } from './Functor'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
-import type { Monad2C } from './Monad'
+import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
-import type { Pointed2C } from './Pointed'
+import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
-import type { Semigroupoid2 } from './Semigroupoid'
-import type { Traversable2 } from './Traversable'
+import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
+import type { Traversable as Traversable_ } from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -142,7 +142,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * @category type class operations
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] = (f) => (fa) => {
+export const map: Functor_<WriterF>['map'] = (f) => (fa) => {
   const [a, w] = fa
   return [f(a), w]
 }
@@ -151,7 +151,7 @@ export const map: Functor2<URI>['map'] = (f) => (fa) => {
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => {
+export const mapLeft: Bifunctor_<WriterF>['mapLeft'] = (f) => (fa) => {
   const [a, w] = fa
   return [a, f(w)]
 }
@@ -174,7 +174,7 @@ export const bimap = <W, G, A, B>(mapSnd: (e: W) => G, mapFst: (a: A) => B) => (
  *
  * @since 3.0.0
  */
-export const mapFst: Functor2<URI>['map'] = map
+export const mapFst: Functor_<WriterF>['map'] = map
 
 /**
  * Maps a function over the second component of a `Writer`.
@@ -183,25 +183,25 @@ export const mapFst: Functor2<URI>['map'] = map
  *
  * @since 3.0.0
  */
-export const mapSnd: Bifunctor2<URI>['mapLeft'] = mapLeft
+export const mapSnd: Bifunctor_<WriterF>['mapLeft'] = mapLeft
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const compose: Semigroupoid2<URI>['compose'] = (bc) => (ab) => [fst(bc), snd(ab)]
+export const compose: Semigroupoid_<WriterF>['compose'] = (bc) => (ab) => [fst(bc), snd(ab)]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extend: Extend2<URI>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
+export const extend: Extend_<WriterF>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extract: Comonad2<URI>['extract'] = fst
+export const extract: Comonad_<WriterF>['extract'] = fst
 
 /**
  * Derivable from `Extend`.
@@ -215,27 +215,27 @@ export const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#
  * @category type class operations
  * @since 3.0.0
  */
-export const reduce: Foldable2<URI>['reduce'] = (b, f) => (fa) => f(b, fst(fa))
+export const reduce: Foldable_<WriterF>['reduce'] = (b, f) => (fa) => f(b, fst(fa))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const foldMap: Foldable2<URI>['foldMap'] = () => (f) => (fa) => f(fst(fa))
+export const foldMap: Foldable_<WriterF>['foldMap'] = () => (f) => (fa) => f(fst(fa))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => f(fst(fa), b)
+export const reduceRight: Foldable_<WriterF>['reduceRight'] = (b, f) => (fa) => f(fst(fa), b)
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <W>(
-  t: Writer<W, A>
-): HKT<F, Writer<W, B>> =>
+export const traverse: Traversable_<WriterF>['traverse'] = <F extends HKT>(F: Applicative<F>) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => <W>(t: Writer<W, A>): Kind<F, S, R, E, Writer<W, B>> =>
   pipe(
     f(fst(t)),
     F.map((b) => [b, snd(t)])
@@ -249,19 +249,23 @@ export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) =>
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'Writer'
-
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly Writer: Writer<E, A>
-  }
+export interface WriterF extends HKT {
+  readonly type: Writer<this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export interface WriterFE<E> extends HKT {
+  readonly type: Writer<E, this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Bifunctor: Bifunctor_<WriterF> = {
   bimap,
   mapLeft: mapSnd
 }
@@ -270,7 +274,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<WriterF> = {
   map: mapFst
 }
 
@@ -286,7 +290,7 @@ export const flap = /*#__PURE__*/ flap_(Functor)
  * @category instances
  * @since 3.0.0
  */
-export const Semigroupoid: Semigroupoid2<URI> = {
+export const Semigroupoid: Semigroupoid_<WriterF> = {
   compose
 }
 
@@ -294,7 +298,7 @@ export const Semigroupoid: Semigroupoid2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: Comonad2<URI> = {
+export const Comonad: Comonad_<WriterF> = {
   map: mapFst,
   extend,
   extract
@@ -304,7 +308,7 @@ export const Comonad: Comonad2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable2<URI> = {
+export const Foldable: Foldable_<WriterF> = {
   reduce,
   foldMap,
   reduceRight
@@ -314,7 +318,7 @@ export const Foldable: Foldable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable2<URI> = {
+export const Traversable: Traversable_<WriterF> = {
   map: mapFst,
   traverse
 }
@@ -323,7 +327,7 @@ export const Traversable: Traversable2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFE<W>> => ({
   of: (a) => [a, M.empty]
 })
 
@@ -331,7 +335,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed2C<URI, W> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
+export const getApply = <W>(S: Semigroup<W>): Apply<WriterFE<W>> => ({
   map,
   ap: (fa) => (fab) => {
     const [f, w1] = fab
@@ -344,7 +348,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply2C<URI, W> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
+export const getApplicative = <W>(M: Monoid<W>): Applicative<WriterFE<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -358,7 +362,7 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative2C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain2C<URI, W> => {
+export const getChain = <W>(S: Semigroup<W>): Chain<WriterFE<W>> => {
   return {
     map,
     chain: (f) => (ma) => {
@@ -373,7 +377,7 @@ export const getChain = <W>(S: Semigroup<W>): Chain2C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<WriterFE<W>> => {
   const P = getPointed(M)
   const C = getChain(M)
   return {
@@ -387,10 +391,10 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M> {
-  const chainRec = <A, B>(f: (a: A) => readonly [Either<A, B>, M]) => (a: A): readonly [B, M] => {
-    let result: readonly [Either<A, B>, M] = f(a)
-    let acc: M = M.empty
+export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFE<W>> {
+  const chainRec = <A, B>(f: (a: A) => readonly [Either<A, B>, W]) => (a: A): readonly [B, W] => {
+    let result: readonly [Either<A, B>, W] = f(a)
+    let acc: W = M.empty
     let s: Either<A, B> = fst(result)
     while (_.isLeft(s)) {
       acc = M.concat(snd(result))(acc)

@@ -1,20 +1,27 @@
 /**
  * @since 3.0.0
  */
-import type { Alt3, Alt3C } from './Alt'
-import type { Applicative3, Applicative3C } from './Applicative'
-import { ap as ap_, apFirst as apFirst_, Apply3, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import type { Bifunctor3 } from './Bifunctor'
-import { bind as bind_, Chain3, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable3C, separate as separate_ } from './Compactable'
+import type { Alt as Alt_ } from './Alt'
+import type { Applicative as Applicative_ } from './Applicative'
+import {
+  ap as ap_,
+  apFirst as apFirst_,
+  Apply as Apply_,
+  apS as apS_,
+  apSecond as apSecond_,
+  apT as apT_
+} from './Apply'
+import type { Bifunctor as Bifunctor_ } from './Bifunctor'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { filter, Filterable3C, filterMap, partition, partitionMap } from './Filterable'
+import { filter, Filterable, filterMap, partition, partitionMap } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
-  FromEither3,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
@@ -26,15 +33,16 @@ import {
   asks as asks_,
   chainReaderK as chainReaderK_,
   chainFirstReaderK as chainFirstReaderK_,
-  FromReader3,
+  FromReader as FromReader_,
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { flow, identity, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad3 } from './Monad'
+import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
-import type { Pointed3 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -115,13 +123,13 @@ export const asksReaderEither: <R, E, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] = R.of
+export const fromEither: FromEither_<ReaderEitherF>['fromEither'] = R.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: FromReader3<URI>['fromReader'] = rightReader
+export const fromReader: FromReader_<ReaderEitherF>['fromReader'] = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -296,7 +304,7 @@ export const swap: <R, E, A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, A, E>
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor3<URI>['map'] =
+export const map: Functor_<ReaderEitherF>['map'] =
   /*#__PURE__*/
   ET.map(R.Functor)
 
@@ -306,7 +314,7 @@ export const map: Functor3<URI>['map'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor3<URI>['bimap'] =
+export const bimap: Bifunctor_<ReaderEitherF>['bimap'] =
   /*#__PURE__*/
   ET.bimap(R.Functor)
 
@@ -316,7 +324,7 @@ export const bimap: Bifunctor3<URI>['bimap'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor3<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<ReaderEitherF>['mapLeft'] =
   /*#__PURE__*/
   ET.mapLeft(R.Functor)
 
@@ -326,7 +334,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply3<URI>['ap'] =
+export const ap: Apply_<ReaderEitherF>['ap'] =
   /*#__PURE__*/
   ET.ap(R.Apply)
 
@@ -352,7 +360,7 @@ export const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain3<URI>['chain'] =
+export const chain: Chain_<ReaderEitherF>['chain'] =
   /*#__PURE__*/
   ET.chain(R.Monad)
 
@@ -393,7 +401,7 @@ export const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) 
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt3<URI>['alt'] =
+export const alt: Alt_<ReaderEitherF>['alt'] =
   /*#__PURE__*/
   ET.alt(R.Monad)
 
@@ -415,12 +423,16 @@ export const altW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReaderEither'
+export interface ReaderEitherF extends HKT {
+  readonly type: ReaderEither<this['R'], this['E'], this['A']>
+}
 
-declare module './HKT' {
-  interface URItoKind3<R, E, A> {
-    readonly ReaderEither: ReaderEither<R, E, A>
-  }
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export interface ReaderEitherFE<E> extends HKT {
+  readonly type: ReaderEither<this['R'], E, this['A']>
 }
 
 /**
@@ -432,7 +444,7 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3C<URI, E> => ({
+export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative_<ReaderEitherFE<E>> => ({
   map,
   ap: ap_(R.Apply, E.getApplicativeValidation(S)),
   of
@@ -447,7 +459,7 @@ export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative3
  * @category instances
  * @since 3.0.0
  */
-export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
+export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt_<ReaderEitherFE<E>> => {
   return {
     map,
     alt: ET.altValidation(R.Monad, S)
@@ -458,11 +470,11 @@ export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt3C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<ReaderEitherFE<E>> => {
   const C = E.getCompactable(M)
   return {
     compact: compact_(R.Functor, C),
-    separate: separate_(R.Functor, C, E.Functor)
+    separate: separate_(R.Functor, C as any, E.Functor) // TODO
   }
 }
 
@@ -470,7 +482,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable3C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<ReaderEitherFE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(R.Functor, F),
@@ -484,7 +496,7 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable3C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor3<URI> = {
+export const Functor: Functor_<ReaderEitherF> = {
   map
 }
 
@@ -502,7 +514,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed3<URI> = {
+export const Pointed: Pointed_<ReaderEitherF> = {
   of
 }
 
@@ -510,7 +522,7 @@ export const Pointed: Pointed3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply3<URI> = {
+export const Apply: Apply_<ReaderEitherF> = {
   map,
   ap
 }
@@ -563,7 +575,7 @@ export const apSecondW: <R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative3<URI> = {
+export const Applicative: Applicative_<ReaderEitherF> = {
   map,
   ap,
   of
@@ -573,7 +585,7 @@ export const Applicative: Applicative3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain3<URI> = {
+export const Chain: Chain_<ReaderEitherF> = {
   map,
   chain
 }
@@ -582,7 +594,7 @@ export const Chain: Chain3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad3<URI> = {
+export const Monad: Monad_<ReaderEitherF> = {
   map,
   of,
   chain
@@ -615,7 +627,7 @@ export const chainFirstW: <A, R2, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor3<URI> = {
+export const Bifunctor: Bifunctor_<ReaderEitherF> = {
   bimap,
   mapLeft
 }
@@ -624,7 +636,7 @@ export const Bifunctor: Bifunctor3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt3<URI> = {
+export const Alt: Alt_<ReaderEitherF> = {
   map,
   alt
 }
@@ -633,7 +645,7 @@ export const Alt: Alt3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromReader: FromReader3<URI> = {
+export const FromReader: FromReader_<ReaderEitherF> = {
   fromReader
 }
 
@@ -711,7 +723,7 @@ export const chainFirstReaderKW: <A, R1, B>(
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither3<URI> = {
+export const FromEither: FromEither_<ReaderEitherF> = {
   fromEither
 }
 

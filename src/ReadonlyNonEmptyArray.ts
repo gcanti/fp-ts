@@ -12,31 +12,31 @@
  *
  * @since 3.0.0
  */
-import type { Alt1 } from './Alt'
-import type { Applicative as Applicative_, Applicative1 } from './Applicative'
-import { apFirst as apFirst_, Apply1, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import { bind as bind_, Chain1, chainFirst as chainFirst_ } from './Chain'
-import type { Comonad1 } from './Comonad'
+import type { Alt as Alt_ } from './Alt'
+import type { Applicative as Applicative_ } from './Applicative'
+import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
+import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import type { Comonad as Comonad_ } from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
-import type { Extend1 } from './Extend'
-import type { Foldable1 } from './Foldable'
-import type { FoldableWithIndex1 } from './FoldableWithIndex'
+import type { Extend as Extend_ } from './Extend'
+import type { Foldable as Foldable_ } from './Foldable'
+import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import { flow, identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor1, tupled as tupled_ } from './Functor'
-import type { FunctorWithIndex1 } from './FunctorWithIndex'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
 import type { HKT } from './HKT'
 import * as _ from './internal'
-import type { Monad1 } from './Monad'
+import type { Monad as Monad_ } from './Monad'
 import { fromReadonlyNonEmptyArray, NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import { getMonoid, Ord } from './Ord'
-import type { Pointed1 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
 import type { Show } from './Show'
-import type { Traversable1 } from './Traversable'
-import type { TraversableWithIndex1 } from './TraversableWithIndex'
+import type { Traversable as Traversable_ } from './Traversable'
+import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
 import { tuple } from './tuple'
 
 import Semigroup = Se.Semigroup
@@ -751,19 +751,19 @@ export const altW = <B>(
  * @category Alt
  * @since 3.0.2
  */
-export const alt: Alt1<URI>['alt'] = altW
+export const alt: Alt_<ReadonlyNonEmptyArrayF>['alt'] = altW
 
 /**
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply1<URI>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: Apply_<ReadonlyNonEmptyArrayF>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed1<URI>['of'] = _.singleton
+export const of: Pointed_<ReadonlyNonEmptyArrayF>['of'] = _.singleton
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -783,13 +783,13 @@ export const of: Pointed1<URI>['of'] = _.singleton
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain1<URI>['chain'] = (f) => chainWithIndex((_, a) => f(a))
+export const chain: Chain_<ReadonlyNonEmptyArrayF>['chain'] = (f) => chainWithIndex((_, a) => f(a))
 
 /**
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend1<URI>['extend'] = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
+export const extend: Extend_<ReadonlyNonEmptyArrayF>['extend'] = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   let next: ReadonlyArray<A> = tail(as)
@@ -828,15 +828,15 @@ export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) 
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor1<URI>['map'] = (f) => mapWithIndex((_, a) => f(a))
+export const map: Functor_<ReadonlyNonEmptyArrayF>['map'] = (f) => mapWithIndex((_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
  * @since 3.0.0
  */
-export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = <A, B>(f: (i: number, a: A) => B) => (
-  as: ReadonlyNonEmptyArray<A>
-): ReadonlyNonEmptyArray<B> => {
+export const mapWithIndex: FunctorWithIndex_<ReadonlyNonEmptyArrayF, number>['mapWithIndex'] = <A, B>(
+  f: (i: number, a: A) => B
+) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
   const out: NonEmptyArray<B> = [f(0, head(as))]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i]))
@@ -848,7 +848,7 @@ export const mapWithIndex: FunctorWithIndex1<URI, number>['mapWithIndex'] = <A, 
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable1<URI>['reduce'] = (b, f) => reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: Foldable_<ReadonlyNonEmptyArrayF>['reduce'] = (b, f) => reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
@@ -863,7 +863,7 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceWithIndex: FoldableWithIndex1<URI, number>['reduceWithIndex'] = (b, f) => (as) =>
+export const reduceWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number>['reduceWithIndex'] = (b, f) => (as) =>
   as.reduce((b, a, i) => f(i, b, a), b)
 
 /**
@@ -880,21 +880,22 @@ export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A)
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable1<URI>['reduceRight'] = (b, f) => reduceRightWithIndex(b, (_, b, a) => f(b, a))
+export const reduceRight: Foldable_<ReadonlyNonEmptyArrayF>['reduceRight'] = (b, f) =>
+  reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceRightWithIndex: FoldableWithIndex1<URI, number>['reduceRightWithIndex'] = (b, f) => (as) =>
-  as.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number>['reduceRightWithIndex'] = (
+  b,
+  f
+) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable1<URI>['traverse'] = <F>(
-  F: Applicative_<F>
-): (<A, B>(f: (a: A) => HKT<F, B>) => (as: ReadonlyNonEmptyArray<A>) => HKT<F, ReadonlyNonEmptyArray<B>>) => {
+export const traverse: Traversable_<ReadonlyNonEmptyArrayF>['traverse'] = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
@@ -902,17 +903,14 @@ export const traverse: Traversable1<URI>['traverse'] = <F>(
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'] = <F>(F: Applicative_<F>) => <
-  A,
-  B
->(
-  f: (i: number, a: A) => HKT<F, B>
-) => (as: ReadonlyNonEmptyArray<A>): HKT<F, ReadonlyNonEmptyArray<B>> => {
-  let out: HKT<F, ReadonlyNonEmptyArray<B>> = pipe(f(0, head(as)), F.map(of))
+export const traverseWithIndex: TraversableWithIndex_<ReadonlyNonEmptyArrayF, number>['traverseWithIndex'] = (F) => (
+  f
+) => (as) => {
+  let out = pipe(f(0, head(as)), F.map(of))
   for (let i = 1; i < as.length; i++) {
     out = pipe(
       out,
-      F.map((bs) => (b: B) => pipe(bs, append(b))),
+      F.map((bs) => (b: any) => pipe(bs, append(b))), // TODO
       F.ap(f(i, as[i]))
     )
   }
@@ -922,7 +920,7 @@ export const traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWith
 /**
  * @since 3.0.0
  */
-export const extract: Comonad1<URI>['extract'] = _.head
+export const extract: Comonad_<ReadonlyNonEmptyArrayF>['extract'] = _.head
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -932,12 +930,8 @@ export const extract: Comonad1<URI>['extract'] = _.head
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReadonlyNonEmptyArray'
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly ReadonlyNonEmptyArray: ReadonlyNonEmptyArray<A>
-  }
+export interface ReadonlyNonEmptyArrayF extends HKT {
+  readonly type: ReadonlyNonEmptyArray<this['A']>
 }
 
 /**
@@ -975,7 +969,7 @@ export const getUnionSemigroup = <A>(E: Eq<A>): Semigroup<ReadonlyNonEmptyArray<
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor1<URI> = {
+export const Functor: Functor_<ReadonlyNonEmptyArrayF> = {
   map
 }
 
@@ -993,7 +987,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed1<URI> = {
+export const Pointed: Pointed_<ReadonlyNonEmptyArrayF> = {
   of
 }
 
@@ -1001,7 +995,7 @@ export const Pointed: Pointed1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
+export const FunctorWithIndex: FunctorWithIndex_<ReadonlyNonEmptyArrayF, number> = {
   mapWithIndex
 }
 
@@ -1009,7 +1003,7 @@ export const FunctorWithIndex: FunctorWithIndex1<URI, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Apply: Apply1<URI> = {
+export const Apply: Apply_<ReadonlyNonEmptyArrayF> = {
   map,
   ap
 }
@@ -1042,7 +1036,7 @@ export const apSecond =
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative1<URI> = {
+export const Applicative: Applicative_<ReadonlyNonEmptyArrayF> = {
   map,
   ap,
   of
@@ -1052,7 +1046,7 @@ export const Applicative: Applicative1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain1<URI> = {
+export const Chain: Chain_<ReadonlyNonEmptyArrayF> = {
   map,
   chain
 }
@@ -1061,7 +1055,7 @@ export const Chain: Chain1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad1<URI> = {
+export const Monad: Monad_<ReadonlyNonEmptyArrayF> = {
   map,
   of,
   chain
@@ -1096,7 +1090,7 @@ export const chainFirst =
  * @category instances
  * @since 3.0.0
  */
-export const Foldable: Foldable1<URI> = {
+export const Foldable: Foldable_<ReadonlyNonEmptyArrayF> = {
   reduce,
   foldMap,
   reduceRight
@@ -1106,7 +1100,7 @@ export const Foldable: Foldable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
+export const FoldableWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number> = {
   reduceWithIndex,
   foldMapWithIndex,
   reduceRightWithIndex
@@ -1116,7 +1110,7 @@ export const FoldableWithIndex: FoldableWithIndex1<URI, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable1<URI> = {
+export const Traversable: Traversable_<ReadonlyNonEmptyArrayF> = {
   map,
   traverse
 }
@@ -1125,7 +1119,7 @@ export const Traversable: Traversable1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
+export const TraversableWithIndex: TraversableWithIndex_<ReadonlyNonEmptyArrayF, number> = {
   traverseWithIndex
 }
 
@@ -1133,7 +1127,7 @@ export const TraversableWithIndex: TraversableWithIndex1<URI, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt1<URI> = {
+export const Alt: Alt_<ReadonlyNonEmptyArrayF> = {
   map,
   alt
 }
@@ -1142,7 +1136,7 @@ export const Alt: Alt1<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Comonad: Comonad1<URI> = {
+export const Comonad: Comonad_<ReadonlyNonEmptyArrayF> = {
   map,
   extend,
   extract

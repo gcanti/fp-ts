@@ -1,20 +1,21 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative3C } from './Applicative'
-import type { Apply2, Apply3C } from './Apply'
-import type { Bifunctor3 } from './Bifunctor'
-import type { Chain3C } from './Chain'
-import type { FromIO3C } from './FromIO'
-import type { FromReader3C } from './FromReader'
-import type { FromTask3C } from './FromTask'
-import { FromWriter3, fromWriterK as fromWriterK_ } from './FromWriter'
+import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
+import type { Bifunctor as Bifunctor_ } from './Bifunctor'
+import type { Chain } from './Chain'
+import type { FromIO } from './FromIO'
+import type { FromReader } from './FromReader'
+import type { FromTask } from './FromTask'
+import { FromWriter as FromWriter_, fromWriterK as fromWriterK_ } from './FromWriter'
 import { flow } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import type { IO } from './IO'
-import type { Monad3C } from './Monad'
+import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
-import type { Pointed3C } from './Pointed'
+import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 import * as R from './Reader'
 import * as RT from './ReaderTask'
@@ -228,13 +229,13 @@ export const censor: <W>(
  * @category type class operations
  * @since 3.0.0
  */
-export const map: Functor3<URI>['map'] = /*#__PURE__*/ WT.map(RT.Functor)
+export const map: Functor_<ReaderTaskWriterF>['map'] = /*#__PURE__*/ WT.map(RT.Functor)
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor3<URI>['mapLeft'] = /*#__PURE__*/ WT.mapLeft(RT.Functor)
+export const mapLeft: Bifunctor_<ReaderTaskWriterF>['mapLeft'] = /*#__PURE__*/ WT.mapLeft(RT.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -242,7 +243,7 @@ export const mapLeft: Bifunctor3<URI>['mapLeft'] = /*#__PURE__*/ WT.mapLeft(RT.F
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap: Bifunctor3<URI>['bimap'] = /*#__PURE__*/ WT.bimap(RT.Functor)
+export const bimap: Bifunctor_<ReaderTaskWriterF>['bimap'] = /*#__PURE__*/ WT.bimap(RT.Functor)
 
 /**
  * Maps a function over the first component of a `Writer`.
@@ -251,7 +252,7 @@ export const bimap: Bifunctor3<URI>['bimap'] = /*#__PURE__*/ WT.bimap(RT.Functor
  *
  * @since 3.0.0
  */
-export const mapFst: Functor3<URI>['map'] = map
+export const mapFst: Functor_<ReaderTaskWriterF>['map'] = map
 
 /**
  * Maps a function over the second component of a `Writer`.
@@ -260,7 +261,7 @@ export const mapFst: Functor3<URI>['map'] = map
  *
  * @since 3.0.0
  */
-export const mapSnd: Bifunctor3<URI>['mapLeft'] = mapLeft
+export const mapSnd: Bifunctor_<ReaderTaskWriterF>['mapLeft'] = mapLeft
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -270,19 +271,23 @@ export const mapSnd: Bifunctor3<URI>['mapLeft'] = mapLeft
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'ReaderTaskWriter'
-
-declare module './HKT' {
-  interface URItoKind3<R, E, A> {
-    readonly ReaderTaskWriter: ReaderTaskWriter<R, E, A>
-  }
+export interface ReaderTaskWriterF extends HKT {
+  readonly type: ReaderTaskWriter<this['R'], this['E'], this['A']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor3<URI> = {
+export interface ReaderTaskWriterFE<E> extends HKT {
+  readonly type: ReaderTaskWriter<this['R'], E, this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const Bifunctor: Bifunctor_<ReaderTaskWriterF> = {
   bimap,
   mapLeft: mapSnd
 }
@@ -291,7 +296,7 @@ export const Bifunctor: Bifunctor3<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor3<URI> = {
+export const Functor: Functor_<ReaderTaskWriterF> = {
   map
 }
 
@@ -307,7 +312,7 @@ export const flap = /*#__PURE__*/ flap_(Functor)
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed3C<URI, W> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFE<W>> => ({
   of: WT.of(RT.Pointed, M)
 })
 
@@ -315,7 +320,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed3C<URI, W> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(A: Apply2<RT.URI>, S: Semigroup<W>): Apply3C<URI, W> => ({
+export const getApply = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>): Apply<ReaderTaskWriterFE<W>> => ({
   map,
   ap: WT.ap(A, S)
 })
@@ -324,7 +329,7 @@ export const getApply = <W>(A: Apply2<RT.URI>, S: Semigroup<W>): Apply3C<URI, W>
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(A: Apply2<RT.URI>, M: Monoid<W>): Applicative3C<URI, W> => {
+export const getApplicative = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>): Applicative<ReaderTaskWriterFE<W>> => {
   const { ap } = getApply(A, M)
   const P = getPointed(M)
   return {
@@ -338,7 +343,7 @@ export const getApplicative = <W>(A: Apply2<RT.URI>, M: Monoid<W>): Applicative3
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain3C<URI, W> => {
+export const getChain = <W>(S: Semigroup<W>): Chain<ReaderTaskWriterFE<W>> => {
   return {
     map,
     chain: WT.chain(RT.Chain, S)
@@ -349,7 +354,7 @@ export const getChain = <W>(S: Semigroup<W>): Chain3C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad3C<URI, W> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFE<W>> => {
   const P = getPointed(M)
   const C = getChain(M)
   return {
@@ -363,7 +368,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad3C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const FromWriter: FromWriter3<URI> = {
+export const FromWriter: FromWriter_<ReaderTaskWriterF> = {
   fromWriter
 }
 
@@ -377,7 +382,7 @@ export const fromWriterK = /*#__PURE__*/ fromWriterK_(FromWriter)
  * @category instances
  * @since 3.0.0
  */
-export const getFromReader = <W>(M: Monoid<W>): FromReader3C<URI, W> => ({
+export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFE<W>> => ({
   fromReader: fromReader(M.empty)
 })
 
@@ -385,7 +390,7 @@ export const getFromReader = <W>(M: Monoid<W>): FromReader3C<URI, W> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFromIO = <W>(M: Monoid<W>): FromIO3C<URI, W> => ({
+export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFE<W>> => ({
   fromIO: fromIO(M.empty)
 })
 
@@ -393,7 +398,7 @@ export const getFromIO = <W>(M: Monoid<W>): FromIO3C<URI, W> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFromTask = <W>(M: Monoid<W>): FromTask3C<URI, W> => ({
+export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFE<W>> => ({
   fromIO: fromIO(M.empty),
   fromTask: fromTask(M.empty)
 })

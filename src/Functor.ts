@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { apply, flow } from './function'
-import type { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import type { HKT, Typeclass, Kind, ComposeF } from './HKT'
 import { tuple } from './tuple'
 
 // -------------------------------------------------------------------------------------
@@ -23,65 +23,8 @@ import { tuple } from './tuple'
  * @category type classes
  * @since 3.0.0
  */
-export interface Functor<F> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor1<F extends URIS> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor2<F extends URIS2> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor2C<F extends URIS2, E> {
-  readonly URI?: F
-  readonly _E?: E
-  readonly map: <A, B>(f: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor3<F extends URIS3> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor3C<F extends URIS3, E> {
-  readonly URI?: F
-  readonly _E?: E
-  readonly map: <A, B>(f: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
-}
-
-/**
- * @category type classes
- * @since 3.0.0
- */
-export interface Functor4<F extends URIS4> {
-  readonly URI?: F
-  readonly map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+export interface Functor<F extends HKT> extends Typeclass<F> {
+  readonly map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
 }
 
 // -------------------------------------------------------------------------------------
@@ -92,20 +35,9 @@ export interface Functor4<F extends URIS4> {
  * @category combinators
  * @since 3.0.0
  */
-export function flap<F extends URIS4>(
-  F: Functor4<F>
-): <A>(a: A) => <S, R, E, B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
-export function flap<F extends URIS3>(
-  F: Functor3<F>
-): <A>(a: A) => <R, E, B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
-export function flap<F extends URIS2>(
-  F: Functor2<F>
-): <A>(a: A) => <E, B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
-export function flap<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
-export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
-export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B> {
-  return (a) => F.map(apply(a))
-}
+export const flap = <F extends HKT>(F: Functor<F>) => <A>(
+  a: A
+): (<S, R, E, B>(fab: Kind<F, S, R, E, (a: A) => B>) => Kind<F, S, R, E, B>) => F.map(apply(a))
 
 /**
  * `map` composition.
@@ -113,102 +45,8 @@ export function flap<F>(F: Functor<F>): <A>(a: A) => <B>(fab: HKT<F, (a: A) => B
  * @category combinators
  * @since 3.0.0
  */
-export function map<F extends URIS4, G extends URIS4>(
-  F: Functor4<F>,
-  G: Functor4<G>
-): <A, B>(
-  f: (a: A) => B
-) => <SF, RF, EF, SG, RG, EG>(
-  fa: Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, A>>
-) => Kind4<F, SF, RF, EF, Kind4<G, SG, RG, EG, B>>
-export function map<F extends URIS4, G extends URIS3>(
-  F: Functor4<F>,
-  G: Functor3<G>
-): <A, B>(
-  f: (a: A) => B
-) => <SF, RF, EF, RG, EG>(fa: Kind4<F, SF, RF, EF, Kind3<G, RG, EG, A>>) => Kind4<F, SF, RF, EF, Kind3<G, RF, EF, B>>
-export function map<F extends URIS4, G extends URIS2>(
-  F: Functor4<F>,
-  G: Functor2<G>
-): <A, B>(
-  f: (a: A) => B
-) => <SF, RF, EF, EG>(fa: Kind4<F, SF, RF, EF, Kind2<G, EG, A>>) => Kind4<F, SF, RF, EF, Kind2<G, EG, B>>
-export function map<F extends URIS4, G extends URIS>(
-  F: Functor4<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, Kind<G, A>>) => Kind4<F, S, R, E, Kind<G, B>>
-export function map<F extends URIS3, G extends URIS4>(
-  F: Functor3<F>,
-  G: Functor4<G>
-): <A, B>(
-  f: (a: A) => B
-) => <RF, EF, SG, RG, EG>(fa: Kind3<F, RF, EF, Kind4<G, SG, RG, EG, A>>) => Kind3<F, RF, EF, Kind4<G, SG, RG, EG, B>>
-export function map<F extends URIS3, G extends URIS3>(
-  F: Functor3<F>,
-  G: Functor3<G>
-): <A, B>(
-  f: (a: A) => B
-) => <RF, EF, RG, EG>(fa: Kind3<F, RF, EF, Kind3<G, RG, EG, A>>) => Kind3<F, RF, EF, Kind3<G, RG, EG, B>>
-export function map<F extends URIS3, G extends URIS2>(
-  F: Functor3<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <R, EF, EG>(fa: Kind3<F, R, EF, Kind2<G, EG, A>>) => Kind3<F, R, EF, Kind2<G, EG, B>>
-export function map<F extends URIS3, G extends URIS>(
-  F: Functor3<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, Kind<G, A>>) => Kind3<F, R, E, Kind<G, B>>
-export function map<F extends URIS2, G extends URIS4>(
-  F: Functor2<F>,
-  G: Functor4<G>
-): <A, B>(
-  f: (a: A) => B
-) => <EF, SG, RG, EG>(fa: Kind2<F, EF, Kind4<G, SG, RG, EG, A>>) => Kind2<F, EF, Kind4<G, SG, RG, EG, B>>
-export function map<F extends URIS2, G extends URIS3>(
-  F: Functor2<F>,
-  G: Functor3<G>
-): <A, B>(f: (a: A) => B) => <EF, RG, EG>(fa: Kind2<F, EF, Kind3<G, RG, EG, A>>) => Kind2<F, EF, Kind3<G, RG, EG, B>>
-export function map<F extends URIS2, G extends URIS2>(
-  F: Functor2<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <EF, EG>(fa: Kind2<F, EF, Kind2<G, EG, A>>) => Kind2<F, EF, Kind2<G, EG, B>>
-export function map<F extends URIS2, G extends URIS>(
-  F: Functor2<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, Kind<G, A>>) => Kind2<F, E, Kind<G, B>>
-export function map<F extends URIS, G extends URIS4>(
-  F: Functor1<F>,
-  G: Functor4<G>
-): <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind<F, Kind4<G, S, R, E, A>>) => Kind<F, Kind4<G, S, R, E, B>>
-export function map<F extends URIS, G extends URIS3>(
-  F: Functor1<F>,
-  G: Functor3<G>
-): <A, B>(f: (a: A) => B) => <R, E>(fa: Kind<F, Kind3<G, R, E, A>>) => Kind<F, Kind3<G, R, E, B>>
-export function map<F extends URIS, G extends URIS2>(
-  F: Functor1<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: Kind<F, Kind2<G, E, A>>) => Kind<F, Kind2<G, E, B>>
-export function map<F extends URIS, G extends URIS>(
-  F: Functor1<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => (fa: Kind<F, Kind<G, A>>) => Kind<F, Kind<G, B>>
-export function map<F, G extends URIS2>(
-  F: Functor<F>,
-  G: Functor2<G>
-): <A, B>(f: (a: A) => B) => <E>(fa: HKT<F, Kind2<G, E, A>>) => HKT<F, Kind2<G, E, B>>
-export function map<F, G extends URIS>(
-  F: Functor<F>,
-  G: Functor1<G>
-): <A, B>(f: (a: A) => B) => (fa: HKT<F, Kind<G, A>>) => HKT<F, Kind<G, B>>
-export function map<F, G>(
-  F: Functor<F>,
-  G: Functor<G>
-): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
-export function map<F, G>(
-  F: Functor<F>,
-  G: Functor<G>
-): <A, B>(f: (a: A) => B) => (fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>> {
-  return flow(G.map, F.map)
-}
+export const map = <F extends HKT, G extends HKT>(F: Functor<F>, G: Functor<G>): Functor<ComposeF<F, G>>['map'] =>
+  flow(G.map, F.map)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -217,49 +55,14 @@ export function map<F, G>(
 /**
  * @since 3.0.0
  */
-export function bindTo<F extends URIS4>(
-  F: Functor4<F>
-): <N extends string>(name: N) => <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, { readonly [K in N]: A }>
-export function bindTo<F extends URIS3>(
-  F: Functor3<F>
-): <N extends string>(name: N) => <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in N]: A }>
-export function bindTo<F extends URIS3, E>(
-  F: Functor3C<F, E>
-): <N extends string>(name: N) => <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, { readonly [K in N]: A }>
-export function bindTo<F extends URIS2>(
-  F: Functor2<F>
-): <N extends string>(name: N) => <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in N]: A }>
-export function bindTo<F extends URIS2, E>(
-  F: Functor2C<F, E>
-): <N extends string>(name: N) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, { readonly [K in N]: A }>
-export function bindTo<F extends URIS>(
-  F: Functor1<F>
-): <N extends string>(name: N) => <A>(fa: Kind<F, A>) => Kind<F, { [K in N]: A }>
-export function bindTo<F>(
-  F: Functor<F>
-): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { readonly [K in N]: A }>
-export function bindTo<F>(
-  F: Functor<F>
-): <N extends string>(name: N) => <A>(fa: HKT<F, A>) => HKT<F, { readonly [K in N]: A }> {
-  return (name) => F.map((a) => ({ [name]: a } as any))
-}
+export const bindTo = <F extends HKT>(F: Functor<F>) => <N extends string>(
+  name: N
+): (<S, R, E, A>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, { readonly [K in N]: A }>) =>
+  F.map((a) => ({ [name]: a } as any))
 
 /**
  * @since 3.0.0
  */
-export function tupled<F extends URIS4>(
-  F: Functor4<F>
-): <S, R, E, A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, readonly [A]>
-export function tupled<F extends URIS3>(
-  F: Functor3<F>
-): <R, E, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
-export function tupled<F extends URIS3, E>(
-  F: Functor3C<F, E>
-): <R, A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, readonly [A]>
-export function tupled<F extends URIS2>(F: Functor2<F>): <E, A>(fa: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
-export function tupled<F extends URIS2, E>(F: Functor2C<F, E>): <A>(fa: Kind2<F, E, A>) => Kind2<F, E, readonly [A]>
-export function tupled<F extends URIS>(F: Functor1<F>): <A>(fa: Kind<F, A>) => Kind<F, readonly [A]>
-export function tupled<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]>
-export function tupled<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, readonly [A]> {
-  return F.map(tuple)
-}
+export const tupled = <F extends HKT>(
+  F: Functor<F>
+): (<S, R, E, A>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, readonly [A]>) => F.map(tuple)

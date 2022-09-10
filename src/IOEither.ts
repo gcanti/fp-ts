@@ -7,35 +7,48 @@
  *
  * @since 3.0.0
  */
-import type { Alt2, Alt2C } from './Alt'
-import type { Applicative2, Applicative2C } from './Applicative'
-import { ap as ap_, apFirst as apFirst_, Apply2, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
-import type { Bifunctor2 } from './Bifunctor'
-import { ap as apSeq_, bind as bind_, Chain2, chainFirst as chainFirst_ } from './Chain'
-import { compact as compact_, Compactable2C, separate as separate_ } from './Compactable'
+import type { Alt as Alt_ } from './Alt'
+import type { Applicative } from './Applicative'
+import {
+  ap as ap_,
+  apFirst as apFirst_,
+  Apply as Apply_,
+  apS as apS_,
+  apSecond as apSecond_,
+  apT as apT_
+} from './Apply'
+import type { Bifunctor as Bifunctor_ } from './Bifunctor'
+import { ap as apSeq_, bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
+import { compact as compact_, Compactable, separate as separate_ } from './Compactable'
 import * as E from './Either'
 import * as ET from './EitherT'
-import { filter, Filterable2C, filterMap, partition, partitionMap } from './Filterable'
+import { filter, Filterable, filterMap, partition, partitionMap } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
-  FromEither2,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
   fromPredicate as fromPredicate_,
   chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
-import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
+import {
+  chainFirstIOK as chainFirstIOK_,
+  chainIOK as chainIOK_,
+  FromIO as FromIO_,
+  fromIOK as fromIOK_
+} from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor2, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
-import type { Monad2 } from './Monad'
+import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
-import type { Pointed2 } from './Pointed'
+import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
@@ -98,13 +111,13 @@ export const leftIO: <E, A = never>(me: IO<E>) => IOEither<E, A> =
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = I.of
+export const fromEither: FromEither_<IOEitherF>['fromEither'] = I.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: FromIO_<IOEitherF>['fromIO'] = rightIO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -289,7 +302,7 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> =
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor2<URI>['map'] =
+export const map: Functor_<IOEitherF>['map'] =
   /*#__PURE__*/
   ET.map(I.Functor)
 
@@ -299,7 +312,7 @@ export const map: Functor2<URI>['map'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor2<URI>['bimap'] =
+export const bimap: Bifunctor_<IOEitherF>['bimap'] =
   /*#__PURE__*/
   ET.bimap(I.Functor)
 
@@ -309,7 +322,7 @@ export const bimap: Bifunctor2<URI>['bimap'] =
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor2<URI>['mapLeft'] =
+export const mapLeft: Bifunctor_<IOEitherF>['mapLeft'] =
   /*#__PURE__*/
   ET.mapLeft(I.Functor)
 
@@ -319,7 +332,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply2<URI>['ap'] =
+export const ap: Apply_<IOEitherF>['ap'] =
   /*#__PURE__*/
   ET.ap(I.Apply)
 
@@ -345,7 +358,7 @@ export const of: <A, E = never>(a: A) => IOEither<E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain2<URI>['chain'] =
+export const chain: Chain_<IOEitherF>['chain'] =
   /*#__PURE__*/
   ET.chain(I.Monad)
 
@@ -384,7 +397,7 @@ export const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt2<URI>['alt'] =
+export const alt: Alt_<IOEitherF>['alt'] =
   /*#__PURE__*/
   ET.alt(I.Monad)
 
@@ -406,12 +419,16 @@ export const altW: <E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export type URI = 'IOEither'
+export interface IOEitherF extends HKT {
+  readonly type: IOEither<this['E'], this['A']>
+}
 
-declare module './HKT' {
-  interface URItoKind2<E, A> {
-    readonly IOEither: IOEither<E, A>
-  }
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export interface IOEitherFE<E> extends HKT {
+  readonly type: IOEither<E, this['A']>
 }
 
 /**
@@ -423,7 +440,7 @@ declare module './HKT' {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<URI, E> => ({
+export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEitherFE<E>> => ({
   map,
   ap: ap_(I.Apply, E.getApplicativeValidation(S)),
   of
@@ -438,7 +455,7 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative2C<UR
  * @category instances
  * @since 3.0.0
  */
-export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
+export const getAltIOValidation = <E>(S: Semigroup<E>): Alt_<IOEitherFE<E>> => {
   return {
     map,
     alt: ET.altValidation(I.Monad, S)
@@ -449,11 +466,11 @@ export const getAltIOValidation = <E>(S: Semigroup<E>): Alt2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<IOEitherFE<E>> => {
   const C = E.getCompactable(M)
   return {
     compact: compact_(I.Functor, C),
-    separate: separate_(I.Functor, C, E.Functor)
+    separate: separate_(I.Functor, C as any, E.Functor) // TODO
   }
 }
 
@@ -461,7 +478,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<IOEitherFE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(I.Functor, F),
@@ -475,7 +492,7 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable2C<URI, E> => {
  * @category instances
  * @since 3.0.0
  */
-export const Functor: Functor2<URI> = {
+export const Functor: Functor_<IOEitherF> = {
   map
 }
 
@@ -493,7 +510,7 @@ export const flap =
  * @category instances
  * @since 3.0.0
  */
-export const Pointed: Pointed2<URI> = {
+export const Pointed: Pointed_<IOEitherF> = {
   of
 }
 
@@ -501,7 +518,7 @@ export const Pointed: Pointed2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Bifunctor: Bifunctor2<URI> = {
+export const Bifunctor: Bifunctor_<IOEitherF> = {
   bimap,
   mapLeft
 }
@@ -510,7 +527,7 @@ export const Bifunctor: Bifunctor2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplyPar: Apply2<URI> = {
+export const ApplyPar: Apply_<IOEitherF> = {
   map,
   ap
 }
@@ -563,7 +580,7 @@ export const apSecondW: <E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativePar: Applicative2<URI> = {
+export const ApplicativePar: Applicative<IOEitherF> = {
   map,
   ap,
   of
@@ -573,7 +590,7 @@ export const ApplicativePar: Applicative2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Chain: Chain2<URI> = {
+export const Chain: Chain_<IOEitherF> = {
   map,
   chain
 }
@@ -586,7 +603,7 @@ const apSeq =
  * @category instances
  * @since 3.0.0
  */
-export const ApplySeq: Apply2<URI> = {
+export const ApplySeq: Apply_<IOEitherF> = {
   map,
   ap: apSeq
 }
@@ -595,7 +612,7 @@ export const ApplySeq: Apply2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const ApplicativeSeq: Applicative2<URI> = {
+export const ApplicativeSeq: Applicative<IOEitherF> = {
   map,
   ap: apSeq,
   of
@@ -628,7 +645,7 @@ export const chainFirstW: <A, E2, B>(
  * @category instances
  * @since 3.0.0
  */
-export const Monad: Monad2<URI> = {
+export const Monad: Monad_<IOEitherF> = {
   map,
   of,
   chain
@@ -638,7 +655,7 @@ export const Monad: Monad2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const Alt: Alt2<URI> = {
+export const Alt: Alt_<IOEitherF> = {
   map,
   alt
 }
@@ -647,7 +664,7 @@ export const Alt: Alt2<URI> = {
  * @category instances
  * @since 3.0.0
  */
-export const FromIO: FromIO2<URI> = {
+export const FromIO: FromIO_<IOEitherF> = {
   fromIO
 }
 
@@ -679,7 +696,7 @@ export const chainFirstIOK =
  * @category instances
  * @since 3.0.0
  */
-export const FromEither: FromEither2<URI> = {
+export const FromEither: FromEither_<IOEitherF> = {
   fromEither
 }
 
