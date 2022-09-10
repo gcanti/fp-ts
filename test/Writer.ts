@@ -13,7 +13,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('writer', () => {
-    U.deepStrictEqual(_.writer(1, 'a'), [1, 'a'])
+    U.deepStrictEqual(pipe(1, _.writer('a')), [1, 'a'])
   })
 
   it('tell', () => {
@@ -25,7 +25,7 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('swap', () => {
-    U.deepStrictEqual(_.swap(_.writer(1, 'a')), ['a', 1])
+    U.deepStrictEqual(_.swap([1, 'a']), ['a', 1])
   })
 
   it('listen', () => {
@@ -63,38 +63,38 @@ describe('Writer', () => {
   // -------------------------------------------------------------------------------------
 
   it('map', () => {
-    U.deepStrictEqual(pipe(_.writer(1, 'a'), _.map(U.double)), [2, 'a'])
+    U.deepStrictEqual(pipe([1, 'a'] as const, _.map(U.double)), [2, 'a'])
   })
 
   it('mapLeft', () => {
-    U.deepStrictEqual(pipe(_.writer('a', 1), _.mapLeft(U.double)), ['a', 2])
+    U.deepStrictEqual(pipe(['a', 1] as const, _.mapLeft(U.double)), ['a', 2])
   })
 
   it('bimap', () => {
-    U.deepStrictEqual(pipe(_.writer(1, 'a'), _.bimap(S.size, U.double)), [2, 1])
+    U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
   })
 
   it('compose', () => {
-    U.deepStrictEqual(pipe(_.writer(1, 'a'), _.compose([true, 2])), [true, 'a'])
+    U.deepStrictEqual(pipe([1, 'a'] as const, _.compose([true, 2])), [true, 'a'])
   })
 
   it('extract', () => {
-    U.deepStrictEqual(pipe(_.writer(1, 'a'), _.extract), 1)
+    U.deepStrictEqual(pipe([1, 'a'] as const, _.extract), 1)
   })
 
   it('extend', () => {
     const f = (fa: _.Writer<string, number>): number => _.snd(fa).length + _.fst(fa)
-    U.deepStrictEqual(pipe(_.writer(1, 'bb'), _.extend(f)), _.writer(3, 'bb'))
+    U.deepStrictEqual(pipe([1, 'bb'], _.extend(f)), [3, 'bb'])
   })
 
   it('duplicate', () => {
-    U.deepStrictEqual(pipe(_.writer(1, 'a'), _.duplicate), [[1, 'a'], 'a'])
+    U.deepStrictEqual(pipe([1, 'a'] as const, _.duplicate), [[1, 'a'], 'a'])
   })
 
   it('reduce', () => {
     U.deepStrictEqual(
       pipe(
-        _.writer('b', 1),
+        ['b', 1] as const,
         _.reduce('a', (acc, a) => acc + a)
       ),
       'ab'
@@ -102,13 +102,13 @@ describe('Writer', () => {
   })
 
   it('foldMap', () => {
-    U.deepStrictEqual(pipe(_.writer('a', 1), _.foldMap(S.Monoid)(identity)), 'a')
+    U.deepStrictEqual(pipe(['a', 1] as const, _.foldMap(S.Monoid)(identity)), 'a')
   })
 
   it('reduceRight', () => {
     U.deepStrictEqual(
       pipe(
-        _.writer('b', 1),
+        ['b', 1] as const,
         _.reduceRight('a', (acc, a) => acc + a)
       ),
       'ba'
@@ -117,7 +117,7 @@ describe('Writer', () => {
 
   it('traverse', () => {
     const traverse = _.traverse(O.Applicative)((n: number) => (n > 1 ? O.some(n) : O.none))
-    U.deepStrictEqual(traverse([2, 'a']), O.some(_.writer(2, 'a')))
+    U.deepStrictEqual(traverse([2, 'a']), O.some([2, 'a'] as const))
     U.deepStrictEqual(traverse([1, 'a']), O.none)
   })
 

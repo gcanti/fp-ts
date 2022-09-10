@@ -87,6 +87,7 @@ Added in v3.0.0
   - [readerT](#readert)
   - [readerTask](#readertask)
   - [readerTaskEither](#readertaskeither)
+  - [readerTaskWriter](#readertaskwriter)
   - [readonlyArray](#readonlyarray)
   - [readonlyMap](#readonlymap)
   - [readonlyNonEmptyArray](#readonlynonemptyarray)
@@ -121,6 +122,7 @@ Added in v3.0.0
   - [void](#void)
   - [witherable](#witherable)
   - [writer](#writer)
+  - [writerT](#writert)
   - [zero](#zero)
 
 ---
@@ -867,6 +869,16 @@ export declare const readerTaskEither: typeof readerTaskEither
 
 Added in v3.0.0
 
+## readerTaskWriter
+
+**Signature**
+
+```ts
+export declare const readerTaskWriter: typeof readerTaskWriter
+```
+
+Added in v3.0.0
+
 ## readonlyArray
 
 **Signature**
@@ -1203,6 +1215,16 @@ Added in v3.0.0
 
 ```ts
 export declare const writer: typeof writer
+```
+
+Added in v3.0.0
+
+## writerT
+
+**Signature**
+
+```ts
+export declare const writerT: typeof writerT
 ```
 
 Added in v3.0.0

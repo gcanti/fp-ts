@@ -39,7 +39,7 @@ export type Writer<W, A> = readonly [A, W]
  * @category constructors
  * @since 3.0.0
  */
-export const writer = <A, W>(a: A, w: W): Writer<W, A> => [a, w]
+export const writer = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w]
 
 /**
  * Appends a value to the accumulator
@@ -56,12 +56,12 @@ export const tell: <W>(w: W) => Writer<W, void> = (w) => [undefined, w]
 /**
  * @since 3.0.0
  */
-export const fst = <E, A>(t: Writer<E, A>): A => t[0]
+export const fst = <W, A>(t: Writer<W, A>): A => t[0]
 
 /**
  * @since 3.0.0
  */
-export const snd = <E, A>(t: Writer<E, A>): E => t[1]
+export const snd = <W, A>(t: Writer<W, A>): W => t[1]
 
 /**
  * Alias of [`fst`](#fst).
@@ -85,7 +85,7 @@ export const execute: <W, A>(fa: Writer<W, A>) => W = snd
  * @category combinators
  * @since 3.0.0
  */
-export const swap = <E, A>(t: Writer<E, A>): Writer<A, E> => [snd(t), fst(t)]
+export const swap = <W, A>(t: Writer<W, A>): Writer<A, W> => [snd(t), fst(t)]
 
 /**
  * Modifies the result to include the changes to the accumulator
@@ -162,7 +162,7 @@ export const mapLeft: Bifunctor2<URI>['mapLeft'] = (f) => (fa) => {
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap = <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (t: Writer<E, A>): Writer<G, B> => [
+export const bimap = <W, G, A, B>(mapSnd: (e: W) => G, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<G, B> => [
   mapFst(fst(t)),
   mapSnd(snd(t))
 ]
@@ -209,7 +209,7 @@ export const extract: Comonad2<URI>['extract'] = fst
  * @category type class operations
  * @since 3.0.0
  */
-export const duplicate: <E, A>(t: Writer<E, A>) => Writer<E, Writer<E, A>> = /*#__PURE__*/ extend(identity)
+export const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category type class operations
@@ -233,9 +233,9 @@ export const reduceRight: Foldable2<URI>['reduceRight'] = (b, f) => (fa) => f(fs
  * @category type class operations
  * @since 3.0.0
  */
-export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <E>(
-  t: Writer<E, A>
-): HKT<F, Writer<E, B>> =>
+export const traverse: Traversable2<URI>['traverse'] = <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>) => <W>(
+  t: Writer<W, A>
+): HKT<F, Writer<W, B>> =>
   pipe(
     f(fst(t)),
     F.map((b) => [b, snd(t)])

@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 110
+nav_order: 111
 parent: Modules
 ---
 
@@ -127,7 +127,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const swap: <E, A>(t: Writer<E, A>) => Writer<A, E>
+export declare const swap: <W, A>(t: Writer<W, A>) => Writer<A, W>
 ```
 
 Added in v3.0.0
@@ -151,7 +151,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const writer: <A, W>(a: A, w: W) => Writer<W, A>
+export declare const writer: <W>(w: W) => <A>(a: A) => Writer<W, A>
 ```
 
 Added in v3.0.0
@@ -309,7 +309,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(mapSnd: (e: E) => G, mapFst: (a: A) => B) => (t: Writer<E, A>) => Writer<G, B>
+export declare const bimap: <W, G, A, B>(mapSnd: (e: W) => G, mapFst: (a: A) => B) => (t: Writer<W, A>) => Writer<G, B>
 ```
 
 Added in v3.0.0
@@ -331,7 +331,7 @@ Derivable from `Extend`.
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(t: Writer<E, A>) => Writer<E, Writer<E, A>>
+export declare const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -450,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fst: <E, A>(t: Writer<E, A>) => A
+export declare const fst: <W, A>(t: Writer<W, A>) => A
 ```
 
 Added in v3.0.0
@@ -488,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const snd: <E, A>(t: Writer<E, A>) => E
+export declare const snd: <W, A>(t: Writer<W, A>) => W
 ```
 
 Added in v3.0.0
