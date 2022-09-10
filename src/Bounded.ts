@@ -34,7 +34,7 @@ export interface Bounded<A> extends Ord<A> {
  * @category utils
  * @since 2.12.0
  */
-export const clamp = <T>(B: Bounded<T>) => O.clamp(B)(B.bottom, B.top)
+export const clamp = <A>(B: Bounded<A>): ((a: A) => A) => O.clamp(B)(B.bottom, B.top)
 
 /**
  * Reverses the Ord of a bound and swaps top and bottom values.
@@ -42,7 +42,7 @@ export const clamp = <T>(B: Bounded<T>) => O.clamp(B)(B.bottom, B.top)
  * @category utils
  * @since 2.12.0
  */
-export const reverse = <T>(B: Bounded<T>): Bounded<T> => {
+export const reverse = <A>(B: Bounded<A>): Bounded<A> => {
   const R = O.reverse(B)
   return {
     equals: R.equals,

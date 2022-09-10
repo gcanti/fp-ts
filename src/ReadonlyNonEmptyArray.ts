@@ -836,7 +836,7 @@ export const reduce = <A, B>(b: B, f: (b: B, a: A) => B): ((as: ReadonlyNonEmpty
  * @category Foldable
  * @since 2.5.0
  */
-export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>) =>
+export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (as: ReadonlyNonEmptyArray<A>): S =>
   as.slice(1).reduce((s, a) => S.concat(s, f(a)), f(as[0]))
 
 /**
@@ -861,7 +861,7 @@ export const reduceWithIndex = <A, B>(b: B, f: (i: number, b: B, a: A) => B) => 
  */
 export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A) => S) => (
   as: ReadonlyNonEmptyArray<A>
-) => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
+): S => as.slice(1).reduce((s, a, i) => S.concat(s, f(i + 1, a)), f(0, as[0]))
 
 /**
  * @category FoldableWithIndex

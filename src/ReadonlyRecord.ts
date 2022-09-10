@@ -1407,15 +1407,20 @@ export const _partitionMapWithIndex = <A, B, C>(
 export const _partitionWithIndex = <A>(
   fa: ReadonlyRecord<string, A>,
   predicateWithIndex: PredicateWithIndex<string, A>
-) => pipe(fa, partitionWithIndex(predicateWithIndex))
+): Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>> =>
+  pipe(fa, partitionWithIndex(predicateWithIndex))
 /** @internal */
 /* istanbul ignore next */
-export const _filterMapWithIndex = <A, B>(fa: ReadonlyRecord<string, A>, f: (key: string, a: A) => Option<B>) =>
-  pipe(fa, filterMapWithIndex(f))
+export const _filterMapWithIndex = <A, B>(
+  fa: ReadonlyRecord<string, A>,
+  f: (key: string, a: A) => Option<B>
+): Readonly<Record<string, B>> => pipe(fa, filterMapWithIndex(f))
 /** @internal */
 /* istanbul ignore next */
-export const _filterWithIndex = <A>(fa: ReadonlyRecord<string, A>, predicateWithIndex: PredicateWithIndex<string, A>) =>
-  pipe(fa, filterWithIndex(predicateWithIndex))
+export const _filterWithIndex = <A>(
+  fa: ReadonlyRecord<string, A>,
+  predicateWithIndex: PredicateWithIndex<string, A>
+): Readonly<Record<string, A>> => pipe(fa, filterWithIndex(predicateWithIndex))
 /** @internal */
 export const _traverse = (
   O: Ord<string>
