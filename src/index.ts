@@ -589,6 +589,9 @@ export {
    * @since 2.0.0
    */
   validationT,
+  /**
+   * @since 2.12.4
+   */
   variant,
   /**
    * @since 2.11.0
