@@ -39,7 +39,7 @@ export type Writer<W, A> = readonly [A, W]
  * @category constructors
  * @since 3.0.0
  */
-export const writer = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w]
+export const fromIdentity = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w]
 
 /**
  * Appends a value to the accumulator

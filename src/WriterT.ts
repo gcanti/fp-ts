@@ -43,7 +43,7 @@ export function fromF<F extends URIS2, E>(
 export function fromF<F extends URIS>(F: Functor1<F>): <W>(w: W) => <A>(fa: Kind<F, A>) => Kind<F, Writer<W, A>>
 export function fromF<F>(F: Functor<F>): <W>(w: W) => <A>(fa: HKT<F, A>) => HKT<F, Writer<W, A>>
 export function fromF<F>(F: Functor<F>): <W>(w: W) => <A>(fa: HKT<F, A>) => HKT<F, Writer<W, A>> {
-  return (w) => F.map(W.writer(w))
+  return (w) => F.map(W.fromIdentity(w))
 }
 
 /**
@@ -76,7 +76,7 @@ export function fromIO<F extends URIS>(
 ): <W>(w: W) => <A>(fa: IO<A>) => Kind<F, Writer<W, A>>
 export function fromIO<F>(F: Functor<F>, FT: FromIO<F>): <W>(w: W) => <A>(fa: IO<A>) => HKT<F, Writer<W, A>>
 export function fromIO<F>(F: Functor<F>, FT: FromIO<F>): <W>(w: W) => <A>(fa: IO<A>) => HKT<F, Writer<W, A>> {
-  return (w) => flow(FT.fromIO, F.map(W.writer(w)))
+  return (w) => flow(FT.fromIO, F.map(W.fromIdentity(w)))
 }
 
 /**
@@ -109,7 +109,7 @@ export function fromTask<F extends URIS>(
 ): <W>(w: W) => <A>(fa: Task<A>) => Kind<F, Writer<W, A>>
 export function fromTask<F>(F: Functor<F>, FT: FromTask<F>): <W>(w: W) => <A>(fa: Task<A>) => HKT<F, Writer<W, A>>
 export function fromTask<F>(F: Functor<F>, FT: FromTask<F>): <W>(w: W) => <A>(fa: Task<A>) => HKT<F, Writer<W, A>> {
-  return (w) => flow(FT.fromTask, F.map(W.writer(w)))
+  return (w) => flow(FT.fromTask, F.map(W.fromIdentity(w)))
 }
 
 /**

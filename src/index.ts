@@ -41,6 +41,7 @@ import * as fromReader from './FromReader'
 import * as fromState from './FromState'
 import * as fromTask from './FromTask'
 import * as fromThese from './FromThese'
+import * as fromWriter from './FromWriter'
 import * as function_ from './function'
 import * as functor from './Functor'
 import * as functorWithIndex from './FunctorWithIndex'
@@ -266,6 +267,10 @@ export {
    * @since 3.0.0
    */
   fromThese,
+  /**
+   * @since 3.0.0
+   */
+  fromWriter,
   /**
    * @since 3.0.0
    */

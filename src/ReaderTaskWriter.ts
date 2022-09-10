@@ -3,17 +3,20 @@
  */
 import type { Applicative3C } from './Applicative'
 import type { Apply2, Apply3C } from './Apply'
-import { Bifunctor3 } from './Bifunctor'
+import type { Bifunctor3 } from './Bifunctor'
 import type { Chain3C } from './Chain'
-import { FromIO3C } from './FromIO'
+import type { FromIO3C } from './FromIO'
+import type { FromReader3C } from './FromReader'
 import type { FromTask3C } from './FromTask'
+import { FromWriter3, fromWriterK as fromWriterK_ } from './FromWriter'
 import { flow } from './function'
-import { flap as flap_, Functor3 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor3, tupled as tupled_ } from './Functor'
 import type { IO } from './IO'
-import { Monad3C } from './Monad'
+import type { Monad3C } from './Monad'
 import type { Monoid } from './Monoid'
 import type { Pointed3C } from './Pointed'
 import type { Reader } from './Reader'
+import * as R from './Reader'
 import * as RT from './ReaderTask'
 import type { Semigroup } from './Semigroup'
 import type { Task } from './Task'
@@ -56,6 +59,12 @@ export const fromReaderTask: <W>(
  * @category constructors
  * @since 3.0.0
  */
+export const fromTaskWriter: <W, A, R>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ R.of
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
 export const fromIO: <W>(w: W) => <A, R>(fa: IO<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromIO(
   RT.Functor,
   RT.FromIO
@@ -77,6 +86,24 @@ export const fromTask: <W>(w: W) => <A, R>(fa: Task<A>) => ReaderTaskWriter<R, W
  * @since 3.0.0
  */
 export const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void> = /*#__PURE__*/ WT.tell(RT.Pointed)
+
+/**
+ * Less strict version of [`asksReaderTaskWriter`](#asksreadertaskwriter).
+ *
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTaskWriterW: <R1, R2, W, A>(
+  f: (r1: R1) => ReaderTaskWriter<R2, W, A>
+) => ReaderTaskWriter<R1 & R2, W, A> = R.asksReaderW
+
+/**
+ * @category constructors
+ * @since 3.0.0
+ */
+export const asksReaderTaskWriter: <R, W, A>(
+  f: (r: R) => ReaderTaskWriter<R, W, A>
+) => ReaderTaskWriter<R, W, A> = asksReaderTaskWriterW
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -127,11 +154,38 @@ export const execute = snd
 // -------------------------------------------------------------------------------------
 
 /**
+ * Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+ * `contramap`).
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <W, A>(ma: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A> = R.local
+
+/**
  * @since 3.0.0
  */
 export const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W> = /*#__PURE__*/ WT.swap(
   RT.Functor
 )
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromTaskWriterK = <A extends ReadonlyArray<unknown>, W, B>(
+  f: (...a: A) => Task<Writer<W, B>>
+): (<R>(...a: A) => ReaderTaskWriter<R, W, B>) => (...a) => fromTaskWriter(f(...a))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromReaderWriterK = <A extends ReadonlyArray<unknown>, R, W, B>(
+  f: (...a: A) => Reader<R, Writer<W, B>>
+): ((...a: A) => ReaderTaskWriter<R, W, B>) => flow(f, fromReaderWriter)
 
 /**
  * @since 3.0.0
@@ -309,19 +363,109 @@ export const getMonad = <W>(M: Monoid<W>): Monad3C<URI, W> => {
  * @category instances
  * @since 3.0.0
  */
-export const getFromIO = <W>(M: Monoid<W>): FromIO3C<URI, W> => {
-  return {
-    fromIO: fromIO(M.empty)
-  }
+export const FromWriter: FromWriter3<URI> = {
+  fromWriter
 }
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromWriterK = /*#__PURE__*/ fromWriterK_(FromWriter)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getFromTask = <W>(M: Monoid<W>): FromTask3C<URI, W> => {
-  return {
-    fromIO: fromIO(M.empty),
-    fromTask: fromTask(M.empty)
-  }
-}
+export const getFromReader = <W>(M: Monoid<W>): FromReader3C<URI, W> => ({
+  fromReader: fromReader(M.empty)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getFromIO = <W>(M: Monoid<W>): FromIO3C<URI, W> => ({
+  fromIO: fromIO(M.empty)
+})
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
+export const getFromTask = <W>(M: Monoid<W>): FromTask3C<URI, W> => ({
+  fromIO: fromIO(M.empty),
+  fromTask: fromTask(M.empty)
+})
+
+// -------------------------------------------------------------------------------------
+// do notation
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const bindTo =
+  /*#__PURE__*/
+  bindTo_(Functor)
+
+// -------------------------------------------------------------------------------------
+// sequence T
+// -------------------------------------------------------------------------------------
+
+/**
+ * @since 3.0.0
+ */
+export const tupled =
+  /*#__PURE__*/
+  tupled_(Functor)
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+// TODO
+
+// /**
+//  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+//  *
+//  * @since 3.0.0
+//  */
+// export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
+//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
+// ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, E, ReadonlyNonEmptyArray<B>>) =>
+//   flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(TE.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+
+// /**
+//  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
+//  *
+//  * @since 3.0.0
+//  */
+// export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
+//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
+// ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, E, ReadonlyArray<B>>) => {
+//   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
+//   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+// }
+
+// /**
+//  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+//  *
+//  * @since 3.0.0
+//  */
+// export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, R, E, B>(
+//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
+// ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, E, ReadonlyNonEmptyArray<B>>) =>
+//   flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(TE.traverseReadonlyNonEmptyArrayWithIndexSeq(SK)))
+
+// /**
+//  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
+//  *
+//  * @since 3.0.0
+//  */
+// export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
+//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
+// ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, E, ReadonlyArray<B>>) => {
+//   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
+//   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
+// }

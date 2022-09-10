@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskWriter.ts
-nav_order: 77
+nav_order: 78
 parent: Modules
 ---
 
@@ -14,20 +14,29 @@ Added in v3.0.0
 
 - [combinators](#combinators)
   - [flap](#flap)
+  - [fromReaderWriterK](#fromreaderwriterk)
+  - [fromTaskWriterK](#fromtaskwriterk)
+  - [fromWriterK](#fromwriterk)
+  - [local](#local)
 - [constructors](#constructors)
+  - [asksReaderTaskWriter](#asksreadertaskwriter)
+  - [asksReaderTaskWriterW](#asksreadertaskwriterw)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderTask](#fromreadertask)
   - [fromTask](#fromtask)
+  - [fromTaskWriter](#fromtaskwriter)
   - [tell](#tell)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
+  - [FromWriter](#fromwriter)
   - [Functor](#functor)
   - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
   - [getFromIO](#getfromio)
+  - [getFromReader](#getfromreader)
   - [getFromTask](#getfromtask)
   - [getMonad](#getmonad)
   - [getPointed](#getpointed)
@@ -41,6 +50,7 @@ Added in v3.0.0
   - [map](#map)
   - [mapLeft](#mapleft)
 - [utils](#utils)
+  - [bindTo](#bindto)
   - [censor](#censor)
   - [evaluate](#evaluate)
   - [execute](#execute)
@@ -52,6 +62,7 @@ Added in v3.0.0
   - [pass](#pass)
   - [snd](#snd)
   - [swap](#swap)
+  - [tupled](#tupled)
 
 ---
 
@@ -69,7 +80,82 @@ export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a
 
 Added in v3.0.0
 
+## fromReaderWriterK
+
+**Signature**
+
+```ts
+export declare const fromReaderWriterK: <A extends readonly unknown[], R, W, B>(
+  f: (...a: A) => Reader<R, Writer<W, B>>
+) => (...a: A) => ReaderTaskWriter<R, W, B>
+```
+
+Added in v3.0.0
+
+## fromTaskWriterK
+
+**Signature**
+
+```ts
+export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
+  f: (...a: A) => Task<Writer<W, B>>
+) => <R>(...a: A) => ReaderTaskWriter<R, W, B>
+```
+
+Added in v3.0.0
+
+## fromWriterK
+
+**Signature**
+
+```ts
+export declare const fromWriterK: <A, E, B>(f: (...a: A) => Writer<E, B>) => <R>(...a: A) => ReaderTaskWriter<R, E, B>
+```
+
+Added in v3.0.0
+
+## local
+
+Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
+`contramap`).
+
+**Signature**
+
+```ts
+export declare const local: <R2, R1>(
+  f: (r2: R2) => R1
+) => <W, A>(ma: ReaderTaskWriter<R1, W, A>) => ReaderTaskWriter<R2, W, A>
+```
+
+Added in v3.0.0
+
 # constructors
+
+## asksReaderTaskWriter
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskWriter: <R, W, A>(
+  f: (r: R) => ReaderTaskWriter<R, W, A>
+) => ReaderTaskWriter<R, W, A>
+```
+
+Added in v3.0.0
+
+## asksReaderTaskWriterW
+
+Less strict version of [`asksReaderTaskWriter`](#asksreadertaskwriter).
+
+**Signature**
+
+```ts
+export declare const asksReaderTaskWriterW: <R1, R2, W, A>(
+  f: (r1: R1) => ReaderTaskWriter<R2, W, A>
+) => ReaderTaskWriter<R1 & R2, W, A>
+```
+
+Added in v3.0.0
 
 ## fromIO
 
@@ -111,6 +197,16 @@ export declare const fromTask: <W>(w: W) => <A, R>(fa: Task<A>) => ReaderTaskWri
 
 Added in v3.0.0
 
+## fromTaskWriter
+
+**Signature**
+
+```ts
+export declare const fromTaskWriter: <W, A, R>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+```
+
+Added in v3.0.0
+
 ## tell
 
 Appends a value to the accumulator
@@ -131,6 +227,16 @@ Added in v3.0.0
 
 ```ts
 export declare const Bifunctor: Bifunctor3<'ReaderTaskWriter'>
+```
+
+Added in v3.0.0
+
+## FromWriter
+
+**Signature**
+
+```ts
+export declare const FromWriter: FromWriter3<'ReaderTaskWriter'>
 ```
 
 Added in v3.0.0
@@ -191,6 +297,16 @@ Added in v3.0.0
 
 ```ts
 export declare const getFromIO: <W>(M: Monoid<W>) => FromIO3C<'ReaderTaskWriter', W>
+```
+
+Added in v3.0.0
+
+## getFromReader
+
+**Signature**
+
+```ts
+export declare const getFromReader: <W>(M: Monoid<W>) => FromReader3C<'ReaderTaskWriter', W>
 ```
 
 Added in v3.0.0
@@ -302,6 +418,18 @@ export declare const mapLeft: <E, G>(
 Added in v3.0.0
 
 # utils
+
+## bindTo
+
+**Signature**
+
+```ts
+export declare const bindTo: <N>(
+  name: N
+) => <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
 
 ## censor
 
@@ -429,6 +557,16 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W>
+```
+
+Added in v3.0.0
+
+## tupled
+
+**Signature**
+
+```ts
+export declare const tupled: <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, readonly [A]>
 ```
 
 Added in v3.0.0

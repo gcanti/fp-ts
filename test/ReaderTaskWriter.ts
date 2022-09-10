@@ -1,6 +1,7 @@
 import { pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as R from '../src/Reader'
+import * as W from '../src/Writer'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskWriter'
 import * as string from '../src/string'
@@ -21,6 +22,10 @@ describe('ReaderTaskWriter', () => {
 
   it('fromReaderTask', async () => {
     U.deepStrictEqual(await pipe(RT.of(1), _.fromReaderTask('a'))(undefined)(), [1, 'a'])
+  })
+
+  it('fromTaskWriter', async () => {
+    U.deepStrictEqual(await pipe(T.of(W.tell('a')), _.fromTaskWriter)(undefined)(), [undefined, 'a'])
   })
 
   it('fromIO', async () => {
@@ -93,6 +98,21 @@ describe('ReaderTaskWriter', () => {
     )
   })
 
+  it('fromWriterK', async () => {
+    const sum = (a: number, b: number) => [a + b, 'sum'] as const
+    U.deepStrictEqual(await _.fromWriterK(sum)(1, 2)(undefined)(), [3, 'sum'])
+  })
+
+  it('fromTaskWriterK', async () => {
+    const sum = (a: number, b: number) => T.of([a + b, 'sum'] as const)
+    U.deepStrictEqual(await _.fromTaskWriterK(sum)(1, 2)(undefined)(), [3, 'sum'])
+  })
+
+  it('fromReaderWriterK', async () => {
+    const sum = (a: number, b: number) => R.of([a + b, 'sum'] as const)
+    U.deepStrictEqual(await _.fromReaderWriterK(sum)(1, 2)(undefined)(), [3, 'sum'])
+  })
+
   // -------------------------------------------------------------------------------------
   // type class members
   // -------------------------------------------------------------------------------------
@@ -150,6 +170,11 @@ describe('ReaderTaskWriter', () => {
   it('getFromTask', async () => {
     const F = _.getFromTask(string.Monoid)
     U.deepStrictEqual(await pipe(() => Promise.resolve(1), F.fromTask)(undefined)(), [1, ''])
+  })
+
+  it('getFromReader', async () => {
+    const F = _.getFromReader(string.Monoid)
+    U.deepStrictEqual(await pipe((env: { readonly a: string }) => env.a, F.fromReader)({ a: 'a' })(), ['a', ''])
   })
 
   // -------------------------------------------------------------------------------------

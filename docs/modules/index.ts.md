@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 47
+nav_order: 48
 parent: Modules
 ---
 
@@ -52,6 +52,7 @@ Added in v3.0.0
   - [fromState](#fromstate)
   - [fromTask](#fromtask)
   - [fromThese](#fromthese)
+  - [fromWriter](#fromwriter)
   - [function](#function)
   - [functor](#functor)
   - [functorWithIndex](#functorwithindex)
@@ -515,6 +516,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromThese: typeof fromThese
+```
+
+Added in v3.0.0
+
+## fromWriter
+
+**Signature**
+
+```ts
+export declare const fromWriter: typeof fromWriter
 ```
 
 Added in v3.0.0

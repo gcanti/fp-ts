@@ -12,8 +12,8 @@ describe('Writer', () => {
   // constructors
   // -------------------------------------------------------------------------------------
 
-  it('writer', () => {
-    U.deepStrictEqual(pipe(1, _.writer('a')), [1, 'a'])
+  it('fromIdentity', () => {
+    U.deepStrictEqual(pipe(1, _.fromIdentity('a')), [1, 'a'])
   })
 
   it('tell', () => {

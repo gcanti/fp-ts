@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 111
+nav_order: 112
 parent: Modules
 ---
 
@@ -20,8 +20,8 @@ Added in v3.0.0
   - [pass](#pass)
   - [swap](#swap)
 - [constructors](#constructors)
+  - [fromIdentity](#fromidentity)
   - [tell](#tell)
-  - [writer](#writer)
 - [instances](#instances)
   - [Bifunctor](#bifunctor)
   - [Comonad](#comonad)
@@ -134,6 +134,16 @@ Added in v3.0.0
 
 # constructors
 
+## fromIdentity
+
+**Signature**
+
+```ts
+export declare const fromIdentity: <W>(w: W) => <A>(a: A) => Writer<W, A>
+```
+
+Added in v3.0.0
+
 ## tell
 
 Appends a value to the accumulator
@@ -142,16 +152,6 @@ Appends a value to the accumulator
 
 ```ts
 export declare const tell: <W>(w: W) => Writer<W, void>
-```
-
-Added in v3.0.0
-
-## writer
-
-**Signature**
-
-```ts
-export declare const writer: <W>(w: W) => <A>(a: A) => Writer<W, A>
 ```
 
 Added in v3.0.0
