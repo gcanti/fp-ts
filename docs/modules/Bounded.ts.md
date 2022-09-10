@@ -66,7 +66,7 @@ Clamp a value between bottom and top values.
 **Signature**
 
 ```ts
-export declare const clamp: <T>(B: Bounded<T>) => (a: T) => T
+export declare const clamp: <A>(B: Bounded<A>) => (a: A) => A
 ```
 
 Added in v2.12.0
@@ -78,7 +78,7 @@ Reverses the Ord of a bound and swaps top and bottom values.
 **Signature**
 
 ```ts
-export declare const reverse: <T>(B: Bounded<T>) => Bounded<T>
+export declare const reverse: <A>(B: Bounded<A>) => Bounded<A>
 ```
 
 Added in v2.12.0
