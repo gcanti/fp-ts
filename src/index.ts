@@ -118,6 +118,7 @@ import * as tree from './Tree'
 import * as tuple from './Tuple'
 import * as unfoldable from './Unfoldable'
 import * as validationT from './ValidationT'
+import * as variant from "./Variant"
 import * as void_ from './void'
 import * as witherable from './Witherable'
 import * as writer from './Writer'
@@ -588,6 +589,7 @@ export {
    * @since 2.0.0
    */
   validationT,
+  variant,
   /**
    * @since 2.11.0
    */
