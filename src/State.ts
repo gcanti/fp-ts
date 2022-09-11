@@ -95,7 +95,7 @@ export const ap: Apply_<StateF>['ap'] = (fa) => (fab) => (s1) => {
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<StateF>['of'] = (a) => (s) => [a, s]
+export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

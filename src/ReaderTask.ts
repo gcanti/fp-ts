@@ -380,9 +380,7 @@ export const FromReader: FromReader_<ReaderTaskF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const ask =
-  /*#__PURE__*/
-  ask_(FromReader)
+export const ask: <R>() => ReaderTask<R, R> = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderTask`.

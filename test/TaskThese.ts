@@ -39,13 +39,15 @@ describe('TaskThese', () => {
   // -------------------------------------------------------------------------------------
 
   it('ApplicativeSeq', async () => {
-    await U.assertSeq(_.getApply(T.ApplySeq, S.Semigroup), _.FromTask, (fa) => fa())
-    await U.assertSeq<_.URI, string>(_.getApplicative(T.ApplySeq, S.Semigroup), _.FromTask, (fa) => fa())
+    // TODO
+    await U.assertSeq(_.getApply(T.ApplySeq, S.Semigroup) as any, _.FromTask, (fa) => fa())
+    await U.assertSeq(_.getApplicative(T.ApplySeq, S.Semigroup), _.FromTask, (fa) => fa())
   })
 
   it('ApplicativePar', async () => {
-    await U.assertPar(_.getApply(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
-    await U.assertPar<_.URI, string>(_.getApplicative(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
+    // TODO
+    await U.assertPar(_.getApply(T.ApplyPar, S.Semigroup) as any, _.FromTask, (fa) => fa())
+    await U.assertPar(_.getApplicative(T.ApplyPar, S.Semigroup), _.FromTask, (fa) => fa())
   })
 
   it('getApplicative', async () => {

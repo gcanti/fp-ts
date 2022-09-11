@@ -164,7 +164,7 @@ export const promap: Profunctor_<ReaderFE>['promap'] = (f, g) => (fea) => (a) =>
  * @category Category
  * @since 3.0.0
  */
-export const id: Category_<ReaderFE>['id'] = () => identity
+export const id: <A>() => Reader<A, A> = () => identity
 
 /**
  * @category Choice
@@ -364,7 +364,7 @@ export const Profunctor: Profunctor_<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Category: Category_<ReaderF> = {
+export const Category: Category_<ReaderFE> = {
   compose,
   id
 }

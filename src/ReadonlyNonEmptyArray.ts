@@ -25,7 +25,7 @@ import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithInde
 import { flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
 import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
-import type { HKT } from './HKT'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
 import { fromReadonlyNonEmptyArray, NonEmptyArray } from './NonEmptyArray'
@@ -828,15 +828,18 @@ export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) 
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<ReadonlyNonEmptyArrayF>['map'] = (f) => mapWithIndex((_, a) => f(a))
+export const map: <A, B>(f: (a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) =>
+  mapWithIndex((_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
  * @since 3.0.0
  */
-export const mapWithIndex: FunctorWithIndex_<ReadonlyNonEmptyArrayF, number>['mapWithIndex'] = <A, B>(
+export const mapWithIndex: <A, B>(
   f: (i: number, a: A) => B
-) => (as: ReadonlyNonEmptyArray<A>): ReadonlyNonEmptyArray<B> => {
+) => (fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = <A, B>(f: (i: number, a: A) => B) => (
+  as: ReadonlyNonEmptyArray<A>
+): ReadonlyNonEmptyArray<B> => {
   const out: NonEmptyArray<B> = [f(0, head(as))]
   for (let i = 1; i < as.length; i++) {
     out.push(f(i, as[i]))
@@ -848,7 +851,8 @@ export const mapWithIndex: FunctorWithIndex_<ReadonlyNonEmptyArrayF, number>['ma
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable_<ReadonlyNonEmptyArrayF>['reduce'] = (b, f) => reduceWithIndex(b, (_, b, a) => f(b, a))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) =>
+  reduceWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
@@ -863,8 +867,10 @@ export const foldMap = <S>(S: Semigroup<S>) => <A>(f: (a: A) => S) => (fa: Reado
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number>['reduceWithIndex'] = (b, f) => (as) =>
-  as.reduce((b, a, i) => f(i, b, a), b)
+export const reduceWithIndex: <B, A>(b: B, f: (i: number, b: B, a: A) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = (
+  b,
+  f
+) => (as) => as.reduce((b, a, i) => f(i, b, a), b)
 
 /**
  * **Note**. The constraint is relaxed: a `Semigroup` instead of a `Monoid`.
@@ -880,17 +886,17 @@ export const foldMapWithIndex = <S>(S: Semigroup<S>) => <A>(f: (i: number, a: A)
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<ReadonlyNonEmptyArrayF>['reduceRight'] = (b, f) =>
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) =>
   reduceRightWithIndex(b, (_, b, a) => f(b, a))
 
 /**
  * @category FoldableWithIndex
  * @since 3.0.0
  */
-export const reduceRightWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number>['reduceRightWithIndex'] = (
-  b,
-  f
-) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
+export const reduceRightWithIndex: <B, A>(
+  b: B,
+  f: (i: number, a: A, b: B) => B
+) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
  * @since 3.0.0
@@ -903,9 +909,11 @@ export const traverse: Traversable_<ReadonlyNonEmptyArrayF>['traverse'] = (F) =>
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex: TraversableWithIndex_<ReadonlyNonEmptyArrayF, number>['traverseWithIndex'] = (F) => (
-  f
-) => (as) => {
+export const traverseWithIndex: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>> = (F) => (f) => (as) => {
   let out = pipe(f(0, head(as)), F.map(of))
   for (let i = 1; i < as.length; i++) {
     out = pipe(

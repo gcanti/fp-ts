@@ -120,7 +120,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<ReaderIOF>['of'] = /*#__PURE__*/ RT.of(I.Pointed)
+export const of: <A, R>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -319,7 +319,7 @@ export const FromReader: FromReader_<ReaderIOF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const ask = /*#__PURE__*/ ask_(FromReader)
+export const ask: <R>() => ReaderIO<R, R> = /*#__PURE__*/ ask_(FromReader)
 
 /**
  * Projects a value from the global context in a `ReaderIO`.

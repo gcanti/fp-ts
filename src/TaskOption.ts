@@ -305,7 +305,7 @@ export const ap: Apply<TaskOptionF>['ap'] =
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<TaskOptionF>['of'] = some
+export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
  * @category Chain

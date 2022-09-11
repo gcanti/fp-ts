@@ -392,7 +392,7 @@ export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<EitherF>['chain'] = chainW
+export const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
 
 /**
  * @category ChainRec
@@ -958,9 +958,9 @@ export const Monad: Monad_<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (first: Either<E, A>) => Either<E, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainFirst)
