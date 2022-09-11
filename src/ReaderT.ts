@@ -72,6 +72,6 @@ export function fromReader<F extends HKT>(
  */
 export function fromNaturalTransformation<F extends HKT, G extends HKT>(
   nt: NaturalTransformation<F, G>
-): <R, FS, FR, FE, A, GS, GR, GE>(f: (r: R) => Kind<F, FS, FR, FE, A>) => Reader<R, Kind<G, GS, GR, GE, A>> {
-  return (f) => flow(f, nt) as any // TODO
+): <R, S, FR, E, A>(f: (r: R) => Kind<F, S, FR, E, A>) => Reader<R, Kind<G, S, FR, E, A>> {
+  return (f) => flow(f, nt)
 }

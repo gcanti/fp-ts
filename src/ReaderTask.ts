@@ -143,7 +143,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<ReaderTaskF>['of'] =
+export const of: <A, R>(a: A) => ReaderTask<R, A> =
   /*#__PURE__*/
   RT.of(T.Pointed)
 
@@ -153,9 +153,9 @@ export const of: Pointed_<ReaderTaskF>['of'] =
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<ReaderTaskF>['chain'] =
-  /*#__PURE__*/
-  RT.chain(T.Monad)
+export const chain: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ RT.chain(T.Monad)
 
 /**
  * Less strict version of  [`chain`](#chain).

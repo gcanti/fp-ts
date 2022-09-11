@@ -51,7 +51,7 @@ pipe(new Map([['a', 1]]), _.isSubmap(S.Eq, N.Eq)(new Map([['a', 1]]))) // $Expec
 
 // $ExpectType ReadonlyMap<string, string>
 pipe(
-  ['a', 'b'],
+  ['a', 'b'] as const,
   _.fromFoldable(RA.Foldable)(S.Eq, S.Semigroup)((s: 'a' | 'b' | 'c') => [s, s])
 )
 

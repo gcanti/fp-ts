@@ -110,7 +110,7 @@ export const ap: Apply_<ReaderF>['ap'] = apW
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<ReaderF>['of'] = constant
+export const of: <A, R>(a: A) => Reader<R, A> = constant
 
 /**
  * Less strict version of [`chain`](#chain).
