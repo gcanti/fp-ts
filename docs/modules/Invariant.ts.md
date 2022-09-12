@@ -28,7 +28,7 @@ export interface Invariant<F extends HKT> extends Typeclass<F> {
   readonly imap: <A, B>(
     f: (a: A) => B,
     g: (b: B) => A
-  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+  ) => <R, W, E, _>(fa: Kind<F, A, R, W, E, _>) => Kind<F, B, R, W, E, _>
 }
 ```
 
