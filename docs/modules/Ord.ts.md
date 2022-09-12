@@ -29,7 +29,7 @@ Added in v3.0.0
   - [fromCompare](#fromcompare)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [OrdF (interface)](#ordf-interface)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
@@ -158,17 +158,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant1<'Ord'>
+export declare const Contravariant: Contravariant_<OrdF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## OrdF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Ord'
+export interface OrdF extends HKT {
+  readonly type: Ord<this['A']>
+}
 ```
 
 Added in v3.0.0

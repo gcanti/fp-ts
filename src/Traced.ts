@@ -29,7 +29,7 @@ export interface Traced<P, A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<TracedF>['map'] = (f) => (fa) => (p) => f(fa(p))
+export const map: <A, B>(f: (a: A) => B) => <P>(fa: Traced<P, A>) => Traced<P, B> = (f) => (fa) => (p) => f(fa(p))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -65,9 +65,7 @@ export const Functor: Functor_<TracedF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <P, B>(fab: Traced<P, (a: A) => B>) => Traced<P, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -75,8 +73,8 @@ export const flap =
  */
 export const getComonad = <P>(monoid: Monoid<P>): Comonad<TracedFE<P>> => ({
   map,
-  extend: (f) => (wa) => (p1) => f((p2) => wa(monoid.concat(p2)(p1))),
-  extract: (wa) => wa(monoid.empty)
+  extend: (f) => (pa) => (p1) => f((p2) => pa(monoid.concat(p2)(p1))),
+  extract: (pa) => pa(monoid.empty)
 })
 
 // -------------------------------------------------------------------------------------
@@ -88,22 +86,22 @@ export const getComonad = <P>(monoid: Monoid<P>): Comonad<TracedFE<P>> => ({
  *
  * @since 3.0.0
  */
-export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (wa: Traced<P, A>): A => wa(f(wa(M.empty)))
+export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (pa: Traced<P, A>): A => pa(f(pa(M.empty)))
 
 /**
  * Get the current position.
  *
  * @since 3.0.0
  */
-export const listen = <P, A>(wa: Traced<P, A>): Traced<P, readonly [A, P]> => (p) => [wa(p), p]
+export const listen = <P, A>(pa: Traced<P, A>): Traced<P, readonly [A, P]> => (p) => [pa(p), p]
 
 /**
  * Get a value which depends on the current position.
  *
  * @since 3.0.0
  */
-export const listens = <P, B>(f: (p: P) => B) => <A>(wa: Traced<P, A>): Traced<P, readonly [A, B]> => (p) => [
-  wa(p),
+export const listens = <P, B>(f: (p: P) => B) => <A>(pa: Traced<P, A>): Traced<P, readonly [A, B]> => (p) => [
+  pa(p),
   f(p)
 ]
 
@@ -112,4 +110,4 @@ export const listens = <P, B>(f: (p: P) => B) => <A>(wa: Traced<P, A>): Traced<P
  *
  * @since 3.0.0
  */
-export const censor = <P>(f: (p: P) => P) => <A>(wa: Traced<P, A>): Traced<P, A> => (p) => wa(f(p))
+export const censor = <P>(f: (p: P) => P) => <A>(pa: Traced<P, A>): Traced<P, A> => (p) => pa(f(p))

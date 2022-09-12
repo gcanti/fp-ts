@@ -19,7 +19,6 @@ import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Cha
 import type { Comonad as Comonad_ } from './Comonad'
 import type { Endomorphism } from './Endomorphism'
 import { Eq, fromEquals } from './Eq'
-import type { Extend as Extend_ } from './Extend'
 import type { Foldable as Foldable_ } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import { flow, identity, Lazy, pipe } from './function'
@@ -751,19 +750,23 @@ export const altW = <B>(
  * @category Alt
  * @since 3.0.2
  */
-export const alt: Alt_<ReadonlyNonEmptyArrayF>['alt'] = altW
+export const alt: <A>(
+  second: Lazy<ReadonlyNonEmptyArray<A>>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = altW
 
 /**
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<ReadonlyNonEmptyArrayF>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: <A>(
+  fa: ReadonlyNonEmptyArray<A>
+) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<ReadonlyNonEmptyArrayF>['of'] = _.singleton
+export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -783,13 +786,15 @@ export const of: Pointed_<ReadonlyNonEmptyArrayF>['of'] = _.singleton
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<ReadonlyNonEmptyArrayF>['chain'] = (f) => chainWithIndex((_, a) => f(a))
+export const chain: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = (f) => chainWithIndex((_, a) => f(a))
 
 /**
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend_<ReadonlyNonEmptyArrayF>['extend'] = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
+export const extend = <A, B>(f: (as: ReadonlyNonEmptyArray<A>) => B) => (
   as: ReadonlyNonEmptyArray<A>
 ): ReadonlyNonEmptyArray<B> => {
   let next: ReadonlyArray<A> = tail(as)
@@ -807,9 +812,9 @@ export const extend: Extend_<ReadonlyNonEmptyArrayF>['extend'] = <A, B>(f: (as: 
  * @category combinators
  * @since 3.0.0
  */
-export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(
+  ma: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -817,9 +822,9 @@ export const duplicate: <A>(ma: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArr
  * @category combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => ReadonlyNonEmptyArray<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(
+  mma: ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>
+) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -987,9 +992,9 @@ export const Functor: Functor_<ReadonlyNonEmptyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(
+  a: A
+) => <B>(fab: ReadonlyNonEmptyArray<(a: A) => B>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -1024,9 +1029,9 @@ export const Apply: Apply_<ReadonlyNonEmptyArrayF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -1036,9 +1041,9 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <B>(
+  second: ReadonlyNonEmptyArray<B>
+) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -1090,9 +1095,9 @@ export const Monad: Monad_<ReadonlyNonEmptyArrayF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -1164,16 +1169,21 @@ export const Do: ReadonlyNonEmptyArray<{}> =
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(
+  Functor
+)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => ReadonlyNonEmptyArray<B>
+) => (
+  ma: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1182,9 +1192,12 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReadonlyNonEmptyArray<B>
+) => (
+  fa: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<{ readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1193,23 +1206,23 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: ReadonlyNonEmptyArray<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: ReadonlyNonEmptyArray<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [A]> = /*#__PURE__*/ tupled_(
+  Functor
+)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <B>(
+  fb: ReadonlyNonEmptyArray<B>
+) => <A extends ReadonlyArray<unknown>>(
+  fas: ReadonlyNonEmptyArray<A>
+) => ReadonlyNonEmptyArray<readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // utils

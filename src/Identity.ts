@@ -7,14 +7,15 @@ import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import { ChainRec as ChainRec_, tailRec } from './ChainRec'
 import type { Comonad as Comonad_ } from './Comonad'
+import { Either } from './Either'
 import type { Eq } from './Eq'
-import type { Extend as Extend_ } from './Extend'
 import type { Foldable as Foldable_ } from './Foldable'
-import { apply, flow, identity } from './function'
+import { apply, flow, identity, Lazy } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
-import type { HKT } from './HKT'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
+import type { Monoid } from './Monoid'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Show } from './Show'
 import type { Traversable as Traversable_ } from './Traversable'
@@ -40,7 +41,7 @@ export type Identity<A> = A
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<IdentityF>['map'] = identity
+export const map: <A, B>(f: (a: A) => B) => (fa: Identity<A>) => Identity<B> = identity
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -48,13 +49,13 @@ export const map: Functor_<IdentityF>['map'] = identity
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<IdentityF>['ap'] = apply
+export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Identity<B> = apply
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<IdentityF>['of'] = identity
+export const of: <A>(a: A) => Identity<A> = identity
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -62,19 +63,19 @@ export const of: Pointed_<IdentityF>['of'] = identity
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<IdentityF>['chain'] = (f) => (ma) => f(ma)
+export const chain: <A, B>(f: (a: A) => Identity<B>) => (ma: Identity<A>) => Identity<B> = (f) => (ma) => f(ma)
 
 /**
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend_<IdentityF>['extend'] = (f) => (wa) => f(wa)
+export const extend: <A, B>(f: (wa: Identity<A>) => B) => (wa: Identity<A>) => B = (f) => (wa) => f(wa)
 
 /**
  * @category Extract
  * @since 3.0.0
  */
-export const extract: Comonad_<IdentityF>['extract'] = identity
+export const extract: <A>(wa: Identity<A>) => A = identity
 
 /**
  * Derivable from `Extend`.
@@ -82,9 +83,7 @@ export const extract: Comonad_<IdentityF>['extract'] = identity
  * @category derivable combinators
  * @since 3.0.0
  */
-export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -92,32 +91,33 @@ export const duplicate: <A>(ma: Identity<A>) => Identity<Identity<A>> =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Identity<Identity<A>>) => Identity<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable_<IdentityF>['reduce'] = (b, f) => (fa) => f(b, fa)
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(b, fa)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable_<IdentityF>['foldMap'] = () => (f) => (fa) => f(fa)
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<A>) => M = () => (f) => (fa) => f(fa)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<IdentityF>['reduceRight'] = (b, f) => (fa) => f(fa, b)
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable_<IdentityF>['traverse'] = (F) => (f) => flow(f, F.map(identity))
+export const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Identity<A>) => Kind<F, S, R, E, B> = (F) => (f) =>
+  flow(f, F.map(identity))
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -134,13 +134,13 @@ export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => 
  * @category Alt
  * @since 3.0.0
  */
-export const alt: Alt_<IdentityF>['alt'] = altW
+export const alt: <A>(second: Lazy<Identity<A>>) => (first: Identity<A>) => Identity<A> = altW
 
 /**
  * @category ChainRec
  * @since 3.0.0
  */
-export const chainRec: ChainRec_<IdentityF>['chainRec'] = tailRec
+export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = tailRec
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -180,9 +180,7 @@ export const Functor: Functor_<IdentityF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <B>(fab: Identity<(a: A) => B>) => B = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -209,9 +207,7 @@ export const Apply: Apply_<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -221,9 +217,9 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <B>(second: Identity<B>) => <A>(first: Identity<A>) => Identity<B> = /*#__PURE__*/ apSecond_(
+  Apply
+)
 
 /**
  * @category instances
@@ -263,9 +259,9 @@ export const Monad: Monad_<IdentityF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => Identity<B>
+) => (first: Identity<A>) => Identity<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -320,23 +316,22 @@ export const Comonad: Comonad_<IdentityF> = {
 /**
  * @since 3.0.0
  */
-export const Do: Identity<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: Identity<A>) => { readonly [K in N]: A } = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => Identity<B>
+) => (ma: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -345,9 +340,10 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Identity<B>
+) => (fa: Identity<A>) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -356,20 +352,16 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Identity<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Identity<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <A>(fa: Identity<A>) => readonly [A] = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <B>(fb: B) => <A extends ReadonlyArray<unknown>>(fas: A) => readonly [...A, B] = /*#__PURE__*/ apT_(
+  Apply
+)

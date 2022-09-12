@@ -32,7 +32,7 @@ import {
 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
-import type { HKT } from './HKT'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
@@ -41,8 +41,9 @@ import { fromCompare, Ord } from './Ord'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
-import { separated } from './Separated'
+import { Separated, separated } from './Separated'
 import type { Show } from './Show'
 import type { Traversable as Traversable_ } from './Traversable'
 import { wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
@@ -400,9 +401,7 @@ export const chainNullableK = <A, B>(f: (a: A) => B | null | undefined) => (ma: 
  * @category interop
  * @since 3.0.0
  */
-export const toNullable: <A>(ma: Option<A>) => A | null =
-  /*#__PURE__*/
-  match(constNull, identity)
+export const toNullable: <A>(ma: Option<A>) => A | null = /*#__PURE__*/ match(constNull, identity)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns `undefined`.
@@ -429,9 +428,7 @@ export const toNullable: <A>(ma: Option<A>) => A | null =
  * @category interop
  * @since 3.0.0
  */
-export const toUndefined: <A>(ma: Option<A>) => A | undefined =
-  /*#__PURE__*/
-  match(constUndefined, identity)
+export const toUndefined: <A>(ma: Option<A>) => A | undefined = /*#__PURE__*/ match(constUndefined, identity)
 
 // -------------------------------------------------------------------------------------
 // type class members
@@ -444,7 +441,8 @@ export const toUndefined: <A>(ma: Option<A>) => A | undefined =
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<OptionF>['map'] = (f) => (fa) => (isNone(fa) ? none : some(f(fa.value)))
+export const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
+  isNone(fa) ? none : some(f(fa.value))
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -452,14 +450,14 @@ export const map: Functor_<OptionF>['map'] = (f) => (fa) => (isNone(fa) ? none :
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<OptionF>['ap'] = (fa) => (fab) =>
+export const ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B> = (fa) => (fab) =>
   isNone(fab) ? none : isNone(fa) ? none : some(fab.value(fa.value))
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<OptionF>['of'] = some
+export const of: <A>(a: A) => Option<A> = some
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -467,7 +465,8 @@ export const of: Pointed_<OptionF>['of'] = some
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<OptionF>['chain'] = (f) => (ma) => (isNone(ma) ? none : f(ma.value))
+export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B> = (f) => (ma) =>
+  isNone(ma) ? none : f(ma.value)
 
 /**
  * Derivable from `Chain`.
@@ -475,9 +474,7 @@ export const chain: Chain_<OptionF>['chain'] = (f) => (ma) => (isNone(ma) ? none
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Option<Option<A>>) => Option<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Less strict version of [`alt`](#alt).
@@ -539,19 +536,20 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
  * @category instance operations
  * @since 3.0.0
  */
-export const alt: Alt_<OptionF>['alt'] = altW
+export const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A> = altW
 
 /**
  * @category Zero
  * @since 3.0.0
  */
-export const zero: Zero_<OptionF>['zero'] = () => none
+export const zero: <A>() => Option<A> = () => none
 
 /**
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend_<OptionF>['extend'] = (f) => (wa) => (isNone(wa) ? none : some(f(wa)))
+export const extend: <A, B>(f: (wa: Option<A>) => B) => (wa: Option<A>) => Option<B> = (f) => (wa) =>
+  isNone(wa) ? none : some(f(wa))
 
 /**
  * Derivable from `Extend`.
@@ -559,63 +557,70 @@ export const extend: Extend_<OptionF>['extend'] = (f) => (wa) => (isNone(wa) ? n
  * @category derivable combinators
  * @since 3.0.0
  */
-export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable_<OptionF>['reduce'] = (b, f) => (fa) => (isNone(fa) ? b : f(b, fa.value))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
+  isNone(fa) ? b : f(b, fa.value)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable_<OptionF>['foldMap'] = (M) => (f) => (fa) => (isNone(fa) ? M.empty : f(fa.value))
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M = (M) => (f) => (fa) =>
+  isNone(fa) ? M.empty : f(fa.value)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<OptionF>['reduceRight'] = (b, f) => (fa) => (isNone(fa) ? b : f(fa.value, b))
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B = (b, f) => (fa) =>
+  isNone(fa) ? b : f(fa.value, b)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: Compactable_<OptionF>['compact'] = flatten
+export const compact: <A>(foa: Option<Option<A>>) => Option<A> = flatten
 
-const defaultSeparated =
-  /*#__PURE__*/
-  separated(none, none)
+const defaultSeparated = /*#__PURE__*/ separated(none, none)
 
 /**
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable_<OptionF>['separate'] = (ma) =>
+export const separate: <A, B>(fe: Option<Either<A, B>>) => Separated<Option<A>, Option<B>> = (ma) =>
   isNone(ma) ? defaultSeparated : separated(getLeft(ma.value), getRight(ma.value))
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: Filterable_<OptionF>['filter'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
-  isNone(fa) ? none : predicate(fa.value) ? fa : none
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+} = <A>(predicate: Predicate<A>) => (fa: Option<A>) => (isNone(fa) ? none : predicate(fa.value) ? fa : none)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const filterMap: Filterable_<OptionF>['filterMap'] = (f) => (fa) => (isNone(fa) ? none : f(fa.value))
+export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B> = (f) => (fa) =>
+  isNone(fa) ? none : f(fa.value)
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable_<OptionF>['partition'] = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+} = <A>(predicate: Predicate<A>) => (fa: Option<A>) =>
   separated(
     pipe(
       fa,
@@ -628,14 +633,19 @@ export const partition: Filterable_<OptionF>['partition'] = <A>(predicate: Predi
  * @category Filterable
  * @since 3.0.0
  */
-export const partitionMap: Filterable_<OptionF>['partitionMap'] = (f) => flow(map(f), separate)
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Option<A>) => Separated<Option<B>, Option<C>> = (f) => flow(map(f), separate)
 
 /**
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse: Traversable_<OptionF>['traverse'] = (F) => (f) => (ta) =>
-  isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some))
+export const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>> = (F) => (
+  f
+) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -748,9 +758,7 @@ export const Functor: Functor_<OptionF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <B>(fab: Option<(a: A) => B>) => Option<B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -777,9 +785,7 @@ export const Apply: Apply_<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -789,9 +795,7 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <B>(second: Option<B>) => <A>(first: Option<A>) => Option<B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -831,9 +835,9 @@ export const Monad: Monad_<OptionF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> = /*#__PURE__*/ chainFirst_(
+  Chain
+)
 
 /**
  * @category instances
@@ -866,9 +870,7 @@ export const Zero: Zero_<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const guard =
-  /*#__PURE__*/
-  guard_(Zero, Pointed)
+export const guard: (b: boolean) => Option<void> = /*#__PURE__*/ guard_(Zero, Pointed)
 
 /**
  * @category instances
@@ -922,17 +924,24 @@ export const Traversable: Traversable_<OptionF> = {
  * @category Witherable
  * @since 3.0.0
  */
-export const wither: Witherable_<OptionF>['wither'] =
-  /*#__PURE__*/
-  witherDefault(Traversable, Compactable)
+export const wither: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>> = /*#__PURE__*/ witherDefault(Traversable, Compactable)
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
-export const wilt: Witherable_<OptionF>['wilt'] =
-  /*#__PURE__*/
-  wiltDefault(Traversable, Compactable)
+export const wilt: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, E, Separated<Option<B>, Option<C>>> = /*#__PURE__*/ wiltDefault(
+  Traversable,
+  Compactable
+)
 
 /**
  * @category instances
@@ -965,33 +974,35 @@ export const FromEither: FromEither_<OptionF> = {
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+export const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
+  <A>(predicate: Predicate<A>): (a: A) => Option<A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromEitherK =
-  /*#__PURE__*/
-  fromEitherK_(FromEither)
+export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK =
-  /*#__PURE__*/
-  chainEitherK_(FromEither, Chain)
+export const chainEitherK: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: Option<A>) => Option<B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK =
-  /*#__PURE__*/
-  chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: Option<A>) => Option<A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils
@@ -1054,23 +1065,24 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: Option<A>): boolean =
 /**
  * @since 3.0.0
  */
-export const Do: Option<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => Option<B>
+) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(
+  Chain
+)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1079,9 +1091,12 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Option<B>
+) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(
+  Apply
+)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1090,23 +1105,19 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Option<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Option<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <A>(fa: Option<A>) => Option<readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <B>(
+  fb: Option<B>
+) => <A extends ReadonlyArray<unknown>>(fas: Option<A>) => Option<readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

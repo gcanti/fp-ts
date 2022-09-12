@@ -30,6 +30,7 @@ import type { Unfoldable } from './Unfoldable'
 import { wiltDefault, Witherable, witherDefault } from './Witherable'
 
 import Option = O.Option
+import { Refinement } from './Refinement'
 
 // -------------------------------------------------------------------------------------
 // constructors
@@ -203,7 +204,8 @@ export const pop = <K>(E: Eq<K>): ((k: K) => <A>(m: ReadonlyMap<K, A>) => Option
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<ReadonlyMapF>['map'] = (f) => mapWithIndex((_, a) => f(a))
+export const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) =>
+  mapWithIndex((_, a) => f(a))
 
 /**
  * @category FunctorWithIndex
@@ -224,9 +226,7 @@ export const mapWithIndex = <K, A, B>(f: (k: K, a: A) => B) => (m: ReadonlyMap<K
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: Compactable_<ReadonlyMapF>['compact'] = <K, A>(
-  m: ReadonlyMap<K, Option<A>>
-): ReadonlyMap<K, A> => {
+export const compact = <K, A>(m: ReadonlyMap<K, Option<A>>): ReadonlyMap<K, A> => {
   const out = new Map<K, A>()
   const entries = m.entries()
   let e: Next<readonly [K, Option<A>]>
@@ -243,7 +243,7 @@ export const compact: Compactable_<ReadonlyMapF>['compact'] = <K, A>(
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable_<ReadonlyMapF>['separate'] = <K, A, B>(
+export const separate = <K, A, B>(
   fa: ReadonlyMap<K, Either<A, B>>
 ): Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>> => {
   const left = new Map<K, A>()
@@ -265,7 +265,11 @@ export const separate: Compactable_<ReadonlyMapF>['separate'] = <K, A, B>(
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: Filterable_<ReadonlyMapF>['filter'] = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) =>
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) =>
   pipe(
     fa,
     filterWithIndex((_, a) => predicate(a))
@@ -275,15 +279,22 @@ export const filter: Filterable_<ReadonlyMapF>['filter'] = <A>(predicate: Predic
  * @category Filterable
  * @since 3.0.0
  */
-export const filterMap: Filterable_<ReadonlyMapF>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
+export const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B> = (f) =>
+  filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable_<ReadonlyMapF>['partition'] = <A>(predicate: Predicate<A>) => <K>(
-  fa: ReadonlyMap<K, A>
-) =>
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(
+    fa: ReadonlyMap<K, A>
+  ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(
+    fb: ReadonlyMap<K, B>
+  ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+} = <A>(predicate: Predicate<A>) => <K>(fa: ReadonlyMap<K, A>) =>
   pipe(
     fa,
     partitionWithIndex((_, a) => predicate(a))
@@ -293,7 +304,10 @@ export const partition: Filterable_<ReadonlyMapF>['partition'] = <A>(predicate: 
  * @category Filterable
  * @since 3.0.0
  */
-export const partitionMap: Filterable_<ReadonlyMapF>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>> = (f) =>
+  partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @category FilterableWithIndex
@@ -494,9 +508,9 @@ export const Functor: Functor_<ReadonlyMapF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => ReadonlyMap<K, B> = /*#__PURE__*/ flap_(
+  Functor
+)
 
 /**
  * @category instances
@@ -540,7 +554,7 @@ export const getFilterableWithIndex = <K = never>(): FilterableWithIndex<Readonl
 /**
  * @since 3.0.0
  */
-export const reduce = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>>['reduce'] => {
+export const reduce: <K>(O: Ord<K>) => <B, A>(b: B, f: (b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
   const reduceWithIndexO = reduceWithIndex(O)
   return (b, f) => reduceWithIndexO(b, (_, b, a) => f(b, a))
 }
@@ -548,7 +562,9 @@ export const reduce = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>>['reduce'] => {
 /**
  * @since 3.0.0
  */
-export const foldMap = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>>['foldMap'] => {
+export const foldMap: <K>(O: Ord<K>) => <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: ReadonlyMap<K, A>) => M = (
+  O
+) => {
   const foldMapWithIndexO = foldMapWithIndex(O)
   return (M) => {
     const foldMapWithIndexOM = foldMapWithIndexO(M)
@@ -559,7 +575,9 @@ export const foldMap = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>>['foldMap'] => 
 /**
  * @since 3.0.0
  */
-export const reduceRight = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>>['reduceRight'] => {
+export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B = (
+  O
+) => {
   const reduceRightWithIndexO = reduceRightWithIndex(O)
   return (b, f) => reduceRightWithIndexO(b, (_, b, a) => f(b, a))
 }
@@ -579,7 +597,9 @@ export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>> => {
 /**
  * @since 3.0.0
  */
-export const reduceWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<K>, K>['reduceWithIndex'] => {
+export const reduceWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (i: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
   const keysO = keys(O)
   return (b, f) => (m) => {
     let out = b
@@ -593,7 +613,9 @@ export const reduceWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<K
 /**
  * @since 3.0.0
  */
-export const foldMapWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<K>, K>['foldMapWithIndex'] => {
+export const foldMapWithIndex: <K>(
+  O: Ord<K>
+) => <M>(M: Monoid<M>) => <A>(f: (i: K, a: A) => M) => (fa: ReadonlyMap<K, A>) => M = (O) => {
   const keysO = keys(O)
   return (M) => (f) => (m) => {
     let out = M.empty
@@ -607,7 +629,9 @@ export const foldMapWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<
 /**
  * @since 3.0.0
  */
-export const reduceRightWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<K>, K>['reduceRightWithIndex'] => {
+export const reduceRightWithIndex: <K>(
+  O: Ord<K>
+) => <B, A>(b: B, f: (i: K, a: A, b: B) => B) => (fa: ReadonlyMap<K, A>) => B = (O) => {
   const keysO = keys(O)
   return (b, f) => (m) => {
     let out = b
@@ -636,7 +660,13 @@ export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMa
 /**
  * @since 3.0.0
  */
-export const traverse = <K>(O: Ord<K>): Traversable<ReadonlyMapFE<K>>['traverse'] => {
+export const traverse: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = (O) => {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -658,7 +688,13 @@ export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFE<K>> => {
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapFE<K>, K>['traverseWithIndex'] => {
+export const traverseWithIndex: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
   const keysO = keys(O)
   return <F extends HKT>(F: Applicative<F>) => <A, S, R, E, B>(f: (k: K, a: A) => Kind<F, S, R, E, B>) => (
     ta: ReadonlyMap<K, A>
@@ -689,14 +725,26 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
 /**
  * @since 3.0.0
  */
-export const wither = <K>(O: Ord<K>): Witherable<ReadonlyMapFE<K>>['wither'] => {
+export const wither: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = (O) => {
   return witherDefault(getTraversable(O) as any, Compactable) // TODO
 }
 
 /**
  * @since 3.0.0
  */
-export const wilt = <K>(O: Ord<K>): Witherable<ReadonlyMapFE<K>>['wilt'] => {
+export const wilt: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>> = (O) => {
   return wiltDefault(getTraversable(O) as any, Compactable) // TODO
 }
 

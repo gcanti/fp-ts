@@ -25,7 +25,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [StoreF (interface)](#storef-interface)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [utils](#utils)
@@ -43,7 +43,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (wa: Store<E, A>) => B) => (wa: Store<E, A>) => Store<E, B>
+export declare const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <E, A>(wa: Store<E, A>) => A
+export declare const extract: <S, A>(wa: Store<S, A>) => A
 ```
 
 Added in v3.0.0
@@ -70,7 +70,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Store<E, A>) => Store<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B>
 ```
 
 Added in v3.0.0
@@ -84,7 +84,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Store<E, (a: A) => B>) => Store<E, B>
+export declare const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B>
 ```
 
 Added in v3.0.0
@@ -98,7 +98,7 @@ Derivable from `Extend`.
 **Signature**
 
 ```ts
-export declare const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>>
+export declare const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>>
 ```
 
 Added in v3.0.0
@@ -110,7 +110,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad2<'Store'>
+export declare const Comonad: Comonad_<StoreF>
 ```
 
 Added in v3.0.0
@@ -120,17 +120,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Store'>
+export declare const Functor: Functor_<StoreF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## StoreF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Store'
+export interface StoreF extends HKT {
+  readonly type: Store<this['S'], this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -159,25 +161,9 @@ Extract a collection of values from positions which depend on the current positi
 **Signature**
 
 ```ts
-export declare function experiment<F extends URIS4>(
-  F: Functor4<F>
-): <S1, S2, R, E>(f: (s: S1) => Kind4<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind4<F, S2, R, E, A>
-export declare function experiment<F extends URIS3>(
-  F: Functor3<F>
-): <S, R, E>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
-export declare function experiment<F extends URIS3, E>(
-  F: Functor3C<F, E>
-): <S, R>(f: (s: S) => Kind3<F, R, E, S>) => <A>(wa: Store<S, A>) => Kind3<F, R, E, A>
-export declare function experiment<F extends URIS2>(
-  F: Functor2<F>
-): <S, E>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
-export declare function experiment<F extends URIS2, E>(
-  F: Functor2C<F, E>
-): <S>(f: (s: S) => Kind2<F, E, S>) => <A>(wa: Store<S, A>) => Kind2<F, E, A>
-export declare function experiment<F extends URIS>(
-  F: Functor1<F>
-): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>
-export declare function experiment<F>(F: Functor_<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export declare function experiment<F extends HKT>(
+  F: Functor_<F>
+): <S1, S2, R, E>(f: (s: S1) => Kind<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, E, A>
 ```
 
 Added in v3.0.0

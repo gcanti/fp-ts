@@ -100,9 +100,9 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
   - [Traversable](#traversable)
   - [TraversableWithIndex](#traversablewithindex)
-  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
   - [getShow](#getshow)
@@ -251,8 +251,8 @@ Added in v3.0.0
 
 ```ts
 export declare const extend: <A, B>(
-  f: (wa: ReadonlyNonEmptyArray<A>) => B
-) => (wa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
+  f: (as: ReadonlyNonEmptyArray<A>) => B
+) => (as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B>
 ```
 
 Added in v3.0.0
@@ -1096,7 +1096,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'ReadonlyNonEmptyArray'>
+export declare const Alt: Alt_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1106,7 +1106,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'ReadonlyNonEmptyArray'>
+export declare const Applicative: Applicative_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1116,7 +1116,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'ReadonlyNonEmptyArray'>
+export declare const Apply: Apply_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1126,7 +1126,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'ReadonlyNonEmptyArray'>
+export declare const Chain: Chain_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1136,7 +1136,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad1<'ReadonlyNonEmptyArray'>
+export declare const Comonad: Comonad_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1146,7 +1146,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable1<'ReadonlyNonEmptyArray'>
+export declare const Foldable: Foldable_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1156,7 +1156,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyNonEmptyArray', number>
+export declare const FoldableWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1166,7 +1166,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'ReadonlyNonEmptyArray'>
+export declare const Functor: Functor_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1176,7 +1176,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyNonEmptyArray', number>
+export declare const FunctorWithIndex: FunctorWithIndex_<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1186,7 +1186,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'ReadonlyNonEmptyArray'>
+export declare const Monad: Monad_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1196,7 +1196,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'ReadonlyNonEmptyArray'>
+export declare const Pointed: Pointed_<ReadonlyNonEmptyArrayF>
+```
+
+Added in v3.0.0
+
+## ReadonlyNonEmptyArrayF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyNonEmptyArrayF extends HKT {
+  readonly type: ReadonlyNonEmptyArray<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -1206,7 +1218,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable1<'ReadonlyNonEmptyArray'>
+export declare const Traversable: Traversable_<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1216,17 +1228,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyNonEmptyArray', number>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'ReadonlyNonEmptyArray'
+export declare const TraversableWithIndex: TraversableWithIndex_<ReadonlyNonEmptyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1302,7 +1304,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: ReadonlyNonEmptyArray<B>
 ) => (
@@ -1319,7 +1321,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <B>(
   fb: ReadonlyNonEmptyArray<B>
-) => <A>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]>
+) => <A extends readonly unknown[]>(fas: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1329,9 +1331,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => ReadonlyNonEmptyArray<B>
+  f: <A2 extends A>(a: A | A2) => ReadonlyNonEmptyArray<B>
 ) => (
   ma: ReadonlyNonEmptyArray<A>
 ) => ReadonlyNonEmptyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1344,7 +1346,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -1364,7 +1368,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
+export declare const extract: <S, R, E, A>(wa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1482,7 +1486,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse1<'ReadonlyNonEmptyArray'>
+export declare const traverse: <F>(
+  F: Applicative_<F>
+) => <A, S, R, E, B, TS, TR, TE>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
@@ -1492,7 +1500,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverseWithIndex: TraverseWithIndex1<'ReadonlyNonEmptyArray', number>
+export declare const traverseWithIndex: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

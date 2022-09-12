@@ -37,8 +37,8 @@ import type { Profunctor } from './Profunctor'
  * @since 3.0.0
  */
 export interface Strong<P extends HKT> extends Profunctor<P> {
-  readonly first: <S, R, A, B, C>(pab: Kind<P, S, R, A, B>) => Kind<P, S, R, readonly [A, C], readonly [B, C]>
-  readonly second: <S, R, B, C, A>(pab: Kind<P, S, R, B, C>) => Kind<P, S, R, readonly [A, B], readonly [A, C]>
+  readonly first: <S, A, E, B, C>(pab: Kind<P, S, A, E, B>) => Kind<P, S, readonly [A, C], E, readonly [B, C]>
+  readonly second: <S, B, E, C, A>(pab: Kind<P, S, B, E, C>) => Kind<P, S, readonly [A, B], E, readonly [A, C]>
 }
 
 /**
@@ -55,16 +55,11 @@ export interface Strong<P extends HKT> extends Profunctor<P> {
  *
  * @since 3.0.0
  */
-export function split<F extends HKT>(
-  S: Strong<F>,
-  C: Category<F>
-): <S, R, A, B, C, D>(
-  pab: Kind<F, S, R, A, B>,
-  pcd: Kind<F, S, R, C, D>
-) => Kind<F, S, R, readonly [A, C], readonly [B, D]> {
-  return <S, R, A, B, C, D>(pab: Kind<F, S, R, A, B>, pcd: Kind<F, S, R, C, D>) =>
-    pipe(S.first<S, R, A, B, C>(pab), C.compose(S.second<S, R, C, D, B>(pcd)))
-}
+export const split = <F extends HKT>(S: Strong<F>, C: Category<F>) => <S, A, E, B, C, D>(
+  pab: Kind<F, S, A, E, B>,
+  pcd: Kind<F, S, C, E, D>
+): Kind<F, S, readonly [A, C], E, readonly [B, D]> =>
+  pipe(S.first<S, A, E, B, C>(pab), C.compose(S.second<S, C, E, D, B>(pcd)))
 
 /**
  * Compose a value which introduces a tuple from two values, each introducing one side of the tuple.
@@ -84,14 +79,14 @@ export function split<F extends HKT>(
  *
  * @since 3.0.0
  */
-export function fanOut<F extends HKT>(
+export const fanOut = <F extends HKT>(
   S: Strong<F>,
   C: Category<F>
-): <S, R, A, B, C>(pab: Kind<F, S, R, A, B>, pac: Kind<F, S, R, A, C>) => Kind<F, S, R, A, readonly [B, C]> {
+): (<S, A, E, B, C>(pab: Kind<F, S, A, E, B>, pac: Kind<F, S, A, E, C>) => Kind<F, S, A, E, readonly [B, C]>) => {
   const splitSC = split(S, C)
-  return <S, R, A, B, C>(pab: Kind<F, S, R, A, B>, pac: Kind<F, S, R, A, C>): Kind<F, S, R, A, readonly [B, C]> =>
+  return <S, A, E, B, C>(pab: Kind<F, S, A, E, B>, pac: Kind<F, S, A, E, C>): Kind<F, S, A, E, readonly [B, C]> =>
     pipe(
-      C.id<S, R, A>(),
+      C.id<S, A, E>(),
       S.promap<A, A, A, readonly [A, A]>(identity, (a) => [a, a]),
       C.compose(splitSC(pab, pac))
     )

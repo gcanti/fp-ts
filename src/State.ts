@@ -74,7 +74,7 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = (f) => (s) => [f(s), 
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<StateF>['map'] = (f) => (fa) => (s1) => {
+export const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B> = (f) => (fa) => (s1) => {
   const [a, s2] = fa(s1)
   return [f(a), s2]
 }
@@ -85,7 +85,7 @@ export const map: Functor_<StateF>['map'] = (f) => (fa) => (s1) => {
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<StateF>['ap'] = (fa) => (fab) => (s1) => {
+export const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => B>) => State<S, B> = (fa) => (fab) => (s1) => {
   const [f, s2] = fab(s1)
   const [a, s3] = fa(s2)
   return [f(a), s3]
@@ -103,7 +103,7 @@ export const of: <A, S>(a: A) => State<S, A> = (a) => (s) => [a, s]
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<StateF>['chain'] = (f) => (ma) => (s1) => {
+export const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B> = (f) => (ma) => (s1) => {
   const [a, s2] = ma(s1)
   return f(a)(s2)
 }
@@ -114,9 +114,7 @@ export const chain: Chain_<StateF>['chain'] = (f) => (ma) => (s1) => {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -144,9 +142,7 @@ export const Functor: Functor_<StateF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -173,9 +169,9 @@ export const Apply: Apply_<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A> = /*#__PURE__*/ apFirst_(
+  Apply
+)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -185,9 +181,9 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B> = /*#__PURE__*/ apSecond_(
+  Apply
+)
 
 /**
  * @category instances
@@ -227,9 +223,9 @@ export const Monad: Monad_<StateF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, S, B>(
+  f: (a: A) => State<S, B>
+) => (first: State<S, A>) => State<S, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -264,16 +260,19 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => State<S, B>
+) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(
+  Chain
+)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -282,9 +281,12 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, S, B>(
+  name: Exclude<N, keyof A>,
+  fb: State<S, B>
+) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(
+  Apply
+)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -293,16 +295,14 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <S, A>(fa: State<S, A>) => State<S, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <S, B>(
+  fb: State<S, B>
+) => <A extends ReadonlyArray<unknown>>(fas: State<S, A>) => State<S, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

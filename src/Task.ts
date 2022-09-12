@@ -25,6 +25,7 @@ import { identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
+import type { IO } from './IO'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
@@ -51,7 +52,7 @@ export interface Task<A> {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO_<TaskF>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -103,7 +104,8 @@ export const delay = (millis: number) => <A>(ma: Task<A>): Task<A> => () =>
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<TaskF>['map'] = (f) => (fa) => () => Promise.resolve().then(fa).then(f)
+export const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B> = (f) => (fa) => () =>
+  Promise.resolve().then(fa).then(f)
 
 /**
  * Apply a function to an argument under a type constructor.
@@ -111,14 +113,14 @@ export const map: Functor_<TaskF>['map'] = (f) => (fa) => () => Promise.resolve(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<TaskF>['ap'] = (fa) => (fab) => () =>
+export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (fa) => (fab) => () =>
   Promise.all([Promise.resolve().then(fab), Promise.resolve().then(fa)]).then(([f, a]) => f(a))
 
 /**
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<TaskF>['of'] = (a) => () => Promise.resolve(a)
+export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -126,7 +128,7 @@ export const of: Pointed_<TaskF>['of'] = (a) => () => Promise.resolve(a)
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<TaskF>['chain'] = (f) => (ma) => () =>
+export const chain: <A, B>(f: (a: A) => Task<B>) => (ma: Task<A>) => Task<B> = (f) => (ma) => () =>
   Promise.resolve()
     .then(ma)
     .then((a) => f(a)())
@@ -137,9 +139,7 @@ export const chain: Chain_<TaskF>['chain'] = (f) => (ma) => () =>
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Task<Task<A>>) => Task<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Task<Task<A>>) => Task<A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -193,9 +193,7 @@ export const Functor: Functor_<TaskF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <B>(fab: Task<(a: A) => B>) => Task<B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -222,9 +220,7 @@ export const ApplyPar: Apply_<TaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(ApplyPar)
+export const apFirst: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<A> = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -234,9 +230,7 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(ApplyPar)
+export const apSecond: <B>(second: Task<B>) => <A>(first: Task<A>) => Task<B> = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances
@@ -257,9 +251,7 @@ export const Chain: Chain_<TaskF> = {
   chain
 }
 
-const apSeq =
-  /*#__PURE__*/
-  apSeq_(Chain)
+const apSeq = /*#__PURE__*/ apSeq_(Chain)
 
 /**
  * @category instances
@@ -289,9 +281,7 @@ export const ApplicativeSeq: Applicative_<TaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -315,25 +305,27 @@ export const FromIO: FromIO_<TaskF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK =
-  /*#__PURE__*/
-  fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => (...a: A) => Task<B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK =
-  /*#__PURE__*/
-  chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ chainIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK =
-  /*#__PURE__*/
-  chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirstIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category instances
@@ -362,23 +354,22 @@ export const never: Task<never> = () => new Promise(() => undefined)
 /**
  * @since 3.0.0
  */
-export const Do: Task<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Task<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => Task<B>
+) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -387,9 +378,10 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(ApplyPar)
+export const apS: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Task<B>
+) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -398,23 +390,19 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Task<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Task<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <A>(fa: Task<A>) => Task<readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(ApplyPar)
+export const apT: <B>(
+  fb: Task<B>
+) => <A extends ReadonlyArray<unknown>>(fas: Task<A>) => Task<readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

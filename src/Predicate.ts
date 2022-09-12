@@ -26,7 +26,8 @@ export interface Predicate<A> {
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant_<PredicateF>['contramap'] = (f) => (predicate) => flow(f, predicate)
+export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicate<B> = (f) => (predicate) =>
+  flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
 // instances

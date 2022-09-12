@@ -2,7 +2,7 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import type { Apply as Apply } from './Apply'
+import type { Apply } from './Apply'
 import { Bifunctor as Bifunctor_ } from './Bifunctor'
 import type { Chain } from './Chain'
 import type { ChainRec } from './ChainRec'
@@ -174,7 +174,7 @@ export const bimap = <W, G, A, B>(mapSnd: (e: W) => G, mapFst: (a: A) => B) => (
  *
  * @since 3.0.0
  */
-export const mapFst: Functor_<WriterF>['map'] = map
+export const mapFst = map
 
 /**
  * Maps a function over the second component of a `Writer`.
@@ -183,13 +183,16 @@ export const mapFst: Functor_<WriterF>['map'] = map
  *
  * @since 3.0.0
  */
-export const mapSnd: Bifunctor_<WriterF>['mapLeft'] = mapLeft
+export const mapSnd = mapLeft
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const compose: Semigroupoid_<WriterF>['compose'] = (bc) => (ab) => [fst(bc), snd(ab)]
+export const compose: <B, C>(bc: Writer<B, C>) => <A>(ab: Writer<A, B>) => Writer<A, C> = (bc) => (ab) => [
+  fst(bc),
+  snd(ab)
+]
 
 /**
  * @category type class operations
@@ -257,6 +260,14 @@ export interface WriterF extends HKT {
  * @category instances
  * @since 3.0.0
  */
+export interface WriterFContra extends HKT {
+  readonly type: Writer<this['R'], this['A']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export interface WriterFE<E> extends HKT {
   readonly type: Writer<E, this['A']>
 }
@@ -290,7 +301,7 @@ export const flap = /*#__PURE__*/ flap_(Functor)
  * @category instances
  * @since 3.0.0
  */
-export const Semigroupoid: Semigroupoid_<WriterF> = {
+export const Semigroupoid: Semigroupoid_<WriterFContra> = {
   compose
 }
 

@@ -31,7 +31,8 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor)
   - [FromWriter](#fromwriter)
   - [Functor](#functor)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
+  - [ReaderTaskWriterFE (interface)](#readertaskwriterfe-interface)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -109,7 +110,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriterK: <A, E, B>(f: (...a: A) => Writer<E, B>) => <R>(...a: A) => ReaderTaskWriter<R, E, B>
+export declare const fromWriterK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Writer<E, B>
+) => <R>(...a: A) => ReaderTaskWriter<R, E, B>
 ```
 
 Added in v3.0.0
@@ -226,7 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor3<'ReaderTaskWriter'>
+export declare const Bifunctor: Bifunctor_<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
@@ -236,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromWriter: FromWriter3<'ReaderTaskWriter'>
+export declare const FromWriter: FromWriter_<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
@@ -246,17 +249,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor3<'ReaderTaskWriter'>
+export declare const Functor: Functor_<ReaderTaskWriterF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## ReaderTaskWriterF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'ReaderTaskWriter'
+export interface ReaderTaskWriterF extends HKT {
+  readonly type: ReaderTaskWriter<this['R'], this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskWriterFE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterFE<E> extends HKT {
+  readonly type: ReaderTaskWriter<this['R'], E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -266,7 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(A: Apply2<RT.URI>, M: Monoid<W>) => Applicative3C<'ReaderTaskWriter', W>
+export declare const getApplicative: <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => Applicative<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -276,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(A: Apply2<RT.URI>, S: Semigroup<W>) => Apply3C<'ReaderTaskWriter', W>
+export declare const getApply: <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => Apply<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -286,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain3C<'ReaderTaskWriter', W>
+export declare const getChain: <W>(S: Semigroup<W>) => Chain<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -296,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromIO: <W>(M: Monoid<W>) => FromIO3C<'ReaderTaskWriter', W>
+export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -306,7 +323,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromReader: <W>(M: Monoid<W>) => FromReader3C<'ReaderTaskWriter', W>
+export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -316,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromTask: <W>(M: Monoid<W>) => FromTask3C<'ReaderTaskWriter', W>
+export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -326,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad3C<'ReaderTaskWriter', W>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -336,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed3C<'ReaderTaskWriter', W>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -424,7 +441,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(
+export declare const bindTo: <N extends string>(
   name: N
 ) => <R, E, A>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, { readonly [K in N]: A }>
 ```

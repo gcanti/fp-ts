@@ -6,7 +6,6 @@
 import { Chain, chainFirst } from './Chain'
 import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import type { NaturalTransformation } from './NaturalTransformation'
 import * as R from './Reader'
 
 import Reader = R.Reader
@@ -20,7 +19,7 @@ import Reader = R.Reader
  * @since 3.0.0
  */
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: NaturalTransformation<R.ReaderF, F>
+  readonly fromReader: <R, A, S, E>(fa: Reader<R, A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

@@ -12,5 +12,5 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @since 3.0.0
  */
 export interface Semigroupoid<F extends HKT> extends Typeclass<F> {
-  readonly compose: <S, R, B, C>(bc: Kind<F, S, R, B, C>) => <A>(ab: Kind<F, S, R, A, B>) => Kind<F, S, R, A, C>
+  readonly compose: <S, B, E, C>(bc: Kind<F, S, B, E, C>) => <A>(ab: Kind<F, S, A, E, B>) => Kind<F, S, A, E, C>
 }

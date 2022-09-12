@@ -88,6 +88,8 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Chain](#chain-1)
   - [ChainRec](#chainrec-1)
+  - [EitherF (interface)](#eitherf-interface)
+  - [EitherFE (interface)](#eitherfe-interface)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -95,7 +97,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
-  - [URI (type alias)](#uri-type-alias)
   - [getAltValidation](#getaltvalidation)
   - [getApplicativeValidation](#getapplicativevalidation)
   - [getCompactable](#getcompactable)
@@ -353,7 +354,9 @@ Map each element of a structure to an action, evaluate these actions from left t
 **Signature**
 
 ```ts
-export declare const traverse: Traverse2<'Either'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, FE, B>(f: (a: A) => Kind<F, S, R, FE, B>) => <E>(ta: Either<E, A>) => Kind<F, S, R, FE, Either<E, B>>
 ```
 
 **Example**
@@ -429,8 +432,8 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: Either<E, B>) => Either<E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Either<E, B>) => Either<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 }
 ```
@@ -522,7 +525,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => Either<E, B>
 ```
 
 Added in v3.0.0
@@ -534,9 +539,7 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, B>(
-  onLeft: (e: E1) => Either<E2, B>
-) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
+export declare const orElse: <E, A>(onLeft: (e: E) => Either<E, A>) => (ma: Either<E, A>) => Either<E, A>
 ```
 
 Added in v3.0.0
@@ -575,8 +578,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => Either<B, B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Either<A, B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Either<B, B>
   <A>(predicate: Predicate<A>): (a: A) => Either<A, A>
 }
 ```
@@ -906,7 +909,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt2<'Either'>
+export declare const Alt: Alt_<EitherF>
 ```
 
 Added in v3.0.0
@@ -916,7 +919,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'Either'>
+export declare const Applicative: Applicative_<EitherF>
 ```
 
 Added in v3.0.0
@@ -926,7 +929,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply2<'Either'>
+export declare const Apply: Apply_<EitherF>
 ```
 
 Added in v3.0.0
@@ -936,7 +939,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'Either'>
+export declare const Bifunctor: Bifunctor_<EitherF>
 ```
 
 Added in v3.0.0
@@ -946,7 +949,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'Either'>
+export declare const Chain: Chain_<EitherF>
 ```
 
 Added in v3.0.0
@@ -956,7 +959,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRec2<'Either'>
+export declare const ChainRec: ChainRec_<EitherF>
+```
+
+Added in v3.0.0
+
+## EitherF (interface)
+
+**Signature**
+
+```ts
+export interface EitherF extends HKT {
+  readonly type: Either<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## EitherFE (interface)
+
+**Signature**
+
+```ts
+export interface EitherFE<E> extends HKT {
+  readonly type: Either<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -966,7 +993,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: Extend2<'Either'>
+export declare const Extend: Extend_<EitherF>
 ```
 
 Added in v3.0.0
@@ -976,7 +1003,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable2<'Either'>
+export declare const Foldable: Foldable_<EitherF>
 ```
 
 Added in v3.0.0
@@ -986,7 +1013,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither2<'Either'>
+export declare const FromEither: FromEither_<EitherF>
 ```
 
 Added in v3.0.0
@@ -996,7 +1023,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Either'>
+export declare const Functor: Functor_<EitherF>
 ```
 
 Added in v3.0.0
@@ -1006,7 +1033,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'Either'>
+export declare const Monad: Monad_<EitherF>
 ```
 
 Added in v3.0.0
@@ -1016,7 +1043,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'Either'>
+export declare const Pointed: Pointed_<EitherF>
 ```
 
 Added in v3.0.0
@@ -1026,17 +1053,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable2<'Either'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Either'
+export declare const Traversable: Traversable_<EitherF>
 ```
 
 Added in v3.0.0
@@ -1049,7 +1066,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt2C<'Either', E>
+export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt_<EitherFE<E>>
 ```
 
 **Example**
@@ -1079,7 +1096,7 @@ const Alt = E.getAltValidation(pipe(string.Semigroup, S.intercalate(', ')))
 const parseAll = (u: unknown): E.Either<string, string | number> =>
   pipe(
     parseString(u),
-    Alt.alt<string | number>(() => parseNumber(u))
+    Alt.alt(() => parseNumber(u) as E.Either<string, string | number>)
   )
 
 assert.deepStrictEqual(parseAll(true), E.left('not a string, not a number')) // <= all errors
@@ -1095,7 +1112,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative2C<'Either', E>
+export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative_<EitherFE<E>>
 ```
 
 **Example**
@@ -1142,7 +1159,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'Either', E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<EitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1164,7 +1181,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'Either', E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<EitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1213,7 +1230,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => Witherable2C<'Either', E>
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable_<EitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1371,7 +1388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'Either', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A>
 ```
 
 **Example**
@@ -1426,7 +1443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E, B>
 ) => (fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1454,7 +1471,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: Either<E, B>) => <A>(fas: Either<E, A>) => Either<E, readonly [...A, B]>
+export declare const apT: <E, B>(
+  fb: Either<E, B>
+) => <A extends readonly unknown[]>(fas: Either<E, A>) => Either<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1478,9 +1497,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Either<E, B>
+  f: <A2 extends A>(a: A | A2) => Either<E, B>
 ) => (ma: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1491,7 +1510,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(fa: Either<E, A>) => Either<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

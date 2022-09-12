@@ -48,9 +48,9 @@ Added in v3.0.0
   - [ChainRec](#chainrec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
+  - [IOF (interface)](#iof-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [IO (interface)](#io-interface)
 - [utils](#utils)
@@ -211,7 +211,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'IO'>
+export declare const Applicative: Applicative_<IOF>
 ```
 
 Added in v3.0.0
@@ -221,7 +221,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'IO'>
+export declare const Apply: Apply_<IOF>
 ```
 
 Added in v3.0.0
@@ -231,7 +231,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'IO'>
+export declare const Chain: Chain_<IOF>
 ```
 
 Added in v3.0.0
@@ -241,7 +241,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRec1<'IO'>
+export declare const ChainRec: ChainRec_<IOF>
 ```
 
 Added in v3.0.0
@@ -251,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO1<'IO'>
+export declare const FromIO: FromIO_<IOF>
 ```
 
 Added in v3.0.0
@@ -261,7 +261,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'IO'>
+export declare const Functor: Functor_<IOF>
+```
+
+Added in v3.0.0
+
+## IOF (interface)
+
+**Signature**
+
+```ts
+export interface IOF extends HKT {
+  readonly type: IO<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -271,7 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'IO'>
+export declare const Monad: Monad_<IOF>
 ```
 
 Added in v3.0.0
@@ -281,17 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'IO'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'IO'
+export declare const Pointed: Pointed_<IOF>
 ```
 
 Added in v3.0.0
@@ -337,7 +339,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IO<B>
 ) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -350,7 +352,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: IO<B>) => <A>(fas: IO<A>) => IO<readonly [...A, B]>
+export declare const apT: <B>(fb: IO<B>) => <A extends readonly unknown[]>(fas: IO<A>) => IO<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -360,9 +362,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => IO<B>
+  f: <A2 extends A>(a: A | A2) => IO<B>
 ) => (ma: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -373,7 +375,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: IO<A>) => IO<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: IO<A>) => IO<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

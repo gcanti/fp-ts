@@ -51,7 +51,7 @@ Added in v3.0.0
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
@@ -102,7 +102,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <A>(foa: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
+export declare const compact: <A>(r: Readonly<Record<string, O.Option<A>>>) => Readonly<Record<string, A>>
 ```
 
 Added in v3.0.0
@@ -113,7 +113,7 @@ Added in v3.0.0
 
 ```ts
 export declare const separate: <A, B>(
-  fe: Readonly<Record<string, Either<A, B>>>
+  r: Readonly<Record<string, Either<A, B>>>
 ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
 ```
 
@@ -126,7 +126,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: Filter1<'ReadonlyRecord'>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Readonly<Record<string, B>>) => Readonly<Record<string, B>>
+  <A>(predicate: Predicate<A>): (fa: Readonly<Record<string, A>>) => Readonly<Record<string, A>>
+}
 ```
 
 Added in v3.0.0
@@ -148,7 +152,17 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: Partition1<'ReadonlyRecord'>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fb: Readonly<Record<string, B>>
+  ) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, B>>>
+  <A>(predicate: Predicate<A>): (
+    fa: Readonly<Record<string, A>>
+  ) => Separated<Readonly<Record<string, A>>, Readonly<Record<string, A>>>
+}
 ```
 
 Added in v3.0.0
@@ -280,7 +294,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wilt: (O: Ord<string>) => Witherable1<URI>['wilt']
+export declare const wilt: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (
+  wa: Readonly<Record<string, A>>
+) => Kind<F, S, R, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
 ```
 
 Added in v3.0.0
@@ -290,7 +312,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wither: (O: Ord<string>) => Witherable1<URI>['wither']
+export declare const wither: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, E, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -405,25 +433,11 @@ specified `Magma` to combine values for duplicate keys, and the specified `f` to
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends URIS4>(
-  F: Foldable4<F>
+export declare function fromFoldable<F extends HKT>(
+  F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind4<F, S, R, E, A>) => ReadonlyRecord<string, B>
-export declare function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <B>(
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <R, E>(r: Kind3<F, R, E, A>) => ReadonlyRecord<string, B>
-export declare function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => <E>(r: Kind2<F, E, A>) => ReadonlyRecord<string, B>
-export declare function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (r: Kind<F, A>) => ReadonlyRecord<string, B>
-export declare function fromFoldable<F>(
-  F: Foldable_<F>
-): <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) => (r: HKT<F, A>) => ReadonlyRecord<string, B>
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind<F, S, R, E, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0
@@ -447,7 +461,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable1<'ReadonlyRecord'>
+export declare const Compactable: Compactable_<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -457,7 +471,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable1<'ReadonlyRecord'>
+export declare const Filterable: Filterable_<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -467,7 +481,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndex1<'ReadonlyRecord', string>
+export declare const FilterableWithIndex: FilterableWithIndex_<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -477,7 +491,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'ReadonlyRecord'>
+export declare const Functor: Functor_<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -487,17 +501,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyRecord', string>
+export declare const FunctorWithIndex: FunctorWithIndex_<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## ReadonlyRecordF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'ReadonlyRecord'
+export interface ReadonlyRecordF extends HKT {
+  readonly type: ReadonlyRecord<string, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -527,7 +543,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: (O: Ord<string>) => Foldable1<URI>
+export declare const getFoldable: (O: Ord<string>) => Foldable<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -537,7 +553,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex1<URI, string>
+export declare const getFoldableWithIndex: (O: Ord<string>) => FoldableWithIndex_<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -590,7 +606,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: (O: Ord<string>) => Traversable1<URI>
+export declare const getTraversable: (O: Ord<string>) => Traversable_<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -600,7 +616,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex1<URI, string>
+export declare const getTraversableWithIndex: (O: Ord<string>) => TraversableWithIndex_<ReadonlyRecordF, string>
 ```
 
 Added in v3.0.0
@@ -630,7 +646,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getWitherable: (O: Ord<string>) => Witherable1<URI>
+export declare const getWitherable: (O: Ord<string>) => Witherable_<ReadonlyRecordF>
 ```
 
 Added in v3.0.0
@@ -954,10 +970,9 @@ Unfolds a `ReadonlyRecord` into a data structure of key/value pairs.
 ```ts
 export declare function toUnfoldable(
   O: Ord<string>
-): {
-  <F extends URIS>(U: Unfoldable1<F>): <K extends string, A>(r: ReadonlyRecord<K, A>) => Kind<F, readonly [K, A]>
-  <F>(U: Unfoldable<F>): <K extends string, A>(r: ReadonlyRecord<K, A>) => HKT<F, readonly [K, A]>
-}
+): <F extends HKT>(
+  U: Unfoldable_<F>
+) => <K extends string, A, S, R, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -969,29 +984,11 @@ Added in v3.0.0
 ```ts
 export declare function traverse(
   O: Ord<string>
-): {
-  <F extends URIS4>(F: Applicative4<F>): <A, S, R, E, B>(
-    f: (a: A) => Kind4<F, S, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3>(F: Applicative3<F>): <A, R, E, B>(
-    f: (a: A) => Kind3<F, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3, E>(F: Applicative3C<F, E>): <A, R, B>(
-    f: (a: A) => Kind3<F, R, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS2>(F: Applicative2<F>): <A, E, B>(
-    f: (a: A) => Kind2<F, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS2, E>(F: Applicative2C<F, E>): <A, B>(
-    f: (a: A) => Kind2<F, E, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    f: (a: A) => Kind<F, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-  <F>(F: Applicative<F>): <A, B>(
-    f: (a: A) => HKT<F, B>
-  ) => <K extends string>(ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
-}
+): <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0
@@ -1003,29 +1000,11 @@ Added in v3.0.0
 ```ts
 export declare function traverseWithIndex(
   O: Ord<string>
-): {
-  <F extends URIS4>(F: Applicative4<F>): <K extends string, A, S, R, E, B>(
-    f: (k: K, a: A) => Kind4<F, S, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind4<F, S, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3>(F: Applicative3<F>): <K extends string, A, R, E, B>(
-    f: (k: K, a: A) => Kind3<F, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS3, E>(F: Applicative3C<F, E>): <K extends string, A, R, B>(
-    f: (k: K, a: A) => Kind3<F, R, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind3<F, R, E, ReadonlyRecord<K, B>>
-  <F extends URIS2>(F: Applicative2<F>): <K extends string, A, E, B>(
-    f: (k: K, a: A) => Kind2<F, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS2, E>(F: Applicative2C<F, E>): <K extends string, A, B>(
-    f: (k: K, a: A) => Kind2<F, E, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind2<F, E, ReadonlyRecord<K, B>>
-  <F extends URIS>(F: Applicative1<F>): <K extends string, A, B>(
-    f: (k: K, a: A) => Kind<F, B>
-  ) => (ta: ReadonlyRecord<K, A>) => Kind<F, ReadonlyRecord<K, B>>
-  <F>(F: Applicative<F>): <K extends string, A, B>(
-    f: (k: K, a: A) => HKT<F, B>
-  ) => (ta: ReadonlyRecord<K, A>) => HKT<F, ReadonlyRecord<K, B>>
-}
+): <F extends HKT>(
+  F: Applicative<F>
+) => <K extends string, A, S, R, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0

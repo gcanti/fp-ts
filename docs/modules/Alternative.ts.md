@@ -27,12 +27,6 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [Alternative (interface)](#alternative-interface)
-  - [Alternative1 (interface)](#alternative1-interface)
-  - [Alternative2 (interface)](#alternative2-interface)
-  - [Alternative2C (interface)](#alternative2c-interface)
-  - [Alternative3 (interface)](#alternative3-interface)
-  - [Alternative3C (interface)](#alternative3c-interface)
-  - [Alternative4 (interface)](#alternative4-interface)
 - [utils](#utils)
   - [altAll](#altall)
 
@@ -45,67 +39,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Alternative<F> extends Alt<F>, Zero<F> {}
-```
-
-Added in v3.0.0
-
-## Alternative1 (interface)
-
-**Signature**
-
-```ts
-export interface Alternative1<F extends URIS> extends Alt1<F>, Zero1<F> {}
-```
-
-Added in v3.0.0
-
-## Alternative2 (interface)
-
-**Signature**
-
-```ts
-export interface Alternative2<F extends URIS2> extends Alt2<F>, Zero2<F> {}
-```
-
-Added in v3.0.0
-
-## Alternative2C (interface)
-
-**Signature**
-
-```ts
-export interface Alternative2C<F extends URIS2, E> extends Alt2C<F, E>, Zero2C<F, E> {}
-```
-
-Added in v3.0.0
-
-## Alternative3 (interface)
-
-**Signature**
-
-```ts
-export interface Alternative3<F extends URIS3> extends Alt3<F>, Zero3<F> {}
-```
-
-Added in v3.0.0
-
-## Alternative3C (interface)
-
-**Signature**
-
-```ts
-export interface Alternative3C<F extends URIS3, E> extends Alt3C<F, E>, Zero3C<F, E> {}
-```
-
-Added in v3.0.0
-
-## Alternative4 (interface)
-
-**Signature**
-
-```ts
-export interface Alternative4<F extends URIS4> extends Alt4<F>, Zero4<F> {}
+export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
 ```
 
 Added in v3.0.0
@@ -117,23 +51,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function altAll<F extends URIS4>(
-  F: Alternative4<F>
-): <S, R, E, A>(as: ReadonlyArray<Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
-export declare function altAll<F extends URIS3>(
-  F: Alternative3<F>
-): <R, E, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
-export declare function altAll<F extends URIS3, E>(
-  F: Alternative3C<F, E>
-): <R, A>(as: ReadonlyArray<Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
-export declare function altAll<F extends URIS2>(
-  F: Alternative2<F>
-): <E, A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
-export declare function altAll<F extends URIS2, E>(
-  F: Alternative2C<F, E>
-): <A>(as: ReadonlyArray<Kind2<F, E, A>>) => Kind2<F, E, A>
-export declare function altAll<F extends URIS>(F: Alternative1<F>): <A>(as: ReadonlyArray<Kind<F, A>>) => Kind<F, A>
-export declare function altAll<F>(F: Alternative<F>): <A>(as: ReadonlyArray<HKT<F, A>>) => HKT<F, A>
+export declare const altAll: <F extends HKT>(
+  F: Alternative<F>
+) => <S, R, E, A>(as: readonly Kind<F, S, R, E, A>[]) => Kind<F, S, R, E, A>
 ```
 
 Added in v3.0.0

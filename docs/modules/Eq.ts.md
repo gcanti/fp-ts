@@ -30,8 +30,8 @@ Added in v3.0.0
   - [fromOrd](#fromord)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
+  - [EqF (interface)](#eqf-interface)
   - [EqStrict](#eqstrict)
-  - [URI (type alias)](#uri-type-alias)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
@@ -121,7 +121,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant1<'Eq'>
+export declare const Contravariant: Contravariant_<EqF>
+```
+
+Added in v3.0.0
+
+## EqF (interface)
+
+**Signature**
+
+```ts
+export interface EqF extends HKT {
+  readonly type: Eq<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -132,16 +144,6 @@ Added in v3.0.0
 
 ```ts
 export declare const EqStrict: Eq<unknown>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Eq'
 ```
 
 Added in v3.0.0

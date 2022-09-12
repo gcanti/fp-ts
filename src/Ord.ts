@@ -122,7 +122,7 @@ export const reverse = <A>(O: Ord<A>): Ord<A> => fromCompare((second) => (first)
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant_<OrdF>['contramap'] = (f) => (fa) =>
+export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) => (fa) =>
   fromCompare((second) => (first) => fa.compare(f(second))(f(first)))
 
 // -------------------------------------------------------------------------------------

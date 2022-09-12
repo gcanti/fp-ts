@@ -39,6 +39,11 @@ export interface TypeReference {
   readonly typeArguments: ReadonlyArray<Type>
 }
 
+export interface InferType {
+  readonly _tag: 'InferType'
+  readonly typeParameter: Type
+}
+
 export interface Token {
   readonly _tag: 'Token'
 }
@@ -113,6 +118,7 @@ export type Type =
   | RestType
   | LiteralType
   | IntersectionType
+  | InferType
 
 export interface FunctionDeclaration {
   readonly name: string
@@ -229,6 +235,9 @@ export function parseType(
   if (ast.ts.isParenthesizedTypeNode(node)) {
     return parseType(node.type)
   }
+  if (ast.ts.isInferTypeNode(node)) {
+    return { _tag: 'InferType', typeParameter: parseType(node.typeParameter) }
+  }
   throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
 }
 
@@ -290,6 +299,14 @@ export const parseInterface = (i: ast.InterfaceDeclaration): ReadonlyArray<Funct
     members,
     RA.filter(ast.ts.isPropertySignature),
     RA.filterMap((ps) => {
+      if (ast.ts.isTypeReferenceNode(ps.type!)) {
+        /*
+        export interface EitherF extends HKT {
+          readonly type: Either<this['E'], this['A']>
+        }
+        */
+        return O.none
+      }
       const type = parseType(ps.type!)
       switch (type._tag) {
         case 'Overloadings':
@@ -364,6 +381,21 @@ export const parseVariableDeclaration = (vd: ast.VariableDeclaration): ReadonlyA
       // example: export const zip: <B>(bs: ReadonlyArray<B>) => <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]> = (bs) => zipWith(bs, (a, b) => [a, b])
       return [{ name, overloadings: [parseSignature(type)] }]
     }
+    if (ast.ts.isTypeLiteralNode(type)) {
+      const members = type.members.filter(ast.ts.isCallSignatureDeclaration)
+      const overloadings = pipe(members, RA.map(parseType)) as ReadonlyArray<Signature>
+      return [{ name, overloadings }]
+    }
+    if (ast.ts.isIntersectionTypeNode(type)) {
+      return RA.empty
+    }
+    if (ast.ts.isTypeOperatorNode(type)) {
+      return RA.empty
+    }
+    if (ast.ts.isTypeQueryNode(type)) {
+      return RA.empty
+    }
+    throw new Error(`(parseVariableDeclaration) not sure what to do with ${vd.getFullText()}`)
   }
   if (ast.ts.isArrowFunction(initializer)) {
     return [{ name, overloadings: parseArrowFunction(initializer) }]
@@ -375,9 +407,16 @@ export const parseFile = (src: ast.SourceFile): File => {
   const name = path.basename(src.getFilePath())
   const functions = pipe(
     src.getFunctions(),
+    RA.filter((fd) => fd.isExported()),
     RA.map(parseFunctionDeclaration),
     RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface))),
-    RA.concat(pipe(src.getVariableDeclarations(), RA.chain(parseVariableDeclaration)))
+    RA.concat(
+      pipe(
+        src.getVariableDeclarations(),
+        RA.filter((vd) => vd.isExported()),
+        RA.chain(parseVariableDeclaration)
+      )
+    )
   )
   return {
     name,
@@ -412,7 +451,7 @@ export const append = (bs: ReadonlyArray<Lint>) => (a: Lint): ReadonlyArray<Lint
     bs,
     RA.match(
       () => [a],
-      RA.map((b) => pipe(a, LintMonoid.concat(b)))
+      RA.map((b) => LintMonoid.concat(b)(a))
     )
   )
 }
@@ -478,8 +517,18 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
     case 'UnionType':
     case 'IntersectionType':
       return pipe(type.members, RA.chain(getTypeArguments))
+    case 'Overloadings':
+      return pipe(type.signatures, RA.chain(getTypeArguments))
+    case 'InferType':
+      return getTypeArguments(type.typeParameter)
+    case 'TypeParameterDeclaration':
+      return pipe(
+        type.constraint,
+        O.map(getTypeArguments),
+        O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
+      )
   }
-  throw new Error(`(getTypeArguments) not sure what to do with ${type._tag}`)
+  // throw new Error(`(getTypeArguments) not sure what to do with ${type._tag}`)
 }
 
 export const lintType = (type: Type, path: string = string.empty): ReadonlyArray<Lint> => {
@@ -506,10 +555,26 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
     case 'Token':
       return RA.empty
     case 'UnionType':
+    case 'IntersectionType':
       return pipe(
         type.members,
         RA.chain((t) => lintType(t, path))
       )
+    case 'ConditionalType':
+      return pipe(
+        lintType(type.checkType),
+        RA.concat(lintType(type.extendsType)),
+        RA.concat(lintType(type.trueType)),
+        RA.concat(lintType(type.falseType))
+      )
+    case 'MappedType':
+      return pipe(
+        type.type,
+        O.map(lintType),
+        O.getOrElse<ReadonlyArray<Lint>>(() => RA.empty)
+      )
+    case 'RestType':
+      return lintType(type.type)
   }
   throw new Error(`(lintType) not sure what to do with ${type._tag}`)
 }
@@ -559,7 +624,7 @@ export const check = (lints: ReadonlyArray<Lint>): ReadonlyArray<string> => {
       typeArguments: pipe(l.typeArguments, intersection(l.typeParameters), uniq)
     }))
   )
-    .filter((l) => !pipe(l.typeParameters, eq.equals(l.typeArguments)))
+    .filter((l) => !eq.equals(l.typeParameters)(l.typeArguments))
     .map(
       (l) => `Type Parameter Order Error in ${l.path}: ${l.typeParameters.join(', ')} !== ${l.typeArguments.join(', ')}`
     )

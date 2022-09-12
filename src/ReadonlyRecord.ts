@@ -428,21 +428,36 @@ export function filterWithIndex<A>(
  * @category Filterable
  * @since 3.0.0
  */
-export const filter: Filterable_<ReadonlyRecordF>['filter'] = <A>(
-  predicate: Predicate<A>
-): ((r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) => filterWithIndex((_, a) => predicate(a))
+export const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: ReadonlyRecord<string, B>) => ReadonlyRecord<string, B>
+  <A>(predicate: Predicate<A>): (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>
+} = <A>(predicate: Predicate<A>): ((r: ReadonlyRecord<string, A>) => ReadonlyRecord<string, A>) =>
+  filterWithIndex((_, a) => predicate(a))
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const filterMap: Filterable_<ReadonlyRecordF>['filterMap'] = (f) => filterMapWithIndex((_, a) => f(a))
+export const filterMap: <A, B>(
+  f: (a: A) => O.Option<B>
+) => (fa: ReadonlyRecord<string, A>) => ReadonlyRecord<string, B> = (f) => filterMapWithIndex((_, a) => f(a))
 
 /**
  * @category Filterable
  * @since 3.0.0
  */
-export const partition: Filterable_<ReadonlyRecordF>['partition'] = <A>(
+export const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (
+    fa: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>>
+  <A>(predicate: Predicate<A>): <B extends A>(
+    fb: ReadonlyRecord<string, B>
+  ) => Separated<ReadonlyRecord<string, B>, ReadonlyRecord<string, B>>
+  <A>(predicate: Predicate<A>): (
+    fa: ReadonlyRecord<string, A>
+  ) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>
+} = <A>(
   predicate: Predicate<A>
 ): ((r: ReadonlyRecord<string, A>) => Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, A>>) =>
   partitionWithIndex((_, a) => predicate(a))
@@ -451,7 +466,10 @@ export const partition: Filterable_<ReadonlyRecordF>['partition'] = <A>(
  * @category Filterable
  * @since 3.0.0
  */
-export const partitionMap: Filterable_<ReadonlyRecordF>['partitionMap'] = (f) => partitionMapWithIndex((_, a) => f(a))
+export const partitionMap: <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => (fa: Readonly<Record<string, A>>) => Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>> = (f) =>
+  partitionMapWithIndex((_, a) => f(a))
 
 /**
  * @since 3.0.0
@@ -489,9 +507,7 @@ export const reduceRight = (
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: Compactable_<ReadonlyRecordF>['compact'] = <A>(
-  r: ReadonlyRecord<string, Option<A>>
-): ReadonlyRecord<string, A> => {
+export const compact = <A>(r: ReadonlyRecord<string, Option<A>>): ReadonlyRecord<string, A> => {
   const out: Record<string, A> = {}
   for (const k in r) {
     if (_.has.call(r, k)) {
@@ -508,7 +524,7 @@ export const compact: Compactable_<ReadonlyRecordF>['compact'] = <A>(
  * @category Compactable
  * @since 3.0.0
  */
-export const separate: Compactable_<ReadonlyRecordF>['separate'] = <A, B>(
+export const separate = <A, B>(
   r: ReadonlyRecord<string, Either<A, B>>
 ): Separated<ReadonlyRecord<string, A>, ReadonlyRecord<string, B>> => {
   const left: Record<string, A> = {}
@@ -614,9 +630,9 @@ export const Functor: Functor_<ReadonlyRecordF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(
+  a: A
+) => <B>(fab: Readonly<Record<string, (a: A) => B>>) => Readonly<Record<string, B>> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -698,14 +714,28 @@ export const getTraversableWithIndex = (O: Ord<string>): TraversableWithIndex_<R
  * @category Witherable
  * @since 3.0.0
  */
-export const wither = (O: Ord<string>): Witherable_<ReadonlyRecordF>['wither'] =>
+export const wither: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, E, Readonly<Record<string, B>>> = (O) =>
   witherDefault(getTraversable(O), Compactable)
 
 /**
  * @category Witherable
  * @since 3.0.0
  */
-export const wilt = (O: Ord<string>): Witherable_<ReadonlyRecordF>['wilt'] =>
+export const wilt: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (
+  wa: Readonly<Record<string, A>>
+) => Kind<F, S, R, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>> = (O) =>
   wiltDefault(getTraversable(O), Compactable)
 
 /**

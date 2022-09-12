@@ -11,7 +11,6 @@ import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled
 import type { Monad as Monad_ } from './Monad'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Profunctor as Profunctor_ } from './Profunctor'
-import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
 import * as E from './Either'
 import type { Strong as Strong_ } from './Strong'
 import * as _ from './internal'
@@ -86,7 +85,7 @@ export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Read
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<ReaderF>['map'] = (f) => (fa) => flow(fa, f)
+export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => flow(fa, f)
 
 /**
  * Less strict version of [`ap`](#ap).
@@ -104,7 +103,7 @@ export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<ReaderF>['ap'] = apW
+export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
 
 /**
  * @category Pointed
@@ -128,7 +127,7 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<ReaderF>['chain'] = chainW
+export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -136,9 +135,9 @@ export const chain: Chain_<ReaderF>['chain'] = chainW
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chainW(
+  identity
+)
 
 /**
  * Derivable from `Chain`.
@@ -152,13 +151,15 @@ export const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A> = fla
  * @category Semigroupoid
  * @since 3.0.0
  */
-export const compose: Semigroupoid_<ReaderFE>['compose'] = (bc) => (ab) => flow(ab, bc)
+export const compose: <B, C>(bc: Reader<B, C>) => <A>(ab: Reader<A, B>) => Reader<A, C> = (bc) => (ab) => flow(ab, bc)
 
 /**
  * @category Profunctor
  * @since 3.0.0
  */
-export const promap: Profunctor_<ReaderFE>['promap'] = (f, g) => (fea) => (a) => g(fea(f(a)))
+export const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B> = (f, g) => (
+  fea
+) => (a) => g(fea(f(a)))
 
 /**
  * @category Category
@@ -170,25 +171,33 @@ export const id: <A>() => Reader<A, A> = () => identity
  * @category Choice
  * @since 3.0.0
  */
-export const left: Choice_<ReaderFE>['left'] = (pab) => E.match((a) => _.left(pab(a)), _.right)
+export const left: <A, B, C>(pab: Reader<A, B>) => Reader<E.Either<A, C>, E.Either<B, C>> = (pab) =>
+  E.match((a) => _.left(pab(a)), _.right)
 
 /**
  * @category Choice
  * @since 3.0.0
  */
-export const right: Choice_<ReaderFE>['right'] = (pbc) => E.match(_.left, (b) => _.right(pbc(b)))
+export const right: <B, C, A>(pbc: Reader<B, C>) => Reader<E.Either<A, B>, E.Either<A, C>> = (pbc) =>
+  E.match(_.left, (b) => _.right(pbc(b)))
 
 /**
  * @category Strong
  * @since 3.0.0
  */
-export const first: Strong_<ReaderFE>['first'] = (pab) => ([a, c]) => [pab(a), c]
+export const first: <A, B, C>(pab: Reader<A, B>) => Reader<readonly [A, C], readonly [B, C]> = (pab) => ([a, c]) => [
+  pab(a),
+  c
+]
 
 /**
  * @category Strong
  * @since 3.0.0
  */
-export const second: Strong_<ReaderFE>['second'] = (pbc) => ([a, b]) => [a, pbc(b)]
+export const second: <B, C, A>(pab: Reader<B, C>) => Reader<readonly [A, B], readonly [A, C]> = (pbc) => ([a, b]) => [
+  a,
+  pbc(b)
+]
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -200,14 +209,6 @@ export const second: Strong_<ReaderFE>['second'] = (pbc) => ([a, b]) => [a, pbc(
  */
 export interface ReaderF extends HKT {
   readonly type: Reader<this['R'], this['A']>
-}
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export interface ReaderFE extends HKT {
-  readonly type: Reader<this['E'], this['A']>
 }
 
 /**
@@ -232,9 +233,7 @@ export const Functor: Functor_<ReaderF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -261,9 +260,9 @@ export const Apply: Apply_<ReaderF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A> = /*#__PURE__*/ apFirst_(
+  Apply
+)
 
 /**
  * Less strict version of [`apFirst`](#apfirst).
@@ -283,9 +282,9 @@ export const apFirstW: <R2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <R, B>(
+  second: Reader<R, B>
+) => <A>(first: Reader<R, A>) => Reader<R, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * Less strict version of [`apSecond`](#apsecond).
@@ -335,9 +334,9 @@ export const Monad: Monad_<ReaderF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => (first: Reader<R, A>) => Reader<R, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -364,7 +363,7 @@ export const Profunctor: Profunctor_<ReaderF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Category: Category_<ReaderFE> = {
+export const Category: Category_<ReaderF> = {
   compose,
   id
 }
@@ -398,16 +397,19 @@ export const Strong: Strong_<ReaderF> = {
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: Reader<R, A>) => Reader<R, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => Reader<R, B>
+) => (
+  ma: Reader<R, A>
+) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 /**
  * Less strict version of [`bind`](#bind).
@@ -428,16 +430,17 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const Do: Reader<unknown, {}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: Reader<R, B>
+) => (
+  fa: Reader<R, A>
+) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 /**
  * Less strict version of [`apS`](#apS).
@@ -458,23 +461,19 @@ export const apSW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const ApT: Reader<unknown, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Reader<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <R, B>(
+  fb: Reader<R, B>
+) => <A extends ReadonlyArray<unknown>>(fas: Reader<R, A>) => Reader<R, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 /**
  * Less strict version of [`apT`](#apT).

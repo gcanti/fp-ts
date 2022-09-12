@@ -74,10 +74,6 @@ describe('Writer', () => {
     U.deepStrictEqual(pipe([1, 'a'], _.bimap(S.size, U.double)), [2, 1])
   })
 
-  it('compose', () => {
-    U.deepStrictEqual(pipe([1, 'a'] as const, _.compose([true, 2])), [true, 'a'])
-  })
-
   it('extract', () => {
     U.deepStrictEqual(pipe([1, 'a'] as const, _.extract), 1)
   })
@@ -119,6 +115,10 @@ describe('Writer', () => {
     const traverse = _.traverse(O.Applicative)((n: number) => (n > 1 ? O.some(n) : O.none))
     U.deepStrictEqual(traverse([2, 'a']), O.some([2, 'a'] as const))
     U.deepStrictEqual(traverse([1, 'a']), O.none)
+  })
+
+  it('compose', () => {
+    U.deepStrictEqual(pipe(['b', true] as const, _.compose([1, 'a'])), [1, true])
   })
 
   // -------------------------------------------------------------------------------------

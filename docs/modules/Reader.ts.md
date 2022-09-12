@@ -62,8 +62,8 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
+  - [ReaderF (interface)](#readerf-interface)
   - [Strong](#strong-1)
-  - [URI (type alias)](#uri-type-alias)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
 - [utils](#utils)
@@ -91,7 +91,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -129,7 +129,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>
+export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -178,7 +178,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -190,7 +190,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => Reader<E, A>
+export declare const of: <A, R>(a: A) => Reader<R, A>
 ```
 
 Added in v3.0.0
@@ -202,7 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const promap: <D, E, A, B>(f: (d: D) => E, g: (a: A) => B) => (pea: Reader<E, A>) => Reader<D, B>
+export declare const promap: <Q, R, A, B>(f: (d: Q) => R, g: (a: A) => B) => (pea: Reader<R, A>) => Reader<Q, B>
 ```
 
 Added in v3.0.0
@@ -290,7 +290,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>
+export declare const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -379,7 +379,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, A>
+export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v3.0.0
@@ -393,7 +393,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: Reader<E, B>) => <A>(first: Reader<E, A>) => Reader<E, B>
+export declare const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B>
 ```
 
 Added in v3.0.0
@@ -408,7 +408,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => Reader<E, B>) => (first: Reader<E, A>) => Reader<E, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v3.0.0
@@ -432,7 +432,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'Reader'>
+export declare const Applicative: Applicative_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -442,7 +442,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply2<'Reader'>
+export declare const Apply: Apply_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -452,7 +452,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Category: Category2<'Reader'>
+export declare const Category: Category_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -462,7 +462,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'Reader'>
+export declare const Chain: Chain_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Choice: Choice2<'Reader'>
+export declare const Choice: Choice_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -482,7 +482,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader2<'Reader'>
+export declare const FromReader: FromReader_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -492,7 +492,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Reader'>
+export declare const Functor: Functor_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -502,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'Reader'>
+export declare const Monad: Monad_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -512,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'Reader'>
+export declare const Pointed: Pointed_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -522,7 +522,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Profunctor: Profunctor2<'Reader'>
+export declare const Profunctor: Profunctor_<ReaderF>
+```
+
+Added in v3.0.0
+
+## ReaderF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderF extends HKT {
+  readonly type: Reader<this['R'], this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -532,17 +544,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Strong: Strong2<'Reader'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Reader'
+export declare const Strong: Strong_<ReaderF>
 ```
 
 Added in v3.0.0
@@ -588,10 +590,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  fb: Reader<E, B>
-) => (fa: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Reader<R, B>
+) => (fa: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -616,7 +618,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: Reader<E, B>) => <A>(fas: Reader<E, A>) => Reader<E, readonly [...A, B]>
+export declare const apT: <R, B>(
+  fb: Reader<R, B>
+) => <A extends readonly unknown[]>(fas: Reader<R, A>) => Reader<R, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -640,10 +644,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Reader<E, B>
-) => (ma: Reader<E, A>) => Reader<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => Reader<R, B>
+) => (ma: Reader<R, A>) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -653,7 +657,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: Reader<E, A>) => Reader<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: Reader<R, A>) => Reader<R, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -706,7 +712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: Reader<E, A>) => Reader<E, readonly [A]>
+export declare const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]>
 ```
 
 Added in v3.0.0

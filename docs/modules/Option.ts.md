@@ -94,9 +94,9 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad)
+  - [OptionF (interface)](#optionf-interface)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
-  - [URI (type alias)](#uri-type-alias)
   - [Witherable](#witherable-1)
   - [Zero](#zero-1)
   - [getEq](#geteq)
@@ -201,7 +201,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: Filter1<'Option'>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Option<B>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>
+}
 ```
 
 Added in v3.0.0
@@ -221,7 +225,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: Partition1<'Option'>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: Option<B>) => Separated<Option<B>, Option<B>>
+  <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>
+}
 ```
 
 Added in v3.0.0
@@ -304,7 +312,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse1<'Option'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -316,7 +326,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wilt: Wilt1<'Option'>
+export declare const wilt: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, E, Separated<Option<B>, Option<C>>>
 ```
 
 Added in v3.0.0
@@ -326,7 +340,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wither: Wither1<'Option'>
+export declare const wither: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, Option<B>>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -382,7 +398,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => Option<B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B>
 ```
 
 Added in v3.0.0
@@ -397,8 +415,8 @@ Returns a _smart constructor_ based on the given predicate.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => Option<B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => Option<B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => Option<B>
   <A>(predicate: Predicate<A>): (a: A) => Option<A>
 }
 ```
@@ -790,7 +808,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'Option'>
+export declare const Alt: Alt_<OptionF>
 ```
 
 Added in v3.0.0
@@ -800,7 +818,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative1<'Option'>
+export declare const Alternative: Alternative_<OptionF>
 ```
 
 Added in v3.0.0
@@ -810,7 +828,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'Option'>
+export declare const Applicative: Applicative_<OptionF>
 ```
 
 Added in v3.0.0
@@ -820,7 +838,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'Option'>
+export declare const Apply: Apply_<OptionF>
 ```
 
 Added in v3.0.0
@@ -830,7 +848,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Option'>
+export declare const Chain: Chain_<OptionF>
 ```
 
 Added in v3.0.0
@@ -840,7 +858,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable1<'Option'>
+export declare const Compactable: Compactable_<OptionF>
 ```
 
 Added in v3.0.0
@@ -850,7 +868,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: Extend1<'Option'>
+export declare const Extend: Extend_<OptionF>
 ```
 
 Added in v3.0.0
@@ -860,7 +878,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable1<'Option'>
+export declare const Filterable: Filterable_<OptionF>
 ```
 
 Added in v3.0.0
@@ -870,7 +888,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable1<'Option'>
+export declare const Foldable: Foldable_<OptionF>
 ```
 
 Added in v3.0.0
@@ -880,7 +898,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither1<'Option'>
+export declare const FromEither: FromEither_<OptionF>
 ```
 
 Added in v3.0.0
@@ -890,7 +908,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'Option'>
+export declare const Functor: Functor_<OptionF>
 ```
 
 Added in v3.0.0
@@ -900,7 +918,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'Option'>
+export declare const Monad: Monad_<OptionF>
+```
+
+Added in v3.0.0
+
+## OptionF (interface)
+
+**Signature**
+
+```ts
+export interface OptionF extends HKT {
+  readonly type: Option<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -910,7 +940,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'Option'>
+export declare const Pointed: Pointed_<OptionF>
 ```
 
 Added in v3.0.0
@@ -920,17 +950,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable1<'Option'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Option'
+export declare const Traversable: Traversable_<OptionF>
 ```
 
 Added in v3.0.0
@@ -940,7 +960,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Witherable: Witherable1<'Option'>
+export declare const Witherable: Witherable_<OptionF>
 ```
 
 Added in v3.0.0
@@ -950,7 +970,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero1<'Option'>
+export declare const Zero: Zero_<OptionF>
 ```
 
 Added in v3.0.0
@@ -1300,7 +1320,7 @@ Alias of [getRight](#getRight)
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'Option'>
+export declare const fromEither: <E, A, S, R>(fa: Either<E, A>) => Option<A>
 ```
 
 Added in v3.0.0
@@ -1332,7 +1352,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Option<B>
 ) => (fa: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1345,7 +1365,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Option<B>) => <A>(fas: Option<A>) => Option<readonly [...A, B]>
+export declare const apT: <B>(
+  fb: Option<B>
+) => <A extends readonly unknown[]>(fas: Option<A>) => Option<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1355,9 +1377,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Option<B>
+  f: <A2 extends A>(a: A | A2) => Option<B>
 ) => (ma: Option<A>) => Option<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1368,7 +1390,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Option<A>) => Option<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: Option<A>) => Option<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

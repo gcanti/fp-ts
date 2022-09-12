@@ -60,7 +60,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReaderTaskF (interface)](#readertaskf-interface)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [natural transformations](#natural-transformations)
@@ -94,7 +94,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: ReaderTask<E, A>) => <B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+export declare const ap: <R, A>(fa: ReaderTask<R, A>) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -122,7 +122,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => ReaderTask<E, B>) => (ma: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -151,7 +151,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -163,7 +163,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => ReaderTask<E, A>
+export declare const of: <A, R>(a: A) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -211,7 +211,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -237,7 +237,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -271,7 +271,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -283,7 +283,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: ReaderTask<E, (a: A) => B>) => ReaderTask<E, B>
+export declare const flap: <A>(a: A) => <R, B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -305,7 +305,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -315,7 +317,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderTask<R, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -325,7 +329,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -402,7 +408,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const apFirst: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -416,7 +422,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: ReaderTask<E, B>) => <A>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const apSecond: <R, B>(second: ReaderTask<R, B>) => <A>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -431,9 +437,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(
-  f: (a: A) => ReaderTask<E, B>
-) => (first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -457,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative2<'ReaderTask'>
+export declare const ApplicativePar: Applicative_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -467,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative2<'ReaderTask'>
+export declare const ApplicativeSeq: Applicative_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -477,7 +483,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply2<'ReaderTask'>
+export declare const ApplyPar: Apply_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -487,7 +493,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Applicative2<'ReaderTask'>
+export declare const ApplySeq: Applicative_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -497,7 +503,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'ReaderTask'>
+export declare const Chain: Chain_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -507,7 +513,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO2<'ReaderTask'>
+export declare const FromIO: FromIO_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -517,7 +523,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader2<'ReaderTask'>
+export declare const FromReader: FromReader_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -527,7 +533,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask2<'ReaderTask'>
+export declare const FromTask: FromTask_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -537,7 +543,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'ReaderTask'>
+export declare const Functor: Functor_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -547,7 +553,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'ReaderTask'>
+export declare const Monad: Monad_<ReaderTaskF>
 ```
 
 Added in v3.0.0
@@ -557,17 +563,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'ReaderTask'>
+export declare const Pointed: Pointed_<ReaderTaskF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## ReaderTaskF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'ReaderTask'
+export interface ReaderTaskF extends HKT {
+  readonly type: ReaderTask<this['R'], this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -593,7 +601,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+export declare const fromIO: <A, R>(fa: IO<A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -603,7 +611,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -613,7 +621,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
+export declare const fromTask: <A, R>(fa: T.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -645,10 +653,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderTask<E, B>
-) => (fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderTask<R, B>
+) => (fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -673,9 +681,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(
-  fb: ReaderTask<E, B>
-) => <A>(fas: ReaderTask<E, A>) => ReaderTask<E, readonly [...A, B]>
+export declare const apT: <R, B>(
+  fb: ReaderTask<R, B>
+) => <A extends readonly unknown[]>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -699,10 +707,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => ReaderTask<E, B>
-) => (ma: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => ReaderTask<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -712,7 +720,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -793,7 +803,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: ReaderTask<E, A>) => ReaderTask<E, readonly [A]>
+export declare const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
 ```
 
 Added in v3.0.0

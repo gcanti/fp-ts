@@ -40,6 +40,6 @@ export const mapLeftDefault = <F extends HKT>(bimap: Bifunctor<F>['bimap']): Bif
  * @category defaults
  * @since 3.0.0
  */
-export const mapDefault = <F extends HKT>(B: Bifunctor<F>): Functor<F>['map'] => <A, B>(
+export const mapDefault = <F extends HKT>(bimap: Bifunctor<F>['bimap']): Functor<F>['map'] => <A, B>(
   f: (a: A) => B
-): (<S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>) => B.bimap(identity, f)
+): (<S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>) => bimap(identity, f)

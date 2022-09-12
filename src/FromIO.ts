@@ -3,11 +3,10 @@
  *
  * @since 3.0.0
  */
-import { chainFirst, Chain } from './Chain'
+import { Chain, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT, Kind, Typeclass } from './HKT'
-import type { IO, IOF } from './IO'
-import type { NaturalTransformation } from './NaturalTransformation'
+import type { IO } from './IO'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -18,7 +17,7 @@ import type { NaturalTransformation } from './NaturalTransformation'
  * @since 3.0.0
  */
 export interface FromIO<F extends HKT> extends Typeclass<F> {
-  readonly fromIO: NaturalTransformation<IOF, F>
+  readonly fromIO: <A, S, R, E>(fa: IO<A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

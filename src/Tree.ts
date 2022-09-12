@@ -12,13 +12,13 @@ import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import type { Comonad as Comonad_ } from './Comonad'
 import { Eq, fromEquals } from './Eq'
-import type { Extend as Extend_ } from './Extend'
 import type { Foldable as Foldable_ } from './Foldable'
 import { flow, identity, pipe } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
+import type { Monoid } from './Monoid'
 import type { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
@@ -167,7 +167,7 @@ export const fold = <A, B>(f: (a: A, bs: ReadonlyArray<B>) => B): ((tree: Tree<A
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<TreeF>['map'] = (f) => (fa) => ({
+export const map: <A, B>(f: (a: A) => B) => (fa: Tree<A>) => Tree<B> = (f) => (fa) => ({
   value: f(fa.value),
   forest: fa.forest.map(map(f))
 })
@@ -178,7 +178,7 @@ export const map: Functor_<TreeF>['map'] = (f) => (fa) => ({
  * @category Apply
  * @since 3.0.0
  */
-export const ap: Apply_<TreeF>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
+export const ap: <A>(fa: Tree<A>) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = (fa) => chain((f) => pipe(fa, map(f)))
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -186,7 +186,9 @@ export const ap: Apply_<TreeF>['ap'] = (fa) => chain((f) => pipe(fa, map(f)))
  * @category Chain
  * @since 3.0.0
  */
-export const chain: Chain_<TreeF>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => {
+export const chain: <A, B>(f: (a: A) => Tree<B>) => (ma: Tree<A>) => Tree<B> = <A, B>(f: (a: A) => Tree<B>) => (
+  ma: Tree<A>
+) => {
   const { value, forest } = f(ma.value)
   const concat = RA.getMonoid<Tree<B>>().concat
   return {
@@ -199,7 +201,7 @@ export const chain: Chain_<TreeF>['chain'] = <A, B>(f: (a: A) => Tree<B>) => (ma
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend_<TreeF>['extend'] = (f) => (wa) => ({
+export const extend: <A, B>(f: (wa: Tree<A>) => B) => (wa: Tree<A>) => Tree<B> = (f) => (wa) => ({
   value: f(wa),
   forest: wa.forest.map(extend(f))
 })
@@ -210,9 +212,7 @@ export const extend: Extend_<TreeF>['extend'] = (f) => (wa) => ({
  * @category derivable combinators
  * @since 3.0.0
  */
-export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> = /*#__PURE__*/ extend(identity)
 
 /**
  * Derivable from `Chain`.
@@ -220,15 +220,15 @@ export const duplicate: <A>(wa: Tree<A>) => Tree<Tree<A>> =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> =
-  /*#__PURE__*/
-  chain(identity)
+export const flatten: <A>(mma: Tree<Tree<A>>) => Tree<A> = /*#__PURE__*/ chain(identity)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable_<TreeF>['reduce'] = <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>): B => {
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => (fa: Tree<A>) => B = <A, B>(b: B, f: (b: B, a: A) => B) => (
+  fa: Tree<A>
+): B => {
   let r: B = f(b, fa.value)
   const len = fa.forest.length
   for (let i = 0; i < len; i++) {
@@ -241,13 +241,17 @@ export const reduce: Foldable_<TreeF>['reduce'] = <A, B>(b: B, f: (b: B, a: A) =
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable_<TreeF>['foldMap'] = (M) => (f) => reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Tree<A>) => M = (M) => (f) =>
+  reduce(M.empty, (acc, a) => M.concat(f(a))(acc))
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<TreeF>['reduceRight'] = <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>): B => {
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) => B = <A, B>(
+  b: B,
+  f: (a: A, b: B) => B
+) => (fa: Tree<A>): B => {
   let r: B = b
   const len = fa.forest.length
   for (let i = len - 1; i >= 0; i--) {
@@ -260,12 +264,16 @@ export const reduceRight: Foldable_<TreeF>['reduceRight'] = <A, B>(b: B, f: (a: 
  * @category Extract
  * @since 3.0.0
  */
-export const extract: Comonad_<TreeF>['extract'] = (wa) => wa.value
+export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable_<TreeF>['traverse'] = <F extends HKT>(F: Applicative_<F>) => {
+export const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>) => Kind<F, S, R, E, Tree<B>> = <F extends HKT>(
+  F: Applicative_<F>
+) => {
   const traverseF = RA.traverse(F)
   const out = <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>): Kind<F, S, R, E, Tree<B>> =>
     pipe(
@@ -283,7 +291,7 @@ export const traverse: Traversable_<TreeF>['traverse'] = <F extends HKT>(F: Appl
  * @category Pointed
  * @since 3.0.0
  */
-export const of: Pointed_<TreeF>['of'] = (a) => tree(a)
+export const of: <A>(a: A) => Tree<A> = (a) => tree(a)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -338,9 +346,7 @@ export const Functor: Functor_<TreeF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <B>(fab: Tree<(a: A) => B>) => Tree<B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -367,9 +373,7 @@ export const Apply: Apply_<TreeF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst =
-  /*#__PURE__*/
-  apFirst_(Apply)
+export const apFirst: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -379,9 +383,7 @@ export const apFirst =
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond =
-  /*#__PURE__*/
-  apSecond_(Apply)
+export const apSecond: <B>(second: Tree<B>) => <A>(first: Tree<A>) => Tree<B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -421,9 +423,7 @@ export const Monad: Monad_<TreeF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst =
-  /*#__PURE__*/
-  chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Tree<B>) => (first: Tree<A>) => Tree<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -522,23 +522,22 @@ export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(
 /**
  * @since 3.0.0
  */
-export const Do: Tree<{}> =
-  /*#__PURE__*/
-  of(_.emptyRecord)
+export const Do: Tree<{}> = /*#__PURE__*/ of(_.emptyRecord)
 
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind =
-  /*#__PURE__*/
-  bind_(Chain)
+export const bind: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => Tree<B>
+) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -547,9 +546,10 @@ export const bind =
 /**
  * @since 3.0.0
  */
-export const apS =
-  /*#__PURE__*/
-  apS_(Apply)
+export const apS: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  fb: Tree<B>
+) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -558,20 +558,16 @@ export const apS =
 /**
  * @since 3.0.0
  */
-export const ApT: Tree<readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: Tree<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <A>(fa: Tree<A>) => Tree<readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const apT =
-  /*#__PURE__*/
-  apT_(Apply)
+export const apT: <B>(
+  fb: Tree<B>
+) => <A extends ReadonlyArray<unknown>>(fas: Tree<A>) => Tree<readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)

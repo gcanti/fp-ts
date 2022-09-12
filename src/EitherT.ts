@@ -38,7 +38,7 @@ export function left<F extends HKT>(F: Pointed<F>): <E, S, R, FE, A = never>(e: 
  */
 export function rightF<F extends HKT>(
   F: Functor<F>
-): <R, S, FE, A, E = never>(fa: Kind<F, S, R, FE, A>) => Kind<F, S, R, FE, Either<E, A>> {
+): <S, R, FE, A, E = never>(fa: Kind<F, S, R, FE, A>) => Kind<F, S, R, FE, Either<E, A>> {
   return F.map(E.right)
 }
 
@@ -47,7 +47,7 @@ export function rightF<F extends HKT>(
  */
 export function leftF<F extends HKT>(
   F: Functor<F>
-): <R, S, FE, E, A = never>(fe: Kind<F, S, R, FE, E>) => Kind<F, S, R, FE, Either<E, A>> {
+): <S, R, FE, E, A = never>(fe: Kind<F, S, R, FE, E>) => Kind<F, S, R, FE, Either<E, A>> {
   return F.map(E.left)
 }
 

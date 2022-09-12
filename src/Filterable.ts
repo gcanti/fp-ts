@@ -17,30 +17,6 @@ import { separated, Separated } from './Separated'
 // -------------------------------------------------------------------------------------
 
 /**
- * @since 3.0.0
- */
-export interface Filter<F extends HKT> {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
-  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(fb: Kind<F, S, R, E, B>) => Kind<F, S, R, E, B>
-  <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, A>
-}
-
-/**
- * @since 3.0.0
- */
-export interface Partition<F extends HKT> {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
-    fa: Kind<F, S, R, E, A>
-  ) => Separated<Kind<F, S, R, E, A>, Kind<F, S, R, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, E, B extends A>(
-    fb: Kind<F, S, R, E, B>
-  ) => Separated<Kind<F, S, R, E, B>, Kind<F, S, R, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, E>(
-    fa: Kind<F, S, R, E, A>
-  ) => Separated<Kind<F, S, R, E, A>, Kind<F, S, R, E, A>>
-}
-
-/**
  * @category type classes
  * @since 3.0.0
  */
@@ -48,9 +24,23 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
   readonly partitionMap: <A, B, C>(
     f: (a: A) => Either<B, C>
   ) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Separated<Kind<F, S, R, E, B>, Kind<F, S, R, E, C>>
-  readonly partition: Partition<F>
+  readonly partition: {
+    <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
+      fa: Kind<F, S, R, E, A>
+    ) => Separated<Kind<F, S, R, E, A>, Kind<F, S, R, E, B>>
+    <A>(predicate: Predicate<A>): <S, R, E, B extends A>(
+      fb: Kind<F, S, R, E, B>
+    ) => Separated<Kind<F, S, R, E, B>, Kind<F, S, R, E, B>>
+    <A>(predicate: Predicate<A>): <S, R, E>(
+      fa: Kind<F, S, R, E, A>
+    ) => Separated<Kind<F, S, R, E, A>, Kind<F, S, R, E, A>>
+  }
   readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
-  readonly filter: Filter<F>
+  readonly filter: {
+    <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
+    <A>(predicate: Predicate<A>): <S, R, E, B extends A>(fb: Kind<F, S, R, E, B>) => Kind<F, S, R, E, B>
+    <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, A>
+  }
 }
 
 // -------------------------------------------------------------------------------------

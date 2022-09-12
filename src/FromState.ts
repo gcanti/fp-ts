@@ -7,7 +7,6 @@ import type { Chain } from './Chain'
 import type { Endomorphism } from './Endomorphism'
 import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import { NaturalTransformation } from './NaturalTransformation'
 import * as S from './State'
 
 import State = S.State
@@ -21,7 +20,7 @@ import State = S.State
  * @since 3.0.0
  */
 export interface FromState<F extends HKT> extends Typeclass<F> {
-  readonly fromState: NaturalTransformation<S.StateF, F>
+  readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

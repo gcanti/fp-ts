@@ -229,13 +229,17 @@ export const censor: <W>(
  * @category type class operations
  * @since 3.0.0
  */
-export const map: Functor_<ReaderTaskWriterF>['map'] = /*#__PURE__*/ WT.map(RT.Functor)
+export const map: <A, B>(
+  f: (a: A) => B
+) => <R, E>(fa: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ WT.map(RT.Functor)
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor_<ReaderTaskWriterF>['mapLeft'] = /*#__PURE__*/ WT.mapLeft(RT.Functor)
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <R, A>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, A> = /*#__PURE__*/ WT.mapLeft(RT.Functor)
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -243,7 +247,10 @@ export const mapLeft: Bifunctor_<ReaderTaskWriterF>['mapLeft'] = /*#__PURE__*/ W
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap: Bifunctor_<ReaderTaskWriterF>['bimap'] = /*#__PURE__*/ WT.bimap(RT.Functor)
+export const bimap: <E, G, A, B>(
+  f: (e: E) => G,
+  g: (a: A) => B
+) => <R>(fea: ReaderTaskWriter<R, E, A>) => ReaderTaskWriter<R, G, B> = /*#__PURE__*/ WT.bimap(RT.Functor)
 
 /**
  * Maps a function over the first component of a `Writer`.
@@ -252,7 +259,7 @@ export const bimap: Bifunctor_<ReaderTaskWriterF>['bimap'] = /*#__PURE__*/ WT.bi
  *
  * @since 3.0.0
  */
-export const mapFst: Functor_<ReaderTaskWriterF>['map'] = map
+export const mapFst = map
 
 /**
  * Maps a function over the second component of a `Writer`.
@@ -261,7 +268,7 @@ export const mapFst: Functor_<ReaderTaskWriterF>['map'] = map
  *
  * @since 3.0.0
  */
-export const mapSnd: Bifunctor_<ReaderTaskWriterF>['mapLeft'] = mapLeft
+export const mapSnd = mapLeft
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -306,7 +313,9 @@ export const Functor: Functor_<ReaderTaskWriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(
+  a: A
+) => <R, E, B>(fab: ReaderTaskWriter<R, E, (a: A) => B>) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -376,7 +385,9 @@ export const FromWriter: FromWriter_<ReaderTaskWriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromWriterK = /*#__PURE__*/ fromWriterK_(FromWriter)
+export const fromWriterK: <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => Writer<E, B>
+) => <R>(...a: A) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ fromWriterK_(FromWriter)
 
 /**
  * @category instances
@@ -410,9 +421,11 @@ export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFE<W>> =>
 /**
  * @since 3.0.0
  */
-export const bindTo =
-  /*#__PURE__*/
-  bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <R, E, A>(
+  fa: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -421,9 +434,9 @@ export const bindTo =
 /**
  * @since 3.0.0
  */
-export const tupled =
-  /*#__PURE__*/
-  tupled_(Functor)
+export const tupled: <R, E, A>(
+  fa: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, readonly [A]> = /*#__PURE__*/ tupled_(Functor)
 
 // -------------------------------------------------------------------------------------
 // array utils

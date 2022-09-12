@@ -83,7 +83,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [TaskOptionF (interface)](#taskoptionf-interface)
   - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -191,7 +191,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: Filter1<'TaskOption'>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => TaskOption<B>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => TaskOption<A>
+}
 ```
 
 Added in v3.0.0
@@ -211,7 +215,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: Partition1<'TaskOption'>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: TaskOption<B>) => Separated<TaskOption<B>, TaskOption<B>>
+  <A>(predicate: Predicate<A>): (fa: TaskOption<A>) => Separated<TaskOption<A>, TaskOption<A>>
+}
 ```
 
 Added in v3.0.0
@@ -368,7 +376,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskOption<B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -378,7 +388,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -412,7 +422,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => (...a: A) => TaskOption<B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => (...a: A) => TaskOption<B>
 ```
 
 Added in v3.0.0
@@ -425,8 +437,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => TaskOption<B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskOption<B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskOption<B>
   <A>(predicate: Predicate<A>): (a: A) => TaskOption<A>
 }
 ```
@@ -623,7 +635,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'TaskOption'>
+export declare const Alt: Alt_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -633,7 +645,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative1<'TaskOption'>
+export declare const Alternative: Alternative_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -643,7 +655,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative1<'TaskOption'>
+export declare const ApplicativePar: Applicative<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -653,7 +665,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative1<'TaskOption'>
+export declare const ApplicativeSeq: Applicative<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -663,7 +675,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply1<'TaskOption'>
+export declare const ApplyPar: Apply<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -673,7 +685,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply1<'TaskOption'>
+export declare const ApplySeq: Apply<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -683,7 +695,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'TaskOption'>
+export declare const Chain: Chain_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -693,7 +705,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable1<'TaskOption'>
+export declare const Compactable: Compactable_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -703,7 +715,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable1<'TaskOption'>
+export declare const Filterable: Filterable_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -713,7 +725,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither1<'TaskOption'>
+export declare const FromEither: FromEither_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -723,7 +735,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO1<'TaskOption'>
+export declare const FromIO: FromIO_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -733,7 +745,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask1<'TaskOption'>
+export declare const FromTask: FromTask_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -743,7 +755,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'TaskOption'>
+export declare const Functor: Functor_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -753,7 +765,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'TaskOption'>
+export declare const Monad: Monad_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -763,17 +775,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'TaskOption'>
+export declare const Pointed: Pointed_<TaskOptionF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## TaskOptionF (interface)
 
 **Signature**
 
 ```ts
-export type URI = typeof URI
+export interface TaskOptionF extends HKT {
+  readonly type: TaskOption<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -783,7 +797,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero1<'TaskOption'>
+export declare const Zero: Zero_<TaskOptionF>
 ```
 
 Added in v3.0.0
@@ -873,7 +887,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -883,7 +897,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -893,7 +907,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+export declare const fromOption: <A>(fa: O.Option<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -903,7 +917,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -913,7 +927,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
+export declare const fromTaskEither: <E, A>(fa: TaskEither<E, A>) => TaskOption<A>
 ```
 
 Added in v3.0.0
@@ -945,7 +959,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: TaskOption<B>
 ) => (fa: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -958,7 +972,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: TaskOption<B>) => <A>(fas: TaskOption<A>) => TaskOption<readonly [...A, B]>
+export declare const apT: <B>(
+  fb: TaskOption<B>
+) => <A extends readonly unknown[]>(fas: TaskOption<A>) => TaskOption<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -968,9 +984,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => TaskOption<B>
+  f: <A2 extends A>(a: A | A2) => TaskOption<B>
 ) => (ma: TaskOption<A>) => TaskOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -981,7 +997,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: TaskOption<A>) => TaskOption<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <A>(fa: TaskOption<A>) => TaskOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

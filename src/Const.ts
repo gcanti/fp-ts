@@ -53,7 +53,7 @@ export const make: <E, A = never>(e: E) => Const<E, A> = unsafeCoerce
  * @category Contravariant
  * @since 3.0.0
  */
-export const contramap: Contravariant_<ConstF>['contramap'] = () => unsafeCoerce
+export const contramap: <B, A>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B> = () => unsafeCoerce
 
 /**
  * Map a pair of functions over the two type arguments of the bifunctor.
@@ -61,7 +61,8 @@ export const contramap: Contravariant_<ConstF>['contramap'] = () => unsafeCoerce
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor_<ConstF>['bimap'] = (f) => flow(f, make)
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Const<E, A>) => Const<G, B> = (f) =>
+  flow(f, make)
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -69,9 +70,9 @@ export const bimap: Bifunctor_<ConstF>['bimap'] = (f) => flow(f, make)
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor_<ConstF>['mapLeft'] =
-  /*#__PURE__*/
-  mapLeftDefault<ConstF>(bimap)
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <A>(fea: Const<E, A>) => Const<G, A> = /*#__PURE__*/ mapLeftDefault<ConstF>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -179,9 +180,9 @@ export const Bifunctor: Bifunctor_<ConstF> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<ConstF>['map'] =
-  /*#__PURE__*/
-  mapDefault<ConstF>(Bifunctor)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B> = /*#__PURE__*/ mapDefault<ConstF>(
+  bimap
+)
 
 /**
  * @category instances
@@ -197,9 +198,7 @@ export const Functor: Functor_<ConstF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

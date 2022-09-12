@@ -44,7 +44,8 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReadonlyMapF (interface)](#readonlymapf-interface)
+  - [ReadonlyMapFE (interface)](#readonlymapfe-interface)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
@@ -97,7 +98,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const compact: <E, A>(foa: ReadonlyMap<E, O.Option<A>>) => ReadonlyMap<E, A>
+export declare const compact: <K, A>(m: ReadonlyMap<K, O.Option<A>>) => ReadonlyMap<K, A>
 ```
 
 Added in v3.0.0
@@ -107,9 +108,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const separate: <E, A, B>(
-  fe: ReadonlyMap<E, Either<A, B>>
-) => Separated<ReadonlyMap<E, A>, ReadonlyMap<E, B>>
+export declare const separate: <K, A, B>(
+  fa: ReadonlyMap<K, Either<A, B>>
+) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -121,7 +122,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: Filter2<'ReadonlyMap'>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K, B extends A>(fb: ReadonlyMap<K, B>) => ReadonlyMap<K, B>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, A>
+}
 ```
 
 Added in v3.0.0
@@ -131,7 +136,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
+export declare const filterMap: <A, B>(f: (a: A) => O.Option<B>) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -141,7 +146,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: Partition2<'ReadonlyMap'>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): <K>(
+    fa: ReadonlyMap<K, A>
+  ) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K, B extends A>(
+    fb: ReadonlyMap<K, B>
+  ) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, B>>
+  <A>(predicate: Predicate<A>): <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, A>, ReadonlyMap<K, A>>
+}
 ```
 
 Added in v3.0.0
@@ -153,7 +166,7 @@ Added in v3.0.0
 ```ts
 export declare const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => <E>(fa: ReadonlyMap<E, A>) => Separated<ReadonlyMap<E, B>, ReadonlyMap<E, C>>
+) => <K>(fa: ReadonlyMap<K, A>) => Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>
 ```
 
 Added in v3.0.0
@@ -230,7 +243,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: ReadonlyMap<E, A>) => ReadonlyMap<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <K>(fa: ReadonlyMap<K, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -280,7 +293,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: ReadonlyMap<E, (a: A) => B>) => ReadonlyMap<E, B>
+export declare const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -334,27 +347,12 @@ specified `Magma` to combine values for duplicate keys, and the specified `f` to
 **Signature**
 
 ```ts
-export declare function fromFoldable<F extends URIS4>(
-  F: Foldable4<F>
-): <K, B>(
-  E: Eq<K>,
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind4<F, S, R, E, A>) => ReadonlyMap<K, B>
-export declare function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <K, B>(
-  E: Eq<K>,
-  M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <R, E>(fka: Kind3<F, R, E, A>) => ReadonlyMap<K, B>
-export declare function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => <E>(fka: Kind2<F, E, A>) => ReadonlyMap<K, B>
-export declare function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: Kind<F, A>) => ReadonlyMap<K, B>
-export declare function fromFoldable<F>(
+export declare function fromFoldable<F extends HKT>(
   F: Foldable<F>
-): <K, B>(E: Eq<K>, M: Magma<B>) => <A>(f: (a: A) => readonly [K, B]) => (fka: HKT<F, A>) => ReadonlyMap<K, B>
+): <K, B>(
+  E: Eq<K>,
+  M: Magma<B>
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind<F, S, R, E, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -378,7 +376,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable2<'ReadonlyMap'>
+export declare const Compactable: Compactable_<ReadonlyMapF>
 ```
 
 Added in v3.0.0
@@ -388,7 +386,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable2<'ReadonlyMap'>
+export declare const Filterable: Filterable_<ReadonlyMapF>
 ```
 
 Added in v3.0.0
@@ -398,17 +396,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'ReadonlyMap'>
+export declare const Functor: Functor_<ReadonlyMapF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## ReadonlyMapF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'ReadonlyMap'
+export interface ReadonlyMapF extends HKT {
+  readonly type: ReadonlyMap<this['R'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## ReadonlyMapFE (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyMapFE<E> extends HKT {
+  readonly type: ReadonlyMap<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -428,7 +440,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterableWithIndex: <K = never>() => FilterableWithIndex2C<'ReadonlyMap', K, K>
+export declare const getFilterableWithIndex: <K = never>() => FilterableWithIndex<ReadonlyMapFE<K>, K>
 ```
 
 Added in v3.0.0
@@ -438,7 +450,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: <K>(O: Ord<K>) => Foldable2C<'ReadonlyMap', K>
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable<ReadonlyMapFE<K>>
 ```
 
 Added in v3.0.0
@@ -448,7 +460,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex2C<'ReadonlyMap', K, K>
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex<ReadonlyMapFE<K>, K>
 ```
 
 Added in v3.0.0
@@ -458,7 +470,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex2C<'ReadonlyMap', K, K>
+export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapFE<K>, K>
 ```
 
 Added in v3.0.0
@@ -500,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: <K>(O: Ord<K>) => Traversable2C<'ReadonlyMap', K>
+export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapFE<K>>
 ```
 
 Added in v3.0.0
@@ -510,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex2C<'ReadonlyMap', K, K>
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex<ReadonlyMapFE<K>, K>
 ```
 
 Added in v3.0.0
@@ -540,7 +552,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getWitherable: <K>(O: Ord<K>) => Witherable2C<'ReadonlyMap', K>
+export declare const getWitherable: <K>(O: Ord<K>) => Witherable<ReadonlyMapFE<K>>
 ```
 
 Added in v3.0.0
@@ -793,12 +805,9 @@ Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 **Signature**
 
 ```ts
-export declare function toUnfoldable<F extends URIS>(
-  U: Unfoldable1<F>
-): <K>(o: Ord<K>) => <A>(d: ReadonlyMap<K, A>) => Kind<F, readonly [K, A]>
-export declare function toUnfoldable<F>(
+export declare function toUnfoldable<F extends HKT>(
   U: Unfoldable<F>
-): <K>(o: Ord<K>) => <A>(m: ReadonlyMap<K, A>) => HKT<F, readonly [K, A]>
+): <K>(o: Ord<K>) => <A, S, R, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -808,7 +817,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <K>(O: Ord<K>) => Traverse2C<'ReadonlyMap', K>
+export declare const traverse: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -818,7 +831,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverseWithIndex: <K>(O: Ord<K>) => TraverseWithIndex2C<'ReadonlyMap', K, K>
+export declare const traverseWithIndex: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -865,7 +884,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wilt: <K>(O: Ord<K>) => Wilt2C<'ReadonlyMap', K>
+export declare const wilt: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
 ```
 
 Added in v3.0.0
@@ -875,7 +900,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wither: <K>(O: Ord<K>) => Wither2C<'ReadonlyMap', K>
+export declare const wither: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, E, B>(
+  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

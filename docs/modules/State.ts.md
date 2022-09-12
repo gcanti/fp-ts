@@ -40,7 +40,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [StateF (interface)](#statef-interface)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
@@ -65,7 +65,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>
+export declare const ap: <S, A>(fa: State<S, A>) => <B>(fab: State<S, (a: A) => B>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -79,7 +79,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>
+export declare const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -94,7 +94,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -106,7 +106,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => State<E, A>
+export declare const of: <A, S>(a: A) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -120,7 +120,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: State<E, (a: A) => B>) => State<E, B>
+export declare const flap: <A>(a: A) => <S, B>(fab: State<S, (a: A) => B>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -186,7 +186,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, A>
+export declare const apFirst: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -200,7 +200,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: State<E, B>) => <A>(first: State<E, A>) => State<E, B>
+export declare const apSecond: <S, B>(second: State<S, B>) => <A>(first: State<S, A>) => State<S, B>
 ```
 
 Added in v3.0.0
@@ -215,7 +215,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => State<E, B>) => (first: State<E, A>) => State<E, A>
+export declare const chainFirst: <A, S, B>(f: (a: A) => State<S, B>) => (first: State<S, A>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -227,7 +227,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>
+export declare const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A>
 ```
 
 Added in v3.0.0
@@ -239,7 +239,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'State'>
+export declare const Applicative: Applicative_<StateF>
 ```
 
 Added in v3.0.0
@@ -249,7 +249,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply2<'State'>
+export declare const Apply: Apply_<StateF>
 ```
 
 Added in v3.0.0
@@ -259,7 +259,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'State'>
+export declare const Chain: Chain_<StateF>
 ```
 
 Added in v3.0.0
@@ -269,7 +269,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromState: FromState2<'State'>
+export declare const FromState: FromState_<StateF>
 ```
 
 Added in v3.0.0
@@ -279,7 +279,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'State'>
+export declare const Functor: Functor_<StateF>
 ```
 
 Added in v3.0.0
@@ -289,7 +289,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'State'>
+export declare const Monad: Monad_<StateF>
 ```
 
 Added in v3.0.0
@@ -299,17 +299,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'State'>
+export declare const Pointed: Pointed_<StateF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## StateF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'State'
+export interface StateF extends HKT {
+  readonly type: State<this['S'], this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -335,10 +337,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
-  fb: State<E, B>
-) => (fa: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: State<S, B>
+) => (fa: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -348,7 +350,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: State<E, B>) => <A>(fas: State<E, A>) => State<E, readonly [...A, B]>
+export declare const apT: <S, B>(
+  fb: State<S, B>
+) => <A extends readonly unknown[]>(fas: State<S, A>) => State<S, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -358,10 +362,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, S, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => State<E, B>
-) => (ma: State<E, A>) => State<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => State<S, B>
+) => (ma: State<S, A>) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -371,7 +375,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: State<E, A>) => State<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -433,7 +439,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const tupled: <E, A>(fa: State<E, A>) => State<E, readonly [A]>
+export declare const tupled: <S, A>(fa: State<S, A>) => State<S, readonly [A]>
 ```
 
 Added in v3.0.0

@@ -14,12 +14,6 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [Extend (interface)](#extend-interface)
-  - [Extend1 (interface)](#extend1-interface)
-  - [Extend2 (interface)](#extend2-interface)
-  - [Extend2C (interface)](#extend2c-interface)
-  - [Extend3 (interface)](#extend3-interface)
-  - [Extend3C (interface)](#extend3c-interface)
-  - [Extend4 (interface)](#extend4-interface)
 
 ---
 
@@ -30,82 +24,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Extend<W> extends Functor<W> {
-  readonly extend: <A, B>(f: (wa: HKT<W, A>) => B) => (wa: HKT<W, A>) => HKT<W, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend1 (interface)
-
-**Signature**
-
-```ts
-export interface Extend1<W extends URIS> extends Functor1<W> {
-  readonly extend: <A, B>(f: (wa: Kind<W, A>) => B) => (wa: Kind<W, A>) => Kind<W, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend2 (interface)
-
-**Signature**
-
-```ts
-export interface Extend2<W extends URIS2> extends Functor2<W> {
-  readonly extend: <E, A, B>(f: (wa: Kind2<W, E, A>) => B) => (wa: Kind2<W, E, A>) => Kind2<W, E, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend2C (interface)
-
-**Signature**
-
-```ts
-export interface Extend2C<W extends URIS2, E> extends Functor2C<W, E> {
-  readonly extend: <A, B>(f: (wa: Kind2<W, E, A>) => B) => (wa: Kind2<W, E, A>) => Kind2<W, E, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend3 (interface)
-
-**Signature**
-
-```ts
-export interface Extend3<W extends URIS3> extends Functor3<W> {
-  readonly extend: <R, E, A, B>(f: (wa: Kind3<W, R, E, A>) => B) => (wa: Kind3<W, R, E, A>) => Kind3<W, R, E, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend3C (interface)
-
-**Signature**
-
-```ts
-export interface Extend3C<W extends URIS3, E> extends Functor3C<W, E> {
-  readonly extend: <R, A, B>(f: (wa: Kind3<W, R, E, A>) => B) => (wa: Kind3<W, R, E, A>) => Kind3<W, R, E, B>
-}
-```
-
-Added in v3.0.0
-
-## Extend4 (interface)
-
-**Signature**
-
-```ts
-export interface Extend4<W extends URIS4> extends Functor4<W> {
+export interface Extend<W extends HKT> extends Functor<W> {
   readonly extend: <S, R, E, A, B>(
-    f: (wa: Kind4<W, S, R, E, A>) => B
-  ) => (wa: Kind4<W, S, R, E, A>) => Kind4<W, S, R, E, B>
+    f: (wa: Kind<W, S, R, E, A>) => B
+  ) => (wa: Kind<W, S, R, E, A>) => Kind<W, S, R, E, B>
 }
 ```
 

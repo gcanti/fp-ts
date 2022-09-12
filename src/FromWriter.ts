@@ -5,8 +5,7 @@
  */
 import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import { NaturalTransformation } from './NaturalTransformation'
-import type { WriterF, Writer } from './Writer'
+import type { Writer } from './Writer'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -17,7 +16,7 @@ import type { WriterF, Writer } from './Writer'
  * @since 3.0.0
  */
 export interface FromWriter<F extends HKT> extends Typeclass<F> {
-  readonly fromWriter: NaturalTransformation<WriterF, F>
+  readonly fromWriter: <W, A, S, R>(fa: Writer<W, A>) => Kind<F, S, R, W, A>
 }
 
 // -------------------------------------------------------------------------------------

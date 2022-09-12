@@ -50,10 +50,10 @@ Added in v3.0.0
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
+  - [IdentityF (interface)](#identityf-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
-  - [URI (type alias)](#uri-type-alias)
   - [getEq](#geteq)
   - [getShow](#getshow)
 - [model](#model)
@@ -310,7 +310,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'Identity'>
+export declare const Alt: Alt_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -320,7 +320,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'Identity'>
+export declare const Applicative: Applicative_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -330,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'Identity'>
+export declare const Apply: Apply_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -340,7 +340,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Identity'>
+export declare const Chain: Chain_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -350,7 +350,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRec1<'Identity'>
+export declare const ChainRec: ChainRec_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -360,7 +360,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad1<'Identity'>
+export declare const Comonad: Comonad_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -370,7 +370,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable1<'Identity'>
+export declare const Foldable: Foldable_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -380,7 +380,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'Identity'>
+export declare const Functor: Functor_<IdentityF>
+```
+
+Added in v3.0.0
+
+## IdentityF (interface)
+
+**Signature**
+
+```ts
+export interface IdentityF extends HKT {
+  readonly type: Identity<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -390,7 +402,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'Identity'>
+export declare const Monad: Monad_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -400,7 +412,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'Identity'>
+export declare const Pointed: Pointed_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -410,17 +422,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable1<'Identity'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Identity'
+export declare const Traversable: Traversable_<IdentityF>
 ```
 
 Added in v3.0.0
@@ -484,7 +486,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: B
 ) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
@@ -497,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: B) => <A>(fas: A) => readonly [...A, B]
+export declare const apT: <B>(fb: B) => <A extends readonly unknown[]>(fas: A) => readonly [...A, B]
 ```
 
 Added in v3.0.0
@@ -507,9 +509,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => B
+  f: <A2 extends A>(a: A | A2) => B
 ) => (ma: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
@@ -520,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: A) => { [K in N]: A }
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
 ```
 
 Added in v3.0.0
@@ -530,7 +532,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse1<'Identity'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: A) => Kind<F, S, R, E, B>
 ```
 
 Added in v3.0.0

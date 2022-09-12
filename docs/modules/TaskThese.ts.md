@@ -53,7 +53,8 @@ Added in v3.0.0
   - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [TaskTheseF (interface)](#taskthesef-interface)
+  - [TaskTheseFE (interface)](#taskthesefe-interface)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -145,7 +146,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => TaskThese<E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -155,7 +158,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <E>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -167,7 +172,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -177,7 +182,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <E>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -187,7 +194,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTheseK: <A, E, B>(f: (...a: A) => TH.These<E, B>) => (...a: A) => TaskThese<E, B>
+export declare const fromTheseK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TH.These<E, B>
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -219,7 +228,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'TaskThese'>
+export declare const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -229,7 +238,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'TaskThese'>
+export declare const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -242,8 +251,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => TaskThese<A, B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => TaskThese<B, B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => TaskThese<A, B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => TaskThese<B, B>
   <A>(predicate: Predicate<A>): (a: A) => TaskThese<A, A>
 }
 ```
@@ -255,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'TaskThese'>
+export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -265,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromThese: NaturalTransformation22<'These', 'TaskThese'>
+export declare const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -399,7 +408,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'TaskThese'>
+export declare const Bifunctor: Bifunctor_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -409,7 +418,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither2<'TaskThese'>
+export declare const FromEither: FromEither_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -419,7 +428,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO2<'TaskThese'>
+export declare const FromIO: FromIO_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -429,7 +438,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask2<'TaskThese'>
+export declare const FromTask: FromTask_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -439,7 +448,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: FromThese2<'TaskThese'>
+export declare const FromThese: FromThese_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -449,7 +458,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'TaskThese'>
+export declare const Functor: Functor_<TaskTheseF>
 ```
 
 Added in v3.0.0
@@ -459,17 +468,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'TaskThese'>
+export declare const Pointed: Pointed_<TaskTheseF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## TaskTheseF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'TaskThese'
+export interface TaskTheseF extends HKT {
+  readonly type: TaskThese<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## TaskTheseFE (interface)
+
+**Signature**
+
+```ts
+export interface TaskTheseFE<E> extends HKT {
+  readonly type: TaskThese<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -479,7 +502,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(A: Apply1<T.URI>, S: Semigroup<E>) => Applicative2C<'TaskThese', E>
+export declare const getApplicative: <E>(A: Apply<T.TaskF>, S: Semigroup<E>) => Applicative<TaskTheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -489,7 +512,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(A: Apply1<T.URI>, S: Semigroup<E>) => Apply2C<'TaskThese', E>
+export declare const getApply: <E>(A: Apply<T.TaskF>, S: Semigroup<E>) => Apply<TaskTheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -499,7 +522,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <E>(S: Semigroup<E>) => Chain2C<'TaskThese', E>
+export declare const getChain: <E>(S: Semigroup<E>) => Chain<TaskTheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -509,7 +532,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad2C<'TaskThese', E>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TaskTheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -533,7 +556,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskThese'>
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -545,7 +568,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskThese', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -567,7 +590,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: T.Task<TH.These<E, A>>) => T.Task<readonly [E, A]>
+export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
 ```
 
 Added in v3.0.0

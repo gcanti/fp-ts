@@ -40,8 +40,8 @@ import type { Profunctor } from './Profunctor'
  * @since 3.0.0
  */
 export interface Choice<P extends HKT> extends Profunctor<P> {
-  readonly left: <S, R, A, B, C>(pab: Kind<P, S, R, A, B>) => Kind<P, S, R, Either<A, C>, Either<B, C>>
-  readonly right: <S, R, B, C, A>(pbc: Kind<P, S, R, B, C>) => Kind<P, S, R, Either<A, B>, Either<A, C>>
+  readonly left: <S, A, E, B, C>(pab: Kind<P, S, A, E, B>) => Kind<P, S, Either<A, C>, E, Either<B, C>>
+  readonly right: <S, B, E, C, A>(pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, Either<A, C>>
 }
 
 /**
@@ -60,10 +60,10 @@ export interface Choice<P extends HKT> extends Profunctor<P> {
  *
  * @since 3.0.0
  */
-export const split = <P extends HKT>(P: Choice<P>, C: Category<P>) => <S, R, A, B, C, D>(
-  pab: Kind<P, S, R, A, B>,
-  pcd: Kind<P, S, R, C, D>
-): Kind<P, S, R, Either<A, C>, Either<B, D>> => pipe(P.left<S, R, A, B, C>(pab), C.compose(P.right<S, R, C, D, B>(pcd)))
+export const split = <P extends HKT>(P: Choice<P>, C: Category<P>) => <S, A, E, B, C, D>(
+  pab: Kind<P, S, A, E, B>,
+  pcd: Kind<P, S, C, E, D>
+): Kind<P, S, Either<A, C>, E, Either<B, D>> => pipe(P.left<S, A, E, B, C>(pab), C.compose(P.right<S, C, E, D, B>(pcd)))
 
 /**
  * Compose a value which eliminates a sum from two values, each eliminating
@@ -87,16 +87,19 @@ export const split = <P extends HKT>(P: Choice<P>, C: Category<P>) => <S, R, A, 
  *
  * @since 3.0.0
  */
-export const fanIn = <P extends HKT>(P: Choice<P>, C: Category<P>) => <S, R, A, C, B>(
-  pac: Kind<P, S, R, A, C>,
-  pbc: Kind<P, S, R, B, C>
-): Kind<P, S, R, Either<A, B>, C> =>
-  pipe(
-    split(P, C)(pac, pbc),
-    C.compose(
-      pipe(
-        C.id<S, R, C>(),
-        P.promap((cc: Either<C, C>) => (_.isLeft(cc) ? cc.left : cc.right), identity)
+export const fanIn = <P extends HKT>(
+  P: Choice<P>,
+  C: Category<P>
+): (<S, A, E, C, B>(pac: Kind<P, S, A, E, C>, pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, C>) => {
+  const splitPC = split(P, C)
+  return <S, A, E, C, B>(pac: Kind<P, S, A, E, C>, pbc: Kind<P, S, B, E, C>): Kind<P, S, Either<A, B>, E, C> =>
+    pipe(
+      splitPC(pac, pbc),
+      C.compose(
+        pipe(
+          C.id<S, C, E>(),
+          P.promap((cc: Either<C, C>) => (_.isLeft(cc) ? cc.left : cc.right), identity)
+        )
       )
     )
-  )
+}

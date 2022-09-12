@@ -67,8 +67,9 @@ Added in v3.0.0
   - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
+  - [TheseF (interface)](#thesef-interface)
+  - [TheseFE (interface)](#thesefe-interface)
   - [Traversable](#traversable)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -200,7 +201,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOptionK: <E>(onNone: Lazy<E>) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
+export declare const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => These<E, B>
 ```
 
 Added in v3.0.0
@@ -259,8 +262,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => These<A, B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => These<B, B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => These<A, B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => These<B, B>
   <A>(predicate: Predicate<A>): (a: A) => These<A, A>
 }
 ```
@@ -404,7 +407,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'These'>
+export declare const Bifunctor: Bifunctor_<TheseF>
 ```
 
 Added in v3.0.0
@@ -414,7 +417,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable2<'These'>
+export declare const Foldable: Foldable_<TheseF>
 ```
 
 Added in v3.0.0
@@ -424,7 +427,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither2<'These'>
+export declare const FromEither: FromEither_<TheseF>
 ```
 
 Added in v3.0.0
@@ -434,7 +437,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromThese: FromThese2<'These'>
+export declare const FromThese: FromThese_<TheseF>
 ```
 
 Added in v3.0.0
@@ -444,7 +447,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'These'>
+export declare const Functor: Functor_<TheseF>
 ```
 
 Added in v3.0.0
@@ -454,7 +457,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'These'>
+export declare const Pointed: Pointed_<TheseF>
+```
+
+Added in v3.0.0
+
+## TheseF (interface)
+
+**Signature**
+
+```ts
+export interface TheseF extends HKT {
+  readonly type: These<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## TheseFE (interface)
+
+**Signature**
+
+```ts
+export interface TheseFE<E> extends HKT {
+  readonly type: These<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -464,17 +491,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable2<'These'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'These'
+export declare const Traversable: Traversable_<TheseF>
 ```
 
 Added in v3.0.0
@@ -484,7 +501,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative2C<'These', E>
+export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative<TheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -494,7 +511,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'These', E>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<TheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -504,7 +521,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <E>(S: Semigroup<E>) => Chain2C<'These', E>
+export declare const getChain: <E>(S: Semigroup<E>) => Chain<TheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -524,7 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad2C<'These', E>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TheseFE<E>>
 ```
 
 Added in v3.0.0
@@ -584,7 +601,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'These', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A>
 ```
 
 Added in v3.0.0
@@ -742,7 +759,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse2<'These'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, FE, B, E>(f: (a: A) => Kind<F, S, R, FE, B>) => (ta: These<E, A>) => Kind<F, S, R, FE, These<E, B>>
 ```
 
 Added in v3.0.0

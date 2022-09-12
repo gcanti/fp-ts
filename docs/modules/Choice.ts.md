@@ -41,9 +41,6 @@ Added in v3.0.0
 
 - [type classes](#type-classes)
   - [Choice (interface)](#choice-interface)
-  - [Choice2 (interface)](#choice2-interface)
-  - [Choice3 (interface)](#choice3-interface)
-  - [Choice4 (interface)](#choice4-interface)
 - [utils](#utils)
   - [fanIn](#fanin)
   - [split](#split)
@@ -57,48 +54,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Choice<P> extends Profunctor<P> {
-  readonly left: <A, B, C>(pab: HKT2<P, A, B>) => HKT2<P, Either<A, C>, Either<B, C>>
-  readonly right: <B, C, A>(pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, Either<A, C>>
-}
-```
-
-Added in v3.0.0
-
-## Choice2 (interface)
-
-**Signature**
-
-```ts
-export interface Choice2<P extends URIS2> extends Profunctor2<P> {
-  readonly left: <A, B, C>(pab: Kind2<P, A, B>) => Kind2<P, Either<A, C>, Either<B, C>>
-  readonly right: <B, C, A>(pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, Either<A, C>>
-}
-```
-
-Added in v3.0.0
-
-## Choice3 (interface)
-
-**Signature**
-
-```ts
-export interface Choice3<P extends URIS3> extends Profunctor3<P> {
-  readonly left: <R, A, B, C>(pab: Kind3<P, R, A, B>) => Kind3<P, R, Either<A, C>, Either<B, C>>
-  readonly right: <R, B, C, A>(pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, Either<A, C>>
-}
-```
-
-Added in v3.0.0
-
-## Choice4 (interface)
-
-**Signature**
-
-```ts
-export interface Choice4<P extends URIS4> extends Profunctor4<P> {
-  readonly left: <S, R, A, B, C>(pab: Kind4<P, S, R, A, B>) => Kind4<P, S, R, Either<A, C>, Either<B, C>>
-  readonly right: <S, R, B, C, A>(pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, Either<A, C>>
+export interface Choice<P extends HKT> extends Profunctor<P> {
+  readonly left: <S, A, E, B, C>(pab: Kind<P, S, A, E, B>) => Kind<P, S, Either<A, C>, E, Either<B, C>>
+  readonly right: <S, B, E, C, A>(pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, Either<A, C>>
 }
 ```
 
@@ -130,22 +88,10 @@ function which will run the appropriate computation based on the parameter suppl
 **Signature**
 
 ```ts
-export declare function fanIn<P extends URIS4>(
-  P: Choice4<P>,
-  C: Category4<P>
-): <S, R, A, C, B>(pac: Kind4<P, S, R, A, C>, pbc: Kind4<P, S, R, B, C>) => Kind4<P, S, R, Either<A, B>, C>
-export declare function fanIn<P extends URIS3>(
-  P: Choice3<P>,
-  C: Category3<P>
-): <R, A, C, B>(pac: Kind3<P, R, A, C>, pbc: Kind3<P, R, B, C>) => Kind3<P, R, Either<A, B>, C>
-export declare function fanIn<P extends URIS2>(
-  P: Choice2<P>,
-  C: Category2<P>
-): <A, C, B>(pac: Kind2<P, A, C>, pbc: Kind2<P, B, C>) => Kind2<P, Either<A, B>, C>
-export declare function fanIn<P>(
+export declare const fanIn: <P extends HKT>(
   P: Choice<P>,
   C: Category<P>
-): <A, C, B>(pac: HKT2<P, A, C>, pbc: HKT2<P, B, C>) => HKT2<P, Either<A, B>, C>
+) => <S, A, E, C, B>(pac: Kind<P, S, A, E, C>, pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, C>
 ```
 
 Added in v3.0.0
@@ -168,25 +114,10 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 **Signature**
 
 ```ts
-export declare function split<P extends URIS4>(
-  P: Choice4<P>,
-  C: Category4<P>
-): <S, R, A, B, C, D>(
-  pab: Kind4<P, S, R, A, B>,
-  pcd: Kind4<P, S, R, C, D>
-) => Kind4<P, S, R, Either<A, C>, Either<B, D>>
-export declare function split<P extends URIS3>(
-  P: Choice3<P>,
-  C: Category3<P>
-): <R, A, B, C, D>(pab: Kind3<P, R, A, B>, pcd: Kind3<P, R, C, D>) => Kind3<P, R, Either<A, C>, Either<B, D>>
-export declare function split<P extends URIS2>(
-  P: Choice2<P>,
-  C: Category2<P>
-): <A, B, C, D>(pab: Kind2<P, A, B>, pcd: Kind2<P, C, D>) => Kind2<P, Either<A, C>, Either<B, D>>
-export declare function split<P>(
+export declare const split: <P extends HKT>(
   P: Choice<P>,
   C: Category<P>
-): <A, B, C, D>(pab: HKT2<P, A, B>, pcd: HKT2<P, C, D>) => HKT2<P, Either<A, C>, Either<B, D>>
+) => <S, A, E, B, C, D>(pab: Kind<P, S, A, E, B>, pcd: Kind<P, S, C, E, D>) => Kind<P, S, Either<A, C>, E, Either<B, D>>
 ```
 
 Added in v3.0.0

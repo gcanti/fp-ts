@@ -3,7 +3,6 @@
  */
 import type { Comonad as Comonad_ } from './Comonad'
 import type { Endomorphism } from './Endomorphism'
-import type { Extend as Extend_ } from './Extend'
 import { identity, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
 import type { HKT, Kind } from './HKT'
@@ -32,7 +31,7 @@ export interface Store<S, A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<StoreF>['map'] = (f) => (fa) => ({
+export const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B> = (f) => (fa) => ({
   peek: (s) => f(fa.peek(s)),
   pos: fa.pos
 })
@@ -41,7 +40,7 @@ export const map: Functor_<StoreF>['map'] = (f) => (fa) => ({
  * @category Extend
  * @since 3.0.0
  */
-export const extend: Extend_<StoreF>['extend'] = (f) => (wa) => ({
+export const extend: <S, A, B>(f: (wa: Store<S, A>) => B) => (wa: Store<S, A>) => Store<S, B> = (f) => (wa) => ({
   peek: (s) => f({ peek: wa.peek, pos: s }),
   pos: wa.pos
 })
@@ -50,7 +49,7 @@ export const extend: Extend_<StoreF>['extend'] = (f) => (wa) => ({
  * @category Extract
  * @since 3.0.0
  */
-export const extract: Comonad_<StoreF>['extract'] = (wa) => wa.peek(wa.pos)
+export const extract: <S, A>(wa: Store<S, A>) => A = (wa) => wa.peek(wa.pos)
 
 /**
  * Derivable from `Extend`.
@@ -58,9 +57,7 @@ export const extract: Comonad_<StoreF>['extract'] = (wa) => wa.peek(wa.pos)
  * @category derivable combinators
  * @since 3.0.0
  */
-export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
-  /*#__PURE__*/
-  extend(identity)
+export const duplicate: <S, A>(wa: Store<S, A>) => Store<S, Store<S, A>> = /*#__PURE__*/ extend(identity)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -71,7 +68,7 @@ export const duplicate: <E, A>(wa: Store<E, A>) => Store<E, Store<E, A>> =
  * @since 3.0.0
  */
 export interface StoreF extends HKT {
-  readonly type: Store<this['E'], this['A']>
+  readonly type: Store<this['S'], this['A']>
 }
 
 /**
@@ -88,9 +85,7 @@ export const Functor: Functor_<StoreF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <S, B>(fab: Store<S, (a: A) => B>) => Store<S, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

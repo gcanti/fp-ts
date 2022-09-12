@@ -29,7 +29,9 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Semigroupoid](#semigroupoid)
   - [Traversable](#traversable)
-  - [URI (type alias)](#uri-type-alias)
+  - [WriterF (interface)](#writerf-interface)
+  - [WriterFContra (interface)](#writerfcontra-interface)
+  - [WriterFE (interface)](#writerfe-interface)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -81,7 +83,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+export declare const flap: <A>(a: A) => <S, R, E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -163,7 +165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'Writer'>
+export declare const Bifunctor: Bifunctor_<WriterF>
 ```
 
 Added in v3.0.0
@@ -173,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad2<'Writer'>
+export declare const Comonad: Comonad_<WriterF>
 ```
 
 Added in v3.0.0
@@ -183,7 +185,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable2<'Writer'>
+export declare const Foldable: Foldable_<WriterF>
 ```
 
 Added in v3.0.0
@@ -193,7 +195,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Writer'>
+export declare const Functor: Functor_<WriterF>
 ```
 
 Added in v3.0.0
@@ -203,7 +205,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroupoid: Semigroupoid2<'Writer'>
+export declare const Semigroupoid: Semigroupoid_<WriterFContra>
 ```
 
 Added in v3.0.0
@@ -213,17 +215,43 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable2<'Writer'>
+export declare const Traversable: Traversable_<WriterF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## WriterF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Writer'
+export interface WriterF extends HKT {
+  readonly type: Writer<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFContra (interface)
+
+**Signature**
+
+```ts
+export interface WriterFContra extends HKT {
+  readonly type: Writer<this['R'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFE (interface)
+
+**Signature**
+
+```ts
+export interface WriterFE<E> extends HKT {
+  readonly type: Writer<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -233,7 +261,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => Applicative2C<'Writer', W>
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -243,7 +271,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply2C<'Writer', W>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -253,7 +281,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain2C<'Writer', W>
+export declare const getChain: <W>(S: Semigroup<W>) => Chain<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -263,7 +291,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getChainRec<M>(M: Monoid<M>): ChainRec2C<URI, M>
+export declare function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -273,7 +301,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad2C<'Writer', W>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -283,7 +311,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed2C<'Writer', W>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFE<W>>
 ```
 
 Added in v3.0.0
@@ -341,7 +369,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extend: <E, A, B>(f: (wa: Writer<E, A>) => B) => (wa: Writer<E, A>) => Writer<E, B>
+export declare const extend: <S, R, E, A, B>(f: (wa: Writer<E, A>) => B) => (wa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -351,7 +379,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <E, A>(wa: Writer<E, A>) => A
+export declare const extract: <S, R, E, A>(wa: Writer<E, A>) => A
 ```
 
 Added in v3.0.0
@@ -361,7 +389,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Writer<E, A>) => M
+export declare const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, E>(fa: Writer<E, A>) => M
 ```
 
 Added in v3.0.0
@@ -374,7 +402,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -384,7 +412,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <S, R, A>(fea: Writer<E, A>) => Writer<G, A>
 ```
 
 Added in v3.0.0
@@ -394,7 +422,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: Writer<E, A>) => B
+export declare const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <S, R, E>(fa: Writer<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -404,7 +432,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Writer<E, A>) => B
+export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <S, R, E>(fa: Writer<E, A>) => B
 ```
 
 Added in v3.0.0
@@ -414,7 +442,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse2<'Writer'>
+export declare const traverse: <F>(
+  F: Applicative<F>
+) => <A, S, R, E, B, TS, TR, TE>(
+  f: (a: A) => Kind<F, S, R, E, B>
+) => (ta: Writer<TE, A>) => Kind<F, S, R, E, Writer<TE, B>>
 ```
 
 Added in v3.0.0
@@ -464,7 +496,7 @@ Alias of [`map`](#map)
 **Signature**
 
 ```ts
-export declare const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
+export declare const mapFst: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -478,7 +510,7 @@ Alias of [`mapLeft`](#mapleft)
 **Signature**
 
 ```ts
-export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A>
+export declare const mapSnd: <E, G>(f: (e: E) => G) => <S, R, A>(fea: Writer<E, A>) => Writer<G, A>
 ```
 
 Added in v3.0.0

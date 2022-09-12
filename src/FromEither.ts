@@ -4,12 +4,11 @@
  * @since 3.0.0
  */
 import { Chain, chainFirst } from './Chain'
-import type { Either, EitherF } from './Either'
+import type { Either } from './Either'
 import { flow, Lazy, pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
-import { NaturalTransformation } from './NaturalTransformation'
-import type { Option, OptionF } from './Option'
+import type { Option } from './Option'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
 
@@ -22,7 +21,7 @@ import type { Refinement } from './Refinement'
  * @since 3.0.0
  */
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: NaturalTransformation<EitherF, F>
+  readonly fromEither: <E, A, S, R>(fa: Either<E, A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -35,7 +34,7 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
  */
 export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
   onNone: Lazy<E>
-): NaturalTransformation<OptionF, F> => {
+): (<A, S, R>(fa: Option<A>) => Kind<F, S, R, E, A>) => {
   // TODO
   return (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value)) as any
 }

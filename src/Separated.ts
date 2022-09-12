@@ -37,7 +37,10 @@ export const separated = <E, A>(left: E, right: A): Separated<E, A> => ({ left, 
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor_<SeparatedF>['bimap'] = (f, g) => (fa) => separated(f(left(fa)), g(right(fa)))
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Separated<E, A>) => Separated<G, B> = (
+  f,
+  g
+) => (fa) => separated(f(left(fa)), g(right(fa)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -45,9 +48,9 @@ export const bimap: Bifunctor_<SeparatedF>['bimap'] = (f, g) => (fa) => separate
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor_<SeparatedF>['mapLeft'] =
-  /*#__PURE__*/
-  mapLeftDefault<SeparatedF>(bimap)
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <A>(fea: Separated<E, A>) => Separated<G, A> = /*#__PURE__*/ mapLeftDefault<SeparatedF>(bimap)
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -77,9 +80,9 @@ export const Bifunctor: Bifunctor_<SeparatedF> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<SeparatedF>['map'] =
-  /*#__PURE__*/
-  mapDefault<SeparatedF>(Bifunctor)
+export const map: <A, B>(
+  f: (a: A) => B
+) => <E>(fa: Separated<E, A>) => Separated<E, B> = /*#__PURE__*/ mapDefault<SeparatedF>(bimap)
 
 /**
  * @category instances
@@ -95,9 +98,7 @@ export const Functor: Functor_<SeparatedF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: Separated<E, (a: A) => B>) => Separated<E, B> = /*#__PURE__*/ flap_(Functor)
 
 // -------------------------------------------------------------------------------------
 // utils

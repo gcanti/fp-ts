@@ -35,14 +35,16 @@ import {
 import type { FromThese as FromThese_ } from './FromThese'
 import { identity, Lazy, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
-import type { HKT } from './HKT'
+import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad } from './Monad'
+import type { Monoid } from './Monoid'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { Option } from './Option'
 import type { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
+import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
 import type { Traversable as Traversable_ } from './Traversable'
@@ -222,8 +224,9 @@ export const isBoth = <E, A>(fa: These<E, A>): fa is Both<E, A> => fa._tag === '
  * @category Bifunctor
  * @since 3.0.0
  */
-export const bimap: Bifunctor_<TheseF>['bimap'] = (f, g) => (fa) =>
-  isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
+export const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: These<E, A>) => These<G, B> = (f, g) => (
+  fa
+) => (isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right)))
 
 /**
  * Map a function over the first type argument of a bifunctor.
@@ -231,32 +234,39 @@ export const bimap: Bifunctor_<TheseF>['bimap'] = (f, g) => (fa) =>
  * @category Bifunctor
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor_<TheseF>['mapLeft'] =
-  /*#__PURE__*/
-  mapLeftDefault<TheseF>(bimap)
+export const mapLeft: <E, G>(
+  f: (e: E) => G
+) => <A>(fea: These<E, A>) => These<G, A> = /*#__PURE__*/ mapLeftDefault<TheseF>(bimap)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduce: Foldable_<TheseF>['reduce'] = (b, f) => (fa) => (isLeft(fa) ? b : f(b, fa.right))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
+  isLeft(fa) ? b : f(b, fa.right)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const foldMap: Foldable_<TheseF>['foldMap'] = (M) => (f) => (fa) => (isLeft(fa) ? M.empty : f(fa.right))
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M = (M) => (f) => (fa) =>
+  isLeft(fa) ? M.empty : f(fa.right)
 
 /**
  * @category Foldable
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<TheseF>['reduceRight'] = (b, f) => (fa) => (isLeft(fa) ? b : f(fa.right, b))
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B = (b, f) => (fa) =>
+  isLeft(fa) ? b : f(fa.right, b)
 
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable_<TheseF>['traverse'] = (F) => (f) => (ta) =>
+export const traverse: <F extends HKT>(
+  F: Applicative<F>
+) => <A, S, R, FE, B, E>(f: (a: A) => Kind<F, S, R, FE, B>) => (ta: These<E, A>) => Kind<F, S, R, FE, These<E, B>> = (
+  F
+) => (f) => (ta) =>
   isLeft(ta)
     ? F.of(ta)
     : isRight(ta)
@@ -358,9 +368,9 @@ export const Bifunctor: Bifunctor_<TheseF> = {
  * @category Functor
  * @since 3.0.0
  */
-export const map: Functor_<TheseF>['map'] =
-  /*#__PURE__*/
-  mapDefault<TheseF>(Bifunctor)
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B> = /*#__PURE__*/ mapDefault<TheseF>(
+  bimap
+)
 
 /**
  * @category instances
@@ -376,9 +386,7 @@ export const Functor: Functor_<TheseF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap =
-  /*#__PURE__*/
-  flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: These<E, (a: A) => B>) => These<E, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -480,17 +488,19 @@ export const FromEither: FromEither_<TheseF> = {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromOption =
-  /*#__PURE__*/
-  fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK =
-  /*#__PURE__*/
-  fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * Derivable from `FromEither`.
@@ -498,9 +508,11 @@ export const fromOptionK =
  * @category constructors
  * @since 3.0.0
  */
-export const fromPredicate =
-  /*#__PURE__*/
-  fromPredicate_(FromEither)
+export const fromPredicate: {
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => These<A, B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => These<B, B>
+  <A>(predicate: Predicate<A>): (a: A) => These<A, A>
+} = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
  * @category instances
@@ -627,9 +639,7 @@ export const getRightOnly = <E, A>(fa: These<E, A>): Option<A> => (isRight(fa) ?
 /**
  * @since 3.0.0
  */
-export const ApT: These<never, readonly []> =
-  /*#__PURE__*/
-  of(_.emptyReadonlyArray)
+export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 
 // -------------------------------------------------------------------------------------
 // array utils

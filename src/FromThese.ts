@@ -5,8 +5,7 @@
  */
 import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import { NaturalTransformation } from './NaturalTransformation'
-import type { These, TheseF } from './These'
+import type { These } from './These'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -17,7 +16,7 @@ import type { These, TheseF } from './These'
  * @since 3.0.0
  */
 export interface FromThese<F extends HKT> extends Typeclass<F> {
-  readonly fromThese: NaturalTransformation<TheseF, F>
+  readonly fromThese: <E, A, S, R>(fa: These<E, A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

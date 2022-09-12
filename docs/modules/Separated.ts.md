@@ -24,7 +24,7 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [SeparatedF (interface)](#separatedf-interface)
 - [utils](#utils)
   - [Separated (interface)](#separated-interface)
   - [left](#left)
@@ -106,7 +106,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'Separated'>
+export declare const Bifunctor: Bifunctor_<SeparatedF>
 ```
 
 Added in v3.0.0
@@ -116,17 +116,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Separated'>
+export declare const Functor: Functor_<SeparatedF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## SeparatedF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Separated'
+export interface SeparatedF extends HKT {
+  readonly type: Separated<this['E'], this['A']>
+}
 ```
 
 Added in v3.0.0

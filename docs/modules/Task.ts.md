@@ -52,7 +52,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [TaskF (interface)](#taskf-interface)
   - [getRaceMonoid](#getracemonoid)
 - [model](#model)
   - [Task (interface)](#task-interface)
@@ -204,7 +204,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
 ```
 
 Added in v3.0.0
@@ -273,7 +273,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative1<'Task'>
+export declare const ApplicativePar: Applicative_<TaskF>
 ```
 
 Added in v3.0.0
@@ -283,7 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative1<'Task'>
+export declare const ApplicativeSeq: Applicative_<TaskF>
 ```
 
 Added in v3.0.0
@@ -293,7 +293,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply1<'Task'>
+export declare const ApplyPar: Apply_<TaskF>
 ```
 
 Added in v3.0.0
@@ -303,7 +303,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply1<'Task'>
+export declare const ApplySeq: Apply_<TaskF>
 ```
 
 Added in v3.0.0
@@ -313,7 +313,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Task'>
+export declare const Chain: Chain_<TaskF>
 ```
 
 Added in v3.0.0
@@ -323,7 +323,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO1<'Task'>
+export declare const FromIO: FromIO_<TaskF>
 ```
 
 Added in v3.0.0
@@ -333,7 +333,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromTask: FromTask1<'Task'>
+export declare const FromTask: FromTask_<TaskF>
 ```
 
 Added in v3.0.0
@@ -343,7 +343,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'Task'>
+export declare const Functor: Functor_<TaskF>
 ```
 
 Added in v3.0.0
@@ -353,7 +353,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'Task'>
+export declare const Monad: Monad_<TaskF>
 ```
 
 Added in v3.0.0
@@ -363,17 +363,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'Task'>
+export declare const Pointed: Pointed_<TaskF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## TaskF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Task'
+export interface TaskF extends HKT {
+  readonly type: Task<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -429,7 +431,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v3.0.0
@@ -461,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Task<B>
 ) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -474,7 +476,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Task<B>) => <A>(fas: Task<A>) => Task<readonly [...A, B]>
+export declare const apT: <B>(fb: Task<B>) => <A extends readonly unknown[]>(fas: Task<A>) => Task<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -484,9 +486,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Task<B>
+  f: <A2 extends A>(a: A | A2) => Task<B>
 ) => (ma: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -497,7 +499,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Task<A>) => Task<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: Task<A>) => Task<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

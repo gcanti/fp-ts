@@ -46,13 +46,13 @@ export interface ReaderIO<R, A> {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: FromReader_<ReaderIOF>['fromReader'] = /*#__PURE__*/ RT.fromReader(I.Pointed)
+export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ RT.fromReader(I.Pointed)
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: FromIO_<ReaderIOF>['fromIO'] = /*#__PURE__*/ R.of
+export const fromIO: <A, R>(fa: I.IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -168,6 +168,10 @@ export const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A>
 // instances
 // -------------------------------------------------------------------------------------
 
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export interface ReaderIOF extends HKT {
   readonly type: ReaderIO<this['R'], this['A']>
 }
@@ -186,7 +190,7 @@ export const Functor: Functor_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
@@ -213,7 +217,9 @@ export const Apply: Apply_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst = /*#__PURE__*/ apFirst_(Apply)
+export const apFirst: <R, B>(
+  second: ReaderIO<R, B>
+) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -223,7 +229,9 @@ export const apFirst = /*#__PURE__*/ apFirst_(Apply)
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond = /*#__PURE__*/ apSecond_(Apply)
+export const apSecond: <R, B>(
+  second: ReaderIO<R, B>
+) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances
@@ -263,7 +271,9 @@ export const Monad: Monad_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -291,19 +301,25 @@ export const FromIO: FromIO_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => I.IO<B>
+) => <R>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -327,19 +343,23 @@ export const ask: <R>() => ReaderIO<R, R> = /*#__PURE__*/ ask_(FromReader)
  * @category constructors
  * @since 3.0.0
  */
-export const asks = /*#__PURE__*/ asks_(FromReader)
+export const asks: <R, A>(f: (r: R) => A) => ReaderIO<R, A> = /*#__PURE__*/ asks_(FromReader)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const fromReaderK = /*#__PURE__*/ fromReaderK_(FromReader)
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
@@ -357,7 +377,9 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
@@ -383,12 +405,19 @@ export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const bindTo = /*#__PURE__*/ bindTo_(Functor)
+export const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
 
 /**
  * @since 3.0.0
  */
-export const bind = /*#__PURE__*/ bind_(Chain)
+export const bind: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  f: <A2 extends A>(a: A | A2) => ReaderIO<R, B>
+) => (
+  ma: ReaderIO<R, A>
+) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the environment types will be merged.
@@ -409,7 +438,12 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const apS = /*#__PURE__*/ apS_(Apply)
+export const apS: <N extends string, A, R, B>(
+  name: Exclude<N, keyof A>,
+  fb: ReaderIO<R, B>
+) => (
+  fa: ReaderIO<R, A>
+) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 /**
  * Less strict version of [`apS`](#aps).

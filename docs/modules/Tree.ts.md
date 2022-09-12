@@ -60,7 +60,7 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
-  - [URI (type alias)](#uri-type-alias)
+  - [TreeF (interface)](#treef-interface)
   - [getEq](#geteq)
   - [getShow](#getshow)
 - [model](#model)
@@ -238,35 +238,12 @@ Monadic forest builder, in depth-first order.
 **Signature**
 
 ```ts
-export declare function unfoldForestM<M extends URIS4>(
-  M: Monad4<M> & Applicative4<M>
+export declare function unfoldForestM<M extends HKT>(
+  M: Monad_<M>,
+  A: Applicative_<M>
 ): <B, S, R, E, A>(
-  f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind4<M, S, R, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS3>(
-  M: Monad3<M> & Applicative3<M>
-): <B, R, E, A>(
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS3, E>(
-  M: Monad3C<M, E> & Applicative3C<M, E>
-): <B, R, A>(
-  f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind3<M, R, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS2>(
-  M: Monad2<M> & Applicative2<M>
-): <B, R, E>(
-  f: (b: B) => Kind2<M, R, readonly [E, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind2<M, R, Forest<E>>
-export declare function unfoldForestM<M extends URIS2, E>(
-  M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind2<M, E, Forest<A>>
-export declare function unfoldForestM<M extends URIS>(
-  M: Monad1<M> & Applicative1<M>
-): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => Kind<M, Forest<A>>
-export declare function unfoldForestM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (bs: ReadonlyArray<B>) => HKT<M, Forest<A>>
+  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, E, Forest<A>>
 ```
 
 Added in v3.0.0
@@ -290,29 +267,10 @@ Monadic tree builder, in depth-first order.
 **Signature**
 
 ```ts
-export declare function unfoldTreeM<M extends URIS4>(
-  M: Monad4<M> & Applicative4<M>
-): <B, S, R, E, A>(
-  f: (b: B) => Kind4<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind4<M, S, R, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS3>(
-  M: Monad3<M> & Applicative3<M>
-): <B, R, E, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS3, E>(
-  M: Monad3C<M, E> & Applicative3C<M, E>
-): <B, R, A>(f: (b: B) => Kind3<M, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind3<M, R, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS2>(
-  M: Monad2<M> & Applicative2<M>
-): <B, E, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS2, E>(
-  M: Monad2C<M, E> & Applicative2C<M, E>
-): <B, A>(f: (b: B) => Kind2<M, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind2<M, E, Tree<A>>
-export declare function unfoldTreeM<M extends URIS>(
-  M: Monad1<M> & Applicative1<M>
-): <B, A>(f: (b: B) => Kind<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind<M, Tree<A>>
-export declare function unfoldTreeM<M>(
-  M: Monad_<M> & Applicative_<M>
-): <B, A>(f: (b: B) => HKT<M, readonly [A, ReadonlyArray<B>]>) => (b: B) => HKT<M, Tree<A>>
+export declare function unfoldTreeM<M extends HKT>(
+  M: Monad_<M>,
+  A: Applicative_<M>
+): <B, S, R, E, A>(f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind<M, S, R, E, Tree<A>>
 ```
 
 Added in v3.0.0
@@ -447,7 +405,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'Tree'>
+export declare const Applicative: Applicative_<TreeF>
 ```
 
 Added in v3.0.0
@@ -457,7 +415,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'Tree'>
+export declare const Apply: Apply_<TreeF>
 ```
 
 Added in v3.0.0
@@ -467,7 +425,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'Tree'>
+export declare const Chain: Chain_<TreeF>
 ```
 
 Added in v3.0.0
@@ -477,7 +435,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad1<'Tree'>
+export declare const Comonad: Comonad_<TreeF>
 ```
 
 Added in v3.0.0
@@ -487,7 +445,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable1<'Tree'>
+export declare const Foldable: Foldable_<TreeF>
 ```
 
 Added in v3.0.0
@@ -497,7 +455,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'Tree'>
+export declare const Functor: Functor_<TreeF>
 ```
 
 Added in v3.0.0
@@ -507,7 +465,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'Tree'>
+export declare const Monad: Monad_<TreeF>
 ```
 
 Added in v3.0.0
@@ -517,7 +475,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'Tree'>
+export declare const Pointed: Pointed_<TreeF>
 ```
 
 Added in v3.0.0
@@ -527,17 +485,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable1<'Tree'>
+export declare const Traversable: Traversable_<TreeF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## TreeF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'Tree'
+export interface TreeF extends HKT {
+  readonly type: Tree<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -614,7 +574,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: Tree<B>
 ) => (fa: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -627,7 +587,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: Tree<B>) => <A>(fas: Tree<A>) => Tree<readonly [...A, B]>
+export declare const apT: <B>(fb: Tree<B>) => <A extends readonly unknown[]>(fas: Tree<A>) => Tree<readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -637,9 +597,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => Tree<B>
+  f: <A2 extends A>(a: A | A2) => Tree<B>
 ) => (ma: Tree<A>) => Tree<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -650,7 +610,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: Tree<A>) => Tree<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: Tree<A>) => Tree<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
@@ -724,7 +684,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse1<'Tree'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>) => Kind<F, S, R, E, Tree<B>>
 ```
 
 Added in v3.0.0

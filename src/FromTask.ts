@@ -7,8 +7,7 @@ import { Chain, chainFirst } from './Chain'
 import type { FromIO } from './FromIO'
 import { flow } from './function'
 import type { HKT, Kind } from './HKT'
-import { NaturalTransformation } from './NaturalTransformation'
-import type { Task, TaskF } from './Task'
+import type { Task } from './Task'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -19,7 +18,7 @@ import type { Task, TaskF } from './Task'
  * @since 3.0.0
  */
 export interface FromTask<F extends HKT> extends FromIO<F> {
-  readonly fromTask: NaturalTransformation<TaskF, F>
+  readonly fromTask: <A, S, R, E>(fa: Task<A>) => Kind<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

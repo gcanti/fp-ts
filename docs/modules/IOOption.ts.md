@@ -58,7 +58,6 @@ Added in v3.0.0
   - [none](#none)
   - [some](#some)
 - [destructors](#destructors)
-  - [fold](#fold)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [getOrElseEW](#getorelseew)
@@ -80,9 +79,9 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
+  - [IOOptionF (interface)](#iooptionf-interface)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
   - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -391,7 +390,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => IOOption<B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -401,7 +402,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -465,18 +466,6 @@ export declare const some: <A>(a: A) => IOOption<A>
 Added in v3.0.0
 
 # destructors
-
-## fold
-
-Alias of [`matchE`](#matche).
-
-**Signature**
-
-```ts
-export declare const fold: <B, A>(onNone: () => I.IO<B>, onSome: (a: A) => I.IO<B>) => (ma: IOOption<A>) => I.IO<B>
-```
-
-Added in v3.0.0
 
 ## getOrElse
 
@@ -596,7 +585,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'IOOption'>
+export declare const Alt: Alt_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -606,7 +595,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative1<'IOOption'>
+export declare const Alternative: Alternative_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -616,7 +605,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'IOOption'>
+export declare const Applicative: Applicative_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -626,7 +615,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'IOOption'>
+export declare const Apply: Apply_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -636,7 +625,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'IOOption'>
+export declare const Chain: Chain_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -646,7 +635,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable1<'IOOption'>
+export declare const Compactable: Compactable_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -656,7 +645,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable1<'IOOption'>
+export declare const Filterable: Filterable_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -666,7 +655,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither1<'IOOption'>
+export declare const FromEither: FromEither_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -676,7 +665,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO1<'IOOption'>
+export declare const FromIO: FromIO_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -686,7 +675,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'IOOption'>
+export declare const Functor: Functor_<IOOptionF>
+```
+
+Added in v3.0.0
+
+## IOOptionF (interface)
+
+**Signature**
+
+```ts
+export interface IOOptionF extends HKT {
+  readonly type: IOOption<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -696,7 +697,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'IOOption'>
+export declare const Monad: Monad_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -706,17 +707,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'IOOption'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
+export declare const Pointed: Pointed_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -726,7 +717,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero1<'IOOption'>
+export declare const Zero: Zero_<IOOptionF>
 ```
 
 Added in v3.0.0
@@ -786,7 +777,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'IOOption'>
+export declare const fromEither: <A>(e: Either<unknown, A>) => I.IO<O.Option<A>>
 ```
 
 Added in v3.0.0
@@ -796,7 +787,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'IOOption'>
+export declare const fromIO: <A>(ma: I.IO<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -806,7 +797,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation21<'IOEither', 'IOOption'>
+export declare const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -816,7 +807,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'IOOption'>
+export declare const fromOption: <A>(fa: O.Option<A>) => IOOption<A>
 ```
 
 Added in v3.0.0
@@ -848,7 +839,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: IOOption<B>
 ) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -861,9 +852,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => IOOption<B>
+  f: <A2 extends A>(a: A | A2) => IOOption<B>
 ) => (ma: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -874,7 +865,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: IOOption<A>) => IOOption<{ [K in N]: A }>
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: IOOption<A>) => IOOption<{ readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

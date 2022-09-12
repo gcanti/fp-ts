@@ -53,8 +53,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReaderIOF (interface)](#readeriof-interface)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [natural transformations](#natural-transformations)
@@ -155,7 +154,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, E>(a: A) => ReaderIO<E, A>
+export declare const of: <A, R>(a: A) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -171,7 +170,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, A>
+export declare const apFirst: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -185,7 +184,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: ReaderIO<E, B>) => <A>(first: ReaderIO<E, A>) => ReaderIO<E, B>
+export declare const apSecond: <R, B>(second: ReaderIO<R, B>) => <A>(first: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -226,7 +225,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => ReaderIO<E, B>) => (first: ReaderIO<E, A>) => ReaderIO<E, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -236,7 +235,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -290,7 +289,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B>
+export declare const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => <R>(first: ReaderIO<R, A>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -328,7 +327,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: ReaderIO<E, (a: A) => B>) => ReaderIO<E, B>
+export declare const flap: <A>(a: A) => <R, B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -364,7 +363,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => ReaderIO<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <R>(...a: A) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -374,7 +375,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderIO<R, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -425,7 +428,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative2<'ReaderIO'>
+export declare const Applicative: Applicative_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -435,7 +438,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply2<'ReaderIO'>
+export declare const Apply: Apply_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -445,7 +448,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'ReaderIO'>
+export declare const Chain: Chain_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -455,7 +458,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO2<'ReaderIO'>
+export declare const FromIO: FromIO_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -465,7 +468,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader2<'ReaderIO'>
+export declare const FromReader: FromReader_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -475,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'ReaderIO'>
+export declare const Functor: Functor_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -485,7 +488,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'ReaderIO'>
+export declare const Monad: Monad_<ReaderIOF>
 ```
 
 Added in v3.0.0
@@ -495,27 +498,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'ReaderIO'>
+export declare const Pointed: Pointed_<ReaderIOF>
 ```
 
 Added in v3.0.0
 
-## URI
+## ReaderIOF (interface)
 
 **Signature**
 
 ```ts
-export declare const URI: 'ReaderIO'
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
+export interface ReaderIOF extends HKT {
+  readonly type: ReaderIO<this['R'], this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -541,7 +536,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'ReaderIO'>
+export declare const fromIO: <A, R>(fa: I.IO<A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -551,7 +546,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderIO'>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0
@@ -583,10 +578,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  fb: ReaderIO<E, B>
-) => (fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: ReaderIO<R, B>
+) => (fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -613,10 +608,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, R, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => ReaderIO<E, B>
-) => (ma: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => ReaderIO<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -626,7 +621,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: ReaderIO<E, A>) => ReaderIO<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <R, A>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0

@@ -31,9 +31,10 @@ Added in v3.0.0
   - [make](#make)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
+  - [ConstF (interface)](#constf-interface)
+  - [ConstFE (interface)](#constfe-interface)
   - [Contravariant](#contravariant-1)
   - [Functor](#functor-1)
-  - [URI (type alias)](#uri-type-alias)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getBooleanAlgebra](#getbooleanalgebra)
@@ -137,7 +138,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'Const'>
+export declare const Bifunctor: Bifunctor_<ConstF>
+```
+
+Added in v3.0.0
+
+## ConstF (interface)
+
+**Signature**
+
+```ts
+export interface ConstF extends HKT {
+  readonly type: Const<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## ConstFE (interface)
+
+**Signature**
+
+```ts
+export interface ConstFE<E> extends HKT {
+  readonly type: Const<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -147,7 +172,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant2<'Const'>
+export declare const Contravariant: Contravariant_<ConstF>
 ```
 
 Added in v3.0.0
@@ -157,17 +182,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'Const'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'Const'
+export declare const Functor: Functor_<ConstF>
 ```
 
 Added in v3.0.0
@@ -177,7 +192,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(M: Monoid<E>) => Applicative2C<'Const', E>
+export declare const getApplicative: <E>(M: Monoid<E>) => Applicative<ConstFE<E>>
 ```
 
 Added in v3.0.0
@@ -187,7 +202,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply2C<'Const', E>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<ConstFE<E>>
 ```
 
 Added in v3.0.0

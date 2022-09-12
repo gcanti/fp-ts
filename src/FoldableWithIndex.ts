@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { ComposeF, HKT, Kind } from './HKT'
+import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -23,8 +23,7 @@ import type { Monoid } from './Monoid'
  * @category type classes
  * @since 3.0.0
  */
-export interface FoldableWithIndex<F extends HKT, I> {
-  readonly URI?: F
+export interface FoldableWithIndex<F extends HKT, I> extends Typeclass<F> {
   readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <S, R, E>(fa: Kind<F, S, R, E, A>) => M
   readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => B

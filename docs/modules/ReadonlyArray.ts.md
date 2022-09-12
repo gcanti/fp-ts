@@ -135,9 +135,9 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
+  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
-  - [URI (type alias)](#uri-type-alias)
   - [Unfoldable](#unfoldable-1)
   - [Witherable](#witherable-1)
   - [Zero](#zero-1)
@@ -368,7 +368,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filter: Filter1<'ReadonlyArray'>
+export declare const filter: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => readonly B[]
+  <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => readonly B[]
+  <A>(predicate: Predicate<A>): (fa: readonly A[]) => readonly A[]
+}
 ```
 
 Added in v3.0.0
@@ -388,7 +392,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partition: Partition1<'ReadonlyArray'>
+export declare const partition: {
+  <A, B extends A>(refinement: Refinement<A, B>): (fa: readonly A[]) => Separated<readonly A[], readonly B[]>
+  <A>(predicate: Predicate<A>): <B extends A>(fb: readonly B[]) => Separated<readonly B[], readonly B[]>
+  <A>(predicate: Predicate<A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
 ```
 
 Added in v3.0.00
@@ -422,7 +430,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const filterWithIndex: FilterWithIndex1<'ReadonlyArray', number>
+export declare const filterWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (fa: readonly A[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(fb: readonly B[]) => readonly B[]
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => readonly A[]
+}
 ```
 
 Added in v3.0.0
@@ -444,7 +456,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const partitionWithIndex: PartitionWithIndex1<'ReadonlyArray', number>
+export declare const partitionWithIndex: {
+  <A, B extends A>(refinementWithIndex: RefinementWithIndex<number, A, B>): (
+    fa: readonly A[]
+  ) => Separated<readonly A[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): <B extends A>(
+    fb: readonly B[]
+  ) => Separated<readonly B[], readonly B[]>
+  <A>(predicateWithIndex: PredicateWithIndex<number, A>): (fa: readonly A[]) => Separated<readonly A[], readonly A[]>
+}
 ```
 
 Added in v3.0.0
@@ -559,7 +579,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: Traverse1<'ReadonlyArray'>
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: readonly A[]) => Kind<F, S, R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -571,7 +593,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverseWithIndex: TraverseWithIndex1<'ReadonlyArray', number>
+export declare const traverseWithIndex: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, E, B>
+) => (ta: readonly A[]) => Kind<F, S, R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -595,7 +621,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wilt: Wilt1<'ReadonlyArray'>
+export declare const wilt: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B, C>(
+  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => (wa: readonly A[]) => Kind<F, S, R, E, Separated<readonly B[], readonly C[]>>
 ```
 
 Added in v3.0.0
@@ -605,7 +635,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const wither: Wither1<'ReadonlyArray'>
+export declare const wither: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, Option<B>>) => (ta: readonly A[]) => Kind<F, S, R, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -829,7 +861,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => Either<E, B>) => (...a: A) => readonly B[]
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => readonly B[]
 ```
 
 Added in v3.0.0
@@ -1383,8 +1417,8 @@ Added in v3.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => readonly B[]
-  <A>(predicate: Predicate<A>): <B>(b: B) => readonly B[]
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => readonly B[]
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => readonly B[]
   <A>(predicate: Predicate<A>): (a: A) => readonly A[]
 }
 ```
@@ -1396,7 +1430,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const guard: (b: boolean) => readonly void[]
+export declare const guard: (b: boolean) => ReadonlyArray<void>
 ```
 
 Added in v3.0.0
@@ -1668,7 +1702,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt1<'ReadonlyArray'>
+export declare const Alt: Alt_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1678,7 +1712,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alternative: Alternative1<'ReadonlyArray'>
+export declare const Alternative: Alternative_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1688,7 +1722,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative1<'ReadonlyArray'>
+export declare const Applicative: Applicative_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1698,7 +1732,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply1<'ReadonlyArray'>
+export declare const Apply: Apply_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1708,7 +1742,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain1<'ReadonlyArray'>
+export declare const Chain: Chain_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1718,7 +1752,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRecBreadthFirst: ChainRec1<'ReadonlyArray'>
+export declare const ChainRecBreadthFirst: ChainRec_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1728,7 +1762,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRecDepthFirst: ChainRec1<'ReadonlyArray'>
+export declare const ChainRecDepthFirst: ChainRec_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1738,7 +1772,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Compactable: Compactable1<'ReadonlyArray'>
+export declare const Compactable: Compactable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1748,7 +1782,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Extend: Extend1<'ReadonlyArray'>
+export declare const Extend: Extend_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1758,7 +1792,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Filterable: Filterable1<'ReadonlyArray'>
+export declare const Filterable: Filterable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1768,7 +1802,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FilterableWithIndex: FilterableWithIndex1<'ReadonlyArray', number>
+export declare const FilterableWithIndex: FilterableWithIndex_<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1778,7 +1812,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable1<'ReadonlyArray'>
+export declare const Foldable: Foldable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1788,7 +1822,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FoldableWithIndex: FoldableWithIndex1<'ReadonlyArray', number>
+export declare const FoldableWithIndex: FoldableWithIndex_<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1798,7 +1832,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither1<'ReadonlyArray'>
+export declare const FromEither: FromEither_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1808,7 +1842,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor1<'ReadonlyArray'>
+export declare const Functor: Functor_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1818,7 +1852,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FunctorWithIndex: FunctorWithIndex1<'ReadonlyArray', number>
+export declare const FunctorWithIndex: FunctorWithIndex_<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1828,7 +1862,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad1<'ReadonlyArray'>
+export declare const Monad: Monad_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1838,7 +1872,19 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed1<'ReadonlyArray'>
+export declare const Pointed: Pointed_<ReadonlyArrayF>
+```
+
+Added in v3.0.0
+
+## ReadonlyArrayF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyArrayF extends HKT {
+  readonly type: ReadonlyArray<this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -1848,7 +1894,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable1<'ReadonlyArray'>
+export declare const Traversable: Traversable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1858,17 +1904,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const TraversableWithIndex: TraversableWithIndex1<'ReadonlyArray', number>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'ReadonlyArray'
+export declare const TraversableWithIndex: TraversableWithIndex_<ReadonlyArrayF, number>
 ```
 
 Added in v3.0.0
@@ -1878,7 +1914,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Unfoldable: Unfoldable1<'ReadonlyArray'>
+export declare const Unfoldable: Unfoldable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1888,7 +1924,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Witherable: Witherable1<'ReadonlyArray'>
+export declare const Witherable: Witherable_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -1898,7 +1934,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Zero: Zero1<'ReadonlyArray'>
+export declare const Zero: Zero_<ReadonlyArrayF>
 ```
 
 Added in v3.0.0
@@ -2049,7 +2085,7 @@ Transforms an `Either` to a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'ReadonlyArray'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2059,7 +2095,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'ReadonlyArray'>
+export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
 ```
 
 Added in v3.0.0
@@ -2091,7 +2127,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, B>(
+export declare const apS: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   fb: readonly B[]
 ) => (fa: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
@@ -2104,7 +2140,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <B>(fb: readonly B[]) => <A>(fas: readonly A[]) => readonly (readonly [...A, B])[]
+export declare const apT: <B>(
+  fb: readonly B[]
+) => <A extends readonly unknown[]>(fas: readonly A[]) => readonly (readonly [...A, B])[]
 ```
 
 Added in v3.0.0
@@ -2114,9 +2152,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, B>(
+export declare const bind: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => readonly B[]
+  f: <A2 extends A>(a: A | A2) => readonly B[]
 ) => (ma: readonly A[]) => readonly { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
 ```
 
@@ -2127,7 +2165,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <A>(fa: readonly A[]) => readonly { [K in N]: A }[]
+export declare const bindTo: <N extends string>(name: N) => <A>(fa: readonly A[]) => readonly { readonly [K in N]: A }[]
 ```
 
 Added in v3.0.0
@@ -2273,7 +2311,11 @@ Filter values inside a context.
 **Signature**
 
 ```ts
-export declare const filterE: FilterE1<'ReadonlyArray'>
+export declare const filterE: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, E>(
+  predicate: (a: A) => Kind<F, S, R, E, boolean>
+) => (ga: readonly A[]) => Kind<F, S, R, E, readonly A[]>
 ```
 
 **Example**

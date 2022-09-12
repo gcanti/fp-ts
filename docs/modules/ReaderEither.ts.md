@@ -90,7 +90,8 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
+  - [ReaderEitherF (interface)](#readereitherf-interface)
+  - [ReaderEitherFE (interface)](#readereitherfe-interface)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getCompactable](#getcompactable)
@@ -433,8 +434,12 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B>(mb: ReaderEither<R, E, B>) => ReaderEither<R, E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+    ma: ReaderEither<R, E, A>
+  ) => ReaderEither<R, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
+    mb: ReaderEither<R, E, B>
+  ) => ReaderEither<R, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 }
 ```
@@ -494,7 +499,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => <R>(...a: A) => ReaderEither<R, E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => E.Either<E, B>
+) => <R>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -506,7 +513,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -666,8 +673,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <B, R>(b: B) => ReaderEither<R, B, B>
+  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => ReaderEither<R, A, B>
   <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
 }
 ```
@@ -890,7 +897,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt3<'ReaderEither'>
+export declare const Alt: Alt_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -900,7 +907,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative3<'ReaderEither'>
+export declare const Applicative: Applicative_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -910,7 +917,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply3<'ReaderEither'>
+export declare const Apply: Apply_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -920,7 +927,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor3<'ReaderEither'>
+export declare const Bifunctor: Bifunctor_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -930,7 +937,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain3<'ReaderEither'>
+export declare const Chain: Chain_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -940,7 +947,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither3<'ReaderEither'>
+export declare const FromEither: FromEither_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -950,7 +957,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromReader: FromReader3<'ReaderEither'>
+export declare const FromReader: FromReader_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -960,7 +967,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor3<'ReaderEither'>
+export declare const Functor: Functor_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -970,7 +977,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad3<'ReaderEither'>
+export declare const Monad: Monad_<ReaderEitherF>
 ```
 
 Added in v3.0.0
@@ -980,17 +987,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed3<'ReaderEither'>
+export declare const Pointed: Pointed_<ReaderEitherF>
 ```
 
 Added in v3.0.0
 
-## URI (type alias)
+## ReaderEitherF (interface)
 
 **Signature**
 
 ```ts
-export type URI = 'ReaderEither'
+export interface ReaderEitherF extends HKT {
+  readonly type: ReaderEither<this['R'], this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderEitherFE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEitherFE<E> extends HKT {
+  readonly type: ReaderEither<this['R'], E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -1005,7 +1026,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt3C<'ReaderEither', E>
+export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt_<ReaderEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1020,7 +1041,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 **Signature**
 
 ```ts
-export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative3C<'ReaderEither', E>
+export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative_<ReaderEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1030,7 +1051,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable3C<'ReaderEither', E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<ReaderEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1040,7 +1061,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable3C<'ReaderEither', E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<ReaderEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1076,7 +1097,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+export declare const fromEither: <E, A, R>(fa: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1088,7 +1109,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1098,7 +1119,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
+export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1130,7 +1151,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, R, E, B>(
+export declare const apS: <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R, E, B>
 ) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1162,7 +1183,7 @@ Added in v3.0.0
 ```ts
 export declare const apT: <R, E, B>(
   fb: ReaderEither<R, E, B>
-) => <A>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]>
+) => <A extends readonly unknown[]>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1188,9 +1209,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, R, E, B>(
+export declare const bind: <N extends string, A, R, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => ReaderEither<R, E, B>
+  f: <A2 extends A>(a: A | A2) => ReaderEither<R, E, B>
 ) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1201,7 +1222,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(
+export declare const bindTo: <N extends string>(
   name: N
 ) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }>
 ```

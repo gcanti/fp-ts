@@ -90,9 +90,10 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
+  - [IOEitherF (interface)](#ioeitherf-interface)
+  - [IOEitherFE (interface)](#ioeitherfe-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [URI (type alias)](#uri-type-alias)
   - [getAltIOValidation](#getaltiovalidation)
   - [getApplicativeIOValidation](#getapplicativeiovalidation)
   - [getCompactable](#getcompactable)
@@ -393,8 +394,8 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B>(mb: IOEither<E, B>) => IOEither<E, B>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: IOEither<E, B>) => IOEither<E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
 }
 ```
@@ -450,7 +451,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <A, E, B>(f: (...a: A) => E.Either<E, B>) => (...a: A) => IOEither<E, B>
+export declare const fromEitherK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => E.Either<E, B>
+) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -460,7 +463,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => IOEither<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <E>(...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -472,7 +477,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -563,8 +568,8 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
-  <A>(predicate: Predicate<A>): <B>(b: B) => IOEither<B, B>
+  <A, B extends A>(refinement: Refinement<A, B>): (a: A) => IOEither<A, B>
+  <A>(predicate: Predicate<A>): <B extends A>(b: B) => IOEither<B, B>
   <A>(predicate: Predicate<A>): (a: A) => IOEither<A, A>
 }
 ```
@@ -774,7 +779,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt2<'IOEither'>
+export declare const Alt: Alt_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -784,7 +789,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativePar: Applicative2<'IOEither'>
+export declare const ApplicativePar: Applicative<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -794,7 +799,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplicativeSeq: Applicative2<'IOEither'>
+export declare const ApplicativeSeq: Applicative<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -804,7 +809,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplyPar: Apply2<'IOEither'>
+export declare const ApplyPar: Apply_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -814,7 +819,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ApplySeq: Apply2<'IOEither'>
+export declare const ApplySeq: Apply_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -824,7 +829,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Bifunctor: Bifunctor2<'IOEither'>
+export declare const Bifunctor: Bifunctor_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -834,7 +839,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain2<'IOEither'>
+export declare const Chain: Chain_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -844,7 +849,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromEither: FromEither2<'IOEither'>
+export declare const FromEither: FromEither_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -854,7 +859,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const FromIO: FromIO2<'IOEither'>
+export declare const FromIO: FromIO_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -864,7 +869,31 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor2<'IOEither'>
+export declare const Functor: Functor_<IOEitherF>
+```
+
+Added in v3.0.0
+
+## IOEitherF (interface)
+
+**Signature**
+
+```ts
+export interface IOEitherF extends HKT {
+  readonly type: IOEither<this['E'], this['A']>
+}
+```
+
+Added in v3.0.0
+
+## IOEitherFE (interface)
+
+**Signature**
+
+```ts
+export interface IOEitherFE<E> extends HKT {
+  readonly type: IOEither<E, this['A']>
+}
 ```
 
 Added in v3.0.0
@@ -874,7 +903,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad2<'IOEither'>
+export declare const Monad: Monad_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -884,17 +913,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed2<'IOEither'>
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = 'IOEither'
+export declare const Pointed: Pointed_<IOEitherF>
 ```
 
 Added in v3.0.0
@@ -909,7 +928,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltIOValidation: <E>(S: Semigroup<E>) => Alt2C<'IOEither', E>
+export declare const getAltIOValidation: <E>(S: Semigroup<E>) => Alt_<IOEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -924,7 +943,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 **Signature**
 
 ```ts
-export declare const getApplicativeIOValidation: <E>(S: Semigroup<E>) => Applicative2C<'IOEither', E>
+export declare const getApplicativeIOValidation: <E>(S: Semigroup<E>) => Applicative<IOEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -934,7 +953,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable2C<'IOEither', E>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<IOEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -944,7 +963,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable2C<'IOEither', E>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<IOEitherFE<E>>
 ```
 
 Added in v3.0.0
@@ -1009,7 +1028,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'IOEither'>
+export declare const fromEither: <E, A>(fa: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1019,7 +1038,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'IOEither'>
+export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1031,7 +1050,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'IOEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0
@@ -1063,7 +1082,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N, A, E, B>(
+export declare const apS: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E, B>
 ) => (fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -1091,7 +1110,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(fb: IOEither<E, B>) => <A>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]>
+export declare const apT: <E, B>(
+  fb: IOEither<E, B>
+) => <A extends readonly unknown[]>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -1115,9 +1136,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N, A, E, B>(
+export declare const bind: <N extends string, A, E, B>(
   name: Exclude<N, keyof A>,
-  f: <A2>(a: A | A2) => IOEither<E, B>
+  f: <A2 extends A>(a: A | A2) => IOEither<E, B>
 ) => (ma: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
@@ -1128,7 +1149,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bindTo: <N>(name: N) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
+export declare const bindTo: <N extends string>(
+  name: N
+) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
 ```
 
 Added in v3.0.0
