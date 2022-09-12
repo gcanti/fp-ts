@@ -32,6 +32,7 @@ import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
 import type { Show } from './Show'
 import type { Traversable1 } from './Traversable'
+import * as O from './Option'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -531,6 +532,58 @@ export const exists = <A>(predicate: Predicate<A>) => (ma: Tree<A>): boolean =>
  */
 export const elem = <A>(E: Eq<A>) => (a: A): ((fa: Tree<A>) => boolean) => exists(E.equals(a))
 
+/**
+ * Deep first search
+ * The predicate judgment acts on the tree itself, not the value, so that the predicate can access the forest
+ * @since:3.0.0
+ */
+export const findDepthFirst = <A>(predicate: (a: Tree<A>) => boolean) => (tree: Tree<A>): O.Option<Tree<A>> => {
+  if (predicate(tree)) {
+    return O.some(tree)
+  }
+
+  const todo: Array<Tree<A>> = [...tree.forest]
+
+  while (todo.length > 0) {
+    const current = todo.shift()!
+    if (predicate(current)) {
+      return O.some(current)
+    }
+    todo.unshift(...current.forest)
+  }
+
+  return O.none
+}
+
+/**
+ * Breadth first search
+ * The predicate judgment acts on the tree itself, not the value, so that the predicate can access the forest
+ * @since:3.0.0
+ */
+export const findBreadthFirst = <A>(predicate: (a: Tree<A>) => boolean) => (tree: Tree<A>): O.Option<Tree<A>> => {
+  if (predicate(tree)) {
+    return O.some(tree)
+  }
+
+  const todo: Array<Tree<A>> = [...tree.forest]
+
+  while (todo.length > 0) {
+    const result = pipe(
+      todo,
+      RA.findFirst((tree) => predicate(tree))
+    )
+
+    if (O.isSome(result)) {
+      return result
+    }
+
+    const todoCopy: ReadonlyArray<Tree<A>> = [...todo].reverse()
+    todoCopy.forEach((tree) => todo.unshift(...tree.forest))
+  }
+
+  return O.none
+}
+
 const draw = (indentation: string, forest: Forest<string>): string => {
   let r = ''
   const len = forest.length
@@ -574,6 +627,27 @@ export const drawForest = (forest: Forest<string>): string => draw('\n', forest)
  * @since 3.0.0
  */
 export const drawTree = (tree: Tree<string>): string => tree.value + drawForest(tree.forest)
+
+/**
+ * Filter the tree, if the root does not pass the predicate, it returns none
+ * @since:3.0.0
+ */
+export const filter = <A>(predicate: (a: Tree<A>) => boolean) => (t: Tree<A>): O.Option<Tree<A>> => {
+  if (predicate(t)) {
+    const forest = pipe(t.forest, RA.map(filter(predicate)), RA.compact)
+    return O.some(tree(t.value, forest))
+  }
+  return O.none
+}
+
+/**
+ * Like the `map`, but give the chance to change the forest
+ * @since:3.0.0
+ */
+export const modify = <A>(f: (ta: Tree<A>) => Tree<A>) => (ta: Tree<A>): Tree<A> => {
+  const tb = f(ta)
+  return tree(tb.value, tb.forest.map(modify(f)))
+}
 
 // -------------------------------------------------------------------------------------
 // do notation
