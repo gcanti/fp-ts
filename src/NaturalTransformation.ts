@@ -15,5 +15,5 @@ import type { HKT, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface NaturalTransformation<F extends HKT, G extends HKT> {
-  <S, R, E, A>(fa: Kind<F, S, R, E, A>): Kind<G, S, R, E, A>
+  <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>): Kind<G, S, R, W, E, A>
 }

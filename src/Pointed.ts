@@ -12,5 +12,5 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @since 3.0.0
  */
 export interface Pointed<F extends HKT> extends Typeclass<F> {
-  readonly of: <A, S, R, E>(a: A) => Kind<F, S, R, E, A>
+  readonly of: <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, A>
 }

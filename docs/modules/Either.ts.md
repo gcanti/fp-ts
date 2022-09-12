@@ -356,7 +356,9 @@ Map each element of a structure to an action, evaluate these actions from left t
 ```ts
 export declare const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, FE, B>(f: (a: A) => Kind<F, S, R, FE, B>) => <E>(ta: Either<E, A>) => Kind<F, S, R, FE, Either<E, B>>
+) => <A, S, R, W, FE, B>(
+  f: (a: A) => Kind<F, S, R, W, FE, B>
+) => <E>(ta: Either<E, A>) => Kind<F, S, R, W, FE, Either<E, B>>
 ```
 
 **Example**

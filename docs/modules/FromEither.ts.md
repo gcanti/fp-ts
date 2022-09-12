@@ -39,7 +39,7 @@ Added in v3.0.0
 export declare function chainEitherK<M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -52,7 +52,7 @@ Added in v3.0.0
 export declare function chainFirstEitherK<M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, A>
+): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -65,7 +65,9 @@ Added in v3.0.0
 export declare const chainOptionK: <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-) => <E>(onNone: Lazy<E>) => <A, B>(f: (a: A) => Option<B>) => <S, R>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B>
+) => <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -79,13 +81,13 @@ export declare function filterOrElse<M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    ma: Kind<M, S, R, E, A>
-  ) => Kind<M, S, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(
-    mb: Kind<M, S, R, E, B>
-  ) => Kind<M, S, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, A>
+  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R, W>(
+    ma: Kind<M, S, R, W, E, A>
+  ) => Kind<M, S, R, W, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, W, B extends A>(
+    mb: Kind<M, S, R, W, E, B>
+  ) => Kind<M, S, R, W, E, B>
+  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 }
 ```
 
@@ -98,7 +100,9 @@ Added in v3.0.0
 ```ts
 export declare function fromEitherK<F extends HKT>(
   F: FromEither<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Either<E, B>) => <S, R>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => Either<E, B>
+) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -112,7 +116,7 @@ export declare const fromOptionK: <F extends HKT>(
   F: FromEither<F>
 ) => <E>(
   onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => Kind<F, S, R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -126,7 +130,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOption: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNone: Lazy<E>) => <A, S, R>(fa: Option<A>) => Kind<F, S, R, E, A>
+) => <E>(onNone: Lazy<E>) => <A, S, R, W>(fa: Option<A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -139,9 +143,9 @@ Added in v3.0.0
 export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
 ) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R>(a: A) => Kind<F, S, R, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, S, R>(b: B) => Kind<F, S, R, B, B>
-  <A>(predicate: Predicate<A>): <S, R>(a: A) => Kind<F, S, R, A, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W>(a: A) => Kind<F, S, R, W, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, S, R, W>(b: B) => Kind<F, S, R, W, B, B>
+  <A>(predicate: Predicate<A>): <S, R, W>(a: A) => Kind<F, S, R, W, A, A>
 }
 ```
 
@@ -155,7 +159,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: <E, A, S, R>(fa: Either<E, A>) => Kind<F, S, R, E, A>
+  readonly fromEither: <E, A, S, R, W>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

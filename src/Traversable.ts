@@ -22,9 +22,9 @@ import type { ComposeF, HKT, Kind } from './HKT'
 export interface Traversable<T extends HKT> extends Functor<T> {
   readonly traverse: <F extends HKT>(
     F: Applicative<F>
-  ) => <A, S, R, E, B, TS, TR, TE>(
-    f: (a: A) => Kind<F, S, R, E, B>
-  ) => (ta: Kind<T, TS, TR, TE, A>) => Kind<F, S, R, E, Kind<T, TS, TR, TE, B>>
+  ) => <A, S, R, W, E, B, TS, TR, TW, TE>(
+    f: (a: A) => Kind<F, S, R, W, E, B>
+  ) => (ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
 }
 
 // -------------------------------------------------------------------------------------

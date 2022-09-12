@@ -22,13 +22,13 @@ export interface AssertParSeq {
   <F extends HKT>(
     F: Apply<F>,
     MT: FromTask<F>,
-    run: (fa: Kind<F, unknown, unknown, unknown, unknown>) => Promise<unknown>
+    run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
   ): Promise<void>
 }
 export const assertParSeq = (expected: ReadonlyArray<string>): AssertParSeq => async <F extends HKT>(
   F: Apply<F>,
   MT: FromTask<F>,
-  run: (fa: Kind<F, unknown, unknown, unknown, unknown>) => Promise<unknown>
+  run: (fa: Kind<F, unknown, unknown, unknown, unknown, unknown>) => Promise<unknown>
 ): Promise<void> => {
   const log: Array<string> = []
   const a = MT.fromTask(T.delay(100)(T.fromIO(() => log.push('a'))))

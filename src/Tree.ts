@@ -89,9 +89,9 @@ export const unfoldForest = <B, A>(f: (b: B) => readonly [A, ReadonlyArray<B>]) 
 export function unfoldTreeM<M extends HKT>(
   M: Monad_<M>,
   A: Applicative_<M>
-): <B, S, R, E, A>(
-  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (b: B) => Kind<M, S, R, E, Tree<A>> {
+): <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
+) => (b: B) => Kind<M, S, R, W, E, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M, A)
   return (f) =>
     flow(
@@ -115,9 +115,9 @@ export function unfoldTreeM<M extends HKT>(
 export function unfoldForestM<M extends HKT>(
   M: Monad_<M>,
   A: Applicative_<M>
-): <B, S, R, E, A>(
-  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, E, Forest<A>> {
+): <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>> {
   const traverseM = RA.traverse(A)
   return (f) => traverseM(unfoldTreeM(M, A)(f))
 }
@@ -271,11 +271,13 @@ export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
  */
 export const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>) => Kind<F, S, R, E, Tree<B>> = <F extends HKT>(
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>> = <
+  F extends HKT
+>(
   F: Applicative_<F>
 ) => {
   const traverseF = RA.traverse(F)
-  const out = <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>): Kind<F, S, R, E, Tree<B>> =>
+  const out = <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>): Kind<F, S, R, W, E, Tree<B>> =>
     pipe(
       f(ta.value),
       F.map((value: B) => (forest: Forest<B>) => ({

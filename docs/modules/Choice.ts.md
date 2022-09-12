@@ -55,8 +55,8 @@ Added in v3.0.0
 
 ```ts
 export interface Choice<P extends HKT> extends Profunctor<P> {
-  readonly left: <S, A, E, B, C>(pab: Kind<P, S, A, E, B>) => Kind<P, S, Either<A, C>, E, Either<B, C>>
-  readonly right: <S, B, E, C, A>(pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, Either<A, C>>
+  readonly left: <S, A, W, E, B, C>(pab: Kind<P, S, A, W, E, B>) => Kind<P, S, Either<A, C>, W, E, Either<B, C>>
+  readonly right: <S, B, W, E, C, A>(pbc: Kind<P, S, B, W, E, C>) => Kind<P, S, Either<A, B>, W, E, Either<A, C>>
 }
 ```
 
@@ -91,7 +91,7 @@ function which will run the appropriate computation based on the parameter suppl
 export declare const fanIn: <P extends HKT>(
   P: Choice<P>,
   C: Category<P>
-) => <S, A, E, C, B>(pac: Kind<P, S, A, E, C>, pbc: Kind<P, S, B, E, C>) => Kind<P, S, Either<A, B>, E, C>
+) => <S, A, W, E, C, B>(pac: Kind<P, S, A, W, E, C>, pbc: Kind<P, S, B, W, E, C>) => Kind<P, S, Either<A, B>, W, E, C>
 ```
 
 Added in v3.0.0
@@ -117,7 +117,10 @@ takes an `Either`and maps `f` over the left side and `g` over the right side. Ju
 export declare const split: <P extends HKT>(
   P: Choice<P>,
   C: Category<P>
-) => <S, A, E, B, C, D>(pab: Kind<P, S, A, E, B>, pcd: Kind<P, S, C, E, D>) => Kind<P, S, Either<A, C>, E, Either<B, D>>
+) => <S, A, W, E, B, C, D>(
+  pab: Kind<P, S, A, W, E, B>,
+  pcd: Kind<P, S, C, W, E, D>
+) => Kind<P, S, Either<A, C>, W, E, Either<B, D>>
 ```
 
 Added in v3.0.0

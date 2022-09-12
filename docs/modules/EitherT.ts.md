@@ -49,9 +49,9 @@ Added in v3.0.0
 ```ts
 export declare function alt<M extends HKT>(
   M: Monad<M>
-): <S, R, ME, E, A>(
-  second: Lazy<Kind<M, S, R, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>>
+): <S, R, W, ME, E, A>(
+  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
+) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -64,9 +64,9 @@ Added in v3.0.0
 export declare function altValidation<M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
-): <S, R, ME, A>(
-  second: Lazy<Kind<M, S, R, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>>
+): <S, R, W, ME, A>(
+  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
+) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -78,9 +78,9 @@ Added in v3.0.0
 ```ts
 export declare function ap<F extends HKT>(
   F: Apply<F>
-): <S, R, FE, E, A>(
-  fa: Kind<F, S, R, FE, Either<E, A>>
-) => <B>(fab: Kind<F, S, R, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, FE, Either<E, B>>
+): <S, R, W, FE, E, A>(
+  fa: Kind<F, S, R, W, FE, Either<E, A>>
+) => <B>(fab: Kind<F, S, R, W, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, W, FE, Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -95,7 +95,7 @@ export declare function bimap<F extends HKT>(
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R, FE>(fea: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<G, B>>
+) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, B>>
 ```
 
 Added in v3.0.0
@@ -107,11 +107,11 @@ Added in v3.0.0
 ```ts
 export declare function bracket<M extends HKT>(
   M: Monad<M>
-): <S, R, ME, E, A, B>(
-  acquire: Kind<M, S, R, ME, Either<E, A>>,
-  use: (a: A) => Kind<M, S, R, ME, Either<E, B>>,
-  release: (a: A, e: Either<E, B>) => Kind<M, S, R, ME, Either<E, void>>
-) => Kind<M, S, R, ME, Either<E, B>>
+): <S, R, W, ME, E, A, B>(
+  acquire: Kind<M, S, R, W, ME, Either<E, A>>,
+  use: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
+) => Kind<M, S, R, W, ME, Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -123,9 +123,9 @@ Added in v3.0.0
 ```ts
 export declare function chain<M extends HKT>(
   M: Monad<M>
-): <A, S, R, ME, E, B>(
-  f: (a: A) => Kind<M, S, R, ME, Either<E, B>>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, B>>
+): <A, S, R, W, ME, E, B>(
+  f: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -141,7 +141,7 @@ export declare function chainNullableK<M extends HKT>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, FE>(ma: Kind<M, S, R, FE, Either<E, A>>) => Kind<M, S, R, FE, Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -153,7 +153,7 @@ Added in v3.0.0
 ```ts
 export declare function fromNullable<F extends HKT>(
   F: Pointed<F>
-): <E>(e: E) => <A, S, R, FE>(a: A) => Kind<F, S, R, FE, Either<E, NonNullable<A>>>
+): <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<A>>>
 ```
 
 Added in v3.0.0
@@ -169,7 +169,7 @@ export declare function fromNullableK<F extends HKT>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, FE>(...a: A) => Kind<F, S, R, FE, Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -181,7 +181,7 @@ Added in v3.0.0
 ```ts
 export declare function getOrElse<F extends HKT>(
   F: Functor<F>
-): <E, A>(onLeft: (e: E) => A) => <S, R, ME>(ma: Kind<F, S, R, ME, Either<E, A>>) => Kind<F, S, R, ME, A>
+): <E, A>(onLeft: (e: E) => A) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A>
 ```
 
 Added in v3.0.0
@@ -193,9 +193,9 @@ Added in v3.0.0
 ```ts
 export declare function getOrElseE<M extends HKT>(
   M: Monad<M>
-): <E, S, R, ME, A>(
-  onLeft: (e: E) => Kind<M, S, R, ME, A>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, A>
+): <E, S, R, W, ME, A>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, A>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, A>
 ```
 
 Added in v3.0.0
@@ -207,7 +207,7 @@ Added in v3.0.0
 ```ts
 export declare function left<F extends HKT>(
   F: Pointed<F>
-): <E, S, R, FE, A = never>(e: E) => Kind<F, S, R, FE, Either<E, A>>
+): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -219,7 +219,7 @@ Added in v3.0.0
 ```ts
 export declare function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A = never>(fe: Kind<F, S, R, FE, E>) => Kind<F, S, R, FE, Either<E, A>>
+): <S, R, W, FE, E, A = never>(fe: Kind<F, S, R, W, FE, E>) => Kind<F, S, R, W, FE, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -231,7 +231,9 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, FE, E>(fa: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<E, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -243,7 +245,9 @@ Added in v3.0.0
 ```ts
 export declare function mapLeft<F extends HKT>(
   F: Functor<F>
-): <E, G>(f: (e: E) => G) => <S, R, FE, A>(fea: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<G, A>>
+): <E, G>(
+  f: (e: E) => G
+) => <S, R, W, FE, A>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, A>>
 ```
 
 Added in v3.0.0
@@ -258,7 +262,7 @@ export declare function match<F extends HKT>(
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B
-) => <S, R, ME>(ma: Kind<F, S, R, ME, Either<E, A>>) => Kind<F, S, R, ME, B>
+) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B>
 ```
 
 Added in v3.0.0
@@ -270,10 +274,10 @@ Added in v3.0.0
 ```ts
 export declare function matchE<M extends HKT>(
   M: Chain<M>
-): <E, S, R, ME, B, A>(
-  onLeft: (e: E) => Kind<M, S, R, ME, B>,
-  onRight: (a: A) => Kind<M, S, R, ME, B>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, B>
+): <E, S, R, W, ME, B, A>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, B>,
+  onRight: (a: A) => Kind<M, S, R, W, ME, B>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, B>
 ```
 
 Added in v3.0.0
@@ -285,9 +289,9 @@ Added in v3.0.0
 ```ts
 export declare function orElse<M extends HKT>(
   M: Monad<M>
-): <E1, S, R, ME, E2, A>(
-  onLeft: (e: E1) => Kind<M, S, R, ME, Either<E2, A>>
-) => (ma: Kind<M, S, R, ME, Either<E1, A>>) => Kind<M, S, R, ME, Either<E2, A>>
+): <E1, S, R, W, ME, E2, A>(
+  onLeft: (e: E1) => Kind<M, S, R, W, ME, Either<E2, A>>
+) => (ma: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>>
 ```
 
 Added in v3.0.0
@@ -299,9 +303,9 @@ Added in v3.0.0
 ```ts
 export declare function orElseFirst<M extends HKT>(
   M: Monad<M>
-): <E, S, R, ME, B>(
-  onLeft: (e: E) => Kind<M, S, R, ME, Either<E, B>>
-) => <A>(ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>>
+): <E, S, R, W, ME, B>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, Either<E, B>>
+) => <A>(ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -313,9 +317,9 @@ Added in v3.0.0
 ```ts
 export declare function orLeft<M extends HKT>(
   M: Monad<M>
-): <E1, S, R, ME, E2>(
-  onLeft: (e: E1) => Kind<M, S, R, ME, E2>
-) => <A>(fa: Kind<M, S, R, ME, Either<E1, A>>) => Kind<M, S, R, ME, Either<E2, A>>
+): <E1, S, R, W, ME, E2>(
+  onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
+) => <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>>
 ```
 
 Added in v3.0.0
@@ -327,7 +331,7 @@ Added in v3.0.0
 ```ts
 export declare function right<F extends HKT>(
   F: Pointed<F>
-): <A, S, R, FE, E = never>(a: A) => Kind<F, S, R, FE, Either<E, A>>
+): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -339,7 +343,7 @@ Added in v3.0.0
 ```ts
 export declare function rightF<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, A, E = never>(fa: Kind<F, S, R, FE, A>) => Kind<F, S, R, FE, Either<E, A>>
+): <S, R, W, FE, A, E = never>(fa: Kind<F, S, R, W, FE, A>) => Kind<F, S, R, W, FE, Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -351,7 +355,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A>(ma: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<A, E>>
+): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>>
 ```
 
 Added in v3.0.0
@@ -363,7 +367,7 @@ Added in v3.0.0
 ```ts
 export declare function toUnion<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A>(fa: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, E | A>
+): <S, R, W, FE, E, A>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A>
 ```
 
 Added in v3.0.0

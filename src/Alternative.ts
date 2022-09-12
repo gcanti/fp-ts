@@ -37,4 +37,4 @@ export interface Alternative<F extends HKT> extends Alt<F>, Zero<F> {}
  */
 export const altAll = <F extends HKT>(
   F: Alternative<F>
-): (<S, R, E, A>(as: ReadonlyArray<Kind<F, S, R, E, A>>) => Kind<F, S, R, E, A>) => altAll_(F)(F.zero())
+): (<S, R, W, E, A>(as: ReadonlyArray<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, A>) => altAll_(F)(F.zero())

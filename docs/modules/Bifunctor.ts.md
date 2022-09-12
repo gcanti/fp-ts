@@ -30,8 +30,11 @@ Return a default `map` implementation from `bimap`.
 
 ```ts
 export declare const mapDefault: <F extends HKT>(
-  bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <S, R>(fea: Kind<F, S, R, E, A>) => Kind<F, S, R, G, B>
-) => <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
+  bimap: <E, G, A, B>(
+    f: (e: E) => G,
+    g: (a: A) => B
+  ) => <S, R, W>(fea: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
+) => <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -44,8 +47,11 @@ Return a default `mapLeft` implementation from `bimap`.
 
 ```ts
 export declare const mapLeftDefault: <F extends HKT>(
-  bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <S, R>(fea: Kind<F, S, R, E, A>) => Kind<F, S, R, G, B>
-) => <E, G>(f: (e: E) => G) => <S, R, A>(fea: Kind<F, S, R, E, A>) => Kind<F, S, R, G, A>
+  bimap: <E, G, A, B>(
+    f: (e: E) => G,
+    g: (a: A) => B
+  ) => <S, R, W>(fea: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
+) => <E, G>(f: (e: E) => G) => <S, R, W, A>(fea: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>
 ```
 
 Added in v3.0.0
@@ -61,8 +67,8 @@ export interface Bifunctor<F extends HKT> extends Typeclass<F> {
   readonly bimap: <E, G, A, B>(
     f: (e: E) => G,
     g: (a: A) => B
-  ) => <S, R>(fea: Kind<F, S, R, E, A>) => Kind<F, S, R, G, B>
-  readonly mapLeft: <E, G>(f: (e: E) => G) => <S, R, A>(fea: Kind<F, S, R, E, A>) => Kind<F, S, R, G, A>
+  ) => <S, R, W>(fea: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, B>
+  readonly mapLeft: <E, G>(f: (e: E) => G) => <S, R, W, A>(fea: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, G, A>
 }
 ```
 

@@ -36,7 +36,7 @@ Added in v3.0.0
 export declare function chainFirstReaderK<M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, E>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, A>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -49,7 +49,7 @@ Added in v3.0.0
 export declare function chainReaderK<M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, E>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B>
+): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -61,7 +61,9 @@ Added in v3.0.0
 ```ts
 export declare function fromReaderK<F extends HKT>(
   F: FromReader<F>
-): <A extends ReadonlyArray<unknown>, R, B>(f: (...a: A) => Reader<R, B>) => <S, E>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => Reader<R, B>
+) => <S, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -73,7 +75,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ask<F extends HKT>(F: FromReader<F>): <S, R, E>() => Kind<F, S, R, E, R>
+export declare function ask<F extends HKT>(F: FromReader<F>): <S, R, W, E>() => Kind<F, S, R, W, E, R>
 ```
 
 Added in v3.0.0
@@ -83,7 +85,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function asks<F extends HKT>(F: FromReader<F>): <R, A, S, E>(f: (r: R) => A) => Kind<F, S, R, E, A>
+export declare function asks<F extends HKT>(F: FromReader<F>): <R, A, S, W, E>(f: (r: R) => A) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -96,7 +98,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: <R, A, S, E>(fa: Reader<R, A>) => Kind<F, S, R, E, A>
+  readonly fromReader: <R, A, S, W, E>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

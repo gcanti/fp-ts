@@ -16,5 +16,5 @@ export interface Profunctor<P extends HKT> extends Functor<P> {
   readonly promap: <Q, R, A, B>(
     f: (q: Q) => R,
     g: (a: A) => B
-  ) => <S, E>(pea: Kind<P, S, R, E, A>) => Kind<P, S, Q, E, B>
+  ) => <S, W, E>(pea: Kind<P, S, R, W, E, A>) => Kind<P, S, Q, W, E, B>
 }

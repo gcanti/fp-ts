@@ -298,11 +298,11 @@ export declare const wilt: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
+) => Kind<F, S, R, W, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>>
 ```
 
 Added in v3.0.0
@@ -316,9 +316,9 @@ export declare const wither: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, E, Readonly<Record<string, B>>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>>
 ```
 
 Added in v3.0.0
@@ -437,7 +437,7 @@ export declare function fromFoldable<F extends HKT>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind<F, S, R, E, A>) => ReadonlyRecord<string, B>
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, W, E>(r: Kind<F, S, R, W, E, A>) => ReadonlyRecord<string, B>
 ```
 
 Added in v3.0.0
@@ -972,7 +972,7 @@ export declare function toUnfoldable(
   O: Ord<string>
 ): <F extends HKT>(
   U: Unfoldable_<F>
-) => <K extends string, A, S, R, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, E, readonly [K, A]>
+) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -986,9 +986,9 @@ export declare function traverse(
   O: Ord<string>
 ): <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0
@@ -1002,9 +1002,9 @@ export declare function traverseWithIndex(
   O: Ord<string>
 ): <F extends HKT>(
   F: Applicative<F>
-) => <K extends string, A, S, R, E, B>(
-  f: (k: K, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>>
+) => <K extends string, A, S, R, W, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>
 ```
 
 Added in v3.0.0

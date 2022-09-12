@@ -241,9 +241,9 @@ Monadic forest builder, in depth-first order.
 export declare function unfoldForestM<M extends HKT>(
   M: Monad_<M>,
   A: Applicative_<M>
-): <B, S, R, E, A>(
-  f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>
-) => (bs: ReadonlyArray<B>) => Kind<M, S, R, E, Forest<A>>
+): <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
+) => (bs: ReadonlyArray<B>) => Kind<M, S, R, W, E, Forest<A>>
 ```
 
 Added in v3.0.0
@@ -270,7 +270,9 @@ Monadic tree builder, in depth-first order.
 export declare function unfoldTreeM<M extends HKT>(
   M: Monad_<M>,
   A: Applicative_<M>
-): <B, S, R, E, A>(f: (b: B) => Kind<M, S, R, E, readonly [A, ReadonlyArray<B>]>) => (b: B) => Kind<M, S, R, E, Tree<A>>
+): <B, S, R, W, E, A>(
+  f: (b: B) => Kind<M, S, R, W, E, readonly [A, ReadonlyArray<B>]>
+) => (b: B) => Kind<M, S, R, W, E, Tree<A>>
 ```
 
 Added in v3.0.0
@@ -686,7 +688,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Tree<A>) => Kind<F, S, R, E, Tree<B>>
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Tree<A>) => Kind<F, S, R, W, E, Tree<B>>
 ```
 
 Added in v3.0.0

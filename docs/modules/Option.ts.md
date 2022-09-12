@@ -314,7 +314,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>>
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -328,9 +328,9 @@ Added in v3.0.0
 ```ts
 export declare const wilt: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, E, Separated<Option<B>, Option<C>>>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>>
 ```
 
 Added in v3.0.0
@@ -342,7 +342,9 @@ Added in v3.0.0
 ```ts
 export declare const wither: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, Option<B>>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -1320,7 +1322,7 @@ Alias of [getRight](#getRight)
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, S, R>(fa: Either<E, A>) => Option<A>
+export declare const fromEither: <E, A, S, R, W>(fa: Either<E, A>) => Option<A>
 ```
 
 Added in v3.0.0

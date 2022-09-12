@@ -116,8 +116,9 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>
  */
 export const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Identity<A>) => Kind<F, S, R, E, B> = (F) => (f) =>
-  flow(f, F.map(identity))
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, B> = (F) => (
+  f
+) => flow(f, F.map(identity))
 
 /**
  * Less strict version of [`alt`](#alt).

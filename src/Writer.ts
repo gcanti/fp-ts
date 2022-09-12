@@ -236,9 +236,9 @@ export const reduceRight: Foldable_<WriterF>['reduceRight'] = (b, f) => (fa) => 
  * @category type class operations
  * @since 3.0.0
  */
-export const traverse: Traversable_<WriterF>['traverse'] = <F extends HKT>(F: Applicative<F>) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => <W>(t: Writer<W, A>): Kind<F, S, R, E, Writer<W, B>> =>
+export const traverse: Traversable_<WriterF>['traverse'] = <F extends HKT>(F: Applicative<F>) => <A, S, R, FW, E, B>(
+  f: (a: A) => Kind<F, S, R, FW, E, B>
+) => <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
   pipe(
     f(fst(t)),
     F.map((b) => [b, snd(t)])

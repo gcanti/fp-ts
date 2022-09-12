@@ -264,9 +264,9 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
  */
 export const traverse: <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, FE, B, E>(f: (a: A) => Kind<F, S, R, FE, B>) => (ta: These<E, A>) => Kind<F, S, R, FE, These<E, B>> = (
-  F
-) => (f) => (ta) =>
+) => <A, S, R, W, FE, B, E>(
+  f: (a: A) => Kind<F, S, R, W, FE, B>
+) => (ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>> = (F) => (f) => (ta) =>
   isLeft(ta)
     ? F.of(ta)
     : isRight(ta)

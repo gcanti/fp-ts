@@ -36,7 +36,9 @@ Added in v3.0.0
 
 ```ts
 export interface Alt<F extends HKT> extends Functor<F> {
-  readonly alt: <S, R, E, A>(second: Lazy<Kind<F, S, R, E, A>>) => (first: Kind<F, S, R, E, A>) => Kind<F, S, R, E, A>
+  readonly alt: <S, R, W, E, A>(
+    second: Lazy<Kind<F, S, R, W, E, A>>
+  ) => (first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 
@@ -51,7 +53,9 @@ Added in v3.0.0
 ```ts
 export declare const altAll: <F extends HKT>(
   F: Alt<F>
-) => <S, R, E, A>(startWith: Kind<F, S, R, E, A>) => (as: readonly Kind<F, S, R, E, A>[]) => Kind<F, S, R, E, A>
+) => <S, R, W, E, A>(
+  startWith: Kind<F, S, R, W, E, A>
+) => (as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0

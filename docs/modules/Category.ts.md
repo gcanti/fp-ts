@@ -25,7 +25,7 @@ Added in v3.0.0
 
 ```ts
 export interface Category<F extends HKT> extends Semigroupoid<F> {
-  readonly id: <S, R, E>() => Kind<F, S, R, E, R>
+  readonly id: <S, R, W, E>() => Kind<F, S, R, W, E, R>
 }
 ```
 

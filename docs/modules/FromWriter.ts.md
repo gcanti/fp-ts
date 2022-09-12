@@ -30,7 +30,9 @@ Added in v3.0.0
 ```ts
 export declare function fromWriterK<F extends HKT>(
   F: FromWriter<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => Writer<E, B>) => <S, R>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(
+  f: (...a: A) => Writer<E, B>
+) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -43,7 +45,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromWriter<F extends HKT> extends Typeclass<F> {
-  readonly fromWriter: <W, A, S, R>(fa: Writer<W, A>) => Kind<F, S, R, W, A>
+  readonly fromWriter: <E, A, S, R, W>(fa: Writer<E, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

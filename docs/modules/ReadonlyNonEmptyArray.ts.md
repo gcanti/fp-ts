@@ -1368,7 +1368,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <S, R, E, A>(wa: ReadonlyNonEmptyArray<A>) => A
+export declare const extract: <S, R, W, E, A>(wa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0
@@ -1488,9 +1488,9 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F>(
   F: Applicative_<F>
-) => <A, S, R, E, B, TS, TR, TE>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>>
+) => <A, S, R, W, E, B, TS, TR, TW, TE>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
@@ -1502,9 +1502,9 @@ Added in v3.0.0
 ```ts
 export declare const traverseWithIndex: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>>
+) => <A, S, R, W, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

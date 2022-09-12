@@ -43,9 +43,9 @@ Added in v3.0.0
 ```ts
 export declare function alt<M extends HKT>(
   M: Monad<M>
-): <S, R, E, A>(
-  second: Lazy<Kind<M, S, R, E, Option<A>>>
-) => (first: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, Option<A>>
+): <S, R, W, E, A>(
+  second: Lazy<Kind<M, S, R, W, E, Option<A>>>
+) => (first: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -57,9 +57,9 @@ Added in v3.0.0
 ```ts
 export declare function ap<F extends HKT>(
   F: Apply<F>
-): <S, R, E, A>(
-  fa: Kind<F, S, R, E, Option<A>>
-) => <B>(fab: Kind<F, S, R, E, Option<(a: A) => B>>) => Kind<F, S, R, E, Option<B>>
+): <S, R, W, E, A>(
+  fa: Kind<F, S, R, W, E, Option<A>>
+) => <B>(fab: Kind<F, S, R, W, E, Option<(a: A) => B>>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -71,9 +71,9 @@ Added in v3.0.0
 ```ts
 export declare function chain<M extends HKT>(
   M: Monad<M>
-): <A, S, R, E, B>(
-  f: (a: A) => Kind<M, S, R, E, Option<B>>
-) => (ma: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, Option<B>>
+): <A, S, R, W, E, B>(
+  f: (a: A) => Kind<M, S, R, W, E, Option<B>>
+) => (ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -87,7 +87,7 @@ export declare function chainNullableK<M extends HKT>(
   M: Monad<M>
 ): <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, E>(ma: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, Option<NonNullable<B>>>
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -99,7 +99,7 @@ Added in v3.0.0
 ```ts
 export declare function chainOptionK<M extends HKT>(
   M: Monad<M>
-): <A, B>(f: (a: A) => Option<B>) => <S, R, E>(ma: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, Option<B>>
+): <A, B>(f: (a: A) => Option<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -111,7 +111,7 @@ Added in v3.0.0
 ```ts
 export declare function fromEither<F extends HKT>(
   F: Pointed<F>
-): <A, S, R, E>(e: Either<unknown, A>) => Kind<F, S, R, E, Option<A>>
+): <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -123,7 +123,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends HKT>(
   F: Functor<F>
-): <S, R, E, A>(ma: Kind<F, S, R, E, A>) => Kind<F, S, R, E, Option<A>>
+): <S, R, W, E, A>(ma: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -135,7 +135,7 @@ Added in v3.0.0
 ```ts
 export declare function fromNullable<F extends HKT>(
   F: Pointed<F>
-): <A, S, R, E>(a: A) => Kind<F, S, R, E, Option<NonNullable<A>>>
+): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<NonNullable<A>>>
 ```
 
 Added in v3.0.0
@@ -149,7 +149,7 @@ export declare function fromNullableK<F extends HKT>(
   F: Pointed<F>
 ): <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, E>(...a: A) => Kind<F, S, R, E, Option<NonNullable<B>>>
+) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -161,7 +161,9 @@ Added in v3.0.0
 ```ts
 export declare function fromOptionK<F extends HKT>(
   F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Option<B>) => <S, R, E>(...a: A) => Kind<F, S, R, E, Option<B>>
+): <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -174,9 +176,9 @@ Added in v3.0.0
 export declare function fromPredicate<F extends HKT>(
   F: Pointed<F>
 ): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(a: A) => Kind<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <B extends A, S, R, E>(b: B) => Kind<F, S, R, E, Option<B>>
-  <A>(predicate: Predicate<A>): <S, R, E>(a: A) => Kind<F, S, R, E, Option<A>>
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<B>>
+  <A>(predicate: Predicate<A>): <B extends A, S, R, W, E>(b: B) => Kind<F, S, R, W, E, Option<B>>
+  <A>(predicate: Predicate<A>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>>
 }
 ```
 
@@ -189,7 +191,7 @@ Added in v3.0.0
 ```ts
 export declare function getOrElse<F extends HKT>(
   F: Functor<F>
-): <A>(onNone: Lazy<A>) => <S, R, E>(fa: Kind<F, S, R, E, Option<A>>) => Kind<F, S, R, E, A>
+): <A>(onNone: Lazy<A>) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -201,7 +203,9 @@ Added in v3.0.0
 ```ts
 export declare function getOrElseE<M extends HKT>(
   M: Monad<M>
-): <S, R, E, A>(onNone: Lazy<Kind<M, S, R, E, A>>) => (fa: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, A>
+): <S, R, W, E, A>(
+  onNone: Lazy<Kind<M, S, R, W, E, A>>
+) => (fa: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -213,7 +217,7 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, Option<A>>) => Kind<F, S, R, E, Option<B>>
+): <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, Option<B>>
 ```
 
 Added in v3.0.0
@@ -225,7 +229,10 @@ Added in v3.0.0
 ```ts
 export declare function match<F extends HKT>(
   F: Functor<F>
-): <B, A>(onNone: () => B, onSome: (a: A) => B) => <S, R, E>(ma: Kind<F, S, R, E, Option<A>>) => Kind<F, S, R, E, B>
+): <B, A>(
+  onNone: () => B,
+  onSome: (a: A) => B
+) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -237,10 +244,10 @@ Added in v3.0.0
 ```ts
 export declare function matchE<M extends HKT>(
   M: Chain<M>
-): <S, R, E, B, A>(
-  onNone: () => Kind<M, S, R, E, B>,
-  onSome: (a: A) => Kind<M, S, R, E, B>
-) => (ma: Kind<M, S, R, E, Option<A>>) => Kind<M, S, R, E, B>
+): <S, R, W, E, B, A>(
+  onNone: () => Kind<M, S, R, W, E, B>,
+  onSome: (a: A) => Kind<M, S, R, W, E, B>
+) => (ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -250,7 +257,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function some<F extends HKT>(F: Pointed<F>): <A, S, R, E>(a: A) => Kind<F, S, R, E, Option<A>>
+export declare function some<F extends HKT>(F: Pointed<F>): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0
@@ -260,7 +267,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function zero<F extends HKT>(F: Pointed<F>): <S, R, E, A>() => Kind<F, S, R, E, Option<A>>
+export declare function zero<F extends HKT>(F: Pointed<F>): <S, R, W, E, A>() => Kind<F, S, R, W, E, Option<A>>
 ```
 
 Added in v3.0.0

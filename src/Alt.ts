@@ -23,7 +23,9 @@ import type { HKT, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface Alt<F extends HKT> extends Functor<F> {
-  readonly alt: <S, R, E, A>(second: Lazy<Kind<F, S, R, E, A>>) => (first: Kind<F, S, R, E, A>) => Kind<F, S, R, E, A>
+  readonly alt: <S, R, W, E, A>(
+    second: Lazy<Kind<F, S, R, W, E, A>>
+  ) => (first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -33,6 +35,6 @@ export interface Alt<F extends HKT> extends Functor<F> {
 /**
  * @since 3.0.0
  */
-export const altAll = <F extends HKT>(F: Alt<F>) => <S, R, E, A>(startWith: Kind<F, S, R, E, A>) => (
-  as: ReadonlyArray<Kind<F, S, R, E, A>>
-): Kind<F, S, R, E, A> => as.reduce((acc, a) => F.alt(() => a)(acc), startWith)
+export const altAll = <F extends HKT>(F: Alt<F>) => <S, R, W, E, A>(startWith: Kind<F, S, R, W, E, A>) => (
+  as: ReadonlyArray<Kind<F, S, R, W, E, A>>
+): Kind<F, S, R, W, E, A> => as.reduce((acc, a) => F.alt(() => a)(acc), startWith)

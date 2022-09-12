@@ -32,7 +32,7 @@ Added in v3.0.0
 ```ts
 export declare function fromNaturalTransformation<F extends HKT, G extends HKT>(
   nt: NaturalTransformation<F, G>
-): <R, S, FR, E, A>(f: (r: R) => Kind<F, S, FR, E, A>) => Reader<R, Kind<G, S, FR, E, A>>
+): <R, S, FR, W, E, A>(f: (r: R) => Kind<F, S, FR, W, E, A>) => Reader<R, Kind<G, S, FR, W, E, A>>
 ```
 
 Added in v3.0.0
@@ -44,7 +44,7 @@ Added in v3.0.0
 ```ts
 export declare function fromReader<F extends HKT>(
   F: Pointed<F>
-): <R, A, S, FR, E>(ma: Reader<R, A>) => Reader<R, Kind<F, S, FR, E, A>>
+): <R, A, S, FR, W, E>(ma: Reader<R, A>) => Reader<R, Kind<F, S, FR, W, E, A>>
 ```
 
 Added in v3.0.0
@@ -58,9 +58,9 @@ Added in v3.0.0
 ```ts
 export declare function ap<F extends HKT>(
   F: Apply<F>
-): <R, S, FR, E, A>(
-  fa: Reader<R, Kind<F, S, FR, E, A>>
-) => <B>(fab: Reader<R, Kind<F, S, FR, E, (a: A) => B>>) => Reader<R, Kind<F, S, FR, E, B>>
+): <R, S, FR, W, E, A>(
+  fa: Reader<R, Kind<F, S, FR, W, E, A>>
+) => <B>(fab: Reader<R, Kind<F, S, FR, W, E, (a: A) => B>>) => Reader<R, Kind<F, S, FR, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -72,9 +72,9 @@ Added in v3.0.0
 ```ts
 export declare function chain<M extends HKT>(
   M: Chain<M>
-): <A, R, S, FR, E, B>(
-  f: (a: A) => Reader<R, Kind<M, S, FR, E, B>>
-) => (ma: Reader<R, Kind<M, S, FR, E, A>>) => Reader<R, Kind<M, S, FR, E, B>>
+): <A, R, S, FR, W, E, B>(
+  f: (a: A) => Reader<R, Kind<M, S, FR, W, E, B>>
+) => (ma: Reader<R, Kind<M, S, FR, W, E, A>>) => Reader<R, Kind<M, S, FR, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -86,7 +86,9 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <R, S, FR, E>(fa: Reader<R, Kind<F, S, FR, E, A>>) => Reader<R, Kind<F, S, FR, E, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <R, S, FR, W, E>(fa: Reader<R, Kind<F, S, FR, W, E, A>>) => Reader<R, Kind<F, S, FR, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -96,7 +98,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function of<F extends HKT>(F: Pointed<F>): <A, R, S, FR, E>(a: A) => Reader<R, Kind<F, S, FR, E, A>>
+export declare function of<F extends HKT>(
+  F: Pointed<F>
+): <A, R, S, FR, W, E>(a: A) => Reader<R, Kind<F, S, FR, W, E, A>>
 ```
 
 Added in v3.0.0

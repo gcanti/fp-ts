@@ -54,8 +54,8 @@ Added in v3.0.0
 
 ```ts
 export interface Strong<P extends HKT> extends Profunctor<P> {
-  readonly first: <S, A, E, B, C>(pab: Kind<P, S, A, E, B>) => Kind<P, S, readonly [A, C], E, readonly [B, C]>
-  readonly second: <S, B, E, C, A>(pab: Kind<P, S, B, E, C>) => Kind<P, S, readonly [A, B], E, readonly [A, C]>
+  readonly first: <S, A, W, E, B, C>(pab: Kind<P, S, A, W, E, B>) => Kind<P, S, readonly [A, C], W, E, readonly [B, C]>
+  readonly second: <S, B, W, E, C, A>(pab: Kind<P, S, B, W, E, C>) => Kind<P, S, readonly [A, B], W, E, readonly [A, C]>
 }
 ```
 
@@ -86,7 +86,10 @@ allows us to run two parallel computations on the same input and return both res
 export declare const fanOut: <F extends HKT>(
   S: Strong<F>,
   C: Category<F>
-) => <S, A, E, B, C>(pab: Kind<F, S, A, E, B>, pac: Kind<F, S, A, E, C>) => Kind<F, S, A, E, readonly [B, C]>
+) => <S, A, W, E, B, C>(
+  pab: Kind<F, S, A, W, E, B>,
+  pac: Kind<F, S, A, W, E, C>
+) => Kind<F, S, A, W, E, readonly [B, C]>
 ```
 
 Added in v3.0.0
@@ -110,10 +113,10 @@ over the first element and `g` over the second. Just like `bi-map` would do for 
 export declare const split: <F extends HKT>(
   S: Strong<F>,
   C: Category<F>
-) => <S, A, E, B, C, D>(
-  pab: Kind<F, S, A, E, B>,
-  pcd: Kind<F, S, C, E, D>
-) => Kind<F, S, readonly [A, C], E, readonly [B, D]>
+) => <S, A, W, E, B, C, D>(
+  pab: Kind<F, S, A, W, E, B>,
+  pcd: Kind<F, S, C, W, E, D>
+) => Kind<F, S, readonly [A, C], W, E, readonly [B, D]>
 ```
 
 Added in v3.0.0

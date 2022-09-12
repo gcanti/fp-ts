@@ -24,16 +24,16 @@ import type { Traversable } from './Traversable'
 export interface Witherable<T extends HKT> extends Typeclass<T> {
   readonly wilt: <F extends HKT>(
     F: Applicative<F>
-  ) => <A, S, R, E, B, C>(
-    f: (a: A) => Kind<F, S, R, E, Either<B, C>>
-  ) => <TS, TR, TE>(
-    wa: Kind<T, TS, TR, TE, A>
-  ) => Kind<F, S, R, E, Separated<Kind<T, TS, TR, TE, B>, Kind<T, TS, TR, TE, C>>>
+  ) => <A, S, R, W, E, B, C>(
+    f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+  ) => <TS, TR, TW, TE>(
+    wa: Kind<T, TS, TR, TW, TE, A>
+  ) => Kind<F, S, R, W, E, Separated<Kind<T, TS, TR, TW, TE, B>, Kind<T, TS, TR, TW, TE, C>>>
   readonly wither: <F extends HKT>(
     F: Applicative<F>
-  ) => <A, S, R, E, B>(
-    f: (a: A) => Kind<F, S, R, E, Option<B>>
-  ) => <TS, TR, TE>(ta: Kind<T, TS, TR, TE, A>) => Kind<F, S, R, E, Kind<T, TS, TR, TE, B>>
+  ) => <A, S, R, W, E, B>(
+    f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+  ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
 }
 
 // -------------------------------------------------------------------------------------
@@ -85,9 +85,9 @@ export function filterE<T extends HKT>(
   T: Witherable<T>
 ): <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E>(
-  predicate: (a: A) => Kind<F, S, R, E, boolean>
-) => <TS, TR, TE>(ga: Kind<T, TS, TR, TE, A>) => Kind<F, S, R, E, Kind<T, TS, TR, TE, A>> {
+) => <A, S, R, W, E>(
+  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
+) => <TS, TR, TW, TE>(ga: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, A>> {
   return (F) => {
     const witherF = T.wither(F)
     return (predicate) =>

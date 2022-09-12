@@ -352,7 +352,7 @@ export declare function fromFoldable<F extends HKT>(
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind<F, S, R, E, A>) => ReadonlyMap<K, B>
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, W, E>(fka: Kind<F, S, R, W, E, A>) => ReadonlyMap<K, B>
 ```
 
 Added in v3.0.0
@@ -807,7 +807,7 @@ Unfolds a `ReadonlyMap` into a data structure of key/value pairs.
 ```ts
 export declare function toUnfoldable<F extends HKT>(
   U: Unfoldable<F>
-): <K>(o: Ord<K>) => <A, S, R, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, E, readonly [K, A]>
+): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]>
 ```
 
 Added in v3.0.0
@@ -821,7 +821,9 @@ export declare const traverse: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -835,9 +837,9 @@ export declare const traverseWithIndex: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (i: K, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
+) => <A, S, R, W, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0
@@ -888,9 +890,9 @@ export declare const wilt: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>
 ```
 
 Added in v3.0.0
@@ -904,9 +906,9 @@ export declare const wither: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>
 ```
 
 Added in v3.0.0

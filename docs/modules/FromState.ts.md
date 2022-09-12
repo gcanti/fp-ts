@@ -37,7 +37,7 @@ Added in v3.0.0
 export declare function chainStateK<M extends HKT>(
   F: FromState<M>,
   M: Chain<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => <R, E>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B>
+): <A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -49,7 +49,7 @@ Added in v3.0.0
 ```ts
 export declare function fromStateK<F extends HKT>(
   F: FromState<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, E>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -61,7 +61,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function get<F extends HKT>(F: FromState<F>): <S, R, E>() => Kind<F, S, R, E, S>
+export declare function get<F extends HKT>(F: FromState<F>): <S, R, W, E>() => Kind<F, S, R, W, E, S>
 ```
 
 Added in v3.0.0
@@ -71,7 +71,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function gets<F extends HKT>(F: FromState<F>): <S, A, R, E>(f: (s: S) => A) => Kind<F, S, R, E, A>
+export declare function gets<F extends HKT>(F: FromState<F>): <S, A, R, W, E>(f: (s: S) => A) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -81,7 +81,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function modify<F extends HKT>(F: FromState<F>): <S, R, E>(f: Endomorphism<S>) => Kind<F, S, R, E, void>
+export declare function modify<F extends HKT>(
+  F: FromState<F>
+): <S, R, W, E>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0
@@ -91,7 +93,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function put<F extends HKT>(F: FromState<F>): <S, R, E>(s: S) => Kind<F, S, R, E, void>
+export declare function put<F extends HKT>(F: FromState<F>): <S, R, W, E>(s: S) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0
@@ -104,7 +106,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromState<F extends HKT> extends Typeclass<F> {
-  readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind<F, S, R, E, A>
+  readonly fromState: <S, A, R, W, E>(fa: State<S, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

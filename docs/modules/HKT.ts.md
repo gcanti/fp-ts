@@ -30,7 +30,14 @@ Added in v3.0.0
 
 ```ts
 export interface ComposeF<F extends HKT, G extends HKT> extends HKT {
-  readonly type: Kind<F, this['S'], this['R'], this['E'], Kind<G, this['S'], this['R'], this['E'], this['A']>>
+  readonly type: Kind<
+    F,
+    this['S'],
+    this['R'],
+    this['W'],
+    this['E'],
+    Kind<G, this['S'], this['R'], this['W'], this['E'], this['A']>
+  >
 }
 ```
 
@@ -47,6 +54,8 @@ export interface HKT {
   /** contravariant */
   readonly R?: unknown
   /** covariant */
+  readonly W?: unknown
+  /** covariant */
   readonly E?: unknown
   /** covariant */
   readonly A?: unknown
@@ -61,12 +70,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Kind<F extends HKT, S, R, E, A> = F extends {
+export type Kind<F extends HKT, S, R, W, E, A> = F extends {
   readonly type: unknown
 }
   ? (F & {
       readonly S: S
       readonly R: R
+      readonly W: W
       readonly E: E
       readonly A: A
     })['type']
@@ -74,6 +84,7 @@ export type Kind<F extends HKT, S, R, E, A> = F extends {
       readonly _F: F
       readonly _S: (_: S) => S
       readonly _R: (_: R) => void
+      readonly _W: () => W
       readonly _E: () => E
       readonly _A: () => A
     }

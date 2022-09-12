@@ -20,7 +20,7 @@ import State = S.State
  * @since 3.0.0
  */
 export interface FromState<F extends HKT> extends Typeclass<F> {
-  readonly fromState: <S, A, R, E>(fa: State<S, A>) => Kind<F, S, R, E, A>
+  readonly fromState: <S, A, R, W, E>(fa: State<S, A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ export interface FromState<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export function get<F extends HKT>(F: FromState<F>): <S, R, E>() => Kind<F, S, R, E, S> {
+export function get<F extends HKT>(F: FromState<F>): <S, R, W, E>() => Kind<F, S, R, W, E, S> {
   return () => F.fromState(S.get())
 }
 
@@ -39,7 +39,7 @@ export function get<F extends HKT>(F: FromState<F>): <S, R, E>() => Kind<F, S, R
  * @category constructors
  * @since 3.0.0
  */
-export function put<F extends HKT>(F: FromState<F>): <S, R, E>(s: S) => Kind<F, S, R, E, void> {
+export function put<F extends HKT>(F: FromState<F>): <S, R, W, E>(s: S) => Kind<F, S, R, W, E, void> {
   return (s) => F.fromState(S.put(s))
 }
 
@@ -47,7 +47,7 @@ export function put<F extends HKT>(F: FromState<F>): <S, R, E>(s: S) => Kind<F, 
  * @category constructors
  * @since 3.0.0
  */
-export function modify<F extends HKT>(F: FromState<F>): <S, R, E>(f: Endomorphism<S>) => Kind<F, S, R, E, void> {
+export function modify<F extends HKT>(F: FromState<F>): <S, R, W, E>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void> {
   // TODO
   return flow(S.modify, F.fromState) as any
 }
@@ -56,7 +56,7 @@ export function modify<F extends HKT>(F: FromState<F>): <S, R, E>(f: Endomorphis
  * @category constructors
  * @since 3.0.0
  */
-export function gets<F extends HKT>(F: FromState<F>): <S, A, R, E>(f: (s: S) => A) => Kind<F, S, R, E, A> {
+export function gets<F extends HKT>(F: FromState<F>): <S, A, R, W, E>(f: (s: S) => A) => Kind<F, S, R, W, E, A> {
   // TODO
   return flow(S.gets, F.fromState) as any
 }
@@ -71,7 +71,9 @@ export function gets<F extends HKT>(F: FromState<F>): <S, A, R, E>(f: (s: S) => 
  */
 export function fromStateK<F extends HKT>(
   F: FromState<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, E>(...a: A) => Kind<F, S, R, E, B> {
+): <A extends ReadonlyArray<unknown>, S, B>(
+  f: (...a: A) => State<S, B>
+) => <R, W, E>(...a: A) => Kind<F, S, R, W, E, B> {
   // TODO
   return (f) => flow(f, F.fromState) as any
 }
@@ -83,7 +85,7 @@ export function fromStateK<F extends HKT>(
 export function chainStateK<M extends HKT>(
   F: FromState<M>,
   M: Chain<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => <R, E>(ma: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B> {
+): <A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B> {
   // TODO
   return flow(fromStateK(F) as any, M.chain) as any
 }

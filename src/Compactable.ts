@@ -19,10 +19,10 @@ import { right, Separated, separated } from './Separated'
  * @since 3.0.0
  */
 export interface Compactable<F extends HKT> extends Typeclass<F> {
-  readonly compact: <S, R, E, A>(foa: Kind<F, S, R, E, Option<A>>) => Kind<F, S, R, E, A>
-  readonly separate: <S, R, E, A, B>(
-    fe: Kind<F, S, R, E, Either<A, B>>
-  ) => Separated<Kind<F, S, R, E, A>, Kind<F, S, R, E, B>>
+  readonly compact: <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
+  readonly separate: <S, R, W, E, A, B>(
+    fe: Kind<F, S, R, W, E, Either<A, B>>
+  ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
 }
 
 // -------------------------------------------------------------------------------------
@@ -69,10 +69,9 @@ export function separateDefault<F extends HKT>(
 export function compact<F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Compactable<G>
-): <FS, FR, FE, GS, GR, GE, A>(
-  fgoa: Kind<F, FS, FR, FE, Kind<G, GS, GR, GE, Option<A>>>
-) => Kind<F, FS, FR, FE, Kind<G, GS, GR, GE, A>> {
-  // TODO
+): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
+  fgoa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Option<A>>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>> {
   return F.map(G.compact)
 }
 
@@ -86,12 +85,14 @@ export function separate<F extends HKT, G extends HKT>(
   F: Functor<F>,
   C: Compactable<G>,
   G: Functor<G>
-): <FS, FR, FE, GS, GR, GE, A, B>(
-  fge: Kind<F, FS, FR, FE, Kind<G, GS, GR, GE, Either<A, B>>>
-) => Separated<Kind<F, FS, FR, FE, Kind<G, GS, GR, GE, A>>, Kind<F, FS, FR, FE, Kind<G, GS, GR, GE, B>>> {
+): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
+  fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
+) => Separated<
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+> {
   const _compact = compact(F, C)
   const _map = map(F, G)
-  // TODO
   return (fge) =>
     separated(
       pipe(fge, _map(getLeft as any) as any, _compact as any),

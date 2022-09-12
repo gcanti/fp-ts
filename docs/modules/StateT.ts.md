@@ -32,8 +32,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface StateT<F extends HKT, FS, FR, FE, S, A> {
-  (s: S): Kind<F, FS, FR, FE, readonly [A, S]>
+export interface StateT<F extends HKT, FS, FR, FW, FE, S, A> {
+  (s: S): Kind<F, FS, FR, FW, FE, readonly [A, S]>
 }
 ```
 
@@ -46,9 +46,9 @@ Added in v3.0.0
 ```ts
 export declare function ap<F extends HKT>(
   F: Chain<F>
-): <FS, FR, FE, S, A>(
-  fa: StateT<F, FS, FR, FE, S, A>
-) => <B>(fab: StateT<F, FS, FR, FE, S, (a: A) => B>) => StateT<F, FS, FR, FE, S, A>
+): <FS, FR, FW, FE, S, A>(
+  fa: StateT<F, FS, FR, FW, FE, S, A>
+) => <B>(fab: StateT<F, FS, FR, FW, FE, S, (a: A) => B>) => StateT<F, FS, FR, FW, FE, S, A>
 ```
 
 Added in v3.0.0
@@ -60,9 +60,9 @@ Added in v3.0.0
 ```ts
 export declare function chain<F extends HKT>(
   F: Chain<F>
-): <A, FS, FR, FE, S, B>(
-  f: (a: A) => StateT<F, FS, FR, FE, S, B>
-) => (ma: StateT<F, FS, FR, FE, S, A>) => StateT<F, FS, FR, FE, S, B>
+): <A, FS, FR, FW, FE, S, B>(
+  f: (a: A) => StateT<F, FS, FR, FW, FE, S, B>
+) => (ma: StateT<F, FS, FR, FW, FE, S, A>) => StateT<F, FS, FR, FW, FE, S, B>
 ```
 
 Added in v3.0.0
@@ -74,7 +74,7 @@ Added in v3.0.0
 ```ts
 export declare function evaluate<F extends HKT>(
   F: Functor<F>
-): <S>(s: S) => <FS, FR, FE, A>(ma: StateT<F, FS, FR, FE, S, A>) => Kind<F, FS, FR, FE, A>
+): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, A>
 ```
 
 Added in v3.0.0
@@ -86,7 +86,7 @@ Added in v3.0.0
 ```ts
 export declare function execute<F extends HKT>(
   F: Functor<F>
-): <S>(s: S) => <FS, FR, FE, A>(ma: StateT<F, FS, FR, FE, S, A>) => Kind<F, FS, FR, FE, S>
+): <S>(s: S) => <FS, FR, FW, FE, A>(ma: StateT<F, FS, FR, FW, FE, S, A>) => Kind<F, FS, FR, FW, FE, S>
 ```
 
 Added in v3.0.0
@@ -98,7 +98,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends HKT>(
   F: Functor<F>
-): <FS, FR, FE, A, S>(ma: Kind<F, FS, FR, FE, A>) => StateT<F, FS, FR, FE, S, A>
+): <FS, FR, FW, FE, A, S>(ma: Kind<F, FS, FR, FW, FE, A>) => StateT<F, FS, FR, FW, FE, S, A>
 ```
 
 Added in v3.0.0
@@ -110,7 +110,7 @@ Added in v3.0.0
 ```ts
 export declare function fromState<F extends HKT>(
   F: Pointed<F>
-): <S, A, FS, FR, FE>(sa: State<S, A>) => StateT<F, FS, FR, FE, S, A>
+): <S, A, FS, FR, FW, FE>(sa: State<S, A>) => StateT<F, FS, FR, FW, FE, S, A>
 ```
 
 Added in v3.0.0
@@ -122,7 +122,7 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <FS, FR, FE, S>(fa: StateT<F, FS, FR, FE, S, A>) => StateT<F, FS, FR, FE, S, B>
+): <A, B>(f: (a: A) => B) => <FS, FR, FW, FE, S>(fa: StateT<F, FS, FR, FW, FE, S, A>) => StateT<F, FS, FR, FW, FE, S, B>
 ```
 
 Added in v3.0.0
@@ -132,7 +132,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function of<F extends HKT>(F: Pointed<F>): <A, FS, FR, FE, S>(a: A) => StateT<F, FS, FR, FE, S, A>
+export declare function of<F extends HKT>(
+  F: Pointed<F>
+): <A, FS, FR, FW, FE, S>(a: A) => StateT<F, FS, FR, FW, FE, S, A>
 ```
 
 Added in v3.0.0

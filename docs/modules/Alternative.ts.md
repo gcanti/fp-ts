@@ -53,7 +53,7 @@ Added in v3.0.0
 ```ts
 export declare const altAll: <F extends HKT>(
   F: Alternative<F>
-) => <S, R, E, A>(as: readonly Kind<F, S, R, E, A>[]) => Kind<F, S, R, E, A>
+) => <S, R, W, E, A>(as: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0

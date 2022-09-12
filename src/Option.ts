@@ -643,9 +643,9 @@ export const partitionMap: <A, B, C>(
  */
 export const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, B>) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>> = (F) => (
-  f
-) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = (
+  F
+) => (f) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -926,9 +926,9 @@ export const Traversable: Traversable_<OptionF> = {
  */
 export const wither: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, Option<B>>
-) => (ta: Option<A>) => Kind<F, S, R, E, Option<B>> = /*#__PURE__*/ witherDefault(Traversable, Compactable)
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+) => (ta: Option<A>) => Kind<F, S, R, W, E, Option<B>> = /*#__PURE__*/ witherDefault(Traversable, Compactable)
 
 /**
  * @category Witherable
@@ -936,9 +936,9 @@ export const wither: <F extends HKT>(
  */
 export const wilt: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
-) => (wa: Option<A>) => Kind<F, S, R, E, Separated<Option<B>, Option<C>>> = /*#__PURE__*/ wiltDefault(
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: Option<A>) => Kind<F, S, R, W, E, Separated<Option<B>, Option<C>>> = /*#__PURE__*/ wiltDefault(
   Traversable,
   Compactable
 )

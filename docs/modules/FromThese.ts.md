@@ -30,7 +30,7 @@ Added in v3.0.0
 ```ts
 export declare function fromTheseK<F extends HKT>(
   F: FromThese<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <S, R>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -43,7 +43,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromThese<F extends HKT> extends Typeclass<F> {
-  readonly fromThese: <E, A, S, R>(fa: These<E, A>) => Kind<F, S, R, E, A>
+  readonly fromThese: <E, A, S, R, W>(fa: These<E, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

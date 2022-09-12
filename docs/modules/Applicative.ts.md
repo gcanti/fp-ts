@@ -58,7 +58,7 @@ Lift a monoid into 'F', the inner values are concatenated using the provided `Mo
 ```ts
 export declare const getApplicativeMonoid: <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E>(M: Monoid<A>) => Monoid<Kind<F, S, R, E, A>>
+) => <A, S, R, W, E>(M: Monoid<A>) => Monoid<Kind<F, S, R, W, E, A>>
 ```
 
 Added in v3.0.0

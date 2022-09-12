@@ -25,7 +25,9 @@ Added in v3.0.0
 
 ```ts
 export interface Semigroupoid<F extends HKT> extends Typeclass<F> {
-  readonly compose: <S, B, E, C>(bc: Kind<F, S, B, E, C>) => <A>(ab: Kind<F, S, A, E, B>) => Kind<F, S, A, E, C>
+  readonly compose: <S, B, W, E, C>(
+    bc: Kind<F, S, B, W, E, C>
+  ) => <A>(ab: Kind<F, S, A, W, E, B>) => Kind<F, S, A, W, E, C>
 }
 ```
 

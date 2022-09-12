@@ -74,9 +74,9 @@ Added in v3.0.0
 export declare const ap: <F extends HKT, G extends HKT>(
   F: Apply<F>,
   G: Apply<G>
-) => <S, R, E, A>(
-  fa: Kind<F, S, R, E, Kind<G, S, R, E, A>>
-) => <B>(fab: Kind<F, S, R, E, Kind<G, S, R, E, (a: A) => B>>) => Kind<F, S, R, E, Kind<G, S, R, E, B>>
+) => <S, R, W, E, A>(
+  fa: Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>
+) => <B>(fab: Kind<F, S, R, W, E, Kind<G, S, R, W, E, (a: A) => B>>) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
 ```
 
 Added in v3.0.0
@@ -88,7 +88,7 @@ Added in v3.0.0
 ```ts
 export declare const apFirst: <F extends HKT>(
   A: Apply<F>
-) => <S, R, E, B>(second: Kind<F, S, R, E, B>) => <A>(first: Kind<F, S, R, E, A>) => Kind<F, S, R, E, A>
+) => <S, R, W, E, B>(second: Kind<F, S, R, W, E, B>) => <A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -100,10 +100,10 @@ Added in v3.0.0
 ```ts
 export declare const apS: <F extends HKT>(
   F: Apply<F>
-) => <N extends string, A, S, R, E, B>(
+) => <N extends string, A, S, R, W, E, B>(
   name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R, E, B>
-) => (fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Kind<F, S, R, W, E, B>
+) => (fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -115,7 +115,7 @@ Added in v3.0.0
 ```ts
 export declare const apSecond: <F extends HKT>(
   A: Apply<F>
-) => <S, R, E, B>(second: Kind<F, S, R, E, B>) => <A>(first: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
+) => <S, R, W, E, B>(second: Kind<F, S, R, W, E, B>) => <A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -127,9 +127,9 @@ Added in v3.0.0
 ```ts
 export declare const apT: <F extends HKT>(
   F: Apply<F>
-) => <S, R, E, B>(
-  fb: Kind<F, S, R, E, B>
-) => <A extends readonly unknown[]>(fas: Kind<F, S, R, E, A>) => Kind<F, S, R, E, readonly [...A, B]>
+) => <S, R, W, E, B>(
+  fb: Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[]>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, readonly [...A, B]>
 ```
 
 Added in v3.0.0
@@ -142,7 +142,9 @@ Added in v3.0.0
 
 ```ts
 export interface Apply<F extends HKT> extends Functor<F> {
-  readonly ap: <S, R, E, A>(fa: Kind<F, S, R, E, A>) => <B>(fab: Kind<F, S, R, E, (a: A) => B>) => Kind<F, S, R, E, B>
+  readonly ap: <S, R, W, E, A>(
+    fa: Kind<F, S, R, W, E, A>
+  ) => <B>(fab: Kind<F, S, R, W, E, (a: A) => B>) => Kind<F, S, R, W, E, B>
 }
 ```
 
@@ -159,7 +161,7 @@ Lift a semigroup into 'F', the inner values are concatenated using the provided 
 ```ts
 export declare const getApplySemigroup: <F extends HKT>(
   F: Apply<F>
-) => <A, S, R, E>(S: Semigroup<A>) => Semigroup<Kind<F, S, R, E, A>>
+) => <A, S, R, W, E>(S: Semigroup<A>) => Semigroup<Kind<F, S, R, W, E, A>>
 ```
 
 Added in v3.0.0

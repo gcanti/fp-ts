@@ -33,7 +33,7 @@ Added in v3.0.0
 export declare function chainFirstIOK<M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, E>(first: Kind<M, S, R, E, A>) => Kind<M, S, R, E, A>
+): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -46,7 +46,7 @@ Added in v3.0.0
 export declare function chainIOK<M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, E>(first: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B>
+): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -58,7 +58,7 @@ Added in v3.0.0
 ```ts
 export declare function fromIOK<F extends HKT>(
   F: FromIO<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <S, R, E>(...a: A) => Kind<F, S, R, E, B>
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -71,7 +71,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromIO<F extends HKT> extends Typeclass<F> {
-  readonly fromIO: <A, S, R, E>(fa: IO<A>) => Kind<F, S, R, E, A>
+  readonly fromIO: <A, S, R, W, E>(fa: IO<A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

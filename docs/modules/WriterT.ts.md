@@ -47,7 +47,9 @@ Modify the final accumulator value by applying a function
 ```ts
 export declare function censor<F extends HKT>(
   F: Functor<F>
-): <W>(f: (w: W) => W) => <S, R, E, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<W, A>>
+): <W>(
+  f: (w: W) => W
+) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -61,7 +63,7 @@ Modifies the result to include the changes to the accumulator
 ```ts
 export declare function listen<F extends HKT>(
   F: Functor<F>
-): <S, R, E, W, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<W, readonly [A, W]>>
+): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, W]>>
 ```
 
 Added in v3.0.0
@@ -77,7 +79,7 @@ export declare function listens<F extends HKT>(
   F: Functor<F>
 ): <W, B>(
   f: (w: W) => B
-) => <S, R, E, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<W, readonly [A, B]>>
+) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, readonly [A, B]>>
 ```
 
 Added in v3.0.0
@@ -91,7 +93,9 @@ Applies the returned function to the accumulator
 ```ts
 export declare function pass<F extends HKT>(
   F: Functor<F>
-): <S, R, E, W, A>(fwa: Kind<F, S, R, E, Writer<W, readonly [A, (w: W) => W]>>) => Kind<F, S, R, E, Writer<W, A>>
+): <S, R, FW, E, W, A>(
+  fwa: Kind<F, S, R, FW, E, Writer<W, readonly [A, (w: W) => W]>>
+) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -103,7 +107,7 @@ Added in v3.0.0
 ```ts
 export declare function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, E, W, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<A, W>>
+): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<A, W>>
 ```
 
 Added in v3.0.0
@@ -117,7 +121,7 @@ Added in v3.0.0
 ```ts
 export declare function fromF<F extends HKT>(
   F: Functor<F>
-): <W>(w: W) => <S, R, E, A>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, Writer<W, A>>
+): <W>(w: W) => <S, R, FW, E, A>(fa: Kind<F, S, R, FW, E, A>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -130,7 +134,7 @@ Added in v3.0.0
 export declare function fromIO<F extends HKT>(
   F: Functor<F>,
   FT: FromIO<F>
-): <W>(w: W) => <A, S, R, E>(fa: IO<A>) => Kind<F, S, R, E, Writer<W, A>>
+): <W>(w: W) => <A, S, R, FW, E>(fa: IO<A>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -143,7 +147,7 @@ Added in v3.0.0
 export declare function fromTask<F extends HKT>(
   F: Functor<F>,
   FT: FromTask<F>
-): <W>(w: W) => <A, S, R, E>(fa: Task<A>) => Kind<F, S, R, E, Writer<W, A>>
+): <W>(w: W) => <A, S, R, FW, E>(fa: Task<A>) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -153,7 +157,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function tell<F extends HKT>(F: Pointed<F>): <W, S, R, E>(w: W) => Kind<F, S, R, E, Writer<W, void>>
+export declare function tell<F extends HKT>(
+  F: Pointed<F>
+): <W, S, R, FW, E>(w: W) => Kind<F, S, R, FW, E, Writer<W, void>>
 ```
 
 Added in v3.0.0
@@ -168,9 +174,9 @@ Added in v3.0.0
 export declare function ap<F extends HKT, W>(
   F: Apply<F>,
   S: Semigroup<W>
-): <S, R, E, A>(
-  fa: Kind<F, S, R, E, Writer<W, A>>
-) => <B>(fab: Kind<F, S, R, E, Writer<W, (a: A) => B>>) => Kind<F, S, R, E, Writer<W, B>>
+): <S, R, FW, E, A>(
+  fa: Kind<F, S, R, FW, E, Writer<W, A>>
+) => <B>(fab: Kind<F, S, R, FW, E, Writer<W, (a: A) => B>>) => Kind<F, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -185,7 +191,7 @@ export declare function bimap<F extends HKT>(
 ): <W, G, A, B>(
   mapSnd: (w: W) => G,
   mapFst: (a: A) => B
-) => <S, R, E>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<G, B>>
+) => <S, R, FW, E>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, B>>
 ```
 
 Added in v3.0.0
@@ -198,9 +204,9 @@ Added in v3.0.0
 export declare function chain<M extends HKT, W>(
   M: Chain<M>,
   S: Semigroup<W>
-): <A, S, R, E, B>(
-  f: (a: A) => Kind<M, S, R, E, Writer<W, B>>
-) => (ma: Kind<M, S, R, E, Writer<W, A>>) => Kind<M, S, R, E, Writer<W, B>>
+): <A, S, R, FW, E, B>(
+  f: (a: A) => Kind<M, S, R, FW, E, Writer<W, B>>
+) => (ma: Kind<M, S, R, FW, E, Writer<W, A>>) => Kind<M, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -212,7 +218,9 @@ Added in v3.0.0
 ```ts
 export declare function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, E, W>(fa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<W, B>>
+): <A, B>(
+  f: (a: A) => B
+) => <S, R, FW, E, W>(fa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0
@@ -224,7 +232,9 @@ Added in v3.0.0
 ```ts
 export declare function mapLeft<F extends HKT>(
   F: Functor<F>
-): <W, G>(mapSnd: (w: W) => G) => <S, R, E, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, Writer<G, A>>
+): <W, G>(
+  mapSnd: (w: W) => G
+) => <S, R, FW, E, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<G, A>>
 ```
 
 Added in v3.0.0
@@ -237,7 +247,7 @@ Added in v3.0.0
 export declare function of<F extends HKT, W>(
   F: Pointed<F>,
   M: Monoid<W>
-): <A, S, R, E>(a: A) => Kind<F, S, R, E, Writer<W, A>>
+): <A, S, R, FW, E>(a: A) => Kind<F, S, R, FW, E, Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -251,7 +261,7 @@ Added in v3.0.0
 ```ts
 export declare function fst<F extends HKT>(
   F: Functor<F>
-): <S, R, E, W, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, A>
+): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, A>
 ```
 
 Added in v3.0.0
@@ -263,7 +273,7 @@ Added in v3.0.0
 ```ts
 export declare function snd<F extends HKT>(
   F: Functor<F>
-): <S, R, E, W, A>(fwa: Kind<F, S, R, E, Writer<W, A>>) => Kind<F, S, R, E, W>
+): <S, R, FW, E, W, A>(fwa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, W>
 ```
 
 Added in v3.0.0

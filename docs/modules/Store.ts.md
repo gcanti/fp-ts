@@ -163,7 +163,7 @@ Extract a collection of values from positions which depend on the current positi
 ```ts
 export declare function experiment<F extends HKT>(
   F: Functor_<F>
-): <S1, S2, R, E>(f: (s: S1) => Kind<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, E, A>
+): <S1, S2, R, W, E>(f: (s: S1) => Kind<F, S2, R, W, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, W, E, A>
 ```
 
 Added in v3.0.0

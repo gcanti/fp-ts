@@ -20,7 +20,9 @@ import Either = E.Either
 /**
  * @since 3.0.0
  */
-export function right<F extends HKT>(F: Pointed<F>): <A, S, R, FE, E = never>(a: A) => Kind<F, S, R, FE, Either<E, A>> {
+export function right<F extends HKT>(
+  F: Pointed<F>
+): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, Either<E, A>> {
   // TODO
   return flow(E.right, F.of) as any
 }
@@ -28,7 +30,9 @@ export function right<F extends HKT>(F: Pointed<F>): <A, S, R, FE, E = never>(a:
 /**
  * @since 3.0.0
  */
-export function left<F extends HKT>(F: Pointed<F>): <E, S, R, FE, A = never>(e: E) => Kind<F, S, R, FE, Either<E, A>> {
+export function left<F extends HKT>(
+  F: Pointed<F>
+): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, Either<E, A>> {
   // TODO
   return flow(E.left, F.of) as any
 }
@@ -38,7 +42,7 @@ export function left<F extends HKT>(F: Pointed<F>): <E, S, R, FE, A = never>(e: 
  */
 export function rightF<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, A, E = never>(fa: Kind<F, S, R, FE, A>) => Kind<F, S, R, FE, Either<E, A>> {
+): <S, R, W, FE, A, E = never>(fa: Kind<F, S, R, W, FE, A>) => Kind<F, S, R, W, FE, Either<E, A>> {
   return F.map(E.right)
 }
 
@@ -47,7 +51,7 @@ export function rightF<F extends HKT>(
  */
 export function leftF<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A = never>(fe: Kind<F, S, R, FE, E>) => Kind<F, S, R, FE, Either<E, A>> {
+): <S, R, W, FE, E, A = never>(fe: Kind<F, S, R, W, FE, E>) => Kind<F, S, R, W, FE, Either<E, A>> {
   return F.map(E.left)
 }
 
@@ -56,7 +60,7 @@ export function leftF<F extends HKT>(
  */
 export function fromNullable<F extends HKT>(
   F: Pointed<F>
-): <E>(e: E) => <A, S, R, FE>(a: A) => Kind<F, S, R, FE, Either<E, NonNullable<A>>> {
+): <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> {
   // TODO
   return (e) =>
     flow(
@@ -74,7 +78,7 @@ export function fromNullableK<F extends HKT>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, FE>(...a: A) => Kind<F, S, R, FE, Either<E, NonNullable<B>>> {
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>> {
   const fromNullableF = fromNullable(F)
   return (e) => {
     const fromNullableFE = fromNullableF(e)
@@ -92,7 +96,7 @@ export function chainNullableK<M extends HKT>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, FE>(ma: Kind<M, S, R, FE, Either<E, A>>) => Kind<M, S, R, FE, Either<E, NonNullable<B>>> {
+) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>> {
   const chainM = chain(M)
   const fromNullableKM = fromNullableK(M)
   return (e) => {
@@ -111,7 +115,9 @@ export function chainNullableK<M extends HKT>(
  */
 export function map<F extends HKT>(
   F: Functor<F>
-): <A, B>(f: (a: A) => B) => <S, R, FE, E>(fa: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<E, B>> {
+): <A, B>(
+  f: (a: A) => B
+) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>> {
   // TODO
   return map_(F, E.Functor) as any
 }
@@ -121,9 +127,9 @@ export function map<F extends HKT>(
  */
 export function ap<F extends HKT>(
   F: Apply<F>
-): <S, R, FE, E, A>(
-  fa: Kind<F, S, R, FE, Either<E, A>>
-) => <B>(fab: Kind<F, S, R, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, FE, Either<E, B>> {
+): <S, R, W, FE, E, A>(
+  fa: Kind<F, S, R, W, FE, Either<E, A>>
+) => <B>(fab: Kind<F, S, R, W, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, W, FE, Either<E, B>> {
   // TODO
   return ap_(F, E.Apply) as any
 }
@@ -133,9 +139,9 @@ export function ap<F extends HKT>(
  */
 export function chain<M extends HKT>(
   M: Monad<M>
-): <A, S, R, ME, E, B>(
-  f: (a: A) => Kind<M, S, R, ME, Either<E, B>>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, B>> {
+): <A, S, R, W, ME, E, B>(
+  f: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, B>> {
   return (f) => M.chain((e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
 }
 
@@ -144,9 +150,9 @@ export function chain<M extends HKT>(
  */
 export function alt<M extends HKT>(
   M: Monad<M>
-): <S, R, ME, E, A>(
-  second: Lazy<Kind<M, S, R, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>> {
+): <S, R, W, ME, E, A>(
+  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
+) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>> {
   return (second) => M.chain((e) => (E.isLeft(e) ? second() : M.of(e)))
 }
 
@@ -158,7 +164,7 @@ export function bimap<F extends HKT>(
 ): <E, G, A, B>(
   f: (e: E) => G,
   g: (a: A) => B
-) => <S, R, FE>(fea: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<G, B>> {
+) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, B>> {
   return flow(E.bimap, F.map)
 }
 
@@ -167,7 +173,9 @@ export function bimap<F extends HKT>(
  */
 export function mapLeft<F extends HKT>(
   F: Functor<F>
-): <E, G>(f: (e: E) => G) => <S, R, FE, A>(fea: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<G, A>> {
+): <E, G>(
+  f: (e: E) => G
+) => <S, R, W, FE, A>(fea: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<G, A>> {
   return (f) => F.map(E.mapLeft(f))
 }
 
@@ -177,9 +185,9 @@ export function mapLeft<F extends HKT>(
 export function altValidation<M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
-): <S, R, ME, A>(
-  second: Lazy<Kind<M, S, R, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>> {
+): <S, R, W, ME, A>(
+  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
+) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>> {
   const rightM = right(M)
   return (second) => (first) =>
     pipe(first, M.chain(E.match((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), rightM)))
@@ -197,7 +205,7 @@ export function match<F extends HKT>(
 ): <E, B, A>(
   onLeft: (e: E) => B,
   onRight: (a: A) => B
-) => <S, R, ME>(ma: Kind<F, S, R, ME, Either<E, A>>) => Kind<F, S, R, ME, B> {
+) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B> {
   return flow(E.match, F.map)
 }
 
@@ -206,10 +214,10 @@ export function match<F extends HKT>(
  */
 export function matchE<M extends HKT>(
   M: Chain<M>
-): <E, S, R, ME, B, A>(
-  onLeft: (e: E) => Kind<M, S, R, ME, B>,
-  onRight: (a: A) => Kind<M, S, R, ME, B>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, B> {
+): <E, S, R, W, ME, B, A>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, B>,
+  onRight: (a: A) => Kind<M, S, R, W, ME, B>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, B> {
   return flow(E.match, M.chain)
 }
 
@@ -218,7 +226,7 @@ export function matchE<M extends HKT>(
  */
 export function getOrElse<F extends HKT>(
   F: Functor<F>
-): <E, A>(onLeft: (e: E) => A) => <S, R, ME>(ma: Kind<F, S, R, ME, Either<E, A>>) => Kind<F, S, R, ME, A> {
+): <E, A>(onLeft: (e: E) => A) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A> {
   return flow(E.getOrElse, F.map)
 }
 
@@ -227,9 +235,9 @@ export function getOrElse<F extends HKT>(
  */
 export function getOrElseE<M extends HKT>(
   M: Monad<M>
-): <E, S, R, ME, A>(
-  onLeft: (e: E) => Kind<M, S, R, ME, A>
-) => (ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, A> {
+): <E, S, R, W, ME, A>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, A>
+) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, A> {
   return (onLeft) => M.chain(E.match(onLeft, M.of))
 }
 
@@ -242,9 +250,9 @@ export function getOrElseE<M extends HKT>(
  */
 export function orElse<M extends HKT>(
   M: Monad<M>
-): <E1, S, R, ME, E2, A>(
-  onLeft: (e: E1) => Kind<M, S, R, ME, Either<E2, A>>
-) => (ma: Kind<M, S, R, ME, Either<E1, A>>) => Kind<M, S, R, ME, Either<E2, A>> {
+): <E1, S, R, W, ME, E2, A>(
+  onLeft: (e: E1) => Kind<M, S, R, W, ME, Either<E2, A>>
+) => (ma: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>> {
   return (onLeft) => M.chain((e) => (E.isLeft(e) ? onLeft(e.left) : M.of(e)))
 }
 
@@ -253,9 +261,9 @@ export function orElse<M extends HKT>(
  */
 export function orLeft<M extends HKT>(
   M: Monad<M>
-): <E1, S, R, ME, E2>(
-  onLeft: (e: E1) => Kind<M, S, R, ME, E2>
-) => <A>(fa: Kind<M, S, R, ME, Either<E1, A>>) => Kind<M, S, R, ME, Either<E2, A>> {
+): <E1, S, R, W, ME, E2>(
+  onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
+) => <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>> {
   return (onLeft) =>
     M.chain(
       E.match(
@@ -270,9 +278,9 @@ export function orLeft<M extends HKT>(
  */
 export function orElseFirst<M extends HKT>(
   M: Monad<M>
-): <E, S, R, ME, B>(
-  onLeft: (e: E) => Kind<M, S, R, ME, Either<E, B>>
-) => <A>(ma: Kind<M, S, R, ME, Either<E, A>>) => Kind<M, S, R, ME, Either<E, A>> {
+): <E, S, R, W, ME, B>(
+  onLeft: (e: E) => Kind<M, S, R, W, ME, Either<E, B>>
+) => <A>(ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>> {
   const orElseM = orElse(M)
   return (onLeft) =>
     orElseM((e) =>
@@ -292,7 +300,7 @@ export function orElseFirst<M extends HKT>(
  */
 export function swap<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A>(ma: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, Either<A, E>> {
+): <S, R, W, FE, E, A>(ma: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<A, E>> {
   return F.map(E.swap)
 }
 
@@ -301,7 +309,7 @@ export function swap<F extends HKT>(
  */
 export function toUnion<F extends HKT>(
   F: Functor<F>
-): <S, R, FE, E, A>(fa: Kind<F, S, R, FE, Either<E, A>>) => Kind<F, S, R, FE, E | A> {
+): <S, R, W, FE, E, A>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, E | A> {
   return F.map(E.toUnion)
 }
 
@@ -310,11 +318,11 @@ export function toUnion<F extends HKT>(
  */
 export function bracket<M extends HKT>(
   M: Monad<M>
-): <S, R, ME, E, A, B>(
-  acquire: Kind<M, S, R, ME, Either<E, A>>,
-  use: (a: A) => Kind<M, S, R, ME, Either<E, B>>,
-  release: (a: A, e: Either<E, B>) => Kind<M, S, R, ME, Either<E, void>>
-) => Kind<M, S, R, ME, Either<E, B>> {
+): <S, R, W, ME, E, A, B>(
+  acquire: Kind<M, S, R, W, ME, Either<E, A>>,
+  use: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>,
+  release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
+) => Kind<M, S, R, W, ME, Either<E, B>> {
   const leftM = left(M)
   // TODO
   return (acquire, use, release) =>

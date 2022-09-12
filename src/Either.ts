@@ -612,11 +612,10 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E
  * @category Traversable
  * @since 3.0.0
  */
-export const traverse = <F extends HKT>(F: Applicative_<F>) => <A, S, R, FE, B>(f: (a: A) => Kind<F, S, R, FE, B>) => <
-  E
->(
-  ta: Either<E, A>
-): Kind<F, S, R, FE, Either<E, B>> => (isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right)))
+export const traverse = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, FE, B>(
+  f: (a: A) => Kind<F, S, R, W, FE, B>
+) => <E>(ta: Either<E, A>): Kind<F, S, R, W, FE, Either<E, B>> =>
+  isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -13,7 +13,7 @@ import type { Pointed } from './Pointed'
  * @since 3.0.0
  */
 export interface Zero<F extends HKT> extends Typeclass<F> {
-  readonly zero: <S, R, E, A>() => Kind<F, S, R, E, A>
+  readonly zero: <S, R, W, E, A>() => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -24,5 +24,6 @@ export interface Zero<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export const guard = <F extends HKT>(F: Zero<F>, P: Pointed<F>) => <S, R, E>(b: boolean): Kind<F, S, R, E, void> =>
-  b ? P.of(undefined) : F.zero()
+export const guard = <F extends HKT>(F: Zero<F>, P: Pointed<F>) => <S, R, W, E>(
+  b: boolean
+): Kind<F, S, R, W, E, void> => (b ? P.of(undefined) : F.zero())

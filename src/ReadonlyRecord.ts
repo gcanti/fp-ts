@@ -69,7 +69,7 @@ export function fromFoldable<F extends HKT>(
   F: Foldable<F>
 ): <B>(
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [string, B]) => <S, R, E>(r: Kind<F, S, R, E, A>) => ReadonlyRecord<string, B> {
+) => <A>(f: (a: A) => readonly [string, B]) => <S, R, W, E>(r: Kind<F, S, R, W, E, A>) => ReadonlyRecord<string, B> {
   return <B>(M: Magma<B>) => <A>(f: (a: A) => readonly [string, B]) =>
     F.reduce<Record<string, B>, A>({}, (r, a) => {
       const [k, b] = f(a)
@@ -271,17 +271,17 @@ export function traverseWithIndex(
   O: Ord<string>
 ): <F extends HKT>(
   F: Applicative<F>
-) => <K extends string, A, S, R, E, B>(
-  f: (k: K, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>> {
+) => <K extends string, A, S, R, W, E, B>(
+  f: (k: K, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>> {
   const keysO = keys(O)
-  return <F extends HKT>(F: Applicative<F>) => <K extends string, A, S, R, E, B>(
-    f: (k: K, a: A) => Kind<F, S, R, E, B>
+  return <F extends HKT>(F: Applicative<F>) => <K extends string, A, S, R, W, E, B>(
+    f: (k: K, a: A) => Kind<F, S, R, W, E, B>
   ) => (ta: ReadonlyRecord<string, A>) => {
     if (isEmpty(ta)) {
       return F.of(empty)
     }
-    let out: Kind<F, S, R, E, Record<string, B>> = F.of({})
+    let out: Kind<F, S, R, W, E, Record<string, B>> = F.of({})
     for (const key of keysO(ta)) {
       out = pipe(
         out,
@@ -300,9 +300,9 @@ export function traverse(
   O: Ord<string>
 ): <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, E, ReadonlyRecord<K, B>> {
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => <K extends string>(ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>> {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -718,9 +718,9 @@ export const wither: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
-) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, E, Readonly<Record<string, B>>> = (O) =>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+) => (ta: Readonly<Record<string, A>>) => Kind<F, S, R, W, E, Readonly<Record<string, B>>> = (O) =>
   witherDefault(getTraversable(O), Compactable)
 
 /**
@@ -731,11 +731,11 @@ export const wilt: (
   O: Ord<string>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: Readonly<Record<string, A>>
-) => Kind<F, S, R, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>> = (O) =>
+) => Kind<F, S, R, W, E, Separated<Readonly<Record<string, B>>, Readonly<Record<string, C>>>> = (O) =>
   wiltDefault(getTraversable(O), Compactable)
 
 /**
@@ -851,7 +851,7 @@ export function toUnfoldable(
   O: Ord<string>
 ): <F extends HKT>(
   U: Unfoldable_<F>
-) => <K extends string, A, S, R, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, E, readonly [K, A]> {
+) => <K extends string, A, S, R, W, E>(r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
   const toReadonlyArrayO = toReadonlyArray(O)
   return (U) => (r) => {
     const as = toReadonlyArrayO(r)

@@ -27,7 +27,9 @@ Added in v3.0.0
 
 ```ts
 export interface ChainRec<F extends HKT> extends Typeclass<F> {
-  readonly chainRec: <A, S, R, E, B>(f: (a: A) => Kind<F, S, R, E, Either<A, B>>) => (a: A) => Kind<F, S, R, E, B>
+  readonly chainRec: <A, S, R, W, E, B>(
+    f: (a: A) => Kind<F, S, R, W, E, Either<A, B>>
+  ) => (a: A) => Kind<F, S, R, W, E, B>
 }
 ```
 

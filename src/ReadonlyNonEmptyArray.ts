@@ -916,9 +916,9 @@ export const traverse: Traversable_<ReadonlyNonEmptyArrayF>['traverse'] = (F) =>
  */
 export const traverseWithIndex: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, E, ReadonlyNonEmptyArray<B>> = (F) => (f) => (as) => {
+) => <A, S, R, W, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => (f) => (as) => {
   let out = pipe(f(0, head(as)), F.map(of))
   for (let i = 1; i < as.length; i++) {
     out = pipe(

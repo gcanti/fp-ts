@@ -18,7 +18,7 @@ import type { Task } from './Task'
  * @since 3.0.0
  */
 export interface FromTask<F extends HKT> extends FromIO<F> {
-  readonly fromTask: <A, S, R, E>(fa: Task<A>) => Kind<F, S, R, E, A>
+  readonly fromTask: <A, S, R, W, E>(fa: Task<A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ export interface FromTask<F extends HKT> extends FromIO<F> {
  */
 export function fromTaskK<F extends HKT>(
   F: FromTask<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => <S, R, E>(...a: A) => Kind<F, S, R, E, B> {
+): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B> {
   // TODO
   return (f) => flow(f, F.fromTask) as any
 }
@@ -43,7 +43,7 @@ export function fromTaskK<F extends HKT>(
 export function chainTaskK<M extends HKT>(
   F: FromTask<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => Task<B>) => <S, R, E>(first: Kind<M, S, R, E, A>) => Kind<M, S, R, E, B> {
+): <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B> {
   // TODO
   return (f) => M.chain(flow(f, F.fromTask)) as any
 }
@@ -55,7 +55,7 @@ export function chainTaskK<M extends HKT>(
 export function chainFirstTaskK<M extends HKT>(
   F: FromTask<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => Task<B>) => <S, R, E>(first: Kind<M, S, R, E, A>) => Kind<M, S, R, E, A> {
+): <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A> {
   const chainFirstM = chainFirst(M)
   // TODO
   return (f) => chainFirstM(flow(f, F.fromTask)) as any

@@ -12,6 +12,6 @@ import type { HKT, Kind } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Comonad<W extends HKT> extends Extend<W> {
-  readonly extract: <S, R, E, A>(wa: Kind<W, S, R, E, A>) => A
+export interface Comonad<F extends HKT> extends Extend<F> {
+  readonly extract: <S, R, W, E, A>(wa: Kind<F, S, R, W, E, A>) => A
 }

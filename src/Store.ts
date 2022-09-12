@@ -129,7 +129,7 @@ export const peeks = <S>(f: Endomorphism<S>) => <A>(wa: Store<S, A>): A => wa.pe
  */
 export function experiment<F extends HKT>(
   F: Functor_<F>
-): <S1, S2, R, E>(f: (s: S1) => Kind<F, S2, R, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, E, A> {
+): <S1, S2, R, W, E>(f: (s: S1) => Kind<F, S2, R, W, E, S1>) => <A>(wa: Store<S1, A>) => Kind<F, S2, R, W, E, A> {
   return (f) => (wa) =>
     pipe(
       f(wa.pos),

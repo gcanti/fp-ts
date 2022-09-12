@@ -24,9 +24,14 @@ import type { Monoid } from './Monoid'
  * @since 3.0.0
  */
 export interface FoldableWithIndex<F extends HKT, I> extends Typeclass<F> {
-  readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <S, R, E>(fa: Kind<F, S, R, E, A>) => M
-  readonly reduceRightWithIndex: <B, A>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => B
+  readonly reduceWithIndex: <B, A>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => B
+  readonly foldMapWithIndex: <M>(
+    M: Monoid<M>
+  ) => <A>(f: (i: I, a: A) => M) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => M
+  readonly reduceRightWithIndex: <B, A>(
+    b: B,
+    f: (i: I, a: A, b: B) => B
+  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => B
 }
 
 // -------------------------------------------------------------------------------------

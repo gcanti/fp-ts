@@ -23,7 +23,9 @@ import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
  * @since 3.0.0
  */
 export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind<F, S, R, E, A>) => Kind<F, S, R, E, B>
+  readonly mapWithIndex: <A, B>(
+    f: (i: I, a: A) => B
+  ) => <S, R, W, E>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
 }
 // -------------------------------------------------------------------------------------
 // combinators

@@ -56,7 +56,7 @@ export function fromFoldable<F extends HKT>(
 ): <K, B>(
   E: Eq<K>,
   M: Magma<B>
-) => <A>(f: (a: A) => readonly [K, B]) => <S, R, E>(fka: Kind<F, S, R, E, A>) => ReadonlyMap<K, B> {
+) => <A>(f: (a: A) => readonly [K, B]) => <S, R, W, E>(fka: Kind<F, S, R, W, E, A>) => ReadonlyMap<K, B> {
   return <K, B>(E: Eq<K>, M: Magma<B>) => {
     const lookupWithKeyE = lookupWithKey(E)
     return <A>(f: (a: A) => readonly [K, B]) =>
@@ -664,9 +664,9 @@ export const traverse: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = (O) => {
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = (O) => {
   const traverseWithIndexO = traverseWithIndex(O)
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
@@ -692,14 +692,14 @@ export const traverseWithIndex: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (i: K, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
+) => <A, S, R, W, E, B>(
+  f: (i: K, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = <K>(O: Ord<K>) => {
   const keysO = keys(O)
-  return <F extends HKT>(F: Applicative<F>) => <A, S, R, E, B>(f: (k: K, a: A) => Kind<F, S, R, E, B>) => (
+  return <F extends HKT>(F: Applicative<F>) => <A, S, R, W, E, B>(f: (k: K, a: A) => Kind<F, S, R, W, E, B>) => (
     ta: ReadonlyMap<K, A>
   ) => {
-    let fm: Kind<F, S, R, E, Map<K, B>> = F.of(new Map())
+    let fm: Kind<F, S, R, W, E, Map<K, B>> = F.of(new Map())
     for (const k of keysO(ta)) {
       const a = ta.get(k)!
       fm = pipe(
@@ -729,9 +729,9 @@ export const wither: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, O.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, E, ReadonlyMap<K, B>> = (O) => {
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = (O) => {
   return witherDefault(getTraversable(O) as any, Compactable) // TODO
 }
 
@@ -742,9 +742,9 @@ export const wilt: <K>(
   O: Ord<K>
 ) => <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>> = (O) => {
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>> = (O) => {
   return wiltDefault(getTraversable(O) as any, Compactable) // TODO
 }
 
@@ -956,7 +956,7 @@ export const toReadonlyArray = <K>(O: Ord<K>): (<A>(m: ReadonlyMap<K, A>) => Rea
  */
 export function toUnfoldable<F extends HKT>(
   U: Unfoldable<F>
-): <K>(o: Ord<K>) => <A, S, R, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, E, readonly [K, A]> {
+): <K>(o: Ord<K>) => <A, S, R, W, E>(d: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, readonly [K, A]> {
   return (o) => {
     const toReadonlyArrayO = toReadonlyArray(o)
     return (m) => {

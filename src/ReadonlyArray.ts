@@ -1625,9 +1625,9 @@ export const reduceRightWithIndex: <B, A>(b: B, f: (i: number, a: A, b: B) => B)
  */
 export const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, E, ReadonlyArray<B>> = (F) => {
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
@@ -1638,9 +1638,9 @@ export const traverse: <F extends HKT>(
  */
 export const traverseWithIndex: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (i: number, a: A) => Kind<F, S, R, E, B>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, E, ReadonlyArray<B>> = (F) => (f) =>
+) => <A, S, R, W, E, B>(
+  f: (i: number, a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => (f) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     pipe(
       fbs,
@@ -2052,9 +2052,9 @@ export const TraversableWithIndex: TraversableWithIndex_<ReadonlyArrayF, number>
  */
 export const wither: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B>(
-  f: (a: A) => Kind<F, S, R, E, Option<B>>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, E, ReadonlyArray<B>> = /*#__PURE__*/ witherDefault(
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, Option<B>>
+) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = /*#__PURE__*/ witherDefault(
   Traversable,
   Compactable
 )
@@ -2065,11 +2065,11 @@ export const wither: <F extends HKT>(
  */
 export const wilt: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E, B, C>(
-  f: (a: A) => Kind<F, S, R, E, Either<B, C>>
+) => <A, S, R, W, E, B, C>(
+  f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (
   wa: ReadonlyArray<A>
-) => Kind<F, S, R, E, Separated<ReadonlyArray<B>, ReadonlyArray<C>>> = /*#__PURE__*/ wiltDefault(
+) => Kind<F, S, R, W, E, Separated<ReadonlyArray<B>, ReadonlyArray<C>>> = /*#__PURE__*/ wiltDefault(
   Traversable,
   Compactable
 )
@@ -2107,9 +2107,9 @@ export const Witherable: Witherable_<ReadonlyArrayF> = {
  */
 export const filterE: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, E>(
-  predicate: (a: A) => Kind<F, S, R, E, boolean>
-) => (ga: ReadonlyArray<A>) => Kind<F, S, R, E, ReadonlyArray<A>> = /*#__PURE__*/ filterE_(Witherable)
+) => <A, S, R, W, E>(
+  predicate: (a: A) => Kind<F, S, R, W, E, boolean>
+) => (ga: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<A>> = /*#__PURE__*/ filterE_(Witherable)
 
 /**
  * @category instances
