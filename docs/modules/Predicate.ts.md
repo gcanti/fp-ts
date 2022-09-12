@@ -59,7 +59,7 @@ Added in v3.0.0
 
 ```ts
 export interface PredicateF extends HKT {
-  readonly type: Predicate<this['A']>
+  readonly type: Predicate<this['R']>
 }
 ```
 

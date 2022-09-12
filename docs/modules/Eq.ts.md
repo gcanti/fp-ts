@@ -132,7 +132,7 @@ Added in v3.0.0
 
 ```ts
 export interface EqF extends HKT {
-  readonly type: Eq<this['A']>
+  readonly type: Eq<this['R']>
 }
 ```
 

@@ -33,6 +33,7 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [ConstF (interface)](#constf-interface)
   - [ConstFE (interface)](#constfe-interface)
+  - [ConstFR (interface)](#constfr-interface)
   - [Contravariant](#contravariant-1)
   - [Functor](#functor-1)
   - [getApplicative](#getapplicative)
@@ -167,12 +168,24 @@ export interface ConstFE<E> extends HKT {
 
 Added in v3.0.0
 
+## ConstFR (interface)
+
+**Signature**
+
+```ts
+export interface ConstFR extends HKT {
+  readonly type: Const<this['E'], this['R']>
+}
+```
+
+Added in v3.0.0
+
 ## Contravariant
 
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant_<ConstF>
+export declare const Contravariant: Contravariant_<ConstFR>
 ```
 
 Added in v3.0.0

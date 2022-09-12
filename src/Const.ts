@@ -90,6 +90,14 @@ export interface ConstF extends HKT {
  * @category instances
  * @since 3.0.0
  */
+export interface ConstFR extends HKT {
+  readonly type: Const<this['E'], this['R']>
+}
+
+/**
+ * @category instances
+ * @since 3.0.0
+ */
 export interface ConstFE<E> extends HKT {
   readonly type: Const<E, this['A']>
 }
@@ -160,7 +168,7 @@ export const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<C
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant_<ConstF> = {
+export const Contravariant: Contravariant_<ConstFR> = {
   contramap
 }
 
