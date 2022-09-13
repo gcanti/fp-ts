@@ -28,7 +28,8 @@ export interface Chain<M extends HKT> extends Functor<M> {
  * @category combinators
  * @since 3.0.0
  */
-export const ap = <F extends HKT>(M: Chain<F>): Apply<F>['ap'] => (fa) => M.chain((f) => pipe(fa, M.map(f)))
+export const ap = <F extends HKT>(M: Chain<F>): Apply<F>['ap'] => (fa) =>
+  M.chain((f) => pipe(fa, M.map(f as any))) as any // TODO
 
 /**
  * @category combinators

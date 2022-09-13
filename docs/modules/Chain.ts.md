@@ -31,7 +31,9 @@ Added in v3.0.0
 ```ts
 export declare const ap: <F extends HKT>(
   M: Chain<F>
-) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => <B>(fab: Kind<F, S, R, W, E, (a: A) => B>) => Kind<F, S, R, W, E, B>
+) => <S, R2, W2, E2, A>(
+  fa: Kind<F, S, R2, W2, E2, A>
+) => <R1, W1, E1, B>(fab: Kind<F, S, R1, W1, E1, (a: A) => B>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
 ```
 
 Added in v3.0.0

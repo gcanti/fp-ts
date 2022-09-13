@@ -1,5 +1,18 @@
 import * as _ from '../../src/Either'
-import { pipe, flow } from '../../src/function'
+import { pipe } from '../../src/function'
+
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+declare const fab: _.Either<string, (n: number) => boolean>
+declare const fa: _.Either<Error, number>
+// $ExpectType Either<string | Error, boolean>
+_.ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
 
 //
 // toUnion
@@ -100,7 +113,7 @@ pipe(
   n,
   _.fromPredicate(
     (
-      n // $ExpectType number
+      _n // $ExpectType number
     ) => true
   )
 )
@@ -124,7 +137,7 @@ pipe(
   en,
   _.filterOrElse(
     (
-      n // $ExpectType number
+      _n // $ExpectType number
     ) => true,
     () => false
   )

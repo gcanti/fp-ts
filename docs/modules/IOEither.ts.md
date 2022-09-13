@@ -23,7 +23,6 @@ Added in v3.0.0
   - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
-  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -166,21 +165,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(
-  fa: IOEither<E2, A>
-) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
+export declare const ap: <E2, A>(fa: IOEither<E2, A>) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

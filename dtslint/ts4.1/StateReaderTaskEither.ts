@@ -5,6 +5,19 @@ import * as RTE from '../../src/ReaderTaskEither'
 import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+declare const fab: _.StateReaderTaskEither<null, { r1: 'r1' }, string, (n: number) => boolean>
+declare const fa: _.StateReaderTaskEither<null, { r2: 'r2' }, Error, number>
+// $ExpectType StateReaderTaskEither<null, { r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
+_.ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // chainW
 //

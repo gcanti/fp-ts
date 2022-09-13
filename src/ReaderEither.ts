@@ -318,19 +318,11 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R, E, A>(
-  fa: ReaderEither<R, E, A>
-) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B> = /*#__PURE__*/ ET.ap(R.Apply)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <R2, E2, A>(
+export const ap: <R2, E2, A>(
   fa: ReaderEither<R2, E2, A>
-) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = ap as any
+) => <R1, E1, B>(fab: ReaderEither<R1, E1, (a: A) => B>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ ET.ap(
+  R.Apply
+)
 
 /**
  * @category Pointed

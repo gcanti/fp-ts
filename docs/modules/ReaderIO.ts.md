@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-  - [apW](#apw)
 - [Functor](#functor)
   - [map](#map)
 - [Monad](#monad)
@@ -81,23 +80,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <R, A>(fa: ReaderIO<R, A>) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(
-  fa: ReaderIO<R2, A>
-) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
+export declare const ap: <R2, A>(fa: ReaderIO<R2, A>) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0

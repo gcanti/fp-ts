@@ -31,11 +31,13 @@ export function map<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function ap<F extends HKT>(
+export const ap = <F extends HKT>(
   F: Apply<F>
-): <R, S, FR, W, E, A>(
-  fa: Reader<R, Kind<F, S, FR, W, E, A>>
-) => <B>(fab: Reader<R, Kind<F, S, FR, W, E, (a: A) => B>>) => Reader<R, Kind<F, S, FR, W, E, B>> {
+): (<R2, S, FR2, W2, E2, A>(
+  fa: Reader<R2, Kind<F, S, FR2, W2, E2, A>>
+) => <R1, FR1, W1, E1, B>(
+  fab: Reader<R1, Kind<F, S, FR1, W1, E1, (a: A) => B>>
+) => Reader<R1 & R2, Kind<F, S, FR1 & FR2, W1 | W2, E1 | E2, B>>) => {
   return (fa) => (fab) => (r) => F.ap(fa(r))(fab(r))
 }
 

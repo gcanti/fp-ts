@@ -3,6 +3,19 @@ import * as R from '../../src/Reader'
 import * as E from '../../src/Either'
 import { pipe } from '../../src/function'
 
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+declare const fab: _.ReaderEither<{ r1: 'r1' }, string, (n: number) => boolean>
+declare const fa: _.ReaderEither<{ r2: 'r2' }, Error, number>
+// $ExpectType ReaderEither<{ r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
+_.ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // getOrElseW
 //

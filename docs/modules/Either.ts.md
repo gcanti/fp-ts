@@ -26,7 +26,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-  - [apW](#apw)
 - [Bifunctor](#bifunctor)
   - [bimap](#bimap)
   - [mapLeft](#mapleft)
@@ -145,19 +144,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>
-```
-
-Added in v3.0.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-**Signature**
-
-```ts
-export declare const apW: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
+export declare const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) => B>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0

@@ -321,19 +321,9 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: IOEither<E, A>) => IOEi
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <E, A>(
-  fa: IOEither<E, A>
-) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B> = /*#__PURE__*/ ET.ap(I.Apply)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <E2, A>(
+export const ap: <E2, A>(
   fa: IOEither<E2, A>
-) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> = ap as any
+) => <E1, B>(fab: IOEither<E1, (a: A) => B>) => IOEither<E1 | E2, B> = /*#__PURE__*/ ET.ap(I.Apply)
 
 /**
  * @category Pointed

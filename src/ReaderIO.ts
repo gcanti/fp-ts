@@ -100,21 +100,9 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R, A>(
-  fa: ReaderIO<R, A>
-) => <B>(fab: ReaderIO<R, (a: A) => B>) => ReaderIO<R, B> = /*#__PURE__*/ RT.ap(I.Apply)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <R2, A>(
+export const ap: <R2, A>(
   fa: ReaderIO<R2, A>
-) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> = ap as any
+) => <R1, B>(fab: ReaderIO<R1, (a: A) => B>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ RT.ap(I.Apply)
 
 /**
  * @category Pointed

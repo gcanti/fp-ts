@@ -44,11 +44,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends HKT>(
+export declare const ap: <F extends HKT>(
   F: Chain<F>
-): <FS, FR, FW, FE, S, A>(
-  fa: StateT<F, FS, FR, FW, FE, S, A>
-) => <B>(fab: StateT<F, FS, FR, FW, FE, S, (a: A) => B>) => StateT<F, FS, FR, FW, FE, S, B>
+) => <FS, FR2, FW2, FE2, S, A>(
+  fa: StateT<F, FS, FR2, FW2, FE2, S, A>
+) => <FR1, FW1, FE1, B>(
+  fab: StateT<F, FS, FR1, FW1, FE1, S, (a: A) => B>
+) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
 ```
 
 Added in v3.0.0

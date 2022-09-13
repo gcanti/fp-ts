@@ -37,12 +37,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends HKT, E>(
+export declare const ap: <F extends HKT, E>(
   F: Apply<F>,
   S: Semigroup<E>
-): <S, R, W, FE, A>(
-  fa: Kind<F, S, R, W, FE, These<E, A>>
-) => <B>(fab: Kind<F, S, R, W, FE, These<E, (a: A) => B>>) => Kind<F, S, R, W, FE, These<E, B>>
+) => <S, R2, W2, FE2, A>(
+  fa: Kind<F, S, R2, W2, FE2, T.These<E, A>>
+) => <R1, W1, FE1, B>(
+  fab: Kind<F, S, R1, W1, FE1, T.These<E, (a: A) => B>>
+) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
 ```
 
 Added in v3.0.0

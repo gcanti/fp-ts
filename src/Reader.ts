@@ -88,22 +88,14 @@ export const local = <R2, R1>(f: (r2: R2) => R1) => <A>(ma: Reader<R1, A>): Read
 export const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B> = (f) => (fa) => flow(fa, f)
 
 /**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
-  fab
-) => (r) => fab(r)(fa(r))
-
-/**
  * Apply a function to an argument under a type constructor.
  *
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B> = apW
+export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B> = (fa) => (
+  fab
+) => (r) => fab(r)(fa(r))
 
 /**
  * @category Pointed

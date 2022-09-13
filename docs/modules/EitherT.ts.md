@@ -76,11 +76,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends HKT>(
+export declare const ap: <F extends HKT>(
   F: Apply<F>
-): <S, R, W, FE, E, A>(
-  fa: Kind<F, S, R, W, FE, Either<E, A>>
-) => <B>(fab: Kind<F, S, R, W, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, W, FE, Either<E, B>>
+) => <S, R2, W2, FE2, E2, A>(
+  fa: Kind<F, S, R2, W2, FE2, E.Either<E2, A>>
+) => <R1, W1, FE1, E1, B>(
+  fab: Kind<F, S, R1, W1, FE1, E.Either<E1, (a: A) => B>>
+) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, E.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0

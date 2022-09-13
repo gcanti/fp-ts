@@ -171,12 +171,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends HKT, W>(
+export declare const ap: <F extends HKT, W>(
   F: Apply<F>,
   S: Semigroup<W>
-): <S, R, FW, E, A>(
-  fa: Kind<F, S, R, FW, E, Writer<W, A>>
-) => <B>(fab: Kind<F, S, R, FW, E, Writer<W, (a: A) => B>>) => Kind<F, S, R, FW, E, Writer<W, B>>
+) => <S, R2, FW2, E2, A>(
+  fa: Kind<F, S, R2, FW2, E2, W.Writer<W, A>>
+) => <R1, FW1, E1, B>(
+  fab: Kind<F, S, R1, FW1, E1, W.Writer<W, (a: A) => B>>
+) => Kind<F, S, R1 & R2, FW2 | FW1, E2 | E1, W.Writer<W, B>>
 ```
 
 Added in v3.0.0

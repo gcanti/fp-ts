@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Apply](#apply)
   - [ap](#ap)
-  - [apW](#apw)
 - [Category](#category)
   - [id](#id)
 - [Chain](#chain)
@@ -91,19 +90,7 @@ Apply a function to an argument under a type constructor.
 **Signature**
 
 ```ts
-export declare const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) => Reader<R, B>
-```
-
-Added in v3.0.0
-
-## apW
-
-Less strict version of [`ap`](#ap).
-
-**Signature**
-
-```ts
-export declare const apW: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
+export declare const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) => B>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0

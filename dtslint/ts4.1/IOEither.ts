@@ -3,6 +3,19 @@ import * as IO from '../../src/IO'
 import * as E from '../../src/Either'
 import { pipe } from '../../src/function'
 
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+declare const fab: _.IOEither<string, (n: number) => boolean>
+declare const fa: _.IOEither<Error, number>
+// $ExpectType IOEither<string | Error, boolean>
+_.ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // getOrElseW
 //

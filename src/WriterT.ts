@@ -90,12 +90,14 @@ export function of<F extends HKT, W>(
  * @category type class operations
  * @since 3.0.0
  */
-export function ap<F extends HKT, W>(
+export const ap = <F extends HKT, W>(
   F: Apply<F>,
   S: Semigroup<W>
-): <S, R, FW, E, A>(
-  fa: Kind<F, S, R, FW, E, Writer<W, A>>
-) => <B>(fab: Kind<F, S, R, FW, E, Writer<W, (a: A) => B>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
+): (<S, R2, FW2, E2, A>(
+  fa: Kind<F, S, R2, FW2, E2, Writer<W, A>>
+) => <R1, FW1, E1, B>(
+  fab: Kind<F, S, R1, FW1, E1, Writer<W, (a: A) => B>>
+) => Kind<F, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
   return ap_(F, W.getApply(S))
 }
 

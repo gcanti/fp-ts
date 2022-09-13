@@ -191,11 +191,13 @@ export function map<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function ap<F extends HKT>(
+export const ap = <F extends HKT>(
   F: Apply<F>
-): <S, R, W, E, A>(
-  fa: Kind<F, S, R, W, E, Option<A>>
-) => <B>(fab: Kind<F, S, R, W, E, Option<(a: A) => B>>) => Kind<F, S, R, W, E, Option<B>> {
+): (<S, R2, W2, E2, A>(
+  fa: Kind<F, S, R2, W2, E2, Option<A>>
+) => <R1, W1, E1, B>(
+  fab: Kind<F, S, R1, W1, E1, Option<(a: A) => B>>
+) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, Option<B>>) => {
   return ap_(F, O.Apply)
 }
 

@@ -56,11 +56,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function ap<F extends HKT>(
+export declare const ap: <F extends HKT>(
   F: Apply<F>
-): <R, S, FR, W, E, A>(
-  fa: Reader<R, Kind<F, S, FR, W, E, A>>
-) => <B>(fab: Reader<R, Kind<F, S, FR, W, E, (a: A) => B>>) => Reader<R, Kind<F, S, FR, W, E, B>>
+) => <R2, S, FR2, W2, E2, A>(
+  fa: Reader<R2, Kind<F, S, FR2, W2, E2, A>>
+) => <R1, FR1, W1, E1, B>(
+  fab: Reader<R1, Kind<F, S, FR1, W1, E1, (a: A) => B>>
+) => Reader<R1 & R2, Kind<F, S, FR1 & FR2, W2 | W1, E2 | E1, B>>
 ```
 
 Added in v3.0.0

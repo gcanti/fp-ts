@@ -485,19 +485,9 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <E, A>(
-  fa: TaskEither<E, A>
-) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B> = /*#__PURE__*/ ET.ap(T.ApplyPar)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <E2, A>(
+export const ap: <E2, A>(
   fa: TaskEither<E2, A>
-) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = ap as any
+) => <E1, B>(fab: TaskEither<E1, (a: A) => B>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ ET.ap(T.ApplyPar)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

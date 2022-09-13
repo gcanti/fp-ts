@@ -10,6 +10,21 @@ import * as TTH from '../../src/TaskThese'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as SRTE from '../../src/StateReaderTaskEither'
 
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+const ap = _.ap(RTE.ApplyPar)
+
+declare const fab: R.Reader<{ r1: 'r1' }, RTE.ReaderTaskEither<{ r3: 'r3' }, number, (n: number) => boolean>>
+declare const fa: R.Reader<{ r2: 'r2' }, RTE.ReaderTaskEither<{ r4: 'r4' }, boolean, number>>
+// $ExpectType Reader<{ r1: "r1"; } & { r2: "r2"; }, ReaderTaskEither<{ r3: "r3"; } & { r4: "r4"; }, number | boolean, boolean>>
+ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 // $ExpectType <R, S, FR, W, E, A>(f: (r: R) => Either<E, A>) => Reader<R, TaskEither<E, A>>
 _.fromNaturalTransformation<E.EitherF, TE.TaskEitherF>(TE.fromEither)
 

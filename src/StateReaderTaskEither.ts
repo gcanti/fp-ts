@@ -387,23 +387,11 @@ export const mapLeft: <E, G>(
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <S, R, E, A>(
-  fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.ap(
-  RTE.Monad
-)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <S, R2, E2, A>(
+export const ap: <S, R2, E2, A>(
   fa: StateReaderTaskEither<S, R2, E2, A>
 ) => <R1, E1, B>(
   fab: StateReaderTaskEither<S, R1, E1, (a: A) => B>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = ap as any
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = /*#__PURE__*/ ST.ap(RTE.Monad)
 
 /**
  * @category Pointed

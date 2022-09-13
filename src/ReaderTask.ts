@@ -120,19 +120,9 @@ export const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderT
  * @category Apply
  * @since 3.0.0
  */
-export const ap: <R, A>(
-  fa: ReaderTask<R, A>
-) => <B>(fab: ReaderTask<R, (a: A) => B>) => ReaderTask<R, B> = /*#__PURE__*/ RT.ap(T.ApplyPar)
-
-/**
- * Less strict version of [`ap`](#ap).
- *
- * @category Apply
- * @since 3.0.0
- */
-export const apW: <R2, A>(
+export const ap: <R2, A>(
   fa: ReaderTask<R2, A>
-) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = ap as any
+) => <R1, B>(fab: ReaderTask<R1, (a: A) => B>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ RT.ap(T.ApplyPar)
 
 /**
  * @category Pointed

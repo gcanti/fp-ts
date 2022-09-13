@@ -75,12 +75,14 @@ export function map<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function ap<F extends HKT, E>(
+export const ap = <F extends HKT, E>(
   F: Apply<F>,
   S: Semigroup<E>
-): <S, R, W, FE, A>(
-  fa: Kind<F, S, R, W, FE, These<E, A>>
-) => <B>(fab: Kind<F, S, R, W, FE, These<E, (a: A) => B>>) => Kind<F, S, R, W, FE, These<E, B>> {
+): (<S, R2, W2, FE2, A>(
+  fa: Kind<F, S, R2, W2, FE2, These<E, A>>
+) => <R1, W1, FE1, B>(
+  fab: Kind<F, S, R1, W1, FE1, These<E, (a: A) => B>>
+) => Kind<F, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>>) => {
   return ap_(F, T.getApply(S))
 }
 

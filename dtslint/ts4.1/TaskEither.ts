@@ -5,6 +5,19 @@ import * as IOE from '../../src/IOEither'
 import { pipe } from '../../src/function'
 import * as IO from '../../src/IO'
 
+// -------------------------------------------------------------------------------------
+// ap widening
+// -------------------------------------------------------------------------------------
+
+declare const fab: _.TaskEither<string, (n: number) => boolean>
+declare const fa: _.TaskEither<Error, number>
+// $ExpectType TaskEither<string | Error, boolean>
+_.ap(fa)(fab)
+
+//
+// -------------------------------------------------------------------------------------
+//
+
 //
 // getOrElseW
 //

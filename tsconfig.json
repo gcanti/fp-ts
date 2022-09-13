@@ -14,5 +14,5 @@
     "stripInternal": true,
     "noUncheckedIndexedAccess": false
   },
-  "include": ["./src", "./test", "./scripts", "./perf"]
+  "include": ["./src", "./test", "./scripts", "./perf", "./dtslint"]
 }
