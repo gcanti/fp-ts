@@ -33,8 +33,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirstW](#apfirstw)
-  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -237,34 +235,6 @@ export declare const of: <A, E = never>(a: A) => IOEither<E, A>
 Added in v3.0.0
 
 # combinators
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-**Signature**
-
-```ts
-export declare const apFirstW: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-**Signature**
-
-```ts
-export declare const apSecondW: <E2, B>(
-  second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## chainEitherK
 
@@ -571,7 +541,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, A>
+export declare const apFirst: <E2, B>(
+  second: IOEither<E2, B>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -585,7 +557,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: IOEither<E, B>) => <A>(first: IOEither<E, A>) => IOEither<E, B>
+export declare const apSecond: <E2, B>(
+  second: IOEither<E2, B>
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

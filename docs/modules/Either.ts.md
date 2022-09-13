@@ -46,8 +46,6 @@ Added in v3.0.0
 - [Traversable](#traversable)
   - [traverse](#traverse)
 - [combinators](#combinators)
-  - [apFirstW](#apfirstw)
-  - [apSecondW](#apsecondw)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
@@ -350,30 +348,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst)
-
-**Signature**
-
-```ts
-export declare const apFirstW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond)
-
-**Signature**
-
-```ts
-export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
-```
-
-Added in v3.0.0
-
 ## chainOptionK
 
 **Signature**
@@ -593,7 +567,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A>
+export declare const apFirst: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -607,7 +581,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, B>
+export declare const apSecond: <E2, B>(second: Either<E2, B>) => <E1, A>(first: Either<E1, A>) => Either<E2 | E1, B>
 ```
 
 Added in v3.0.0

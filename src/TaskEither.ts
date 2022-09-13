@@ -692,19 +692,9 @@ export const ApplyPar: Apply<TaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(
-  second: TaskEither<E, B>
-) => <A>(first: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ apFirst_(ApplyPar)
-
-/**
- * Less strict version of [`apFirst`](#apfirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <E2, B>(
+export const apFirst: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = apFirst as any
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -714,19 +704,9 @@ export const apFirstW: <E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(
-  second: TaskEither<E, B>
-) => <A>(first: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ apSecond_(ApplyPar)
-
-/**
- * Less strict version of [`apSecond`](#apsecond).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <E2, B>(
+export const apSecond: <E2, B>(
   second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = apSecond as any
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, B> = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances

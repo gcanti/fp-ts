@@ -34,8 +34,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirstW](#apfirstw)
-  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -298,34 +296,6 @@ export declare const of: <A, E = never>(a: A) => TaskEither<E, A>
 Added in v3.0.0
 
 # combinators
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-**Signature**
-
-```ts
-export declare const apFirstW: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-**Signature**
-
-```ts
-export declare const apSecondW: <E2, B>(
-  second: TaskEither<E2, B>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## chainEitherK
 
@@ -800,7 +770,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, A>
+export declare const apFirst: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -814,7 +786,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <E, B>(second: TaskEither<E, B>) => <A>(first: TaskEither<E, A>) => TaskEither<E, B>
+export declare const apSecond: <E2, B>(
+  second: TaskEither<E2, B>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
 
 Added in v3.0.0

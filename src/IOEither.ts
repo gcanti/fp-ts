@@ -500,19 +500,9 @@ export const ApplyPar: Apply_<IOEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(
-  second: IOEither<E, B>
-) => <A>(first: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ apFirst_(ApplyPar)
-
-/**
- * Less strict version of [`apFirst`](#apfirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <E2, B>(
+export const apFirst: <E2, B>(
   second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = apFirst as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ apFirst_(ApplyPar)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -522,19 +512,9 @@ export const apFirstW: <E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(
-  second: IOEither<E, B>
-) => <A>(first: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ apSecond_(ApplyPar)
-
-/**
- * Less strict version of [`apSecond`](#apsecond).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <E2, B>(
+export const apSecond: <E2, B>(
   second: IOEither<E2, B>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = apSecond as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ apSecond_(ApplyPar)
 
 /**
  * @category instances

@@ -90,7 +90,9 @@ Added in v3.0.0
 ```ts
 export declare const apFirst: <F extends HKT>(
   A: Apply<F>
-) => <S, R, W, E, B>(second: Kind<F, S, R, W, E, B>) => <A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
+) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -117,7 +119,9 @@ Added in v3.0.0
 ```ts
 export declare const apSecond: <F extends HKT>(
   A: Apply<F>
-) => <S, R, W, E, B>(second: Kind<F, S, R, W, E, B>) => <A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>
+) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, B>
 ```
 
 Added in v3.0.0

@@ -79,9 +79,9 @@ export const ap = <F extends HKT, G extends HKT>(F: Apply<F>, G: Apply<G>) => <F
  * @category combinators
  * @since 3.0.0
  */
-export const apFirst = <F extends HKT>(A: Apply<F>) => <S, R, W, E, B>(
-  second: Kind<F, S, R, W, E, B>
-): (<A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>) =>
+export const apFirst = <F extends HKT>(A: Apply<F>) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+): (<R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
   flow(
     A.map((a) => () => a),
     A.ap(second)
@@ -91,9 +91,9 @@ export const apFirst = <F extends HKT>(A: Apply<F>) => <S, R, W, E, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const apSecond = <F extends HKT>(A: Apply<F>) => <S, R, W, E, B>(
-  second: Kind<F, S, R, W, E, B>
-): (<A>(first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, B>) =>
+export const apSecond = <F extends HKT>(A: Apply<F>) => <S, R2, W2, E2, B>(
+  second: Kind<F, S, R2, W2, E2, B>
+): (<R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, B>) =>
   flow(
     A.map(() => (b: B) => b),
     A.ap(second)

@@ -510,21 +510,11 @@ export const Apply: Apply_<StateReaderTaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <S, R, E, B>(
-  second: StateReaderTaskEither<S, R, E, B>
-) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ apFirst_(Apply)
-
-/**
- * Less strict version of [`apFirst`](#apfirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <S, R2, E2, B>(
+export const apFirst: <S, R2, E2, B>(
   second: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A>(
   first: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = apFirst as any
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -534,21 +524,11 @@ export const apFirstW: <S, R2, E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <S, R, E, B>(
-  second: StateReaderTaskEither<S, R, E, B>
-) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ apSecond_(Apply)
-
-/**
- * Less strict version of [`apSecond`](#apsecond).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <S, R2, E2, B>(
+export const apSecond: <S, R2, E2, B>(
   second: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A>(
   first: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = apSecond as any
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances

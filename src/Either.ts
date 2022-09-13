@@ -800,19 +800,9 @@ export const Apply: Apply_<EitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <E, B>(second: Either<E, B>) => <A>(first: Either<E, A>) => Either<E, A> = /*#__PURE__*/ apFirst_(
-  Apply
-)
-
-/**
- * Less strict version of [`apFirst`](#apfirst)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <E2, B>(
+export const apFirst: <E2, B>(
   second: Either<E2, B>
-) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> = apFirst as any
+) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -822,19 +812,9 @@ export const apFirstW: <E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <E, B>(
-  second: Either<E, B>
-) => <A>(first: Either<E, A>) => Either<E, B> = /*#__PURE__*/ apSecond_(Apply)
-
-/**
- * Less strict version of [`apSecond`](#apsecond)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <E2, B>(
+export const apSecond: <E2, B>(
   second: Either<E2, B>
-) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> = apSecond as any
+) => <E1, A>(first: Either<E1, A>) => Either<E1 | E2, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances

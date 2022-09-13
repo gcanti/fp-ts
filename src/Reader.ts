@@ -234,19 +234,9 @@ export const Apply: Apply_<ReaderF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A> = /*#__PURE__*/ apFirst_(
-  Apply
-)
-
-/**
- * Less strict version of [`apFirst`](#apfirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <R2, B>(
+export const apFirst: <R2, B>(
   second: Reader<R2, B>
-) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> = apFirst as any
+) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -256,19 +246,9 @@ export const apFirstW: <R2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, B>(
-  second: Reader<R, B>
-) => <A>(first: Reader<R, A>) => Reader<R, B> = /*#__PURE__*/ apSecond_(Apply)
-
-/**
- * Less strict version of [`apSecond`](#apsecond).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <R2, B>(
+export const apSecond: <R2, B>(
   second: Reader<R2, B>
-) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> = apSecond as any
+) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances

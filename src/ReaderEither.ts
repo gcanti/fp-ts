@@ -492,19 +492,9 @@ export const Apply: Apply_<ReaderEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apFirst: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ apFirst_(Apply)
-
-/**
- * Less strict version of [`apFirst`](#apfirst)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apFirstW: <R2, E2, B>(
+export const apFirst: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = apFirst as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ apFirst_(Apply)
 
 /**
  * Combine two effectful actions, keeping only the result of the second.
@@ -514,19 +504,9 @@ export const apFirstW: <R2, E2, B>(
  * @category derivable combinators
  * @since 3.0.0
  */
-export const apSecond: <R, E, B>(
-  second: ReaderEither<R, E, B>
-) => <A>(first: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ apSecond_(Apply)
-
-/**
- * Less strict version of [`apSecond`](#apsecond)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const apSecondW: <R2, E2, B>(
+export const apSecond: <R2, E2, B>(
   second: ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = apSecond as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ apSecond_(Apply)
 
 /**
  * @category instances

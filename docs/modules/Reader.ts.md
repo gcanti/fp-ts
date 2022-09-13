@@ -33,8 +33,6 @@ Added in v3.0.0
   - [first](#first)
   - [second](#second)
 - [combinators](#combinators)
-  - [apFirstW](#apfirstw)
-  - [apSecondW](#apsecondw)
   - [flap](#flap)
   - [local](#local)
 - [constructors](#constructors)
@@ -215,30 +213,6 @@ Added in v3.0.0
 
 # combinators
 
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-**Signature**
-
-```ts
-export declare const apFirstW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-**Signature**
-
-```ts
-export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -323,7 +297,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, A>
+export declare const apFirst: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -337,7 +311,7 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <R, B>(second: Reader<R, B>) => <A>(first: Reader<R, A>) => Reader<R, B>
+export declare const apSecond: <R2, B>(second: Reader<R2, B>) => <R1, A>(first: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0

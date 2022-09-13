@@ -27,8 +27,6 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
-  - [apFirstW](#apfirstw)
-  - [apSecondW](#apsecondw)
   - [chainEitherK](#chaineitherk)
   - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
@@ -255,34 +253,6 @@ export declare const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTask
 Added in v3.0.0
 
 # combinators
-
-## apFirstW
-
-Less strict version of [`apFirst`](#apfirst).
-
-**Signature**
-
-```ts
-export declare const apFirstW: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
-```
-
-Added in v3.0.0
-
-## apSecondW
-
-Less strict version of [`apSecond`](#apsecond).
-
-**Signature**
-
-```ts
-export declare const apSecondW: <S, R2, E2, B>(
-  second: StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
-```
-
-Added in v3.0.0
 
 ## chainEitherK
 
@@ -960,9 +930,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apFirst: <S, R, E, B>(
-  second: StateReaderTaskEither<S, R, E, B>
-) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const apFirst: <S, R2, E2, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -976,9 +946,9 @@ Derivable from `Apply`.
 **Signature**
 
 ```ts
-export declare const apSecond: <S, R, E, B>(
-  second: StateReaderTaskEither<S, R, E, B>
-) => <A>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+export declare const apSecond: <S, R2, E2, B>(
+  second: StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
 
 Added in v3.0.0
