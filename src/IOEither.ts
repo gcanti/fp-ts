@@ -710,18 +710,6 @@ export const fromPredicate: {
  * @since 3.0.0
  */
 export const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: IOEither<E, B>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
-
-/**
- * Less strict version of [`filterOrElse`](#filterOrElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: IOEither<E1, A>
   ) => IOEither<E1 | E2, B>
@@ -729,7 +717,7 @@ export const filterOrElseW: {
     mb: IOEither<E1, B>
   ) => IOEither<E1 | E2, B>
   <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
-} = filterOrElse
+} = /*#__PURE__*/ filterOrElse_(FromEither, Chain)
 
 /**
  * @category combinators

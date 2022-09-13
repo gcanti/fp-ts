@@ -104,13 +104,13 @@ pipe(
 )
 
 //
-// filterOrElseW
+// filterOrElse
 //
 
 // $ExpectType ReaderEither<{ c: boolean; }, "a1" | "a2", number>
 pipe(
   _.left<'a1', { c: boolean }, number>('a1'),
-  _.filterOrElseW(
+  _.filterOrElse(
     (result) => result > 0,
     () => 'a2' as const
   )
