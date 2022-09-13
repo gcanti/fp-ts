@@ -706,30 +706,6 @@ export const chunksOf = (
 ): (<A>(as: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<ReadonlyNonEmptyArray<A>>) => chop(splitAt(n))
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * The `W` suffix (short for **W**idening) means that the return types will be merged.
- *
- * @example
- * import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
- *     RNEA.altW(() => ['a', 'b'])
- *   ),
- *   [1, 2, 3, 'a', 'b']
- * )
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW = <B>(
-  second: Lazy<ReadonlyNonEmptyArray<B>>
-): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concatW(second())
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -741,7 +717,7 @@ export const altW = <B>(
  *
  * assert.deepStrictEqual(
  *   pipe(
- *     [1, 2, 3],
+ *     [1, 2, 3] as const,
  *     RNEA.alt(() => [4, 5])
  *   ),
  *   [1, 2, 3, 4, 5]
@@ -750,9 +726,9 @@ export const altW = <B>(
  * @category Alt
  * @since 3.0.2
  */
-export const alt: <A>(
-  second: Lazy<ReadonlyNonEmptyArray<A>>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = altW
+export const alt = <B>(
+  second: Lazy<ReadonlyNonEmptyArray<B>>
+): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concatW(second())
 
 /**
  * @category Apply

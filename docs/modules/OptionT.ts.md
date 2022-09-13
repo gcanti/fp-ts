@@ -41,11 +41,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function alt<M extends HKT>(
+export declare const alt: <M extends HKT>(
   M: Monad<M>
-): <S, R, W, E, A>(
-  second: Lazy<Kind<M, S, R, W, E, Option<A>>>
-) => (first: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<A>>
+) => <S, R2, W2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, E2, O.Option<B>>>
+) => <R1, W1, E1, A>(
+  first: Kind<M, S, R1, W1, E1, O.Option<A>>
+) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, O.Option<B | A>>
 ```
 
 Added in v3.0.0

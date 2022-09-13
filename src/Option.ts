@@ -477,17 +477,6 @@ export const chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<
 export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = /*#__PURE__*/ chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * The `W` suffix (short for **W**idening) means that the return types will be merged.
- *
- * @category instance operations
- * @since 3.0.0
- */
-export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
-  isNone(first) ? second() : first
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -536,7 +525,8 @@ export const altW = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Optio
  * @category instance operations
  * @since 3.0.0
  */
-export const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A> = altW
+export const alt = <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>): Option<A | B> =>
+  isNone(first) ? second() : first
 
 /**
  * @category Zero

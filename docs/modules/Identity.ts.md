@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -80,19 +79,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<A>) => (first: A) => A
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <B>(second: () => B) => <A>(first: A) => B | A
+export declare const alt: <B>(second: () => B) => <A>(first: A) => B | A
 ```
 
 Added in v3.0.0

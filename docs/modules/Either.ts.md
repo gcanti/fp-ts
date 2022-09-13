@@ -48,7 +48,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
@@ -74,7 +73,6 @@ Added in v3.0.0
   - [isRight](#isright)
 - [instance operations](#instance-operations)
   - [alt](#alt)
-  - [altW](#altw)
 - [instances](#instances)
   - [Alt](#alt)
   - [Applicative](#applicative)
@@ -366,9 +364,11 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: Either<E, B>) => Either<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
+    ma: Either<E1, A>
+  ) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
 }
 ```
 
@@ -408,24 +408,6 @@ assert.deepStrictEqual(
   ),
   E.left('a')
 )
-```
-
-Added in v3.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
-  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
-    ma: Either<E1, A>
-  ) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1, B extends A>(mb: Either<E1, B>) => Either<E2 | E1, B>
-  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <E1>(ma: Either<E1, A>) => Either<E2 | E1, A>
-}
 ```
 
 Added in v3.0.0
@@ -771,7 +753,7 @@ In case of `Either` returns the left-most non-`Left` value (or the right-most `L
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A>
+export declare const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 **Example**
@@ -808,20 +790,6 @@ assert.deepStrictEqual(
   ),
   E.right(1)
 )
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, B | A>
 ```
 
 Added in v3.0.0

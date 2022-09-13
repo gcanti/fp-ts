@@ -551,19 +551,9 @@ export const flatten: <E1, E2, A>(
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <E, A>(
-  second: Lazy<TaskEither<E, A>>
-) => (first: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ ET.alt(T.Monad)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <E2, B>(
+export const alt: <E2, B>(
   second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, A | B> = alt as any
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ ET.alt(T.Monad)
 
 /**
  * @category Pointed

@@ -20,7 +20,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -41,7 +40,6 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
@@ -132,19 +130,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(second: Lazy<IOEither<E, A>>) => (first: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <E2, B>(
+export declare const alt: <E2, B>(
   second: Lazy<IOEither<E2, B>>
 ) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
@@ -320,22 +306,6 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: IOEither<E, B>) => IOEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
-}
-```
-
-Added in v3.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: IOEither<E1, A>
   ) => IOEither<E2 | E1, B>

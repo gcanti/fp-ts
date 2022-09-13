@@ -320,17 +320,9 @@ export const flatten: <A>(mma: TaskOption<TaskOption<A>>) => TaskOption<A> = /*#
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <A>(second: Lazy<TaskOption<A>>) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ OT.alt(
-  T.Monad
-)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>) => TaskOption<A | B> = alt as any
+export const alt: <B>(
+  second: Lazy<TaskOption<B>>
+) => <A>(first: TaskOption<A>) => TaskOption<A | B> = /*#__PURE__*/ OT.alt(T.Monad)
 
 /**
  * @category Zero

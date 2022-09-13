@@ -282,15 +282,9 @@ export const flatten: <A>(mma: IOOption<IOOption<A>>) => IOOption<A> = /*#__PURE
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <A>(second: Lazy<IOOption<A>>) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ OT.alt(I.Monad)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = alt as any
+export const alt: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => IOOption<A | B> = /*#__PURE__*/ OT.alt(
+  I.Monad
+)
 
 /**
  * @category Zero

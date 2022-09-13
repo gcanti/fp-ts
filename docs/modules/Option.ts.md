@@ -80,7 +80,6 @@ Added in v3.0.0
   - [isSome](#issome)
 - [instance operations](#instance-operations)
   - [alt](#alt)
-  - [altW](#altw)
 - [instances](#instances)
   - [Alt](#alt)
   - [Alternative](#alternative)
@@ -748,7 +747,7 @@ In case of `Option` returns the left-most non-`None` value.
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<Option<A>>) => (first: Option<A>) => Option<A>
+export declare const alt: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
 **Example**
@@ -785,20 +784,6 @@ assert.deepStrictEqual(
   ),
   O.some('a')
 )
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(second: Lazy<Option<B>>) => <A>(first: Option<A>) => Option<B | A>
 ```
 
 Added in v3.0.0

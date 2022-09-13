@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -48,7 +47,6 @@ Added in v3.0.0
   - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
   - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -139,21 +137,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <S, R, E, A>(
-  second: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <S, R2, E2, B>(
+export declare const alt: <S, R2, E2, B>(
   second: () => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2, B | A>
 ```
@@ -516,28 +500,6 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
-    ma: StateReaderTaskEither<S, R, E, A>
-  ) => StateReaderTaskEither<S, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(
-    mb: StateReaderTaskEither<S, R, E, B>
-  ) => StateReaderTaskEither<S, R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(
-    ma: StateReaderTaskEither<S, R, E, A>
-  ) => StateReaderTaskEither<S, R, E, A>
-}
-```
-
-Added in v3.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, E1>(
     ma: StateReaderTaskEither<S, R, E1, A>
   ) => StateReaderTaskEither<S, R, E2 | E1, B>

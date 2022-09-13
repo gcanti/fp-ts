@@ -25,7 +25,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -145,38 +144,7 @@ In case of `ReadonlyNonEmptyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <A>(
-  second: Lazy<ReadonlyNonEmptyArray<A>>
-) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-```
-
-**Example**
-
-```ts
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RNEA.alt(() => [4, 5])
-  ),
-  [1, 2, 3, 4, 5]
-)
-```
-
-Added in v3.0.2
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(
+export declare const alt: <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
 ) => <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<B | A>
 ```
@@ -189,14 +157,14 @@ import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(
   pipe(
-    [1, 2, 3] as RNEA.ReadonlyNonEmptyArray<number>,
-    RNEA.altW(() => ['a', 'b'])
+    [1, 2, 3] as const,
+    RNEA.alt(() => [4, 5])
   ),
-  [1, 2, 3, 'a', 'b']
+  [1, 2, 3, 4, 5]
 )
 ```
 
-Added in v3.0.0
+Added in v3.0.2
 
 # Apply
 

@@ -47,11 +47,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function alt<M extends HKT>(
+export declare const alt: <M extends HKT>(
   M: Monad<M>
-): <S, R, W, ME, E, A>(
-  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>>
+) => <S, R2, W2, ME2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, E.Either<E2, B>>>
+) => <R1, W1, ME1, E1, A>(
+  first: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E2, B | A>>
 ```
 
 Added in v3.0.0
@@ -61,12 +63,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function altValidation<M extends HKT, E>(
+export declare const altValidation: <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
-): <S, R, W, ME, A>(
-  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>>
+) => <S, R2, W2, ME2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, E.Either<E, B>>>
+) => <R1, W1, ME1, A>(
+  first: Kind<M, S, R1, W1, ME1, E.Either<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E, B | A>>
 ```
 
 Added in v3.0.0
@@ -211,7 +215,7 @@ Added in v3.0.0
 ```ts
 export declare const left: <F extends HKT>(
   F: Pointed<F>
-) => <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, E.Either<E, A>>
+) => <E, S, R = unknown, W = never, FE = never, A = never>(e: E) => Kind<F, S, R, W, FE, E.Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -335,7 +339,7 @@ Added in v3.0.0
 ```ts
 export declare const right: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, E.Either<E, A>>
+) => <A, S, R = unknown, W = never, FE = never, E = never>(a: A) => Kind<F, S, R, W, FE, E.Either<E, A>>
 ```
 
 Added in v3.0.0

@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Chain](#chain)
@@ -206,7 +205,7 @@ In case of `ReadonlyArray` concatenates the inputs into a single array.
 **Signature**
 
 ```ts
-export declare const alt: <A>(second: Lazy<readonly A[]>) => (first: readonly A[]) => readonly A[]
+export declare const alt: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
 **Example**
@@ -221,35 +220,6 @@ assert.deepStrictEqual(
     RA.alt(() => [4, 5])
   ),
   [1, 2, 3, 4, 5]
-)
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-The `W` suffix (short for **W**idening) means that the return types will be merged.
-
-**Signature**
-
-```ts
-export declare const altW: <B>(second: Lazy<readonly B[]>) => <A>(first: readonly A[]) => readonly (B | A)[]
-```
-
-**Example**
-
-```ts
-import * as RA from 'fp-ts/ReadonlyArray'
-import { pipe } from 'fp-ts/function'
-
-assert.deepStrictEqual(
-  pipe(
-    [1, 2, 3],
-    RA.altW(() => ['a', 'b'])
-  ),
-  [1, 2, 3, 'a', 'b']
 )
 ```
 

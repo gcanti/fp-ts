@@ -409,18 +409,6 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
 export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * The `W` suffix (short for **W**idening) means that the error and the return types will be merged.
- *
- * @category instance operations
- * @since 3.0.0
- */
-export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
-  that
-) => (fa) => (isLeft(fa) ? that() : fa)
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -469,7 +457,9 @@ export const altW: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either
  * @category instance operations
  * @since 3.0.0
  */
-export const alt: <E, A>(second: Lazy<Either<E, A>>) => (first: Either<E, A>) => Either<E, A> = altW
+export const alt: <E2, B>(second: Lazy<Either<E2, B>>) => <E1, A>(first: Either<E1, A>) => Either<E2, A | B> = (
+  that
+) => (fa) => (isLeft(fa) ? that() : fa)
 
 /**
  * @category Extend

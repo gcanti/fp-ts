@@ -1268,29 +1268,6 @@ export const of: <A>(a: A) => ReadonlyArray<A> = RNEA.of
 export const zero: <A>() => ReadonlyArray<A> = () => empty
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * The `W` suffix (short for **W**idening) means that the return types will be merged.
- *
- * @example
- * import * as RA from 'fp-ts/ReadonlyArray'
- * import { pipe } from 'fp-ts/function'
- *
- * assert.deepStrictEqual(
- *   pipe(
- *     [1, 2, 3],
- *     RA.altW(() => ['a', 'b'])
- *   ),
- *   [1, 2, 3, 'a', 'b']
- * )
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW = <B>(second: Lazy<ReadonlyArray<B>>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
-  (first as ReadonlyArray<A | B>).concat(second())
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
@@ -1311,7 +1288,8 @@ export const altW = <B>(second: Lazy<ReadonlyArray<B>>) => <A>(first: ReadonlyAr
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <A>(second: Lazy<ReadonlyArray<A>>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = altW
+export const alt = <B>(second: Lazy<ReadonlyArray<B>>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+  (first as ReadonlyArray<A | B>).concat(second())
 
 /**
  * Apply a function to an argument under a type constructor.

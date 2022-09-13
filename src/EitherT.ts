@@ -20,14 +20,14 @@ import Either = E.Either
 /**
  * @since 3.0.0
  */
-export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, FE, E = never>(
+export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R = unknown, W = never, FE = never, E = never>(
   a: A
 ): Kind<F, S, R, W, FE, Either<E, A>> => F.of(E.right(a))
 
 /**
  * @since 3.0.0
  */
-export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R, W, FE, A = never>(
+export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R = unknown, W = never, FE = never, A = never>(
   e: E
 ): Kind<F, S, R, W, FE, Either<E, A>> => F.of(E.left(e))
 
@@ -142,12 +142,17 @@ export const chain = <M extends HKT>(M: Monad<M>) => <A, S, R2, W2, ME2, E2, B>(
 /**
  * @since 3.0.0
  */
-export function alt<M extends HKT>(
-  M: Monad<M>
-): <S, R, W, ME, E, A>(
-  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>> {
-  return (second) => M.chain((e) => (E.isLeft(e) ? second() : M.of(e)))
+export const alt = <M extends HKT>(M: Monad<M>) => <S, R2, W2, ME2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, Either<E2, B>>>
+) => <R1, W1, ME1, E1, A>(
+  first: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
+  return pipe(
+    first,
+    M.chain<E.Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, E.Either<E2, B | A>>((e) =>
+      E.isLeft(e) ? second() : M.of(e)
+    )
+  )
 }
 
 /**
@@ -176,15 +181,21 @@ export function mapLeft<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function altValidation<M extends HKT, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-): <S, R, W, ME, A>(
-  second: Lazy<Kind<M, S, R, W, ME, Either<E, A>>>
-) => (first: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, A>> {
+export const altValidation = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => <S, R2, W2, ME2, B>(
+  second: Lazy<Kind<M, S, R2, W2, ME2, Either<E, B>>>
+) => <R1, W1, ME1, A>(
+  first: Kind<M, S, R1, W1, ME1, Either<E, A>>
+): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E, A | B>> => {
   const rightM = right(M)
-  return (second) => (first) =>
-    pipe(first, M.chain(E.match((e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))), rightM)))
+  return pipe(
+    first,
+    M.chain(
+      E.match<E, Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, E.Either<E, A | B>>, A | B>(
+        (e1) => pipe(second(), M.map(E.mapLeft((e2) => S.concat(e2)(e1)))),
+        rightM
+      )
+    )
+  )
 }
 
 // -------------------------------------------------------------------------------------

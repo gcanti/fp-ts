@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -37,7 +36,6 @@ Added in v3.0.0
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
@@ -125,21 +123,7 @@ types of kind `* -> *`.
 **Signature**
 
 ```ts
-export declare const alt: <R, E, A>(
-  second: Lazy<ReaderEither<R, E, A>>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <R2, E2, B>(
+export declare const alt: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
 ) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
@@ -358,26 +342,6 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
-    ma: ReaderEither<R, E, A>
-  ) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(
-    mb: ReaderEither<R, E, B>
-  ) => ReaderEither<R, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-}
-```
-
-Added in v3.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <R, E1>(
     ma: ReaderEither<R, E1, A>
   ) => ReaderEither<R, E2 | E1, B>

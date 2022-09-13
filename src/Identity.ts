@@ -10,7 +10,7 @@ import type { Comonad as Comonad_ } from './Comonad'
 import { Either } from './Either'
 import type { Eq } from './Eq'
 import type { Foldable as Foldable_ } from './Foldable'
-import { apply, flow, identity, Lazy } from './function'
+import { apply, flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
@@ -121,21 +121,13 @@ export const traverse: <F extends HKT>(
 ) => flow(f, F.map(identity))
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <A>(second: Lazy<Identity<A>>) => (first: Identity<A>) => Identity<A> = altW
+export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => Identity<A | B> = () => identity
 
 /**
  * @category ChainRec

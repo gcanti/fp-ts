@@ -21,7 +21,6 @@ Added in v3.0.0
 
 - [Alt](#alt)
   - [alt](#alt)
-  - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
 - [Bifunctor](#bifunctor)
@@ -48,7 +47,6 @@ Added in v3.0.0
   - [chainTaskOptionK](#chaintaskoptionk)
   - [chainTaskOptionKW](#chaintaskoptionkw)
   - [filterOrElse](#filterorelse)
-  - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
   - [fromIOEitherK](#fromioeitherk)
@@ -157,7 +155,9 @@ See also [orElse](#orElse).
 **Signature**
 
 ```ts
-export declare const alt: <E, A>(second: Lazy<TaskEither<E, A>>) => (first: TaskEither<E, A>) => TaskEither<E, A>
+export declare const alt: <E2, B>(
+  second: Lazy<TaskEither<E2, B>>
+) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 **Example**
@@ -192,20 +192,6 @@ async function test() {
 }
 
 test()
-```
-
-Added in v3.0.0
-
-## altW
-
-Less strict version of [`alt`](#alt).
-
-**Signature**
-
-```ts
-export declare const altW: <E2, B>(
-  second: Lazy<TaskEither<E2, B>>
-) => <E1, A>(first: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -457,22 +443,6 @@ Added in v3.0.0
 
 ```ts
 export declare const filterOrElse: {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <B extends A>(mb: TaskEither<E, B>) => TaskEither<E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>
-}
-```
-
-Added in v3.0.0
-
-## filterOrElseW
-
-Less strict version of [`filterOrElse`](#filterOrElse).
-
-**Signature**
-
-```ts
-export declare const filterOrElseW: {
   <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <E1>(
     ma: TaskEither<E1, A>
   ) => TaskEither<E2 | E1, B>

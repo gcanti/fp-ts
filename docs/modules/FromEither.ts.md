@@ -83,13 +83,15 @@ export declare function filterOrElse<M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
 ): {
-  <A, B extends A, E>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R, W>(
-    ma: Kind<M, S, R, W, E, A>
-  ) => Kind<M, S, R, W, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, W, B extends A>(
-    mb: Kind<M, S, R, W, E, B>
-  ) => Kind<M, S, R, W, E, B>
-  <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+  <A, B extends A, E2>(refinement: Refinement<A, B>, onFalse: (a: A) => E2): <S, R, W, E1>(
+    ma: Kind<M, S, R, W, E1, A>
+  ) => Kind<M, S, R, W, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, W, E1, B extends A>(
+    mb: Kind<M, S, R, W, E1, B>
+  ) => Kind<M, S, R, W, E1 | E2, B>
+  <A, E2>(predicate: Predicate<A>, onFalse: (a: A) => E2): <S, R, W, E1>(
+    ma: Kind<M, S, R, W, E1, A>
+  ) => Kind<M, S, R, W, E1 | E2, A>
 }
 ```
 

@@ -213,11 +213,10 @@ export const chain = <M extends HKT>(M: Monad<M>) => <A, S, R, W, E, B>(
 /**
  * @since 3.0.0
  */
-export function alt<M extends HKT>(
-  M: Monad<M>
-): <S, R, W, E, A>(
-  second: Lazy<Kind<M, S, R, W, E, Option<A>>>
-) => (first: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<A>> {
-  const _some = some(M)
-  return (second) => M.chain(O.match(second, _some))
+export const alt = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
+  second: Lazy<Kind<M, S, R2, W2, E2, Option<B>>>
+) => <R1, W1, E1, A>(
+  first: Kind<M, S, R1, W1, E1, Option<A>>
+): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, Option<A | B>> => {
+  return pipe(first, M.chain(O.match<Kind<M, S, R2, W2, E2, O.Option<A | B>>, A | B>(second, some(M))))
 }

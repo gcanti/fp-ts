@@ -357,19 +357,9 @@ export const flatten: <R1, E1, R2, E2, A>(
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <R, E, A>(
-  second: Lazy<ReaderEither<R, E, A>>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.alt(R.Monad)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <R2, E2, B>(
+export const alt: <R2, E2, B>(
   second: () => ReaderEither<R2, E2, B>
-) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = alt as any
+) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ ET.alt(R.Monad)
 
 // -------------------------------------------------------------------------------------
 // instances

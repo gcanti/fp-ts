@@ -23,9 +23,9 @@ import type { HKT, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface Alt<F extends HKT> extends Functor<F> {
-  readonly alt: <S, R, W, E, A>(
-    second: Lazy<Kind<F, S, R, W, E, A>>
-  ) => (first: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
+  readonly alt: <S, R2, W2, E2, B>(
+    second: Lazy<Kind<F, S, R2, W2, E2, B>>
+  ) => <R1, W1, E1, A>(first: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, A | B>
 }
 
 // -------------------------------------------------------------------------------------

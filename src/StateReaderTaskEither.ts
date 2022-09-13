@@ -423,29 +423,19 @@ export const flatten: <S, R1, E1, R2, E2, A>(
 ) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2, B>) => <R1, E1, A>(
-  first: StateReaderTaskEither<S, R1, E1, A>
-): StateReaderTaskEither<S, R1 & R2, E2, A | B> => (r) =>
-  pipe(
-    first(r),
-    RTE.altW(() => second()(r))
-  )
-
-/**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
  * types of kind `* -> *`.
  *
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <S, R, E, A>(
-  second: Lazy<StateReaderTaskEither<S, R, E, A>>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = altW
+export const alt = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2, B>) => <R1, E1, A>(
+  first: StateReaderTaskEither<S, R1, E1, A>
+): StateReaderTaskEither<S, R1 & R2, E2, A | B> => (r) =>
+  pipe(
+    first(r),
+    RTE.alt(() => second()(r))
+  )
 
 // -------------------------------------------------------------------------------------
 // instances

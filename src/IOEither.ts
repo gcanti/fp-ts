@@ -358,19 +358,9 @@ export const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEithe
  * @category Alt
  * @since 3.0.0
  */
-export const alt: <E, A>(
-  second: Lazy<IOEither<E, A>>
-) => (first: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ ET.alt(I.Monad)
-
-/**
- * Less strict version of [`alt`](#alt).
- *
- * @category Alt
- * @since 3.0.0
- */
-export const altW: <E2, B>(
+export const alt: <E2, B>(
   second: Lazy<IOEither<E2, B>>
-) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = alt as any
+) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ ET.alt(I.Monad)
 
 // -------------------------------------------------------------------------------------
 // instances
