@@ -426,7 +426,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @since 3.0.0
  */
 export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['R'], this['A']>
+  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
 }
 
 /**
@@ -434,7 +434,7 @@ export interface ReadonlyMapF extends HKT {
  * @since 3.0.0
  */
 export interface ReadonlyMapFE<E> extends HKT {
-  readonly type: ReadonlyMap<E, this['A']>
+  readonly type: ReadonlyMap<E, this['Covariant1']>
 }
 
 /**

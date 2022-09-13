@@ -561,7 +561,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTaskF extends HKT {
-  readonly type: ReaderTask<this['R'], this['A']>
+  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
 }
 ```
 

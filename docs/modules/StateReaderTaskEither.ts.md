@@ -1197,7 +1197,12 @@ Added in v3.0.0
 
 ```ts
 export interface StateReaderTaskEitherF extends HKT {
-  readonly type: StateReaderTaskEither<this['S'], this['R'], this['E'], this['A']>
+  readonly type: StateReaderTaskEither<
+    this['Invariant1'],
+    this['Contravariant1'],
+    this['Covariant2'],
+    this['Covariant1']
+  >
 }
 ```
 

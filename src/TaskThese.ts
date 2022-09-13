@@ -228,7 +228,7 @@ export const of: <A, E = never>(a: A) => TaskThese<E, A> = right
  * @since 3.0.0
  */
 export interface TaskTheseF extends HKT {
-  readonly type: TaskThese<this['E'], this['A']>
+  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -236,7 +236,7 @@ export interface TaskTheseF extends HKT {
  * @since 3.0.0
  */
 export interface TaskTheseFE<E> extends HKT {
-  readonly type: TaskThese<E, this['A']>
+  readonly type: TaskThese<E, this['Covariant1']>
 }
 
 /**

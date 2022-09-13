@@ -272,7 +272,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOF extends HKT {
-  readonly type: IO<this['A']>
+  readonly type: IO<this['Covariant1']>
 }
 ```
 

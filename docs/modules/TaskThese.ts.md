@@ -479,7 +479,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskTheseF extends HKT {
-  readonly type: TaskThese<this['E'], this['A']>
+  readonly type: TaskThese<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -491,7 +491,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskTheseFE<E> extends HKT {
-  readonly type: TaskThese<E, this['A']>
+  readonly type: TaskThese<E, this['Covariant1']>
 }
 ```
 

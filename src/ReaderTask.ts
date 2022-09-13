@@ -177,7 +177,7 @@ export const flatten: <R, A>(mma: ReaderTask<R, ReaderTask<R, A>>) => ReaderTask
  * @since 3.0.0
  */
 export interface ReaderTaskF extends HKT {
-  readonly type: ReaderTask<this['R'], this['A']>
+  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
 }
 
 /**

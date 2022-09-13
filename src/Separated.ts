@@ -61,7 +61,7 @@ export const mapLeft: <E, G>(
  * @since 3.0.0
  */
 export interface SeparatedF extends HKT {
-  readonly type: Separated<this['E'], this['A']>
+  readonly type: Separated<this['Covariant2'], this['Covariant1']>
 }
 
 /**

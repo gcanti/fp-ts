@@ -279,7 +279,7 @@ export const mapSnd = mapLeft
  * @since 3.0.0
  */
 export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['R'], this['E'], this['A']>
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -287,7 +287,7 @@ export interface ReaderTaskWriterF extends HKT {
  * @since 3.0.0
  */
 export interface ReaderTaskWriterFE<E> extends HKT {
-  readonly type: ReaderTaskWriter<this['R'], E, this['A']>
+  readonly type: ReaderTaskWriter<this['Contravariant1'], E, this['Covariant1']>
 }
 
 /**

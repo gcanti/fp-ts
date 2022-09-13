@@ -618,7 +618,7 @@ export const traverse = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, FE, 
  * @since 3.0.0
  */
 export interface EitherF extends HKT {
-  readonly type: Either<this['E'], this['A']>
+  readonly type: Either<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -626,7 +626,7 @@ export interface EitherF extends HKT {
  * @since 3.0.0
  */
 export interface EitherFE<E> extends HKT {
-  readonly type: Either<E, this['A']>
+  readonly type: Either<E, this['Covariant1']>
 }
 
 /**

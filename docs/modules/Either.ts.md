@@ -959,7 +959,7 @@ Added in v3.0.0
 
 ```ts
 export interface EitherF extends HKT {
-  readonly type: Either<this['E'], this['A']>
+  readonly type: Either<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -971,7 +971,7 @@ Added in v3.0.0
 
 ```ts
 export interface EitherFE<E> extends HKT {
-  readonly type: Either<E, this['A']>
+  readonly type: Either<E, this['Covariant1']>
 }
 ```
 

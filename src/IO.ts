@@ -104,7 +104,7 @@ export const flatten: <A>(mma: IO<IO<A>>) => IO<A> = /*#__PURE__*/ chain(identit
  * @since 3.0.0
  */
 export interface IOF extends HKT {
-  readonly type: IO<this['A']>
+  readonly type: IO<this['Covariant1']>
 }
 
 /**

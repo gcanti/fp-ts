@@ -468,7 +468,7 @@ Added in v3.0.0
 
 ```ts
 export interface TheseF extends HKT {
-  readonly type: These<this['E'], this['A']>
+  readonly type: These<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -480,7 +480,7 @@ Added in v3.0.0
 
 ```ts
 export interface TheseFE<E> extends HKT {
-  readonly type: These<E, this['A']>
+  readonly type: These<E, this['Covariant1']>
 }
 ```
 

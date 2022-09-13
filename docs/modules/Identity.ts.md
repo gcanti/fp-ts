@@ -391,7 +391,7 @@ Added in v3.0.0
 
 ```ts
 export interface IdentityF extends HKT {
-  readonly type: Identity<this['A']>
+  readonly type: Identity<this['Covariant1']>
 }
 ```
 

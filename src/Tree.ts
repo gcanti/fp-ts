@@ -304,7 +304,7 @@ export const of: <A>(a: A) => Tree<A> = (a) => tree(a)
  * @since 3.0.0
  */
 export interface TreeF extends HKT {
-  readonly type: Tree<this['A']>
+  readonly type: Tree<this['Covariant1']>
 }
 
 /**

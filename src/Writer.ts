@@ -253,7 +253,7 @@ export const traverse = <F extends HKT>(F: Applicative<F>) => <A, S, R, FW, E, B
  * @since 3.0.0
  */
 export interface WriterF extends HKT {
-  readonly type: Writer<this['E'], this['A']>
+  readonly type: Writer<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -261,7 +261,7 @@ export interface WriterF extends HKT {
  * @since 3.0.0
  */
 export interface WriterFContra extends HKT {
-  readonly type: Writer<this['R'], this['A']>
+  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
 }
 
 /**
@@ -269,7 +269,7 @@ export interface WriterFContra extends HKT {
  * @since 3.0.0
  */
 export interface WriterFE<E> extends HKT {
-  readonly type: Writer<E, this['A']>
+  readonly type: Writer<E, this['Covariant1']>
 }
 
 /**

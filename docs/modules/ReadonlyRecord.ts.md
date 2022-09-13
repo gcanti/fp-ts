@@ -512,7 +512,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyRecordF extends HKT {
-  readonly type: ReadonlyRecord<string, this['A']>
+  readonly type: ReadonlyRecord<string, this['Covariant1']>
 }
 ```
 

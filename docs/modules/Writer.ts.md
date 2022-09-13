@@ -226,7 +226,7 @@ Added in v3.0.0
 
 ```ts
 export interface WriterF extends HKT {
-  readonly type: Writer<this['E'], this['A']>
+  readonly type: Writer<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -238,7 +238,7 @@ Added in v3.0.0
 
 ```ts
 export interface WriterFContra extends HKT {
-  readonly type: Writer<this['R'], this['A']>
+  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
 }
 ```
 
@@ -250,7 +250,7 @@ Added in v3.0.0
 
 ```ts
 export interface WriterFE<E> extends HKT {
-  readonly type: Writer<E, this['A']>
+  readonly type: Writer<E, this['Covariant1']>
 }
 ```
 

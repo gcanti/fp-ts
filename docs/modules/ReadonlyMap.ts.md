@@ -407,7 +407,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['R'], this['A']>
+  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
 }
 ```
 
@@ -419,7 +419,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyMapFE<E> extends HKT {
-  readonly type: ReadonlyMap<E, this['A']>
+  readonly type: ReadonlyMap<E, this['Covariant1']>
 }
 ```
 

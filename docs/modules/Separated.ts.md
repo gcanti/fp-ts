@@ -127,7 +127,7 @@ Added in v3.0.0
 
 ```ts
 export interface SeparatedF extends HKT {
-  readonly type: Separated<this['E'], this['A']>
+  readonly type: Separated<this['Covariant2'], this['Covariant1']>
 }
 ```
 

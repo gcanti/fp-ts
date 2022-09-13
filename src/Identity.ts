@@ -152,7 +152,7 @@ export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => 
  * @since 3.0.0
  */
 export interface IdentityF extends HKT {
-  readonly type: Identity<this['A']>
+  readonly type: Identity<this['Covariant1']>
 }
 
 /**

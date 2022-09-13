@@ -1126,7 +1126,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskEitherF extends HKT {
-  readonly type: TaskEither<this['E'], this['A']>
+  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -1138,7 +1138,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskEitherFE<E> extends HKT {
-  readonly type: TaskEither<E, this['A']>
+  readonly type: TaskEither<E, this['Covariant1']>
 }
 ```
 

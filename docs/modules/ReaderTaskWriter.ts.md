@@ -260,7 +260,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['R'], this['E'], this['A']>
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -272,7 +272,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderTaskWriterFE<E> extends HKT {
-  readonly type: ReaderTaskWriter<this['R'], E, this['A']>
+  readonly type: ReaderTaskWriter<this['Contravariant1'], E, this['Covariant1']>
 }
 ```
 

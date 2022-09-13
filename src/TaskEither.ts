@@ -598,7 +598,7 @@ export const of: <A, E = never>(a: A) => TaskEither<E, A> = right
  * @since 3.0.0
  */
 export interface TaskEitherF extends HKT {
-  readonly type: TaskEither<this['E'], this['A']>
+  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -606,7 +606,7 @@ export interface TaskEitherF extends HKT {
  * @since 3.0.0
  */
 export interface TaskEitherFE<E> extends HKT {
-  readonly type: TaskEither<E, this['A']>
+  readonly type: TaskEither<E, this['Covariant1']>
 }
 
 /**

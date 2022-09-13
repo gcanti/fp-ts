@@ -520,7 +520,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReaderF extends HKT {
-  readonly type: Reader<this['R'], this['A']>
+  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
 }
 ```
 

@@ -931,7 +931,7 @@ Added in v3.0.0
 
 ```ts
 export interface OptionF extends HKT {
-  readonly type: Option<this['A']>
+  readonly type: Option<this['Covariant1']>
 }
 ```
 

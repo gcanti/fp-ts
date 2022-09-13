@@ -6,7 +6,7 @@ export interface Inv<A> {
 }
 
 export interface InvF extends HKT {
-  readonly type: Inv<this['S']>
+  readonly type: Inv<this['Invariant1']>
 }
 
 const Invariant: Invariant<InvF> = {

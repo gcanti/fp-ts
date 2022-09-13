@@ -169,7 +169,7 @@ Added in v3.0.0
 
 ```ts
 export interface OrdF extends HKT {
-  readonly type: Ord<this['R']>
+  readonly type: Ord<this['Contravariant1']>
 }
 ```
 

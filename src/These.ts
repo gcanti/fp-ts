@@ -291,7 +291,7 @@ export const of: <A, E = never>(right: A) => These<E, A> = right
  * @since 3.0.0
  */
 export interface TheseF extends HKT {
-  readonly type: These<this['E'], this['A']>
+  readonly type: These<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -299,7 +299,7 @@ export interface TheseF extends HKT {
  * @since 3.0.0
  */
 export interface TheseFE<E> extends HKT {
-  readonly type: These<E, this['A']>
+  readonly type: These<E, this['Covariant1']>
 }
 
 /**

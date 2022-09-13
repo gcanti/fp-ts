@@ -656,7 +656,7 @@ export const altW: <R2, E2, B>(
  * @since 3.0.0
  */
 export interface ReaderTaskEitherF extends HKT {
-  readonly type: ReaderTaskEither<this['R'], this['E'], this['A']>
+  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -664,7 +664,7 @@ export interface ReaderTaskEitherF extends HKT {
  * @since 3.0.0
  */
 export interface ReaderTaskEitherFE<E> extends HKT {
-  readonly type: ReaderTaskEither<this['R'], E, this['A']>
+  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
 }
 
 /**

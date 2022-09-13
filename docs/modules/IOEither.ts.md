@@ -865,7 +865,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOEitherF extends HKT {
-  readonly type: IOEither<this['E'], this['A']>
+  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
 }
 ```
 
@@ -877,7 +877,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOEitherFE<E> extends HKT {
-  readonly type: IOEither<E, this['A']>
+  readonly type: IOEither<E, this['Covariant1']>
 }
 ```
 

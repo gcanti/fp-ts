@@ -1673,7 +1673,7 @@ export const unfold: <B, A>(b: B, f: (b: B) => Option<readonly [A, B]>) => Reado
  * @since 3.0.0
  */
 export interface ReadonlyArrayF extends HKT {
-  readonly type: ReadonlyArray<this['A']>
+  readonly type: ReadonlyArray<this['Covariant1']>
 }
 
 /**

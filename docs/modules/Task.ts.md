@@ -374,7 +374,7 @@ Added in v3.0.0
 
 ```ts
 export interface TaskF extends HKT {
-  readonly type: Task<this['A']>
+  readonly type: Task<this['Covariant1']>
 }
 ```
 

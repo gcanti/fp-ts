@@ -20,17 +20,12 @@ export interface Typeclass<F extends HKT> {
  * @since 3.0.0
  */
 export interface HKT {
-  /** invariant */
-  readonly S?: unknown
-  /** contravariant */
-  readonly R?: unknown
-  /** covariant */
-  readonly W?: unknown
-  /** covariant */
-  readonly E?: unknown
-  /** covariant */
-  readonly A?: unknown
-  readonly type?: unknown
+  readonly Invariant1: unknown
+  readonly Contravariant1: unknown
+  readonly Covariant3: unknown
+  readonly Covariant2: unknown
+  readonly Covariant1: unknown
+  readonly type: unknown
 }
 
 /**
@@ -40,17 +35,17 @@ export type Kind<F extends HKT, S, R, W, E, A> = F extends {
   readonly type: unknown
 }
   ? (F & {
-      readonly S: S
-      readonly R: R
-      readonly W: W
-      readonly E: E
-      readonly A: A
+      readonly Invariant1: S
+      readonly Contravariant1: R
+      readonly Covariant3: W
+      readonly Covariant2: E
+      readonly Covariant1: A
     })['type']
   : {
-      readonly _F: F
-      readonly _S: (_: S) => S
-      readonly _R: (_: R) => void
-      readonly _W: () => W
-      readonly _E: () => E
-      readonly _A: () => A
+      readonly F: F
+      readonly Invariant1: (_: S) => S
+      readonly Contravariant1: (_: R) => void
+      readonly Covariant3: () => W
+      readonly Covariant2: () => E
+      readonly Covariant1: () => A
     }

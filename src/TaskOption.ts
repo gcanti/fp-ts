@@ -409,7 +409,7 @@ export const partitionMap: <A, B, C>(
  * @since 3.0.0
  */
 export interface TaskOptionF extends HKT {
-  readonly type: TaskOption<this['A']>
+  readonly type: TaskOption<this['Covariant1']>
 }
 
 /**

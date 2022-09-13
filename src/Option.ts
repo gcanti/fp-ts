@@ -656,7 +656,7 @@ export const traverse: <F extends HKT>(
  * @since 3.0.0
  */
 export interface OptionF extends HKT {
-  readonly type: Option<this['A']>
+  readonly type: Option<this['Covariant1']>
 }
 
 /**

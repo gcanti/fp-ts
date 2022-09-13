@@ -125,7 +125,7 @@ export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__P
  * @since 3.0.0
  */
 export interface StateF extends HKT {
-  readonly type: State<this['S'], this['A']>
+  readonly type: State<this['Invariant1'], this['Covariant1']>
 }
 
 /**

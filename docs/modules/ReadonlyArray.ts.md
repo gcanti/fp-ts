@@ -1885,7 +1885,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyArrayF extends HKT {
-  readonly type: ReadonlyArray<this['A']>
+  readonly type: ReadonlyArray<this['Covariant1']>
 }
 ```
 

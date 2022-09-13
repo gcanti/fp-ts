@@ -946,7 +946,7 @@ export const extract: Comonad_<ReadonlyNonEmptyArrayF>['extract'] = _.head
  * @since 3.0.0
  */
 export interface ReadonlyNonEmptyArrayF extends HKT {
-  readonly type: ReadonlyNonEmptyArray<this['A']>
+  readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
 }
 
 /**

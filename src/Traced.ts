@@ -40,7 +40,7 @@ export const map: <A, B>(f: (a: A) => B) => <P>(fa: Traced<P, A>) => Traced<P, B
  * @since 3.0.0
  */
 export interface TracedF extends HKT {
-  readonly type: Traced<this['E'], this['A']>
+  readonly type: Traced<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -48,7 +48,7 @@ export interface TracedF extends HKT {
  * @since 3.0.0
  */
 export interface TracedFE<E> extends HKT {
-  readonly type: Traced<E, this['A']>
+  readonly type: Traced<E, this['Covariant1']>
 }
 
 /**

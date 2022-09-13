@@ -83,7 +83,7 @@ export const mapLeft: <E, G>(
  * @since 3.0.0
  */
 export interface ConstF extends HKT {
-  readonly type: Const<this['E'], this['A']>
+  readonly type: Const<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -91,7 +91,7 @@ export interface ConstF extends HKT {
  * @since 3.0.0
  */
 export interface ConstFR extends HKT {
-  readonly type: Const<this['E'], this['R']>
+  readonly type: Const<this['Covariant1'], this['Contravariant1']>
 }
 
 /**
@@ -99,7 +99,7 @@ export interface ConstFR extends HKT {
  * @since 3.0.0
  */
 export interface ConstFE<E> extends HKT {
-  readonly type: Const<E, this['A']>
+  readonly type: Const<E, this['Covariant1']>
 }
 
 /**

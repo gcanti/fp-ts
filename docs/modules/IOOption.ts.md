@@ -686,7 +686,7 @@ Added in v3.0.0
 
 ```ts
 export interface IOOptionF extends HKT {
-  readonly type: IOOption<this['A']>
+  readonly type: IOOption<this['Covariant1']>
 }
 ```
 

@@ -399,7 +399,7 @@ export const altW: <E2, B>(
  * @since 3.0.0
  */
 export interface IOEitherF extends HKT {
-  readonly type: IOEither<this['E'], this['A']>
+  readonly type: IOEither<this['Covariant2'], this['Covariant1']>
 }
 
 /**
@@ -407,7 +407,7 @@ export interface IOEitherF extends HKT {
  * @since 3.0.0
  */
 export interface IOEitherFE<E> extends HKT {
-  readonly type: IOEither<E, this['A']>
+  readonly type: IOEither<E, this['Covariant1']>
 }
 
 /**

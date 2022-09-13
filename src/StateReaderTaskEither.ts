@@ -473,7 +473,12 @@ export const alt: <S, R, E, A>(
  * @since 3.0.0
  */
 export interface StateReaderTaskEitherF extends HKT {
-  readonly type: StateReaderTaskEither<this['S'], this['R'], this['E'], this['A']>
+  readonly type: StateReaderTaskEither<
+    this['Invariant1'],
+    this['Contravariant1'],
+    this['Covariant2'],
+    this['Covariant1']
+  >
 }
 
 /**
