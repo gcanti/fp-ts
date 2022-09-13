@@ -13,5 +13,5 @@ import type { Semigroupoid } from './Semigroupoid'
  * @since 3.0.0
  */
 export interface Category<F extends HKT> extends Semigroupoid<F> {
-  readonly id: <S, R, W, E>() => Kind<F, S, R, W, E, R>
+  readonly id: <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R>
 }

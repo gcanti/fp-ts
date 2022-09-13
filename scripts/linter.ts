@@ -587,13 +587,13 @@ export const lintSignature = (path: string, s: Signature): ReadonlyArray<Lint> =
       path,
       pipe(
         s.typeParameters,
-        RA.map((tp) => tp.name),
-        RA.append('-')
+        RA.map((tp) => tp.name)
+        // RA.append('-')
       ),
       pipe(
         s.parameters,
-        RA.chain((p) => getTypeArguments(p.type)),
-        RA.append('-')
+        RA.chain((p) => getTypeArguments(p.type))
+        // RA.append('-')
       )
     ),
     append(lintType(s.returnType))
@@ -666,8 +666,8 @@ export const project = new ast.Project({
   compilerOptions
 })
 
-// export const paths = glob.sync('src/**/*.ts')
-export const paths = glob.sync('src/These.ts')
+export const paths = glob.sync('dist/types/**/*.ts')
+// export const paths = glob.sync('src/These.ts')
 paths.forEach((path) => project.addSourceFileAtPath(path))
 const files = pipe(project.getSourceFiles(), RA.map(parseFile))
 const checks = pipe(
