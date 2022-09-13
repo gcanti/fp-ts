@@ -20,7 +20,8 @@
     "dtslint": "dtslint dtslint",
     "docs": "docs-ts",
     "prerelease": "npm run build",
-    "release": "ts-node scripts/release"
+    "release": "ts-node scripts/release",
+    "prepare": "sh scripts/prepare.sh"
   },
   "repository": {
     "type": "git",
