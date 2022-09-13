@@ -52,7 +52,9 @@ Added in v3.0.0
 export declare const chainFirstEitherK: <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-) => <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -100,7 +102,9 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <F extends HKT>(
   F: FromEither<F>
-) => <A extends readonly unknown[], E, B>(f: (...a: A) => Either<E, B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], E, B>(
+  f: (...a: A) => Either<E, B>
+) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -114,7 +118,9 @@ export declare const fromOptionK: <F extends HKT>(
   F: FromEither<F>
 ) => <E>(
   onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -128,7 +134,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOption: <F extends HKT>(
   F: FromEither<F>
-) => <E>(onNone: Lazy<E>) => <A, S, R, W>(fa: Option<A>) => Kind<F, S, R, W, E, A>
+) => <E>(onNone: Lazy<E>) => <A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -141,9 +147,9 @@ Added in v3.0.0
 export declare const fromPredicate: <F extends HKT>(
   F: FromEither<F>
 ) => {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W>(a: A) => Kind<F, S, R, W, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, S, R, W>(b: B) => Kind<F, S, R, W, B, B>
-  <A>(predicate: Predicate<A>): <S, R, W>(a: A) => Kind<F, S, R, W, A, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
+  <A>(predicate: Predicate<A>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, A>
 }
 ```
 

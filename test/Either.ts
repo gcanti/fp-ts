@@ -75,12 +75,6 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
     })
 
-    it('chainFirstW', () => {
-      const f = _.chainFirstW<string, string, number>(flow(S.size, _.of))
-      U.deepStrictEqual(pipe(_.right('abc'), f), _.right('abc'))
-      U.deepStrictEqual(pipe(_.left('maError'), f), _.left('maError'))
-    })
-
     it('duplicate', () => {
       U.deepStrictEqual(pipe(_.right('a'), _.duplicate), _.right(_.right('a')))
     })

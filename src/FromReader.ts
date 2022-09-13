@@ -30,7 +30,9 @@ export interface FromReader<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export function ask<F extends HKT>(F: FromReader<F>): <S, R, W, E>() => Kind<F, S, R, W, E, R> {
+export function ask<F extends HKT>(
+  F: FromReader<F>
+): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, R> {
   return () => F.fromReader(R.ask())
 }
 
@@ -38,7 +40,9 @@ export function ask<F extends HKT>(F: FromReader<F>): <S, R, W, E>() => Kind<F, 
  * @category constructors
  * @since 3.0.0
  */
-export function asks<F extends HKT>(F: FromReader<F>): <R, A, S, W, E>(f: (r: R) => A) => Kind<F, S, R, W, E, A> {
+export function asks<F extends HKT>(
+  F: FromReader<F>
+): <R, A, S, W = never, E = never>(f: (r: R) => A) => Kind<F, S, R, W, E, A> {
   return F.fromReader
 }
 
@@ -52,7 +56,7 @@ export function asks<F extends HKT>(F: FromReader<F>): <R, A, S, W, E>(f: (r: R)
  */
 export const fromReaderK = <F extends HKT>(F: FromReader<F>) => <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => Reader<R, B>
-) => <S, W, E>(...a: A): Kind<F, S, R, W, E, B> => F.fromReader(f(...a))
+) => <S, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromReader(f(...a))
 
 /**
  * @category combinators

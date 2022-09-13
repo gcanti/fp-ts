@@ -30,7 +30,7 @@ export interface FromIO<F extends HKT> extends Typeclass<F> {
  */
 export const fromIOK = <F extends HKT>(F: FromIO<F>) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, B> => F.fromIO(f(...a))
+) => <S, R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromIO(f(...a))
 
 /**
  * @category combinators

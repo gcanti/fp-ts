@@ -237,23 +237,9 @@ export const Monad: Monad_<ReaderIOF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, R2, B>(
+export const chainFirst: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = chainFirst as any
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances

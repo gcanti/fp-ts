@@ -777,19 +777,9 @@ export const ApplicativeSeq: Applicative<TaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (first: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, E2, B>(
+export const chainFirst: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = chainFirst as any
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -949,7 +939,7 @@ export const chainEitherKW: <A, E2, B>(
  */
 export const chainFirstEitherKW: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirstW(fromEitherK(f))
+) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = (f) => chainFirst(fromEitherK(f))
 
 /**
  * @category combinators

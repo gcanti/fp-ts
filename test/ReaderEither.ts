@@ -54,11 +54,6 @@ describe('ReaderEither', () => {
       U.deepStrictEqual(pipe(_.right(1), _.chainFirst(f))({}), E.right(1))
     })
 
-    it('chainFirstW', () => {
-      const f = flow(U.double, _.of)
-      U.deepStrictEqual(pipe(_.right(1), _.chainFirstW(f))({}), E.right(1))
-    })
-
     it('flatten', () => {
       U.deepStrictEqual(pipe(_.right(_.right('a')), _.flatten)({}), E.right('a'))
     })

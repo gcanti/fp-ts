@@ -40,7 +40,6 @@ Added in v3.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
@@ -323,20 +322,6 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => I.IO<B>) => <E>(first: I
 
 Added in v3.0.0
 
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst).
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, E2, B>(
-  f: (a: A) => IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## chainIOK
 
 **Signature**
@@ -615,7 +600,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => IOEither<E, B>) => (first: IOEither<E, A>) => IOEither<E, A>
+export declare const chainFirst: <A, E2, B>(
+  f: (a: A) => IOEither<E2, B>
+) => <E1>(first: IOEither<E1, A>) => IOEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

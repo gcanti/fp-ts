@@ -37,7 +37,6 @@ Added in v3.0.0
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -383,20 +382,6 @@ Added in v3.0.0
 export declare const chainFirstTaskK: <A, B>(
   f: (a: A) => Task<B>
 ) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst).
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, S, R2, E2, B>(
-  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -1008,9 +993,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+export declare const chainFirst: <A, S, R2, E2, B>(
+  f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(first: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, A>
 ```
 
 Added in v3.0.0

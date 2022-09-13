@@ -42,7 +42,6 @@ Added in v3.0.0
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainFirstW](#chainfirstw)
   - [chainIOEitherK](#chainioeitherk)
   - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
@@ -394,20 +393,6 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst).
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, E2, B>(
-  f: (a: A) => TaskEither<E2, B>
-) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0
@@ -844,9 +829,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => (first: TaskEither<E, A>) => TaskEither<E, A>
+export declare const chainFirst: <A, E2, B>(
+  f: (a: A) => TaskEither<E2, B>
+) => <E1>(first: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```
 
 Added in v3.0.0

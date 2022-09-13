@@ -25,7 +25,6 @@ Added in v3.0.0
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
@@ -185,22 +184,6 @@ Added in v3.0.0
 
 ```ts
 export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, R2, B>(
-  f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -398,9 +381,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
+export declare const chainFirst: <A, R2, B>(
+  f: (a: A) => ReaderTask<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0

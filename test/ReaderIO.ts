@@ -35,12 +35,7 @@ describe('ReaderIO', () => {
 
   it('chainFirst', () => {
     const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of('foo'), _.chainFirst(f))({})(), 'foo')
-  })
-
-  it('chainFirstW', () => {
-    const f = (a: string) => _.of(a.length)
-    U.deepStrictEqual(pipe(_.of<string, object>('foo'), _.chainFirstW(f))({})(), 'foo')
+    U.deepStrictEqual(pipe(_.of<string, object>('foo'), _.chainFirst(f))({})(), 'foo')
   })
 
   type R1 = { readonly env1: unknown }

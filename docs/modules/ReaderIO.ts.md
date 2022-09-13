@@ -29,7 +29,6 @@ Added in v3.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
-  - [chainFirstW](#chainfirstw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
@@ -192,7 +191,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
+export declare const chainFirst: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -229,24 +230,6 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
-```
-
-Added in v3.0.0
-
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, R2, B>(
-  f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0

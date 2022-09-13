@@ -42,14 +42,9 @@ describe('ReaderTaskEither', () => {
     })
 
     it('chainFirst', async () => {
-      const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('b'))
-      U.deepStrictEqual(await pipe(_.right('aaa'), _.chainFirst(f))({})(), E.right('aaa'))
-    })
-
-    it('chainFirstW', async () => {
       const f = (a: string): _.ReaderTaskEither<unknown, string, number> =>
         a.length > 2 ? _.right(a.length) : _.left('b')
-      U.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.chainFirstW(f))({})(), E.right('aaa'))
+      U.deepStrictEqual(await pipe(_.right<string, object, number>('aaa'), _.chainFirst(f))({})(), E.right('aaa'))
     })
 
     it('flatten', async () => {

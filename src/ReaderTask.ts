@@ -271,21 +271,9 @@ export const ApplicativeSeq: Applicative_<ReaderTaskF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainfirst).
- *
- * Derivable from `Chain`.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, R2, B>(
+export const chainFirst: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = chainFirst as any
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances

@@ -34,7 +34,7 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
  */
 export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
   onNone: Lazy<E>
-): (<A, S, R, W>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
+): (<A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
   return (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
 }
 
@@ -45,10 +45,10 @@ export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
 export const fromPredicate = <F extends HKT>(
   F: FromEither<F>
 ): {
-  <A, B extends A>(refinement: Refinement<A, B>): <S, R, W>(a: A) => Kind<F, S, R, W, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, S, R, W>(b: B) => Kind<F, S, R, W, B, B>
-  <A>(predicate: Predicate<A>): <S, R, W>(a: A) => Kind<F, S, R, W, A, A>
-} => <A>(predicate: Predicate<A>) => <S, R, W>(a: A): Kind<F, S, R, W, A, A> =>
+  <A, B extends A>(refinement: Refinement<A, B>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, S, R = unknown, W = never>(b: B) => Kind<F, S, R, W, B, B>
+  <A>(predicate: Predicate<A>): <S, R = unknown, W = never>(a: A) => Kind<F, S, R, W, A, A>
+} => <A>(predicate: Predicate<A>) => <S, R = unknown, W = never>(a: A): Kind<F, S, R, W, A, A> =>
   F.fromEither(predicate(a) ? _.right(a) : _.left(a))
 
 // -------------------------------------------------------------------------------------
@@ -65,7 +65,7 @@ export const fromOptionK = <F extends HKT>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>) => {
+) => <S, R = unknown, W = never>(...a: A) => Kind<F, S, R, W, E, B>) => {
   const fromOptionF = fromOption(F)
   return (onNone) => {
     const from = fromOptionF(onNone)
@@ -97,7 +97,7 @@ export const chainOptionK = <M extends HKT>(
  */
 export const fromEitherK = <F extends HKT>(F: FromEither<F>) => <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => <S, R, W>(...a: A): Kind<F, S, R, W, E, B> => F.fromEither(f(...a))
+) => <S, R = unknown, W = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromEither(f(...a))
 
 /**
  * @category combinators
@@ -108,7 +108,7 @@ export const chainEitherK = <M extends HKT>(
   M: Chain<M>
 ): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   const fromEitherKF = fromEitherK(F)
-  return <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) =>
+  return <A, E, B>(f: (a: A) => Either<E, B>) => <S, R = unknown, W = never>(ma: Kind<M, S, R, W, E, A>) =>
     pipe(ma, M.chain<A, S, R, W, E, B>(fromEitherKF(f)))
 }
 
@@ -119,7 +119,9 @@ export const chainEitherK = <M extends HKT>(
 export const chainFirstEitherK = <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+): (<A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E1 | E2, A>) => {
   const chainFirstM = chainFirst(M)
   const fromEitherKF = fromEitherK(F)
   return (f) => {

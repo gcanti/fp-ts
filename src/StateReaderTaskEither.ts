@@ -668,21 +668,11 @@ export const Monad: Monad_<StateReaderTaskEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, S, R2, E2, B>(
+export const chainFirst: <A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
   first: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = chainFirst as any
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances

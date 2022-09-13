@@ -566,19 +566,9 @@ export const Monad: Monad_<ReaderEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (first: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainFirst)
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, R2, E2, B>(
+export const chainFirst: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = chainFirst as any
+) => <R1, E1>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances

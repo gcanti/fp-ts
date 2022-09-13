@@ -30,7 +30,9 @@ export interface FromState<F extends HKT> extends Typeclass<F> {
  * @category constructors
  * @since 3.0.0
  */
-export function get<F extends HKT>(F: FromState<F>): <S, R, W, E>() => Kind<F, S, R, W, E, S> {
+export function get<F extends HKT>(
+  F: FromState<F>
+): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, S> {
   return () => F.fromState(S.get())
 }
 
@@ -38,7 +40,9 @@ export function get<F extends HKT>(F: FromState<F>): <S, R, W, E>() => Kind<F, S
  * @category constructors
  * @since 3.0.0
  */
-export function put<F extends HKT>(F: FromState<F>): <S, R, W, E>(s: S) => Kind<F, S, R, W, E, void> {
+export function put<F extends HKT>(
+  F: FromState<F>
+): <S, R = unknown, W = never, E = never>(s: S) => Kind<F, S, R, W, E, void> {
   return (s) => F.fromState(S.put(s))
 }
 
@@ -46,15 +50,17 @@ export function put<F extends HKT>(F: FromState<F>): <S, R, W, E>(s: S) => Kind<
  * @category constructors
  * @since 3.0.0
  */
-export const modify = <F extends HKT>(F: FromState<F>) => <S, R, W, E>(f: Endomorphism<S>): Kind<F, S, R, W, E, void> =>
-  F.fromState(S.modify(f))
+export const modify = <F extends HKT>(F: FromState<F>) => <S, R = unknown, W = never, E = never>(
+  f: Endomorphism<S>
+): Kind<F, S, R, W, E, void> => F.fromState(S.modify(f))
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R, W, E>(f: (s: S) => A): Kind<F, S, R, W, E, A> =>
-  F.fromState(S.gets(f))
+export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R = unknown, W = never, E = never>(
+  f: (s: S) => A
+): Kind<F, S, R, W, E, A> => F.fromState(S.gets(f))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -66,7 +72,7 @@ export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R, W, E>(f: (s: S
  */
 export const fromStateK = <F extends HKT>(F: FromState<F>) => <A extends ReadonlyArray<unknown>, S, B>(
   f: (...a: A) => State<S, B>
-) => <R, W, E>(...a: A): Kind<F, S, R, W, E, B> => F.fromState(f(...a))
+) => <R = unknown, W = never, E = never>(...a: A): Kind<F, S, R, W, E, B> => F.fromState(f(...a))
 
 /**
  * @category combinators

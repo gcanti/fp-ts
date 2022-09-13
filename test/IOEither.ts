@@ -72,15 +72,9 @@ describe('IOEither', () => {
   })
 
   it('chainFirst', () => {
-    const f = (a: string) => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-    U.deepStrictEqual(pipe(_.right('foo'), _.chainFirst(f))(), E.right('foo'))
-    U.deepStrictEqual(pipe(_.right('a'), _.chainFirst(f))(), E.left('foo'))
-  })
-
-  it('chainFirstW', () => {
     const f = (a: string): _.IOEither<string, number> => (a.length > 2 ? _.right(a.length) : _.left('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.chainFirstW(f))(), E.right('foo'))
-    U.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.chainFirstW(f))(), E.left('foo'))
+    U.deepStrictEqual(pipe(_.right<string, boolean>('foo'), _.chainFirst(f))(), E.right('foo'))
+    U.deepStrictEqual(pipe(_.right<string, boolean>('a'), _.chainFirst(f))(), E.left('foo'))
   })
 
   it('flatten', () => {

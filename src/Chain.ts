@@ -38,9 +38,9 @@ export const ap = <F extends HKT>(M: Chain<F>): Apply<F>['ap'] => (fa) => (fab) 
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirst = <M extends HKT>(M: Chain<M>) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, B>
-): ((first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) =>
+export const chainFirst = <M extends HKT>(M: Chain<M>) => <A, S, R2, W2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, E2, B>
+): (<R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A>) =>
   M.chain((a) =>
     pipe(
       f(a),

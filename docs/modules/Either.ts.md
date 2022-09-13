@@ -48,7 +48,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [apFirstW](#apfirstw)
   - [apSecondW](#apsecondw)
-  - [chainFirstW](#chainfirstw)
   - [chainOptionK](#chainoptionk)
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
@@ -375,20 +374,6 @@ export declare const apSecondW: <E2, B>(second: Either<E2, B>) => <E1, A>(first:
 
 Added in v3.0.0
 
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainFirst)
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, E2, B>(
-  f: (a: A) => Either<E2, B>
-) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
-```
-
-Added in v3.0.0
-
 ## chainOptionK
 
 **Signature**
@@ -637,7 +622,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => Either<E, B>) => (first: Either<E, A>) => Either<E, A>
+export declare const chainFirst: <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <E1>(first: Either<E1, A>) => Either<E2 | E1, A>
 ```
 
 Added in v3.0.0

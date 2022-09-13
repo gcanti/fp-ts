@@ -49,7 +49,9 @@ Added in v3.0.0
 ```ts
 export declare const fromStateK: <F extends HKT>(
   F: FromState<F>
-) => <A extends readonly unknown[], S, B>(f: (...a: A) => S.State<S, B>) => <R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], S, B>(
+  f: (...a: A) => S.State<S, B>
+) => <R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -61,7 +63,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function get<F extends HKT>(F: FromState<F>): <S, R, W, E>() => Kind<F, S, R, W, E, S>
+export declare function get<F extends HKT>(
+  F: FromState<F>
+): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, S>
 ```
 
 Added in v3.0.0
@@ -71,7 +75,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const gets: <F extends HKT>(F: FromState<F>) => <S, A, R, W, E>(f: (s: S) => A) => Kind<F, S, R, W, E, A>
+export declare const gets: <F extends HKT>(
+  F: FromState<F>
+) => <S, A, R = unknown, W = never, E = never>(f: (s: S) => A) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -83,7 +89,7 @@ Added in v3.0.0
 ```ts
 export declare const modify: <F extends HKT>(
   F: FromState<F>
-) => <S, R, W, E>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void>
+) => <S, R = unknown, W = never, E = never>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0
@@ -93,7 +99,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function put<F extends HKT>(F: FromState<F>): <S, R, W, E>(s: S) => Kind<F, S, R, W, E, void>
+export declare function put<F extends HKT>(
+  F: FromState<F>
+): <S, R = unknown, W = never, E = never>(s: S) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0

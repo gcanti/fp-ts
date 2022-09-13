@@ -35,7 +35,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [apFirstW](#apfirstw)
   - [apSecondW](#apsecondw)
-  - [chainFirstW](#chainfirstw)
   - [flap](#flap)
   - [local](#local)
 - [constructors](#constructors)
@@ -240,22 +239,6 @@ export declare const apSecondW: <R2, B>(second: Reader<R2, B>) => <R1, A>(first:
 
 Added in v3.0.0
 
-## chainFirstW
-
-Less strict version of [`chainFirst`](#chainfirst).
-
-Derivable from `Chain`.
-
-**Signature**
-
-```ts
-export declare const chainFirstW: <A, R2, B>(
-  f: (a: A) => Reader<R2, B>
-) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## flap
 
 Derivable from `Functor`.
@@ -369,7 +352,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
+export declare const chainFirst: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

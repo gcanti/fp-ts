@@ -45,9 +45,9 @@ Added in v3.0.0
 ```ts
 export declare const chainFirst: <M extends HKT>(
   M: Chain<M>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, B>
-) => (first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, S, R2, W2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, E2, B>
+) => <R1, W1, E1>(first: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, A>
 ```
 
 Added in v3.0.0

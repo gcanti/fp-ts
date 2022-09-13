@@ -58,7 +58,9 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <F extends HKT>(
   F: FromTask<F>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => Task<B>
+) => <S, R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

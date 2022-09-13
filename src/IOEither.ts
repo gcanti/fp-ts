@@ -585,19 +585,9 @@ export const ApplicativeSeq: Applicative<IOEitherF> = {
  * @category derivable combinators
  * @since 3.0.0
  */
-export const chainFirst: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (first: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirst_(Chain)
-
-/**
- * Less strict version of [`chainFirst`](#chainFirst).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstW: <A, E2, B>(
+export const chainFirst: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirst as any
+) => <E1>(first: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
