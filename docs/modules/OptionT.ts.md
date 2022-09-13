@@ -83,11 +83,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainNullableK<M extends HKT>(
+export declare const chainNullableK: <M extends HKT>(
   M: Monad<M>
-): <A, B>(
+) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, O.Option<A>>) => Kind<M, S, R, W, E, O.Option<NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -97,9 +97,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainOptionK<M extends HKT>(
+export declare const chainOptionK: <M extends HKT>(
   M: Monad<M>
-): <A, B>(f: (a: A) => Option<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>
+) => <A, B>(
+  f: (a: A) => O.Option<B>
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, O.Option<A>>) => Kind<M, S, R, W, E, O.Option<B>>
 ```
 
 Added in v3.0.0
@@ -109,9 +111,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEither<F extends HKT>(
+export declare const fromEither: <F extends HKT>(
   F: Pointed<F>
-): <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, Option<A>>
+) => <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, O.Option<A>>
 ```
 
 Added in v3.0.0
@@ -133,9 +135,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromNullable<F extends HKT>(
+export declare const fromNullable: <F extends HKT>(
   F: Pointed<F>
-): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<NonNullable<A>>>
+) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, O.Option<NonNullable<A>>>
 ```
 
 Added in v3.0.0
@@ -159,11 +161,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromOptionK<F extends HKT>(
+export declare const fromOptionK: <F extends HKT>(
   F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(
-  f: (...a: A) => Option<B>
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<B>>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => O.Option<B>
+) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, O.Option<B>>
 ```
 
 Added in v3.0.0
@@ -257,7 +259,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function some<F extends HKT>(F: Pointed<F>): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>>
+export declare const some: <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, O.Option<A>>
 ```
 
 Added in v3.0.0

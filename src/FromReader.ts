@@ -4,7 +4,6 @@
  * @since 3.0.0
  */
 import { Chain, chainFirst } from './Chain'
-import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as R from './Reader'
 
@@ -50,35 +49,29 @@ export function asks<F extends HKT>(F: FromReader<F>): <R, A, S, W, E>(f: (r: R)
  * @category combinators
  * @since 3.0.0
  */
-export function fromReaderK<F extends HKT>(
-  F: FromReader<F>
-): <A extends ReadonlyArray<unknown>, R, B>(
+export const fromReaderK = <F extends HKT>(F: FromReader<F>) => <A extends ReadonlyArray<unknown>, R, B>(
   f: (...a: A) => Reader<R, B>
-) => <S, W, E>(...a: A) => Kind<F, S, R, W, E, B> {
-  // TODO
-  return (f) => flow(f, F.fromReader) as any
+) => <S, W, E>(...a: A): Kind<F, S, R, W, E, B> => F.fromReader(f(...a))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainReaderK = <M extends HKT>(
+  F: FromReader<M>,
+  M: Chain<M>
+): (<A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+  return (f) => M.chain((a) => F.fromReader(f(a)))
 }
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function chainReaderK<M extends HKT>(
+export const chainFirstReaderK = <M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B> {
-  // TODO
-  return flow(fromReaderK(F) as any, M.chain) as any
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function chainFirstReaderK<M extends HKT>(
-  F: FromReader<M>,
-  M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A> {
-  // TODO
-  return flow(fromReaderK(F) as any, chainFirst(M)) as any
+): (<A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+  const chainFirstM = chainFirst(M)
+  return (f) => chainFirstM((a) => F.fromReader(f(a)))
 }

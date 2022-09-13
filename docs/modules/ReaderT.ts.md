@@ -42,9 +42,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromReader<F extends HKT>(
+export declare const fromReader: <F extends HKT>(
   F: Pointed<F>
-): <R, A, S, FR, W, E>(ma: Reader<R, A>) => Reader<R, Kind<F, S, FR, W, E, A>>
+) => <R, A, S, FR, W, E>(ma: Reader<R, A>) => Reader<R, Kind<F, S, FR, W, E, A>>
 ```
 
 Added in v3.0.0

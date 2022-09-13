@@ -4,7 +4,6 @@
  * @since 3.0.0
  */
 import { Chain, chainFirst } from './Chain'
-import { flow } from './function'
 import { HKT, Kind, Typeclass } from './HKT'
 import type { IO } from './IO'
 
@@ -28,34 +27,29 @@ export interface FromIO<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export function fromIOK<F extends HKT>(
-  F: FromIO<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B> {
-  // TODO
-  return (f) => flow(f, F.fromIO) as any
+export const fromIOK = <F extends HKT>(F: FromIO<F>) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, B> => F.fromIO(f(...a))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainIOK = <M extends HKT>(
+  F: FromIO<M>,
+  M: Chain<M>
+): (<A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+  return (f) => M.chain((a) => F.fromIO(f(a)))
 }
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function chainIOK<M extends HKT>(
+export const chainFirstIOK = <M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B> {
-  // TODO
-  return (f) => M.chain(flow(f, F.fromIO)) as any
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function chainFirstIOK<M extends HKT>(
-  F: FromIO<M>,
-  M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A> {
+): (<A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
   const chainFirstM = chainFirst(M)
-  // TODO
-  return (f) => chainFirstM(flow(f, F.fromIO)) as any
+  return (f) => chainFirstM((a) => F.fromIO(f(a)))
 }

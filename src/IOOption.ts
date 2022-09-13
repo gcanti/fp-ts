@@ -107,9 +107,7 @@ export const fromIO: <A>(ma: I.IO<A>) => IOOption<A> = /*#__PURE__*/ OT.fromF(I.
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ I.map(
-  O.fromEither as any
-) as any // TODO
+export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ I.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -308,10 +306,7 @@ export const none: IOOption<never> = /*#__PURE__*/ zero()
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(foa: IOOption<O.Option<A>>) => IOOption<A> = /*#__PURE__*/ compact_(
-  I.Functor,
-  O.Compactable
-) as any // TODO
+export const compact: <A>(foa: IOOption<O.Option<A>>) => IOOption<A> = /*#__PURE__*/ compact_(I.Functor, O.Compactable)
 
 /**
  * @category Compactable
@@ -329,7 +324,7 @@ export const filter: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => IOOption<B>
   <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => IOOption<B>
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => IOOption<A>
-} = /*#__PURE__*/ filter_(I.Functor, O.Filterable) as any // TODO
+} = /*#__PURE__*/ filter_(I.Functor, O.Filterable)
 
 /**
  * @category Filterable
@@ -338,7 +333,7 @@ export const filter: {
 export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fga: IOOption<A>) => IOOption<B> = /*#__PURE__*/ filterMap_(
   I.Functor,
   O.Filterable
-) as any // TODO
+)
 
 /**
  * @category Filterable
@@ -348,7 +343,7 @@ export const partition: {
   <A, B extends A>(refinement: Refinement<A, B>): (fb: IOOption<A>) => Separated<IOOption<A>, IOOption<B>>
   <A>(predicate: Predicate<A>): <B extends A>(fb: IOOption<B>) => Separated<IOOption<B>, IOOption<B>>
   <A>(predicate: Predicate<A>): (fa: IOOption<A>) => Separated<IOOption<A>, IOOption<A>>
-} = /*#__PURE__*/ partition_(I.Functor, O.Filterable) as any // TODO
+} = /*#__PURE__*/ partition_(I.Functor, O.Filterable)
 
 /**
  * @category Filterable
@@ -356,10 +351,7 @@ export const partition: {
  */
 export const partitionMap: <A, B, C>(
   f: (a: A) => Either<B, C>
-) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ partitionMap_(
-  I.Functor,
-  O.Filterable
-) as any // TODO
+) => (fa: IOOption<A>) => Separated<IOOption<B>, IOOption<C>> = /*#__PURE__*/ partitionMap_(I.Functor, O.Filterable)
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -442,7 +442,7 @@ export const tupled: <R, E, A>(
 // array utils
 // -------------------------------------------------------------------------------------
 
-// TODO
+// TODO: array utils
 
 // /**
 //  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.

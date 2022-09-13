@@ -5,7 +5,7 @@ import { ap as ap_, Apply } from './Apply'
 import type { Chain } from './Chain'
 import type { FromIO } from './FromIO'
 import type { FromTask } from './FromTask'
-import { flow, pipe } from './function'
+import { pipe } from './function'
 import { Functor, map as map_ } from './Functor'
 import type { HKT, Kind } from './HKT'
 import type { IO } from './IO'
@@ -35,30 +35,28 @@ export function fromF<F extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export function fromIO<F extends HKT>(
-  F: Functor<F>,
-  FT: FromIO<F>
-): <W>(w: W) => <A, S, R, FW, E>(fa: IO<A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
-  return (w) => flow(FT.fromIO, F.map(W.fromIdentity(w))) as any // TODO
+export const fromIO = <F extends HKT>(F: Functor<F>, FT: FromIO<F>) => <W>(w: W) => <A, S, R, FW, E>(
+  fa: IO<A>
+): Kind<F, S, R, FW, E, Writer<W, A>> => {
+  return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export function fromTask<F extends HKT>(
-  F: Functor<F>,
-  FT: FromTask<F>
-): <W>(w: W) => <A, S, R, FW, E>(fa: Task<A>) => Kind<F, S, R, FW, E, Writer<W, A>> {
-  return (w) => flow(FT.fromTask, F.map(W.fromIdentity(w))) as any // TODO
+export const fromTask = <F extends HKT>(F: Functor<F>, FT: FromTask<F>) => <W>(w: W) => <A, S, R, FW, E>(
+  fa: Task<A>
+): Kind<F, S, R, FW, E, Writer<W, A>> => {
+  return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
 }
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export function tell<F extends HKT>(F: Pointed<F>): <W, S, R, FW, E>(w: W) => Kind<F, S, R, FW, E, Writer<W, void>> {
-  return flow(W.tell, F.of) as any // TODO
+export const tell = <F extends HKT>(F: Pointed<F>) => <W, S, R, FW, E>(w: W): Kind<F, S, R, FW, E, Writer<W, void>> => {
+  return F.of(W.tell(w))
 }
 
 // -------------------------------------------------------------------------------------
@@ -74,7 +72,7 @@ export function map<F extends HKT>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, FW, E, W>(fa: Kind<F, S, R, FW, E, Writer<W, A>>) => Kind<F, S, R, FW, E, Writer<W, B>> {
-  return map_(F, W.Functor) as any // TODO
+  return map_(F, W.Functor)
 }
 
 /**

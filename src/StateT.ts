@@ -45,8 +45,7 @@ export function ap<F extends HKT>(
   F: Chain<F>
 ): <FS, FR, FW, FE, S, A>(
   fa: StateT<F, FS, FR, FW, FE, S, A>
-) => <B>(fab: StateT<F, FS, FR, FW, FE, S, (a: A) => B>) => StateT<F, FS, FR, FW, FE, S, A> {
-  // TODO
+) => <B>(fab: StateT<F, FS, FR, FW, FE, S, (a: A) => B>) => StateT<F, FS, FR, FW, FE, S, B> {
   return (fa) => (fab) => (s) =>
     pipe(
       fab(s),
@@ -56,7 +55,7 @@ export function ap<F extends HKT>(
           F.map(([a, s]) => [f(a), s])
         )
       )
-    ) as any
+    )
 }
 
 /**

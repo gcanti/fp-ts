@@ -28,9 +28,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTheseK<F extends HKT>(
+export declare const fromTheseK: <F extends HKT>(
   F: FromThese<F>
-): <A extends ReadonlyArray<unknown>, E, B>(f: (...a: A) => These<E, B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], E, B>(f: (...a: A) => These<E, B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

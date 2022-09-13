@@ -67,9 +67,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function both<F extends HKT>(
+export declare const both: <F extends HKT>(
   F: Pointed<F>
-): <E, A, S, R, W, FE>(e: E, a: A) => Kind<F, S, R, W, FE, These<E, A>>
+) => <E, A, S, R, W, FE>(e: E, a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0
@@ -94,9 +94,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function left<F extends HKT>(
+export declare const left: <F extends HKT>(
   F: Pointed<F>
-): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, These<E, A>>
+) => <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0
@@ -178,9 +178,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function right<F extends HKT>(
+export declare const right: <F extends HKT>(
   F: Pointed<F>
-): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, These<E, A>>
+) => <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0

@@ -33,10 +33,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainFirstReaderK<M extends HKT>(
+export declare const chainFirstReaderK: <M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, R, B>(f: (a: A) => R.Reader<R, B>) => <S, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -46,10 +46,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainReaderK<M extends HKT>(
+export declare const chainReaderK: <M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): <A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, R, B>(f: (a: A) => R.Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -59,10 +59,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromReaderK<F extends HKT>(
+export declare const fromReaderK: <F extends HKT>(
   F: FromReader<F>
-): <A extends ReadonlyArray<unknown>, R, B>(
-  f: (...a: A) => Reader<R, B>
+) => <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
 ) => <S, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 

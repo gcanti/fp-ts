@@ -918,16 +918,14 @@ export const traverse: <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex: <F extends HKT>(
-  F: Applicative_<F>
-) => <A, S, R, W, E, B>(
+export const traverseWithIndex = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => (f) => (as) => {
+) => (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> => {
   let out = pipe(f(0, head(as)), F.map(of))
   for (let i = 1; i < as.length; i++) {
     out = pipe(
       out,
-      F.map((bs) => (b: any) => pipe(bs, append(b))), // TODO
+      F.map((bs) => (b: B) => pipe(bs, append(b))),
       F.ap(f(i, as[i]))
     )
   }

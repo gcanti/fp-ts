@@ -264,8 +264,9 @@ export const parseSignature = (
   if (node.type === undefined) {
     throw new Error(`(parseSignature) not sure what to do with ${node.getText()}`)
   }
+  const typeParameters = pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter))
   return signature({
-    typeParameters: pipe(node.typeParameters, ensureReadonlyArray, RA.map(parseTypeParameter)),
+    typeParameters,
     parameters: pipe(node.parameters, RA.map(parseParameterDeclaration)),
     returnType: parseType(node.type)
   })
@@ -414,6 +415,7 @@ export const parseFile = (src: ast.SourceFile): File => {
       pipe(
         src.getVariableDeclarations(),
         RA.filter((vd) => vd.isExported()),
+        // RA.filter((vd) => vd.getName() === 'traverse'), // debug
         RA.chain(parseVariableDeclaration)
       )
     )
@@ -580,20 +582,23 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
 }
 
 export const lintSignature = (path: string, s: Signature): ReadonlyArray<Lint> => {
-  return pipe(
+  const lints = pipe(
     lint(
       path,
       pipe(
         s.typeParameters,
-        RA.map((tp) => tp.name)
+        RA.map((tp) => tp.name),
+        RA.append('-')
       ),
       pipe(
         s.parameters,
-        RA.chain((p) => getTypeArguments(p.type))
+        RA.chain((p) => getTypeArguments(p.type)),
+        RA.append('-')
       )
     ),
     append(lintType(s.returnType))
   )
+  return lints
 }
 
 export const lintFunction = (filename: string, fd: FunctionDeclaration): ReadonlyArray<Lint> => {
@@ -607,23 +612,42 @@ export const lintFile = (file: File): ReadonlyArray<Lint> => {
   const functions = file.functions
   return pipe(
     functions,
+    // RA.filter((f) => f.name === 'traverse'), // debug
     RA.chain((f) => lintFunction(file.name, f))
   )
 }
 
 const eq = RA.getEq(string.Eq)
 const intersection = RA.intersection(string.Eq)
-const uniq = RA.uniq(string.Eq)
+
+const pruneTypeArguments = (typeArguments: ReadonlyArray<string>): ReadonlyArray<string> => {
+  const out: Array<string> = []
+  const cache: Record<string, true> = {}
+  for (const ta of typeArguments) {
+    if (ta === '-') {
+      out.push(ta)
+    } else if (!cache[ta]) {
+      cache[ta] = true
+      out.push(ta)
+    }
+  }
+  return out
+}
 
 export const check = (lints: ReadonlyArray<Lint>): ReadonlyArray<string> => {
-  return pipe(
+  const checks = pipe(
     lints,
-    RA.map((l) => ({
-      path: l.path,
-      typeParameters: l.typeParameters,
-      typeArguments: pipe(l.typeArguments, intersection(l.typeParameters), uniq)
-    }))
+    RA.map((l) => {
+      const typeArguments = pipe(l.typeArguments, intersection(l.typeParameters), pruneTypeArguments)
+      return {
+        path: l.path,
+        typeParameters: l.typeParameters,
+        typeArguments
+      }
+    })
   )
+  // console.log(checks)
+  return checks
     .filter((l) => !eq.equals(l.typeParameters)(l.typeArguments))
     .map(
       (l) => `Type Parameter Order Error in ${l.path}: ${l.typeParameters.join(', ')} !== ${l.typeArguments.join(', ')}`
@@ -642,7 +666,8 @@ export const project = new ast.Project({
   compilerOptions
 })
 
-export const paths = glob.sync('src/**/*.ts')
+// export const paths = glob.sync('src/**/*.ts')
+export const paths = glob.sync('src/These.ts')
 paths.forEach((path) => project.addSourceFileAtPath(path))
 const files = pipe(project.getSourceFiles(), RA.map(parseFile))
 const checks = pipe(

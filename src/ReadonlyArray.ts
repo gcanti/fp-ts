@@ -1429,9 +1429,7 @@ export const filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: ReadonlyArray<A>)
  * @category Compactable
  * @since 3.0.0
  */
-export const compact: <A>(foa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(
-  identity as any
-) as any // TODO
+export const compact: <A>(foa: ReadonlyArray<Option<A>>) => ReadonlyArray<A> = /*#__PURE__*/ filterMap(identity)
 
 /**
  * @category Compactable
@@ -1636,15 +1634,13 @@ export const traverse: <F extends HKT>(
  * @category TraversableWithIndex
  * @since 3.0.0
  */
-export const traverseWithIndex: <F extends HKT>(
-  F: Applicative_<F>
-) => <A, S, R, W, E, B>(
+export const traverseWithIndex = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => (f) =>
+): ((ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>>) =>
   reduceWithIndex(F.of(zero()), (i, fbs, a) =>
     pipe(
       fbs,
-      F.map((bs) => (b: any) => append(b)(bs)), // TODO
+      F.map((bs) => (b: B) => append(b)(bs)),
       F.ap(f(i, a))
     )
   )
@@ -2142,13 +2138,13 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  * @since 3.0.0
  */
 export const chainRecDepthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
-  const todo: Array<Either<A, B>> = [...f(a)]
+  const abs: Array<Either<A, B>> = [...f(a)]
   const out: Array<B> = []
 
-  while (todo.length > 0) {
-    const e = todo.shift()!
+  while (abs.length > 0) {
+    const e = abs.shift()!
     if (_.isLeft(e)) {
-      todo.unshift(...f(e.left))
+      abs.unshift(...f(e.left))
     } else {
       out.push(e.right)
     }
@@ -2163,12 +2159,12 @@ export const chainRecDepthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>
  */
 export const chainRecBreadthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, B>>) => (a: A): ReadonlyArray<B> => {
   const initial = f(a)
-  const todo: Array<Either<A, B>> = []
+  const abs: Array<Either<A, B>> = []
   const out: Array<B> = []
 
   function go(e: Either<A, B>): void {
     if (_.isLeft(e)) {
-      f(e.left).forEach((v) => todo.push(v))
+      f(e.left).forEach((v) => abs.push(v))
     } else {
       out.push(e.right)
     }
@@ -2178,8 +2174,8 @@ export const chainRecBreadthFirst = <A, B>(f: (a: A) => ReadonlyArray<Either<A, 
     go(e)
   }
 
-  while (todo.length > 0) {
-    go(todo.shift()!)
+  while (abs.length > 0) {
+    go(abs.shift()!)
   }
 
   return out

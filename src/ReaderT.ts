@@ -62,10 +62,10 @@ export function chain<M extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export function fromReader<F extends HKT>(
-  F: Pointed<F>
-): <R, A, S, FR, W, E>(ma: Reader<R, A>) => Reader<R, Kind<F, S, FR, W, E, A>> {
-  return (ma) => flow(ma, F.of) as any // TODO
+export const fromReader = <F extends HKT>(F: Pointed<F>) => <R, A, S, FR, W, E>(
+  ma: Reader<R, A>
+): Reader<R, Kind<F, S, FR, W, E, A>> => {
+  return (r) => F.of(ma(r))
 }
 
 /**

@@ -23,9 +23,8 @@ import Option = O.Option
 /**
  * @since 3.0.0
  */
-export function some<F extends HKT>(F: Pointed<F>): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>> {
-  return flow(_.some, F.of) as any // TODO
-}
+export const some = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> =>
+  F.of(_.some(a))
 
 /**
  * @since 3.0.0
@@ -46,11 +45,9 @@ export function fromF<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function fromNullable<F extends HKT>(
-  F: Pointed<F>
-): <A, S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<NonNullable<A>>> {
-  return flow(O.fromNullable, F.of) as any // TODO
-}
+export const fromNullable = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
+  a: A
+): Kind<F, S, R, W, E, Option<NonNullable<A>>> => F.of(O.fromNullable(a))
 
 /**
  * @since 3.0.0
@@ -61,19 +58,15 @@ export function fromNullableK<F extends HKT>(
   f: (...a: A) => B | null | undefined
 ) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<NonNullable<B>>> {
   const fromNullableF = fromNullable(F)
-  return (f) => flow(f, fromNullableF) as any // TODO
+  return (f) => (...a) => fromNullableF(f(...a))
 }
 
 /**
  * @since 3.0.0
  */
-export function fromOptionK<F extends HKT>(
-  F: Pointed<F>
-): <A extends ReadonlyArray<unknown>, B>(
+export const fromOptionK = <F extends HKT>(F: Pointed<F>) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, Option<B>> {
-  return (f) => flow(f, F.of) as any // TODO
-}
+) => <S, R, W, E>(...a: A): Kind<F, S, R, W, E, Option<B>> => F.of(f(...a))
 
 /**
  * @since 3.0.0
@@ -85,17 +78,18 @@ export function fromPredicate<F extends HKT>(
   <A>(predicate: Predicate<A>): <B extends A, S, R, W, E>(b: B) => Kind<F, S, R, W, E, Option<B>>
   <A>(predicate: Predicate<A>): <S, R, W, E>(a: A) => Kind<F, S, R, W, E, Option<A>>
 } {
-  return <A>(predicate: Predicate<A>) => (a: A) => F.of(O.fromPredicate(predicate)(a)) as any // TODO
+  return <A>(predicate: Predicate<A>) => {
+    const fromPredicate = O.fromPredicate(predicate)
+    return <S, R, W, E>(a: A): Kind<F, S, R, W, E, Option<A>> => F.of(fromPredicate(a))
+  }
 }
 
 /**
  * @since 3.0.0
  */
-export function fromEither<F extends HKT>(
-  F: Pointed<F>
-): <A, S, R, W, E>(e: Either<unknown, A>) => Kind<F, S, R, W, E, Option<A>> {
-  return flow(O.fromEither, F.of) as any // TODO
-}
+export const fromEither = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
+  e: Either<unknown, A>
+): Kind<F, S, R, W, E, Option<A>> => F.of(O.fromEither(e))
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -152,23 +146,33 @@ export function getOrElseE<M extends HKT>(
 /**
  * @since 3.0.0
  */
-export function chainNullableK<M extends HKT>(
+export const chainNullableK = <M extends HKT>(
   M: Monad<M>
-): <A, B>(
+): (<A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>> {
-  return flow(fromNullableK(M) as any, chain(M)) as any // TODO
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<NonNullable<B>>>) => {
+  const chainM = chain(M)
+  const fromNullableKM = fromNullableK(M)
+  return (f) => {
+    const fromNullableKMf = fromNullableKM(f)
+    return chainM((a) => fromNullableKMf(a))
+  }
 }
 
 /**
  * @since 3.0.0
  */
-export function chainOptionK<M extends HKT>(
+export const chainOptionK = <M extends HKT>(
   M: Monad<M>
-): <A, B>(
+): (<A, B>(
   f: (a: A) => Option<B>
-) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>> {
-  return flow(fromOptionK(M) as any, chain(M)) as any // TODO
+) => <S, R, W, E>(ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>) => {
+  const chainM = chain(M)
+  const fromOptionKM = fromOptionK(M)
+  return (f) => {
+    const fromOptionKf = fromOptionKM(f)
+    return chainM((a) => fromOptionKf(a))
+  }
 }
 
 // -------------------------------------------------------------------------------------

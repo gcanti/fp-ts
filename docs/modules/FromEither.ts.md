@@ -36,10 +36,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainEitherK<M extends HKT>(
+export declare const chainEitherK: <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -49,10 +49,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainFirstEitherK<M extends HKT>(
+export declare const chainFirstEitherK: <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -98,11 +98,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromEitherK<F extends HKT>(
+export declare const fromEitherK: <F extends HKT>(
   F: FromEither<F>
-): <A extends ReadonlyArray<unknown>, E, B>(
-  f: (...a: A) => Either<E, B>
-) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], E, B>(f: (...a: A) => Either<E, B>) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

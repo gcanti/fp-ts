@@ -389,9 +389,9 @@ export const mapLeft: <E, G>(
  */
 export const ap: <S, R, E, A>(
   fa: StateReaderTaskEither<S, R, E, A>
-) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> =
-  /*#__PURE__*/
-  ST.ap(RTE.Monad) as any // TODO
+) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.ap(
+  RTE.Monad
+)
 
 /**
  * Less strict version of [`ap`](#ap).

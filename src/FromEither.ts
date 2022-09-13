@@ -5,7 +5,7 @@
  */
 import { Chain, chainFirst } from './Chain'
 import type { Either } from './Either'
-import { flow, Lazy, pipe } from './function'
+import { Lazy, pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as _ from './internal'
 import type { Option } from './Option'
@@ -35,8 +35,7 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
 export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
   onNone: Lazy<E>
 ): (<A, S, R, W>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
-  // TODO
-  return (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value)) as any
+  return (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
 }
 
 /**
@@ -60,65 +59,71 @@ export const fromPredicate = <F extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export const fromOptionK = <F extends HKT>(F: FromEither<F>) => <E>(onNone: Lazy<E>) => <
-  A extends ReadonlyArray<unknown>,
-  B
->(
-  f: (...a: A) => Option<B>
-): (<S, R, W>(...a: A) => Kind<F, S, R, W, E, B>) => {
-  const fromOptionF = fromOption(F)
-  const from = fromOptionF(onNone)
-  // TODO
-  return flow(f, from) as any
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainOptionK = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => <E>(
-  onNone: Lazy<E>
-): (<A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
-  const fromOptionKF = fromOptionK(F)
-  // TODO
-  return flow(fromOptionKF(onNone) as any, M.chain) as any
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function fromEitherK<F extends HKT>(
+export const fromOptionK = <F extends HKT>(
   F: FromEither<F>
-): <A extends ReadonlyArray<unknown>, E, B>(
+): (<E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B>) => {
+  const fromOptionF = fromOption(F)
+  return (onNone) => {
+    const from = fromOptionF(onNone)
+    return (f) => (...a) => from(f(...a))
+  }
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainOptionK = <M extends HKT>(
+  F: FromEither<M>,
+  M: Chain<M>
+): (<E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+  const fromOptionKF = fromOptionK(F)
+  return (onNone) => {
+    const from = fromOptionKF(onNone)
+    return (f) => M.chain((a) => from(f)(a))
+  }
+}
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const fromEitherK = <F extends HKT>(F: FromEither<F>) => <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Either<E, B>
-) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B> {
-  // TODO
-  return (f) => flow(f, F.fromEither) as any
+) => <S, R, W>(...a: A): Kind<F, S, R, W, E, B> => F.fromEither(f(...a))
+
+/**
+ * @category combinators
+ * @since 3.0.0
+ */
+export const chainEitherK = <M extends HKT>(
+  F: FromEither<M>,
+  M: Chain<M>
+): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+  const fromEitherKF = fromEitherK(F)
+  return (f) => M.chain((a) => fromEitherKF(f)(a))
 }
 
 /**
  * @category combinators
  * @since 3.0.0
  */
-export function chainEitherK<M extends HKT>(
+export const chainFirstEitherK = <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B> {
-  // TODO
-  return flow(fromEitherK(F) as any, M.chain) as any
-}
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export function chainFirstEitherK<M extends HKT>(
-  F: FromEither<M>,
-  M: Chain<M>
-): <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A> {
-  // TODO
-  return flow(fromEitherK(F) as any, chainFirst(M)) as any
+): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+  const chainFirstM = chainFirst(M)
+  const fromEitherKF = fromEitherK(F)
+  return (f) => {
+    const fromEitherKFf = fromEitherKF(f)
+    return chainFirstM((a) => fromEitherKFf(a))
+  }
 }
 
 /**

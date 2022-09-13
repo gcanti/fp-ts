@@ -30,10 +30,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainFirstIOK<M extends HKT>(
+export declare const chainFirstIOK: <M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -43,10 +43,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainIOK<M extends HKT>(
+export declare const chainIOK: <M extends HKT>(
   F: FromIO<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, B>(f: (a: A) => IO<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -56,9 +56,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIOK<F extends HKT>(
+export declare const fromIOK: <F extends HKT>(
   F: FromIO<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => IO<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

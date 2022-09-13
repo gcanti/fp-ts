@@ -123,8 +123,7 @@ export function ap<F extends HKT>(
 ): <S, R, W, FE, E, A>(
   fa: Kind<F, S, R, W, FE, Either<E, A>>
 ) => <B>(fab: Kind<F, S, R, W, FE, Either<E, (a: A) => B>>) => Kind<F, S, R, W, FE, Either<E, B>> {
-  // TODO
-  return ap_(F, E.Apply) as any
+  return ap_(F, E.Apply)
 }
 
 /**
@@ -317,19 +316,19 @@ export function bracket<M extends HKT>(
   release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
 ) => Kind<M, S, R, W, ME, Either<E, B>> {
   const leftM = left(M)
-  // TODO
-  return (acquire, use, release) =>
-    pipe(
+  return (acquire, use, release) => {
+    return pipe(
       acquire,
       M.chain(
         E.match(
-          leftM,
+          (e) => leftM(e),
           (a) =>
             pipe(
               use(a),
               M.chain((e) => pipe(release(a, e), M.chain(E.match(leftM, () => M.of(e)))))
-            ) as any
+            )
         )
       )
     )
+  }
 }

@@ -725,27 +725,29 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<Read
 /**
  * @since 3.0.0
  */
-export const wither: <K>(
+export const wither = <K>(
   O: Ord<K>
-) => <F extends HKT>(
+): (<F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
-) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>> = (O) => {
-  return witherDefault(getTraversable(O) as any, Compactable) // TODO
+) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
+  const C: Compactable_<ReadonlyMapFE<K>> = { compact, separate }
+  return witherDefault(getTraversable(O), C)
 }
 
 /**
  * @since 3.0.0
  */
-export const wilt: <K>(
+export const wilt = <K>(
   O: Ord<K>
-) => <F extends HKT>(
+): (<F extends HKT>(
   F: Applicative<F>
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
-) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>> = (O) => {
-  return wiltDefault(getTraversable(O) as any, Compactable) // TODO
+) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
+  const C: Compactable_<ReadonlyMapFE<K>> = { compact, separate }
+  return wiltDefault(getTraversable(O), C)
 }
 
 /**

@@ -20,29 +20,24 @@ import These = T.These
 /**
  * @since 3.0.0
  */
-export function right<F extends HKT>(
-  F: Pointed<F>
-): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, These<E, A>> {
-  return flow(T.right, F.of) as any // TODO
-}
+export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, FE, E = never>(
+  a: A
+): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.right(a))
 
 /**
  * @since 3.0.0
  */
-export function left<F extends HKT>(
-  F: Pointed<F>
-): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, These<E, A>> {
-  return flow(T.left, F.of) as any // TODO
-}
+export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R, W, FE, A = never>(
+  e: E
+): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.left(e))
 
 /**
  * @since 3.0.0
  */
-export function both<F extends HKT>(
-  F: Pointed<F>
-): <E, A, S, R, W, FE>(e: E, a: A) => Kind<F, S, R, W, FE, These<E, A>> {
-  return flow(T.both, F.of) as any // TODO
-}
+export const both = <F extends HKT>(F: Pointed<F>) => <E, A, S, R, W, FE>(
+  e: E,
+  a: A
+): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.both(e, a))
 
 /**
  * @since 3.0.0
@@ -74,7 +69,7 @@ export function map<F extends HKT>(
 ): <A, B>(
   f: (a: A) => B
 ) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<E, B>> {
-  return map_(F, T.Functor) as any // TODO
+  return map_(F, T.Functor)
 }
 
 /**
@@ -86,7 +81,7 @@ export function ap<F extends HKT, E>(
 ): <S, R, W, FE, A>(
   fa: Kind<F, S, R, W, FE, These<E, A>>
 ) => <B>(fab: Kind<F, S, R, W, FE, These<E, (a: A) => B>>) => Kind<F, S, R, W, FE, These<E, B>> {
-  return ap_(F, T.getApply(S)) as any // TODO
+  return ap_(F, T.getApply(S))
 }
 
 /**
@@ -128,7 +123,7 @@ export function bimap<F extends HKT>(
   f: (e: E) => G,
   g: (a: A) => B
 ) => <S, R, W, FE>(fea: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, These<G, B>> {
-  return flow(T.bimap, F.map) as any // TODO
+  return flow(T.bimap, F.map)
 }
 
 /**

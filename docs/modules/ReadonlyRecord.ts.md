@@ -998,13 +998,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function traverseWithIndex(
+export declare const traverseWithIndex: (
   O: Ord<string>
-): <F extends HKT>(
+) => <F extends HKT>(
   F: Applicative<F>
 ) => <K extends string, A, S, R, W, E, B>(
   f: (k: K, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>
+) => (r: Readonly<Record<K, A>>) => Kind<F, S, R, W, E, Readonly<Record<K, B>>>
 ```
 
 Added in v3.0.0

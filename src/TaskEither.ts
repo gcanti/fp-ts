@@ -656,10 +656,10 @@ export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt_<TaskEitherFE<E>> 
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFE<E>> => {
   const C = E.getCompactable(M)
+  const F: Functor_<E.EitherFE<E>> = { map: E.map }
   return {
     compact: compact_(T.Functor, C),
-    // TODO
-    separate: separate_(T.Functor, C as any, E.Functor)
+    separate: separate_(T.Functor, C, F)
   }
 }
 

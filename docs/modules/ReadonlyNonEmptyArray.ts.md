@@ -1504,7 +1504,7 @@ export declare const traverseWithIndex: <F extends HKT>(
   F: Applicative_<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
+) => (as: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

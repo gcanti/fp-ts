@@ -88,11 +88,7 @@ export function separate<F extends HKT, G extends HKT>(
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
   Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 > {
-  const _compact = compact(F, C)
-  const _map = map(F, G)
-  return (fge) =>
-    separated(
-      pipe(fge, _map(getLeft as any) as any, _compact as any),
-      pipe(fge, _map(getRight as any) as any, _compact as any)
-    )
+  const compactFC = compact(F, C)
+  const mapFG = map(F, G)
+  return (fge) => separated(pipe(fge, mapFG(getLeft), compactFC), pipe(fge, mapFG(getRight), compactFC))
 }

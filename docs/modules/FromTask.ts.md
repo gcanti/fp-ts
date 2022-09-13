@@ -30,10 +30,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainFirstTaskK<M extends HKT>(
+export declare const chainFirstTaskK: <M extends HKT>(
   F: FromTask<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
+) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -43,10 +43,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainTaskK<M extends HKT>(
+export declare const chainTaskK: <M extends HKT>(
   F: FromTask<M>,
   M: Chain<M>
-): <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -56,9 +56,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTaskK<F extends HKT>(
+export declare const fromTaskK: <F extends HKT>(
   F: FromTask<F>
-): <A extends ReadonlyArray<unknown>, B>(f: (...a: A) => Task<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Task<B>) => <S, R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

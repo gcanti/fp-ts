@@ -267,29 +267,29 @@ export const reduceRightWithIndex = (
 /**
  * @since 3.0.0
  */
-export function traverseWithIndex(
+export const traverseWithIndex = (
   O: Ord<string>
-): <F extends HKT>(
+): (<F extends HKT>(
   F: Applicative<F>
 ) => <K extends string, A, S, R, W, E, B>(
   f: (k: K, a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>> {
+) => (r: ReadonlyRecord<K, A>) => Kind<F, S, R, W, E, ReadonlyRecord<K, B>>) => {
   const keysO = keys(O)
   return <F extends HKT>(F: Applicative<F>) => <K extends string, A, S, R, W, E, B>(
     f: (k: K, a: A) => Kind<F, S, R, W, E, B>
-  ) => (ta: ReadonlyRecord<string, A>) => {
-    if (isEmpty(ta)) {
+  ) => (r: ReadonlyRecord<K, A>) => {
+    if (isEmpty(r)) {
       return F.of(empty)
     }
     let out: Kind<F, S, R, W, E, Record<string, B>> = F.of({})
-    for (const key of keysO(ta)) {
+    for (const key of keysO(r)) {
       out = pipe(
         out,
         F.map((r) => (b: B) => Object.assign({}, r, { [key]: b })),
-        F.ap(f(key as any, ta[key])) // TODO
+        F.ap(f(key, r[key]))
       )
     }
-    return out as any // TODO
+    return out as any
   }
 }
 

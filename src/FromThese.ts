@@ -3,7 +3,6 @@
  *
  * @since 3.0.0
  */
-import { flow } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import type { These } from './These'
 
@@ -27,11 +26,6 @@ export interface FromThese<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export function fromTheseK<F extends HKT>(
-  F: FromThese<F>
-): <A extends ReadonlyArray<unknown>, E, B>(
+export const fromTheseK = <F extends HKT>(F: FromThese<F>) => <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => These<E, B>
-) => <S, R, W>(...a: A) => Kind<F, S, R, W, E, B> {
-  // TODO
-  return (f) => flow(f, F.fromThese) as any
-}
+) => <S, R, W>(...a: A): Kind<F, S, R, W, E, B> => F.fromThese(f(...a))

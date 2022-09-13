@@ -34,10 +34,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainStateK<M extends HKT>(
+export declare const chainStateK: <M extends HKT>(
   F: FromState<M>,
   M: Chain<M>
-): <A, S, B>(f: (a: A) => State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, S, B>(f: (a: A) => S.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -47,9 +47,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromStateK<F extends HKT>(
+export declare const fromStateK: <F extends HKT>(
   F: FromState<F>
-): <A extends ReadonlyArray<unknown>, S, B>(f: (...a: A) => State<S, B>) => <R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
+) => <A extends readonly unknown[], S, B>(f: (...a: A) => S.State<S, B>) => <R, W, E>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -71,7 +71,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function gets<F extends HKT>(F: FromState<F>): <S, A, R, W, E>(f: (s: S) => A) => Kind<F, S, R, W, E, A>
+export declare const gets: <F extends HKT>(F: FromState<F>) => <S, A, R, W, E>(f: (s: S) => A) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -81,9 +81,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function modify<F extends HKT>(
+export declare const modify: <F extends HKT>(
   F: FromState<F>
-): <S, R, W, E>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void>
+) => <S, R, W, E>(f: Endomorphism<S>) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0

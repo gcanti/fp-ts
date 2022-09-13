@@ -131,10 +131,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromIO<F extends HKT>(
+export declare const fromIO: <F extends HKT>(
   F: Functor<F>,
   FT: FromIO<F>
-): <W>(w: W) => <A, S, R, FW, E>(fa: IO<A>) => Kind<F, S, R, FW, E, Writer<W, A>>
+) => <W>(w: W) => <A, S, R, FW, E>(fa: IO<A>) => Kind<F, S, R, FW, E, W.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -144,10 +144,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromTask<F extends HKT>(
+export declare const fromTask: <F extends HKT>(
   F: Functor<F>,
   FT: FromTask<F>
-): <W>(w: W) => <A, S, R, FW, E>(fa: Task<A>) => Kind<F, S, R, FW, E, Writer<W, A>>
+) => <W>(w: W) => <A, S, R, FW, E>(fa: Task<A>) => Kind<F, S, R, FW, E, W.Writer<W, A>>
 ```
 
 Added in v3.0.0
@@ -157,9 +157,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function tell<F extends HKT>(
+export declare const tell: <F extends HKT>(
   F: Pointed<F>
-): <W, S, R, FW, E>(w: W) => Kind<F, S, R, FW, E, Writer<W, void>>
+) => <W, S, R, FW, E>(w: W) => Kind<F, S, R, FW, E, W.Writer<W, void>>
 ```
 
 Added in v3.0.0
