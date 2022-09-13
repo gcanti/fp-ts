@@ -758,9 +758,10 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable_<EitherFE<E>> => {
  */
 export const getWitherable = <E>(M: Monoid<E>): Witherable_<EitherFE<E>> => {
   const C = getCompactable(M)
+  const T: Traversable_<EitherFE<E>> = { map, traverse }
   return {
-    wither: witherDefault(Traversable, C as any), // TODO
-    wilt: wiltDefault(Traversable, C as any) // TODO
+    wither: witherDefault(T, C),
+    wilt: wiltDefault(T, C)
   }
 }
 

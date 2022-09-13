@@ -2,8 +2,8 @@
  * @since 3.0.0
  */
 import type { Chain } from './Chain'
-import { flow, pipe } from './function'
-import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
+import { pipe } from './function'
+import type { HKT, Kind, Typeclass } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
@@ -29,12 +29,14 @@ export interface Foldable<F extends HKT> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export function reduce<F extends HKT, G extends HKT>(
+export const reduce = <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['reduce'] {
-  return (b, f) => F.reduce(b, (b, ga) => G.reduce(b, f)(ga))
-}
+): (<B, A>(
+  b: B,
+  f: (b: B, a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) => (b, f) =>
+  F.reduce(b, (b, ga) => pipe(ga, G.reduce(b, f)))
 
 /**
  * `foldMap` composition.
@@ -42,11 +44,15 @@ export function reduce<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function foldMap<F extends HKT, G extends HKT>(
+export const foldMap = <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['foldMap'] {
-  return (M) => flow(G.foldMap(M), F.foldMap(M))
+): (<M>(
+  M: Monoid<M>
+) => <A>(
+  f: (a: A) => M
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M) => {
+  return (M) => (f) => F.foldMap(M)(G.foldMap(M)(f))
 }
 
 /**
@@ -55,10 +61,13 @@ export function foldMap<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function reduceRight<F extends HKT, G extends HKT>(
+export const reduceRight = <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['reduceRight'] {
+): (<B, A>(
+  b: B,
+  f: (a: A, b: B) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B) => {
   return (b, f) => F.reduceRight(b, (ga, b) => G.reduceRight(b, f)(ga))
 }
 

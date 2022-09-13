@@ -20,22 +20,16 @@ import Either = E.Either
 /**
  * @since 3.0.0
  */
-export function right<F extends HKT>(
-  F: Pointed<F>
-): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, Either<E, A>> {
-  // TODO
-  return flow(E.right, F.of) as any
-}
+export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, FE, E = never>(
+  a: A
+): Kind<F, S, R, W, FE, Either<E, A>> => F.of(E.right(a))
 
 /**
  * @since 3.0.0
  */
-export function left<F extends HKT>(
-  F: Pointed<F>
-): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, Either<E, A>> {
-  // TODO
-  return flow(E.left, F.of) as any
-}
+export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R, W, FE, A = never>(
+  e: E
+): Kind<F, S, R, W, FE, Either<E, A>> => F.of(E.left(e))
 
 /**
  * @since 3.0.0
@@ -58,51 +52,52 @@ export function leftF<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function fromNullable<F extends HKT>(
-  F: Pointed<F>
-): <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> {
-  // TODO
-  return (e) =>
-    flow(
-      E.fromNullable(() => e),
-      F.of
-    ) as any
-}
+export const fromNullable = <F extends HKT>(F: Pointed<F>) => <E>(e: E) => <A, S, R, W, FE>(
+  a: A
+): Kind<F, S, R, W, FE, Either<E, NonNullable<A>>> =>
+  F.of(
+    pipe(
+      a,
+      E.fromNullable(() => e)
+    )
+  )
 
 /**
  * @since 3.0.0
  */
-export function fromNullableK<F extends HKT>(
+export const fromNullableK = <F extends HKT>(
   F: Pointed<F>
-): <E>(
+): (<E>(
   e: E
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>> {
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>>) => {
   const fromNullableF = fromNullable(F)
   return (e) => {
     const fromNullableFE = fromNullableF(e)
-    // TODO
-    return (f) => flow(f, fromNullableFE) as any
+    return (f) => (...a) => fromNullableFE(f(...a))
   }
 }
 
 /**
  * @since 3.0.0
  */
-export function chainNullableK<M extends HKT>(
+export const chainNullableK = <M extends HKT>(
   M: Monad<M>
-): <E>(
+): (<E>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>> {
+) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>>) => {
   const chainM = chain(M)
   const fromNullableKM = fromNullableK(M)
   return (e) => {
     const fromNullableKMe = fromNullableKM(e)
-    // TODO
-    return (f) => chainM(fromNullableKMe(f)) as any
+    return (f) => (ma) =>
+      pipe(
+        ma,
+        chainM((a) => fromNullableKMe(f)(a))
+      )
   }
 }
 
@@ -113,14 +108,12 @@ export function chainNullableK<M extends HKT>(
 /**
  * @since 3.0.0
  */
-export function map<F extends HKT>(
+export const map = <F extends HKT>(
   F: Functor<F>
-): <A, B>(
+): (<A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>> {
-  // TODO
-  return map_(F, E.Functor) as any
-}
+) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>) =>
+  map_(F, E.Functor)
 
 /**
  * @since 3.0.0

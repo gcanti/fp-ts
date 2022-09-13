@@ -6,7 +6,7 @@
 import type { Either } from './Either'
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
+import type { HKT, Kind, Typeclass } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 import { not, Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
@@ -58,11 +58,19 @@ export interface Filterable<F extends HKT> extends Typeclass<F> {
 export const filter = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['filter'] => {
-  return <A>(predicate: Predicate<A>) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
     fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ) => pipe(fga, F.map(G.filter(predicate)))
-}
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
+    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+} => <A>(predicate: Predicate<A>) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => pipe(fga, F.map(G.filter(predicate)))
 
 /**
  * `filterMap` composition.
@@ -70,12 +78,15 @@ export const filter = <F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function filterMap<F extends HKT, G extends HKT>(
+export const filterMap = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['filterMap'] {
-  // TODO
-  return flow(G.filterMap, F.map) as any
+): (<A, B>(
+  f: (a: A) => Option<B>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => {
+  return (f) => F.map(G.filterMap(f))
 }
 
 /**
@@ -84,16 +95,35 @@ export function filterMap<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function partition<F extends HKT, G extends HKT>(
+export const partition = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['partition'] {
-  // TODO
+): {
+  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  >
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
+    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  >
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  >
+} => {
   const _filter = filter(F, G)
-  return (predicate: any) => {
+  return <A>(predicate: Predicate<A>) => {
     const left = _filter(not(predicate))
     const right = _filter(predicate)
-    return (fga: any) => separated(left(fga), right(fga)) as any
+    return <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) =>
+      separated(left(fga), right(fga))
   }
 }
 
@@ -103,10 +133,17 @@ export function partition<F extends HKT, G extends HKT>(
  * @category combinators
  * @since 3.0.0
  */
-export function partitionMap<F extends HKT, G extends HKT>(
+export const partitionMap = <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['partitionMap'] {
+): (<A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Separated<
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
+  Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>
+>) => {
   const _filterMap = filterMap(F, G)
   return (f) => (fga) => separated(pipe(fga, _filterMap(flow(f, getLeft))), pipe(fga, _filterMap(flow(f, getRight))))
 }

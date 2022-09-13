@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import { pipe } from './function'
-import type { ComposeF, HKT, Kind, Typeclass } from './HKT'
+import type { HKT, Kind, Typeclass } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -37,15 +37,17 @@ export interface FunctorWithIndex<F extends HKT, I> extends Typeclass<F> {
  * @category combinators
  * @since 3.0.0
  */
-export function mapWithIndex<F extends HKT, I, G extends HKT, J>(
+export const mapWithIndex = <F extends HKT, I, G extends HKT, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
-): FunctorWithIndex<ComposeF<F, G>, [I, J]>['mapWithIndex'] {
-  return (f) =>
-    F.mapWithIndex((i, ga) =>
-      pipe(
-        ga,
-        G.mapWithIndex((j, a) => f([i, j], a))
-      )
+): (<A, B>(
+  f: (i: readonly [I, J], a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => (f) =>
+  F.mapWithIndex((i, ga) =>
+    pipe(
+      ga,
+      G.mapWithIndex((j, a) => f([i, j], a))
     )
-}
+  )

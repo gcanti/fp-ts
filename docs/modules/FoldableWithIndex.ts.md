@@ -40,10 +40,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function foldMapWithIndex<F extends HKT, I, G extends HKT, J>(
+export declare const foldMapWithIndex: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
-): FoldableWithIndex<ComposeF<F, G>, readonly [I, J]>['foldMapWithIndex']
+) => <M>(
+  M: Monoid<M>
+) => <A>(
+  f: (i: readonly [I, J], a: A) => M
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M
 ```
 
 Added in v3.0.0
@@ -55,10 +59,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function reduceRightWithIndex<F extends HKT, I, G extends HKT, J>(
+export declare const reduceRightWithIndex: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
-): FoldableWithIndex<ComposeF<F, G>, readonly [I, J]>['reduceRightWithIndex']
+) => <B, A>(
+  b: B,
+  f: (i: readonly [I, J], a: A, b: B) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -70,10 +77,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function reduceWithIndex<F extends HKT, I, G extends HKT, J>(
+export declare const reduceWithIndex: <F extends HKT, I, G extends HKT, J>(
   F: FoldableWithIndex<F, I>,
   G: FoldableWithIndex<G, J>
-): FoldableWithIndex<ComposeF<F, G>, readonly [I, J]>['reduceWithIndex']
+) => <B, A>(
+  b: B,
+  f: (i: readonly [I, J], b: B, a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
 ```
 
 Added in v3.0.0

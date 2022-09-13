@@ -37,15 +37,15 @@ export declare const filter: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
 ) => {
-  <A, B>(refinement: Refinement<A, B>): <S, R, W, E>(
-    fa: Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>
-  ) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, W, E, B>(
-    fb: Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
-  ) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
-  <A>(predicate: Predicate<A>): <S, R, W, E>(
-    fa: Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>
-  ) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>
+  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
+    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
 }
 ```
 
@@ -58,10 +58,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function filterMap<F extends HKT, G extends HKT>(
+export declare const filterMap: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['filterMap']
+) => <A, B>(
+  f: (a: A) => Option<B>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ```
 
 Added in v3.0.0
@@ -73,10 +77,29 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function partition<F extends HKT, G extends HKT>(
+export declare const partition: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['partition']
+) => {
+  <A, B extends A>(refinement: Refinement<A, B>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  >
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE, B extends A>(
+    fgb: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
+  >
+  <A>(predicate: Predicate<A>): <FS, FR, FW, FE, GS, GR, GW, GE>(
+    fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  ) => Separated<
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>,
+    Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+  >
+}
 ```
 
 Added in v3.0.0
@@ -88,10 +111,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function partitionMap<F extends HKT, G extends HKT>(
+export declare const partitionMap: <F extends HKT, G extends HKT>(
   F: Functor<F>,
   G: Filterable<G>
-): Filterable<ComposeF<F, G>>['partitionMap']
+) => <A, B, C>(
+  f: (a: A) => Either<B, C>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Separated<Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, C>>>
 ```
 
 Added in v3.0.0

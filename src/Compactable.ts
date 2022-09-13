@@ -38,9 +38,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
 export const compactDefault = <F extends HKT>(F: Functor<F>) => (
   separate: Compactable<F>['separate']
 ): Compactable<F>['compact'] => {
-  // TODO
-  const fromOptionF = F.map(fromOption(constVoid) as any)
-  return flow(fromOptionF, separate as any, right as any)
+  return flow(F.map(fromOption(constVoid)), separate, right)
 }
 
 /**
@@ -52,7 +50,6 @@ export const compactDefault = <F extends HKT>(F: Functor<F>) => (
 export function separateDefault<F extends HKT>(
   F: Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate'] {
-  // TODO
   return (compact) => (fe) => separated(pipe(fe, F.map(getLeft), compact), pipe(fe, F.map(getRight), compact))
 }
 

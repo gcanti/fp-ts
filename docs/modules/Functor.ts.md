@@ -59,7 +59,9 @@ export declare const map: <F extends HKT, G extends HKT>(
   G: Functor<G>
 ) => <A, B>(
   f: (a: A) => B
-) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ```
 
 Added in v3.0.0

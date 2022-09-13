@@ -442,11 +442,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <F>(
+export declare const traverse: <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, W, E, B, TS, TR, TW, TE>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: Writer<TE, A>) => Kind<F, S, R, W, E, Writer<TE, B>>
+) => <A, S, R, FW, E, B>(
+  f: (a: A) => Kind<F, S, R, FW, E, B>
+) => <W>(t: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>
 ```
 
 Added in v3.0.0

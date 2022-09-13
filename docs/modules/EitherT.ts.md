@@ -135,13 +135,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chainNullableK<M extends HKT>(
+export declare const chainNullableK: <M extends HKT>(
   M: Monad<M>
-): <E>(
+) => <E>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, E.Either<E, A>>) => Kind<M, S, R, W, FE, E.Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -151,9 +151,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromNullable<F extends HKT>(
+export declare const fromNullable: <F extends HKT>(
   F: Pointed<F>
-): <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<A>>>
+) => <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, E.Either<E, NonNullable<A>>>
 ```
 
 Added in v3.0.0
@@ -163,13 +163,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function fromNullableK<F extends HKT>(
+export declare const fromNullableK: <F extends HKT>(
   F: Pointed<F>
-): <E>(
+) => <E>(
   e: E
-) => <A extends ReadonlyArray<unknown>, B>(
+) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, E.Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -205,9 +205,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function left<F extends HKT>(
+export declare const left: <F extends HKT>(
   F: Pointed<F>
-): <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, Either<E, A>>
+) => <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, E.Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -229,11 +229,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function map<F extends HKT>(
+export declare const map: <F extends HKT>(
   F: Functor<F>
-): <A, B>(
+) => <A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, Either<E, A>>) => Kind<F, S, R, W, FE, Either<E, B>>
+) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, E.Either<E, A>>) => Kind<F, S, R, W, FE, E.Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -329,9 +329,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function right<F extends HKT>(
+export declare const right: <F extends HKT>(
   F: Pointed<F>
-): <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, Either<E, A>>
+) => <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, E.Either<E, A>>
 ```
 
 Added in v3.0.0

@@ -11,8 +11,8 @@
  *
  * @since 3.0.0
  */
-import { apply, flow } from './function'
-import type { HKT, Typeclass, Kind, ComposeF } from './HKT'
+import { apply } from './function'
+import type { HKT, Kind, Typeclass } from './HKT'
 import { tuple } from './tuple'
 
 // -------------------------------------------------------------------------------------
@@ -45,8 +45,14 @@ export const flap = <F extends HKT>(F: Functor<F>) => <A>(
  * @category combinators
  * @since 3.0.0
  */
-export const map = <F extends HKT, G extends HKT>(F: Functor<F>, G: Functor<G>): Functor<ComposeF<F, G>>['map'] =>
-  flow(G.map, F.map)
+export const map = <F extends HKT, G extends HKT>(
+  F: Functor<F>,
+  G: Functor<G>
+): (<A, B>(
+  f: (a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => (f) => F.map(G.map(f))
 
 // -------------------------------------------------------------------------------------
 // utils

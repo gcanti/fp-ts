@@ -15,7 +15,6 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [utils](#utils)
-  - [ComposeF (interface)](#composef-interface)
   - [HKT (interface)](#hkt-interface)
   - [Kind (type alias)](#kind-type-alias)
   - [Typeclass (interface)](#typeclass-interface)
@@ -23,25 +22,6 @@ Added in v3.0.0
 ---
 
 # utils
-
-## ComposeF (interface)
-
-**Signature**
-
-```ts
-export interface ComposeF<F extends HKT, G extends HKT> extends HKT {
-  readonly type: Kind<
-    F,
-    this['S'],
-    this['R'],
-    this['W'],
-    this['E'],
-    Kind<G, this['S'], this['R'], this['W'], this['E'], this['A']>
-  >
-}
-```
-
-Added in v3.0.0
 
 ## HKT (interface)
 

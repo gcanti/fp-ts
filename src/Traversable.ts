@@ -7,9 +7,9 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import { flow } from './function'
+import { pipe } from './function'
 import type { Functor } from './Functor'
-import type { ComposeF, HKT, Kind } from './HKT'
+import type { HKT, Kind } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -22,9 +22,9 @@ import type { ComposeF, HKT, Kind } from './HKT'
 export interface Traversable<T extends HKT> extends Functor<T> {
   readonly traverse: <F extends HKT>(
     F: Applicative<F>
-  ) => <A, S, R, W, E, B, TS, TR, TW, TE>(
+  ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, B>
-  ) => (ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
+  ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
 }
 
 // -------------------------------------------------------------------------------------
@@ -37,10 +37,19 @@ export interface Traversable<T extends HKT> extends Functor<T> {
  * @category combinators
  * @since 3.0.0
  */
-export function traverse<F extends HKT, G extends HKT>(
-  T: Traversable<F>,
+export const traverse = <T extends HKT, G extends HKT>(
+  T: Traversable<T>,
   G: Traversable<G>
-): Traversable<ComposeF<F, G>>['traverse'] {
-  // TODO
-  return (F) => flow(G.traverse(F), T.traverse(F)) as any
+): (<F extends HKT>(
+  F: Applicative<F>
+) => <A, FS, FR, FW, FE, B>(
+  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
+) => <TS, TR, TW, TE, GS, GR, GW, GE>(
+  tga: Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, B>>>) => {
+  return (F) => (f) => (tga) =>
+    pipe(
+      tga,
+      T.traverse(F)((ga) => pipe(ga, G.traverse(F)(f)))
+    )
 }

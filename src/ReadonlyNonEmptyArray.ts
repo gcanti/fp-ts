@@ -906,7 +906,11 @@ export const reduceRightWithIndex: <B, A>(
 /**
  * @since 3.0.0
  */
-export const traverse: Traversable_<ReadonlyNonEmptyArrayF>['traverse'] = (F) => {
+export const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }

@@ -38,10 +38,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function mapWithIndex<F extends HKT, I, G extends HKT, J>(
+export declare const mapWithIndex: <F extends HKT, I, G extends HKT, J>(
   F: FunctorWithIndex<F, I>,
   G: FunctorWithIndex<G, J>
-): FunctorWithIndex<ComposeF<F, G>, [I, J]>['mapWithIndex']
+) => <A, B>(
+  f: (i: readonly [I, J], a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ```
 
 Added in v3.0.0

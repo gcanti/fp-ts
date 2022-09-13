@@ -74,9 +74,11 @@ Added in v3.0.0
 export declare const ap: <F extends HKT, G extends HKT>(
   F: Apply<F>,
   G: Apply<G>
-) => <S, R, W, E, A>(
-  fa: Kind<F, S, R, W, E, Kind<G, S, R, W, E, A>>
-) => <B>(fab: Kind<F, S, R, W, E, Kind<G, S, R, W, E, (a: A) => B>>) => Kind<F, S, R, W, E, Kind<G, S, R, W, E, B>>
+) => <FS, FR, FW, FE, GS, GR, GW, GE, A>(
+  fa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => <B>(
+  fab: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, (a: A) => B>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>
 ```
 
 Added in v3.0.0

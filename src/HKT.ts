@@ -54,17 +54,3 @@ export type Kind<F extends HKT, S, R, W, E, A> = F extends {
       readonly _E: () => E
       readonly _A: () => A
     }
-
-/**
- * @since 3.0.0
- */
-export interface ComposeF<F extends HKT, G extends HKT> extends HKT {
-  readonly type: Kind<
-    F,
-    this['S'],
-    this['R'],
-    this['W'],
-    this['E'],
-    Kind<G, this['S'], this['R'], this['W'], this['E'], this['A']>
-  >
-}

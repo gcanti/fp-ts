@@ -761,9 +761,9 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends HKT>(
   F: Applicative<F>
-) => <A, S, R, W, FE, B, E>(
+) => <A, S, R, W, FE, B>(
   f: (a: A) => Kind<F, S, R, W, FE, B>
-) => (ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>>
+) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>>
 ```
 
 Added in v3.0.0

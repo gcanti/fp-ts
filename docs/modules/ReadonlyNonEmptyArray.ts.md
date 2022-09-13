@@ -1486,9 +1486,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const traverse: <F>(
+export declare const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, W, E, B, TS, TR, TW, TE>(
+) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```

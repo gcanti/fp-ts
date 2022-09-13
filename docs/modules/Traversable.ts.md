@@ -33,10 +33,16 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function traverse<F extends HKT, G extends HKT>(
-  T: Traversable<F>,
+export declare const traverse: <T extends HKT, G extends HKT>(
+  T: Traversable<T>,
   G: Traversable<G>
-): Traversable<ComposeF<F, G>>['traverse']
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <A, FS, FR, FW, FE, B>(
+  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
+) => <TS, TR, TW, TE, GS, GR, GW, GE>(
+  tga: Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<F, FS, FR, FW, FE, Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, B>>>
 ```
 
 Added in v3.0.0
@@ -51,9 +57,9 @@ Added in v3.0.0
 export interface Traversable<T extends HKT> extends Functor<T> {
   readonly traverse: <F extends HKT>(
     F: Applicative<F>
-  ) => <A, S, R, W, E, B, TS, TR, TW, TE>(
+  ) => <A, S, R, W, E, B>(
     f: (a: A) => Kind<F, S, R, W, E, B>
-  ) => (ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
+  ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
 }
 ```
 

@@ -37,8 +37,8 @@
  */
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
-import type { ComposeF, HKT, Kind } from './HKT'
-import { Semigroup, reverse } from './Semigroup'
+import type { HKT, Kind } from './HKT'
+import { reverse, Semigroup } from './Semigroup'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -64,16 +64,15 @@ export interface Apply<F extends HKT> extends Functor<F> {
  * @category combinators
  * @since 3.0.0
  */
-export const ap = <F extends HKT, G extends HKT>(F: Apply<F>, G: Apply<G>): Apply<ComposeF<F, G>>['ap'] => {
-  return <FS, FR, FW, FE, GS, GR, GW, GE, A>(
-    fa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
-  ): (<B>(
-    fab: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, (a: A) => B>>
-  ) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) =>
-    flow(
-      F.map((gab) => (ga: Kind<G, GS, GR, GW, GE, A>) => G.ap(ga)(gab)),
-      F.ap(fa)
-    )
+export const ap = <F extends HKT, G extends HKT>(F: Apply<F>, G: Apply<G>) => <FS, FR, FW, FE, GS, GR, GW, GE, A>(
+  fa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+): (<B>(
+  fab: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, (a: A) => B>>
+) => Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>) => {
+  return flow(
+    F.map((gab) => (ga: Kind<G, GS, GR, GW, GE, A>) => G.ap(ga)(gab)),
+    F.ap(fa)
+  )
 }
 
 /**

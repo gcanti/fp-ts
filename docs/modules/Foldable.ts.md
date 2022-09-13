@@ -34,10 +34,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function foldMap<F extends HKT, G extends HKT>(
+export declare const foldMap: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['foldMap']
+) => <M>(
+  M: Monoid<M>
+) => <A>(
+  f: (a: A) => M
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => M
 ```
 
 Added in v3.0.0
@@ -49,10 +53,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function reduce<F extends HKT, G extends HKT>(
+export declare const reduce: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['reduce']
+) => <B, A>(
+  b: B,
+  f: (b: B, a: A) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
 ```
 
 Added in v3.0.0
@@ -64,10 +71,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function reduceRight<F extends HKT, G extends HKT>(
+export declare const reduceRight: <F extends HKT, G extends HKT>(
   F: Foldable<F>,
   G: Foldable<G>
-): Foldable<ComposeF<F, G>>['reduceRight']
+) => <B, A>(
+  b: B,
+  f: (a: A, b: B) => B
+) => <FS, FR, FW, FE, GS, GR, GW, GE>(fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>) => B
 ```
 
 Added in v3.0.0
