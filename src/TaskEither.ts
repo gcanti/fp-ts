@@ -118,13 +118,13 @@ export const leftIO: <E, A = never>(me: IO<E>) => TaskEither<E, A> = /*#__PURE__
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, E>(fa: IO<A>) => TaskEither<E, A> = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => TaskEither<E, A> = rightIO
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A, E>(fa: T.Task<A>) => TaskEither<E, A> = rightTask
+export const fromTask: <A, E = never>(fa: T.Task<A>) => TaskEither<E, A> = rightTask
 
 /**
  * @category natural transformations
@@ -803,7 +803,7 @@ export const FromIO: FromIO_<TaskEitherF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <E>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
@@ -836,7 +836,7 @@ export const FromTask: FromTask_<TaskEitherF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => T.Task<B>
-) => <E>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
+) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators

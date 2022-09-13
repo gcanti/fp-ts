@@ -35,7 +35,13 @@ export function fromF<F extends HKT>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO = <F extends HKT>(F: Functor<F>, FT: FromIO<F>) => <W>(w: W) => <A, S, R, FW, E>(
+export const fromIO = <F extends HKT>(F: Functor<F>, FT: FromIO<F>) => <W>(w: W) => <
+  A,
+  S,
+  R = unknown,
+  FW = never,
+  E = never
+>(
   fa: IO<A>
 ): Kind<F, S, R, FW, E, Writer<W, A>> => {
   return pipe(FT.fromIO<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
@@ -45,7 +51,13 @@ export const fromIO = <F extends HKT>(F: Functor<F>, FT: FromIO<F>) => <W>(w: W)
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask = <F extends HKT>(F: Functor<F>, FT: FromTask<F>) => <W>(w: W) => <A, S, R, FW, E>(
+export const fromTask = <F extends HKT>(F: Functor<F>, FT: FromTask<F>) => <W>(w: W) => <
+  A,
+  S,
+  R = unknown,
+  FW = never,
+  E = never
+>(
   fa: Task<A>
 ): Kind<F, S, R, FW, E, Writer<W, A>> => {
   return pipe(FT.fromTask<A, S, R, FW, E>(fa), F.map(W.fromIdentity(w)))
@@ -55,7 +67,9 @@ export const fromTask = <F extends HKT>(F: Functor<F>, FT: FromTask<F>) => <W>(w
  * @category constructors
  * @since 3.0.0
  */
-export const tell = <F extends HKT>(F: Pointed<F>) => <W, S, R, FW, E>(w: W): Kind<F, S, R, FW, E, Writer<W, void>> => {
+export const tell = <F extends HKT>(F: Pointed<F>) => <W, S, R = unknown, FW = never, E = never>(
+  w: W
+): Kind<F, S, R, FW, E, Writer<W, void>> => {
   return F.of(W.tell(w))
 }
 
@@ -82,7 +96,7 @@ export function map<F extends HKT>(
 export function of<F extends HKT, W>(
   F: Pointed<F>,
   M: Monoid<W>
-): <A, S, R, FW, E>(a: A) => Kind<F, S, R, FW, E, Writer<W, A>> {
+): <A, S, R = unknown, FW = never, E = never>(a: A) => Kind<F, S, R, FW, E, Writer<W, A>> {
   return (a) => F.of([a, M.empty])
 }
 

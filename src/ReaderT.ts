@@ -64,7 +64,7 @@ export const chain = <M extends HKT>(M: Chain<M>) => <A, R2, S, FR2, W2, E2, B>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromReader = <F extends HKT>(F: Pointed<F>) => <R, A, S, FR, W, E>(
+export const fromReader = <F extends HKT>(F: Pointed<F>) => <R, A, S, FR = unknown, W = never, E = never>(
   ma: Reader<R, A>
 ): Reader<R, Kind<F, S, FR, W, E, A>> => {
   return (r) => F.of(ma(r))

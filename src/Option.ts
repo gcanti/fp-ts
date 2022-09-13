@@ -170,7 +170,7 @@ export const getRight = <E, A>(ma: Either<E, A>): Option<A> => (_.isLeft(ma) ? n
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: FromEither_<OptionF>['fromEither'] = getRight
+export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 
 // -------------------------------------------------------------------------------------
 // destructors

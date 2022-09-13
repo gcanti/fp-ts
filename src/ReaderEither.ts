@@ -120,13 +120,13 @@ export const asksReaderEither: <R, E, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <E, A, R>(fa: Either<E, A>) => ReaderEither<R, E, A> = R.of
+export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R, E, A> = R.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: <R, A, E>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
+export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -655,7 +655,7 @@ export const FromEither: FromEither_<ReaderEitherF> = {
  */
 export const fromOption: <E>(
   onNone: Lazy<E>
-) => <A, R>(fa: Option<A>) => ReaderEither<R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
+) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators
@@ -665,7 +665,7 @@ export const fromOptionK: <E>(
   onNone: Lazy<E>
 ) => <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => Option<B>
-) => <R>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
@@ -684,9 +684,9 @@ export const chainOptionK: <E>(
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderEither<R, A, A>
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
@@ -727,7 +727,7 @@ export const filterOrElseW: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators

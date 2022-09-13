@@ -60,13 +60,14 @@ export const fromReaderTask: <W>(
  * @category constructors
  * @since 3.0.0
  */
-export const fromTaskWriter: <W, A, R>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ R.of
+export const fromTaskWriter: <W, A, R = unknown>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A> =
+  /*#__PURE__*/ R.of
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: <W>(w: W) => <A, R>(fa: IO<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromIO(
+export const fromIO: <W>(w: W) => <A, R = unknown>(fa: IO<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromIO(
   RT.Functor,
   RT.FromIO
 )
@@ -75,10 +76,9 @@ export const fromIO: <W>(w: W) => <A, R>(fa: IO<A>) => ReaderTaskWriter<R, W, A>
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: <W>(w: W) => <A, R>(fa: Task<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromTask(
-  RT.Functor,
-  RT.FromTask
-)
+export const fromTask: <W>(
+  w: W
+) => <A, R = unknown>(fa: Task<A>) => ReaderTaskWriter<R, W, A> = /*#__PURE__*/ WT.fromTask(RT.Functor, RT.FromTask)
 
 /**
  * Appends a value to the accumulator
@@ -114,7 +114,7 @@ export const asksReaderTaskWriter: <R, W, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromWriter = <W, A, R>(w: Writer<W, A>): ReaderTaskWriter<R, W, A> => RT.of(w)
+export const fromWriter = <W, A, R = unknown>(w: Writer<W, A>): ReaderTaskWriter<R, W, A> => RT.of(w)
 
 /**
  * @category natural transformations
@@ -178,7 +178,7 @@ export const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R
  */
 export const fromTaskWriterK = <A extends ReadonlyArray<unknown>, W, B>(
   f: (...a: A) => Task<Writer<W, B>>
-): (<R>(...a: A) => ReaderTaskWriter<R, W, B>) => (...a) => fromTaskWriter(f(...a))
+): (<R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>) => (...a) => fromTaskWriter(f(...a))
 
 /**
  * @category combinators
@@ -387,7 +387,7 @@ export const FromWriter: FromWriter_<ReaderTaskWriterF> = {
  */
 export const fromWriterK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => Writer<E, B>
-) => <R>(...a: A) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ fromWriterK_(FromWriter)
+) => <R = unknown>(...a: A) => ReaderTaskWriter<R, E, B> = /*#__PURE__*/ fromWriterK_(FromWriter)
 
 /**
  * @category instances

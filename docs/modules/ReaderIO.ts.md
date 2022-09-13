@@ -301,7 +301,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => I.IO<B>
-) => <R>(...a: A) => ReaderIO<R, B>
+) => <R = unknown>(...a: A) => ReaderIO<R, B>
 ```
 
 Added in v3.0.0
@@ -472,7 +472,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, R>(fa: I.IO<A>) => ReaderIO<R, A>
+export declare const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A>
 ```
 
 Added in v3.0.0

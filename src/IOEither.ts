@@ -110,7 +110,7 @@ export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = I.of
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, E>(fa: IO<A>) => IOEither<E, A> = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -602,7 +602,7 @@ export const FromIO: FromIO_<IOEitherF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => I.IO<B>
-) => <E>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <E = never>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators

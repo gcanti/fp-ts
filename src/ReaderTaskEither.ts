@@ -93,25 +93,26 @@ export interface ReaderTaskEither<R, E, A> {
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTaskEither: <E, A, R>(fa: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ R.of
+export const fromTaskEither: <E, A, R = unknown>(fa: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A> =
+  /*#__PURE__*/ R.of
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, R, A = never>(e: E) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.left(RT.Pointed)
+export const left: <E, R = unknown, A = never>(e: E) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.left(RT.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.right(RT.Pointed)
+export const right: <A, R = unknown, E = never>(a: A) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ ET.right(RT.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const rightTask: <A, R, E = never>(ma: Task<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
+export const rightTask: <A, R = unknown, E = never>(ma: Task<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
   TE.rightTask,
   fromTaskEither
 )
@@ -120,7 +121,7 @@ export const rightTask: <A, R, E = never>(ma: Task<A>) => ReaderTaskEither<R, E,
  * @category constructors
  * @since 3.0.0
  */
-export const leftTask: <E, R, A = never>(me: Task<E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
+export const leftTask: <E, R = unknown, A = never>(me: Task<E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
   TE.leftTask,
   fromTaskEither
 )
@@ -157,7 +158,7 @@ export const leftReaderTask: <R, E, A = never>(
  * @category constructors
  * @since 3.0.0
  */
-export const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
+export const rightIO: <A, R = unknown, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
   TE.rightIO,
   fromTaskEither
 )
@@ -166,7 +167,7 @@ export const rightIO: <A, R, E = never>(ma: IO<A>) => ReaderTaskEither<R, E, A> 
  * @category constructors
  * @since 3.0.0
  */
-export const leftIO: <E, R, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
+export const leftIO: <E, R = unknown, A = never>(me: IO<E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
   TE.leftIO,
   fromTaskEither
 )
@@ -197,31 +198,31 @@ export const asksReaderTaskEither: <R, E, A>(
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromEither: <E, A, R>(fa: Either<E, A>) => ReaderTaskEither<R, E, A> = RT.of
+export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderTaskEither<R, E, A> = RT.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromReader: <R, A, E>(fa: Reader<R, A>) => ReaderTaskEither<R, E, A> = rightReader
+export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderTaskEither<R, E, A> = rightReader
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R, E>(fa: IO<A>) => ReaderTaskEither<R, E, A> = rightIO
+export const fromIO: <A, R = unknown, E = never>(fa: IO<A>) => ReaderTaskEither<R, E, A> = rightIO
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A, R, E>(fa: Task<A>) => ReaderTaskEither<R, E, A> = rightTask
+export const fromTask: <A, R = unknown, E = never>(fa: Task<A>) => ReaderTaskEither<R, E, A> = rightTask
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIOEither: <E, A, R>(fa: IOEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
+export const fromIOEither: <E, A, R = unknown>(fa: IOEither<E, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ flow(
   TE.fromIOEither,
   fromTaskEither
 )
@@ -426,7 +427,7 @@ export const swap: <R, E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<
  */
 export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => IOEither<E, B>
-): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromIOEither(f(...a))
+): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromIOEither(f(...a))
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
@@ -452,7 +453,7 @@ export const chainIOEitherK: <A, E, B>(
  */
 export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => TaskEither<E, B>
-): (<R>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromTaskEither(f(...a))
+): (<R = unknown>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => fromTaskEither(f(...a))
 
 /**
  * Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
@@ -852,7 +853,7 @@ export const FromIO: FromIO_<ReaderTaskEitherF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <R, E>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
@@ -885,7 +886,7 @@ export const FromTask: FromTask_<ReaderTaskEitherF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => T.Task<B>
-) => <R, E>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
+) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
@@ -1107,9 +1108,9 @@ export const chainFirstEitherK: <A, E, B>(
  * @since 3.0.0
  */
 export const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => ReaderTaskEither<R, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => ReaderTaskEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderTaskEither<R, A, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderTaskEither<R, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderTaskEither<R, A, B>
+  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderTaskEither<R, A, A>
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
@@ -1150,7 +1151,7 @@ export const filterOrElseW: {
  */
 export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category instances

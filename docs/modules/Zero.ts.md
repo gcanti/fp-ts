@@ -29,7 +29,7 @@ Added in v3.0.0
 export declare const guard: <F extends HKT>(
   F: Zero<F>,
   P: Pointed<F>
-) => <S, R, W, E>(b: boolean) => Kind<F, S, R, W, E, void>
+) => <S, R = unknown, W = never, E = never>(b: boolean) => Kind<F, S, R, W, E, void>
 ```
 
 Added in v3.0.0
@@ -42,7 +42,7 @@ Added in v3.0.0
 
 ```ts
 export interface Zero<F extends HKT> extends Typeclass<F> {
-  readonly zero: <S, R, W, E, A>() => Kind<F, S, R, W, E, A>
+  readonly zero: <S, R = unknown, W = never, E = never, A = never>() => Kind<F, S, R, W, E, A>
 }
 ```
 

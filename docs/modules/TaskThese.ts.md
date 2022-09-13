@@ -184,7 +184,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => T.Task<B>
-) => <E>(...a: A) => TaskThese<E, B>
+) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v3.0.0
@@ -238,7 +238,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A>
+export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0
@@ -264,7 +264,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A>
+export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A>
 ```
 
 Added in v3.0.0

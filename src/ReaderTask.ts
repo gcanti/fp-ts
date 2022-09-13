@@ -82,13 +82,13 @@ export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__P
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromTask: <A, R>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
+export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
 
 /**
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -299,7 +299,7 @@ export const FromIO: FromIO_<ReaderTaskF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IO<B>
-) => <R>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
@@ -400,7 +400,7 @@ export const FromTask: FromTask_<ReaderTaskF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => T.Task<B>
-) => <R>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators

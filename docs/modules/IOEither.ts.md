@@ -379,7 +379,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => I.IO<B>
-) => <E>(...a: A) => IOEither<E, B>
+) => <E = never>(...a: A) => IOEither<E, B>
 ```
 
 Added in v3.0.0
@@ -958,7 +958,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, E>(fa: I.IO<A>) => IOEither<E, A>
+export declare const fromIO: <A, E = never>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v3.0.0

@@ -52,7 +52,7 @@ export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A> = /*#__PUR
  * @category natural transformations
  * @since 3.0.0
  */
-export const fromIO: <A, R>(fa: I.IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
+export const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -255,7 +255,7 @@ export const FromIO: FromIO_<ReaderIOF> = {
  */
 export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => I.IO<B>
-) => <R>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
+) => <R = unknown>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators

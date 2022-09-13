@@ -251,7 +251,7 @@ Added in v3.0.0
 ```ts
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
-) => <R>(...a: A) => ReaderTask<R, B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -275,7 +275,7 @@ Added in v3.0.0
 ```ts
 export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => T.Task<B>
-) => <R>(...a: A) => ReaderTask<R, B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -545,7 +545,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: <A, R>(fa: IO<A>) => ReaderTask<R, A>
+export declare const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0
@@ -565,7 +565,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: <A, R>(fa: T.Task<A>) => ReaderTask<R, A>
+export declare const fromTask: <A, R = unknown>(fa: T.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

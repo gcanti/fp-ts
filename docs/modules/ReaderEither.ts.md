@@ -411,7 +411,7 @@ Added in v3.0.0
 ```ts
 export declare const fromEitherK: <A extends readonly unknown[], E, B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -423,7 +423,7 @@ Added in v3.0.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -583,9 +583,9 @@ Derivable from `FromEither`.
 
 ```ts
 export declare const fromPredicate: {
-  <A, B extends A>(refinement: Refinement<A, B>): <R>(a: A) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <B extends A, R>(b: B) => ReaderEither<R, A, B>
-  <A>(predicate: Predicate<A>): <R>(a: A) => ReaderEither<R, A, A>
+  <A, B extends A>(refinement: Refinement<A, B>): <R = unknown>(a: A) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <B extends A, R = unknown>(b: B) => ReaderEither<R, A, B>
+  <A>(predicate: Predicate<A>): <R = unknown>(a: A) => ReaderEither<R, A, A>
 }
 ```
 
@@ -1009,7 +1009,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: <E, A, R>(fa: E.Either<E, A>) => ReaderEither<R, E, A>
+export declare const fromEither: <E, A, R = unknown>(fa: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1021,7 +1021,7 @@ Derivable from `FromEither`.
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R>(fa: Option<A>) => ReaderEither<R, E, A>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -1031,7 +1031,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: <R, A, E>(fa: R.Reader<R, A>) => ReaderEither<R, E, A>
+export declare const fromReader: <R, A, E = never>(fa: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

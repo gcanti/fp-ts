@@ -111,13 +111,13 @@ export const fromThese: <E, A>(fa: TH.These<E, A>) => TaskThese<E, A> = T.of
  * @category constructors
  * @since 3.0.0
  */
-export const fromIO: <A, E>(fa: IO<A>) => TaskThese<E, A> = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const fromTask: <A, E>(fa: T.Task<A>) => TaskThese<E, A> = rightTask
+export const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -411,7 +411,7 @@ export const FromTask: FromTask_<TaskTheseF> = {
  */
 export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => T.Task<B>
-) => <E>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
+) => <E = never>(...a: A) => TaskThese<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 // -------------------------------------------------------------------------------------
 // utils
