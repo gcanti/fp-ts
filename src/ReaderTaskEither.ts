@@ -599,24 +599,14 @@ export const chain: <A, R2, E2, B>(
 )
 
 /**
- * Less strict version of [`flatten`](#flatten).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flattenW: <R1, E1, R2, E2, A>(
-  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
-) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
-
-/**
  * Derivable from `Chain`.
  *
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <R, E, A>(
-  mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>
-) => ReaderTaskEither<R, E, A> = flattenW
+export const flatten: <R1, E1, R2, E2, A>(
+  mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
+) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to

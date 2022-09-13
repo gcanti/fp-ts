@@ -392,14 +392,6 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
   )
 
 /**
- * Less strict version of [`flatten`](#flatten).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chain(identity)
-
-/**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.
  *
  * Derivable from `Chain`.
@@ -414,7 +406,7 @@ export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 
  * @category derivable combinators
  * @since 3.0.0
  */
-export const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A> = flattenW
+export const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Less strict version of [`alt`](#alt).

@@ -42,7 +42,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
-  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromOptionK](#fromoptionk)
   - [fromReaderK](#fromreaderk)
@@ -450,20 +449,6 @@ export declare const flap: <A>(a: A) => <R, E, B>(fab: ReaderEither<R, E, (a: A)
 
 Added in v3.0.0
 
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-**Signature**
-
-```ts
-export declare const flattenW: <R1, E1, R2, E2, A>(
-  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -749,7 +734,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>
+export declare const flatten: <R1, E1, R2, E2, A>(
+  mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
+) => ReaderEither<R1 & R2, E1 | E2, A>
 ```
 
 Added in v3.0.0

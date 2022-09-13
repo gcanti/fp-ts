@@ -37,7 +37,6 @@ Added in v3.0.0
   - [apSecondW](#apsecondw)
   - [chainFirstW](#chainfirstw)
   - [flap](#flap)
-  - [flattenW](#flattenw)
   - [local](#local)
 - [constructors](#constructors)
   - [ask](#ask)
@@ -269,18 +268,6 @@ export declare const flap: <A>(a: A) => <R, B>(fab: Reader<R, (a: A) => B>) => R
 
 Added in v3.0.0
 
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-**Signature**
-
-```ts
-export declare const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
-```
-
-Added in v3.0.0
-
 ## local
 
 Changes the value of the local context during the execution of the action `ma` (similar to `Contravariant`'s
@@ -394,7 +381,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <R, A>(mma: Reader<R, Reader<R, A>>) => Reader<R, A>
+export declare const flatten: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0

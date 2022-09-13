@@ -46,7 +46,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
-  - [flattenW](#flattenw)
   - [fromEitherK](#fromeitherk)
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
@@ -406,18 +405,6 @@ export declare const flap: <A>(a: A) => <E, B>(fab: IOEither<E, (a: A) => B>) =>
 
 Added in v3.0.0
 
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-**Signature**
-
-```ts
-export declare const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## fromEitherK
 
 **Signature**
@@ -640,7 +627,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>
+export declare const flatten: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A>
 ```
 
 Added in v3.0.0

@@ -35,7 +35,6 @@ Added in v3.0.0
   - [chainReaderKW](#chainreaderkw)
   - [flap](#flap)
   - [flatten](#flatten)
-  - [flattenW](#flattenw)
   - [fromIOK](#fromiok)
   - [fromReaderK](#fromreaderk)
   - [local](#local)
@@ -307,21 +306,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
+export declare const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0

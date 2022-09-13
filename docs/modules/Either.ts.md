@@ -53,7 +53,6 @@ Added in v3.0.0
   - [filterOrElse](#filterorelse)
   - [filterOrElseW](#filterorelsew)
   - [flap](#flap)
-  - [flattenW](#flattenw)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
   - [orElseW](#orelsew)
@@ -484,18 +483,6 @@ export declare const flap: <A>(a: A) => <E, B>(fab: Either<E, (a: A) => B>) => E
 
 Added in v3.0.0
 
-## flattenW
-
-Less strict version of [`flatten`](#flatten).
-
-**Signature**
-
-```ts
-export declare const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
-```
-
-Added in v3.0.0
-
 ## fromOptionK
 
 **Signature**
@@ -676,7 +663,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>
+export declare const flatten: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A>
 ```
 
 **Example**

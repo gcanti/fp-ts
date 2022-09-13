@@ -121,24 +121,14 @@ export const chain: <A, R2, B>(
 ) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ RT.chain(I.Monad)
 
 /**
- * Less strict version of [`flatten`](#flatten).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chain(
-  identity
-)
-
-/**
  * Derivable from `Chain`.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const flatten: <R, A>(mma: ReaderIO<R, ReaderIO<R, A>>) => ReaderIO<R, A> = flattenW
+export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chain(
+  identity
+)
 
 // -------------------------------------------------------------------------------------
 // instances
