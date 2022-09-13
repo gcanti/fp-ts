@@ -107,13 +107,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function bracket<M extends HKT>(
+export declare const bracket: <M extends HKT>(
   M: Monad<M>
-): <S, R, W, ME, E, A, B>(
-  acquire: Kind<M, S, R, W, ME, Either<E, A>>,
-  use: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>,
-  release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
-) => Kind<M, S, R, W, ME, Either<E, B>>
+) => <S, R, W, ME, E, A, B>(
+  acquire: Kind<M, S, R, W, ME, E.Either<E, A>>,
+  use: (a: A) => Kind<M, S, R, W, ME, E.Either<E, B>>,
+  release: (a: A, e: E.Either<E, B>) => Kind<M, S, R, W, ME, E.Either<E, void>>
+) => Kind<M, S, R, W, ME, E.Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -123,11 +123,13 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<M extends HKT>(
+export declare const chain: <M extends HKT>(
   M: Monad<M>
-): <A, S, R, W, ME, E, B>(
-  f: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>
-) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, B>>
+) => <A, S, R2, W2, ME2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>
+) => <R1, W1, ME1, E1>(
+  ma: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0

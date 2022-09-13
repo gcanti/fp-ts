@@ -4,7 +4,7 @@
 import { ap as ap_, Apply } from './Apply'
 import type { Chain } from './Chain'
 import type { Either } from './Either'
-import { constant, flow, Lazy } from './function'
+import { constant, flow, Lazy, pipe } from './function'
 import { Functor, map as map_ } from './Functor'
 import type { Kind, HKT } from './HKT'
 import * as _ from './internal'
@@ -204,13 +204,10 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function chain<M extends HKT>(
-  M: Monad<M>
-): <A, S, R, W, E, B>(
+export const chain = <M extends HKT>(M: Monad<M>) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<M, S, R, W, E, Option<B>>
-) => (ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>> {
-  const zeroM = zero(M)
-  return (f) => M.chain(O.match(() => zeroM(), f))
+) => (ma: Kind<M, S, R, W, E, Option<A>>): Kind<M, S, R, W, E, Option<B>> => {
+  return pipe(ma, M.chain<O.Option<A>, S, R, W, E, O.Option<B>>(O.match(() => zero(M)(), f)))
 }
 
 /**

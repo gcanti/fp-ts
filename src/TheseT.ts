@@ -89,12 +89,14 @@ export const ap = <F extends HKT, E>(
 /**
  * @since 3.0.0
  */
-export function chain<M extends HKT, E>(
+export const chain = <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
-): <A, S, R, W, FE, B>(
-  f: (a: A) => Kind<M, S, R, W, FE, These<E, B>>
-) => (ma: Kind<M, S, R, W, FE, These<E, A>>) => Kind<M, S, R, W, FE, These<E, B>> {
+): (<A, S, R2, W2, FE2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>
+) => <R1, W1, FE1>(
+  ma: Kind<M, S, R1, W1, FE1, These<E, A>>
+) => Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>>) => {
   const _left = left(M)
   return (f) => (ma) =>
     pipe(

@@ -436,7 +436,7 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const chainIOEitherKW: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromIOEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chain(fromIOEitherK(f))
 
 /**
  * @category combinators
@@ -462,7 +462,7 @@ export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const chainTaskEitherKW: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
-) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chainW(fromTaskEitherK(f))
+) => <R, E1>(ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E1 | E2, B> = (f) => chain(fromTaskEitherK(f))
 
 /**
  * @category combinators
@@ -507,7 +507,7 @@ export const fromReaderEitherK = <A extends ReadonlyArray<unknown>, R, E, B>(
 export const chainReaderEitherKW: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = (f) =>
-  chainW(fromReaderEitherK(f))
+  chain(fromReaderEitherK(f))
 
 /**
  * @category combinators
@@ -584,7 +584,7 @@ export const ap: <R2, E2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> = right
+export const of: <A, R = unknown, E = never>(a: A) => ReaderTaskEither<R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -592,19 +592,11 @@ export const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ ET.chain(RT.Monad)
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, R2, E2, B>(
+export const chain: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = chain as any
+) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ ET.chain(
+  RT.Monad
+)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -614,7 +606,7 @@ export const chainW: <A, R2, E2, B>(
  */
 export const flattenW: <R1, E1, R2, E2, A>(
   mma: ReaderTaskEither<R1, E1, ReaderTaskEither<R2, E2, A>>
-) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
+) => ReaderTaskEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Derivable from `Chain`.
@@ -1039,7 +1031,7 @@ export const fromReaderTaskK = <A extends ReadonlyArray<unknown>, R, B>(
 export const chainReaderTaskKW: <A, R2, B>(
   f: (a: A) => RT.ReaderTask<R2, B>
 ) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) =>
-  chainW(fromReaderTaskK(f))
+  chain(fromReaderTaskK(f))
 
 /**
  * @category combinators

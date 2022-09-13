@@ -22,7 +22,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -205,21 +204,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, E2, B>(
+export declare const chain: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2 | E1, B>
 ```
@@ -248,7 +233,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A>
+export declare const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -671,7 +656,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A>
+export declare const left: <E, R = unknown, A = never>(e: E) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0
@@ -691,7 +676,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A>
+export declare const right: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A>
 ```
 
 Added in v3.0.0

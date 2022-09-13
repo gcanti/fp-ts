@@ -22,7 +22,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -221,21 +220,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, S, R2, E2, B>(
+export declare const chain: <A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E2 | E1, B>
 ```
@@ -266,7 +251,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0
@@ -949,7 +934,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const right: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
+export declare const right: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

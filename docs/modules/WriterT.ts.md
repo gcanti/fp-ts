@@ -203,12 +203,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<M extends HKT, W>(
+export declare const chain: <M extends HKT, W>(
   M: Chain<M>,
   S: Semigroup<W>
-): <A, S, R, FW, E, B>(
-  f: (a: A) => Kind<M, S, R, FW, E, Writer<W, B>>
-) => (ma: Kind<M, S, R, FW, E, Writer<W, A>>) => Kind<M, S, R, FW, E, Writer<W, B>>
+) => <A, S, R1, FW1, E1, B>(
+  f: (a: A) => Kind<M, S, R1, FW1, E1, W.Writer<W, B>>
+) => <R2, FW2, E2>(
+  ma: Kind<M, S, R2, FW2, E2, W.Writer<W, A>>
+) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, W.Writer<W, B>>
 ```
 
 Added in v3.0.0

@@ -261,7 +261,9 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
 export const of: <A>(a: A) => IOOption<A> = some
 
 /**
- * @category Monad
+ * Composes computations in sequence, using the return value of one computation to determine the next computation.
+ *
+ * @category Chain
  * @since 3.0.0
  */
 export const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B> = /*#__PURE__*/ OT.chain(

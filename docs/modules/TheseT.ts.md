@@ -81,12 +81,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<M extends HKT, E>(
+export declare const chain: <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
-): <A, S, R, W, FE, B>(
-  f: (a: A) => Kind<M, S, R, W, FE, These<E, B>>
-) => (ma: Kind<M, S, R, W, FE, These<E, A>>) => Kind<M, S, R, W, FE, These<E, B>>
+) => <A, S, R2, W2, FE2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, FE2, T.These<E, B>>
+) => <R1, W1, FE1>(ma: Kind<M, S, R1, W1, FE1, T.These<E, A>>) => Kind<M, S, R1 & R2, W2 | W1, FE2 | FE1, T.These<E, B>>
 ```
 
 Added in v3.0.0

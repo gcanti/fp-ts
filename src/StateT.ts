@@ -49,14 +49,10 @@ export const ap = <F extends HKT>(F: Chain<F>) => <FS, FR2, FW2, FE2, S, A>(fa: 
 >(
   fab: StateT<F, FS, FR1, FW1, FE1, S, (a: A) => B>
 ): StateT<F, FS, FR1 & FR2, FW1 | FW2, FE1 | FE2, S, B> => {
-  // TODO
-  const chain: <A, S, R2, W2, E2, B>(
-    f: (a: A) => Kind<F, S, R2, W2, E2, B>
-  ) => <R1, W1, E1>(ma: Kind<F, S, R1, W1, E1, A>) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, B> = F.chain as any
   return (s) =>
     pipe(
       fab(s),
-      chain(([f, s]) =>
+      F.chain(([f, s]) =>
         pipe(
           fa(s),
           F.map(([a, s]) => [f(a), s])
@@ -68,12 +64,10 @@ export const ap = <F extends HKT>(F: Chain<F>) => <FS, FR2, FW2, FE2, S, A>(fa: 
 /**
  * @since 3.0.0
  */
-export function chain<F extends HKT>(
-  F: Chain<F>
-): <A, FS, FR, FW, FE, S, B>(
-  f: (a: A) => StateT<F, FS, FR, FW, FE, S, B>
-) => (ma: StateT<F, FS, FR, FW, FE, S, A>) => StateT<F, FS, FR, FW, FE, S, B> {
-  return (f) => (ma) => (s) =>
+export const chain = <F extends HKT>(F: Chain<F>) => <A, FS, FR2, FW2, FE2, S, B>(
+  f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>
+) => <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>): StateT<F, FS, FR1 & FR2, FW1 | FW2, FE1 | FE2, S, B> => {
+  return (s) =>
     pipe(
       ma(s),
       F.chain(([a, s1]) => f(a)(s1))

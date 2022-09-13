@@ -337,19 +337,9 @@ export const of: <A, E = never>(a: A) => IOEither<E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ ET.chain(I.Monad)
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, E2, B>(
+export const chain: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = chain as any
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, B> = /*#__PURE__*/ ET.chain(I.Monad)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -357,7 +347,7 @@ export const chainW: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chainW(
+export const flattenW: <E1, E2, A>(mma: IOEither<E1, IOEither<E2, A>>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chain(
   identity
 )
 

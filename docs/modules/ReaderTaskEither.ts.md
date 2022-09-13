@@ -22,7 +22,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -252,21 +251,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, R, E, B>(
-  f: (a: A) => ReaderTaskEither<R, E, B>
-) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, E2, B>(
+export declare const chain: <A, R2, E2, B>(
   f: (a: A) => ReaderTaskEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
 ```
@@ -295,7 +280,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R, E = never>(a: A) => ReaderTaskEither<R, E, A>
+export declare const of: <A, R = unknown, E = never>(a: A) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0

@@ -10,6 +10,28 @@ declare const fa: _.ReaderTask<{ r2: 'r2' }, number>
 // $ExpectType ReaderTask<{ r1: "r1"; } & { r2: "r2"; }, boolean>
 _.ap(fa)(fab)
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType ReaderTask<unknown, number>
+pipe(
+  _.of('a'),
+  _.chain(() => _.of(1))
+)
+
+// $ExpectType ReaderTask<{ b: number; }, number>
+pipe(
+  _.of('a'),
+  _.chain(() => _.of<number, { b: number }>(1))
+)
+
+// $ExpectType ReaderTask<{ a: string; } & { b: number; }, number>
+pipe(
+  _.of<string, { a: string }>('a'),
+  _.chain(() => _.of<number, { b: number }>(1))
+)
+
 //
 // -------------------------------------------------------------------------------------
 //

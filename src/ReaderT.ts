@@ -44,12 +44,12 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function chain<M extends HKT>(
-  M: Chain<M>
-): <A, R, S, FR, W, E, B>(
-  f: (a: A) => Reader<R, Kind<M, S, FR, W, E, B>>
-) => (ma: Reader<R, Kind<M, S, FR, W, E, A>>) => Reader<R, Kind<M, S, FR, W, E, B>> {
-  return (f) => (ma) => (r) =>
+export const chain = <M extends HKT>(M: Chain<M>) => <A, R2, S, FR2, W2, E2, B>(
+  f: (a: A) => Reader<R2, Kind<M, S, FR2, W2, E2, B>>
+) => <R1, FR1, W1, E1>(
+  ma: Reader<R1, Kind<M, S, FR1, W1, E1, A>>
+): Reader<R1 & R2, Kind<M, S, FR1 & FR2, W1 | W2, E1 | E2, B>> => {
+  return (r) =>
     pipe(
       ma(r),
       M.chain((a) => f(a)(r))

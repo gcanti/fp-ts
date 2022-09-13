@@ -10,19 +10,31 @@ declare const fa: _.Reader<{ r2: 'r2' }, number>
 // $ExpectType Reader<{ r1: "r1"; } & { r2: "r2"; }, boolean>
 _.ap(fa)(fab)
 
-//
 // -------------------------------------------------------------------------------------
-//
+// chain widening
+// -------------------------------------------------------------------------------------
 
-//
-// chainW
-//
+// $ExpectType Reader<unknown, number>
+pipe(
+  _.of('a'),
+  _.chain(() => _.of(1))
+)
+
+// $ExpectType Reader<{ b: number; }, number>
+pipe(
+  _.of('a'),
+  _.chain(() => _.of<number, { b: number }>(1))
+)
 
 // $ExpectType Reader<{ a: string; } & { b: number; }, number>
 pipe(
   _.of<string, { a: string }>('a'),
-  _.chainW(() => _.of<number, { b: number }>(1))
+  _.chain(() => _.of<number, { b: number }>(1))
 )
+
+//
+// -------------------------------------------------------------------------------------
+//
 
 //
 // Do

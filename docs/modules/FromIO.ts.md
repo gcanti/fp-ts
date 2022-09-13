@@ -71,7 +71,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromIO<F extends HKT> extends Typeclass<F> {
-  readonly fromIO: <A, S, R, W, E>(fa: IO<A>) => Kind<F, S, R, W, E, A>
+  readonly fromIO: <A, S, R = unknown, W = never, E = never>(fa: IO<A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

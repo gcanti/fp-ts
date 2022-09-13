@@ -371,21 +371,13 @@ export const ap: <E2, A>(fa: Either<E2, A>) => <E1, B>(fab: Either<E1, (a: A) =>
 export const of: <A, E = never>(a: A) => Either<E, A> = right
 
 /**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
-  isLeft(ma) ? ma : f(ma.right)
-
-/**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
  *
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, E, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B> = chainW
+export const chain = <A, E2, B>(f: (a: A) => Either<E2, B>) => <E1>(ma: Either<E1, A>): Either<E1 | E2, B> =>
+  isLeft(ma) ? ma : f(ma.right)
 
 /**
  * @category ChainRec
@@ -405,9 +397,7 @@ export const chainRec: <A, E, B>(f: (a: A) => Either<E, Either<A, B>>) => (a: A)
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> =
-  /*#__PURE__*/
-  chainW(identity)
+export const flattenW: <E1, E2, A>(mma: Either<E1, Either<E2, A>>) => Either<E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * The `flatten` function is the conventional monad join operator. It is used to remove one level of monadic structure, projecting its bound argument into the outer level.

@@ -71,11 +71,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<M extends HKT>(
+export declare const chain: <M extends HKT>(
   M: Monad<M>
-): <A, S, R, W, E, B>(
-  f: (a: A) => Kind<M, S, R, W, E, Option<B>>
-) => (ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, Option<B>>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<M, S, R, W, E, O.Option<B>>
+) => (ma: Kind<M, S, R, W, E, O.Option<A>>) => Kind<M, S, R, W, E, O.Option<B>>
 ```
 
 Added in v3.0.0

@@ -21,7 +21,7 @@ import type { Refinement } from './Refinement'
  * @since 3.0.0
  */
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: <E, A, S, R, W>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromEither: <E, A, S, R = unknown, W = never>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -84,9 +84,10 @@ export const chainOptionK = <M extends HKT>(
   onNone: Lazy<E>
 ) => <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   const fromOptionKF = fromOptionK(F)
-  return (onNone) => {
+  return <E>(onNone: Lazy<E>) => {
     const from = fromOptionKF(onNone)
-    return (f) => M.chain((a) => from(f)(a))
+    return <A, B>(f: (a: A) => Option<B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) =>
+      pipe(ma, M.chain<A, S, R, W, E, B>(from(f)))
   }
 }
 
@@ -107,7 +108,8 @@ export const chainEitherK = <M extends HKT>(
   M: Chain<M>
 ): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
   const fromEitherKF = fromEitherK(F)
-  return (f) => M.chain((a) => fromEitherKF(f)(a))
+  return <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) =>
+    pipe(ma, M.chain<A, S, R, W, E, B>(fromEitherKF(f)))
 }
 
 /**
@@ -142,9 +144,7 @@ export function filterOrElse<M extends HKT>(
   ) => Kind<M, S, R, W, E, B>
   <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 } {
-  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R, W>(
-    ma: Kind<M, S, R, W, E, A>
-  ): Kind<M, S, R, W, E, A> =>
+  return <A, E>(predicate: Predicate<A>, onFalse: (a: A) => E) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) =>
     pipe(
       ma,
       M.chain((a) => F.fromEither(predicate(a) ? _.right(a) : _.left(onFalse(a))))

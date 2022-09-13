@@ -18,7 +18,6 @@ Added in v3.0.0
   - [id](#id)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Choice](#choice)
   - [left](#left)
   - [right](#right)
@@ -116,19 +115,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
+export declare const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -177,7 +164,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R>(a: A) => Reader<R, A>
+export declare const of: <A, R = unknown>(a: A) => Reader<R, A>
 ```
 
 Added in v3.0.0

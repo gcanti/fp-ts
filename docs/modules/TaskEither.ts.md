@@ -29,7 +29,6 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -266,19 +265,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, E, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, E2, B>(
+export declare const chain: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```

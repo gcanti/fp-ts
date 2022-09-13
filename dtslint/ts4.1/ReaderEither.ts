@@ -12,6 +12,28 @@ declare const fa: _.ReaderEither<{ r2: 'r2' }, Error, number>
 // $ExpectType ReaderEither<{ r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
 _.ap(fa)(fab)
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType ReaderEither<unknown, never, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right(1))
+)
+
+// $ExpectType ReaderEither<{ a: string; } & { b: number; }, never, number>
+pipe(
+  _.right<string, { a: string }>('a'),
+  _.chain(() => _.right<number, { b: number }>(1))
+)
+
+// $ExpectType ReaderEither<{ a: string; } & { b: number; }, string | number, number>
+pipe(
+  _.right<string, { a: string }, string>('a'),
+  _.chain(() => _.right<number, { b: number }, number>(1))
+)
+
 //
 // -------------------------------------------------------------------------------------
 //
@@ -34,16 +56,6 @@ pipe(
 pipe(
   _.right<string, { a: string }, string>('a'),
   _.getOrElseEW(() => R.of<null, { b: number }>(null))
-)
-
-//
-// chainW
-//
-
-// $ExpectType ReaderEither<{ a: string; } & { b: number; }, string | number, number>
-pipe(
-  _.right<string, { a: string }, string>('a'),
-  _.chainW(() => _.right<number, { b: number }, number>(1))
 )
 
 //

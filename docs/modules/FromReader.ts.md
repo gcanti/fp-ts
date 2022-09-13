@@ -98,7 +98,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: <R, A, S, W, E>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
+  readonly fromReader: <R, A, S, W = never, E = never>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

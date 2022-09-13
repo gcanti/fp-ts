@@ -4,6 +4,7 @@
  * @since 3.0.0
  */
 import { Chain, chainFirst } from './Chain'
+import { pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
 import * as R from './Reader'
 
@@ -18,7 +19,7 @@ import Reader = R.Reader
  * @since 3.0.0
  */
 export interface FromReader<F extends HKT> extends Typeclass<F> {
-  readonly fromReader: <R, A, S, W, E>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
+  readonly fromReader: <R, A, S, W = never, E = never>(fa: Reader<R, A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------
@@ -57,11 +58,17 @@ export const fromReaderK = <F extends HKT>(F: FromReader<F>) => <A extends Reado
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK = <M extends HKT>(
-  F: FromReader<M>,
-  M: Chain<M>
-): (<A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
-  return (f) => M.chain((a) => F.fromReader(f(a)))
+export const chainReaderK = <M extends HKT>(F: FromReader<M>, M: Chain<M>) => <A, R, B>(f: (a: A) => Reader<R, B>) => <
+  S,
+  W,
+  E
+>(
+  ma: Kind<M, S, R, W, E, A>
+): Kind<M, S, R, W, E, B> => {
+  return pipe(
+    ma,
+    M.chain((a) => F.fromReader(f(a)))
+  )
 }
 
 /**

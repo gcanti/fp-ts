@@ -91,13 +91,10 @@ export const chainNullableK = <M extends HKT>(
 ) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) => Kind<M, S, R, W, FE, Either<E, NonNullable<B>>>) => {
   const chainM = chain(M)
   const fromNullableKM = fromNullableK(M)
-  return (e) => {
+  return <E>(e: E) => {
     const fromNullableKMe = fromNullableKM(e)
-    return (f) => (ma) =>
-      pipe(
-        ma,
-        chainM((a) => fromNullableKMe(f)(a))
-      )
+    return <A, B>(f: (a: A) => B | null | undefined) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, Either<E, A>>) =>
+      pipe(ma, chainM<A, S, R, W, FE, E, NonNullable<B>>(fromNullableKMe(f)))
   }
 }
 
@@ -131,12 +128,15 @@ export const ap = <F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function chain<M extends HKT>(
-  M: Monad<M>
-): <A, S, R, W, ME, E, B>(
-  f: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>
-) => (ma: Kind<M, S, R, W, ME, Either<E, A>>) => Kind<M, S, R, W, ME, Either<E, B>> {
-  return (f) => M.chain((e) => (E.isLeft(e) ? M.of(e) : f(e.right)))
+export const chain = <M extends HKT>(M: Monad<M>) => <A, S, R2, W2, ME2, E2, B>(
+  f: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>
+) => <R1, W1, ME1, E1>(
+  ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => {
+  return pipe(
+    ma,
+    M.chain((e): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E1 | E2, B>> => (E.isLeft(e) ? M.of(e) : f(e.right)))
+  )
 }
 
 /**
@@ -310,27 +310,21 @@ export function toUnion<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function bracket<M extends HKT>(
-  M: Monad<M>
-): <S, R, W, ME, E, A, B>(
+export const bracket = <M extends HKT>(M: Monad<M>) => <S, R, W, ME, E, A, B>(
   acquire: Kind<M, S, R, W, ME, Either<E, A>>,
   use: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>,
   release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
-) => Kind<M, S, R, W, ME, Either<E, B>> {
+): Kind<M, S, R, W, ME, Either<E, B>> => {
   const leftM = left(M)
-  return (acquire, use, release) => {
-    return pipe(
-      acquire,
-      M.chain(
-        E.match(
-          (e) => leftM(e),
-          (a) =>
-            pipe(
-              use(a),
-              M.chain((e) => pipe(release(a, e), M.chain(E.match(leftM, () => M.of(e)))))
-            )
+  return pipe(
+    acquire,
+    M.chain(
+      E.match<E, Kind<M, S, R, W, ME, E.Either<E, B>>, A>(leftM, (a) =>
+        pipe(
+          use(a),
+          M.chain((e) => pipe(release(a, e), M.chain(E.match(leftM, () => M.of(e)))))
         )
       )
     )
-  }
+  )
 }

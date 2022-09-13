@@ -16,7 +16,6 @@ Added in v3.0.0
   - [ap](#ap)
 - [Chain](#chain)
   - [chain](#chain)
-  - [chainW](#chainw)
 - [Functor](#functor)
   - [map](#map)
 - [Pointed](#pointed)
@@ -109,19 +108,7 @@ Composes computations in sequence, using the return value of one computation to 
 **Signature**
 
 ```ts
-export declare const chain: <A, R, B>(f: (a: A) => ReaderTask<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## chainW
-
-Less strict version of [`chain`](#chain).
-
-**Signature**
-
-```ts
-export declare const chainW: <A, R2, B>(
+export declare const chain: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
 ) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
@@ -150,7 +137,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const of: <A, R>(a: A) => ReaderTask<R, A>
+export declare const of: <A, R = unknown>(a: A) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

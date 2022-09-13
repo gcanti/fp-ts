@@ -99,7 +99,9 @@ export const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, 
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ ST.of(RTE.Pointed)
+export const right: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ ST.of(
+  RTE.Pointed
+)
 
 /**
  * @category constructors
@@ -275,7 +277,7 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const chainIOEitherKW = <A, E2, B>(f: (a: A) => IOEither<E2, B>) => <S, R, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<A, S, R, E2, B>(fromIOEitherK(f)))
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chain<A, S, R, E2, B>(fromIOEitherK(f)))
 
 /**
  * @category combinators
@@ -301,7 +303,7 @@ export const fromTaskEitherK = <A extends ReadonlyArray<unknown>, E, B>(
  */
 export const chainTaskEitherKW = <A, E2, B>(f: (a: A) => TaskEither<E2, B>) => <S, R, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<A, S, R, E2, B>(fromTaskEitherK(f)))
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chain<A, S, R, E2, B>(fromTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -327,7 +329,7 @@ export const fromReaderTaskEitherK = <A extends ReadonlyArray<unknown>, R, E, B>
  */
 export const chainReaderTaskEitherKW = <A, R, E2, B>(f: (a: A) => ReaderTaskEither<R, E2, B>) => <S, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chainW<A, S, R, E2, B>(fromReaderTaskEitherK(f)))
+): StateReaderTaskEither<S, R, E1 | E2, B> => pipe(ma, chain<A, S, R, E2, B>(fromReaderTaskEitherK(f)))
 
 /**
  * @category combinators
@@ -397,7 +399,7 @@ export const ap: <S, R2, E2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
+export const of: <A, S, R = unknown, E = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -405,19 +407,11 @@ export const of: <A, S, R, E = never>(a: A) => StateReaderTaskEither<S, R, E, A>
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, S, R, E, B>(
-  f: (a: A) => StateReaderTaskEither<S, R, E, B>
-) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ ST.chain(RTE.Monad)
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, S, R2, E2, B>(
+export const chain: <A, S, R2, E2, B>(
   f: (a: A) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(ma: StateReaderTaskEither<S, R1, E1, A>) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = chain as any
+) => <R1, E1>(
+  ma: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, B> = /*#__PURE__*/ ST.chain(RTE.Monad)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -427,7 +421,7 @@ export const chainW: <A, S, R2, E2, B>(
  */
 export const flattenW: <S, R1, E1, R2, E2, A>(
   mma: StateReaderTaskEither<S, R1, E1, StateReaderTaskEither<S, R2, E2, A>>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Derivable from `Chain`.

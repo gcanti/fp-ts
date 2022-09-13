@@ -10,6 +10,28 @@ declare const fa: _.Either<Error, number>
 // $ExpectType Either<string | Error, boolean>
 _.ap(fa)(fab)
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType Either<never, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right(1))
+)
+
+// $ExpectType Either<number, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
+// $ExpectType Either<string | number, number>
+pipe(
+  _.right<string, string>('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
 //
 // -------------------------------------------------------------------------------------
 //
@@ -29,16 +51,6 @@ _.toUnion(_.right<number, string>(1))
 pipe(
   _.right('a'),
   _.getOrElseW(() => null)
-)
-
-//
-// chainW
-//
-
-// $ExpectType Either<string | number, number>
-pipe(
-  _.right<string, string>('a'),
-  _.chainW(() => _.right<number, number>(1))
 )
 
 //

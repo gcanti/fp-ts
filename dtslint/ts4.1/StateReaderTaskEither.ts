@@ -14,19 +14,31 @@ declare const fa: _.StateReaderTaskEither<null, { r2: 'r2' }, Error, number>
 // $ExpectType StateReaderTaskEither<null, { r1: "r1"; } & { r2: "r2"; }, string | Error, boolean>
 _.ap(fa)(fab)
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType StateReaderTaskEither<unknown, unknown, never, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right(1))
+)
+
+// $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, never, number>
+pipe(
+  _.right<string, null, { a: string }>('a'),
+  _.chain(() => _.right<number, null, { b: number }>(1))
+)
+
+// $ExpectType StateReaderTaskEither<null, { a: string; } & { b: number; }, string | number, number>
+pipe(
+  _.right<string, null, { a: string }, string>('a'),
+  _.chain(() => _.right<number, null, { b: number }, number>(1))
+)
+
 //
 // -------------------------------------------------------------------------------------
 //
-
-//
-// chainW
-//
-
-// $ExpectType StateReaderTaskEither<boolean, { a: string; } & { b: number; }, string | number, number>
-pipe(
-  _.right<string, boolean, { a: string }, string>('a'),
-  _.chainW(() => _.right<number, boolean, { b: number }, number>(1))
-)
 
 //
 // chainEitherKW

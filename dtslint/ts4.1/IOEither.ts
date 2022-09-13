@@ -12,6 +12,28 @@ declare const fa: _.IOEither<Error, number>
 // $ExpectType IOEither<string | Error, boolean>
 _.ap(fa)(fab)
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType IOEither<never, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right(1))
+)
+
+// $ExpectType IOEither<number, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
+// $ExpectType IOEither<string | number, number>
+pipe(
+  _.right<string, string>('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
 //
 // -------------------------------------------------------------------------------------
 //
@@ -34,16 +56,6 @@ pipe(
 pipe(
   _.right('a'),
   _.getOrElseEW(() => IO.of(null))
-)
-
-//
-// chainW
-//
-
-// $ExpectType IOEither<string | number, number>
-pipe(
-  _.right<string, string>('a'),
-  _.chainW(() => _.right<number, number>(1))
 )
 
 //

@@ -15,9 +15,9 @@ import type { HKT, Kind } from './HKT'
  * @since 3.0.0
  */
 export interface Chain<M extends HKT> extends Functor<M> {
-  readonly chain: <A, S, R, W, E, B>(
-    f: (a: A) => Kind<M, S, R, W, E, B>
-  ) => (ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+  readonly chain: <A, S, R2, W2, E2, B>(
+    f: (a: A) => Kind<M, S, R2, W2, E2, B>
+  ) => <R1, W1, E1>(ma: Kind<M, S, R1, W1, E1, A>) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, B>
 }
 
 // -------------------------------------------------------------------------------------
@@ -28,8 +28,11 @@ export interface Chain<M extends HKT> extends Functor<M> {
  * @category combinators
  * @since 3.0.0
  */
-export const ap = <F extends HKT>(M: Chain<F>): Apply<F>['ap'] => (fa) =>
-  M.chain((f) => pipe(fa, M.map(f as any))) as any // TODO
+export const ap = <F extends HKT>(M: Chain<F>): Apply<F>['ap'] => (fa) => (fab) =>
+  pipe(
+    fab,
+    M.chain((f) => pipe(fa, M.map(f)))
+  )
 
 /**
  * @category combinators

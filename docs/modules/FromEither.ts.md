@@ -157,7 +157,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromEither<F extends HKT> extends Typeclass<F> {
-  readonly fromEither: <E, A, S, R, W>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
+  readonly fromEither: <E, A, S, R = unknown, W = never>(fa: Either<E, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

@@ -101,17 +101,7 @@ export const ap: <R2, A>(fa: Reader<R2, A>) => <R1, B>(fab: Reader<R1, (a: A) =>
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R>(a: A) => Reader<R, A> = constant
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
-  fa
-) => (r) => f(fa(r))(r)
+export const of: <A, R = unknown>(a: A) => Reader<R, A> = constant
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -119,7 +109,9 @@ export const chainW: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) => Reader<R, B> = chainW
+export const chain: <A, R2, B>(f: (a: A) => Reader<R2, B>) => <R1>(ma: Reader<R1, A>) => Reader<R1 & R2, B> = (f) => (
+  fa
+) => (r) => f(fa(r))(r)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -127,9 +119,7 @@ export const chain: <A, R, B>(f: (a: A) => Reader<R, B>) => (ma: Reader<R, A>) =
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chainW(
-  identity
-)
+export const flattenW: <R1, R2, A>(mma: Reader<R1, Reader<R2, A>>) => Reader<R1 & R2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Derivable from `Chain`.

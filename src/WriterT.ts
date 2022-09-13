@@ -105,19 +105,17 @@ export const ap = <F extends HKT, W>(
  * @category type class operations
  * @since 3.0.0
  */
-export function chain<M extends HKT, W>(
-  M: Chain<M>,
-  S: Semigroup<W>
-): <A, S, R, FW, E, B>(
-  f: (a: A) => Kind<M, S, R, FW, E, Writer<W, B>>
-) => (ma: Kind<M, S, R, FW, E, Writer<W, A>>) => Kind<M, S, R, FW, E, Writer<W, B>> {
-  return (f) =>
-    M.chain(([a, w1]) =>
-      pipe(
-        f(a),
-        M.map(([b, w2]) => [b, S.concat(w2)(w1)])
-      )
+export const chain = <M extends HKT, W>(M: Chain<M>, S: Semigroup<W>) => <A, S, R1, FW1, E1, B>(
+  f: (a: A) => Kind<M, S, R1, FW1, E1, Writer<W, B>>
+): (<R2, FW2, E2>(
+  ma: Kind<M, S, R2, FW2, E2, Writer<W, A>>
+) => Kind<M, S, R1 & R2, FW1 | FW2, E1 | E2, Writer<W, B>>) => {
+  return M.chain(([a, w1]) =>
+    pipe(
+      f(a),
+      M.map(([b, w2]) => [b, S.concat(w2)(w1)])
     )
+  )
 }
 
 /**

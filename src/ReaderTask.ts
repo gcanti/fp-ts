@@ -128,7 +128,7 @@ export const ap: <R2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
+export const of: <A, R = unknown>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -136,19 +136,9 @@ export const of: <A, R>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointe
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, R, B>(
-  f: (a: A) => ReaderTask<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ RT.chain(T.Monad)
-
-/**
- * Less strict version of  [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, R2, B>(
+export const chain: <A, R2, B>(
   f: (a: A) => ReaderTask<R2, B>
-) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = chain as any
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = /*#__PURE__*/ RT.chain(T.Monad)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -158,7 +148,7 @@ export const chainW: <A, R2, B>(
  */
 export const flattenW: <R1, R2, A>(
   mma: ReaderTask<R1, ReaderTask<R2, A>>
-) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainW(identity)
+) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Derivable from `Chain`.

@@ -17,7 +17,7 @@ import type { Task } from './Task'
  * @since 3.0.0
  */
 export interface FromTask<F extends HKT> extends FromIO<F> {
-  readonly fromTask: <A, S, R, W, E>(fa: Task<A>) => Kind<F, S, R, W, E, A>
+  readonly fromTask: <A, S, R = unknown, W = never, E = never>(fa: Task<A>) => Kind<F, S, R, W, E, A>
 }
 
 // -------------------------------------------------------------------------------------

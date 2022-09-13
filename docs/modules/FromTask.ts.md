@@ -71,7 +71,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromTask<F extends HKT> extends FromIO<F> {
-  readonly fromTask: <A, S, R, W, E>(fa: Task<A>) => Kind<F, S, R, W, E, A>
+  readonly fromTask: <A, S, R = unknown, W = never, E = never>(fa: Task<A>) => Kind<F, S, R, W, E, A>
 }
 ```
 

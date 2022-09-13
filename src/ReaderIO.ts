@@ -108,7 +108,7 @@ export const ap: <R2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
+export const of: <A, R = unknown>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -116,21 +116,9 @@ export const of: <A, R>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
  * @category Monad
  * @since 3.0.0
  */
-export const chain: <A, R, B>(
-  f: (a: A) => ReaderIO<R, B>
-) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ RT.chain(I.Monad)
-
-/**
- * Less strict version of  [`chain`](#chain).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category Monad
- * @since 3.0.0
- */
-export const chainW: <A, R2, B>(
+export const chain: <A, R2, B>(
   f: (a: A) => ReaderIO<R2, B>
-) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = chain as any
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ RT.chain(I.Monad)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -140,7 +128,7 @@ export const chainW: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chainW(
+export const flattenW: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chain(
   identity
 )
 

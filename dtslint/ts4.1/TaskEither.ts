@@ -18,6 +18,28 @@ _.ap(fa)(fab)
 // -------------------------------------------------------------------------------------
 //
 
+// -------------------------------------------------------------------------------------
+// chain widening
+// -------------------------------------------------------------------------------------
+
+// $ExpectType TaskEither<never, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right(1))
+)
+
+// $ExpectType TaskEither<number, number>
+pipe(
+  _.right('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
+// $ExpectType TaskEither<string | number, number>
+pipe(
+  _.right<string, string>('a'),
+  _.chain(() => _.right<number, number>(1))
+)
+
 //
 // getOrElseW
 //
@@ -36,16 +58,6 @@ pipe(
 pipe(
   _.right('a'),
   _.getOrElseEW(() => T.of(null))
-)
-
-//
-// chainW
-//
-
-// $ExpectType TaskEither<string | number, number>
-pipe(
-  _.right<string, string>('a'),
-  _.chainW(() => _.right<number, number>(1))
 )
 
 //

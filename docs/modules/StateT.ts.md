@@ -60,11 +60,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function chain<F extends HKT>(
+export declare const chain: <F extends HKT>(
   F: Chain<F>
-): <A, FS, FR, FW, FE, S, B>(
-  f: (a: A) => StateT<F, FS, FR, FW, FE, S, B>
-) => (ma: StateT<F, FS, FR, FW, FE, S, A>) => StateT<F, FS, FR, FW, FE, S, B>
+) => <A, FS, FR2, FW2, FE2, S, B>(
+  f: (a: A) => StateT<F, FS, FR2, FW2, FE2, S, B>
+) => <FR1, FW1, FE1>(ma: StateT<F, FS, FR1, FW1, FE1, S, A>) => StateT<F, FS, FR1 & FR2, FW2 | FW1, FE2 | FE1, S, B>
 ```
 
 Added in v3.0.0

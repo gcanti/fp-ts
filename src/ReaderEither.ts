@@ -71,13 +71,13 @@ export interface ReaderEither<R, E, A> extends Reader<R, Either<E, A>> {}
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, R, A = never>(e: E) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.left(R.Pointed)
+export const left: <E, R = unknown, A = never>(e: E) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.left(R.Pointed)
 
 /**
  * @category constructors
  * @since 3.0.0
  */
-export const right: <A, R, E = never>(a: A) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.right(R.Pointed)
+export const right: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.right(R.Pointed)
 
 /**
  * @category constructors
@@ -328,7 +328,7 @@ export const ap: <R2, E2, A>(
  * @category Pointed
  * @since 3.0.0
  */
-export const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A> = right
+export const of: <A, R = unknown, E = never>(a: A) => ReaderEither<R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
@@ -336,19 +336,9 @@ export const of: <A, R, E = never>(a: A) => ReaderEither<R, E, A> = right
  * @category Chain
  * @since 3.0.0
  */
-export const chain: <A, R, E, B>(
-  f: (a: A) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B> = /*#__PURE__*/ ET.chain(R.Monad)
-
-/**
- * Less strict version of [`chain`](#chain).
- *
- * @category Chain
- * @since 3.0.0
- */
-export const chainW: <A, R2, E2, B>(
+export const chain: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
-) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = chain as any
+) => <R1, E1>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, B> = /*#__PURE__*/ ET.chain(R.Monad)
 
 /**
  * Less strict version of [`flatten`](#flatten).
@@ -358,7 +348,7 @@ export const chainW: <A, R2, E2, B>(
  */
 export const flattenW: <R1, E1, R2, E2, A>(
   mma: ReaderEither<R1, E1, ReaderEither<R2, E2, A>>
-) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chainW(identity)
+) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ chain(identity)
 
 /**
  * Derivable from `Chain`.

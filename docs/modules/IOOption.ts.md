@@ -22,6 +22,8 @@ Added in v3.0.0
   - [altW](#altw)
 - [Apply](#apply)
   - [ap](#ap)
+- [Chain](#chain)
+  - [chain](#chain)
 - [Compactable](#compactable)
   - [compact](#compact)
   - [separate](#separate)
@@ -32,8 +34,6 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
-- [Monad](#monad)
-  - [chain](#chain)
 - [Pointed](#pointed)
   - [of](#of)
 - [Zero](#zero)
@@ -73,14 +73,14 @@ Added in v3.0.0
   - [Alternative](#alternative)
   - [Applicative](#applicative)
   - [Apply](#apply-1)
-  - [Chain](#chain)
+  - [Chain](#chain-1)
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
   - [IOOptionF (interface)](#iooptionf-interface)
-  - [Monad](#monad-1)
+  - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Zero](#zero-1)
 - [interop](#interop)
@@ -137,6 +137,20 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+# Chain
+
+## chain
+
+Composes computations in sequence, using the return value of one computation to determine the next computation.
+
+**Signature**
+
+```ts
+export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0
@@ -226,18 +240,6 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
-```
-
-Added in v3.0.0
-
-# Monad
-
-## chain
-
-**Signature**
-
-```ts
-export declare const chain: <A, B>(f: (a: A) => IOOption<B>) => (ma: IOOption<A>) => IOOption<B>
 ```
 
 Added in v3.0.0

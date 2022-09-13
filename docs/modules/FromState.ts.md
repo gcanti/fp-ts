@@ -106,7 +106,7 @@ Added in v3.0.0
 
 ```ts
 export interface FromState<F extends HKT> extends Typeclass<F> {
-  readonly fromState: <S, A, R, W, E>(fa: State<S, A>) => Kind<F, S, R, W, E, A>
+  readonly fromState: <S, A, R = unknown, W = never, E = never>(fa: State<S, A>) => Kind<F, S, R, W, E, A>
 }
 ```
 
