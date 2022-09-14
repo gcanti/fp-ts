@@ -566,7 +566,7 @@ export const getAltReaderTaskValidation = <E>(S: Semigroup<E>): Alt_<ReaderTaskE
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable_<ReaderTaskEitherFE<E>> => {
   const C = E.getCompactable(M)
-  const F: Functor_<E.EitherFE<E>> = { map: E.map }
+  const F: Functor_<E.EitherFLeft<E>> = { map: E.map }
   return {
     compact: compact_(RT.Functor, C),
     separate: separate_(RT.Functor, C, F)

@@ -364,7 +364,7 @@ export const getAltIOValidation = <E>(S: Semigroup<E>): Alt_<IOEitherFE<E>> => {
  */
 export const getCompactable = <E>(M: Monoid<E>): Compactable<IOEitherFE<E>> => {
   const C = E.getCompactable(M)
-  const F: Functor_<E.EitherFE<E>> = { map: E.map }
+  const F: Functor_<E.EitherFLeft<E>> = { map: E.map }
   return {
     compact: compact_(I.Functor, C),
     separate: separate_(I.Functor, C, F)

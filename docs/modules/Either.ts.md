@@ -78,7 +78,7 @@ Added in v3.0.0
   - [Chain](#chain-1)
   - [ChainRec](#chainrec-1)
   - [EitherF (interface)](#eitherf-interface)
-  - [EitherFE (interface)](#eitherfe-interface)
+  - [EitherFLeft (interface)](#eitherfleft-interface)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -827,12 +827,12 @@ export interface EitherF extends HKT {
 
 Added in v3.0.0
 
-## EitherFE (interface)
+## EitherFLeft (interface)
 
 **Signature**
 
 ```ts
-export interface EitherFE<E> extends HKT {
+export interface EitherFLeft<E> extends HKT {
   readonly type: Either<E, this['Covariant1']>
 }
 ```
@@ -917,7 +917,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt_<EitherFE<E>>
+export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt_<EitherFLeft<E>>
 ```
 
 **Example**
@@ -963,7 +963,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative_<EitherFE<E>>
+export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative_<EitherFLeft<E>>
 ```
 
 **Example**
@@ -1010,7 +1010,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<EitherFE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<EitherFLeft<E>>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1032,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<EitherFE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<EitherFLeft<E>>
 ```
 
 Added in v3.0.0
@@ -1081,7 +1081,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => Witherable_<EitherFE<E>>
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable_<EitherFLeft<E>>
 ```
 
 Added in v3.0.0
