@@ -89,22 +89,12 @@ export const fromTask: <W>(
 export const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void> = /*#__PURE__*/ WT.tell(RT.Pointed)
 
 /**
- * Less strict version of [`asksReaderTaskWriter`](#asksreadertaskwriter).
- *
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderTaskWriterW: <R1, R2, W, A>(
+export const asksReaderTaskWriter: <R1, R2, W, A>(
   f: (r1: R1) => ReaderTaskWriter<R2, W, A>
 ) => ReaderTaskWriter<R1 & R2, W, A> = R.asksReaderW
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asksReaderTaskWriter: <R, W, A>(
-  f: (r: R) => ReaderTaskWriter<R, W, A>
-) => ReaderTaskWriter<R, W, A> = asksReaderTaskWriterW
 
 // -------------------------------------------------------------------------------------
 // natural transformations
