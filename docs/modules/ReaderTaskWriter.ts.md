@@ -20,7 +20,6 @@ Added in v3.0.0
   - [local](#local)
 - [constructors](#constructors)
   - [asksReaderTaskWriter](#asksreadertaskwriter)
-  - [asksReaderTaskWriterW](#asksreadertaskwriterw)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
   - [fromReaderTask](#fromreadertask)
@@ -139,21 +138,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asksReaderTaskWriter: <R, W, A>(
-  f: (r: R) => ReaderTaskWriter<R, W, A>
-) => ReaderTaskWriter<R, W, A>
-```
-
-Added in v3.0.0
-
-## asksReaderTaskWriterW
-
-Less strict version of [`asksReaderTaskWriter`](#asksreadertaskwriter).
-
-**Signature**
-
-```ts
-export declare const asksReaderTaskWriterW: <R1, R2, W, A>(
+export declare const asksReaderTaskWriter: <R1, R2, W, A>(
   f: (r1: R1) => ReaderTaskWriter<R2, W, A>
 ) => ReaderTaskWriter<R1 & R2, W, A>
 ```

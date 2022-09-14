@@ -24,11 +24,9 @@ Added in v3.0.0
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
   - [asksReaderIO](#asksreaderio)
-  - [asksReaderIOW](#asksreaderiow)
   - [chainFirst](#chainfirst)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
   - [flap](#flap)
@@ -161,21 +159,7 @@ Effectfully accesses the environment.
 **Signature**
 
 ```ts
-export declare const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## asksReaderIOW
-
-Less strict version of [`asksReaderIO`](#asksreaderio).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+export declare const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -212,23 +196,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A>
+export declare const chainFirstReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A>
 ```
 
 Added in v3.0.0

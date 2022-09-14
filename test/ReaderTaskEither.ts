@@ -344,9 +344,9 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainTaskEitherK(f))(undefined)(), E.right(1))
   })
 
-  it('chainFirstTaskEitherKW', async () => {
+  it('chainFirstTaskEitherK', async () => {
     const f = (s: string) => TE.right<number, string>(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.chainFirstTaskEitherKW(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, number>('a'), _.chainFirstTaskEitherK(f))({})(), E.right('a'))
   })
 
   it('chainReaderTaskK', async () => {
@@ -354,24 +354,24 @@ describe('ReaderTaskEither', () => {
     U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderTaskK(f))(undefined)(), E.right(1))
   })
 
-  it('chainReaderTaskKW', async () => {
+  it('chainReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderTaskKW(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderTaskK(f))({})(), E.right(1))
   })
 
-  it('chainFirstReaderTaskKW', async () => {
+  it('chainFirstReaderTaskK', async () => {
     const f = flow(S.size, RT.of)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderTaskKW(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderTaskK(f))({})(), E.right('a'))
   })
 
-  it('chainReaderEitherKW', async () => {
+  it('chainReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderEitherKW(f))({})(), E.right(1))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainReaderEitherK(f))({})(), E.right(1))
   })
 
-  it('chainFirstReaderEitherKW', async () => {
+  it('chainFirstReaderEitherK', async () => {
     const f = (s: string) => RE.right(s.length)
-    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderEitherKW(f))({})(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, {}, never>('a'), _.chainFirstReaderEitherK(f))({})(), E.right('a'))
   })
 
   // -------------------------------------------------------------------------------------

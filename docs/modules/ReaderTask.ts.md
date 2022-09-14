@@ -23,7 +23,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
-  - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
@@ -37,7 +36,6 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderTask](#asksreadertask)
-  - [asksReaderTaskW](#asksreadertaskw)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -156,23 +154,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## chainFirstReaderKW
-
-Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
-
-**Signature**
-
-```ts
-export declare const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+export declare const chainFirstReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0
@@ -311,19 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A>
-```
-
-Added in v3.0.0
-
-## asksReaderTaskW
-
-Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
-
-**Signature**
-
-```ts
-export declare const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
+export declare const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A>
 ```
 
 Added in v3.0.0

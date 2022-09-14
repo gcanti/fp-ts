@@ -39,7 +39,6 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReader](#asksreader)
-  - [asksReaderW](#asksreaderw)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
   - [apSecond](#apsecond)
@@ -269,19 +268,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A>
-```
-
-Added in v3.0.0
-
-## asksReaderW
-
-Less strict version of [`asksReaderK`](#asksreaderk).
-
-**Signature**
-
-```ts
-export declare const asksReaderW: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
+export declare const asksReader: <R1, R2, A>(f: (r1: R1) => Reader<R2, A>) => Reader<R1 & R2, A>
 ```
 
 Added in v3.0.0
