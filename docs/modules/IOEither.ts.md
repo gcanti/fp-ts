@@ -100,6 +100,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bracket](#bracket)
+  - [let](#let)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -925,6 +926,19 @@ export declare const bracket: <E1, A, E2, B, E3>(
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
 ) => IOEither<E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

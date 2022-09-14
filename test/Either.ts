@@ -466,19 +466,17 @@ describe('Either', () => {
   it('do notation', () => {
     U.deepStrictEqual(
       pipe(
-        _.right<number, string>(1),
+        _.right(1),
         _.bindTo('a'),
-        _.bind('b', () => _.right('b'))
+        _.bind('b', () => _.right('b')),
+        _.let('c', ({ a, b }) => [a, b])
       ),
-      _.right({ a: 1, b: 'b' })
+      _.right({ a: 1, b: 'b', c: [1, 'b'] })
     )
   })
 
   it('apS', () => {
-    U.deepStrictEqual(
-      pipe(_.right<number, string>(1), _.bindTo('a'), _.apS('b', _.right('b'))),
-      _.right({ a: 1, b: 'b' })
-    )
+    U.deepStrictEqual(pipe(_.right(1), _.bindTo('a'), _.apS('b', _.right('b'))), _.right({ a: 1, b: 'b' }))
   })
 
   it('apT', () => {

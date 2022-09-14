@@ -7,8 +7,8 @@
  * @since 3.0.0
  */
 import { Alt as Alt_ } from './Alt'
-import { Applicative as Applicative_ } from './Applicative'
 import { Alternative as Alternative_ } from './Alternative'
+import { Applicative as Applicative_ } from './Applicative'
 import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_ } from './Apply'
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import { compact as compact_, Compactable as Compactable_, separate as separate_ } from './Compactable'
@@ -21,9 +21,9 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  FromEither as FromEither_,
   chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
+  FromEither as FromEither_,
   fromEitherK as fromEitherK_
 } from './FromEither'
 import {
@@ -33,8 +33,11 @@ import {
   fromIOK as fromIOK_
 } from './FromIO'
 import { flow, identity, Lazy, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__ } from './Functor'
+import { HKT } from './HKT'
 import * as _ from './internal'
+import * as I from './IO'
+import { IOEither } from './IOEither'
 import { Monad as Monad_ } from './Monad'
 import * as O from './Option'
 import * as OT from './OptionT'
@@ -43,13 +46,10 @@ import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Separated } from './Separated'
-import * as I from './IO'
-import { IOEither } from './IOEither'
-import { Zero as Zero_, guard as guard_ } from './Zero'
+import { guard as guard_, Zero as Zero_ } from './Zero'
 
 import IO = I.IO
 import Option = O.Option
-import { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -561,6 +561,20 @@ export const Do: IOOption<{}> = /*#__PURE__*/ of(_.emptyRecord)
 export const bindTo: <N extends string>(
   name: N
 ) => <A>(fa: IOOption<A>) => IOOption<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: IOOption<A>) => IOOption<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(
+  Functor
+)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

@@ -55,6 +55,7 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [fst](#fst)
+  - [let](#let)
   - [listen](#listen)
   - [listens](#listens)
   - [mapFst](#mapfst)
@@ -473,6 +474,21 @@ Added in v3.0.0
 
 ```ts
 export declare const fst: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => RT.ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

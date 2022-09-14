@@ -6,18 +6,18 @@ import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond
 import type { Category as Category_ } from './Category'
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import type { Choice as Choice_ } from './Choice'
+import * as E from './Either'
+import type { FromReader as FromReader_ } from './FromReader'
 import { constant, flow, identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
+import { HKT } from './HKT'
+import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
+import type { NonEmptyArray } from './NonEmptyArray'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Profunctor as Profunctor_ } from './Profunctor'
-import * as E from './Either'
-import type { Strong as Strong_ } from './Strong'
-import * as _ from './internal'
-import type { FromReader as FromReader_ } from './FromReader'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { NonEmptyArray } from './NonEmptyArray'
-import { HKT } from './HKT'
+import type { Strong as Strong_ } from './Strong'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -334,6 +334,20 @@ export const Strong: Strong_<ReaderF> = {
 export const bindTo: <N extends string>(
   name: N
 ) => <R, A>(fa: Reader<R, A>) => Reader<R, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(
+  fa: Reader<R, A>
+) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

@@ -17,16 +17,16 @@ import type { Applicative as Applicative_ } from './Applicative'
 import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import type { ChainRec as ChainRec_ } from './ChainRec'
+import type { Either } from './Either'
 import type { FromIO as FromIO_ } from './FromIO'
 import { constant, identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
-import type { Monad as Monad_ } from './Monad'
-import type { Pointed as Pointed_ } from './Pointed'
-import * as _ from './internal'
-import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
-import type { NonEmptyArray } from './NonEmptyArray'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import type { HKT } from './HKT'
-import type { Either } from './Either'
+import * as _ from './internal'
+import type { Monad as Monad_ } from './Monad'
+import type { NonEmptyArray } from './NonEmptyArray'
+import type { Pointed as Pointed_ } from './Pointed'
+import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -231,6 +231,18 @@ export const Do: IO<{}> = /*#__PURE__*/ of(_.emptyRecord)
 export const bindTo: <N extends string>(
   name: N
 ) => <A>(fa: IO<A>) => IO<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: IO<A>) => IO<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

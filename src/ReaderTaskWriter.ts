@@ -10,7 +10,7 @@ import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
 import { FromWriter as FromWriter_, fromWriterK as fromWriterK_ } from './FromWriter'
 import { flow } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import type { IO } from './IO'
 import type { Monad } from './Monad'
@@ -416,6 +416,22 @@ export const bindTo: <N extends string>(
 ) => <R, E, A>(
   fa: ReaderTaskWriter<R, E, A>
 ) => ReaderTaskWriter<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderTaskWriter<R, E, A>
+) => ReaderTaskWriter<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(
+  Functor
+)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 // -------------------------------------------------------------------------------------
 // sequence T

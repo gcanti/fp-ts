@@ -7,7 +7,7 @@ import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Cha
 import type { Endomorphism } from './Endomorphism'
 import type { FromState as FromState_ } from './FromState'
 import { identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
@@ -263,6 +263,20 @@ export const execute = <S>(s: S) => <A>(ma: State<S, A>): S => ma(s)[1]
 export const bindTo: <N extends string>(
   name: N
 ) => <S, A>(fa: State<S, A>) => State<S, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S>(
+  fa: State<S, A>
+) => State<S, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

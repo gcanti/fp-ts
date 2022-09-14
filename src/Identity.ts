@@ -11,7 +11,7 @@ import { Either } from './Either'
 import type { Eq } from './Eq'
 import type { Foldable as Foldable_ } from './Foldable'
 import { apply, flow, identity } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
 import type { Monad as Monad_ } from './Monad'
@@ -317,6 +317,18 @@ export const Do: Identity<{}> = /*#__PURE__*/ of(_.emptyRecord)
 export const bindTo: <N extends string>(
   name: N
 ) => <A>(fa: Identity<A>) => { readonly [K in N]: A } = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B } = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

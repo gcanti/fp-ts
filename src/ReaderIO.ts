@@ -19,7 +19,7 @@ import {
   fromReaderK as fromReaderK_
 } from './FromReader'
 import { flow, identity, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
@@ -326,6 +326,20 @@ export const Do: ReaderIO<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 export const bindTo: <N extends string>(
   name: N
 ) => <R, A>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R>(
+  fa: ReaderIO<R, A>
+) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

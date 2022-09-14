@@ -128,6 +128,7 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [bracket](#bracket)
+  - [let](#let)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -1369,6 +1370,21 @@ export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
   release: (a: A, e: E.Either<E2, B>) => ReaderTaskEither<R3, E3, void>
 ) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

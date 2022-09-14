@@ -116,6 +116,7 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [elem](#elem)
   - [exists](#exists)
+  - [let](#let)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
@@ -1370,6 +1371,19 @@ const f = E.exists((n: number) => n > 2)
 assert.strictEqual(f(E.left('a')), false)
 assert.strictEqual(f(E.right(1)), false)
 assert.strictEqual(f(E.right(3)), true)
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <E>(fa: Either<E, A>) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

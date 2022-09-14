@@ -29,6 +29,7 @@ Added in v3.0.0
   - [Functor (interface)](#functor-interface)
 - [utils](#utils)
   - [bindTo](#bindto)
+  - [let](#let)
   - [tupled](#tupled)
 
 ---
@@ -92,6 +93,23 @@ export declare const bindTo: <F extends HKT>(
 ) => <N extends string>(
   name: N
 ) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, { readonly [K in N]: A }>
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <F extends HKT>(
+  F: Functor<F>
+) => <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <S, R, W, E>(
+  fa: Kind<F, S, R, W, E, A>
+) => Kind<F, S, R, W, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

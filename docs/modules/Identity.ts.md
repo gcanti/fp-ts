@@ -64,6 +64,7 @@ Added in v3.0.0
   - [apT](#apt)
   - [bind](#bind)
   - [bindTo](#bindto)
+  - [let](#let)
   - [traverse](#traverse)
   - [tupled](#tupled)
 
@@ -510,6 +511,19 @@ Added in v3.0.0
 
 ```ts
 export declare const bindTo: <N extends string>(name: N) => <A>(fa: A) => { readonly [K in N]: A }
+```
+
+Added in v3.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
 ```
 
 Added in v3.0.0

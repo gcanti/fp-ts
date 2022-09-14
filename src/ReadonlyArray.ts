@@ -22,7 +22,7 @@ import type { Foldable as Foldable_ } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
 import { FromEither as FromEither_, fromEitherK as fromEitherK_, fromPredicate as fromPredicate_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
 import * as _ from './internal'
@@ -43,8 +43,8 @@ import type { Show } from './Show'
 import type { Traversable as Traversable_ } from './Traversable'
 import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
 import type { Unfoldable as Unfoldable_ } from './Unfoldable'
-import { wiltDefault, Witherable as Witherable_, witherDefault, filterE as filterE_ } from './Witherable'
-import { Zero as Zero_, guard as guard_ } from './Zero'
+import { filterE as filterE_, wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
+import { guard as guard_, Zero as Zero_ } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -2206,6 +2206,20 @@ export const Do: ReadonlyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
 export const bindTo: <N extends string>(
   name: N
 ) => <A>(fa: ReadonlyArray<A>) => ReadonlyArray<{ readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (
+  fa: ReadonlyArray<A>
+) => ReadonlyArray<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0

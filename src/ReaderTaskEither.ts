@@ -48,13 +48,14 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Lazy, SK } from './function'
-import { bindTo as bindTo_, flap as flap_, Functor as Functor_, tupled as tupled_ } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import type { IO } from './IO'
 import type { IOEither } from './IOEither'
 import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
+import type { Option } from './Option'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Predicate } from './Predicate'
 import * as R from './Reader'
@@ -65,7 +66,6 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TE from './TaskEither'
-import type { Option } from './Option'
 
 import Either = E.Either
 import Task = T.Task
@@ -1008,6 +1008,22 @@ export const bindTo: <N extends string>(
 ) => <R, E, A>(
   fa: ReaderTaskEither<R, E, A>
 ) => ReaderTaskEither<R, E, { readonly [K in N]: A }> = /*#__PURE__*/ bindTo_(Functor)
+
+const let_: <N extends string, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderTaskEither<R, E, A>
+) => ReaderTaskEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ let__(
+  Functor
+)
+
+export {
+  /**
+   * @since 3.0.0
+   */
+  let_ as let
+}
 
 /**
  * @since 3.0.0
