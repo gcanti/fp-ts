@@ -135,21 +135,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, R, B, A>(
-  onLeft: (e: E) => Reader<R, B>,
-  onRight: (a: A) => Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, B> = /*#__PURE__*/ ET.matchE(R.Monad)
-
-/**
- * Less strict version of [`matchE`](#matchE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <E, R2, B, A, R3, C>(
+export const matchE: <E, R2, B, A, R3, C = B>(
   onLeft: (e: E) => Reader<R2, B>,
   onRight: (a: A) => Reader<R3, C>
-) => <R1>(ma: Reader<R1, E.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = matchE as any
+) => <R1>(ma: Reader<R1, E.Either<E, A>>) => Reader<R1 & R2 & R3, B | C> = /*#__PURE__*/ ET.matchE(R.Monad)
 
 /**
  * @category destructors

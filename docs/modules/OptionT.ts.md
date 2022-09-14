@@ -248,12 +248,14 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function matchE<M extends HKT>(
+export declare const matchE: <M extends HKT>(
   M: Chain<M>
-): <S, R, W, E, B, A>(
-  onNone: () => Kind<M, S, R, W, E, B>,
-  onSome: (a: A) => Kind<M, S, R, W, E, B>
-) => (ma: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, B>
+) => <S, R2, W2, E2, B, A, R3, W3, E3, C = B>(
+  onNone: () => Kind<M, S, R2, W2, E2, B>,
+  onSome: (a: A) => Kind<M, S, R3, W3, E3, C>
+) => <R1, W1, E1>(
+  ma: Kind<M, S, R1, W1, E1, O.Option<A>>
+) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, E2 | E3 | E1, B | C>
 ```
 
 Added in v3.0.0

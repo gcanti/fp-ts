@@ -126,21 +126,10 @@ export const match: <B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <B, A>(
-  onNone: () => IO<B>,
-  onSome: (a: A) => IO<B>
-) => (ma: IOOption<A>) => IO<B> = /*#__PURE__*/ OT.matchE(I.Chain)
-
-/**
- * Less strict version of [`matchE`](#matche).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <B, A, C>(
+export const matchE: <B, A, C = B>(
   onNone: () => IO<B>,
   onSome: (a: A) => IO<C>
-) => (ma: IOOption<A>) => IO<B | C> = matchE as any
+) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ OT.matchE(I.Chain)
 
 /**
  * @category destructors

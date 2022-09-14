@@ -164,13 +164,15 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function matchE<M extends HKT>(
+export declare const matchE: <M extends HKT>(
   M: Chain<M>
-): <E, S, R, W, FE, B, A>(
-  onLeft: (e: E) => Kind<M, S, R, W, FE, B>,
-  onRight: (a: A) => Kind<M, S, R, W, FE, B>,
-  onBoth: (e: E, a: A) => Kind<M, S, R, W, FE, B>
-) => (ma: Kind<M, S, R, W, FE, These<E, A>>) => Kind<M, S, R, W, FE, B>
+) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
+  onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
+  onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
+  onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
+) => <R1, W1, FE1>(
+  ma: Kind<M, S, R1, W1, FE1, T.These<E, A>>
+) => Kind<M, S, R1 & R2 & R3 & R4, W2 | W3 | W4 | W1, FE2 | FE3 | FE4 | FE1, B | C | D>
 ```
 
 Added in v3.0.0

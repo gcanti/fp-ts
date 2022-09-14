@@ -63,7 +63,6 @@ Added in v3.0.0
   - [getOrElseE](#getorelsee)
   - [match](#match)
   - [matchE](#matche)
-  - [matchEW](#matchew)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -548,22 +547,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <E, B, A>(
-  onLeft: (e: E) => I.IO<B>,
-  onRight: (a: A) => I.IO<B>
-) => (ma: IOEither<E, A>) => I.IO<B>
-```
-
-Added in v3.0.0
-
-## matchEW
-
-Less strict version of [`matchE`](#matchE).
-
-**Signature**
-
-```ts
-export declare const matchEW: <E, B, A, C>(
+export declare const matchE: <E, B, A, C = B>(
   onLeft: (e: E) => I.IO<B>,
   onRight: (a: A) => I.IO<C>
 ) => (ma: IOEither<E, A>) => I.IO<B | C>

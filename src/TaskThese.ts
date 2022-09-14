@@ -137,23 +137,11 @@ export const match: <E, B, A, C = B, D = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>,
-  onBoth: (e: E, a: A) => T.Task<B>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B> = /*#__PURE__*/ TT.matchE(T.Monad)
-
-/**
- * Less strict version of [`matchE`](#matchE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <E, B, A, C, D>(
+export const matchE: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = matchE as any
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = /*#__PURE__*/ TT.matchE(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // combinators

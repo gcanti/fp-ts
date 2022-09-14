@@ -126,21 +126,10 @@ export const match: <B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <B, A>(
-  onNone: () => Task<B>,
-  onSome: (a: A) => Task<B>
-) => (ma: TaskOption<A>) => Task<B> = /*#__PURE__*/ OT.matchE(T.Monad)
-
-/**
- * Less strict version of [`matchE`](#matchE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <B, A, C>(
+export const matchE: <B, A, C = B>(
   onNone: () => Task<B>,
   onSome: (a: A) => Task<C>
-) => (ma: TaskOption<A>) => Task<B | C> = matchE as any
+) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ OT.matchE(T.Monad)
 
 /**
  * @category destructors

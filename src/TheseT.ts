@@ -157,14 +157,16 @@ export function match<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export function matchE<M extends HKT>(
-  M: Chain<M>
-): <E, S, R, W, FE, B, A>(
-  onLeft: (e: E) => Kind<M, S, R, W, FE, B>,
-  onRight: (a: A) => Kind<M, S, R, W, FE, B>,
-  onBoth: (e: E, a: A) => Kind<M, S, R, W, FE, B>
-) => (ma: Kind<M, S, R, W, FE, These<E, A>>) => Kind<M, S, R, W, FE, B> {
-  return flow(T.match, M.chain)
+export const matchE = <M extends HKT>(M: Chain<M>) => <E, S, R2, W2, FE2, B, A, R3, W3, FE3, R4, W4, FE4, C = B, D = B>(
+  onLeft: (e: E) => Kind<M, S, R2, W2, FE2, B>,
+  onRight: (a: A) => Kind<M, S, R3, W3, FE3, C>,
+  onBoth: (e: E, a: A) => Kind<M, S, R4, W4, FE4, D>
+): (<R1, W1, FE1>(
+  ma: Kind<M, S, R1, W1, FE1, These<E, A>>
+) => Kind<M, S, R1 & R2 & R3 & R4, W1 | W2 | W3 | W4, FE1 | FE2 | FE3 | FE4, B | C | D>) => {
+  return M.chain(
+    T.match<E, Kind<M, S, R2 & R3 & R4, W2 | W3 | W4, FE2 | FE3 | FE4, B | C | D>, A>(onLeft, onRight, onBoth)
+  )
 }
 
 // -------------------------------------------------------------------------------------

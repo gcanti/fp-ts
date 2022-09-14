@@ -129,21 +129,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A>(
-  onLeft: (e: E) => IO<B>,
-  onRight: (a: A) => IO<B>
-) => (ma: IOEither<E, A>) => IO<B> = /*#__PURE__*/ ET.matchE(I.Monad)
-
-/**
- * Less strict version of [`matchE`](#matchE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <E, B, A, C>(
+export const matchE: <E, B, A, C = B>(
   onLeft: (e: E) => IO<B>,
   onRight: (a: A) => IO<C>
-) => (ma: IOEither<E, A>) => IO<B | C> = matchE as any
+) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ ET.matchE(I.Monad)
 
 /**
  * @category destructors

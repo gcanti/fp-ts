@@ -60,7 +60,6 @@ Added in v3.0.0
   - [getOrElseE](#getorelsee)
   - [match](#match)
   - [matchE](#matche)
-  - [matchEW](#matchew)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Applicative](#applicative)
@@ -595,22 +594,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <E, R, B, A>(
-  onLeft: (e: E) => R.Reader<R, B>,
-  onRight: (a: A) => R.Reader<R, B>
-) => (ma: ReaderEither<R, E, A>) => R.Reader<R, B>
-```
-
-Added in v3.0.0
-
-## matchEW
-
-Less strict version of [`matchE`](#matchE).
-
-**Signature**
-
-```ts
-export declare const matchEW: <E, R2, B, A, R3, C>(
+export declare const matchE: <E, R2, B, A, R3, C = B>(
   onLeft: (e: E) => R.Reader<R2, B>,
   onRight: (a: A) => R.Reader<R3, C>
 ) => <R1>(ma: R.Reader<R1, E.Either<E, A>>) => R.Reader<R1 & R2 & R3, B | C>

@@ -43,7 +43,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [match](#match)
   - [matchE](#matche)
-  - [matchEW](#matchew)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -359,23 +358,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const matchE: <E, B, A>(
-  onLeft: (e: E) => T.Task<B>,
-  onRight: (a: A) => T.Task<B>,
-  onBoth: (e: E, a: A) => T.Task<B>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B>
-```
-
-Added in v3.0.0
-
-## matchEW
-
-Less strict version of [`matchE`](#matchE).
-
-**Signature**
-
-```ts
-export declare const matchEW: <E, B, A, C, D>(
+export declare const matchE: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>

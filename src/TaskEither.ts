@@ -162,21 +162,10 @@ export const match: <E, B, A, C = B>(
  * @category destructors
  * @since 3.0.0
  */
-export const matchE: <E, B, A>(
-  onLeft: (e: E) => Task<B>,
-  onRight: (a: A) => Task<B>
-) => (ma: TaskEither<E, A>) => Task<B> = /*#__PURE__*/ ET.matchE(T.Monad)
-
-/**
- * Less strict version of [`matchE`](#matchE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchEW: <E, B, A, C>(
+export const matchE: <E, B, A, C = B>(
   onLeft: (e: E) => Task<B>,
   onRight: (a: A) => Task<C>
-) => (ma: TaskEither<E, A>) => Task<B | C> = matchE as any
+) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ ET.matchE(T.Monad)
 
 /**
  * @category destructors
