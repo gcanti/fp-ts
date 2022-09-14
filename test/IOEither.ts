@@ -507,13 +507,4 @@ describe('IOEither', () => {
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
-
-  it('bracketW', async () => {
-    const res = _.bracketW(
-      _.right<string, string>('string'),
-      (_a: string) => _.right<string, number>('test'),
-      (_a: string, _e: E.Either<number, string>) => _.right<void, Error>(undefined)
-    )()
-    U.deepStrictEqual(res, E.right('test'))
-  })
 })

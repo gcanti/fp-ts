@@ -105,7 +105,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [bracketW](#bracketw)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -997,23 +996,7 @@ whether the body action throws (\*) or returns.
 **Signature**
 
 ```ts
-export declare const bracket: <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## bracketW
-
-Less strict version of [`bracket`](#bracket).
-
-**Signature**
-
-```ts
-export declare const bracketW: <E1, A, E2, B, E3>(
+export declare const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>

@@ -113,11 +113,11 @@ Added in v3.0.0
 ```ts
 export declare const bracket: <M extends HKT>(
   M: Monad<M>
-) => <S, R, W, ME, E, A, B>(
-  acquire: Kind<M, S, R, W, ME, E.Either<E, A>>,
-  use: (a: A) => Kind<M, S, R, W, ME, E.Either<E, B>>,
-  release: (a: A, e: E.Either<E, B>) => Kind<M, S, R, W, ME, E.Either<E, void>>
-) => Kind<M, S, R, W, ME, E.Either<E, B>>
+) => <S, R1, W1, ME1, E1, A, R2, W2, ME2, E2, B, R3, W3, ME3, E3>(
+  acquire: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>,
+  use: (a: A) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>,
+  release: (a: A, e: E.Either<E2, B>) => Kind<M, S, R3, W3, ME3, E.Either<E3, void>>
+) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, E.Either<E1 | E2 | E3, B>>
 ```
 
 Added in v3.0.0

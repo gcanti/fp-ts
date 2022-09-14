@@ -319,15 +319,6 @@ describe('TaskEither', () => {
     })
   })
 
-  it('bracketW', async () => {
-    const res = await _.bracketW(
-      _.right<string, string>('string'),
-      (_a: string) => _.right<string, number>('test'),
-      (_a: string, _e: E.Either<number, string>) => _.right<void, Error>(undefined)
-    )()
-    U.deepStrictEqual(res, E.right('test'))
-  })
-
   it('do notation', async () => {
     await assertSeq(
       (a, b) =>

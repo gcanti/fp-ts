@@ -1007,22 +1007,11 @@ export const Alt: Alt_<ReaderTaskEitherF> = {
  *
  * @since 3.0.0
  */
-export const bracket: <R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
-  use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: Either<E, B>) => ReaderTaskEither<R, E, void>
-) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ ET.bracket(RT.Monad)
-
-/**
- * Less strict version of [`bracket`](#bracket).
- *
- * @since 3.0.0
- */
-export const bracketW: <R1, E1, A, R2, E2, B, R3, E3>(
+export const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
   release: (a: A, e: Either<E2, B>) => ReaderTaskEither<R3, E3, void>
-) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> = bracket as any
+) => ReaderTaskEither<R1 & R2 & R3, E1 | E2 | E3, B> = /*#__PURE__*/ ET.bracket(RT.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

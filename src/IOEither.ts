@@ -677,22 +677,11 @@ export const fromEitherK: <A extends ReadonlyArray<unknown>, E, B>(
  *
  * @since 3.0.0
  */
-export const bracket: <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B> = /*#__PURE__*/ ET.bracket(I.Monad)
-
-/**
- * Less strict version of [`bracket`](#bracket).
- *
- * @since 3.0.0
- */
-export const bracketW: <E1, A, E2, B, E3>(
+export const bracket: <E1, A, E2, B, E3>(
   acquire: IOEither<E1, A>,
   use: (a: A) => IOEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => IOEither<E3, void>
-) => IOEither<E1 | E2 | E3, B> = bracket as any
+) => IOEither<E1 | E2 | E3, B> = /*#__PURE__*/ ET.bracket(I.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

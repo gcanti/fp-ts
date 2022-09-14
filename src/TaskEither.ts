@@ -963,22 +963,11 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  *
  * @since 3.0.0
  */
-export const bracket: <E, A, B>(
-  acquire: TaskEither<E, A>,
-  use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
-) => TaskEither<E, B> = /*#__PURE__*/ ET.bracket(T.Monad)
-
-/**
- * Less strict version of [`bracket`](#bracket).
- *
- * @since 3.0.0
- */
-export const bracketW: <E1, A, E2, B, E3>(
+export const bracket: <E1, A, E2, B, E3>(
   acquire: TaskEither<E1, A>,
   use: (a: A) => TaskEither<E2, B>,
   release: (a: A, e: E.Either<E2, B>) => TaskEither<E3, void>
-) => TaskEither<E1 | E2 | E3, B> = bracket as any
+) => TaskEither<E1 | E2 | E3, B> = /*#__PURE__*/ ET.bracket(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // do notation

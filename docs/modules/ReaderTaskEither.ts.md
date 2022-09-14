@@ -133,7 +133,6 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bindW](#bindw)
   - [bracket](#bracket)
-  - [bracketW](#bracketw)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -1448,23 +1447,7 @@ whether the body action throws (\*) or returns.
 **Signature**
 
 ```ts
-export declare const bracket: <R, E, A, B>(
-  aquire: ReaderTaskEither<R, E, A>,
-  use: (a: A) => ReaderTaskEither<R, E, B>,
-  release: (a: A, e: E.Either<E, B>) => ReaderTaskEither<R, E, void>
-) => ReaderTaskEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## bracketW
-
-Less strict version of [`bracket`](#bracket).
-
-**Signature**
-
-```ts
-export declare const bracketW: <R1, E1, A, R2, E2, B, R3, E3>(
+export declare const bracket: <R1, E1, A, R2, E2, B, R3, E3>(
   acquire: ReaderTaskEither<R1, E1, A>,
   use: (a: A) => ReaderTaskEither<R2, E2, B>,
   release: (a: A, e: E.Either<E2, B>) => ReaderTaskEither<R3, E3, void>

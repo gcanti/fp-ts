@@ -326,19 +326,26 @@ export function toUnion<F extends HKT>(
 /**
  * @since 3.0.0
  */
-export const bracket = <M extends HKT>(M: Monad<M>) => <S, R, W, ME, E, A, B>(
-  acquire: Kind<M, S, R, W, ME, Either<E, A>>,
-  use: (a: A) => Kind<M, S, R, W, ME, Either<E, B>>,
-  release: (a: A, e: Either<E, B>) => Kind<M, S, R, W, ME, Either<E, void>>
-): Kind<M, S, R, W, ME, Either<E, B>> => {
+export const bracket = <M extends HKT>(M: Monad<M>) => <S, R1, W1, ME1, E1, A, R2, W2, ME2, E2, B, R3, W3, ME3, E3>(
+  acquire: Kind<M, S, R1, W1, ME1, Either<E1, A>>,
+  use: (a: A) => Kind<M, S, R2, W2, ME2, Either<E2, B>>,
+  release: (a: A, e: Either<E2, B>) => Kind<M, S, R3, W3, ME3, Either<E3, void>>
+): Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, Either<E1 | E2 | E3, B>> => {
   const leftM = left(M)
   return pipe(
     acquire,
     M.chain(
-      E.match<E, Kind<M, S, R, W, ME, E.Either<E, B>>, A>(leftM, (a) =>
+      E.match<E1, Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, E.Either<E1 | E2 | E3, B>>, A>(leftM, (a) =>
         pipe(
           use(a),
-          M.chain((e) => pipe(release(a, e), M.chain(E.match(leftM, () => M.of(e)))))
+          M.chain((e) =>
+            pipe(
+              release(a, e),
+              M.chain(
+                E.match<E3, Kind<M, S, unknown, never, never, E.Either<E2 | E3, B>>, void>(leftM, () => M.of(e))
+              )
+            )
+          )
         )
       )
     )
