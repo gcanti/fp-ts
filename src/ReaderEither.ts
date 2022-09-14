@@ -224,17 +224,9 @@ export const orElse: <E1, R1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirst: <E, R, B>(
-  onLeft: (e: E) => ReaderEither<R, E, B>
-) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A> = /*#__PURE__*/ ET.orElseFirst(R.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const orElseFirstW: <E1, R2, E2, B>(
+export const orElseFirst: <E1, R2, E2, B>(
   onLeft: (e: E1) => ReaderEither<R2, E2, B>
-) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = orElseFirst as any
+) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A> = /*#__PURE__*/ ET.orElseFirst(R.Monad)
 
 /**
  * @category combinators

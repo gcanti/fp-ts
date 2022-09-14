@@ -318,17 +318,9 @@ export const orElse: <E1, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElseFirst: <E, B>(
-  onLeft: (e: E) => TaskEither<E, B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ ET.orElseFirst(T.Monad)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const orElseFirstW: <E1, E2, B>(
+export const orElseFirst: <E1, E2, B>(
   onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = orElseFirst as any
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A> = /*#__PURE__*/ ET.orElseFirst(T.Monad)
 
 /**
  * @category combinators
