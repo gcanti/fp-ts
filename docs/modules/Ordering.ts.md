@@ -16,7 +16,6 @@ Added in v3.0.0
   - [reverse](#reverse)
 - [destructors](#destructors)
   - [match](#match)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [Eq](#eq)
   - [Monoid](#monoid)
@@ -47,19 +46,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <A>(onLessThan: () => A, onEqual: () => A, onGreaterThan: () => A) => (o: Ordering) => A
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <A, B, C>(
+export declare const match: <A, B, C = B>(
   onLessThan: () => A,
   onEqual: () => B,
   onGreaterThan: () => C

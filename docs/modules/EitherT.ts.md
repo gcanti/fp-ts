@@ -269,10 +269,10 @@ Added in v3.0.0
 ```ts
 export declare function match<F extends HKT>(
   F: Functor<F>
-): <E, B, A>(
+): <E, B, A, C = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B>
+  onRight: (a: A) => C
+) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C>
 ```
 
 Added in v3.0.0
@@ -329,11 +329,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function orLeft<M extends HKT>(
+export declare const orLeft: <M extends HKT>(
   M: Monad<M>
-): <E1, S, R, W, ME, E2>(
+) => <E1, S, R, W, ME, E2>(
   onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
-) => <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>>
+) => <A>(fa: Kind<M, S, R, W, ME, E.Either<E1, A>>) => Kind<M, S, R, W, ME, E.Either<E2, A>>
 ```
 
 Added in v3.0.0

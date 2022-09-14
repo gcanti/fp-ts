@@ -148,12 +148,10 @@ export const fromOptions = <E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`match`](#match).
- *
  * @category destructors
  * @since 3.0.0
  */
-export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
+export const match = <E, B, A, C = B, D = B>(onLeft: (e: E) => B, onRight: (a: A) => C, onBoth: (e: E, a: A) => D) => (
   fa: These<E, A>
 ): B | C | D => {
   switch (fa._tag) {
@@ -165,16 +163,6 @@ export const matchW = <E, B, A, C, D>(onLeft: (e: E) => B, onRight: (a: A) => C,
       return onBoth(fa.left, fa.right)
   }
 }
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => (fa: These<E, A>) => B = matchW
 
 // -------------------------------------------------------------------------------------
 // combinators

@@ -55,7 +55,6 @@ Added in v3.0.0
   - [rightOrBoth](#rightorboth)
 - [destructors](#destructors)
   - [match](#match)
-  - [matchW](#matchw)
 - [guards](#guards)
   - [isBoth](#isboth)
   - [isLeft](#isleft)
@@ -337,23 +336,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => (fa: These<E, A>) => B
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C, D>(
+export declare const match: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C,
   onBoth: (e: E, a: A) => D

@@ -62,7 +62,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
-  - [matchW](#matchw)
   - [toNullable](#tonullable)
   - [toUndefined](#toundefined)
 - [instances](#instances)
@@ -479,7 +478,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOption<A>) => I.IO<B>
+export declare const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => I.IO<B | C>
 ```
 
 Added in v3.0.0
@@ -505,18 +504,6 @@ export declare const matchEW: <B, A, C>(
   onNone: () => I.IO<B>,
   onSome: (a: A) => I.IO<C>
 ) => (ma: IOOption<A>) => I.IO<B | C>
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => I.IO<B | C>
 ```
 
 Added in v3.0.0

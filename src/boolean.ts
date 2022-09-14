@@ -25,15 +25,6 @@ export const isBoolean: Refinement<unknown, boolean> = (u: unknown): u is boolea
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
-  value ? onTrue() : onFalse()
-
-/**
  * Defines the match over a boolean value.
  * Takes two thunks `onTrue`, `onFalse` and a `boolean` value.
  * If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
@@ -54,7 +45,8 @@ export const matchW = <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boole
  * @category destructors
  * @since 3.0.0
  */
-export const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A = matchW
+export const match = <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean): A | B =>
+  value ? onTrue() : onFalse()
 
 // -------------------------------------------------------------------------------------
 // instances

@@ -232,21 +232,10 @@ export const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTas
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B> = /*#__PURE__*/ ET.match(RT.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <E, B, A, C>(
+export const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = match as any
+) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, B | C> = /*#__PURE__*/ ET.match(RT.Functor)
 
 /**
  * @category destructors

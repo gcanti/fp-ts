@@ -73,7 +73,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
-  - [matchW](#matchw)
 - [guards](#guards)
   - [isNone](#isnone)
   - [isSome](#issome)
@@ -625,7 +624,7 @@ returned, otherwise the function is applied to the value inside the `Some` and t
 **Signature**
 
 ```ts
-export declare const match: <B, A>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B
+export declare const match: <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 **Example**
@@ -655,18 +654,6 @@ assert.strictEqual(
   ),
   'a none'
 )
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>) => B | C
 ```
 
 Added in v3.0.0

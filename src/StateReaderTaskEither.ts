@@ -93,7 +93,7 @@ export interface StateReaderTaskEither<S, R, E, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
+export const left: <E, S, R = unknown, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
 
 /**
  * @category constructors
@@ -188,7 +188,10 @@ export const asksStateReaderTaskEither: <R, S, E, A>(
  */
 export const fromEither: <E, A, S, R = unknown>(
   fa: E.Either<E, A>
-) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ E.match((e) => left(e), right)
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ E.match(
+  (e) => left(e),
+  (a) => right(a)
+)
 
 /**
  * @category natural transformations

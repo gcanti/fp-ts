@@ -109,7 +109,6 @@ Added in v3.0.0
   - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
   - [matchRightW](#matchrightw)
-  - [matchW](#matchw)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -1521,10 +1520,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A>(
+export declare const match: <B, A, C = B>(
   onEmpty: Lazy<B>,
-  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => B
-) => (as: readonly A[]) => B
+  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
+) => (as: readonly A[]) => B | C
 ```
 
 Added in v3.0.0
@@ -1596,21 +1595,6 @@ Less strict version of [`matchRight`](#matchRight).
 export declare const matchRightW: <B, A, C>(
   onEmpty: Lazy<B>,
   onNonEmpty: (init: readonly A[], last: A) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (as: RNEA.ReadonlyNonEmptyArray<A>) => C
 ) => (as: readonly A[]) => B | C
 ```
 

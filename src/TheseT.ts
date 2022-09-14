@@ -20,21 +20,21 @@ import These = T.These
 /**
  * @since 3.0.0
  */
-export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, FE, E = never>(
+export const right = <F extends HKT>(F: Pointed<F>) => <A, S, R = unknown, W = never, FE = never, E = never>(
   a: A
 ): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.right(a))
 
 /**
  * @since 3.0.0
  */
-export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R, W, FE, A = never>(
+export const left = <F extends HKT>(F: Pointed<F>) => <E, S, R = unknown, W = never, FE = never, A = never>(
   e: E
 ): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.left(e))
 
 /**
  * @since 3.0.0
  */
-export const both = <F extends HKT>(F: Pointed<F>) => <E, A, S, R, W, FE>(
+export const both = <F extends HKT>(F: Pointed<F>) => <E, A, S, R = unknown, W = never, FE = never>(
   e: E,
   a: A
 ): Kind<F, S, R, W, FE, These<E, A>> => F.of(T.both(e, a))
@@ -89,20 +89,15 @@ export const ap = <F extends HKT, E>(
 /**
  * @since 3.0.0
  */
-export const chain = <M extends HKT, E>(
-  M: Monad<M>,
-  S: Semigroup<E>
-): (<A, S, R2, W2, FE2, B>(
-  f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>
-) => <R1, W1, FE1>(
-  ma: Kind<M, S, R1, W1, FE1, These<E, A>>
-) => Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>>) => {
+export const chain = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) => {
   const _left = left(M)
-  return (f) => (ma) =>
-    pipe(
+  return <A, S, R2, W2, FE2, B>(f: (a: A) => Kind<M, S, R2, W2, FE2, These<E, B>>) => <R1, W1, FE1>(
+    ma: Kind<M, S, R1, W1, FE1, These<E, A>>
+  ): Kind<M, S, R1 & R2, W1 | W2, FE1 | FE2, These<E, B>> => {
+    return pipe(
       ma,
       M.chain(
-        T.match(_left, f, (e1, a) =>
+        T.match<E, Kind<M, S, R2, W2, FE2, T.These<E, B>>, A>(_left, f, (e1, a) =>
           pipe(
             f(a),
             M.map(
@@ -116,6 +111,7 @@ export const chain = <M extends HKT, E>(
         )
       )
     )
+  }
 }
 
 /**
@@ -150,11 +146,11 @@ export function mapLeft<F extends HKT>(
  */
 export function match<F extends HKT>(
   F: Functor<F>
-): <E, B, A>(
+): <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B> {
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D> {
   return flow(T.match, F.map)
 }
 

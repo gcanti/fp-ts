@@ -235,10 +235,10 @@ Added in v3.0.0
 ```ts
 export declare function match<F extends HKT>(
   F: Functor<F>
-): <B, A>(
+): <B, A, C = B>(
   onNone: () => B,
-  onSome: (a: A) => B
-) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B>
+  onSome: (a: A) => C
+) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C>
 ```
 
 Added in v3.0.0

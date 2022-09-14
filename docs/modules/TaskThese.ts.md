@@ -44,7 +44,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [FromEither](#fromeither)
@@ -346,11 +345,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
+export declare const match: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B>
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
 ```
 
 Added in v3.0.0
@@ -380,22 +379,6 @@ export declare const matchEW: <E, B, A, C, D>(
   onLeft: (e: E) => T.Task<B>,
   onRight: (a: A) => T.Task<C>,
   onBoth: (e: E, a: A) => T.Task<D>
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C, D>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C,
-  onBoth: (e: E, a: A) => D
 ) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D>
 ```
 

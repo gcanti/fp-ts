@@ -14,7 +14,6 @@ Added in v3.0.0
 
 - [destructors](#destructors)
   - [match](#match)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [BooleanAlgebra](#booleanalgebra)
   - [Eq](#eq)
@@ -40,7 +39,7 @@ If `value` is `false`, `onFalse()` is returned, otherwise `onTrue()`.
 **Signature**
 
 ```ts
-export declare const match: <A>(onFalse: Lazy<A>, onTrue: Lazy<A>) => (value: boolean) => A
+export declare const match: <A, B = A>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
 ```
 
 **Example**
@@ -62,18 +61,6 @@ assert.deepStrictEqual(
   ),
   some('true')
 )
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <A, B>(onFalse: Lazy<A>, onTrue: Lazy<B>) => (value: boolean) => A | B
 ```
 
 Added in v3.0.0

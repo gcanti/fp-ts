@@ -85,7 +85,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [ApplicativePar](#applicativepar)
@@ -900,10 +899,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(
+export declare const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B>
+  onRight: (a: A) => C
+) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0
@@ -932,21 +931,6 @@ export declare const matchEW: <E, R2, B, A, R3, C>(
   onLeft: (e: E) => RT.ReaderTask<R2, B>,
   onRight: (a: A) => RT.ReaderTask<R3, C>
 ) => <R1>(ma: ReaderTaskEither<R1, E, A>) => RT.ReaderTask<R1 & R2 & R3, B | C>
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => C
-) => <R>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, B | C>
 ```
 
 Added in v3.0.0

@@ -71,7 +71,7 @@ Added in v3.0.0
 ```ts
 export declare const both: <F extends HKT>(
   F: Pointed<F>
-) => <E, A, S, R, W, FE>(e: E, a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
+) => <E, A, S, R = unknown, W = never, FE = never>(e: E, a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0
@@ -98,7 +98,7 @@ Added in v3.0.0
 ```ts
 export declare const left: <F extends HKT>(
   F: Pointed<F>
-) => <E, S, R, W, FE, A = never>(e: E) => Kind<F, S, R, W, FE, T.These<E, A>>
+) => <E, S, R = unknown, W = never, FE = never, A = never>(e: E) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0
@@ -150,11 +150,11 @@ Added in v3.0.0
 ```ts
 export declare function match<F extends HKT>(
   F: Functor<F>
-): <E, B, A>(
+): <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B>
+  onRight: (a: A) => C,
+  onBoth: (e: E, a: A) => D
+) => <S, R, W, FE>(ma: Kind<F, S, R, W, FE, These<E, A>>) => Kind<F, S, R, W, FE, B | C | D>
 ```
 
 Added in v3.0.0
@@ -182,7 +182,7 @@ Added in v3.0.0
 ```ts
 export declare const right: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R, W, FE, E = never>(a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
+) => <A, S, R = unknown, W = never, FE = never, E = never>(a: A) => Kind<F, S, R, W, FE, T.These<E, A>>
 ```
 
 Added in v3.0.0

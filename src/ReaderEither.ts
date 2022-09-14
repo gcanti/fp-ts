@@ -126,21 +126,10 @@ export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, 
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => <R>(ma: ReaderEither<R, E, A>) => Reader<R, B> = /*#__PURE__*/ ET.match(R.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <E, B, A, C>(
+export const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = match as any
+) => <R>(ma: Reader<R, E.Either<E, A>>) => Reader<R, B | C> = /*#__PURE__*/ ET.match(R.Functor)
 
 /**
  * @category destructors

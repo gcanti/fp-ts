@@ -153,21 +153,10 @@ export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => T
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => (ma: TaskEither<E, A>) => Task<B> = /*#__PURE__*/ ET.match(T.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <E, B, A, C>(
+export const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => (ma: TaskEither<E, A>) => Task<B | C> = match as any
+) => (ma: TaskEither<E, A>) => Task<B | C> = /*#__PURE__*/ ET.match(T.Functor)
 
 /**
  * @category destructors

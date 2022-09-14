@@ -125,15 +125,6 @@ export const right: <A, E = never>(a: A) => Either<E, A> = _.right
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
-  isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
-
-/**
  * Takes two functions and an `Either` value, if the value is a `Left` the inner value is applied to the first function,
  * if the value is a `Right` the inner value is applied to the second function.
  *
@@ -163,7 +154,8 @@ export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = matchW
+export const match = <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>): B | C =>
+  isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 
 /**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
@@ -289,7 +281,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ matchW(identity, identity)
+export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ match(identity, identity)
 
 // -------------------------------------------------------------------------------------
 // combinators

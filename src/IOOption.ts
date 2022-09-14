@@ -117,17 +117,10 @@ export const fromIOEither: <A>(ma: IOEither<unknown, A>) => IOOption<A> = /*#__P
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: IOOption<A>) => IO<B> = /*#__PURE__*/ OT.match(
-  I.Functor
-)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: IOOption<A>) => IO<B | C> = match as any
+export const match: <B, A, C = B>(
+  onNone: () => B,
+  onSome: (a: A) => C
+) => (ma: IOOption<A>) => IO<B | C> = /*#__PURE__*/ OT.match(I.Functor)
 
 /**
  * @category destructors

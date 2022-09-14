@@ -65,7 +65,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [match](#match)
-  - [matchW](#matchw)
 - [guards](#guards)
   - [isLeft](#isleft)
   - [isRight](#isright)
@@ -648,7 +647,7 @@ if the value is a `Right` the inner value is applied to the second function.
 **Signature**
 
 ```ts
-export declare const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B
+export declare const match: <E, B, A, C = B>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 **Example**
@@ -663,18 +662,6 @@ const onRight = (value: number): string => `Ok: ${value}`
 
 assert.strictEqual(pipe(E.right(1), E.match(onLeft, onRight)), 'Ok: 1')
 assert.strictEqual(pipe(E.left(['error 1', 'error 2']), E.match(onLeft, onRight)), 'Errors: error 1, error 2')
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) => (ma: Either<E, A>) => B | C
 ```
 
 Added in v3.0.0

@@ -108,23 +108,12 @@ export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) =
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`match`](#match).
- *
  * @category destructors
  * @since 3.0.0
  */
-export const matchW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) => (
+export const match = <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => C) => (
   as: ReadonlyArray<A>
 ): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
-
-/**
- * @category destructors
- * @since 3.0.0
- */
-export const match: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (as: ReadonlyNonEmptyArray<A>) => B
-) => (as: ReadonlyArray<A>) => B = matchW
 
 /**
  * Less strict version of [`matchLeft`](#matchLeft).

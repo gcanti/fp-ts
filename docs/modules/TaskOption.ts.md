@@ -63,7 +63,6 @@ Added in v3.0.0
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
-  - [matchW](#matchw)
 - [instances](#instances)
   - [Alt](#alt-1)
   - [Alternative](#alternative)
@@ -544,7 +543,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const match: <B, A>(onNone: () => B, onSome: (a: A) => B) => (ma: TaskOption<A>) => T.Task<B>
+export declare const match: <B, A, C = B>(onNone: () => B, onSome: (a: A) => C) => (ma: TaskOption<A>) => T.Task<B | C>
 ```
 
 Added in v3.0.0
@@ -573,18 +572,6 @@ export declare const matchEW: <B, A, C>(
   onNone: () => T.Task<B>,
   onSome: (a: A) => T.Task<C>
 ) => (ma: TaskOption<A>) => T.Task<B | C>
-```
-
-Added in v3.0.0
-
-## matchW
-
-Less strict version of [`match`](#match).
-
-**Signature**
-
-```ts
-export declare const matchW: <B, A, C>(onNone: () => B, onSome: (a: A) => C) => (ma: TaskOption<A>) => T.Task<B | C>
 ```
 
 Added in v3.0.0

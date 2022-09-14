@@ -120,20 +120,10 @@ export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: IOEither<E, A>) => IO<B> =
-  /*#__PURE__*/
-  ET.match(I.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <E, B, A, C>(
+export const match: <E, B, A, C = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C
-) => (ma: IOEither<E, A>) => IO<B | C> = match as any
+) => (ma: IOEither<E, A>) => IO<B | C> = /*#__PURE__*/ ET.match(I.Functor)
 
 /**
  * @category destructors

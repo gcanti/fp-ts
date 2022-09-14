@@ -100,10 +100,10 @@ export const fromEither = <F extends HKT>(F: Pointed<F>) => <A, S, R, W, E>(
  */
 export function match<F extends HKT>(
   F: Functor<F>
-): <B, A>(
+): <B, A, C = B>(
   onNone: () => B,
-  onSome: (a: A) => B
-) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B> {
+  onSome: (a: A) => C
+) => <S, R, W, E>(ma: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, B | C> {
   return flow(O.match, F.map)
 }
 

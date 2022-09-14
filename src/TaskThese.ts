@@ -127,23 +127,11 @@ export const fromTask: <A, E = never>(fa: T.Task<A>) => TaskThese<E, A> = rightT
  * @category destructors
  * @since 3.0.0
  */
-export const match: <E, B, A>(
-  onLeft: (e: E) => B,
-  onRight: (a: A) => B,
-  onBoth: (e: E, a: A) => B
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B> = /*#__PURE__*/ TT.match(T.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <E, B, A, C, D>(
+export const match: <E, B, A, C = B, D = B>(
   onLeft: (e: E) => B,
   onRight: (a: A) => C,
   onBoth: (e: E, a: A) => D
-) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = match as any
+) => (ma: T.Task<TH.These<E, A>>) => T.Task<B | C | D> = /*#__PURE__*/ TT.match(T.Functor)
 
 /**
  * @category destructors

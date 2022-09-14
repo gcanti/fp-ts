@@ -207,10 +207,10 @@ export const altValidation = <M extends HKT, E>(M: Monad<M>, S: Semigroup<E>) =>
  */
 export function match<F extends HKT>(
   F: Functor<F>
-): <E, B, A>(
+): <E, B, A, C = B>(
   onLeft: (e: E) => B,
-  onRight: (a: A) => B
-) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B> {
+  onRight: (a: A) => C
+) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, B | C> {
   return flow(E.match, F.map)
 }
 
@@ -267,18 +267,18 @@ export const orElse = <M extends HKT>(M: Monad<M>) => <E1, S, R2, W2, ME2, E2, B
 /**
  * @since 3.0.0
  */
-export function orLeft<M extends HKT>(
-  M: Monad<M>
-): <E1, S, R, W, ME, E2>(
+export const orLeft = <M extends HKT>(M: Monad<M>) => <E1, S, R, W, ME, E2>(
   onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
-) => <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>> {
-  return (onLeft) =>
+) => <A>(fa: Kind<M, S, R, W, ME, Either<E1, A>>): Kind<M, S, R, W, ME, Either<E2, A>> => {
+  return pipe(
+    fa,
     M.chain(
-      E.match(
+      E.match<E1, Kind<M, S, R, W, ME, E.Either<E2, A>>, A>(
         (e) => pipe(onLeft(e), M.map(E.left)),
         (a) => M.of(E.right(a))
       )
     )
+  )
 }
 
 /**

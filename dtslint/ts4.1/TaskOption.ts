@@ -23,13 +23,13 @@ pipe(
 )
 
 //
-// matchW
+// match
 //
 
 // $ExpectType Task<number | boolean>
 pipe(
   _.some('a'),
-  _.matchW(
+  _.match(
     () => 1,
     () => true
   )

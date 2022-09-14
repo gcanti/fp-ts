@@ -117,21 +117,10 @@ export const fromTaskEither: <E, A>(fa: TaskEither<E, A>) => TaskOption<A> = /*#
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A>(
-  onNone: () => B,
-  onSome: (a: A) => B
-) => (ma: TaskOption<A>) => Task<B> = /*#__PURE__*/ OT.match(T.Functor)
-
-/**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW: <B, A, C>(
+export const match: <B, A, C = B>(
   onNone: () => B,
   onSome: (a: A) => C
-) => (ma: TaskOption<A>) => Task<B | C> = match as any
+) => (ma: TaskOption<A>) => Task<B | C> = /*#__PURE__*/ OT.match(T.Functor)
 
 /**
  * @category destructors

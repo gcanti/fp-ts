@@ -699,7 +699,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const left: <E, S, R, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
+export declare const left: <E, S, R = unknown, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v3.0.0

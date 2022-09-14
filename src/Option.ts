@@ -177,15 +177,6 @@ export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`match`](#match).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
-  isNone(ma) ? onNone() : onSome(ma.value)
-
-/**
  * Takes a (lazy) default value, a function, and an `Option` value, if the `Option` value is `None` the default value is
  * returned, otherwise the function is applied to the value inside the `Some` and the result is returned.
  *
@@ -212,7 +203,8 @@ export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Op
  * @category destructors
  * @since 3.0.0
  */
-export const match: <B, A>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
+export const match = <B, A, C = B>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Option<A>): B | C =>
+  isNone(ma) ? onNone() : onSome(ma.value)
 
 /**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
