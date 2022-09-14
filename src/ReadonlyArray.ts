@@ -116,16 +116,6 @@ export const match = <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (as: ReadonlyNo
 ): B | C => (isNonEmpty(as) ? onNonEmpty(as) : onEmpty())
 
 /**
- * Less strict version of [`matchLeft`](#matchLeft).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) => (
-  as: ReadonlyArray<A>
-): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
-
-/**
  * Break a `ReadonlyArray` into its first element and remaining elements.
  *
  * @example
@@ -137,20 +127,9 @@ export const matchLeftW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail
  * @category destructors
  * @since 3.0.0
  */
-export const matchLeft: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: ReadonlyArray<A>) => B
-) => (as: ReadonlyArray<A>) => B = matchLeftW
-
-/**
- * Less strict version of [`matchRight`](#matchRight).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) => (
+export const matchLeft = <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (head: A, tail: ReadonlyArray<A>) => C) => (
   as: ReadonlyArray<A>
-): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
+): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.head(as), RNEA.tail(as)) : onEmpty())
 
 /**
  * Break a `ReadonlyArray` into its initial elements and the last element.
@@ -158,10 +137,9 @@ export const matchRightW = <B, A, C>(onEmpty: Lazy<B>, onNonEmpty: (init: Readon
  * @category destructors
  * @since 3.0.0
  */
-export const matchRight: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (init: ReadonlyArray<A>, last: A) => B
-) => (as: ReadonlyArray<A>) => B = matchRightW
+export const matchRight = <B, A, C = B>(onEmpty: Lazy<B>, onNonEmpty: (init: ReadonlyArray<A>, last: A) => C) => (
+  as: ReadonlyArray<A>
+): B | C => (isNonEmpty(as) ? onNonEmpty(RNEA.init(as), RNEA.last(as)) : onEmpty())
 
 // -------------------------------------------------------------------------------------
 // combinators

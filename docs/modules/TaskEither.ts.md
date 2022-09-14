@@ -38,12 +38,10 @@ Added in v3.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
-  - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainTaskK](#chaintaskk)
   - [chainTaskOptionK](#chaintaskoptionk)
-  - [chainTaskOptionKW](#chaintaskoptionkw)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
@@ -320,21 +318,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOEitherK: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainIOEitherKW
-
-Less strict version of [`chainIOEitherK`](#chainIOEitherK).
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <A, E2, B>(
+export declare const chainIOEitherK: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -378,21 +362,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainTaskOptionK: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainTaskOptionKW
-
-The `W` suffix (short for **W**idening) means that the error types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainTaskOptionKW: <E2>(
+export declare const chainTaskOptionK: <E2>(
   onNone: Lazy<E2>
 ) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```

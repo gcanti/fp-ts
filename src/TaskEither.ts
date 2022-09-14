@@ -342,22 +342,12 @@ export const fromTaskOptionK = <E>(
 }
 
 /**
- * The `W` suffix (short for **W**idening) means that the error types will be merged.
- *
  * @category combinators
  * @since 3.0.0
  */
-export const chainTaskOptionKW = <E2>(onNone: Lazy<E2>) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(
+export const chainTaskOptionK = <E2>(onNone: Lazy<E2>) => <A, B>(f: (a: A) => TaskOption<B>) => <E1>(
   ma: TaskEither<E1, A>
 ): TaskEither<E1 | E2, B> => pipe(ma, chain(fromTaskOptionK<E1 | E2>(onNone)(f)))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainTaskOptionK: <E>(
-  onNone: Lazy<E>
-) => <A, B>(f: (a: A) => TaskOption<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainTaskOptionKW
 
 /**
  * @category combinators
@@ -368,22 +358,12 @@ export const fromIOEitherK = <A extends ReadonlyArray<unknown>, E, B>(
 ): ((...a: A) => TaskEither<E, B>) => flow(f, fromIOEither)
 
 /**
- * Less strict version of [`chainIOEitherK`](#chainIOEitherK).
- *
  * @category combinators
  * @since 3.0.0
  */
-export const chainIOEitherKW = <A, E2, B>(
+export const chainIOEitherK = <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ): (<E1>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, B>) => chain(fromIOEitherK(f))
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainIOEitherK: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, B> = chainIOEitherKW
 
 // -------------------------------------------------------------------------------------
 // type class members

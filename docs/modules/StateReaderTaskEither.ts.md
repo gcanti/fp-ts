@@ -32,15 +32,12 @@ Added in v3.0.0
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
-  - [chainIOEitherKW](#chainioeitherkw)
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
-  - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
   - [chainStateK](#chainstatek)
   - [chainTaskEitherK](#chaintaskeitherk)
-  - [chainTaskEitherKW](#chaintaskeitherkw)
   - [chainTaskK](#chaintaskk)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
@@ -58,7 +55,6 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksStateReaderTaskEither](#asksstatereadertaskeither)
-  - [asksStateReaderTaskEitherW](#asksstatereadertaskeitherw)
   - [fromPredicate](#frompredicate)
   - [fromReaderTaskEither](#fromreadertaskeither)
   - [get](#get)
@@ -296,21 +292,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainIOEitherK: <A, E, B>(
-  f: (a: A) => IOEither<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## chainIOEitherKW
-
-Less strict version of [`chainIOEitherK`](#chainIOEitherK).
-
-**Signature**
-
-```ts
-export declare const chainIOEitherKW: <A, E2, B>(
+export declare const chainIOEitherK: <A, E2, B>(
   f: (a: A) => IOEither<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
@@ -360,21 +342,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainReaderTaskEitherK: <A, R, E, B>(
-  f: (a: A) => RTE.ReaderTaskEither<R, E, B>
-) => <S>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderTaskEitherKW
-
-Less strict version of [`chainReaderTaskEitherK`](#chainReaderTaskEitherK).
-
-**Signature**
-
-```ts
-export declare const chainReaderTaskEitherKW: <A, R, E2, B>(
+export declare const chainReaderTaskEitherK: <A, R, E2, B>(
   f: (a: A) => RTE.ReaderTaskEither<R, E2, B>
 ) => <S, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
@@ -398,21 +366,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainTaskEitherK: <A, E, B>(
-  f: (a: A) => TaskEither<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## chainTaskEitherKW
-
-Less strict version of [`chainTaskEitherK`](#chainTaskEitherK).
-
-**Signature**
-
-```ts
-export declare const chainTaskEitherKW: <A, E2, B>(
+export declare const chainTaskEitherK: <A, E2, B>(
   f: (a: A) => TaskEither<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, B>
 ```
@@ -621,21 +575,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asksStateReaderTaskEither: <R, S, E, A>(
-  f: (r: R) => StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## asksStateReaderTaskEitherW
-
-Less strict version of [`asksStateReaderTaskEitherK`](#asksstatereadertaskeitherk).
-
-**Signature**
-
-```ts
-export declare const asksStateReaderTaskEitherW: <R1, S, R2, E, A>(
+export declare const asksStateReaderTaskEither: <R1, S, R2, E, A>(
   f: (r1: R1) => StateReaderTaskEither<S, R2, E, A>
 ) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```

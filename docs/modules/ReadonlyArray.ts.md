@@ -106,9 +106,7 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [match](#match)
   - [matchLeft](#matchleft)
-  - [matchLeftW](#matchleftw)
   - [matchRight](#matchright)
-  - [matchRightW](#matchrightw)
 - [guards](#guards)
   - [isNonEmpty](#isnonempty)
 - [instances](#instances)
@@ -1535,10 +1533,10 @@ Break a `ReadonlyArray` into its first element and remaining elements.
 **Signature**
 
 ```ts
-export declare const matchLeft: <B, A>(
+export declare const matchLeft: <B, A, C = B>(
   onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => B
-) => (as: readonly A[]) => B
+  onNonEmpty: (head: A, tail: readonly A[]) => C
+) => (as: readonly A[]) => B | C
 ```
 
 **Example**
@@ -1555,21 +1553,6 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v3.0.0
 
-## matchLeftW
-
-Less strict version of [`matchLeft`](#matchLeft).
-
-**Signature**
-
-```ts
-export declare const matchLeftW: <B, A, C>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (head: A, tail: readonly A[]) => C
-) => (as: readonly A[]) => B | C
-```
-
-Added in v3.0.0
-
 ## matchRight
 
 Break a `ReadonlyArray` into its initial elements and the last element.
@@ -1577,22 +1560,7 @@ Break a `ReadonlyArray` into its initial elements and the last element.
 **Signature**
 
 ```ts
-export declare const matchRight: <B, A>(
-  onEmpty: Lazy<B>,
-  onNonEmpty: (init: readonly A[], last: A) => B
-) => (as: readonly A[]) => B
-```
-
-Added in v3.0.0
-
-## matchRightW
-
-Less strict version of [`matchRight`](#matchRight).
-
-**Signature**
-
-```ts
-export declare const matchRightW: <B, A, C>(
+export declare const matchRight: <B, A, C = B>(
   onEmpty: Lazy<B>,
   onNonEmpty: (init: readonly A[], last: A) => C
 ) => (as: readonly A[]) => B | C

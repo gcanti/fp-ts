@@ -51,33 +51,33 @@ pipe(
 )
 
 //
-// chainTaskEitherKW
+// chainTaskEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainTaskEitherKW(() => TE.right<number, number>(1))
+  _.chainTaskEitherK(() => TE.right<number, number>(1))
 )
 
 //
-// chainReaderTaskEitherKW
+// chainReaderTaskEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainReaderTaskEitherKW(() => RTE.right<number, string, number>(1))
+  _.chainReaderTaskEitherK(() => RTE.right<number, string, number>(1))
 )
 
 //
-// chainIOEitherKW
+// chainIOEitherK
 //
 
 // $ExpectType StateReaderTaskEither<string, string, string | number, number>
 pipe(
   _.right<string, string, string, string>('a'),
-  _.chainIOEitherKW(() => IOE.right<number, number>(1))
+  _.chainIOEitherK(() => IOE.right<number, number>(1))
 )
 
 //

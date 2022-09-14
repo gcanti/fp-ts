@@ -71,13 +71,13 @@ pipe(
 )
 
 //
-// chainIOEitherKW
+// chainIOEitherK
 //
 
 // $ExpectType TaskEither<string | number, number>
 pipe(
   _.right<string, string>('a'),
-  _.chainIOEitherKW(() => IOE.right<number, number>(1))
+  _.chainIOEitherK(() => IOE.right<number, number>(1))
 )
 
 //
