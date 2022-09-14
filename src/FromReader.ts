@@ -78,7 +78,9 @@ export const chainReaderK = <M extends HKT>(F: FromReader<M>, M: Chain<M>) => <A
 export const chainFirstReaderK = <M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-): (<A, R, B>(f: (a: A) => Reader<R, B>) => <S, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>) => {
+): (<A, R2, B>(
+  f: (a: A) => Reader<R2, B>
+) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>) => {
   const chainFirstM = chainFirst(M)
   return (f) => chainFirstM((a) => F.fromReader(f(a)))
 }

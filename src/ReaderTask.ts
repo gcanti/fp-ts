@@ -361,19 +361,9 @@ export const chainReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
-
-/**
- * Less strict version of [`chainFirstReaderK`](#chainFirstReaderK).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
+export const chainFirstReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * @category instances

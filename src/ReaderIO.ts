@@ -68,22 +68,12 @@ export const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A> = /*#__PURE
 export const local: <R2, R1>(f: (r2: R2) => R1) => <A>(ma: ReaderIO<R1, A>) => ReaderIO<R2, A> = R.local
 
 /**
- * Less strict version of [`asksReaderIO`](#asksreaderio).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const asksReaderIOW: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = R.asksReaderW
-
-/**
  * Effectfully accesses the environment.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const asksReaderIO: <R, A>(f: (r: R) => ReaderIO<R, A>) => ReaderIO<R, A> = asksReaderIOW
+export const asksReaderIO: <R1, R2, A>(f: (r1: R1) => ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = R.asksReaderW
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: F<A>) => F<B>` whose argument and return types
@@ -317,21 +307,9 @@ export const chainReaderK: <A, R2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
-
-/**
- * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, A> = chainFirstReaderK as any
+export const chainFirstReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation
