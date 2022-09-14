@@ -173,22 +173,12 @@ export const leftIO: <E, R = unknown, A = never>(me: IO<E>) => ReaderTaskEither<
 )
 
 /**
- * Less strict version of [`asksReaderTaskEitherK`](#asksreadertaskeitherk).
- *
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderTaskEitherW: <R1, R2, E, A>(
+export const asksReaderTaskEither: <R1, R2, E, A>(
   f: (r1: R1) => ReaderTaskEither<R2, E, A>
 ) => ReaderTaskEither<R1 & R2, E, A> = R.asksReaderW
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asksReaderTaskEither: <R, E, A>(
-  f: (r: R) => ReaderTaskEither<R, E, A>
-) => ReaderTaskEither<R, E, A> = asksReaderTaskEitherW
 
 // -------------------------------------------------------------------------------------
 // natural transformations
