@@ -222,19 +222,9 @@ export const toUnion: <E, A>(fa: IOEither<E, A>) => IO<E | A> = /*#__PURE__*/ ET
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => IOEither<E2, A>
-) => (ma: IOEither<E1, A>) => IOEither<E2, A> = /*#__PURE__*/ ET.orElse(I.Monad)
-
-/**
- * Less strict version of [`orElse`](#orElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const orElseW: <E1, E2, B>(
+export const orElse: <E1, E2, B>(
   onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = orElse as any
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ ET.orElse(I.Monad)
 
 /**
  * @category combinators

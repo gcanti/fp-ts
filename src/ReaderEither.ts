@@ -226,19 +226,9 @@ export const local: <R2, R1>(f: (r2: R2) => R1) => <E, A>(ma: ReaderEither<R1, E
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, R, E2, A>(
-  onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A> = /*#__PURE__*/ ET.orElse(R.Monad)
-
-/**
- * Less strict version of [`orElse`](#orElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const orElseW: <E1, R1, E2, B>(
+export const orElse: <E1, R1, E2, B>(
   onLeft: (e: E1) => ReaderEither<R1, E2, B>
-) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = orElse as any
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ ET.orElse(R.Monad)
 
 /**
  * @category combinators

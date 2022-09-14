@@ -365,19 +365,11 @@ export const local: <R2, R1>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, R, E2, A>(
-  onLeft: (e: E1) => ReaderTaskEither<R, E2, A>
-) => (ma: ReaderTaskEither<R, E1, A>) => ReaderTaskEither<R, E2, A> = /*#__PURE__*/ ET.orElse(RT.Monad)
-
-/**
- * Less strict version of [`orElse`](#orElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const orElseW: <E1, R1, E2, B>(
+export const orElse: <E1, R1, E2, B>(
   onLeft: (e: E1) => ReaderTaskEither<R1, E2, B>
-) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = orElse as any
+) => <R2, A>(ma: ReaderTaskEither<R2, E1, A>) => ReaderTaskEither<R1 & R2, E2, A | B> = /*#__PURE__*/ ET.orElse(
+  RT.Monad
+)
 
 /**
  * @category combinators

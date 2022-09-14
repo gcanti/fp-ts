@@ -320,19 +320,9 @@ export const chainNullableK: <E>(
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => TaskEither<E2, A>
-) => (ma: TaskEither<E1, A>) => TaskEither<E2, A> = /*#__PURE__*/ ET.orElse(T.Monad)
-
-/**
- * Less strict version of [`orElse`](#orElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const orElseW: <E1, E2, B>(
+export const orElse: <E1, E2, B>(
   onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = orElse as any
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, A | B> = /*#__PURE__*/ ET.orElse(T.Monad)
 
 /**
  * @category combinators

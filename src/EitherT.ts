@@ -253,12 +253,17 @@ export function getOrElseE<M extends HKT>(
 /**
  * @since 3.0.0
  */
-export function orElse<M extends HKT>(
-  M: Monad<M>
-): <E1, S, R, W, ME, E2, A>(
-  onLeft: (e: E1) => Kind<M, S, R, W, ME, Either<E2, A>>
-) => (ma: Kind<M, S, R, W, ME, Either<E1, A>>) => Kind<M, S, R, W, ME, Either<E2, A>> {
-  return (onLeft) => M.chain((e) => (E.isLeft(e) ? onLeft(e.left) : M.of(e)))
+export const orElse = <M extends HKT>(M: Monad<M>) => <E1, S, R2, W2, ME2, E2, B>(
+  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, Either<E2, B>>
+) => <R1, W1, ME1, A>(
+  ma: Kind<M, S, R1, W1, ME1, Either<E1, A>>
+): Kind<M, S, R1 & R2, W1 | W2, ME1 | ME2, Either<E2, A | B>> => {
+  return pipe(
+    ma,
+    M.chain<E.Either<E1, A>, S, R1 & R2, W1 | W2, ME1 | ME2, E.Either<E2, A | B>>((e) =>
+      E.isLeft(e) ? onLeft(e.left) : M.of(e)
+    )
+  )
 }
 
 /**

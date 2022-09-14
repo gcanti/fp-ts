@@ -289,9 +289,7 @@ export const tryCatchK = <A extends ReadonlyArray<unknown>, B, E>(
  * @category interop
  * @since 3.0.0
  */
-export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
-  /*#__PURE__*/
-  matchW(identity, identity)
+export const toUnion: <E, A>(fa: Either<E, A>) => E | A = /*#__PURE__*/ matchW(identity, identity)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -306,21 +304,13 @@ export const toUnion: <E, A>(fa: Either<E, A>) => E | A =
 export const swap = <E, A>(ma: Either<E, A>): Either<A, E> => (isLeft(ma) ? right(ma.left) : left(ma.right))
 
 /**
- * Less strict version of [`orElse`](#orElse).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const orElseW = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
-  isLeft(ma) ? onLeft(ma.left) : ma
-
-/**
  * Useful for recovering from errors.
  *
  * @category combinators
  * @since 3.0.0
  */
-export const orElse: <E, A>(onLeft: (e: E) => Either<E, A>) => (ma: Either<E, A>) => Either<E, A> = orElseW
+export const orElse = <E1, E2, B>(onLeft: (e: E1) => Either<E2, B>) => <A>(ma: Either<E1, A>): Either<E2, A | B> =>
+  isLeft(ma) ? onLeft(ma.left) : ma
 
 // -------------------------------------------------------------------------------------
 // type class members

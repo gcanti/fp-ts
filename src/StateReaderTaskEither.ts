@@ -596,7 +596,7 @@ export const modify: <S, R, E = never>(
  * @category constructors
  * @since 3.0.0
  */
-export const gets: <S, R, E = never, A = never>(
+export const gets: <S, A, R = unknown, E = never>(
   f: (s: S) => A
 ) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ gets_(FromState)
 
