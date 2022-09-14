@@ -901,22 +901,12 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = /*#__PURE__*/ chainReaderK_(
+export const chainReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = /*#__PURE__*/ chainReaderK_(
   FromReader,
   Chain
 )
-
-/**
- * Less strict version of [`chainReaderK`](#chainReaderK).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B> = chainReaderK as any
 
 /**
  * @category combinators

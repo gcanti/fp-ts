@@ -49,7 +49,9 @@ Added in v3.0.0
 export declare const chainReaderK: <M extends HKT>(
   F: FromReader<M>,
   M: Chain<M>
-) => <A, R, B>(f: (a: A) => R.Reader<R, B>) => <S, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>
 ```
 
 Added in v3.0.0

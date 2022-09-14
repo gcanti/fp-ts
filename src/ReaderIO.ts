@@ -309,21 +309,9 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
-
-/**
- * Less strict version of [`chainReaderK`](#chainreaderk).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B> = chainReaderK as any
+export const chainReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * @category combinators

@@ -28,12 +28,10 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [filterOrElse](#filterorelse)
   - [flap](#flap)
   - [fromEitherK](#fromeitherk)
@@ -48,7 +46,6 @@ Added in v3.0.0
   - [ask](#ask)
   - [asks](#asks)
   - [asksReaderEither](#asksreadereither)
-  - [asksReaderEitherW](#asksreadereitherw)
   - [fromPredicate](#frompredicate)
   - [left](#left)
   - [leftReader](#leftreader)
@@ -232,21 +229,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherKW
-
-Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherKW: <A, E2, B>(
+export declare const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, A>
 ```
@@ -296,21 +279,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainReaderK).
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R2, B>(
+export declare const chainReaderK: <A, R2, B>(
   f: (a: A) => R.Reader<R2, B>
 ) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
@@ -475,19 +444,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const asksReaderEither: <R, E, A>(f: (r: R) => ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## asksReaderEitherW
-
-Less strict version of [`asksReaderEitherK`](#asksreadereitherk).
-
-**Signature**
-
-```ts
-export declare const asksReaderEitherW: <R1, R2, E, A>(
+export declare const asksReaderEither: <R1, R2, E, A>(
   f: (r1: R1) => ReaderEither<R2, E, A>
 ) => ReaderEither<R1 & R2, E, A>
 ```

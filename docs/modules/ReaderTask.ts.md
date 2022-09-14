@@ -27,7 +27,6 @@ Added in v3.0.0
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [fromIOK](#fromiok)
@@ -203,21 +202,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
-```
-
-Added in v3.0.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainReaderK).
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, B>
+export declare const chainReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0

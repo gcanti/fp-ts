@@ -35,7 +35,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOEitherK](#chainioeitherk)
@@ -295,21 +294,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherKW
-
-Less strict version of [`chainFirstEitherK`](#chainFirstEitherK).
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherKW: <A, E2, B>(
+export declare const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, A>
 ```

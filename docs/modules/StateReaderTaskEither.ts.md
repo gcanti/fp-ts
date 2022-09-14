@@ -28,7 +28,6 @@ Added in v3.0.0
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
   - [chainFirstEitherK](#chainfirsteitherk)
-  - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
@@ -38,7 +37,6 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskEitherK](#chainreadertaskeitherk)
   - [chainReaderTaskEitherKW](#chainreadertaskeitherkw)
   - [chainStateK](#chainstatek)
@@ -254,21 +252,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
-```
-
-Added in v3.0.0
-
-## chainFirstEitherKW
-
-Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
-
-**Signature**
-
-```ts
-export declare const chainFirstEitherKW: <A, E2, B>(
+export declare const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <S, R, E1>(ma: StateReaderTaskEither<S, R, E1, A>) => StateReaderTaskEither<S, R, E2 | E1, A>
 ```
@@ -382,23 +366,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainReaderK: <A, R, B>(
-  f: (a: A) => R.Reader<R, B>
-) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
-```
-
-Added in v3.0.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainReaderK).
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
+export declare const chainReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <S, R1, E = never>(ma: StateReaderTaskEither<S, R1, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
 Added in v3.0.0

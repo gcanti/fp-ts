@@ -31,7 +31,6 @@ Added in v3.0.0
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainIOK](#chainiok)
   - [chainReaderK](#chainreaderk)
-  - [chainReaderKW](#chainreaderkw)
   - [flap](#flap)
   - [flatten](#flatten)
   - [fromIOK](#fromiok)
@@ -249,23 +248,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainReaderK: <A, R, B>(f: (a: A) => R.Reader<R, B>) => (ma: ReaderIO<R, A>) => ReaderIO<R, B>
-```
-
-Added in v3.0.0
-
-## chainReaderKW
-
-Less strict version of [`chainReaderK`](#chainreaderk).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const chainReaderKW: <A, R1, B>(
-  f: (a: A) => R.Reader<R1, B>
-) => <R2>(ma: ReaderIO<R2, A>) => ReaderIO<R1 & R2, B>
+export declare const chainReaderK: <A, R2, B>(
+  f: (a: A) => R.Reader<R2, B>
+) => <R1>(ma: ReaderIO<R1, A>) => ReaderIO<R1 & R2, B>
 ```
 
 Added in v3.0.0
