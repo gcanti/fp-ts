@@ -84,7 +84,7 @@ import {
   chainFirstEitherK as chainFirstEitherK_
 } from './FromEither'
 import { constNull, constUndefined, flow, identity, Lazy, pipe } from './function'
-import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad1 } from './Monad'
@@ -1244,10 +1244,14 @@ export const Do: Option<{}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
-/**
- * @since 2.13.0
- */
-export const bindMap = /*#__PURE__*/ bindMap_(Functor)
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
  * @since 2.8.0

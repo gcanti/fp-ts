@@ -70,8 +70,8 @@ Added in v2.0.0
   - [Do](#do)
   - [apS](#aps)
   - [bind](#bind)
-  - [bindMap](#bindmap)
   - [bindTo](#bindto)
+  - [let](#let)
   - [never](#never)
   - [sequenceArray](#sequencearray)
   - [sequenceSeqArray](#sequenceseqarray)
@@ -595,19 +595,6 @@ export declare const bind: <N, A, B>(
 
 Added in v2.8.0
 
-## bindMap
-
-**Signature**
-
-```ts
-export declare const bindMap: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
 ## bindTo
 
 **Signature**
@@ -617,6 +604,19 @@ export declare const bindTo: <N>(name: N) => <A>(fa: Task<A>) => Task<{ readonly
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: Task<A>) => Task<{ readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## never
 
