@@ -124,7 +124,7 @@ describe('Identity', () => {
         _.of(1),
         _.bindTo('a'),
         _.bind('b', () => _.of('b')),
-        _.bindMap('c', ({ a, b }) => [a, b])
+        _.let('c', ({ a, b }) => [a, b])
       ),
       { a: 1, b: 'b', c: [1, 'b'] }
     )

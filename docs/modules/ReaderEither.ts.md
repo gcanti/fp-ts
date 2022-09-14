@@ -117,9 +117,9 @@ Added in v2.0.0
   - [apS](#aps)
   - [apSW](#apsw)
   - [bind](#bind)
-  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [bindW](#bindw)
+  - [let](#let)
   - [sequenceArray](#sequencearray)
   - [traverseArray](#traversearray)
   - [traverseArrayWithIndex](#traversearraywithindex)
@@ -1327,21 +1327,6 @@ export declare const bind: <N, A, R, E, B>(
 
 Added in v2.8.0
 
-## bindMap
-
-**Signature**
-
-```ts
-export declare const bindMap: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => <R, E>(
-  fa: ReaderEither<R, E, A>
-) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v2.13.0
-
 ## bindTo
 
 **Signature**
@@ -1370,6 +1355,21 @@ export declare const bindW: <N extends string, A, R2, E2, B>(
 ```
 
 Added in v2.8.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => <R, E>(
+  fa: ReaderEither<R, E, A>
+) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+```
+
+Added in v2.13.0
 
 ## sequenceArray
 

@@ -26,7 +26,7 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, pipe, SK } from './function'
-import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
@@ -529,10 +529,14 @@ export const Do: ReaderTask<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
-/**
- * @since 2.13.0
- */
-export const bindMap = /*#__PURE__*/ bindMap_(Functor)
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
  * @since 2.8.0

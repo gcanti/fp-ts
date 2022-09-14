@@ -23,7 +23,7 @@ import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { identity, Lazy, pipe } from './function'
-import { bindMap as bindMap_, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -1123,10 +1123,14 @@ export const Do: NonEmptyArray<{}> = /*#__PURE__*/ of(_.emptyRecord)
  */
 export const bindTo = /*#__PURE__*/ bindTo_(Functor)
 
-/**
- * @since 2.13.0
- */
-export const bindMap = /*#__PURE__*/ bindMap_(Functor)
+const let_ = /*#__PURE__*/ let__(Functor)
+
+export {
+  /**
+   * @since 2.13.0
+   */
+  let_ as let
+}
 
 /**
  * @since 2.8.0

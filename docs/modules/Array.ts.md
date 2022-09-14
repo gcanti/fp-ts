@@ -188,7 +188,6 @@ Added in v2.0.0
   - [Spanned (interface)](#spanned-interface)
   - [apS](#aps)
   - [bind](#bind)
-  - [bindMap](#bindmap)
   - [bindTo](#bindto)
   - [deleteAt](#deleteat)
   - [elem](#elem)
@@ -200,6 +199,7 @@ Added in v2.0.0
   - [insertAt](#insertat)
   - [intercalate](#intercalate)
   - [isOutOfBound](#isoutofbound)
+  - [let](#let)
   - [lookup](#lookup)
   - [modifyAt](#modifyat)
   - [size](#size)
@@ -3289,19 +3289,6 @@ export declare const bind: <N, A, B>(
 
 Added in v2.8.0
 
-## bindMap
-
-**Signature**
-
-```ts
-export declare const bindMap: <N, A, B>(
-  name: Exclude<N, keyof A>,
-  f: (a: A) => B
-) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
-```
-
-Added in v2.13.0
-
 ## bindTo
 
 **Signature**
@@ -3526,6 +3513,19 @@ assert.strictEqual(isOutOfBound(3, ['a', 'b', 'c']), true)
 ```
 
 Added in v2.0.0
+
+## let
+
+**Signature**
+
+```ts
+export declare const let: <N, A, B>(
+  name: Exclude<N, keyof A>,
+  f: (a: A) => B
+) => (fa: A[]) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }[]
+```
+
+Added in v2.13.0
 
 ## lookup
 
