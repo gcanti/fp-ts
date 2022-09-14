@@ -157,15 +157,9 @@ export const matchEW: <B, A, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <A>(onNone: Lazy<A>) => (fa: TaskOption<A>) => Task<A> = /*#__PURE__*/ OT.getOrElse(T.Functor)
-
-/**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
+export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: TaskOption<A>) => Task<A | B> = /*#__PURE__*/ OT.getOrElse(
+  T.Functor
+)
 
 /**
  * @category destructors

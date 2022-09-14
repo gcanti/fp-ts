@@ -41,13 +41,13 @@ pipe(
 )
 
 //
-// getOrElseW
+// getOrElse
 //
 
 // $ExpectType Task<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseW(() => null)
+  _.getOrElse(() => null)
 )
 
 //

@@ -83,7 +83,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <S, R, W, E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
+export declare const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -402,7 +402,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Writer<E, A>) => Writer<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -412,7 +412,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <S, R, W, A>(fea: Writer<E, A>) => Writer<G, A>
+export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A>
 ```
 
 Added in v3.0.0
@@ -496,7 +496,7 @@ Alias of [`map`](#map)
 **Signature**
 
 ```ts
-export declare const mapFst: <A, B>(f: (a: A) => B) => <S, R, W, E>(fa: Writer<E, A>) => Writer<E, B>
+export declare const mapFst: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>
 ```
 
 Added in v3.0.0
@@ -510,7 +510,7 @@ Alias of [`mapLeft`](#mapleft)
 **Signature**
 
 ```ts
-export declare const mapSnd: <E, G>(f: (e: E) => G) => <S, R, W, A>(fea: Writer<E, A>) => Writer<G, A>
+export declare const mapSnd: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A>
 ```
 
 Added in v3.0.0

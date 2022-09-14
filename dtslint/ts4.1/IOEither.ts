@@ -39,13 +39,13 @@ pipe(
 //
 
 //
-// getOrElseW
+// getOrElse
 //
 
 // $ExpectType IO<string | null>
 pipe(
   _.right('a'),
-  _.getOrElseW(() => null)
+  _.getOrElse(() => null)
 )
 
 //

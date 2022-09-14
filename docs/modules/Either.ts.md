@@ -65,7 +65,6 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
 - [guards](#guards)
@@ -630,7 +629,7 @@ Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A
+export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
 ```
 
 **Example**
@@ -653,18 +652,6 @@ assert.deepStrictEqual(
   ),
   0
 )
-```
-
-Added in v3.0.0
-
-## getOrElseW
-
-Less strict version of [`getOrElse`](#getOrElse).
-
-**Signature**
-
-```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>) => B | A
 ```
 
 Added in v3.0.0

@@ -195,9 +195,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<F extends HKT>(
+export declare const getOrElse: <F extends HKT>(
   F: Functor<F>
-): <A>(onNone: Lazy<A>) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
+) => <B>(onNone: Lazy<B>) => <S, R, W, E, A>(fa: Kind<F, S, R, W, E, O.Option<A>>) => Kind<F, S, R, W, E, B | A>
 ```
 
 Added in v3.0.0

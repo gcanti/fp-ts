@@ -39,13 +39,13 @@ pipe(
 //
 
 //
-// getOrElseW
+// getOrElse
 //
 
 // $ExpectType Reader<{ a: string; }, string | null>
 pipe(
   _.right<string, { a: string }, string>('a'),
-  _.getOrElseW(() => null)
+  _.getOrElse(() => null)
 )
 
 //

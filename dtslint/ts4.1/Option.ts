@@ -1,14 +1,14 @@
+import { pipe } from '../../src/function'
 import * as _ from '../../src/Option'
-import { pipe, flow } from '../../src/function'
 
 //
-// getOrElseW
+// getOrElse
 //
 
 // $ExpectType string | null
 pipe(
   _.some('a'),
-  _.getOrElseW(() => null)
+  _.getOrElse(() => null)
 )
 
 //
@@ -47,7 +47,7 @@ pipe(
   on,
   _.filter(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -67,7 +67,7 @@ pipe(
   on,
   _.partition(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -85,7 +85,7 @@ pipe(
   n,
   _.fromPredicate(
     (
-      n // $ExpectType number
+      _n // $ExpectType number
     ) => true
   )
 )

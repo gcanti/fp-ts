@@ -66,7 +66,6 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [getOrElseEW](#getorelseew)
-  - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -667,7 +666,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => <R>(ma: ReaderEither<R, E, A>) => R.Reader<R, A>
+export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => R.Reader<R, B | A>
 ```
 
 Added in v3.0.0
@@ -694,18 +693,6 @@ Less strict version of [`getOrElseE`](#getOrElseE).
 export declare const getOrElseEW: <E, R2, B>(
   onLeft: (e: E) => R.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2, B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseW
-
-Less strict version of [`getOrElse`](#getOrElse).
-
-**Signature**
-
-```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <R, A>(ma: ReaderEither<R, E, A>) => R.Reader<R, B | A>
 ```
 
 Added in v3.0.0

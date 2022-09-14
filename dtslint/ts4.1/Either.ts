@@ -44,13 +44,13 @@ pipe(
 _.toUnion(_.right<number, string>(1))
 
 //
-// getOrElseW
+// getOrElse
 //
 
 // $ExpectType string | null
 pipe(
   _.right('a'),
-  _.getOrElseW(() => null)
+  _.getOrElse(() => null)
 )
 
 //

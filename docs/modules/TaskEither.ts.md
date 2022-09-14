@@ -79,7 +79,6 @@ Added in v3.0.0
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
   - [getOrElseEW](#getorelseew)
-  - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -799,7 +798,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: TaskEither<E, A>) => T.Task<A>
+export declare const getOrElse: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0
@@ -822,18 +821,6 @@ Less strict version of [`getOrElseE`](#getOrElseE).
 
 ```ts
 export declare const getOrElseEW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
-```
-
-Added in v3.0.0
-
-## getOrElseW
-
-Less strict version of [`getOrElse`](#getOrElse).
-
-**Signature**
-
-```ts
-export declare const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0

@@ -193,17 +193,9 @@ export const matchEW: <E, B, A, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: TaskEither<E, A>) => Task<A> = /*#__PURE__*/ ET.getOrElse(
-  T.Functor
-)
-
-/**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW: <E, B>(onLeft: (e: E) => B) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
+export const getOrElse: <E, B>(
+  onLeft: (e: E) => B
+) => <A>(ma: TaskEither<E, A>) => Task<A | B> = /*#__PURE__*/ ET.getOrElse(T.Functor)
 
 /**
  * @category destructors

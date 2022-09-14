@@ -166,15 +166,6 @@ export const matchW = <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) => C) =>
 export const match: <E, B, A>(onLeft: (e: E) => B, onRight: (a: A) => B) => (ma: Either<E, A>) => B = matchW
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A | B =>
-  isLeft(ma) ? onLeft(ma.left) : ma.right
-
-/**
  * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
  *
  * @example
@@ -199,7 +190,8 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
+export const getOrElse = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): A | B =>
+  isLeft(ma) ? onLeft(ma.left) : ma.right
 
 // -------------------------------------------------------------------------------------
 // interop

@@ -153,15 +153,9 @@ export const matchEW: <B, A, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <A>(onNone: Lazy<A>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElse(I.Functor)
-
-/**
- * Less strict version of [`getOrElse`](#getorelse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
+export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ OT.getOrElse(
+  I.Functor
+)
 
 /**
  * @category destructors

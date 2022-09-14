@@ -215,14 +215,6 @@ export const matchW = <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (ma: Op
 export const match: <B, A>(onNone: Lazy<B>, onSome: (a: A) => B) => (ma: Option<A>) => B = matchW
 
 /**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
-
-/**
  * Extracts the value out of the structure, if it exists. Otherwise returns the given default value
  *
  * @example
@@ -247,7 +239,7 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
+export const getOrElse = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (isNone(ma) ? onNone() : ma.value)
 
 // -------------------------------------------------------------------------------------
 // interop

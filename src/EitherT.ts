@@ -229,10 +229,10 @@ export function matchE<M extends HKT>(
 /**
  * @since 3.0.0
  */
-export function getOrElse<F extends HKT>(
-  F: Functor<F>
-): <E, A>(onLeft: (e: E) => A) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A> {
-  return flow(E.getOrElse, F.map)
+export const getOrElse = <F extends HKT>(F: Functor<F>) => <E, B>(
+  onLeft: (e: E) => B
+): (<S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A | B>) => {
+  return F.map(E.getOrElse(onLeft))
 }
 
 /**

@@ -282,19 +282,9 @@ export const matchEW: <E, R2, B, A, R3, C>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElse: <E, A>(
-  onLeft: (e: E) => A
-) => <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> = /*#__PURE__*/ ET.getOrElse(RT.Functor)
-
-/**
- * Less strict version of [`getOrElse`](#getOrElse).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseW: <E, B>(
+export const getOrElse: <E, B>(
   onLeft: (e: E) => B
-) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> = getOrElse as any
+) => <R, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A | B> = /*#__PURE__*/ ET.getOrElse(RT.Functor)
 
 /**
  * @category destructors

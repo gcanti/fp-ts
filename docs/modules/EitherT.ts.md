@@ -187,9 +187,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getOrElse<F extends HKT>(
+export declare const getOrElse: <F extends HKT>(
   F: Functor<F>
-): <E, A>(onLeft: (e: E) => A) => <S, R, W, ME>(ma: Kind<F, S, R, W, ME, Either<E, A>>) => Kind<F, S, R, W, ME, A>
+) => <E, B>(
+  onLeft: (e: E) => B
+) => <S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, E.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
 ```
 
 Added in v3.0.0

@@ -72,7 +72,6 @@ Added in v3.0.0
   - [flatten](#flatten)
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
-  - [getOrElseW](#getorelsew)
   - [match](#match)
   - [matchW](#matchw)
 - [guards](#guards)
@@ -591,7 +590,7 @@ Extracts the value out of the structure, if it exists. Otherwise returns the giv
 **Signature**
 
 ```ts
-export declare const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A
+export declare const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
 ```
 
 **Example**
@@ -614,18 +613,6 @@ assert.strictEqual(
   ),
   0
 )
-```
-
-Added in v3.0.0
-
-## getOrElseW
-
-Less strict version of [`getOrElse`](#getOrElse).
-
-**Signature**
-
-```ts
-export declare const getOrElseW: <B>(onNone: Lazy<B>) => <A>(ma: Option<A>) => B | A
 ```
 
 Added in v3.0.0

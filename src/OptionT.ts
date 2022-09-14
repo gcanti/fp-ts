@@ -122,10 +122,10 @@ export function matchE<M extends HKT>(
 /**
  * @since 3.0.0
  */
-export function getOrElse<F extends HKT>(
-  F: Functor<F>
-): <A>(onNone: Lazy<A>) => <S, R, W, E>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A> {
-  return flow(O.getOrElse, F.map)
+export const getOrElse = <F extends HKT>(F: Functor<F>) => <B>(
+  onNone: Lazy<B>
+): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A | B>) => {
+  return F.map(O.getOrElse(onNone))
 }
 
 /**
