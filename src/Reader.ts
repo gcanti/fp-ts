@@ -52,18 +52,10 @@ export const ask: <R>() => Reader<R, R> = () => identity
 export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = identity
 
 /**
- * Less strict version of [`asksReaderK`](#asksreaderk).
- *
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderW = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asksReader: <R, A>(f: (r: R) => Reader<R, A>) => Reader<R, A> = asksReaderW
+export const asksReader = <R1, R2, A>(f: (r1: R1) => Reader<R2, A>): Reader<R1 & R2, A> => (r) => f(r)(r)
 
 // -------------------------------------------------------------------------------------
 // combinators

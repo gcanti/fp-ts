@@ -100,7 +100,7 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, 
  * @since 3.0.0
  */
 export const asksReaderEither: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
-  R.asksReaderW
+  R.asksReader
 
 // -------------------------------------------------------------------------------------
 // natural transformations

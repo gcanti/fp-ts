@@ -94,7 +94,7 @@ export const tell: <W, R>(w: W) => ReaderTaskWriter<R, W, void> = /*#__PURE__*/ 
  */
 export const asksReaderTaskWriter: <R1, R2, W, A>(
   f: (r1: R1) => ReaderTaskWriter<R2, W, A>
-) => ReaderTaskWriter<R1 & R2, W, A> = R.asksReaderW
+) => ReaderTaskWriter<R1 & R2, W, A> = R.asksReader
 
 // -------------------------------------------------------------------------------------
 // natural transformations

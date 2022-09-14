@@ -178,7 +178,7 @@ export const leftIO: <E, R = unknown, A = never>(me: IO<E>) => ReaderTaskEither<
  */
 export const asksReaderTaskEither: <R1, R2, E, A>(
   f: (r1: R1) => ReaderTaskEither<R2, E, A>
-) => ReaderTaskEither<R1 & R2, E, A> = R.asksReaderW
+) => ReaderTaskEither<R1 & R2, E, A> = R.asksReader
 
 // -------------------------------------------------------------------------------------
 // natural transformations

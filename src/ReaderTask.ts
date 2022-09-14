@@ -58,7 +58,7 @@ export interface ReaderTask<R, A> {
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
+export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReader
 
 // -------------------------------------------------------------------------------------
 // natural transformations
