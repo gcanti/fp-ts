@@ -454,11 +454,11 @@ describe('TaskEither', () => {
   it('chainFirstEitherK', async () => {
     const f = (s: string) => E.right(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(f))(), E.right('a'))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.chainFirstEitherKW(f))(), E.right('a'))
+    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.chainFirstEitherK(f))(), E.right('a'))
 
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstEitherK(g))(), E.left(1))
-    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.chainFirstEitherKW(g))(), E.left(1))
+    U.deepStrictEqual(await pipe(_.right<string, string>('a'), _.chainFirstEitherK(g))(), E.left(1))
   })
 
   it('chainIOEitherK', async () => {

@@ -850,23 +850,11 @@ export const chainEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => <S, R>(
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
-
-/**
- * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
- *
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstEitherKW: <A, E2, B>(
+export const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, E1>(
   ma: StateReaderTaskEither<S, R, E1, A>
-) => StateReaderTaskEither<S, R, E1 | E2, A> = chainFirstEitherK as any
+) => StateReaderTaskEither<S, R, E1 | E2, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * Derivable from `FromEither`.

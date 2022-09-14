@@ -627,17 +627,9 @@ export const chainEitherK: <A, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const chainFirstEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const chainFirstEitherKW: <A, E2, B>(
+export const chainFirstEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
-) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = chainFirstEitherK as any
+) => <E1>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * Derivable from `FromEither`.
