@@ -22,8 +22,6 @@ high state of flux, you're at risk of it changing without notice.
   - bump minimum typescript version (4.1.x+)
   - make type class members pipeables
   - remove `lib`, `es6` folders
-  - make `readonly _E` optional in type classes
-  - make `readonly URI` optional in type classes
   - remove deprecated APIs
   - remove type classes
     - `MonadThrow`
@@ -43,7 +41,7 @@ high state of flux, you're at risk of it changing without notice.
       - make `StateReaderTaskEither` definition immutable
       - (`Tree`) make `Forest` immutable
       - make `Writer` definition immutable
-  - rename `ReadonlyTuple` module to `ReadonlyTuple2`
+  - rename `ReadonlyTuple` module to `Writer`
   - rename `traverseArrayWithIndex` to `traverseReadonlyArrayWithIndex`
   - rename `traverseArray` to `traverseReadonlyArray`
   - rename `sequenceArray` to `sequenceReadonlyArray`
