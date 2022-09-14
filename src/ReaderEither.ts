@@ -96,21 +96,11 @@ export const leftReader: <R, E, A = never>(me: Reader<R, E>) => ReaderEither<R, 
 )
 
 /**
- * Less strict version of [`asksReaderEitherK`](#asksreadereitherk).
- *
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderEitherW: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
+export const asksReaderEither: <R1, R2, E, A>(f: (r1: R1) => ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A> =
   R.asksReaderW
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asksReaderEither: <R, E, A>(
-  f: (r: R) => ReaderEither<R, E, A>
-) => ReaderEither<R, E, A> = asksReaderEitherW
 
 // -------------------------------------------------------------------------------------
 // natural transformations
