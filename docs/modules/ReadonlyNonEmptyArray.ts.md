@@ -1322,7 +1322,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const extract: <S, R, W, E, A>(wa: ReadonlyNonEmptyArray<A>) => A
+export declare const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A
 ```
 
 Added in v3.0.0

@@ -12,8 +12,8 @@ import type { HKT, Kind, Typeclass } from './HKT'
  * @since 3.0.0
  */
 export interface Invariant<F extends HKT> extends Typeclass<F> {
-  readonly imap: <A, B>(
-    f: (a: A) => B,
-    g: (b: B) => A
-  ) => <R, W, E, _>(fa: Kind<F, A, R, W, E, _>) => Kind<F, B, R, W, E, _>
+  readonly imap: <S, T>(
+    f: (s: S) => T,
+    g: (t: T) => S
+  ) => <R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, T, R, W, E, A>
 }

@@ -13,8 +13,7 @@ Added in v3.0.0
 <h2 class="text-delta">Table of contents</h2>
 
 - [instances](#instances)
-  - [URI](#uri)
-  - [URI (type alias)](#uri-type-alias)
+  - [EndomorphismF (interface)](#endomorphismf-interface)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [utils](#utils)
@@ -24,22 +23,14 @@ Added in v3.0.0
 
 # instances
 
-## URI
+## EndomorphismF (interface)
 
 **Signature**
 
 ```ts
-export declare const URI: 'Endomorphism'
-```
-
-Added in v3.0.0
-
-## URI (type alias)
-
-**Signature**
-
-```ts
-export type URI = typeof URI
+export interface EndomorphismF extends HKT {
+  readonly type: Endomorphism<this['Invariant1']>
+}
 ```
 
 Added in v3.0.0

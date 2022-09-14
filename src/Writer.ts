@@ -8,7 +8,6 @@ import type { Chain } from './Chain'
 import type { ChainRec } from './ChainRec'
 import type { Comonad as Comonad_ } from './Comonad'
 import type { Either } from './Either'
-import type { Extend as Extend_ } from './Extend'
 import type { Foldable as Foldable_ } from './Foldable'
 import { identity, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
@@ -39,7 +38,7 @@ export type Writer<W, A> = readonly [A, W]
  * @category constructors
  * @since 3.0.0
  */
-export const fromIdentity = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w]
+export const fromIdentity = <W>(w: W) => <A>(a: A): Writer<W, A> => [a, w] // TODO name?
 
 /**
  * Appends a value to the accumulator
@@ -142,7 +141,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * @category type class operations
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => {
+export const map: <A, B>(f: (a: A) => B) => <W>(fa: Writer<W, A>) => Writer<W, B> = (f) => (fa) => {
   const [a, w] = fa
   return [f(a), w]
 }
@@ -151,7 +150,7 @@ export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A> = (f) => (fa) => {
+export const mapLeft: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer<X, A> = (f) => (fa) => {
   const [a, w] = fa
   return [a, f(w)]
 }
@@ -162,7 +161,7 @@ export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap = <W, G, A, B>(mapSnd: (e: W) => G, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<G, B> => [
+export const bimap = <W, X, A, B>(mapSnd: (e: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<X, B> => [
   mapFst(fst(t)),
   mapSnd(snd(t))
 ]
@@ -198,13 +197,16 @@ export const compose: <B, C>(bc: Writer<B, C>) => <A>(ab: Writer<A, B>) => Write
  * @category type class operations
  * @since 3.0.0
  */
-export const extend: Extend_<WriterF>['extend'] = (f) => (wa) => [f(wa), snd(wa)]
+export const extend: <W, A, B>(f: (wa: Writer<W, A>) => B) => (wa: Writer<W, A>) => Writer<W, B> = (f) => (wa) => [
+  f(wa),
+  snd(wa)
+]
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const extract: Comonad_<WriterF>['extract'] = fst
+export const extract: <W, A>(wa: Writer<W, A>) => A = fst
 
 /**
  * Derivable from `Extend`.
@@ -218,19 +220,21 @@ export const duplicate: <W, A>(t: Writer<W, A>) => Writer<W, Writer<W, A>> = /*#
  * @category type class operations
  * @since 3.0.0
  */
-export const reduce: Foldable_<WriterF>['reduce'] = (b, f) => (fa) => f(b, fst(fa))
+export const reduce: <B, A>(b: B, f: (b: B, a: A) => B) => <W>(fa: Writer<W, A>) => B = (b, f) => (fa) => f(b, fst(fa))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const foldMap: Foldable_<WriterF>['foldMap'] = () => (f) => (fa) => f(fst(fa))
+export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <W>(fa: Writer<W, A>) => M = () => (f) => (fa) =>
+  f(fst(fa))
 
 /**
  * @category type class operations
  * @since 3.0.0
  */
-export const reduceRight: Foldable_<WriterF>['reduceRight'] = (b, f) => (fa) => f(fst(fa), b)
+export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W, A>) => B = (b, f) => (fa) =>
+  f(fst(fa), b)
 
 /**
  * @category type class operations
@@ -295,7 +299,7 @@ export const Functor: Functor_<WriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances

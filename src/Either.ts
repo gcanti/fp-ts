@@ -626,10 +626,10 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
 export const getCompactable = <E>(M: Monoid<E>): Compactable_<EitherFE<E>> => {
   const empty = left(M.empty)
 
-  const compact: Compactable_<EitherFE<E>>['compact'] = (ma) =>
+  const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
     isLeft(ma) ? ma : _.isNone(ma.right) ? empty : right(ma.right.value)
 
-  const separate: Compactable_<EitherFE<E>>['separate'] = (ma) =>
+  const separate: <A, B>(fe: Either<E, Either<A, B>>) => Separated<Either<E, A>, Either<E, B>> = (ma) =>
     isLeft(ma)
       ? separated(ma, ma)
       : isLeft(ma.right)

@@ -41,7 +41,7 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <P>(fa: Traced<P, A>) => Traced<P, B>
+export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B>
 ```
 
 Added in v3.0.0
@@ -55,7 +55,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <P, B>(fab: Traced<P, (a: A) => B>) => Traced<P, B>
+export declare const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B>
 ```
 
 Added in v3.0.0
@@ -78,7 +78,7 @@ Added in v3.0.0
 
 ```ts
 export interface TracedF extends HKT {
-  readonly type: Traced<this['Covariant2'], this['Covariant1']>
+  readonly type: Traced<this['Invariant1'], this['Covariant1']>
 }
 ```
 
@@ -89,8 +89,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface TracedFE<E> extends HKT {
-  readonly type: Traced<E, this['Covariant1']>
+export interface TracedFE<P> extends HKT {
+  readonly type: Traced<P, this['Covariant1']>
 }
 ```
 
@@ -101,7 +101,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getComonad: <P>(monoid: Monoid<P>) => Comonad<TracedFE<P>>
+export declare const getComonad: <W>(monoid: Monoid<W>) => Comonad<TracedFE<W>>
 ```
 
 Added in v3.0.0
@@ -113,8 +113,8 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export interface Traced<P, A> {
-  (p: P): A
+export interface Traced<W, A> {
+  (w: W): A
 }
 ```
 
@@ -129,7 +129,7 @@ Apply a function to the current position.
 **Signature**
 
 ```ts
-export declare const censor: <P>(f: (p: P) => P) => <A>(pa: Traced<P, A>) => Traced<P, A>
+export declare const censor: <W>(f: (p: W) => W) => <A>(pa: Traced<W, A>) => Traced<W, A>
 ```
 
 Added in v3.0.0
@@ -141,7 +141,7 @@ Get the current position.
 **Signature**
 
 ```ts
-export declare const listen: <P, A>(pa: Traced<P, A>) => Traced<P, readonly [A, P]>
+export declare const listen: <W, A>(fa: Traced<W, A>) => Traced<W, readonly [A, W]>
 ```
 
 Added in v3.0.0
@@ -153,7 +153,7 @@ Get a value which depends on the current position.
 **Signature**
 
 ```ts
-export declare const listens: <P, B>(f: (p: P) => B) => <A>(pa: Traced<P, A>) => Traced<P, readonly [A, B]>
+export declare const listens: <W, B>(f: (w: W) => B) => <A>(pa: Traced<W, A>) => Traced<W, readonly [A, B]>
 ```
 
 Added in v3.0.0
@@ -165,7 +165,7 @@ Extracts a value at a relative position which depends on the current value.
 **Signature**
 
 ```ts
-export declare const tracks: <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (pa: Traced<P, A>) => A
+export declare const tracks: <W>(M: Monoid<W>) => <A>(f: (a: A) => W) => (fa: Traced<W, A>) => A
 ```
 
 Added in v3.0.0

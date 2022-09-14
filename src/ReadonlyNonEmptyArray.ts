@@ -892,7 +892,7 @@ export const traverseWithIndex = <F extends HKT>(F: Applicative_<F>) => <A, S, R
 /**
  * @since 3.0.0
  */
-export const extract: Comonad_<ReadonlyNonEmptyArrayF>['extract'] = _.head
+export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
 
 // -------------------------------------------------------------------------------------
 // instances

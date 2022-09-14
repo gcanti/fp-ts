@@ -14,8 +14,8 @@ import type { Monoid } from './Monoid'
  * @category model
  * @since 3.0.0
  */
-export interface Traced<P, A> {
-  (p: P): A
+export interface Traced<W, A> {
+  (w: W): A
 }
 
 // -------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export interface Traced<P, A> {
  * @category Functor
  * @since 3.0.0
  */
-export const map: <A, B>(f: (a: A) => B) => <P>(fa: Traced<P, A>) => Traced<P, B> = (f) => (fa) => (p) => f(fa(p))
+export const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B> = (f) => (fa) => (w) => f(fa(w))
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -40,15 +40,15 @@ export const map: <A, B>(f: (a: A) => B) => <P>(fa: Traced<P, A>) => Traced<P, B
  * @since 3.0.0
  */
 export interface TracedF extends HKT {
-  readonly type: Traced<this['Covariant2'], this['Covariant1']>
+  readonly type: Traced<this['Invariant1'], this['Covariant1']>
 }
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export interface TracedFE<E> extends HKT {
-  readonly type: Traced<E, this['Covariant1']>
+export interface TracedFE<P> extends HKT {
+  readonly type: Traced<P, this['Covariant1']>
 }
 
 /**
@@ -65,16 +65,16 @@ export const Functor: Functor_<TracedF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap: <A>(a: A) => <P, B>(fab: Traced<P, (a: A) => B>) => Traced<P, B> = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <P>(monoid: Monoid<P>): Comonad<TracedFE<P>> => ({
+export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFE<W>> => ({
   map,
-  extend: (f) => (pa) => (p1) => f((p2) => pa(monoid.concat(p2)(p1))),
-  extract: (pa) => pa(monoid.empty)
+  extend: (f) => (fa) => (w1) => f((w2) => fa(monoid.concat(w2)(w1))),
+  extract: (fa) => fa(monoid.empty)
 })
 
 // -------------------------------------------------------------------------------------
@@ -86,23 +86,23 @@ export const getComonad = <P>(monoid: Monoid<P>): Comonad<TracedFE<P>> => ({
  *
  * @since 3.0.0
  */
-export const tracks = <P>(M: Monoid<P>) => <A>(f: (a: A) => P) => (pa: Traced<P, A>): A => pa(f(pa(M.empty)))
+export const tracks = <W>(M: Monoid<W>) => <A>(f: (a: A) => W) => (fa: Traced<W, A>): A => fa(f(fa(M.empty)))
 
 /**
  * Get the current position.
  *
  * @since 3.0.0
  */
-export const listen = <P, A>(pa: Traced<P, A>): Traced<P, readonly [A, P]> => (p) => [pa(p), p]
+export const listen = <W, A>(fa: Traced<W, A>): Traced<W, readonly [A, W]> => (w) => [fa(w), w]
 
 /**
  * Get a value which depends on the current position.
  *
  * @since 3.0.0
  */
-export const listens = <P, B>(f: (p: P) => B) => <A>(pa: Traced<P, A>): Traced<P, readonly [A, B]> => (p) => [
-  pa(p),
-  f(p)
+export const listens = <W, B>(f: (w: W) => B) => <A>(pa: Traced<W, A>): Traced<W, readonly [A, B]> => (w) => [
+  pa(w),
+  f(w)
 ]
 
 /**
@@ -110,4 +110,4 @@ export const listens = <P, B>(f: (p: P) => B) => <A>(pa: Traced<P, A>): Traced<P
  *
  * @since 3.0.0
  */
-export const censor = <P>(f: (p: P) => P) => <A>(pa: Traced<P, A>): Traced<P, A> => (p) => pa(f(p))
+export const censor = <W>(f: (p: W) => W) => <A>(pa: Traced<W, A>): Traced<W, A> => (w) => pa(f(w))

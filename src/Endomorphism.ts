@@ -3,6 +3,7 @@
  */
 
 import { flow, identity } from './function'
+import { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
@@ -25,18 +26,8 @@ export interface Endomorphism<A> {
  * @category instances
  * @since 3.0.0
  */
-export const URI = 'Endomorphism'
-
-/**
- * @category instances
- * @since 3.0.0
- */
-export type URI = typeof URI
-
-declare module './HKT' {
-  interface URItoKind<A> {
-    readonly [URI]: Endomorphism<A>
-  }
+export interface EndomorphismF extends HKT {
+  readonly type: Endomorphism<this['Invariant1']>
 }
 
 /**

@@ -25,7 +25,7 @@ Added in v3.0.0
 
 ```ts
 export interface Contravariant<F extends HKT> extends Typeclass<F> {
-  readonly contramap: <B, A>(f: (b: B) => A) => <S, W, E, _>(fa: Kind<F, S, A, W, E, _>) => Kind<F, S, B, W, E, _>
+  readonly contramap: <Q, R>(f: (q: Q) => R) => <S, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, Q, W, E, A>
 }
 ```
 
