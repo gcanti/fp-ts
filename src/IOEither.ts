@@ -702,24 +702,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => IOEither<E, B>
-) => (
-  ma: IOEither<E, A>
-) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, E2, B>(
+export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => IOEither<E2, B>
 ) => <E1>(
   fa: IOEither<E1, A>
-) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -728,24 +716,12 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: IOEither<E, B>
-) => (
-  fa: IOEither<E, A>
-) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, E2, B>(
+export const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(
   fa: IOEither<E1, A>
-) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => IOEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -764,20 +740,11 @@ export const tupled: <E, A>(fa: IOEither<E, A>) => IOEither<E, readonly [A]> = /
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: IOEither<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]> = /*#__PURE__*/ apT_(
-  ApplyPar
-)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <E2, B>(
+export const apT: <E2, B>(
   fb: IOEither<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(fas: IOEither<E1, A>) => IOEither<E1 | E2, readonly [...A, B]> = apT as any
+) => <E1, A extends ReadonlyArray<unknown>>(
+  fas: IOEither<E1, A>
+) => IOEither<E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

@@ -99,7 +99,7 @@ pipe(
   _.right<number, { readonly a: number }, string>(1),
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bindW('a3', () => _.right<boolean, { readonly b: string }, number>(true))
+  _.bind('a3', () => _.right<boolean, { readonly b: string }, number>(true))
 )
 
 //
@@ -111,7 +111,7 @@ pipe(
   _.right<number, { readonly a: number }, string>(1),
   _.bindTo('a1'),
   _.apS('a2', _.right('b')),
-  _.apSW('a3', _.right<boolean, { readonly b: string }, number>(true))
+  _.apS('a3', _.right<boolean, { readonly b: string }, number>(true))
 )
 
 //

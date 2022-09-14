@@ -91,12 +91,9 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
-  - [apSW](#apsw)
   - [apT](#apt)
-  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [bindW](#bindw)
   - [bracket](#bracket)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -898,22 +895,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, R, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderEither<R, E, B>
-) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## apSW
-
-Less strict version of [`apS`](#apS).
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, R2, E2, B>(
+export declare const apS: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1>(
@@ -928,21 +910,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <R, E, B>(
-  fb: ReaderEither<R, E, B>
-) => <A extends readonly unknown[]>(fas: ReaderEither<R, E, A>) => ReaderEither<R, E, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## apTW
-
-Less strict version of [`apT`](#apT).
-
-**Signature**
-
-```ts
-export declare const apTW: <R2, E2, B>(
+export declare const apT: <R2, E2, B>(
   fb: ReaderEither<R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   fas: ReaderEither<R1, E1, A>
@@ -956,10 +924,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, E, B>(
+export declare const bind: <N extends string, A, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderEither<R, E, B>
-) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => ReaderEither<R2, E2, B>
+) => <R1, E1>(
+  fa: ReaderEither<R1, E1, A>
+) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -972,23 +942,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## bindW
-
-Less strict version of [`bind`](#bind).
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderEither<R2, E2, B>
-) => <R1, E1>(
-  fa: ReaderEither<R1, E1, A>
-) => ReaderEither<R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

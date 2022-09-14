@@ -988,24 +988,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => TaskEither<E, B>
-) => (
-  ma: TaskEither<E, A>
-) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, E2, B>(
+export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => TaskEither<E2, B>
 ) => <E1>(
   fa: TaskEither<E1, A>
-) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1014,24 +1002,12 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: TaskEither<E, B>
-) => (
-  fa: TaskEither<E, A>
-) => TaskEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, E2, B>(
+export const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: TaskEither<E2, B>
 ) => <E1>(
   fa: TaskEither<E1, A>
-) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => TaskEither<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1050,22 +1026,11 @@ export const tupled: <E, A>(fa: TaskEither<E, A>) => TaskEither<E, readonly [A]>
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: TaskEither<E, B>
-) => <A extends ReadonlyArray<unknown>>(
-  fas: TaskEither<E, A>
-) => TaskEither<E, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <E2, B>(
+export const apT: <E2, B>(
   fb: TaskEither<E2, B>
 ) => <E1, A extends ReadonlyArray<unknown>>(
   fas: TaskEither<E1, A>
-) => TaskEither<E1 | E2, readonly [...A, B]> = apT as any
+) => TaskEither<E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

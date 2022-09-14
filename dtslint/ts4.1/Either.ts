@@ -62,7 +62,7 @@ pipe(
   _.right<number, string>(1),
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bindW('a3', () => _.right<boolean, number>(true))
+  _.bind('a3', () => _.right<boolean, number>(true))
 )
 
 //
@@ -74,7 +74,7 @@ pipe(
   _.right<number, string>(1),
   _.bindTo('a1'),
   _.apS('a2', _.right('a3')),
-  _.apSW('a3', _.right<boolean, number>(true))
+  _.apS('a3', _.right<boolean, number>(true))
 )
 
 //

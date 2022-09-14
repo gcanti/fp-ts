@@ -103,12 +103,12 @@ export const apSecond = <F extends HKT>(A: Apply<F>) => <S, R2, W2, E2, B>(
  * @category combinators
  * @since 3.0.0
  */
-export const apS = <F extends HKT>(F: Apply<F>) => <N extends string, A, S, R, W, E, B>(
+export const apS = <F extends HKT>(F: Apply<F>) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R, W, E, B>
-): ((
-  fa: Kind<F, S, R, W, E, A>
-) => Kind<F, S, R, W, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  fb: Kind<F, S, R2, W2, E2, B>
+): (<R1, W1, E1>(
+  fa: Kind<F, S, R1, W1, E1, A>
+) => Kind<F, S, R1 & R2, W1 | W2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   flow(
     F.map((a) => (b: B) => Object.assign({}, a, { [name]: b }) as any),
     F.ap(fb)
@@ -118,11 +118,14 @@ export const apS = <F extends HKT>(F: Apply<F>) => <N extends string, A, S, R, W
  * @category combinators
  * @since 3.0.0
  */
-export const apT = <F extends HKT>(F: Apply<F>) => <S, R, W, E, B>(fb: Kind<F, S, R, W, E, B>) => <
+export const apT = <F extends HKT>(F: Apply<F>) => <S, R2, W2, E2, B>(fb: Kind<F, S, R2, W2, E2, B>) => <
+  R1,
+  W1,
+  E1,
   A extends ReadonlyArray<unknown>
 >(
-  fas: Kind<F, S, R, W, E, A>
-): Kind<F, S, R, W, E, readonly [...A, B]> =>
+  fas: Kind<F, S, R1, W1, E1, A>
+): Kind<F, S, R1 & R2, W1 | W2, E1 | E2, readonly [...A, B]> =>
   pipe(
     fas,
     F.map((a) => (b: B): readonly [...A, B] => [...a, b]),

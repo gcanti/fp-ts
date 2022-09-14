@@ -64,12 +64,9 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
-  - [apSW](#apsw)
   - [apT](#apt)
-  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [bindW](#bindw)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
@@ -556,22 +553,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R, B>
-) => (fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## apSW
-
-Less strict version of [`apS`](#apS).
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, R2, B>(
+export declare const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -584,21 +566,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <R, B>(
-  fb: ReaderTask<R, B>
-) => <A extends readonly unknown[]>(fas: ReaderTask<R, A>) => ReaderTask<R, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## apTW
-
-Less strict version of [`apT`](#apT).
-
-**Signature**
-
-```ts
-export declare const apTW: <R2, B>(
+export declare const apT: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends readonly unknown[]>(fas: ReaderTask<R1, A>) => ReaderTask<R1 & R2, readonly [...A, B]>
 ```
@@ -610,10 +578,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, B>(
+export declare const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderTask<R, B>
-) => (ma: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
+) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -626,21 +594,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## bindW
-
-Less strict version of [`bind`](#bind).
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
-) => <R1>(fa: ReaderTask<R1, A>) => ReaderTask<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

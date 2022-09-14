@@ -98,12 +98,9 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
-  - [apSW](#apsw)
   - [apT](#apt)
-  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [bindW](#bindw)
   - [bracket](#bracket)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
@@ -897,22 +894,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: IOEither<E, B>
-) => (fa: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## apSW
-
-Less strict version of [`apS`](#apS).
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, E2, B>(
+export declare const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: IOEither<E2, B>
 ) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -925,21 +907,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <E, B>(
-  fb: IOEither<E, B>
-) => <A extends readonly unknown[]>(fas: IOEither<E, A>) => IOEither<E, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## apTW
-
-Less strict version of [`apT`](#apT).
-
-**Signature**
-
-```ts
-export declare const apTW: <E2, B>(
+export declare const apT: <E2, B>(
   fb: IOEither<E2, B>
 ) => <E1, A extends readonly unknown[]>(fas: IOEither<E1, A>) => IOEither<E2 | E1, readonly [...A, B]>
 ```
@@ -951,10 +919,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, E, B>(
+export declare const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => IOEither<E, B>
-) => (ma: IOEither<E, A>) => IOEither<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => IOEither<E2, B>
+) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -967,21 +935,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <E, A>(fa: IOEither<E, A>) => IOEither<E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## bindW
-
-Less strict version of [`bind`](#bind).
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => IOEither<E2, B>
-) => <E1>(fa: IOEither<E1, A>) => IOEither<E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

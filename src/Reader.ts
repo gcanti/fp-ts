@@ -338,24 +338,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Reader<R, B>
-) => (
-  ma: Reader<R, A>
-) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, R2, B>(
+export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Reader<R2, B>
 ) => <R1>(
   fa: Reader<R1, A>
-) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -369,24 +357,12 @@ export const Do: Reader<unknown, {}> = /*#__PURE__*/ of(_.emptyRecord)
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: Reader<R, B>
-) => (
-  fa: Reader<R, A>
-) => Reader<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, R2, B>(
+export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: Reader<R2, B>
 ) => <R1>(
   fa: Reader<R1, A>
-) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => Reader<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -405,18 +381,11 @@ export const tupled: <R, A>(fa: Reader<R, A>) => Reader<R, readonly [A]> = /*#__
 /**
  * @since 3.0.0
  */
-export const apT: <R, B>(
-  fb: Reader<R, B>
-) => <A extends ReadonlyArray<unknown>>(fas: Reader<R, A>) => Reader<R, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <R2, B>(
+export const apT: <R2, B>(
   fb: Reader<R2, B>
-) => <R1, A extends ReadonlyArray<unknown>>(fas: Reader<R1, A>) => Reader<R1 & R2, readonly [...A, B]> = apT as any
+) => <R1, A extends ReadonlyArray<unknown>>(
+  fas: Reader<R1, A>
+) => Reader<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

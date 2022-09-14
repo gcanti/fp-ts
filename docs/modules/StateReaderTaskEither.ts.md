@@ -109,12 +109,9 @@ Added in v3.0.0
   - [fromTaskEither](#fromtaskeither)
 - [utils](#utils)
   - [apS](#aps)
-  - [apSW](#apsw)
   - [apT](#apt)
-  - [apTW](#aptw)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [bindW](#bindw)
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
@@ -1150,24 +1147,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, S, R, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, R, E, B>
-) => (
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## apSW
-
-Less strict version of [`apS`](#apS).
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, S, R2, E2, B>(
+export declare const apS: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -1182,23 +1162,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apT: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A extends readonly unknown[]>(
-  fas: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [...A, B]>
-```
-
-Added in v3.0.0
-
-## apTW
-
-Less strict version of [`apT`](#apT).
-
-**Signature**
-
-```ts
-export declare const apTW: <S, R2, E2, B>(
+export declare const apT: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends readonly unknown[]>(
   fas: StateReaderTaskEither<S, R1, E1, A>
@@ -1212,12 +1176,12 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, S, R, E, B>(
+export declare const bind: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R, E, B>
-) => (
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
+) => <R1, E1>(
+  fa: StateReaderTaskEither<S, R1, E1, A>
+) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -1230,23 +1194,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## bindW
-
-Less strict version of [`bind`](#bind).
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, S, R2, E2, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
-) => <R1, E1>(
-  fa: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

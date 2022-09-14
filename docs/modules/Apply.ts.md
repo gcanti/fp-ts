@@ -104,10 +104,12 @@ Added in v3.0.0
 ```ts
 export declare const apS: <F extends HKT>(
   F: Apply<F>
-) => <N extends string, A, S, R, W, E, B>(
+) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,
-  fb: Kind<F, S, R, W, E, B>
-) => (fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  fb: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1>(
+  fa: Kind<F, S, R1, W1, E1, A>
+) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -133,9 +135,11 @@ Added in v3.0.0
 ```ts
 export declare const apT: <F extends HKT>(
   F: Apply<F>
-) => <S, R, W, E, B>(
-  fb: Kind<F, S, R, W, E, B>
-) => <A extends readonly unknown[]>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, readonly [...A, B]>
+) => <S, R2, W2, E2, B>(
+  fb: Kind<F, S, R2, W2, E2, B>
+) => <R1, W1, E1, A extends readonly unknown[]>(
+  fas: Kind<F, S, R1, W1, E1, A>
+) => Kind<F, S, R1 & R2, W2 | W1, E2 | E1, readonly [...A, B]>
 ```
 
 Added in v3.0.0

@@ -1161,24 +1161,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Either<E, B>
-) => (
-  ma: Either<E, A>
-) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, E2, B>(
+export const bind: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => Either<E2, B>
 ) => <E1>(
   fa: Either<E1, A>
-) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -1187,24 +1175,12 @@ export const bindW: <N extends string, A, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: Either<E, B>
-) => (
-  fa: Either<E, A>
-) => Either<E, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, E2, B>(
+export const apS: <N extends string, A, E2, B>(
   name: Exclude<N, keyof A>,
   fb: Either<E2, B>
 ) => <E1>(
   fa: Either<E1, A>
-) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => Either<E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -1223,18 +1199,11 @@ export const tupled: <E, A>(fa: Either<E, A>) => Either<E, readonly [A]> = /*#__
 /**
  * @since 3.0.0
  */
-export const apT: <E, B>(
-  fb: Either<E, B>
-) => <A extends ReadonlyArray<unknown>>(fas: Either<E, A>) => Either<E, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <E2, B>(
+export const apT: <E2, B>(
   fb: Either<E2, B>
-) => <E1, A extends ReadonlyArray<unknown>>(fas: Either<E1, A>) => Either<E1 | E2, readonly [...A, B]> = apT as any
+) => <E1, A extends ReadonlyArray<unknown>>(
+  fas: Either<E1, A>
+) => Either<E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

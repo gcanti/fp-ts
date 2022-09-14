@@ -56,10 +56,8 @@ Added in v3.0.0
   - [ApT](#apt)
   - [Do](#do)
   - [apS](#aps)
-  - [apSW](#apsw)
   - [bind](#bind)
   - [bindTo](#bindto)
-  - [bindW](#bindw)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
@@ -469,24 +467,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const apS: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<R, B>
-) => (fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
-```
-
-Added in v3.0.0
-
-## apSW
-
-Less strict version of [`apS`](#aps).
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const apSW: <N extends string, A, R2, B>(
+export declare const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
@@ -499,10 +480,10 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const bind: <N extends string, A, R, B>(
+export declare const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderIO<R, B>
-) => (ma: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
+  f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
+) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0
@@ -515,21 +496,6 @@ Added in v3.0.0
 export declare const bindTo: <N extends string>(
   name: N
 ) => <R, A>(fa: ReaderIO<R, A>) => ReaderIO<R, { readonly [K in N]: A }>
-```
-
-Added in v3.0.0
-
-## bindW
-
-The `W` suffix (short for **W**idening) means that the environment types will be merged.
-
-**Signature**
-
-```ts
-export declare const bindW: <N extends string, A, R2, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
-) => <R1>(fa: ReaderIO<R1, A>) => ReaderIO<R1 & R2, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }>
 ```
 
 Added in v3.0.0

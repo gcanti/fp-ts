@@ -55,12 +55,12 @@ export const chainFirst = <M extends HKT>(M: Chain<M>) => <A, S, R2, W2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const bind = <M extends HKT>(M: Chain<M>) => <N extends string, A, S, R, W, E, B>(
+export const bind = <M extends HKT>(M: Chain<M>) => <N extends string, A, S, R2, W2, E2, B>(
   name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => Kind<M, S, R, W, E, B>
-): ((
-  ma: Kind<M, S, R, W, E, A>
-) => Kind<M, S, R, W, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
+  f: <A2 extends A>(a: A | A2) => Kind<M, S, R2, W2, E2, B>
+): (<R1, W1, E1>(
+  ma: Kind<M, S, R1, W1, E1, A>
+) => Kind<M, S, R1 & R2, W1 | W2, E1 | E2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }>) =>
   M.chain((a) =>
     pipe(
       f(a),

@@ -354,29 +354,6 @@ describe('TaskEither', () => {
     )
   })
 
-  it('do notation bindW ensuring proper param passthrough', async () => {
-    const c = (p: { readonly a: number }) => _.right<number, string>(p.a)
-    const d = (p: { readonly b: string }) => _.right<string, string>(p.b)
-    U.deepStrictEqual(
-      await pipe(
-        _.right<number, string>(1),
-        _.bindTo('a'),
-        _.bindW('b', () => _.right('b')),
-        _.bindW('c', c),
-        _.bindW('d', d),
-        _.bindW(
-          'e',
-          _.fromOptionK(() => 1)((p: { readonly c: number }) => O.some(p.c))
-        ),
-        _.bindW(
-          'f',
-          _.fromOptionK(() => ({ err: 'err' }))((p) => O.some(p.b))
-        )
-      )(),
-      E.right({ a: 1, b: 'b', c: 1, d: 'b', e: 1, f: 'b' })
-    )
-  })
-
   it('apS', async () => {
     await assertPar((a, b) => pipe(a, _.bindTo('a'), _.apS('b', b)), E.right({ a: 'a', b: 'b' }))
   })

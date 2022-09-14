@@ -910,24 +910,7 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, S, R, E, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R, E, B>
-) => (
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<
-  S,
-  R,
-  E,
-  { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, S, R2, E2, B>(
+export const bind: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -937,7 +920,7 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
   R1 & R2,
   E1 | E2,
   { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = bind as any
+> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -946,21 +929,7 @@ export const bindW: <N extends string, A, S, R2, E2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, S, R, E, B>(
-  name: Exclude<N, keyof A>,
-  fb: StateReaderTaskEither<S, R, E, B>
-) => (
-  fa: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(
-  Apply
-)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, S, R2, E2, B>(
+export const apS: <N extends string, A, S, R2, E2, B>(
   name: Exclude<N, keyof A>,
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1>(
@@ -970,7 +939,7 @@ export const apSW: <N extends string, A, S, R2, E2, B>(
   R1 & R2,
   E1 | E2,
   { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }
-> = apS as any
+> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -986,22 +955,11 @@ export const tupled: <S, R, E, A>(
 /**
  * @since 3.0.0
  */
-export const apT: <S, R, E, B>(
-  fb: StateReaderTaskEither<S, R, E, B>
-) => <A extends ReadonlyArray<unknown>>(
-  fas: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <S, R2, E2, B>(
+export const apT: <S, R2, E2, B>(
   fb: StateReaderTaskEither<S, R2, E2, B>
 ) => <R1, E1, A extends ReadonlyArray<unknown>>(
   fas: StateReaderTaskEither<S, R1, E1, A>
-) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = apT as any
+) => StateReaderTaskEither<S, R1 & R2, E1 | E2, readonly [...A, B]> = /*#__PURE__*/ apT_(Apply)
 
 // -------------------------------------------------------------------------------------
 // array utils

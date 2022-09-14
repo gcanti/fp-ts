@@ -409,24 +409,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderTask<R, B>
-) => (
-  ma: ReaderTask<R, A>
-) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * Less strict version of [`bind`](#bind).
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, R2, B>(
+export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderTask<R2, B>
 ) => <R1>(
   fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // sequence S
@@ -435,24 +423,12 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderTask<R, B>
-) => (
-  fa: ReaderTask<R, A>
-) => ReaderTask<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
-
-/**
- * Less strict version of [`apS`](#apS).
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, R2, B>(
+export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderTask<R2, B>
 ) => <R1>(
   fa: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => ReaderTask<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // sequence T
@@ -471,22 +447,11 @@ export const tupled: <R, A>(fa: ReaderTask<R, A>) => ReaderTask<R, readonly [A]>
 /**
  * @since 3.0.0
  */
-export const apT: <R, B>(
-  fb: ReaderTask<R, B>
-) => <A extends ReadonlyArray<unknown>>(
-  fas: ReaderTask<R, A>
-) => ReaderTask<R, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
-
-/**
- * Less strict version of [`apT`](#apT).
- *
- * @since 3.0.0
- */
-export const apTW: <R2, B>(
+export const apT: <R2, B>(
   fb: ReaderTask<R2, B>
 ) => <R1, A extends ReadonlyArray<unknown>>(
   fas: ReaderTask<R1, A>
-) => ReaderTask<R1 & R2, readonly [...A, B]> = apT as any
+) => ReaderTask<R1 & R2, readonly [...A, B]> = /*#__PURE__*/ apT_(ApplyPar)
 
 // -------------------------------------------------------------------------------------
 // array utils

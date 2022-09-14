@@ -330,24 +330,12 @@ export const bindTo: <N extends string>(
 /**
  * @since 3.0.0
  */
-export const bind: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  f: <A2 extends A>(a: A | A2) => ReaderIO<R, B>
-) => (
-  ma: ReaderIO<R, A>
-) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
-
-/**
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @since 3.0.0
- */
-export const bindW: <N extends string, A, R2, B>(
+export const bind: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   f: <A2 extends A>(a: A | A2) => ReaderIO<R2, B>
 ) => <R1>(
   fa: ReaderIO<R1, A>
-) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = bind as any
+) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ bind_(Chain)
 
 // -------------------------------------------------------------------------------------
 // pipeable sequence S
@@ -356,26 +344,12 @@ export const bindW: <N extends string, A, R2, B>(
 /**
  * @since 3.0.0
  */
-export const apS: <N extends string, A, R, B>(
-  name: Exclude<N, keyof A>,
-  fb: ReaderIO<R, B>
-) => (
-  fa: ReaderIO<R, A>
-) => ReaderIO<R, { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
-
-/**
- * Less strict version of [`apS`](#aps).
- *
- * The `W` suffix (short for **W**idening) means that the environment types will be merged.
- *
- * @since 3.0.0
- */
-export const apSW: <N extends string, A, R2, B>(
+export const apS: <N extends string, A, R2, B>(
   name: Exclude<N, keyof A>,
   fb: ReaderIO<R2, B>
 ) => <R1>(
   fa: ReaderIO<R1, A>
-) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = apS as any
+) => ReaderIO<R1 & R2, { readonly [K in keyof A | N]: K extends keyof A ? A[K] : B }> = /*#__PURE__*/ apS_(Apply)
 
 // -------------------------------------------------------------------------------------
 // sequence T

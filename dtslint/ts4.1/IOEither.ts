@@ -77,7 +77,7 @@ pipe(
   _.right<number, string>(1),
   _.bindTo('a1'),
   _.bind('a2', () => _.right('b')),
-  _.bindW('a3', () => _.right<boolean, number>(true))
+  _.bind('a3', () => _.right<boolean, number>(true))
 )
 
 //
@@ -85,12 +85,7 @@ pipe(
 //
 
 // $ExpectType IOEither<string | number, { readonly a1: number; readonly a2: string; readonly a3: boolean; }>
-pipe(
-  _.right<number, string>(1),
-  _.bindTo('a1'),
-  _.apS('a2', _.right('b')),
-  _.apSW('a3', _.right<boolean, number>(true))
-)
+pipe(_.right<number, string>(1), _.bindTo('a1'), _.apS('a2', _.right('b')), _.apS('a3', _.right<boolean, number>(true)))
 
 //
 // Do
