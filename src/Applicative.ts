@@ -41,9 +41,7 @@ export interface Applicative<F extends HKT> extends Apply<F>, Pointed<F> {}
  *
  * @since 3.0.0
  */
-export const getApplicativeMonoid = <F extends HKT>(
-  F: Applicative<F>
-): (<A, S, R, W, E>(M: Monoid<A>) => Monoid<Kind<F, S, R, W, E, A>>) => {
+export const getApplicativeMonoid = <F extends HKT>(F: Applicative<F>) => {
   const f = getApplySemigroup(F)
   return <A, S, R, W, E>(M: Monoid<A>): Monoid<Kind<F, S, R, W, E, A>> => {
     return {

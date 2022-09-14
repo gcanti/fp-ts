@@ -53,6 +53,11 @@ export interface TypeOperator {
   readonly type: Type
 }
 
+export interface ArrayType {
+  readonly _tag: 'ArrayType'
+  readonly element: Type
+}
+
 export interface MappedType {
   readonly _tag: 'MappedType'
   readonly typeParameter: Type
@@ -119,6 +124,7 @@ export type Type =
   | LiteralType
   | IntersectionType
   | InferType
+  | ArrayType
 
 export interface FunctionDeclaration {
   readonly name: string
@@ -237,6 +243,9 @@ export function parseType(
   }
   if (ast.ts.isInferTypeNode(node)) {
     return { _tag: 'InferType', typeParameter: parseType(node.typeParameter) }
+  }
+  if (ast.ts.isArrayTypeNode(node)) {
+    return { _tag: 'ArrayType', element: parseType(node.elementType) }
   }
   throw new Error(`(parseType) not sure what to do with ${node.getText()}`)
 }
@@ -365,21 +374,14 @@ export const parseVariableDeclaration = (vd: ast.VariableDeclaration): ReadonlyA
   const compilerNode = vd.compilerNode
   const type = compilerNode.type
   const name = compilerNode.name.getText()
-  const initializer = compilerNode.initializer
-  if (initializer === undefined) {
-    return RA.empty
-  }
   if (type !== undefined) {
     if (ast.ts.isTypeReferenceNode(type)) {
-      // example: export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
       return RA.empty
     }
     if (ast.ts.isIndexedAccessTypeNode(type)) {
-      // example: export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
       return RA.empty
     }
     if (ast.ts.isFunctionTypeNode(type)) {
-      // example: export const zip: <B>(bs: ReadonlyArray<B>) => <A>(as: ReadonlyArray<A>) => ReadonlyArray<readonly [A, B]> = (bs) => zipWith(bs, (a, b) => [a, b])
       return [{ name, overloadings: [parseSignature(type)] }]
     }
     if (ast.ts.isTypeLiteralNode(type)) {
@@ -398,28 +400,25 @@ export const parseVariableDeclaration = (vd: ast.VariableDeclaration): ReadonlyA
     }
     throw new Error(`(parseVariableDeclaration) not sure what to do with ${vd.getFullText()}`)
   }
-  if (ast.ts.isArrowFunction(initializer)) {
-    return [{ name, overloadings: parseArrowFunction(initializer) }]
-  }
   return RA.empty
 }
 
 export const parseFile = (src: ast.SourceFile): File => {
   const name = path.basename(src.getFilePath())
-  const functions = pipe(
+  console.log(`parsing ${name}`)
+  const functionDeclarations = pipe(
     src.getFunctions(),
     RA.filter((fd) => fd.isExported()),
-    RA.map(parseFunctionDeclaration),
-    RA.concat(pipe(src.getInterfaces(), RA.chain(parseInterface))),
-    RA.concat(
-      pipe(
-        src.getVariableDeclarations(),
-        RA.filter((vd) => vd.isExported()),
-        // RA.filter((vd) => vd.getName() === 'traverse'), // debug
-        RA.chain(parseVariableDeclaration)
-      )
-    )
+    RA.map(parseFunctionDeclaration)
   )
+  const interfaces = pipe(src.getInterfaces(), RA.chain(parseInterface))
+  const variables = pipe(
+    src.getVariableDeclarations(),
+    RA.filter((vd) => vd.isExported()),
+    RA.chain(parseVariableDeclaration)
+  )
+  const functions = pipe(functionDeclarations, RA.concat(interfaces), RA.concat(variables))
+  console.log(`${functions.length} function(s) found`)
   return {
     name,
     functions
@@ -529,6 +528,8 @@ export const getTypeArguments = (type: Type): ReadonlyArray<string> => {
         O.map(getTypeArguments),
         O.getOrElse<ReadonlyArray<string>>(() => RA.empty)
       )
+    case 'ArrayType':
+      return getTypeArguments(type.element)
   }
   // throw new Error(`(getTypeArguments) not sure what to do with ${type._tag}`)
 }
@@ -577,6 +578,8 @@ export const lintType = (type: Type, path: string = string.empty): ReadonlyArray
       )
     case 'RestType':
       return lintType(type.type)
+    case 'ArrayType':
+      return lintType(type.element)
   }
   throw new Error(`(lintType) not sure what to do with ${type._tag}`)
 }
@@ -666,19 +669,19 @@ export const project = new ast.Project({
   compilerOptions
 })
 
-export const paths = glob.sync('dist/types/**/*.ts')
-// export const paths = glob.sync('src/These.ts')
-paths.forEach((path) => project.addSourceFileAtPath(path))
-const files = pipe(project.getSourceFiles(), RA.map(parseFile))
-const checks = pipe(
-  files,
-  RA.chain((f) => check(lintFile(f)))
-)
-if (checks.length > 0) {
-  // tslint:disable-next-line: no-console
-  console.log(JSON.stringify(checks, null, 2))
+const main = (pattern: string) => {
+  glob.sync(pattern).forEach((path) => project.addSourceFileAtPath(path))
+  const files = pipe(project.getSourceFiles(), RA.map(parseFile))
+  const checks = pipe(
+    files,
+    RA.chain((f) => check(lintFile(f)))
+  )
+  if (checks.length > 0) {
+    // tslint:disable-next-line: no-console
+    console.log(JSON.stringify(checks, null, 2))
+  }
 }
 
-// project.addSourceFileAtPath('src/Bounded.ts')
-// export const file = parseFile(project.getSourceFiles()[0])
-// console.log(JSON.stringify(check(lintFile(file)), null, 2))
+// export const paths = 'dist/types/Alt.d.ts'
+export const paths = 'dist/types/**/*.ts'
+main(paths)

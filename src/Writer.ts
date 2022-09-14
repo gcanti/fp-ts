@@ -142,7 +142,7 @@ export const censor: <W>(f: (w: W) => W) => <A>(fa: Writer<W, A>) => Writer<W, A
  * @category type class operations
  * @since 3.0.0
  */
-export const map: Functor_<WriterF>['map'] = (f) => (fa) => {
+export const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B> = (f) => (fa) => {
   const [a, w] = fa
   return [f(a), w]
 }
@@ -151,7 +151,7 @@ export const map: Functor_<WriterF>['map'] = (f) => (fa) => {
  * @category type class operations
  * @since 3.0.0
  */
-export const mapLeft: Bifunctor_<WriterF>['mapLeft'] = (f) => (fa) => {
+export const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Writer<E, A>) => Writer<G, A> = (f) => (fa) => {
   const [a, w] = fa
   return [a, f(w)]
 }
@@ -295,7 +295,7 @@ export const Functor: Functor_<WriterF> = {
  * @category combinators
  * @since 3.0.0
  */
-export const flap = /*#__PURE__*/ flap_(Functor)
+export const flap: <A>(a: A) => <E, B>(fab: Writer<E, (a: A) => B>) => Writer<E, B> = /*#__PURE__*/ flap_(Functor)
 
 /**
  * @category instances
