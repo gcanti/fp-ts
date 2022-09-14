@@ -33,7 +33,6 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -47,8 +46,6 @@ Added in v3.0.0
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
   - [orElseFirstIOK](#orelsefirstiok)
-  - [orElseFirstW](#orelsefirstw)
-  - [orElseW](#orelsew)
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -65,7 +62,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
-  - [getOrElseEW](#getorelseew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -226,19 +222,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chainEitherK).
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: IOEither<E1, A>) => IOEither<E2 | E1, B>
 ```
@@ -370,7 +354,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, A>(onLeft: (e: E1) => IOEither<E2, A>) => (ma: IOEither<E1, A>) => IOEither<E2, A>
+export declare const orElse: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -380,7 +366,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElseFirst: <E, B>(onLeft: (e: E) => IOEither<E, B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
+export declare const orElseFirst: <E1, E2, B>(
+  onLeft: (e: E1) => IOEither<E2, B>
+) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -391,32 +379,6 @@ Added in v3.0.0
 
 ```ts
 export declare const orElseFirstIOK: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => IOEither<E, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstW
-
-**Signature**
-
-```ts
-export declare const orElseFirstW: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## orElseW
-
-Less strict version of [`orElse`](#orElse).
-
-**Signature**
-
-```ts
-export declare const orElseW: <E1, E2, B>(
-  onLeft: (e: E1) => IOEither<E2, B>
-) => <A>(ma: IOEither<E1, A>) => IOEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -579,19 +541,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, A>(onLeft: (e: E) => I.IO<A>) => (ma: IOEither<E, A>) => I.IO<A>
-```
-
-Added in v3.0.0
-
-## getOrElseEW
-
-Less strict version of [`getOrElseE`](#getOrElseE).
-
-**Signature**
-
-```ts
-export declare const getOrElseEW: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
+export declare const getOrElseE: <E, B>(onLeft: (e: E) => I.IO<B>) => <A>(ma: IOEither<E, A>) => I.IO<B | A>
 ```
 
 Added in v3.0.0

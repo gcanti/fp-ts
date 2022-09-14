@@ -27,7 +27,6 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstReaderK](#chainfirstreaderk)
@@ -43,8 +42,6 @@ Added in v3.0.0
   - [local](#local)
   - [orElse](#orelse)
   - [orElseFirst](#orelsefirst)
-  - [orElseFirstW](#orelsefirstw)
-  - [orElseW](#orelsew)
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -65,7 +62,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
-  - [getOrElseEW](#getorelseew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -224,21 +220,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <A, E, B>(
-  f: (a: A) => E.Either<E, B>
-) => <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
-```
-
-Added in v3.0.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chainEitherK).
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <R, E1>(ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2 | E1, B>
 ```
@@ -421,9 +403,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElse: <E1, R, E2, A>(
-  onLeft: (e: E1) => ReaderEither<R, E2, A>
-) => (ma: ReaderEither<R, E1, A>) => ReaderEither<R, E2, A>
+export declare const orElse: <E1, R1, E2, B>(
+  onLeft: (e: E1) => ReaderEither<R1, E2, B>
+) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -433,35 +415,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElseFirst: <E, R, B>(
-  onLeft: (e: E) => ReaderEither<R, E, B>
-) => <A>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstW
-
-**Signature**
-
-```ts
-export declare const orElseFirstW: <E1, R2, E2, B>(
+export declare const orElseFirst: <E1, R2, E2, B>(
   onLeft: (e: E1) => ReaderEither<R2, E2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## orElseW
-
-Less strict version of [`orElse`](#orElse).
-
-**Signature**
-
-```ts
-export declare const orElseW: <E1, R1, E2, B>(
-  onLeft: (e: E1) => ReaderEither<R1, E2, B>
-) => <R2, A>(ma: ReaderEither<R2, E1, A>) => ReaderEither<R1 & R2, E2, B | A>
 ```
 
 Added in v3.0.0
@@ -676,21 +632,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, R, A>(
-  onLeft: (e: E) => R.Reader<R, A>
-) => (ma: ReaderEither<R, E, A>) => R.Reader<R, A>
-```
-
-Added in v3.0.0
-
-## getOrElseEW
-
-Less strict version of [`getOrElseE`](#getOrElseE).
-
-**Signature**
-
-```ts
-export declare const getOrElseEW: <E, R2, B>(
+export declare const getOrElseE: <E, R2, B>(
   onLeft: (e: E) => R.Reader<R2, B>
 ) => <R1, A>(ma: ReaderEither<R1, E, A>) => R.Reader<R1 & R2, B | A>
 ```

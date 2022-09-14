@@ -60,7 +60,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
-  - [getOrElseEW](#getorelseew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -535,19 +534,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <A>(onNone: Lazy<T.Task<A>>) => (fa: TaskOption<A>) => T.Task<A>
-```
-
-Added in v3.0.0
-
-## getOrElseEW
-
-Less strict version of [`getOrElseE`](#getOrElseE).
-
-**Signature**
-
-```ts
-export declare const getOrElseEW: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
+export declare const getOrElseE: <B>(onNone: Lazy<T.Task<B>>) => <A>(ma: TaskOption<A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0

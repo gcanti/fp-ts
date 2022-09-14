@@ -51,7 +51,6 @@ Added in v3.0.0
   - [flap](#flap)
   - [fromOptionK](#fromoptionk)
   - [orElse](#orelse)
-  - [orElseW](#orelsew)
   - [swap](#swap)
 - [constructors](#constructors)
   - [fromPredicate](#frompredicate)
@@ -442,19 +441,7 @@ Useful for recovering from errors.
 **Signature**
 
 ```ts
-export declare const orElse: <E, A>(onLeft: (e: E) => Either<E, A>) => (ma: Either<E, A>) => Either<E, A>
-```
-
-Added in v3.0.0
-
-## orElseW
-
-Less strict version of [`orElse`](#orElse).
-
-**Signature**
-
-```ts
-export declare const orElseW: <E1, E2, B>(
+export declare const orElse: <E1, E2, B>(
   onLeft: (e: E1) => Either<E2, B>
 ) => <A>(ma: Either<E1, A>) => Either<E2, B | A>
 ```

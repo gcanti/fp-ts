@@ -207,11 +207,11 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getOrElseE<M extends HKT>(
+export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
-): <S, R, W, E, A>(
-  onNone: Lazy<Kind<M, S, R, W, E, A>>
-) => (fa: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, A>
+) => <S, R2, W2, E2, B>(
+  onNone: Lazy<Kind<M, S, R2, W2, E2, B>>
+) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, O.Option<A>>) => Kind<M, S, R1 & R2, W2 | W1, E2 | E1, B | A>
 ```
 
 Added in v3.0.0

@@ -34,7 +34,6 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainEitherK](#chaineitherk)
-  - [chainEitherKW](#chaineitherkw)
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstEitherKW](#chainfirsteitherkw)
   - [chainFirstIOK](#chainfirstiok)
@@ -58,8 +57,6 @@ Added in v3.0.0
   - [orElseFirst](#orelsefirst)
   - [orElseFirstIOK](#orelsefirstiok)
   - [orElseFirstTaskK](#orelsefirsttaskk)
-  - [orElseFirstW](#orelsefirstw)
-  - [orElseW](#orelsew)
   - [orLeft](#orleft)
   - [swap](#swap)
 - [constructors](#constructors)
@@ -78,7 +75,6 @@ Added in v3.0.0
 - [destructors](#destructors)
   - [getOrElse](#getorelse)
   - [getOrElseE](#getorelsee)
-  - [getOrElseEW](#getorelseew)
   - [match](#match)
   - [matchE](#matche)
   - [matchEW](#matchew)
@@ -287,19 +283,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const chainEitherK: <A, E, B>(f: (a: A) => E.Either<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>
-```
-
-Added in v3.0.0
-
-## chainEitherKW
-
-Less strict version of [`chainEitherK`](#chainEitherK).
-
-**Signature**
-
-```ts
-export declare const chainEitherKW: <A, E2, B>(
+export declare const chainEitherK: <A, E2, B>(
   f: (a: A) => E.Either<E2, B>
 ) => <E1>(ma: TaskEither<E1, A>) => TaskEither<E2 | E1, B>
 ```
@@ -547,9 +531,9 @@ See also [alt](#alt).
 **Signature**
 
 ```ts
-export declare const orElse: <E1, E2, A>(
-  onLeft: (e: E1) => TaskEither<E2, A>
-) => (ma: TaskEither<E1, A>) => TaskEither<E2, A>
+export declare const orElse: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 **Example**
@@ -575,9 +559,9 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const orElseFirst: <E, B>(
-  onLeft: (e: E) => TaskEither<E, B>
-) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
+export declare const orElseFirst: <E1, E2, B>(
+  onLeft: (e: E1) => TaskEither<E2, B>
+) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
 ```
 
 Added in v3.0.0
@@ -600,32 +584,6 @@ Added in v3.0.0
 export declare const orElseFirstTaskK: <E, B>(
   onLeft: (e: E) => T.Task<B>
 ) => <A>(ma: TaskEither<E, A>) => TaskEither<E, A>
-```
-
-Added in v3.0.0
-
-## orElseFirstW
-
-**Signature**
-
-```ts
-export declare const orElseFirstW: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E1 | E2, A>
-```
-
-Added in v3.0.0
-
-## orElseW
-
-Less strict version of [`orElse`](#orElse).
-
-**Signature**
-
-```ts
-export declare const orElseW: <E1, E2, B>(
-  onLeft: (e: E1) => TaskEither<E2, B>
-) => <A>(ma: TaskEither<E1, A>) => TaskEither<E2, B | A>
 ```
 
 Added in v3.0.0
@@ -808,19 +766,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrElseE: <E, A>(onLeft: (e: E) => T.Task<A>) => (ma: TaskEither<E, A>) => T.Task<A>
-```
-
-Added in v3.0.0
-
-## getOrElseEW
-
-Less strict version of [`getOrElseE`](#getOrElseE).
-
-**Signature**
-
-```ts
-export declare const getOrElseEW: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
+export declare const getOrElseE: <E, B>(onLeft: (e: E) => T.Task<B>) => <A>(ma: TaskEither<E, A>) => T.Task<B | A>
 ```
 
 Added in v3.0.0

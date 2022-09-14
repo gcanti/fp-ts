@@ -103,13 +103,13 @@ export const fromEitherK = <F extends HKT>(F: FromEither<F>) => <A extends Reado
  * @category combinators
  * @since 3.0.0
  */
-export const chainEitherK = <M extends HKT>(
-  F: FromEither<M>,
-  M: Chain<M>
-): (<A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>) => {
+export const chainEitherK = <M extends HKT>(F: FromEither<M>, M: Chain<M>) => {
   const fromEitherKF = fromEitherK(F)
-  return <A, E, B>(f: (a: A) => Either<E, B>) => <S, R = unknown, W = never>(ma: Kind<M, S, R, W, E, A>) =>
-    pipe(ma, M.chain<A, S, R, W, E, B>(fromEitherKF(f)))
+  return <A, E2, B>(f: (a: A) => Either<E2, B>) => <S, R, W, E1>(
+    ma: Kind<M, S, R, W, E1, A>
+  ): Kind<M, S, R, W, E1 | E2, B> => {
+    return pipe(ma, M.chain<A, S, R, W, E1 | E2, B>(fromEitherKF(f)))
+  }
 }
 
 /**

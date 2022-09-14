@@ -39,7 +39,9 @@ Added in v3.0.0
 export declare const chainEitherK: <M extends HKT>(
   F: FromEither<M>,
   M: Chain<M>
-) => <A, E, B>(f: (a: A) => Either<E, B>) => <S, R, W>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, E2, B>(
+  f: (a: A) => Either<E2, B>
+) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E2 | E1, B>
 ```
 
 Added in v3.0.0

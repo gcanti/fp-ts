@@ -61,13 +61,13 @@ pipe(
 )
 
 //
-// chainEitherKW
+// chainEitherK
 //
 
 // $ExpectType ReaderTaskEither<string, string | number, number>
 pipe(
   _.right<string, string, string>('a'),
-  _.chainEitherKW(() => E.right<number, number>(1))
+  _.chainEitherK(() => E.right<number, number>(1))
 )
 
 //
