@@ -201,19 +201,9 @@ export const getOrElse: <E, B>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, A>(
-  onLeft: (e: E) => Task<A>
-) => (ma: TaskEither<E, A>) => Task<A> = /*#__PURE__*/ ET.getOrElseE(T.Monad)
-
-/**
- * Less strict version of [`getOrElseE`](#getOrElseE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseEW: <E, B>(
+export const getOrElseE: <E, B>(
   onLeft: (e: E) => Task<B>
-) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElseE as any
+) => <A>(ma: TaskEither<E, A>) => Task<A | B> = /*#__PURE__*/ ET.getOrElseE(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

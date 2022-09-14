@@ -51,13 +51,13 @@ pipe(
 )
 
 //
-// getOrElseEW
+// getOrElseE
 //
 
 // $ExpectType ReaderTask<{ a: string; } & { b: number; }, string | null>
 pipe(
   _.right<string, { a: string }, string>('a'),
-  _.getOrElseEW(() => RT.of<null, { b: number }>(null))
+  _.getOrElseE(() => RT.of<null, { b: number }>(null))
 )
 
 //

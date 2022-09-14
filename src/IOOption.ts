@@ -161,15 +161,9 @@ export const getOrElse: <B>(onNone: Lazy<B>) => <A>(ma: IOOption<A>) => IO<A | B
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrElseE(I.Monad)
-
-/**
- * Less strict version of [`getOrElseE`](#getOrElseE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseEW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElseE as any
+export const getOrElseE: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = /*#__PURE__*/ OT.getOrElseE(
+  I.Monad
+)
 
 /**
  * @category destructors

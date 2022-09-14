@@ -131,12 +131,10 @@ export const getOrElse = <F extends HKT>(F: Functor<F>) => <B>(
 /**
  * @since 3.0.0
  */
-export function getOrElseE<M extends HKT>(
-  M: Monad<M>
-): <S, R, W, E, A>(
-  onNone: Lazy<Kind<M, S, R, W, E, A>>
-) => (fa: Kind<M, S, R, W, E, Option<A>>) => Kind<M, S, R, W, E, A> {
-  return (onNone) => M.chain(O.match(onNone, M.of))
+export const getOrElseE = <M extends HKT>(M: Monad<M>) => <S, R2, W2, E2, B>(
+  onNone: Lazy<Kind<M, S, R2, W2, E2, B>>
+) => <R1, W1, E1, A>(ma: Kind<M, S, R1, W1, E1, Option<A>>): Kind<M, S, R1 & R2, W1 | W2, E1 | E2, A | B> => {
+  return pipe(ma, M.chain(O.match<Kind<M, S, R2, W2, E2, A | B>, A>(onNone, M.of)))
 }
 
 // -------------------------------------------------------------------------------------

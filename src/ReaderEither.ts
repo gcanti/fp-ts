@@ -184,19 +184,9 @@ export const getOrElse: <E, B>(
  * @category destructors
  * @since 3.0.0
  */
-export const getOrElseE: <E, R, A>(
-  onLeft: (e: E) => Reader<R, A>
-) => (ma: ReaderEither<R, E, A>) => Reader<R, A> = /*#__PURE__*/ ET.getOrElseE(R.Monad)
-
-/**
- * Less strict version of [`getOrElseE`](#getOrElseE).
- *
- * @category destructors
- * @since 3.0.0
- */
-export const getOrElseEW: <E, R2, B>(
+export const getOrElseE: <E, R2, B>(
   onLeft: (e: E) => Reader<R2, B>
-) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = getOrElseE as any
+) => <R1, A>(ma: ReaderEither<R1, E, A>) => Reader<R1 & R2, A | B> = /*#__PURE__*/ ET.getOrElseE(R.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop
