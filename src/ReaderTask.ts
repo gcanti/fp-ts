@@ -55,18 +55,10 @@ export interface ReaderTask<R, A> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Less strict version of [`asksReaderTaskK`](#asksreadertaskk).
- *
  * @category constructors
  * @since 3.0.0
  */
-export const asksReaderTaskW: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
-
-/**
- * @category constructors
- * @since 3.0.0
- */
-export const asksReaderTask: <R, A>(f: (r: R) => ReaderTask<R, A>) => ReaderTask<R, A> = asksReaderTaskW
+export const asksReaderTask: <R1, R2, A>(f: (r1: R1) => ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = R.asksReaderW
 
 // -------------------------------------------------------------------------------------
 // natural transformations
