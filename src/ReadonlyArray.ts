@@ -248,14 +248,8 @@ export function comprehension<A, R>(
  * @category combinators
  * @since 3.0.0
  */
-export const concatW = <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
+export const concat = <B>(second: ReadonlyArray<B>) => <A>(first: ReadonlyArray<A>): ReadonlyArray<A | B> =>
   isEmpty(first) ? second : isEmpty(second) ? first : (first as ReadonlyArray<A | B>).concat(second)
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const concat: <A>(second: ReadonlyArray<A>) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = concatW
 
 /**
  * Fold a `ReadonlyArray` from the left, keeping all intermediate results instead of only the final result.
@@ -350,14 +344,6 @@ export const lookup = (i: number) => <A>(as: ReadonlyArray<A>): Option<A> =>
   isOutOfBound(i, as) ? _.none : _.some(as[i])
 
 /**
- * Less strict version of [`prepend`](#prepend)
- *
- * @category constructors
- * @since 3.0.0
- */
-export const prependW: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.prependW
-
-/**
  * Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
  *
  * @example
@@ -369,15 +355,7 @@ export const prependW: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNo
  * @category constructors
  * @since 3.0.0
  */
-export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RNEA.prepend
-
-/**
- * Less strict version of [`append`](#append)
- *
- * @category constructors
- * @since 3.0.0
- */
-export const appendW: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.appendW
+export const prepend: <B>(head: B) => <A>(tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.prepend
 
 /**
  * Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEmptyArray`.
@@ -391,7 +369,7 @@ export const appendW: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonE
  * @category constructors
  * @since 3.0.0
  */
-export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = RNEA.append
+export const append: <B>(end: B) => <A>(init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B> = RNEA.append
 
 /**
  * Get the first element of a `ReadonlyArray`, or `None` if the `ReadonlyArray` is empty.

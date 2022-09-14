@@ -65,7 +65,6 @@ Added in v3.0.0
   - [chainFirst](#chainfirst)
   - [chop](#chop)
   - [concat](#concat)
-  - [concatW](#concatw)
   - [difference](#difference)
   - [dropLeft](#dropleft)
   - [dropLeftWhile](#dropleftwhile)
@@ -93,13 +92,11 @@ Added in v3.0.0
   - [zipWith](#zipwith)
 - [constructors](#constructors)
   - [append](#append)
-  - [appendW](#appendw)
   - [comprehension](#comprehension)
   - [fromPredicate](#frompredicate)
   - [guard](#guard)
   - [makeBy](#makeby)
   - [prepend](#prepend)
-  - [prependW](#prependw)
   - [replicate](#replicate)
 - [derivable combinators](#derivable-combinators)
   - [apFirst](#apfirst)
@@ -700,17 +697,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const concat: <A>(second: readonly A[]) => (first: readonly A[]) => readonly A[]
-```
-
-Added in v3.0.0
-
-## concatW
-
-**Signature**
-
-```ts
-export declare const concatW: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly (B | A)[]
+export declare const concat: <B>(second: readonly B[]) => <A>(first: readonly A[]) => readonly (B | A)[]
 ```
 
 Added in v3.0.0
@@ -1298,7 +1285,7 @@ Append an element to the end of a `ReadonlyArray`, creating a new `ReadonlyNonEm
 **Signature**
 
 ```ts
-export declare const append: <A>(end: A) => (init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+export declare const append: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 **Example**
@@ -1308,18 +1295,6 @@ import { append } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], append(4)), [1, 2, 3, 4])
-```
-
-Added in v3.0.0
-
-## appendW
-
-Less strict version of [`append`](#append)
-
-**Signature**
-
-```ts
-export declare const appendW: <B>(end: B) => <A>(init: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v3.0.0
@@ -1438,7 +1413,7 @@ Prepend an element to the front of a `ReadonlyArray`, creating a new `ReadonlyNo
 **Signature**
 
 ```ts
-export declare const prepend: <A>(head: A) => (tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<A>
+export declare const prepend: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 **Example**
@@ -1448,18 +1423,6 @@ import { prepend } from 'fp-ts/ReadonlyArray'
 import { pipe } from 'fp-ts/function'
 
 assert.deepStrictEqual(pipe([1, 2, 3], prepend(0)), [0, 1, 2, 3])
-```
-
-Added in v3.0.0
-
-## prependW
-
-Less strict version of [`prepend`](#prepend)
-
-**Signature**
-
-```ts
-export declare const prependW: <B>(head: B) => <A>(tail: readonly A[]) => RNEA.ReadonlyNonEmptyArray<B | A>
 ```
 
 Added in v3.0.0

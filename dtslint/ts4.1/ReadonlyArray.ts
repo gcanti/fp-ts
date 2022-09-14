@@ -45,7 +45,7 @@ pipe(
   prns,
   _.filter(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -75,7 +75,7 @@ _.filter(p)(registereds) // $ExpectType readonly Registered[]
 interface Test {
   test: string
 }
-declare const arrayOfTest: Test[]
+declare const arrayOfTest: Array<Test>
 const isFoo = <T extends Test>(t: T) => t.test === 'foo'
 pipe(arrayOfTest, _.filter(isFoo)) // $ExpectType readonly Test[]
 
@@ -227,29 +227,15 @@ pipe(rns, E.fromPredicate(_.some((n) => n > 0)))
 // prepend
 //
 
-_.prepend(0) // $ExpectType (tail: readonly number[]) => ReadonlyNonEmptyArray<number>
-pipe(rns, _.prepend(0)) // $ExpectType ReadonlyNonEmptyArray<number>
-
-//
-// prependW
-//
-
-_.prependW('a') // $ExpectType <A>(tail: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(rns, _.prependW('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.prepend('a') // $ExpectType <A>(tail: readonly A[]) => ReadonlyNonEmptyArray<string | A>
+pipe(rns, _.prepend('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
 
 //
 // append
 //
 
-_.append(0) // $ExpectType (init: readonly number[]) => ReadonlyNonEmptyArray<number>
-pipe(rns, _.append(0)) // $ExpectType ReadonlyNonEmptyArray<number>
-
-//
-// appendW
-//
-
-_.appendW('a') // $ExpectType <A>(init: readonly A[]) => ReadonlyNonEmptyArray<string | A>
-pipe(rns, _.appendW('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
+_.append('a') // $ExpectType <A>(init: readonly A[]) => ReadonlyNonEmptyArray<string | A>
+pipe(rns, _.append('a')) // $ExpectType ReadonlyNonEmptyArray<string | number>
 
 //
 // concat
@@ -259,15 +245,15 @@ _.concat(rss)(rss) // $ExpectType readonly string[]
 pipe(rss, _.concat(rss)) // $ExpectType readonly string[]
 
 //
-// concatW
+// concat
 //
 
-_.concatW(rss)(rss) // $ExpectType readonly string[]
-_.concatW(rss)(rns) // $ExpectType readonly (string | number)[]
-_.concatW(rns)(rss) // $ExpectType readonly (string | number)[]
-pipe(rss, _.concatW(rss)) // $ExpectType readonly string[]
-pipe(rss, _.concatW(rns)) // $ExpectType readonly (string | number)[]
-pipe(rns, _.concatW(rss)) // $ExpectType readonly (string | number)[]
+_.concat(rss)(rss) // $ExpectType readonly string[]
+_.concat(rss)(rns) // $ExpectType readonly (string | number)[]
+_.concat(rns)(rss) // $ExpectType readonly (string | number)[]
+pipe(rss, _.concat(rss)) // $ExpectType readonly string[]
+pipe(rss, _.concat(rns)) // $ExpectType readonly (string | number)[]
+pipe(rns, _.concat(rss)) // $ExpectType readonly (string | number)[]
 
 //
 // filterWithIndex
@@ -279,8 +265,8 @@ pipe(
   filterTest,
   _.filterWithIndex(
     (
-      i, // $ExpectType number
-      a // $ExpectType string | number
+      _i, // $ExpectType number
+      _a // $ExpectType string | number
     ) => true
   )
 )
@@ -311,7 +297,7 @@ pipe(
   prns,
   _.filter(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -329,8 +315,8 @@ pipe(
   prns,
   _.filterWithIndex(
     (
-      i, // $ExpectType number
-      x // $ExpectType number
+      _i, // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -350,7 +336,7 @@ pipe(
   rns,
   _.partition(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -370,8 +356,8 @@ pipe(
   prns,
   _.partitionWithIndex(
     (
-      i, // $ExpectType number
-      x // $ExpectType number
+      _i, // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )

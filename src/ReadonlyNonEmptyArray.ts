@@ -59,22 +59,12 @@ export type ReadonlyNonEmptyArray<A> = ReadonlyArray<A> & {
 /**
  * @internal
  */
-export const prependW = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
+export const prepend = <B>(head: B) => <A>(tail: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => [head, ...tail]
 
 /**
  * @internal
  */
-export const prepend: <A>(head: A) => (tail: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = prependW
-
-/**
- * @internal
- */
-export const appendW = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => concatW([end])(init)
-
-/**
- * @internal
- */
-export const append: <A>(end: A) => (init: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A> = appendW
+export const append = <B>(end: B) => <A>(init: ReadonlyArray<A>): ReadonlyNonEmptyArray<A | B> => concat([end])(init)
 
 /**
  * @internal
@@ -204,24 +194,15 @@ export const matchRight = <A, B>(f: (init: ReadonlyArray<A>, last: A) => B) => (
  * @category combinators
  * @since 3.0.0
  */
-export function concatW<B>(
+export function concat<B>(
   second: ReadonlyNonEmptyArray<B>
 ): <A>(first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A | B>
-export function concatW<B>(
+export function concat<B>(
   second: ReadonlyArray<B>
 ): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>
-export function concatW<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
+export function concat<B>(second: ReadonlyArray<B>): <A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyArray<A | B> {
   return <A>(first: ReadonlyNonEmptyArray<A | B>) => first.concat(second)
 }
-
-/**
- * @category combinators
- * @since 3.0.0
- */
-export const concat: {
-  <A>(second: ReadonlyNonEmptyArray<A>): (first: ReadonlyArray<A>) => ReadonlyNonEmptyArray<A>
-  <A>(second: ReadonlyArray<A>): (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A>
-} = concatW
 
 /**
  * Remove duplicates from a `ReadonlyNonEmptyArray`, keeping the first occurrence of an element.
@@ -728,7 +709,7 @@ export const chunksOf = (
  */
 export const alt = <B>(
   second: Lazy<ReadonlyNonEmptyArray<B>>
-): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concatW(second())
+): (<A>(first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A | B>) => concat(second())
 
 /**
  * @category Apply
