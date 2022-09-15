@@ -45,6 +45,8 @@ Added in v2.0.0
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
   - [chainFirstReaderEitherKW](#chainfirstreadereitherkw)
+  - [chainFirstReaderIOK](#chainfirstreaderiok)
+  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderKW](#chainfirstreaderkw)
   - [chainFirstReaderTaskK](#chainfirstreadertaskk)
@@ -59,6 +61,8 @@ Added in v2.0.0
   - [chainOptionK](#chainoptionk)
   - [chainReaderEitherK](#chainreadereitherk)
   - [chainReaderEitherKW](#chainreadereitherkw)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderKW](#chainreaderkw)
   - [chainReaderTaskK](#chainreadertaskk)
@@ -76,6 +80,7 @@ Added in v2.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromReaderEitherK](#fromreadereitherk)
+  - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
   - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
@@ -95,11 +100,13 @@ Added in v2.0.0
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
+  - [leftReaderIO](#leftreaderio)
   - [leftReaderTask](#leftreadertask)
   - [leftTask](#lefttask)
   - [right](#right)
   - [rightIO](#rightio)
   - [rightReader](#rightreader)
+  - [rightReaderIO](#rightreaderio)
   - [rightReaderTask](#rightreadertask)
   - [rightTask](#righttask)
 - [destructors](#destructors)
@@ -557,6 +564,32 @@ export declare const chainFirstReaderEitherKW: <R2, E2, A, B>(
 
 Added in v2.11.0
 
+## chainFirstReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.13.0
+
+## chainFirstReaderIOKW
+
+Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v2.13.0
+
 ## chainFirstReaderK
 
 **Signature**
@@ -750,6 +783,32 @@ export declare const chainReaderEitherKW: <R2, E2, A, B>(
 ```
 
 Added in v2.11.0
+
+## chainReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.13.0
+
+## chainReaderIOKW
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+```
+
+Added in v2.13.0
 
 ## chainReaderK
 
@@ -989,6 +1048,18 @@ export declare const fromReaderEitherK: <R, E, A extends readonly unknown[], B>(
 
 Added in v2.11.0
 
+## fromReaderIOK
+
+**Signature**
+
+```ts
+export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RIO.ReaderIO<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v2.13.0
+
 ## fromReaderK
 
 **Signature**
@@ -1206,6 +1277,16 @@ export declare const leftReader: <R, E = never, A = never>(me: R.Reader<R, E>) =
 
 Added in v2.0.0
 
+## leftReaderIO
+
+**Signature**
+
+```ts
+export declare const leftReaderIO: <R, E = never, A = never>(me: RIO.ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.13.0
+
 ## leftReaderTask
 
 **Signature**
@@ -1255,6 +1336,16 @@ export declare const rightReader: <R, E = never, A = never>(ma: R.Reader<R, A>) 
 ```
 
 Added in v2.0.0
+
+## rightReaderIO
+
+**Signature**
+
+```ts
+export declare const rightReaderIO: <R, E = never, A = never>(ma: RIO.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v2.13.0
 
 ## rightReaderTask
 

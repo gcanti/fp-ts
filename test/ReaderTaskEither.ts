@@ -7,6 +7,7 @@ import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as R from '../src/Reader'
 import * as RE from '../src/ReaderEither'
+import * as RIO from '../src/ReaderIO'
 import * as RT from '../src/ReaderTask'
 import * as _ from '../src/ReaderTaskEither'
 import * as RA from '../src/ReadonlyArray'
@@ -228,6 +229,14 @@ describe('ReaderTaskEither', () => {
 
   it('leftIO', async () => {
     U.deepStrictEqual(await _.leftIO(I.of(1))({})(), E.left(1))
+  })
+
+  it('rightReaderIO', async () => {
+    U.deepStrictEqual(await _.rightReaderIO(RIO.of(1))({})(), E.right(1))
+  })
+
+  it('leftReaderIO', async () => {
+    U.deepStrictEqual(await _.leftReaderIO(RIO.of(1))({})(), E.left(1))
   })
 
   it('fromIOEither', async () => {
@@ -487,6 +496,31 @@ describe('ReaderTaskEither', () => {
   it('chainFirstReaderEitherKW', async () => {
     const f = (s: string) => RE.right(s.length)
     U.deepStrictEqual(await pipe(_.right<{}, never, string>('a'), _.chainFirstReaderEitherKW(f))({})(), E.right('a'))
+  })
+
+  it('fromReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await _.fromReaderIOK(f)('a')(undefined)(), E.right(1))
+  })
+
+  it('chainReaderIOKW', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOKW(f))({})(), E.right(1))
+  })
+
+  it('chainReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainReaderIOK(f))(undefined)(), E.right(1))
+  })
+
+  it('chainFirstReaderIOKW', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOKW(f))({})(), E.right('a'))
+  })
+
+  it('chainFirstReaderIOK', async () => {
+    const f = (s: string) => RIO.of(s.length)
+    U.deepStrictEqual(await pipe(_.right('a'), _.chainFirstReaderIOK(f))({})(), E.right('a'))
   })
 
   // -------------------------------------------------------------------------------------
