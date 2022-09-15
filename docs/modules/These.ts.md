@@ -39,6 +39,9 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [TheseF (interface)](#thesef-interface)
+  - [TheseFFixedE (interface)](#theseffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -66,8 +69,6 @@ Added in v3.0.0
   - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
-  - [TheseF (interface)](#thesef-interface)
-  - [TheseFE (interface)](#thesefe-interface)
   - [Traversable](#traversable)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
@@ -165,6 +166,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## TheseF (interface)
+
+**Signature**
+
+```ts
+export interface TheseF extends HKT {
+  readonly type: These<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TheseFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface TheseFFixedE<E> extends HKT {
+  readonly type: These<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -445,30 +472,6 @@ export declare const Pointed: Pointed_<TheseF>
 
 Added in v3.0.0
 
-## TheseF (interface)
-
-**Signature**
-
-```ts
-export interface TheseF extends HKT {
-  readonly type: These<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TheseFE (interface)
-
-**Signature**
-
-```ts
-export interface TheseFE<E> extends HKT {
-  readonly type: These<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## Traversable
 
 **Signature**
@@ -484,7 +487,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative<TheseFE<E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -494,7 +497,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<TheseFE<E>>
+export declare const getApply: <E>(S: Semigroup<E>) => Apply<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -504,7 +507,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <E>(S: Semigroup<E>) => Chain<TheseFE<E>>
+export declare const getChain: <E>(S: Semigroup<E>) => Chain<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -524,7 +527,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TheseFE<E>>
+export declare const getMonad: <E>(S: Semigroup<E>) => Monad<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0

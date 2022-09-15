@@ -308,11 +308,11 @@ export const alt: <E2, B>(
 ) => <E1, A>(first: IOEither<E1, A>) => IOEither<E2, A | B> = /*#__PURE__*/ ET.alt(I.Monad)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface IOEitherF extends HKT {
@@ -320,12 +320,16 @@ export interface IOEitherF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface IOEitherFE<E> extends HKT {
+export interface IOEitherFFixedE<E> extends HKT {
   readonly type: IOEither<E, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
@@ -336,7 +340,7 @@ export interface IOEitherFE<E> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEitherFE<E>> => ({
+export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEitherFFixedE<E>> => ({
   map,
   ap: ap_(I.Apply, E.getApplicativeValidation(S)),
   of
@@ -351,7 +355,7 @@ export const getApplicativeIOValidation = <E>(S: Semigroup<E>): Applicative<IOEi
  * @category instances
  * @since 3.0.0
  */
-export const getAltIOValidation = <E>(S: Semigroup<E>): Alt_<IOEitherFE<E>> => {
+export const getAltIOValidation = <E>(S: Semigroup<E>): Alt_<IOEitherFFixedE<E>> => {
   return {
     map,
     alt: ET.altValidation(I.Monad, S)
@@ -362,9 +366,9 @@ export const getAltIOValidation = <E>(S: Semigroup<E>): Alt_<IOEitherFE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<IOEitherFE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<IOEitherFFixedE<E>> => {
   const C = E.getCompactable(M)
-  const F: Functor_<E.EitherFLeft<E>> = { map: E.map }
+  const F: Functor_<E.EitherFFixedE<E>> = { map: E.map }
   return {
     compact: compact_(I.Functor, C),
     separate: separate_(I.Functor, C, F)
@@ -375,7 +379,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<IOEitherFE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<IOEitherFE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<IOEitherFFixedE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(I.Functor, F),

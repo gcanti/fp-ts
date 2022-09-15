@@ -41,6 +41,9 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [EitherF (interface)](#eitherf-interface)
+  - [EitherFFixedE (interface)](#eitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -77,8 +80,6 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor-1)
   - [Chain](#chain-1)
   - [ChainRec](#chainrec-1)
-  - [EitherF (interface)](#eitherf-interface)
-  - [EitherFLeft (interface)](#eitherfleft-interface)
   - [Extend](#extend-1)
   - [Foldable](#foldable-1)
   - [FromEither](#fromeither)
@@ -292,6 +293,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## EitherF (interface)
+
+**Signature**
+
+```ts
+export interface EitherF extends HKT {
+  readonly type: Either<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## EitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface EitherFFixedE<E> extends HKT {
+  readonly type: Either<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -815,30 +842,6 @@ export declare const ChainRec: ChainRec_<EitherF>
 
 Added in v3.0.0
 
-## EitherF (interface)
-
-**Signature**
-
-```ts
-export interface EitherF extends HKT {
-  readonly type: Either<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## EitherFLeft (interface)
-
-**Signature**
-
-```ts
-export interface EitherFLeft<E> extends HKT {
-  readonly type: Either<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## Extend
 
 **Signature**
@@ -917,7 +920,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt_<EitherFLeft<E>>
+export declare const getAltValidation: <E>(S: Semigroup<E>) => Alt_<EitherFFixedE<E>>
 ```
 
 **Example**
@@ -963,7 +966,7 @@ get all errors you need to provide an way to concatenate them via a `Semigroup`.
 **Signature**
 
 ```ts
-export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative_<EitherFLeft<E>>
+export declare const getApplicativeValidation: <E>(S: Semigroup<E>) => Applicative_<EitherFFixedE<E>>
 ```
 
 **Example**
@@ -1010,7 +1013,7 @@ Builds a `Compactable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<EitherFLeft<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1032,7 +1035,7 @@ Builds a `Filterable` instance for `Either` given `Monoid` for the left side.
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<EitherFLeft<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1081,7 +1084,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export declare const getWitherable: <E>(M: Monoid<E>) => Witherable_<EitherFLeft<E>>
+export declare const getWitherable: <E>(M: Monoid<E>) => Witherable_<EitherFFixedE<E>>
 ```
 
 Added in v3.0.0

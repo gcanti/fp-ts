@@ -22,6 +22,8 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
+- [HKT](#hkt)
+  - [OrdF (interface)](#ordf-interface)
 - [combinators](#combinators)
   - [reverse](#reverse)
   - [tuple](#tuple)
@@ -29,7 +31,6 @@ Added in v3.0.0
   - [fromCompare](#fromcompare)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [OrdF (interface)](#ordf-interface)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [type classes](#type-classes)
@@ -85,6 +86,20 @@ assert.deepStrictEqual(pipe(users, sort(byName)), [
   { name: 'a', age: 2 },
   { name: 'b', age: 1 },
 ])
+```
+
+Added in v3.0.0
+
+# HKT
+
+## OrdF (interface)
+
+**Signature**
+
+```ts
+export interface OrdF extends HKT {
+  readonly type: Ord<this['Contravariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -159,18 +174,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Contravariant: Contravariant_<OrdF>
-```
-
-Added in v3.0.0
-
-## OrdF (interface)
-
-**Signature**
-
-```ts
-export interface OrdF extends HKT {
-  readonly type: Ord<this['Contravariant1']>
-}
 ```
 
 Added in v3.0.0

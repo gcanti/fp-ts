@@ -18,6 +18,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [StateF (interface)](#statef-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -40,7 +42,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [StateF (interface)](#statef-interface)
 - [model](#model)
   - [State (interface)](#state-interface)
 - [utils](#utils)
@@ -96,6 +97,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: State<S, A>) => State<S, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## StateF (interface)
+
+**Signature**
+
+```ts
+export interface StateF extends HKT {
+  readonly type: State<this['Invariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -301,18 +316,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<StateF>
-```
-
-Added in v3.0.0
-
-## StateF (interface)
-
-**Signature**
-
-```ts
-export interface StateF extends HKT {
-  readonly type: State<this['Invariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

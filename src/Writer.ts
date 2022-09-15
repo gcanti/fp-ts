@@ -161,7 +161,7 @@ export const mapLeft: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) => Writer
  * @category type class operations
  * @since 3.0.0
  */
-export const bimap = <W, X, A, B>(mapSnd: (e: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<X, B> => [
+export const bimap = <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>): Writer<X, B> => [
   mapFst(fst(t)),
   mapSnd(snd(t))
 ]
@@ -249,11 +249,11 @@ export const traverse = <F extends HKT>(F: Applicative<F>) => <A, S, R, FW, E, B
   )
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface WriterF extends HKT {
@@ -261,20 +261,24 @@ export interface WriterF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface WriterFContra extends HKT {
+export interface WriterFContravariant extends HKT {
   readonly type: Writer<this['Contravariant1'], this['Covariant1']>
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface WriterFE<E> extends HKT {
-  readonly type: Writer<E, this['Covariant1']>
+export interface WriterFFixedW<W> extends HKT {
+  readonly type: Writer<W, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -305,7 +309,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Writer<W, (a: A) => B>) => Writer<W,
  * @category instances
  * @since 3.0.0
  */
-export const Semigroupoid: Semigroupoid_<WriterFContra> = {
+export const Semigroupoid: Semigroupoid_<WriterFContravariant> = {
   compose
 }
 
@@ -342,7 +346,7 @@ export const Traversable: Traversable_<WriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFE<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFFixedW<W>> => ({
   of: (a) => [a, M.empty]
 })
 
@@ -350,7 +354,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<WriterFE<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(S: Semigroup<W>): Apply<WriterFE<W>> => ({
+export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFixedW<W>> => ({
   map,
   ap: (fa) => (fab) => {
     const [f, w1] = fab
@@ -363,7 +367,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterFE<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): Applicative<WriterFE<W>> => {
+export const getApplicative = <W>(M: Monoid<W>): Applicative<WriterFFixedW<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {
@@ -377,7 +381,7 @@ export const getApplicative = <W>(M: Monoid<W>): Applicative<WriterFE<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain<WriterFE<W>> => {
+export const getChain = <W>(S: Semigroup<W>): Chain<WriterFFixedW<W>> => {
   return {
     map,
     chain: (f) => (ma) => {
@@ -392,7 +396,7 @@ export const getChain = <W>(S: Semigroup<W>): Chain<WriterFE<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad<WriterFE<W>> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<WriterFFixedW<W>> => {
   const P = getPointed(M)
   const C = getChain(M)
   return {
@@ -406,7 +410,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<WriterFE<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFE<W>> {
+export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
   const chainRec = <A, B>(f: (a: A) => readonly [Either<A, B>, W]) => (a: A): readonly [B, W] => {
     let result: readonly [Either<A, B>, W] = f(a)
     let acc: W = M.empty

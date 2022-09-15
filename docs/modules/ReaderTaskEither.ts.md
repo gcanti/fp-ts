@@ -23,6 +23,9 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ReaderTaskEitherF (interface)](#readertaskeitherf-interface)
+  - [ReaderTaskEitherFFixedE (interface)](#readertaskeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -99,8 +102,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [ReaderTaskEitherF (interface)](#readertaskeitherf-interface)
-  - [ReaderTaskEitherFE (interface)](#readertaskeitherfe-interface)
   - [getAltReaderTaskValidation](#getaltreadertaskvalidation)
   - [getApplicativeReaderTaskValidation](#getapplicativereadertaskvalidation)
   - [getCompactable](#getcompactable)
@@ -228,6 +229,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReaderTaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEitherF extends HKT {
+  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEitherFFixedE<E> extends HKT {
+  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -1062,30 +1089,6 @@ export declare const Pointed: Pointed_<ReaderTaskEitherF>
 
 Added in v3.0.0
 
-## ReaderTaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherF extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderTaskEitherFE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskEitherFE<E> extends HKT {
-  readonly type: ReaderTaskEither<this['Contravariant1'], E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getAltReaderTaskValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
@@ -1096,7 +1099,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => Alt_<ReaderTaskEitherFE<E>>
+export declare const getAltReaderTaskValidation: <E>(S: Semigroup<E>) => Alt_<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1114,7 +1117,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 export declare const getApplicativeReaderTaskValidation: <E>(
   A: Apply_<T.TaskF>,
   S: Semigroup<E>
-) => Applicative_<ReaderTaskEitherFE<E>>
+) => Applicative_<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1124,7 +1127,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<ReaderTaskEitherFE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable_<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -1134,7 +1137,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<ReaderTaskEitherFE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable_<ReaderTaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0

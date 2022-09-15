@@ -121,16 +121,20 @@ export const flatten: <R1, R2, A>(mma: ReaderIO<R1, ReaderIO<R2, A>>) => ReaderI
 )
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReaderIOF extends HKT {
   readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

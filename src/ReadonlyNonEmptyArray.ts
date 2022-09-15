@@ -895,16 +895,20 @@ export const traverseWithIndex = <F extends HKT>(F: Applicative_<F>) => <A, S, R
 export const extract: <A>(wa: ReadonlyNonEmptyArray<A>) => A = _.head
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReadonlyNonEmptyArrayF extends HKT {
   readonly type: ReadonlyNonEmptyArray<this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

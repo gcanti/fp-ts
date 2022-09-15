@@ -18,6 +18,8 @@ Added in v3.0.0
   - [extract](#extract)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [StoreF (interface)](#storef-interface)
 - [combinators](#combinators)
   - [flap](#flap)
 - [derivable combinators](#derivable-combinators)
@@ -25,7 +27,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Comonad](#comonad)
   - [Functor](#functor-1)
-  - [StoreF (interface)](#storef-interface)
 - [model](#model)
   - [Store (interface)](#store-interface)
 - [utils](#utils)
@@ -71,6 +72,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <S>(fa: Store<S, A>) => Store<S, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## StoreF (interface)
+
+**Signature**
+
+```ts
+export interface StoreF extends HKT {
+  readonly type: Store<this['Invariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -121,18 +136,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor_<StoreF>
-```
-
-Added in v3.0.0
-
-## StoreF (interface)
-
-**Signature**
-
-```ts
-export interface StoreF extends HKT {
-  readonly type: Store<this['Invariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

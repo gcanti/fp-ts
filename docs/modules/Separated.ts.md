@@ -17,6 +17,8 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [SeparatedF (interface)](#separatedf-interface)
 - [combinators](#combinators)
   - [flap](#flap)
 - [constructors](#constructors)
@@ -24,7 +26,6 @@ Added in v3.0.0
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
   - [Functor](#functor-1)
-  - [SeparatedF (interface)](#separatedf-interface)
 - [utils](#utils)
   - [Separated (interface)](#separated-interface)
   - [left](#left)
@@ -73,6 +74,20 @@ export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Separated<E, A>) => 
 
 Added in v3.0.0
 
+# HKT
+
+## SeparatedF (interface)
+
+**Signature**
+
+```ts
+export interface SeparatedF extends HKT {
+  readonly type: Separated<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
 # combinators
 
 ## flap
@@ -117,18 +132,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor_<SeparatedF>
-```
-
-Added in v3.0.0
-
-## SeparatedF (interface)
-
-**Signature**
-
-```ts
-export interface SeparatedF extends HKT {
-  readonly type: Separated<this['Covariant2'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

@@ -32,11 +32,11 @@ export interface Traced<W, A> {
 export const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B> = (f) => (fa) => (w) => f(fa(w))
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface TracedF extends HKT {
@@ -44,12 +44,16 @@ export interface TracedF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface TracedFE<P> extends HKT {
-  readonly type: Traced<P, this['Covariant1']>
+export interface TracedFFixedW<W> extends HKT {
+  readonly type: Traced<W, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -71,7 +75,7 @@ export const flap: <A>(a: A) => <W, B>(fab: Traced<W, (a: A) => B>) => Traced<W,
  * @category instances
  * @since 3.0.0
  */
-export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFE<W>> => ({
+export const getComonad = <W>(monoid: Monoid<W>): Comonad<TracedFFixedW<W>> => ({
   map,
   extend: (f) => (fa) => (w1) => f((w2) => fa(monoid.concat(w2)(w1))),
   extract: (fa) => fa(monoid.empty)

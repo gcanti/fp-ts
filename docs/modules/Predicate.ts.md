@@ -14,9 +14,10 @@ Added in v3.0.0
 
 - [Contravariant](#contravariant)
   - [contramap](#contramap)
+- [HKT](#hkt)
+  - [PredicateF (interface)](#predicatef-interface)
 - [instances](#instances)
   - [Contravariant](#contravariant-1)
-  - [PredicateF (interface)](#predicatef-interface)
   - [getMonoidAll](#getmonoidall)
   - [getMonoidAny](#getmonoidany)
   - [getSemigroupAll](#getsemigroupall)
@@ -41,17 +42,7 @@ export declare const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => 
 
 Added in v3.0.0
 
-# instances
-
-## Contravariant
-
-**Signature**
-
-```ts
-export declare const Contravariant: Contravariant_<PredicateF>
-```
-
-Added in v3.0.0
+# HKT
 
 ## PredicateF (interface)
 
@@ -61,6 +52,18 @@ Added in v3.0.0
 export interface PredicateF extends HKT {
   readonly type: Predicate<this['Contravariant1']>
 }
+```
+
+Added in v3.0.0
+
+# instances
+
+## Contravariant
+
+**Signature**
+
+```ts
+export declare const Contravariant: Contravariant_<PredicateF>
 ```
 
 Added in v3.0.0

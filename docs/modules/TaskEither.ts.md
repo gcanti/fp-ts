@@ -30,6 +30,9 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [TaskEitherF (interface)](#taskeitherf-interface)
+  - [TaskEitherFFixedE (interface)](#taskeitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -88,8 +91,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [TaskEitherF (interface)](#taskeitherf-interface)
-  - [TaskEitherFE (interface)](#taskeitherfe-interface)
   - [getAltTaskValidation](#getalttaskvalidation)
   - [getApplicativeTaskValidation](#getapplicativetaskvalidation)
   - [getCompactable](#getcompactable)
@@ -252,6 +253,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## TaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface TaskEitherF extends HKT {
+  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TaskEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface TaskEitherFFixedE<E> extends HKT {
+  readonly type: TaskEither<E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -879,30 +906,6 @@ export declare const Pointed: Pointed_<TaskEitherF>
 
 Added in v3.0.0
 
-## TaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherF extends HKT {
-  readonly type: TaskEither<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TaskEitherFE (interface)
-
-**Signature**
-
-```ts
-export interface TaskEitherFE<E> extends HKT {
-  readonly type: TaskEither<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getAltTaskValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
@@ -913,7 +916,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => Alt_<TaskEitherFE<E>>
+export declare const getAltTaskValidation: <E>(S: Semigroup<E>) => Alt_<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -931,7 +934,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 export declare const getApplicativeTaskValidation: <E>(
   A: Apply<T.TaskF>,
   S: Semigroup<E>
-) => Applicative<TaskEitherFE<E>>
+) => Applicative<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -941,7 +944,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<TaskEitherFE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -951,7 +954,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<TaskEitherFE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<TaskEitherFFixedE<E>>
 ```
 
 Added in v3.0.0

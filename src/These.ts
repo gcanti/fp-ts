@@ -271,11 +271,11 @@ export const traverse: <F extends HKT>(
 export const of: <A, E = never>(right: A) => These<E, A> = right
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface TheseF extends HKT {
@@ -283,12 +283,16 @@ export interface TheseF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface TheseFE<E> extends HKT {
+export interface TheseFFixedE<E> extends HKT {
   readonly type: These<E, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -388,7 +392,7 @@ export const Pointed: Pointed_<TheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <E>(S: Semigroup<E>): Apply<TheseFE<E>> => ({
+export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab)
@@ -414,7 +418,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFE<E>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): Applicative<TheseFE<E>> => {
+export const getApplicative = <E>(S: Semigroup<E>): Applicative<TheseFFixedE<E>> => {
   const A = getApply(S)
   return {
     map,
@@ -427,7 +431,7 @@ export const getApplicative = <E>(S: Semigroup<E>): Applicative<TheseFE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <E>(S: Semigroup<E>): Chain<TheseFE<E>> => {
+export const getChain = <E>(S: Semigroup<E>): Chain<TheseFFixedE<E>> => {
   const chain = <A, B>(f: (a: A) => These<E, B>) => (ma: These<E, A>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
@@ -453,7 +457,7 @@ export const getChain = <E>(S: Semigroup<E>): Chain<TheseFE<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFE<E>> => {
+export const getMonad = <E>(S: Semigroup<E>): Monad<TheseFFixedE<E>> => {
   const C = getChain(S)
   return {
     map,

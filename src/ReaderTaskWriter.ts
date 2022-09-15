@@ -261,11 +261,11 @@ export const mapFst = map
 export const mapSnd = mapLeft
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReaderTaskWriterF extends HKT {
@@ -273,12 +273,16 @@ export interface ReaderTaskWriterF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface ReaderTaskWriterFE<E> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], E, this['Covariant1']>
+export interface ReaderTaskWriterFFixedW<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -311,7 +315,7 @@ export const flap: <A>(
  * @category instances
  * @since 3.0.0
  */
-export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFE<W>> => ({
+export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFFixedW<W>> => ({
   of: WT.of(RT.Pointed, M)
 })
 
@@ -319,7 +323,7 @@ export const getPointed = <W>(M: Monoid<W>): Pointed<ReaderTaskWriterFE<W>> => (
  * @category instances
  * @since 3.0.0
  */
-export const getApply = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>): Apply<ReaderTaskWriterFE<W>> => ({
+export const getApply = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>): Apply<ReaderTaskWriterFFixedW<W>> => ({
   map,
   ap: WT.ap(A, S)
 })
@@ -328,7 +332,7 @@ export const getApply = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>): Apply<Re
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>): Applicative<ReaderTaskWriterFE<W>> => {
+export const getApplicative = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>): Applicative<ReaderTaskWriterFFixedW<W>> => {
   const { ap } = getApply(A, M)
   const P = getPointed(M)
   return {
@@ -342,7 +346,7 @@ export const getApplicative = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>): Appli
  * @category instances
  * @since 3.0.0
  */
-export const getChain = <W>(S: Semigroup<W>): Chain<ReaderTaskWriterFE<W>> => {
+export const getChain = <W>(S: Semigroup<W>): Chain<ReaderTaskWriterFFixedW<W>> => {
   return {
     map,
     chain: WT.chain(RT.Chain, S)
@@ -353,7 +357,7 @@ export const getChain = <W>(S: Semigroup<W>): Chain<ReaderTaskWriterFE<W>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFE<W>> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<ReaderTaskWriterFFixedW<W>> => {
   const P = getPointed(M)
   const C = getChain(M)
   return {
@@ -383,7 +387,7 @@ export const fromWriterK: <A extends ReadonlyArray<unknown>, E, B>(
  * @category instances
  * @since 3.0.0
  */
-export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFE<W>> => ({
+export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFFixedW<W>> => ({
   fromReader: fromReader(M.empty)
 })
 
@@ -391,7 +395,7 @@ export const getFromReader = <W>(M: Monoid<W>): FromReader<ReaderTaskWriterFE<W>
  * @category instances
  * @since 3.0.0
  */
-export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFE<W>> => ({
+export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFFixedW<W>> => ({
   fromIO: fromIO(M.empty)
 })
 
@@ -399,7 +403,7 @@ export const getFromIO = <W>(M: Monoid<W>): FromIO<ReaderTaskWriterFE<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFE<W>> => ({
+export const getFromTask = <W>(M: Monoid<W>): FromTask<ReaderTaskWriterFFixedW<W>> => ({
   fromIO: fromIO(M.empty),
   fromTask: fromTask(M.empty)
 })

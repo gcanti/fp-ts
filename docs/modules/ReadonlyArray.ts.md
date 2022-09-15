@@ -48,6 +48,8 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [HKT](#hkt)
+  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -128,7 +130,6 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [ReadonlyArrayF (interface)](#readonlyarrayf-interface)
   - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex-1)
   - [Unfoldable](#unfoldable-1)
@@ -521,6 +522,20 @@ Added in v3.0.0
 
 ```ts
 export declare const mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: readonly A[]) => readonly B[]
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReadonlyArrayF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyArrayF extends HKT {
+  readonly type: ReadonlyArray<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -1761,18 +1776,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<ReadonlyArrayF>
-```
-
-Added in v3.0.0
-
-## ReadonlyArrayF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyArrayF extends HKT {
-  readonly type: ReadonlyArray<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

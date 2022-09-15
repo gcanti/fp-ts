@@ -418,11 +418,11 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
 }
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReadonlyMapF extends HKT {
@@ -430,12 +430,16 @@ export interface ReadonlyMapF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface ReadonlyMapFE<E> extends HKT {
-  readonly type: ReadonlyMap<E, this['Covariant1']>
+export interface ReadonlyMapFFixedK<K> extends HKT {
+  readonly type: ReadonlyMap<K, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -516,7 +520,7 @@ export const flap: <A>(a: A) => <K, B>(fab: ReadonlyMap<K, (a: A) => B>) => Read
  * @category instances
  * @since 3.0.0
  */
-export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapFE<K>, K> => ({
+export const getFunctorWithIndex = <K = never>(): FunctorWithIndex<ReadonlyMapFFixedK<K>, K> => ({
   mapWithIndex
 })
 
@@ -544,7 +548,7 @@ export const Filterable: Filterable_<ReadonlyMapF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getFilterableWithIndex = <K = never>(): FilterableWithIndex<ReadonlyMapFE<K>, K> => ({
+export const getFilterableWithIndex = <K = never>(): FilterableWithIndex<ReadonlyMapFFixedK<K>, K> => ({
   filterWithIndex,
   filterMapWithIndex,
   partitionWithIndex,
@@ -586,7 +590,7 @@ export const reduceRight: <K>(O: Ord<K>) => <B, A>(b: B, f: (a: A, b: B) => B) =
  * @category instances
  * @since 3.0.0
  */
-export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapFE<K>> => {
+export const getFoldable = <K>(O: Ord<K>): Foldable<ReadonlyMapFFixedK<K>> => {
   return {
     reduce: reduce(O),
     foldMap: foldMap(O),
@@ -649,7 +653,7 @@ export const reduceRightWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFE<K>, K> => {
+export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex<ReadonlyMapFFixedK<K>, K> => {
   return {
     reduceWithIndex: reduceWithIndex(O),
     foldMapWithIndex: foldMapWithIndex(O),
@@ -678,7 +682,7 @@ export const traverse: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFE<K>> => {
+export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFFixedK<K>> => {
   return {
     map,
     traverse: traverse(O)
@@ -716,7 +720,7 @@ export const traverseWithIndex: <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapFE<K>, K> => {
+export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex<ReadonlyMapFFixedK<K>, K> => {
   return {
     traverseWithIndex: traverseWithIndex(O)
   }
@@ -732,7 +736,7 @@ export const wither = <K>(
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, O.Option<B>>
 ) => (ta: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, ReadonlyMap<K, B>>) => {
-  const C: Compactable_<ReadonlyMapFE<K>> = { compact, separate }
+  const C: Compactable_<ReadonlyMapFFixedK<K>> = { compact, separate }
   return witherDefault(getTraversable(O), C)
 }
 
@@ -746,7 +750,7 @@ export const wilt = <K>(
 ) => <A, S, R, W, E, B, C>(
   f: (a: A) => Kind<F, S, R, W, E, Either<B, C>>
 ) => (wa: ReadonlyMap<K, A>) => Kind<F, S, R, W, E, Separated<ReadonlyMap<K, B>, ReadonlyMap<K, C>>>) => {
-  const C: Compactable_<ReadonlyMapFE<K>> = { compact, separate }
+  const C: Compactable_<ReadonlyMapFFixedK<K>> = { compact, separate }
   return wiltDefault(getTraversable(O), C)
 }
 
@@ -754,7 +758,7 @@ export const wilt = <K>(
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <K>(O: Ord<K>): Witherable<ReadonlyMapFE<K>> => {
+export const getWitherable = <K>(O: Ord<K>): Witherable<ReadonlyMapFFixedK<K>> => {
   return {
     wither: wither(O),
     wilt: wilt(O)

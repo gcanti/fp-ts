@@ -401,11 +401,11 @@ export const alt = <S, R2, E2, B>(second: () => StateReaderTaskEither<S, R2, E2,
   )
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface StateReaderTaskEitherF extends HKT {
@@ -416,6 +416,10 @@ export interface StateReaderTaskEitherF extends HKT {
     this['Covariant1']
   >
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

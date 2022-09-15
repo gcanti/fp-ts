@@ -484,11 +484,11 @@ export const alt: <E2, B>(
 export const of: <A, E = never>(a: A) => TaskEither<E, A> = right
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface TaskEitherF extends HKT {
@@ -496,12 +496,16 @@ export interface TaskEitherF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface TaskEitherFE<E> extends HKT {
+export interface TaskEitherFFixedE<E> extends HKT {
   readonly type: TaskEither<E, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * The default [`ApplicativePar`](#applicativepar) instance returns the first error, if you want to
@@ -512,7 +516,10 @@ export interface TaskEitherFE<E> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeTaskValidation = <E>(A: Apply<T.TaskF>, S: Semigroup<E>): Applicative<TaskEitherFE<E>> => ({
+export const getApplicativeTaskValidation = <E>(
+  A: Apply<T.TaskF>,
+  S: Semigroup<E>
+): Applicative<TaskEitherFFixedE<E>> => ({
   map,
   ap: ap_(A, E.getApplicativeValidation(S)),
   of
@@ -527,7 +534,7 @@ export const getApplicativeTaskValidation = <E>(A: Apply<T.TaskF>, S: Semigroup<
  * @category instances
  * @since 3.0.0
  */
-export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt_<TaskEitherFE<E>> => {
+export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt_<TaskEitherFFixedE<E>> => {
   return {
     map,
     alt: ET.altValidation(T.Monad, S)
@@ -538,9 +545,9 @@ export const getAltTaskValidation = <E>(S: Semigroup<E>): Alt_<TaskEitherFE<E>> 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFFixedE<E>> => {
   const C = E.getCompactable(M)
-  const F: Functor_<E.EitherFLeft<E>> = { map: E.map }
+  const F: Functor_<E.EitherFFixedE<E>> = { map: E.map }
   return {
     compact: compact_(T.Functor, C),
     separate: separate_(T.Functor, C, F)
@@ -551,7 +558,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<TaskEitherFE<E>> =>
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<TaskEitherFFixedE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(T.Functor, F),

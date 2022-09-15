@@ -12,6 +12,10 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [HKT](#hkt)
+  - [WriterF (interface)](#writerf-interface)
+  - [WriterFContravariant (interface)](#writerfcontravariant-interface)
+  - [WriterFFixedW (interface)](#writerffixedw-interface)
 - [combinators](#combinators)
   - [censor](#censor)
   - [flap](#flap)
@@ -29,9 +33,6 @@ Added in v3.0.0
   - [Functor](#functor)
   - [Semigroupoid](#semigroupoid)
   - [Traversable](#traversable)
-  - [WriterF (interface)](#writerf-interface)
-  - [WriterFContra (interface)](#writerfcontra-interface)
-  - [WriterFE (interface)](#writerfe-interface)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -61,6 +62,44 @@ Added in v3.0.0
   - [snd](#snd)
 
 ---
+
+# HKT
+
+## WriterF (interface)
+
+**Signature**
+
+```ts
+export interface WriterF extends HKT {
+  readonly type: Writer<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFContravariant (interface)
+
+**Signature**
+
+```ts
+export interface WriterFContravariant extends HKT {
+  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## WriterFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface WriterFFixedW<W> extends HKT {
+  readonly type: Writer<W, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
 
 # combinators
 
@@ -205,7 +244,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Semigroupoid: Semigroupoid_<WriterFContra>
+export declare const Semigroupoid: Semigroupoid_<WriterFContravariant>
 ```
 
 Added in v3.0.0
@@ -220,48 +259,12 @@ export declare const Traversable: Traversable_<WriterF>
 
 Added in v3.0.0
 
-## WriterF (interface)
-
-**Signature**
-
-```ts
-export interface WriterF extends HKT {
-  readonly type: Writer<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterFContra (interface)
-
-**Signature**
-
-```ts
-export interface WriterFContra extends HKT {
-  readonly type: Writer<this['Contravariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## WriterFE (interface)
-
-**Signature**
-
-```ts
-export interface WriterFE<E> extends HKT {
-  readonly type: Writer<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getApplicative
 
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => Applicative<WriterFE<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -271,7 +274,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFE<W>>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -281,7 +284,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain<WriterFE<W>>
+export declare const getChain: <W>(S: Semigroup<W>) => Chain<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -291,7 +294,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFE<W>>
+export declare function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -301,7 +304,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFE<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -311,7 +314,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFE<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -337,7 +340,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <W, X, A, B>(mapSnd: (e: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>) => Writer<X, B>
+export declare const bimap: <W, X, A, B>(mapSnd: (w: W) => X, mapFst: (a: A) => B) => (t: Writer<W, A>) => Writer<X, B>
 ```
 
 Added in v3.0.0

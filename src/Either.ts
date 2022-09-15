@@ -556,11 +556,11 @@ export const traverse = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, FE, 
   isLeft(ta) ? F.of(left(ta.left)) : pipe(f(ta.right), F.map(right))
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface EitherF extends HKT {
@@ -568,12 +568,16 @@ export interface EitherF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface EitherFLeft<E> extends HKT {
+export interface EitherFFixedE<E> extends HKT {
   readonly type: Either<E, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances
@@ -623,7 +627,7 @@ export const getSemigroup = <A, E>(S: Semigroup<A>): Semigroup<Either<E, A>> => 
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable_<EitherFLeft<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable_<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
   const compact: <A>(foa: Either<E, Option<A>>) => Either<E, A> = (ma) =>
@@ -648,7 +652,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable_<EitherFLeft<E>> =>
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable_<EitherFLeft<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable_<EitherFFixedE<E>> => {
   const empty = left(M.empty)
 
   const partitionMap = <A, B, C>(f: (a: A) => Either<B, C>) => (
@@ -694,9 +698,9 @@ export const getFilterable = <E>(M: Monoid<E>): Filterable_<EitherFLeft<E>> => {
  * @category instances
  * @since 3.0.0
  */
-export const getWitherable = <E>(M: Monoid<E>): Witherable_<EitherFLeft<E>> => {
+export const getWitherable = <E>(M: Monoid<E>): Witherable_<EitherFFixedE<E>> => {
   const C = getCompactable(M)
-  const T: Traversable_<EitherFLeft<E>> = { map, traverse }
+  const T: Traversable_<EitherFFixedE<E>> = { map, traverse }
   return {
     wither: witherDefault(T, C),
     wilt: wiltDefault(T, C)
@@ -843,7 +847,7 @@ export const Applicative: Applicative_<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative_<EitherFLeft<E>> => ({
+export const getApplicativeValidation = <E>(S: Semigroup<E>): Applicative_<EitherFFixedE<E>> => ({
   map,
   ap: (fa) => (fab) =>
     isLeft(fab) ? (isLeft(fa) ? left(S.concat(fa.left)(fab.left)) : fab) : isLeft(fa) ? fa : right(fab.right(fa.right)),
@@ -952,7 +956,7 @@ export const Alt: Alt_<EitherF> = {
  * @category instances
  * @since 3.0.0
  */
-export const getAltValidation = <E>(S: Semigroup<E>): Alt_<EitherFLeft<E>> => ({
+export const getAltValidation = <E>(S: Semigroup<E>): Alt_<EitherFFixedE<E>> => ({
   map,
   alt: (second) => (first) => {
     if (isRight(first)) {

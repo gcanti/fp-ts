@@ -28,6 +28,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [TaskF (interface)](#taskf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -52,7 +54,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [TaskF (interface)](#taskf-interface)
   - [getRaceMonoid](#getracemonoid)
 - [model](#model)
   - [Task (interface)](#task-interface)
@@ -114,6 +115,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Task<A>) => Task<B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## TaskF (interface)
+
+**Signature**
+
+```ts
+export interface TaskF extends HKT {
+  readonly type: Task<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -365,18 +380,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<TaskF>
-```
-
-Added in v3.0.0
-
-## TaskF (interface)
-
-**Signature**
-
-```ts
-export interface TaskF extends HKT {
-  readonly type: Task<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

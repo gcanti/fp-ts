@@ -29,6 +29,9 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [HKT](#hkt)
+  - [ReadonlyMapF (interface)](#readonlymapf-interface)
+  - [ReadonlyMapFFixedK (interface)](#readonlymapffixedk-interface)
 - [combinator](#combinator)
   - [getDifferenceMagma](#getdifferencemagma)
 - [combinators](#combinators)
@@ -44,8 +47,6 @@ Added in v3.0.0
   - [Compactable](#compactable-1)
   - [Filterable](#filterable-1)
   - [Functor](#functor-1)
-  - [ReadonlyMapF (interface)](#readonlymapf-interface)
-  - [ReadonlyMapFE (interface)](#readonlymapfe-interface)
   - [getEq](#geteq)
   - [getFilterableWithIndex](#getfilterablewithindex)
   - [getFoldable](#getfoldable)
@@ -260,6 +261,32 @@ export declare const mapWithIndex: <K, A, B>(f: (k: K, a: A) => B) => (m: Readon
 
 Added in v3.0.0
 
+# HKT
+
+## ReadonlyMapF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyMapF extends HKT {
+  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReadonlyMapFFixedK (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyMapFFixedK<K> extends HKT {
+  readonly type: ReadonlyMap<K, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
 # combinator
 
 ## getDifferenceMagma
@@ -401,30 +428,6 @@ export declare const Functor: Functor_<ReadonlyMapF>
 
 Added in v3.0.0
 
-## ReadonlyMapF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReadonlyMapFE (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyMapFE<E> extends HKT {
-  readonly type: ReadonlyMap<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getEq
 
 **Signature**
@@ -440,7 +443,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterableWithIndex: <K = never>() => FilterableWithIndex<ReadonlyMapFE<K>, K>
+export declare const getFilterableWithIndex: <K = never>() => FilterableWithIndex<ReadonlyMapFFixedK<K>, K>
 ```
 
 Added in v3.0.0
@@ -450,7 +453,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldable: <K>(O: Ord<K>) => Foldable<ReadonlyMapFE<K>>
+export declare const getFoldable: <K>(O: Ord<K>) => Foldable<ReadonlyMapFFixedK<K>>
 ```
 
 Added in v3.0.0
@@ -460,7 +463,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex<ReadonlyMapFE<K>, K>
+export declare const getFoldableWithIndex: <K>(O: Ord<K>) => FoldableWithIndex<ReadonlyMapFFixedK<K>, K>
 ```
 
 Added in v3.0.0
@@ -470,7 +473,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapFE<K>, K>
+export declare const getFunctorWithIndex: <K = never>() => FunctorWithIndex<ReadonlyMapFFixedK<K>, K>
 ```
 
 Added in v3.0.0
@@ -512,7 +515,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapFE<K>>
+export declare const getTraversable: <K>(O: Ord<K>) => Traversable<ReadonlyMapFFixedK<K>>
 ```
 
 Added in v3.0.0
@@ -522,7 +525,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex<ReadonlyMapFE<K>, K>
+export declare const getTraversableWithIndex: <K>(O: Ord<K>) => TraversableWithIndex<ReadonlyMapFFixedK<K>, K>
 ```
 
 Added in v3.0.0
@@ -552,7 +555,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getWitherable: <K>(O: Ord<K>) => Witherable<ReadonlyMapFE<K>>
+export declare const getWitherable: <K>(O: Ord<K>) => Witherable<ReadonlyMapFFixedK<K>>
 ```
 
 Added in v3.0.0

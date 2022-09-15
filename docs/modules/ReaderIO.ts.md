@@ -16,6 +16,8 @@ Added in v3.0.0
   - [ap](#ap)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ReaderIOF (interface)](#readeriof-interface)
 - [Monad](#monad)
   - [chain](#chain)
 - [Pointed](#pointed)
@@ -46,7 +48,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad-1)
   - [Pointed](#pointed-1)
-  - [ReaderIOF (interface)](#readeriof-interface)
 - [model](#model)
   - [ReaderIO (interface)](#readerio-interface)
 - [natural transformations](#natural-transformations)
@@ -89,6 +90,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderIO<R, A>) => ReaderIO<R, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReaderIOF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderIOF extends HKT {
+  readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -389,18 +404,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<ReaderIOF>
-```
-
-Added in v3.0.0
-
-## ReaderIOF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderIOF extends HKT {
-  readonly type: ReaderIO<this['Contravariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

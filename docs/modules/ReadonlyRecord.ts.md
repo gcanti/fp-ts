@@ -31,6 +31,8 @@ Added in v3.0.0
   - [map](#map)
 - [FunctorWithIndex](#functorwithindex)
   - [mapWithIndex](#mapwithindex)
+- [HKT](#hkt)
+  - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
 - [Witherable](#witherable)
   - [wilt](#wilt)
   - [wither](#wither)
@@ -51,7 +53,6 @@ Added in v3.0.0
   - [FilterableWithIndex](#filterablewithindex-1)
   - [Functor](#functor-1)
   - [FunctorWithIndex](#functorwithindex-1)
-  - [ReadonlyRecordF (interface)](#readonlyrecordf-interface)
   - [getDifferenceMagma](#getdifferencemagma)
   - [getEq](#geteq)
   - [getFoldable](#getfoldable)
@@ -287,6 +288,20 @@ export declare function mapWithIndex<K extends string, A, B>(
 
 Added in v3.0.0
 
+# HKT
+
+## ReadonlyRecordF (interface)
+
+**Signature**
+
+```ts
+export interface ReadonlyRecordF extends HKT {
+  readonly type: ReadonlyRecord<string, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
 # Witherable
 
 ## wilt
@@ -502,18 +517,6 @@ Added in v3.0.0
 
 ```ts
 export declare const FunctorWithIndex: FunctorWithIndex_<ReadonlyRecordF, string>
-```
-
-Added in v3.0.0
-
-## ReadonlyRecordF (interface)
-
-**Signature**
-
-```ts
-export interface ReadonlyRecordF extends HKT {
-  readonly type: ReadonlyRecord<string, this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

@@ -23,6 +23,8 @@ Added in v3.0.0
   - [right](#right)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ReaderF (interface)](#readerf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Profunctor](#profunctor)
@@ -55,7 +57,6 @@ Added in v3.0.0
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Profunctor](#profunctor-1)
-  - [ReaderF (interface)](#readerf-interface)
   - [Strong](#strong-1)
 - [model](#model)
   - [Reader (interface)](#reader-interface)
@@ -146,6 +147,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: Reader<R, A>) => Reader<R, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReaderF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderF extends HKT {
+  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -426,18 +441,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Profunctor: Profunctor_<ReaderF>
-```
-
-Added in v3.0.0
-
-## ReaderF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderF extends HKT {
-  readonly type: Reader<this['Contravariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

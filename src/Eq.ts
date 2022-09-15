@@ -101,16 +101,20 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B> = (f) => 
   fromEquals((second) => flow(f, fa.equals(f(second))))
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface EqF extends HKT {
   readonly type: Eq<this['Contravariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

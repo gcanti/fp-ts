@@ -33,6 +33,8 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [IOOptionF (interface)](#iooptionf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Zero](#zero)
@@ -74,7 +76,6 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
-  - [IOOptionF (interface)](#iooptionf-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Zero](#zero-1)
@@ -224,6 +225,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IOOption<A>) => IOOption<B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## IOOptionF (interface)
+
+**Signature**
+
+```ts
+export interface IOOptionF extends HKT {
+  readonly type: IOOption<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -614,18 +629,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor_<IOOptionF>
-```
-
-Added in v3.0.0
-
-## IOOptionF (interface)
-
-**Signature**
-
-```ts
-export interface IOOptionF extends HKT {
-  readonly type: IOOption<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

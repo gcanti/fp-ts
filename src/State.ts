@@ -117,16 +117,20 @@ export const chain: <A, S, B>(f: (a: A) => State<S, B>) => (ma: State<S, A>) => 
 export const flatten: <S, A>(mma: State<S, State<S, A>>) => State<S, A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface StateF extends HKT {
   readonly type: State<this['Invariant1'], this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

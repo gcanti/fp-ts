@@ -25,15 +25,16 @@ Added in v3.0.0
   - [contramap](#contramap)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ConstF (interface)](#constf-interface)
+  - [ConstFContravariant (interface)](#constfcontravariant-interface)
+  - [ConstFFixedW (interface)](#constffixedw-interface)
 - [combinators](#combinators)
   - [flap](#flap)
 - [constructors](#constructors)
   - [make](#make)
 - [instances](#instances)
   - [Bifunctor](#bifunctor-1)
-  - [ConstF (interface)](#constf-interface)
-  - [ConstFE (interface)](#constfe-interface)
-  - [ConstFR (interface)](#constfr-interface)
   - [Contravariant](#contravariant-1)
   - [Functor](#functor-1)
   - [getApplicative](#getapplicative)
@@ -62,7 +63,7 @@ Map a pair of functions over the two type arguments of the bifunctor.
 **Signature**
 
 ```ts
-export declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fea: Const<E, A>) => Const<G, B>
+export declare const bimap: <W, X, A, B>(f: (w: W) => X, g: (a: A) => B) => (fea: Const<W, A>) => Const<X, B>
 ```
 
 Added in v3.0.0
@@ -74,7 +75,7 @@ Map a function over the first type argument of a bifunctor.
 **Signature**
 
 ```ts
-export declare const mapLeft: <E, G>(f: (e: E) => G) => <A>(fea: Const<E, A>) => Const<G, A>
+export declare const mapLeft: <W, G>(f: (w: W) => G) => <A>(fea: Const<W, A>) => Const<G, A>
 ```
 
 Added in v3.0.0
@@ -86,7 +87,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const contramap: <B, A>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>
+export declare const contramap: <B, A>(f: (b: B) => A) => <W>(fa: Const<W, A>) => Const<W, B>
 ```
 
 Added in v3.0.0
@@ -101,7 +102,45 @@ use the type constructor `F` to represent some computational context.
 **Signature**
 
 ```ts
-export declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>
+export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Const<W, A>) => Const<W, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ConstF (interface)
+
+**Signature**
+
+```ts
+export interface ConstF extends HKT {
+  readonly type: Const<this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ConstFContravariant (interface)
+
+**Signature**
+
+```ts
+export interface ConstFContravariant extends HKT {
+  readonly type: Const<this['Covariant1'], this['Contravariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ConstFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface ConstFFixedW<W> extends HKT {
+  readonly type: Const<W, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -115,7 +154,7 @@ Derivable from `Functor`.
 **Signature**
 
 ```ts
-export declare const flap: <A>(a: A) => <E, B>(fab: Const<E, (a: A) => B>) => Const<E, B>
+export declare const flap: <A>(a: A) => <W, B>(fab: Const<W, (a: A) => B>) => Const<W, B>
 ```
 
 Added in v3.0.0
@@ -127,7 +166,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const make: <E, A = never>(e: E) => Const<E, A>
+export declare const make: <W, A = never>(w: W) => Const<W, A>
 ```
 
 Added in v3.0.0
@@ -144,48 +183,12 @@ export declare const Bifunctor: Bifunctor_<ConstF>
 
 Added in v3.0.0
 
-## ConstF (interface)
-
-**Signature**
-
-```ts
-export interface ConstF extends HKT {
-  readonly type: Const<this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ConstFE (interface)
-
-**Signature**
-
-```ts
-export interface ConstFE<E> extends HKT {
-  readonly type: Const<E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ConstFR (interface)
-
-**Signature**
-
-```ts
-export interface ConstFR extends HKT {
-  readonly type: Const<this['Covariant1'], this['Contravariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## Contravariant
 
 **Signature**
 
 ```ts
-export declare const Contravariant: Contravariant_<ConstFR>
+export declare const Contravariant: Contravariant_<ConstFContravariant>
 ```
 
 Added in v3.0.0
@@ -205,7 +208,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(M: Monoid<E>) => Applicative<ConstFE<E>>
+export declare const getApplicative: <W>(M: Monoid<W>) => Applicative<ConstFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -215,7 +218,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <E>(S: Semigroup<E>) => Apply<ConstFE<E>>
+export declare const getApply: <W>(S: Semigroup<W>) => Apply<ConstFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -225,7 +228,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getBooleanAlgebra: <E, A>(H: BooleanAlgebra<E>) => BooleanAlgebra<Const<E, A>>
+export declare const getBooleanAlgebra: <W, A = never>(H: BooleanAlgebra<W>) => BooleanAlgebra<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -235,7 +238,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getBounded: <E, A>(B: Bounded<E>) => Bounded<Const<E, A>>
+export declare const getBounded: <W, A = never>(B: Bounded<W>) => Bounded<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -245,7 +248,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>>
+export declare const getEq: <W, A = never>(E: Eq<W>) => Eq<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -255,7 +258,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getHeytingAlgebra: <E, A>(H: HeytingAlgebra<E>) => HeytingAlgebra<Const<E, A>>
+export declare const getHeytingAlgebra: <W, A = never>(H: HeytingAlgebra<W>) => HeytingAlgebra<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -265,7 +268,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonoid: <E, A>(M: Monoid<E>) => Monoid<Const<E, A>>
+export declare const getMonoid: <W, A = never>(M: Monoid<W>) => Monoid<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -275,7 +278,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getOrd: <E, A>(O: Ord<E>) => Ord<Const<E, A>>
+export declare const getOrd: <W, A = never>(O: Ord<W>) => Ord<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -285,7 +288,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getRing: <E, A>(S: Ring<E>) => Ring<Const<E, A>>
+export declare const getRing: <W, A = never>(S: Ring<W>) => Ring<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -295,7 +298,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemigroup: <E, A>(S: Semigroup<E>) => Semigroup<Const<E, A>>
+export declare const getSemigroup: <W, A = never>(S: Semigroup<W>) => Semigroup<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -305,7 +308,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getSemiring: <E, A>(S: Semiring<E>) => Semiring<Const<E, A>>
+export declare const getSemiring: <W, A = never>(S: Semiring<W>) => Semiring<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -315,7 +318,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getShow: <E, A>(S: Show<E>) => Show<Const<E, A>>
+export declare const getShow: <W, A = never>(S: Show<W>) => Show<Const<W, A>>
 ```
 
 Added in v3.0.0
@@ -327,7 +330,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export type Const<E, A> = E & { readonly _A: A }
+export type Const<W, A> = W & { readonly _A: A }
 ```
 
 Added in v3.0.0

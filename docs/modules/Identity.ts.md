@@ -30,6 +30,8 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [IdentityF (interface)](#identityf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -49,7 +51,6 @@ Added in v3.0.0
   - [Comonad](#comonad)
   - [Foldable](#foldable-1)
   - [Functor](#functor-1)
-  - [IdentityF (interface)](#identityf-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable)
@@ -192,6 +193,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: A) => B
+```
+
+Added in v3.0.0
+
+# HKT
+
+## IdentityF (interface)
+
+**Signature**
+
+```ts
+export interface IdentityF extends HKT {
+  readonly type: Identity<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -369,18 +384,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor_<IdentityF>
-```
-
-Added in v3.0.0
-
-## IdentityF (interface)
-
-**Signature**
-
-```ts
-export interface IdentityF extends HKT {
-  readonly type: Identity<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

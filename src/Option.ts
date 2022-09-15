@@ -622,16 +622,20 @@ export const traverse: <F extends HKT>(
 ) => (f) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface OptionF extends HKT {
   readonly type: Option<this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

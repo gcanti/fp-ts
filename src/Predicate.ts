@@ -30,16 +30,20 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Predicate<A>) => Predicat
   flow(f, predicate)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface PredicateF extends HKT {
   readonly type: Predicate<this['Contravariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

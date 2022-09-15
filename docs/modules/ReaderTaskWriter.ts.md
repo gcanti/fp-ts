@@ -12,6 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [HKT](#hkt)
+  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
+  - [ReaderTaskWriterFFixedW (interface)](#readertaskwriterffixedw-interface)
 - [combinators](#combinators)
   - [flap](#flap)
   - [fromReaderWriterK](#fromreaderwriterk)
@@ -30,8 +33,6 @@ Added in v3.0.0
   - [Bifunctor](#bifunctor)
   - [FromWriter](#fromwriter)
   - [Functor](#functor)
-  - [ReaderTaskWriterF (interface)](#readertaskwriterf-interface)
-  - [ReaderTaskWriterFE (interface)](#readertaskwriterfe-interface)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -66,6 +67,32 @@ Added in v3.0.0
   - [tupled](#tupled)
 
 ---
+
+# HKT
+
+## ReaderTaskWriterF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterF extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderTaskWriterFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskWriterFFixedW<W> extends HKT {
+  readonly type: ReaderTaskWriter<this['Contravariant1'], W, this['Covariant1']>
+}
+```
+
+Added in v3.0.0
 
 # combinators
 
@@ -240,36 +267,15 @@ export declare const Functor: Functor_<ReaderTaskWriterF>
 
 Added in v3.0.0
 
-## ReaderTaskWriterF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterF extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderTaskWriterFE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskWriterFE<E> extends HKT {
-  readonly type: ReaderTaskWriter<this['Contravariant1'], E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getApplicative
 
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => Applicative<ReaderTaskWriterFE<W>>
+export declare const getApplicative: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => Applicative<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -279,7 +285,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApply: <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => Apply<ReaderTaskWriterFE<W>>
+export declare const getApply: <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => Apply<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -289,7 +295,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getChain: <W>(S: Semigroup<W>) => Chain<ReaderTaskWriterFE<W>>
+export declare const getChain: <W>(S: Semigroup<W>) => Chain<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -299,7 +305,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFE<W>>
+export declare const getFromIO: <W>(M: Monoid<W>) => FromIO<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -309,7 +315,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFE<W>>
+export declare const getFromReader: <W>(M: Monoid<W>) => FromReader<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -319,7 +325,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFE<W>>
+export declare const getFromTask: <W>(M: Monoid<W>) => FromTask<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -329,7 +335,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterFE<W>>
+export declare const getMonad: <W>(M: Monoid<W>) => Monad<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -339,7 +345,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFE<W>>
+export declare const getPointed: <W>(M: Monoid<W>) => Pointed<ReaderTaskWriterFFixedW<W>>
 ```
 
 Added in v3.0.0

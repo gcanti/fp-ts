@@ -32,6 +32,8 @@ Added in v3.0.0
   - [chainRec](#chainrec)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [IOF (interface)](#iof-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -48,7 +50,6 @@ Added in v3.0.0
   - [ChainRec](#chainrec-1)
   - [FromIO](#fromio)
   - [Functor](#functor-1)
-  - [IOF (interface)](#iof-interface)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
 - [model](#model)
@@ -118,6 +119,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: IO<A>) => IO<B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## IOF (interface)
+
+**Signature**
+
+```ts
+export interface IOF extends HKT {
+  readonly type: IO<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -263,18 +278,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Functor: Functor_<IOF>
-```
-
-Added in v3.0.0
-
-## IOF (interface)
-
-**Signature**
-
-```ts
-export interface IOF extends HKT {
-  readonly type: IO<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

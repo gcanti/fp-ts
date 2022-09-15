@@ -126,16 +126,20 @@ export const contramap: <B, A>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B> = (f) =
   fromCompare((second) => (first) => fa.compare(f(second))(f(first)))
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface OrdF extends HKT {
   readonly type: Ord<this['Contravariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * Returns a `Semigroup` such that:

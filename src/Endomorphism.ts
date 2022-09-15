@@ -19,16 +19,20 @@ export interface Endomorphism<A> {
 }
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface EndomorphismF extends HKT {
   readonly type: Endomorphism<this['Invariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * Endomorphism form a `Semigroup` where the `concat` operation is the usual function composition.

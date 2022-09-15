@@ -18,6 +18,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ReaderTaskF (interface)](#readertaskf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -53,7 +55,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [ReaderTaskF (interface)](#readertaskf-interface)
 - [model](#model)
   - [ReaderTask (interface)](#readertask-interface)
 - [natural transformations](#natural-transformations)
@@ -119,6 +120,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R>(fa: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReaderTaskF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskF extends HKT {
+  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -465,18 +480,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<ReaderTaskF>
-```
-
-Added in v3.0.0
-
-## ReaderTaskF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderTaskF extends HKT {
-  readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

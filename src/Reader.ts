@@ -166,16 +166,20 @@ export const second: <B, C, A>(pab: Reader<B, C>) => Reader<readonly [A, B], rea
 ]
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReaderF extends HKT {
   readonly type: Reader<this['Contravariant1'], this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

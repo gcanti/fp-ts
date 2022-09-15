@@ -143,16 +143,20 @@ export const flatten: <R1, R2, A>(
 ) => ReaderTask<R1 & R2, A> = /*#__PURE__*/ chain(identity)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReaderTaskF extends HKT {
   readonly type: ReaderTask<this['Contravariant1'], this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

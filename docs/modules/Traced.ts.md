@@ -14,12 +14,13 @@ Added in v3.0.0
 
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [TracedF (interface)](#tracedf-interface)
+  - [TracedFFixedW (interface)](#tracedffixedw-interface)
 - [combinators](#combinators)
   - [flap](#flap)
 - [instances](#instances)
   - [Functor](#functor-1)
-  - [TracedF (interface)](#tracedf-interface)
-  - [TracedFE (interface)](#tracedfe-interface)
   - [getComonad](#getcomonad)
 - [model](#model)
   - [Traced (interface)](#traced-interface)
@@ -42,6 +43,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <W>(fa: Traced<W, A>) => Traced<W, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## TracedF (interface)
+
+**Signature**
+
+```ts
+export interface TracedF extends HKT {
+  readonly type: Traced<this['Invariant1'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## TracedFFixedW (interface)
+
+**Signature**
+
+```ts
+export interface TracedFFixedW<W> extends HKT {
+  readonly type: Traced<W, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -72,36 +99,12 @@ export declare const Functor: Functor_<TracedF>
 
 Added in v3.0.0
 
-## TracedF (interface)
-
-**Signature**
-
-```ts
-export interface TracedF extends HKT {
-  readonly type: Traced<this['Invariant1'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## TracedFE (interface)
-
-**Signature**
-
-```ts
-export interface TracedFE<P> extends HKT {
-  readonly type: Traced<P, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getComonad
 
 **Signature**
 
 ```ts
-export declare const getComonad: <W>(monoid: Monoid<W>) => Comonad<TracedFE<W>>
+export declare const getComonad: <W>(monoid: Monoid<W>) => Comonad<TracedFFixedW<W>>
 ```
 
 Added in v3.0.0

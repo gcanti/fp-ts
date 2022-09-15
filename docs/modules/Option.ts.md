@@ -43,6 +43,8 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [OptionF (interface)](#optionf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
@@ -91,7 +93,6 @@ Added in v3.0.0
   - [FromEither](#fromeither)
   - [Functor](#functor-1)
   - [Monad](#monad)
-  - [OptionF (interface)](#optionf-interface)
   - [Pointed](#pointed-1)
   - [Traversable](#traversable-1)
   - [Witherable](#witherable-1)
@@ -287,6 +288,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## OptionF (interface)
+
+**Signature**
+
+```ts
+export interface OptionF extends HKT {
+  readonly type: Option<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -881,18 +896,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Monad: Monad_<OptionF>
-```
-
-Added in v3.0.0
-
-## OptionF (interface)
-
-**Signature**
-
-```ts
-export interface OptionF extends HKT {
-  readonly type: Option<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

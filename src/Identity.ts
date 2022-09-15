@@ -136,16 +136,20 @@ export const alt: <B>(second: () => Identity<B>) => <A>(first: Identity<A>) => I
 export const chainRec: <A, B>(f: (a: A) => Identity<Either<A, B>>) => (a: A) => B = tailRec
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface IdentityF extends HKT {
   readonly type: Identity<this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

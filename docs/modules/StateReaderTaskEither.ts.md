@@ -23,6 +23,8 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -90,7 +92,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [StateReaderTaskEitherF (interface)](#statereadertaskeitherf-interface)
 - [model](#model)
   - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [natural transformations](#natural-transformations)
@@ -210,6 +211,25 @@ use the type constructor `F` to represent some computational context.
 export declare const map: <A, B>(
   f: (a: A) => B
 ) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## StateReaderTaskEitherF (interface)
+
+**Signature**
+
+```ts
+export interface StateReaderTaskEitherF extends HKT {
+  readonly type: StateReaderTaskEither<
+    this['Invariant1'],
+    this['Contravariant1'],
+    this['Covariant2'],
+    this['Covariant1']
+  >
+}
 ```
 
 Added in v3.0.0
@@ -952,23 +972,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<StateReaderTaskEitherF>
-```
-
-Added in v3.0.0
-
-## StateReaderTaskEitherF (interface)
-
-**Signature**
-
-```ts
-export interface StateReaderTaskEitherF extends HKT {
-  readonly type: StateReaderTaskEither<
-    this['Invariant1'],
-    this['Contravariant1'],
-    this['Covariant2'],
-    this['Covariant1']
-  >
-}
 ```
 
 Added in v3.0.0

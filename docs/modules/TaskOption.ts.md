@@ -28,6 +28,8 @@ Added in v3.0.0
   - [partitionMap](#partitionmap)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [TaskOptionF (interface)](#taskoptionf-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [Zero](#zero)
@@ -78,7 +80,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [TaskOptionF (interface)](#taskoptionf-interface)
   - [Zero](#zero-1)
 - [interop](#interop)
   - [chainNullableK](#chainnullablek)
@@ -231,6 +232,20 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => (fa: TaskOption<A>) => TaskOption<B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## TaskOptionF (interface)
+
+**Signature**
+
+```ts
+export interface TaskOptionF extends HKT {
+  readonly type: TaskOption<this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -709,18 +724,6 @@ Added in v3.0.0
 
 ```ts
 export declare const Pointed: Pointed_<TaskOptionF>
-```
-
-Added in v3.0.0
-
-## TaskOptionF (interface)
-
-**Signature**
-
-```ts
-export interface TaskOptionF extends HKT {
-  readonly type: TaskOption<this['Covariant1']>
-}
 ```
 
 Added in v3.0.0

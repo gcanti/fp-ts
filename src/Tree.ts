@@ -296,16 +296,20 @@ export const traverse: <F extends HKT>(
 export const of: <A>(a: A) => Tree<A> = (a) => tree(a)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface TreeF extends HKT {
   readonly type: Tree<this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

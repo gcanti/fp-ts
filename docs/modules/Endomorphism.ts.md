@@ -12,8 +12,9 @@ Added in v3.0.0
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [instances](#instances)
+- [HKT](#hkt)
   - [EndomorphismF (interface)](#endomorphismf-interface)
+- [instances](#instances)
   - [getMonoid](#getmonoid)
   - [getSemigroup](#getsemigroup)
 - [utils](#utils)
@@ -21,7 +22,7 @@ Added in v3.0.0
 
 ---
 
-# instances
+# HKT
 
 ## EndomorphismF (interface)
 
@@ -34,6 +35,8 @@ export interface EndomorphismF extends HKT {
 ```
 
 Added in v3.0.0
+
+# instances
 
 ## getMonoid
 

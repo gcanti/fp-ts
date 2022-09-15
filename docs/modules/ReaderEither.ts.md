@@ -23,6 +23,9 @@ Added in v3.0.0
   - [chain](#chain)
 - [Functor](#functor)
   - [map](#map)
+- [HKT](#hkt)
+  - [ReaderEitherF (interface)](#readereitherf-interface)
+  - [ReaderEitherFFixedE (interface)](#readereitherffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
 - [combinators](#combinators)
@@ -71,8 +74,6 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [ReaderEitherF (interface)](#readereitherf-interface)
-  - [ReaderEitherFE (interface)](#readereitherfe-interface)
   - [getAltReaderValidation](#getaltreadervalidation)
   - [getApplicativeReaderValidation](#getapplicativereadervalidation)
   - [getCompactable](#getcompactable)
@@ -189,6 +190,32 @@ use the type constructor `F` to represent some computational context.
 
 ```ts
 export declare const map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+```
+
+Added in v3.0.0
+
+# HKT
+
+## ReaderEitherF (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEitherF extends HKT {
+  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
+}
+```
+
+Added in v3.0.0
+
+## ReaderEitherFFixedE (interface)
+
+**Signature**
+
+```ts
+export interface ReaderEitherFFixedE<E> extends HKT {
+  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
+}
 ```
 
 Added in v3.0.0
@@ -705,30 +732,6 @@ export declare const Pointed: Pointed_<ReaderEitherF>
 
 Added in v3.0.0
 
-## ReaderEitherF (interface)
-
-**Signature**
-
-```ts
-export interface ReaderEitherF extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], this['Covariant2'], this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
-## ReaderEitherFE (interface)
-
-**Signature**
-
-```ts
-export interface ReaderEitherFE<E> extends HKT {
-  readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
-}
-```
-
-Added in v3.0.0
-
 ## getAltReaderValidation
 
 The default [`Alt`](#alt) instance returns the last error, if you want to
@@ -739,7 +742,7 @@ See [`getAltValidation`](./Either.ts.html#getaltvalidation).
 **Signature**
 
 ```ts
-export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt_<ReaderEitherFE<E>>
+export declare const getAltReaderValidation: <E>(S: Semigroup<E>) => Alt_<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -754,7 +757,7 @@ See [`getApplicativeValidation`](./Either.ts.html#getapplicativevalidation).
 **Signature**
 
 ```ts
-export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative_<ReaderEitherFE<E>>
+export declare const getApplicativeReaderValidation: <E>(S: Semigroup<E>) => Applicative_<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -764,7 +767,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<ReaderEitherFE<E>>
+export declare const getCompactable: <E>(M: Monoid<E>) => Compactable<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -774,7 +777,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<ReaderEitherFE<E>>
+export declare const getFilterable: <E>(M: Monoid<E>) => Filterable<ReaderEitherFFixedE<E>>
 ```
 
 Added in v3.0.0

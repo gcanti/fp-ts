@@ -53,16 +53,20 @@ export const mapLeft: <E, G>(
 ) => <A>(fea: Separated<E, A>) => Separated<G, A> = /*#__PURE__*/ mapLeftDefault<SeparatedF>(bimap)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface SeparatedF extends HKT {
   readonly type: Separated<this['Covariant2'], this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * @category instances

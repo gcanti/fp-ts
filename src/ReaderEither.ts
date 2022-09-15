@@ -292,11 +292,11 @@ export const alt: <R2, E2, B>(
 ) => <R1, E1, A>(first: ReaderEither<R1, E1, A>) => ReaderEither<R1 & R2, E2, A | B> = /*#__PURE__*/ ET.alt(R.Monad)
 
 // -------------------------------------------------------------------------------------
-// instances
+// HKT
 // -------------------------------------------------------------------------------------
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
 export interface ReaderEitherF extends HKT {
@@ -304,12 +304,16 @@ export interface ReaderEitherF extends HKT {
 }
 
 /**
- * @category instances
+ * @category HKT
  * @since 3.0.0
  */
-export interface ReaderEitherFE<E> extends HKT {
+export interface ReaderEitherFFixedE<E> extends HKT {
   readonly type: ReaderEither<this['Contravariant1'], E, this['Covariant1']>
 }
+
+// -------------------------------------------------------------------------------------
+// instances
+// -------------------------------------------------------------------------------------
 
 /**
  * The default [`Applicative`](#applicative) instance returns the first error, if you want to
@@ -320,7 +324,7 @@ export interface ReaderEitherFE<E> extends HKT {
  * @category instances
  * @since 3.0.0
  */
-export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative_<ReaderEitherFE<E>> => ({
+export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative_<ReaderEitherFFixedE<E>> => ({
   map,
   ap: ap_(R.Apply, E.getApplicativeValidation(S)),
   of
@@ -335,7 +339,7 @@ export const getApplicativeReaderValidation = <E>(S: Semigroup<E>): Applicative_
  * @category instances
  * @since 3.0.0
  */
-export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt_<ReaderEitherFE<E>> => {
+export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt_<ReaderEitherFFixedE<E>> => {
   return {
     map,
     alt: ET.altValidation(R.Monad, S)
@@ -346,9 +350,9 @@ export const getAltReaderValidation = <E>(S: Semigroup<E>): Alt_<ReaderEitherFE<
  * @category instances
  * @since 3.0.0
  */
-export const getCompactable = <E>(M: Monoid<E>): Compactable<ReaderEitherFE<E>> => {
+export const getCompactable = <E>(M: Monoid<E>): Compactable<ReaderEitherFFixedE<E>> => {
   const C = E.getCompactable(M)
-  const F: Functor_<E.EitherFLeft<E>> = { map: E.map }
+  const F: Functor_<E.EitherFFixedE<E>> = { map: E.map }
   return {
     compact: compact_(R.Functor, C),
     separate: separate_(R.Functor, C, F)
@@ -359,7 +363,7 @@ export const getCompactable = <E>(M: Monoid<E>): Compactable<ReaderEitherFE<E>> 
  * @category instances
  * @since 3.0.0
  */
-export const getFilterable = <E>(M: Monoid<E>): Filterable<ReaderEitherFE<E>> => {
+export const getFilterable = <E>(M: Monoid<E>): Filterable<ReaderEitherFFixedE<E>> => {
   const F = E.getFilterable(M)
   return {
     filter: filter(R.Functor, F),
