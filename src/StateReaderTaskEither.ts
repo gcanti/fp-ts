@@ -891,7 +891,7 @@ export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
 ) => <S, R2, E = never>(
   ma: StateReaderTaskEither<S, R2, E, A>
-) => StateReaderTaskEither<S, R2, E, A> = chainFirstReaderK as any
+) => StateReaderTaskEither<S, R1 & R2, E, A> = chainFirstReaderK as any
 
 /**
  * @category instances

@@ -519,7 +519,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R2, E, A>
+) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```
 
 Added in v2.11.0
