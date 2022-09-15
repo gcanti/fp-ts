@@ -503,7 +503,7 @@ Added in v2.10.0
 ```ts
 export declare const chainFirstReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.11.0
@@ -519,7 +519,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -613,7 +613,7 @@ Added in v2.10.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <S, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.11.0
@@ -629,7 +629,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <S, R2, E = never>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -667,7 +667,7 @@ Added in v2.6.1
 ```ts
 export declare const chainStateK: <A, S, B>(
   f: (a: A) => State<S, B>
-) => <R, E = never>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.11.0
@@ -1000,7 +1000,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
+export declare const left: <S, R, E, A = never>(e: E) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1010,7 +1010,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftIO<S, R, E, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1020,7 +1020,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftReader<S, R, E, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1030,7 +1030,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
+export declare const leftState: <S, R, E, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1040,7 +1040,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A>
+export declare function leftTask<S, R, E, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
