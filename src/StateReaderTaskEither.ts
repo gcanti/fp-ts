@@ -91,7 +91,7 @@ export interface StateReaderTaskEither<S, R, E, A> {
  * @category constructors
  * @since 2.0.0
  */
-export const left: <S, R, E = never, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
+export const left: <S, R, E, A = never>(e: E) => StateReaderTaskEither<S, R, E, A> = (e) => () => RTE.left(e)
 
 /**
  * @category constructors
@@ -113,7 +113,7 @@ export function rightTask<S, R, E = never, A = never>(ma: Task<A>): StateReaderT
  * @category constructors
  * @since 2.0.0
  */
-export function leftTask<S, R, E = never, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> {
+export function leftTask<S, R, E, A = never>(me: Task<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftTask(me))
 }
 
@@ -129,7 +129,7 @@ export function rightReader<S, R, E = never, A = never>(ma: Reader<R, A>): State
  * @category constructors
  * @since 2.0.0
  */
-export function leftReader<S, R, E = never, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
+export function leftReader<S, R, E, A = never>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftReader(me))
 }
 
@@ -145,7 +145,7 @@ export function rightIO<S, R, E = never, A = never>(ma: IO<A>): StateReaderTaskE
  * @category constructors
  * @since 2.0.0
  */
-export function leftIO<S, R, E = never, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> {
+export function leftIO<S, R, E, A = never>(me: IO<E>): StateReaderTaskEither<S, R, E, A> {
   return fromReaderTaskEither(RTE.leftIO(me))
 }
 
@@ -160,9 +160,8 @@ export const rightState: <S, R, E = never, A = never>(ma: State<S, A>) => StateR
  * @category constructors
  * @since 2.0.0
  */
-export const leftState: <S, R, E = never, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (
-  s
-) => RTE.left(me(s)[0])
+export const leftState: <S, R, E, A = never>(me: State<S, E>) => StateReaderTaskEither<S, R, E, A> = (me) => (s) =>
+  RTE.left(me(s)[0])
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -705,9 +704,10 @@ export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
  */
 export const chainStateK: <A, S, B>(
   f: (a: A) => State<S, B>
-) => <R, E = never>(
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainStateK_(FromState, Chain)
+) => <R, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainStateK_(
+  FromState,
+  Chain
+)
 
 /**
  * @category instances
@@ -851,9 +851,10 @@ export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
  */
 export const chainReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E = never>(
-  ma: StateReaderTaskEither<S, R, E, A>
-) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+) => <S, E>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainReaderK_(
+  FromReader,
+  Chain
+)
 
 /**
  * Less strict version of [`chainReaderK`](#chainReaderK).
@@ -865,9 +866,7 @@ export const chainReaderK: <A, R, B>(
  */
 export const chainReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <S, R2, E = never>(
-  ma: StateReaderTaskEither<S, R2, E, A>
-) => StateReaderTaskEither<S, R1 & R2, E, B> = chainReaderK as any
+) => <S, R2, E>(ma: StateReaderTaskEither<S, R2, E, A>) => StateReaderTaskEither<S, R1 & R2, E, B> = chainReaderK as any
 
 /**
  * @category combinators
@@ -875,7 +874,7 @@ export const chainReaderKW: <A, R1, B>(
  */
 export const chainFirstReaderK: <A, R, B>(
   f: (a: A) => Reader<R, B>
-) => <S, E = never>(
+) => <S, E>(
   ma: StateReaderTaskEither<S, R, E, A>
 ) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
@@ -889,7 +888,7 @@ export const chainFirstReaderK: <A, R, B>(
  */
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => Reader<R1, B>
-) => <S, R2, E = never>(
+) => <S, R2, E>(
   ma: StateReaderTaskEither<S, R2, E, A>
 ) => StateReaderTaskEither<S, R1 & R2, E, A> = chainFirstReaderK as any
 
