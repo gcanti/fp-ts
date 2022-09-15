@@ -66,6 +66,7 @@ import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
 import { ReaderEither, URI as REURI } from './ReaderEither'
+import * as RIO from './ReaderIO'
 import * as RT from './ReaderTask'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
@@ -77,6 +78,7 @@ import Either = E.Either
 import Task = T.Task
 import TaskEither = TE.TaskEither
 import Reader = R.Reader
+import ReaderIO = RIO.ReaderIO
 import ReaderTask = RT.ReaderTask
 
 // -------------------------------------------------------------------------------------
@@ -178,6 +180,22 @@ export const leftIO: <R, E = never, A = never>(me: IO<E>) => ReaderTaskEither<R,
   TE.leftIO,
   fromTaskEither
 )
+
+/**
+ * @category constructors
+ * @since 2.13.0
+ */
+export const rightReaderIO: <R, E = never, A = never>(ma: ReaderIO<R, A>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ (
+  ma
+) => flow(ma, TE.rightIO)
+
+/**
+ * @category constructors
+ * @since 2.13.0
+ */
+export const leftReaderIO: <R, E = never, A = never>(me: ReaderIO<R, E>) => ReaderTaskEither<R, E, A> = /*#__PURE__*/ (
+  me
+) => flow(me, TE.leftIO)
 
 // -------------------------------------------------------------------------------------
 // natural transformations
@@ -1179,6 +1197,52 @@ export const chainFirstReaderTaskKW: <A, R2, B>(
 export const chainFirstReaderTaskK: <A, R, B>(
   f: (a: A) => RT.ReaderTask<R, B>
 ) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderTaskKW
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => ReaderIO<R, B>
+): (<E = never>(...a: A) => ReaderTaskEither<R, E, B>) => (...a) => rightReaderIO(f(...a))
+
+/**
+ * Less strict version of [`chainReaderIOK`](#chainreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B> = (f) =>
+  chainW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B> = chainReaderIOKW
+
+/**
+ * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A> = (f) =>
+  chainFirstW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A> = chainFirstReaderIOKW
 
 /**
  * @category instances
