@@ -34,6 +34,7 @@ import { MonadTask2 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
+import * as RIO from './ReaderIO'
 import * as RT from './ReaderT'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
@@ -43,6 +44,7 @@ import * as T from './Task'
 // model
 // -------------------------------------------------------------------------------------
 
+import ReaderIO = RIO.ReaderIO
 import Task = T.Task
 
 /**
@@ -74,6 +76,12 @@ export const fromTask: FromTask2<URI>['fromTask'] = /*#__PURE__*/ R.of
  * @since 2.3.0
  */
 export const fromIO: FromIO2<URI>['fromIO'] = /*#__PURE__*/ flow(T.fromIO, fromTask)
+
+/**
+ * @category natural transformations
+ * @since 2.13.0
+ */
+export const fromReaderIO: <R, A>(fa: ReaderIO<R, A>) => ReaderTask<R, A> = R.map(T.fromIO)
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -486,6 +494,50 @@ export const chainFirstReaderK = /*#__PURE__*/ chainFirstReaderK_(FromReader, Ch
 export const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
 ) => <R2>(ma: ReaderTask<R2, A>) => ReaderTask<R1 & R2, A> = chainFirstReaderK as any
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const fromReaderIOK = <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => ReaderIO<R, B>
+): ((...a: A) => ReaderTask<R, B>) => (...a) => fromReaderIO(f(...a))
+
+/**
+ * Less strict version of [`chainReaderIOK`](#chainreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B> = (f) => chainW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = chainReaderIOKW
+
+/**
+ * Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+ *
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A> = (f) => chainFirstW(fromReaderIOK(f))
+
+/**
+ * @category combinators
+ * @since 2.13.0
+ */
+export const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = chainFirstReaderIOKW
 
 /**
  * @category instances
