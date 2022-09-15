@@ -2,6 +2,7 @@
  * @since 3.0.0
  */
 import type { Either, Left, Right } from './Either'
+import { Lazy } from './function'
 import type { NonEmptyArray } from './NonEmptyArray'
 import type { None, Option, Some } from './Option'
 import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -37,6 +38,10 @@ export const left = <E, A = never>(e: E): Either<E, A> => ({ _tag: 'Left', left:
 
 /** @internal */
 export const right = <A, E = never>(a: A): Either<E, A> => ({ _tag: 'Right', right: a })
+
+/** @internal */
+export const fromOption = <E>(onNone: Lazy<E>) => <A>(fa: Option<A>): Either<E, A> =>
+  isNone(fa) ? left(onNone()) : right(fa.value)
 
 // -------------------------------------------------------------------------------------
 // ReadonlyNonEmptyArray

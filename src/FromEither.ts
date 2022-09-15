@@ -35,7 +35,8 @@ export interface FromEither<F extends HKT> extends Typeclass<F> {
 export const fromOption = <F extends HKT>(F: FromEither<F>) => <E>(
   onNone: Lazy<E>
 ): (<A, S, R = unknown, W = never>(fa: Option<A>) => Kind<F, S, R, W, E, A>) => {
-  return (ma) => F.fromEither(_.isNone(ma) ? _.left(onNone()) : _.right(ma.value))
+  const fromOption = _.fromOption(onNone)
+  return (ma) => F.fromEither(fromOption(ma))
 }
 
 /**

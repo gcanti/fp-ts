@@ -3,12 +3,13 @@
  *
  * @since 3.0.0
  */
-import { Either, fromOption } from './Either'
+import type { Either } from './Either'
 import { constVoid, flow, pipe } from './function'
 import { Functor, map } from './Functor'
 import type { HKT, Kind, Typeclass } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 import { right, Separated, separated } from './Separated'
+import * as _ from './internal'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -38,7 +39,7 @@ export interface Compactable<F extends HKT> extends Typeclass<F> {
 export const compactDefault = <F extends HKT>(F: Functor<F>) => (
   separate: Compactable<F>['separate']
 ): Compactable<F>['compact'] => {
-  return flow(F.map(fromOption(constVoid)), separate, right)
+  return flow(F.map(_.fromOption(constVoid)), separate, right)
 }
 
 /**
