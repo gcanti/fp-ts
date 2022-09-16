@@ -765,19 +765,25 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => I.IO<B>
+) => <E = never>(...a: A) => IOEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <E>(first: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <E>(first: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -800,13 +806,22 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => IOEither<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
+export const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: IOEither<E, A>) => IOEither<E, B> = /*#__PURE__*/ chainOptionK_(
+  FromEither,
+  Chain
+)
 
 /**
  * @category combinators
@@ -832,7 +847,9 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: IOEither<E, A>) => IOEither<E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * The `W` suffix (short for **W**idening) means that the error types will be merged.

@@ -230,7 +230,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => ReaderIO<E, B>) => (first: ReaderIO<E, A>) => ReaderIO<E, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => ReaderIO<R, B>) => (first: ReaderIO<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v2.13.0
@@ -368,7 +368,9 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => ReaderIO<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <R = unknown>(...a: A) => ReaderIO<R, B>
 ```
 
 Added in v2.13.0
@@ -378,7 +380,9 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderIO<R, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B>
 ```
 
 Added in v2.13.0

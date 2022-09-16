@@ -386,7 +386,9 @@ export const MonadTask: MonadTask2<URI> = {
  * @category combinators
  * @since 2.3.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -415,19 +417,25 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -458,13 +466,17 @@ export const asks = /*#__PURE__*/ asks_(FromReader)
  * @category combinators
  * @since 2.11.0
  */
-export const fromReaderK = /*#__PURE__*/ fromReaderK_(FromReader)
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainReaderK = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
@@ -482,7 +494,9 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.11.0
  */
-export const chainFirstReaderK = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).
@@ -554,19 +568,25 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => T.Task<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation

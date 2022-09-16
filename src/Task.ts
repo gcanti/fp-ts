@@ -343,7 +343,7 @@ export const MonadIO: MonadIO1<URI> = {
  * @since 2.7.0
  * @deprecated
  */
-export const fromTask: FromTask1<URI>['fromTask'] = identity
+export const fromTask: <A>(fa: Task<A>) => Task<A> = identity
 
 /**
  * @category instances
@@ -368,7 +368,7 @@ export const MonadTask: MonadTask1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Task<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -383,19 +383,27 @@ export const FromIO: FromIO1<URI> = {
  * @category combinators
  * @since 2.4.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => (...a: A) => Task<B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.4.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<B> = /*#__PURE__*/ chainIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => (first: Task<A>) => Task<A> = /*#__PURE__*/ chainFirstIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category instances

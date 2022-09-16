@@ -303,7 +303,9 @@ export const MonadIO: MonadIO2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (first: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).
@@ -332,19 +334,25 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.13.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => I.IO<B>
+) => <R = unknown>(...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => <E>(first: ReaderIO<E, A>) => ReaderIO<E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -375,13 +383,17 @@ export const asks = /*#__PURE__*/ asks_(FromReader)
  * @category combinators
  * @since 2.13.0
  */
-export const fromReaderK = /*#__PURE__*/ fromReaderK_(FromReader)
+export const fromReaderK: <A extends ReadonlyArray<unknown>, R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderIO<R, B> = /*#__PURE__*/ fromReaderK_(FromReader)
 
 /**
  * @category combinators
  * @since 2.13.0
  */
-export const chainReaderK = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
+export const chainReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, B> = /*#__PURE__*/ chainReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainReaderK`](#chainreaderk).
@@ -399,7 +411,9 @@ export const chainReaderKW: <A, R1, B>(
  * @category combinators
  * @since 2.13.0
  */
-export const chainFirstReaderK = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
+export const chainFirstReaderK: <A, R, B>(
+  f: (a: A) => R.Reader<R, B>
+) => (ma: ReaderIO<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ chainFirstReaderK_(FromReader, Chain)
 
 /**
  * Less strict version of [`chainFirstReaderK`](#chainfirstreaderk).

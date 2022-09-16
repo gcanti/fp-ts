@@ -425,7 +425,9 @@ export const Monad: Monad2<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, R, B>(
+  f: (a: A) => Reader<R, B>
+) => (first: Reader<R, A>) => Reader<R, A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * Less strict version of [`chainFirst`](#chainfirst).

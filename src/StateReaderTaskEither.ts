@@ -270,7 +270,7 @@ export const asksStateReaderTaskEither: <R, S, E, A>(
  */
 export const fromIOEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => IOEither<E, B>
-): (<S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromIOEither(f(...a))
+): (<S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromIOEither(f(...a))
 
 /**
  * Less strict version of [`chainIOEitherK`](#chainioeitherk).
@@ -296,7 +296,7 @@ export const chainIOEitherK: <E, A, B>(
  */
 export const fromTaskEitherK = <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => TaskEither<E, B>
-): (<S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromTaskEither(f(...a))
+): (<S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>) => (...a) => fromTaskEither(f(...a))
 
 /**
  * Less strict version of [`chainTaskEitherK`](#chaintaskeitherk).
@@ -703,7 +703,7 @@ export const gets: <S, R, E = never, A = never>(
  */
 export const fromStateK: <A extends ReadonlyArray<unknown>, S, B>(
   f: (...a: A) => State<S, B>
-) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromStateK_(FromState)
+) => <R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromStateK_(FromState)
 
 /**
  * @category combinators
@@ -920,13 +920,24 @@ export const fromOption: <E>(
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
+export const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(
+  f: (a: A) => Option<B>
+) => <S, R>(ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainOptionK_(
+  FromEither,
+  Chain
+)
 
 /**
  * @category combinators
@@ -957,7 +968,11 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => <S, R>(
+  ma: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
@@ -978,11 +993,13 @@ export const chainFirstEitherKW: <A, E2, B>(
  * @since 2.4.4
  */
 export const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R = unknown>(
     a: A
   ) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(b: B) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R = unknown, B extends A = A>(
+    b: B
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, A>
 } = /*#__PURE__*/ fromPredicate_(FromEither)
 
 /**
@@ -1027,7 +1044,7 @@ export const filterOrElseW: {
  */
 export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
   f: (...a: A) => E.Either<E, B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category instances
@@ -1042,19 +1059,30 @@ export const FromIO: FromIO4<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(first: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <S, R, E>(
+  first: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -1070,19 +1098,29 @@ export const FromTask: FromTask4<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Task<B>
+) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(
+  f: (a: A) => Task<B>
+) => <S, R, E>(
+  first: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(
+  f: (a: A) => Task<B>
+) => <S, R, E>(
+  first: StateReaderTaskEither<S, R, E, A>
+) => StateReaderTaskEither<S, R, E, A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils

@@ -2132,7 +2132,9 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyArray<B>
+) => (first: ReadonlyArray<A>) => ReadonlyArray<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -2428,7 +2430,9 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => ReadonlyArray<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // unsafe

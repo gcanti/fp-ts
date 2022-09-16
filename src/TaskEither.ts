@@ -1053,13 +1053,22 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEithe
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainOptionK = /*#__PURE__*/ chainOptionK_(FromEither, Chain)
+export const chainOptionK: <E>(
+  onNone: Lazy<E>
+) => <A, B>(f: (a: A) => Option<B>) => (ma: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ chainOptionK_(
+  FromEither,
+  Chain
+)
 
 /**
  * @category combinators
@@ -1085,7 +1094,9 @@ export const chainEitherKW: <E2, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <A, E, B>(
+  f: (a: A) => E.Either<E, B>
+) => (ma: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * Less strict version of [`chainFirstEitherK`](#chainfirsteitherk).
@@ -1158,19 +1169,25 @@ export const FromIO: FromIO2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ chainIOK_(FromIO, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -1186,19 +1203,25 @@ export const FromTask: FromTask2<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => T.Task<B>
+) => <E = never>(...a: A) => TaskEither<E, B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => <E>(first: TaskEither<E, A>) => TaskEither<E, A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // utils

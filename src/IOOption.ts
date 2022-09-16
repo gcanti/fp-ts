@@ -476,7 +476,9 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => IOOption<B>
+) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -579,19 +581,26 @@ export const FromIO: FromIO1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => I.IO<B>
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => I.IO<B>) => (first: IOOption<A>) => IOOption<B> = /*#__PURE__*/ chainIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => I.IO<B>
+) => (first: IOOption<A>) => IOOption<A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -606,7 +615,9 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => IOOption<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
@@ -620,7 +631,9 @@ export const chainEitherK: <E, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: IOOption<A>) => IOOption<A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation

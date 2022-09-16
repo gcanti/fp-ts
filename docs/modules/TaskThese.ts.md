@@ -152,7 +152,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -164,7 +166,7 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -174,7 +176,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => TaskThese<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <E = never>(...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.10.0
@@ -184,7 +188,9 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTheseK: <A, E, B>(f: (...a: A) => TH.These<E, B>) => (...a: A) => TaskThese<E, B>
+export declare const fromTheseK: <A extends readonly unknown[], E, B>(
+  f: (...a: A) => TH.These<E, B>
+) => (...a: A) => TaskThese<E, B>
 ```
 
 Added in v2.11.0

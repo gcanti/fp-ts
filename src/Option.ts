@@ -953,7 +953,9 @@ export const flatten: <A>(mma: Option<Option<A>>) => Option<A> = compact
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => Option<B>) => (first: Option<A>) => Option<A> = /*#__PURE__*/ chainFirst_(
+  Chain
+)
 
 /**
  * Derivable from `Extend`.
@@ -967,19 +969,25 @@ export const duplicate: <A>(ma: Option<A>) => Option<Option<A>> = /*#__PURE__*/ 
  * @category combinators
  * @since 2.11.0
  */
-export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => Option<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
  * @since 2.11.0
  */
-export const chainEitherK = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
+export const chainEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: Option<A>) => Option<B> = /*#__PURE__*/ chainEitherK_(FromEither, Chain)
 
 /**
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: Option<A>) => Option<A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 // -------------------------------------------------------------------------------------
 // interop

@@ -1088,7 +1088,9 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.5.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => ReadonlyNonEmptyArray<B>
+) => (first: ReadonlyNonEmptyArray<A>) => ReadonlyNonEmptyArray<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances

@@ -555,7 +555,9 @@ export const Chain: Chain1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(
+  f: (a: A) => TaskOption<B>
+) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category instances
@@ -672,19 +674,26 @@ export const FromIO: FromIO1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromIOK = /*#__PURE__*/ fromIOK_(FromIO)
+export const fromIOK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => IO<B>
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromIOK_(FromIO)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainIOK = /*#__PURE__*/ chainIOK_(FromIO, Chain)
+export const chainIOK: <A, B>(f: (a: A) => IO<B>) => (first: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ chainIOK_(
+  FromIO,
+  Chain
+)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstIOK = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
+export const chainFirstIOK: <A, B>(
+  f: (a: A) => IO<B>
+) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ chainFirstIOK_(FromIO, Chain)
 
 /**
  * @category instances
@@ -699,7 +708,9 @@ export const FromEither: FromEither1<URI> = {
  * @category combinators
  * @since 2.12.0
  */
-export const fromEitherK = /*#__PURE__*/ fromEitherK_(FromEither)
+export const fromEitherK: <E, A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromEitherK_(FromEither)
 
 /**
  * @category combinators
@@ -713,7 +724,9 @@ export const chainEitherK: <E, A, B>(
  * @category combinators
  * @since 2.12.0
  */
-export const chainFirstEitherK = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
+export const chainFirstEitherK: <E, A, B>(
+  f: (a: A) => Either<E, B>
+) => (ma: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ chainFirstEitherK_(FromEither, Chain)
 
 /**
  * @category instances
@@ -729,19 +742,25 @@ export const FromTask: FromTask1<URI> = {
  * @category combinators
  * @since 2.10.0
  */
-export const fromTaskK = /*#__PURE__*/ fromTaskK_(FromTask)
+export const fromTaskK: <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => T.Task<B>
+) => (...a: A) => TaskOption<B> = /*#__PURE__*/ fromTaskK_(FromTask)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainTaskK = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
+export const chainTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => (first: TaskOption<A>) => TaskOption<B> = /*#__PURE__*/ chainTaskK_(FromTask, Chain)
 
 /**
  * @category combinators
  * @since 2.10.0
  */
-export const chainFirstTaskK = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
+export const chainFirstTaskK: <A, B>(
+  f: (a: A) => T.Task<B>
+) => (first: TaskOption<A>) => TaskOption<A> = /*#__PURE__*/ chainFirstTaskK_(FromTask, Chain)
 
 // -------------------------------------------------------------------------------------
 // do notation

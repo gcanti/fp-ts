@@ -562,7 +562,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => <E>(...a: A) => IOEither<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => I.IO<B>
+) => <E = never>(...a: A) => IOEither<E, B>
 ```
 
 Added in v2.10.0
@@ -574,7 +576,7 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => (...a: A) => IOEither<E, B>
 ```
 
 Added in v2.10.0

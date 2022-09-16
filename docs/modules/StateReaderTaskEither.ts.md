@@ -805,7 +805,7 @@ Added in v2.11.0
 ```ts
 export declare const fromEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => E.Either<E, B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
@@ -817,7 +817,7 @@ Added in v2.4.0
 ```ts
 export declare const fromIOEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => IOEither<E, B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
@@ -827,7 +827,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <S, R, E>(...a: A) => StateReaderTaskEither<S, R, E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.10.0
@@ -839,7 +841,9 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <A extends readonly unknown[], B>(
+  f: (...a: A) => Option<B>
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.10.0
@@ -875,7 +879,7 @@ Added in v2.4.0
 ```ts
 export declare const fromStateK: <A extends readonly unknown[], S, B>(
   f: (...a: A) => State<S, B>
-) => <R, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.11.0
@@ -887,7 +891,7 @@ Added in v2.11.0
 ```ts
 export declare const fromTaskEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => TaskEither<E, B>
-) => <S, R>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R = unknown>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.4.0
@@ -897,9 +901,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(
+export declare const fromTaskK: <A extends readonly unknown[], B>(
   f: (...a: A) => Task<B>
-) => <S, R, E>(...a: A) => StateReaderTaskEither<S, R, E, B>
+) => <S, R = unknown, E = never>(...a: A) => StateReaderTaskEither<S, R, E, B>
 ```
 
 Added in v2.10.0
@@ -951,11 +955,13 @@ Added in v2.11.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R = unknown>(
     a: A
   ) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R, B extends A>(b: B) => StateReaderTaskEither<S, R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => StateReaderTaskEither<S, R, E, A>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R = unknown, B extends A = A>(
+    b: B
+  ) => StateReaderTaskEither<S, R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R = unknown>(a: A) => StateReaderTaskEither<S, R, E, A>
 }
 ```
 

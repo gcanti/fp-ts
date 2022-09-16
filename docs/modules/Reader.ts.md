@@ -382,7 +382,7 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(f: (a: A) => Reader<E, B>) => (first: Reader<E, A>) => Reader<E, A>
+export declare const chainFirst: <A, R, B>(f: (a: A) => Reader<R, B>) => (first: Reader<R, A>) => Reader<R, A>
 ```
 
 Added in v2.0.0

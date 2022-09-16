@@ -1033,7 +1033,9 @@ Added in v2.5.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => readonly B[]
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => readonly B[]
 ```
 
 Added in v2.11.0

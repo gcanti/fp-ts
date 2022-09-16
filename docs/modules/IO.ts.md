@@ -203,7 +203,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'IO'>
+export declare const fromIO: <A>(fa: IO<A>) => IO<A>
 ```
 
 Added in v2.7.0

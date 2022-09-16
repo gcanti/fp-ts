@@ -220,14 +220,14 @@ export const Monad: Monad1<URI> = {
  * @category combinators
  * @since 2.0.0
  */
-export const chainFirst = /*#__PURE__*/ chainFirst_(Chain)
+export const chainFirst: <A, B>(f: (a: A) => IO<B>) => (first: IO<A>) => IO<A> = /*#__PURE__*/ chainFirst_(Chain)
 
 /**
  * @category constructors
  * @since 2.7.0
  * @deprecated
  */
-export const fromIO: FromIO1<URI>['fromIO'] = identity
+export const fromIO: <A>(fa: IO<A>) => IO<A> = identity
 
 /**
  * @category instances

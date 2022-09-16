@@ -467,7 +467,7 @@ Added in v2.12.0
 ```ts
 export declare const chainFirstReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -483,7 +483,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2, E = never>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
+) => <R2, E>(ma: ReaderEither<R2, E, A>) => ReaderEither<R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -525,7 +525,7 @@ Added in v2.10.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
+) => <E>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>
 ```
 
 Added in v2.11.0
@@ -541,7 +541,7 @@ The `W` suffix (short for **W**idening) means that the environment types will be
 ```ts
 export declare const chainReaderKW: <A, R2, B>(
   f: (a: A) => R.Reader<R2, B>
-) => <R1, E = never>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderEither<R1, E, A>) => ReaderEither<R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -635,7 +635,7 @@ Added in v2.11.0
 ```ts
 export declare const fromEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -647,7 +647,7 @@ Added in v2.4.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderEither<R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderEither<R, E, B>
 ```
 
 Added in v2.10.0
@@ -785,9 +785,9 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown, B extends A = A>(b: B) => ReaderEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderEither<R, E, A>
 }
 ```
 

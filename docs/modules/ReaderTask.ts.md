@@ -255,9 +255,9 @@ Derivable from `Chain`.
 **Signature**
 
 ```ts
-export declare const chainFirst: <A, E, B>(
-  f: (a: A) => ReaderTask<E, B>
-) => (first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirst: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -267,7 +267,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.10.0
@@ -331,7 +331,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, A>
+export declare const chainFirstTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.10.0
@@ -359,7 +359,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -421,7 +421,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <E>(first: ReaderTask<E, A>) => ReaderTask<E, B>
+export declare const chainTaskK: <A, B>(f: (a: A) => T.Task<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -469,7 +469,9 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
@@ -491,7 +493,9 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromReaderK: <A, R, B>(f: (...a: A) => R.Reader<R, B>) => (...a: A) => ReaderTask<R, B>
+export declare const fromReaderK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => R.Reader<R, B>
+) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.11.0
@@ -501,7 +505,9 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <E>(...a: A) => ReaderTask<E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R = unknown>(...a: A) => ReaderTask<R, B>
 ```
 
 Added in v2.4.0
