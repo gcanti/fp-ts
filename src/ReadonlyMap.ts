@@ -426,7 +426,7 @@ export const partitionMapWithIndex = <K, A, B, C>(f: (k: K, a: A) => Either<B, C
  * @since 3.0.0
  */
 export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
+  readonly type: ReadonlyMap<this['Invariant1'], this['Covariant1']>
 }
 
 /**
@@ -494,7 +494,7 @@ export const getMonoid = <K, A>(EK: Eq<K>, SA: Semigroup<A>): Monoid<ReadonlyMap
       }
       return r
     },
-    empty
+    empty: empty()
   }
 }
 
@@ -779,7 +779,7 @@ export const getUnionSemigroup = <K, A>(E: Eq<K>, S: Semigroup<A>): Semigroup<Re
  */
 export const getUnionMonoid = <K, A>(E: Eq<K>, S: Semigroup<A>): Monoid<ReadonlyMap<K, A>> => ({
   concat: getUnionSemigroup(E, S).concat,
-  empty
+  empty: empty()
 })
 
 /**
@@ -940,12 +940,14 @@ export const isSubmap = <K, A>(
   }
 }
 
+const empty_ = new Map<never, never>()
+
 /**
  * An empty `ReadonlyMap`.
  *
  * @since 3.0.0
  */
-export const empty: ReadonlyMap<never, never> = new Map<never, never>()
+export const empty: <K>() => ReadonlyMap<K, never> = () => empty_
 
 /**
  * Get a sorted `ReadonlyArray` of the key/value pairs contained in a `ReadonlyMap`.
@@ -1022,7 +1024,7 @@ export const intersection = <K, A>(
   const lookupE = lookup(E)
   return (second) => (first) => {
     if (isEmpty(first) || isEmpty(second)) {
-      return empty
+      return empty()
     }
     const out: Map<K, A> = new Map()
     const entries = first.entries()

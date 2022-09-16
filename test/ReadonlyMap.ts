@@ -216,7 +216,7 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(_.size(emptyMap), 0)
     U.deepStrictEqual(_.size(a1), 1)
 
-    U.deepStrictEqual(_.size(_.empty), 0)
+    U.deepStrictEqual(_.size(_.empty()), 0)
     U.deepStrictEqual(_.size(new Map()), 0)
     U.deepStrictEqual(_.size(new Map([['a', 1]])), 1)
   })
@@ -227,7 +227,7 @@ describe('ReadonlyMap', () => {
     U.deepStrictEqual(_.isEmpty(emptyMap), true)
     U.deepStrictEqual(_.isEmpty(a1), false)
 
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
+    U.deepStrictEqual(_.isEmpty(_.empty()), true)
     U.deepStrictEqual(_.isEmpty(new Map()), true)
     U.deepStrictEqual(_.isEmpty(new Map([['a', 1]])), false)
   })
@@ -508,14 +508,14 @@ describe('ReadonlyMap', () => {
   it('insertAt', () => {
     const insert = _.insertAt(eqUser)
     const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
-    U.deepStrictEqual(pipe(_.empty, insert({ id: 'a' }, 1)), O.some(m))
+    U.deepStrictEqual(pipe(_.empty<User>(), insert({ id: 'a' }, 1)), O.some(m))
     U.deepStrictEqual(pipe(m, insert({ id: 'a' }, 1)), O.none)
   })
 
   it('upsertAt', () => {
     const upsert = _.upsertAt(eqUser)
     const m: ReadonlyMap<User, number> = new Map([[{ id: 'a' }, 1]])
-    U.deepStrictEqual(pipe(_.empty, upsert({ id: 'a' }, 1)), m)
+    U.deepStrictEqual(pipe(_.empty<User>(), upsert({ id: 'a' }, 1)), m)
     U.deepStrictEqual(pipe(m, upsert({ id: 'a' }, 2)), new Map([[{ id: 'a' }, 2]]))
     U.deepStrictEqual(
       pipe(m, upsert({ id: 'b' }, 2)),
@@ -643,8 +643,8 @@ describe('ReadonlyMap', () => {
   })
 
   it('empty', () => {
-    U.deepStrictEqual(_.empty.size, 0)
-    U.deepStrictEqual(_.isEmpty(_.empty), true)
+    U.deepStrictEqual(_.empty().size, 0)
+    U.deepStrictEqual(_.isEmpty(_.empty()), true)
   })
 
   // -------------------------------------------------------------------------------------
@@ -893,7 +893,7 @@ describe('ReadonlyMap', () => {
         )
       )
       // should not change `empty`
-      U.deepStrictEqual(_.empty, new Map<never, never>())
+      U.deepStrictEqual(_.empty(), new Map<never, never>())
     })
 
     it('traverseWithIndex should sort the keys', () => {
@@ -945,7 +945,7 @@ describe('ReadonlyMap', () => {
     it('wither', async () => {
       const wither = W.wither(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? O.some(n + 1) : O.none)
-      U.deepStrictEqual(await pipe(_.empty, wither(f))(), _.empty)
+      U.deepStrictEqual(await pipe(_.empty<User>(), wither(f))(), _.empty<User>())
       U.deepStrictEqual(
         await pipe(
           new Map([
@@ -961,7 +961,7 @@ describe('ReadonlyMap', () => {
     it('wilt', async () => {
       const wilt = W.wilt(T.ApplicativePar)
       const f = (n: number) => T.of(p(n) ? right(n + 1) : left(n - 1))
-      U.deepStrictEqual(await pipe(_.empty, wilt(f))(), separated(_.empty, _.empty))
+      U.deepStrictEqual(await pipe(_.empty<User>(), wilt(f))(), separated(_.empty<User>(), _.empty<User>()))
       U.deepStrictEqual(
         await pipe(
           new Map([
@@ -1104,10 +1104,10 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.concat(_.empty)), _.empty)
-    U.strictEqual(pipe(_.empty, M.concat(x)), _.empty)
-    U.strictEqual(pipe(x, M.concat(new Map())), _.empty)
-    U.strictEqual(pipe(new Map(), M.concat(x)), _.empty)
+    U.strictEqual(pipe(x, M.concat(_.empty())), _.empty())
+    U.strictEqual(pipe(_.empty<User>(), M.concat(x)), _.empty())
+    U.strictEqual(pipe(x, M.concat(new Map())), _.empty())
+    U.strictEqual(pipe(new Map(), M.concat(x)), _.empty())
     U.deepStrictEqual(
       pipe(x, M.concat(y)),
       new Map([
@@ -1129,8 +1129,8 @@ describe('ReadonlyMap', () => {
       [{ id: 'c' }, 'c2'],
       [{ id: 'd' }, 'd2']
     ])
-    U.strictEqual(pipe(x, M.concat(_.empty)), x)
-    U.strictEqual(pipe(_.empty, M.concat(x)), x)
+    U.strictEqual(pipe(x, M.concat(_.empty())), x)
+    U.strictEqual(pipe(_.empty<User>(), M.concat(x)), x)
     U.strictEqual(pipe(x, M.concat(new Map())), x)
     U.strictEqual(pipe(new Map(), M.concat(x)), x)
     U.deepStrictEqual(

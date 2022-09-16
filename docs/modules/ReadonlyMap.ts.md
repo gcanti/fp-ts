@@ -269,7 +269,7 @@ Added in v3.0.0
 
 ```ts
 export interface ReadonlyMapF extends HKT {
-  readonly type: ReadonlyMap<this['Contravariant1'], this['Covariant1']>
+  readonly type: ReadonlyMap<this['Invariant1'], this['Covariant1']>
 }
 ```
 
@@ -603,7 +603,7 @@ An empty `ReadonlyMap`.
 **Signature**
 
 ```ts
-export declare const empty: ReadonlyMap<never, never>
+export declare const empty: <K>() => ReadonlyMap<K, never>
 ```
 
 Added in v3.0.0

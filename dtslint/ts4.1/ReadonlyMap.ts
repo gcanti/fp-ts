@@ -12,8 +12,8 @@ const FWI = _.getFilterableWithIndex<'a1' | 'a2'>()
 
 declare function isStringWithKey(i: 'a1' | 'a2', x: unknown): x is string
 
-pipe(_.empty as ReadonlyMap<'a1' | 'a2', string | number>, FWI.filterWithIndex(isStringWithKey)) // $ExpectType ReadonlyMap<"a1" | "a2", string>
-pipe(_.empty as ReadonlyMap<'a1' | 'a2', string | number>, FWI.partitionWithIndex(isStringWithKey)) // $ExpectType Separated<ReadonlyMap<"a1" | "a2", unknown>, ReadonlyMap<"a1" | "a2", string>>
+pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, FWI.filterWithIndex(isStringWithKey)) // $ExpectType ReadonlyMap<"a1" | "a2", string>
+pipe(_.empty() as ReadonlyMap<'a1' | 'a2', string | number>, FWI.partitionWithIndex(isStringWithKey)) // $ExpectType Separated<ReadonlyMap<"a1" | "a2", unknown>, ReadonlyMap<"a1" | "a2", string>>
 
 //
 // member
@@ -81,7 +81,7 @@ pipe(
   prns,
   _.filter(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -99,8 +99,8 @@ pipe(
   prns,
   _.filterWithIndex(
     (
-      k, // $ExpectType string
-      x // $ExpectType number
+      _k, // $ExpectType string
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -120,7 +120,7 @@ pipe(
   prns,
   _.partition(
     (
-      x // $ExpectType number
+      _x // $ExpectType number
     ) => true
   )
 )
@@ -140,8 +140,8 @@ pipe(
   prns,
   _.partitionWithIndex(
     (
-      k, // $ExpectType string
-      x // $ExpectType number
+      _k, // $ExpectType string
+      _x // $ExpectType number
     ) => true
   )
 )
