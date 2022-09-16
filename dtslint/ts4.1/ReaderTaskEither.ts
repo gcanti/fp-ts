@@ -1,4 +1,5 @@
 import * as _ from '../../src/ReaderTaskEither'
+import * as RIO from '../../src/ReaderIO'
 import * as RT from '../../src/ReaderTask'
 import * as E from '../../src/Either'
 import * as TE from '../../src/TaskEither'
@@ -39,6 +40,20 @@ pipe(
 //
 // -------------------------------------------------------------------------------------
 //
+
+//
+// rightReaderIO
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
+_.rightReaderIO(RIO.of<boolean, { a: string }>(true))
+
+//
+// leftReaderIO
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
+_.leftReaderIO(RIO.of<boolean, { a: string }>(true))
 
 //
 // getOrElse
@@ -136,4 +151,132 @@ pipe(
     (result) => result > 0,
     () => 'a2' as const
   )
+)
+
+//
+// fromReaderIOK
+//
+
+// $ExpectType <E = never>(a: boolean) => ReaderTaskEither<{ a: string; }, E, boolean>
+_.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
+
+//
+// chainReaderIOKW
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+)
+
+//
+// chainReaderIOK
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOK(() => RIO.of(1))
+)
+
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+)
+
+//
+// chainFirstReaderIOKW
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+)
+
+//
+// chainFirstReaderIOK
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOK(() => RIO.of(true))
+)
+
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+)
+
+//
+// rightReaderIO
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, never, boolean>
+_.rightReaderIO(RIO.of<boolean, { a: string }>(true))
+
+//
+// leftReaderIO
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, boolean, never>
+_.leftReaderIO(RIO.of<boolean, { a: string }>(true))
+
+//
+// fromReaderIOK
+//
+
+// $ExpectType <E = never>(a: boolean) => ReaderTaskEither<{ a: string; }, E, boolean>
+_.fromReaderIOK((a: boolean) => RIO.of<boolean, { a: string }>(a))
+
+//
+// chainReaderIOKW
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, boolean>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+)
+
+//
+// chainReaderIOK
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOK(() => RIO.of(1))
+)
+
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
+)
+
+//
+// chainFirstReaderIOKW
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; } & { b: number; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOKW(() => RIO.of<boolean, { b: number }>(true))
+)
+
+//
+// chainFirstReaderIOK
+//
+
+// $ExpectType ReaderTaskEither<{ a: string; }, string, number>
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOK(() => RIO.of(true))
+)
+
+pipe(
+  _.right<number, { a: string }, string>(1),
+  _.chainFirstReaderIOK(() => RIO.of<boolean, { b: number }>(true)) // $ExpectError
 )

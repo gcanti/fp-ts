@@ -33,6 +33,8 @@ Added in v3.0.0
   - [chainFirstEitherK](#chainfirsteitherk)
   - [chainFirstIOK](#chainfirstiok)
   - [chainFirstReaderEitherK](#chainfirstreadereitherk)
+  - [chainFirstReaderIOK](#chainfirstreaderiok)
+  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstReaderTaskK](#chainfirstreadertaskk)
   - [chainFirstTaskEitherK](#chainfirsttaskeitherk)
@@ -41,6 +43,8 @@ Added in v3.0.0
   - [chainIOK](#chainiok)
   - [chainOptionK](#chainoptionk)
   - [chainReaderEitherK](#chainreadereitherk)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainReaderTaskK](#chainreadertaskk)
   - [chainTaskEitherK](#chaintaskeitherk)
@@ -52,6 +56,7 @@ Added in v3.0.0
   - [fromIOK](#fromiok)
   - [fromOptionK](#fromoptionk)
   - [fromReaderEitherK](#fromreadereitherk)
+  - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
   - [fromReaderTaskK](#fromreadertaskk)
   - [fromTaskEitherK](#fromtaskeitherk)
@@ -70,11 +75,13 @@ Added in v3.0.0
   - [left](#left)
   - [leftIO](#leftio)
   - [leftReader](#leftreader)
+  - [leftReaderIO](#leftreaderio)
   - [leftReaderTask](#leftreadertask)
   - [leftTask](#lefttask)
   - [right](#right)
   - [rightIO](#rightio)
   - [rightReader](#rightreader)
+  - [rightReaderIO](#rightreaderio)
   - [rightReaderTask](#rightreadertask)
   - [rightTask](#righttask)
 - [derivable combinators](#derivable-combinators)
@@ -321,6 +328,32 @@ export declare const chainFirstReaderEitherK: <A, R2, E2, B>(
 
 Added in v3.0.0
 
+## chainFirstReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## chainFirstReaderIOKW
+
+Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstReaderK
 
 **Signature**
@@ -413,6 +446,32 @@ Added in v3.0.0
 export declare const chainReaderEitherK: <A, R2, E2, B>(
   f: (a: A) => ReaderEither<R2, E2, B>
 ) => <R1, E1>(ma: ReaderTaskEither<R1, E1, A>) => ReaderTaskEither<R1 & R2, E2 | E1, B>
+```
+
+Added in v3.0.0
+
+## chainReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## chainReaderIOKW
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v3.0.0
@@ -553,6 +612,18 @@ Added in v3.0.0
 export declare const fromReaderEitherK: <A extends readonly unknown[], R, E, B>(
   f: (...a: A) => ReaderEither<R, E, B>
 ) => (...a: A) => ReaderTaskEither<R, E, B>
+```
+
+Added in v3.0.0
+
+## fromReaderIOK
+
+**Signature**
+
+```ts
+export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RIO.ReaderIO<R, B>
+) => <E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v3.0.0
@@ -760,6 +831,16 @@ export declare const leftReader: <R, E, A = never>(me: R.Reader<R, E>) => Reader
 
 Added in v3.0.0
 
+## leftReaderIO
+
+**Signature**
+
+```ts
+export declare const leftReaderIO: <R, E, A = never>(me: RIO.ReaderIO<R, E>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
 ## leftReaderTask
 
 **Signature**
@@ -806,6 +887,16 @@ Added in v3.0.0
 
 ```ts
 export declare const rightReader: <R, A, E = never>(ma: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
+```
+
+Added in v3.0.0
+
+## rightReaderIO
+
+**Signature**
+
+```ts
+export declare const rightReaderIO: <R, A, E = never>(ma: RIO.ReaderIO<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v3.0.0
