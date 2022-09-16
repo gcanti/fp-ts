@@ -107,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation11<'Task', 'Task'>
+export declare const fromTask: <A>(fa: Task<A>) => Task<A>
 ```
 
 Added in v2.7.0
@@ -283,7 +283,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => IO<B>) => (...a: A) => Task<B>
 ```
 
 Added in v2.4.0

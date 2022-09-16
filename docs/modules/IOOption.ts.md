@@ -393,7 +393,9 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromEitherK: <E, A, B>(f: (...a: A) => Either<E, B>) => (...a: A) => IOOption<B>
+export declare const fromEitherK: <E, A extends readonly unknown[], B>(
+  f: (...a: A) => Either<E, B>
+) => (...a: A) => IOOption<B>
 ```
 
 Added in v2.12.0
@@ -403,7 +405,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B>
+export declare const fromIOK: <A extends readonly unknown[], B>(f: (...a: A) => I.IO<B>) => (...a: A) => IOOption<B>
 ```
 
 Added in v2.12.0

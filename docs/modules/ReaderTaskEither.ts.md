@@ -571,7 +571,7 @@ Added in v2.11.0
 ```ts
 export declare const chainFirstReaderIOK: <A, R, B>(
   f: (a: A) => RIO.ReaderIO<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.13.0
@@ -585,7 +585,7 @@ Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
 ```ts
 export declare const chainFirstReaderIOKW: <A, R2, B>(
   f: (a: A) => RIO.ReaderIO<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
 Added in v2.13.0
@@ -597,7 +597,7 @@ Added in v2.13.0
 ```ts
 export declare const chainFirstReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -613,7 +613,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainFirstReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -625,7 +625,7 @@ Added in v2.11.0
 ```ts
 export declare const chainFirstReaderTaskK: <A, R, B>(
   f: (a: A) => RT.ReaderTask<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -641,7 +641,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainFirstReaderTaskKW: <A, R2, B>(
   f: (a: A) => RT.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, A>
 ```
 
 Added in v2.11.0
@@ -791,7 +791,7 @@ Added in v2.11.0
 ```ts
 export declare const chainReaderIOK: <A, R, B>(
   f: (a: A) => RIO.ReaderIO<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.13.0
@@ -805,7 +805,7 @@ Less strict version of [`chainReaderIOK`](#chainreaderiok).
 ```ts
 export declare const chainReaderIOKW: <A, R2, B>(
   f: (a: A) => RIO.ReaderIO<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v2.13.0
@@ -817,7 +817,7 @@ Added in v2.13.0
 ```ts
 export declare const chainReaderK: <A, R, B>(
   f: (a: A) => R.Reader<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.11.0
@@ -833,7 +833,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainReaderKW: <A, R1, B>(
   f: (a: A) => R.Reader<R1, B>
-) => <R2, E = never>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R2, E>(ma: ReaderTaskEither<R2, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -845,7 +845,7 @@ Added in v2.11.0
 ```ts
 export declare const chainReaderTaskK: <A, R, B>(
   f: (a: A) => RT.ReaderTask<R, B>
-) => <E = never>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
+) => <E>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.11.0
@@ -861,7 +861,7 @@ The `W` suffix (short for **W**idening) means that the environment types and the
 ```ts
 export declare const chainReaderTaskKW: <A, R2, B>(
   f: (a: A) => RT.ReaderTask<R2, B>
-) => <R1, E = never>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
+) => <R1, E>(ma: ReaderTaskEither<R1, E, A>) => ReaderTaskEither<R1 & R2, E, B>
 ```
 
 Added in v2.11.0
@@ -997,7 +997,7 @@ Added in v2.11.0
 ```ts
 export declare const fromEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => E.Either<E, B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -1009,7 +1009,7 @@ Added in v2.4.0
 ```ts
 export declare const fromIOEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => IOEither<E, B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -1019,7 +1019,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromIOK: <A, B>(f: (...a: A) => IO<B>) => <R, E>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromIOK: <A extends readonly unknown[], B>(
+  f: (...a: A) => IO<B>
+) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.10.0
@@ -1031,7 +1033,7 @@ Added in v2.10.0
 ```ts
 export declare const fromOptionK: <E>(
   onNone: Lazy<E>
-) => <A, B>(f: (...a: A) => Option<B>) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+) => <A extends readonly unknown[], B>(f: (...a: A) => Option<B>) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.10.0
@@ -1091,7 +1093,7 @@ Added in v2.11.0
 ```ts
 export declare const fromTaskEitherK: <E, A extends readonly unknown[], B>(
   f: (...a: A) => TE.TaskEither<E, B>
-) => <R>(...a: A) => ReaderTaskEither<R, E, B>
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.4.0
@@ -1101,7 +1103,9 @@ Added in v2.4.0
 **Signature**
 
 ```ts
-export declare const fromTaskK: <A, B>(f: (...a: A) => T.Task<B>) => <R, E>(...a: A) => ReaderTaskEither<R, E, B>
+export declare const fromTaskK: <A extends readonly unknown[], B>(
+  f: (...a: A) => T.Task<B>
+) => <R = unknown, E = never>(...a: A) => ReaderTaskEither<R, E, B>
 ```
 
 Added in v2.10.0
@@ -1229,9 +1233,13 @@ Added in v2.0.0
 
 ```ts
 export declare const fromPredicate: {
-  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R, B extends A>(b: B) => ReaderTaskEither<R, E, B>
-  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>
+  <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R = unknown>(
+    a: A
+  ) => ReaderTaskEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown, B extends A = A>(
+    b: B
+  ) => ReaderTaskEither<R, E, B>
+  <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R = unknown>(a: A) => ReaderTaskEither<R, E, A>
 }
 ```
 
@@ -1863,7 +1871,7 @@ export declare const fromNullableK: <E>(
   e: E
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <R>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
+) => <R = unknown>(...a: A) => ReaderTaskEither<R, E, NonNullable<B>>
 ```
 
 Added in v2.12.0

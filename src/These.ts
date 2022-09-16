@@ -664,7 +664,11 @@ export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, 
  * @category combinators
  * @since 2.10.0
  */
-export const fromOptionK = /*#__PURE__*/ fromOptionK_(FromEither)
+export const fromOptionK: <E>(
+  onNone: Lazy<E>
+) => <A extends ReadonlyArray<unknown>, B>(
+  f: (...a: A) => Option<B>
+) => (...a: A) => These<E, B> = /*#__PURE__*/ fromOptionK_(FromEither)
 
 // -------------------------------------------------------------------------------------
 // utils
