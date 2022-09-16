@@ -6,12 +6,6 @@
 import { Chain, Chain2, Chain3, Chain3C, Chain4, chainFirst } from './Chain'
 import { flow } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  NaturalTransformation22,
-  NaturalTransformation23R,
-  NaturalTransformation23RC,
-  NaturalTransformation24R
-} from './NaturalTransformation'
 import * as R from './Reader'
 
 import Reader = R.Reader
@@ -35,7 +29,7 @@ export interface FromReader<F> {
  */
 export interface FromReader2<F extends URIS2> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation22<R.URI, F>
+  readonly fromReader: <E, A>(fa: Reader<E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -44,7 +38,7 @@ export interface FromReader2<F extends URIS2> {
  */
 export interface FromReader3<F extends URIS3> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation23R<R.URI, F>
+  readonly fromReader: <R, A, E>(fa: Reader<R, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -54,7 +48,7 @@ export interface FromReader3<F extends URIS3> {
 export interface FromReader3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromReader: NaturalTransformation23RC<R.URI, F, E>
+  readonly fromReader: <R, A>(fa: Reader<R, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -63,7 +57,7 @@ export interface FromReader3C<F extends URIS3, E> {
  */
 export interface FromReader4<F extends URIS4> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation24R<R.URI, F>
+  readonly fromReader: <R, A, S, E>(fa: Reader<R, A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------
