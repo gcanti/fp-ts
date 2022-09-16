@@ -87,13 +87,14 @@ import {
   fromPredicate as fromPredicate_
 } from './FromEither'
 import { flow, identity, Lazy, pipe } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Monad2, Monad2C } from './Monad'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -968,7 +969,9 @@ export const fromPredicate = /*#__PURE__*/ fromPredicate_(FromEither)
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => Either<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 // -------------------------------------------------------------------------------------
 // refinements

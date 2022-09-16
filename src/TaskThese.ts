@@ -5,6 +5,7 @@ import { Applicative2C } from './Applicative'
 import { Apply1, Apply2C, getApplySemigroup } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
 import { Chain2C } from './Chain'
+import { Either } from './Either'
 import {
   FromEither2,
   fromOption as fromOption_,
@@ -16,22 +17,22 @@ import { FromTask2, fromTaskK as fromTaskK_ } from './FromTask'
 import { FromThese2, fromTheseK as fromTheseK_ } from './FromThese'
 import { flow, Lazy, pipe, SK } from './function'
 import { flap as flap_, Functor2 } from './Functor'
+import * as _ from './internal'
 import { IO } from './IO'
-import { URI as IEURI } from './IOEither'
+import { IOEither } from './IOEither'
 import { Monad2C } from './Monad'
 import { MonadTask2C } from './MonadTask'
-import { NaturalTransformation22 } from './NaturalTransformation'
+import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
 import * as TH from './These'
 import * as TT from './TheseT'
-import * as _ from './internal'
 
 import These = TH.These
 import Task = T.Task
-import { NonEmptyArray } from './NonEmptyArray'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -93,31 +94,31 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskThese<E, A> = /*#_
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
+export const fromEither: <E, A>(fa: Either<E, A>) => TaskThese<E, A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromThese: FromThese2<URI>['fromThese'] = T.of
+export const fromThese: <E, A>(fa: These<E, A>) => TaskThese<E, A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => TaskThese<E, A> = rightIO
 
 /**
  * @category natural transformations
  * @since 2.4.0
  */
-export const fromIOEither: NaturalTransformation22<IEURI, URI> = /*#__PURE__*/ T.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskThese<E, A> = /*#__PURE__*/ T.fromIO
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+export const fromTask: <A, E = never>(fa: Task<A>) => TaskThese<E, A> = rightTask
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -386,7 +387,9 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskThese<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators

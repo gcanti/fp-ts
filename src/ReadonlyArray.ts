@@ -17,17 +17,16 @@ import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { FromEither1, fromEitherK as fromEitherK_ } from './FromEither'
 import { identity, Lazy, pipe } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { NaturalTransformation11 } from './NaturalTransformation'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as N from './number'
-import { Option, URI as OURI } from './Option'
+import { Option } from './Option'
 import { fromCompare, Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -47,7 +46,7 @@ import {
   Witherable1,
   witherDefault
 } from './Witherable'
-import { Zero1, guard as guard_ } from './Zero'
+import { guard as guard_, Zero1 } from './Zero'
 
 import ReadonlyNonEmptyArray = RNEA.ReadonlyNonEmptyArray
 
@@ -174,7 +173,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => ReadonlyArr
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? empty : [ma.value])
+export const fromOption: <A>(fa: Option<A>) => ReadonlyArray<A> = (ma) => (_.isNone(ma) ? empty : [ma.value])
 
 /**
  * Transforms an `Either` to a `ReadonlyArray`.
@@ -182,7 +181,7 @@ export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? empty : [e.right])
+export const fromEither: <A>(fa: Either<unknown, A>) => ReadonlyArray<A> = (e) => (_.isLeft(e) ? empty : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors

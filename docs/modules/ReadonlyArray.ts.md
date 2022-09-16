@@ -2304,7 +2304,7 @@ Transforms an `Either` to a `ReadonlyArray`.
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'ReadonlyArray'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => readonly A[]
 ```
 
 Added in v2.11.0
@@ -2314,7 +2314,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'ReadonlyArray'>
+export declare const fromOption: <A>(fa: Option<A>) => readonly A[]
 ```
 
 Added in v2.11.0

@@ -32,7 +32,6 @@ import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Func
 import * as _ from './internal'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
-import { NaturalTransformation11, NaturalTransformation21 } from './NaturalTransformation'
 import * as O from './Option'
 import * as OT from './OptionT'
 import { Pointed1 } from './Pointed'
@@ -41,7 +40,7 @@ import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Separated } from './Separated'
 import * as I from './IO'
-import { URI as IEURI } from './IOEither'
+import { IOEither } from './IOEither'
 import { Zero1, guard as guard_ } from './Zero'
 
 import IO = I.IO
@@ -85,25 +84,25 @@ export const fromPredicate: {
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromOption: NaturalTransformation11<O.URI, URI> = I.of
+export const fromOption: <A>(fa: Option<A>) => IOOption<A> = I.of
 
 /**
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = /*#__PURE__*/ OT.fromEither(I.Pointed)
+export const fromEither: <A>(fa: Either<unknown, A>) => IOOption<A> = /*#__PURE__*/ OT.fromEither(I.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = /*#__PURE__*/ OT.fromF(I.Functor)
+export const fromIO: <A>(fa: IO<A>) => IOOption<A> = /*#__PURE__*/ OT.fromF(I.Functor)
 
 /**
  * @category natural transformations
  * @since 2.12.0
  */
-export const fromIOEither: NaturalTransformation21<IEURI, URI> = /*#__PURE__*/ I.map(O.fromEither)
+export const fromIOEither: <A>(fa: IOEither<unknown, A>) => IOOption<A> = /*#__PURE__*/ I.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors

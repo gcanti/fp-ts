@@ -784,7 +784,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'IOOption'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => IOOption<A>
 ```
 
 Added in v2.12.0
@@ -794,7 +794,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'IOOption'>
+export declare const fromIO: <A>(fa: I.IO<A>) => IOOption<A>
 ```
 
 Added in v2.12.0
@@ -804,7 +804,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation21<'IOEither', 'IOOption'>
+export declare const fromIOEither: <A>(fa: IOEither<unknown, A>) => IOOption<A>
 ```
 
 Added in v2.12.0
@@ -814,7 +814,7 @@ Added in v2.12.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'IOOption'>
+export declare const fromOption: <A>(fa: O.Option<A>) => IOOption<A>
 ```
 
 Added in v2.12.0

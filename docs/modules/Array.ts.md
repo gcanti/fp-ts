@@ -3120,7 +3120,7 @@ Create an array from an `Either`. The resulting array will contain the content o
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'Array'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => A[]
 ```
 
 **Example**
@@ -3144,7 +3144,7 @@ Create an array from an `Option`. The resulting array will contain the content o
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'Array'>
+export declare const fromOption: <A>(fa: Option<A>) => A[]
 ```
 
 **Example**

@@ -555,7 +555,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'ReaderIO'>
+export declare const fromIO: <A, R = unknown>(fa: I.IO<A>) => ReaderIO<R, A>
 ```
 
 Added in v2.13.0
@@ -565,7 +565,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderIO'>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderIO<R, A>
 ```
 
 Added in v2.13.0

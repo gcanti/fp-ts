@@ -1178,7 +1178,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'IOEither'>
+export declare const fromEither: <E, A>(fa: E.Either<E, A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1188,7 +1188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'IOEither'>
+export declare const fromIO: <A, E = never>(fa: I.IO<A>) => IOEither<E, A>
 ```
 
 Added in v2.7.0
@@ -1198,7 +1198,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'IOEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A>
 ```
 
 Added in v2.0.0
