@@ -466,7 +466,7 @@ export const copy: <A>(as: NonEmptyArray<A>) => NonEmptyArray<A> = fromReadonlyN
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => [a]
+export const of: <A>(a: A) => NonEmptyArray<A> = (a) => [a]
 
 /**
  * @category combinators

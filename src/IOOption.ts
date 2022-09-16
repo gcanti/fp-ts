@@ -255,7 +255,7 @@ export const ap: <A>(fa: IOOption<A>) => <B>(fab: IOOption<(a: A) => B>) => IOOp
  * @category Pointed
  * @since 2.12.0
  */
-export const of: Pointed1<URI>['of'] = some
+export const of: <A>(a: A) => IOOption<A> = some
 
 /**
  * @category Monad
@@ -293,7 +293,7 @@ export const altW: <B>(second: Lazy<IOOption<B>>) => <A>(first: IOOption<A>) => 
  * @category Zero
  * @since 2.12.0
  */
-export const zero: Zero1<URI>['zero'] = /*#__PURE__*/ OT.zero(I.Pointed)
+export const zero: <A>() => IOOption<A> = /*#__PURE__*/ OT.zero(I.Pointed)
 
 /**
  * @category constructors

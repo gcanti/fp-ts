@@ -237,7 +237,7 @@ Added in v2.6.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => Reader<E, A>
+export declare const of: <R = unknown, A = never>(a: A) => Reader<R, A>
 ```
 
 Added in v2.0.0

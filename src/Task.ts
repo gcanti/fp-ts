@@ -136,7 +136,7 @@ export const ap: <A>(fa: Task<A>) => <B>(fab: Task<(a: A) => B>) => Task<B> = (f
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = (a) => () => Promise.resolve(a)
+export const of: <A>(a: A) => Task<A> = (a) => () => Promise.resolve(a)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

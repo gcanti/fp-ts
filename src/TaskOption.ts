@@ -295,7 +295,7 @@ export const ap: <A>(fa: TaskOption<A>) => <B>(fab: TaskOption<(a: A) => B>) => 
  * @category Pointed
  * @since 2.10.0
  */
-export const of: Pointed1<URI>['of'] = some
+export const of: <A>(a: A) => TaskOption<A> = some
 
 /**
  * @category Monad
@@ -335,7 +335,7 @@ export const altW: <B>(second: Lazy<TaskOption<B>>) => <A>(first: TaskOption<A>)
  * @category Zero
  * @since 2.10.0
  */
-export const zero: Zero1<URI>['zero'] = /*#__PURE__*/ OT.zero(T.Pointed)
+export const zero: <A>() => TaskOption<A> = /*#__PURE__*/ OT.zero(T.Pointed)
 
 /**
  * @category constructors

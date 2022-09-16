@@ -194,7 +194,7 @@ export const ap: <R, A>(fa: Reader<R, A>) => <B>(fab: Reader<R, (a: A) => B>) =>
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed2<URI>['of'] = constant
+export const of: <R = unknown, A = never>(a: A) => Reader<R, A> = constant
 
 /**
  * Less strict version of [`chain`](#chain).

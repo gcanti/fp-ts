@@ -159,7 +159,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => ReaderIO<E, A>
+export declare const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A>
 ```
 
 Added in v2.13.0
