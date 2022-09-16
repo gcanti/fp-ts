@@ -1235,7 +1235,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation23<'Either', 'ReaderEither'>
+export declare const fromEither: <E, A, R = unknown>(fa: E.Either<E, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1245,7 +1245,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1255,7 +1255,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderEither'>
+export declare const fromReader: <R, A, E = never>(fa: R.Reader<R, A>) => ReaderEither<R, E, A>
 ```
 
 Added in v2.11.0

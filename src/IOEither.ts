@@ -31,18 +31,18 @@ import {
 } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
+  chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither2,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_,
-  chainFirstEitherK as chainFirstEitherK_
+  fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import * as I from './IO'
 import { Monad2, Monad2C } from './Monad'
@@ -50,6 +50,7 @@ import { MonadIO2, MonadIO2C } from './MonadIO'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
@@ -105,13 +106,13 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => IOEither<E, A> = /*#__
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = I.of
+export const fromEither: <E, A>(fa: Either<E, A>) => IOEither<E, A> = I.of
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => IOEither<E, A> = rightIO
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -791,7 +792,9 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => IOEither<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators

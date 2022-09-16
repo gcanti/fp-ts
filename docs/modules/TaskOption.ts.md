@@ -903,7 +903,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation21<'Either', 'TaskOption'>
+export declare const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -913,7 +913,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'TaskOption'>
+export declare const fromIO: <A>(fa: IO<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -923,7 +923,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromOption: NaturalTransformation11<'Option', 'TaskOption'>
+export declare const fromOption: <A>(fa: O.Option<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -933,7 +933,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation11<'Task', 'TaskOption'>
+export declare const fromTask: <A>(fa: T.Task<A>) => TaskOption<A>
 ```
 
 Added in v2.10.0
@@ -943,7 +943,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: NaturalTransformation21<'TaskEither', 'TaskOption'>
+export declare const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A>
 ```
 
 Added in v2.11.0

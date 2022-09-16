@@ -764,7 +764,7 @@ export const MonadThrow: MonadThrow1<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = getRight
+export const fromEither: <A>(fa: Either<unknown, A>) => Option<A> = getRight
 
 /**
  * @category instances

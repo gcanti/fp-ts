@@ -48,8 +48,7 @@ import * as _ from './internal'
 import { Monad3, Monad3C } from './Monad'
 import { MonadThrow3, MonadThrow3C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { NaturalTransformation13C } from './NaturalTransformation'
-import { URI as OURI } from './Option'
+import { Option } from './Option'
 import { Pointed3 } from './Pointed'
 import { Predicate } from './Predicate'
 import * as R from './Reader'
@@ -110,13 +109,13 @@ export const leftReader: <R, E = never, A = never>(me: Reader<R, E>) => ReaderEi
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: FromEither3<URI>['fromEither'] = R.of
+export const fromEither: <E, A, R = unknown>(fa: Either<E, A>) => ReaderEither<R, E, A> = R.of
 
 /**
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromReader: FromReader3<URI>['fromReader'] = rightReader
+export const fromReader: <R, A, E = never>(fa: Reader<R, A>) => ReaderEither<R, E, A> = rightReader
 
 // -------------------------------------------------------------------------------------
 // destructors
@@ -816,9 +815,9 @@ export const FromEither: FromEither3<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<OURI, URI, E> = /*#__PURE__*/ fromOption_(
-  FromEither
-)
+export const fromOption: <E>(
+  onNone: Lazy<E>
+) => <A, R = unknown>(fa: Option<A>) => ReaderEither<R, E, A> = /*#__PURE__*/ fromOption_(FromEither)
 
 /**
  * @category combinators

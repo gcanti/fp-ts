@@ -32,6 +32,7 @@ import { NonEmptyArray } from './NonEmptyArray'
 import { Pointed1 } from './Pointed'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Semigroup } from './Semigroup'
+import { IO } from './IO'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -53,7 +54,7 @@ export interface Task<A> {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => () => Promise.resolve().then(ma)
+export const fromIO: <A>(fa: IO<A>) => Task<A> = (ma) => () => Promise.resolve().then(ma)
 
 // -------------------------------------------------------------------------------------
 // combinators

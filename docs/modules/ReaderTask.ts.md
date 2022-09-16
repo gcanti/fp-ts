@@ -778,7 +778,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'ReaderTask'>
+export declare const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -788,7 +788,7 @@ Added in v2.3.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation22<'Reader', 'ReaderTask'>
+export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0
@@ -808,7 +808,7 @@ Added in v2.13.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'ReaderTask'>
+export declare const fromTask: <A, R = unknown>(fa: T.Task<A>) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0

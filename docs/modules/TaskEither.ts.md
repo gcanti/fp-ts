@@ -1541,7 +1541,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation22<'Either', 'TaskEither'>
+export declare const fromEither: <E, A>(fa: E.Either<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1551,7 +1551,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation12<'IO', 'TaskEither'>
+export declare const fromIO: <A, E = never>(fa: IO<A>) => TaskEither<E, A>
 ```
 
 Added in v2.7.0
@@ -1561,7 +1561,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation22<'IOEither', 'TaskEither'>
+export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1571,7 +1571,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'Option', 'TaskEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A>
 ```
 
 Added in v2.0.0
@@ -1581,7 +1581,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation12<'Task', 'TaskEither'>
+export declare const fromTask: <A, E = never>(fa: T.Task<A>) => TaskEither<E, A>
 ```
 
 Added in v2.7.0
@@ -1591,7 +1591,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<'TaskOption', 'TaskEither', E>
+export declare const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A>
 ```
 
 Added in v2.11.0

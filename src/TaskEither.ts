@@ -33,14 +33,14 @@ import {
 } from './Filterable'
 import {
   chainEitherK as chainEitherK_,
+  chainFirstEitherK as chainFirstEitherK_,
   chainOptionK as chainOptionK_,
   filterOrElse as filterOrElse_,
   FromEither2,
   fromEitherK as fromEitherK_,
   fromOption as fromOption_,
   fromOptionK as fromOptionK_,
-  fromPredicate as fromPredicate_,
-  chainFirstEitherK as chainFirstEitherK_
+  fromPredicate as fromPredicate_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO2, fromIOK as fromIOK_ } from './FromIO'
 import {
@@ -50,24 +50,24 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor2, let as let__ } from './Functor'
 import * as _ from './internal'
 import { IO } from './IO'
-import { IOEither, URI as IEURI } from './IOEither'
+import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2, MonadTask2C } from './MonadTask'
 import { MonadThrow2, MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { NaturalTransformation12C, NaturalTransformation22 } from './NaturalTransformation'
 import { NonEmptyArray } from './NonEmptyArray'
+import { Option } from './Option'
 import { Pointed2 } from './Pointed'
 import { Predicate } from './Predicate'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import { TaskOption, URI as TOURI } from './TaskOption'
+import { TaskOption } from './TaskOption'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -130,31 +130,31 @@ export const leftIO: <E = never, A = never>(me: IO<E>) => TaskEither<E, A> = /*#
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = rightIO
+export const fromIO: <A, E = never>(fa: IO<A>) => TaskEither<E, A> = rightIO
 
 /**
  * @category natural transformations
  * @since 2.7.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = rightTask
+export const fromTask: <A, E = never>(fa: Task<A>) => TaskEither<E, A> = rightTask
 
 /**
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromEither: FromEither2<URI>['fromEither'] = T.of
+export const fromEither: <E, A>(fa: Either<E, A>) => TaskEither<E, A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromIOEither: NaturalTransformation22<IEURI, URI> = T.fromIO
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = T.fromIO
 
 /**
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromTaskOption: <E>(onNone: Lazy<E>) => NaturalTransformation12C<TOURI, URI, E> = (onNone) =>
+export const fromTaskOption: <E>(onNone: Lazy<E>) => <A>(fa: TaskOption<A>) => TaskEither<E, A> = (onNone) =>
   T.map(E.fromOption(onNone))
 
 // -------------------------------------------------------------------------------------
@@ -1045,7 +1045,9 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.0.0
  */
-export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => TaskEither<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators

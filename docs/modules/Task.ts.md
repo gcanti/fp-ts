@@ -542,7 +542,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation11<'IO', 'Task'>
+export declare const fromIO: <A>(fa: IO<A>) => Task<A>
 ```
 
 Added in v2.0.0

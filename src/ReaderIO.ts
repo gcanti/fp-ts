@@ -21,6 +21,8 @@ import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { Pointed2 } from './Pointed'
 import * as R from './Reader'
+import { Reader } from './Reader'
+import { IO } from './IO'
 import * as RT from './ReaderT'
 import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 
@@ -41,13 +43,13 @@ export interface ReaderIO<R, A> {
  * @category natural transformations
  * @since 2.13.0
  */
-export const fromReader: FromReader2<URI>['fromReader'] = /*#__PURE__*/ RT.fromReader(I.Pointed)
+export const fromReader: <R, A>(fa: Reader<R, A>) => ReaderIO<R, A> = /*#__PURE__*/ RT.fromReader(I.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.13.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = /*#__PURE__*/ R.of
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderIO<R, A> = /*#__PURE__*/ R.of
 
 // -------------------------------------------------------------------------------------
 // combinators

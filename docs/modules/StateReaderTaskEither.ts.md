@@ -966,7 +966,9 @@ Added in v2.4.4
 **Signature**
 
 ```ts
-export declare const fromReaderTaskEither: NaturalTransformation34<'ReaderTaskEither', 'StateReaderTaskEither'>
+export declare const fromReaderTaskEither: <R, E, A, S>(
+  fa: RTE.ReaderTaskEither<R, E, A>
+) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1358,7 +1360,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation24<'Either', 'StateReaderTaskEither'>
+export declare const fromEither: <E, A, S, R = unknown>(fa: E.Either<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1368,7 +1370,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation14<'IO', 'StateReaderTaskEither'>
+export declare const fromIO: <A, S, R = unknown, E = never>(fa: IO<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.7.0
@@ -1378,7 +1380,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation24<'IOEither', 'StateReaderTaskEither'>
+export declare const fromIOEither: <E, A, S, R = unknown>(fa: IOEither<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1388,7 +1390,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation14C<'Option', 'StateReaderTaskEither', E>
+export declare const fromOption: <E>(
+  onNone: Lazy<E>
+) => <A, S, R = unknown>(fa: Option<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1398,7 +1402,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation24R<'Reader', 'StateReaderTaskEither'>
+export declare const fromReader: <R, A, S, E = never>(fa: R.Reader<R, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.11.0
@@ -1408,7 +1412,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromReaderEither: NaturalTransformation34<'ReaderEither', 'StateReaderTaskEither'>
+export declare const fromReaderEither: <R, E, A, S>(fa: ReaderEither<R, E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0
@@ -1418,7 +1422,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromState: NaturalTransformation24S<'State', 'StateReaderTaskEither'>
+export declare const fromState: <S, A, R = unknown, E = never>(fa: State<S, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.10.0
@@ -1428,7 +1432,7 @@ Added in v2.10.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation14<'Task', 'StateReaderTaskEither'>
+export declare const fromTask: <A, S, R = unknown, E = never>(fa: Task<A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.7.0
@@ -1438,7 +1442,7 @@ Added in v2.7.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: NaturalTransformation24<'TaskEither', 'StateReaderTaskEither'>
+export declare const fromTaskEither: <E, A, S, R = unknown>(fa: TaskEither<E, A>) => StateReaderTaskEither<S, R, E, A>
 ```
 
 Added in v2.0.0

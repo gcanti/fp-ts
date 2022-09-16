@@ -16,9 +16,9 @@ import {
   partitionMap as partitionMap_
 } from './Filterable'
 import {
-  FromEither1,
   chainEitherK as chainEitherK_,
   chainFirstEitherK as chainFirstEitherK_,
+  FromEither1,
   fromEitherK as fromEitherK_
 } from './FromEither'
 import { chainFirstIOK as chainFirstIOK_, chainIOK as chainIOK_, FromIO1, fromIOK as fromIOK_ } from './FromIO'
@@ -29,12 +29,12 @@ import {
   fromTaskK as fromTaskK_
 } from './FromTask'
 import { flow, identity, Lazy, pipe, SK } from './function'
-import { let as let__, bindTo as bindTo_, flap as flap_, Functor1 } from './Functor'
+import { bindTo as bindTo_, flap as flap_, Functor1, let as let__ } from './Functor'
 import * as _ from './internal'
+import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
-import { NaturalTransformation11, NaturalTransformation21 } from './NaturalTransformation'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
@@ -44,8 +44,8 @@ import { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import { Refinement } from './Refinement'
 import { Separated } from './Separated'
 import * as T from './Task'
-import { URI as TEURI } from './TaskEither'
-import { Zero1, guard as guard_ } from './Zero'
+import { TaskEither } from './TaskEither'
+import { guard as guard_, Zero1 } from './Zero'
 
 import Task = T.Task
 import Option = O.Option
@@ -88,31 +88,31 @@ export const fromPredicate: {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption: NaturalTransformation11<O.URI, URI> = T.of
+export const fromOption: <A>(fa: Option<A>) => TaskOption<A> = T.of
 
 /**
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = /*#__PURE__*/ OT.fromEither(T.Pointed)
+export const fromEither: <A>(fa: Either<unknown, A>) => TaskOption<A> = /*#__PURE__*/ OT.fromEither(T.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromIO: FromIO1<URI>['fromIO'] = (ma) => fromTask(T.fromIO(ma))
+export const fromIO: <A>(fa: IO<A>) => TaskOption<A> = (ma) => fromTask(T.fromIO(ma))
 
 /**
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromTask: FromTask1<URI>['fromTask'] = /*#__PURE__*/ OT.fromF(T.Functor)
+export const fromTask: <A>(fa: Task<A>) => TaskOption<A> = /*#__PURE__*/ OT.fromF(T.Functor)
 
 /**
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromTaskEither: NaturalTransformation21<TEURI, URI> = /*#__PURE__*/ T.map(O.fromEither)
+export const fromTaskEither: <A>(fa: TaskEither<unknown, A>) => TaskOption<A> = /*#__PURE__*/ T.map(O.fromEither)
 
 // -------------------------------------------------------------------------------------
 // destructors

@@ -656,7 +656,9 @@ export const FromEither: FromEither2<URI> = {
  * @category natural transformations
  * @since 2.10.0
  */
-export const fromOption = /*#__PURE__*/ fromOption_(FromEither)
+export const fromOption: <E>(onNone: Lazy<E>) => <A>(fa: Option<A>) => These<E, A> = /*#__PURE__*/ fromOption_(
+  FromEither
+)
 
 /**
  * @category combinators

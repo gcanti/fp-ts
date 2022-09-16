@@ -28,6 +28,7 @@ import {
 import { flow, identity, pipe, SK } from './function'
 import { let as let__, bindTo as bindTo_, flap as flap_, Functor2 } from './Functor'
 import * as _ from './internal'
+import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
@@ -63,19 +64,19 @@ export interface ReaderTask<R, A> {
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromReader: FromReader2<URI>['fromReader'] = /*#__PURE__*/ RT.fromReader(T.Pointed)
+export const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A> = /*#__PURE__*/ RT.fromReader(T.Pointed)
 
 /**
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromTask: FromTask2<URI>['fromTask'] = /*#__PURE__*/ R.of
+export const fromTask: <A, R = unknown>(fa: Task<A>) => ReaderTask<R, A> = /*#__PURE__*/ R.of
 
 /**
  * @category natural transformations
  * @since 2.3.0
  */
-export const fromIO: FromIO2<URI>['fromIO'] = /*#__PURE__*/ flow(T.fromIO, fromTask)
+export const fromIO: <A, R = unknown>(fa: IO<A>) => ReaderTask<R, A> = /*#__PURE__*/ flow(T.fromIO, fromTask)
 
 /**
  * @category natural transformations

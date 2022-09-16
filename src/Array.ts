@@ -28,9 +28,8 @@ import * as _ from './internal'
 import { Magma } from './Magma'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { NaturalTransformation11 } from './NaturalTransformation'
 import * as NEA from './NonEmptyArray'
-import { Option, URI as OURI } from './Option'
+import { Option } from './Option'
 import { Ord } from './Ord'
 import { Pointed1 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -225,7 +224,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Array<A> {
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(ma) ? [] : [ma.value])
+export const fromOption: <A>(fa: Option<A>) => Array<A> = (ma) => (_.isNone(ma) ? [] : [ma.value])
 
 /**
  * Create an array from an `Either`. The resulting array will contain the content of the
@@ -242,7 +241,7 @@ export const fromOption: NaturalTransformation11<OURI, URI> = (ma) => (_.isNone(
  * @category natural transformations
  * @since 2.11.0
  */
-export const fromEither: FromEither1<URI>['fromEither'] = (e) => (_.isLeft(e) ? [] : [e.right])
+export const fromEither: <A>(fa: Either<unknown, A>) => Array<A> = (e) => (_.isLeft(e) ? [] : [e.right])
 
 // -------------------------------------------------------------------------------------
 // destructors

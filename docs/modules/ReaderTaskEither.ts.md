@@ -1242,7 +1242,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderEither: NaturalTransformation33<'ReaderEither', 'ReaderTaskEither'>
+export declare const fromReaderEither: <R, E, A>(fa: ReaderEither<R, E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1899,7 +1899,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromEither: NaturalTransformation23<'Either', 'ReaderTaskEither'>
+export declare const fromEither: <E, A, R = unknown>(fa: E.Either<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1909,7 +1909,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIO: NaturalTransformation13<'IO', 'ReaderTaskEither'>
+export declare const fromIO: <A, R = unknown, E = never>(fa: IO<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1919,7 +1919,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromIOEither: NaturalTransformation23<'IOEither', 'ReaderTaskEither'>
+export declare const fromIOEither: <E, A, R = unknown>(fa: IOEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1929,7 +1929,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromOption: <E>(onNone: Lazy<E>) => NaturalTransformation13C<'Option', 'ReaderTaskEither', E>
+export declare const fromOption: <E>(onNone: Lazy<E>) => <A, R = unknown>(fa: Option<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1939,7 +1939,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromReader: NaturalTransformation23R<'Reader', 'ReaderTaskEither'>
+export declare const fromReader: <R, A, E = never>(fa: R.Reader<R, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.11.0
@@ -1949,7 +1949,7 @@ Added in v2.11.0
 **Signature**
 
 ```ts
-export declare const fromTask: NaturalTransformation13<'Task', 'ReaderTaskEither'>
+export declare const fromTask: <A, R = unknown, E = never>(fa: T.Task<A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
@@ -1959,7 +1959,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskEither: NaturalTransformation23<'TaskEither', 'ReaderTaskEither'>
+export declare const fromTaskEither: <E, A, R = unknown>(fa: TE.TaskEither<E, A>) => ReaderTaskEither<R, E, A>
 ```
 
 Added in v2.0.0
