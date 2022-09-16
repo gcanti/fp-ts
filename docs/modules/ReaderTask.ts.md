@@ -24,13 +24,18 @@ Added in v3.0.0
   - [of](#of)
 - [combinators](#combinators)
   - [chainFirstIOK](#chainfirstiok)
+  - [chainFirstReaderIOK](#chainfirstreaderiok)
+  - [chainFirstReaderIOKW](#chainfirstreaderiokw)
   - [chainFirstReaderK](#chainfirstreaderk)
   - [chainFirstTaskK](#chainfirsttaskk)
   - [chainIOK](#chainiok)
+  - [chainReaderIOK](#chainreaderiok)
+  - [chainReaderIOKW](#chainreaderiokw)
   - [chainReaderK](#chainreaderk)
   - [chainTaskK](#chaintaskk)
   - [flap](#flap)
   - [fromIOK](#fromiok)
+  - [fromReaderIOK](#fromreaderiok)
   - [fromReaderK](#fromreaderk)
   - [fromTaskK](#fromtaskk)
   - [local](#local)
@@ -60,6 +65,7 @@ Added in v3.0.0
 - [natural transformations](#natural-transformations)
   - [fromIO](#fromio)
   - [fromReader](#fromreader)
+  - [fromReaderIO](#fromreaderio)
   - [fromTask](#fromtask)
 - [utils](#utils)
   - [ApT](#apt)
@@ -162,6 +168,32 @@ export declare const chainFirstIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: Rea
 
 Added in v3.0.0
 
+## chainFirstReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## chainFirstReaderIOKW
+
+Less strict version of [`chainFirstReaderIOK`](#chainfirstreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainFirstReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, A>
+```
+
+Added in v3.0.0
+
 ## chainFirstReaderK
 
 **Signature**
@@ -190,6 +222,32 @@ Added in v3.0.0
 
 ```ts
 export declare const chainIOK: <A, B>(f: (a: A) => IO<B>) => <R>(first: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## chainReaderIOK
+
+**Signature**
+
+```ts
+export declare const chainReaderIOK: <A, R, B>(
+  f: (a: A) => RIO.ReaderIO<R, B>
+) => (ma: ReaderTask<R, A>) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## chainReaderIOKW
+
+Less strict version of [`chainReaderIOK`](#chainreaderiok).
+
+**Signature**
+
+```ts
+export declare const chainReaderIOKW: <A, R2, B>(
+  f: (a: A) => RIO.ReaderIO<R2, B>
+) => <R1>(ma: ReaderTask<R1, A>) => ReaderTask<R1 & R2, B>
 ```
 
 Added in v3.0.0
@@ -236,6 +294,18 @@ Added in v3.0.0
 export declare const fromIOK: <A extends readonly unknown[], B>(
   f: (...a: A) => IO<B>
 ) => <R = unknown>(...a: A) => ReaderTask<R, B>
+```
+
+Added in v3.0.0
+
+## fromReaderIOK
+
+**Signature**
+
+```ts
+export declare const fromReaderIOK: <A extends readonly unknown[], R, B>(
+  f: (...a: A) => RIO.ReaderIO<R, B>
+) => (...a: A) => ReaderTask<R, B>
 ```
 
 Added in v3.0.0
@@ -516,6 +586,16 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReader: <R, A>(fa: R.Reader<R, A>) => ReaderTask<R, A>
+```
+
+Added in v3.0.0
+
+## fromReaderIO
+
+**Signature**
+
+```ts
+export declare const fromReaderIO: <R, A>(fa: RIO.ReaderIO<R, A>) => ReaderTask<R, A>
 ```
 
 Added in v3.0.0

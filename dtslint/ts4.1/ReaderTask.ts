@@ -1,5 +1,6 @@
 import * as _ from '../../src/ReaderTask'
 import { pipe } from '../../src/function'
+import * as RIO from '../../src/ReaderIO'
 
 // -------------------------------------------------------------------------------------
 // ap widening
@@ -35,6 +36,78 @@ pipe(
 //
 // -------------------------------------------------------------------------------------
 //
+
+interface R1 {
+  foo: string
+}
+
+interface R2 {
+  bar: string
+}
+
+//
+// fromReaderIO
+//
+
+// $ExpectType ReaderTask<R1, boolean>
+_.fromReaderIO(RIO.of<boolean, R1>(true))
+
+//
+// fromReaderIOK
+//
+
+// $ExpectType (a: boolean) => ReaderTask<R1, boolean>
+_.fromReaderIOK((a: boolean) => RIO.of<boolean, R1>(a))
+
+//
+// chainReaderIOKW
+//
+
+// $ExpectType ReaderTask<R1 & R2, boolean>
+pipe(
+  _.of<number, R1>(1),
+  _.chainReaderIOKW(() => RIO.of<boolean, R2>(true))
+)
+
+//
+// chainReaderIOK
+//
+
+// $ExpectType ReaderTask<R1, number>
+pipe(
+  _.of<number, R1>(1),
+  _.chainReaderIOK(() => RIO.of(1))
+)
+
+pipe(
+  _.of<number, R1>(1), // $ExpectError
+  _.chainReaderIOK(() => RIO.of<boolean, R2>(true))
+)
+
+//
+// chainFirstReaderIOKW
+//
+
+// $ExpectType ReaderTask<R1 & R2, number>
+pipe(
+  _.of<number, R1>(1),
+  _.chainFirstReaderIOKW(() => RIO.of<boolean, R2>(true))
+)
+
+//
+// chainFirstReaderIOK
+//
+
+// $ExpectType ReaderTask<R1, number>
+pipe(
+  _.of<number, R1>(1),
+  _.chainFirstReaderIOK(() => RIO.of(true))
+)
+
+pipe(
+  _.of<number, R1>(1), // $ExpectError
+  _.chainFirstReaderIOK(() => RIO.of<boolean, R2>(true))
+)
 
 //
 // Do
