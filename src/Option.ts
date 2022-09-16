@@ -358,7 +358,7 @@ export const Functor: Functor1<URI> = {
  * @category instance operations
  * @since 2.7.0
  */
-export const of: Pointed1<URI>['of'] = some
+export const of: <A>(a: A) => Option<A> = some
 
 /**
  * @category instances
@@ -537,7 +537,7 @@ export const Alt: Alt1<URI> = {
  * @category instance operations
  * @since 2.7.0
  */
-export const zero: Zero1<URI>['zero'] = () => none
+export const zero: <A>() => Option<A> = () => none
 
 /**
  * @category instances

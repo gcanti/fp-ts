@@ -125,7 +125,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 2.13.0
  */
-export const of: Pointed2<URI>['of'] = /*#__PURE__*/ RT.of(I.Pointed)
+export const of: <R = unknown, A = never>(a: A) => ReaderIO<R, A> = /*#__PURE__*/ RT.of(I.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

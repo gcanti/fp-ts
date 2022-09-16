@@ -1547,7 +1547,7 @@ const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = RA._chainRecBreadthFir
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = NEA.of
+export const of: <A>(a: A) => Array<A> = NEA.of
 
 /**
  * Makes an empty `Array`, useful for building a [`Monoid`](#Monoid)
@@ -1555,7 +1555,7 @@ export const of: Pointed1<URI>['of'] = NEA.of
  * @category Zero
  * @since 2.7.0
  */
-export const zero: Zero1<URI>['zero'] = () => []
+export const zero: <A>() => Array<A> = () => []
 
 /**
  * `map` can be used to turn functions `(a: A) => B` into functions `(fa: Array<A>) => Array<B>`.

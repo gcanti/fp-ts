@@ -445,7 +445,7 @@ export const apW: <S, R2, E2, A>(
  * @category Pointed
  * @since 2.7.0
  */
-export const of: <S, R, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
+export const of: <S, R = unknown, E = never, A = never>(a: A) => StateReaderTaskEither<S, R, E, A> = right
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

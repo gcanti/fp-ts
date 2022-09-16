@@ -81,7 +81,7 @@ export const ap: <A>(fa: Identity<A>) => <B>(fab: Identity<(a: A) => B>) => Iden
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = id
+export const of: <A>(a: A) => Identity<A> = id
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

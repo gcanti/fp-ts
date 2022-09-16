@@ -184,7 +184,7 @@ Added in v2.6.7
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => ReaderTask<E, A>
+export declare const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A>
 ```
 
 Added in v2.3.0

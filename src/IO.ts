@@ -81,7 +81,7 @@ export const ap: <A>(fa: IO<A>) => <B>(fab: IO<(a: A) => B>) => IO<B> = (fa) => 
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed1<URI>['of'] = constant
+export const of: <A>(a: A) => IO<A> = constant
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

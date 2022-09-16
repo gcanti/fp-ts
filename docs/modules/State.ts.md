@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export declare const of: <E, A>(a: A) => State<E, A>
+export declare const of: <S, A>(a: A) => State<S, A>
 ```
 
 Added in v2.0.0

@@ -165,7 +165,7 @@ export const apW: <R2, A>(
  * @category Pointed
  * @since 2.3.0
  */
-export const of: Pointed2<URI>['of'] = /*#__PURE__*/ RT.of(T.Pointed)
+export const of: <R = unknown, A = never>(a: A) => ReaderTask<R, A> = /*#__PURE__*/ RT.of(T.Pointed)
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.

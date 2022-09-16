@@ -1440,13 +1440,13 @@ export const _chainRecBreadthFirst: ChainRec1<URI>['chainRec'] = (a, f) => pipe(
  * @category Pointed
  * @since 2.5.0
  */
-export const of: Pointed1<URI>['of'] = RNEA.of
+export const of: <A>(a: A) => ReadonlyArray<A> = RNEA.of
 
 /**
  * @category Zero
  * @since 2.7.0
  */
-export const zero: Zero1<URI>['zero'] = () => empty
+export const zero: <A>() => ReadonlyArray<A> = () => empty
 
 /**
  * Less strict version of [`alt`](#alt).

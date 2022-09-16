@@ -682,7 +682,7 @@ const _traverseWithIndex: TraversableWithIndex1<URI, number>['traverseWithIndex'
  * @category Pointed
  * @since 2.5.0
  */
-export const of: Pointed1<URI>['of'] = _.singleton
+export const of: <A>(a: A) => ReadonlyNonEmptyArray<A> = _.singleton
 
 /**
  * Less strict version of [`alt`](#alt).

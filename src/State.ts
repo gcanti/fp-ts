@@ -104,7 +104,7 @@ export const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => S
  * @category Pointed
  * @since 2.0.0
  */
-export const of: Pointed2<URI>['of'] = (a) => (s) => [a, s]
+export const of: <S, A>(a: A) => State<S, A> = (a) => (s) => [a, s]
 
 /**
  * Composes computations in sequence, using the return value of one computation to determine the next computation.
