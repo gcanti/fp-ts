@@ -7,18 +7,18 @@ import * as S from '../src/string'
 describe('Const', () => {
   describe('pipeables', () => {
     it('map', () => {
-      const fa = _.make('foo')
+      const fa = _.make<string, number>('a')
       U.deepStrictEqual(pipe(fa, _.map(U.double)), fa)
     })
 
     it('contramap', () => {
-      const fa: _.Const<string, number> = _.make('foo')
+      const fa = _.make<string, number>('a')
       U.deepStrictEqual(pipe(fa, _.contramap(U.double)), fa)
     })
 
     it('bimap', () => {
       const f = _.bimap(S.toUpperCase, U.double)
-      U.deepStrictEqual(pipe(_.make('a'), f), _.make('A'))
+      U.deepStrictEqual(pipe(_.make<string, number>('a'), f), _.make('A'))
     })
 
     it('mapLeft', () => {
@@ -40,13 +40,13 @@ describe('Const', () => {
 
   it('getApplicative', () => {
     const F = _.getApply(S.Semigroup)
-    const fa = _.make('foo')
-    U.deepStrictEqual(pipe(fa, F.ap(_.make('bar'))), _.make('foobar'))
+    const fa = _.make<string, (n: number) => boolean>('a')
+    U.deepStrictEqual(pipe(fa, F.ap(_.make('b'))), _.make('ab'))
   })
 
   it('getShow', () => {
     const Sh = _.getShow(S.Show)
-    const x: _.Const<string, number> = _.make('a')
+    const x = _.make<string, number>('a')
     U.deepStrictEqual(Sh.show(x), `make("a")`)
   })
 })
