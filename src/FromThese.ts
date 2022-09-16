@@ -5,14 +5,7 @@
  */
 import { flow } from './function'
 import { HKT2, Kind2, Kind3, Kind4, URIS2, URIS3, URIS4 } from './HKT'
-import {
-  NaturalTransformation22,
-  NaturalTransformation22C,
-  NaturalTransformation23,
-  NaturalTransformation23C,
-  NaturalTransformation24
-} from './NaturalTransformation'
-import { These, URI } from './These'
+import { These } from './These'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -33,7 +26,7 @@ export interface FromThese<F> {
  */
 export interface FromThese2<F extends URIS2> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation22<URI, F>
+  readonly fromThese: <E, A>(fa: These<E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -43,7 +36,7 @@ export interface FromThese2<F extends URIS2> {
 export interface FromThese2C<F extends URIS2, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromThese: NaturalTransformation22C<URI, F, E>
+  readonly fromThese: <A>(fa: These<E, A>) => Kind2<F, E, A>
 }
 
 /**
@@ -52,7 +45,7 @@ export interface FromThese2C<F extends URIS2, E> {
  */
 export interface FromThese3<F extends URIS3> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation23<URI, F>
+  readonly fromThese: <E, A, R>(fa: These<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -62,7 +55,7 @@ export interface FromThese3<F extends URIS3> {
 export interface FromThese3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromThese: NaturalTransformation23C<URI, F, E>
+  readonly fromThese: <A, R>(fa: These<E, A>) => Kind3<F, R, E, A>
 }
 
 /**
@@ -71,7 +64,7 @@ export interface FromThese3C<F extends URIS3, E> {
  */
 export interface FromThese4<F extends URIS4> {
   readonly URI: F
-  readonly fromThese: NaturalTransformation24<URI, F>
+  readonly fromThese: <E, A, S, R>(fa: These<E, A>) => Kind4<F, S, R, E, A>
 }
 
 // -------------------------------------------------------------------------------------

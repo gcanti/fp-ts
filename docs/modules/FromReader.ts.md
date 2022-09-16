@@ -166,7 +166,7 @@ Added in v2.11.0
 ```ts
 export interface FromReader2<F extends URIS2> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation22<R.URI, F>
+  readonly fromReader: <E, A>(fa: Reader<E, A>) => Kind2<F, E, A>
 }
 ```
 
@@ -179,7 +179,7 @@ Added in v2.11.0
 ```ts
 export interface FromReader3<F extends URIS3> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation23R<R.URI, F>
+  readonly fromReader: <R, A, E>(fa: Reader<R, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -193,7 +193,7 @@ Added in v2.11.0
 export interface FromReader3C<F extends URIS3, E> {
   readonly URI: F
   readonly _E: E
-  readonly fromReader: NaturalTransformation23RC<R.URI, F, E>
+  readonly fromReader: <R, A>(fa: Reader<R, A>) => Kind3<F, R, E, A>
 }
 ```
 
@@ -206,7 +206,7 @@ Added in v2.11.0
 ```ts
 export interface FromReader4<F extends URIS4> {
   readonly URI: F
-  readonly fromReader: NaturalTransformation24R<R.URI, F>
+  readonly fromReader: <R, A, S, E>(fa: Reader<R, A>) => Kind4<F, S, R, E, A>
 }
 ```
 
