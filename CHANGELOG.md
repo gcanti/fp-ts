@@ -24,6 +24,22 @@ How to install:
 npm install fp-ts@rc
 ```
 
+- **New Feature**
+  - `ReaderTask`
+    - add `ReaderIO` constructors/combinators, #1773 (@thewilkybarkid)
+  - `ReaderTaskEither`
+    - add `ReaderIO` constructors/combinators, #1774 (@thewilkybarkid)
+- **Polish**
+  - backport from v3 some handy defaults defined in natural transformations/combinators/constructors (@gcanti)
+
+# 2.13.0-rc.2
+
+How to install:
+
+```sh
+npm install fp-ts@rc
+```
+
 - **Experimental**
   - add `exports` field to `package.json` in order to support moduleResolution node12/nodenext, #1765 (@gcanti)
 - **New Feature**
