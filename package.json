@@ -1,23 +1,27 @@
 {
   "name": "fp-ts",
-  "version": "2.13.0-rc.2",
+  "version": "2.13.0-rc.3",
   "description": "Functional programming in TypeScript",
   "main": "./lib/index.js",
   "module": "./es6/index.js",
   "exports": {
     ".": {
       "require": "./lib/index.js",
-      "import": "./es6/index.js"
+      "import": "./es6/index.js",
+      "types": "./types/index.d.ts"
     },
     "./*": {
       "require": "./lib/*.js",
-      "import": "./es6/*.js"
+      "import": "./es6/*.js",
+      "types": "./types/*.d.ts"
     },
     "./es6/*": {
-      "import": "./es6/*.js"
+      "import": "./es6/*.js",
+      "types": "./types/*.d.ts"
     },
     "./lib/*": {
-      "require": "./lib/*.js"
+      "require": "./lib/*.js",
+      "types": "./types/*.d.ts"
     }
   },
   "types": "index.d.ts",
