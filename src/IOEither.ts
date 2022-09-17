@@ -747,6 +747,8 @@ export const apT: <E2, B>(
 // array utils
 // -------------------------------------------------------------------------------------
 
+// --- Par ---
+
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
  *
@@ -768,6 +770,39 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray: <E, A>(
+  arr: ReadonlyArray<IOEither<E, A>>
+) => IOEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+
+// --- Seq ---
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
@@ -803,3 +838,34 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArraySeq = <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+): ((as: ReadonlyNonEmptyArray<A>) => IOEither<E, ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArraySeq = <A, E, B>(
+  f: (a: A) => IOEither<E, B>
+): ((as: ReadonlyArray<A>) => IOEither<E, ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArraySeq: <E, A>(
+  arr: ReadonlyArray<IOEither<E, A>>
+) => IOEither<E, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArraySeq(identity)

@@ -424,6 +424,8 @@ export const apT: <B>(
 // array utils
 // -------------------------------------------------------------------------------------
 
+// --- Par ---
+
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
  *
@@ -444,6 +446,39 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, B>(
+  f: (a: A) => Task<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <A, B>(
+  f: (a: A) => Task<B>
+): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray: <A>(
+  arr: ReadonlyArray<Task<A>>
+) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)
+
+// --- Seq ---
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
@@ -479,3 +514,34 @@ export const traverseReadonlyArrayWithIndexSeq = <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArraySeq = <A, B>(
+  f: (a: A) => Task<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Task<ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndexSeq((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArraySeq = <A, B>(
+  f: (a: A) => Task<B>
+): ((as: ReadonlyArray<A>) => Task<ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndexSeq((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArraySeq: <A>(
+  arr: ReadonlyArray<Task<A>>
+) => Task<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArraySeq(identity)

@@ -97,7 +97,10 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [let](#let)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
@@ -824,6 +827,32 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <A>(arr: readonly IOOption<A>[]) => IOOption<readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, B>(
+  f: (a: A) => IOOption<B>
+) => (as: readonly A[]) => IOOption<readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 **Signature**
@@ -832,6 +861,20 @@ Added in v3.0.0
 export declare const traverseReadonlyArrayWithIndex: <A, B>(
   f: (index: number, a: A) => IOOption<B>
 ) => (as: readonly A[]) => IOOption<readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, B>(
+  f: (a: A) => IOOption<B>
+) => (as: ReadonlyNonEmptyArray<A>) => IOOption<ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

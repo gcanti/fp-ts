@@ -333,16 +333,18 @@ export const apT: <S, B>(
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => (
   as: ReadonlyNonEmptyArray<A>
-): State<S, ReadonlyNonEmptyArray<B>> => (s) => {
-  const [b, s2] = f(0, _.head(as))(s)
-  const bs: NonEmptyArray<B> = [b]
-  let out = s2
-  for (let i = 1; i < as.length; i++) {
-    const [b, s2] = f(i, as[i])(out)
-    bs.push(b)
-    out = s2
+): State<S, ReadonlyNonEmptyArray<B>> => {
+  return (s) => {
+    const [b, s2] = f(0, _.head(as))(s)
+    const bs: NonEmptyArray<B> = [b]
+    let out = s2
+    for (let i = 1; i < as.length; i++) {
+      const [b, s2] = f(i, as[i])(out)
+      bs.push(b)
+      out = s2
+    }
+    return [bs, out]
   }
-  return [bs, out]
 }
 
 /**
@@ -350,9 +352,40 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, S, B>(f: (index: numbe
  *
  * @since 3.0.0
  */
-export const traverseReadonlyArrayWithIndex = <A, S, B>(
-  f: (index: number, a: A) => State<S, B>
-): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => {
+export const traverseReadonlyArrayWithIndex = <A, S, B>(f: (index: number, a: A) => State<S, B>) => {
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-  return (as) => (_.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray))
+  return (as: ReadonlyArray<A>): State<S, ReadonlyArray<B>> => {
+    return _.isNonEmpty(as) ? g(as) : of(_.emptyReadonlyArray)
+  }
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, S, B>(
+  f: (a: A) => State<S, B>
+): ((as: ReadonlyNonEmptyArray<A>) => State<S, ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <A, S, B>(
+  f: (a: A) => State<S, B>
+): ((as: ReadonlyArray<A>) => State<S, ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray: <S, A>(
+  arr: ReadonlyArray<State<S, A>>
+) => State<S, ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)

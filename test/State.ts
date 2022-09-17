@@ -92,5 +92,18 @@ describe('State', () => {
       U.deepStrictEqual(pipe(RA.empty, f)({}), [RA.empty, {}])
       U.deepStrictEqual(pipe(input, f)({}), [['a0', 'b1'], {}])
     })
+
+    it('traverseReadonlyNonEmptyArray', () => {
+      const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
+      U.deepStrictEqual(pipe(input, f)({}), [['a', 'b'], {}])
+    })
+
+    it('sequenceReadonlyArray', () => {
+      const append = (n: number): _.State<ReadonlyArray<number>, number> => (s) => [n, [...s, n]]
+      U.deepStrictEqual(pipe([append(1), append(2)], _.sequenceReadonlyArray)([]), [
+        [1, 2],
+        [1, 2]
+      ])
+    })
   })
 })

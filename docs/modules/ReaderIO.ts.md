@@ -60,7 +60,10 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [let](#let)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
@@ -517,6 +520,32 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <R, A>(arr: readonly ReaderIO<R, A>[]) => ReaderIO<R, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -527,6 +556,20 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, R, B>(
   f: (index: number, a: A) => ReaderIO<R, B>
 ) => (as: readonly A[]) => ReaderIO<R, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, R, B>(
+  f: (a: A) => ReaderIO<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderIO<R, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

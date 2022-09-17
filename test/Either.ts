@@ -2,13 +2,12 @@ import * as _ from '../src/Either'
 import { flow, identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
+import { geq, gt } from '../src/Ord'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import { separated } from '../src/Separated'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
-import { gt, geq } from '../src/Ord'
 
 describe('Either', () => {
   describe('pipeables', () => {
@@ -558,14 +557,25 @@ describe('Either', () => {
     )
   })
 
-  describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
 
-    it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
-      U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
-      U.deepStrictEqual(pipe(input, f), _.right(['a0', 'b1']))
-      U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
-    })
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.right(a) : _.left('e')))
+    U.deepStrictEqual(pipe(['a', 'b'], f), _.right(['a', 'b'] as const))
+    U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
+  })
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.right(a + i) : _.left('e')))
+    U.deepStrictEqual(pipe(RA.empty, f), _.right(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f), _.right(['a0', 'b1']))
+    U.deepStrictEqual(pipe(['a', ''], f), _.left('e'))
+  })
+
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.right('a'), _.right('b')], _.sequenceReadonlyArray), _.right(['a', 'b']))
+    U.deepStrictEqual(pipe([_.right('a'), _.left('e')], _.sequenceReadonlyArray), _.left('e'))
   })
 })

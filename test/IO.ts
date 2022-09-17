@@ -1,9 +1,8 @@
+import * as E from '../src/Either'
 import { flow, pipe } from '../src/function'
 import * as _ from '../src/IO'
-import * as U from './util'
-import * as E from '../src/Either'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as U from './util'
 
 describe('IO', () => {
   describe('pipeables', () => {
@@ -68,13 +67,22 @@ describe('IO', () => {
     U.deepStrictEqual(_.ChainRec.chainRec(f)(0)(), 'ok 15000')
   })
 
-  describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
 
-    it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
-      U.strictEqual(pipe(RA.empty, f)(), RA.empty)
-      U.deepStrictEqual(pipe(input, f)(), ['a0', 'b1'])
-    })
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => _.of(a))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), ['a', 'b'])
+  })
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => _.of(a + i))
+    U.deepStrictEqual(pipe(RA.empty, f)(), RA.empty)
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), ['a0', 'b1'])
+  })
+
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.of('a'), _.of('b')], _.sequenceReadonlyArray)(), ['a', 'b'])
   })
 })

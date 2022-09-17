@@ -112,7 +112,10 @@ Added in v3.0.0
   - [evaluate](#evaluate)
   - [execute](#execute)
   - [let](#let)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
@@ -1185,6 +1188,34 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <S, R, E, A>(
+  arr: readonly StateReaderTaskEither<S, R, E, A>[]
+) => StateReaderTaskEither<S, R, E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, S, R, E, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
@@ -1195,6 +1226,20 @@ Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
 export declare const traverseReadonlyArrayWithIndex: <A, S, R, E, B>(
   f: (index: number, a: A) => StateReaderTaskEither<S, R, E, B>
 ) => (as: readonly A[]) => StateReaderTaskEither<S, R, E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, S, R, E, B>(
+  f: (a: A) => StateReaderTaskEither<S, R, E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => StateReaderTaskEither<S, R, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

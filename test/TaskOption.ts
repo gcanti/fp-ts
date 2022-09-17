@@ -1,20 +1,19 @@
-import { pipe, SK } from '../src/function'
+import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import * as _ from '../src/TaskOption'
-// import { assertTask } from './Task'
+import { assertTask } from './Task'
 import * as U from './util'
-// import * as S from '../src/string'
-import * as E from '../src/Either'
 
-// const a: _.TaskOption<string> = pipe(_.of<string>('a'), T.delay(100))
-// const b: _.TaskOption<string> = _.of('b')
+const a: _.TaskOption<string> = pipe(_.of<string>('a'), T.delay(100))
+const b: _.TaskOption<string> = _.of('b')
 
-// const assertPar = assertTask(a, b, [O.some('b'), O.some('a')])
-// const assertSeq = assertTask(a, b, [O.some('a'), O.some('b')])
+const assertPar = assertTask(a, b, [O.some('b'), O.some('a')])
+const assertSeq = assertTask(a, b, [O.some('a'), O.some('b')])
 
 describe('TaskOption', () => {
   // -------------------------------------------------------------------------------------
@@ -25,17 +24,17 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await pipe(_.some(1), _.map(U.double))(), O.some(2))
   })
 
-  // it('ap', async () => {
-  //   await assertPar((a, b) => pipe(a, _.map(S.Semigroup.concat), _.ap(b)), O.some('ba'))
-  // })
+  it('ap', async () => {
+    await assertPar((a, b) => pipe(a, _.map(S.Semigroup.concat), _.ap(b)), O.some('ba'))
+  })
 
-  // it('apFirst', async () => {
-  //   await assertPar((a, b) => pipe(a, _.apFirst(b)), O.some('a'))
-  // })
+  it('apFirst', async () => {
+    await assertPar((a, b) => pipe(a, _.apFirst(b)), O.some('a'))
+  })
 
-  // it('apSecond', async () => {
-  //   await assertPar((a, b) => pipe(a, _.apSecond(b)), O.some('b'))
-  // })
+  it('apSecond', async () => {
+    await assertPar((a, b) => pipe(a, _.apSecond(b)), O.some('b'))
+  })
 
   it('chain', async () => {
     const f = (n: number) => _.some(n * 2)
@@ -74,15 +73,15 @@ describe('TaskOption', () => {
   // instances
   // -------------------------------------------------------------------------------------
 
-  // it('ApplicativeSeq', async () => {
-  //   await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), O.some('ba'))
-  //   await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), O.some('ba'))
-  // })
+  it('ApplicativeSeq', async () => {
+    await assertSeq((a, b) => pipe(a, _.ApplySeq.map(S.Semigroup.concat), _.ApplySeq.ap(b)), O.some('ba'))
+    await assertSeq((a, b) => pipe(a, _.ApplicativeSeq.map(S.Semigroup.concat), _.ApplicativeSeq.ap(b)), O.some('ba'))
+  })
 
-  // it('ApplicativePar', async () => {
-  //   await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), O.some('ba'))
-  //   await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), O.some('ba'))
-  // })
+  it('ApplicativePar', async () => {
+    await assertPar((a, b) => pipe(a, _.ApplyPar.map(S.Semigroup.concat), _.ApplyPar.ap(b)), O.some('ba'))
+    await assertPar((a, b) => pipe(a, _.ApplicativePar.map(S.Semigroup.concat), _.ApplicativePar.ap(b)), O.some('ba'))
+  })
 
   // -------------------------------------------------------------------------------------
   // constructors
@@ -212,66 +211,6 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await g(-1)(), O.none)
   })
 
-  describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
-
-    it('traverseReadonlyArrayWithIndex', async () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
-      U.deepStrictEqual(await pipe(RA.empty, f)(), O.some(RA.empty))
-      U.deepStrictEqual(await pipe(input, f)(), O.some(['a0', 'b1']))
-      U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
-    })
-
-    it('traverseReadonlyArrayWithIndexSeq', async () => {
-      const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
-      U.deepStrictEqual(await pipe(RA.empty, f)(), O.some(RA.empty))
-      U.deepStrictEqual(await pipe(input, f)(), O.some(['a0', 'b1']))
-      U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
-    })
-
-    it('sequenceReadonlyArray', async () => {
-      const log: Array<number | string> = []
-      const some = (n: number): _.TaskOption<number> =>
-        _.fromIO(() => {
-          log.push(n)
-          return n
-        })
-      const none = (s: string): _.TaskOption<number> =>
-        pipe(
-          T.fromIO(() => {
-            log.push(s)
-            return s
-          }),
-          T.map(() => O.none)
-        )
-      U.deepStrictEqual(await pipe([some(1), some(2)], _.traverseReadonlyArrayWithIndex(SK))(), O.some([1, 2]))
-      U.deepStrictEqual(await pipe([some(3), none('a')], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
-      U.deepStrictEqual(await pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
-      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
-    })
-
-    it('sequenceReadonlyArraySeq', async () => {
-      const log: Array<number | string> = []
-      const some = (n: number): _.TaskOption<number> =>
-        _.fromIO(() => {
-          log.push(n)
-          return n
-        })
-      const none = (s: string): _.TaskOption<number> =>
-        pipe(
-          T.fromIO(() => {
-            log.push(s)
-            return s
-          }),
-          T.map(() => O.none)
-        )
-      U.deepStrictEqual(await pipe([some(1), some(2)], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.some([1, 2]))
-      U.deepStrictEqual(await pipe([some(3), none('a')], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.none)
-      U.deepStrictEqual(await pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndexSeq(SK))(), O.none)
-      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
-    })
-  })
-
   it('chainTaskEitherK', async () => {
     const f = _.chainTaskEitherK((n: number) => (n > 0 ? TE.right(n * 2) : TE.left('a')))
     U.deepStrictEqual(await pipe(_.some(1), f)(), O.some(2))
@@ -304,5 +243,81 @@ describe('TaskOption', () => {
     U.deepStrictEqual(await g(_.of('a'))(), O.some('a'))
     U.deepStrictEqual(await g(_.of('aa'))(), O.some('aa'))
     U.deepStrictEqual(await g(_.of('aaa'))(), O.none)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  // --- Par ---
+
+  it('traverseReadonlyArrayWithIndex', async () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+    U.deepStrictEqual(await pipe(RA.empty, f)(), O.some(RA.empty))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a0', 'b1']))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
+  })
+
+  it('traverseReadonlyNonEmptyArray', async () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a', 'b'] as const))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
+  })
+
+  it('sequenceReadonlyArray', async () => {
+    const log: Array<number | string> = []
+    const some = (n: number): _.TaskOption<number> =>
+      _.fromIO(() => {
+        log.push(n)
+        return n
+      })
+    const none = (s: string): _.TaskOption<number> =>
+      pipe(
+        T.fromIO(() => {
+          log.push(s)
+          return s
+        }),
+        T.map(() => O.none)
+      )
+    U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceReadonlyArray)(), O.some([1, 2]))
+    U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceReadonlyArray)(), O.none)
+    U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceReadonlyArray)(), O.none)
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
+
+  // --- Seq ---
+
+  it('traverseReadonlyArrayWithIndexSeq', async () => {
+    const f = _.traverseReadonlyArrayWithIndexSeq((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+    U.deepStrictEqual(await pipe(RA.empty, f)(), O.some(RA.empty))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a0', 'b1']))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
+  })
+
+  it('traverseReadonlyNonEmptyArraySeq', async () => {
+    const f = _.traverseReadonlyNonEmptyArraySeq((a: string) => (a.length > 0 ? _.some(a) : _.none))
+    U.deepStrictEqual(await pipe(['a', 'b'], f)(), O.some(['a', 'b'] as const))
+    U.deepStrictEqual(await pipe(['a', ''], f)(), O.none)
+  })
+
+  it('sequenceReadonlyArraySeq', async () => {
+    const log: Array<number | string> = []
+    const some = (n: number): _.TaskOption<number> =>
+      _.fromIO(() => {
+        log.push(n)
+        return n
+      })
+    const none = (s: string): _.TaskOption<number> =>
+      pipe(
+        T.fromIO(() => {
+          log.push(s)
+          return s
+        }),
+        T.map(() => O.none)
+      )
+    U.deepStrictEqual(await pipe([some(1), some(2)], _.sequenceReadonlyArraySeq)(), O.some([1, 2]))
+    U.deepStrictEqual(await pipe([some(3), none('a')], _.sequenceReadonlyArraySeq)(), O.none)
+    U.deepStrictEqual(await pipe([none('b'), some(4)], _.sequenceReadonlyArraySeq)(), O.none)
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

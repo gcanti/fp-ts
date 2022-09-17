@@ -1,12 +1,11 @@
-import { pipe, SK } from '../src/function'
-import * as O from '../src/Option'
-import * as RA from '../src/ReadonlyArray'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import * as E from '../src/Either'
+import { pipe } from '../src/function'
 import * as I from '../src/IO'
 import * as IE from '../src/IOEither'
 import * as _ from '../src/IOOption'
+import * as O from '../src/Option'
+import * as RA from '../src/ReadonlyArray'
 import * as U from './util'
-import * as E from '../src/Either'
 
 describe('IOOption', () => {
   // -------------------------------------------------------------------------------------
@@ -150,45 +149,6 @@ describe('IOOption', () => {
     U.deepStrictEqual(f(_.none)(), O.none)
   })
 
-  describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
-      U.deepStrictEqual(pipe(RA.empty, f)(), O.some(RA.empty))
-      U.deepStrictEqual(pipe(input, f)(), O.some(['a0', 'b1']))
-      U.deepStrictEqual(pipe(['a', ''], f)(), O.none)
-    })
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
-      U.deepStrictEqual(pipe(RA.empty, f)(), O.some(RA.empty))
-      U.deepStrictEqual(pipe(input, f)(), O.some(['a0', 'b1']))
-      U.deepStrictEqual(pipe(['a', ''], f)(), O.none)
-    })
-
-    it('sequenceReadonlyArray', () => {
-      const log: Array<number | string> = []
-      const some = (n: number): _.IOOption<number> =>
-        _.fromIO(() => {
-          log.push(n)
-          return n
-        })
-      const none = (s: string): _.IOOption<number> =>
-        pipe(
-          () => {
-            log.push(s)
-            return s
-          },
-          I.map(() => O.none)
-        )
-      U.deepStrictEqual(pipe([some(1), some(2)], _.traverseReadonlyArrayWithIndex(SK))(), O.some([1, 2]))
-      U.deepStrictEqual(pipe([some(3), none('a')], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
-      U.deepStrictEqual(pipe([none('b'), some(4)], _.traverseReadonlyArrayWithIndex(SK))(), O.none)
-      U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
-    })
-  })
-
   it('match', () => {
     const f = _.match(
       () => 'none',
@@ -232,5 +192,43 @@ describe('IOOption', () => {
     U.deepStrictEqual(g(_.of('a'))(), O.some('a'))
     U.deepStrictEqual(g(_.of('aa'))(), O.some('aa'))
     U.deepStrictEqual(g(_.of('aaa'))(), O.none)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+    U.deepStrictEqual(pipe(RA.empty, f)(), O.some(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), O.some(['a0', 'b1']))
+    U.deepStrictEqual(pipe(['a', ''], f)(), O.none)
+  })
+
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+    U.deepStrictEqual(pipe(['a', 'b'], f)(), O.some(['a', 'b'] as const))
+    U.deepStrictEqual(pipe(['a', ''], f)(), O.none)
+  })
+
+  it('sequenceReadonlyArray', () => {
+    const log: Array<number | string> = []
+    const some = (n: number): _.IOOption<number> =>
+      _.fromIO(() => {
+        log.push(n)
+        return n
+      })
+    const none = (s: string): _.IOOption<number> =>
+      pipe(
+        () => {
+          log.push(s)
+          return s
+        },
+        I.map(() => O.none)
+      )
+    U.deepStrictEqual(pipe([some(1), some(2)], _.sequenceReadonlyArray)(), O.some([1, 2]))
+    U.deepStrictEqual(pipe([some(3), none('a')], _.sequenceReadonlyArray)(), O.none)
+    U.deepStrictEqual(pipe([none('b'), some(4)], _.sequenceReadonlyArray)(), O.none)
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
   })
 })

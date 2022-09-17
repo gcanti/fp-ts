@@ -2,6 +2,7 @@ import { identity, pipe } from '../src/function'
 import * as N from '../src/number'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import * as _ from '../src/These'
 import * as U from './util'
@@ -266,6 +267,23 @@ describe('These', () => {
     U.deepStrictEqual(_.swap(_.both('a', 1)), _.both(1, 'a'))
   })
 
+  it('exists', () => {
+    const gt2 = _.exists((n: number) => n > 2)
+    U.deepStrictEqual(gt2(_.left('a')), false)
+    U.deepStrictEqual(gt2(_.right(1)), false)
+    U.deepStrictEqual(gt2(_.right(3)), true)
+    U.deepStrictEqual(gt2(_.both('a', 1)), false)
+    U.deepStrictEqual(gt2(_.both('a', 3)), true)
+  })
+
+  it('elem', () => {
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.left('a')), false)
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.right(2)), true)
+    U.deepStrictEqual(_.elem(N.Eq)(1)(_.right(2)), false)
+    U.deepStrictEqual(_.elem(N.Eq)(2)(_.both('a', 2)), true)
+    U.deepStrictEqual(_.elem(N.Eq)(1)(_.both('a', 2)), false)
+  })
+
   // -------------------------------------------------------------------------------------
   // array utils
   // -------------------------------------------------------------------------------------
@@ -286,20 +304,25 @@ describe('These', () => {
     assert(RA.empty)
   })
 
-  it('exists', () => {
-    const gt2 = _.exists((n: number) => n > 2)
-    U.deepStrictEqual(gt2(_.left('a')), false)
-    U.deepStrictEqual(gt2(_.right(1)), false)
-    U.deepStrictEqual(gt2(_.right(3)), true)
-    U.deepStrictEqual(gt2(_.both('a', 1)), false)
-    U.deepStrictEqual(gt2(_.both('a', 3)), true)
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = (n: number) => (n > 0 ? _.right(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverse(_.getApplicative(S.Semigroup))(f)
+    const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
+    const assert = (input: ReadonlyNonEmptyArray<number>) => {
+      U.deepStrictEqual(standard(input), optimized(input))
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
   })
 
-  it('elem', () => {
-    U.deepStrictEqual(_.elem(N.Eq)(2)(_.left('a')), false)
-    U.deepStrictEqual(_.elem(N.Eq)(2)(_.right(2)), true)
-    U.deepStrictEqual(_.elem(N.Eq)(1)(_.right(2)), false)
-    U.deepStrictEqual(_.elem(N.Eq)(2)(_.both('a', 2)), true)
-    U.deepStrictEqual(_.elem(N.Eq)(1)(_.both('a', 2)), false)
+  it('sequenceReadonlyArray', () => {
+    const sequenceReadonlyArray = _.sequenceReadonlyArray(S.Semigroup)
+    U.deepStrictEqual(pipe([_.right('a'), _.right('b')], sequenceReadonlyArray), _.right(['a', 'b']))
+    U.deepStrictEqual(pipe([_.right('a'), _.left('e')], sequenceReadonlyArray), _.left('e'))
+    U.deepStrictEqual(pipe([_.left('e'), _.right('b')], sequenceReadonlyArray), _.left('e'))
   })
 })

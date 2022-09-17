@@ -75,8 +75,14 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [let](#let)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [tupled](#tupled)
@@ -695,9 +701,61 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArraySeq: <R, A>(arr: readonly ReaderTask<R, A>[]) => ReaderTask<R, readonly A[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArraySeq: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: readonly A[]) => ReaderTask<R, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
-Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 
@@ -723,9 +781,37 @@ export declare const traverseReadonlyArrayWithIndexSeq: <A, R, B>(
 
 Added in v3.0.0
 
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArraySeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArraySeq: <A, R, B>(
+  f: (a: A) => ReaderTask<R, B>
+) => (as: ReadonlyNonEmptyArray<A>) => ReaderTask<R, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
 
 **Signature**
 

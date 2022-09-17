@@ -65,9 +65,15 @@ Added in v3.0.0
   - [fromOption](#fromoption)
 - [utils](#utils)
   - [ApT](#apt)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [toTuple2](#totuple2)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
 
@@ -554,12 +560,68 @@ export declare const ApT: TaskThese<never, readonly []>
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A>(arr: readonly TaskThese<E, A>[]) => TaskThese<E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArraySeq: <E>(
+  S: Semigroup<E>
+) => <A>(arr: readonly TaskThese<E, A>[]) => TaskThese<E, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## toTuple2
 
 **Signature**
 
 ```ts
 export declare const toTuple2: <E, A>(e: Lazy<E>, a: Lazy<A>) => (fa: TaskThese<E, A>) => T.Task<readonly [E, A]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArraySeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -588,6 +650,34 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, 
 export declare const traverseReadonlyArrayWithIndexSeq: <E>(
   S: Semigroup<E>
 ) => <A, B>(f: (index: number, a: A) => TaskThese<E, B>) => (as: readonly A[]) => TaskThese<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArraySeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArraySeq: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => TaskThese<E, B>) => (as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

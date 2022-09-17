@@ -1160,3 +1160,34 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <A, B>(
+  f: (a: A) => Option<B>
+): ((as: ReadonlyNonEmptyArray<A>) => Option<ReadonlyNonEmptyArray<B>>) => {
+  return traverseReadonlyNonEmptyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <A, B>(
+  f: (a: A) => Option<B>
+): ((as: ReadonlyArray<A>) => Option<ReadonlyArray<B>>) => {
+  return traverseReadonlyArrayWithIndex((_, a) => f(a))
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray: <A>(
+  arr: ReadonlyArray<Option<A>>
+) => Option<ReadonlyArray<A>> = /*#__PURE__*/ traverseReadonlyArray(identity)

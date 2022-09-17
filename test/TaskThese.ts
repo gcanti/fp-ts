@@ -1,7 +1,8 @@
 import * as E from '../src/Either'
-import { pipe, SK } from '../src/function'
+import { pipe } from '../src/function'
 import * as IO from '../src/IO'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskThese'
@@ -184,6 +185,8 @@ describe('TaskThese', () => {
   // array utils
   // -------------------------------------------------------------------------------------
 
+  // --- Par ---
+
   it('traverseReadonlyArrayWithIndex', async () => {
     const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
     const standard = RA.traverseWithIndex(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
@@ -199,6 +202,42 @@ describe('TaskThese', () => {
     await assert([1, -2, 3])
     await assert(RA.empty)
   })
+
+  it('traverseReadonlyNonEmptyArray', async () => {
+    const f = (n: number) => (n > 0 ? _.right(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverse(_.getApplicative(T.ApplicativePar, S.Semigroup))(f)
+    const optimized = _.traverseReadonlyNonEmptyArray(S.Semigroup)(f)
+    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(), await optimized(input)())
+    }
+    await assert([1, 2, 3])
+    await assert([0, 2, 3])
+    await assert([1, 0, 3])
+    await assert([0, 0, 3])
+    await assert([-1, 2, 3])
+    await assert([1, -2, 3])
+  })
+
+  it('sequenceReadonlyArray', async () => {
+    const log: Array<number | string> = []
+    const right = (n: number): _.TaskThese<string, number> =>
+      _.rightIO(() => {
+        log.push(n)
+        return n
+      })
+    const left = (s: string): _.TaskThese<string, number> =>
+      _.leftIO(() => {
+        log.push(s)
+        return s
+      })
+    const f = _.sequenceReadonlyArray(S.Semigroup)
+    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], f)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], f)(), E.left('b'))
+    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  })
+
+  // --- Seq ---
 
   it('traverseReadonlyArrayWithIndexSeq', async () => {
     const f = (i: number, n: number) => (n > 0 ? _.right(n + i) : n === 0 ? _.both('a', 0) : _.left(String(n)))
@@ -216,23 +255,19 @@ describe('TaskThese', () => {
     await assert(RA.empty)
   })
 
-  it('sequenceReadonlyArray', async () => {
-    const log: Array<number | string> = []
-    const right = (n: number): _.TaskThese<string, number> =>
-      _.rightIO(() => {
-        log.push(n)
-        return n
-      })
-    const left = (s: string): _.TaskThese<string, number> =>
-      _.leftIO(() => {
-        log.push(s)
-        return s
-      })
-    const f = _.traverseReadonlyArrayWithIndex(S.Semigroup)
-    U.deepStrictEqual(await pipe([right(1), right(2)], f(SK))(), E.right([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], f(SK))(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], f(SK))(), E.left('b'))
-    U.deepStrictEqual(log, [1, 2, 3, 'a', 'b', 4])
+  it('traverseReadonlyNonEmptyArraySeq', async () => {
+    const f = (n: number) => (n > 0 ? _.right(n) : n === 0 ? _.both('a', 0) : _.left(String(n)))
+    const standard = RA.traverse(_.getApplicative(T.ApplicativeSeq, S.Semigroup))(f)
+    const optimized = _.traverseReadonlyNonEmptyArraySeq(S.Semigroup)(f)
+    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(), await optimized(input)())
+    }
+    await assert([1, 2, 3])
+    await assert([0, 2, 3])
+    await assert([1, 0, 3])
+    await assert([0, 0, 3])
+    await assert([-1, 2, 3])
+    await assert([1, -2, 3])
   })
 
   it('sequenceReadonlyArraySeq', async () => {
@@ -247,10 +282,10 @@ describe('TaskThese', () => {
         log.push(s)
         return s
       })
-    const f = _.traverseReadonlyArrayWithIndexSeq(S.Semigroup)
-    U.deepStrictEqual(await pipe([right(1), right(2)], f(SK))(), E.right([1, 2]))
-    U.deepStrictEqual(await pipe([right(3), left('a')], f(SK))(), E.left('a'))
-    U.deepStrictEqual(await pipe([left('b'), right(4)], f(SK))(), E.left('b'))
+    const f = _.sequenceReadonlyArraySeq(S.Semigroup)
+    U.deepStrictEqual(await pipe([right(1), right(2)], f)(), E.right([1, 2]))
+    U.deepStrictEqual(await pipe([right(3), left('a')], f)(), E.left('a'))
+    U.deepStrictEqual(await pipe([left('b'), right(4)], f)(), E.left('b'))
     U.deepStrictEqual(log, [1, 2, 3, 'a', 'b'])
   })
 })

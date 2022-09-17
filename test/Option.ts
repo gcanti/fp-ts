@@ -1,13 +1,12 @@
-import * as N from '../src/number'
+import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
-import * as S from '../src/string'
+import * as N from '../src/number'
 import * as _ from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
+import { separated } from '../src/Separated'
+import * as S from '../src/string'
 import * as T from '../src/Task'
 import * as U from './util'
-import { separated } from '../src/Separated'
-import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
-import * as E from '../src/Either'
 
 const p = (n: number): boolean => n > 2
 
@@ -410,17 +409,6 @@ describe('Option', () => {
     U.deepStrictEqual(f(''), _.none)
   })
 
-  describe('array utils', () => {
-    const input: ReadonlyNonEmptyArray<string> = ['a', 'b']
-
-    it('traverseReadonlyArrayWithIndex', () => {
-      const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
-      U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
-      U.deepStrictEqual(pipe(input, f), _.some(['a0', 'b1']))
-      U.deepStrictEqual(pipe(['a', ''], f), _.none)
-    })
-  })
-
   it('guard', () => {
     U.deepStrictEqual(
       pipe(
@@ -447,5 +435,27 @@ describe('Option', () => {
     U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(f)), _.some('a'))
     const g = (s: string) => E.left(s.length)
     U.deepStrictEqual(pipe(_.some('a'), _.chainFirstEitherK(g)), _.none)
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const f = _.traverseReadonlyArrayWithIndex((i, a: string) => (a.length > 0 ? _.some(a + i) : _.none))
+    U.deepStrictEqual(pipe(RA.empty, f), _.some(RA.empty))
+    U.deepStrictEqual(pipe(['a', 'b'], f), _.some(['a0', 'b1']))
+    U.deepStrictEqual(pipe(['a', ''], f), _.none)
+  })
+
+  it('traverseReadonlyNonEmptyArray', () => {
+    const f = _.traverseReadonlyNonEmptyArray((a: string) => (a.length > 0 ? _.some(a) : _.none))
+    U.deepStrictEqual(pipe(['a', 'b'], f), _.some(['a', 'b'] as const))
+    U.deepStrictEqual(pipe(['a', ''], f), _.none)
+  })
+
+  it('sequenceReadonlyArray', () => {
+    U.deepStrictEqual(pipe([_.some('a'), _.some('b')], _.sequenceReadonlyArray), _.some(['a', 'b']))
+    U.deepStrictEqual(pipe([_.some('a'), _.none], _.sequenceReadonlyArray), _.none)
   })
 })

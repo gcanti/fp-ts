@@ -454,6 +454,8 @@ export const tupled: <R, E, A>(
 
 // TODO: array utils
 
+// --- Par ---
+
 // /**
 //  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
 //  *
@@ -475,6 +477,8 @@ export const tupled: <R, E, A>(
 //   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
 //   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 // }
+
+// --- Seq ---
 
 // /**
 //  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.

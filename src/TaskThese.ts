@@ -16,7 +16,7 @@ import {
 import { FromIO as FromIO_, fromIOK as fromIOK_ } from './FromIO'
 import { FromTask as FromTask_, fromTaskK as fromTaskK_ } from './FromTask'
 import { FromThese as FromThese_, fromTheseK as fromTheseK_ } from './FromThese'
-import { flow, Lazy, SK } from './function'
+import { flow, identity, Lazy, SK } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
 import { HKT } from './HKT'
 import * as _ from './internal'
@@ -418,6 +418,8 @@ export const ApT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadon
 // array utils
 // -------------------------------------------------------------------------------------
 
+// --- Par ---
+
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
  *
@@ -443,6 +445,43 @@ export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
+  return <A, B>(
+    f: (a: A) => TaskThese<E, B>
+  ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(S)
+  return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativePar, S))`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray = <E>(
+  S: Semigroup<E>
+): (<A>(arr: ReadonlyArray<TaskThese<E, A>>) => TaskThese<E, ReadonlyArray<A>>) => traverseReadonlyArray(S)(identity)
+
+// --- Seq ---
 
 /**
  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
@@ -484,3 +523,38 @@ export const traverseReadonlyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(S)(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArraySeq = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndexSeq(S)
+  return <A, B>(
+    f: (a: A) => TaskThese<E, B>
+  ): ((as: ReadonlyNonEmptyArray<A>) => TaskThese<E, ReadonlyNonEmptyArray<B>>) => {
+    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArraySeq = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndexSeq(S)
+  return <A, B>(f: (a: A) => TaskThese<E, B>): ((as: ReadonlyArray<A>) => TaskThese<E, ReadonlyArray<B>>) => {
+    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(getApplicative(T.ApplicativeSeq, S))`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArraySeq = <E>(
+  S: Semigroup<E>
+): (<A>(arr: ReadonlyArray<TaskThese<E, A>>) => TaskThese<E, ReadonlyArray<A>>) => traverseReadonlyArraySeq(S)(identity)

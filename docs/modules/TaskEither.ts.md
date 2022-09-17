@@ -120,9 +120,15 @@ Added in v3.0.0
   - [bindTo](#bindto)
   - [bracket](#bracket)
   - [let](#let)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
+  - [sequenceReadonlyArraySeq](#sequencereadonlyarrayseq)
   - [taskify](#taskify)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArraySeq](#traversereadonlyarrayseq)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyArrayWithIndexSeq](#traversereadonlyarraywithindexseq)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArraySeq](#traversereadonlynonemptyarrayseq)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndexSeq](#traversereadonlynonemptyarraywithindexseq)
   - [tupled](#tupled)
@@ -1230,6 +1236,30 @@ export declare const let: <N extends string, A, B>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <E, A>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
+```
+
+Added in v3.0.0
+
+## sequenceReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#sequence(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArraySeq: <E, A>(arr: readonly TaskEither<E, A>[]) => TaskEither<E, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## taskify
 
 Convert a node style callback function to one returning a `TaskEither`
@@ -1282,6 +1312,34 @@ assert.strictEqual(stat.length, 0)
 
 Added in v3.0.0
 
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArraySeq
+
+Equivalent to `ReadonlyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArraySeq: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
@@ -1306,6 +1364,34 @@ Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
 export declare const traverseReadonlyArrayWithIndexSeq: <A, E, B>(
   f: (index: number, a: A) => TaskEither<E, B>
 ) => (as: readonly A[]) => TaskEither<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArraySeq
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArraySeq: <A, E, B>(
+  f: (a: A) => TaskEither<E, B>
+) => (as: ReadonlyNonEmptyArray<A>) => TaskEither<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

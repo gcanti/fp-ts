@@ -93,8 +93,11 @@ Added in v3.0.0
   - [getLeftOnly](#getleftonly)
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [toTuple2](#totuple2)
+  - [traverseReadonlyArray](#traversereadonlyarray)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
@@ -746,6 +749,20 @@ assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A>(arr: readonly These<E, A>[]) => These<E, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## toTuple2
 
 **Signature**
@@ -770,6 +787,20 @@ assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
 
 Added in v3.0.0
 
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v3.0.0
+
 ## traverseReadonlyArrayWithIndex
 
 Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
@@ -780,6 +811,20 @@ Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(S))`.
 export declare const traverseReadonlyArrayWithIndex: <E>(
   S: Semigroup<E>
 ) => <A, B>(f: (index: number, a: A) => These<E, B>) => (as: readonly A[]) => These<E, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <E>(
+  S: Semigroup<E>
+) => <A, B>(f: (a: A) => These<E, B>) => (as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

@@ -690,3 +690,36 @@ export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
   const g = traverseReadonlyNonEmptyArrayWithIndex(S)(f)
   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
 }
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
+  return <A, B>(f: (a: A) => These<E, B>): ((as: ReadonlyNonEmptyArray<A>) => These<E, ReadonlyNonEmptyArray<B>>) => {
+    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
+  const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(S)
+  return <A, B>(f: (a: A) => These<E, B>): ((as: ReadonlyArray<A>) => These<E, ReadonlyArray<B>>) => {
+    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray = <E>(
+  S: Semigroup<E>
+): (<A>(arr: ReadonlyArray<These<E, A>>) => These<E, ReadonlyArray<A>>) => traverseReadonlyArray(S)(identity)
