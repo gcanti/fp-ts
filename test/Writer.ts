@@ -2,6 +2,7 @@ import * as E from '../src/Either'
 import { identity, pipe } from '../src/function'
 import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 import * as S from '../src/string'
 import { tuple } from '../src/tuple'
 import * as _ from '../src/Writer'
@@ -175,5 +176,48 @@ describe('Writer', () => {
 
   it('execute', () => {
     U.deepStrictEqual(pipe([1, 'a'] as const, _.execute), 'a')
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', () => {
+    const { of } = _.getPointed(S.Monoid)
+    const f = (i: number, n: number) => of(n + i)
+    const standard = RA.traverseWithIndex(_.getApplicative(S.Monoid))(f)
+    const optimized = _.traverseReadonlyArrayWithIndex(S.Monoid)(f)
+    const assert = (input: ReadonlyArray<number>) => {
+      U.deepStrictEqual(standard(input), optimized(input))
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
+    assert(RA.empty)
+  })
+
+  it('traverseReadonlyNonEmptyArray', () => {
+    const { of } = _.getPointed(S.Monoid)
+    const f = (n: number) => of(n)
+    const standard = RA.traverse(_.getApplicative(S.Monoid))(f)
+    const optimized = _.traverseReadonlyNonEmptyArray(S.Monoid)(f)
+    const assert = (input: ReadonlyNonEmptyArray<number>) => {
+      U.deepStrictEqual(standard(input), optimized(input))
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
+  })
+
+  it('sequenceReadonlyArray', () => {
+    const { of } = _.getPointed(S.Monoid)
+    const sequenceReadonlyArray = _.sequenceReadonlyArray(S.Monoid)
+    U.deepStrictEqual(pipe([of('a'), of('b')], sequenceReadonlyArray), of(['a', 'b']))
   })
 })

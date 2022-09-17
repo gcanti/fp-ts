@@ -8,6 +8,9 @@ import * as string from '../src/string'
 import * as T from '../src/Task'
 import { tuple } from '../src/tuple'
 import * as U from './util'
+import * as S from '../src/string'
+import * as RA from '../src/ReadonlyArray'
+import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
 
 const make = <A, W, R>(a: A, w: W): _.ReaderTaskWriter<R, W, A> => RT.of([a, w])
 
@@ -187,5 +190,48 @@ describe('ReaderTaskWriter', () => {
 
   it('execute', async () => {
     U.deepStrictEqual(await pipe(make(1, 'a'), _.execute)(undefined)(), 'a')
+  })
+
+  // -------------------------------------------------------------------------------------
+  // array utils
+  // -------------------------------------------------------------------------------------
+
+  it('traverseReadonlyArrayWithIndex', async () => {
+    const { of } = _.getPointed(S.Monoid)
+    const f = (i: number, n: number) => of(n + i)
+    const standard = RA.traverseWithIndex(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
+    const optimized = _.traverseReadonlyArrayWithIndex(RT.ApplicativePar, S.Monoid)(f)
+    const assert = async (input: ReadonlyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(null)(), await optimized(input)(null)())
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
+    assert(RA.empty)
+  })
+
+  it('traverseReadonlyNonEmptyArray', async () => {
+    const { of } = _.getPointed(S.Monoid)
+    const f = (n: number) => of(n)
+    const standard = RA.traverse(_.getApplicative(RT.ApplicativePar, S.Monoid))(f)
+    const optimized = _.traverseReadonlyNonEmptyArray(RT.ApplicativePar, S.Monoid)(f)
+    const assert = async (input: ReadonlyNonEmptyArray<number>) => {
+      U.deepStrictEqual(await standard(input)(null)(), await optimized(input)(null)())
+    }
+    assert([1, 2, 3])
+    assert([0, 2, 3])
+    assert([1, 0, 3])
+    assert([0, 0, 3])
+    assert([-1, 2, 3])
+    assert([1, -2, 3])
+  })
+
+  it('sequenceReadonlyArray', async () => {
+    const { of } = _.getPointed(S.Monoid)
+    const sequenceReadonlyArray = _.sequenceReadonlyArray(RT.ApplicativePar, S.Monoid)
+    U.deepStrictEqual(await pipe([of('a'), of('b')], sequenceReadonlyArray)(null)(), [['a', 'b'], ''])
   })
 })

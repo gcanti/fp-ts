@@ -62,8 +62,13 @@ Added in v3.0.0
   - [mapFst](#mapfst)
   - [mapSnd](#mapsnd)
   - [pass](#pass)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
   - [swap](#swap)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
   - [tupled](#tupled)
 
 ---
@@ -114,7 +119,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromReaderWriterK: <A extends readonly unknown[], R, W, B>(
-  f: (...a: A) => Reader<R, Writer<W, B>>
+  f: (...a: A) => Reader<R, W.Writer<W, B>>
 ) => (...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -126,7 +131,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromTaskWriterK: <A extends readonly unknown[], W, B>(
-  f: (...a: A) => Task<Writer<W, B>>
+  f: (...a: A) => Task<W.Writer<W, B>>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, W, B>
 ```
 
@@ -138,7 +143,7 @@ Added in v3.0.0
 
 ```ts
 export declare const fromWriterK: <A extends readonly unknown[], E, B>(
-  f: (...a: A) => Writer<E, B>
+  f: (...a: A) => W.Writer<E, B>
 ) => <R = unknown>(...a: A) => ReaderTaskWriter<R, E, B>
 ```
 
@@ -218,7 +223,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromTaskWriter: <W, A, R = unknown>(a: Task<Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+export declare const fromTaskWriter: <W, A, R = unknown>(a: Task<W.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -369,7 +374,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, Writer<W, A>>) => ReaderTaskWriter<R, W, A>
+export declare const fromReaderWriter: <R, W, A>(fa: Reader<R, W.Writer<W, A>>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -379,7 +384,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const fromWriter: <W, A, R = unknown>(w: Writer<W, A>) => ReaderTaskWriter<R, W, A>
+export declare const fromWriter: <W, A, R = unknown>(w: W.Writer<W, A>) => ReaderTaskWriter<R, W, A>
 ```
 
 Added in v3.0.0
@@ -565,6 +570,21 @@ export declare const pass: <R, W, A>(
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => <R, A>(arr: readonly ReaderTaskWriter<R, W, A>[]) => ReaderTaskWriter<R, W, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## snd
 
 **Signature**
@@ -581,6 +601,76 @@ Added in v3.0.0
 
 ```ts
 export declare const swap: <R, W, A>(t: ReaderTaskWriter<R, W, A>) => ReaderTaskWriter<R, A, W>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => <A, R, B>(f: (a: A) => ReaderTaskWriter<R, W, B>) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+) => (as: readonly A[]) => ReaderTaskWriter<R, W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => <A, R, B>(
+  f: (a: A) => ReaderTaskWriter<R, W, B>
+) => (
+  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(A, M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+) => (
+  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

@@ -60,7 +60,12 @@ Added in v3.0.0
   - [fst](#fst)
   - [mapFst](#mapfst)
   - [mapSnd](#mapsnd)
+  - [sequenceReadonlyArray](#sequencereadonlyarray)
   - [snd](#snd)
+  - [traverseReadonlyArray](#traversereadonlyarray)
+  - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
+  - [traverseReadonlyNonEmptyArray](#traversereadonlynonemptyarray)
+  - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
 ---
 
@@ -531,12 +536,90 @@ export declare const mapSnd: <W, X>(f: (w: W) => X) => <A>(fea: Writer<W, A>) =>
 
 Added in v3.0.0
 
+## sequenceReadonlyArray
+
+Equivalent to `ReadonlyArray#sequence(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const sequenceReadonlyArray: <W>(
+  M: Monoid<W>
+) => <A>(arr: readonly Writer<W, A>[]) => Writer<W, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## snd
 
 **Signature**
 
 ```ts
 export declare const snd: <W, A>(t: Writer<W, A>) => W
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArray
+
+Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArray: <W>(
+  M: Monoid<W>
+) => <A, B>(f: (a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyArrayWithIndex
+
+Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyArrayWithIndex: <W>(
+  M: Monoid<W>
+) => <A, B>(f: (index: number, a: A) => Writer<W, B>) => (as: readonly A[]) => Writer<W, readonly B[]>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArray
+
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArray: <W>(
+  M: Monoid<W>
+) => <A, B>(
+  f: (a: A) => Writer<W, B>
+) => (
+  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => Writer<W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
+```
+
+Added in v3.0.0
+
+## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(M))`.
+
+**Signature**
+
+```ts
+export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
+  M: Monoid<W>
+) => <A, B>(
+  f: (index: number, a: A) => Writer<W, B>
+) => (
+  as: ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<A>
+) => Writer<W, ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

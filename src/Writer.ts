@@ -16,9 +16,12 @@ import * as _ from './internal'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
+import * as ReadonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
 import * as TraversableModule from './Traversable'
+
+import ReadonlyNonEmptyArray = ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -438,3 +441,64 @@ export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
     chainRec
   }
 }
+
+// -------------------------------------------------------------------------------------
+// array utils
+// -------------------------------------------------------------------------------------
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <W>(M: Monoid<W>) => <A, B>(
+  f: (index: number, a: A) => Writer<W, B>
+) => (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
+  // TODO
+  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApplicative(M))(f)(as)
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <W>(M: Monoid<W>) => <A, B>(
+  f: (index: number, a: A) => Writer<W, B>
+): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(M)(f)
+  return (as) => (_.isNonEmpty(as) ? g(as) : [_.emptyReadonlyArray, M.empty])
+}
+
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <W>(M: Monoid<W>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(M)
+  return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyNonEmptyArray<A>) => Writer<W, ReadonlyNonEmptyArray<B>>) => {
+    return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#traverse(getApplicative(M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <W>(M: Monoid<W>) => {
+  const traverseReadonlyArrayWithIndexS = traverseReadonlyArrayWithIndex(M)
+  return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyArray<A>) => Writer<W, ReadonlyArray<B>>) => {
+    return traverseReadonlyArrayWithIndexS((_, a) => f(a))
+  }
+}
+
+/**
+ * Equivalent to `ReadonlyArray#sequence(getApplicative(M))`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray = <W>(
+  M: Monoid<W>
+): (<A>(arr: ReadonlyArray<Writer<W, A>>) => Writer<W, ReadonlyArray<A>>) => traverseReadonlyArray(M)(identity)

@@ -9,9 +9,10 @@ import type { FromIO } from './FromIO'
 import type { FromReader } from './FromReader'
 import type { FromTask } from './FromTask'
 import { FromWriter as FromWriter_, fromWriterK as fromWriterK_ } from './FromWriter'
-import { flow } from './function'
+import { flow, identity } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__, tupled as tupled_ } from './Functor'
 import { HKT } from './HKT'
+import * as _ from './internal'
 import type { IO } from './IO'
 import type { Monad } from './Monad'
 import type { Monoid } from './Monoid'
@@ -19,13 +20,16 @@ import type { Pointed } from './Pointed'
 import type { Reader } from './Reader'
 import * as R from './Reader'
 import * as RT from './ReaderTask'
+import * as ReadonlyNonEmptyArrayModule from './ReadonlyNonEmptyArray'
 import type { Semigroup } from './Semigroup'
 import type { Task } from './Task'
 import * as T from './Task'
-import type { Writer } from './Writer'
+import * as W from './Writer'
 import * as WT from './WriterT'
 
 import ReaderTask = RT.ReaderTask
+import Writer = W.Writer
+import ReadonlyNonEmptyArray = ReadonlyNonEmptyArrayModule.ReadonlyNonEmptyArray
 
 // -------------------------------------------------------------------------------------
 // model
@@ -452,52 +456,66 @@ export const tupled: <R, E, A>(
 // array utils
 // -------------------------------------------------------------------------------------
 
-// TODO: array utils
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(A, M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+) => (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
+  // TODO
+  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApplicative(A, M))(f)(as)
+}
 
-// --- Par ---
+/**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(getApplicative(A, M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => <A, R, B>(
+  f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
+): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
+  const g = traverseReadonlyNonEmptyArrayWithIndex(A, M)(f)
+  const P = getPointed(M)
+  return (as) => (_.isNonEmpty(as) ? g(as) : P.of(_.emptyReadonlyArray))
+}
 
-// /**
-//  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
-//  *
-//  * @since 3.0.0
-//  */
-// export const traverseReadonlyNonEmptyArrayWithIndex = <A, R, E, B>(
-//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
-// ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, E, ReadonlyNonEmptyArray<B>>) =>
-//   flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(TE.traverseReadonlyNonEmptyArrayWithIndex(SK)))
+/**
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(A, M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyNonEmptyArray = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(A, M)
+  return <A, R, B>(
+    f: (a: A) => ReaderTaskWriter<R, W, B>
+  ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>>) => {
+    return traverseReadonlyNonEmptyArrayWithIndexAM((_, a) => f(a))
+  }
+}
 
-// /**
-//  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativePar)`.
-//  *
-//  * @since 3.0.0
-//  */
-// export const traverseReadonlyArrayWithIndex = <A, R, E, B>(
-//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
-// ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, E, ReadonlyArray<B>>) => {
-//   const g = traverseReadonlyNonEmptyArrayWithIndex(f)
-//   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-// }
+/**
+ * Equivalent to `ReadonlyArray#traverse(getApplicative(A, M))`.
+ *
+ * @since 3.0.0
+ */
+export const traverseReadonlyArray = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => {
+  const traverseReadonlyArrayWithIndexAM = traverseReadonlyArrayWithIndex(A, M)
+  return <A, R, B>(
+    f: (a: A) => ReaderTaskWriter<R, W, B>
+  ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, W, ReadonlyArray<B>>) => {
+    return traverseReadonlyArrayWithIndexAM((_, a) => f(a))
+  }
+}
 
-// --- Seq ---
-
-// /**
-//  * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
-//  *
-//  * @since 3.0.0
-//  */
-// export const traverseReadonlyNonEmptyArrayWithIndexSeq = <A, R, E, B>(
-//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
-// ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, E, ReadonlyNonEmptyArray<B>>) =>
-//   flow(R.traverseReadonlyNonEmptyArrayWithIndex(f), R.map(TE.traverseReadonlyNonEmptyArrayWithIndexSeq(SK)))
-
-// /**
-//  * Equivalent to `ReadonlyArray#traverseWithIndex(ApplicativeSeq)`.
-//  *
-//  * @since 3.0.0
-//  */
-// export const traverseReadonlyArrayWithIndexSeq = <A, R, E, B>(
-//   f: (index: number, a: A) => ReaderTaskWriter<R, E, B>
-// ): ((as: ReadonlyArray<A>) => ReaderTaskWriter<R, E, ReadonlyArray<B>>) => {
-//   const g = traverseReadonlyNonEmptyArrayWithIndexSeq(f)
-//   return (as) => (_.isNonEmpty(as) ? g(as) : ApT)
-// }
+/**
+ * Equivalent to `ReadonlyArray#sequence(getApplicative(A, M))`.
+ *
+ * @since 3.0.0
+ */
+export const sequenceReadonlyArray = <W>(
+  A: Apply<RT.ReaderTaskF>,
+  M: Monoid<W>
+): (<R, A>(arr: ReadonlyArray<ReaderTaskWriter<R, W, A>>) => ReaderTaskWriter<R, W, ReadonlyArray<A>>) =>
+  traverseReadonlyArray(A, M)(identity)
