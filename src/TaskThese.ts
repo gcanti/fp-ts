@@ -421,7 +421,7 @@ export const ApT: TaskThese<never, readonly []> = /*#__PURE__*/ of(_.emptyReadon
 // --- Par ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
  *
  * @since 3.0.0
  */
@@ -447,7 +447,7 @@ export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
  *
  * @since 3.0.0
  */
@@ -484,7 +484,7 @@ export const sequenceReadonlyArray = <E>(
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplySeq, S))`.
  *
  * @since 3.0.0
  */
@@ -525,7 +525,7 @@ export const traverseReadonlyArrayWithIndexSeq = <E>(S: Semigroup<E>) => <A, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplySeq, S))`.
  *
  * @since 3.0.0
  */

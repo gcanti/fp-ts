@@ -618,6 +618,8 @@ export const ApT: IOOption<readonly []> = /*#__PURE__*/ of(_.emptyReadonlyArray)
 // -------------------------------------------------------------------------------------
 
 /**
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
+ *
  * @since 3.0.0
  */
 export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
@@ -626,6 +628,8 @@ export const traverseReadonlyNonEmptyArrayWithIndex = <A, B>(
   flow(I.traverseReadonlyNonEmptyArrayWithIndex(f), I.map(O.traverseReadonlyNonEmptyArrayWithIndex(SK)))
 
 /**
+ * Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+ *
  * @since 3.0.0
  */
 export const traverseReadonlyArrayWithIndex = <A, B>(
@@ -636,7 +640,7 @@ export const traverseReadonlyArrayWithIndex = <A, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */

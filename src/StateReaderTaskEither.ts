@@ -952,7 +952,7 @@ export const apT: <S, R2, E2, B>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
  * @since 3.0.0
  */
@@ -993,7 +993,7 @@ export const traverseReadonlyArrayWithIndex = <A, S, R, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */

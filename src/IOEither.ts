@@ -750,7 +750,7 @@ export const apT: <E2, B>(
 // --- Par ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
  *
  * @since 3.0.0
  */
@@ -772,7 +772,7 @@ export const traverseReadonlyArrayWithIndex = <A, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
  *
  * @since 3.0.0
  */
@@ -805,7 +805,7 @@ export const sequenceReadonlyArray: <E, A>(
 // --- Seq ---
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
  *
  * @since 3.0.0
  */
@@ -840,7 +840,7 @@ export const traverseReadonlyArrayWithIndexSeq = <A, E, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
  *
  * @since 3.0.0
  */

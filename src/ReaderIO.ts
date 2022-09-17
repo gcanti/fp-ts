@@ -383,7 +383,7 @@ export const ApT: ReaderIO<unknown, readonly []> = /*#__PURE__*/ of(_.emptyReado
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
  *
  * @since 3.0.0
  */
@@ -405,7 +405,7 @@ export const traverseReadonlyArrayWithIndex = <A, R, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
  *
  * @since 3.0.0
  */

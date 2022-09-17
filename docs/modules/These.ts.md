@@ -751,7 +751,7 @@ Added in v3.0.0
 
 ## sequenceReadonlyArray
 
-Equivalent to `ReadonlyArray#sequence(Applicative)`.
+Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
 
 **Signature**
 
@@ -789,7 +789,7 @@ Added in v3.0.0
 
 ## traverseReadonlyArray
 
-Equivalent to `ReadonlyArray#traverse(Applicative)`.
+Equivalent to `ReadonlyArray#traverse(getApplicative(S))`.
 
 **Signature**
 
@@ -817,7 +817,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
 
 **Signature**
 
@@ -831,7 +831,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
 
 **Signature**
 

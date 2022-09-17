@@ -1034,7 +1034,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativePar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplyPar)`.
 
 **Signature**
 
@@ -1048,7 +1048,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArraySeq
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(ApplicativeSeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(ApplySeq)`.
 
 **Signature**
 
@@ -1062,7 +1062,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativePar)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplyPar)`.
 
 **Signature**
 
@@ -1076,7 +1076,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndexSeq
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplicativeSeq)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(ApplySeq)`.
 
 **Signature**
 

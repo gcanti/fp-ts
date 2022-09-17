@@ -447,15 +447,15 @@ export function getChainRec<W>(M: Monoid<W>): ChainRec<WriterFFixedW<W>> {
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(M))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <W>(M: Monoid<W>) => <A, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <W>(S: Semigroup<W>) => <A, B>(
   f: (index: number, a: A) => Writer<W, B>
 ) => (as: ReadonlyNonEmptyArray<A>): Writer<W, ReadonlyNonEmptyArray<B>> => {
   // TODO
-  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApplicative(M))(f)(as)
+  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(S))(f)(as)
 }
 
 /**
@@ -471,12 +471,12 @@ export const traverseReadonlyArrayWithIndex = <W>(M: Monoid<W>) => <A, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(M: Monoid<W>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(M)
+export const traverseReadonlyNonEmptyArray = <W>(S: Semigroup<W>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexS = traverseReadonlyNonEmptyArrayWithIndex(S)
   return <A, B>(f: (a: A) => Writer<W, B>): ((as: ReadonlyNonEmptyArray<A>) => Writer<W, ReadonlyNonEmptyArray<B>>) => {
     return traverseReadonlyNonEmptyArrayWithIndexS((_, a) => f(a))
   }

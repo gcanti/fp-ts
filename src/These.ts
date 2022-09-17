@@ -650,7 +650,7 @@ export const ApT: These<never, readonly []> = /*#__PURE__*/ of(_.emptyReadonlyAr
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(S))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(S))`.
  *
  * @since 3.0.0
  */
@@ -692,7 +692,7 @@ export const traverseReadonlyArrayWithIndex = <E>(S: Semigroup<E>) => <A, B>(
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(S))`.
  *
  * @since 3.0.0
  */
@@ -704,7 +704,7 @@ export const traverseReadonlyNonEmptyArray = <E>(S: Semigroup<E>) => {
 }
 
 /**
- * Equivalent to `ReadonlyArray#traverse(Applicative)`.
+ * Equivalent to `ReadonlyArray#traverse(getApplicative(S))`.
  *
  * @since 3.0.0
  */
@@ -716,7 +716,7 @@ export const traverseReadonlyArray = <E>(S: Semigroup<E>) => {
 }
 
 /**
- * Equivalent to `ReadonlyArray#sequence(Applicative)`.
+ * Equivalent to `ReadonlyArray#sequence(getApplicative(S))`.
  *
  * @since 3.0.0
  */

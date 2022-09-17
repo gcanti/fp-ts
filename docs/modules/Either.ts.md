@@ -1449,7 +1449,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 **Signature**
 
@@ -1463,7 +1463,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Applicative)`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 **Signature**
 

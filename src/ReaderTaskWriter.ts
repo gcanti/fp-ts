@@ -457,15 +457,15 @@ export const tupled: <R, E, A>(
 // -------------------------------------------------------------------------------------
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(A, M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => <A, R, B>(
+export const traverseReadonlyNonEmptyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (as: ReadonlyNonEmptyArray<A>): ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>> => {
   // TODO
-  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApplicative(A, M))(f)(as)
+  return ReadonlyNonEmptyArrayModule.traverseWithIndex(getApply(A, S))(f)(as)
 }
 
 /**
@@ -482,12 +482,12 @@ export const traverseReadonlyArrayWithIndex = <W>(A: Apply<RT.ReaderTaskF>, M: M
 }
 
 /**
- * Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(A, M))`.
+ * Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
  *
  * @since 3.0.0
  */
-export const traverseReadonlyNonEmptyArray = <W>(A: Apply<RT.ReaderTaskF>, M: Monoid<W>) => {
-  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(A, M)
+export const traverseReadonlyNonEmptyArray = <W>(A: Apply<RT.ReaderTaskF>, S: Semigroup<W>) => {
+  const traverseReadonlyNonEmptyArrayWithIndexAM = traverseReadonlyNonEmptyArrayWithIndex(A, S)
   return <A, R, B>(
     f: (a: A) => ReaderTaskWriter<R, W, B>
   ): ((as: ReadonlyNonEmptyArray<A>) => ReaderTaskWriter<R, W, ReadonlyNonEmptyArray<B>>) => {

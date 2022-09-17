@@ -656,7 +656,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativePar, S))`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplyPar, S))`.
 
 **Signature**
 
@@ -670,7 +670,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArraySeq
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(T.ApplicativeSeq, S))`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(T.ApplySeq, S))`.
 
 **Signature**
 
@@ -684,7 +684,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativePar, S))`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplyPar, S))`.
 
 **Signature**
 
@@ -700,7 +700,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndexSeq
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(T.ApplicativeSeq, S))`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(T.ApplySeq, S))`.
 
 **Signature**
 

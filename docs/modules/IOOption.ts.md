@@ -855,6 +855,8 @@ Added in v3.0.0
 
 ## traverseReadonlyArrayWithIndex
 
+Equivalent to `ReadonlyArray#traverseWithIndex(Applicative)`.
+
 **Signature**
 
 ```ts
@@ -867,7 +869,7 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(Applicative)`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(Apply)`.
 
 **Signature**
 
@@ -880,6 +882,8 @@ export declare const traverseReadonlyNonEmptyArray: <A, B>(
 Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
+
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(Apply)`.
 
 **Signature**
 

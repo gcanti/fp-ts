@@ -639,14 +639,14 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArray
 
-Equivalent to `ReadonlyNonEmptyArray#traverse(getApplicative(A, M))`.
+Equivalent to `ReadonlyNonEmptyArray#traverse(getApply(A, M))`.
 
 **Signature**
 
 ```ts
 export declare const traverseReadonlyNonEmptyArray: <W>(
   A: Apply<RT.ReaderTaskF>,
-  M: Monoid<W>
+  S: Semigroup<W>
 ) => <A, R, B>(
   f: (a: A) => ReaderTaskWriter<R, W, B>
 ) => (
@@ -658,14 +658,14 @@ Added in v3.0.0
 
 ## traverseReadonlyNonEmptyArrayWithIndex
 
-Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApplicative(A, M))`.
+Equivalent to `ReadonlyNonEmptyArray#traverseWithIndex(getApply(A, M))`.
 
 **Signature**
 
 ```ts
 export declare const traverseReadonlyNonEmptyArrayWithIndex: <W>(
   A: Apply<RT.ReaderTaskF>,
-  M: Monoid<W>
+  S: Semigroup<W>
 ) => <A, R, B>(
   f: (index: number, a: A) => ReaderTaskWriter<R, W, B>
 ) => (
