@@ -3,7 +3,7 @@
  */
 import type { Comonad } from './Comonad'
 import { flap as flap_, Functor as Functor_ } from './Functor'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ import {
 } from './FromReader'
 import { flow, identity, SK } from './function'
 import { bindTo as bindTo_, flap as flap_, Functor as Functor_, let as let__ } from './Functor'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import * as _ from './internal'
 import * as I from './IO'
 import { Monad as Monad_ } from './Monad'

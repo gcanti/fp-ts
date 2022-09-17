@@ -32,7 +32,7 @@ Added in v3.0.0
 ```ts
 export declare const chainFirstTaskK: <M extends HKT>(
   F: FromTask<M>,
-  M: Chain<M>
+  M: ChainModule.Chain<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(first: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, A>
 ```
 
@@ -45,7 +45,7 @@ Added in v3.0.0
 ```ts
 export declare const chainTaskK: <M extends HKT>(
   F: FromTask<M>,
-  M: Chain<M>
+  M: ChainModule.Chain<M>
 ) => <A, B>(f: (a: A) => Task<B>) => <S, R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 

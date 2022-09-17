@@ -6,9 +6,9 @@
 import type { Chain } from './Chain'
 import type { Endomorphism } from './Endomorphism'
 import type { HKT, Kind, Typeclass } from './HKT'
-import * as S from './State'
+import * as StateModule from './State'
 
-import State = S.State
+import State = StateModule.State
 
 // -------------------------------------------------------------------------------------
 // model
@@ -33,7 +33,7 @@ export interface FromState<F extends HKT> extends Typeclass<F> {
 export function get<F extends HKT>(
   F: FromState<F>
 ): <S, R = unknown, W = never, E = never>() => Kind<F, S, R, W, E, S> {
-  return () => F.fromState(S.get())
+  return () => F.fromState(StateModule.get())
 }
 
 /**
@@ -43,7 +43,7 @@ export function get<F extends HKT>(
 export function put<F extends HKT>(
   F: FromState<F>
 ): <S, R = unknown, W = never, E = never>(s: S) => Kind<F, S, R, W, E, void> {
-  return (s) => F.fromState(S.put(s))
+  return (s) => F.fromState(StateModule.put(s))
 }
 
 /**
@@ -52,7 +52,7 @@ export function put<F extends HKT>(
  */
 export const modify = <F extends HKT>(F: FromState<F>) => <S, R = unknown, W = never, E = never>(
   f: Endomorphism<S>
-): Kind<F, S, R, W, E, void> => F.fromState(S.modify(f))
+): Kind<F, S, R, W, E, void> => F.fromState(StateModule.modify(f))
 
 /**
  * @category constructors
@@ -60,7 +60,7 @@ export const modify = <F extends HKT>(F: FromState<F>) => <S, R = unknown, W = n
  */
 export const gets = <F extends HKT>(F: FromState<F>) => <S, A, R = unknown, W = never, E = never>(
   f: (s: S) => A
-): Kind<F, S, R, W, E, A> => F.fromState(S.gets(f))
+): Kind<F, S, R, W, E, A> => F.fromState(StateModule.gets(f))
 
 // -------------------------------------------------------------------------------------
 // combinators

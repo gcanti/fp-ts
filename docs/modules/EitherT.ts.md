@@ -50,10 +50,10 @@ Added in v3.0.0
 export declare const alt: <M extends HKT>(
   M: Monad<M>
 ) => <S, R2, W2, ME2, E2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, E.Either<E2, B>>>
+  second: Lazy<Kind<M, S, R2, W2, ME2, EitherModule.Either<E2, B>>>
 ) => <R1, W1, ME1, E1, A>(
-  first: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E2, B | A>>
+  first: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E2, B | A>>
 ```
 
 Added in v3.0.0
@@ -67,10 +67,10 @@ export declare const altValidation: <M extends HKT, E>(
   M: Monad<M>,
   S: Semigroup<E>
 ) => <S, R2, W2, ME2, B>(
-  second: Lazy<Kind<M, S, R2, W2, ME2, E.Either<E, B>>>
+  second: Lazy<Kind<M, S, R2, W2, ME2, EitherModule.Either<E, B>>>
 ) => <R1, W1, ME1, A>(
-  first: Kind<M, S, R1, W1, ME1, E.Either<E, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E, B | A>>
+  first: Kind<M, S, R1, W1, ME1, EitherModule.Either<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E, B | A>>
 ```
 
 Added in v3.0.0
@@ -81,12 +81,12 @@ Added in v3.0.0
 
 ```ts
 export declare const ap: <F extends HKT>(
-  F: Apply<F>
+  F: ApplyModule.Apply<F>
 ) => <S, R2, W2, FE2, E2, A>(
-  fa: Kind<F, S, R2, W2, FE2, E.Either<E2, A>>
+  fa: Kind<F, S, R2, W2, FE2, EitherModule.Either<E2, A>>
 ) => <R1, W1, FE1, E1, B>(
-  fab: Kind<F, S, R1, W1, FE1, E.Either<E1, (a: A) => B>>
-) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, E.Either<E2 | E1, B>>
+  fab: Kind<F, S, R1, W1, FE1, EitherModule.Either<E1, (a: A) => B>>
+) => Kind<F, S, R1 & R2, W2 | W1, FE2 | FE1, EitherModule.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0
@@ -114,10 +114,10 @@ Added in v3.0.0
 export declare const bracket: <M extends HKT>(
   M: Monad<M>
 ) => <S, R1, W1, ME1, E1, A, R2, W2, ME2, E2, B, R3, W3, ME3, E3>(
-  acquire: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>,
-  use: (a: A) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>,
-  release: (a: A, e: E.Either<E2, B>) => Kind<M, S, R3, W3, ME3, E.Either<E3, void>>
-) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, E.Either<E1 | E2 | E3, B>>
+  acquire: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>,
+  use: (a: A) => Kind<M, S, R2, W2, ME2, EitherModule.Either<E2, B>>,
+  release: (a: A, e: EitherModule.Either<E2, B>) => Kind<M, S, R3, W3, ME3, EitherModule.Either<E3, void>>
+) => Kind<M, S, R1 & R2 & R3, W1 | W2 | W3, ME1 | ME2 | ME3, EitherModule.Either<E1 | E2 | E3, B>>
 ```
 
 Added in v3.0.0
@@ -130,10 +130,10 @@ Added in v3.0.0
 export declare const chain: <M extends HKT>(
   M: Monad<M>
 ) => <A, S, R2, W2, ME2, E2, B>(
-  f: (a: A) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>
+  f: (a: A) => Kind<M, S, R2, W2, ME2, EitherModule.Either<E2, B>>
 ) => <R1, W1, ME1, E1>(
-  ma: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E2 | E1, B>>
+  ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E2 | E1, B>>
 ```
 
 Added in v3.0.0
@@ -149,7 +149,9 @@ export declare const chainNullableK: <M extends HKT>(
   e: E
 ) => <A, B>(
   f: (a: A) => B | null | undefined
-) => <S, R, W, FE>(ma: Kind<M, S, R, W, FE, E.Either<E, A>>) => Kind<M, S, R, W, FE, E.Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(
+  ma: Kind<M, S, R, W, FE, EitherModule.Either<E, A>>
+) => Kind<M, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -161,7 +163,7 @@ Added in v3.0.0
 ```ts
 export declare const fromNullable: <F extends HKT>(
   F: Pointed<F>
-) => <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, E.Either<E, NonNullable<A>>>
+) => <E>(e: E) => <A, S, R, W, FE>(a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<A>>>
 ```
 
 Added in v3.0.0
@@ -177,7 +179,7 @@ export declare const fromNullableK: <F extends HKT>(
   e: E
 ) => <A extends readonly unknown[], B>(
   f: (...a: A) => B | null | undefined
-) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, E.Either<E, NonNullable<B>>>
+) => <S, R, W, FE>(...a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, NonNullable<B>>>
 ```
 
 Added in v3.0.0
@@ -188,10 +190,10 @@ Added in v3.0.0
 
 ```ts
 export declare const getOrElse: <F extends HKT>(
-  F: Functor<F>
+  F: FunctorModule.Functor<F>
 ) => <E, B>(
   onLeft: (e: E) => B
-) => <S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, E.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
+) => <S, R, W, ME, A>(ma: Kind<F, S, R, W, ME, EitherModule.Either<E, A>>) => Kind<F, S, R, W, ME, B | A>
 ```
 
 Added in v3.0.0
@@ -205,7 +207,9 @@ export declare const getOrElseE: <M extends HKT>(
   M: Monad<M>
 ) => <E, S, R2, W2, ME2, B>(
   onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>
-) => <R1, W1, ME1, A>(ma: Kind<M, S, R1, W1, ME1, E.Either<E, A>>) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, B | A>
+) => <R1, W1, ME1, A>(
+  ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, B | A>
 ```
 
 Added in v3.0.0
@@ -217,7 +221,7 @@ Added in v3.0.0
 ```ts
 export declare const left: <F extends HKT>(
   F: Pointed<F>
-) => <E, S, R = unknown, W = never, FE = never, A = never>(e: E) => Kind<F, S, R, W, FE, E.Either<E, A>>
+) => <E, S, R = unknown, W = never, FE = never, A = never>(e: E) => Kind<F, S, R, W, FE, EitherModule.Either<E, A>>
 ```
 
 Added in v3.0.0
@@ -240,10 +244,12 @@ Added in v3.0.0
 
 ```ts
 export declare const map: <F extends HKT>(
-  F: Functor<F>
+  F: FunctorModule.Functor<F>
 ) => <A, B>(
   f: (a: A) => B
-) => <S, R, W, FE, E>(fa: Kind<F, S, R, W, FE, E.Either<E, A>>) => Kind<F, S, R, W, FE, E.Either<E, B>>
+) => <S, R, W, FE, E>(
+  fa: Kind<F, S, R, W, FE, EitherModule.Either<E, A>>
+) => Kind<F, S, R, W, FE, EitherModule.Either<E, B>>
 ```
 
 Added in v3.0.0
@@ -288,7 +294,7 @@ export declare const matchE: <M extends HKT>(
   onLeft: (e: E) => Kind<M, S, R2, W2, ME2, B>,
   onRight: (a: A) => Kind<M, S, R3, W3, ME3, C>
 ) => <R1, W1, ME1>(
-  ma: Kind<M, S, R1, W1, ME1, E.Either<E, A>>
+  ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E, A>>
 ) => Kind<M, S, R1 & R2 & R3, W2 | W3 | W1, ME2 | ME3 | ME1, B | C>
 ```
 
@@ -302,10 +308,10 @@ Added in v3.0.0
 export declare const orElse: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, B>(
-  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>
+  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, EitherModule.Either<E2, B>>
 ) => <R1, W1, ME1, A>(
-  ma: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E2, B | A>>
+  ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E2, B | A>>
 ```
 
 Added in v3.0.0
@@ -318,10 +324,10 @@ Added in v3.0.0
 export declare const orElseFirst: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R2, W2, ME2, E2, B>(
-  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, E.Either<E2, B>>
+  onLeft: (e: E1) => Kind<M, S, R2, W2, ME2, EitherModule.Either<E2, B>>
 ) => <R1, W1, ME1, A>(
-  ma: Kind<M, S, R1, W1, ME1, E.Either<E1, A>>
-) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, E.Either<E1 | E2, A>>
+  ma: Kind<M, S, R1, W1, ME1, EitherModule.Either<E1, A>>
+) => Kind<M, S, R1 & R2, W2 | W1, ME2 | ME1, EitherModule.Either<E1 | E2, A>>
 ```
 
 Added in v3.0.0
@@ -335,7 +341,7 @@ export declare const orLeft: <M extends HKT>(
   M: Monad<M>
 ) => <E1, S, R, W, ME, E2>(
   onLeft: (e: E1) => Kind<M, S, R, W, ME, E2>
-) => <A>(fa: Kind<M, S, R, W, ME, E.Either<E1, A>>) => Kind<M, S, R, W, ME, E.Either<E2, A>>
+) => <A>(fa: Kind<M, S, R, W, ME, EitherModule.Either<E1, A>>) => Kind<M, S, R, W, ME, EitherModule.Either<E2, A>>
 ```
 
 Added in v3.0.0
@@ -347,7 +353,7 @@ Added in v3.0.0
 ```ts
 export declare const right: <F extends HKT>(
   F: Pointed<F>
-) => <A, S, R = unknown, W = never, FE = never, E = never>(a: A) => Kind<F, S, R, W, FE, E.Either<E, A>>
+) => <A, S, R = unknown, W = never, FE = never, E = never>(a: A) => Kind<F, S, R, W, FE, EitherModule.Either<E, A>>
 ```
 
 Added in v3.0.0

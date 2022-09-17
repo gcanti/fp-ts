@@ -233,7 +233,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
 ```
 
@@ -245,7 +245,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
 ```
 
@@ -341,7 +341,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Alt: Alt_<IdentityF>
+export declare const Alt: AltModule.Alt<IdentityF>
 ```
 
 Added in v3.0.0
@@ -351,7 +351,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<IdentityF>
+export declare const Applicative: ApplicativeModule.Applicative<IdentityF>
 ```
 
 Added in v3.0.0
@@ -361,7 +361,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<IdentityF>
+export declare const Apply: ApplyModule.Apply<IdentityF>
 ```
 
 Added in v3.0.0
@@ -371,7 +371,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Chain: Chain_<IdentityF>
+export declare const Chain: ChainModule.Chain<IdentityF>
 ```
 
 Added in v3.0.0
@@ -381,7 +381,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const ChainRec: ChainRec_<IdentityF>
+export declare const ChainRec: ChainRecModule.ChainRec<IdentityF>
 ```
 
 Added in v3.0.0
@@ -391,7 +391,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Comonad: Comonad_<IdentityF>
+export declare const Comonad: ComonadModule.Comonad<IdentityF>
 ```
 
 Added in v3.0.0
@@ -401,7 +401,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Foldable: Foldable_<IdentityF>
+export declare const Foldable: FoldableModule.Foldable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -411,7 +411,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Functor: Functor_<IdentityF>
+export declare const Functor: FunctorModule.Functor<IdentityF>
 ```
 
 Added in v3.0.0
@@ -421,7 +421,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Monad: Monad_<IdentityF>
+export declare const Monad: MonadModule.Monad<IdentityF>
 ```
 
 Added in v3.0.0
@@ -431,7 +431,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Pointed: Pointed_<IdentityF>
+export declare const Pointed: PointedModule.Pointed<IdentityF>
 ```
 
 Added in v3.0.0

@@ -12,7 +12,7 @@
  * @since 3.0.0
  */
 import type { Chain } from './Chain'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import type { Pointed } from './Pointed'
 
 // -------------------------------------------------------------------------------------

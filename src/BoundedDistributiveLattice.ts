@@ -4,8 +4,10 @@
  * @since 3.0.0
  */
 import type { BoundedLattice } from './BoundedLattice'
-import { DistributiveLattice, getMinMaxDistributiveLattice } from './DistributiveLattice'
+import * as DistributiveLatticeModule from './DistributiveLattice'
 import type { Ord } from './Ord'
+
+import DistributiveLattice = DistributiveLatticeModule.DistributiveLattice
 
 // -------------------------------------------------------------------------------------
 // model
@@ -28,7 +30,7 @@ export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, Distri
 export const getMinMaxBoundedDistributiveLattice = <A>(
   O: Ord<A>
 ): ((min: A, max: A) => BoundedDistributiveLattice<A>) => {
-  const L = getMinMaxDistributiveLattice(O)
+  const L = DistributiveLatticeModule.getMinMaxDistributiveLattice(O)
   return (min, max) => ({
     join: L.join,
     meet: L.meet,

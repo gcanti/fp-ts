@@ -46,7 +46,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Eq: E.Eq<Date>
+export declare const Eq: EqModule.Eq<Date>
 ```
 
 Added in v3.0.0
@@ -56,7 +56,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const EqDate: E.Eq<Date>
+export declare const EqDate: EqModule.Eq<Date>
 ```
 
 Added in v3.0.0
@@ -66,7 +66,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const EqMonth: E.Eq<Date>
+export declare const EqMonth: EqModule.Eq<Date>
 ```
 
 Added in v3.0.0
@@ -76,7 +76,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const EqYear: E.Eq<Date>
+export declare const EqYear: EqModule.Eq<Date>
 ```
 
 Added in v3.0.0
@@ -86,7 +86,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Ord: O.Ord<Date>
+export declare const Ord: OrdModule.Ord<Date>
 ```
 
 **Example**

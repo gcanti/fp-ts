@@ -13,7 +13,7 @@
  */
 import { apply } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
-import { tuple } from './tuple'
+import * as TupleModule from './tuple'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -71,7 +71,7 @@ export const bindTo = <F extends HKT>(F: Functor<F>) => <N extends string>(
  */
 export const tupled = <F extends HKT>(
   F: Functor<F>
-): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, readonly [A]>) => F.map(tuple)
+): (<S, R, W, E, A>(fa: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, readonly [A]>) => F.map(TupleModule.tuple)
 
 const let_ = <F extends HKT>(
   F: Functor<F>

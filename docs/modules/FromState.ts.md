@@ -37,7 +37,7 @@ Added in v3.0.0
 export declare const chainStateK: <M extends HKT>(
   F: FromState<M>,
   M: Chain<M>
-) => <A, S, B>(f: (a: A) => S.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
+) => <A, S, B>(f: (a: A) => StateModule.State<S, B>) => <R, W, E>(ma: Kind<M, S, R, W, E, A>) => Kind<M, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -50,7 +50,7 @@ Added in v3.0.0
 export declare const fromStateK: <F extends HKT>(
   F: FromState<F>
 ) => <A extends readonly unknown[], S, B>(
-  f: (...a: A) => S.State<S, B>
+  f: (...a: A) => StateModule.State<S, B>
 ) => <R = unknown, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 

@@ -72,7 +72,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const BooleanAlgebra: BA.BooleanAlgebra<boolean>
+export declare const BooleanAlgebra: BooleanAlgebraModule.BooleanAlgebra<boolean>
 ```
 
 Added in v3.0.0
@@ -82,7 +82,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Eq: E.Eq<boolean>
+export declare const Eq: EqModule.Eq<boolean>
 ```
 
 Added in v3.0.0
@@ -120,7 +120,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Ord: O.Ord<boolean>
+export declare const Ord: OrdModule.Ord<boolean>
 ```
 
 Added in v3.0.0
@@ -175,7 +175,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Show: S.Show<boolean>
+export declare const Show: ShowModule.Show<boolean>
 ```
 
 Added in v3.0.0

@@ -3,7 +3,7 @@
  */
 import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
 import { flap as flap_, Functor as Functor_ } from './Functor'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 
 // -------------------------------------------------------------------------------------
 // model

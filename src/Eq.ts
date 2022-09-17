@@ -9,9 +9,9 @@
  *
  * @since 3.0.0
  */
-import type { Contravariant as Contravariant_ } from './Contravariant'
+import * as ContravariantModule from './Contravariant'
 import { flow } from './function'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Ord } from './Ord'
 import type { Semigroup } from './Semigroup'
@@ -147,6 +147,6 @@ export const getMonoid = <A>(): Monoid<Eq<A>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const Contravariant: Contravariant_<EqF> = {
+export const Contravariant: ContravariantModule.Contravariant<EqF> = {
   contramap
 }

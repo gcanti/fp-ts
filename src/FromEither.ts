@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  */
-import { Chain, chainFirst } from './Chain'
+import * as ChainModule from './Chain'
 import type { Either } from './Either'
 import { Lazy, pipe } from './function'
 import type { HKT, Kind, Typeclass } from './HKT'
@@ -11,6 +11,8 @@ import * as _ from './internal'
 import type { Option } from './Option'
 import type { Predicate } from './Predicate'
 import type { Refinement } from './Refinement'
+
+import Chain = ChainModule.Chain
 
 // -------------------------------------------------------------------------------------
 // model
@@ -123,7 +125,7 @@ export const chainFirstEitherK = <M extends HKT>(
 ): (<A, E2, B>(
   f: (a: A) => Either<E2, B>
 ) => <S, R, W, E1>(ma: Kind<M, S, R, W, E1, A>) => Kind<M, S, R, W, E1 | E2, A>) => {
-  const chainFirstM = chainFirst(M)
+  const chainFirstM = ChainModule.chainFirst(M)
   const fromEitherKF = fromEitherK(F)
   return (f) => {
     const fromEitherKFf = fromEitherKF(f)

@@ -171,7 +171,7 @@ Lift a semigroup into 'F', the inner values are concatenated using the provided 
 ```ts
 export declare const getApplySemigroup: <F extends HKT>(
   F: Apply<F>
-) => <A, S, R, W, E>(S: Semigroup<A>) => Semigroup<Kind<F, S, R, W, E, A>>
+) => <A, S, R, W, E>(S: SemigroupModule.Semigroup<A>) => SemigroupModule.Semigroup<Kind<F, S, R, W, E, A>>
 ```
 
 Added in v3.0.0

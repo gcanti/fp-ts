@@ -35,9 +35,9 @@ Added in v3.0.0
 ```ts
 export declare const chainFirstReaderK: <M extends HKT>(
   F: FromReader<M>,
-  M: Chain<M>
+  M: ChainModule.Chain<M>
 ) => <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
+  f: (a: A) => ReaderModule.Reader<R2, B>
 ) => <S, R1, W, E>(first: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, A>
 ```
 
@@ -50,9 +50,9 @@ Added in v3.0.0
 ```ts
 export declare const chainReaderK: <M extends HKT>(
   F: FromReader<M>,
-  M: Chain<M>
+  M: ChainModule.Chain<M>
 ) => <A, R2, B>(
-  f: (a: A) => R.Reader<R2, B>
+  f: (a: A) => ReaderModule.Reader<R2, B>
 ) => <S, R1, W, E>(ma: Kind<M, S, R1, W, E, A>) => Kind<M, S, R1 & R2, W, E, B>
 ```
 
@@ -66,7 +66,7 @@ Added in v3.0.0
 export declare const fromReaderK: <F extends HKT>(
   F: FromReader<F>
 ) => <A extends readonly unknown[], R, B>(
-  f: (...a: A) => R.Reader<R, B>
+  f: (...a: A) => ReaderModule.Reader<R, B>
 ) => <S, W = never, E = never>(...a: A) => Kind<F, S, R, W, E, B>
 ```
 

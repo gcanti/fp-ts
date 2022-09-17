@@ -38,7 +38,9 @@
 import { flow, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
-import { reverse, Semigroup } from './Semigroup'
+import * as SemigroupModule from './Semigroup'
+
+import Semigroup = SemigroupModule.Semigroup
 
 // -------------------------------------------------------------------------------------
 // model
@@ -144,7 +146,7 @@ export const apT = <F extends HKT>(F: Apply<F>) => <S, R2, W2, E2, B>(fb: Kind<F
 export const getApplySemigroup = <F extends HKT>(F: Apply<F>) => <A, S, R, W, E>(
   S: Semigroup<A>
 ): Semigroup<Kind<F, S, R, W, E, A>> => {
-  const f = reverse(S).concat
+  const f = SemigroupModule.reverse(S).concat
   return {
     concat: (second) => (first) => pipe(first, F.map(f), F.ap(second))
   }

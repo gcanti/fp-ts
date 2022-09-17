@@ -35,7 +35,7 @@ Added in v3.0.0
 
 ```ts
 export declare function compact<F extends HKT, G extends HKT>(
-  F: Functor<F>,
+  F: FunctorModule.Functor<F>,
   G: Compactable<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A>(
   fgoa: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Option<A>>>
@@ -52,9 +52,9 @@ Added in v3.0.0
 
 ```ts
 export declare function separate<F extends HKT, G extends HKT>(
-  F: Functor<F>,
+  F: FunctorModule.Functor<F>,
   C: Compactable<G>,
-  G: Functor<G>
+  G: FunctorModule.Functor<G>
 ): <FS, FR, FW, FE, GS, GR, GW, GE, A, B>(
   fge: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Either<A, B>>>
 ) => Separated<Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>>
@@ -72,12 +72,12 @@ Return a default `compact` implementation from `Functor` and `separate`.
 
 ```ts
 export declare const compactDefault: <F extends HKT>(
-  F: Functor<F>
+  F: FunctorModule.Functor<F>
 ) => (
   separate: <S, R, W, E, A, B>(
     fe: Kind<F, S, R, W, E, Either<A, B>>
-  ) => Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
-) => <S, R, W, E, A>(foa: Kind<F, S, R, W, E, Option<A>>) => Kind<F, S, R, W, E, A>
+  ) => SeparatedModule.Separated<Kind<F, S, R, W, E, A>, Kind<F, S, R, W, E, B>>
+) => <S, R, W, E, A>(foa: Kind<F, S, R, W, E, OptionModule.Option<A>>) => Kind<F, S, R, W, E, A>
 ```
 
 Added in v3.0.0
@@ -90,7 +90,7 @@ Return a default `separate` implementation from `Functor` and `compact`.
 
 ```ts
 export declare function separateDefault<F extends HKT>(
-  F: Functor<F>
+  F: FunctorModule.Functor<F>
 ): (compact: Compactable<F>['compact']) => Compactable<F>['separate']
 ```
 

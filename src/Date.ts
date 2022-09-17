@@ -2,10 +2,10 @@
  * @since 3.0.0
  */
 import type { IO } from './IO'
-import * as E from './Eq'
+import * as EqModule from './Eq'
 import { pipe } from './function'
-import * as O from './Ord'
-import * as N from './number'
+import * as OrdModule from './Ord'
+import * as numberModule from './number'
 
 // -------------------------------------------------------------------------------------
 // instances
@@ -15,7 +15,7 @@ import * as N from './number'
  * @category instances
  * @since 3.0.0
  */
-export const Eq: E.Eq<Date> = {
+export const Eq: EqModule.Eq<Date> = {
   equals: (second) => (first) => first.valueOf() === second.valueOf()
 }
 
@@ -23,7 +23,7 @@ export const Eq: E.Eq<Date> = {
  * @category instances
  * @since 3.0.0
  */
-export const EqDate: E.Eq<Date> = {
+export const EqDate: EqModule.Eq<Date> = {
   equals: (second) => (first) => first.getDate() === second.getDate()
 }
 
@@ -31,7 +31,7 @@ export const EqDate: E.Eq<Date> = {
  * @category instances
  * @since 3.0.0
  */
-export const EqMonth: E.Eq<Date> = {
+export const EqMonth: EqModule.Eq<Date> = {
   equals: (second) => (first) => first.getMonth() === second.getMonth()
 }
 
@@ -39,7 +39,7 @@ export const EqMonth: E.Eq<Date> = {
  * @category instances
  * @since 3.0.0
  */
-export const EqYear: E.Eq<Date> = {
+export const EqYear: EqModule.Eq<Date> = {
   equals: (second) => (first) => first.getFullYear() === second.getFullYear()
 }
 
@@ -53,12 +53,12 @@ export const EqYear: E.Eq<Date> = {
  * @category instances
  * @since 3.0.0
  */
-export const Ord: O.Ord<Date> =
+export const Ord: OrdModule.Ord<Date> =
   /*#__PURE__*/
   pipe(
-    N.Ord,
+    numberModule.Ord,
     /*#__PURE__*/
-    O.contramap((date) => date.valueOf())
+    OrdModule.contramap((date) => date.valueOf())
   )
 
 // -------------------------------------------------------------------------------------

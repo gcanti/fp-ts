@@ -3,7 +3,7 @@
  */
 
 import { flow, identity } from './function'
-import { HKT } from './HKT'
+import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Semigroup } from './Semigroup'
 
