@@ -937,6 +937,33 @@ describe('ReadonlyMap', () => {
         O.none
       )
     })
+
+    it('sequence', () => {
+      const sequence = T.sequence(O.Applicative)
+      U.deepStrictEqual(
+        sequence(
+          new Map([
+            [{ id: 'k1' }, O.some(1)],
+            [{ id: 'k2' }, O.some(2)]
+          ])
+        ),
+        O.some(
+          new Map<User, number>([
+            [{ id: 'k1' }, 1],
+            [{ id: 'k2' }, 2]
+          ])
+        )
+      )
+      U.deepStrictEqual(
+        sequence(
+          new Map([
+            [{ id: 'k1' }, O.none],
+            [{ id: 'k2' }, O.some(2)]
+          ])
+        ),
+        O.none
+      )
+    })
   })
 
   describe('getWitherable', () => {

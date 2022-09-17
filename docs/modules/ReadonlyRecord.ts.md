@@ -85,6 +85,7 @@ Added in v3.0.0
   - [reduce](#reduce)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
+  - [sequence](#sequence)
   - [size](#size)
   - [some](#some)
   - [toEntries](#toentries)
@@ -901,6 +902,22 @@ Added in v3.0.0
 export declare const reduceWithIndex: (
   O: Ord<string>
 ) => <B, K extends string, A>(b: B, f: (k: K, b: B, a: A) => B) => (r: Readonly<Record<K, A>>) => B
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: (
+  O: Ord<string>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <K extends string, S, R, W, E, A>(
+  ta: Readonly<Record<K, Kind<F, S, R, W, E, A>>>
+) => Kind<F, S, R, W, E, Readonly<Record<K, A>>>
 ```
 
 Added in v3.0.0

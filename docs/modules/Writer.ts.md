@@ -52,6 +52,7 @@ Added in v3.0.0
   - [mapLeft](#mapleft)
   - [reduce](#reduce)
   - [reduceRight](#reduceright)
+  - [sequence](#sequence)
   - [traverse](#traverse)
 - [utils](#utils)
   - [evaluate](#evaluate)
@@ -254,7 +255,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<WriterF>
+export declare const Traversable: TraversableModule.Traversable<WriterF>
 ```
 
 Added in v3.0.0
@@ -264,7 +265,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <W>(M: Monoid<W>) => Applicative<WriterFFixedW<W>>
+export declare const getApplicative: <W>(M: Monoid<W>) => ApplicativeModule.Applicative<WriterFFixedW<W>>
 ```
 
 Added in v3.0.0
@@ -440,13 +441,25 @@ export declare const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: 
 
 Added in v3.0.0
 
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <W, FS, FR, FW, FE, A>(fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Writer<W, A>>
+```
+
+Added in v3.0.0
+
 ## traverse
 
 **Signature**
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: Applicative<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
 ) => <W>(t: Writer<W, A>) => Kind<F, S, R, FW, E, Writer<W, B>>

@@ -79,6 +79,7 @@ Added in v3.0.0
   - [reduceRight](#reduceright)
   - [reduceRightWithIndex](#reducerightwithindex)
   - [reduceWithIndex](#reducewithindex)
+  - [sequence](#sequence)
   - [size](#size)
   - [toReadonlyArray](#toreadonlyarray)
   - [toUnfoldable](#tounfoldable)
@@ -773,6 +774,20 @@ Added in v3.0.0
 export declare const reduceWithIndex: <K>(
   O: Ord<K>
 ) => <B, A>(b: B, f: (i: K, b: B, a: A) => B) => (fa: ReadonlyMap<K, A>) => B
+```
+
+Added in v3.0.0
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <K>(
+  O: Ord<K>
+) => <F extends HKT>(
+  F: Applicative<F>
+) => <S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>
 ```
 
 Added in v3.0.0

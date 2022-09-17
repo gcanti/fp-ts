@@ -45,7 +45,7 @@ import { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { Separated, separated } from './Separated'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 import { wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
 import { guard as guard_, Zero as Zero_ } from './Zero'
 
@@ -621,6 +621,16 @@ export const traverse: <F extends HKT>(
   F
 ) => (f) => (ta) => (isNone(ta) ? F.of(none) : pipe(f(ta.value), F.map(some)))
 
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: Option<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, Option<A>> = TraversableModule.sequenceDefault<OptionF>(traverse)
+
 // -------------------------------------------------------------------------------------
 // HKT
 // -------------------------------------------------------------------------------------
@@ -893,9 +903,10 @@ export const Filterable: Filterable_<OptionF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<OptionF> = {
+export const Traversable: TraversableModule.Traversable<OptionF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 /**

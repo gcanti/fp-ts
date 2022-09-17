@@ -53,6 +53,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
+  - [sequence](#sequence)
   - [traverse](#traverse)
 - [TraversableWithIndex](#traversablewithindex)
   - [traverseWithIndex](#traversewithindex)
@@ -554,6 +555,18 @@ Added in v3.0.0
 
 # Traversable
 
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: readonly Kind<F, S, R, W, E, A>[]) => Kind<F, S, R, W, E, readonly A[]>
+```
+
+Added in v3.0.0
+
 ## traverse
 
 **Signature**
@@ -561,7 +574,7 @@ Added in v3.0.0
 ```ts
 export declare const traverse: <F extends HKT>(
   F: Applicative_<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (as: readonly A[]) => Kind<F, S, R, W, E, readonly B[]>
 ```
 
 Added in v3.0.0
@@ -1785,7 +1798,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<ReadonlyArrayF>
+export declare const Traversable: TraversableModule.Traversable<ReadonlyArrayF>
 ```
 
 Added in v3.0.0

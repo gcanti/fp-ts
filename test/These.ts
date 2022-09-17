@@ -83,6 +83,15 @@ describe('These', () => {
     )
   })
 
+  it('sequence', () => {
+    const sequence = _.sequence(O.Applicative)
+    U.deepStrictEqual(sequence(_.left('a')), O.some(_.left('a')))
+    U.deepStrictEqual(sequence(_.right(O.some(1))), O.some(_.right(1)))
+    U.deepStrictEqual(sequence(_.right(O.none)), O.none)
+    U.deepStrictEqual(sequence(_.both('a', O.some(1))), O.some(_.both('a', 1)))
+    U.deepStrictEqual(sequence(_.both('a', O.none)), O.none)
+  })
+
   // -------------------------------------------------------------------------------------
   // instances
   // -------------------------------------------------------------------------------------

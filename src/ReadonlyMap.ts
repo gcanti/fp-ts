@@ -10,7 +10,7 @@ import type { Filterable as Filterable_ } from './Filterable'
 import type { FilterableWithIndex } from './FilterableWithIndex'
 import type { Foldable } from './Foldable'
 import type { FoldableWithIndex } from './FoldableWithIndex'
-import { flow, pipe } from './function'
+import { flow, identity, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
 import type { FunctorWithIndex } from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
@@ -679,13 +679,25 @@ export const traverse: <K>(
 }
 
 /**
+ * @since 3.0.0
+ */
+export const sequence = <K>(O: Ord<K>) => {
+  const traverseO = traverse(O)
+  return <F extends HKT>(
+    F: Applicative<F>
+  ): (<S, R, W, E, A>(ta: ReadonlyMap<K, Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, ReadonlyMap<K, A>>) =>
+    traverseO(F)(identity)
+}
+
+/**
  * @category instances
  * @since 3.0.0
  */
 export const getTraversable = <K>(O: Ord<K>): Traversable<ReadonlyMapFFixedK<K>> => {
   return {
     map,
-    traverse: traverse(O)
+    traverse: traverse(O),
+    sequence: sequence(O)
   }
 }
 

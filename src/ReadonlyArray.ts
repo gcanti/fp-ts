@@ -40,7 +40,7 @@ import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import { separated, Separated } from './Separated'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
 import type { Unfoldable as Unfoldable_ } from './Unfoldable'
 import { filterE as filterE_, wiltDefault, Witherable as Witherable_, witherDefault } from './Witherable'
@@ -1548,10 +1548,20 @@ export const traverse: <F extends HKT>(
   F: Applicative_<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => {
+) => (as: ReadonlyArray<A>) => Kind<F, S, R, W, E, ReadonlyArray<B>> = (F) => {
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
+
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: ReadonlyArray<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, ReadonlyArray<A>> = TraversableModule.sequenceDefault<ReadonlyArrayF>(traverse)
 
 /**
  * @category TraversableWithIndex
@@ -1956,9 +1966,10 @@ export const FoldableWithIndex: FoldableWithIndex_<ReadonlyArrayF, number> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<ReadonlyArrayF> = {
+export const Traversable: TraversableModule.Traversable<ReadonlyArrayF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 /**

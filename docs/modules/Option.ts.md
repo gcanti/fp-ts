@@ -48,6 +48,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
+  - [sequence](#sequence)
   - [traverse](#traverse)
 - [Witherable](#witherable)
   - [wilt](#wilt)
@@ -319,6 +320,18 @@ export declare const of: <A>(a: A) => Option<A>
 Added in v3.0.0
 
 # Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: Option<Kind<F, S, R, W, E, A>>) => Kind<F, S, R, W, E, Option<A>>
+```
+
+Added in v3.0.0
 
 ## traverse
 
@@ -915,7 +928,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<OptionF>
+export declare const Traversable: TraversableModule.Traversable<OptionF>
 ```
 
 Added in v3.0.0

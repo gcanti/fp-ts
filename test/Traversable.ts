@@ -1,27 +1,33 @@
+import * as E from '../src/Either'
 import { pipe } from '../src/function'
-import * as _ from '../src/Traversable'
+import * as O from '../src/Option'
 import * as RA from '../src/ReadonlyArray'
 import * as R from '../src/ReadonlyRecord'
-import * as O from '../src/Option'
 import * as S from '../src/string'
-import { deepStrictEqual } from './util'
+import * as _ from '../src/Traversable'
+import * as U from './util'
 
 describe('Traversable', () => {
   it('traverse', () => {
     const traverse = _.traverse(R.getTraversable(S.Ord), RA.Traversable)
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         { a: [1, 2], b: [3] },
         traverse(O.Applicative)((a) => (a > 0 ? O.some(a) : O.none))
       ),
       O.some({ a: [1, 2], b: [3] })
     )
-    deepStrictEqual(
+    U.deepStrictEqual(
       pipe(
         { a: [1, -2], b: [3] },
         traverse(O.Applicative)((a) => (a > 0 ? O.some(a) : O.none))
       ),
       O.none
     )
+  })
+
+  it('sequence', () => {
+    const sequence = _.sequence(RA.Traversable, RA.Traversable)(E.Applicative)
+    U.deepStrictEqual(pipe([[E.right(1)]], sequence), E.right([[1]]))
   })
 })

@@ -87,6 +87,12 @@ describe('Identity', () => {
         O.none
       )
     })
+
+    it('sequence', () => {
+      const sequence = _.sequence(O.Applicative)
+      U.deepStrictEqual(sequence(O.some('a')), O.some('a'))
+      U.deepStrictEqual(sequence(O.none), O.none)
+    })
   })
 
   it('getEq', () => {

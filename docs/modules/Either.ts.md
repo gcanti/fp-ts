@@ -47,6 +47,7 @@ Added in v3.0.0
 - [Pointed](#pointed)
   - [of](#of)
 - [Traversable](#traversable)
+  - [sequence](#sequence)
   - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainOptionK](#chainoptionk)
@@ -337,6 +338,18 @@ Added in v3.0.0
 
 # Traversable
 
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: Either<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, Either<E, A>>
+```
+
+Added in v3.0.0
+
 ## traverse
 
 Map each element of a structure to an action, evaluate these actions from left to right, and collect the results.
@@ -346,9 +359,9 @@ Map each element of a structure to an action, evaluate these actions from left t
 ```ts
 export declare const traverse: <F extends HKT>(
   F: ApplicativeModule.Applicative<F>
-) => <A, S, R, W, FE, B>(
-  f: (a: A) => Kind<F, S, R, W, FE, B>
-) => <E>(ta: Either<E, A>) => Kind<F, S, R, W, FE, Either<E, B>>
+) => <A, FS, FR, FW, FE, B>(
+  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
+) => <E>(ta: Either<E, A>) => Kind<F, FS, FR, FW, FE, Either<E, B>>
 ```
 
 **Example**

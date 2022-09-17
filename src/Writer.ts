@@ -1,7 +1,7 @@
 /**
  * @since 3.0.0
  */
-import type { Applicative } from './Applicative'
+import * as ApplicativeModule from './Applicative'
 import type { Apply } from './Apply'
 import { Bifunctor as Bifunctor_ } from './Bifunctor'
 import type { Chain } from './Chain'
@@ -18,7 +18,7 @@ import type { Monoid } from './Monoid'
 import type { Pointed } from './Pointed'
 import type { Semigroup } from './Semigroup'
 import type { Semigroupoid as Semigroupoid_ } from './Semigroupoid'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -240,13 +240,23 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <W>(fa: Writer<W
  * @category type class operations
  * @since 3.0.0
  */
-export const traverse = <F extends HKT>(F: Applicative<F>) => <A, S, R, FW, E, B>(
+export const traverse = <F extends HKT>(F: ApplicativeModule.Applicative<F>) => <A, S, R, FW, E, B>(
   f: (a: A) => Kind<F, S, R, FW, E, B>
 ) => <W>(t: Writer<W, A>): Kind<F, S, R, FW, E, Writer<W, B>> =>
   pipe(
     f(fst(t)),
     F.map((b) => [b, snd(t)])
   )
+
+/**
+ * @category type class operations
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <W, FS, FR, FW, FE, A>(
+  fa: Writer<W, Kind<F, FS, FR, FW, FE, A>>
+) => Kind<F, FS, FR, FW, FE, Writer<W, A>> = TraversableModule.sequenceDefault<WriterF>(traverse)
 
 // -------------------------------------------------------------------------------------
 // HKT
@@ -337,9 +347,10 @@ export const Foldable: Foldable_<WriterF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<WriterF> = {
-  map: mapFst,
-  traverse
+export const Traversable: TraversableModule.Traversable<WriterF> = {
+  map,
+  traverse,
+  sequence
 }
 
 /**
@@ -367,7 +378,7 @@ export const getApply = <W>(S: Semigroup<W>): Apply<WriterFFixedW<W>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <W>(M: Monoid<W>): Applicative<WriterFFixedW<W>> => {
+export const getApplicative = <W>(M: Monoid<W>): ApplicativeModule.Applicative<WriterFFixedW<W>> => {
   const A = getApply(M)
   const P = getPointed(M)
   return {

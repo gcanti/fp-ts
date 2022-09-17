@@ -24,6 +24,12 @@ describe('ReadonlyArray', () => {
       U.deepStrictEqual(traverse([1, 3]), O.some([1, 3]))
     })
 
+    it('sequence', () => {
+      const sequence = _.sequence(O.Applicative)
+      U.deepStrictEqual(sequence([O.some(1), O.none]), O.none)
+      U.deepStrictEqual(sequence([O.some(1), O.some(3)]), O.some([1, 3]))
+    })
+
     it('traverseWithIndex', () => {
       U.deepStrictEqual(
         pipe(

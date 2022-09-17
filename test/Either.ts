@@ -146,6 +146,13 @@ describe('Either', () => {
       U.deepStrictEqual(pipe(_.right(1), traverse), O.none)
       U.deepStrictEqual(pipe(_.right(3), traverse), O.some(_.right(3)))
     })
+
+    it('sequence', () => {
+      const sequence = _.sequence(O.Applicative)
+      U.deepStrictEqual(sequence(_.right(O.some(1))), O.some(_.right(1)))
+      U.deepStrictEqual(sequence(_.left('a')), O.some(_.left('a')))
+      U.deepStrictEqual(sequence(_.right(O.none)), O.none)
+    })
   })
 
   it('match', () => {

@@ -117,6 +117,12 @@ describe('Writer', () => {
     U.deepStrictEqual(traverse([1, 'a']), O.none)
   })
 
+  it('sequence', () => {
+    const sequence = _.sequence(O.Applicative)
+    U.deepStrictEqual(sequence([O.some(1), 'a']), O.some([1, 'a'] as const))
+    U.deepStrictEqual(sequence([O.none, 'a']), O.none)
+  })
+
   it('compose', () => {
     U.deepStrictEqual(pipe(['b', true] as const, _.compose([1, 'a'])), [1, true])
   })

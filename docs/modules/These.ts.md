@@ -44,6 +44,9 @@ Added in v3.0.0
   - [TheseFFixedE (interface)](#theseffixede-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
   - [fromOptionK](#fromoptionk)
@@ -69,7 +72,7 @@ Added in v3.0.0
   - [FromThese](#fromthese)
   - [Functor](#functor-1)
   - [Pointed](#pointed-1)
-  - [Traversable](#traversable)
+  - [Traversable](#traversable-1)
   - [getApplicative](#getapplicative)
   - [getApply](#getapply)
   - [getChain](#getchain)
@@ -91,7 +94,6 @@ Added in v3.0.0
   - [getRight](#getright)
   - [getRightOnly](#getrightonly)
   - [toTuple2](#totuple2)
-  - [traverse](#traverse)
   - [traverseReadonlyArrayWithIndex](#traversereadonlyarraywithindex)
   - [traverseReadonlyNonEmptyArrayWithIndex](#traversereadonlynonemptyarraywithindex)
 
@@ -204,6 +206,34 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A, E = never>(right: A) => These<E, A>
+```
+
+Added in v3.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(fa: These<E, Kind<F, FS, FR, FW, FE, A>>) => Kind<F, FS, FR, FW, FE, These<E, A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <A, S, R, W, FE, B>(
+  f: (a: A) => Kind<F, S, R, W, FE, B>
+) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>>
 ```
 
 Added in v3.0.0
@@ -477,7 +507,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<TheseF>
+export declare const Traversable: TraversableModule.Traversable<TheseF>
 ```
 
 Added in v3.0.0
@@ -487,7 +517,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const getApplicative: <E>(S: Semigroup<E>) => Applicative<TheseFFixedE<E>>
+export declare const getApplicative: <E>(S: Semigroup<E>) => ApplicativeModule.Applicative<TheseFFixedE<E>>
 ```
 
 Added in v3.0.0
@@ -736,20 +766,6 @@ const f = toTuple2(
 assert.deepStrictEqual(f(left('b')), ['b', 1])
 assert.deepStrictEqual(f(right(2)), ['a', 2])
 assert.deepStrictEqual(f(both('b', 2)), ['b', 2])
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends HKT>(
-  F: Applicative<F>
-) => <A, S, R, W, FE, B>(
-  f: (a: A) => Kind<F, S, R, W, FE, B>
-) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>>
 ```
 
 Added in v3.0.0

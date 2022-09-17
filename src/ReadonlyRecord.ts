@@ -14,7 +14,7 @@ import type {
 } from './FilterableWithIndex'
 import type { Foldable } from './Foldable'
 import type { FoldableWithIndex as FoldableWithIndex_ } from './FoldableWithIndex'
-import { pipe } from './function'
+import { identity, pipe } from './function'
 import { flap as flap_, Functor as Functor_ } from './Functor'
 import type { FunctorWithIndex as FunctorWithIndex_ } from './FunctorWithIndex'
 import type { HKT, Kind } from './HKT'
@@ -307,6 +307,20 @@ export function traverse(
   return (F) => {
     const traverseWithIndexOF = traverseWithIndexO(F)
     return (f) => traverseWithIndexOF((_, a) => f(a))
+  }
+}
+
+/**
+ * @since 3.0.0
+ */
+export const sequence = (O: Ord<string>) => {
+  const traverseO = traverse(O)
+  return <F extends HKT>(
+    F: Applicative<F>
+  ): (<K extends string, S, R, W, E, A>(
+    ta: ReadonlyRecord<K, Kind<F, S, R, W, E, A>>
+  ) => Kind<F, S, R, W, E, ReadonlyRecord<K, A>>) => {
+    return traverseO(F)(identity)
   }
 }
 
@@ -703,7 +717,8 @@ export const FilterableWithIndex: FilterableWithIndex_<ReadonlyRecordF, string> 
  */
 export const getTraversable = (O: Ord<string>): Traversable_<ReadonlyRecordF> => ({
   map,
-  traverse: traverse(O)
+  traverse: traverse(O),
+  sequence: sequence(O)
 })
 
 /**

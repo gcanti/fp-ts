@@ -34,6 +34,9 @@ Added in v3.0.0
   - [IdentityF (interface)](#identityf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [combinators](#combinators)
   - [flap](#flap)
 - [derivable combinators](#derivable-combinators)
@@ -53,7 +56,7 @@ Added in v3.0.0
   - [Functor](#functor-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [Traversable](#traversable)
+  - [Traversable](#traversable-1)
   - [getEq](#geteq)
   - [getShow](#getshow)
 - [model](#model)
@@ -66,7 +69,6 @@ Added in v3.0.0
   - [bind](#bind)
   - [bindTo](#bindto)
   - [let](#let)
-  - [traverse](#traverse)
   - [tupled](#tupled)
 
 ---
@@ -219,6 +221,32 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => A
+```
+
+Added in v3.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(fas: Kind<F, S, R, W, E, A>) => Kind<F, S, R, W, E, A>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0
@@ -413,7 +441,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<IdentityF>
+export declare const Traversable: TraversableModule.Traversable<IdentityF>
 ```
 
 Added in v3.0.0
@@ -527,18 +555,6 @@ export declare const let: <N extends string, A, B>(
   name: Exclude<N, keyof A>,
   f: (a: A) => B
 ) => (fa: A) => { readonly [K in N | keyof A]: K extends keyof A ? A[K] : B }
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
-) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: A) => Kind<F, S, R, W, E, B>
 ```
 
 Added in v3.0.0

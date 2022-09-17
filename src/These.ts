@@ -19,7 +19,7 @@
  *
  * @since 3.0.0
  */
-import type { Applicative } from './Applicative'
+import * as ApplicativeModule from './Applicative'
 import type { Apply } from './Apply'
 import { Bifunctor as Bifunctor_, mapDefault, mapLeftDefault } from './Bifunctor'
 import type { Chain } from './Chain'
@@ -47,7 +47,7 @@ import type { ReadonlyNonEmptyArray } from './ReadonlyNonEmptyArray'
 import type { Refinement } from './Refinement'
 import type { Semigroup } from './Semigroup'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -248,10 +248,11 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E,
   isLeft(fa) ? b : f(fa.right, b)
 
 /**
+ * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: Applicative<F>
+  F: ApplicativeModule.Applicative<F>
 ) => <A, S, R, W, FE, B>(
   f: (a: A) => Kind<F, S, R, W, FE, B>
 ) => <E>(ta: These<E, A>) => Kind<F, S, R, W, FE, These<E, B>> = (F) => (f) => (ta) =>
@@ -263,6 +264,16 @@ export const traverse: <F extends HKT>(
         f(ta.right),
         F.map((b) => both(ta.left, b))
       )
+
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: ApplicativeModule.Applicative<F>
+) => <E, FS, FR, FW, FE, A>(
+  fa: These<E, Kind<F, FS, FR, FW, FE, A>>
+) => Kind<F, FS, FR, FW, FE, These<E, A>> = TraversableModule.sequenceDefault<TheseF>(traverse)
 
 /**
  * @category Pointed
@@ -418,7 +429,7 @@ export const getApply = <E>(S: Semigroup<E>): Apply<TheseFFixedE<E>> => ({
  * @category instances
  * @since 3.0.0
  */
-export const getApplicative = <E>(S: Semigroup<E>): Applicative<TheseFFixedE<E>> => {
+export const getApplicative = <E>(S: Semigroup<E>): ApplicativeModule.Applicative<TheseFFixedE<E>> => {
   const A = getApply(S)
   return {
     map,
@@ -528,9 +539,10 @@ export const Foldable: Foldable_<TheseF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<TheseF> = {
+export const Traversable: TraversableModule.Traversable<TheseF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 // -------------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ import type { Monad as Monad_ } from './Monad'
 import type { Monoid } from './Monoid'
 import type { Pointed as Pointed_ } from './Pointed'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -112,6 +112,7 @@ export const foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Identity<
 export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Identity<A>) => B = (b, f) => (fa) => f(fa, b)
 
 /**
+ * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
@@ -119,6 +120,16 @@ export const traverse: <F extends HKT>(
 ) => <A, S, R, W, E, B>(f: (a: A) => Kind<F, S, R, W, E, B>) => (ta: Identity<A>) => Kind<F, S, R, W, E, B> = (F) => (
   f
 ) => flow(f, F.map(identity))
+
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: Identity<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, Identity<A>> = TraversableModule.sequenceDefault<IdentityF>(traverse)
 
 /**
  * Identifies an associative operation on a type constructor. It is similar to `Semigroup`, except that it applies to
@@ -282,9 +293,10 @@ export const Foldable: Foldable_<IdentityF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<IdentityF> = {
+export const Traversable: TraversableModule.Traversable<IdentityF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 /**

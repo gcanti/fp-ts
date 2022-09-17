@@ -23,7 +23,7 @@ import type { Pointed as Pointed_ } from './Pointed'
 import { Predicate } from './Predicate'
 import * as RA from './ReadonlyArray'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -267,6 +267,7 @@ export const reduceRight: <B, A>(b: B, f: (a: A, b: B) => B) => (fa: Tree<A>) =>
 export const extract: <A>(wa: Tree<A>) => A = (wa) => wa.value
 
 /**
+ * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
@@ -288,6 +289,16 @@ export const traverse: <F extends HKT>(
     )
   return out
 }
+
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: Tree<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, Tree<A>> = TraversableModule.sequenceDefault<TreeF>(traverse)
 
 /**
  * @category Pointed
@@ -445,9 +456,10 @@ export const Foldable: Foldable_<TreeF> = {
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<TreeF> = {
+export const Traversable: TraversableModule.Traversable<TreeF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 /**

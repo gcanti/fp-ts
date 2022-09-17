@@ -47,6 +47,9 @@ Added in v3.0.0
   - [ReadonlyNonEmptyArrayF (interface)](#readonlynonemptyarrayf-interface)
 - [Pointed](#pointed)
   - [of](#of)
+- [Traversable](#traversable)
+  - [sequence](#sequence)
+  - [traverse](#traverse)
 - [combinators](#combinators)
   - [chainFirst](#chainfirst)
   - [chainWithIndex](#chainwithindex)
@@ -100,7 +103,7 @@ Added in v3.0.0
   - [FunctorWithIndex](#functorwithindex-1)
   - [Monad](#monad)
   - [Pointed](#pointed-1)
-  - [Traversable](#traversable)
+  - [Traversable](#traversable-1)
   - [TraversableWithIndex](#traversablewithindex)
   - [getEq](#geteq)
   - [getSemigroup](#getsemigroup)
@@ -124,7 +127,6 @@ Added in v3.0.0
   - [min](#min)
   - [modifyAt](#modifyat)
   - [tail](#tail)
-  - [traverse](#traverse)
   - [traverseWithIndex](#traversewithindex)
   - [tupled](#tupled)
   - [unzip](#unzip)
@@ -352,6 +354,36 @@ Added in v3.0.0
 
 ```ts
 export declare const of: <A>(a: A) => ReadonlyNonEmptyArray<A>
+```
+
+Added in v3.0.0
+
+# Traversable
+
+## sequence
+
+**Signature**
+
+```ts
+export declare const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
+```
+
+Added in v3.0.0
+
+## traverse
+
+**Signature**
+
+```ts
+export declare const traverse: <F extends HKT>(
+  F: Applicative_<F>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<F, S, R, W, E, B>
+) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0
@@ -1175,7 +1207,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Traversable: Traversable_<ReadonlyNonEmptyArrayF>
+export declare const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1434,20 +1466,6 @@ Added in v3.0.0
 
 ```ts
 export declare const tail: <A>(as: ReadonlyNonEmptyArray<A>) => readonly A[]
-```
-
-Added in v3.0.0
-
-## traverse
-
-**Signature**
-
-```ts
-export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
-) => <A, S, R, W, E, B>(
-  f: (a: A) => Kind<F, S, R, W, E, B>
-) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
 ```
 
 Added in v3.0.0

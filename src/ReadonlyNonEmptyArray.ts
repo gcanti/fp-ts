@@ -34,7 +34,7 @@ import type { Pointed as Pointed_ } from './Pointed'
 import type { ReadonlyRecord } from './ReadonlyRecord'
 import * as Se from './Semigroup'
 import type { Show } from './Show'
-import type { Traversable as Traversable_ } from './Traversable'
+import * as TraversableModule from './Traversable'
 import type { TraversableWithIndex as TraversableWithIndex_ } from './TraversableWithIndex'
 import { tuple } from './tuple'
 
@@ -861,6 +861,7 @@ export const reduceRightWithIndex: <B, A>(
 ) => (fa: ReadonlyNonEmptyArray<A>) => B = (b, f) => (as) => as.reduceRight((b, a, i) => f(i, a, b), b)
 
 /**
+ * @category Traversable
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
@@ -871,6 +872,16 @@ export const traverse: <F extends HKT>(
   const traverseWithIndexF = traverseWithIndex(F)
   return (f) => traverseWithIndexF((_, a) => f(a))
 }
+
+/**
+ * @category Traversable
+ * @since 3.0.0
+ */
+export const sequence: <F extends HKT>(
+  F: Applicative_<F>
+) => <S, R, W, E, A>(
+  fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
+) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>> = TraversableModule.sequenceDefault<ReadonlyNonEmptyArrayF>(traverse)
 
 /**
  * @since 3.0.0
@@ -1086,9 +1097,10 @@ export const FoldableWithIndex: FoldableWithIndex_<ReadonlyNonEmptyArrayF, numbe
  * @category instances
  * @since 3.0.0
  */
-export const Traversable: Traversable_<ReadonlyNonEmptyArrayF> = {
+export const Traversable: TraversableModule.Traversable<ReadonlyNonEmptyArrayF> = {
   map,
-  traverse
+  traverse,
+  sequence
 }
 
 /**

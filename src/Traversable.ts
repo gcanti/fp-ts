@@ -7,7 +7,7 @@
  * @since 3.0.0
  */
 import type { Applicative } from './Applicative'
-import { pipe } from './function'
+import { flow, identity, pipe } from './function'
 import type { Functor } from './Functor'
 import type { HKT, Kind } from './HKT'
 
@@ -19,13 +19,32 @@ import type { HKT, Kind } from './HKT'
  * @category type classes
  * @since 3.0.0
  */
-export interface Traversable<T extends HKT> extends Functor<T> {
-  readonly traverse: <F extends HKT>(
-    F: Applicative<F>
+export interface Traversable<F extends HKT> extends Functor<F> {
+  readonly traverse: <G extends HKT>(
+    G: Applicative<G>
   ) => <A, S, R, W, E, B>(
-    f: (a: A) => Kind<F, S, R, W, E, B>
-  ) => <TS, TR, TW, TE>(ta: Kind<T, TS, TR, TW, TE, A>) => Kind<F, S, R, W, E, Kind<T, TS, TR, TW, TE, B>>
+    f: (a: A) => Kind<G, S, R, W, E, B>
+  ) => <FS, FR, FW, FE>(fa: Kind<F, FS, FR, FW, FE, A>) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, B>>
+  readonly sequence: <G extends HKT>(
+    G: Applicative<G>
+  ) => <FS, FR, FW, FE, S, R, W, E, A>(
+    fa: Kind<F, FS, FR, FW, FE, Kind<G, S, R, W, E, A>>
+  ) => Kind<G, S, R, W, E, Kind<F, FS, FR, FW, FE, A>>
 }
+
+// -------------------------------------------------------------------------------------
+// defaults
+// -------------------------------------------------------------------------------------
+
+/**
+ * Return a default `sequence` implementation from `traverse`.
+ *
+ * @category defaults
+ * @since 3.0.0
+ */
+export const sequenceDefault = <F extends HKT>(traverse: Traversable<F>['traverse']): Traversable<F>['sequence'] => (
+  G
+) => (fa) => pipe(fa, traverse(G)(identity))
 
 // -------------------------------------------------------------------------------------
 // combinators
@@ -37,19 +56,26 @@ export interface Traversable<T extends HKT> extends Functor<T> {
  * @category combinators
  * @since 3.0.0
  */
-export const traverse = <T extends HKT, G extends HKT>(
-  T: Traversable<T>,
-  G: Traversable<G>
-): (<F extends HKT>(
-  F: Applicative<F>
-) => <A, FS, FR, FW, FE, B>(
-  f: (a: A) => Kind<F, FS, FR, FW, FE, B>
-) => <TS, TR, TW, TE, GS, GR, GW, GE>(
-  tga: Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, A>>
-) => Kind<F, FS, FR, FW, FE, Kind<T, TS, TR, TW, TE, Kind<G, GS, GR, GW, GE, B>>>) => {
-  return (F) => (f) => (tga) =>
-    pipe(
-      tga,
-      T.traverse(F)((ga) => pipe(ga, G.traverse(F)(f)))
-    )
+export const traverse = <F extends HKT, G extends HKT>(F: Traversable<F>, G: Traversable<G>) => <H extends HKT>(
+  H: Applicative<H>
+) => <A, S, R, W, E, B>(
+  f: (a: A) => Kind<H, S, R, W, E, B>
+): (<FS, FR, FW, FE, GS, GR, GW, GE>(
+  fga: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>
+) => Kind<H, S, R, W, E, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, B>>>) => {
+  return F.traverse(H)(G.traverse(H)(f))
+}
+
+/**
+ * `sequence` composition.
+ *
+ * @category combinators
+ * @since 3.0.0
+ */
+export const sequence = <F extends HKT, G extends HKT>(F: Traversable<F>, G: Traversable<G>) => <H extends HKT>(
+  H: Applicative<H>
+): (<FS, FR, FW, FE, GS, GR, GW, GE, S, R, W, E, A>(
+  fgha: Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, Kind<H, S, R, W, E, A>>>
+) => Kind<H, S, R, W, E, Kind<F, FS, FR, FW, FE, Kind<G, GS, GR, GW, GE, A>>>) => {
+  return flow(F.map(G.sequence(H)), F.sequence(H))
 }

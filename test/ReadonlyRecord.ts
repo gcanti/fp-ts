@@ -156,6 +156,12 @@ describe('ReadonlyRecord', () => {
       )
     })
 
+    it('sequence', () => {
+      const sequence = _.sequence(S.Ord)(O.Applicative)
+      U.deepStrictEqual(sequence({ a: O.some(1), b: O.some(2) }), O.some({ a: 1, b: 2 }))
+      U.deepStrictEqual(sequence({ a: O.none, b: O.some(2) }), O.none)
+    })
+
     it('traverseWithIndex', () => {
       const T = _.getTraversableWithIndex(S.Ord)
       const traverseWithIndex = T.traverseWithIndex(O.Applicative)(
