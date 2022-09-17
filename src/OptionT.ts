@@ -14,6 +14,7 @@ import { constant, flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C, Monad4 } from './Monad'
+import { Monoid } from './Monoid'
 import * as O from './Option'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C, Pointed4 } from './Pointed'
 import { Predicate } from './Predicate'
@@ -424,6 +425,34 @@ export function getOrElse<M extends URIS>(
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
 export function getOrElse<M>(M: Monad<M>): <A>(onNone: Lazy<HKT<M, A>>) => (fa: HKT<M, Option<A>>) => HKT<M, A> {
   return (onNone) => (fa) => M.chain(fa, O.match(onNone, M.of))
+}
+
+/**
+ * @since 2.13.0
+ */
+export function getOrDefault<M extends URIS4>(
+  M: Monad4<M>
+): <A>(m: Monoid<A>) => <S, R, E>(fa: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, A>
+export function getOrDefault<M extends URIS3>(
+  M: Monad3<M>
+): <A>(m: Monoid<A>) => <R, E>(fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
+export function getOrDefault<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <A>(m: Monoid<A>) => <R>(fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
+export function getOrDefault<M extends URIS2>(
+  M: Monad2<M>
+): <A>(m: Monoid<A>) => <E>(fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
+export function getOrDefault<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A>(m: Monoid<A>) => (fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
+export function getOrDefault<M extends URIS>(M: Monad1<M>): <A>(m: Monoid<A>) => (fa: Kind<M, Option<A>>) => Kind<M, A>
+export function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
+export function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => (fa: HKT<M, Option<A>>) => HKT<M, A> {
+  return (m) => (fa) =>
+    M.chain(
+      fa,
+      O.match(() => M.of(m.empty), M.of)
+    )
 }
 
 // -------------------------------------------------------------------------------------

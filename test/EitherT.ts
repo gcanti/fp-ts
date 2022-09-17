@@ -1,7 +1,9 @@
 import * as U from './util'
 import * as E from '../src/Either'
+import * as ET from '../src/EitherT'
 import { getEitherM } from '../src/EitherT'
 import * as I from '../src/IO'
+import { string } from '../src'
 
 describe('EitherT', () => {
   const T = getEitherM(I.Monad)
@@ -17,5 +19,10 @@ describe('EitherT', () => {
     const onLeft = (s: string) => I.of(`left(${s})`)
     U.deepStrictEqual(T.getOrElse(I.of(E.right('a')), onLeft)(), 'a')
     U.deepStrictEqual(T.getOrElse(I.of(E.left('bb')), onLeft)(), 'left(bb)')
+  })
+
+  it('getOrDefault', () => {
+    U.deepStrictEqual(ET.getOrDefault(I.Monad)(string.Monoid)(I.of(E.right('a')))(), 'a')
+    U.deepStrictEqual(ET.getOrDefault(I.Monad)(string.Monoid)(I.of(E.left(42)))(), '')
   })
 })

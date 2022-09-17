@@ -8,6 +8,7 @@ import * as S from '../src/string'
 import * as T from '../src/Task'
 import { separated } from '../src/Separated'
 import { ReadonlyNonEmptyArray } from '../src/ReadonlyNonEmptyArray'
+import { number } from '../src'
 
 const p = (n: number): boolean => n > 2
 
@@ -253,6 +254,11 @@ describe('Option', () => {
       ),
       0
     )
+  })
+
+  it('getOrDefault', () => {
+    U.deepStrictEqual(pipe(_.some(1), _.getOrDefault(number.MonoidSum)), 1)
+    U.deepStrictEqual(pipe(_.none, _.getOrDefault(number.MonoidSum)), 0)
   })
 
   it('equals', () => {

@@ -58,6 +58,7 @@ Added in v2.10.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
@@ -543,6 +544,16 @@ export declare const foldW: <B, C, A>(
 ```
 
 Added in v2.10.0
+
+## getOrDefault
+
+**Signature**
+
+```ts
+export declare const getOrDefault: <A>(m: Monoid<A>) => (fa: TaskOption<A>) => T.Task<A>
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

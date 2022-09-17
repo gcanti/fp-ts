@@ -112,6 +112,7 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
@@ -1406,6 +1407,16 @@ export declare const foldW: <E, R2, B, A, R3, C>(
 ```
 
 Added in v2.10.0
+
+## getOrDefault
+
+**Signature**
+
+```ts
+export declare const getOrDefault: <A>(m: Monoid<A>) => <R, E>(ma: ReaderTaskEither<R, E, A>) => RT.ReaderTask<R, A>
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

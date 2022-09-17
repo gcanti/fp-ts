@@ -904,6 +904,34 @@ export const getOrElseW = <B>(onNone: Lazy<B>) => <A>(ma: Option<A>): A | B => (
  */
 export const getOrElse: <A>(onNone: Lazy<A>) => (ma: Option<A>) => A = getOrElseW
 
+/**
+ * Extracts the value out of the structure, if it exists. Otherwise returns the given Monoid instance empty value
+ *
+ * @example
+ * import { some, none, getOrDefault } from 'fp-ts/Option'
+ * import { pipe } from 'fp-ts/function'
+ * import { MonoidSum } from 'fp-ts/number'
+ *
+ * assert.strictEqual(
+ *   pipe(
+ *     some(1),
+ *     getOrDefault(MonoidSum)
+ *   ),
+ *   1
+ * )
+ * assert.strictEqual(
+ *   pipe(
+ *     none,
+ *     getOrDefault(MonoidSum)
+ *   ),
+ *   0
+ * )
+ *
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault = <A>(M: Monoid<A>) => (ma: Option<A>): A => (isNone(ma) ? M.empty : ma.value)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

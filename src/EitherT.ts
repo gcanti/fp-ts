@@ -13,6 +13,7 @@ import { flow, Lazy, pipe } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, map as map_ } from './Functor'
 import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Monoid } from './Monoid'
 import { Pointed, Pointed1, Pointed2, Pointed2C, Pointed3, Pointed3C } from './Pointed'
 import { Semigroup } from './Semigroup'
 
@@ -565,6 +566,33 @@ export function getOrElse<M>(
   M: Monad<M>
 ): <E, A>(onLeft: (e: E) => HKT<M, A>) => (ma: HKT<M, Either<E, A>>) => HKT<M, A> {
   return (onLeft) => (ma) => M.chain(ma, E.match(onLeft, M.of))
+}
+
+/**
+ * @since 2.13.0
+ */
+export function getOrDefault<M extends URIS3>(
+  M: Monad3<M>
+): <A>(m: Monoid<A>) => <E, R, ME>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
+export function getOrDefault<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <A>(m: Monoid<A>) => <E, R>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
+export function getOrDefault<M extends URIS2>(
+  M: Monad2<M>
+): <A>(m: Monoid<A>) => <E, ME>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
+export function getOrDefault<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <A>(m: Monoid<A>) => <E>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
+export function getOrDefault<M extends URIS>(
+  M: Monad1<M>
+): <A>(m: Monoid<A>) => <E>(ma: Kind<M, Either<E, A>>) => Kind<M, A>
+export function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => <E>(ma: HKT<M, Either<E, A>>) => HKT<M, A>
+export function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => <E>(ma: HKT<M, Either<E, A>>) => HKT<M, A> {
+  return (m) => (ma) =>
+    M.chain(
+      ma,
+      E.match(() => M.of(m.empty), M.of)
+    )
 }
 
 // -------------------------------------------------------------------------------------

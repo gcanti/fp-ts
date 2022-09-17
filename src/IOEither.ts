@@ -198,6 +198,14 @@ export const getOrElse: <E, A>(onLeft: (e: E) => IO<A>) => (ma: IOEither<E, A>) 
  */
 export const getOrElseW: <E, B>(onLeft: (e: E) => IO<B>) => <A>(ma: IOEither<E, A>) => IO<A | B> = getOrElse as any
 
+/**
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault: <A>(m: Monoid<A>) => <E>(ma: IOEither<E, A>) => IO<A> = /*#__PURE__*/ ET.getOrDefault(
+  I.Monad
+)
+
 // -------------------------------------------------------------------------------------
 // interop
 // -------------------------------------------------------------------------------------

@@ -92,6 +92,7 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
@@ -438,6 +439,29 @@ export declare const foldW: <B, A, C>(onNone: Lazy<B>, onSome: (a: A) => C) => (
 ```
 
 Added in v2.10.0
+
+## getOrDefault
+
+Extracts the value out of the structure, if it exists. Otherwise returns the given Monoid instance empty value
+
+**Signature**
+
+```ts
+export declare const getOrDefault: <A>(M: Monoid<A>) => (ma: Option<A>) => A
+```
+
+**Example**
+
+```ts
+import { some, none, getOrDefault } from 'fp-ts/Option'
+import { pipe } from 'fp-ts/function'
+import { MonoidSum } from 'fp-ts/number'
+
+assert.strictEqual(pipe(some(1), getOrDefault(MonoidSum)), 1)
+assert.strictEqual(pipe(none, getOrDefault(MonoidSum)), 0)
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

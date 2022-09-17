@@ -59,6 +59,7 @@ Added in v2.12.0
   - [some](#some)
 - [destructors](#destructors)
   - [fold](#fold)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
@@ -481,6 +482,16 @@ export declare const fold: <B, A>(onNone: () => I.IO<B>, onSome: (a: A) => I.IO<
 ```
 
 Added in v2.12.0
+
+## getOrDefault
+
+**Signature**
+
+```ts
+export declare const getOrDefault: <A>(m: Monoid<A>) => (fa: IOOption<A>) => I.IO<A>
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

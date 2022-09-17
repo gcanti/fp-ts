@@ -1098,6 +1098,34 @@ export const getOrElseW = <E, B>(onLeft: (e: E) => B) => <A>(ma: Either<E, A>): 
  */
 export const getOrElse: <E, A>(onLeft: (e: E) => A) => (ma: Either<E, A>) => A = getOrElseW
 
+/**
+ * Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+ *
+ * @example
+ * import { getOrDefault, left, right } from 'fp-ts/Either'
+ * import { pipe } from 'fp-ts/function'
+ * import { MonoidSum } from 'fp-ts/number'
+ *
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     right(1),
+ *     getOrDefault(MonoidSum)
+ *   ),
+ *   1
+ * )
+ * assert.deepStrictEqual(
+ *   pipe(
+ *     left('error'),
+ *     getOrDefault(MonoidSum)
+ *   ),
+ *   0
+ * )
+ *
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault = <A>(M: Monoid<A>) => <E>(ma: Either<E, A>): A => (isLeft(ma) ? M.empty : ma.right)
+
 // -------------------------------------------------------------------------------------
 // combinators
 // -------------------------------------------------------------------------------------

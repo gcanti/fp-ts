@@ -243,6 +243,14 @@ export const getOrElseW: <E, B>(
   onLeft: (e: E) => Task<B>
 ) => <A>(ma: TaskEither<E, A>) => Task<A | B> = getOrElse as any
 
+/**
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault: <A>(m: Monoid<A>) => <E>(ma: TaskEither<E, A>) => Task<A> = /*#__PURE__*/ ET.getOrDefault(
+  T.Monad
+)
+
 // -------------------------------------------------------------------------------------
 // interop
 // -------------------------------------------------------------------------------------

@@ -45,6 +45,7 @@ import { Zero1, guard as guard_ } from './Zero'
 
 import IO = I.IO
 import Option = O.Option
+import { Monoid } from './Monoid'
 
 // -------------------------------------------------------------------------------------
 // model
@@ -173,6 +174,12 @@ export const getOrElse: <A>(onNone: Lazy<IO<A>>) => (fa: IOOption<A>) => IO<A> =
  * @since 2.12.0
  */
 export const getOrElseW: <B>(onNone: Lazy<IO<B>>) => <A>(ma: IOOption<A>) => IO<A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault: <A>(m: Monoid<A>) => (fa: IOOption<A>) => IO<A> = /*#__PURE__*/ OT.getOrDefault(I.Monad)
 
 /**
  * @category destructors

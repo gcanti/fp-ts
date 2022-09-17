@@ -1,3 +1,4 @@
+import { number } from '../src'
 import { sequenceT } from '../src/Apply'
 import * as _ from '../src/Either'
 import { identity, pipe } from '../src/function'
@@ -211,6 +212,12 @@ describe('Either', () => {
       ),
       2
     )
+  })
+
+  it('getOrDefault', () => {
+    U.deepStrictEqual(pipe(_.right(12), _.getOrDefault(number.MonoidSum)), 12)
+    U.deepStrictEqual(pipe(_.left('a'), _.getOrDefault(number.MonoidSum)), 0)
+    U.deepStrictEqual(pipe(_.left('a'), _.getOrDefault(number.MonoidProduct)), 1)
   })
 
   it('elem', () => {

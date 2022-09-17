@@ -326,6 +326,14 @@ export const getOrElseW: <R2, E, B>(
   onLeft: (e: E) => ReaderTask<R2, B>
 ) => <R1, A>(ma: ReaderTaskEither<R1, E, A>) => ReaderTask<R1 & R2, A | B> = getOrElse as any
 
+/**
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault: <A>(
+  m: Monoid<A>
+) => <R, E>(ma: ReaderTaskEither<R, E, A>) => ReaderTask<R, A> = /*#__PURE__*/ ET.getOrDefault(RT.Monad)
+
 // -------------------------------------------------------------------------------------
 // interop
 // -------------------------------------------------------------------------------------

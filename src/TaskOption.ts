@@ -35,6 +35,7 @@ import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
+import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import * as O from './Option'
 import * as OT from './OptionT'
@@ -197,6 +198,12 @@ export const getOrElse: <A>(onNone: Lazy<Task<A>>) => (fa: TaskOption<A>) => Tas
  * @since 2.10.0
  */
 export const getOrElseW: <B>(onNone: Lazy<Task<B>>) => <A>(ma: TaskOption<A>) => Task<A | B> = getOrElse as any
+
+/**
+ * @category destructors
+ * @since 2.13.0
+ */
+export const getOrDefault: <A>(m: Monoid<A>) => (fa: TaskOption<A>) => Task<A> = /*#__PURE__*/ OT.getOrDefault(T.Monad)
 
 // -------------------------------------------------------------------------------------
 // interop

@@ -28,6 +28,7 @@ Added in v2.0.0
   - [fromNullableK](#fromnullablek)
   - [fromOptionK](#fromoptionk)
   - [fromPredicate](#frompredicate)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [map](#map)
   - [match](#match)
@@ -450,6 +451,34 @@ export declare function fromPredicate<F>(
 ```
 
 Added in v2.10.0
+
+## getOrDefault
+
+**Signature**
+
+```ts
+export declare function getOrDefault<M extends URIS4>(
+  M: Monad4<M>
+): <A>(m: Monoid<A>) => <S, R, E>(fa: Kind4<M, S, R, E, Option<A>>) => Kind4<M, S, R, E, A>
+export declare function getOrDefault<M extends URIS3>(
+  M: Monad3<M>
+): <A>(m: Monoid<A>) => <R, E>(fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
+export declare function getOrDefault<M extends URIS3, E>(
+  M: Monad3C<M, E>
+): <A>(m: Monoid<A>) => <R>(fa: Kind3<M, R, E, Option<A>>) => Kind3<M, R, E, A>
+export declare function getOrDefault<M extends URIS2>(
+  M: Monad2<M>
+): <A>(m: Monoid<A>) => <E>(fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
+export declare function getOrDefault<M extends URIS2, E>(
+  M: Monad2C<M, E>
+): <A>(m: Monoid<A>) => (fa: Kind2<M, E, Option<A>>) => Kind2<M, E, A>
+export declare function getOrDefault<M extends URIS>(
+  M: Monad1<M>
+): <A>(m: Monoid<A>) => (fa: Kind<M, Option<A>>) => Kind<M, A>
+export declare function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => (fa: HKT<M, Option<A>>) => HKT<M, A>
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

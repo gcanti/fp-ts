@@ -1,7 +1,9 @@
 import * as U from './util'
 import * as O from '../src/Option'
+import * as OT from '../src/OptionT'
 import { getOptionM } from '../src/OptionT'
 import * as T from '../src/Task'
+import { number } from '../src'
 
 const MT = getOptionM(T.Monad)
 
@@ -53,6 +55,13 @@ describe('OptionT', () => {
     U.deepStrictEqual(n1, 1)
     const n2 = await MT.getOrElse(T.of(O.none), () => T.of(2))()
     U.deepStrictEqual(n2, 2)
+  })
+
+  it('getOrDefault', async () => {
+    const n1 = await OT.getOrDefault(T.Monad)(number.MonoidSum)(T.of(O.some(1)))()
+    U.deepStrictEqual(n1, 1)
+    const n2 = await OT.getOrDefault(T.Monad)(number.MonoidSum)(T.of(O.none))()
+    U.deepStrictEqual(n2, 0)
   })
 
   it('fromM', async () => {

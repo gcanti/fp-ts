@@ -29,6 +29,7 @@ Added in v2.0.0
   - [chainNullableK](#chainnullablek)
   - [fromNullable](#fromnullable)
   - [fromNullableK](#fromnullablek)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [left](#left)
   - [leftF](#leftf)
@@ -379,6 +380,31 @@ export declare function fromNullableK<F>(
 ```
 
 Added in v2.12.0
+
+## getOrDefault
+
+**Signature**
+
+```ts
+export declare function getOrDefault<M extends URIS3>(
+  M: Monad3<M>
+): <A>(m: Monoid<A>) => <E, R, ME>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
+export declare function getOrDefault<M extends URIS3, ME>(
+  M: Monad3C<M, ME>
+): <A>(m: Monoid<A>) => <E, R>(ma: Kind3<M, R, ME, Either<E, A>>) => Kind3<M, R, ME, A>
+export declare function getOrDefault<M extends URIS2>(
+  M: Monad2<M>
+): <A>(m: Monoid<A>) => <E, ME>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
+export declare function getOrDefault<M extends URIS2, ME>(
+  M: Monad2C<M, ME>
+): <A>(m: Monoid<A>) => <E>(ma: Kind2<M, ME, Either<E, A>>) => Kind2<M, ME, A>
+export declare function getOrDefault<M extends URIS>(
+  M: Monad1<M>
+): <A>(m: Monoid<A>) => <E>(ma: Kind<M, Either<E, A>>) => Kind<M, A>
+export declare function getOrDefault<M>(M: Monad<M>): <A>(m: Monoid<A>) => <E>(ma: HKT<M, Either<E, A>>) => HKT<M, A>
+```
+
+Added in v2.13.0
 
 ## getOrElse
 

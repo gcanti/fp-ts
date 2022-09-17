@@ -100,6 +100,7 @@ Added in v2.0.0
 - [destructors](#destructors)
   - [fold](#fold)
   - [foldW](#foldw)
+  - [getOrDefault](#getordefault)
   - [getOrElse](#getorelse)
   - [getOrElseW](#getorelsew)
   - [match](#match)
@@ -600,6 +601,29 @@ export declare const foldW: <E, B, A, C>(onLeft: (e: E) => B, onRight: (a: A) =>
 ```
 
 Added in v2.10.0
+
+## getOrDefault
+
+Returns the wrapped value if it's a `Right` or a default value if is a `Left`.
+
+**Signature**
+
+```ts
+export declare const getOrDefault: <A>(M: Monoid<A>) => <E>(ma: Either<E, A>) => A
+```
+
+**Example**
+
+```ts
+import { getOrDefault, left, right } from 'fp-ts/Either'
+import { pipe } from 'fp-ts/function'
+import { MonoidSum } from 'fp-ts/number'
+
+assert.deepStrictEqual(pipe(right(1), getOrDefault(MonoidSum)), 1)
+assert.deepStrictEqual(pipe(left('error'), getOrDefault(MonoidSum)), 0)
+```
+
+Added in v2.13.0
 
 ## getOrElse
 
