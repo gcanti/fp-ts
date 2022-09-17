@@ -14,40 +14,43 @@ import { tuple } from '../src/tuple'
 import * as U from './util'
 
 describe('ReadonlyNonEmptyArray', () => {
-  describe('pipeables', () => {
-    it('traverse', () => {
-      U.deepStrictEqual(
-        pipe(
-          [1, 2, 3],
-          _.traverse(O.Applicative)((n) => (n >= 0 ? O.some(n) : O.none))
-        ),
-        O.some([1, 2, 3] as const)
-      )
-      U.deepStrictEqual(
-        pipe(
-          [1, 2, 3],
-          _.traverse(O.Applicative)((n) => (n >= 2 ? O.some(n) : O.none))
-        ),
-        O.none
-      )
-    })
+  it('traverseWithIndex', () => {
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(O.Apply)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
+      ),
+      O.some(['a0', 'bb1'] as const)
+    )
+    U.deepStrictEqual(
+      pipe(
+        ['a', 'bb'],
+        _.traverseWithIndex(O.Apply)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
+      ),
+      O.none
+    )
+  })
 
-    it('traverseWithIndex', () => {
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'bb'],
-          _.traverseWithIndex(O.Applicative)((i, s) => (s.length >= 1 ? O.some(s + i) : O.none))
-        ),
-        O.some(['a0', 'bb1'] as const)
-      )
-      U.deepStrictEqual(
-        pipe(
-          ['a', 'bb'],
-          _.traverseWithIndex(O.Applicative)((i, s) => (s.length > 1 ? O.some(s + i) : O.none))
-        ),
-        O.none
-      )
-    })
+  it('traverse', () => {
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.traverse(O.Apply)((n) => (n >= 0 ? O.some(n) : O.none))
+      ),
+      O.some([1, 2, 3] as const)
+    )
+    U.deepStrictEqual(
+      pipe(
+        [1, 2, 3],
+        _.traverse(O.Apply)((n) => (n >= 2 ? O.some(n) : O.none))
+      ),
+      O.none
+    )
+  })
+
+  it('sequence', () => {
+    U.deepStrictEqual(pipe([O.some(1), O.some(2), O.some(3)] as const, _.sequence(O.Apply)), O.some([1, 2, 3] as const))
+    U.deepStrictEqual(pipe([O.some(1), O.none, O.some(3)] as const, _.sequence(O.Apply)), O.none)
   })
 
   it('head', () => {

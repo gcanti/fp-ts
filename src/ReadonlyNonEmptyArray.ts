@@ -13,7 +13,8 @@
  * @since 3.0.0
  */
 import type { Alt as Alt_ } from './Alt'
-import type { Applicative as Applicative_ } from './Applicative'
+import type * as ApplyModule from './Apply'
+import type * as ApplicativeModule from './Applicative'
 import { apFirst as apFirst_, Apply as Apply_, apS as apS_, apSecond as apSecond_, apT as apT_ } from './Apply'
 import { bind as bind_, Chain as Chain_, chainFirst as chainFirst_ } from './Chain'
 import type { Comonad as Comonad_ } from './Comonad'
@@ -865,7 +866,7 @@ export const reduceRightWithIndex: <B, A>(
  * @since 3.0.0
  */
 export const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplyModule.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> = (F) => {
@@ -878,15 +879,15 @@ export const traverse: <F extends HKT>(
  * @since 3.0.0
  */
 export const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplyModule.Apply<F>
 ) => <S, R, W, E, A>(
   fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
-) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>> = TraversableModule.sequenceDefault<ReadonlyNonEmptyArrayF>(traverse)
+) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>> = (F) => traverse(F)(identity)
 
 /**
  * @since 3.0.0
  */
-export const traverseWithIndex = <F extends HKT>(F: Applicative_<F>) => <A, S, R, W, E, B>(
+export const traverseWithIndex = <F extends HKT>(F: ApplyModule.Apply<F>) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
 ) => (as: ReadonlyNonEmptyArray<A>): Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>> => {
   let out = pipe(f(0, head(as)), F.map(of))
@@ -1023,7 +1024,7 @@ export const apSecond: <B>(
  * @category instances
  * @since 3.0.0
  */
-export const Applicative: Applicative_<ReadonlyNonEmptyArrayF> = {
+export const Applicative: ApplicativeModule.Applicative<ReadonlyNonEmptyArrayF> = {
   map,
   ap,
   of

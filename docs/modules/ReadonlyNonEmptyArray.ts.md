@@ -366,7 +366,7 @@ Added in v3.0.0
 
 ```ts
 export declare const sequence: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplyModule.Apply<F>
 ) => <S, R, W, E, A>(
   fas: ReadonlyNonEmptyArray<Kind<F, S, R, W, E, A>>
 ) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<A>>
@@ -380,7 +380,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverse: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplyModule.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (a: A) => Kind<F, S, R, W, E, B>
 ) => (ta: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
@@ -1107,7 +1107,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Applicative: Applicative_<ReadonlyNonEmptyArrayF>
+export declare const Applicative: ApplicativeModule.Applicative<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1117,7 +1117,7 @@ Added in v3.0.0
 **Signature**
 
 ```ts
-export declare const Apply: Apply_<ReadonlyNonEmptyArrayF>
+export declare const Apply: ApplyModule.Apply<ReadonlyNonEmptyArrayF>
 ```
 
 Added in v3.0.0
@@ -1476,7 +1476,7 @@ Added in v3.0.0
 
 ```ts
 export declare const traverseWithIndex: <F extends HKT>(
-  F: Applicative_<F>
+  F: ApplyModule.Apply<F>
 ) => <A, S, R, W, E, B>(
   f: (i: number, a: A) => Kind<F, S, R, W, E, B>
 ) => (as: ReadonlyNonEmptyArray<A>) => Kind<F, S, R, W, E, ReadonlyNonEmptyArray<B>>
