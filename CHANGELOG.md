@@ -15,7 +15,7 @@
 **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 3.0.0-alpha.22
+# 3.0.0-alpha.24
 
 - **Breaking Change** (with respect to `2.x`)
 
@@ -154,6 +154,7 @@ high state of flux, you're at risk of it changing without notice.
     - remove `readonlyMap`
     - curry `fromFoldable`
     - curry `toUnfoldable`
+    - `empty` is now a function
   - `ReadonlyNonEmptyArray`
     - make `cons` pipeable
     - make `snoc` pipeable
@@ -211,7 +212,6 @@ high state of flux, you're at risk of it changing without notice.
     - make `tracks` curried
   - `Traversable`
     - drop `Foldable` dependency
-    - drop `sequence` operation
   - `TraversableWithIndex`
     - drop `Traversable` dependency
   - `Tree`
